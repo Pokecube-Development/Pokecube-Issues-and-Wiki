@@ -1,0 +1,30 @@
+# Lista Pokemobs
+list.pokemobs.title=Lista de Pokemobs Actualmente no Pokecube
+
+#Página Pokemobs
+list.pokemobs.link=Lista de Pokemobs
+home.link=Home
+
+pokemob.type=Tipo: %1$s
+pokemob.number=Numero: %1$s
+
+pokemob.description.header=Descrição
+
+pokemob.description.type=%1$s é um %2$s Pokemob. 
+pokemob.description.evolve.level=%1$s evolui para %2$s no Nível %3$s. 
+pokemob.description.evolve.item=%1$s evolui para %2$s quando dada uma %3$s. 
+pokemob.description.evolve.item.male=%1$s evolui para %2$s quando dada macho e um %3$s. 
+pokemob.description.evolve.item.female=%1$s evolui para %2$s quando dada uma fêmea e %3$s. 
+pokemob.description.evolve.traded=%1$s evolui para %2$s depois de ser Trocado. 
+pokemob.description.evolve.traded.item=%1$s evolui para %2$s depois de ser trocado, mantendo um %3$s. 
+pokemob.description.evolve.happy=%1$s evolui para %2$s quando Subiu de Nível,quando feliz. 
+pokemon.description.evolve.move=%1$s evolui para %2$s quando Subiu de Nível e sabe %3$s. 
+
+pokemob.description.evolve.from=%1$s evolui para %2$s.
+
+pokemob.movelist.title=Lista de movimentos naturais
+pokemob.movelist.header=| Nível | Movimento | 
+pokemob.tmlist.title=TM ou Lista de Movimentos ovo
+pokemob.breedinglist.title=Compatível para Reprodução
+pokemob.biomeslist.title=Encontrado em biomas
+pokemob.alternateformes.title=Formas Alternativas

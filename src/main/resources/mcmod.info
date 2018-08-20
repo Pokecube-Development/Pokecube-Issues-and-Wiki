@@ -1,0 +1,15 @@
+[
+{
+  "modid": "pokecubeserverutils",
+  "name": "Pokecube Server Utils",
+  "description": "Server Utilities for Pokecube",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Thutmose"],
+  "credits": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
