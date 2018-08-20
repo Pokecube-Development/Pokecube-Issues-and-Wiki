@@ -80,9 +80,9 @@ artifacts {
 }
 
 jar {
-        manifest {
-            attributes "FMLAT": "${at_file}"
-    }
+    manifest {
+        attributes "FMLAT": "${at_file}"
+    }   
 }
 
 processResources
