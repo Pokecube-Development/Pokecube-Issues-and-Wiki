@@ -67,7 +67,7 @@ minecraft {
     version = "${version_long}"
     runDir = "run"
     mappings = "${version_mappings}"
-    useDepAts = false
+    useDepAts = true
 }
 
 task deobfJar(type: Jar) {
