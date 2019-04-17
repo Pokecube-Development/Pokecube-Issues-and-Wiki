@@ -1,10 +1,11 @@
 [
 {
-  "modid": "pokecubeserverutils",
-  "name": "Pokecube Server Utils",
-  "description": "Server Utilities for Pokecube",
+  "modid": "pokecube_aio",
+  "name": "Pokecube AIO",
+  "description": "All In One Pokecube Mods",
   "version": "${version}",
   "mcversion": "${mcversion}",
+  "logoFile": "pokecube_logo.png",
   "url": "",
   "updateUrl": "",
   "authorList": ["Thutmose"],

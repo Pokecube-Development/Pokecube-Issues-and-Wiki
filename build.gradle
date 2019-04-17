@@ -51,13 +51,13 @@ dependencies {
     deobfCompile "thutcore:thutcore:${version_minecraft}:${version_thutcore}"
     //Thut Wearables
     deobfCompile "thut-wearables:thut-wearables:release:deobf"
-    //Open Computers API
-    deobfCompile "li.cil.oc:OpenComputers:MC1.12.+:api"
     
     //Pokecube Core
     deobfCompile "pokecube-core:pokecube-core:release:deobf"
     //Pokecube Revival
     deobfCompile "pokecube-revival:pokecube-revival:release:deobf"
+    //Pokecube Mobs
+    deobfCompile "pokecube-mobs:pokecube-mobs:release:deobf"
 }
 
 sourceCompatibility = 1.8
@@ -68,6 +68,9 @@ minecraft {
     runDir = "run"
     mappings = "${version_mappings}"
     useDepAts = true
+    
+    replace "@VERSION", project.version_compile
+    replaceIn "WikiWriteMod.java"
 }
 
 task deobfJar(type: Jar) {

@@ -14,31 +14,55 @@ import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.interfaces.PokecubeMod;
+import pokecube.mobs.PokecubeMobs;
+import thut.core.common.ThutCore;
 
-@Mod(modid = WikiWriteMod.MODID, name = "wikiwriter", version = WikiWriteMod.VERSION, dependencies = "required-after:pokecube", acceptableRemoteVersions = "*", acceptedMinecraftVersions = WikiWriteMod.MCVERSIONS)
+@Mod(modid = WikiWriteMod.MODID, name = "Pokecube AIO", version = WikiWriteMod.VERSION, dependencies = "required-after:pokecube", acceptableRemoteVersions = "*", acceptedMinecraftVersions = WikiWriteMod.MCVERSIONS, guiFactory = "pokecube.wiki.config.ModGuiFactory")
 public class WikiWriteMod
 {
 
     Map<PokedexEntry, Integer> genMap     = Maps.newHashMap();
-    public static final String MODID      = "pokecube_wikioutput";
-    public static final String VERSION    = "@VERSION@";
+    public static final String MODID      = "pokecube_aio";
+    public static final String VERSION    = "@VERSION";
 
-    public final static String MCVERSIONS = "[1.9.4,1.13]";
+    public final static String MCVERSIONS = "*";
 
     @Instance(value = MODID)
     public static WikiWriteMod instance;
+
+    private void doMetastuff()
+    {
+        Map<String, ModContainer> containers = Loader.instance().getIndexedModList();
+        containers.get(PokecubeMod.ID).getMetadata().parent = MODID;
+        containers.get(ThutCore.modid).getMetadata().parent = MODID;
+        containers.get(PokecubeAdv.ID).getMetadata().parent = PokecubeMod.ID;
+        containers.get(PokecubeMobs.MODID).getMetadata().parent = PokecubeMod.ID;
+
+        if (containers.containsKey("thut_wearables"))
+        {
+            containers.get("thut_wearables").getMetadata().parent = MODID;
+            if (containers.containsKey("thut_bling"))
+                containers.get("thut_bling").getMetadata().parent = "thut_wearables";
+        }
+        if (containers.containsKey("pokeplayer")) containers.get("pokeplayer").getMetadata().parent = PokecubeMod.ID;
+
+    }
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -48,6 +72,8 @@ public class WikiWriteMod
             MinecraftForge.EVENT_BUS.register(this);
         }
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
+
+        doMetastuff();
     }
 
     @EventHandler
