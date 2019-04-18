@@ -1,0 +1,68 @@
+﻿#Pokecube Adventures translation
+
+pokemob.description.type=%1$s é um %2$s Pokemob. 
+pokemob.description.evolve.level=%1$s evolui para %2$s no Nível %3$s. 
+pokemob.description.evolve.item=%1$s evolui para %2$s quando dada uma %3$s. 
+pokemob.description.evolve.item.male=%1$s evolui para %2$s quando dada macho e um %3$s. 
+pokemob.description.evolve.item.female=%1$s evolui para %2$s quando dada uma fêmea e %3$s. 
+pokemob.description.evolve.traded=%1$s evolui para %2$s depois de ser Trocado. 
+pokemob.description.evolve.traded.item=%1$s evolui para %2$s depois de ser trocado, mantendo um %3$s. 
+pokemob.description.evolve.happy=%1$s evolui para %2$s quando Subiu de Nível,quando feliz. 
+pokemon.description.evolve.move=%1$s evolui para %2$s quando Subiu de Nível e sabe %3$s. 
+
+pokemob.description.evolve.from=%1$s evolui para %2$s.
+
+item.pokemobTarget.name=Objeto
+item.warplinker.name=Vinculador de Textura
+item.tm0.name=Máquina Técnica Vazia
+item.Exp. Share.name=Experiência Compartilhada
+item.trainerSpawner.name=Editor de Treinador
+item.candy.name=Doce Raro
+item.emerald_shard.name=Estilhaço de Esmeralda
+item.pokecubebag.name=Mochila
+
+tile.oranLog.name=Madeira de Oran
+tile.oranWood.name=Tábuas de Oran
+tile.oranLeaves.name=Folhas de Oran
+tile.sitrusLog.name=Madeira de Sitrus
+tile.sitrusWood.name=Tábuas de Sitrus
+tile.sitrusLeaves.name=Folhas de Sitrus
+tile.pechaLog.name=Madeira de Pecha
+tile.pechaWood.name=Tábuas de Pecha
+tile.pechaLeaves.name=Folhas de Pecha
+tile.nanabLog.name=Madeira de Nanab
+tile.nanabWood.name=Tábuas de Nanab
+tile.nanabLeaves.name=Folhas de Nanab
+tile.leppaLog.name=Madeira de Leppa
+tile.leppaWood.name=Tábuas de Leppa
+tile.leppaLeaves.name=Folhas de Leppa
+tile.enigmaLog.name=Madeira de Enigma
+tile.enigmaWood.name=Tábuas de Enigma
+tile.enigmaLeaves.name=Folhas de Enigma
+tile.warppad.name=Bloco de Textura
+tile.cloner.name=Dispositivo de União
+
+tile.tradingtable.name=Mesa de Negociação
+tile.tradingtable.trade=Trocar
+tile.tradingtable.apply=Solicitar
+tile.tradingtable.mode=Modo
+tile.pc.base.name=Parte Inferior do PC
+tile.pc.top.name=Parte Superior do PC
+tile.pc.next=Próximo
+tile.pc.previous=Anterior
+tile.pc.autoon=aut. On
+tile.pc.autooff=aut. Off
+tile.pc.rename=Renomear
+
+tile.null.name=Nulo
+tile.blockDust.name=Pó
+tile.soliddust.name=Pó Sólido
+tile.chalk.name=Giz
+tile.trass.name=Pozolana
+tile.limestone.name=Calcário
+tile.meteorite.name=Meteorito
+item.dust.name=Pó
+item.dustTrass.name=Pó de Pozolana
+item.dustCement.name=Cimento
+item.dustSulfur.name=Enxofre
+item.smoother.name=Suavizador

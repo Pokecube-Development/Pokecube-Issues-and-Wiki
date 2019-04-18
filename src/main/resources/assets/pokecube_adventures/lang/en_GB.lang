@@ -1,0 +1,36 @@
+﻿#Pokecube Adventures translation
+
+item.pokemobTarget.name=Target
+item.tm0.name=Blank TM
+
+tile.oranLog.name=Oran Wood
+tile.oranWood.name=Oran Planks
+tile.oranLeaves.name=Oran Leaves
+tile.sitrusLog.name=Sitrus Wood
+tile.sitrusWood.name=Sitrus Planks
+tile.sitrusLeaves.name=Sitrus Leaves
+tile.pechaLog.name=Pecha Wood
+tile.pechaWood.name=Pecha Planks
+tile.pechaLeaves.name=Pecha Leaves
+tile.nanabLog.name=Nanab Wood
+tile.nanabWood.name=Nanab Planks
+tile.nanabLeaves.name=Nanab Leaves
+tile.leppaLog.name=Leppa Wood
+tile.leppaWood.name=Leppa Planks
+tile.leppaLeaves.name=Leppa Leaves
+tile.enigmaLog.name=Enigma Wood
+tile.enigmaWood.name=Enigma Planks
+tile.enigmaLeaves.name=Enigma Leaves
+
+
+tile.tradingtable.name=Trading Table
+tile.tradingtable.trade=Trade
+tile.tradingtable.apply=Apply
+tile.tradingtable.mode=Mode
+tile.pc.base.name=PC Base
+tile.pc.top.name=PC Top
+tile.pc.next=Next
+tile.pc.previous=Previous
+tile.pc.autoon=Auto On
+tile.pc.autooff=Auto Off
+tile.pc.rename=Rename
