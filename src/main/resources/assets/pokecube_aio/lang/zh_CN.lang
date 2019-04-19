@@ -1,0 +1,30 @@
+# Pokemobs List
+list.pokemobs.title=pokecube模组中目前的精灵列表
+
+#Pokemob Pages
+list.pokemobs.link=精灵列表
+home.link=首页
+
+pokemob.type=类型: %1$s
+pokemob.number=编号: %1$s
+
+pokemob.description.header=描述
+
+pokemob.description.type=%1$s 是一个%2$s系精灵. 
+pokemob.description.evolve.level=%1$s 等级提升到%3$s进化成%2$s. 
+pokemob.description.evolve.item=%1$s 持有%3$s,会进化成%2$s. 
+pokemob.description.evolve.item.male=%1$s持有%3$s且性别为雄性,会进化成%2$s. 
+pokemob.description.evolve.item.female=%1$s持有%3$s且性别为雄性,会进化成%2$s. 
+pokemob.description.evolve.traded=%1$s 在连接交换后,进化成%2$s . 
+pokemob.description.evolve.traded.item=%1$s先持有%3$s 然后连接交换,会进化成%2$s. 
+pokemob.description.evolve.happy=%1$s 会在高兴时,升级进化成%2$s. 
+pokemob.description.evolve.move=%1$s学会%3$s招式,升级后进化成%2$s.
+
+pokemob.description.evolve.from=%1$s 由 %2$s 进化而来.
+
+pokemob.movelist.title=升级可学会的招式
+pokemob.movelist.header=| 等级 | 招式 | 
+pokemob.tmlist.title=可用技能学习器学会的招式
+pokemob.breedinglist.title=可配种的精灵
+pokemob.biomeslist.title=可发现的地方群系
+pokemob.alternateformes.title=形态差异
