@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
@@ -42,8 +44,7 @@ public class PokemobPageWriter extends PokecubeWikiWriter
             }
             fwriter = new FileWriter(fileName);
             out = new PrintWriter(fwriter);
-            int reference = 1;
-            ArrayList<String> refs = Lists.newArrayList();
+            clearRefs();
             String typeString = WordUtils.capitalize(PokeType.getTranslatedName(entry.getType1()));
             if (entry.getType2() != PokeType.unknown)
                 typeString += "/" + WordUtils.capitalize(PokeType.getTranslatedName(entry.getType2()));
@@ -57,16 +58,12 @@ public class PokemobPageWriter extends PokecubeWikiWriter
             String next = "";
             if (nex != entry)
             {
-                // reference++;
-                next = referenceLink(nex.getTranslatedName(), nex.getTranslatedName());
-                // refs.add(pokemobDir + pagePrefix + nex.getName());
+                next = formatPokemobLink(nex);
             }
             String prev = "";
             if (pre != entry)
             {
-                // reference++;
-                prev = referenceLink(pre.getTranslatedName() + "", pre.getTranslatedName());
-                // refs.add(pokemobDir + pagePrefix + pre.getName());
+                prev = formatPokemobLink(pre);
             }
             otherPokemon = "| " + prev + otherPokemon + next + " |";
 
@@ -83,14 +80,11 @@ public class PokemobPageWriter extends PokecubeWikiWriter
                     + "| \n");
             if (entry.hasShiny)
             {
-                out.println(referenceImg((reference++) + "") + referenceImg((reference++) + ""));
-                refs.add(gifDir + entry.getName() + ".png");
-                refs.add(gifDir + entry.getName() + "S.png");
+                out.println(formatPokemobImage(entry, false) + formatPokemobImage(entry, true));
             }
             else
             {
-                out.println(referenceImg((reference++) + ""));
-                refs.add(gifDir + entry.getName() + ".png");
+                out.println(formatPokemobImage(entry, false));
             }
 
             // Print the description
@@ -102,8 +96,7 @@ public class PokemobPageWriter extends PokecubeWikiWriter
                 {
                     if (d.evolution == null) continue;
                     nex = d.evolution;
-                    String evoLink = referenceLink(nex.getTranslatedName(), nex.getTranslatedName());
-                    // refs.add(pokemobDir + pagePrefix + nex.getName());
+                    String evoLink = formatPokemobLink(nex);
                     String evoString = null;
                     if (d.level > 0)
                     {
@@ -149,10 +142,7 @@ public class PokemobPageWriter extends PokecubeWikiWriter
             }
             if (entry.evolvesFrom != null)
             {
-                String evoString = referenceLink(entry.evolvesFrom.getTranslatedName(),
-                        entry.evolvesFrom.getTranslatedName());
-                // refs.add(pokemobDir + pagePrefix +
-                // entry.evolvesFrom.getName());
+                String evoString = formatPokemobLink(entry.evolvesFrom);
                 out.println(I18n.format("pokemob.description.evolve.from", entry.getTranslatedName(), evoString));
             }
             out.println();
@@ -215,9 +205,7 @@ public class PokemobPageWriter extends PokecubeWikiWriter
                 {
                     if (e == null) continue;
                     ended = false;
-                    // out.print("| " + formatPokemobLink(e, refs, (reference++)
-                    // + ""));
-                    out.print("|" + referenceLink(e.getTranslatedName(), e.getTranslatedName()));
+                    out.print("|" + formatPokemobLink(e));
                     if (n % 4 == 3)
                     {
                         out.print("| \n");
@@ -320,25 +308,29 @@ public class PokemobPageWriter extends PokecubeWikiWriter
                     out.println("| " + I18n.format("pokemob.type", typeString) + " |");
                     if (entry1.hasShiny)
                     {
-                        out.println(referenceImg((reference++) + "") + referenceImg((reference++) + ""));
-                        refs.add(gifDir + entry1.getName() + ".png");
-                        refs.add(gifDir + entry1.getName() + "S.png");
+                        out.println(formatPokemobImage(entry1, false) + formatPokemobImage(entry1, true));
                     }
                     else
                     {
-                        out.println(referenceImg((reference++) + ""));
-                        refs.add(gifDir + entry1.getName() + ".png");
+                        out.println(formatPokemobImage(entry1, false));
                     }
                 }
             }
-            String pokemobs = referenceLink((reference++) + "", I18n.format("list.pokemobs.link"));
-            refs.add(pagePrefix + "pokemobList");
-            String home = referenceLink((reference++) + "", I18n.format("home.link"));
-            refs.add(pagePrefix + "Home");
+            String pokemobs = referenceLink(pagePrefix + "pokemobList", I18n.format("list.pokemobs.link"));
+            String home = referenceLink(pagePrefix + "Home", I18n.format("home.link"));
             out.println("\n" + pokemobs + "-------" + home + "\n");
-            for (int i = 0; i < refs.size(); i++)
+
+            List<Integer> list = Lists.newArrayList(refs.values());
+            Collections.sort(list);
+            Map<Integer, String> revRefs = Maps.newHashMap();
+            for (Entry<String, Integer> var : refs.entrySet())
             {
-                out.println("[" + (i + 1) + "]: " + refs.get(i).replace(" ", "%20"));
+                revRefs.put(var.getValue(), var.getKey());
+            }
+
+            for (Integer i : list)
+            {
+                out.println("[" + (i) + "]: " + revRefs.get(i).replace(" ", "%20"));
             }
             out.close();
             fwriter.close();

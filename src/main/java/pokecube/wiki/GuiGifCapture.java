@@ -192,9 +192,14 @@ public class GuiGifCapture extends GuiScreen
         GL13.glMultiTexCoord2f(GL13.GL_TEXTURE1, k / 1.0F, l / 1.0F);
         int j2 = (width - xSize) / 2;
         int k2 = (height - ySize) / 2;
-        icon = true;
-        if (icon) this.drawGradientRect(j2, k2, xSize + j2, ySize + k2, 0xff010203, 0xff010203);
-        else this.drawGradientRect(j2, k2, xSize + j2, ySize + k2, 0xff000000, 0xff000000);
+        if (icon) this.drawGradientRect(j2 - 1000, k2 - 1000, xSize + j2 + 1000, ySize + k2 + 1000, 0xff010203, 0xff010203);
+        else
+        {
+            float z = this.zLevel;
+            this.zLevel = -400;
+            this.drawGradientRect(j2 - 1000, k2 - 1000, xSize + j2 + 1000, ySize + k2 + 1000, 0xff000000, 0xff000000);
+            this.zLevel = z;
+        }
         GL11.glPushMatrix();
         renderMob();
         GL11.glPopMatrix();
@@ -315,18 +320,25 @@ public class GuiGifCapture extends GuiScreen
             EntityLivingBase owner = entityPlayer;
             if (owner != null && !icon)
             {
-                GL11.glTranslatef(j + 55, k + 120, 50F);
+                GL11.glTranslatef(j + 0, k + 0, 50F);
                 GL11.glScalef(-zoom, zoom, zoom);
                 GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
                 GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(-1F, 1.0F, 1.0F, 0.0F);
                 GlStateManager.translate(0, -1.2, 1);
+                GlStateManager.enableLighting();
+                GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+                GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+                RenderHelper.enableStandardItemLighting();
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
                 Minecraft.getMinecraft().getBlockRendererDispatcher()
                         .renderBlockBrightness(Blocks.STONE.getDefaultState(), 1.0F);
-                // GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
-                // Minecraft.getMinecraft().getRenderManager().doRenderEntity(owner,
-                // 0, 0, 0, 0, POKEDEX_RENDER, false);
-                // GlStateManager.disableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
+                GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
+                GlStateManager.translate(-25 / zoom, 0, -10 / zoom);
+                owner.setRotationYawHead(-95);
+                owner.rotationYaw = -120;
+                Minecraft.getMinecraft().getRenderManager().renderEntity(owner, 0, 0, 0, 0, POKEDEX_RENDER, false);
+                GlStateManager.disableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
             }
             GL11.glPopMatrix();
 

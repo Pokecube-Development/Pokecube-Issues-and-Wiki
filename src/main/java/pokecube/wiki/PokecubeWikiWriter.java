@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -16,38 +18,67 @@ import pokecube.core.database.PokedexEntry;
 
 public class PokecubeWikiWriter
 {
-    public static PrintWriter out;
-    public static FileWriter  fwriter;
+    public static PrintWriter   out;
+    public static FileWriter    fwriter;
 
-    public static String      pokemobDir = "https://github.com/Thutmose/Pokecube/wiki/";
-    public static String      gifDir     = "https://raw.githubusercontent.com/wiki/Thutmose/Pokecube/pokemobs/img/";
-    public static String      pagePrefix = "";
+    public static String        pokemobDir = "https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/wiki/";
+    public static String        gifDir     = "https://raw.githubusercontent.com/wiki/Pokecube-Development/Pokecube-Issues-and-Wiki/pokemobs/img/";
+    public static String        pagePrefix = "";
+    static Map<String, Integer> refs       = Maps.newHashMap();
+    static int                  maxRef     = 0;
+
+    static void clearRefs()
+    {
+        refs.clear();
+        maxRef = 0;
+    }
 
     static String formatLink(String link, String name)
     {
-        return "[" + name + "](" + link + ")";
+        return "[" + name + "](" + link.replace(" ", "%20") + ")";
     }
 
     static String referenceLink(String ref, String name)
     {
-        return "[[" + name + "|" + ref + "]]";
+        int num = maxRef;
+        if (refs.containsKey(ref)) num = refs.get(ref);
+        else
+        {
+            maxRef++;
+            num = maxRef;
+            refs.put(ref, num);
+        }
+        return "[" + name + "][" + num + "]";
     }
 
     static String referenceImg(String ref)
     {
-        return "![][" + ref + "]";
+        int num = maxRef;
+        if (refs.containsKey(ref)) num = refs.get(ref);
+        else
+        {
+            maxRef++;
+            num = maxRef;
+            refs.put(ref, num);
+        }
+        return "![][" + num + "]";
     }
 
-    static String formatPokemobLink(PokedexEntry entry, List<String> refs, String reference)
+    static String formatPokemobLink(PokedexEntry entry)
     {
-        String link = referenceLink(reference, entry.getTranslatedName());
-        refs.add(pokemobDir + pagePrefix + entry.getName());
+        String link = referenceLink(pokemobDir + pagePrefix + entry.getName(), entry.getTranslatedName());
+        return link;
+    }
+
+    static String formatPokemobImage(PokedexEntry entry, boolean shiny)
+    {
+        String link = referenceImg(gifDir + entry.getName() + (shiny ? "S.png" : ".png"));
         return link;
     }
 
     static void writeWiki()
     {
-        pokemobDir = "https://github.com/Thutmose/Pokecube/wiki/";
+        pokemobDir = "https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/wiki/";
 
         String code = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
         if (code.equalsIgnoreCase("en_US"))
@@ -74,8 +105,17 @@ public class PokecubeWikiWriter
             fwriter = new FileWriter(fileName);
             out = new PrintWriter(fwriter);
             out.println("# " + I18n.format("list.pokemobs.title"));
-            out.println("|  |  |  |  |");
-            out.println("| --- | --- | --- | --- |");
+
+            int m = 5;
+            String header1 = "|";
+            String header2 = "|";
+            for (int i = 0; i < m; i++)
+            {
+                header1 = header1 + "  |";
+                header2 = header2 + " --- |";
+            }
+            out.println(header1);
+            out.println(header2);
             int n = 0;
             boolean ended = false;
             List<PokedexEntry> entries = Lists.newArrayList(Database.baseFormes.values());
@@ -84,8 +124,8 @@ public class PokecubeWikiWriter
             {
                 if (e == null) continue;
                 ended = false;
-                out.print("|" + referenceLink(e.getTranslatedName(), e.getTranslatedName()));
-                if (n % 4 == 3)
+                out.print("|" + formatLink(pokemobDir + pagePrefix + e.getName(), e.getTranslatedName()));
+                if (n % m == m - 1)
                 {
                     out.print("| \n");
                     ended = true;

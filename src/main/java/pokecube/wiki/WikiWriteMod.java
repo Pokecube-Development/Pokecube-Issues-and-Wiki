@@ -103,12 +103,13 @@ public class WikiWriteMod
                     PokecubeWikiWriter.writeWiki();
                     sender.sendMessage(new TextComponentString("Finished Wiki output"));
                 }
-                else if (args.length >= 2 && args[0].equals("img"))
+                else if (args.length >= 2 && args[0].startsWith("img"))
                 {
                     boolean shiny = args.length == 3 && args[2].equalsIgnoreCase("S");
                     boolean all = args[1].equalsIgnoreCase("all");
                     if (server instanceof IntegratedServer)
                     {
+                        GuiGifCapture.icon = args[0].endsWith("i");
                         GuiGifCapture.shiny = shiny;
                         PokedexEntry init = Pokedex.getInstance().getFirstEntry();
                         if (all)

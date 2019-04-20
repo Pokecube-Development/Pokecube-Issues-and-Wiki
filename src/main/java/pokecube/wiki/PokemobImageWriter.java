@@ -106,8 +106,8 @@ public class PokemobImageWriter extends PokecubeWikiWriter
         int x = w / 2;
         int y = h / 2;
 
-        WINDOW_XPOS = -120;
-        WINDOW_YPOS = -120;
+        WINDOW_XPOS = -180;
+        WINDOW_YPOS = -180;
         WINDOW_WIDTH = 120;
         WINDOW_HEIGHT = 120;
         int xb, yb;
