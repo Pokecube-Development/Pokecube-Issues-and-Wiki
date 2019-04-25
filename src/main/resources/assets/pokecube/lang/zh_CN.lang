@@ -54,23 +54,23 @@ pokewatch.title.pokeinfo.breeding=配种
 pokewatch.title.pokeinfo.search=搜索
 pokewatch.title.pokeinfo.spawns=栖息地
 
-pokewatch.moves.lvl=L.%1$s: %2$s
-pokewatch.moves.tm=TM: %1$s
-pokewatch.moves.pwr=PWR: %s
+pokewatch.moves.lvl=等级.%1$s: %2$s
+pokewatch.moves.tm=可学习: %1$s
+pokewatch.moves.pwr=威力: %s
 
 pokewatch.progress.main.title=进展
 pokewatch.progress.global.title=总进展
 pokewatch.progress.type.title=每种类型进度
 pokewatch.progress.mob.title=每种精灵进度
 
-pokewatch.progress.global.caught=收服的 %1$s 只精灵中，有 %2$s 只是独一无二的。
-pokewatch.progress.global.killed=杀死的 %1$s 只精灵中，有 %2$s 只是独一无二的。
-pokewatch.progress.global.hatched=孵化的 %1$s 只精灵中，有 %2$s 只是独一无二的。
+pokewatch.progress.global.caught=收服的 %1$s 只精灵中，有 %2$s 种是不重复的精灵。
+pokewatch.progress.global.killed=杀死的 %1$s 只精灵中，有 %2$s 种是不重复的精灵。
+pokewatch.progress.global.hatched=孵化的 %1$s 只精灵中，有 %2$s 种是不重复的精灵。
 pokewatch.progress.global.nearby=%1$s 附近.
 
-pokewatch.progress.type.caught=收服的 %1$s 只 %3$s 类型的精灵中，有 %2$s 只是独一无二的。
-pokewatch.progress.type.killed=杀死的 %1$s 只 %3$s 类型的精灵中，有 %2$s 只是独一无二的。
-pokewatch.progress.type.hatched=孵化的 %1$s 只 %3$s 类型的精灵中，有 %2$s 只是独一无二的。
+pokewatch.progress.type.caught=收服的 %1$s 只 %3$s 类型的精灵中，有 %2$s 种是不重复的精灵。
+pokewatch.progress.type.killed=杀死的 %1$s 只 %3$s 类型的精灵中，有 %2$s 种是不重复的精灵。
+pokewatch.progress.type.hatched=孵化的 %1$s 只 %3$s 类型的精灵中，有 %2$s 种是不重复的精灵。
 
 pokewatch.progress.mob.caught=收服了 %1$s %2$s.
 pokewatch.progress.mob.killed=杀死了 %1$s %2$s.
@@ -87,7 +87,7 @@ pokewatch.spawns.water_only=在水里
 pokewatch.spawns.water_optional=在水中或陆地上
 pokewatch.spawns.biomes=生物群系：
 pokewatch.spawns.types=亚生物群系：
-pokewatch.spawns.rate_local=调整后的比例： %s
+pokewatch.spawns.rate_local=地形调整后的比例： %s
 pokewatch.spawns.rate_single=未调整的比例： %s
 pokewatch.spawns.info=栖息在这里的：
 
@@ -148,7 +148,7 @@ pokemob.evolution.cancel=§c嗯？ %1$s §c停止进化。
 pokemob.agress=一只野生的 %1$s 跳了出来
 pokemob.deagress.timeout= %1$s 失去战斗意志。
 
-pokemob.hungry.slow=你的精灵太饿了，不能快速移动
+pokemob.hungry.slow=你的精灵太饿了,不能使用招式。
 pokemob.hungry.hurt=%1$s §c饿了！
 pokemob.hungry.dead=%1$s §c饿死了！
 
@@ -160,7 +160,7 @@ pokemob.createbase.confirmed=§a秘密基地入口设置 %1$s!
 pokemob.removebase.stale=§c删除之前的秘密基地入口。
 
 pokecube.secretBase.exit=离开秘密基地
-pokecube.secretBase.enter=使用 "/pokebase exit" 离开或创建一个神秘力量的出口。
+pokecube.secretBase.enter=使用 "/pokebase exit" 离开秘密基地。
 
 pokemob.action.sendout=%1$s就决定是你了
 pokemob.action.return=§a回来吧！%1$s。
@@ -201,13 +201,13 @@ pokemob.killed.wild=%1$s §c被野生的%2$s打败了
 
 pokecube.tooltip.level=等级: %1$s
 pokecube.tooltip.health=HP: %1$s/%2$s
-pokecube.tooltip.xp=XP: %1$s/%2$s
+pokecube.tooltip.xp=升级所需经验: %1$s/%2$s
 pokecube.tooltip.moves=技能: %1$s
-pokecube.tooltip.ivs=IVs: %s
-pokecube.tooltip.evs=EVs: %s
-pokecube.tooltip.nature=N: %s
-pokecube.tooltip.ability=A: %s
-pokecube.tooltip.advanced=<Shift获取更多信息>
+pokecube.tooltip.ivs=个体值: %s
+pokecube.tooltip.evs=努力值: %s
+pokecube.tooltip.nature=性格: %s
+pokecube.tooltip.ability=特性: %s
+pokecube.tooltip.advanced=<按 Shift 获取更多信息>
 
 pokemob.info.berrybrew=一股甜蜜的气味来自 %1$s.
 pokemob.info.berrybrewtwice=气味来自 %1$s 已经改变！
