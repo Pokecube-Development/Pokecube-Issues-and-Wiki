@@ -45,7 +45,7 @@ pokewatch.title.baseradar=Secret Base Radar
 pokewatch.title.meteorradar=Meteor Compass
 pokewatch.title.wiki=Info Books
 pokewatch.title.pokeinfo=Pokémob Info
-pokewatch.title.spawns=Pokémob Spawns
+pokewatch.title.spawns=Local Spawns
 pokewatch.title.start=PokéWatch Home
 
 pokewatch.title.pokeinfo.stats=Stats
@@ -53,12 +53,13 @@ pokewatch.title.pokeinfo.moves=Moves
 pokewatch.title.pokeinfo.breeding=Breeding
 pokewatch.title.pokeinfo.search=Search
 pokewatch.title.pokeinfo.spawns=Spawns
+pokewatch.title.pokeinfo.description=Description
 
 pokewatch.moves.lvl=L.%1$s: %2$s
 pokewatch.moves.tm=TM: %1$s
 pokewatch.moves.pwr=PWR: %s
 
-pokewatch.progress.main.title=Progress
+pokewatch.progress.main.title=Trainer Career
 pokewatch.progress.global.title=Total Progress
 pokewatch.progress.type.title=Per Type Progress
 pokewatch.progress.mob.title=Per Mob Progress
