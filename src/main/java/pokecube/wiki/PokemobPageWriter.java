@@ -89,7 +89,8 @@ public class PokemobPageWriter extends PokecubeWikiWriter
 
             // Print the description
             out.println("## " + I18n.format("pokemob.description.header"));
-            out.println(I18n.format("pokemob.description.type", entry.getTranslatedName(), typeString));
+
+            String description = entry.getDescription().getUnformattedText();
             if (entry.canEvolve())
             {
                 for (EvolutionData d : entry.evolutions)
@@ -97,54 +98,15 @@ public class PokemobPageWriter extends PokecubeWikiWriter
                     if (d.evolution == null) continue;
                     nex = d.evolution;
                     String evoLink = formatPokemobLink(nex);
-                    String evoString = null;
-                    if (d.level > 0)
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.level", entry.getTranslatedName(), evoLink,
-                                d.level);
-                    }
-                    else if (d.item != null && d.gender == 0)
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.item", entry.getTranslatedName(), evoLink,
-                                d.item.getDisplayName());
-                    }
-                    else if (d.item != null && d.gender == 1)
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.item.male", entry.getTranslatedName(),
-                                evoLink, d.item.getDisplayName());
-                    }
-                    else if (d.item != null && d.gender == 2)
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.item.female", entry.getTranslatedName(),
-                                evoLink, d.item.getDisplayName());
-                    }
-                    else if (d.traded && d.item != null)
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.traded.item", entry.getTranslatedName(),
-                                evoLink, d.item.getDisplayName());
-                    }
-                    else if (d.happy)
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.happy", entry.getTranslatedName(), evoLink);
-                    }
-                    else if (d.traded)
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.traded", entry.getTranslatedName(),
-                                evoLink);
-                    }
-                    else if (d.move != null && !d.move.isEmpty())
-                    {
-                        evoString = I18n.format("pokemob.description.evolve.move", entry.getTranslatedName(), evoLink,
-                                MovesUtils.getMoveName(d.move).getUnformattedText());
-                    }
-                    if (evoString != null) out.print(evoString);
+                    description = description.replaceAll(nex.getTranslatedName(), evoLink);
                 }
             }
             if (entry.evolvesFrom != null)
             {
                 String evoString = formatPokemobLink(entry.evolvesFrom);
-                out.println(I18n.format("pokemob.description.evolve.from", entry.getTranslatedName(), evoString));
+                description = description.replaceAll(entry.evolvesFrom.getTranslatedName(), evoString);
             }
+            out.println(description);
             out.println();
 
             // Print move list
