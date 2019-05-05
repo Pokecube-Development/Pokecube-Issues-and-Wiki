@@ -92,10 +92,26 @@ pokewatch.spawns.rate_local=Adjusted Rate: %s
 pokewatch.spawns.rate_single=Non Adj Rate: %s
 pokewatch.spawns.info=Spawns for here:
 
+pokewatch.HP=HP
+pokewatch.ATT=ATT
+pokewatch.DEF=DEF
+pokewatch.ATTSP=ATTSP
+pokewatch.DEFSP=DEFSP
+pokewatch.VIT=VIT
+
+pokewatch.TVIVEV=           TV   IV   EV
+
+pokewatch.ability=AB: %s
+pokewatch.size=Size: %s
+
 pokemob.gui.store=STORE
 pokemob.gui.berry=BERRY
 pokemob.gui.empty=EMPTY
 pokemob.gui.face=SIDE
+pokemob.gui.invventory=Inv
+pokemob.gui.storage=ST
+pokemob.gui.routes=RT
+pokemob.gui.ai=AI
 pokemob.gui.updatestorage=Storage Settings updated.
 
 pokemob.description.type=%1$s is a %2$s Pokémob. 
@@ -303,10 +319,14 @@ tile.pc.previous=Previous
 tile.pc.public=Public PC
 
 tile.tm_machine.name=TM Machine
+tile.tm_machine.nomoves=Put Pokémobs in PC
+tile.tm_machine.nopc=Place next to PC
+
 tile.trading_table.name=Trading Table
 tile.tradingtable.trade=Trade
 tile.tradingtable.apply=Apply
 tile.tradingtable.mode=Mode
+
 tile.pc_base.name=PC Base
 tile.pc_top.name=PC Top
 tile.pc.autoon=Auto On
@@ -316,6 +336,11 @@ tile.pc.sentto=%1$s was sent to your PC
 tile.pc.title=%1$s's PC
 tile.pc.public=Public PC
 tile.pc.bound=Private bound
+tile.pc.option.public=Public
+tile.pc.option.private=Private
+tile.pc.option.bind=Bind
+tile.pc.option.release=Release
+tile.pc.option.confirm=Confirm
 
 item.pokecube.bubbles=Droplets
 item.pokecube.flames=Flames
