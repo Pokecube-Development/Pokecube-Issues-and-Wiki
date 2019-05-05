@@ -1,4 +1,4 @@
-﻿#Pokecube translation
+#Pokecube translation
 pkmn.missingno.name=神秘编号
 pkmn.bulbasaur.name=妙蛙种子
 pkmn.ivysaur.name=妙蛙草
@@ -1003,7 +1003,9 @@ pkmn.tapufini.name=卡璞-鳍鳍
 pkmn.cosmog.name=科斯莫古
 pkmn.cosmoem.name=科斯莫姆
 pkmn.solgaleo.name=索尔迦雷欧
+pkmn.solgaleodusk.name=索尔迦雷欧
 pkmn.lunala.name=露奈雅拉
+pkmn.lunaladawn.name=露奈雅拉
 pkmn.nihilego.name=虚吾伊德
 pkmn.buzzwole.name=爆肌蚊
 pkmn.pheromosa.name=费洛美螂
@@ -1012,6 +1014,7 @@ pkmn.celesteela.name=铁火辉夜
 pkmn.kartana.name=纸御剑
 pkmn.guzzlord.name=恶食大王
 pkmn.necrozma.name=奈克洛兹玛
+pkmn.necrozmaultra.name=
 pkmn.magearna.name=玛机雅娜
 pkmn.marshadow.name=玛夏多
 pkmn.poipole.name=毒贝比
@@ -1019,4 +1022,5 @@ pkmn.naganadel.name=四颚针龙
 pkmn.stakataka.name=垒磊石
 pkmn.blacephalon.name=砰头小丑
 pkmn.zeraora.name=捷拉奥拉
-
+pkmn.meltan.name=美录坦
+pkmn.melmetal.name=美录梅塔
