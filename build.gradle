@@ -71,6 +71,8 @@ minecraft {
     
     replace "@VERSION", project.version_compile
     replaceIn "WikiWriteMod.java"
+    replace "@MINVERSION", project.version_compat
+    replaceIn "WikiWriteMod.java"
 }
 
 task deobfJar(type: Jar) {

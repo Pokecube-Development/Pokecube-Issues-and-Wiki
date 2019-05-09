@@ -33,13 +33,14 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.mobs.PokecubeMobs;
 import thut.core.common.ThutCore;
 
-@Mod(modid = WikiWriteMod.MODID, name = "Pokecube AIO", version = WikiWriteMod.VERSION, dependencies = "required-after:pokecube", acceptableRemoteVersions = "*", acceptedMinecraftVersions = WikiWriteMod.MCVERSIONS, guiFactory = "pokecube.wiki.config.ModGuiFactory")
+@Mod(modid = WikiWriteMod.MODID, name = "Pokecube AIO", version = WikiWriteMod.VERSION, dependencies = "required-before:pokecube", acceptableRemoteVersions = WikiWriteMod.MINVERSION, acceptedMinecraftVersions = WikiWriteMod.MCVERSIONS, guiFactory = "pokecube.wiki.config.ModGuiFactory")
 public class WikiWriteMod
 {
 
     Map<PokedexEntry, Integer> genMap     = Maps.newHashMap();
     public static final String MODID      = "pokecube_aio";
     public static final String VERSION    = "@VERSION";
+    public static final String MINVERSION = "@MINVERSION";
 
     public final static String MCVERSIONS = "*";
 
