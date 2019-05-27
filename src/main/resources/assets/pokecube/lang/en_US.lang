@@ -123,7 +123,7 @@ pokemob.description.evolve.female=-  When female.
 pokemob.description.evolve.traded=-  After being traded.
 pokemob.description.evolve.happy=-  When Happy.
 pokemob.description.evolve.dawn=-  At Dawn.
-pokemob.description.evolve.dusk=-  At Disk.
+pokemob.description.evolve.dusk=-  At Dusk.
 pokemob.description.evolve.day=-  During the day.
 pokemob.description.evolve.night=-  During Night.
 pokemob.description.evolve.rain=- During Rain.
@@ -233,8 +233,6 @@ pokecube.tooltip.evs=EVs: %s
 pokecube.tooltip.nature=N: %s
 pokecube.tooltip.ability=A: %s
 pokecube.tooltip.advanced=<Shift for more info>
-
-pokecube.config.guarddisabled=§cGuard Mode is Disabled!
 
 pokemob.info.berrybrew=A sweet smell is coming from %1$s.
 pokemob.info.berrybrewtwice=The smell coming from %1$s has changed!
