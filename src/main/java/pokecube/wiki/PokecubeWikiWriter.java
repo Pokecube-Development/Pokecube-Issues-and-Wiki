@@ -80,7 +80,7 @@ public class PokecubeWikiWriter
     {
         pokemobDir = "https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/wiki/";
 
-        String code = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
+        String code = Minecraft.getInstance().getLanguageManager().getCurrentLanguage().getLanguageCode();
         if (code.equalsIgnoreCase("en_US"))
         {
             pagePrefix = "";

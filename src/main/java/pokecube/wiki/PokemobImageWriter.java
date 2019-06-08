@@ -42,8 +42,8 @@ public class PokemobImageWriter extends PokecubeWikiWriter
 
     static private void openPokedex()
     {
-        Minecraft.getMinecraft().player.openGui(WikiWriteMod.instance, 0,
-                Minecraft.getMinecraft().player.getEntityWorld(), 0, 0, 0);
+        Minecraft.getInstance().player.openGui(WikiWriteMod.instance, 0,
+                Minecraft.getInstance().player.getEntityWorld(), 0, 0, 0);
     }
 
     static private void setPokedexBeginning()
@@ -72,7 +72,7 @@ public class PokemobImageWriter extends PokecubeWikiWriter
 
     static public void beginGifCapture()
     {
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && !gifCaptureState)
+        if (FMLCommonHandler.instance().getSide() == Dist.CLIENT && !gifCaptureState)
         {
             gifCaptureState = true;
             openPokedex();
@@ -93,7 +93,7 @@ public class PokemobImageWriter extends PokecubeWikiWriter
 
     static public void doCapturePokemobGif()
     {
-        if (gifCaptureState && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+        if (gifCaptureState && FMLCommonHandler.instance().getEffectiveSide() == Dist.CLIENT)
         {
             doCapturePokemobGifClient();
         }
@@ -101,8 +101,8 @@ public class PokemobImageWriter extends PokecubeWikiWriter
 
     static private void doCapturePokemobGifClient()
     {
-        int h = Minecraft.getMinecraft().displayHeight;
-        int w = Minecraft.getMinecraft().displayWidth;
+        int h = Minecraft.getInstance().displayHeight;
+        int w = Minecraft.getInstance().displayWidth;
         int x = w / 2;
         int y = h / 2;
 

@@ -20,9 +20,9 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import pokecube.core.database.Pokedex;
@@ -37,7 +37,7 @@ import pokecube.core.utils.PokeType;
 public class GuiGifCapture extends GuiScreen
 {
     protected IPokemob         pokemob          = null;
-    protected EntityPlayer     entityPlayer     = null;
+    protected PlayerEntity     PlayerEntity     = null;
 
     public static PokedexEntry pokedexEntry     = null;
 
@@ -57,10 +57,10 @@ public class GuiGifCapture extends GuiScreen
     /**
      *
      */
-    public GuiGifCapture(IPokemob pokemob, EntityPlayer entityPlayer)
+    public GuiGifCapture(IPokemob pokemob, PlayerEntity PlayerEntity)
     {
         this.pokemob = pokemob;
-        this.entityPlayer = entityPlayer;
+        this.PlayerEntity = PlayerEntity;
         if (pokemob != null)
         {
             pokedexEntry = pokemob.getPokedexEntry();
@@ -219,19 +219,19 @@ public class GuiGifCapture extends GuiScreen
         return false;
     }
 
-    private static HashMap<PokedexEntry, EntityLiving> entityToDisplayMap = new HashMap<PokedexEntry, EntityLiving>();
+    private static HashMap<PokedexEntry, MobEntity> entityToDisplayMap = new HashMap<PokedexEntry, MobEntity>();
 
-    private EntityLiving getEntityToDisplay()
+    private MobEntity getEntityToDisplay()
     {
         if (pokedexEntry == null)
         {
             pokedexEntry = Pokedex.getInstance().getFirstEntry();
         }
-        EntityLiving pokemob = entityToDisplayMap.get(pokedexEntry);
+        MobEntity pokemob = entityToDisplayMap.get(pokedexEntry);
 
         if (pokemob == null)
         {
-            pokemob = (EntityLiving) PokecubeMod.core.createPokemob(pokedexEntry, entityPlayer.getEntityWorld());
+            pokemob = (MobEntity) PokecubeMod.core.createPokemob(pokedexEntry, PlayerEntity.getEntityWorld());
             IPokemob ipokemob;
             if (pokemob != null)
             {
@@ -253,7 +253,7 @@ public class GuiGifCapture extends GuiScreen
     {
         try
         {
-            EntityLiving entity = getEntityToDisplay();
+            MobEntity entity = getEntityToDisplay();
             IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             float size = 0;
             int j = 0;
@@ -305,7 +305,7 @@ public class GuiGifCapture extends GuiScreen
             GL11.glRotatef(yRenderAngle, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(xRenderAngle, 1.0F, 0.0F, 0.0F);
             pokemob.setLogicState(LogicStates.SITTING, false);
-            entity.setPosition(entityPlayer.posX, entityPlayer.posY + 1, entityPlayer.posZ);
+            entity.setPosition(PlayerEntity.posX, PlayerEntity.posY + 1, PlayerEntity.posZ);
             entity.limbSwing = 0;
             entity.limbSwingAmount = 0;
             PokeType flying = PokeType.getType("flying");
@@ -314,10 +314,10 @@ public class GuiGifCapture extends GuiScreen
             int j1 = i % 65536;
             int k1 = i / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, j1 / 1.0F, k1 / 1.0F);
-            Minecraft.getMinecraft().getRenderManager().renderEntity(entity, 0, 0, 0, 0, POKEDEX_RENDER, false);
+            Minecraft.getInstance().getRenderManager().renderEntity(entity, 0, 0, 0, 0, POKEDEX_RENDER, false);
             GL11.glPopMatrix();
 
-            EntityLivingBase owner = entityPlayer;
+            LivingEntity owner = PlayerEntity;
             if (owner != null && !icon)
             {
                 GL11.glTranslatef(j + 0, k + 0, 50F);
@@ -331,13 +331,13 @@ public class GuiGifCapture extends GuiScreen
                 GL11.glEnable(GL11.GL_COLOR_MATERIAL);
                 RenderHelper.enableStandardItemLighting();
                 FMLClientHandler.instance().getClient().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-                Minecraft.getMinecraft().getBlockRendererDispatcher()
+                Minecraft.getInstance().getBlockRendererDispatcher()
                         .renderBlockBrightness(Blocks.STONE.getDefaultState(), 1.0F);
                 GlStateManager.enableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
                 GlStateManager.translate(-25 / zoom, 0, -10 / zoom);
                 owner.setRotationYawHead(-95);
                 owner.rotationYaw = -120;
-                Minecraft.getMinecraft().getRenderManager().renderEntity(owner, 0, 0, 0, 0, POKEDEX_RENDER, false);
+                Minecraft.getInstance().getRenderManager().renderEntity(owner, 0, 0, 0, 0, POKEDEX_RENDER, false);
                 GlStateManager.disableBlendProfile(GlStateManager.Profile.PLAYER_SKIN);
             }
             GL11.glPopMatrix();

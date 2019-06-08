@@ -7,11 +7,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.ICommandSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModContainer;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLCommonSetupEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -65,9 +65,9 @@ public class WikiWriteMod
     }
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
+    public void preInit(FMLCommonSetupEvent event)
     {
-        if (event.getSide() == Side.CLIENT)
+        if (event.getSide() == Dist.CLIENT)
         {
             MinecraftForge.EVENT_BUS.register(this);
         }
@@ -82,7 +82,7 @@ public class WikiWriteMod
         event.registerServerCommand(new CommandBase()
         {
             @Override
-            public String getUsage(ICommandSender sender)
+            public String getUsage(ICommandSource sender)
             {
                 return "/pokewiki stuff";
             }
@@ -94,14 +94,14 @@ public class WikiWriteMod
             }
 
             @Override
-            public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+            public void execute(MinecraftServer server, ICommandSource sender, String[] args) throws CommandException
             {
-                EntityPlayer player = getCommandSenderAsPlayer(sender);
+                PlayerEntity player = getCommandSenderAsPlayer(sender);
                 if (args.length == 1 && args[0].equals("all"))
                 {
-                    sender.sendMessage(new TextComponentString("Starting Wiki output"));
+                    sender.sendMessage(new StringTextComponent("Starting Wiki output"));
                     PokecubeWikiWriter.writeWiki();
-                    sender.sendMessage(new TextComponentString("Finished Wiki output"));
+                    sender.sendMessage(new StringTextComponent("Finished Wiki output"));
                 }
                 else if (args.length >= 2 && args[0].startsWith("img"))
                 {
@@ -132,7 +132,7 @@ public class WikiWriteMod
                         PokemobImageWriter.gifs = false;
                         PokemobImageWriter.beginGifCapture();
                         GuiGifCapture.pokedexEntry = init;
-                        Minecraft.getMinecraft().player.openGui(instance, 0, player.getEntityWorld(), 0, 0, 0);
+                        Minecraft.getInstance().player.openGui(instance, 0, player.getEntityWorld(), 0, 0, 0);
                     }
                 }
             }
@@ -149,13 +149,13 @@ public class WikiWriteMod
         }
 
         @Override
-        public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+        public Object getServerGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z)
         {
             return null;
         }
 
         @Override
-        public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+        public Object getClientGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z)
         {
             return null;
         }
@@ -168,7 +168,7 @@ public class WikiWriteMod
     public static class ClientProxy extends CommonProxy
     {
         @Override
-        public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
+        public Object getClientGuiElement(int ID, PlayerEntity player, World world, int x, int y, int z)
         {
             return new GuiGifCapture(null, player);
         }
