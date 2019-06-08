@@ -17,8 +17,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.java.games.input.Keyboard;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import pokecube.compat.Compat;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
