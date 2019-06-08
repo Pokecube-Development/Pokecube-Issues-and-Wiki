@@ -187,14 +187,6 @@ container.cloner=Reanimator
 container.geneselector.tooltip.a=选择器损失的机会: %s
 container.geneselector.tooltip.b=DNA 损失的机会: %s
 
-msg.nohere.txt=%s §c不会在这里生成.
-msg.noregi.txt=§c这似乎不是正确建造它的位置.
-msg.noknowhowmakeregi.txt=§c什么也没发生
-
-msg.reginotlookright.txt=§c这看起来不像正常建造的.
-msg.notrust.txt=%s §c对你的信任不足.
-msg.angeredlegend.txt=§c你激怒了 %s 需要重新获得它的信任.
-
 entity.pokecube_adventures.targetParticles.name=目标
 
 pokecube.trainer.agress=%1$s §c向你发起战斗!
