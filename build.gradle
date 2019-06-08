@@ -58,6 +58,9 @@ dependencies {
     deobfCompile "pokecube-revival:pokecube-revival:release:deobf"
     //Pokecube Mobs
     deobfCompile "pokecube-mobs:pokecube-mobs:release:deobf"
+    
+    //Inventory tweaks
+    compile "inventory-tweaks:InventoryTweaks:1.63:api"
 }
 
 sourceCompatibility = 1.8
