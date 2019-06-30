@@ -1,4 +1,4 @@
-﻿#Pokecube Adventures translation
+#Pokecube Adventures translation
 
 block.rfsiphon.info=能量输出: %1$s/%2$s
 
@@ -61,6 +61,8 @@ tile.daycare.name=托育方块
 tile.pokecommand.name=口袋妖怪命令方块
 tile.pokesiphon.name=能量虹吸
 
+gui.pokemobbag.title=%s的背包
+
 traineredit.gui.urlskin=URL 皮肤
 traineredit.gui.playerskin=玩家皮肤
 
@@ -111,8 +113,8 @@ traineredit.title.routes=编辑路径
 traineredit.info.pokemob=口袋妖怪
 traineredit.info.moves=移动
 traineredit.info.level=等级
-traineredit.info.evs=EVs
-traineredit.info.ivs=IVs
+traineredit.info.evs=努力值
+traineredit.info.ivs=个体值
 traineredit.info.nature=性格
 traineredit.info.ability=能力
 traineredit.info.size=大小
@@ -155,6 +157,7 @@ traineredit.button.invulnerable=不会受到伤害
 traineredit.button.vulnerable=可受到伤害
 traineredit.button.trade=可交易
 traineredit.button.notrade=不可交易
+traineredit.button.reset_list=重置战斗失败
 
 traineredit.button.trainer=训练师
 traineredit.button.leader=馆主
@@ -163,18 +166,6 @@ traineredit.button.trader=商人
 gui.jei.pokemobs=口袋妖怪进化
 gui.jei.pokemobs.interact=口袋妖怪交互作用
 gui.jei.pokemobs.moves=口袋妖怪移动食谱
-gui.jei.pokemob.evo.level=等级 %s
-gui.jei.pokemob.evo.traded=交易时间
-gui.jei.pokemob.evo.night=晚上
-gui.jei.pokemob.evo.day=白天
-gui.jei.pokemob.evo.dusk=黄昏
-gui.jei.pokemob.evo.dawn=黎明
-gui.jei.pokemob.evo.biome=在 %s
-gui.jei.pokemob.evo.happy=快乐时间
-gui.jei.pokemob.evo.move=如果它知道 %s
-gui.jei.pokemob.evo.rain=雨天
-gui.jei.pokemob.evo.gender=当 %s 时
-gui.jei.pokemob.evo.chance=偶然的 %s
 
 gui.jei.pokemob.gender.male=♂
 gui.jei.pokemob.gender.female=♀
