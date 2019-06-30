@@ -92,10 +92,26 @@ pokewatch.spawns.rate_local=地形调整后的比例： %s
 pokewatch.spawns.rate_single=未调整的比例： %s
 pokewatch.spawns.info=栖息在这里的：
 
+pokewatch.HP=HP
+pokewatch.ATT=攻击
+pokewatch.DEF=防御
+pokewatch.ATTSP=特攻
+pokewatch.DEFSP=特防
+pokewatch.VIT=速度
+
+pokewatch.TVIVEV=       属性  个体  努力值
+
+pokewatch.ability=特性: %s
+pokewatch.size=体形: %s
+
 pokemob.gui.store=商店
 pokemob.gui.berry=浆果
 pokemob.gui.empty=空的
 pokemob.gui.face=侧面
+pokemob.gui.inventory=Inv
+pokemob.gui.storage=ST
+pokemob.gui.routes=RT
+pokemob.gui.ai=AI
 pokemob.gui.updatestorage=已保存配置。
 
 pokemob.description.type=%1$s是一只%2$s系的口袋妖怪 
@@ -303,10 +319,14 @@ tile.pc.previous=上一个
 tile.pc.public=公共电脑
 
 tile.tm_machine.name=TM机器
+tile.tm_machine.nomoves=把口袋妖怪放到电脑里
+tile.tm_machine.nopc=放在电脑旁
+
 tile.trading_table.name=交换机
 tile.tradingtable.trade=交换
 tile.tradingtable.apply=应用
 tile.tradingtable.mode=模式
+
 tile.pc_base.name=PC主机
 tile.pc_top.name=PC屏幕
 tile.pc.autoon=自动开启
@@ -316,6 +336,11 @@ tile.pc.sentto=%1$s 传送到你的电脑
 tile.pc.title=%1$s的电脑
 tile.pc.public=公共电脑
 tile.pc.bound=私人电脑
+tile.pc.option.public=公共
+tile.pc.option.private=私人
+tile.pc.option.bind=绑定
+tile.pc.option.release=放生
+tile.pc.option.confirm=确认
 
 item.pokecube.bubbles=水滴
 item.pokecube.flames=火焰
