@@ -7,9 +7,9 @@ item.bling_ankle.name=脚镯
 item.bling_ear.name=耳环
 item.bling_waist.name=腰带
 item.bling_bag.name=背包
-item.bling_bag_ender_large.name=Large Ender Bag
-item.bling_bag_ender_vanilla.name=Ender Bag
+item.bling_bag_ender_large.name=大背包
+item.bling_bag_ender_vanilla.name=末影背包
 
-gui.bag.next=Next
-gui.bag.previous=Previous
-gui.bag.rename=Rename
+gui.bag.next=下一页
+gui.bag.previous=上一页
+gui.bag.rename=重命名
