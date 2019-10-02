@@ -69,7 +69,7 @@ pokewatch.progress.global.killed=Killed %1$s pokémobs, of which %2$s are unique
 pokewatch.progress.global.hatched=Hatched %1$s pokémobs, of which %2$s are unique.
 pokewatch.progress.global.nearby=%1$s nearby.
 
-pokewatch.progress.type.caught=Caught %1$s %3$s type pokémobs, of which %2$s are unique.
+pokewatch.progress.type.caught=Caught %1$s %3$s type pokémobs, of which %2$s are unique, of total: %4$s.
 pokewatch.progress.type.killed=Killed %1$s %3$s type pokémobs, of which %2$s are unique.
 pokewatch.progress.type.hatched=Hatched %1$s %3$s type pokémobs, of which %2$s are unique.
 
