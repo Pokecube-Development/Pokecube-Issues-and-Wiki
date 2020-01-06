@@ -1,0 +1,45 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+	    "transform":"forge:default-block",
+        "model": "pokecube:berrycrop"
+	},
+	"variants": {
+	    "type": {
+           "null": { "textures":{ "cross": "pokecube:blocks/nullcrop" } },
+           "cheri": { "textures":{ "cross": "pokecube:blocks/chericrop" } },
+           "chesto": { "textures":{ "cross": "pokecube:blocks/chestocrop" } },
+           "pecha": { "textures":{ "cross": "pokecube:blocks/pechacrop" } },
+           "rawst": { "textures":{ "cross": "pokecube:blocks/rawstcrop" } },
+           "aspear": { "textures":{ "cross": "pokecube:blocks/aspearcrop" } },
+           "leppa": { "textures":{ "cross": "pokecube:blocks/leppacrop" } },
+           "oran": { "textures":{ "cross": "pokecube:blocks/orancrop" } },
+           "persim": { "textures":{ "cross": "pokecube:blocks/persimcrop" } },
+           "lum": { "textures":{ "cross": "pokecube:blocks/lumcrop" } },
+           "sitrus": { "textures":{ "cross": "pokecube:blocks/sitruscrop" } },
+           "nanab": { "textures":{ "cross": "pokecube:blocks/nanabcrop" } },
+           "pinap": { "textures":{ "cross": "pokecube:blocks/pinapcrop" } },
+           "pomeg": {"textures": {"cross": "pokecube:blocks/pomegcrop"}},
+           "kelpsy": {"textures": {"cross": "pokecube:blocks/kelpsycrop"}},
+           "qualot": {"textures": {"cross": "pokecube:blocks/qualotcrop"}},
+           "hondew": {"textures": {"cross": "pokecube:blocks/hondewcrop"}},
+           "grepa": {"textures": {"cross": "pokecube:blocks/grepacrop"}},
+           "tamato": {"textures": {"cross": "pokecube:blocks/tamatocrop"}},
+           "cornn": { "textures":{ "cross": "pokecube:blocks/cornncrop" } },
+           "enigma": { "textures":{ "cross": "pokecube:blocks/enigmacrop" } },
+           "jaboca": { "textures":{ "cross": "pokecube:blocks/jabocacrop" } },
+           "rowap": { "textures":{ "cross": "pokecube:blocks/rowapcrop" } }
+        },
+        "age":
+        {
+            "0": {"model": "pokecube:berrycrop", "textures":{ "cross": "pokecube:blocks/berryseed" }},
+            "1": {"model": "pokecube:berrycrop2"},
+            "2": {"model": "pokecube:berrycrop3"},
+            "3": {"model": "pokecube:berrycrop4"},
+            "4": {"model": "pokecube:berrycrop5"},
+            "5": {"model": "pokecube:berrycrop6"},
+            "6": {"model": "pokecube:berrycrop7"},
+            "7": {"model": "pokecube:berrycrop"}
+        }
+    }
+}

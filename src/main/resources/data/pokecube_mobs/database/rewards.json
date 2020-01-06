@@ -1,0 +1,149 @@
+{
+  "recipes": [
+    {
+      "handler": "freebook",
+      "key": "default",
+      "condition": {
+        "values": {
+          "file": "/assets/pokecube_books/lang/%s.lang",
+          "mess": "pokedex.inspect.guidebook",
+          "tag": "pokecube.infobook1.json",
+          "key": "inspect-guidebook"
+        }
+      },
+      "values": {}
+    },
+    {
+      "handler": "freebook",
+      "key": "default",
+      "condition": {
+        "values": {
+          "file": "/assets/pokecube_books/lang/%s.lang",
+          "mess": "pokedex.inspect.carebook",
+          "tag": "pokecube.infobook2.json",
+          "key": "inspect-carebook"
+        }
+      },
+      "values": {}
+    },
+    {
+      "handler": "default",
+      "key": "default",
+      "output": {
+        "values": {
+          "id": "pokecube_adventures:exp_share",
+          "n": "1"
+        }
+      },
+      "condition": {
+        "values": {
+          "num": "5",
+          "mess": "pokedex.inspect.exp_share",
+          "key": "inspect-exp_share"
+        }
+      },
+      "values": {}
+    },
+    {
+      "handler": "default",
+      "key": "default",
+      "output": {
+        "values": {
+          "id": "pokecube:tm_normal",
+          "tag": "{move:\"cut\",display:{Name:\"Cut\"}}",
+          "n": "1"
+        },
+        "tag": "{move:\"cut\",display:{Name:\"Cut\"}}"
+      },
+      "condition": {
+        "values": {
+          "num": "3",
+          "mess": "pokedex.inspect.cutTM",
+          "percent": "true",
+          "key": "inspect-cutTM"
+        }
+      },
+      "values": {}
+    },
+    {
+      "handler": "default",
+      "key": "default",
+      "output": {
+        "values": {
+          "id": "pokecube:tm_normal",
+          "tag": "{move:\"flash\",display:{Name:\"Flash\"}}",
+          "n": "1"
+        },
+        "tag": "{move:\"flash\",display:{Name:\"Flash\"}}"
+      },
+      "condition": {
+        "values": {
+          "num": "6",
+          "mess": "pokedex.inspect.flashTM",
+          "percent": "true",
+          "key": "inspect-flashTM"
+        }
+      },
+      "values": {}
+    },
+    {
+      "handler": "default",
+      "key": "default",
+      "output": {
+        "values": {
+          "id": "pokecube:tm_fighting",
+          "tag": "{move:\"rocksmash\",display:{Name:\"Rock Smash\"}}",
+          "n": "1"
+        },
+        "tag": "{move:\"rocksmash\",display:{Name:\"Rock Smash\"}}"
+      },
+      "condition": {
+        "values": {
+          "num": "6",
+          "mess": "pokedex.inspect.rocksmashTM",
+          "percent": "true",
+          "key": "inspect-rocksmashTM"
+        }
+      },
+      "values": {}
+    },
+    {
+      "handler": "default",
+      "key": "default",
+      "output": {
+        "values": {
+          "id": "pokecube:mastercube",
+          "n": "1"
+        }
+      },
+      "condition": {
+        "values": {
+          "num": "20",
+          "mess": "pokedex.inspect.mastercube",
+          "percent": "true",
+          "key": "inspect-mastercube"
+        }
+      },
+      "values": {}
+    },
+    {
+      "handler": "default",
+      "key": "default",
+      "output": {
+        "values": {
+          "id": "pokecube:shiny_charm",
+          "n": "1"
+        }
+      },
+      "condition": {
+        "values": {
+          "num": "100",
+          "mess": "pokedex.inspect.shinycharm",
+          "percent": "true",
+          "key": "inspect-shinycharm"
+        }
+      },
+      "values": {}
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.amoonguss"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.amoonguss"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_amoonguss": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "amoonguss"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_foongus"
+}

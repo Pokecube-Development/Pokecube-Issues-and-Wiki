@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ekans"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ekans"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ekans": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ekans"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

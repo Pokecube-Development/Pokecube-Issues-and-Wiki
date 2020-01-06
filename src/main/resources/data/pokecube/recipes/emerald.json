@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube",
+  "ingredients": [
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    },
+    {
+      "item": "pokecube:emerald_shard"
+    }
+  ],
+  "result": {
+    "item": "minecraft:emerald"
+  }
+}

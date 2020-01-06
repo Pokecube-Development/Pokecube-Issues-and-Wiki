@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.huntail"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.huntail"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_huntail": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "huntail"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_clamperl"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.escavalier"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.escavalier"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_escavalier": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "escavalier"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_karrablast"
+}

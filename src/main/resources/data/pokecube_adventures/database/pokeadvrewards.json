@@ -1,0 +1,17 @@
+{
+  "recipes": [
+    {
+      "handler": "freebook",
+      "key": "default",
+      "condition": {
+        "values": {
+          "file": "/assets/pokecube_adventures/lang/%s.lang",
+          "mess": "pokedex.inspect.geneticsguide",
+          "tag": "pokeadv.infobook1.json",
+          "key": "inspect-geneticsguide"
+        }
+      },
+      "values": {}
+    }
+  ]
+}

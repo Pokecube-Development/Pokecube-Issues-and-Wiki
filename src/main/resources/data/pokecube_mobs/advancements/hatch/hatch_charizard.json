@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charizard"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_charizard": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "charizard"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_charmeleon"
+}

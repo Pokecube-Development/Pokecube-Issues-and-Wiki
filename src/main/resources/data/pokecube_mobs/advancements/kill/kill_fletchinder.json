@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.fletchinder"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fletchinder"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_fletchinder": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "fletchinder"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_fletchling"
+}

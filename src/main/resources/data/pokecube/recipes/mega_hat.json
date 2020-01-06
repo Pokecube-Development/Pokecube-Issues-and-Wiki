@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "pokecube",
+  "ingredients": [
+    {
+      "item": "pokecube:megastone"
+    },
+    {
+      "item": "minecraft:leather_helmet"
+    }
+  ],
+  "result": {
+    "item": "pokecube:mega_hat"
+  }
+}

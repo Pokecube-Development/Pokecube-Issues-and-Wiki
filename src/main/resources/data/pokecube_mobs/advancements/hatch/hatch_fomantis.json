@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.fomantis"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fomantis"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_fomantis": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "fomantis"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

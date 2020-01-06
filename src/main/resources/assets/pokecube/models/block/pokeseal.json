@@ -1,0 +1,10 @@
+{
+    "parent": "pokecube:block/pokecubes",
+    "textures": {
+        "top": "pokecube:items/pokesealtop",
+        "bottom": "pokecube:items/pokesealbottom",
+        "front": "pokecube:items/pokesealfront",
+        "side": "pokecube:items/pokesealside",
+        "back": "pokecube:items/pokesealback"
+    }
+}

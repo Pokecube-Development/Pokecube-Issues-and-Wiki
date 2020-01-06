@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "GFG",
+    "PPP",
+    "   "
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "pokecube:ultracube",
+    "count": 3
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "JR",
+    "RJ"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:berry_rowap"
+    },
+    "J": {
+      "item": "pokecube:berry_jaboca"
+    }
+  },
+  "result": {
+    "item": "pokecube:repel"
+  }
+}

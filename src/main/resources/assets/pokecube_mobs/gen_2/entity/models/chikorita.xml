@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase headAxis="1" headCap="-60,60" headDir="-1" name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.2"/>
+  <metadata head="head" headCap="-60,60" headDir="-1"/>
+  <customTex default="chikorita">
+   <part name="head" tex="chikoritahead"/>
+   <animation diffs="0,0.33" part="head" trigger="random:0.005:20"/>
+   <animation diffs="0.0,0.67" part="head" trigger="sleeping"/>
+  </customTex>
+  <phase type="walking">
+   <part name="leg4">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0," rotChange="60.0,0.0,0.0," rotOffset="-30.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="-60.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leg2">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0," rotChange="60.0,0.0,0.0," rotOffset="-30.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="-60.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leg3">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0," rotChange="-60.0,0.0,0.0," rotOffset="30.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="60.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0," rotChange="-60.0,0.0,0.0," rotOffset="30.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="60.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="2" name="1" rotChange="0.0,-50.0,0.0," rotOffset="0.0,30.0,0.0" startKey="0"/>
+    <component length="5" name="2" rotChange="0.0,50.0,0.0," startKey="5"/>
+   </part>
+   <part name="leafbase">
+    <component length="26" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="26" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf1">
+    <component length="26" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="26" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf2">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf3">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf4">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf5">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaftip">
+    <component length="24" name="1" rotChange="5.0,0.0,0.0," startKey="0"/>
+    <component length="24" name="2" rotChange="-5.0,0.0,0.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="leafbase">
+    <component length="26" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="26" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf1">
+    <component length="26" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="26" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf2">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf3">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf4">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf5">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaftip">
+    <component length="24" name="1" rotChange="5.0,0.0,0.0," startKey="0"/>
+    <component length="24" name="2" rotChange="-5.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="2" name="1" rotChange="0.0,-50.0,0.0," rotOffset="0.0,30.0,0.0" startKey="0"/>
+    <component length="5" name="2" rotChange="0.0,50.0,0.0," startKey="5"/>
+   </part>
+  </phase>
+  <phase type="sitting">
+   <part name="leafbase">
+    <component length="26" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="26" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf1">
+    <component length="26" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="26" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf2">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf3">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf4">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaf5">
+    <component length="25" name="1" rotChange="3.0,0.0,0.0," startKey="0"/>
+    <component length="25" name="2" rotChange="-3.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="leaftip">
+    <component length="24" name="1" rotChange="5.0,0.0,0.0," startKey="0"/>
+    <component length="24" name="2" rotChange="-5.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="2" name="1" rotChange="0.0,-50.0,0.0," rotOffset="0.0,30.0,0.0" startKey="0"/>
+    <component length="5" name="2" rotChange="0.0,50.0,0.0," startKey="5"/>
+   </part>
+   <part name="body">
+    <component length="1" name="1" posOffset="0.0,3.0,0.0," rotOffset="-61.0,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="head">
+    <component length="1" name="1" posOffset="0.0,10.0,-5.0," rotOffset="61.0,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="collar">
+    <component length="1" name="1" posOffset="0.0,12.0,-6.0," rotOffset="65.0,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" posOffset="0.0,3.0,0.0," rotOffset="41.0,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" posOffset="0.0,3.0,0.0," rotOffset="41.0,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" posOffset="0.0,3.0,0.0," rotOffset="-30.0,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" posOffset="0.0,3.0,0.0," rotOffset="-30.0,-0.0,-0.0," startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.175"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <metadata head="head2" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <phase duration="5" leftArm="arm1" leftLeg="foot1" name="biWalk" rightArm="arm2" rightLeg="foot2"/>
+  <customTex default="binacle">
+   <part name="Head" tex="binaclehead"/>
+   <animation diffs="0.28,0" part="Head" trigger="random:0.005:20"/>
+  </customTex>
+  <phase type="idle">
+   <part name="p1">
+    <component length="8" name="1" rotChange="5,0,0," rotOffset="5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="-5,0,0," startKey="10"/>
+   </part>
+   <part name="p1_001">
+    <component length="8" name="1" rotChange="5,0,0," rotOffset="5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="-5,0,0," startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="8" name="1" rotChange="-5,0,0," rotOffset="-5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="5,0,0," startKey="10"/>
+   </part>
+   <part name="p2_001">
+    <component length="8" name="1" rotChange="-5,0,0," rotOffset="5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="5,0,0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="p1">
+    <component length="8" name="1" rotChange="5,0,0," rotOffset="5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="-5,0,0," startKey="10"/>
+   </part>
+   <part name="p1_001">
+    <component length="8" name="1" rotChange="5,0,0," rotOffset="5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="-5,0,0," startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="8" name="1" rotChange="-5,0,0," rotOffset="-5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="5,0,0," startKey="10"/>
+   </part>
+   <part name="p2_001">
+    <component length="8" name="1" rotChange="-5,0,0," rotOffset="5,0,0," startKey="0"/>
+    <component length="8" name="2" rotChange="5,0,0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.forretress"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.forretress"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_forretress": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "forretress"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_pineco"
+}

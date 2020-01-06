@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.leavanny"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.leavanny"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_leavanny": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "leavanny"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_swadloon"
+}

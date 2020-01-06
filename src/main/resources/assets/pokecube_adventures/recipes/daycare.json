@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "III",
+    "SRS",
+    "SMS"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:trading_table"
+    },
+    "S": {
+      "item": "minecraft:iron_block"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "pokecube_adventures:daycare"
+  }
+}

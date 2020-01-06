@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,13" rotation="1,0,0,0" scale="1.5"/>
+  <phase type="idle">
+   <part name="part1">
+    <component length="15" name="1" rotChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" rotChange="0,-2,0" startKey="5"/>
+	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="center">
+    <component length="15" name="1" posChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" posChange="0,-1,0" startKey="10"/>
+   </part>
+   <part name="part2">
+    <component length="15" name="1" rotChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" rotChange="0,-2,0" startKey="5"/>
+	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="10,0,0" rotChange="-0.5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="1,0,0" startKey="5"/>
+	<component length="10" name="3" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="arm3">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="arm4">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="arm5">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="arm8">
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
+   </part>
+   <part name="arm9">
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
+   </part>
+   <part name="arm10">
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
+   </part>
+   <part name="arm11">
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
+   </part>
+   <part name="d1">
+	<component length="15" name="1" rotChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" rotChange="0,-2,0" startKey="5"/>
+	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="d1_001">
+	<component length="15" name="1" rotChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" rotChange="0,-2,0" startKey="5"/>
+	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="d1_002">
+	<component length="15" name="1" rotChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" rotChange="0,-2,0" startKey="5"/>
+	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="d1_003">
+	<component length="15" name="1" rotChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" rotChange="0,-2,0" startKey="5"/>
+	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="d1_004">
+	<component length="15" name="1" rotChange="0,1,0" startKey="0"/>
+    <component length="15" name="2" rotChange="0,-2,0" startKey="5"/>
+	<component length="15" name="3" rotChange="0,1,0" startKey="10"/>
+   </part>
+   <part name="spin">
+    <component length="160" name="1" rotChange="0,360,0" startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

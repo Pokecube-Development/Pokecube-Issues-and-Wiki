@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "CGC",
+    "GPG",
+    "CGC"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "C": {
+      "item": "minecraft:coal"
+    },
+    "G": {
+      "tag": "forge:dyes/green"
+    }
+  },
+  "result": {
+    "item": "pokecube:duskcube"
+  }
+}

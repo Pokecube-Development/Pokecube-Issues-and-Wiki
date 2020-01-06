@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_hitmonchan": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "hitmonchan"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_tyrogue"
+}

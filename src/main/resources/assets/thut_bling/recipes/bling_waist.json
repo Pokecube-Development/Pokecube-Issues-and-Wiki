@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bling",
+  "pattern": [
+    "   ",
+    "LLL",
+    "   "
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    }
+  },
+  "result": {
+    "item": "thut_bling:bling_waist"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "WWW",
+    "IPI",
+    "WWW"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "W": {
+      "item": "minecraft:water_bucket"
+    },
+    "I": {
+      "tag": "forge:dyes/blue"
+    }
+  },
+  "result": {
+    "item": "pokecube:divecube"
+  }
+}

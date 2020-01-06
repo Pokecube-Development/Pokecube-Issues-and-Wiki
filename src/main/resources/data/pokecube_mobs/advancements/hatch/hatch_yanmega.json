@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.yanmega"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.yanmega"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_yanmega": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "yanmega"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_yanma"
+}

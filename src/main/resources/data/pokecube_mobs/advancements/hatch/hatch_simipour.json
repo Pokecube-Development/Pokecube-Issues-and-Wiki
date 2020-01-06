@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.simipour"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.simipour"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_simipour": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "simipour"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_panpour"
+}

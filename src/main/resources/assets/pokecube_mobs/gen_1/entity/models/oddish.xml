@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <phase duration="6" leftArm="" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="foot2"/>
+  <customTex default="oddish">
+   <part name="Head" tex="oddishhead"/>
+   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+   <part name="Mouth" tex="oddishhead"/>
+   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="foot1">
+    <component length="10" name="1" rotOffset="0,14,0" startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="10" name="1" rotOffset="0,-14,0" startKey="0"/>
+   </part>
+   <part name="leaf1">
+    <component length="7" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="leaf2">
+    <component length="7" name="1" rotChange="0,0,2" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,-2" startKey="10"/>
+   </part>
+   <part name="leaf3">
+    <component length="7" name="1" rotChange="0,0,-2" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="leaf4">
+    <component length="7" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="leaf5">
+    <component length="7" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="leaf1">
+    <component length="7" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="leaf2">
+    <component length="7" name="1" rotChange="0,0,2" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,-2" startKey="10"/>
+   </part>
+   <part name="leaf3">
+    <component length="7" name="1" rotChange="0,0,-2" startKey="0"/>
+    <component length="7" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="leaf4">
+    <component length="7" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="leaf5">
+    <component length="7" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

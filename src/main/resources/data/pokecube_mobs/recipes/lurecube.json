@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "LGL",
+    "PLP",
+    "FRF"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "L": {
+      "tag": "forge:dyes/blue"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "F": {
+      "tag": "minecraft:fishes"
+    },
+    "R": {
+      "tag": "forge:dyes/red"
+    }
+  },
+  "result": {
+    "item": "pokecube:lurecube",
+    "count": 2
+  }
+}

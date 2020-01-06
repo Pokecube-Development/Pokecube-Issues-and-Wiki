@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_adventures:badge_fighting"
+    },
+    "title": {
+      "translate": "achievement.achievement.pokeadv.get.badgefighting"
+    },
+    "description": {
+      "translate": "achievement.achievement.pokeadv.get.badgefighting.desc"
+    }
+  },
+  "criteria": {
+    "get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_fighting"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "pokecube_adventures:trainers/root"
+}

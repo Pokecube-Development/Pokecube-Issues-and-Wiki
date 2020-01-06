@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vikavolt"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vikavolt"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_vikavolt": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "vikavolt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_charjabug"
+}

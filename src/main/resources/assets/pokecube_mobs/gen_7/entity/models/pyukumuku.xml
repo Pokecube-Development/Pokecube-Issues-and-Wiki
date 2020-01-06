@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.2"/>
+ </model>
+ <details>
+  <RIDDENOFFSET>
+   0.55
+  </RIDDENOFFSET>
+ </details>
+</ModelAnimator>

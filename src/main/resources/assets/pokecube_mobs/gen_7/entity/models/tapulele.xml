@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.2"/>
+  <phase type="sitting">
+   <part name="body">
+	<component length="1" name="1" posOffset="0,6.3,0" startKey="0"/>
+   </part>
+   <part name="rightarm1">
+	<component length="1" name="1" posOffset="3,-1,1" startKey="0"/>
+   </part>
+   <part name="leftarm1">
+	<component length="1" name="1" posOffset="-3,-1,1" startKey="0"/>
+   </part>
+   <part name="hair11">
+	<component length="10" name="1" rotOffset="-45,0,0" rotChange="5,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="hair8">
+	<component length="10" name="1" rotOffset="-50,0,0" rotChange="5,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="5,0,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="body">
+	<component length="1" name="1" rotOffset="-10,0,0" startKey="0"/>
+   </part>
+   <part name="box">
+	<component length="1" name="1" rotOffset="10,0,0" startKey="0"/>
+   </part>
+   <part name="hair11">
+	<component length="10" name="1" rotChange="5,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="hair8">
+	<component length="10" name="1" rotChange="5,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" posOffset="0,-2,0" rotChange="5,0,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+	<component length="1" name="1" rotOffset="-10,0,0" startKey="0"/>
+   </part>
+   <part name="box">
+	<component length="1" name="1" rotOffset="10,0,0" startKey="0"/>
+   </part>
+   <part name="hair11">
+	<component length="10" name="1" rotChange="5,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="hair8">
+	<component length="10" name="1" rotChange="5,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" posOffset="0,-2,0" rotChange="5,0,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

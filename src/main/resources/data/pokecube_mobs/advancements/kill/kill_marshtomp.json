@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.marshtomp"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.marshtomp"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_marshtomp": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "marshtomp"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_mudkip"
+}

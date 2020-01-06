@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.5"/>
+  <metadata head="head:neck1:neck2" headAxis="2" headAxis2="0" headCap="-10,10" headDir="-1"/>
+  <customTex default="latiasmega">
+   <part name="Head" tex="latiasmegahead"/>
+   <animation diffs="-0.5,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="8" name="1" rotOffset="0,0,15" startKey="0"/>
+   </part>
+   <part name="arm1_1">
+    <component length="8" name="1" rotOffset="-120,0,15" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotOffset="0,0,-15" startKey="0"/>
+   </part>
+   <part name="arm2_1">
+    <component length="8" name="1" rotOffset="-120,0,-15" startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="8" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-6,0,0" startKey="5"/>
+    <component length="8" name="3" rotChange="3,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-4" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,-2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,4" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,-2" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="8" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-6,0,0" startKey="5"/>
+    <component length="8" name="3" rotChange="3,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+ <details>
+  <RIDDENOFFSET>
+   0.7
+  </RIDDENOFFSET>
+ </details>
+</ModelAnimator>

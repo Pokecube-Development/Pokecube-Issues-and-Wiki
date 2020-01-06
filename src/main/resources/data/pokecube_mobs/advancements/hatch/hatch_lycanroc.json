@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_lycanroc": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "lycanroc"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_rockruff"
+}

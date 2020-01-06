@@ -1,0 +1,7346 @@
+{
+  "mobs.missingno": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.missingno",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.bulbasaur": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bulbasaur",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bulbasaur"
+      }
+    ]
+  },
+  "mobs.ivysaur": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ivysaur",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ivysaur"
+      }
+    ]
+  },
+  "mobs.venusaur": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.venusaur",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/venusaur"
+      }
+    ]
+  },
+  "mobs.charmander": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.charmander",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/charmander"
+      }
+    ]
+  },
+  "mobs.charmeleon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.charmeleon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/charmeleon"
+      }
+    ]
+  },
+  "mobs.charizard": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.charizard",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/charizard"
+      }
+    ]
+  },
+  "mobs.squirtle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.squirtle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/squirtle"
+      }
+    ]
+  },
+  "mobs.wartortle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wartortle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wartortle"
+      }
+    ]
+  },
+  "mobs.blastoise": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.blastoise",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/blastoise"
+      }
+    ]
+  },
+  "mobs.caterpie": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.caterpie",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/caterpie"
+      }
+    ]
+  },
+  "mobs.metapod": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.metapod",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/metapod"
+      }
+    ]
+  },
+  "mobs.butterfree": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.butterfree",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/butterfree"
+      }
+    ]
+  },
+  "mobs.weedle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.weedle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/weedle"
+      }
+    ]
+  },
+  "mobs.kakuna": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kakuna",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kakuna"
+      }
+    ]
+  },
+  "mobs.beedrill": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.beedrill",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/beedrill"
+      }
+    ]
+  },
+  "mobs.pidgey": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pidgey",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pidgey"
+      }
+    ]
+  },
+  "mobs.pidgeotto": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pidgeotto",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pidgeotto"
+      }
+    ]
+  },
+  "mobs.pidgeot": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pidgeot",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pidgeot"
+      }
+    ]
+  },
+  "mobs.rattata": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rattata",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.raticate": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.raticate",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/raticate"
+      }
+    ]
+  },
+  "mobs.spearow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spearow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spearow"
+      }
+    ]
+  },
+  "mobs.fearow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.fearow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/fearow"
+      }
+    ]
+  },
+  "mobs.ekans": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ekans",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ekans"
+      }
+    ]
+  },
+  "mobs.arbok": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.arbok",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/arbok"
+      }
+    ]
+  },
+  "mobs.pikachu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pikachu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pikachu"
+      }
+    ]
+  },
+  "mobs.raichu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.raichu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/raichu"
+      }
+    ]
+  },
+  "mobs.sandshrew": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sandshrew",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sandshrew"
+      }
+    ]
+  },
+  "mobs.sandslash": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sandslash",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sandslash"
+      }
+    ]
+  },
+  "mobs.nidoranf": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nidoranf",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nidoranf"
+      }
+    ]
+  },
+  "mobs.nidorina": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nidorina",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nidorina"
+      }
+    ]
+  },
+  "mobs.nidoqueen": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nidoqueen",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nidoqueen"
+      }
+    ]
+  },
+  "mobs.nidoranm": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nidoranm",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nidoranm"
+      }
+    ]
+  },
+  "mobs.nidorino": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nidorino",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nidorino"
+      }
+    ]
+  },
+  "mobs.nidoking": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nidoking",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nidoking"
+      }
+    ]
+  },
+  "mobs.clefairy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.clefairy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/clefairy"
+      }
+    ]
+  },
+  "mobs.clefable": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.clefable",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/clefable"
+      }
+    ]
+  },
+  "mobs.vulpix": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vulpix",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vulpix"
+      }
+    ]
+  },
+  "mobs.ninetales": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ninetales",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ninetales"
+      }
+    ]
+  },
+  "mobs.jigglypuff": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.jigglypuff",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/jigglypuff"
+      }
+    ]
+  },
+  "mobs.wigglytuff": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wigglytuff",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wigglytuff"
+      }
+    ]
+  },
+  "mobs.zubat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zubat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zubat"
+      }
+    ]
+  },
+  "mobs.golbat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.golbat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/golbat"
+      }
+    ]
+  },
+  "mobs.oddish": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oddish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oddish"
+      }
+    ]
+  },
+  "mobs.gloom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gloom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gloom"
+      }
+    ]
+  },
+  "mobs.vileplume": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vileplume",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vileplume"
+      }
+    ]
+  },
+  "mobs.paras": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.paras",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/paras"
+      }
+    ]
+  },
+  "mobs.parasect": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.parasect",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/parasect"
+      }
+    ]
+  },
+  "mobs.venonat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.venonat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/venonat"
+      }
+    ]
+  },
+  "mobs.venomoth": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.venomoth",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/venomoth"
+      }
+    ]
+  },
+  "mobs.diglett": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.diglett",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/diglett"
+      }
+    ]
+  },
+  "mobs.dugtrio": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dugtrio",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dugtrio"
+      }
+    ]
+  },
+  "mobs.meowth": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.meowth",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/meowth"
+      }
+    ]
+  },
+  "mobs.persian": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.persian",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/persian"
+      }
+    ]
+  },
+  "mobs.psyduck": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.psyduck",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/psyduck"
+      }
+    ]
+  },
+  "mobs.golduck": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.golduck",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/golduck"
+      }
+    ]
+  },
+  "mobs.mankey": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mankey",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mankey"
+      }
+    ]
+  },
+  "mobs.primeape": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.primeape",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/primeape"
+      }
+    ]
+  },
+  "mobs.growlithe": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.growlithe",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/growlithe"
+      }
+    ]
+  },
+  "mobs.arcanine": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.arcanine",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/arcanine"
+      }
+    ]
+  },
+  "mobs.poliwag": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.poliwag",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/poliwag"
+      }
+    ]
+  },
+  "mobs.poliwhirl": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.poliwhirl",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/poliwhirl"
+      }
+    ]
+  },
+  "mobs.poliwrath": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.poliwrath",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/poliwrath"
+      }
+    ]
+  },
+  "mobs.abra": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.abra",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/abra"
+      }
+    ]
+  },
+  "mobs.kadabra": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kadabra",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kadabra"
+      }
+    ]
+  },
+  "mobs.alakazam": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.alakazam",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/alakazam"
+      }
+    ]
+  },
+  "mobs.machop": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.machop",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/machop"
+      }
+    ]
+  },
+  "mobs.machoke": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.machoke",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/machoke"
+      }
+    ]
+  },
+  "mobs.machamp": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.machamp",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/machamp"
+      }
+    ]
+  },
+  "mobs.bellsprout": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bellsprout",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bellsprout"
+      }
+    ]
+  },
+  "mobs.weepinbell": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.weepinbell",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/weepinbell"
+      }
+    ]
+  },
+  "mobs.victreebel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.victreebel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/victreebel"
+      }
+    ]
+  },
+  "mobs.tentacool": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tentacool",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tentacool"
+      }
+    ]
+  },
+  "mobs.tentacruel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tentacruel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tentacruel"
+      }
+    ]
+  },
+  "mobs.geodude": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.geodude",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/geodude"
+      }
+    ]
+  },
+  "mobs.graveler": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.graveler",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/graveler"
+      }
+    ]
+  },
+  "mobs.golem": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.golem",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/golem"
+      }
+    ]
+  },
+  "mobs.ponyta": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ponyta",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ponyta"
+      }
+    ]
+  },
+  "mobs.rapidash": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rapidash",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rapidash"
+      }
+    ]
+  },
+  "mobs.slowpoke": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slowpoke",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slowpoke"
+      }
+    ]
+  },
+  "mobs.slowbro": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slowbro",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slowbro"
+      }
+    ]
+  },
+  "mobs.magnemite": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magnemite",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magnemite"
+      }
+    ]
+  },
+  "mobs.magneton": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magneton",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magneton"
+      }
+    ]
+  },
+  "mobs.farfetchd": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.farfetchd",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/farfetchd"
+      }
+    ]
+  },
+  "mobs.doduo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.doduo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/doduo"
+      }
+    ]
+  },
+  "mobs.dodrio": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dodrio",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dodrio"
+      }
+    ]
+  },
+  "mobs.seel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.seel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/seel"
+      }
+    ]
+  },
+  "mobs.dewgong": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dewgong",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dewgong"
+      }
+    ]
+  },
+  "mobs.grimer": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.grimer",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/grimer"
+      }
+    ]
+  },
+  "mobs.muk": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.muk",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/muk"
+      }
+    ]
+  },
+  "mobs.shellder": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shellder",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shellder"
+      }
+    ]
+  },
+  "mobs.cloyster": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cloyster",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cloyster"
+      }
+    ]
+  },
+  "mobs.gastly": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gastly",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gastly"
+      }
+    ]
+  },
+  "mobs.haunter": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.haunter",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/haunter"
+      }
+    ]
+  },
+  "mobs.gengar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gengar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gengar"
+      }
+    ]
+  },
+  "mobs.onix": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.onix",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/onix"
+      }
+    ]
+  },
+  "mobs.drowzee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.drowzee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/drowzee"
+      }
+    ]
+  },
+  "mobs.hypno": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hypno",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hypno"
+      }
+    ]
+  },
+  "mobs.krabby": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.krabby",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/krabby"
+      }
+    ]
+  },
+  "mobs.kingler": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kingler",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kingler"
+      }
+    ]
+  },
+  "mobs.voltorb": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.voltorb",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/voltorb"
+      }
+    ]
+  },
+  "mobs.electrode": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.electrode",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/electrode"
+      }
+    ]
+  },
+  "mobs.exeggcute": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.exeggcute",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/exeggcute"
+      }
+    ]
+  },
+  "mobs.exeggutor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.exeggutor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/exeggutor"
+      }
+    ]
+  },
+  "mobs.cubone": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cubone",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cubone"
+      }
+    ]
+  },
+  "mobs.marowak": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.marowak",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/marowak"
+      }
+    ]
+  },
+  "mobs.hitmonlee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hitmonlee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hitmonlee"
+      }
+    ]
+  },
+  "mobs.hitmonchan": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hitmonchan",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hitmonchan"
+      }
+    ]
+  },
+  "mobs.lickitung": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lickitung",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lickitung"
+      }
+    ]
+  },
+  "mobs.koffing": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.koffing",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/koffing"
+      }
+    ]
+  },
+  "mobs.weezing": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.weezing",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/weezing"
+      }
+    ]
+  },
+  "mobs.rhyhorn": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rhyhorn",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rhyhorn"
+      }
+    ]
+  },
+  "mobs.rhydon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rhydon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rhydon"
+      }
+    ]
+  },
+  "mobs.chansey": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chansey",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chansey"
+      }
+    ]
+  },
+  "mobs.tangela": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tangela",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tangela"
+      }
+    ]
+  },
+  "mobs.kangaskhan": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kangaskhan",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kangaskhan"
+      }
+    ]
+  },
+  "mobs.horsea": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.horsea",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/horsea"
+      }
+    ]
+  },
+  "mobs.seadra": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.seadra",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/seadra"
+      }
+    ]
+  },
+  "mobs.goldeen": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.goldeen",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/goldeen"
+      }
+    ]
+  },
+  "mobs.seaking": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.seaking",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/seaking"
+      }
+    ]
+  },
+  "mobs.staryu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.staryu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/staryu"
+      }
+    ]
+  },
+  "mobs.starmie": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.starmie",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/starmie"
+      }
+    ]
+  },
+  "mobs.mrmime": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mrmime",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mrmime"
+      }
+    ]
+  },
+  "mobs.scyther": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.scyther",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/scyther"
+      }
+    ]
+  },
+  "mobs.jynx": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.jynx",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/jynx"
+      }
+    ]
+  },
+  "mobs.electabuzz": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.electabuzz",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/electabuzz"
+      }
+    ]
+  },
+  "mobs.magmar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magmar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magmar"
+      }
+    ]
+  },
+  "mobs.pinsir": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pinsir",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pinsir"
+      }
+    ]
+  },
+  "mobs.tauros": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tauros",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tauros"
+      }
+    ]
+  },
+  "mobs.magikarp": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magikarp",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magikarp"
+      }
+    ]
+  },
+  "mobs.gyarados": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gyarados",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gyarados"
+      }
+    ]
+  },
+  "mobs.lapras": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lapras",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lapras"
+      }
+    ]
+  },
+  "mobs.ditto": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ditto",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ditto"
+      }
+    ]
+  },
+  "mobs.eevee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.eevee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/eevee"
+      }
+    ]
+  },
+  "mobs.vaporeon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vaporeon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vaporeon"
+      }
+    ]
+  },
+  "mobs.jolteon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.jolteon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/jolteon"
+      }
+    ]
+  },
+  "mobs.flareon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.flareon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/flareon"
+      }
+    ]
+  },
+  "mobs.porygon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.porygon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/porygon"
+      }
+    ]
+  },
+  "mobs.omanyte": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.omanyte",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/omanyte"
+      }
+    ]
+  },
+  "mobs.omastar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.omastar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/omastar"
+      }
+    ]
+  },
+  "mobs.kabuto": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kabuto",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kabuto"
+      }
+    ]
+  },
+  "mobs.kabutops": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kabutops",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kabutops"
+      }
+    ]
+  },
+  "mobs.aerodactyl": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.aerodactyl",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/aerodactyl"
+      }
+    ]
+  },
+  "mobs.snorlax": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.snorlax",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/snorlax"
+      }
+    ]
+  },
+  "mobs.articuno": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.articuno",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/articuno"
+      }
+    ]
+  },
+  "mobs.zapdos": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zapdos",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zapdos"
+      }
+    ]
+  },
+  "mobs.moltres": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.moltres",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/moltres"
+      }
+    ]
+  },
+  "mobs.dratini": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dratini",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dratini"
+      }
+    ]
+  },
+  "mobs.dragonair": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dragonair",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dragonair"
+      }
+    ]
+  },
+  "mobs.dragonite": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dragonite",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dragonite"
+      }
+    ]
+  },
+  "mobs.mewtwo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mewtwo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mewtwo"
+      }
+    ]
+  },
+  "mobs.mew": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mew",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mew"
+      }
+    ]
+  },
+  "mobs.chikorita": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chikorita",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chikorita"
+      }
+    ]
+  },
+  "mobs.bayleef": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bayleef",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bayleef"
+      }
+    ]
+  },
+  "mobs.meganium": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.meganium",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/meganium"
+      }
+    ]
+  },
+  "mobs.cyndaquil": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cyndaquil",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cyndaquil"
+      }
+    ]
+  },
+  "mobs.quilava": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.quilava",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/quilava"
+      }
+    ]
+  },
+  "mobs.typhlosion": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.typhlosion",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/typhlosion"
+      }
+    ]
+  },
+  "mobs.totodile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.totodile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/totodile"
+      }
+    ]
+  },
+  "mobs.croconaw": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.croconaw",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/croconaw"
+      }
+    ]
+  },
+  "mobs.feraligatr": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.feraligatr",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/feraligatr"
+      }
+    ]
+  },
+  "mobs.sentret": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sentret",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sentret"
+      }
+    ]
+  },
+  "mobs.furret": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.furret",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/furret"
+      }
+    ]
+  },
+  "mobs.hoothoot": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hoothoot",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hoothoot"
+      }
+    ]
+  },
+  "mobs.noctowl": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.noctowl",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/noctowl"
+      }
+    ]
+  },
+  "mobs.ledyba": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ledyba",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ledyba"
+      }
+    ]
+  },
+  "mobs.ledian": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ledian",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ledian"
+      }
+    ]
+  },
+  "mobs.spinarak": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spinarak",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spinarak"
+      }
+    ]
+  },
+  "mobs.ariados": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ariados",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ariados"
+      }
+    ]
+  },
+  "mobs.crobat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.crobat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/crobat"
+      }
+    ]
+  },
+  "mobs.chinchou": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chinchou",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chinchou"
+      }
+    ]
+  },
+  "mobs.lanturn": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lanturn",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lanturn"
+      }
+    ]
+  },
+  "mobs.pichu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pichu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pichu"
+      }
+    ]
+  },
+  "mobs.cleffa": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cleffa",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cleffa"
+      }
+    ]
+  },
+  "mobs.igglybuff": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.igglybuff",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/igglybuff"
+      }
+    ]
+  },
+  "mobs.togepi": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.togepi",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/togepi"
+      }
+    ]
+  },
+  "mobs.togetic": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.togetic",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/togetic"
+      }
+    ]
+  },
+  "mobs.natu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.natu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/natu"
+      }
+    ]
+  },
+  "mobs.xatu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.xatu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/xatu"
+      }
+    ]
+  },
+  "mobs.mareep": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mareep",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mareep"
+      }
+    ]
+  },
+  "mobs.flaaffy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.flaaffy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/flaaffy"
+      }
+    ]
+  },
+  "mobs.ampharos": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ampharos",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ampharos"
+      }
+    ]
+  },
+  "mobs.bellossom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bellossom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bellossom"
+      }
+    ]
+  },
+  "mobs.marill": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.marill",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/marill"
+      }
+    ]
+  },
+  "mobs.azumarill": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.azumarill",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/azumarill"
+      }
+    ]
+  },
+  "mobs.sudowoodo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sudowoodo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sudowoodo"
+      }
+    ]
+  },
+  "mobs.politoed": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.politoed",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/politoed"
+      }
+    ]
+  },
+  "mobs.hoppip": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hoppip",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hoppip"
+      }
+    ]
+  },
+  "mobs.skiploom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.skiploom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/skiploom"
+      }
+    ]
+  },
+  "mobs.jumpluff": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.jumpluff",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/jumpluff"
+      }
+    ]
+  },
+  "mobs.aipom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.aipom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/aipom"
+      }
+    ]
+  },
+  "mobs.sunkern": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sunkern",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sunkern"
+      }
+    ]
+  },
+  "mobs.sunflora": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sunflora",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sunflora"
+      }
+    ]
+  },
+  "mobs.yanma": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.yanma",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/yanma"
+      }
+    ]
+  },
+  "mobs.wooper": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wooper",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wooper"
+      }
+    ]
+  },
+  "mobs.quagsire": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.quagsire",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/quagsire"
+      }
+    ]
+  },
+  "mobs.espeon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.espeon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/espeon"
+      }
+    ]
+  },
+  "mobs.umbreon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.umbreon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/umbreon"
+      }
+    ]
+  },
+  "mobs.murkrow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.murkrow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/murkrow"
+      }
+    ]
+  },
+  "mobs.slowking": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slowking",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slowking"
+      }
+    ]
+  },
+  "mobs.misdreavus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.misdreavus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/misdreavus"
+      }
+    ]
+  },
+  "mobs.unown_a": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.unown_a",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/unown_a"
+      }
+    ]
+  },
+  "mobs.wobbuffet": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wobbuffet",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wobbuffet"
+      }
+    ]
+  },
+  "mobs.girafarig": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.girafarig",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/girafarig"
+      }
+    ]
+  },
+  "mobs.pineco": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pineco",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pineco"
+      }
+    ]
+  },
+  "mobs.forretress": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.forretress",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/forretress"
+      }
+    ]
+  },
+  "mobs.dunsparce": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dunsparce",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dunsparce"
+      }
+    ]
+  },
+  "mobs.gligar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gligar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gligar"
+      }
+    ]
+  },
+  "mobs.steelix": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.steelix",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/steelix"
+      }
+    ]
+  },
+  "mobs.snubbull": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.snubbull",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/snubbull"
+      }
+    ]
+  },
+  "mobs.granbull": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.granbull",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/granbull"
+      }
+    ]
+  },
+  "mobs.qwilfish": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.qwilfish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/qwilfish"
+      }
+    ]
+  },
+  "mobs.scizor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.scizor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/scizor"
+      }
+    ]
+  },
+  "mobs.shuckle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shuckle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shuckle"
+      }
+    ]
+  },
+  "mobs.heracross": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.heracross",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/heracross"
+      }
+    ]
+  },
+  "mobs.sneasel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sneasel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sneasel"
+      }
+    ]
+  },
+  "mobs.teddiursa": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.teddiursa",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/teddiursa"
+      }
+    ]
+  },
+  "mobs.ursaring": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ursaring",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ursaring"
+      }
+    ]
+  },
+  "mobs.slugma": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slugma",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slugma"
+      }
+    ]
+  },
+  "mobs.magcargo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magcargo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magcargo"
+      }
+    ]
+  },
+  "mobs.swinub": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swinub",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swinub"
+      }
+    ]
+  },
+  "mobs.piloswine": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.piloswine",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/piloswine"
+      }
+    ]
+  },
+  "mobs.corsola": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.corsola",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/corsola"
+      }
+    ]
+  },
+  "mobs.remoraid": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.remoraid",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/remoraid"
+      }
+    ]
+  },
+  "mobs.octillery": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.octillery",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/octillery"
+      }
+    ]
+  },
+  "mobs.delibird": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.delibird",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/delibird"
+      }
+    ]
+  },
+  "mobs.mantine": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mantine",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mantine"
+      }
+    ]
+  },
+  "mobs.skarmory": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.skarmory",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/skarmory"
+      }
+    ]
+  },
+  "mobs.houndour": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.houndour",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/houndour"
+      }
+    ]
+  },
+  "mobs.houndoom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.houndoom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/houndoom"
+      }
+    ]
+  },
+  "mobs.kingdra": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kingdra",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kingdra"
+      }
+    ]
+  },
+  "mobs.phanpy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.phanpy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/phanpy"
+      }
+    ]
+  },
+  "mobs.donphan": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.donphan",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/donphan"
+      }
+    ]
+  },
+  "mobs.porygon2": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.porygon2",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/porygon2"
+      }
+    ]
+  },
+  "mobs.stantler": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.stantler",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/stantler"
+      }
+    ]
+  },
+  "mobs.smeargle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.smeargle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/smeargle"
+      }
+    ]
+  },
+  "mobs.tyrogue": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tyrogue",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tyrogue"
+      }
+    ]
+  },
+  "mobs.hitmontop": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hitmontop",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hitmontop"
+      }
+    ]
+  },
+  "mobs.smoochum": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.smoochum",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/smoochum"
+      }
+    ]
+  },
+  "mobs.elekid": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.elekid",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/elekid"
+      }
+    ]
+  },
+  "mobs.magby": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magby",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magby"
+      }
+    ]
+  },
+  "mobs.miltank": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.miltank",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/miltank"
+      }
+    ]
+  },
+  "mobs.blissey": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.blissey",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/blissey"
+      }
+    ]
+  },
+  "mobs.raikou": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.raikou",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/raikou"
+      }
+    ]
+  },
+  "mobs.entei": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.entei",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/entei"
+      }
+    ]
+  },
+  "mobs.suicune": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.suicune",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/suicune"
+      }
+    ]
+  },
+  "mobs.larvitar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.larvitar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/larvitar"
+      }
+    ]
+  },
+  "mobs.pupitar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pupitar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pupitar"
+      }
+    ]
+  },
+  "mobs.tyranitar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tyranitar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tyranitar"
+      }
+    ]
+  },
+  "mobs.lugia": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lugia",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lugia"
+      }
+    ]
+  },
+  "mobs.hooh": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hooh",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hooh"
+      }
+    ]
+  },
+  "mobs.celebi": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.celebi",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/celebi"
+      }
+    ]
+  },
+  "mobs.treecko": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.treecko",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/treecko"
+      }
+    ]
+  },
+  "mobs.grovyle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.grovyle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/grovyle"
+      }
+    ]
+  },
+  "mobs.sceptile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sceptile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sceptile"
+      }
+    ]
+  },
+  "mobs.torchic": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.torchic",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/torchic"
+      }
+    ]
+  },
+  "mobs.combusken": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.combusken",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/combusken"
+      }
+    ]
+  },
+  "mobs.blaziken": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.blaziken",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/blaziken"
+      }
+    ]
+  },
+  "mobs.mudkip": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mudkip",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mudkip"
+      }
+    ]
+  },
+  "mobs.marshtomp": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.marshtomp",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/marshtomp"
+      }
+    ]
+  },
+  "mobs.swampert": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swampert",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swampert"
+      }
+    ]
+  },
+  "mobs.poochyena": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.poochyena",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/poochyena"
+      }
+    ]
+  },
+  "mobs.mightyena": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mightyena",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mightyena"
+      }
+    ]
+  },
+  "mobs.zigzagoon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zigzagoon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zigzagoon"
+      }
+    ]
+  },
+  "mobs.linoone": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.linoone",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/linoone"
+      }
+    ]
+  },
+  "mobs.wurmple": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wurmple",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wurmple"
+      }
+    ]
+  },
+  "mobs.silcoon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.silcoon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/silcoon"
+      }
+    ]
+  },
+  "mobs.beautifly": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.beautifly",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/beautifly"
+      }
+    ]
+  },
+  "mobs.cascoon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cascoon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cascoon"
+      }
+    ]
+  },
+  "mobs.dustox": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dustox",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dustox"
+      }
+    ]
+  },
+  "mobs.lotad": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lotad",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lotad"
+      }
+    ]
+  },
+  "mobs.lombre": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lombre",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lombre"
+      }
+    ]
+  },
+  "mobs.ludicolo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ludicolo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ludicolo"
+      }
+    ]
+  },
+  "mobs.seedot": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.seedot",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/seedot"
+      }
+    ]
+  },
+  "mobs.nuzleaf": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nuzleaf",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nuzleaf"
+      }
+    ]
+  },
+  "mobs.shiftry": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shiftry",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shiftry"
+      }
+    ]
+  },
+  "mobs.taillow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.taillow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/taillow"
+      }
+    ]
+  },
+  "mobs.swellow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swellow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swellow"
+      }
+    ]
+  },
+  "mobs.wingull": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wingull",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wingull"
+      }
+    ]
+  },
+  "mobs.pelipper": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pelipper",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pelipper"
+      }
+    ]
+  },
+  "mobs.ralts": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ralts",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ralts"
+      }
+    ]
+  },
+  "mobs.kirlia": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kirlia",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kirlia"
+      }
+    ]
+  },
+  "mobs.gardevoir": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gardevoir",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gardevoir"
+      }
+    ]
+  },
+  "mobs.surskit": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.surskit",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/surskit"
+      }
+    ]
+  },
+  "mobs.masquerain": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.masquerain",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/masquerain"
+      }
+    ]
+  },
+  "mobs.shroomish": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shroomish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shroomish"
+      }
+    ]
+  },
+  "mobs.breloom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.breloom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/breloom"
+      }
+    ]
+  },
+  "mobs.slakoth": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slakoth",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slakoth"
+      }
+    ]
+  },
+  "mobs.vigoroth": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vigoroth",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vigoroth"
+      }
+    ]
+  },
+  "mobs.slaking": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slaking",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slaking"
+      }
+    ]
+  },
+  "mobs.nincada": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nincada",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nincada"
+      }
+    ]
+  },
+  "mobs.ninjask": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ninjask",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ninjask"
+      }
+    ]
+  },
+  "mobs.shedinja": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shedinja",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shedinja"
+      }
+    ]
+  },
+  "mobs.whismur": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.whismur",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/whismur"
+      }
+    ]
+  },
+  "mobs.loudred": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.loudred",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/loudred"
+      }
+    ]
+  },
+  "mobs.exploud": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.exploud",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/exploud"
+      }
+    ]
+  },
+  "mobs.makuhita": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.makuhita",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/makuhita"
+      }
+    ]
+  },
+  "mobs.hariyama": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hariyama",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hariyama"
+      }
+    ]
+  },
+  "mobs.azurill": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.azurill",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/azurill"
+      }
+    ]
+  },
+  "mobs.nosepass": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nosepass",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nosepass"
+      }
+    ]
+  },
+  "mobs.skitty": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.skitty",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/skitty"
+      }
+    ]
+  },
+  "mobs.delcatty": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.delcatty",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/delcatty"
+      }
+    ]
+  },
+  "mobs.sableye": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sableye",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sableye"
+      }
+    ]
+  },
+  "mobs.mawile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mawile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mawile"
+      }
+    ]
+  },
+  "mobs.aron": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.aron",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/aron"
+      }
+    ]
+  },
+  "mobs.lairon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lairon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lairon"
+      }
+    ]
+  },
+  "mobs.aggron": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.aggron",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/aggron"
+      }
+    ]
+  },
+  "mobs.meditite": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.meditite",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/meditite"
+      }
+    ]
+  },
+  "mobs.medicham": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.medicham",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/medicham"
+      }
+    ]
+  },
+  "mobs.electrike": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.electrike",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/electrike"
+      }
+    ]
+  },
+  "mobs.manectric": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.manectric",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/manectric"
+      }
+    ]
+  },
+  "mobs.plusle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.plusle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/plusle"
+      }
+    ]
+  },
+  "mobs.minun": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.minun",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/minun"
+      }
+    ]
+  },
+  "mobs.volbeat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.volbeat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/volbeat"
+      }
+    ]
+  },
+  "mobs.illumise": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.illumise",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/illumise"
+      }
+    ]
+  },
+  "mobs.roselia": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.roselia",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/roselia"
+      }
+    ]
+  },
+  "mobs.gulpin": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gulpin",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gulpin"
+      }
+    ]
+  },
+  "mobs.swalot": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swalot",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swalot"
+      }
+    ]
+  },
+  "mobs.carvanha": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.carvanha",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/carvanha"
+      }
+    ]
+  },
+  "mobs.sharpedo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sharpedo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sharpedo"
+      }
+    ]
+  },
+  "mobs.wailmer": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wailmer",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wailmer"
+      }
+    ]
+  },
+  "mobs.wailord": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wailord",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wailord"
+      }
+    ]
+  },
+  "mobs.numel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.numel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/numel"
+      }
+    ]
+  },
+  "mobs.camerupt": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.camerupt",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/camerupt"
+      }
+    ]
+  },
+  "mobs.torkoal": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.torkoal",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/torkoal"
+      }
+    ]
+  },
+  "mobs.spoink": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spoink",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spoink"
+      }
+    ]
+  },
+  "mobs.grumpig": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.grumpig",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/grumpig"
+      }
+    ]
+  },
+  "mobs.spinda": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spinda",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spinda"
+      }
+    ]
+  },
+  "mobs.trapinch": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.trapinch",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/trapinch"
+      }
+    ]
+  },
+  "mobs.vibrava": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vibrava",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vibrava"
+      }
+    ]
+  },
+  "mobs.flygon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.flygon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/flygon"
+      }
+    ]
+  },
+  "mobs.cacnea": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cacnea",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cacnea"
+      }
+    ]
+  },
+  "mobs.cacturne": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cacturne",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cacturne"
+      }
+    ]
+  },
+  "mobs.swablu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swablu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swablu"
+      }
+    ]
+  },
+  "mobs.altaria": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.altaria",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/altaria"
+      }
+    ]
+  },
+  "mobs.zangoose": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zangoose",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zangoose"
+      }
+    ]
+  },
+  "mobs.seviper": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.seviper",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/seviper"
+      }
+    ]
+  },
+  "mobs.lunatone": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lunatone",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lunatone"
+      }
+    ]
+  },
+  "mobs.solrock": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.solrock",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/solrock"
+      }
+    ]
+  },
+  "mobs.barboach": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.barboach",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/barboach"
+      }
+    ]
+  },
+  "mobs.whiscash": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.whiscash",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/whiscash"
+      }
+    ]
+  },
+  "mobs.corphish": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.corphish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/corphish"
+      }
+    ]
+  },
+  "mobs.crawdaunt": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.crawdaunt",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/crawdaunt"
+      }
+    ]
+  },
+  "mobs.baltoy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.baltoy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/baltoy"
+      }
+    ]
+  },
+  "mobs.claydol": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.claydol",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/claydol"
+      }
+    ]
+  },
+  "mobs.lileep": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lileep",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lileep"
+      }
+    ]
+  },
+  "mobs.cradily": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cradily",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cradily"
+      }
+    ]
+  },
+  "mobs.anorith": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.anorith",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/anorith"
+      }
+    ]
+  },
+  "mobs.armaldo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.armaldo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/armaldo"
+      }
+    ]
+  },
+  "mobs.feebas": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.feebas",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/feebas"
+      }
+    ]
+  },
+  "mobs.milotic": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.milotic",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/milotic"
+      }
+    ]
+  },
+  "mobs.castform": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.castform",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/castform"
+      }
+    ]
+  },
+  "mobs.kecleon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kecleon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kecleon"
+      }
+    ]
+  },
+  "mobs.shuppet": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shuppet",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shuppet"
+      }
+    ]
+  },
+  "mobs.banette": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.banette",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/banette"
+      }
+    ]
+  },
+  "mobs.duskull": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.duskull",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/duskull"
+      }
+    ]
+  },
+  "mobs.dusclops": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dusclops",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dusclops"
+      }
+    ]
+  },
+  "mobs.tropius": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tropius",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tropius"
+      }
+    ]
+  },
+  "mobs.chimecho": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chimecho",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chimecho"
+      }
+    ]
+  },
+  "mobs.absol": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.absol",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/absol"
+      }
+    ]
+  },
+  "mobs.wynaut": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wynaut",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wynaut"
+      }
+    ]
+  },
+  "mobs.snorunt": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.snorunt",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/snorunt"
+      }
+    ]
+  },
+  "mobs.glalie": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.glalie",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/glalie"
+      }
+    ]
+  },
+  "mobs.spheal": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spheal",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spheal"
+      }
+    ]
+  },
+  "mobs.sealeo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sealeo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sealeo"
+      }
+    ]
+  },
+  "mobs.walrein": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.walrein",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/walrein"
+      }
+    ]
+  },
+  "mobs.clamperl": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.clamperl",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/clamperl"
+      }
+    ]
+  },
+  "mobs.huntail": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.huntail",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/huntail"
+      }
+    ]
+  },
+  "mobs.gorebyss": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gorebyss",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gorebyss"
+      }
+    ]
+  },
+  "mobs.relicanth": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.relicanth",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/relicanth"
+      }
+    ]
+  },
+  "mobs.luvdisc": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.luvdisc",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/luvdisc"
+      }
+    ]
+  },
+  "mobs.bagon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bagon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bagon"
+      }
+    ]
+  },
+  "mobs.shelgon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shelgon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shelgon"
+      }
+    ]
+  },
+  "mobs.salamence": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.salamence",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/salamence"
+      }
+    ]
+  },
+  "mobs.beldum": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.beldum",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/beldum"
+      }
+    ]
+  },
+  "mobs.metang": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.metang",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/metang"
+      }
+    ]
+  },
+  "mobs.metagross": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.metagross",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/metagross"
+      }
+    ]
+  },
+  "mobs.regirock": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.regirock",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/regirock"
+      }
+    ]
+  },
+  "mobs.regice": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.regice",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/regice"
+      }
+    ]
+  },
+  "mobs.registeel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.registeel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/registeel"
+      }
+    ]
+  },
+  "mobs.latias": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.latias",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/latias"
+      }
+    ]
+  },
+  "mobs.latios": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.latios",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/latios"
+      }
+    ]
+  },
+  "mobs.kyogre": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kyogre",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kyogre"
+      }
+    ]
+  },
+  "mobs.groudon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.groudon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/groudon"
+      }
+    ]
+  },
+  "mobs.rayquaza": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rayquaza",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rayquaza"
+      }
+    ]
+  },
+  "mobs.jirachi": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.jirachi",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/jirachi"
+      }
+    ]
+  },
+  "mobs.deoxys": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.deoxys",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/deoxys"
+      }
+    ]
+  },
+  "mobs.turtwig": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.turtwig",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/turtwig"
+      }
+    ]
+  },
+  "mobs.grotle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.grotle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/grotle"
+      }
+    ]
+  },
+  "mobs.torterra": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.torterra",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/torterra"
+      }
+    ]
+  },
+  "mobs.chimchar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chimchar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chimchar"
+      }
+    ]
+  },
+  "mobs.monferno": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.monferno",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/monferno"
+      }
+    ]
+  },
+  "mobs.infernape": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.infernape",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/infernape"
+      }
+    ]
+  },
+  "mobs.piplup": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.piplup",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/piplup"
+      }
+    ]
+  },
+  "mobs.prinplup": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.prinplup",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/prinplup"
+      }
+    ]
+  },
+  "mobs.empoleon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.empoleon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/empoleon"
+      }
+    ]
+  },
+  "mobs.starly": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.starly",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/starly"
+      }
+    ]
+  },
+  "mobs.staravia": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.staravia",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/staravia"
+      }
+    ]
+  },
+  "mobs.staraptor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.staraptor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/staraptor"
+      }
+    ]
+  },
+  "mobs.bidoof": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bidoof",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bidoof"
+      }
+    ]
+  },
+  "mobs.bibarel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bibarel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bibarel"
+      }
+    ]
+  },
+  "mobs.kricketot": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kricketot",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kricketot"
+      }
+    ]
+  },
+  "mobs.kricketunemale": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kricketune",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kricketunemale"
+      }
+    ]
+  },
+  "mobs.shinx": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shinx",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shinx"
+      }
+    ]
+  },
+  "mobs.luxio": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.luxio",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/luxio"
+      }
+    ]
+  },
+  "mobs.luxray": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.luxray",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/luxray"
+      }
+    ]
+  },
+  "mobs.budew": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.budew",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/budew"
+      }
+    ]
+  },
+  "mobs.roserade": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.roserade",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/roserade"
+      }
+    ]
+  },
+  "mobs.cranidos": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cranidos",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cranidos"
+      }
+    ]
+  },
+  "mobs.rampardos": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rampardos",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rampardos"
+      }
+    ]
+  },
+  "mobs.shieldon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shieldon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shieldon"
+      }
+    ]
+  },
+  "mobs.bastiodon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bastiodon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bastiodon"
+      }
+    ]
+  },
+  "mobs.burmy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.burmy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/burmy"
+      }
+    ]
+  },
+  "mobs.wormadam": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wormadam",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wormadam"
+      }
+    ]
+  },
+  "mobs.mothim": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mothim",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mothim"
+      }
+    ]
+  },
+  "mobs.combee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.combee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/combee"
+      }
+    ]
+  },
+  "mobs.vespiquen": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vespiquen",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vespiquen"
+      }
+    ]
+  },
+  "mobs.pachirisu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pachirisu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pachirisu"
+      }
+    ]
+  },
+  "mobs.buizel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.buizel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/buizel"
+      }
+    ]
+  },
+  "mobs.floatzel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.floatzel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/floatzel"
+      }
+    ]
+  },
+  "mobs.cherubi": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cherubi",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cherubi"
+      }
+    ]
+  },
+  "mobs.cherrim": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cherrim",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cherrim"
+      }
+    ]
+  },
+  "mobs.shellos": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shellos",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shellos"
+      }
+    ]
+  },
+  "mobs.gastrodon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gastrodon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gastrodon"
+      }
+    ]
+  },
+  "mobs.ambipom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ambipom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ambipom"
+      }
+    ]
+  },
+  "mobs.drifloon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.drifloon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/drifloon"
+      }
+    ]
+  },
+  "mobs.drifblim": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.drifblim",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/drifblim"
+      }
+    ]
+  },
+  "mobs.buneary": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.buneary",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/buneary"
+      }
+    ]
+  },
+  "mobs.lopunny": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lopunny",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lopunny"
+      }
+    ]
+  },
+  "mobs.mismagius": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mismagius",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mismagius"
+      }
+    ]
+  },
+  "mobs.honchkrow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.honchkrow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/honchkrow"
+      }
+    ]
+  },
+  "mobs.glameow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.glameow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/glameow"
+      }
+    ]
+  },
+  "mobs.purugly": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.purugly",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/purugly"
+      }
+    ]
+  },
+  "mobs.chingling": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chingling",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chingling"
+      }
+    ]
+  },
+  "mobs.stunky": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.stunky",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/stunky"
+      }
+    ]
+  },
+  "mobs.skuntank": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.skuntank",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/skuntank"
+      }
+    ]
+  },
+  "mobs.bronzor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bronzor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bronzor"
+      }
+    ]
+  },
+  "mobs.bronzong": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bronzong",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bronzong"
+      }
+    ]
+  },
+  "mobs.bonsly": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bonsly",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bonsly"
+      }
+    ]
+  },
+  "mobs.mimejr": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mimejr",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mimejr"
+      }
+    ]
+  },
+  "mobs.happiny": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.happiny",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/happiny"
+      }
+    ]
+  },
+  "mobs.chatot": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chatot",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chatot"
+      }
+    ]
+  },
+  "mobs.spiritomb": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spiritomb",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spiritomb"
+      }
+    ]
+  },
+  "mobs.gible": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gible",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gible"
+      }
+    ]
+  },
+  "mobs.gabite": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gabite",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gabite"
+      }
+    ]
+  },
+  "mobs.garchomp": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.garchomp",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/garchomp"
+      }
+    ]
+  },
+  "mobs.munchlax": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.munchlax",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/munchlax"
+      }
+    ]
+  },
+  "mobs.riolu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.riolu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/riolu"
+      }
+    ]
+  },
+  "mobs.lucario": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lucario",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lucario"
+      }
+    ]
+  },
+  "mobs.hippopotas": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hippopotas",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hippopotas"
+      }
+    ]
+  },
+  "mobs.hippowdon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hippowdon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hippowdon"
+      }
+    ]
+  },
+  "mobs.skorupi": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.skorupi",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/skorupi"
+      }
+    ]
+  },
+  "mobs.drapion": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.drapion",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/drapion"
+      }
+    ]
+  },
+  "mobs.croagunk": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.croagunk",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/croagunk"
+      }
+    ]
+  },
+  "mobs.toxicroak": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.toxicroak",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/toxicroak"
+      }
+    ]
+  },
+  "mobs.carnivine": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.carnivine",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/carnivine"
+      }
+    ]
+  },
+  "mobs.finneon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.finneon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/finneon"
+      }
+    ]
+  },
+  "mobs.lumineon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lumineon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lumineon"
+      }
+    ]
+  },
+  "mobs.mantyke": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mantyke",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mantyke"
+      }
+    ]
+  },
+  "mobs.snover": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.snover",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/snover"
+      }
+    ]
+  },
+  "mobs.abomasnow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.abomasnow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/abomasnow"
+      }
+    ]
+  },
+  "mobs.weavile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.weavile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/weavile"
+      }
+    ]
+  },
+  "mobs.magnezone": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magnezone",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magnezone"
+      }
+    ]
+  },
+  "mobs.lickilicky": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lickilicky",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lickilicky"
+      }
+    ]
+  },
+  "mobs.rhyperior": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rhyperior",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rhyperior"
+      }
+    ]
+  },
+  "mobs.tangrowth": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tangrowth",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tangrowth"
+      }
+    ]
+  },
+  "mobs.electivire": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.electivire",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/electivire"
+      }
+    ]
+  },
+  "mobs.magmortar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magmortar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magmortar"
+      }
+    ]
+  },
+  "mobs.togekiss": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.togekiss",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/togekiss"
+      }
+    ]
+  },
+  "mobs.yanmega": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.yanmega",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/yanmega"
+      }
+    ]
+  },
+  "mobs.leafeon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.leafeon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/leafeon"
+      }
+    ]
+  },
+  "mobs.glaceon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.glaceon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/glaceon"
+      }
+    ]
+  },
+  "mobs.gliscor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gliscor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gliscor"
+      }
+    ]
+  },
+  "mobs.mamoswine": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mamoswine",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mamoswine"
+      }
+    ]
+  },
+  "mobs.porygonz": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.porygonz",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/porygonz"
+      }
+    ]
+  },
+  "mobs.gallade": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gallade",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gallade"
+      }
+    ]
+  },
+  "mobs.probopass": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.probopass",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/probopass"
+      }
+    ]
+  },
+  "mobs.dusknoir": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dusknoir",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dusknoir"
+      }
+    ]
+  },
+  "mobs.froslass": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.froslass",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/froslass"
+      }
+    ]
+  },
+  "mobs.rotom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rotom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rotom"
+      }
+    ]
+  },
+  "mobs.uxie": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.uxie",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/uxie"
+      }
+    ]
+  },
+  "mobs.mesprit": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mesprit",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mesprit"
+      }
+    ]
+  },
+  "mobs.azelf": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.azelf",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/azelf"
+      }
+    ]
+  },
+  "mobs.dialga": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dialga",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dialga"
+      }
+    ]
+  },
+  "mobs.palkia": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.palkia",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/palkia"
+      }
+    ]
+  },
+  "mobs.heatran": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.heatran",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/heatran"
+      }
+    ]
+  },
+  "mobs.regigigas": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.regigigas",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/regigigas"
+      }
+    ]
+  },
+  "mobs.giratina": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.giratina",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/giratina"
+      }
+    ]
+  },
+  "mobs.cresselia": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cresselia",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cresselia"
+      }
+    ]
+  },
+  "mobs.phione": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.phione",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/phione"
+      }
+    ]
+  },
+  "mobs.manaphy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.manaphy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/manaphy"
+      }
+    ]
+  },
+  "mobs.darkrai": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.darkrai",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/darkrai"
+      }
+    ]
+  },
+  "mobs.shayminland": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shayminland",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shayminland"
+      }
+    ]
+  },
+  "mobs.arceus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.arceus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/arceus"
+      }
+    ]
+  },
+  "mobs.victini": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.victini",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/victini"
+      }
+    ]
+  },
+  "mobs.snivy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.snivy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/snivy"
+      }
+    ]
+  },
+  "mobs.servine": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.servine",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/servine"
+      }
+    ]
+  },
+  "mobs.serperior": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.serperior",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/serperior"
+      }
+    ]
+  },
+  "mobs.tepig": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tepig",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tepig"
+      }
+    ]
+  },
+  "mobs.pignite": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pignite",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pignite"
+      }
+    ]
+  },
+  "mobs.emboar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.emboar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/emboar"
+      }
+    ]
+  },
+  "mobs.oshawott": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oshawott",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oshawott"
+      }
+    ]
+  },
+  "mobs.dewott": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dewott",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dewott"
+      }
+    ]
+  },
+  "mobs.samurott": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.samurott",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/samurott"
+      }
+    ]
+  },
+  "mobs.patrat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.patrat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/patrat"
+      }
+    ]
+  },
+  "mobs.watchog": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.watchog",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/watchog"
+      }
+    ]
+  },
+  "mobs.lillipup": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lillipup",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lillipup"
+      }
+    ]
+  },
+  "mobs.herdier": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.herdier",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/herdier"
+      }
+    ]
+  },
+  "mobs.stoutland": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.stoutland",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/stoutland"
+      }
+    ]
+  },
+  "mobs.purrloin": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.purrloin",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/purrloin"
+      }
+    ]
+  },
+  "mobs.liepard": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.liepard",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/liepard"
+      }
+    ]
+  },
+  "mobs.pansage": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pansage",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pansage"
+      }
+    ]
+  },
+  "mobs.simisage": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.simisage",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/simisage"
+      }
+    ]
+  },
+  "mobs.pansear": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pansear",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pansear"
+      }
+    ]
+  },
+  "mobs.simisear": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.simisear",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/simisear"
+      }
+    ]
+  },
+  "mobs.panpour": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.panpour",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/panpour"
+      }
+    ]
+  },
+  "mobs.simipour": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.simipour",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/simipour"
+      }
+    ]
+  },
+  "mobs.munna": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.munna",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/munna"
+      }
+    ]
+  },
+  "mobs.musharna": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.musharna",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/musharna"
+      }
+    ]
+  },
+  "mobs.pidove": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pidove",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pidove"
+      }
+    ]
+  },
+  "mobs.tranquill": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tranquill",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tranquill"
+      }
+    ]
+  },
+  "mobs.unfezant": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.unfezant",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/unfezant"
+      }
+    ]
+  },
+  "mobs.blitzle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.blitzle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/blitzle"
+      }
+    ]
+  },
+  "mobs.zebstrika": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zebstrika",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zebstrika"
+      }
+    ]
+  },
+  "mobs.roggenrola": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.roggenrola",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/roggenrola"
+      }
+    ]
+  },
+  "mobs.boldore": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.boldore",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/boldore"
+      }
+    ]
+  },
+  "mobs.gigalith": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gigalith",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gigalith"
+      }
+    ]
+  },
+  "mobs.woobat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.woobat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/woobat"
+      }
+    ]
+  },
+  "mobs.swoobat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swoobat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swoobat"
+      }
+    ]
+  },
+  "mobs.drilbur": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.drilbur",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/drilbur"
+      }
+    ]
+  },
+  "mobs.excadrill": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.excadrill",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/excadrill"
+      }
+    ]
+  },
+  "mobs.audino": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.audino",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/audino"
+      }
+    ]
+  },
+  "mobs.timburr": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.timburr",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/timburr"
+      }
+    ]
+  },
+  "mobs.gurdurr": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gurdurr",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gurdurr"
+      }
+    ]
+  },
+  "mobs.conkeldurr": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.conkeldurr",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/conkeldurr"
+      }
+    ]
+  },
+  "mobs.tympole": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tympole",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tympole"
+      }
+    ]
+  },
+  "mobs.palpitoad": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.palpitoad",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/palpitoad"
+      }
+    ]
+  },
+  "mobs.seismitoad": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.seismitoad",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/seismitoad"
+      }
+    ]
+  },
+  "mobs.throh": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.throh",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/throh"
+      }
+    ]
+  },
+  "mobs.sawk": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sawk",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sawk"
+      }
+    ]
+  },
+  "mobs.sewaddle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sewaddle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sewaddle"
+      }
+    ]
+  },
+  "mobs.swadloon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swadloon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swadloon"
+      }
+    ]
+  },
+  "mobs.leavanny": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.leavanny",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/leavanny"
+      }
+    ]
+  },
+  "mobs.venipede": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.venipede",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/venipede"
+      }
+    ]
+  },
+  "mobs.whirlipede": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.whirlipede",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/whirlipede"
+      }
+    ]
+  },
+  "mobs.scolipede": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.scolipede",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/scolipede"
+      }
+    ]
+  },
+  "mobs.cottonee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cottonee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cottonee"
+      }
+    ]
+  },
+  "mobs.whimsicott": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.whimsicott",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/whimsicott"
+      }
+    ]
+  },
+  "mobs.petilil": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.petilil",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/petilil"
+      }
+    ]
+  },
+  "mobs.lilligant": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lilligant",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lilligant"
+      }
+    ]
+  },
+  "mobs.basculinblue": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.basculinblue",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/basculinblue"
+      }
+    ]
+  },
+  "mobs.sandile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sandile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sandile"
+      }
+    ]
+  },
+  "mobs.krokorok": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.krokorok",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/krokorok"
+      }
+    ]
+  },
+  "mobs.krookodile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.krookodile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/krookodile"
+      }
+    ]
+  },
+  "mobs.darumaka": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.darumaka",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/darumaka"
+      }
+    ]
+  },
+  "mobs.darmanitan": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.darmanitan",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/darmanitan"
+      }
+    ]
+  },
+  "mobs.maractus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.maractus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/maractus"
+      }
+    ]
+  },
+  "mobs.dwebble": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dwebble",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dwebble"
+      }
+    ]
+  },
+  "mobs.crustle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.crustle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/crustle"
+      }
+    ]
+  },
+  "mobs.scraggy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.scraggy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/scraggy"
+      }
+    ]
+  },
+  "mobs.scrafty": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.scrafty",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/scrafty"
+      }
+    ]
+  },
+  "mobs.sigilyph": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sigilyph",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sigilyph"
+      }
+    ]
+  },
+  "mobs.yamask": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.yamask",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/yamask"
+      }
+    ]
+  },
+  "mobs.cofagrigus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cofagrigus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cofagrigus"
+      }
+    ]
+  },
+  "mobs.tirtouga": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tirtouga",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tirtouga"
+      }
+    ]
+  },
+  "mobs.carracosta": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.carracosta",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/carracosta"
+      }
+    ]
+  },
+  "mobs.archen": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.archen",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/archen"
+      }
+    ]
+  },
+  "mobs.archeops": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.archeops",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/archeops"
+      }
+    ]
+  },
+  "mobs.trubbish": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.trubbish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/trubbish"
+      }
+    ]
+  },
+  "mobs.garbodor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.garbodor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/garbodor"
+      }
+    ]
+  },
+  "mobs.zorua": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zorua",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zorua"
+      }
+    ]
+  },
+  "mobs.zoroark": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zoroark",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zoroark"
+      }
+    ]
+  },
+  "mobs.minccino": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.minccino",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/minccino"
+      }
+    ]
+  },
+  "mobs.cinccino": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cinccino",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cinccino"
+      }
+    ]
+  },
+  "mobs.gothita": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gothita",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gothita"
+      }
+    ]
+  },
+  "mobs.gothorita": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gothorita",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gothorita"
+      }
+    ]
+  },
+  "mobs.gothitelle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gothitelle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gothitelle"
+      }
+    ]
+  },
+  "mobs.solosis": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.solosis",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/solosis"
+      }
+    ]
+  },
+  "mobs.duosion": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.duosion",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/duosion"
+      }
+    ]
+  },
+  "mobs.reuniclus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.reuniclus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/reuniclus"
+      }
+    ]
+  },
+  "mobs.ducklett": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ducklett",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ducklett"
+      }
+    ]
+  },
+  "mobs.swanna": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swanna",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/swanna"
+      }
+    ]
+  },
+  "mobs.vanillite": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vanillite",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vanillite"
+      }
+    ]
+  },
+  "mobs.vanillish": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vanillish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vanillish"
+      }
+    ]
+  },
+  "mobs.vanilluxe": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vanilluxe",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vanilluxe"
+      }
+    ]
+  },
+  "mobs.deerling": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.deerling",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/deerling"
+      }
+    ]
+  },
+  "mobs.sawsbuck": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sawsbuck",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sawsbuck"
+      }
+    ]
+  },
+  "mobs.emolga": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.emolga",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/emolga"
+      }
+    ]
+  },
+  "mobs.karrablast": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.karrablast",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/karrablast"
+      }
+    ]
+  },
+  "mobs.escavalier": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.escavalier",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/escavalier"
+      }
+    ]
+  },
+  "mobs.foongus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.foongus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/foongus"
+      }
+    ]
+  },
+  "mobs.amoonguss": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.amoonguss",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/amoonguss"
+      }
+    ]
+  },
+  "mobs.frillishmale": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.frillish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.jellicentmale": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.jellicent",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.alomomola": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.alomomola",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/alomomola"
+      }
+    ]
+  },
+  "mobs.joltik": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.joltik",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/joltik"
+      }
+    ]
+  },
+  "mobs.galvantula": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.galvantula",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/galvantula"
+      }
+    ]
+  },
+  "mobs.ferroseed": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ferroseed",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ferroseed"
+      }
+    ]
+  },
+  "mobs.ferrothorn": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ferrothorn",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ferrothorn"
+      }
+    ]
+  },
+  "mobs.klink": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.klink",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/klink"
+      }
+    ]
+  },
+  "mobs.klang": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.klang",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/klang"
+      }
+    ]
+  },
+  "mobs.klinklang": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.klinklang",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/klinklang"
+      }
+    ]
+  },
+  "mobs.tynamo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tynamo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tynamo"
+      }
+    ]
+  },
+  "mobs.eelektrik": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.eelektrik",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/eelektrik"
+      }
+    ]
+  },
+  "mobs.eelektross": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.eelektross",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/eelektross"
+      }
+    ]
+  },
+  "mobs.elgyem": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.elgyem",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/elgyem"
+      }
+    ]
+  },
+  "mobs.beheeyem": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.beheeyem",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/beheeyem"
+      }
+    ]
+  },
+  "mobs.litwick": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.litwick",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/litwick"
+      }
+    ]
+  },
+  "mobs.lampent": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lampent",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lampent"
+      }
+    ]
+  },
+  "mobs.chandelure": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chandelure",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chandelure"
+      }
+    ]
+  },
+  "mobs.axew": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.axew",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/axew"
+      }
+    ]
+  },
+  "mobs.fraxure": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.fraxure",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/fraxure"
+      }
+    ]
+  },
+  "mobs.haxorus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.haxorus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/haxorus"
+      }
+    ]
+  },
+  "mobs.cubchoo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cubchoo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cubchoo"
+      }
+    ]
+  },
+  "mobs.beartic": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.beartic",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/beartic"
+      }
+    ]
+  },
+  "mobs.cryogonal": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cryogonal",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cryogonal"
+      }
+    ]
+  },
+  "mobs.shelmet": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shelmet",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shelmet"
+      }
+    ]
+  },
+  "mobs.accelgor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.accelgor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/accelgor"
+      }
+    ]
+  },
+  "mobs.stunfisk": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.stunfisk",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/stunfisk"
+      }
+    ]
+  },
+  "mobs.mienfoo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mienfoo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mienfoo"
+      }
+    ]
+  },
+  "mobs.mienshao": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mienshao",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mienshao"
+      }
+    ]
+  },
+  "mobs.druddigon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.druddigon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/druddigon"
+      }
+    ]
+  },
+  "mobs.golett": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.golett",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/golett"
+      }
+    ]
+  },
+  "mobs.golurk": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.golurk",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/golurk"
+      }
+    ]
+  },
+  "mobs.pawniard": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pawniard",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pawniard"
+      }
+    ]
+  },
+  "mobs.bisharp": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bisharp",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bisharp"
+      }
+    ]
+  },
+  "mobs.bouffalant": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bouffalant",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bouffalant"
+      }
+    ]
+  },
+  "mobs.rufflet": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rufflet",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rufflet"
+      }
+    ]
+  },
+  "mobs.braviary": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.braviary",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/braviary"
+      }
+    ]
+  },
+  "mobs.vullaby": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vullaby",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vullaby"
+      }
+    ]
+  },
+  "mobs.mandibuzz": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mandibuzz",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mandibuzz"
+      }
+    ]
+  },
+  "mobs.heatmor": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.heatmor",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/heatmor"
+      }
+    ]
+  },
+  "mobs.durant": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.durant",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/durant"
+      }
+    ]
+  },
+  "mobs.deino": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.deino",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/deino"
+      }
+    ]
+  },
+  "mobs.zweilous": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zweilous",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zweilous"
+      }
+    ]
+  },
+  "mobs.hydreigon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hydreigon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hydreigon"
+      }
+    ]
+  },
+  "mobs.larvesta": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.larvesta",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/larvesta"
+      }
+    ]
+  },
+  "mobs.volcarona": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.volcarona",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/volcarona"
+      }
+    ]
+  },
+  "mobs.cobalion": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cobalion",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cobalion"
+      }
+    ]
+  },
+  "mobs.terrakion": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.terrakion",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/terrakion"
+      }
+    ]
+  },
+  "mobs.virizion": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.virizion",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/virizion"
+      }
+    ]
+  },
+  "mobs.tornadusincarnate": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tornadusincarnate",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tornadusincarnate"
+      }
+    ]
+  },
+  "mobs.tornadustherian": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tornadustherian",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tornadustherian"
+      }
+    ]
+  },
+  "mobs.thundurusincarnate": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.thundurusincarnate",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/thundurusincarnate"
+      }
+    ]
+  },
+  "mobs.thundurustherian": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.thundurustherian",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/thundurustherian"
+      }
+    ]
+  },
+  "mobs.reshiram": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.reshiram",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/reshiram"
+      }
+    ]
+  },
+  "mobs.zekrom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zekrom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zekrom"
+      }
+    ]
+  },
+  "mobs.landorusincarnate": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.landorusincarnate",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/landorusincarnate"
+      }
+    ]
+  },
+  "mobs.landorustherian": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.landorustherian",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/landorustherian"
+      }
+    ]
+  },
+  "mobs.kyurem": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kyurem",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kyurem"
+      }
+    ]
+  },
+  "mobs.keldeo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.keldeo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/keldeo"
+      }
+    ]
+  },
+  "mobs.meloettaaria": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.meloettaaria",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/meloettaaria"
+      }
+    ]
+  },
+  "mobs.genesect": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.genesect",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/genesect"
+      }
+    ]
+  },
+  "mobs.chespin": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chespin",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chespin"
+      }
+    ]
+  },
+  "mobs.quilladin": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.quilladin",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/quilladin"
+      }
+    ]
+  },
+  "mobs.chesnaught": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.chesnaught",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/chesnaught"
+      }
+    ]
+  },
+  "mobs.fennekin": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.fennekin",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/fennekin"
+      }
+    ]
+  },
+  "mobs.braixen": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.braixen",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/braixen"
+      }
+    ]
+  },
+  "mobs.delphox": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.delphox",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/delphox"
+      }
+    ]
+  },
+  "mobs.froakie": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.froakie",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/froakie"
+      }
+    ]
+  },
+  "mobs.frogadier": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.frogadier",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/frogadier"
+      }
+    ]
+  },
+  "mobs.greninja": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.greninja",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/greninja"
+      }
+    ]
+  },
+  "mobs.bunnelby": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bunnelby",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bunnelby"
+      }
+    ]
+  },
+  "mobs.diggersby": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.diggersby",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/diggersby"
+      }
+    ]
+  },
+  "mobs.fletchling": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.fletchling",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/fletchling"
+      }
+    ]
+  },
+  "mobs.fletchinder": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.fletchinder",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/fletchinder"
+      }
+    ]
+  },
+  "mobs.talonflame": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.talonflame",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/talonflame"
+      }
+    ]
+  },
+  "mobs.scatterbug": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.scatterbug",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/scatterbug"
+      }
+    ]
+  },
+  "mobs.spewpa": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spewpa",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/spewpa"
+      }
+    ]
+  },
+  "mobs.vivillon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vivillon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vivillon"
+      }
+    ]
+  },
+  "mobs.litleo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.litleo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/litleo"
+      }
+    ]
+  },
+  "mobs.pyroarm": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pyroar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pyroarm"
+      }
+    ]
+  },
+  "mobs.flabebe": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.flabebe",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/flabebe"
+      }
+    ]
+  },
+  "mobs.floette": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.floette",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/floette"
+      }
+    ]
+  },
+  "mobs.florges": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.florges",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/florges"
+      }
+    ]
+  },
+  "mobs.skiddo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.skiddo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.gogoat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gogoat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.pancham": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pancham",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pancham"
+      }
+    ]
+  },
+  "mobs.pangoro": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pangoro",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pangoro"
+      }
+    ]
+  },
+  "mobs.furfrou": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.furfrou",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.espurr": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.espurr",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/espurr"
+      }
+    ]
+  },
+  "mobs.meowstic": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.meowstic",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/meowstic"
+      }
+    ]
+  },
+  "mobs.honedge": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.honedge",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/honedge"
+      }
+    ]
+  },
+  "mobs.doublade": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.doublade",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/doublade"
+      }
+    ]
+  },
+  "mobs.aegislashblade": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.aegislashblade",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/aegislashblade"
+      }
+    ]
+  },
+  "mobs.spritzee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.spritzee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.aromatisse": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.aromatisse",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.swirlix": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.swirlix",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.slurpuff": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slurpuff",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.inkay": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.inkay",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/inkay"
+      }
+    ]
+  },
+  "mobs.malamar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.malamar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/malamar"
+      }
+    ]
+  },
+  "mobs.binacle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.binacle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.barbaracle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.barbaracle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.skrelp": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.skrelp",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/skrelp"
+      }
+    ]
+  },
+  "mobs.dragalge": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dragalge",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dragalge"
+      }
+    ]
+  },
+  "mobs.clauncher": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.clauncher",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.clawitzer": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.clawitzer",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.helioptile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.helioptile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.heliolisk": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.heliolisk",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.tyrunt": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tyrunt",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tyrunt"
+      }
+    ]
+  },
+  "mobs.tyrantrum": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tyrantrum",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tyrantrum"
+      }
+    ]
+  },
+  "mobs.amaura": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.amaura",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/amaura"
+      }
+    ]
+  },
+  "mobs.aurorus": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.aurorus",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/aurorus"
+      }
+    ]
+  },
+  "mobs.sylveon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sylveon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sylveon"
+      }
+    ]
+  },
+  "mobs.hawlucha": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hawlucha",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.dedenne": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dedenne",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dedenne"
+      }
+    ]
+  },
+  "mobs.carbink": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.carbink",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/carbink"
+      }
+    ]
+  },
+  "mobs.goomy": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.goomy",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/goomy"
+      }
+    ]
+  },
+  "mobs.sliggoo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sliggoo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sliggoo"
+      }
+    ]
+  },
+  "mobs.goodra": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.goodra",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/goodra"
+      }
+    ]
+  },
+  "mobs.klefki": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.klefki",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/klefki"
+      }
+    ]
+  },
+  "mobs.phantump": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.phantump",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/phantump"
+      }
+    ]
+  },
+  "mobs.trevenant": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.trevenant",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/trevenant"
+      }
+    ]
+  },
+  "mobs.pumpkaboo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pumpkaboo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pumpkaboo"
+      }
+    ]
+  },
+  "mobs.gourgeist": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gourgeist",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gourgeist"
+      }
+    ]
+  },
+  "mobs.bergmite": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bergmite",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bergmite"
+      }
+    ]
+  },
+  "mobs.avalugg": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.avalugg",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/avalugg"
+      }
+    ]
+  },
+  "mobs.noibat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.noibat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/noibat"
+      }
+    ]
+  },
+  "mobs.noivern": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.noivern",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/noivern"
+      }
+    ]
+  },
+  "mobs.xerneas": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.xerneas",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/xerneas"
+      }
+    ]
+  },
+  "mobs.yveltal": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.yveltal",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/yveltal"
+      }
+    ]
+  },
+  "mobs.zygarde50": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zygarde50",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/zygarde50"
+      }
+    ]
+  },
+  "mobs.diancie": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.diancie",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/diancie"
+      }
+    ]
+  },
+  "mobs.hoopaconfined": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hoopaconfined",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hoopaconfined"
+      }
+    ]
+  },
+  "mobs.volcanion": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.volcanion",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/volcanion"
+      }
+    ]
+  },
+  "mobs.rowlet": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rowlet",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rowlet"
+      }
+    ]
+  },
+  "mobs.dartrix": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dartrix",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dartrix"
+      }
+    ]
+  },
+  "mobs.decidueye": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.decidueye",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/decidueye"
+      }
+    ]
+  },
+  "mobs.litten": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.litten",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/litten"
+      }
+    ]
+  },
+  "mobs.torracat": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.torracat",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/torracat"
+      }
+    ]
+  },
+  "mobs.incineroar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.incineroar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/incineroar"
+      }
+    ]
+  },
+  "mobs.popplio": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.popplio",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/popplio"
+      }
+    ]
+  },
+  "mobs.brionne": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.brionne",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/brionne"
+      }
+    ]
+  },
+  "mobs.primarina": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.primarina",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/primarina"
+      }
+    ]
+  },
+  "mobs.pikipek": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pikipek",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pikipek"
+      }
+    ]
+  },
+  "mobs.trumbeak": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.trumbeak",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/trumbeak"
+      }
+    ]
+  },
+  "mobs.toucannon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.toucannon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/toucannon"
+      }
+    ]
+  },
+  "mobs.yungoos": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.yungoos",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/yungoos"
+      }
+    ]
+  },
+  "mobs.gumshoos": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gumshoos",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gumshoos"
+      }
+    ]
+  },
+  "mobs.grubbin": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.grubbin",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/grubbin"
+      }
+    ]
+  },
+  "mobs.charjabug": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.charjabug",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/charjabug"
+      }
+    ]
+  },
+  "mobs.vikavolt": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.vikavolt",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/vikavolt"
+      }
+    ]
+  },
+  "mobs.crabrawler": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.crabrawler",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/crabrawler"
+      }
+    ]
+  },
+  "mobs.crabominable": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.crabominable",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/crabominable"
+      }
+    ]
+  },
+  "mobs.oricoriobaile": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oricoriobaile",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oricoriobaile"
+      }
+    ]
+  },
+  "mobs.oricoriopau": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oricoriopau",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oricoriopau"
+      }
+    ]
+  },
+  "mobs.oricoriopompom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oricoriopompom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oricoriopompom"
+      }
+    ]
+  },
+  "mobs.oricoriosensu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oricoriosensu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oricoriosensu"
+      }
+    ]
+  },
+  "mobs.cutiefly": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cutiefly",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cutiefly"
+      }
+    ]
+  },
+  "mobs.ribombee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.ribombee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/ribombee"
+      }
+    ]
+  },
+  "mobs.rockruff": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.rockruff",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rockruff"
+      }
+    ]
+  },
+  "mobs.lycanroc": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lycanroc",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lycanroc"
+      }
+    ]
+  },
+  "mobs.wishiwashi": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wishiwashi",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wishiwashi"
+      }
+    ]
+  },
+  "mobs.mareanie": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mareanie",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mareanie"
+      }
+    ]
+  },
+  "mobs.toxapex": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.toxapex",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/toxapex"
+      }
+    ]
+  },
+  "mobs.mudbray": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mudbray",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mudbray"
+      }
+    ]
+  },
+  "mobs.mudsdale": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mudsdale",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mudsdale"
+      }
+    ]
+  },
+  "mobs.dewpider": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dewpider",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dewpider"
+      }
+    ]
+  },
+  "mobs.araquanid": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.araquanid",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/araquanid"
+      }
+    ]
+  },
+  "mobs.fomantis": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.fomantis",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/fomantis"
+      }
+    ]
+  },
+  "mobs.lurantis": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lurantis",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lurantis"
+      }
+    ]
+  },
+  "mobs.morelull": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.morelull",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/morelull"
+      }
+    ]
+  },
+  "mobs.shiinotic": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.shiinotic",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/shiinotic"
+      }
+    ]
+  },
+  "mobs.salandit": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.salandit",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/salandit"
+      }
+    ]
+  },
+  "mobs.salazzle": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.salazzle",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/salazzle"
+      }
+    ]
+  },
+  "mobs.stufful": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.stufful",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/stufful"
+      }
+    ]
+  },
+  "mobs.bewear": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bewear",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bewear"
+      }
+    ]
+  },
+  "mobs.bounsweet": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bounsweet",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bounsweet"
+      }
+    ]
+  },
+  "mobs.steenee": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.steenee",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/steenee"
+      }
+    ]
+  },
+  "mobs.tsareena": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tsareena",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tsareena"
+      }
+    ]
+  },
+  "mobs.comfey": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.comfey",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/comfey"
+      }
+    ]
+  },
+  "mobs.oranguru": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oranguru",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oranguru"
+      }
+    ]
+  },
+  "mobs.passimian": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.passimian",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/passimian"
+      }
+    ]
+  },
+  "mobs.wimpod": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wimpod",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wimpod"
+      }
+    ]
+  },
+  "mobs.golisopod": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.golisopod",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/golisopod"
+      }
+    ]
+  },
+  "mobs.sandygast": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.sandygast",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/sandygast"
+      }
+    ]
+  },
+  "mobs.palossand": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.palossand",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/palossand"
+      }
+    ]
+  },
+  "mobs.pyukumuku": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pyukumuku",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pyukumuku"
+      }
+    ]
+  },
+  "mobs.typenull": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.typenull",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/typenull"
+      }
+    ]
+  },
+  "mobs.silvally": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.silvally",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/silvally"
+      }
+    ]
+  },
+  "mobs.minior": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.minior",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/minior"
+      }
+    ]
+  },
+  "mobs.komala": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.komala",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/komala"
+      }
+    ]
+  },
+  "mobs.turtonator": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.turtonator",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/turtonator"
+      }
+    ]
+  },
+  "mobs.togedemaru": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.togedemaru",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/togedemaru"
+      }
+    ]
+  },
+  "mobs.mimikyu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.mimikyu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/mimikyu"
+      }
+    ]
+  },
+  "mobs.bruxish": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.bruxish",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/bruxish"
+      }
+    ]
+  },
+  "mobs.drampa": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.drampa",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/drampa"
+      }
+    ]
+  },
+  "mobs.dhelmise": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.dhelmise",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/dhelmise"
+      }
+    ]
+  },
+  "mobs.jangmoo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.jangmoo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/jangmoo"
+      }
+    ]
+  },
+  "mobs.hakamoo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.hakamoo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/hakamoo"
+      }
+    ]
+  },
+  "mobs.kommoo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kommoo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kommoo"
+      }
+    ]
+  },
+  "mobs.tapukoko": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tapukoko",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tapukoko"
+      }
+    ]
+  },
+  "mobs.tapulele": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tapulele",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tapulele"
+      }
+    ]
+  },
+  "mobs.tapubulu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tapubulu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tapubulu"
+      }
+    ]
+  },
+  "mobs.tapufini": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.tapufini",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/tapufini"
+      }
+    ]
+  },
+  "mobs.cosmog": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cosmog",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cosmog"
+      }
+    ]
+  },
+  "mobs.cosmoem": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.cosmoem",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/cosmoem"
+      }
+    ]
+  },
+  "mobs.solgaleo": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.solgaleo",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/solgaleo"
+      }
+    ]
+  },
+  "mobs.lunala": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.lunala",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/lunala"
+      }
+    ]
+  },
+  "mobs.nihilego": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.nihilego",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/nihilego"
+      }
+    ]
+  },
+  "mobs.buzzwole": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.buzzwole",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/buzzwole"
+      }
+    ]
+  },
+  "mobs.pheromosa": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pheromosa",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pheromosa"
+      }
+    ]
+  },
+  "mobs.xurkitree": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.xurkitree",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/xurkitree"
+      }
+    ]
+  },
+  "mobs.celesteela": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.celesteela",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/celesteela"
+      }
+    ]
+  },
+  "mobs.kartana": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.kartana",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/kartana"
+      }
+    ]
+  },
+  "mobs.guzzlord": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.guzzlord",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/guzzlord"
+      }
+    ]
+  },
+  "mobs.necrozma": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.necrozma",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/necrozma"
+      }
+    ]
+  },
+  "mobs.magearna": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.magearna",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/magearna"
+      }
+    ]
+  },
+  "mobs.marshadow": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.marshadow",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/marshadow"
+      }
+    ]
+  },
+  "mobs.poipole": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.poipole",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.naganadel": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.naganadel",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.stakataka": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.stakataka",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.blacephalon": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.blacephalon",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.zeraora": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.zeraora",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.meltan": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.meltan",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  },
+  "mobs.melmetal": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.melmetal",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata"
+      }
+    ]
+  }
+}

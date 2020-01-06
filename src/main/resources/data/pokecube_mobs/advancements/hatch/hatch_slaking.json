@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.slaking"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slaking"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_slaking": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "slaking"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_vigoroth"
+}

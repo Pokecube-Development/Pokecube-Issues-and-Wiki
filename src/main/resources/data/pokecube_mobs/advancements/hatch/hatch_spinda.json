@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.spinda"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.spinda"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_spinda": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "spinda"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

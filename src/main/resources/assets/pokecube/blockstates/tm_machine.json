@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=east":  { "model": "pokecube:block/tm_machine", "y":270 },
+        "facing=west":  { "model": "pokecube:block/tm_machine", "y":90 },
+        "facing=north": { "model": "pokecube:block/tm_machine", "y":180},
+        "facing=south": { "model": "pokecube:block/tm_machine", "y":0 }
+    }
+}

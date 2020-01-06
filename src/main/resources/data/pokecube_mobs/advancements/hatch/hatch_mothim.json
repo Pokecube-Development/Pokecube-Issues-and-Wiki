@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mothim"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mothim"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mothim": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mothim"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_burmy"
+}

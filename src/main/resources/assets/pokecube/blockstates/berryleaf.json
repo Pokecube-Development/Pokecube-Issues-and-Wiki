@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"normal": { "model": "minecraft:oak_leaves" },
+		"inventory": { "model": "minecraft:oak_leaves" }
+	}
+}

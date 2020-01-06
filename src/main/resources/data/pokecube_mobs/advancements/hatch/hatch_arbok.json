@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arbok"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arbok"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_arbok": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "arbok"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_ekans"
+}

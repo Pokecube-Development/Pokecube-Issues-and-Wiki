@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pikipek"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pikipek"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pikipek": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pikipek"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

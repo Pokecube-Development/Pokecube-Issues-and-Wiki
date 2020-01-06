@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rockruff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rockruff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rockruff": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rockruff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

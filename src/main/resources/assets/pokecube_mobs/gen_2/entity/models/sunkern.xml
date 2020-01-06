@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <customTex default="sunkern">
+   <part name="Head" tex="sunkernhead"/>
+   <animation diffs="-0.35,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="l1">
+    <component length="9" name="1" rotChange="0,0,5" rotOffset="0,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="l2">
+    <component length="9" name="1" rotChange="0,0,-5" rotOffset="0,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="l1">
+    <component length="9" name="1" rotChange="0,0,5" rotOffset="0,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="l2">
+    <component length="9" name="1" rotChange="0,0,-5" rotOffset="0,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

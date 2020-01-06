@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "age=0": { "model": "pokecube:block/berrycrop"},
+        "age=1": { "model": "pokecube:block/crop_null_1"},
+        "age=2": { "model": "pokecube:block/crop_null_2"},
+        "age=3": { "model": "pokecube:block/crop_null_3"},
+        "age=4": { "model": "pokecube:block/crop_null_4"},
+        "age=5": { "model": "pokecube:block/crop_null_5"},
+        "age=6": { "model": "pokecube:block/crop_null_6"},
+        "age=7": { "model": "pokecube:block/crop_null_7"}
+    }
+}

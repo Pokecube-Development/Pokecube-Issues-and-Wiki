@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.crustle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.crustle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_crustle": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "crustle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_dwebble"
+}

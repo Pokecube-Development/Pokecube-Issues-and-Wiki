@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.8"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase armAngle="20" duration="10" leftArm="leftarm" leftLeg="leftleg" legAngle="45" name="biWalk" rightArm="rightarm" rightLeg="rightleg"/>
+  <customTex default="charmeleon">
+   <animation diffs="1,1,2,2,3,3,4,4" part="Flame" trigger="time"/>
+   <part name="Body" tex="charmeleon1"/>
+  </customTex>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "YGY",
+    "PPP",
+    "   "
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "Y": {
+      "tag": "forge:dyes/yellow"
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "result": {
+    "item": "pokecube:sportcube",
+    "count": 3
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.typhlosion"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_typhlosion": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "typhlosion"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_quilava"
+}

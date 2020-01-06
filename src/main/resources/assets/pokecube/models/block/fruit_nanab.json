@@ -1,0 +1,53 @@
+{
+    "elements": [
+        {   "__comment": "Nanab",
+            "from": [ 5.5, 10.49, 7.24 ],
+            "to": [ 10.5, 14.04, 9.33 ],
+            "faces": {
+                "south": { "uv": [ 8.0, 4.0, 16.0, 14.0 ], "texture": "#nanab", "rotation": 270 },
+                "down": { "uv": [ 3.5, 2.0, 6.0, 3.0 ], "texture": "#nanab", "rotation": 180 },
+                "north": { "uv": [ 8.0, 4.0, 16.0, 14.0 ], "texture": "#nanab", "rotation": 270 },
+                "west": { "uv": [ 8.0, 0.0, 16.0, 4.0 ], "texture": "#nanab", "rotation": 270 },
+                "up": { "uv": [ 13.0, 2.0, 16.0, 3.0 ], "texture": "#nanab", "rotation": 180 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 4.0 ], "texture": "#nanab", "rotation": 0 }
+            }
+        },
+        {   "__comment": "Nanab",
+            "from": [ 5.5, 7.0, 6.23 ],
+            "to": [ 10.5, 11.54, 8.81 ],
+            "rotation": { "origin": [ 8.0, 9.27, 7.52 ], "axis": "x", "angle": 22.5 },
+            "faces": {
+                "down": { "uv": [ 0.0, 9.0, 10.0, 14.0 ], "texture": "#nanab", "rotation": 180 },
+                "west": { "uv": [ 9.0, 5.0, 10.0, 8.0 ], "texture": "#nanab", "rotation": 90 },
+                "east": { "uv": [ 0.0, 6.0, 1.25, 8.25 ], "texture": "#nanab", "rotation": 0 },
+                "up": { "uv": [ 1.25, 4.75, 3.75, 6.0 ], "texture": "#nanab", "rotation": 180 },
+                "south": { "uv": [ 0.0, 0.0, 10.0, 9.0 ], "texture": "#nanab", "rotation": 0 },
+                "north": { "uv": [ 0.0, 0.0, 10.0, 9.0 ], "texture": "#nanab", "rotation": 0 }
+            }
+        },
+        {   "__comment": "Nanab",
+            "from": [ 7.5, 13.98, 7.48 ],
+            "to": [ 8.5, 15.02, 8.52 ],
+            "faces": {
+                "up": { "uv": [ 0.5, 1.0, 1.0, 1.5 ], "texture": "#nanab", "rotation": 180 },
+                "down": { "uv": [ 14.0, 2.0, 15.0, 3.0 ], "texture": "#nanab", "rotation": 180 },
+                "south": { "uv": [ 15.0, 2.0, 16.0, 3.0 ], "texture": "#nanab", "rotation": 0 },
+                "north": { "uv": [ 14.0, 2.0, 15.0, 3.0 ], "texture": "#nanab", "rotation": 0 }
+            }
+        },
+        {   "__comment": "Nanab",
+            "from": [ 5.26, 14.88, 7.52 ],
+            "to": [ 10.74, 16.0, 8.48 ],
+            "faces": {
+                "west": { "uv": [ 14.0, 2.0, 13.0, 3.0 ], "texture": "#nanab", "rotation": 0 },
+                "east": { "uv": [ 14.0, 2.0, 15.0, 3.0 ], "texture": "#nanab", "rotation": 0 },
+                "north": { "uv": [ 15.0, 2.0, 14.0, 3.0 ], "texture": "#nanab", "rotation": 0 },
+                "south": { "uv": [ 13.0, 2.0, 16.0, 3.0 ], "texture": "#nanab", "rotation": 0 }
+            }
+        }
+    ],
+    "textures": {
+        "nanab": "pokecube:block/fruit_nanab",
+        "particle": "pokecube:block/fruit_nanab"
+    }
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.electabuzz"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.electabuzz"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_electabuzz": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "electabuzz"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_elekid"
+}

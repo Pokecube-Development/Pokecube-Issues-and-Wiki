@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.shiftry"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shiftry"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_shiftry": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "shiftry"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_nuzleaf"
+}

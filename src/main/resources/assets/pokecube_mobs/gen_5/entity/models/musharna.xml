@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0.5,0" rotation="1,0,0,0" scale="1.0"/>
+  <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
+  <metadata head="_"/>
+ </model>
+ <details>
+  <RIDDENOFFSET>
+   0.8
+  </RIDDENOFFSET>
+ </details>
+</ModelAnimator>

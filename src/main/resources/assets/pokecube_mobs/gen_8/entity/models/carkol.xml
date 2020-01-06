@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModelAnimator version="0.1">
+	<model name="">
+	<phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.5"/>
+	<metadata head="head" headAxis="2" headAxis2="0" headCap="-5,5" headCap1="-5,5" headDir="-1"/>
+	<customTex default="carkol">
+	<part name="Head" tex="carkolhead"/>
+	<animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+	</customTex>
+	<phase type="idle">
+	<part name="body">
+	<component length="10" name="1" rotChange="-0.3,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="0.3,0,0," startKey="10"/>
+	</part>
+	<part name="leg1">
+    <component length="1" name="1" rotOffset="0,0,20," startKey="0"/>
+	</part>
+	<part name="leg2">
+    <component length="1" name="1" rotOffset="0,0,-20," startKey="0"/>
+	</part>
+	<part name="leg3">
+    <component length="1" name="1" rotOffset="0,0,-20," startKey="0"/>
+	</part>
+	<part name="leg4">
+    <component length="1" name="1" rotOffset="0,0,20," startKey="0"/>
+	</part>
+	<part name="Cube_003">
+    <component length="10" name="1" rotChange="-20,0,0" rotOffset="0,0,0" startKey="30"/>
+    <component length="10" name="2" rotChange="20,0,0" startKey="40"/>
+   </part>
+	</phase>
+	<phase type="walking">
+	<part name="body">
+	<component length="10" name="1" posOffset="0,2,0," startKey="0"/>
+	</part>
+	<part name="leg1">
+	<component length="20" name="1" rotChange="360,0,0," startKey="0"/>
+	</part>
+	<part name="leg2">
+	<component length="20" name="1" rotChange="360,0,0," startKey="0"/>
+	</part>
+	<part name="leg3">
+	<component length="30" name="1" rotChange="360,0,0," startKey="0"/>
+	</part>
+	<part name="leg4">
+	<component length="30" name="1" rotChange="360,0,0," startKey="0"/>
+	</part>
+	</phase>
+	</model>
+</ModelAnimator>
+
+

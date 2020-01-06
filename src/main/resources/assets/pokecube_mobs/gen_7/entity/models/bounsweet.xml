@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.10"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
+  <phase duration="10" leftArm="" leftLeg="leg2" legAngle="25" name="biWalk" rightArm="" rightLeg="leg1"/>
+  <customTex default="bounsweet">
+   <part name="Head" tex="bounsweethead"/>
+   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="leaf2">
+    <component length="10" name="1" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="leaf4">
+    <component length="10" name="1" rotChange="0,0,-6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,6" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="leaf2">
+    <component length="10" name="1" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="leaf4">
+    <component length="10" name="1" rotChange="0,0,-6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,6" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

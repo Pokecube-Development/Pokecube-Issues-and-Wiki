@@ -1,0 +1,21 @@
+{
+    "display": {
+        "icon": {
+            "item": "pokecube:pokecube"
+        },
+        "title": {
+            "translate": "achievement.pokeadv.trainer.root"
+        },
+        "description": {
+            "translate": "achievement.pokeadv.trainer.root.desc"
+        },
+        "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+        "show_toast": false,
+        "announce_to_chat": false
+    },
+  "criteria": {
+    "beat_trainer": {
+      "trigger": "pokecube_adventures:beat_trainer"
+    }
+  }
+}

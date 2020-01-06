@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "BBB",
+    "BRB",
+    "BBB"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube_adventures:afa",
+      "data": 0
+    },
+    "B": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "pokecube_adventures:pokesiphon"
+  }
+}

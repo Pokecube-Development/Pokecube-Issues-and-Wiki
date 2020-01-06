@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.crawdaunt"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.crawdaunt"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_crawdaunt": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "crawdaunt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_corphish"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.delphox"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.delphox"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_delphox": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "delphox"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_braixen"
+}

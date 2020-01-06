@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
+  <customTex default="muk">
+   <forme name="Muk Alola" tex="mukalola"/>
+  </customTex>
+  <phase type="idle">
+   <part name="Body">
+    <component length="40" name="1" scaleChange="0,0,-0.1," scaleOffset="0,0,0.1," startKey="0"/>
+    <component length="40" name="2" scaleChange="0,0,0.1," startKey="40"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

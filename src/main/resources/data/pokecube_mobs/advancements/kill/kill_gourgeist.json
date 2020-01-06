@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gourgeist": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "gourgeist"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_pumpkaboo"
+}

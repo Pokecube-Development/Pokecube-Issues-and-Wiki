@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata head="Head" headCap="-60,60" headDir="-1"/>
+  <customTex default="porygon">
+   <part name="Head" tex="porygoneye"/>
+   <animation diffs="0,0.33" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.0,0.67" part="Head" trigger="sleeping"/>
+  </customTex>
+  <phase type="idle">
+   <part name="Head">
+    <component length="10" name="1" rotChange="0.0,-50.0,0.0," rotOffset="0.0,30.0,0.0" startKey="0"/>
+    <component length="20" name="2" rotChange="0.0,50.0,0.0," startKey="5"/>
+   </part>
+   <part name="Center_Base">
+    <component length="10" name="1" posChange="0.0,2.0,0.0," startKey="0"/>
+    <component length="10" name="2" posChange="0.0,-2.0,0.0," startKey="10"/>
+   </part>
+   <part name="Left_Tread_Base">
+    <component length="15" name="1" rotChange="60.0,0.0,0.0," rotOffset="-20.0,0.0,0.0," startKey="0"/>
+    <component length="15" name="2" rotChange="-60.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Right_Tread_Base">
+    <component length="15" name="1" rotChange="-60.0,0.0,0.0," rotOffset="20.0,0.0,0.0," startKey="0"/>
+    <component length="15" name="2" rotChange="60.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Tail_Lower">
+    <component length="6" name="1" rotChange="0.0,-50.0,0.0," rotOffset="0.0,30.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,50.0,0.0," startKey="5"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

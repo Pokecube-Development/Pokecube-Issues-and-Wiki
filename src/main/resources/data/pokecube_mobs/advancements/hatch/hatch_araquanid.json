@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.araquanid"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.araquanid"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_araquanid": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "araquanid"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_dewpider"
+}

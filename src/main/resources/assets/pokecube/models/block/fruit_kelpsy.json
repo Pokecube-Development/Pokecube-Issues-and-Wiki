@@ -1,0 +1,106 @@
+{
+    "elements": [
+        {   "__comment": "c6",
+            "from": [ 5.69, 9.35, 7.46 ],
+            "to": [ 10.06, 11.54, 8.66 ],
+            "faces": {
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 }
+            }
+        },
+        {   "__comment": "c7",
+            "from": [ 5.69, 6.95, 7.48 ],
+            "to": [ 10.06, 9.14, 8.64 ],
+            "faces": {
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 }
+            }
+        },
+        {   "__comment": "c9",
+            "from": [ 7.57, 5.79, 7.35 ],
+            "to": [ 8.43, 7.52, 8.65 ],
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 }
+            }
+        },
+        {   "__comment": "c3",
+            "from": [ 7.57, 13.09, 7.35 ],
+            "to": [ 8.43, 14.82, 8.65 ],
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 }
+            }
+        },
+        {   "__comment": "c4",
+            "from": [ 12.67, 10.29, 7.65 ],
+            "to": [ 13.02, 11.89, 8.03 ],
+            "rotation": { "origin": [ 0.0, 0.0, 0.0 ], "axis": "z", "angle": 22.5 },
+            "faces": {
+                "up": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "west": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "east": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "south": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "north": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 270 }
+            }
+        },
+        {   "__comment": "c2",
+            "from": [ 1.77, 16.45, 7.68 ],
+            "to": [ 2.12, 18.05, 8.0 ],
+            "rotation": { "origin": [ 0.0, 0.0, 0.0 ], "axis": "z", "angle": -22.5 },
+            "faces": {
+                "up": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "west": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "east": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "south": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "north": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 270 }
+            }
+        },
+        {   "__comment": "c1",
+            "from": [ 7.84, 14.4, 7.68 ],
+            "to": [ 8.19, 16.0, 8.0 ],
+            "faces": {
+                "up": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "west": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "east": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "south": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 90 },
+                "north": { "uv": [ 0.0, 8.0, 8.0, 16.0 ], "texture": "#kelpsy", "rotation": 270 }
+            }
+        },
+        {   "__comment": "c5",
+            "from": [ 5.69, 11.69, 7.45 ],
+            "to": [ 10.06, 13.87, 8.67 ],
+            "faces": {
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 },
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 180 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#kelpsy", "rotation": 270 }
+            }
+        }
+    ],
+    "textures": {
+        "kelpsy": "pokecube:block/fruit_kelpsy",
+        "particle": "pokecube:block/fruit_kelpsy"
+    }
+}

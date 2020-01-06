@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.zorua"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zorua"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_zorua": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "zorua"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

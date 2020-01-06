@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="5,-5" headDir="1"/>
+  <phase duration="10" leftFront="leg3" leftHind="leg2" name="quadWalk" rightFront="leg4" rightHind="leg1"/>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="-10,0,0" rotOffset="0,0,30" startKey="0"/>
+    <component length="10" name="2" rotChange="20,0,0" startKey="5"/>
+    <component length="10" name="3" rotChange="-10,0,0" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,0,10.0," startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="1" name="1" rotOffset="0,0,30.0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="10,0,0" rotOffset="0,0,-30" startKey="0"/>
+    <component length="10" name="2" rotChange="-20,0,0" startKey="5"/>
+    <component length="10" name="3" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,0,-10.0," startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="1" name="1" rotOffset="0,0,-30.0," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="8" name="1" rotChange="0,0,-5" rotOffset="0,0,30" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,0,10.0," startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="1" name="1" rotOffset="0,0,30.0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotChange="0,0,5" rotOffset="0,0,-30" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,0,-10.0," startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="1" name="1" rotOffset="0,0,-30.0," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="sitting">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,45,0," rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="-45,0,0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="-45,0,0," startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" rotOffset="45,0,0," startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" rotOffset="45,0,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="15" name="1" rotChange="0,0,0.5," rotOffset="0,-65,-10," startKey="0"/>
+    <component length="15" name="2" rotChange="0,0,-0.5," startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,-65,0," startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="1" name="1" rotOffset="-20,-85,10," startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="-50,0,-20," startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="15" name="1" rotChange="0,0,0.5," rotOffset="0,65,10," startKey="0"/>
+    <component length="15" name="2" rotChange="0,0,-0.5," startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,65,0," startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="1" name="1" rotOffset="0,85,0," startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="-50,0,-20," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="25,0,0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="25,0,0," startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" rotOffset="25,0,0," startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" rotOffset="25,0,0," startKey="0"/>
+   </part>
+   <part name="wing1">
+    <component length="5" name="1" rotChange="-40,0,0" rotOffset="60,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="40,0,0" startKey="10"/>
+   </part>
+   <part name="wing2">
+    <component length="5" name="1" rotChange="-40,0,0" rotOffset="80,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="40,0,0" startKey="10"/>
+   </part>
+   <part name="wing2_2">
+    <component length="5" name="1" rotChange="40,0,0" rotOffset="80,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="-40,0,0" startKey="10"/>
+   </part>
+   <part name="wing1_2">
+    <component length="5" name="1" rotChange="40,0,0" rotOffset="60,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="-40,0,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="1" name="1" rotOffset="25,0,0," startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="8" name="1" rotChange="0,0,-5" rotOffset="20,-15,30" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,0,10.0," startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="1" name="1" rotOffset="0,0,30.0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotChange="0,0,5" rotOffset="20,15,-30" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,0,-10.0," startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="1" name="1" rotOffset="0,0,-30.0," startKey="0"/>
+   </part>
+  </phase>
+  <merges merge="idle-&gt;sitting"/>
+  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle-&gt;flying"/>
+ </model>
+</ModelAnimator>

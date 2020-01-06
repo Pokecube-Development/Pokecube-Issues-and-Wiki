@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cosmoem"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cosmoem"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_cosmoem": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "cosmoem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_cosmog"
+}

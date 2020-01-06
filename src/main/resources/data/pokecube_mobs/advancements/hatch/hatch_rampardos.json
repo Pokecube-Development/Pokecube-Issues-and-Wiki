@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rampardos"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rampardos"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rampardos": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rampardos"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_cranidos"
+}

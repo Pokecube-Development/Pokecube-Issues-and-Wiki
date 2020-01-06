@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.claydol"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.claydol"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_claydol": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "claydol"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_baltoy"
+}

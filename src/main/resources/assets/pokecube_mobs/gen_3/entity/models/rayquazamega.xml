@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata head="Neck3" headAxis="1" headAxis2="0" headCap="-80,80" headCap1="-80,80" headDir="1"/>
+  <phase axis="0" name="snakeWalk" parts="Body2:Body3:Body4:Body5:Body6:Body7:Body8:Body9:Body10:Body11"/>
+  <phase axis="0" name="snakeFly" parts="Body2:Body3:Body4:Body5:Body6:Body7:Body8:Body9:Body10:Body11"/>
+  <phase type="sitting">
+   <part name="Body7">
+    <component length="10" name="B7I1" rotOffset="-28.7,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="LeftArm2">
+    <component length="10" name="LA2I1" rotChange="6.519999999999982,0.0,0.0," startKey="12"/>
+    <component length="10" name="LA2I2" rotChange="-6.519999999999996,0.0,0.0," startKey="19"/>
+   </part>
+   <part name="Body4">
+    <component length="10" name="B4I1" rotOffset="23.48,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="RightShoulder">
+    <component length="10" name="RSI1" rotChange="-10.430000000000007,0.0,0.0," rotOffset="-70.43,23.48,-0.0," startKey="0"/>
+    <component length="15" name="RSI2" rotChange="10.400000000000006,0.0,0.0," startKey="15"/>
+   </part>
+   <part name="Body9">
+    <component length="10" name="B9I1" rotOffset="-26.09,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body5">
+    <component length="10" name="B5I1" rotOffset="-18.26,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Tail1">
+    <component length="10" name="T1I1" rotOffset="-13.04,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body2">
+    <component length="10" name="B2I1" rotOffset="33.91,-0.0,-0.0," startKey="0"/>
+    <component length="20" name="B2I2" rotChange="13.039999999999996,0.0,0.0," startKey="8"/>
+    <component length="9" name="B2I3" rotChange="-13.039999999999996,0.0,0.0," startKey="20"/>
+   </part>
+   <part name="RightArm2">
+    <component length="10" name="RA2I1" rotChange="27.39,0.0,0.0," startKey="12"/>
+    <component length="10" name="RA2I2" rotChange="-27.39,0.0,0.0," startKey="19"/>
+   </part>
+   <part name="Body12">
+    <component length="10" name="B12I1" rotOffset="-23.48,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="LeftShoulder">
+    <component length="10" name="LSI1" rotChange="-13.040000000000006,0.0,0.0," rotOffset="-70.43,-26.09,-0.0," startKey="0"/>
+    <component length="15" name="LSI2" rotChange="13.010000000000005,0.0,0.0," startKey="15"/>
+   </part>
+   <part name="Body11">
+    <component length="10" name="B11I1" rotOffset="-15.65,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body6">
+    <component length="10" name="B6I1" rotOffset="-18.26,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Head1">
+    <component length="10" name="HI1" rotOffset="-24.76,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Neck1">
+    <component length="10" name="N1I1" rotOffset="-20,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Neck2">
+    <component length="10" name="N2I1" rotOffset="-20,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Neck3">
+    <component length="10" name="N3I1" rotOffset="-20,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body10">
+    <component length="10" name="B10I1" rotOffset="-33.91,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body8">
+    <component length="10" name="B8I1" rotOffset="-13.04,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body3">
+    <component length="10" name="B3I1" rotOffset="18.26,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body1">
+    <component length="10" name="0" posChange="0.0,1.5,0.0," posOffset="0,-80,0," rotOffset="70.5,-0.0,-0.0," startKey="0"/>
+    <component length="10" name="1" posChange="0.0,-1.5,0.0," startKey="10"/>
+    <component length="5" name="2" posChange="0.0,-1.0,0.0," startKey="20"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="Body7">
+    <component length="10" name="B7I1" rotOffset="-28.7,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="LeftArm2">
+    <component length="10" name="LA2I1" rotChange="6.519999999999982,0.0,0.0," startKey="12"/>
+    <component length="10" name="LA2I2" rotChange="-6.519999999999996,0.0,0.0," startKey="19"/>
+   </part>
+   <part name="Body4">
+    <component length="10" name="B4I1" rotOffset="23.48,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="RightShoulder">
+    <component length="10" name="RSI1" rotChange="-10.430000000000007,0.0,0.0," rotOffset="-70.43,23.48,-0.0," startKey="0"/>
+    <component length="15" name="RSI2" rotChange="10.400000000000006,0.0,0.0," startKey="15"/>
+   </part>
+   <part name="Body9">
+    <component length="10" name="B9I1" rotOffset="-26.09,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body5">
+    <component length="10" name="B5I1" rotOffset="-18.26,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Tail1">
+    <component length="10" name="T1I1" rotOffset="-13.04,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body2">
+    <component length="10" name="B2I1" rotOffset="33.91,-0.0,-0.0," startKey="0"/>
+    <component length="20" name="B2I2" rotChange="13.039999999999996,0.0,0.0," startKey="8"/>
+    <component length="9" name="B2I3" rotChange="-13.039999999999996,0.0,0.0," startKey="20"/>
+   </part>
+   <part name="RightArm2">
+    <component length="10" name="RA2I1" rotChange="27.39,0.0,0.0," startKey="12"/>
+    <component length="10" name="RA2I2" rotChange="-27.39,0.0,0.0," startKey="19"/>
+   </part>
+   <part name="Body12">
+    <component length="10" name="B12I1" rotOffset="-23.48,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="LeftShoulder">
+    <component length="10" name="LSI1" rotChange="-13.040000000000006,0.0,0.0," rotOffset="-70.43,-26.09,-0.0," startKey="0"/>
+    <component length="15" name="LSI2" rotChange="13.010000000000005,0.0,0.0," startKey="15"/>
+   </part>
+   <part name="Body11">
+    <component length="10" name="B11I1" rotOffset="-15.65,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body6">
+    <component length="10" name="B6I1" rotOffset="-18.26,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Head1">
+    <component length="10" name="HI1" rotOffset="-24.76,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Neck1">
+    <component length="10" name="N1I1" rotOffset="-20,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Neck2">
+    <component length="10" name="N2I1" rotOffset="-20,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Neck3">
+    <component length="10" name="N3I1" rotOffset="-20,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body10">
+    <component length="10" name="B10I1" rotOffset="-33.91,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body8">
+    <component length="10" name="B8I1" rotOffset="-13.04,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body3">
+    <component length="10" name="B3I1" rotOffset="18.26,-0.0,-0.0," startKey="0"/>
+   </part>
+   <part name="Body1">
+    <component length="10" name="0" posChange="0.0,1.5,0.0," posOffset="0,-80,0," rotOffset="70.5,-0.0,-0.0," startKey="0"/>
+    <component length="10" name="1" posChange="0.0,-1.5,0.0," startKey="10"/>
+    <component length="5" name="2" posChange="0.0,-1.0,0.0," startKey="20"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="RightShoulder">
+    <component length="10" name="1" rotChange="0, 10,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-10,0" startKey="10"/>
+   </part>
+   <part name="LeftShoulder">
+    <component length="10" name="1" rotChange="0,-10,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0, 10,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+ <details>
+  <RIDDENOFFSET>
+   0.7
+  </RIDDENOFFSET>
+ </details>
+</ModelAnimator>

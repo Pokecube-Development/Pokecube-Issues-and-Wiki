@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.3"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-20,20" headDir="-1"/>
+  <worn angles="0,0,0" id="__EAR_left__" offset="-0.38,0.6,0.2" parent="head" scale="0.8"/>
+  <worn angles="0,0,0" id="__EAR_right__" offset="0.38,0.6,0.2" parent="head" scale="0.8"/>
+  <worn angles="-90,0,0" id="__EYE__" offset="0,0.5,0.1" parent="head" scale="1.3"/>
+  <customTex default="eldegoss">
+   <part name="Head" tex="eldegosshead"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
+  </customTex>
+  <phase type="idle">
+   <part name="hair">
+    <component length="10" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="8" name="1" rotChange="-3,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="p3">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+	<component name="1" rotOffset="10,0,0" length="1" startKey="0"/>
+  </part>
+   <part name="hair">
+    <component length="10" name="1" rotChange="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="8" name="1" rotChange="-3,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="p3">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

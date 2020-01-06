@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pelipper"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pelipper"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pelipper": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pelipper"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_wingull"
+}

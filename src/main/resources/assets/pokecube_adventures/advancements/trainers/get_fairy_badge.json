@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_adventures:badge_fairy"
+    },
+    "title": {
+      "translate": "achievement.achievement.pokeadv.get.badgefairy"
+    },
+    "description": {
+      "translate": "achievement.achievement.pokeadv.get.badgefairy.desc"
+    }
+  },
+  "criteria": {
+    "get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_fairy"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "pokecube_adventures:trainers/root"
+}

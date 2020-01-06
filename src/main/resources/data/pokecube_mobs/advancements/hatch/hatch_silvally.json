@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_silvally": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "silvally"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_typenull"
+}

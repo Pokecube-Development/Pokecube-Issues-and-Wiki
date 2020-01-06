@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ivysaur"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ivysaur"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_ivysaur": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "ivysaur"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_bulbasaur"
+}

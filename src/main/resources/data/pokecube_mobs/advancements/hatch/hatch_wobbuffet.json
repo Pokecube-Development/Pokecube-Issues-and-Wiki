@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wobbuffet"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wobbuffet"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_wobbuffet": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "wobbuffet"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_wynaut"
+}

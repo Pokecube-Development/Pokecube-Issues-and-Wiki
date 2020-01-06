@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="Wormadam">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <metadata head="_"/>
+  <customTex default="wormadamplantcloak">
+   <forme name="Wormadam Sandy" tex="wormadamsandy"/>
+   <forme name="Wormadam Trash" tex="wormadamtrash"/>
+  </customTex>
+ </model>
+ <Pokemon base="true" name="Wormadam" number="413"/>
+ <Pokemon name="Wormadam Trash" number="413"/>
+ <Pokemon name="Wormadam Sandy" number="413"/>
+</ModelAnimator>

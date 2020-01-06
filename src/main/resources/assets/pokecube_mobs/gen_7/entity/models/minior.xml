@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1"/>
+  <phase type="idle">
+   <part name="body">
+    <component length="120" name="1" rotChange="-360,0,0" startKey="0"/>
+   </part>
+   <part name="face">
+    <component length="30" name="1" posChange="0,1,0" startKey="0"/>
+    <component length="30" name="2" posChange="0,-1,0" startKey="30"/>
+    <component length="30" name="3" posChange="0,-1,0" startKey="60"/>
+    <component length="30" name="4" posChange="0,1,0" startKey="90"/>
+   </part>
+  </phase>
+  <customTex default="Minior">
+   <forme name="Blue Core Minior" tex="BlueCoreMinior"/>
+   <forme name="Green Core Minior" tex="GreenCoreMinior"/>
+   <forme name="Indigo Core Minior" tex="IndigoCoreMinior"/>
+   <forme name="Orange Core Minior" tex="OrangeCoreMinior"/>
+   <forme name="Red Core Minior" tex="RedCoreMinior"/>
+   <forme name="Violet Core Minior" tex="VioletCoreMinior"/>
+   <forme name="Yellow Core Minior" tex="YellowCoreMinior"/>
+  </customTex>
+ </model>
+</ModelAnimator>

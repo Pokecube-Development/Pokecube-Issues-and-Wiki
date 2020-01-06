@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
+  <customTex default="probopass">
+   <part name="Head" tex="probopasshead"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-0.5,0" posOffset="0,-8,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,0.5,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-0.5,0" posOffset="0,-8,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,0.5,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

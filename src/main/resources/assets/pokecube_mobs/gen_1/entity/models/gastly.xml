@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.4"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1" headDir1="-1"/>.0"/>
+  <phase type="idle">
+   <part name="smoke">
+    <component length="55" name="1" rotChange="360,360,0" startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

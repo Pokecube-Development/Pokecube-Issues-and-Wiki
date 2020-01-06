@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vanilluxe"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vanilluxe"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_vanilluxe": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "vanilluxe"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_vanillish"
+}

@@ -1,0 +1,31 @@
+{
+    "pools": [
+        {
+            "name": "pool_0",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "tag",
+                    "expand": true,
+                    "name": "minecraft:leaves",
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 0,
+                                "max": 3
+                            }
+                        },
+                        {
+                            "function": "looting_enchant",
+                            "count": {
+                                "min": 0,
+                                "max": 1
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

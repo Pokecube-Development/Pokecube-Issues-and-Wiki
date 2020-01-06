@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokeadv.defeat.trainer"
+    },
+    "description": {
+      "translate": "achievement.pokeadv.defeat.trainer.desc"
+    }
+  },
+    "parent": "pokecube_adventures:trainers/root",
+  "criteria": {
+    "beat_trainer": {
+      "trigger": "pokecube_adventures:beat_trainer"
+    }
+  }
+}

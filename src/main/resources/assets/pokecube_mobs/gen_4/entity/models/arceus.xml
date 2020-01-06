@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale=".50"/>
+  <metadata head="Head1" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <customTex default="Arceus">
+   <forme name="Arceus" tex="arceus"/>
+   <forme name="Arceus Bug" tex="ArceusBug"/>
+   <forme name="Arceus Dark" tex="ArceusDark"/>
+   <forme name="Arceus Dragon" tex="ArceusDragon"/>
+   <forme name="Arceus Electric" tex="ArceusElectric"/>
+   <forme name="Arceus Fairy" tex="ArceusFairy"/>
+   <forme name="Arceus Fighting" tex="ArceusFighting"/>
+   <forme name="Arceus Fire" tex="ArceusFire"/>
+   <forme name="Arceus Flying" tex="ArceusFlying"/>
+   <forme name="Arceus Ghost" tex="ArceusGhost"/>
+   <forme name="Arceus Grass" tex="ArceusGrass"/>
+   <forme name="Arceus Ground" tex="ArceusGround"/>
+   <forme name="Arceus Ice" tex="ArceusIce"/>
+   <forme name="Arceus Poison" tex="ArceusPoison"/>
+   <forme name="Arceus Psychic" tex="ArceusPsychic"/>
+   <forme name="Arceus Rock" tex="ArceusRock"/>
+   <forme name="Arceus Steel" tex="ArceusSteel"/>
+   <forme name="Arceus Water" tex="ArceusWater"/>
+  </customTex>
+  <phase duration="10" leftFront="FrontLegL1" leftHind="BackLegL1" name="quadWalk" rightFront="FrontLegR1" rightHind="BackLegR1"/>
+ </model>
+ <details>
+  <RIDDENOFFSET>
+   0.6
+  </RIDDENOFFSET>
+ </details>
+</ModelAnimator>

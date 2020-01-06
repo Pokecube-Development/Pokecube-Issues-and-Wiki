@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.8"/>
+  <phase axis="0" name="snakeWalk" parts="p1:p2:p3:p4:p5:p6:p7:p8:p9:p10:p11:point"/>
+  <customTex default="victreebel">
+   <part name="Head" tex="victreebelhead"/>
+   <animation diffs="0.51,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="leaf">
+    <component length="10" name="1" rotChange="5,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="body1">
+    <component length="10" name="1" rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,3" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,-3" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="1" rotChange="2,0,0" rotOffset="50,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
+   </part>
+   <part name="p3">
+    <component length="1" name="1" rotOffset="-25,0,0" startKey="0"/>
+   </part>
+   <part name="p4">
+    <component length="1" name="1" rotOffset="-25,0,0" startKey="0"/>
+   </part>
+   <part name="p5">
+    <component length="1" name="1" rotOffset="-35,0,0" startKey="0"/>
+   </part>
+   <part name="p6">
+    <component length="1" name="1" rotOffset="-35,0,0" startKey="0"/>
+   </part>
+   <part name="p7">
+    <component length="1" name="1" rotOffset="-25,0,0" startKey="0"/>
+   </part>
+   <part name="p8">
+    <component length="1" name="1" rotOffset="15,0,0" startKey="0"/>
+   </part>
+   <part name="p9">
+    <component length="1" name="1" rotOffset="25,0,0" startKey="0"/>
+   </part>
+   <part name="p10">
+    <component length="1" name="1" rotOffset="25,0,0" startKey="0"/>
+   </part>
+   <part name="p11">
+    <component length="1" name="1" rotOffset="35,0,0" startKey="0"/>
+   </part>
+   <part name="point">
+    <component length="1" name="1" rotOffset="35,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="leaf">
+    <component length="10" name="1" rotChange="5,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="body1">
+    <component length="10" name="1" rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,3" rotOffset="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,-3" rotOffset="3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

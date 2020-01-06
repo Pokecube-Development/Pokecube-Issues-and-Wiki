@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.5"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-50,50" headDir="-1"/>
+  <phase duration="10" leftArm="" leftLeg="leg1:leg5:leg3" legAngle="10" name="biWalk" rightArm="" rightLeg="leg4:leg2:leg6"/>
+  <customTex default="grubbin">
+   <part name="Head" tex="grubbinhead"/>
+   <animation diffs="-0.35,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="p1">
+    <component length="10" name="1" rotChange="0,4,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-4,0" startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="10" name="1" rotChange="0,-4,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,4,0" startKey="10"/>
+   </part>
+   <part name="mouth1">
+    <component length="10" name="1" posChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="mouth2">
+    <component length="10" name="1" posChange="-0.5,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="0.5,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="p1">
+    <component length="10" name="1" rotChange="0,4,0" rotOffset="0,2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-4,0" startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="10" name="1" rotChange="0,-4,0" rotOffset="0,-2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,4,0" startKey="10"/>
+   </part>
+   <part name="mouth1">
+    <component length="10" name="1" posChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="mouth2">
+    <component length="10" name="1" posChange="-0.5,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="0.5,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "FFF",
+    "PPP",
+    "RGR"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "F": {
+      "item": "minecraft:rabbit_foot"
+    }
+  },
+  "result": {
+    "item": "pokecube:fastcube",
+    "count": 3
+  }
+}

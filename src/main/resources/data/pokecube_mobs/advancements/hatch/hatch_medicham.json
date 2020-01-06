@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.medicham"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.medicham"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_medicham": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "medicham"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_meditite"
+}

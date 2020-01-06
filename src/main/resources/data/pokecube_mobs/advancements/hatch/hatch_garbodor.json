@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garbodor"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_garbodor": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "garbodor"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_trubbish"
+}

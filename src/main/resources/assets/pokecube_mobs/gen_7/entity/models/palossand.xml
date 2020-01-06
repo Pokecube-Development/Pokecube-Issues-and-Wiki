@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.55"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="-5,5" headDir="1"/>
+  <phase duration="20" leftArm="" leftLeg="t1" legAngle="5" name="biWalk" rightArm="" rightLeg="t2"/>
+  <customTex default="palossand">
+   <part name="Head" tex="palossandhead"/>
+   <animation diffs="0,0.29" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="pa">
+    <component length="120" name="1" rotChange="0,-360,0" startKey="0"/>
+   </part>
+   <part name="t1">
+    <component length="10" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="t2">
+    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="pa">
+    <component length="120" name="1" rotChange="0,-360,0" startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata head="Neck3:Head:Body1" headAxis="1" headAxis2="0" headCap="-10,10" headCap1="-15,10" headDir="1"/>
+  <phase duration="10" leftFront="LLegA1" leftHind="LLegC1:RLegB1" name="quadWalk" rightFront="RLegA1" rightHind="RLegC1:LLegB1"/>
+ </model>
+</ModelAnimator>

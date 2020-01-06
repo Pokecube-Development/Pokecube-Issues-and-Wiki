@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dugtrio": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dugtrio"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_diglett"
+}

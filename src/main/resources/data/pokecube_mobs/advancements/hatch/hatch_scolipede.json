@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.scolipede"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scolipede"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_scolipede": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "scolipede"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_whirlipede"
+}

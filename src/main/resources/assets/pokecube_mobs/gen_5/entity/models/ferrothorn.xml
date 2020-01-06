@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1"/>
+  <phase type="idle">
+   <part name="Body">
+    <component length="20" name="1" posChange="0,0.65,0" startKey="0"/>
+    <component length="20" name="2" posChange="0,-0.65,0" startKey="20"/>
+   </part>
+   <part name="*(.*)(_vine_pt1)(.*)">
+    <component length="20" name="1" rotChange="30,0,0" startKey="0"/>
+    <component length="20" name="2" rotChange="-30,0,0" startKey="20"/>
+   </part>
+   <part name="*(.*)(_vine_pt7)(.*)">
+    <component length="20" name="1" rotChange="-20,0,0" startKey="0"/>
+    <component length="20" name="2" rotChange="20,0,0" startKey="20"/>
+   </part>
+   <part name="*(.*)(sticker_base)">
+    <component length="20" name="1" rotChange="-10,0,0" startKey="0"/>
+    <component length="20" name="2" rotChange="10,0,0" startKey="20"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

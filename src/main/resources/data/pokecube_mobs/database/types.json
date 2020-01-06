@@ -1,0 +1,597 @@
+{
+  "types": [
+    {
+      "name": "???",
+      "colour": 0,
+      "outgoing": []
+    },
+    {
+      "name": "normal",
+      "colour": 11053176,
+      "outgoing": [
+        {
+          "type": "rock",
+          "amount": 0.5
+        },
+        {
+          "type": "ghost",
+          "amount": 0.0
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "fighting",
+      "colour": 12529447,
+      "outgoing": [
+        {
+          "type": "normal",
+          "amount": 2.0
+        },
+        {
+          "type": "flying",
+          "amount": 0.5
+        },
+        {
+          "type": "poison",
+          "amount": 0.5
+        },
+        {
+          "type": "rock",
+          "amount": 2.0
+        },
+        {
+          "type": "bug",
+          "amount": 0.5
+        },
+        {
+          "type": "ghost",
+          "amount": 0.0
+        },
+        {
+          "type": "steel",
+          "amount": 2.0
+        },
+        {
+          "type": "psychic",
+          "amount": 0.5
+        },
+        {
+          "type": "ice",
+          "amount": 2.0
+        },
+        {
+          "type": "dark",
+          "amount": 2.0
+        },
+        {
+          "type": "fairy",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "flying",
+      "colour": 10981360,
+      "outgoing": [
+        {
+          "type": "fighting",
+          "amount": 2.0
+        },
+        {
+          "type": "rock",
+          "amount": 0.5
+        },
+        {
+          "type": "bug",
+          "amount": 2.0
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "grass",
+          "amount": 2.0
+        },
+        {
+          "type": "electric",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "poison",
+      "colour": 10436511,
+      "outgoing": [
+        {
+          "type": "poison",
+          "amount": 0.5
+        },
+        {
+          "type": "ground",
+          "amount": 0.5
+        },
+        {
+          "type": "rock",
+          "amount": 0.5
+        },
+        {
+          "type": "ghost",
+          "amount": 0.5
+        },
+        {
+          "type": "steel",
+          "amount": 0.0
+        },
+        {
+          "type": "grass",
+          "amount": 2.0
+        },
+        {
+          "type": "fairy",
+          "amount": 2.0
+        }
+      ]
+    },
+    {
+      "name": "ground",
+      "colour": 14729063,
+      "outgoing": [
+        {
+          "type": "flying",
+          "amount": 0.0
+        },
+        {
+          "type": "poison",
+          "amount": 2.0
+        },
+        {
+          "type": "rock",
+          "amount": 2.0
+        },
+        {
+          "type": "bug",
+          "amount": 0.5
+        },
+        {
+          "type": "steel",
+          "amount": 2.0
+        },
+        {
+          "type": "fire",
+          "amount": 2.0
+        },
+        {
+          "type": "grass",
+          "amount": 0.5
+        },
+        {
+          "type": "electric",
+          "amount": 2.0
+        }
+      ]
+    },
+    {
+      "name": "rock",
+      "colour": 12033847,
+      "outgoing": [
+        {
+          "type": "fighting",
+          "amount": 0.5
+        },
+        {
+          "type": "flying",
+          "amount": 2.0
+        },
+        {
+          "type": "ground",
+          "amount": 0.5
+        },
+        {
+          "type": "bug",
+          "amount": 2.0
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "fire",
+          "amount": 2.0
+        },
+        {
+          "type": "ice",
+          "amount": 2.0
+        }
+      ]
+    },
+    {
+      "name": "bug",
+      "colour": 10991391,
+      "outgoing": [
+        {
+          "type": "fighting",
+          "amount": 0.5
+        },
+        {
+          "type": "flying",
+          "amount": 0.5
+        },
+        {
+          "type": "poison",
+          "amount": 0.5
+        },
+        {
+          "type": "ghost",
+          "amount": 0.5
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "fire",
+          "amount": 0.5
+        },
+        {
+          "type": "grass",
+          "amount": 2.0
+        },
+        {
+          "type": "psychic",
+          "amount": 2.0
+        },
+        {
+          "type": "dark",
+          "amount": 2.0
+        },
+        {
+          "type": "fairy",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "ghost",
+      "colour": 7296919,
+      "outgoing": [
+        {
+          "type": "normal",
+          "amount": 0.0
+        },
+        {
+          "type": "ghost",
+          "amount": 2.0
+        },
+        {
+          "type": "psychic",
+          "amount": 2.0
+        },
+        {
+          "type": "dark",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "steel",
+      "colour": 12040144,
+      "outgoing": [
+        {
+          "type": "rock",
+          "amount": 2.0
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "fire",
+          "amount": 0.5
+        },
+        {
+          "type": "water",
+          "amount": 0.5
+        },
+        {
+          "type": "electric",
+          "amount": 0.5
+        },
+        {
+          "type": "ice",
+          "amount": 2.0
+        },
+        {
+          "type": "fairy",
+          "amount": 2.0
+        }
+      ]
+    },
+    {
+      "name": "fire",
+      "colour": 15761456,
+      "outgoing": [
+        {
+          "type": "rock",
+          "amount": 0.5
+        },
+        {
+          "type": "bug",
+          "amount": 2.0
+        },
+        {
+          "type": "steel",
+          "amount": 2.0
+        },
+        {
+          "type": "fire",
+          "amount": 0.5
+        },
+        {
+          "type": "water",
+          "amount": 0.5
+        },
+        {
+          "type": "grass",
+          "amount": 2.0
+        },
+        {
+          "type": "ice",
+          "amount": 2.0
+        },
+        {
+          "type": "dragon",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "water",
+      "colour": 6787056,
+      "outgoing": [
+        {
+          "type": "ground",
+          "amount": 2.0
+        },
+        {
+          "type": "rock",
+          "amount": 2.0
+        },
+        {
+          "type": "fire",
+          "amount": 2.0
+        },
+        {
+          "type": "water",
+          "amount": 0.5
+        },
+        {
+          "type": "grass",
+          "amount": 0.5
+        },
+        {
+          "type": "dragon",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "grass",
+      "colour": 7850063,
+      "outgoing": [
+        {
+          "type": "flying",
+          "amount": 0.5
+        },
+        {
+          "type": "poison",
+          "amount": 0.5
+        },
+        {
+          "type": "ground",
+          "amount": 2.0
+        },
+        {
+          "type": "rock",
+          "amount": 2.0
+        },
+        {
+          "type": "bug",
+          "amount": 0.5
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "fire",
+          "amount": 0.5
+        },
+        {
+          "type": "water",
+          "amount": 2.0
+        },
+        {
+          "type": "grass",
+          "amount": 0.5
+        },
+        {
+          "type": "dragon",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "electric",
+      "colour": 16306223,
+      "outgoing": [
+        {
+          "type": "flying",
+          "amount": 2.0
+        },
+        {
+          "type": "ground",
+          "amount": 0.0
+        },
+        {
+          "type": "water",
+          "amount": 2.0
+        },
+        {
+          "type": "grass",
+          "amount": 0.5
+        },
+        {
+          "type": "electric",
+          "amount": 0.5
+        },
+        {
+          "type": "dragon",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "psychic",
+      "colour": 16275335,
+      "outgoing": [
+        {
+          "type": "fighting",
+          "amount": 2.0
+        },
+        {
+          "type": "poison",
+          "amount": 2.0
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "psychic",
+          "amount": 0.5
+        },
+        {
+          "type": "dark",
+          "amount": 0.0
+        }
+      ]
+    },
+    {
+      "name": "ice",
+      "colour": 9951448,
+      "outgoing": [
+        {
+          "type": "flying",
+          "amount": 2.0
+        },
+        {
+          "type": "ground",
+          "amount": 2.0
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "fire",
+          "amount": 0.5
+        },
+        {
+          "type": "water",
+          "amount": 0.5
+        },
+        {
+          "type": "grass",
+          "amount": 2.0
+        },
+        {
+          "type": "ice",
+          "amount": 0.5
+        },
+        {
+          "type": "dragon",
+          "amount": 2.0
+        }
+      ]
+    },
+    {
+      "name": "dragon",
+      "colour": 7288824,
+      "outgoing": [
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "dragon",
+          "amount": 2.0
+        },
+        {
+          "type": "fairy",
+          "amount": 0.0
+        }
+      ]
+    },
+    {
+      "name": "dark",
+      "colour": 7296839,
+      "outgoing": [
+        {
+          "type": "fighting",
+          "amount": 0.5
+        },
+        {
+          "type": "ghost",
+          "amount": 2.0
+        },
+        {
+          "type": "psychic",
+          "amount": 2.0
+        },
+        {
+          "type": "dark",
+          "amount": 0.5
+        },
+        {
+          "type": "fairy",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "name": "fairy",
+      "colour": 15115750,
+      "outgoing": [
+        {
+          "type": "fighting",
+          "amount": 2.0
+        },
+        {
+          "type": "poison",
+          "amount": 0.5
+        },
+        {
+          "type": "steel",
+          "amount": 0.5
+        },
+        {
+          "type": "fire",
+          "amount": 0.5
+        },
+        {
+          "type": "dragon",
+          "amount": 2.0
+        },
+        {
+          "type": "dark",
+          "amount": 2.0
+        }
+      ]
+    }
+  ]
+}

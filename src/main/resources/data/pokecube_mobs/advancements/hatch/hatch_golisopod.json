@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.golisopod"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.golisopod"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_golisopod": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "golisopod"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_wimpod"
+}

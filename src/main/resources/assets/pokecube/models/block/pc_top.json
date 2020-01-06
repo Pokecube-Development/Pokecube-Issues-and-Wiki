@@ -1,0 +1,32 @@
+{
+    "elements": [
+        {   "__comment": "top",
+            "from": [ 0.34, 0.05, 0.09 ],
+            "to": [ 15.66, 16.81, 10.31 ],
+            "faces": {
+                "west": { "uv": [ 0.41, 0.71, 1.83, 2.13 ], "texture": "#pc", "rotation": 270 },
+                "north": { "uv": [ 0.41, 0.71, 1.83, 2.13 ], "texture": "#pc", "rotation": 270 },
+                "east": { "uv": [ 0.41, 0.71, 1.83, 2.13 ], "texture": "#pc", "rotation": 270 },
+                "south": { "uv": [ 5.18, 0.18, 14.1, 9.93 ], "texture": "#pc", "rotation": 0 },
+                "down": { "uv": [ 1.57, 3.36, 3.0, 4.79 ], "texture": "#pc", "rotation": 0 },
+                "up": { "uv": [ 0.41, 0.71, 1.83, 2.13 ], "texture": "#pc", "rotation": 180 }
+            }
+        },
+        {   "__comment": "line",
+            "from": [ 0.26, 0.05, 4.19 ],
+            "to": [ 15.74, 16.94, 6.2 ],
+            "faces": {
+                "west": { "uv": [ 3.22, 0.82, 4.31, 1.91 ], "texture": "#pc", "rotation": 90 },
+                "north": { "uv": [ 3.22, 0.82, 4.31, 1.91 ], "texture": "#pc", "rotation": 90 },
+                "east": { "uv": [ 3.22, 0.82, 4.31, 1.91 ], "texture": "#pc", "rotation": 90 },
+                "south": { "uv": [ 3.22, 0.82, 4.31, 1.91 ], "texture": "#pc", "rotation": 90 },
+                "down": { "uv": [ 3.22, 0.82, 4.31, 1.91 ], "texture": "#pc", "rotation": 180 },
+                "up": { "uv": [ 3.22, 0.82, 4.31, 1.91 ], "texture": "#pc", "rotation": 0 }
+            }
+        }
+    ],
+    "textures": {
+        "pc": "pokecube:block/pc",
+        "particle": "pokecube:block/pc"
+    }
+}

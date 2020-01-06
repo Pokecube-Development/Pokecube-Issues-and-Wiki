@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vikavolt"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vikavolt"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_vikavolt": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "vikavolt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_charjabug"
+}

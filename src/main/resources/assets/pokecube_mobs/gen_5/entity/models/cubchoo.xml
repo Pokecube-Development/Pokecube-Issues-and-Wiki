@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.225"/>
+  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <phase type="walking">
+   <part name="Cube_3">
+    <component length="3" name="1" rotChange="0,0,-10" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,20" startKey="3"/>
+    <component length="3" name="3" rotChange="0,0,-10" startKey="9"/>
+   </part>
+   <part name="Cube_4">
+    <component length="3" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,-20" startKey="3"/>
+    <component length="3" name="3" rotChange="0,0,10" startKey="9"/>
+   </part>
+   <part name="Cube_2">
+    <component length="3" name="1" rotChange="-10,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="20,0,0" startKey="3"/>
+    <component length="3" name="3" rotChange="-10,0,0" startKey="9"/>
+   </part>
+   <part name="Cube_1">
+    <component length="3" name="1" rotChange="10,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="-20,0,0" startKey="3"/>
+    <component length="3" name="3" rotChange="10,0,0" startKey="9"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

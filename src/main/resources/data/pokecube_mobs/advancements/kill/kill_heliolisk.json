@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.heliolisk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.heliolisk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_heliolisk": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "heliolisk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_helioptile"
+}

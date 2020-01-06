@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.steelix"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.steelix"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_steelix": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "steelix"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_onix"
+}

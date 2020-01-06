@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gyarados"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gyarados"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gyarados": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gyarados"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_magikarp"
+}

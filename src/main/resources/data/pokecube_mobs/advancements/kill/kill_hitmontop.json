@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmontop"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmontop"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hitmontop": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "hitmontop"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_tyrogue"
+}

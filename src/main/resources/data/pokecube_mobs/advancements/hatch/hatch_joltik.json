@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.joltik"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.joltik"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_joltik": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "joltik"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

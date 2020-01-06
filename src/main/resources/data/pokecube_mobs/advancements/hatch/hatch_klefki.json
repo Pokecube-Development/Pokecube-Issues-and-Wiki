@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.klefki"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.klefki"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_klefki": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "klefki"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.15"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
+  <worn angles="0,0,0" id="__EAR_left__" offset="-0.48,0.5,0.4" parent="head" scale="1"/>
+  <worn angles="0,0,0" id="__EAR_right__" offset="0.48,0.5,0.4" parent="head" scale="1"/>
+  <worn angles="-90,0,0" id="__EYE__" offset="0,0.4,0.1" parent="head" scale="1.6"/>
+  <customTex default="gossifleur">
+   <part name="Head" tex="gossifleurhead"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
+  </customTex>
+  <phase type="idle">
+   <part name="tail">
+    <component length="1" name="1" rotOffset="20,0,60" startKey="0"/>
+   </part>
+   <part name="flor">
+    <component length="8" name="1" rotOffset="0,0,0" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="t3">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t4">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="t5">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t6">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="8" name="1" rotOffset="0,0,-50" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotOffset="0,0,50" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+	<component name="1" rotOffset="30,0,0" length="1" startKey="0"/>
+	<component name="1" posOffset="0,-3,0" posChange="0,-4,0" length="10" startKey="0"/>
+	<component name="2" posChange="0,4,0" length="10" startKey="10"/>
+  </part>
+  <part name="tail">
+    <component length="1" name="1" rotOffset="30,0,0" startKey="0"/>
+   </part>
+   <part name="flor">
+    <component length="8" name="1" rotOffset="0,0,0" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t1">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t2">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="t3">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t4">
+    <component length="8" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="t5">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="t6">
+    <component length="8" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="8" name="1" rotOffset="0,0,-50" rotChange="0,0,3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotOffset="0,0,50" rotChange="0,0,-3" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=east":  { "model": "pokecube:block/pc_base", "y":270 },
+        "facing=west":  { "model": "pokecube:block/pc_base", "y":90 },
+        "facing=north": { "model": "pokecube:block/pc_base", "y":180},
+        "facing=south": { "model": "pokecube:block/pc_base", "y":0 }
+    }
+}

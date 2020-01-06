@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata head="" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <customTex default="sharpedomega">
+   <part name="Head" tex="sharpedomegahead"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+  </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="15" name="0" posChange="0,1,0.5," startKey="0"/>
+    <component length="15" name="1" posChange="0,-1,-0.5," startKey="15"/>
+    <component length="10" name="1" posOffset="0,-10,0" startKey="0"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="0" rotChange="-1,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="1,0,0," startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="10" name="0" rotChange="1,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="mouth">
+    <component length="10" name="0" rotOffset="10,0,0" rotChange="2,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="0" rotChange="0,0,-2," startKey="0"/>
+    <component length="10" name="1" rotChange="0,0,2," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="0" rotChange="0,0,2," startKey="0"/>
+    <component length="10" name="1" rotChange="0,0,-2," startKey="10"/>
+   </part>
+   </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="15" name="0" posChange="0,1,0.5," startKey="0"/>
+    <component length="15" name="1" posChange="0,-1,-0.5," startKey="15"/>
+    <component length="10" name="1" posOffset="0,-10,0" startKey="0"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="0" rotChange="-1,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="1,0,0," startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="10" name="0" rotChange="3,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="-3,0,0," startKey="10"/>
+   </part>
+   <part name="mouth">
+    <component length="10" name="0" rotOffset="30,0,0" rotChange="2,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="0" rotChange="0,0,-4," startKey="0"/>
+    <component length="10" name="1" rotChange="0,0,4," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="0" rotChange="0,0,4," startKey="0"/>
+    <component length="10" name="1" rotChange="0,0,-4," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="swimming">
+   <part name="body">
+    <component length="15" name="0" posChange="0,0.5,0," startKey="0"/>
+    <component length="15" name="1" posChange="0,-0.5,0," startKey="15"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="0" rotChange="-1,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="1,0,0," startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="10" name="0" rotChange="3,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="-3,0,0," startKey="10"/>
+   </part>
+   <part name="mouth">
+    <component length="10" name="0" rotOffset="40,0,0" rotChange="2,0,0," startKey="0"/>
+    <component length="10" name="1" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="0" rotChange="0,0,-8," startKey="0"/>
+    <component length="10" name="1" rotChange="0,0,16," startKey="5"/>
+	<component length="10" name="2" rotChange="0,0,-8," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="0" rotChange="0,0,8," startKey="0"/>
+    <component length="10" name="1" rotChange="0,0,-16," startKey="5"/>
+	<component length="10" name="2" rotChange="0,0,8," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+ <details>
+  <RIDDENOFFSET>
+   0.9
+  </RIDDENOFFSET>
+ </details>
+</ModelAnimator>

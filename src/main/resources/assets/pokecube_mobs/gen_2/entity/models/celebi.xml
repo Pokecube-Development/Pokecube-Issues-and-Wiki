@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" offset="0,0,0" rotation="0,1,0,0" scale="0.4"/>
+  <metadata head="head" headCap="-90,90" headDir="-1"/>
+  <customTex default="celebi">
+   <part name="head" tex="celebihead"/>
+   <animation diffs="0,0.33" part="head" trigger="random:0.005:20"/>
+   <animation diffs="0.0,0.70" part="head" trigger="sleeping"/>
+  </customTex>
+  <phase angle="5" axis="2" length="500" name="snakeIdle" parts="Tail_base:Tail_pt1:Tail_pt2"/>
+  <phase type="idle">
+   <part name="body">
+    <component length="2" name="1" posChange="0.0,10.0,0.0," startKey="0"/>
+    <component length="6" name="2" posChange="0.0,-20.0,0.0," startKey="2"/>
+    <component length="2" name="3" posChange="0.0,10.0,0.0," startKey="8"/>
+   </part>
+   <part name="ant">
+    <component length="3" name="1" rotChange="15.0,0.0,0.0," startKey="0"/>
+    <component length="8" name="1" rotChange="-15.0,0.0,0.0," startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="20" name="1" rotChange="0.0,0.0,10.0," startKey="0"/>
+    <component length="5" name="2" rotChange="0.0,0.0,-20.0," startKey="10"/>
+    <component length="20" name="2" rotChange="0.0,0.0,10.0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="20" name="1" rotChange="0.0,0.0,-10.0," startKey="0"/>
+    <component length="5" name="2" rotChange="0.0,0.0,20.0," startKey="10"/>
+    <component length="20" name="2" rotChange="0.0,0.0,-10.0," startKey="0"/>
+   </part>
+   <part name="wing1">
+    <component length="1" name="1" rotChange="0,0,0" startKey="0"/>
+    <component length="1" name="2" rotChange="0,55,0" startKey="1"/>
+   </part>
+   <part name="wing2">
+    <component length="1" name="1" rotChange="0,0,0" startKey="0"/>
+    <component length="1" name="2" rotChange="0,-55,0" startKey="1"/>
+   </part>
+   <part name="leg1">
+    <component length="3" name="1" rotChange="18.0,0.0,0.0," startKey="0"/>
+    <component length="8" name="1" rotChange="-18.0,0.0,0.0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="3" name="1" rotChange="18.0,0.0,0.0," startKey="0"/>
+    <component length="8" name="1" rotChange="-18.0,0.0,0.0," startKey="0"/>
+   </part>
+  </phase>
+  <merges merge="idle-&gt;flying"/>
+  <phase angle="5" axis="2" length="100" name="snakeWalk" parts="Tail_base:Tail_pt1:Tail_pt2"/>
+  <phase type="flying">
+   <part name="body">
+    <component length="1" name="1" rotChange="60,0,0" startKey="0"/>
+    <component length="500" name="2" rotChange="60,0,0" startKey="1"/>
+   </part>
+   <part name="head">
+    <component length="1" name="1" posChange="0,-1,1" rotChange="-50,0,0" startKey="0"/>
+    <component length="500" name="2" posChange="0,-1,1" rotChange="-50,0,0" startKey="1"/>
+   </part>
+   <part name="leg1">
+    <component length="1000" name="1" rotChange="21,10,5" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1000" name="1" rotChange="21,10,5" startKey="0"/>
+   </part>
+   <part name="wing1">
+    <component length="1" name="1" rotChange="20,-55,-20" rotOffset="20,0,-20" startKey="0"/>
+    <component length="1" name="2" rotChange="20,0,-20" startKey="2"/>
+   </part>
+   <part name="wing2">
+    <component length="1" name="1" rotChange="20,55,20" rotOffset="20,0,20" startKey="0"/>
+    <component length="1" name="2" rotChange="20,0,20" startKey="2"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

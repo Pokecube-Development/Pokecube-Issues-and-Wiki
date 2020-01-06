@@ -1,0 +1,115 @@
+{
+    "pools": [
+        {
+            "name": "pool_0",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_oran",
+                    "weight": 45
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:revive",
+                    "weight": 45
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_aspear",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_cheri",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_chesto",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_pecha",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_persim",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_rawst",
+                    "weight": 30
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_sitrus",
+                    "weight": 20
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:pokecube",
+                    "weight": 20
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:greatcube",
+                    "weight": 15
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:vitamin_carbos",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:vitamin_zinc",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:vitamin_protein",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:vitamin_calcium",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:vitamin_hpup",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:vitamin_iron",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:ultracube",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:berry_lum",
+                    "weight": 10
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:mastercube",
+                    "weight": 1
+                },
+                {
+                    "type": "item",
+                    "name": "pokecube:candy",
+                    "weight": 1
+                }
+            ]
+        }
+    ]
+}

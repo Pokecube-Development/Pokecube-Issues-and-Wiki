@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.trumbeak"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.trumbeak"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_trumbeak": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "trumbeak"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_pikipek"
+}

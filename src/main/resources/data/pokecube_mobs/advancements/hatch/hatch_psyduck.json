@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.psyduck"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.psyduck"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_psyduck": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "psyduck"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

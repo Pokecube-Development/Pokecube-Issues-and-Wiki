@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.feraligatr"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.feraligatr"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_feraligatr": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "feraligatr"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_croconaw"
+}

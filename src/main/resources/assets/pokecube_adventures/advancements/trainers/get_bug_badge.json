@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_adventures:badge_bug"
+    },
+    "title": {
+      "translate": "achievement.achievement.pokeadv.get.badgebug"
+    },
+    "description": {
+      "translate": "achievement.achievement.pokeadv.get.badgebug.desc"
+    }
+  },
+  "criteria": {
+    "get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_bug"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "pokecube_adventures:trainers/root"
+}

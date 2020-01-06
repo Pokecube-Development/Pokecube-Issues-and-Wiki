@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata head="headleft:headright:headmid" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase type="flying">
+   <part name="leftwingtopbase">
+    <component length="10" name="1" rotChange="0.0,0.0,-60.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,60.0," startKey="10"/>
+   </part>
+   <part name="leftwingmidbase">
+    <component length="10" name="1" rotChange="0.0,0.0,-60.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,60.0," startKey="10"/>
+   </part>
+   <part name="leftwingbottombase">
+    <component length="10" name="1" rotChange="0.0,0.0,-60.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,60.0," startKey="10"/>
+   </part>
+   <part name="rightwingtopbase">
+    <component length="10" name="1" rotChange="0.0,0.0,60.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,-60.0," startKey="10"/>
+   </part>
+   <part name="rightwingmidbase">
+    <component length="10" name="1" rotChange="0.0,0.0,60.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,-60.0," startKey="10"/>
+   </part>
+   <part name="rightwingbottombase">
+    <component length="10" name="1" rotChange="0.0,0.0,60.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,-60.0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

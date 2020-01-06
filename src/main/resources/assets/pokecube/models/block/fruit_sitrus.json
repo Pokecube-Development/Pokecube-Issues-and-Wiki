@@ -1,0 +1,68 @@
+{
+    "elements": [
+        {   "__comment": "sitrus",
+            "from": [ 6.5, 13.45, 7.46 ],
+            "to": [ 9.5, 15.25, 10.46 ],
+            "faces": {
+                "north": { "uv": [ 2.0, 6.0, 9.0, 11.0 ], "texture": "#sitrus", "rotation": 0 },
+                "south": { "uv": [ 2.0, 6.0, 9.0, 11.0 ], "texture": "#sitrus", "rotation": 0 },
+                "up": { "uv": [ 5.0, 4.0, 13.0, 12.0 ], "texture": "#sitrus", "rotation": 180 },
+                "east": { "uv": [ 7.0, 9.0, 14.0, 14.0 ], "texture": "#sitrus", "rotation": 0 },
+                "west": { "uv": [ 7.0, 9.0, 14.0, 14.0 ], "texture": "#sitrus", "rotation": 0 },
+                "down": { "uv": [ 2.0, 11.0, 14.0, 14.0 ], "texture": "#sitrus", "rotation": 0 }
+            }
+        },
+        {   "__comment": "sitrus",
+            "from": [ 7.25, 15.55, 8.21 ],
+            "to": [ 8.75, 16.45, 9.71 ],
+            "faces": {
+                "north": { "uv": [ -0.0, 13.0, 5.0, 16.0 ], "texture": "#sitrus", "rotation": 180 },
+                "south": { "uv": [ -0.0, 13.0, 5.0, 16.0 ], "texture": "#sitrus", "rotation": 180 },
+                "up": { "uv": [ 0.0, 15.0, 1.0, 16.0 ], "texture": "#sitrus", "rotation": 180 },
+                "east": { "uv": [ -0.0, 13.0, 5.0, 16.0 ], "texture": "#sitrus", "rotation": 180 },
+                "west": { "uv": [ 0.0, 13.0, 5.0, 16.0 ], "texture": "#sitrus", "rotation": 180 }
+            }
+        },
+        {   "__comment": "sitrus",
+            "from": [ 6.2, 11.05, 7.16 ],
+            "to": [ 9.8, 13.45, 10.76 ],
+            "faces": {
+                "north": { "uv": [ 3.0, 6.0, 12.0, 12.0 ], "texture": "#sitrus", "rotation": 0 },
+                "south": { "uv": [ 3.0, 6.0, 12.0, 12.0 ], "texture": "#sitrus", "rotation": 0 },
+                "up": { "uv": [ 5.0, 6.0, 14.0, 14.0 ], "texture": "#sitrus", "rotation": 180 },
+                "down": { "uv": [ 3.0, 3.0, 12.0, 11.0 ], "texture": "#sitrus", "rotation": 180 },
+                "east": { "uv": [ 7.0, 8.0, 16.0, 14.0 ], "texture": "#sitrus", "rotation": 0 },
+                "west": { "uv": [ 7.0, 8.0, 16.0, 14.0 ], "texture": "#sitrus", "rotation": 0 }
+            }
+        },
+        {   "__comment": "sitrus",
+            "from": [ 7.1, 15.25, 8.06 ],
+            "to": [ 8.9, 15.55, 9.86 ],
+            "faces": {
+                "north": { "uv": [ 3.0, 7.0, 9.0, 9.0 ], "texture": "#sitrus", "rotation": 0 },
+                "south": { "uv": [ 3.0, 7.0, 9.0, 9.0 ], "texture": "#sitrus", "rotation": 0 },
+                "down": { "uv": [ 5.0, 9.0, 10.0, 14.0 ], "texture": "#sitrus", "rotation": 180 },
+                "east": { "uv": [ 3.0, 9.0, 9.0, 11.0 ], "texture": "#sitrus", "rotation": 0 },
+                "west": { "uv": [ 3.0, 9.0, 8.0, 11.0 ], "texture": "#sitrus", "rotation": 0 },
+                "up": { "uv": [ 9.0, 7.0, 3.0, 9.0 ], "texture": "#sitrus", "rotation": 180 }
+            }
+        },
+        {   "__comment": "sitrus",
+            "from": [ 6.8, 10.45, 7.76 ],
+            "to": [ 9.2, 11.05, 10.16 ],
+            "rotation": { "origin": [ 8.0, 10.75, 8.96 ], "axis": "y", "angle": -45.0 },
+            "faces": {
+                "north": { "uv": [ 3.0, 7.0, 9.0, 9.0 ], "texture": "#sitrus", "rotation": 0 },
+                "south": { "uv": [ 3.0, 7.0, 9.0, 9.0 ], "texture": "#sitrus", "rotation": 0 },
+                "down": { "uv": [ 5.0, 9.0, 10.0, 14.0 ], "texture": "#sitrus", "rotation": 180 },
+                "east": { "uv": [ 3.0, 9.0, 9.0, 11.0 ], "texture": "#sitrus", "rotation": 0 },
+                "west": { "uv": [ 3.0, 9.0, 8.0, 11.0 ], "texture": "#sitrus", "rotation": 0 },
+                "up": { "uv": [ 9.0, 7.0, 3.0, 9.0 ], "texture": "#sitrus", "rotation": 180 }
+            }
+        }
+    ],
+    "textures": {
+        "sitrus": "pokecube:block/fruit_sitrus",
+        "particle": "pokecube:block/fruit_sitrus"
+    }
+}

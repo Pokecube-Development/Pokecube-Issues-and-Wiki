@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.happiny"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.happiny"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_happiny": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "happiny"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.torterra"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.torterra"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_torterra": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "torterra"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_grotle"
+}

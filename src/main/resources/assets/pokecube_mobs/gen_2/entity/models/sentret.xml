@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase headAxis="1" headCap="-50,50" headDir="-1" name="global" offset="0,0,0" rotation="1,0,0,0" scale=".75"/>
+  <phase armAngle="35" duration="10" leftArm="LeftArm" leftLeg="LeftLeg" legAngle="45" name="biWalk" rightArm="RightArm" rightLeg="RightLeg"/>
+  <metadata head="head"/>
+  <customTex default="sentret">
+   <part name="head" tex="sentrethead"/>
+   <animation diffs="0,0.34" part="head" trigger="random:0.005:20"/>
+   <animation diffs="0.0,0.70" part="head" trigger="sleeping"/>
+  </customTex>
+  <phase type="idle">
+   <part name="TailBase">
+    <component length="1" name="1" rotOffset="-60.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="TailMid">
+    <component length="1" name="1" rotOffset="-70.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="TailBottom">
+    <component length="1" name="1" rotOffset="-112.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="1" name="1" posOffset="-0.0,-7,0.0" startKey="0"/>
+   </part>
+   <part name="leftearbase">
+    <component length="6" name="1" rotChange="0.0,0.0,3.0," startKey="0"/>
+    <component length="6" name="2" rotChange="0.0,0.0,-3.0," startKey="10"/>
+   </part>
+   <part name="rightearbase">
+    <component length="6" name="1" rotChange="0.0,0.0,-3.0," startKey="0"/>
+    <component length="6" name="2" rotChange="0.0,0.0,3.0," startKey="10"/>
+   </part>
+   <part name="LeftArm">
+    <component length="6" name="1" rotChange="0.0,0.0,3.0," startKey="0"/>
+    <component length="6" name="2" rotChange="0.0,0.0,-3.0," startKey="10"/>
+   </part>
+   <part name="RightArm">
+    <component length="6" name="1" rotChange="0.0,0.0,-3.0," startKey="0"/>
+    <component length="6" name="2" rotChange="0.0,0.0,3.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="sitting">
+   <part name="TailBase">
+    <component length="1" name="1" rotOffset="-80.0,0.0,92.0" startKey="0"/>
+   </part>
+   <part name="TailMid">
+    <component length="1" name="1" rotOffset="-70.0,0.0,3.0" startKey="0"/>
+   </part>
+   <part name="TailBottom">
+    <component length="1" name="1" rotOffset="-112.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="1" name="1" posOffset="-0.0,0,0.0" startKey="0"/>
+   </part>
+   <part name="LeftLeg">
+    <component length="1" name="1" posOffset="0.0,17.0,0.0" rotOffset="-112.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="RightLeg">
+    <component length="1" name="1" posOffset="0.0,17.0,0.0" rotOffset="-112.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="LeftArm">
+    <component length="1" name="1" posOffset="-4.0,2.0,15.0" rotOffset="0.0,-60.0,-16.0" startKey="0"/>
+   </part>
+   <part name="RightArm">
+    <component length="1" name="1" posOffset="4.0,2.0,15.0" rotOffset="0.0,60.0,16.0" startKey="0"/>
+   </part>
+   <part name="leftearbase">
+    <component length="6" name="1" rotChange="0.0,0.0,3.0," startKey="0"/>
+    <component length="6" name="2" rotChange="0.0,0.0,-3.0," startKey="10"/>
+   </part>
+   <part name="rightearbase">
+    <component length="6" name="1" rotChange="0.0,0.0,-3.0," startKey="0"/>
+    <component length="6" name="2" rotChange="0.0,0.0,3.0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

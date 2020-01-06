@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "III",
+    "SRS",
+    "SMS"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube_adventures:reanimator"
+    },
+    "S": {
+      "item": "minecraft:diamond_block"
+    },
+    "I": {
+      "item": "minecraft:nether_star"
+    },
+    "M": {
+      "item": "pokecube:shiny_charm"
+    }
+  },
+  "result": {
+    "item": "pokecube_adventures:splicer"
+  }
+}

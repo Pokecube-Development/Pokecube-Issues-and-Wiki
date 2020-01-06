@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bling",
+  "ingredients": [
+    {
+      "item": "thut_bling:bling_ring"
+    },
+    {
+      "item": "minecraft:string"
+    }
+  ],
+  "result": {
+    "item": "thut_bling:bling_neck"
+  }
+}

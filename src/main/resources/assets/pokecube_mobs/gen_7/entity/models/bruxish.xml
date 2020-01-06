@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.29"/>
+  <customTex default="bruxish">
+   <part name="Head" tex="bruxishhead"/>
+   <animation diffs="0,0.375" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" rotChange="1,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="15"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,-5,0" rotOffset="0,-50,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,5,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="0,50,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-5,0" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="0,-6,0" rotOffset="0,3,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,6,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" rotChange="0.2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.2,0,0" startKey="15"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="-8,-5,0" rotOffset="0,-50,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,5,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="-8,5,0" rotOffset="0,50,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,-5,0" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="0,-12,0" rotOffset="0,3,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,12,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

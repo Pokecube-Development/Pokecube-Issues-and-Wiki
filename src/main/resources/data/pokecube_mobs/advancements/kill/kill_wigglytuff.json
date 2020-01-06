@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wigglytuff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wigglytuff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_wigglytuff": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "wigglytuff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_jigglypuff"
+}

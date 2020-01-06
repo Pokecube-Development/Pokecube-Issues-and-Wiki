@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.15"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="-50,50" headDir="-1"/>
+  <phase duration="10" leftArm="" leftLeg="leg1" legAngle="50" name="biWalk" rightArm="" rightLeg="leg2"/>
+  <customTex default="pikipek">
+   <part name="Head" tex="pikipekhead"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="tail">
+    <component length="5" name="1" rotChange="20,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="-20,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="fly1">
+    <component length="5" name="1" rotChange="0,-30,30" rotOffset="0,-30,30" startKey="0"/>
+    <component length="5" name="2" rotChange="0,30,-30" startKey="10"/>
+   </part>
+   <part name="fly2">
+    <component length="5" name="1" rotChange="0,30,-30" rotOffset="0,30,-30" startKey="0"/>
+    <component length="5" name="2" rotChange="0,-30,30" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="5" name="1" rotChange="20,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="-20,0,0" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="-25,0,0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="-25,0,0," startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

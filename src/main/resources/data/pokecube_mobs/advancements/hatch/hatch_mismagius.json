@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mismagius"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mismagius"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mismagius": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mismagius"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_misdreavus"
+}

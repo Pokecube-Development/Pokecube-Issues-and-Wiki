@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.archeops"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.archeops"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_archeops": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "archeops"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_archen"
+}

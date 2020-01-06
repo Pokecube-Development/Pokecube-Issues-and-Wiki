@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.grumpig"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.grumpig"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_grumpig": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "grumpig"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_spoink"
+}

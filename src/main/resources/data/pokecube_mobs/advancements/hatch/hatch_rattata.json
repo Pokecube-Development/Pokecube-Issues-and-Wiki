@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rattata"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rattata"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rattata": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rattata"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,44 @@
+{
+    "elements": [
+        {   "__comment": "Cube",
+            "from": [ 7.76, 10.85, 7.76 ],
+            "to": [ 8.24, 15.65, 8.24 ],
+            "faces": {
+                "west": { "uv": [ 12.0, 11.0, 16.0, 15.0 ], "texture": "#qualot", "rotation": 270 },
+                "north": { "uv": [ 12.0, 11.0, 16.0, 15.0 ], "texture": "#qualot", "rotation": 270 },
+                "east": { "uv": [ 12.0, 11.0, 16.0, 15.0 ], "texture": "#qualot", "rotation": 270 },
+                "south": { "uv": [ 12.0, 11.0, 16.0, 15.0 ], "texture": "#qualot", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 16.0, 16.0 ], "texture": "#qualot", "rotation": 0 },
+                "up": { "uv": [ 12.0, 11.0, 16.0, 15.0 ], "texture": "#qualot", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 7.52, 7.72, 7.52 ],
+            "to": [ 8.48, 8.68, 8.48 ],
+            "faces": {
+                "west": { "uv": [ 11.0, 1.0, 15.0, 5.0 ], "texture": "#qualot", "rotation": 270 },
+                "north": { "uv": [ 11.0, 1.0, 15.0, 5.0 ], "texture": "#qualot", "rotation": 270 },
+                "east": { "uv": [ 11.0, 1.0, 15.0, 5.0 ], "texture": "#qualot", "rotation": 270 },
+                "south": { "uv": [ 11.0, 1.0, 15.0, 5.0 ], "texture": "#qualot", "rotation": 270 },
+                "down": { "uv": [ 11.0, 1.0, 15.0, 5.0 ], "texture": "#qualot", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 16.0, 16.0 ], "texture": "#qualot", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.6, 8.19, 5.6 ],
+            "to": [ 10.4, 14.21, 10.4 ],
+            "faces": {
+                "down": { "uv": [ 11.0, 1.0, 15.0, 5.0 ], "texture": "#qualot", "rotation": 270 },
+                "up": { "uv": [ 12.0, 11.0, 16.0, 15.0 ], "texture": "#qualot", "rotation": 180 },
+                "east": { "uv": [ 0.0, 0.0, 10.0, 14.0 ], "texture": "#qualot", "rotation": 0 },
+                "south": { "uv": [ 0.0, 0.0, 10.0, 14.0 ], "texture": "#qualot", "rotation": 0 },
+                "west": { "uv": [ 0.0, 0.0, 10.0, 14.0 ], "texture": "#qualot", "rotation": 0 },
+                "north": { "uv": [ -0.0, 0.0, 10.0, 14.0 ], "texture": "#qualot", "rotation": 0 }
+            }
+        }
+    ],
+    "textures": {
+        "qualot": "pokecube:block/fruit_qualot",
+        "particle": "pokecube:block/fruit_qualot"
+    }
+}

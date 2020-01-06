@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.palpitoad"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palpitoad"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_palpitoad": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "palpitoad"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_tympole"
+}

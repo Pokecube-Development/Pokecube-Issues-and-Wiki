@@ -1,0 +1,124 @@
+{
+  "locations": [
+    {
+      "berry": "cheri, leppa, grepa",
+      "spawn": [
+        {
+          "values": {
+            "types": "plains",
+            "typesBlackList": "savanna"
+          }
+        },
+        {
+          "values": {
+            "types": "village"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "chesto, pecha, aspear",
+      "spawn": [
+        {
+          "values": {
+            "types": "forest",
+            "typesBlackList": "coniferous, jungle"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "rawst, jaboca, qualot",
+      "spawn": [
+        {
+          "values": {
+            "types": "mountain, hills"
+          }
+        },
+        {
+          "values": {
+            "types": "nether"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "oran",
+      "spawn": [
+        {
+          "values": {
+            "types": "forest, hills",
+            "typesBlackList": "coniferous, jungle"
+          }
+        },
+        {
+          "values": {
+            "priority": "100",
+            "types": "all"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "persim, cornn, kelpsy",
+      "spawn": [
+        {
+          "values": {
+            "types": "swamp"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "lum, sitrus, nanab",
+      "spawn": [
+        {
+          "values": {
+            "types": "jungle, hills"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "nanab, hondew",
+      "spawn": [
+        {
+          "values": {
+            "types": "beach",
+            "typesBlackList": "cold"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "nanab, pinap, tamato",
+      "spawn": [
+        {
+          "values": {
+            "types": "jungle"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "enigma",
+      "spawn": [
+        {
+          "values": {
+            "types": "end"
+          }
+        }
+      ]
+    },
+    {
+      "berry": "rowap, pomeg",
+      "spawn": [
+        {
+          "values": {
+            "types": "forest, coniferous"
+          }
+        }
+      ]
+    }
+  ]
+}

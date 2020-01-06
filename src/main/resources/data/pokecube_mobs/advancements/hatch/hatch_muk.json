@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.muk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.muk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_muk": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "muk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_grimer"
+}

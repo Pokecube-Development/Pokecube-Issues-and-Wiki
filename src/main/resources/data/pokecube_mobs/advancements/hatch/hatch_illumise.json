@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.illumise"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.illumise"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_illumise": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "illumise"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

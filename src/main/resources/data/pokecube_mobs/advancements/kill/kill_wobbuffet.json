@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wobbuffet"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wobbuffet"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_wobbuffet": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "wobbuffet"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_wynaut"
+}

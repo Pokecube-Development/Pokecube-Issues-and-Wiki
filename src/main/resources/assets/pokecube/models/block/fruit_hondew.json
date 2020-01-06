@@ -1,0 +1,298 @@
+{
+    "elements": [
+        {   "__comment": "Cube",
+            "from": [ 7.61, 13.42, 7.6 ],
+            "to": [ 8.71, 14.46, 8.67 ],
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 7.78, 14.56, 6.11 ],
+            "to": [ 8.22, 15.01, 8.0 ],
+            "rotation": { "origin": [ 8.0, 14.78, 6.11 ], "axis": "x", "angle": 22.5 },
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 7.78, 14.56, 8.13 ],
+            "to": [ 8.22, 15.02, 10.11 ],
+            "rotation": { "origin": [ 7.99, 14.78, 10.11 ], "axis": "x", "angle": -22.5 },
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 90 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 90 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 90 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 90 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "down": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.35, 12.8, 8.58 ],
+            "to": [ 10.63, 13.71, 9.5 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.35, 11.48, 8.58 ],
+            "to": [ 10.63, 12.39, 9.49 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.35, 10.18, 8.58 ],
+            "to": [ 10.63, 11.09, 9.5 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.37, 8.84, 8.62 ],
+            "to": [ 10.65, 9.75, 9.53 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.35, 12.8, 6.58 ],
+            "to": [ 10.63, 13.71, 7.49 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.35, 11.59, 6.58 ],
+            "to": [ 10.63, 12.5, 7.49 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.35, 10.29, 6.58 ],
+            "to": [ 10.63, 11.2, 7.49 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.35, 8.94, 6.58 ],
+            "to": [ 10.63, 9.85, 7.49 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 8.56, 12.68, 5.39 ],
+            "to": [ 9.47, 13.6, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 8.56, 11.49, 5.39 ],
+            "to": [ 9.47, 12.4, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 8.56, 10.27, 5.39 ],
+            "to": [ 9.47, 11.18, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 8.56, 8.97, 5.39 ],
+            "to": [ 9.47, 9.88, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 6.51, 12.68, 5.39 ],
+            "to": [ 7.42, 13.6, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 6.55, 11.49, 5.39 ],
+            "to": [ 7.46, 12.4, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 6.52, 10.27, 5.39 ],
+            "to": [ 7.43, 11.18, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 6.54, 8.97, 5.39 ],
+            "to": [ 7.46, 9.88, 10.67 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 6.47, 8.17, 8.54 ],
+            "to": [ 7.38, 9.08, 9.45 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 8.64, 8.17, 8.54 ],
+            "to": [ 9.55, 9.08, 9.45 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 8.64, 8.17, 6.61 ],
+            "to": [ 9.55, 9.08, 7.53 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 6.47, 8.17, 6.61 ],
+            "to": [ 7.38, 9.08, 7.53 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#hondew", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.6, 8.35, 5.6 ],
+            "to": [ 10.4, 14.05, 10.4 ],
+            "faces": {
+                "down": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 180 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 270 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#hondew", "rotation": 90 }
+            }
+        }
+    ],
+    "textures": {
+        "hondew": "pokecube:block/fruit_hondew",
+        "particle": "pokecube:block/fruit_hondew"
+    }
+}

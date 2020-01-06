@@ -1,0 +1,56 @@
+{
+"trainers":[
+  {
+    "type": "farmer",
+    "pokemon": "-normal"
+  },
+  {
+    "type": "fisherman",
+    "pokemon": "-water"
+  },
+  {
+    "type": "shepherd",
+    "pokemon": "-normal"
+  },
+  {
+    "type": "fletcher",
+    "pokemon": "-flying"
+  },
+  {
+    "type": "librarian",
+    "pokemon": "-normal"
+  },
+  {
+    "type": "cartographer",
+    "pokemon": "-normal"
+  },
+  {
+    "type": "cleric",
+    "pokemon": "-psychic"
+  },
+  {
+    "type": "armor",
+    "pokemon": "-steel"
+  },
+  {
+    "type": "weapon",
+    "pokemon": "-steel"
+  },
+  {
+    "type": "tool",
+    "pokemon": "-steel"
+  },
+  {
+    "type": "butcher",
+    "pokemon": "-normal"
+  },
+  {
+    "type": "leather",
+    "pokemon": "-normal"
+  },
+  {
+    "type": "nitwit",
+    "pokemon": "-fairy"
+  }
+]
+}

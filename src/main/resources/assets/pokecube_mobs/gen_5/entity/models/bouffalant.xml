@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <phase duration="10" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
+  <customTex default="bouffalant">
+   <part name="Head" tex="bouffalanthead"/>
+   <animation diffs="0.44,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="tail">
+    <component length="5" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="3,0,0" startKey="5"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="tail">
+    <component length="10" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

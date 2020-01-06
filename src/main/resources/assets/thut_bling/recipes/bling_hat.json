@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bling",
+  "ingredients": [
+    {
+      "item": "minecraft:leather_helmet"
+    }
+  ],
+  "result": {
+    "item": "thut_bling:bling_hat"
+  }
+}

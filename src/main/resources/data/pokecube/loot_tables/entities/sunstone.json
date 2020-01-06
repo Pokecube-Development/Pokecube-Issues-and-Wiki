@@ -1,0 +1,20 @@
+{
+    "pools": [
+        {
+            "name": "pool_0",
+            "rolls": 1,
+            "conditions": [
+                {
+                    "condition": "random_chance",
+                    "chance": 0.1
+                }
+            ],
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "pokecube:sunstone"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.5"/>
+  <metadata headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase female="F" male="" name="textures"/>
+  <phase type="idle">
+   <part name="Body">
+    <component length="5" name="1" rotOffset="0.0,90.0,0.0," startKey="0"/>
+    <component length="5" name="2" posChange="0,-4,0" rotChange="-20.0,0.0,0.0," startKey="5"/>
+    <component length="5" name="3" rotChange="20.0,0.0,0.0," startKey="10"/>
+    <component length="5" name="4" posChange="0,4,0" rotChange="20.0,0.0,0.0," startKey="15"/>
+    <component length="3" name="5" rotChange="-20.0,0.0,0.0," startKey="20"/>
+   </part>
+   <part name="Tail">
+    <component length="5" name="1" rotOffset="-0.0,0.0,0.0," startKey="0"/>
+    <component length="5" name="2" rotChange="0.0,0.0,90.0," startKey="5"/>
+    <component length="5" name="3" rotChange="0.0,0.0,-90.0," startKey="10"/>
+    <component length="5" name="4" rotChange="0.0,0.0,-90.0," startKey="15"/>
+    <component length="3" name="5" rotChange="0.0,0.0,90.0," startKey="20"/>
+   </part>
+   <part name="Left_Fin">
+    <component length="10" name="1" rotChange="0.0,0.0,-20.0," rotOffset="0.0,0,17.3" startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,20.0," startKey="10"/>
+   </part>
+   <part name="Right_Fin">
+    <component length="10" name="1" rotChange="0.0,0.0,20.0," rotOffset="-0.0,0,-17.3" startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,-20.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="swimming">
+   <part name="Tail">
+    <component length="10" name="1" rotChange="0.0,0.0,-60.0," rotOffset="-0.0,0.0,30.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,0.0,60.0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

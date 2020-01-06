@@ -1,0 +1,92 @@
+{
+    "elements": [
+        {   "__comment": "Cube",
+            "from": [ 6.88, 8.46, 6.88 ],
+            "to": [ 9.12, 9.35, 9.12 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 7.55, 8.07, 7.55 ],
+            "to": [ 8.45, 8.52, 8.45 ],
+            "faces": {
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 0 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 6.66, 13.11, 6.66 ],
+            "to": [ 9.34, 13.79, 9.34 ],
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 7.33, 13.68, 7.33 ],
+            "to": [ 8.67, 13.91, 8.67 ],
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 7.78, 11.43, 7.78 ],
+            "to": [ 8.22, 15.91, 8.22 ],
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "north": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 7.8, 14.76, 7.89 ],
+            "to": [ 8.2, 15.21, 9.68 ],
+            "faces": {
+                "west": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "east": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "south": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "down": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 0 },
+                "up": { "uv": [ 8.0, 0.0, 16.0, 8.0 ], "texture": "#grepa", "rotation": 180 }
+            }
+        },
+        {   "__comment": "Cube",
+            "from": [ 5.76, 8.96, 5.76 ],
+            "to": [ 10.24, 13.44, 10.24 ],
+            "faces": {
+                "down": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "up": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 180 },
+                "east": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "south": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "west": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 270 },
+                "north": { "uv": [ 0.0, 0.0, 8.0, 8.0 ], "texture": "#grepa", "rotation": 90 }
+            }
+        }
+    ],
+    "textures": {
+        "grepa": "pokecube:block/fruit_grepa",
+        "particle": "pokecube:block/fruit_grepa"
+    }
+}

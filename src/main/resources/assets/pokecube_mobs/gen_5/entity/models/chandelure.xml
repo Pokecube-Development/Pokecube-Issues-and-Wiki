@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0.1" rotation="1,0,0,0" scale="0.2"/>
+  <customTex default="chandelure">
+   <part name="Head" tex="chandelurehead"/>
+   <animation diffs="0.11,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="fire_h">
+    <component length="5" name="1" rotChange="0,-2,0" startKey="0"/>
+    <component length="5" name="2" rotChange="0,2,0" startKey="10"/>
+   </part>
+   <part name="fire_h1">
+    <component length="7" name="1" rotChange="-4,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="4,0,0" startKey="10"/>
+   </part>
+   <part name="fire_h2">
+    <component length="9" name="1" rotChange="6,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="-6,0,0" startKey="10"/>
+   </part>
+   <part name="fire_h3">
+    <component length="9" name="1" rotChange="-6,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="6,0,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="fire_h">
+    <component length="10" name="1" rotChange="-4,-2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,2,0" startKey="10"/>
+   </part>
+   <part name="fire_h1">
+    <component length="8" name="1" rotChange="-8,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="8,0,0" startKey="10"/>
+   </part>
+   <part name="fire_h2">
+    <component length="7" name="1" rotChange="-10,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="fire_h3">
+    <component length="6" name="1" rotChange="-15,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="15,0,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-3" rotOffset="-10,10,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,3" rotOffset="-10,-10,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

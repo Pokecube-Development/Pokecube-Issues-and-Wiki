@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.19"/>
+  <phase duration="10" leftArm="" leftLeg="foot1" legAngle="15" name="biWalk" rightArm="" rightLeg="foot2"/>
+  <phase type="idle">
+   <part name="foot1">
+    <component length="6" name="1" rotChange="2,0,0" rotOffset="0,8,0" startKey="0"/>
+    <component length="6" name="2" rotChange="-2,0,0" startKey="5"/>
+   </part>
+   <part name="foot2">
+    <component length="6" name="1" rotChange="-2,0,0" rotOffset="0,-8,0" startKey="0"/>
+    <component length="6" name="2" rotChange="2,0,0" startKey="5"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="ant">
+    <component length="6" name="1" rotChange="-2,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="2,0,0" startKey="5"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

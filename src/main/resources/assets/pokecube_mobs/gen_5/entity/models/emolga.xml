@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.3"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
+  <customTex default="emolga">
+   <part name="Head" tex="emolgahead"/>
+   <animation diffs="0.49,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <worn angles="270,0,0" id="__HAT__" offset="0,0.6,0" parent="head" scale="1"/>
+  <worn angles="270,0,0" id="__EYE__" offset="0,0.35,0.05" parent="head" scale="1.1"/>
+  <worn angles="270,0,0" id="__NECK__" offset="0,0.72,0.13" parent="body" scale="1"/>
+  <phase duration="10" leftArm="" leftLeg="foot2" legAngle="15" name="biWalk" rightArm="" rightLeg="foot1"/>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="1" name="1" rotOffset="0,0,-60," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" rotOffset="0,0,60," startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="3,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-3,0,0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="1" name="1" rotOffset="0,0,-60," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" rotOffset="0,0,60," startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="0,3,0," startKey="0"/>
+    <component length="10" name="2" rotChange="0,-3,0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="10" name="1" rotOffset="50,0,0," startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="4,0,0," rotOffset="-35,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-4,0,0," startKey="10"/>
+   </part>
+   <part name="foot1">
+    <component length="1" name="1" rotOffset="40,0,5," startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="1" name="1" rotOffset="40,0,-5," startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_darmanitan": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "darmanitan"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_darumaka"
+}

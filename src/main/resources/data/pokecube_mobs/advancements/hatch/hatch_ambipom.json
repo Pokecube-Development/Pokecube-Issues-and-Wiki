@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ambipom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ambipom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ambipom": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ambipom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_aipom"
+}

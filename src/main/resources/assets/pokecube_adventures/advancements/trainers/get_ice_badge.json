@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_adventures:badge_ice"
+    },
+    "title": {
+      "translate": "achievement.achievement.pokeadv.get.badgeice"
+    },
+    "description": {
+      "translate": "achievement.achievement.pokeadv.get.badgeice.desc"
+    }
+  },
+  "criteria": {
+    "get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_ice"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "pokecube_adventures:trainers/root"
+}

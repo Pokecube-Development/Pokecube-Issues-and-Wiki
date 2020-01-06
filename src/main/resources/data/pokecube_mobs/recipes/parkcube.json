@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "GGG",
+    "DMD",
+    "BBB"
+  ],
+  "key": {
+    "M": {
+      "item": "pokecube:mastercube"
+    },
+    "G": {
+      "item": "minecraft:gold_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "B": {
+      "item": "minecraft:bone_block"
+    }
+  },
+  "result": {
+    "item": "pokecube:parkcube",
+    "count": 1
+  }
+}

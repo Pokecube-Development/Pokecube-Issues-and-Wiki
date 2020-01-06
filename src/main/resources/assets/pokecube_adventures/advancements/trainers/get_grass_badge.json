@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_adventures:badge_grass"
+    },
+    "title": {
+      "translate": "achievement.achievement.pokeadv.get.badgegrass"
+    },
+    "description": {
+      "translate": "achievement.achievement.pokeadv.get.badgegrass.desc"
+    }
+  },
+  "criteria": {
+    "get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_grass"
+          }
+        ]
+      }
+    }
+  },
+  "parent": "pokecube_adventures:trainers/root"
+}

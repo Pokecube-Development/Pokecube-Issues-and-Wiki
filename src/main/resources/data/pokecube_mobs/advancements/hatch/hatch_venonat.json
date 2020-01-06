@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.venonat"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.venonat"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_venonat": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "venonat"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

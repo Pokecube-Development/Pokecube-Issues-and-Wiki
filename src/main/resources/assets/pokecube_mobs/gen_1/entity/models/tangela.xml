@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.4"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <customTex default="tangela">
+   <part name="Head" tex="tangelahead"/>
+   <animation diffs="0,0.47" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="walking">
+   <part name="leg1">
+    <component length="5" name="1" rotChange="20,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="-40,0,0" startKey="5"/>
+    <component length="5" name="1" rotChange="20,0,0" startKey="10"/>
+   </part>
+   <part name="leg">
+    <component length="5" name="1" rotChange="-20,0,0" startKey="0"/>
+    <component length="5" name="2" rotChange="40,0,0" startKey="5"/>
+    <component length="5" name="1" rotChange="-20,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale=".85"/>
+  <metadata head="Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase type="walking">
+   <part name="shape21">
+    <component length="10" name="1" rotChange="-10.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="10.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="shape14">
+    <component length="5" name="1" rotChange="20.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="-40.0,0.0,0.0," startKey="5"/>
+    <component length="5" name="3" rotChange="20.0,0.0,0.0," startKey="15"/>
+   </part>
+   <part name="shape32">
+    <component length="5" name="1" rotChange="-15.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="30.0,0.0,0.0," startKey="5"/>
+    <component length="5" name="3" rotChange="-15.0,0.0,0.0," startKey="15"/>
+   </part>
+   <part name="shape32_1">
+    <component length="5" name="1" rotChange="15.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="-30.0,0.0,0.0," startKey="5"/>
+    <component length="5" name="3" rotChange="15.0,0.0,0.0," startKey="15"/>
+   </part>
+   <part name="shape26">
+    <component length="10" name="1" rotChange="-10.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="10.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="shape13">
+    <component length="5" name="1" rotChange="-20.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="40.0,0.0,0.0," startKey="5"/>
+    <component length="5" name="3" rotChange="-20.0,0.0,0.0," startKey="15"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

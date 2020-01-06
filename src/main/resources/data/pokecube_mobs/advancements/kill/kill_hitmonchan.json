@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hitmonchan"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hitmonchan": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "hitmonchan"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_tyrogue"
+}

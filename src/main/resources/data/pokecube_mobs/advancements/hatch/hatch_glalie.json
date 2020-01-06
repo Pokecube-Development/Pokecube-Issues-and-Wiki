@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.glalie"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.glalie"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_glalie": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "glalie"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_snorunt"
+}

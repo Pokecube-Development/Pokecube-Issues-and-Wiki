@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooper"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wooper"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_wooper": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "wooper"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

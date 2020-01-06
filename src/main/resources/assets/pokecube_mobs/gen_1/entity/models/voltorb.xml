@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0.05,0" rotation="1,0,0,0" scale="0.8"/>
+  <phase type="walking">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,0,0," startKey="0"/>
+    <component length="30" name="1" rotChange="360,0,0" startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

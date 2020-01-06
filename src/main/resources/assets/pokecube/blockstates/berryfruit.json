@@ -1,0 +1,34 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+	    "transform":"forge:default-block",
+        "model": "pokecube:berryfruit"
+	},
+	"variants": {
+	    "type": {
+           "null": { "textures":{ "cross": "pokecube:blocks/nullfruit" } },
+           "cheri": { "textures":{ "cross": "pokecube:blocks/cherifruit" } },
+           "chesto": { "textures":{ "cross": "pokecube:blocks/chestofruit" } },
+           "pecha": { "model": "pokecube:pecha.obj" },
+           "rawst": { "textures":{ "cross": "pokecube:blocks/rawstfruit" } },
+           "aspear": { "textures":{ "cross": "pokecube:blocks/aspearfruit" } },
+           "leppa": { "model": "pokecube:leppa.obj" },
+           "oran": { "model": "pokecube:oran.obj" },
+           "persim": { "textures":{ "cross": "pokecube:blocks/persimfruit" } },
+           "lum": { "textures":{ "cross": "pokecube:blocks/lumfruit" } },
+           "sitrus": { "model": "pokecube:sitrus.obj" },
+           "nanab": { "model": "pokecube:nanab.obj" },
+           "pinap": { "textures":{ "cross": "pokecube:blocks/pinapfruit" } },
+           "pomeg": { "model": "pokecube:pomeg.obj" },
+           "kelpsy": { "model": "pokecube:kelpsy.obj" },
+           "qualot": { "model": "pokecube:qualot.obj" },
+           "hondew": { "model": "pokecube:hondew.obj" },
+           "grepa": { "model": "pokecube:grepa.obj" },
+           "tamato": { "model": "pokecube:tamato.obj" },
+           "cornn": { "textures":{ "cross": "pokecube:blocks/cornnfruit" } },
+           "enigma": { "model": "pokecube:enigma.obj" },
+           "jaboca": { "textures":{ "cross": "pokecube:blocks/jabocafruit" } },
+           "rowap": { "textures":{ "cross": "pokecube:blocks/rowapfruit" } }
+        }
+    }
+}

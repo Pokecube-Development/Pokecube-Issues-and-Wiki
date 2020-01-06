@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ferrothorn"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ferrothorn"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ferrothorn": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ferrothorn"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_ferroseed"
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.35"/>
+  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
+  <customTex default="snorlax">
+   <part name="Head" tex="snorlaxhead"/>
+   <animation diffs="0,0.32" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.0,0.64" part="Head" trigger="ANGRY"/>
+  </customTex>
+  <phase armAngle="20" duration="10" leftArm="Leftarm" leftLeg="footL" legAngle="15" name="biWalk" rightArm="rightarm" rightLeg="footR"/>
+  <phase type="idle">
+   <part name="Head">
+    <component length="10" name="1" posChange="0.0,1.0,0.0," startKey="0"/>
+    <component length="10" name="2" posChange="0.0,-1.0,0.0," startKey="10"/>
+   </part>
+   <part name="rightarm">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-5.0,0.0,-5.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="5.0,0.0,5.0," startKey="10"/>
+   </part>
+   <part name="Leftarm">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="5.0,0.0,5.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5.0,0.0,-5.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="sitting">
+   <part name="Body">
+    <component length="15" name="1" posChange="0.0,3.0,0.0," posOffset="0.0,15.0,0.0" rotOffset="-90.0,0.0,0.0," startKey="0"/>
+    <component length="15" name="2" posChange="0.0,-3.0,0.0," startKey="10"/>
+   </part>
+   <part name="footR">
+    <component length="10" name="1" posOffset="0.0,2.0,0.0," rotChange="5.0,0.0,5.0," rotOffset="0.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="-5.0,0.0,-5.0," startKey="10"/>
+   </part>
+   <part name="footL">
+    <component length="10" name="1" posOffset="0.0,2.0,0.0," rotChange="-5.0,0.0,-5.0," rotOffset="0.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="5.0,0.0,5.0," startKey="10"/>
+   </part>
+   <part name="rightarm">
+    <component length="10" name="1" posOffset="-2.0,0.0,0.0" rotChange="-5.0,0.0,-5.0," rotOffset="20.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="5.0,0.0,5.0," startKey="10"/>
+   </part>
+   <part name="Leftarm">
+    <component length="10" name="1" posOffset="2.0,0.0,0.0" rotChange="5.0,0.0,5.0," rotOffset="20.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5.0,0.0,-5.0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=east":  { "model": "pokecube_adventures:block/siphon", "y":270 },
+        "facing=west":  { "model": "pokecube_adventures:block/siphon", "y":90 },
+        "facing=north": { "model": "pokecube_adventures:block/siphon", "y":180},
+        "facing=south": { "model": "pokecube_adventures:block/siphon", "y":0 }
+    }
+}

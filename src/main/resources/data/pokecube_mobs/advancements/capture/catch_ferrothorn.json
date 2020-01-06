@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ferrothorn"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ferrothorn"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_ferrothorn": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "ferrothorn"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_ferroseed"
+}

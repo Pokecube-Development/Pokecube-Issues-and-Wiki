@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.decidueye"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_decidueye": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "decidueye"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_dartrix"
+}

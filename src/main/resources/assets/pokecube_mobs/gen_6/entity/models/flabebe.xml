@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.015"/>
+  <metadata dye="p1:p1_001:p1_002:p1_003:p1_004" head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <customTex default="flabebe">
+   <part name="Head" tex="flabebehead"/>
+   <animation diffs="-0.44,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="1" name="1" rotOffset="0.0,-120,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" rotOffset="0.0,120,0," startKey="0"/>
+   </part>
+   <part name="tail1">
+    <component length="8" name="1" rotChange="-10,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="flower">
+    <component length="12" name="1" posChange="0,-3,0" rotChange="0,0,-8" startKey="0"/>
+    <component length="12" name="2" posChange="0,3,0" rotChange="0,0,8" startKey="10"/>
+    <component length="12" name="3" posChange="0,-3,0" rotChange="0,0,8" startKey="20"/>
+    <component length="12" name="4" posChange="0,3,0" rotChange="0,0,-8" rotOffset="0,0,0" startKey="30"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="arm1">
+    <component length="1" name="1" rotOffset="0.0,-120,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" rotOffset="0.0,120,0," startKey="0"/>
+   </part>
+   <part name="stick1">
+    <component length="1" name="1" rotOffset="-10,0,0," startKey="0"/>
+   </part>
+   <part name="tail1">
+    <component length="8" name="1" rotChange="-10,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="flower">
+    <component length="12" name="1" posChange="0,-3,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="12" name="2" posChange="0,3,0" startKey="10"/>
+    <component length="12" name="3" posChange="0,-3,0" startKey="20"/>
+    <component length="12" name="4" posChange="0,3,0" startKey="30"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

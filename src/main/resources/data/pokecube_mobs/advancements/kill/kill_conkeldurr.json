@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.conkeldurr"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.conkeldurr"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_conkeldurr": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "conkeldurr"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_gurdurr"
+}

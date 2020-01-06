@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.blastoise"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blastoise"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_blastoise": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "blastoise"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_wartortle"
+}

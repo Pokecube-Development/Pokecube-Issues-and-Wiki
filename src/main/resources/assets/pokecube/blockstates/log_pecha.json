@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y": { "model": "pokecube:block/log_pecha" },
+        "axis=z": { "model": "pokecube:block/log_pecha", "x": 90 },
+        "axis=x": { "model": "pokecube:block/log_pecha", "x": 90, "y": 90 }
+    }
+}

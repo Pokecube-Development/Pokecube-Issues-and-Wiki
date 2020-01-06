@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pichu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pichu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pichu": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pichu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

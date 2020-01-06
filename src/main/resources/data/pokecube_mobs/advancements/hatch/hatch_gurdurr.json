@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gurdurr"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gurdurr"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gurdurr": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gurdurr"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_timburr"
+}

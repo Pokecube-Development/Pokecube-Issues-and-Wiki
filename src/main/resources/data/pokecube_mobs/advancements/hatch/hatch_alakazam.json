@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alakazam"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alakazam"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_alakazam": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "alakazam"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_kadabra"
+}

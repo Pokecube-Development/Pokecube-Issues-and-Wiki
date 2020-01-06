@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
+  <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2"/>
+  <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2"/>
+  <worn angles="-110,0,0" id="__HAT__" offset="0,0.25,0.1" parent="head" scale="0.83"/>
+ <worn angles="-90,0,0" id="__EYE__" offset="0,0.25,0.1" parent="head" scale="0.8"/>
+  <worn angles="-10,180,0" id="__NECK__" offset="0,-0.175,-0.325" parent="body1" scale=".5"/>
+  <worn angles="-10,0,0" id="__BACK__" offset="0,0.17,0.22" parent="body1" scale="0.65,0.65,0.65"/>
+  <customTex default="geodude">
+   <part name="Head" tex="geodudehead"/>
+   <animation diffs="0.4,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="arm1">
+    <component length="1" name="1" rotOffset="10,-40,0" startKey="0"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,-60,0" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" rotOffset="10,40,0" startKey="0"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,60,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" posChange="0,-2,0" posOffset="0,-6,0" startKey="0"/>
+	<component length="10" name="2" posChange="0,2,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="8" name="1" rotChange="0,0,3" rotOffset="30,0,-10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="8" name="1" rotChange="0,0,3" rotOffset="0,0,75" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotChange="0,0,-3" rotOffset="30,0,10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="8" name="1" rotChange="0,0,-3" rotOffset="0,0,-75" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" rotOffset="15,0,0" posChange="0,-2,0" posOffset="0,-6,0" startKey="0"/>
+	<component length="10" name="2" posChange="0,2,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="8" name="1" rotChange="0,0,3" rotOffset="60,0,-10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="8" name="1" rotChange="0,0,3" rotOffset="0,0,75" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotChange="0,0,-3" rotOffset="60,0,10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="8" name="1" rotChange="0,0,-3" rotOffset="0,0,-75" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

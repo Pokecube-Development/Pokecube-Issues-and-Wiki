@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.swalot"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.swalot"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_swalot": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "swalot"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_gulpin"
+}

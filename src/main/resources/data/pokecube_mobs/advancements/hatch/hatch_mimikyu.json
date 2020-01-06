@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mimikyu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mimikyu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mimikyu": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mimikyu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

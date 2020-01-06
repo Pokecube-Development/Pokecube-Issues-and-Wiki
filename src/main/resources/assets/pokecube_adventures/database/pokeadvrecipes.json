@@ -1,0 +1,195 @@
+{
+  "recipes": [
+    {
+      "shapeless": false,
+      "handler": "dna",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "pokecube:fossil_kabuto"
+          }
+        }
+      ],
+      "values": {
+        "pokemonE": "Genesect",
+        "lvl": "15",
+        "cost": "10000",
+        "chance": "0.1",
+        "remain": "0",
+        "priority": "-1"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "dna",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "pokecube_adventures:mewhair"
+          }
+        }
+      ],
+      "values": {
+        "pokemonE": "Mew",
+        "lvl": "15",
+        "cost": "10000",
+        "chance": "0.1",
+        "remain": "0",
+        "priority": "-1"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "dna",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "pokecube_adventures:mewhair"
+          }
+        }
+      ],
+      "values": {
+        "pokemonE": "Mewtwo",
+        "lvl": "15",
+        "cost": "10000",
+        "chance": "0.9",
+        "remain": "0",
+        "priority": "-1"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "selector",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:nether_star"
+          }
+        }
+      ],
+      "values": {
+        "dna": "0.0",
+        "selector": "0.25"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "cloner",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "pokecube_adventures:mewhair"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "32767",
+            "id": "pokecube:pokemobegg"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "32767",
+            "id": "minecraft:potion"
+          }
+        }
+      ],
+      "values": {
+        "lvl": "15",
+        "cost": "10000",
+        "pokemon": "Ditto",
+        "remain": "0",
+        "priority": "-1"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "cloner",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "pokecube_adventures:mewhair"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "32767",
+            "id": "pokecube:pokemobegg"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:potion",
+            "tag": "{Potion:\"minecraft:strong_regeneration\"}"
+          },
+          "tag": "{Potion:\"minecraft:strong_regeneration\"}"
+        }
+      ],
+      "values": {
+        "lvl": "70",
+        "cost": "30000",
+        "pokemon": "Mewtwo"
+      }
+    },
+    {
+      "shapeless": false,
+      "handler": "cloner",
+      "map": "",
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:redstone_block"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:iron_block"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:diamond_block"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "pokecube:fossil_kabuto"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:potion",
+            "tag": "{Potion:\"minecraft:strong_regeneration\"}"
+          },
+          "tag": "{Potion:\"minecraft:strong_regeneration\"}"
+        }
+      ],
+      "values": {
+        "lvl": "70",
+        "cost": "30000",
+        "pokemon": "Genesect"
+      }
+    }
+  ]
+}

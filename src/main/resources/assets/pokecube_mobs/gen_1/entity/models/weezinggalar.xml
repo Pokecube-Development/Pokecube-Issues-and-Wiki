@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.5"/>
+  <metadata head="body" headAxis="2" headAxis2="0" headCap="-5,5" headCap1="-5,5" headDir="-1" headDir1="-1"/>
+  <worn angles="-90,0,0" id="__EYE__" offset="0,0.6,0.8" parent="body" scale="2.8,2,2"/>
+  <customTex default="weezinggalarian">
+   <part name="Head" tex="weezinggalarianhad"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
+   <part name="Head1" tex="weezinggalarianhead1"/>
+   <animation diffs="0.5,0" part="Head1" trigger="random:0.005:20"/>
+  </customTex>
+  <phase type="idle">
+   <part name="mouth">
+    <component length="10" name="1" posChange="0,3,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-3,0" startKey="60"/>
+	<component length="10" name="3" posChange="0,0,0" startKey="120"/>
+   </part>
+   <part name="smoke1">
+    <component length="10" name="1" posChange="0,3,0" rotChange="1,0,-2," startKey="0"/>
+    <component length="10" name="2" posChange="0,-6,0" rotChange="-2,0,4," startKey="5"/>
+	<component length="10" name="3" posChange="0,3,0" rotChange="1,0,-2," startKey="10"/>
+   </part>
+   <part name="smoke1_001">
+    <component length="10" name="1" posChange="0,-3,0" rotChange="1,0,-2," startKey="0"/>
+    <component length="10" name="2" posChange="0,6,0" rotChange="-2,0,4," startKey="5"/>
+	<component length="10" name="3" posChange="0,-3,0" rotChange="1,0,-2," startKey="10"/>
+   </part>
+   <part name="smoke3">
+    <component length="10" name="1" posChange="0,-3,0" rotChange="3,0,0," startKey="0"/>
+    <component length="10" name="2" posChange="0,6,0" rotChange="-6,0,0," startKey="5"/>
+	<component length="10" name="3" posChange="0,-3,0" rotChange="3,0,0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="mouth">
+    <component length="10" name="1" posChange="0,3,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-3,0" startKey="60"/>
+	<component length="10" name="3" posChange="0,0,0" startKey="120"/>
+   </part>
+   <part name="smoke1">
+    <component length="10" name="1" posChange="0,3,0" rotOffset="0,70,0" rotChange="1,0,-2," startKey="0"/>
+    <component length="10" name="2" posChange="0,-6,0" rotChange="-2,0,4," startKey="5"/>
+	<component length="10" name="3" posChange="0,3,0" rotChange="1,0,-2," startKey="10"/>
+   </part>
+   <part name="smoke1_001">
+    <component length="10" name="1" posChange="0,-3,0" rotOffset="0,70,0" rotChange="1,0,-2," startKey="0"/>
+    <component length="10" name="2" posChange="0,6,0" rotChange="-2,0,4," startKey="5"/>
+	<component length="10" name="3" posChange="0,-3,0" rotChange="1,0,-2," startKey="10"/>
+   </part>
+   <part name="smoke3">
+    <component length="10" name="1" posChange="0,-3,0" rotChange="3,0,0," startKey="0"/>
+    <component length="10" name="2" posChange="0,6,0" rotChange="-6,0,0," startKey="5"/>
+	<component length="10" name="3" posChange="0,-3,0" rotChange="3,0,0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+ <details>
+  <PARTICLEEFFECTS>
+   flame:15.5:15.5
+  </PARTICLEEFFECTS>
+ </details>
+</ModelAnimator>

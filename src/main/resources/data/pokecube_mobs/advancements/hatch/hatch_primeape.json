@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.primeape"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.primeape"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_primeape": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "primeape"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_mankey"
+}

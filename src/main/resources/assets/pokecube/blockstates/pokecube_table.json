@@ -1,0 +1,15 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "#table": "pokecube:blocks/pokecube_table" //the identifier must be a name of a material defined by the "model" obj's .mtl file
+        },
+        "model": "pokecube:pokecube_table.obj"
+     },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{
+            "transform": "forge:default-block"
+        }]
+    }
+}

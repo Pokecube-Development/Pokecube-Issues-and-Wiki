@@ -1,0 +1,10 @@
+{
+  "parent": "pokecube:block/pokecubes",
+  "textures": {
+    "top": "pokecube:items/cherishcubetop",
+    "bottom": "pokecube:items/cherishcubebottom",
+    "front": "pokecube:items/cherishcubefront",
+    "side": "pokecube:items/cherishcubeside",
+    "back": "pokecube:items/cherishcubeback"
+  }
+}

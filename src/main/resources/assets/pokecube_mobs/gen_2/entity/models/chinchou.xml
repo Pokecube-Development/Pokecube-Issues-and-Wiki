@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.3"/>
+  <customTex default="chinchou">
+   <part name="Head" tex="chinchouhead"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:21"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="8" name="1" rotOffset="-10,0,-30" startKey="0"/>
+   </part>
+   <part name="p1_1">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p1_2">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p1_3">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_4">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_5">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_6">
+    <component length="8" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+   <part name="p2">
+    <component length="8" name="1" rotOffset="-10,0,30" startKey="0"/>
+   </part>
+   <part name="p2_1">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p2_2">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p2_3">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_4">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_5">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_6">
+    <component length="8" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="8" name="1" rotOffset="-10,0,-30" startKey="0"/>
+   </part>
+   <part name="p1_1">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p1_2">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p1_3">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_4">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_5">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_6">
+    <component length="8" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+   <part name="p2">
+    <component length="8" name="1" rotOffset="-10,0,30" startKey="0"/>
+   </part>
+   <part name="p2_1">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p2_2">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p2_3">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_4">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_5">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_6">
+    <component length="8" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="swimming">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-30" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,60" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-30" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,30" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-60" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,30" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="8" name="1" rotOffset="-10,0,-30" startKey="0"/>
+   </part>
+   <part name="p1_1">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p1_2">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p1_3">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_4">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_5">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p1_6">
+    <component length="8" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+   <part name="p2">
+    <component length="8" name="1" rotOffset="-10,0,30" startKey="0"/>
+   </part>
+   <part name="p2_1">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p2_2">
+    <component length="8" name="1" rotOffset="20,0,0" startKey="0"/>
+   </part>
+   <part name="p2_3">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_4">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_5">
+    <component length="8" name="1" rotOffset="40,0,0" startKey="0"/>
+   </part>
+   <part name="p2_6">
+    <component length="8" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

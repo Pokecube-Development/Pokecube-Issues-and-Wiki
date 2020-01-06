@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.clawitzer"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.clawitzer"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_clawitzer": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "clawitzer"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_clauncher"
+}

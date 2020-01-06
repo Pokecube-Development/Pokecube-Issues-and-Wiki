@@ -27,7 +27,11 @@ pokemob.move.stat7=Evasão
 pokemob.move.notify.learn=%1$s aprendeu %2$s
 pokemob.move.terraindamage=%1$s sofreu danos por %2$s
 
-pokemob.move.missed=Não acertou %1$s!
+pokemob.move.missed.ours=§cNão acertou %1$s!
+pokemob.move.missed.theirs=§aNão acertou %1$s!
+
+pokemob.move.failed.ours=%1$s's §cataque falhou!
+pokemob.move.failed.theirs=%1$s's §aataque falhou!
 
 pokemob.move.isfrozen=%1$s está sob o efeito de congelamento.
 pokemob.move.issleeping=%1$s está dormindo.
@@ -36,6 +40,10 @@ pokemob.move.paralyzed=%1$s está sob o efeito de paralisia.
 pokemob.move.isburned=%1$s está sob o efeito de queimadura.
 pokemob.move.ispoisoned=%1$s está sob o efeito de envenenamento.
 pokemob.move.isbadlypoisoned=%1$s está sob o efeito de envenenamento severo.
+
+pokemob.move.sketched=%1$s esboçado %2$s
+
+pokemob.move.cooldown=%1$s §cnão pode usar %2$s §cagora.
 
 ##Move Names
 

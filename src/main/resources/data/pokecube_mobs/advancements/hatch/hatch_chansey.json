@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.chansey"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.chansey"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_chansey": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "chansey"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_happiny"
+}

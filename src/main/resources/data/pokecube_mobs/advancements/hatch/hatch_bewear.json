@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.bewear"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.bewear"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_bewear": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "bewear"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_stufful"
+}

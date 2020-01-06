@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.shiinotic"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shiinotic"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_shiinotic": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "shiinotic"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_morelull"
+}

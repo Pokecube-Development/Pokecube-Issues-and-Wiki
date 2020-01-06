@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.3"/>
+  <phase duration="10" leftArm="leg1" leftLeg="leg_1" legAngle="10" name="biWalk" rightArm="leg2" rightLeg="leg_2"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <customTex default="hattrem">
+   <part name="Head" tex="hattremhead"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="8" name="1" rotChange="0,0,0.5" rotOffset="0,0,-10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-0.5" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,0,70," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotChange="0,0,-0.5" rotOffset="0,0,10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,0.5" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,0,-70," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="1" name="1" rotOffset="10,0,0," startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="8" name="1" rotChange="0,0,0.5" rotOffset="0,0,-10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-0.5" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,0,70," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotChange="0,0,-0.5" rotOffset="0,0,10" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,0.5" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,0,-70," startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

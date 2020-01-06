@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floette"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_floette": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "floette"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_flabebe"
+}

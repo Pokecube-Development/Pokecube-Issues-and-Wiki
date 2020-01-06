@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.roserade"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.roserade"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_roserade": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "roserade"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_roselia"
+}

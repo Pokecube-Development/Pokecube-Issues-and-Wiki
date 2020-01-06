@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pancham"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pancham"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pancham": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pancham"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

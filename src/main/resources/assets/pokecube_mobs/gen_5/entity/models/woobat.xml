@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.75"/>
+  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <phase type="flying">
+   <part name="Plane_1">
+    <component length="3" name="0" rotChange="0,30,0" rotOffset="0,30,0" startKey="5"/>
+    <component length="3" name="1" rotChange="0,-60,0" startKey="0"/>
+    <component length="3" name="2" rotChange="0,30,0" startKey="5"/>
+   </part>
+   <part name="Plane">
+    <component length="3" name="0" rotChange="0,-30,0" rotOffset="0,-30,0" startKey="5"/>
+    <component length="3" name="1" rotChange="0,60,0" startKey="0"/>
+    <component length="3" name="2" rotChange="0,-30,0" startKey="5"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

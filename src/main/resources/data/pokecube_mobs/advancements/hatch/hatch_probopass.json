@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.probopass"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.probopass"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_probopass": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "probopass"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_nosepass"
+}

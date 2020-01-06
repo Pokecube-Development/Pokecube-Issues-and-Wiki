@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.8"/>
+  <metadata head="head" headAxis="2" headAxis2="1" headCap="-60,60" headDir="1"/>
+  <phase duration="10" leftFront="arm3" leftHind="arm1:arm5" name="quadWalk" rightFront="amr4" rightHind="arm2:arm6"/>
+  <worn angles="0,-90,-90" id="__HAT__" offset="0,0.25,0" parent="head" scale="1"/>
+  <worn angles="0,0,0" id="__BACK__" offset="0,0.07,0.5" parent="body" scale="1.5,1.5,1.5"/>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" posChange="0,0.3,0," startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.3,0," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="1,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="-1,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="1,0,0," startKey="10"/>
+   </part>
+   <part name="arm3">
+    <component length="10" name="1" rotChange="1,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="arm4">
+    <component length="10" name="1" rotChange="-1,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="1,0,0," startKey="10"/>
+   </part>
+   <part name="arm5">
+    <component length="10" name="1" rotChange="1,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="arm6">
+    <component length="10" name="1" rotChange="-1,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="1,0,0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

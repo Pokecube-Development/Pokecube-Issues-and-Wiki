@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.seadra"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.seadra"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_seadra": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "seadra"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_horsea"
+}

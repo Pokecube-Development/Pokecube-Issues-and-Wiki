@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "age=0": { "model": "pokecube:block/berrycrop"},
+        "age=1": { "model": "pokecube:block/crop_leppa_1"},
+        "age=2": { "model": "pokecube:block/crop_leppa_2"},
+        "age=3": { "model": "pokecube:block/crop_leppa_3"},
+        "age=4": { "model": "pokecube:block/crop_leppa_4"},
+        "age=5": { "model": "pokecube:block/crop_leppa_5"},
+        "age=6": { "model": "pokecube:block/crop_leppa_6"},
+        "age=7": { "model": "pokecube:block/crop_leppa_7"}
+    }
+}

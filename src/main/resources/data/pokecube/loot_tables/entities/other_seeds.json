@@ -1,0 +1,22 @@
+{
+    "pools": [
+        {
+            "name": "pool_0",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "minecraft:pumpkin_seeds"
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:melon_seeds"
+                },
+                {
+                    "type": "item",
+                    "name": "minecraft:beetroot_seeds"
+                }
+            ]
+        }
+    ]
+}

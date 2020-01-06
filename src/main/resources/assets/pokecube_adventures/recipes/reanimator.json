@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "III",
+    "SRS",
+    "SMS"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:trading_table",
+      "data": 0
+    },
+    "S": {
+      "item": "minecraft:gold_block"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "minecraft:golden_apple",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "pokecube_adventures:reanimator"
+  }
+}

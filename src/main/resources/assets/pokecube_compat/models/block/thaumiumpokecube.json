@@ -1,0 +1,9 @@
+{
+    "parent": "pokecube:block/pokecubes",
+    "textures": {
+        "top": "pokecube_compat:items/thaumiumpokecubetop",
+        "bottom": "pokecube_compat:items/thaumiumpokecubebottom",
+        "front": "pokecube_compat:items/thaumiumpokecubefront",
+        "side": "pokecube_compat:items/thaumiumpokecubeside"
+    }
+}

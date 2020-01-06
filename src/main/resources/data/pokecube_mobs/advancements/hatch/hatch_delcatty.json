@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.delcatty"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.delcatty"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_delcatty": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "delcatty"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_skitty"
+}

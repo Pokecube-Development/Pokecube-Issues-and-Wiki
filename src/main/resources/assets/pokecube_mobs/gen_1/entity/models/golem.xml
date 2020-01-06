@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.7"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <customTex default="golem">
+   <part name="Head" tex="golemhead"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,0.7" rotOffset="-10,0,-40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-0.7" startKey="10"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="0,0,-30," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,-0.7" rotOffset="-10,0,40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0.7" startKey="10"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="0,0,30," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,10,0," startKey="0"/>
+    <component length="30" name="1" rotChange="360,0,0" startKey="0"/>
+   </part>
+   <part name="head">
+    <component length="1" name="1" posOffset="0,0,2," rotOffset="180,0,0," startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="1" name="1" posOffset="2,0,0," rotOffset="0,180,0," startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="0,0,-180," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="1" name="1" posOffset="-2,0,0," rotOffset="0,-180,0," startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="0,0,180," startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" posOffset="5,-10,0," rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="foot1">
+    <component length="1" name="1" rotOffset="180,0,0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" posOffset="-5,-10,0," rotOffset="0,0,0," startKey="0"/>
+   </part>
+   <part name="foot2">
+    <component length="1" name="1" rotOffset="180,0,0," startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

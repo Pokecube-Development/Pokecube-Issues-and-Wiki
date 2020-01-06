@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.4"/>
+  <customTex default="honedge">
+   <part name="Head" tex="honedgehead"/>
+   <animation diffs="0,0.19" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="5" name="1" rotOffset="0,0,0" startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="5" name="1" rotChange="-5,0,0" rotOffset="5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="5,0,0" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="5" name="1" rotChange="-6,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="6,0,0" startKey="10"/>
+   </part>
+   <part name="arm1_2">
+    <component length="5" name="1" rotChange="-2,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="2,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="5" name="1" rotOffset="30,0,0" startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="5" name="1" rotChange="-15,0,0" rotOffset="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="15,0,0" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="5" name="1" rotChange="15,0,0" rotOffset="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-15,0,0" startKey="10"/>
+   </part>
+   <part name="arm1_2">
+    <component length="5" name="1" rotChange="15,0,0" rotOffset="18,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-15,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <merges merge="idle-&gt;flying"/>
+ </model>
+</ModelAnimator>

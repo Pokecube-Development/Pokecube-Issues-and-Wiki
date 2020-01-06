@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ledyba"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ledyba"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ledyba": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ledyba"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

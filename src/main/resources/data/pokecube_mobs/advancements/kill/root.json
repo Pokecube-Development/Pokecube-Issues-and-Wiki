@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill.root"
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.root.desc"
+    },
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "get_first_pokemob": {
+      "trigger": "pokecube:get_first_pokemob"
+    }
+  }
+}

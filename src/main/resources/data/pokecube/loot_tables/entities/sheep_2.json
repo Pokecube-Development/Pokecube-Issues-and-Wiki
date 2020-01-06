@@ -1,0 +1,26 @@
+{
+    "pools": [
+        {
+            "name": "pool_0",
+            "rolls": 2,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "minecraft:entities/sheep",
+                    "weight": 1
+                }
+            ]
+        },
+        {
+            "name": "pool_1",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "pokecube:entities/bones",
+                    "weight": 1
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,5108 @@
+{
+  "pokemon": [
+    {
+      "name": "Bulbasaur",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Ivysaur",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Venusaur",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_3"
+      }
+    },
+    {
+      "name": "Venusaur Mega"
+    },
+    {
+      "name": "Charmander",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_1"
+      }
+    },
+    {
+      "name": "Charmeleon",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_2"
+      }
+    },
+    {
+      "name": "Charizard",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_3"
+      }
+    },
+    {
+      "name": "Charizard Mega-X"
+    },
+    {
+      "name": "Charizard Mega-Y"
+    },
+    {
+      "name": "Squirtle",
+      "stats": {
+        "lootTable": "pokecube:entities/bowl"
+      }
+    },
+    {
+      "name": "Wartortle",
+      "stats": {
+        "lootTable": "pokecube:entities/bowl"
+      }
+    },
+    {
+      "name": "Blastoise",
+      "stats": {
+        "lootTable": "pokecube:entities/bowl"
+      }
+    },
+    {
+      "name": "Blastoise Mega"
+    },
+    {
+      "name": "Caterpie",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Metapod",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Butterfree",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Weedle",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Kakuna",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Beedrill",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Beedrill Mega"
+    },
+    {
+      "name": "Pidgey",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Pidgeotto",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Pidgeot",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Pidgeot Mega"
+    },
+    {
+      "name": "Rattata",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_1"
+      }
+    },
+    {
+      "name": "Rattata Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_1"
+      }
+    },
+    {
+      "name": "Raticate",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_2"
+      }
+    },
+    {
+      "name": "Raticate Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_2"
+      }
+    },
+    {
+      "name": "Spearow",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Fearow",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Ekans",
+      "stats": {
+        "lootTable": "pokecube:entities/leather"
+      }
+    },
+    {
+      "name": "Arbok",
+      "stats": {
+        "lootTable": "pokecube:entities/leather"
+      }
+    },
+    {
+      "name": "Pikachu",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Raichu",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_2"
+      }
+    },
+    {
+      "name": "Raichu Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_2"
+      }
+    },
+    {
+      "name": "Sandshrew",
+      "stats": {
+        "lootTable": "pokecube:entities/sand_rabbit_1"
+      }
+    },
+    {
+      "name": "Sandshrew Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/snow_rabbit_1"
+      }
+    },
+    {
+      "name": "Sandslash",
+      "stats": {
+        "lootTable": "pokecube:entities/sand_rabbit_2"
+      }
+    },
+    {
+      "name": "Sandslash Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/snow_rabbit_2"
+      }
+    },
+    {
+      "name": "NidoranF",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1",
+        "heldTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Nidorina",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Nidoqueen",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "NidoranM",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1",
+        "heldTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Nidorino",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Nidoking",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Clefairy",
+      "stats": {
+        "lootTable": "pokecube:entities/moonstone",
+        "heldTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Clefable",
+      "stats": {
+        "lootTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Vulpix",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_rabbit_1"
+      }
+    },
+    {
+      "name": "Vulpix Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/snow_rabbit_1"
+      }
+    },
+    {
+      "name": "Ninetales",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_rabbit_2"
+      }
+    },
+    {
+      "name": "Ninetales Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/snow_rabbit_2"
+      }
+    },
+    {
+      "name": "Jigglypuff",
+      "stats": {
+        "lootTable": "pokecube:entities/moonstone",
+        "heldTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Wigglytuff",
+      "stats": {
+        "lootTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Zubat",
+      "stats": {
+        "lootTable": "pokecube:entities/spider_eye"
+      }
+    },
+    {
+      "name": "Golbat",
+      "stats": {
+        "lootTable": "pokecube:entities/spider_eye"
+      }
+    },
+    {
+      "name": "Oddish",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Gloom",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Vileplume",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_3"
+      }
+    },
+    {
+      "name": "Paras",
+      "stats": {
+        "lootTable": "pokecube:entities/both_shrooms_1"
+      }
+    },
+    {
+      "name": "Parasect",
+      "stats": {
+        "lootTable": "pokecube:entities/both_shrooms_2"
+      }
+    },
+    {
+      "name": "Venonat",
+      "stats": {
+        "lootTable": "pokecube:entities/spider_eye"
+      }
+    },
+    {
+      "name": "Venomoth",
+      "stats": {
+        "lootTable": "pokecube:entities/spider_eye"
+      }
+    },
+    {
+      "name": "Diglett",
+      "stats": {
+        "lootTable": "pokecube:entities/dirt_1"
+      }
+    },
+    {
+      "name": "Diglett Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/dirt_1"
+      }
+    },
+    {
+      "name": "Dugtrio",
+      "stats": {
+        "lootTable": "pokecube:entities/dirt_1"
+      }
+    },
+    {
+      "name": "Dugtrio Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/dirt_1"
+      }
+    },
+    {
+      "name": "Meowth",
+      "stats": {
+        "lootTable": "pokecube:entities/money_cat_small",
+        "heldTable": "pokecube:entities/emerald_1_33"
+      }
+    },
+    {
+      "name": "Meowth Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/money_cat_small",
+        "heldTable": "pokecube:entities/emerald_1_33"
+      }
+    },
+    {
+      "name": "Persian",
+      "stats": {
+        "lootTable": "pokecube:entities/money_cat_big",
+        "heldTable": "pokecube:entities/emerald_3_33"
+      }
+    },
+    {
+      "name": "Persian Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/money_cat_big",
+        "heldTable": "pokecube:entities/emerald_3_33"
+      }
+    },
+    {
+      "name": "Psyduck",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Golduck",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Mankey",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Primeape",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Growlithe",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_rabbit_1"
+      }
+    },
+    {
+      "name": "Arcanine",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_rabbit_2"
+      }
+    },
+    {
+      "name": "Poliwag",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Poliwhirl",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Poliwrath",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Abra",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Kadabra",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Alakazam",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_3"
+      }
+    },
+    {
+      "name": "Alakazam Mega"
+    },
+    {
+      "name": "Machop",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Machoke",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Machamp",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Bellsprout",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Weepinbell",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Victreebel",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_3"
+      }
+    },
+    {
+      "name": "Tentacool",
+      "stats": {
+        "lootTable": "minecraft:entities/squid"
+      }
+    },
+    {
+      "name": "Tentacruel",
+      "stats": {
+        "lootTable": "minecraft:entities/squid"
+      }
+    },
+    {
+      "name": "Geodude",
+      "stats": {
+        "lootTable": "pokecube:entities/cobble_1"
+      }
+    },
+    {
+      "name": "Geodude Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_1"
+      }
+    },
+    {
+      "name": "Graveler",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
+    },
+    {
+      "name": "Graveler Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_gold"
+      }
+    },
+    {
+      "name": "Golem",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
+    },
+    {
+      "name": "Golem Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_gold"
+      }
+    },
+    {
+      "name": "Ponyta",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_cow_1"
+      }
+    },
+    {
+      "name": "Rapidash",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_cow_2"
+      }
+    },
+    {
+      "name": "Slowpoke",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1",
+        "heldTable": "pokecube:entities/kingsrock"
+      }
+    },
+    {
+      "name": "Slowbro",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Slowbro Mega"
+    },
+    {
+      "name": "Magnemite",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_redstone_1"
+      }
+    },
+    {
+      "name": "Magneton",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_redstone_2"
+      }
+    },
+    {
+      "name": "Farfetch\u0027d",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Doduo",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Dodrio",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Seel",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Dewgong",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Grimer",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Grimer Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Muk",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Muk Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Shellder",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Cloyster",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Gastly",
+      "stats": {
+        "lootTable": "pokecube:entities/ghast_pearls"
+      }
+    },
+    {
+      "name": "Haunter",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Gengar",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_3"
+      }
+    },
+    {
+      "name": "Gengar Mega"
+    },
+    {
+      "name": "Onix",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
+    },
+    {
+      "name": "Drowzee",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Hypno",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Krabby",
+      "stats": {
+        "lootTable": "pokecube:entities/shear_fish"
+      }
+    },
+    {
+      "name": "Kingler",
+      "stats": {
+        "lootTable": "pokecube:entities/shear_fish"
+      }
+    },
+    {
+      "name": "Voltorb",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_creeper_1"
+      }
+    },
+    {
+      "name": "Electrode",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_creeper_2"
+      }
+    },
+    {
+      "name": "Exeggcute",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Exeggutor",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Exeggutor Alola"
+    },
+    {
+      "name": "Cubone",
+      "stats": {
+        "lootTable": "pokecube:entities/skull_rabbit_1"
+      }
+    },
+    {
+      "name": "Marowak",
+      "stats": {
+        "lootTable": "pokecube:entities/skull_rabbit_2"
+      }
+    },
+    {
+      "name": "Marowak Alola",
+      "stats": {
+        "lootTable": "pokecube:entities/skull_rabbit_2"
+      }
+    },
+    {
+      "name": "Hitmonlee"
+    },
+    {
+      "name": "Hitmonchan"
+    },
+    {
+      "name": "Lickitung"
+    },
+    {
+      "name": "Koffing",
+      "stats": {
+        "lootTable": "minecraft:entities/creeper"
+      }
+    },
+    {
+      "name": "Weezing",
+      "stats": {
+        "lootTable": "minecraft:entities/creeper"
+      }
+    },
+    {
+      "name": "Rhyhorn",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_1"
+      }
+    },
+    {
+      "name": "Rhydon",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
+    },
+    {
+      "name": "Chansey",
+      "stats": {
+        "heldTable": "pokecube:entities/lucky_oval"
+      }
+    },
+    {
+      "name": "Tangela",
+      "stats": {
+        "lootTable": "pokecube:entities/vines"
+      }
+    },
+    {
+      "name": "Kangaskhan"
+    },
+    {
+      "name": "Kangaskhan Mega"
+    },
+    {
+      "name": "Horsea",
+      "stats": {
+        "lootTable": "pokecube:entities/squid_fish_1"
+      }
+    },
+    {
+      "name": "Seadra",
+      "stats": {
+        "lootTable": "pokecube:entities/squid_fish_2"
+      }
+    },
+    {
+      "name": "Goldeen",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Seaking",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Staryu",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Starmie",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Mr. Mime"
+    },
+    {
+      "name": "Scyther"
+    },
+    {
+      "name": "Jynx"
+    },
+    {
+      "name": "Electabuzz",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_1"
+      }
+    },
+    {
+      "name": "Magmar",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_rabbit_2"
+      }
+    },
+    {
+      "name": "Pinsir"
+    },
+    {
+      "name": "Pinsir Mega"
+    },
+    {
+      "name": "Tauros",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_1"
+      }
+    },
+    {
+      "name": "Magikarp",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Gyarados",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Gyarados Mega"
+    },
+    {
+      "name": "Lapras",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Ditto",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Eevee",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Vaporeon",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Jolteon",
+      "stats": {
+        "lootTable": "pokecube:entities/glow_rabbit_1"
+      }
+    },
+    {
+      "name": "Flareon",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_1"
+      }
+    },
+    {
+      "name": "Porygon",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Omanyte",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Omastar",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Kabuto",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Kabutops",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Aerodactyl",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Aerodactyl Mega"
+    },
+    {
+      "name": "Snorlax",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_3"
+      }
+    },
+    {
+      "name": "Articuno",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Zapdos",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Moltres",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Dratini",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Dragonair",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Dragonite",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Mewtwo",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Mewtwo Mega-X"
+    },
+    {
+      "name": "Mewtwo Mega-Y"
+    },
+    {
+      "name": "Mew",
+      "stats": {
+        "lootTable": "pokecube:entities/mewhair"
+      }
+    },
+    {
+      "name": "Chikorita",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Bayleef",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Meganium",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Cyndaquil",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_1"
+      }
+    },
+    {
+      "name": "Quilava",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_2"
+      }
+    },
+    {
+      "name": "Typhlosion",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_3"
+      }
+    },
+    {
+      "name": "Totodile",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Croconaw",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Feraligatr",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Sentret",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_1",
+        "heldTable": "pokecube:entities/oranberry_10"
+      }
+    },
+    {
+      "name": "Furret",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_2"
+      }
+    },
+    {
+      "name": "Hoothoot",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Noctowl",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Ledyba"
+    },
+    {
+      "name": "Ledian"
+    },
+    {
+      "name": "Spinarak",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Ariados",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Crobat",
+      "stats": {
+        "lootTable": "pokecube:entities/spider_eye"
+      }
+    },
+    {
+      "name": "Chinchou",
+      "stats": {
+        "lootTable": "pokecube:entities/glow_fish_1"
+      }
+    },
+    {
+      "name": "Lanturn",
+      "stats": {
+        "lootTable": "pokecube:entities/glow_fish_2"
+      }
+    },
+    {
+      "name": "Pichu",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Cleffa",
+      "stats": {
+        "lootTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Igglybuff",
+      "stats": {
+        "lootTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Togepi",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Togetic",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Natu",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Xatu",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Mareep",
+      "stats": {
+        "lootTable": "minecraft:entities/sheep/yellow"
+      }
+    },
+    {
+      "name": "Flaaffy",
+      "stats": {
+        "lootTable": "minecraft:entities/sheep/white"
+      }
+    },
+    {
+      "name": "Ampharos",
+      "stats": {
+        "lootTable": "minecraft:entities/sheep/white"
+      }
+    },
+    {
+      "name": "Ampharos Mega"
+    },
+    {
+      "name": "Bellossom"
+    },
+    {
+      "name": "Marill",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Azumarill",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Sudowoodo"
+    },
+    {
+      "name": "Politoed"
+    },
+    {
+      "name": "Hoppip"
+    },
+    {
+      "name": "Skiploom"
+    },
+    {
+      "name": "Jumpluff",
+      "stats": {
+        "lootTable": "pokecube:entities/wool_2"
+      }
+    },
+    {
+      "name": "Aipom",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Sunkern",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Sunflora"
+    },
+    {
+      "name": "Yanma",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Wooper",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Quagsire",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Espeon",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Umbreon",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Murkrow",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Slowking",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_3"
+      }
+    },
+    {
+      "name": "Misdreavus",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Unown",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Unown_A"
+    },
+    {
+      "name": "Unown_B"
+    },
+    {
+      "name": "Unown_C"
+    },
+    {
+      "name": "Unown_D"
+    },
+    {
+      "name": "Unown_E"
+    },
+    {
+      "name": "Unown_Ex"
+    },
+    {
+      "name": "Unown_F"
+    },
+    {
+      "name": "Unown_G"
+    },
+    {
+      "name": "Unown_H"
+    },
+    {
+      "name": "Unown_I"
+    },
+    {
+      "name": "Unown_J"
+    },
+    {
+      "name": "Unown_K"
+    },
+    {
+      "name": "Unown_L"
+    },
+    {
+      "name": "Unown_M"
+    },
+    {
+      "name": "Unown_N"
+    },
+    {
+      "name": "Unown_O"
+    },
+    {
+      "name": "Unown_P"
+    },
+    {
+      "name": "Unown_Q"
+    },
+    {
+      "name": "Unown_Qu"
+    },
+    {
+      "name": "Unown_R"
+    },
+    {
+      "name": "Unown_S"
+    },
+    {
+      "name": "Unown_T"
+    },
+    {
+      "name": "Unown_U"
+    },
+    {
+      "name": "Unown_V"
+    },
+    {
+      "name": "Unown_W"
+    },
+    {
+      "name": "Unown_X"
+    },
+    {
+      "name": "Unown_Y"
+    },
+    {
+      "name": "Unown_Z"
+    },
+    {
+      "name": "Wobbuffet",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Girafarig",
+      "stats": {
+        "lootTable": "pokecube:entities/ender_cow_1"
+      }
+    },
+    {
+      "name": "Pineco",
+      "stats": {
+        "lootTable": "minecraft:entities/creeper"
+      }
+    },
+    {
+      "name": "Forretress",
+      "stats": {
+        "lootTable": "pokecube:entities/creeper_iron_ore"
+      }
+    },
+    {
+      "name": "Dunsparce",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Gligar",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Steelix"
+    },
+    {
+      "name": "Steelix Mega"
+    },
+    {
+      "name": "Snubbull",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Granbull",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Qwilfish",
+      "stats": {
+        "lootTable": "pokecube:entities/pufferfish"
+      }
+    },
+    {
+      "name": "Scizor"
+    },
+    {
+      "name": "Scizor Mega"
+    },
+    {
+      "name": "Shuckle",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2",
+        "heldTable": "pokecube:entities/berryjuice"
+      }
+    },
+    {
+      "name": "Heracross",
+      "stats": {
+        "lootTable": "pokecube:entities/bones"
+      }
+    },
+    {
+      "name": "Heracross Mega"
+    },
+    {
+      "name": "Sneasel",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Teddiursa",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Ursaring",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Slugma",
+      "stats": {
+        "lootTable": "pokecube:entities/magma_cream"
+      }
+    },
+    {
+      "name": "Magcargo",
+      "stats": {
+        "lootTable": "pokecube:entities/magma_cream"
+      }
+    },
+    {
+      "name": "Swinub",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Piloswine",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Corsola"
+    },
+    {
+      "name": "Remoraid",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Octillery",
+      "stats": {
+        "lootTable": "minecraft:entities/squid"
+      }
+    },
+    {
+      "name": "Delibird",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Mantine",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Skarmory",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_chicken_1"
+      }
+    },
+    {
+      "name": "Houndour",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_rabbit_1"
+      }
+    },
+    {
+      "name": "Houndoom",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_rabbit_2"
+      }
+    },
+    {
+      "name": "Houndoom Mega"
+    },
+    {
+      "name": "Kingdra",
+      "stats": {
+        "lootTable": "pokecube:entities/squid_fish_2"
+      }
+    },
+    {
+      "name": "Phanpy",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Donphan",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_3"
+      }
+    },
+    {
+      "name": "Porygon2",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Stantler",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_1"
+      }
+    },
+    {
+      "name": "Smeargle",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Tyrogue"
+    },
+    {
+      "name": "Hitmontop"
+    },
+    {
+      "name": "Smoochum",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Elekid",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Magby",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Miltank",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_1"
+      }
+    },
+    {
+      "name": "Blissey"
+    },
+    {
+      "name": "Raikou",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Entei",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Suicune",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Larvitar"
+    },
+    {
+      "name": "Pupitar"
+    },
+    {
+      "name": "Tyranitar"
+    },
+    {
+      "name": "Tyranitar Mega"
+    },
+    {
+      "name": "Lugia",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Ho-Oh"
+    },
+    {
+      "name": "Celebi"
+    },
+    {
+      "name": "Treecko",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Grovyle",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Sceptile",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_3"
+      }
+    },
+    {
+      "name": "Sceptile Mega"
+    },
+    {
+      "name": "Torchic",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_chicken_1"
+      }
+    },
+    {
+      "name": "Combusken",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_chicken_2"
+      }
+    },
+    {
+      "name": "Blaziken",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_chicken_3"
+      }
+    },
+    {
+      "name": "Blaziken Mega"
+    },
+    {
+      "name": "Mudkip",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Marshtomp",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Swampert",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_2"
+      }
+    },
+    {
+      "name": "Swampert Mega"
+    },
+    {
+      "name": "Poochyena",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Mightyena",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Zigzagoon",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1",
+        "heldTable": "pokecube:entities/oranberry"
+      }
+    },
+    {
+      "name": "Linoone",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Wurmple",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Silcoon",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Beautifly",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Cascoon",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Dustox",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Lotad",
+      "stats": {
+        "lootTable": "pokecube:entities/lilypad"
+      }
+    },
+    {
+      "name": "Lombre",
+      "stats": {
+        "lootTable": "pokecube:entities/lilypad"
+      }
+    },
+    {
+      "name": "Ludicolo",
+      "stats": {
+        "lootTable": "pokecube:entities/lilypad"
+      }
+    },
+    {
+      "name": "Seedot",
+      "stats": {
+        "lootTable": "pokecube:entities/other_seeds"
+      }
+    },
+    {
+      "name": "Nuzleaf",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Shiftry",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Taillow",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Swellow",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Wingull",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Pelipper",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Ralts",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1",
+        "heldTable": "pokecube:entities/dawnstone"
+      }
+    },
+    {
+      "name": "Kirlia",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Gardevoir",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_3"
+      }
+    },
+    {
+      "name": "Gardevoir Mega"
+    },
+    {
+      "name": "Surskit"
+    },
+    {
+      "name": "Masquerain"
+    },
+    {
+      "name": "Shroomish",
+      "stats": {
+        "lootTable": "pokecube:entities/both_shrooms_1"
+      }
+    },
+    {
+      "name": "Breloom",
+      "stats": {
+        "lootTable": "pokecube:entities/both_shrooms_2"
+      }
+    },
+    {
+      "name": "Slakoth",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Vigoroth",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Slaking",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Nincada"
+    },
+    {
+      "name": "Ninjask"
+    },
+    {
+      "name": "Shedinja"
+    },
+    {
+      "name": "Whismur",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Loudred",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Exploud",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Makuhita"
+    },
+    {
+      "name": "Hariyama"
+    },
+    {
+      "name": "Azurill"
+    },
+    {
+      "name": "Nosepass"
+    },
+    {
+      "name": "Skitty",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Delcatty",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Sableye"
+    },
+    {
+      "name": "Sableye Mega"
+    },
+    {
+      "name": "Mawile"
+    },
+    {
+      "name": "Mawile Mega"
+    },
+    {
+      "name": "Aron",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+      }
+    },
+    {
+      "name": "Lairon",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_2"
+      }
+    },
+    {
+      "name": "Aggron",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_3"
+      }
+    },
+    {
+      "name": "Aggron Mega"
+    },
+    {
+      "name": "Meditite"
+    },
+    {
+      "name": "Meditite Female"
+    },
+    {
+      "name": "Medicham"
+    },
+    {
+      "name": "Medicham Mega"
+    },
+    {
+      "name": "Electrike",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Manectric",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_2"
+      }
+    },
+    {
+      "name": "Manectric Mega"
+    },
+    {
+      "name": "Plusle",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Minun",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Volbeat"
+    },
+    {
+      "name": "Illumise"
+    },
+    {
+      "name": "Roselia"
+    },
+    {
+      "name": "Gulpin",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Swalot",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Carvanha",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Sharpedo",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Sharpedo Mega"
+    },
+    {
+      "name": "Wailmer",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Wailord",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Numel",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_1"
+      }
+    },
+    {
+      "name": "Camerupt",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_2"
+      }
+    },
+    {
+      "name": "Camerupt Mega"
+    },
+    {
+      "name": "Torkoal"
+    },
+    {
+      "name": "Spoink",
+      "stats": {
+        "lootTable": "pokecube:entities/ender_pig_1"
+      }
+    },
+    {
+      "name": "Grumpig",
+      "stats": {
+        "lootTable": "pokecube:entities/ender_pig_2"
+      }
+    },
+    {
+      "name": "Spinda",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Trapinch"
+    },
+    {
+      "name": "Vibrava"
+    },
+    {
+      "name": "Flygon"
+    },
+    {
+      "name": "Cacnea"
+    },
+    {
+      "name": "Cacturne"
+    },
+    {
+      "name": "Swablu",
+      "stats": {
+        "lootTable": "pokecube:entities/wool_1"
+      }
+    },
+    {
+      "name": "Altaria",
+      "stats": {
+        "lootTable": "pokecube:entities/wool_2"
+      }
+    },
+    {
+      "name": "Altaria Mega"
+    },
+    {
+      "name": "Zangoose",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Seviper"
+    },
+    {
+      "name": "Lunatone",
+      "stats": {
+        "lootTable": "pokecube:entities/moonstone"
+      }
+    },
+    {
+      "name": "Solrock",
+      "stats": {
+        "lootTable": "pokecube:entities/sunstone"
+      }
+    },
+    {
+      "name": "Barboach",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Whiscash",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Corphish",
+      "stats": {
+        "lootTable": "pokecube:entities/shear_fish"
+      }
+    },
+    {
+      "name": "Crawdaunt",
+      "stats": {
+        "lootTable": "pokecube:entities/shear_fish"
+      }
+    },
+    {
+      "name": "Baltoy"
+    },
+    {
+      "name": "Claydol"
+    },
+    {
+      "name": "Lileep",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Cradily",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Anorith",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Armaldo",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Feebas",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Milotic",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Castform"
+    },
+    {
+      "name": "Castform Rain"
+    },
+    {
+      "name": "Castform Snow"
+    },
+    {
+      "name": "Castform Sun"
+    },
+    {
+      "name": "Kecleon"
+    },
+    {
+      "name": "Shuppet"
+    },
+    {
+      "name": "Banette"
+    },
+    {
+      "name": "Banette Mega"
+    },
+    {
+      "name": "Duskull",
+      "stats": {
+        "lootTable": "pokecube:entities/bones"
+      }
+    },
+    {
+      "name": "Dusclops",
+      "stats": {
+        "lootTable": "pokecube:entities/bones"
+      }
+    },
+    {
+      "name": "Tropius",
+      "stats": {
+        "lootTable": "pokecube:entities/apple_cow"
+      }
+    },
+    {
+      "name": "Chimecho",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Absol"
+    },
+    {
+      "name": "Absol Mega"
+    },
+    {
+      "name": "Wynaut"
+    },
+    {
+      "name": "Snorunt",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Glalie",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Glalie Mega"
+    },
+    {
+      "name": "Spheal",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Sealeo",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Walrein",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Clamperl",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Huntail",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Gorebyss",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Relicanth",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Luvdisc",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Bagon"
+    },
+    {
+      "name": "Shelgon"
+    },
+    {
+      "name": "Salamence"
+    },
+    {
+      "name": "Salamence Mega"
+    },
+    {
+      "name": "Beldum",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_pearls_1"
+      }
+    },
+    {
+      "name": "Metang",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_pearls_2"
+      }
+    },
+    {
+      "name": "Metagross",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_pearls_3"
+      }
+    },
+    {
+      "name": "Metagross Mega"
+    },
+    {
+      "name": "Regirock"
+    },
+    {
+      "name": "Regice"
+    },
+    {
+      "name": "Registeel"
+    },
+    {
+      "name": "Latias",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Latias Mega"
+    },
+    {
+      "name": "Latios",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Latios Mega"
+    },
+    {
+      "name": "Kyogre"
+    },
+    {
+      "name": "Kyogre Primal"
+    },
+    {
+      "name": "Groudon"
+    },
+    {
+      "name": "Groudon Primal"
+    },
+    {
+      "name": "Rayquaza",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Rayquaza Mega"
+    },
+    {
+      "name": "Jirachi",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Deoxys",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Deoxys Attack"
+    },
+    {
+      "name": "Deoxys Defense"
+    },
+    {
+      "name": "Deoxys Speed"
+    },
+    {
+      "name": "Turtwig",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Grotle",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Torterra",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_3"
+      }
+    },
+    {
+      "name": "Chimchar",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_1"
+      }
+    },
+    {
+      "name": "Monferno",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_2"
+      }
+    },
+    {
+      "name": "Infernape",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_3"
+      }
+    },
+    {
+      "name": "Piplup",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Prinplup",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Empoleon",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Starly",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Staravia",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Staraptor",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Bidoof",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_1"
+      }
+    },
+    {
+      "name": "Bibarel",
+      "stats": {
+        "lootTable": "pokecube:entities/rotten_rabbit_2"
+      }
+    },
+    {
+      "name": "Kricketot"
+    },
+    {
+      "name": "Kricketune"
+    },
+    {
+      "name": "Kricketune Female"
+    },
+    {
+      "name": "Kricketune Male"
+    },
+    {
+      "name": "Shinx",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Luxio",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_2"
+      }
+    },
+    {
+      "name": "Luxray",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_3"
+      }
+    },
+    {
+      "name": "Budew"
+    },
+    {
+      "name": "Roserade"
+    },
+    {
+      "name": "Cranidos",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Rampardos",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Shieldon",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Bastiodon",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Burmy"
+    },
+    {
+      "name": "Wormadam"
+    },
+    {
+      "name": "Wormadam Sandy"
+    },
+    {
+      "name": "Wormadam Trash"
+    },
+    {
+      "name": "Mothim"
+    },
+    {
+      "name": "Combee"
+    },
+    {
+      "name": "Vespiquen"
+    },
+    {
+      "name": "Pachirisu",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Buizel",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Floatzel",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Cherubi"
+    },
+    {
+      "name": "Cherrim"
+    },
+    {
+      "name": "Cherrim Sunny"
+    },
+    {
+      "name": "Shellos",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Shellos West",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Gastrodon",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Gastrodon West",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Ambipom",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Drifloon"
+    },
+    {
+      "name": "Drifblim"
+    },
+    {
+      "name": "Buneary",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Lopunny",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Lopunny Mega"
+    },
+    {
+      "name": "Mismagius",
+      "stats": {
+        "lootTable": "pokecube:entities/ghast_pearls"
+      }
+    },
+    {
+      "name": "Honchkrow",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Glameow",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Purugly",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Chingling",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Stunky",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Skuntank",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Bronzor",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+      }
+    },
+    {
+      "name": "Bronzong",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_2"
+      }
+    },
+    {
+      "name": "Bonsly",
+      "stats": {
+        "lootTable": "pokecube:entities/cobble_1"
+      }
+    },
+    {
+      "name": "Mime Jr."
+    },
+    {
+      "name": "Happiny"
+    },
+    {
+      "name": "Chatot",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Spiritomb"
+    },
+    {
+      "name": "Gible"
+    },
+    {
+      "name": "Gabite"
+    },
+    {
+      "name": "Garchomp"
+    },
+    {
+      "name": "Garchomp Mega"
+    },
+    {
+      "name": "Munchlax",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
+    {
+      "name": "Riolu",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Lucario",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Lucario Mega"
+    },
+    {
+      "name": "Hippopotas",
+      "stats": {
+        "lootTable": "pokecube:entities/sand_cow_1"
+      }
+    },
+    {
+      "name": "Hippowdon",
+      "stats": {
+        "lootTable": "pokecube:entities/sand_cow_2"
+      }
+    },
+    {
+      "name": "Hippowdon Female"
+    },
+    {
+      "name": "Skorupi"
+    },
+    {
+      "name": "Drapion"
+    },
+    {
+      "name": "Croagunk"
+    },
+    {
+      "name": "Toxicroak"
+    },
+    {
+      "name": "Carnivine"
+    },
+    {
+      "name": "Finneon",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Finneon Female",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Lumineon",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Lumineon Female",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Mantyke",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Snover"
+    },
+    {
+      "name": "Abomasnow"
+    },
+    {
+      "name": "Abomasnow Mega"
+    },
+    {
+      "name": "Weavile",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Magnezone",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_redstone_3"
+      }
+    },
+    {
+      "name": "Lickilicky"
+    },
+    {
+      "name": "Rhyperior"
+    },
+    {
+      "name": "Tangrowth"
+    },
+    {
+      "name": "Electivire"
+    },
+    {
+      "name": "Magmortar"
+    },
+    {
+      "name": "Togekiss"
+    },
+    {
+      "name": "Yanmega"
+    },
+    {
+      "name": "Leafeon",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Glaceon",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Gliscor"
+    },
+    {
+      "name": "Mamoswine",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_3"
+      }
+    },
+    {
+      "name": "Porygon-Z"
+    },
+    {
+      "name": "Gallade"
+    },
+    {
+      "name": "Gallade Mega"
+    },
+    {
+      "name": "Probopass"
+    },
+    {
+      "name": "Dusknoir"
+    },
+    {
+      "name": "Froslass"
+    },
+    {
+      "name": "Rotom"
+    },
+    {
+      "name": "Rotom Fan"
+    },
+    {
+      "name": "Rotom Frost"
+    },
+    {
+      "name": "Rotom Heat"
+    },
+    {
+      "name": "Rotom Mow"
+    },
+    {
+      "name": "Rotom Wash"
+    },
+    {
+      "name": "Uxie"
+    },
+    {
+      "name": "Mesprit"
+    },
+    {
+      "name": "Azelf"
+    },
+    {
+      "name": "Dialga"
+    },
+    {
+      "name": "Palkia"
+    },
+    {
+      "name": "Heatran"
+    },
+    {
+      "name": "Regigigas"
+    },
+    {
+      "name": "Giratina"
+    },
+    {
+      "name": "Giratina Origin"
+    },
+    {
+      "name": "Cresselia"
+    },
+    {
+      "name": "Phione"
+    },
+    {
+      "name": "Manaphy",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Darkrai"
+    },
+    {
+      "name": "Shaymin Land"
+    },
+    {
+      "name": "Shaymin Sky"
+    },
+    {
+      "name": "Arceus"
+    },
+    {
+      "name": "Arceus Bug"
+    },
+    {
+      "name": "Arceus Dark"
+    },
+    {
+      "name": "Arceus Dragon"
+    },
+    {
+      "name": "Arceus Electric"
+    },
+    {
+      "name": "Arceus Fairy"
+    },
+    {
+      "name": "Arceus Fighting"
+    },
+    {
+      "name": "Arceus Fire"
+    },
+    {
+      "name": "Arceus Flying"
+    },
+    {
+      "name": "Arceus Ghost"
+    },
+    {
+      "name": "Arceus Grass"
+    },
+    {
+      "name": "Arceus Ground"
+    },
+    {
+      "name": "Arceus Ice"
+    },
+    {
+      "name": "Arceus Poison"
+    },
+    {
+      "name": "Arceus Psychic"
+    },
+    {
+      "name": "Arceus Rock"
+    },
+    {
+      "name": "Arceus Steel"
+    },
+    {
+      "name": "Arceus Water"
+    },
+    {
+      "name": "Victini",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Snivy",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Servine",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_2"
+      }
+    },
+    {
+      "name": "Serperior",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_3"
+      }
+    },
+    {
+      "name": "Tepig",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_pig_1"
+      }
+    },
+    {
+      "name": "Pignite",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_pig_2"
+      }
+    },
+    {
+      "name": "Emboar",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_pig_3"
+      }
+    },
+    {
+      "name": "Oshawott",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Dewott",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_2"
+      }
+    },
+    {
+      "name": "Samurott",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_3"
+      }
+    },
+    {
+      "name": "Patrat",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Watchog",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Lillipup",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Herdier",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Stoutland",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Purrloin",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Liepard",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Pansage",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Simisage",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Pansear",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Simisear",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Panpour",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Simipour",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Munna",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Musharna",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
+    },
+    {
+      "name": "Pidove",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Tranquill",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Unfezant",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Blitzle",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_cow_1"
+      }
+    },
+    {
+      "name": "Zebstrika",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_cow_2"
+      }
+    },
+    {
+      "name": "Roggenrola",
+      "stats": {
+        "lootTable": "pokecube:entities/cobble_1"
+      }
+    },
+    {
+      "name": "Boldore",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
+    },
+    {
+      "name": "Gigalith",
+      "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
+    },
+    {
+      "name": "Woobat",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Swoobat",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Drilbur",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Excadrill",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Audino",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Audino Mega"
+    },
+    {
+      "name": "Timburr"
+    },
+    {
+      "name": "Gurdurr"
+    },
+    {
+      "name": "Conkeldurr"
+    },
+    {
+      "name": "Tympole",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Palpitoad",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Seismitoad",
+      "stats": {
+        "lootTable": "pokecube:entities/dirt_1"
+      }
+    },
+    {
+      "name": "Throh"
+    },
+    {
+      "name": "Sawk"
+    },
+    {
+      "name": "Sewaddle"
+    },
+    {
+      "name": "Swadloon"
+    },
+    {
+      "name": "Leavanny"
+    },
+    {
+      "name": "Venipede",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Whirlipede",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Scolipede",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Cottonee",
+      "stats": {
+        "lootTable": "pokecube:entities/wool_1"
+      }
+    },
+    {
+      "name": "Whimsicott",
+      "stats": {
+        "lootTable": "pokecube:entities/wool_2"
+      }
+    },
+    {
+      "name": "Petilil",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Lilligant",
+      "stats": {
+        "lootTable": "pokecube:entities/leaves"
+      }
+    },
+    {
+      "name": "Basculin",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Sandile",
+      "stats": {
+        "lootTable": "pokecube:entities/sand_rabbit_1"
+      }
+    },
+    {
+      "name": "Krokorok",
+      "stats": {
+        "lootTable": "pokecube:entities/sand_rabbit_2"
+      }
+    },
+    {
+      "name": "Krookodile",
+      "stats": {
+        "lootTable": "pokecube:entities/sand_rabbit_3"
+      }
+    },
+    {
+      "name": "Darumaka"
+    },
+    {
+      "name": "Darmanitan"
+    },
+    {
+      "name": "Darmanitan Zen"
+    },
+    {
+      "name": "Maractus"
+    },
+    {
+      "name": "Dwebble",
+      "stats": {
+        "lootTable": "pokecube:entities/cobble_1"
+      }
+    },
+    {
+      "name": "Crustle",
+      "stats": {
+        "lootTable": "pokecube:entities/dirt_1"
+      }
+    },
+    {
+      "name": "Scraggy",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Scrafty",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Sigilyph"
+    },
+    {
+      "name": "Yamask"
+    },
+    {
+      "name": "Cofagrigus"
+    },
+    {
+      "name": "Tirtouga",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Carracosta",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Archen",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Archeops",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Trubbish"
+    },
+    {
+      "name": "Garbodor"
+    },
+    {
+      "name": "Zorua",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Zoroark",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Minccino",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Cinccino",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Gothita"
+    },
+    {
+      "name": "Gothorita"
+    },
+    {
+      "name": "Gothitelle"
+    },
+    {
+      "name": "Solosis",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Duosion",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Reuniclus",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Ducklett",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Swanna",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Vanillite",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Vanillish",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Vanilluxe",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Deerling",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_1"
+      }
+    },
+    {
+      "name": "Sawsbuck",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_2"
+      }
+    },
+    {
+      "name": "Emolga",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Karrablast"
+    },
+    {
+      "name": "Escavalier"
+    },
+    {
+      "name": "Foongus",
+      "stats": {
+        "lootTable": "pokecube:entities/both_shrooms_1"
+      }
+    },
+    {
+      "name": "Amoonguss",
+      "stats": {
+        "lootTable": "pokecube:entities/both_shrooms_2"
+      }
+    },
+    {
+      "name": "Frillish",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Jellicent",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Alomomola",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Joltik",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_spider_1"
+      }
+    },
+    {
+      "name": "Galvantula",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_spider_2"
+      }
+    },
+    {
+      "name": "Ferroseed",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_seeds_1"
+      }
+    },
+    {
+      "name": "Ferrothorn",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_seeds_2"
+      }
+    },
+    {
+      "name": "Klink",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+      }
+    },
+    {
+      "name": "Klang",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_2"
+      }
+    },
+    {
+      "name": "Klinklang",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_3"
+      }
+    },
+    {
+      "name": "Tynamo",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_fish_1"
+      }
+    },
+    {
+      "name": "Eelektrik",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_fish_2"
+      }
+    },
+    {
+      "name": "Eelektross",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_fish_2"
+      }
+    },
+    {
+      "name": "Elgyem"
+    },
+    {
+      "name": "Beheeyem"
+    },
+    {
+      "name": "Litwick"
+    },
+    {
+      "name": "Lampent"
+    },
+    {
+      "name": "Chandelure"
+    },
+    {
+      "name": "Axew",
+      "stats": {
+        "lootTable": "pokecube:entities/bones"
+      }
+    },
+    {
+      "name": "Fraxure",
+      "stats": {
+        "lootTable": "pokecube:entities/bones"
+      }
+    },
+    {
+      "name": "Haxorus",
+      "stats": {
+        "lootTable": "pokecube:entities/bones"
+      }
+    },
+    {
+      "name": "Cubchoo",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Beartic",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Cryogonal"
+    },
+    {
+      "name": "Shelmet"
+    },
+    {
+      "name": "Accelgor"
+    },
+    {
+      "name": "Stunfisk",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+	{
+      "name": "Stunfisk Galar",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Mienfoo",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Mienshao",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Druddigon"
+    },
+    {
+      "name": "Golett"
+    },
+    {
+      "name": "Golurk"
+    },
+    {
+      "name": "Pawniard",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Bisharp",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Bouffalant",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_2"
+      }
+    },
+    {
+      "name": "Rufflet",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Braviary",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Vullaby",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Mandibuzz",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Heatmor"
+    },
+    {
+      "name": "Durant",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+      }
+    },
+    {
+      "name": "Deino"
+    },
+    {
+      "name": "Zweilous"
+    },
+    {
+      "name": "Hydreigon"
+    },
+    {
+      "name": "Larvesta"
+    },
+    {
+      "name": "Volcarona"
+    },
+    {
+      "name": "Cobalion",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Terrakion",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Virizion",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Tornadus Incarnate",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Tornadus Therian",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Thundurus Incarnate",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Thundurus Therian",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Reshiram",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Zekrom",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Landorus Incarnate",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Landorus Therian",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Kyurem",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Kyurem Black",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Kyurem White",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Keldeo"
+    },
+    {
+      "name": "Keldeo Resolute"
+    },
+    {
+      "name": "Meloetta Aria",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Meloetta Pirouette",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Genesect"
+    },
+    {
+      "name": "GenesectBDrive"
+    },
+    {
+      "name": "GenesectCDrive"
+    },
+    {
+      "name": "GenesectDDrive"
+    },
+    {
+      "name": "GenesectSDrive"
+    },
+    {
+      "name": "Chespin",
+      "stats": {
+        "lootTable": "pokecube:entities/wheat_seeds_1"
+      }
+    },
+    {
+      "name": "Quilladin",
+      "stats": {
+        "lootTable": "pokecube:entities/chestplate_seeds_1"
+      }
+    },
+    {
+      "name": "Chesnaught",
+      "stats": {
+        "lootTable": "pokecube:entities/chestplate_seeds_2"
+      }
+    },
+    {
+      "name": "Fennekin",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_rabbit_1"
+      }
+    },
+    {
+      "name": "Braixen",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_stick_rabbit_1"
+      }
+    },
+    {
+      "name": "Delphox",
+      "stats": {
+        "lootTable": "pokecube:entities/blaze_stick_rabbit_2"
+      }
+    },
+    {
+      "name": "Froakie",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Frogadier",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_2"
+      }
+    },
+    {
+      "name": "Greninja",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_3"
+      }
+    },
+    {
+      "name": "Greninja Ash"
+    },
+    {
+      "name": "Bunnelby",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Diggersby",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Fletchling",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Fletchinder",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Talonflame",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Scatterbug",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Spewpa",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Vivillon",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Vivillon Elegant"
+    },
+    {
+      "name": "Vivillon End"
+    },
+    {
+      "name": "Vivillon Hell"
+    },
+    {
+      "name": "Vivillon Highplains"
+    },
+    {
+      "name": "Vivillon IcySnow"
+    },
+    {
+      "name": "Vivillon Modern"
+    },
+    {
+      "name": "Vivillon Monsoon"
+    },
+    {
+      "name": "Vivillon Ocean"
+    },
+    {
+      "name": "Vivillon Polar"
+    },
+    {
+      "name": "Vivillon Sandstorm"
+    },
+    {
+      "name": "Vivillon Sun"
+    },
+    {
+      "name": "Litleo",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Pyroar",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Flabebe"
+    },
+    {
+      "name": "Floette"
+    },
+    {
+      "name": "Florges"
+    },
+    {
+      "name": "Skiddo",
+      "stats": {
+        "lootTable": "pokecube:entities/sheep_1"
+      }
+    },
+    {
+      "name": "Gogoat",
+      "stats": {
+        "lootTable": "pokecube:entities/sheep_2"
+      }
+    },
+    {
+      "name": "Pancham",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Pangoro",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Furfrou",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Espurr",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Meowstic",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Honedge",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+      }
+    },
+    {
+      "name": "Doublade",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_2"
+      }
+    },
+    {
+      "name": "Aegislash Blade",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_3"
+      }
+    },
+    {
+      "name": "Aegislash Shield",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_3"
+      }
+    },
+    {
+      "name": "Spritzee"
+    },
+    {
+      "name": "Aromatisse"
+    },
+    {
+      "name": "Swirlix"
+    },
+    {
+      "name": "Slurpuff"
+    },
+    {
+      "name": "Inkay",
+      "stats": {
+        "lootTable": "minecraft:entities/squid"
+      }
+    },
+    {
+      "name": "Malamar",
+      "stats": {
+        "lootTable": "minecraft:entities/squid"
+      }
+    },
+    {
+      "name": "Binacle",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Barbaracle",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Skrelp",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Dragalge",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Clauncher",
+      "stats": {
+        "lootTable": "pokecube:entities/shear_fish"
+      }
+    },
+    {
+      "name": "Clawitzer",
+      "stats": {
+        "lootTable": "pokecube:entities/shear_fish"
+      }
+    },
+    {
+      "name": "Helioptile",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Heliolisk",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_2"
+      }
+    },
+    {
+      "name": "Tyrunt",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Tyrantrum",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Amaura",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Aurorus",
+      "stats": {
+        "lootTable": "pokecube:entities/fossil_mob"
+      }
+    },
+    {
+      "name": "Sylveon",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Hawlucha",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Dedenne",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_rabbit_1"
+      }
+    },
+    {
+      "name": "Carbink",
+      "stats": {
+        "lootTable": "pokecube:entities/quartz_diamond"
+      }
+    },
+    {
+      "name": "Goomy",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_1"
+      }
+    },
+    {
+      "name": "Sliggoo",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Goodra",
+      "stats": {
+        "lootTable": "pokecube:entities/slimeballs_2"
+      }
+    },
+    {
+      "name": "Klefki",
+      "stats": {
+        "lootTable": "pokecube:entities/enderpearls_1"
+      }
+    },
+    {
+      "name": "Phantump"
+    },
+    {
+      "name": "Trevenant"
+    },
+    {
+      "name": "Pumpkaboo"
+    },
+    {
+      "name": "Pumpkaboo Large"
+    },
+    {
+      "name": "Pumpkaboo Small"
+    },
+    {
+      "name": "Pumpkaboo Super"
+    },
+    {
+      "name": "Gourgeist"
+    },
+    {
+      "name": "Gourgeist Large"
+    },
+    {
+      "name": "Gourgeist Small"
+    },
+    {
+      "name": "Gourgeist Super"
+    },
+    {
+      "name": "Bergmite",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Avalugg",
+      "stats": {
+        "lootTable": "pokecube:entities/both_ice"
+      }
+    },
+    {
+      "name": "Noibat",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Noivern",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Xerneas",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Yveltal",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Zygarde 50%",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Zygarde 10%",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Zygarde 100%",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Diancie",
+      "stats": {
+        "lootTable": "pokecube:entities/diamond_legend"
+      }
+    },
+    {
+      "name": "Diancie Mega"
+    },
+    {
+      "name": "Hoopa Confined",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Hoopa Unbound",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Volcanion",
+      "stats": {
+        "lootTable": "pokecube:entities/generic_legend"
+      }
+    },
+    {
+      "name": "Rowlet",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Dartrix",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Decidueye",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Litten",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_rabbit_1"
+      }
+    },
+    {
+      "name": "Torracat",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_rabbit_2"
+      }
+    },
+    {
+      "name": "Incineroar",
+      "stats": {
+        "lootTable": "pokecube:entities/coal_rabbit_3"
+      }
+    },
+    {
+      "name": "Popplio",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Brionne",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_2"
+      }
+    },
+    {
+      "name": "Primarina",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_2"
+      }
+    },
+    {
+      "name": "Pikipek",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
+    },
+    {
+      "name": "Trumbeak",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_2"
+      }
+    },
+    {
+      "name": "Toucannon",
+      "stats": {
+        "lootTable": "pokecube:entities/chicken_3"
+      }
+    },
+    {
+      "name": "Yungoos",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Gumshoos",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
+    },
+    {
+      "name": "Grubbin",
+      "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
+    },
+    {
+      "name": "Charjabug",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_spider_1"
+      }
+    },
+    {
+      "name": "Vikavolt",
+      "stats": {
+        "lootTable": "pokecube:entities/redstone_spider_2"
+      }
+    },
+    {
+      "name": "Crabrawler",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Crabominable",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Oricorio",
+      "stats": {
+        "lootTable": "pokecube:entities/ender_chicken_1"
+      }
+    },
+    {
+      "name": "Cutiefly",
+      "stats": {
+        "lootTable": "pokecube:entities/glowstone_dust"
+      }
+    },
+    {
+      "name": "Ribombee",
+      "stats": {
+        "lootTable": "pokecube:entities/glowstone_dust"
+      }
+    },
+    {
+      "name": "Rockruff",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Lycanroc",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Lycanroc Midnight",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_3"
+      }
+    },
+    {
+      "name": "Wishiwashi",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Wishiwashi School",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_2"
+      }
+    },
+    {
+      "name": "Mareanie",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Toxapex",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Mudbray",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_1"
+      }
+    },
+    {
+      "name": "Mudsdale",
+      "stats": {
+        "lootTable": "pokecube:entities/cow_2"
+      }
+    },
+    {
+      "name": "Dewpider"
+    },
+    {
+      "name": "Araquanid"
+    },
+    {
+      "name": "Fomantis"
+    },
+    {
+      "name": "Lurantis"
+    },
+    {
+      "name": "Morelull"
+    },
+    {
+      "name": "Shiinotic"
+    },
+    {
+      "name": "Salandit"
+    },
+    {
+      "name": "Salazzle"
+    },
+    {
+      "name": "Stufful"
+    },
+    {
+      "name": "Bewear"
+    },
+    {
+      "name": "Bounsweet"
+    },
+    {
+      "name": "Steenee"
+    },
+    {
+      "name": "Tsareena"
+    },
+    {
+      "name": "Comfey"
+    },
+    {
+      "name": "Oranguru"
+    },
+    {
+      "name": "Passimian"
+    },
+    {
+      "name": "Wimpod",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Golisopod",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Sandygast"
+    },
+    {
+      "name": "Palossand"
+    },
+    {
+      "name": "Pyukumuku"
+    },
+    {
+      "name": "Type: Null"
+    },
+    {
+      "name": "Silvally"
+    },
+    {
+      "name": "Minior"
+    },
+    {
+      "name": "Blue Core Minior"
+    },
+    {
+      "name": "Green Core Minior"
+    },
+    {
+      "name": "Indigo Core Minior"
+    },
+    {
+      "name": "Orange Core Minior"
+    },
+    {
+      "name": "Red Core Minior"
+    },
+    {
+      "name": "Violet Core Minior"
+    },
+    {
+      "name": "Yellow Core Minior"
+    },
+    {
+      "name": "Komala",
+      "stats": {
+        "lootTable": "pokecube:entities/rabbit_1"
+      }
+    },
+    {
+      "name": "Turtonator"
+    },
+    {
+      "name": "Togedemaru"
+    },
+    {
+      "name": "Mimikyu"
+    },
+    {
+      "name": "Bruxish",
+      "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
+    },
+    {
+      "name": "Drampa",
+      "stats": {
+        "heldTable": "pokecube:entities/persimberry"
+      }
+    },
+    {
+      "name": "Dhelmise"
+    },
+    {
+      "name": "Jangmo-o"
+    },
+    {
+      "name": "Hakamo-o"
+    },
+    {
+      "name": "Kommo-o"
+    },
+    {
+      "name": "Tapu Koko"
+    },
+    {
+      "name": "Tapu Lele"
+    },
+    {
+      "name": "Tapu Bulu"
+    },
+    {
+      "name": "Tapu Fini"
+    },
+    {
+      "name": "Cosmog"
+    },
+    {
+      "name": "Cosmoem"
+    },
+    {
+      "name": "Solgaleo"
+    },
+    {
+      "name": "Lunala"
+    },
+    {
+      "name": "Nihilego"
+    },
+    {
+      "name": "Buzzwole"
+    },
+    {
+      "name": "Pheromosa"
+    },
+    {
+      "name": "Xurkitree"
+    },
+    {
+      "name": "Celesteela"
+    },
+    {
+      "name": "Kartana"
+    },
+    {
+      "name": "Guzzlord"
+    },
+    {
+      "name": "Necrozma"
+    },
+    {
+      "name": "Magearna"
+    },
+    {
+      "name": "Marshadow"
+    },
+    {
+      "name": "Poipole"
+    },
+    {
+      "name": "Naganadel"
+    },
+    {
+      "name": "Stakataka"
+    },
+    {
+      "name": "Blacephalon"
+    },
+    {
+      "name": "Zeraora"
+    },
+	{
+      "name": "Meltan",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+	  }
+	},
+	{
+      "name": "Melmetal",
+      "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+	  }
+	},	
+	{
+      "name": "Grookey"
+    },
+	{
+      "name": "Thwackey"
+    },
+	{
+      "name": "Rillaboom"
+	},
+	{
+      "name": "Scorbunny"
+    },
+	{
+      "name": "Raboot"
+    },
+	{
+      "name": "Cinderace"
+	},
+	{
+      "name": "Sobble"
+    },
+	{
+      "name": "Drizzile"
+    },
+	{
+      "name": "Inteleon"
+	},
+	{
+      "name": "Skwovet"
+    },
+	{
+      "name": "Greedent"
+	},
+	{
+      "name": "Rookidee"
+    },
+	{
+      "name": "Corvisquire"
+    },
+	{
+      "name": "Corviknight"
+	},
+	{
+      "name": "Blipbug"
+    },
+	{
+      "name": "Dottler"
+    },
+	{
+      "name": "Orbeetle"
+	},
+	{
+      "name": "Nickit"
+    },
+	{
+      "name": "Thievul"
+	},
+	{
+      "name": "Gossifleur"
+    },
+	{
+      "name": "Eldegoss"
+	},
+	{
+      "name": "Wooloo"
+    },
+	{
+      "name": "Dubwool"
+	},
+	{
+      "name": "Chewtle"
+    },
+	{
+      "name": "Drednaw"
+	},
+	{
+      "name": "Yamper"
+    },
+	{
+      "name": "Boltund"
+	},
+	{
+      "name": "Rolycoly"
+    },
+	{
+      "name": "Carkol"
+    },
+	{
+      "name": "Coalossal"
+	},
+	{
+      "name": "Applin"
+    },
+	{
+      "name": "Flapple"
+	},
+	{
+      "name": "Appletun"
+	},
+	{
+      "name": "Silicobra"
+    },
+	{
+      "name": "Sandaconda"
+	},
+	{
+      "name": "Cramorant"
+	},
+	{
+      "name": "Cramorant Gulping"
+	},
+	{
+      "name": "Arrokuda"
+    },
+	{
+      "name": "Barraskewda"
+	},
+	{
+      "name": "Toxel"
+    },
+	{
+      "name": "Toxtricity Amped"
+	},
+	{
+      "name": "Toxtricity Lowkey"
+	},
+	{
+      "name": "Sizzlipede"
+    },
+	{
+      "name": "Centiskorch"
+	},
+	{
+      "name": "Clobbopus"
+    },
+	{
+      "name": "Grapploct"
+	},
+	{
+      "name": "Sinistea"
+    },
+	{
+      "name": "Sinistea Forgery"
+    },
+	{
+      "name": "Polteageist Forgery"
+	},
+	{
+      "name": "Polteageist"
+	},
+	{
+      "name": "Hatenna"
+    },
+	{
+      "name": "Hattrem"
+    },
+	{
+      "name": "Hatterene"
+	},
+	{
+      "name": "Impidimp"
+    },
+	{
+      "name": "Morgrem"
+    },
+	{
+      "name": "Grimmsnarl"
+	},
+	{
+      "name": "Obstagoon"
+	},
+	{
+      "name": "Perrserker"
+	},
+	{
+      "name": "Cursola"
+	},
+	{
+      "name": "Sirfetch\u0027d"
+	},
+	{
+      "name": "Mr. Rime"
+	},
+	{
+      "name": "Runerigus"
+	},
+	{
+      "name": "Milcery"
+    },
+	{
+      "name": "Alcremie"
+	},
+	{
+      "name": "Falinks"
+	},
+	{
+      "name": "Pincurchin"
+	},
+	{
+      "name": "Snom"
+    },
+	{
+      "name": "Frosmoth"
+	},
+	{
+      "name": "Stonjourner"
+	},
+	{
+      "name": "Eiscue"
+	},
+	{
+      "name": "Indeedee"
+	},
+	{
+      "name": "Morpeko"
+	},
+	{
+      "name": "Morpeko Hangry"
+	},
+	{
+      "name": "Cufant"
+    },
+	{
+      "name": "Copperajah"
+	},
+	{
+      "name": "Dracozolt"
+	},
+	{
+      "name": "Arctozolt"
+	},
+	{
+      "name": "Dracovish"
+	},
+	{
+      "name": "Arctovish"
+	},
+	{
+      "name": "Duraludon"
+	},
+	{
+      "name": "Dreepy"
+    },
+	{
+      "name": "Drakloak"
+    },
+	{
+      "name": "Dragapult"
+	},
+	{
+      "name": "Zacian"
+    },
+	{
+      "name": "Zamazenta"
+    },
+	{
+      "name": "Eternatus"
+    }
+  ]
+}

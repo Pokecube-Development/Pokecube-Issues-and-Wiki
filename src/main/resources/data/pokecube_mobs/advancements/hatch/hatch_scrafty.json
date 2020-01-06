@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.scrafty"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scrafty"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_scrafty": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "scrafty"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_scraggy"
+}

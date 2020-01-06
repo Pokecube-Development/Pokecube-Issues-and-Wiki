@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "SS ",
+    "SOS",
+    "SRS"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "S": {
+      "item": "minecraft:iron_ingot"
+    },
+    "O": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "item": "pokecube:tm0"
+  }
+}

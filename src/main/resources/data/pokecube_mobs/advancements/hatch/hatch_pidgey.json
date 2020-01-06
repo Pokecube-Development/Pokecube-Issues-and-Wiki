@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pidgey"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pidgey"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pidgey": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pidgey"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

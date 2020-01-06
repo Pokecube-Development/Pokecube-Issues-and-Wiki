@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.beheeyem"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.beheeyem"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_beheeyem": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "beheeyem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_elgyem"
+}

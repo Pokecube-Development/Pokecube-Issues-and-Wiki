@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.magneton"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.magneton"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_magneton": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "magneton"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_magnemite"
+}

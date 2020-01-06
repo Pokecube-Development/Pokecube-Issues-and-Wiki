@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorusincarnate"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorusincarnate"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_landorusincarnate": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "landorusincarnate"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

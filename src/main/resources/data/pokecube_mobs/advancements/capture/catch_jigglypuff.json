@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jigglypuff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jigglypuff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_jigglypuff": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "jigglypuff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_igglybuff"
+}

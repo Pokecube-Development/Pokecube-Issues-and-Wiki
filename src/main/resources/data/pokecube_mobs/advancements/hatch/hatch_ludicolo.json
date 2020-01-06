@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ludicolo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ludicolo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ludicolo": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ludicolo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_lombre"
+}

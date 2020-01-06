@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gallade"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gallade"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gallade": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gallade"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_kirlia"
+}

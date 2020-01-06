@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.staraptor"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.staraptor"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_staraptor": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "staraptor"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_staravia"
+}

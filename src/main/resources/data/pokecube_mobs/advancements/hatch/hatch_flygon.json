@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.flygon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flygon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_flygon": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "flygon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_vibrava"
+}

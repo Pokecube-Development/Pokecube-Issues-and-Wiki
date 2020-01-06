@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vespiquen"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vespiquen"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_vespiquen": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "vespiquen"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_combee"
+}

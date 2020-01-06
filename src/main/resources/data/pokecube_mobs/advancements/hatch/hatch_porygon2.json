@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon2"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon2"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_porygon2": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "porygon2"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_porygon"
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.175"/>
+  <phase duration="10" leftArm="arm1" leftLeg="leg2" legAngle="20" name="biWalk" rightArm="arm2" rightLeg="leg1"/>
+  <customTex default="karrablast">
+   <part name="Head" tex="karrablasthead"/>
+   <animation diffs="0.4,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,3" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

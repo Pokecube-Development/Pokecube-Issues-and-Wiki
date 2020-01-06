@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "age=0": { "model": "pokecube:block/berrycrop"},
+        "age=1": { "model": "pokecube:block/crop_tamato_1"},
+        "age=2": { "model": "pokecube:block/crop_tamato_2"},
+        "age=3": { "model": "pokecube:block/crop_tamato_3"},
+        "age=4": { "model": "pokecube:block/crop_tamato_4"},
+        "age=5": { "model": "pokecube:block/crop_tamato_5"},
+        "age=6": { "model": "pokecube:block/crop_tamato_6"},
+        "age=7": { "model": "pokecube:block/crop_tamato_7"}
+    }
+}

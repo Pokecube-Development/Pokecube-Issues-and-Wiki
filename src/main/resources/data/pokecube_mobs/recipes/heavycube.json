@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "LIL",
+    "PPP",
+    "III"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "L": {
+      "tag": "forge:dyes/blue"
+    }
+  },
+  "result": {
+    "item": "pokecube:heavycube",
+    "count": 3
+  }
+}

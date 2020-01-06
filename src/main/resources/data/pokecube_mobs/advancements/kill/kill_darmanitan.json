@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_darmanitan": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "darmanitan"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_darumaka"
+}

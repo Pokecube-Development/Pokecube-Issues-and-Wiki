@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.avalugg"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.avalugg"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_avalugg": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "avalugg"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_bergmite"
+}

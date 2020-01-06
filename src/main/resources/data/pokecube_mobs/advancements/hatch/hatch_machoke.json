@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.machoke"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.machoke"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_machoke": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "machoke"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_machop"
+}

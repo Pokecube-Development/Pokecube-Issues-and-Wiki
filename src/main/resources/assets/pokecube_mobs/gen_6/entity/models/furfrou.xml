@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
+  <metadata head="neck1" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-5,5" headDir="-1"/>
+  <metadata head="neck2" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-5,5" headDir="-1"/>
+  <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
+  <customTex default="furfrou">
+   <part name="Head" tex="furfrouhead"/>
+   <animation diffs="0.35,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="orl1">
+    <component length="9" name="1" rotChange="0,0,-2" rotOffset="0,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="9" name="1" rotChange="0,0,-2" rotOffset="0,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="Cube_037">
+    <component length="9" name="1" rotChange="5,0,0" rotOffset="2,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="Cube_037">
+    <component length="9" name="1" rotChange="5,0,0" rotOffset="-7,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="orl1">
+    <component length="9" name="1" rotChange="0,0,-2" rotOffset="0,0,4" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,2" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="9" name="1" rotChange="0,0,2" rotOffset="0,0,-4" startKey="0"/>
+    <component length="9" name="2" rotChange="0,0,-2" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

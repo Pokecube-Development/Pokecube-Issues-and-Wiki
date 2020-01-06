@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_linoone": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "linoone"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_zigzagoon"
+}

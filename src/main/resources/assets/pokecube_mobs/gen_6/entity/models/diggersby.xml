@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.375"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <phase duration="10" leftArm="" leftLeg="leg1" name="biWalk" rightArm="" rightLeg="leg2"/>
+  <customTex default="diggersby">
+   <part name="Head" tex="diggersbyhead"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="orelha">
+    <component length="10" name="1" rotChange="-4,0,0" rotOffset="4,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,0,0" startKey="10"/>
+   </part>
+   <part name="orelha1">
+    <component length="10" name="1" rotChange="-4,0,0" rotOffset="4,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,0,0" startKey="10"/>
+   </part>
+   <part name="orelha1_1">
+    <component length="10" name="1" rotChange="-4,0,0" rotOffset="4,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,0,0" startKey="10"/>
+   </part>
+   <part name="orelha_1">
+    <component length="10" name="1" rotChange="-4,0,0" rotOffset="4,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="4,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

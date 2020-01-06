@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.eevee"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.eevee"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_eevee": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "eevee"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

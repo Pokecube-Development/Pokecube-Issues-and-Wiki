@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0.9,0" rotation="1,0,0,0" scale="0.5"/>
+  <metadata head="head" headCap="-60,60" headDir="-1"/>
+  <phase type="idle">
+   <part name="tail1">
+    <component length="4" name="1" rotChange="0.0,-50.0,0.0," rotOffset="0.0,35.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,50.0,0.0," startKey="5"/>
+   </part>
+   <part name="head">
+    <component length="15" name="1" posChange="0.0,0.0,0.0," rotChange="0.0,20.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="15" name="2" posChange="0.0,0.0,0.0," rotChange="0.0,-20.0,0.0," startKey="10"/>
+   </part>
+   <part name="body1">
+    <component length="15" name="1" posChange="0.0,0.0,0.0," rotChange="0.0,20.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="15" name="2" posChange="0.0,0.0,0.0," rotChange="0.0,-20.0,0.0," startKey="10"/>
+   </part>
+   <part name="body2">
+    <component length="15" name="1" posChange="0.0,0.0,0.0," rotChange="0.0,20.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="15" name="2" posChange="0.0,0.0,0.0," rotChange="0.0,-20.0,0.0," startKey="10"/>
+   </part>
+   <part name="flipper1">
+    <component length="25" name="1" posOffset="0.0,0.0,0.0" rotChange="0.0,0.0,-60.0," rotOffset="0.0,0.0,20.0" startKey="0"/>
+    <component length="25" name="2" rotChange="0.0,0.0,60.0," startKey="10"/>
+   </part>
+   <part name="flipper2">
+    <component length="25" name="1" posOffset="0.0,0.0,0.0" rotChange="0.0,0.0,60.0," rotOffset="0.0,0.0,-20.0" startKey="0"/>
+    <component length="25" name="2" rotChange="0.0,0.0,-60.0," startKey="10"/>
+   </part>
+   <part name="fish1">
+    <component length="25" name="1" posChange="0.0,20.0,0.0," posOffset="0.0,0.0,0.0" rotOffset="0.0,0.0,-20.0" startKey="0"/>
+    <component length="25" name="2" posChange="0.0,-20.0,0.0," startKey="10"/>
+   </part>
+   <part name="fish2">
+    <component length="25" name="1" posChange="0.0,0.0,20.0," posOffset="0.0,0.0,0.0" rotOffset="0.0,0.0,-20.0" startKey="0"/>
+    <component length="25" name="2" posChange="0.0,0.0,-20.0," startKey="10"/>
+   </part>
+   <part name="fish3">
+    <component length="25" name="1" posChange="0.0,-20.0,0.0," posOffset="0.0,0.0,0.0" rotOffset="0.0,0.0,-20.0" startKey="0"/>
+    <component length="25" name="2" posChange="0.0,20.0,0.0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

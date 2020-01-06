@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tynamo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tynamo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tynamo": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tynamo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

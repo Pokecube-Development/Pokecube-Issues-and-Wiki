@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.charjabug"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.charjabug"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_charjabug": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "charjabug"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_grubbin"
+}

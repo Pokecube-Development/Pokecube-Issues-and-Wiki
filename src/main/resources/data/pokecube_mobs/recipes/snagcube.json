@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    " T ",
+    "PPP",
+    "   "
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "T": {
+      "item": "minecraft:ghast_tear"
+    }
+  },
+  "result": {
+    "item": "pokecube:snagcube",
+    "count": 3
+  }
+}

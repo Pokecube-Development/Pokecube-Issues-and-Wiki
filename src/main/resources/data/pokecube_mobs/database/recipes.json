@@ -1,0 +1,628 @@
+{
+  "recipes": [
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "III,SRS,SMS",
+      "output": {
+        "values": {
+          "id": "pokecube:pokecenter",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "minecraft:stone"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        },
+        {
+          "key": "M",
+          "values": {
+            "id": "minecraft:milk_bucket"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "III,SRS,SMS",
+      "output": {
+        "values": {
+          "id": "pokecube:pokecenter",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "minecraft:stone"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        },
+        {
+          "key": "M",
+          "values": {
+            "id": "pokecube:luckyegg"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "PRR,RBR,RRR",
+      "output": {
+        "values": {
+          "id": "pokecube:pokedex",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "P",
+          "values": {
+            "id": "pokecube:pokecube"
+          }
+        },
+        {
+          "key": "B",
+          "values": {
+            "id": "minecraft:book"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": " P ,R R, R ",
+      "output": {
+        "values": {
+          "d": "8",
+          "id": "pokecube:pokedex",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "P",
+          "values": {
+            "id": "pokecube:pokedex"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:rabbit_hide"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": " L ,L L,I I",
+      "output": {
+        "values": {
+          "id": "minecraft:saddle",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        },
+        {
+          "key": "L",
+          "values": {
+            "id": "minecraft:leather"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "GGG,RBR,III",
+      "output": {
+        "values": {
+          "id": "pokecube:pokeseal",
+          "n": "6"
+        }
+      },
+      "inputs": [
+        {
+          "key": "R",
+          "values": {
+            "oreDict": "dyeRed"
+          }
+        },
+        {
+          "key": "B",
+          "values": {
+            "id": "minecraft:stone_button"
+          }
+        },
+        {
+          "key": "G",
+          "values": {
+            "id": "minecraft:glass"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "oreDict": "dyeBlue"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "JR,RJ",
+      "output": {
+        "values": {
+          "id": "pokecube:repel",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "J",
+          "values": {
+            "d": "63",
+            "id": "pokecube:berry"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "d": "64",
+            "id": "pokecube:berry"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "GGG,BRB,BIB",
+      "output": {
+        "values": {
+          "d": "8",
+          "id": "pokecube:pc",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "G",
+          "values": {
+            "id": "minecraft:glass"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        },
+        {
+          "key": "B",
+          "values": {
+            "id": "minecraft:iron_block"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "III,BRB,BBB",
+      "output": {
+        "values": {
+          "d": "0",
+          "id": "pokecube:pc",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        },
+        {
+          "key": "B",
+          "values": {
+            "id": "minecraft:iron_block"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "III,SRS,SMS",
+      "output": {
+        "values": {
+          "id": "pokecube:tradingtable",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "minecraft:stone"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        },
+        {
+          "key": "M",
+          "values": {
+            "id": "minecraft:emerald"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "III,SRS,SMS",
+      "output": {
+        "values": {
+          "d": "8",
+          "id": "pokecube:tradingtable",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "minecraft:stone"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        },
+        {
+          "key": "M",
+          "values": {
+            "id": "pokecube:tm"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": "SS ,SOS,SRS",
+      "output": {
+        "values": {
+          "id": "pokecube:tm",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        },
+        {
+          "key": "O",
+          "values": {
+            "id": "minecraft:glass"
+          }
+        },
+        {
+          "key": "R",
+          "values": {
+            "id": "minecraft:redstone"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": " D ,DED, D ",
+      "output": {
+        "values": {
+          "id": "pokecube:megastone",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "D",
+          "values": {
+            "id": "minecraft:diamond"
+          }
+        },
+        {
+          "key": "E",
+          "values": {
+            "id": "minecraft:ender_eye"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": " S ,I I, I ",
+      "output": {
+        "values": {
+          "id": "pokecube:megaring",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "pokecube:megastone"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": false,
+      "handler": "default",
+      "map": " S ,L L, I ",
+      "output": {
+        "values": {
+          "d": "1",
+          "id": "pokecube:megaring",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "pokecube:megastone"
+          }
+        },
+        {
+          "key": "I",
+          "values": {
+            "id": "minecraft:iron_ingot"
+          }
+        },
+        {
+          "key": "L",
+          "values": {
+            "id": "minecraft:leather"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": true,
+      "handler": "default",
+      "map": "",
+      "output": {
+        "values": {
+          "d": "2",
+          "id": "pokecube:megaring",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "S",
+          "values": {
+            "id": "pokecube:megastone"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:leather_helmet"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": true,
+      "handler": "default",
+      "map": "",
+      "output": {
+        "values": {
+          "d": "19",
+          "id": "pokecube:tm",
+          "n": "18"
+        }
+      },
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:emerald"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "id": "minecraft:emerald"
+          }
+        }
+      ],
+      "values": {}
+    },
+    {
+      "shapeless": true,
+      "handler": "default",
+      "map": "",
+      "output": {
+        "values": {
+          "id": "minecraft:emerald",
+          "n": "1"
+        }
+      },
+      "inputs": [
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        },
+        {
+          "key": "",
+          "values": {
+            "d": "19",
+            "id": "pokecube:tm"
+          }
+        }
+      ],
+      "values": {}
+    }
+  ]
+}

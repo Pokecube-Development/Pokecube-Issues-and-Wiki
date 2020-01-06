@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:emerald",
+    "minecraft:feather",
+    "minecraft:flint",
+    "minecraft:iron_axe",
+    "minecraft:iron_pickaxe",
+    "minecraft:mossy_cobblestone",
+    "minecraft:packed_ice"
+  ]
+}

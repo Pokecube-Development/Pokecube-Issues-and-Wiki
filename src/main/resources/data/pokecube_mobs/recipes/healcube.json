@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "APA",
+    "PCP",
+    "WMW"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "A": {
+      "item": "minecraft:apple"
+    },
+    "C": {
+      "item": "minecraft:golden_carrot"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "M": {
+      "item": "minecraft:milk_bucket"
+    }
+  },
+  "result": {
+    "item": "pokecube:healcube",
+    "count": 3
+  }
+}

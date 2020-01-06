@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.fraxure"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fraxure"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_fraxure": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "fraxure"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_axew"
+}

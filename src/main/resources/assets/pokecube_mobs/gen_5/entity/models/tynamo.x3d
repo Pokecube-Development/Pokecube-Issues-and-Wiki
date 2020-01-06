@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<X3D>
+	<head>
+		<meta name="filename" content="Tynamo.x3d" />
+		<meta name="generator" content="Blender 2.76 (sub 0)" />
+	</head>
+	<Scene>
+		<NavigationInfo headlight="true"
+		                visibilityLimit="0.0"
+		                type='"EXAMINE", "ANY"'
+		                avatarSize="0.25, 1.75, 0.75"
+		                />
+		<Background DEF="WO_World"
+		            groundColor="0.051 0.051 0.051"
+		            skyColor="0.051 0.051 0.051"
+		            />
+		<Transform DEF="Body_TRANSFORM"
+		           translation="0.000000 0.000000 1.500000"
+		           scale="1.000000 1.000000 1.000000"
+		           rotation="1.000000 0.000000 0.000000 1.570796"
+		           >
+			<Transform DEF="Body_ifs_TRANSFORM"
+			           translation="0.000000 0.000000 0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="1.000000 0.000000 0.000000 0.000000"
+			           >
+				<Group DEF="group_ME_Body">
+					<Shape>
+						<Appearance>
+							<Material DEF="MA_Body"
+							          diffuseColor="0.800 0.800 0.800"
+							          specularColor="0.401 0.401 0.401"
+							          emissiveColor="0.000 0.000 0.000"
+							          ambientIntensity="0.333"
+							          shininess="0.098"
+							          transparency="0.0"
+							          />
+						</Appearance>
+						<IndexedTriangleSet solid="true"
+						                    normalPerVertex="true"
+						                    index="0 1 2 0 2 3 4 5 6 4 6 7 3 2 8 3 8 9 10 11 12 10 12 13 14 0 3 14 3 15 1 4 7 1 7 2 "
+						                    >
+							<Coordinate point="-0.000000 -1.437500 0.000000 -0.125000 -1.437500 0.000000 -0.125000 -1.312500 0.000000 -0.000000 -1.312500 0.000000 -0.125000 -1.437500 0.500000 -0.000000 -1.437500 0.500000 -0.000000 -1.312500 0.500000 -0.125000 -1.312500 0.500000 -0.125000 -1.312500 0.500000 -0.000000 -1.312500 0.500000 -0.125000 -1.437500 0.000000 -0.000000 -1.437500 0.000000 -0.000000 -1.437500 0.500000 -0.125000 -1.437500 0.500000 -0.000000 -1.437500 0.500000 -0.000000 -1.312500 0.500000 " />
+							<Normal vector="0.577349 -0.577349 -0.577349 -0.577349 -0.577349 -0.577349 -0.577349 0.577349 -0.577349 0.577349 0.577349 -0.577349 -0.577349 -0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 0.577349 -0.577349 -0.577349 -0.577349 0.577349 -0.577349 -0.577349 0.577349 -0.577349 0.577349 -0.577349 -0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 " />
+							<TextureCoordinate point="0.2500 0.6875 0.3125 0.6875 0.3125 0.7500 0.2500 0.7500 0.5625 0.6875 0.6250 0.6875 0.6250 0.7500 0.5625 0.7500 0.3125 1.0000 0.2500 1.0000 0.3750 1.0000 0.3125 1.0000 0.3125 0.7500 0.3750 0.7500 0.0000 0.6875 0.0000 0.7500 " />
+						</IndexedTriangleSet>
+					</Shape>
+				</Group>
+			</Transform>
+			<Transform DEF="Fin_TRANSFORM"
+			           translation="0.000000 0.000000 0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="1.000000 0.000000 0.000000 0.000000"
+			           >
+				<Transform DEF="Fin_ifs_TRANSFORM"
+				           translation="0.000000 0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="1.000000 0.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_Fin">
+						<Shape>
+							<Appearance>
+								<Material DEF="MA_Fin"
+								          diffuseColor="0.800 0.800 0.800"
+								          specularColor="0.401 0.401 0.401"
+								          emissiveColor="0.800 0.800 0.800"
+								          ambientIntensity="0.333"
+								          shininess="0.098"
+								          transparency="0.0"
+								          />
+							</Appearance>
+							<IndexedTriangleSet solid="true"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 "
+							                    >
+								<Coordinate point="-0.062500 -1.500000 0.125000 -0.062500 -1.500000 0.687500 -0.062500 -1.250000 0.687500 -0.062500 -1.250000 0.125000 " />
+								<Normal vector="-1.000000 0.000000 0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 0.000000 " />
+								<TextureCoordinate point="0.2812 0.2812 0.5625 0.2812 0.5625 0.4062 0.2812 0.4062 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+			</Transform>
+		</Transform>
+	</Scene>
+</X3D>

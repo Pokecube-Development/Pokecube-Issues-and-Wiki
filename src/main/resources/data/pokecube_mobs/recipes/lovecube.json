@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "FWF",
+    "PPP",
+    "LLL"
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "F": {
+      "tag": "minecraft:small_flowers"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    },
+    "L": {
+      "item": "minecraft:pink_wool"
+    }
+  },
+  "result": {
+    "item": "pokecube:lovecube",
+    "count": 3
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.slurpuff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slurpuff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_slurpuff": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "slurpuff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_swirlix"
+}

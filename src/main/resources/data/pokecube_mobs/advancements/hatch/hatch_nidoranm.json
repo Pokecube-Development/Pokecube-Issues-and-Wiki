@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoranm"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.nidoranm"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_nidoranm": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "nidoranm"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

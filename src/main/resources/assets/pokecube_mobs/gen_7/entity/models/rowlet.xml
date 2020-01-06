@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="-5,5" headDir="1"/>
+  <phase duration="10" leftArm="" leftLeg="foot" legAngle="50" name="biWalk" rightArm="" rightLeg="foot1"/>
+  <customTex default="rowlet">
+   <part name="Head" tex="rowlethead"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+  </phase>
+  <phase type="flying">
+   <part name="wing">
+    <component length="5" name="1" rotChange="0,0,-30" rotOffset="0,0,70" startKey="0"/>
+    <component length="5" name="2" rotChange="0,0,30" startKey="10"/>
+   </part>
+   <part name="wing1">
+    <component length="5" name="1" rotChange="0,0,30" rotOffset="0,0,-70" startKey="0"/>
+    <component length="5" name="2" rotChange="0,0,-30" startKey="10"/>
+   </part>
+   <part name="foot">
+    <component length="1" name="1" rotOffset="-25.0,10,0.0," startKey="0"/>
+   </part>
+   <part name="foot1">
+    <component length="1" name="1" rotOffset="-25.0,-10,0.0," startKey="0"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

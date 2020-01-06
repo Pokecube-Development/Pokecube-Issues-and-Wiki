@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.breloom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.breloom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_breloom": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "breloom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_shroomish"
+}

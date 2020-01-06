@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModelAnimator version="0.1">
+	<model name="">
+	<phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.3"/>
+	  <metadata head="head" headAxis="2" headAxis2="0" headCap="-5,5" headCap1="-5,5" headDir="-1"/>
+	  <phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="5" legAngle="40"/>
+	  <worn angles="-90,0,0" id="__HAT__" offset="0,1,0" parent="head" scale="2"/>
+	  <worn angles="-90,0,0" id="__EYE__" offset="0,0.8,0.12" parent="head" scale="2.3,2,2"/>
+	  <worn angles="-90,0,0" id="__NECK__" offset="0,2.5,0.5" parent="body" scale="2"/>
+	  <worn angles="-90,0,0" id="__BACK__" offset="0,3,0" parent="body" scale="4,4,4"/>
+	  <customTex default="rolycoly">
+	   <part name="Head" tex="rolycolyhead"/>
+	   <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
+	  </customTex>
+	  <phase type="idle">
+	   <part name="body">
+		<component length="10" name="1" rotChange="-0.7,0,0," startKey="0"/>
+		<component length="10" name="2" rotChange="0.7,0,0," startKey="10"/>
+	   </part>
+	  </phase>
+	  <phase type="walking">
+	   <part name="body">
+		<component length="10" name="1" rotChange="-0.7,0,0," startKey="0"/>
+		<component length="10" name="2" rotChange="0.7,0,0," startKey="10"/>
+	   </part>
+	   <part name="r">
+		<component length="20" name="1" rotChange="360,0,0," startKey="0"/>
+	   </part>
+	  </phase>
+	</model>
+</ModelAnimator>
+
+

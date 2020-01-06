@@ -1,0 +1,20 @@
+{
+    "parent": "pokecube_adventures:block/cloner",
+    "display": {
+        "thirdperson_righthand": {
+          "rotation": [ 0, 0, 0 ],
+          "translation": [ 0, 1, -2 ],
+          "scale": [ 0.5, 0.5, 0.5 ]
+        },
+        "firstperson_righthand": {
+          "rotation": [ 0, 0, 0 ],
+          "translation": [ 0, 0, 0 ],
+          "scale": [ 0.5, 0.5, 0.5 ]
+        },
+        "gui": {
+            "rotation": [ 0.0, 0.0, 0.0 ],
+            "translation": [ 0.0, 0.0, 0.0 ],
+            "scale": [ 0.5, 0.5, 0.5 ]
+        }
+    }
+}

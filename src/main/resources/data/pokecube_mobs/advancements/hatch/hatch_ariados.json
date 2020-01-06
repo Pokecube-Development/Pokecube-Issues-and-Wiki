@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ariados"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ariados"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ariados": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ariados"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_spinarak"
+}

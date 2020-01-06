@@ -1,0 +1,277 @@
+{
+"trainers":[
+  {
+    "type": "Bug Catcher",
+    "pokemon": "weedle,caterpie,ledyba,wurmple,kricketot,paras,nincada,burmy,venonat,yanma,spinarak,volbeat,illumise,pinsir,scyther,heracross,surskit",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "forest",
+      "typesBlacklist": "cold"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Youngster",
+    "pokemon": "rattata,zubat,nidoranm,poochyena,tailow,zigzagoon,starly,kricketot,magikarp,bidoof,ekans,sandshrew,wooper,seedot,geodude,lotad,electrike,burmy,slowpoke,spearow,mankey,diglett,machop,bellsprout,growlithe,aron,trapinch,shroomish,onix,gastly,gligar,buizel",
+    "spawns": [{ "values": {
+      "rate": "0.5",
+      "typesBlacklist": "cave"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Lass",
+    "pokemon": "nidoranm,nidoranf,pidgey,rattata,pikachu,meowth,bellsprout,oddish,clefairy,jigglypuff,paras,chingling,buneary,pachirisu,budew,abra,starly,psyduck,bidoof,hoppip,luvdisc,wailmer,lotad,shroomish,marill,skitty,urrloin,woobat,seedot,deerling,gothita,ducklett,vulpix,lillipup",
+    "spawns": [{ "values": {
+      "rate": "0.5",
+      "typesBlacklist": "cave"
+    }}],
+    "gender": "Female"
+  },
+  {
+    "type": "Hiker",
+    "pokemon": "geodude,onix,machop,diglett,sandshrew,swinub,nosepass,numel,baltoy,zubat,bronzor,dunsparce,woobat,timburr,roggenrola,aron",
+    "spawns": [{ "values": {
+      "rate": "0.5",
+      "types": "cave, mountain"
+    }}],
+    "gender": "Male",
+    "bag": {
+      "id": "pokecube_adventures:pokecubebag",
+      "tag": "\\\"dyeColour\\\": 2"
+    }
+  },
+  {
+    "type": "Fisherman",
+    "pokemon": "tentacool,magikarp,goldeen,polywag,staryu,shellder,horsea,qwilfish,remoraid,carvanha,feebas,barboach,wailmer,finneon,basculin,stunfisk,frillish,krabby",
+    "spawns": [{ "values": {
+      "rate": "0.25",
+      "types": "water, beach, lake"
+    }}],
+    "gender": "Male",
+    "held": {
+      "id": "minecraft:fishing_rod"
+    }
+  },
+  {
+    "type": "Cooltrainer",
+    "pokemon": "-all",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Both"
+  },
+  {
+    "type": "Psychic",
+    "pokemon": "-Psychic",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Both"
+  },
+  {
+    "type": "Super Nerd",
+    "pokemon": "grimer,magnemite,voltorb,koffing,growlith,vulpix,porygon,slowpoke,ponyta",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Scientist",
+    "pokemon": "grimer,magnemite,voltorb,koffing,porygon,ditto,abra,ralts,munna,drowsey,klink,deerling,elgyem",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "industrial, village"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Bird Keeper",
+    "pokemon": "pidgey,spearow,tailow,wingull,starly,pidove,fletchling,natu,skarmory,doduo,farfetch'd,swablu,hoothoot,murkrow",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Both"
+  },
+  {
+    "type": "Beauty",
+    "pokemon": "bellsprout,oddish,exeggcute,rattata,clefairy,meowth,jigglypuff,goldeen,poliwag,staryu,horsea,cloyster,paras,corsola,hoppip,sentret,marill,wailmer,keckleon,seviper,lotad,shroomish,numel,carvanha,clamperl,corphish,luvdisc,glameow,burmy,skitty,finneon,buneary,fletchling,espurr,roserade,blitzle,mareep",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Female"
+  },
+  {
+    "type": "Biker",
+    "pokemon": "grimer,koffing,voltorb,magmar,gulpin,ekans,surviper,croagunk,skorupi",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Black Belt",
+    "pokemon": "-Fighting",
+    "spawns": [{ "values": {
+      "rate": "0.25",
+      "types": "cave,mountain"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Burglar",
+    "pokemon": "koffing,magmar,growlithe,vulpix",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Channeler",
+    "pokemon": "gastly",
+    "spawns": [{ "values": {
+      "rate": "0.5",
+      "types": "nether"
+    }}],
+    "gender": "Female"
+  },
+  {
+    "type": "RoughNeck",
+    "pokemon": "machop,mankey,sandile,scraggy",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Engineer",
+    "pokemon": "magnemite",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "industrial,village"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "PI",
+    "pokemon": "poliwag,growlithe,vulpix,goldeen",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Gentleman",
+    "pokemon": "growlithe,pikachu,electrike,zigzagoon,chatot",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Camper",
+    "pokemon": "diglett,rattata,sandshrew,ekans,mankey,zubat,zigzagoon,tailow,seedot,baltoy,spearow,nidoranM",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Picknicker",
+    "pokemon": "goldeen,pidgey,rattata,pikachu,poliwag,meowth,oddish,ponyta,hoppip,bellsprout,shroomish,marill,swablu,lotad,clefairy,nidoranF,paras,pachirisu,bidoof,psyduck,shinx,cherubi",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Female"
+  },
+  {
+    "type": "Juggler",
+    "pokemon": "abra,drowzee,mrmime,voltorb",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Poke Maniac",
+    "pokemon": "cubone,slowpoke,kangaskhan,lickitung,nidoranM,nidoranF,rhyhorn,aron",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Rocker",
+    "pokemon": "voltorb,magnemite,mareep",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Sailor",
+    "pokemon": "machop,tentacool,cloyster,horsea,krabby,poliwag,rattata,wingull,spheal,wailmer,mantine,shellos,magikarp,marill,wooper",
+    "spawns": [{ "values": {
+      "rate": "0.25",
+      "types": "ocean,beach"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Swimmer",
+    "pokemon": "horsea,cloyster,goldeen,staryu,poilwag,tentacool,psyduck,remoraid,magikarp,wingull,wailmer,marill,carvanha,luvdisc,spheal,chinchou,mantine,seel,finneon,buizel,qwilfish,bidoof,lapras,frillish,clamperl,skrelp",
+    "spawns": [{ "values": {
+      "rate": "0.25",
+      "types": "water,beach,lake",
+      "water": "true"
+    }}],
+    "gender": "Both"
+  },
+  {
+    "type": "Tamer",
+    "pokemon": "ekans,sandshrew",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Notch",
+    "pokemon": "arceus",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "sky"
+    }}],
+    "gender": "Male"
+  },
+  {
+    "type": "Red",
+    "pokemon": "omanyte,pidgey,lapras,nidoranm,venonat,zapdos",
+    "spawns": [{ "values": {
+      "rate": "0.05",
+      "types": "all"
+    }}],
+    "gender": "Male",
+    "bag": {
+      "id": "pokecube_adventures:pokecubebag"
+    }
+  }
+]
+}

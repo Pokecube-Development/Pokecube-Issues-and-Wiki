@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.larvesta"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.larvesta"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_larvesta": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "larvesta"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

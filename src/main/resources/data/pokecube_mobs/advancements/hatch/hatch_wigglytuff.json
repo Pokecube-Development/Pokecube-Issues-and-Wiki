@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wigglytuff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wigglytuff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_wigglytuff": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "wigglytuff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_jigglypuff"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.raichu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raichu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_raichu": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "raichu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_pikachu"
+}

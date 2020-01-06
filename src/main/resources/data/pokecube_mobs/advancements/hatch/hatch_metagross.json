@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.metagross"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.metagross"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_metagross": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "metagross"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_metang"
+}

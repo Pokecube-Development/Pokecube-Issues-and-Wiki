@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ursaring"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ursaring"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ursaring": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ursaring"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_teddiursa"
+}

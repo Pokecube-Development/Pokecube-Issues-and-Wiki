@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.honchkrow"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.honchkrow"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_honchkrow": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "honchkrow"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_murkrow"
+}

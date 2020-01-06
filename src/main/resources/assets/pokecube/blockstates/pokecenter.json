@@ -1,0 +1,12 @@
+{
+	"variants": {
+        "facing=north,fixed=true": { "model": "pokecube:block/pokecenter" },
+        "facing=south,fixed=true": { "model": "pokecube:block/pokecenter","y": 180 },
+        "facing=west,fixed=true":  { "model": "pokecube:block/pokecenter","y": 270 },
+        "facing=east,fixed=true":  { "model": "pokecube:block/pokecenter","y": 90 },
+        "facing=north,fixed=false": { "model": "pokecube:block/pokecenter" },
+        "facing=south,fixed=false": {"model": "pokecube:block/pokecenter", "y": 180 },
+        "facing=west,fixed=false":  {"model": "pokecube:block/pokecenter","y": 270 },
+        "facing=east,fixed=false":  { "model": "pokecube:block/pokecenter","y": 90 }
+	}
+}

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.35"/>
+  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
+  <customTex default="magmar">
+   <part name="Head" tex="magmarhead"/>
+   <animation diffs="0,0.35" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.0,0.70" part="Head" trigger="sleeping"/>
+   <part name="Flame" tex="magmar2"/>
+   <animation diffs="0,0, 0,0, 0.125,0, 0.125,0, 0.25,0, 0.25,0, 0.375,0, 0.375,0" part="Flame" trigger="sequence"/>
+  </customTex>
+  <phase armAngle="20" duration="10" leftArm="Leftarm" leftLeg="thighL" legAngle="15" name="biWalk" rightArm="Rightarm" rightLeg="thighR"/>
+  <phase type="idle">
+   <part name="Jaw">
+    <component length="10" name="1" posChange="0.0,2.0,0.0," posOffset="0.0,-1.8,0.0," startKey="0"/>
+    <component length="10" name="2" posChange="0.0,-2.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quilbase">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-10.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="10.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quil">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="20.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="-20.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quiltip">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-30.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="30.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Rightarm">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-5.0,0.0,-5.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="5.0,0.0,5.0," startKey="10"/>
+   </part>
+   <part name="Leftarm">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="5.0,0.0,5.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5.0,0.0,-5.0," startKey="10"/>
+   </part>
+   <part name="Tail">
+    <component length="20" name="1" posOffset="0.0,0.0,0.0," rotChange="20.0,0.0,0.0," rotOffset="0.0,-0.0,-0.0," startKey="0"/>
+    <component length="20" name="2" rotChange="-20.0,0.0,0.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="sitting">
+   <part name="Body">
+    <component length="15" name="1" posOffset="0.0,14.0,0.0" rotOffset="0.0,0.0,0.0," startKey="0"/>
+   </part>
+   <part name="thighR">
+    <component length="10" name="1" posOffset="0.0,12.0,0.0," rotChange="5.0,0.0,5.0," rotOffset="-90.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="-5.0,0.0,-5.0," startKey="10"/>
+   </part>
+   <part name="thighL">
+    <component length="10" name="1" posOffset="0.0,12.0,0.0," rotChange="5.0,0.0,-5.0," rotOffset="-90.0,0.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="-5.0,0.0,5.0," startKey="10"/>
+   </part>
+   <part name="Rightarm">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-5.0,0.0,-5.0," rotOffset="20.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="5.0,0.0,5.0," startKey="10"/>
+   </part>
+   <part name="Leftarm">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="5.0,0.0,5.0," rotOffset="20.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="-5.0,0.0,-5.0," startKey="10"/>
+   </part>
+   <part name="Jaw">
+    <component length="10" name="1" posChange="0.0,2.0,0.0," posOffset="0.0,-1.8,0.0," startKey="0"/>
+    <component length="10" name="2" posChange="0.0,-2.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quilbase">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-10.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="10.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quil">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="20.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="-20.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quiltip">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-30.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="30.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Tail">
+    <component length="20" name="1" posOffset="0.0,0.0,0.0," rotChange="20.0,0.0,0.0," rotOffset="0.0,-0.0,-0.0," startKey="0"/>
+    <component length="20" name="2" rotChange="-20.0,0.0,0.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="Jaw">
+    <component length="10" name="1" posChange="0.0,2.0,0.0," posOffset="0.0,-1.8,0.0," startKey="0"/>
+    <component length="10" name="2" posChange="0.0,-2.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quilbase">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-10.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="10.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quil">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="20.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="-20.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Quiltip">
+    <component length="10" name="1" posOffset="0.0,0.0,0.0" rotChange="-30.0,0.0,0.0," rotOffset="0.0,0.0,0.0" startKey="0"/>
+    <component length="10" name="2" rotChange="30.0,0.0,0.0," startKey="10"/>
+   </part>
+   <part name="Tail">
+    <component length="20" name="1" posOffset="0.0,0.0,0.0," rotChange="20.0,0.0,0.0," rotOffset="0.0,-0.0,-0.0," startKey="0"/>
+    <component length="20" name="2" rotChange="-20.0,0.0,0.0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

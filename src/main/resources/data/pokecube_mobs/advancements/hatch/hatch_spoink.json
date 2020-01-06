@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.spoink"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.spoink"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_spoink": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "spoink"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

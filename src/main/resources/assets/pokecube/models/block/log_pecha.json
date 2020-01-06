@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "pokecube:block/log_pecha",
+        "side": "pokecube:block/bark_pecha"
+    }
+}

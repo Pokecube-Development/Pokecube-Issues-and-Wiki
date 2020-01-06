@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.manectric"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.manectric"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_manectric": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "manectric"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_electrike"
+}

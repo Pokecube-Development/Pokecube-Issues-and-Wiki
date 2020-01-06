@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.get1st"
+    },
+    "description": {
+      "translate": "achievement.pokecube.get1st.desc"
+    }
+  },
+  "parent": "pokecube_mobs:capture/root",
+  "criteria": {
+    "get_first_pokemob": {
+      "trigger": "pokecube:get_first_pokemob"
+    }
+  }
+}

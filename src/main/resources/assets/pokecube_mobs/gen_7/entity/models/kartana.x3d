@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN" "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+	<head>
+		<meta name="filename" content="kartana.x3d" />
+		<meta name="generator" content="Blender 2.78 (sub 0)" />
+	</head>
+	<Scene>
+		<NavigationInfo headlight="true"
+		                visibilityLimit="0.0"
+		                type='"EXAMINE", "ANY"'
+		                avatarSize="0.25, 1.75, 0.75"
+		                />
+		<Background DEF="WO_World"
+		            groundColor="0.051 0.051 0.051"
+		            skyColor="0.051 0.051 0.051"
+		            />
+		<Transform DEF="Body_TRANSFORM"
+		           translation="0.000000 0.000000 0.267144"
+		           scale="0.038383 0.038383 0.038383"
+		           rotation="-0.281085 0.678598 0.678598 2.593564"
+		           >
+			<Transform DEF="Body_ifs_TRANSFORM"
+			           translation="0.000000 0.000000 -0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 0.000000 0.000000 0.000000"
+			           >
+				<Group DEF="group_ME_Body">
+					<Shape>
+						<Appearance>
+							<ImageTexture DEF="IM_Untitled"
+							              url='"Kartana.png" "C:/Users/Brett Graves/Downloads/Kartana/Kartana.png"'
+							              />
+						</Appearance>
+						<IndexedTriangleSet solid="false"
+						                    normalPerVertex="true"
+						                    index="0 1 2 3 4 0 3 0 2 5 3 2 5 2 1 6 7 8 7 9 10 7 10 8 11 6 8 11 8 10 0 1 12 "
+						                    >
+							<Coordinate point="2.132955 -3.199517 -0.016021 3.199517 -2.132955 -0.016021 2.490150 -2.490150 0.264365 0.692322 -0.692322 0.448061 -1.132584 -1.132584 -0.016021 1.132584 1.132584 -0.016021 3.199517 -2.132955 -0.016021 2.132955 -3.199517 -0.016021 1.220571 -1.220571 -0.016021 -1.132584 -1.132584 -0.016021 -1.132584 1.132584 -0.016021 1.132584 1.132584 -0.016021 2.902440 -2.902440 -0.017440 " />
+							<Normal vector="-0.022462 -0.789697 -0.613056 0.789697 0.022462 -0.613056 0.251778 -0.251778 0.934416 0.052614 -0.052614 0.997223 -0.106204 -0.166112 -0.980346 0.166112 0.106204 -0.980346 0.789697 0.022462 -0.613056 -0.022462 -0.789697 -0.613056 0.000000 0.000000 -0.999969 -0.106204 -0.166112 -0.980346 0.000000 0.000000 -1.000000 0.166112 0.106204 -0.980346 -0.002991 0.002991 -0.999969 " />
+							<TextureCoordinate point="0.6562 0.0156 0.8750 0.0156 0.7656 0.3125 0.7656 0.4844 0.5312 0.5625 0.9844 0.5625 0.6562 0.0156 0.8750 0.0156 0.7656 0.3125 0.9844 0.5625 0.7656 0.7812 0.5312 0.5625 0.7656 0.0625 " />
+						</IndexedTriangleSet>
+					</Shape>
+				</Group>
+			</Transform>
+			<Transform DEF="OrangeInnerNeck_TRANSFORM"
+			           translation="-0.000000 -0.000000 -0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 0.000000 0.000000 0.000000"
+			           >
+				<Transform DEF="OrangeInnerNeck_ifs_TRANSFORM"
+				           translation="-0.000000 -0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 -0.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_OrangeInnerNeck">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 "
+							                    >
+								<Coordinate point="-1.103199 -1.103199 -0.000000 1.103199 -1.103199 0.000000 1.103199 1.103199 0.000000 -1.103199 1.103199 -0.000000 " />
+								<Normal vector="0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 " />
+								<TextureCoordinate point="0.8594 0.8594 0.9844 0.8594 0.9844 0.9844 0.8594 0.9844 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+			</Transform>
+			<Transform DEF="Head_TRANSFORM"
+			           translation="0.000000 0.000000 0.106276"
+			           scale="1.923096 1.923096 1.923096"
+			           rotation="-0.357407 -0.862856 -0.357407 1.717771"
+			           >
+				<Transform DEF="Head_ifs_TRANSFORM"
+				           translation="0.000000 -0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="-0.000000 -0.000000 -0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_Head">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 3 4 2 1 3 2 4 0 2 "
+							                    >
+								<Coordinate point="-0.028915 0.000000 -0.810140 -0.028915 0.686055 -0.124086 0.158996 0.000000 -0.124086 -0.028915 -0.000000 0.561969 -0.028915 -0.686055 -0.124086 " />
+								<Normal vector="0.964446 0.000000 -0.264168 0.964446 0.264168 0.000000 1.000000 0.000000 0.000000 0.964446 0.000000 0.264168 0.964446 -0.264168 0.000000 " />
+								<TextureCoordinate point="0.2344 0.9688 0.1250 0.8594 0.2344 0.8594 0.2344 0.9688 0.1250 0.8594 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+				<Transform DEF="EarR_TRANSFORM"
+				           translation="0.000000 -0.000000 -0.000000"
+				           scale="-1.000000 -1.000000 -1.000000"
+				           rotation="0.000000 1.000000 -0.000000 3.141593"
+				           >
+					<Transform DEF="EarR_ifs_TRANSFORM"
+					           translation="0.000000 0.000000 -0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="0.000000 -0.000000 0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_EarR">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 3 1 4 5 1 6 7 1 8 0 9 4 0 4 10 "
+								                    >
+									<Coordinate point="0.074795 0.173317 0.711770 -0.017107 0.014619 0.304281 0.127022 0.209969 0.679439 0.127022 0.209969 0.679439 0.080596 0.261960 0.663384 0.080596 0.261960 0.663384 0.028369 0.225309 0.695715 0.028369 0.225309 0.695715 0.074795 0.173317 0.711770 0.127022 0.209969 0.679439 0.028369 0.225309 0.695715 " />
+									<Normal vector="0.065828 -0.495468 0.866115 -0.213507 -0.457259 -0.863308 0.938078 0.116642 0.326121 0.938078 0.116642 0.326121 0.162694 0.984954 0.057985 0.162694 0.984954 0.057985 -0.709525 0.372814 0.597949 -0.709525 0.372814 0.597949 0.065828 -0.495468 0.866115 0.938078 0.116642 0.326121 -0.709525 0.372814 0.597949 " />
+									<TextureCoordinate point="0.4062 0.1562 0.5000 0.1562 0.5000 0.2500 0.4062 0.1562 0.5000 0.2500 0.4062 0.1562 0.5000 0.2500 0.4062 0.1562 0.5000 0.2500 0.5000 0.1562 0.4062 0.2500 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+				<Transform DEF="EarL_TRANSFORM"
+				           translation="0.000000 -0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="-0.000000 -0.000000 -0.000000 0.000000"
+				           >
+					<Transform DEF="EarL_ifs_TRANSFORM"
+					           translation="0.000000 -0.000000 -0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="-0.000000 -0.000000 -0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_EarL">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 3 1 4 5 1 6 7 1 8 0 9 4 0 4 10 "
+								                    >
+									<Coordinate point="0.074795 0.173317 0.711770 -0.017107 0.014619 0.304281 0.127022 0.209969 0.679439 0.127022 0.209969 0.679439 0.080596 0.261960 0.663384 0.080596 0.261960 0.663384 0.028369 0.225309 0.695715 0.028369 0.225309 0.695715 0.074795 0.173317 0.711770 0.127022 0.209969 0.679439 0.028369 0.225309 0.695715 " />
+									<Normal vector="0.065828 -0.495468 0.866115 -0.213507 -0.457259 -0.863308 0.938078 0.116642 0.326121 0.938078 0.116642 0.326121 0.162694 0.984954 0.057985 0.162694 0.984954 0.057985 -0.709525 0.372814 0.597949 -0.709525 0.372814 0.597949 0.065828 -0.495468 0.866115 0.938078 0.116642 0.326121 -0.709525 0.372814 0.597949 " />
+									<TextureCoordinate point="0.4062 0.1562 0.5000 0.1562 0.5000 0.2500 0.4062 0.1562 0.5000 0.2500 0.4062 0.1562 0.5000 0.2500 0.4062 0.1562 0.5000 0.2500 0.5000 0.1562 0.4062 0.2500 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+			</Transform>
+			<Transform DEF="Belly_TRANSFORM"
+			           translation="0.000000 0.000000 0.084454"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 0.000000 0.000000 0.000000"
+			           >
+				<Transform DEF="Belly_ifs_TRANSFORM"
+				           translation="0.000000 0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 -0.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_Belly">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 1 4 5 1 5 2 "
+							                    >
+								<Coordinate point="1.298929 -0.286206 0.197651 1.083740 -1.083740 0.418535 2.401576 -2.401576 0.308318 2.729349 -2.076207 0.149755 0.286206 -1.298929 0.197651 2.076207 -2.729349 0.149755 " />
+								<Normal vector="0.268441 0.189337 0.944487 0.041780 -0.041780 0.998230 0.041780 -0.041780 0.998230 0.268441 0.189337 0.944487 -0.189337 -0.268441 0.944487 -0.189337 -0.268441 0.944487 " />
+								<TextureCoordinate point="0.9844 0.9844 0.8438 0.9844 0.8438 0.8438 0.9844 0.8438 0.9844 0.9844 0.9844 0.8438 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+			</Transform>
+			<Transform DEF="ArmR_TRANSFORM"
+			           translation="1.051680 -1.402463 0.385394"
+			           scale="-1.923096 -1.923095 -1.923096"
+			           rotation="0.379884 0.917120 0.120741 3.041651"
+			           >
+				<Transform DEF="ArmR_ifs_TRANSFORM"
+				           translation="0.000000 -0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="-0.000000 -0.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_ArmR">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 4 5 1 4 1 0 "
+							                    >
+								<Coordinate point="-0.185661 1.152200 -0.000000 0.083659 1.006533 0.000000 0.145387 1.849116 0.000000 -0.207795 2.359090 -0.000000 -0.135875 -0.025261 -0.000000 0.041868 -0.025261 0.000000 " />
+								<Normal vector="0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.999969 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 " />
+								<TextureCoordinate point="0.0781 0.7500 0.0156 0.7812 0.0156 0.5938 0.0781 0.5000 0.0781 0.9844 0.0156 0.9844 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+			</Transform>
+			<Transform DEF="ArmL_TRANSFORM"
+			           translation="1.402467 -1.051676 0.385393"
+			           scale="1.923096 1.923095 1.923095"
+			           rotation="-0.300549 0.124492 -0.945607 0.825727"
+			           >
+				<Transform DEF="ArmL_ifs_TRANSFORM"
+				           translation="0.000000 -0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="-0.000000 -0.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_ArmL">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 4 5 1 4 1 0 "
+							                    >
+								<Coordinate point="-0.185661 1.152200 -0.000000 0.083659 1.006533 0.000000 0.145387 1.849116 0.000000 -0.207795 2.359090 -0.000000 -0.135875 -0.025261 -0.000000 0.041868 -0.025261 0.000000 " />
+								<Normal vector="0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.999969 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 " />
+								<TextureCoordinate point="0.0781 0.7500 0.0156 0.7812 0.0156 0.5938 0.0781 0.5156 0.0781 0.9844 0.0156 0.9844 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+			</Transform>
+			<Transform DEF="ScarfLB_TRANSFORM"
+			           translation="1.773713 -1.641891 0.360138"
+			           scale="-1.923096 -1.923096 -1.923096"
+			           rotation="0.243304 0.864713 -0.439402 1.812412"
+			           >
+				<Transform DEF="ScarfLB_ifs_TRANSFORM"
+				           translation="-0.000000 0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_ScarfLB">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 "
+							                    >
+								<Coordinate point="0.005036 -1.199671 1.124637 0.005036 -0.049352 -0.025682 0.005036 0.043275 0.066944 0.005036 -1.107044 1.217263 " />
+								<Normal vector="1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.999969 0.000000 0.000000 1.000000 0.000000 0.000000 " />
+								<TextureCoordinate point="0.0469 0.3906 0.0469 0.0156 0.0156 0.0156 0.0156 0.3906 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+				<Transform DEF="ScarfLM_TRANSFORM"
+				           translation="-0.000000 -0.000000 0.107248"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Transform DEF="ScarfLM_ifs_TRANSFORM"
+					           translation="0.000000 0.000000 0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="0.000000 0.000000 -0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_ScarfLM">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 0 2 3 "
+								                    >
+									<Coordinate point="0.000000 -1.117761 1.042727 0.000000 -0.049352 -0.025682 0.000000 0.043275 0.066944 0.000000 -1.025135 1.135354 " />
+									<Normal vector="1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.999969 0.000000 0.000000 1.000000 0.000000 0.000000 " />
+									<TextureCoordinate point="0.0156 0.3906 0.0156 0.0156 0.0469 0.0156 0.0469 0.3906 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+				<Transform DEF="ScarfLT_TRANSFORM"
+				           translation="-0.000000 -0.000000 0.203223"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Transform DEF="ScarfLT_ifs_TRANSFORM"
+					           translation="0.000000 0.000000 0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="0.000000 0.000000 -0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_ScarfLT">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 0 2 3 "
+								                    >
+									<Coordinate point="0.000000 -1.024097 0.949063 0.000000 -0.049352 -0.025682 0.000000 0.043275 0.066944 0.000000 -0.931470 1.041689 " />
+									<Normal vector="1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 " />
+									<TextureCoordinate point="0.0156 0.3906 0.0156 0.0156 0.0469 0.0156 0.0469 0.3906 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+			</Transform>
+			<Transform DEF="ScarfRB_TRANSFORM"
+			           translation="1.641891 -1.773713 0.360138"
+			           scale="1.923095 1.923095 1.923096"
+			           rotation="-0.243304 -0.864713 -0.439402 1.812412"
+			           >
+				<Transform DEF="ScarfRB_ifs_TRANSFORM"
+				           translation="-0.000000 0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_ScarfRB">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 "
+							                    >
+								<Coordinate point="0.005036 -1.199671 1.124637 0.005036 -0.049352 -0.025682 0.005036 0.043275 0.066944 0.005036 -1.107044 1.217263 " />
+								<Normal vector="1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.999969 0.000000 0.000000 1.000000 0.000000 0.000000 " />
+								<TextureCoordinate point="0.0156 0.3906 0.0156 0.0156 0.0469 0.0156 0.0469 0.3906 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+				<Transform DEF="ScarfRM_TRANSFORM"
+				           translation="-0.000000 -0.000000 0.107248"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Transform DEF="ScarfRM_ifs_TRANSFORM"
+					           translation="0.000000 0.000000 0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="0.000000 0.000000 -0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_ScarfRM">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 0 2 3 "
+								                    >
+									<Coordinate point="0.000000 -1.117761 1.042727 0.000000 -0.049352 -0.025682 0.000000 0.043275 0.066944 0.000000 -1.025135 1.135354 " />
+									<Normal vector="1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.999969 0.000000 0.000000 1.000000 0.000000 0.000000 " />
+									<TextureCoordinate point="0.0156 0.3906 0.0156 0.0156 0.0469 0.0156 0.0469 0.3906 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+				<Transform DEF="ScarfRT_TRANSFORM"
+				           translation="-0.000000 -0.000000 0.203223"
+				           scale="1.000000 0.999652 1.000000"
+				           rotation="0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Transform DEF="ScarfRT_ifs_TRANSFORM"
+					           translation="-0.000000 0.000000 0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="0.000000 -0.000000 -0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_ScarfRT">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 0 2 3 "
+								                    >
+									<Coordinate point="0.000000 -1.024097 0.949063 0.000000 -0.049352 -0.025682 0.000000 0.043275 0.066944 0.000000 -0.931470 1.041689 " />
+									<Normal vector="1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 " />
+									<TextureCoordinate point="0.0156 0.3906 0.0156 0.0156 0.0469 0.0156 0.0469 0.3906 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+			</Transform>
+			<Transform DEF="LegR_TRANSFORM"
+			           translation="2.517698 -3.050979 -0.016731"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 0.000000 -0.000000 0.000000"
+			           >
+				<Transform DEF="LegR_ifs_TRANSFORM"
+				           translation="0.000000 0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="-0.000000 -0.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_LegR">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 3 4 5 0 2 6 2 7 8 9 10 5 10 3 5 2 1 7 9 5 4 11 12 13 "
+							                    >
+								<Coordinate point="-0.122630 -0.763599 -0.146268 -0.384742 -0.148538 0.000710 0.384742 0.148538 -0.000710 0.909430 -0.802028 0.228087 1.141656 -1.443651 -0.015633 0.188484 -1.298525 0.094219 0.188484 -1.298525 0.094219 -0.164603 -0.691430 0.334706 0.188484 -1.298525 0.094219 0.913170 -0.808458 -0.228571 0.384742 0.148538 -0.000710 1.141656 -1.443651 -0.015633 0.188484 -1.298525 0.094219 1.543641 -2.748638 0.039293 " />
+								<Normal vector="0.313334 -0.022767 -0.949339 -0.357128 0.924436 -0.133488 0.905789 0.422101 -0.036653 0.116733 0.096957 -0.988403 0.165990 0.412275 0.895779 0.895352 0.257271 0.363506 0.895352 0.257271 0.363506 0.338237 0.149754 0.929044 0.895352 0.257271 0.363506 0.304483 0.167333 0.937681 0.905789 0.422101 -0.036653 0.165990 0.412275 0.895779 0.895352 0.257271 0.363506 0.126194 0.080477 0.988708 " />
+								<TextureCoordinate point="0.3438 0.6562 0.3438 0.5312 0.5000 0.5469 0.3281 0.3750 0.2969 0.5000 0.1562 0.3750 0.3750 0.7812 0.3594 0.4062 0.4062 0.2812 0.3281 0.3750 0.3281 0.1562 0.2656 0.6406 0.1562 0.7812 0.1562 0.4062 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+				<Transform DEF="InnerLeg2R_TRANSFORM"
+				           translation="0.000000 -0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 -0.000000 0.000000 0.000000"
+				           >
+					<Transform DEF="InnerLeg2R_ifs_TRANSFORM"
+					           translation="0.000000 0.000000 -0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="0.000000 0.000000 -0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_InnerLeg2R">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 3 4 2 4 0 2 3 2 1 "
+								                    >
+									<Coordinate point="0.892380 -0.805304 0.210137 1.105000 -1.392755 -0.013006 0.232304 -1.259881 0.087571 0.895805 -0.811191 -0.207966 0.411992 0.065007 0.000657 " />
+									<Normal vector="0.116733 0.096957 -0.988403 0.156743 0.985931 0.057649 0.801996 0.587634 -0.106967 0.304483 0.167333 0.937681 0.990936 -0.133396 0.014801 " />
+									<TextureCoordinate point="0.9844 0.9844 0.8438 0.9844 0.9062 0.9062 0.8438 0.8438 0.9844 0.8438 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+				<Transform DEF="InnerLegR_TRANSFORM"
+				           translation="0.000000 -0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 -0.000000 0.000000 0.000000"
+				           >
+					<Transform DEF="InnerLegR_ifs_TRANSFORM"
+					           translation="0.000000 0.000000 -0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="0.000000 0.000000 -0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_InnerLegR">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 0 2 3 2 4 3 2 1 4 "
+								                    >
+									<Coordinate point="-0.111220 -0.739989 -0.123777 -0.344263 -0.193141 0.006901 0.339883 0.070989 0.005639 0.165390 -1.215590 0.090039 -0.148538 -0.675824 0.303856 " />
+									<Normal vector="0.313334 -0.022767 -0.949339 -0.357128 0.924436 -0.133488 0.590411 0.803797 -0.072695 0.990844 -0.132847 0.023164 0.338237 0.149754 0.929044 " />
+									<TextureCoordinate point="0.9844 0.8438 0.9844 0.9844 0.8906 0.9375 0.8438 0.8438 0.8438 0.9844 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+			</Transform>
+			<Transform DEF="LegL_TRANSFORM"
+			           translation="3.050974 -2.517702 -0.016731"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.707107 -0.707107 0.000000 3.141593"
+			           >
+				<Transform DEF="LegL_ifs_TRANSFORM"
+				           translation="-0.000000 -0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 0.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_LegL">
+						<Shape>
+							<Appearance>
+								<ImageTexture USE="IM_Untitled" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 3 4 5 0 2 6 2 7 8 9 10 5 10 3 5 2 1 7 9 5 4 11 12 13 "
+							                    >
+								<Coordinate point="-0.122630 -0.763599 -0.146268 -0.384742 -0.148538 0.000710 0.384742 0.148538 -0.000710 0.909430 -0.802028 0.228087 1.141656 -1.443651 -0.015633 0.188484 -1.298525 0.094219 0.188484 -1.298525 0.094219 -0.164603 -0.691430 0.334706 0.188484 -1.298525 0.094219 0.913170 -0.808458 -0.228571 0.384742 0.148538 -0.000710 1.141656 -1.443651 -0.015633 0.188484 -1.298525 0.094219 1.543641 -2.748638 0.039293 " />
+								<Normal vector="0.313334 -0.022767 -0.949339 -0.357128 0.924436 -0.133488 0.905789 0.422101 -0.036653 0.116733 0.096957 -0.988403 0.165990 0.412275 0.895779 0.895352 0.257271 0.363506 0.895352 0.257271 0.363506 0.338237 0.149754 0.929044 0.895352 0.257271 0.363506 0.304483 0.167333 0.937681 0.905789 0.422101 -0.036653 0.165990 0.412275 0.895779 0.895352 0.257271 0.363506 0.126194 0.080477 0.988708 " />
+								<TextureCoordinate point="0.3438 0.6562 0.3438 0.5312 0.5000 0.5469 0.3281 0.3750 0.2969 0.5000 0.1562 0.3750 0.3750 0.7812 0.3594 0.4062 0.4062 0.2812 0.3281 0.3750 0.3281 0.1562 0.2656 0.6406 0.1562 0.7812 0.1562 0.4062 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+				<Transform DEF="InnerLeg2L_TRANSFORM"
+				           translation="0.000000 -0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="-0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Transform DEF="InnerLeg2L_ifs_TRANSFORM"
+					           translation="-0.000000 -0.000000 0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="-0.000000 -0.000000 0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_InnerLeg2L">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 3 4 2 4 0 2 3 2 1 "
+								                    >
+									<Coordinate point="0.892380 -0.805304 0.210137 1.105000 -1.392755 -0.013006 0.232304 -1.259881 0.087571 0.895805 -0.811191 -0.207966 0.411992 0.065007 0.000657 " />
+									<Normal vector="0.116733 0.096957 -0.988403 0.156743 0.985931 0.057649 0.801996 0.587634 -0.106967 0.304483 0.167333 0.937681 0.990936 -0.133396 0.014801 " />
+									<TextureCoordinate point="0.9844 0.9844 0.8438 0.9844 0.9219 0.9062 0.8438 0.8438 0.9844 0.8438 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+				<Transform DEF="InnerLegL_TRANSFORM"
+				           translation="0.000000 -0.000000 -0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="-0.000000 0.000000 -0.000000 0.000000"
+				           >
+					<Transform DEF="InnerLegL_ifs_TRANSFORM"
+					           translation="-0.000000 -0.000000 0.000000"
+					           scale="1.000000 1.000000 1.000000"
+					           rotation="-0.000000 -0.000000 0.000000 0.000000"
+					           >
+						<Group DEF="group_ME_InnerLegl">
+							<Shape>
+								<Appearance>
+									<ImageTexture USE="IM_Untitled" />
+								</Appearance>
+								<IndexedTriangleSet solid="false"
+								                    normalPerVertex="true"
+								                    index="0 1 2 0 2 3 2 4 3 2 1 4 "
+								                    >
+									<Coordinate point="-0.111220 -0.739989 -0.123777 -0.344263 -0.193141 0.006901 0.339883 0.070989 0.005639 0.165390 -1.215590 0.090039 -0.148538 -0.675824 0.303856 " />
+									<Normal vector="0.313334 -0.022767 -0.949339 -0.357128 0.924436 -0.133488 0.590411 0.803797 -0.072695 0.990844 -0.132847 0.023164 0.338237 0.149754 0.929044 " />
+									<TextureCoordinate point="0.9844 0.8438 0.9844 0.9844 0.9375 0.9375 0.8438 0.8438 0.8438 0.9844 " />
+								</IndexedTriangleSet>
+							</Shape>
+						</Group>
+					</Transform>
+				</Transform>
+			</Transform>
+		</Transform>
+	</Scene>
+</X3D>

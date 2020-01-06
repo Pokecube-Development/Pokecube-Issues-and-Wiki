@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.luxray"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.luxray"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_luxray": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "luxray"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_luxio"
+}

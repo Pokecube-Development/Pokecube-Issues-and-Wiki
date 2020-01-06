@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.shiftry"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shiftry"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_shiftry": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "shiftry"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_nuzleaf"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.braixen"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.braixen"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_braixen": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "braixen"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_fennekin"
+}

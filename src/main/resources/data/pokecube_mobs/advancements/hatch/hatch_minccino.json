@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.minccino"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.minccino"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_minccino": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "minccino"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.sharpedo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sharpedo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sharpedo": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sharpedo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_carvanha"
+}

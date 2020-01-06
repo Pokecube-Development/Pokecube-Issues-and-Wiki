@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.girafarig"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.girafarig"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_girafarig": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "girafarig"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

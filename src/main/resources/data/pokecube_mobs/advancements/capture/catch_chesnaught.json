@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.chesnaught"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.chesnaught"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_chesnaught": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "chesnaught"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_quilladin"
+}

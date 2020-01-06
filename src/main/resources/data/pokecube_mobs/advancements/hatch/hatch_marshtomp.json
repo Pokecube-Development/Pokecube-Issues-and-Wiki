@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.marshtomp"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.marshtomp"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_marshtomp": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "marshtomp"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_mudkip"
+}

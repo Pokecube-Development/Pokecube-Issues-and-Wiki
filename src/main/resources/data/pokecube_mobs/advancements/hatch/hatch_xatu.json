@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.xatu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.xatu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_xatu": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "xatu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_natu"
+}

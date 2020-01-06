@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.heliolisk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.heliolisk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_heliolisk": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "heliolisk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_helioptile"
+}

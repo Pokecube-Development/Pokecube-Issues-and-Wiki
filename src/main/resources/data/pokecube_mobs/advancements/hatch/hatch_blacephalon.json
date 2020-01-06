@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.blacephalon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.blacephalon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_blacephalon": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "blacephalon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" offset="0,0,0" rotation="0,1,0,0" scale="0.3"/>
+  <metadata head="Head_base" headAxis="-1" headAxis2="0" headCap="-90,90" headDir="1"/>
+  <phase angle="50" duration="10" leftFront="Left_foreleg" leftHind="Left_rear_thigh" name="quadWalk" rightFront="Right_foreleg" rightHind="Right_rear_thigh"/>
+  <customTex default="deerlingautumn"/>
+ </model>
+</ModelAnimator>

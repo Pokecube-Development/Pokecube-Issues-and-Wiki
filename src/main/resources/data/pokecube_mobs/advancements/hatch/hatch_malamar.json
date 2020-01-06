@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.malamar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.malamar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_malamar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "malamar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_inkay"
+}

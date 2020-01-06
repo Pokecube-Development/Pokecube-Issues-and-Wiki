@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.whimsicott"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.whimsicott"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_whimsicott": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "whimsicott"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_cottonee"
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tyrantrum"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tyrantrum"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tyrantrum": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "tyrantrum"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_tyrunt"
+}

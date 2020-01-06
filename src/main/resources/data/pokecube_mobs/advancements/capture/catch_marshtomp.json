@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.marshtomp"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.marshtomp"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_marshtomp": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "marshtomp"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_mudkip"
+}

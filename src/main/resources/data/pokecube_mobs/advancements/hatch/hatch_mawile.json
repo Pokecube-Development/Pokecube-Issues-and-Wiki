@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mawile"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mawile"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mawile": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mawile"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

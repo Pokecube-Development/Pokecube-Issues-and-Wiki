@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.finneon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.finneon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_finneon": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "finneon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

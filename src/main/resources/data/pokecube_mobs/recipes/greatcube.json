@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube",
+  "pattern": [
+    "RLR",
+    "PPP",
+    "   "
+  ],
+  "key": {
+    "P": {
+      "item": "pokecube:premiercube"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "L": {
+      "tag": "forge:dyes/blue"
+    }
+  },
+  "result": {
+    "item": "pokecube:greatcube",
+    "count": 3
+  }
+}

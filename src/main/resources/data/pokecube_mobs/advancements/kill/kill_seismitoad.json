@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.seismitoad"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.seismitoad"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_seismitoad": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "seismitoad"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_palpitoad"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.swoobat"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.swoobat"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_swoobat": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "swoobat"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_woobat"
+}

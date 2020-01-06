@@ -1,0 +1,6 @@
+{
+    "parent": "pokecube:block/berrycrop5",
+    "textures": {
+        "cross": "pokecube:block/nullcrop"
+    }
+}

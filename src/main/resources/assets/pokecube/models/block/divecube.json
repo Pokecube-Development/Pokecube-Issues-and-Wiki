@@ -1,0 +1,10 @@
+{
+  "parent": "pokecube:block/pokecubes",
+  "textures": {
+    "top": "pokecube:items/divecubetop",
+    "bottom": "pokecube:items/divecubebottom",
+    "front": "pokecube:items/divecubefront",
+    "side": "pokecube:items/divecubeside",
+    "back": "pokecube:items/divecubeback"
+  }
+}

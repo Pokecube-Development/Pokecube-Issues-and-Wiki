@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.maractus"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.maractus"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_maractus": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "maractus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

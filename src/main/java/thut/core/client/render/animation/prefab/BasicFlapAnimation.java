@@ -1,0 +1,158 @@
+package thut.core.client.render.animation.prefab;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import org.w3c.dom.NamedNodeMap;
+
+import com.google.common.collect.Lists;
+
+import thut.core.client.render.animation.Animation;
+import thut.core.client.render.animation.AnimationComponent;
+import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+
+public class BasicFlapAnimation extends Animation
+{
+    public BasicFlapAnimation()
+    {
+        this.loops = true;
+        this.name = "flying";
+    }
+
+    @Override
+    public Animation init(NamedNodeMap map, @Nullable IPartRenamer renamer)
+    {
+        final HashSet<String> hl = new HashSet<>();
+        final HashSet<String> hr = new HashSet<>();
+        int flapdur = 0;
+        int flapaxis = 2;
+        float walkAngle1 = 20;
+        float walkAngle2 = 20;
+
+        final String[] lh = map.getNamedItem("leftWing").getNodeValue().split(":");
+        final String[] rh = map.getNamedItem("rightWing").getNodeValue().split(":");
+
+        if (renamer != null)
+        {
+            renamer.convertToIdents(lh);
+            renamer.convertToIdents(rh);
+        }
+        for (final String s : lh)
+            if (s != null) hl.add(s);
+        for (final String s : rh)
+            if (s != null) hr.add(s);
+
+        if (map.getNamedItem("angle") != null) walkAngle1 = Float.parseFloat(map.getNamedItem("angle").getNodeValue());
+        if (map.getNamedItem("start") != null) walkAngle2 = Float.parseFloat(map.getNamedItem("start").getNodeValue());
+        if (map.getNamedItem("axis") != null) flapaxis = Integer.parseInt(map.getNamedItem("axis").getNodeValue());
+        flapdur = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
+
+        this.init(hl, hr, flapdur, walkAngle1, walkAngle2, flapaxis);
+        return this;
+    }
+
+    /**
+     * Moves the wings to angle of start, then flaps up to angle, down to
+     * -angle and back to start. Only the parts directly childed to the body
+     * need to be added to these sets, any parts childed to them will also be
+     * swung by the parent/child system.
+     *
+     * @param lw
+     *            - set of left wings
+     * @param rw
+     *            - set of right wings
+     * @param duration
+     *            - time taken for entire flap.
+     * @param angle
+     *            - half - angle flapped over
+     * @param start
+     *            - initial angle moved to to start flapping
+     * @param axis
+     *            - axis used for flapping around.
+     * @return
+     */
+    public BasicFlapAnimation init(Set<String> lw, Set<String> rw, int duration, float angle, float start, int axis)
+    {
+        duration = duration + duration % 4;
+        for (final String s : rw)
+        {
+            final String ident = "";
+            // Sets right wing to -start angle (up), then swings it down by
+            // angle.
+            final AnimationComponent component1 = new AnimationComponent();
+            component1.length = duration / 4;
+            component1.name = ident + "1";
+            component1.identifier = ident + "1";
+            component1.startKey = 0;
+            component1.rotOffset[axis] = -start;
+            component1.rotChange[axis] = angle;
+            // Swings the wing from angle up to -angle. Start key is right after
+            // end of 1
+            final AnimationComponent component2 = new AnimationComponent();
+            component2.length = duration / 2;
+            component2.name = ident + "2";
+            component2.identifier = ident + "2";
+            component2.startKey = duration / 4;
+            component2.rotChange[axis] = -2 * angle;
+            // Swings the wing from -angle back down to starting angle. Start
+            // key is right after end of 2
+            final AnimationComponent component3 = new AnimationComponent();
+            component3.length = duration / 4;
+            component3.name = ident + "3";
+            component3.identifier = ident + "3";
+            component3.startKey = 3 * duration / 4;
+            component3.rotChange[axis] = angle;
+
+            final ArrayList<AnimationComponent> set = Lists.newArrayList();
+
+            component1.limbBased = true;
+            component2.limbBased = true;
+            component3.limbBased = true;
+            set.add(component1);
+            set.add(component2);
+            set.add(component3);
+            this.sets.put(s, set);
+        }
+        // Angles and timing are same numbers for Right Wings, but angles are
+        // reversed, as are opposite sides.
+        for (final String s : lw)
+        {
+            final String ident = "";
+            final AnimationComponent component1 = new AnimationComponent();
+            component1.length = duration / 4;
+            component1.name = ident + "1";
+            component1.identifier = ident + "1";
+            component1.startKey = 0;
+            component1.rotOffset[axis] = start;
+            component1.rotChange[axis] = -angle;
+
+            final AnimationComponent component2 = new AnimationComponent();
+            component2.length = duration / 2;
+            component2.name = ident + "2";
+            component2.identifier = ident + "2";
+            component2.startKey = duration / 4;
+            component2.rotChange[axis] = 2 * angle;
+
+            final AnimationComponent component3 = new AnimationComponent();
+            component3.length = duration / 4;
+            component3.name = ident + "3";
+            component3.identifier = ident + "3";
+            component3.startKey = 3 * duration / 4;
+            component3.rotChange[axis] = -angle;
+
+            final ArrayList<AnimationComponent> set = Lists.newArrayList();
+
+            component1.limbBased = true;
+            component2.limbBased = true;
+            component3.limbBased = true;
+            set.add(component1);
+            set.add(component2);
+            set.add(component3);
+            this.sets.put(s, set);
+        }
+        return this;
+    }
+}

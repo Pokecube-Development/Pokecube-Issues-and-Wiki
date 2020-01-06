@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.45"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase type="idle">
+   <part name="tail">
+    <component length="20" name="1" rotChange="0.0,0.0,12.0," rotOffset="-0.0,6.0,-0.0," startKey="0"/>
+    <component length="20" name="2" rotChange="0.0,0.0,-12.0," startKey="20"/>
+   </part>
+   <part name="tail">
+    <component length="20" name="1" rotChange="0.0,0.0,-12.0," rotOffset="-0.0,-6.0,-0.0," startKey="0"/>
+    <component length="20" name="2" rotChange="0.0,0.0,12.0," startKey="20"/>
+   </part>
+   <part name="tail">
+    <component length="20" name="1" rotChange="0.0,0.0,6.0," rotOffset="-0.0,3.0,-0.0," startKey="0"/>
+    <component length="20" name="2" rotChange="0.0,0.0,-6.0," startKey="20"/>
+   </part>
+   <part name="tail">
+    <component length="20" name="1" rotChange="0.0,0.0,-6.0," rotOffset="-0.0,-3.0,-0.0," startKey="0"/>
+    <component length="20" name="2" rotChange="0.0,0.0,6.0," startKey="20"/>
+   </part>
+   <part name="rightArm">
+    <component length="20" name="1" rotChange="0.0,0.0,-20.0," rotOffset="-3.167210849142066E-6,-10.0,6.704249244648963E-7," startKey="0"/>
+    <component length="20" name="2" rotChange="0.0,0.0,20.0," startKey="20"/>
+   </part>
+   <part name="leftArm">
+    <component length="20" name="1" rotChange="0.0,0.0,20.0," rotOffset="-3.167210849142066E-6,10.0,-6.704249244648963E-7," startKey="0"/>
+    <component length="20" name="2" rotChange="0.0,0.0,-20.0," startKey="20"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

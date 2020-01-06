@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.65"/>
+  <metadata head="Cube_008" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-10,10" headDir="-1"/>
+  <phase duration="10" leftFront="Cube_053" leftHind="Cube_019" name="quadWalk" rightFront="Cube_054" rightHind="Cube_029"/>
+ </model>
+ <details>
+  <RIDDENOFFSET>
+   0.8
+  </RIDDENOFFSET>
+ </details>
+</ModelAnimator>

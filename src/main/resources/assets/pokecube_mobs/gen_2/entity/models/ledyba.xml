@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata head="Head" headAxis="2" headAxis2="1" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
+  <phase type="walking">
+   <part name="Cube_004">
+    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
+    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+   </part>
+   <part name="Cube_005">
+    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
+    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   </part>
+   <part name="Cube_006">
+    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
+    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+   </part>
+   <part name="Cube_007">
+    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
+    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   </part>
+   <part name="Cube_008">
+    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
+    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+   </part>
+   <part name="Cube_009">
+    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
+    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

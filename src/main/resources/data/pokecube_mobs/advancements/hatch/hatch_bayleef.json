@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.bayleef"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.bayleef"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_bayleef": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "bayleef"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_chikorita"
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.39"/>
+  <phase duration="6" leftArm="" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="foot2"/>
+  <customTex default="trubbish">
+   <part name="Head" tex="trubbishhead"/>
+   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" rotChange="1,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="15"/>
+   </part>
+   <part name="arm1">
+    <component length="5" name="1" rotChange="2,0,0" rotOffset="60,40,-70" startKey="0"/>
+    <component length="5" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="5" name="1" rotChange="2,0,0" rotOffset="60,-40,70" startKey="0"/>
+    <component length="5" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="5" name="1" rotChange="2,0,0" rotOffset="60,40,-70" startKey="0"/>
+    <component length="5" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="5" name="1" rotChange="2,0,0" rotOffset="60,-40,70" startKey="0"/>
+    <component length="5" name="2" rotChange="-2,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

@@ -1,9 +1,0 @@
-﻿#Pokecube Legends translation
-
-msg.nohere.txt=%s §cwill not spawn here.
-msg.noregi.txt=§cThis does not seem to be the correct location to build this.
-msg.noknowhowmakeregi.txt=§cNothing happened
-
-msg.reginotlookright.txt=§cThis does not look like it was built correctly.
-msg.notrust.txt=%s §cdoes not trust you enough to be captured.
-msg.angeredlegend.txt=§cYou have angered %s and need to re-gain its trust.

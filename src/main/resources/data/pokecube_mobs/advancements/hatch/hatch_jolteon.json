@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jolteon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jolteon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_jolteon": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "jolteon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_eevee"
+}

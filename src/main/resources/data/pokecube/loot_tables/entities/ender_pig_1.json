@@ -1,0 +1,26 @@
+{
+    "pools": [
+        {
+            "name": "pool_0",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "pokecube:entities/pig_1",
+                    "weight": 1
+                }
+            ]
+        },
+        {
+            "name": "pool_1",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "pokecube:entities/enderpearls_1",
+                    "weight": 1
+                }
+            ]
+        }
+    ]
+}
