@@ -1,1 +1,1 @@
-cmd /k gradlew setupDecompWorkspace eclipse
+cmd /k gradlew genEclipseRuns eclipse
