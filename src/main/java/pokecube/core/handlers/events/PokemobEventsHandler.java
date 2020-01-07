@@ -75,11 +75,6 @@ import thut.api.maths.Vector3;
 @Mod.EventBusSubscriber
 public class PokemobEventsHandler
 {
-    static
-    {
-        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
-    }
-
     private static Map<DyeColor, Tag<Item>> DYETAGS = Maps.newHashMap();
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

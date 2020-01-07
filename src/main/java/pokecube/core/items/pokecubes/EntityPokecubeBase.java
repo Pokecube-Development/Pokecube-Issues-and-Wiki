@@ -41,6 +41,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.server.permission.IPermissionHandler;
@@ -153,7 +154,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         {
             if (PokecubeManager.isFilled(this.getItem()))
             {
-                final IPokemob mob = CapabilityPokemob.getPokemobFor(this.sendOut());
+                final IPokemob mob = CapabilityPokemob.getPokemobFor(this.sendOut(true));
                 if (mob != null) mob.onRecall();
             }
             this.remove();
@@ -165,6 +166,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     {
         if (e.getEntityWorld().isRemote) return;
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
+        ServerWorld world = (ServerWorld) getEntityWorld();
         if (hitten != null)
         {
             if (this.shootingEntity != null && hitten.getOwner() == this.shootingEntity) return;
@@ -183,7 +185,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                     PokecubeManager.setTilt(this.getItem(), this.tilt);
                     final Vector3 v = Vector3.getNewVector();
                     v.set(this).addTo(0, hitten.getPokedexEntry().height / 2, 0).moveEntity(this);
-                    hitten.getEntity().remove();
+                    world.removeEntityComplete(hitten.getEntity(), false);
                     this.setMotion(0, 0.1, 0);
                 }
             }
@@ -200,7 +202,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                 PokecubeManager.setTilt(this.getItem(), n);
                 final Vector3 v = Vector3.getNewVector();
                 v.set(this).addTo(0, hitten.getPokedexEntry().height / 2, 0).moveEntity(this);
-                hitten.getEntity().remove();
+                world.removeEntityComplete(hitten.getEntity(), false);
                 this.setMotion(0, 0.1, 0);
             }
         }
@@ -241,14 +243,14 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             PokecubeManager.setTilt(this.getItem(), n);
             final Vector3 v = Vector3.getNewVector();
             v.set(this).addTo(0, mob.getHeight() / 2, 0).moveEntity(this);
-            mob.remove();
+            world.removeEntityComplete(mob, false);
             this.setMotion(0, 0.1, 0);
         }
     }
 
     protected void captureFailed()
     {
-        final LivingEntity mob = this.sendOut();
+        final LivingEntity mob = this.sendOut(false);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob != null)
         {
@@ -275,7 +277,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         PokecubeManager.setTilt(this.getItem(), -1);
         final Entity mob = PokecubeManager.itemToMob(this.getItem(), this.getEntityWorld());
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-        if (mob == null)
+        if (mob == null || this.shootingEntity == null)
         {
             PokecubeCore.LOGGER.error("Error with mob capture?", new NullPointerException());
             return false;
@@ -387,14 +389,14 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             this.setMotion(0, 0, 0);
 
             // Only handle this on clients, and if not capturing something
-            if (this.isServerWorld()) if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) this.sendOut();
+            if (this.isServerWorld()) if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) this.sendOut(true);
             break;
         case ENTITY:
             // Capturing or on client, break early.
             if (!this.isServerWorld() || this.tilt >= 0) break;
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
             // Send out or try to capture.
-            if (PokecubeManager.isFilled(this.getItem())) this.sendOut();
+            if (PokecubeManager.isFilled(this.getItem())) this.sendOut(true);
             else this.captureAttempt(hit.getEntity());
             break;
         case MISS:
@@ -437,10 +439,11 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         this.getDataManager().register(EntityPokecubeBase.TIME, 40);
     }
 
-    public LivingEntity sendOut()
+    public LivingEntity sendOut(boolean summon)
     {
         if (this.getEntityWorld().isRemote || this.isReleasing()) return null;
         this.setTime(20);
+        ServerWorld world = (ServerWorld) getEntityWorld();
         final Entity mob = PokecubeManager.itemToMob(this.getItem(), this.getEntityWorld());
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
@@ -504,8 +507,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                 }
                 return null;
             }
-
-            this.getEntityWorld().addEntity(mob);
+            if (summon) world.summonEntity(mob);
             pokemob.onSendOut();
             pokemob.setGeneralState(GeneralStates.TAMED, true);
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
@@ -517,9 +519,6 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                         pokemob.getDisplayName());
                 pokemob.displayMessageToOwner(mess);
             }
-
-            if (pokemob.getHealth() <= 0) // notify the mob is dead
-                this.getEntityWorld().setEntityState(mob, (byte) 3);
             this.setReleased(mob);
             this.setMotion(0, 0, 0);
             this.setTime(20);
@@ -537,7 +536,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             this.setMotion(0, 0, 0);
             this.setTime(20);
             this.setReleasing(true);
-
+            if (summon) world.summonEntity(mob);
             return (LivingEntity) mob;
         }
         else

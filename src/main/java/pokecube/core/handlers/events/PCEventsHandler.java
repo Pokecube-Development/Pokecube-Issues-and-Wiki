@@ -174,7 +174,7 @@ public class PCEventsHandler
                 if (cubesToPC) PCInventory.addPokecubeToPC(mob.getItem(), mob.getEntityWorld());
                 else
                 {
-                    final LivingEntity out = mob.sendOut();
+                    final LivingEntity out = mob.sendOut(true);
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(out);
                     if (poke != null) poke.onRecall();
                 }
@@ -252,6 +252,8 @@ public class PCEventsHandler
 
             final PlayerEntity player = (PlayerEntity) catcher;
             if (player instanceof FakePlayer) return;
+            // Cancel it to stop the cube from processing itself.
+            evt.setCanceled(true);
 
             final PlayerInventory inv = player.inventory;
             final UUID id = UUID.fromString(PokecubeManager.getOwner(evt.filledCube));
@@ -260,18 +262,7 @@ public class PCEventsHandler
             if (evt.filledCube == null || pc == null) System.err.println("Cube is null");
             else if (num == -1 || pc.autoToPC || !player.isAlive() || player.getHealth() <= 0)
             {
-                evt.setCanceled(true);
                 PCInventory.addPokecubeToPC(evt.filledCube, catcher.getEntityWorld());
-
-                // Apply the same code that StatsHandler does, as it does not
-                // get the cancelled event.
-                ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
-                if (IPokecube.BEHAVIORS.containsKey(cube_id))
-                {
-                    PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
-                    cube.onPostCapture(evt);
-                }
-                StatsCollector.addCapture(evt.caught);
             }
             else
             {
@@ -279,7 +270,16 @@ public class PCEventsHandler
                 if (player instanceof ServerPlayerEntity) ((ServerPlayerEntity) player).sendAllContents(
                         player.container, player.container.getInventory());
             }
+
+            // Apply the same code that StatsHandler does, as it does not
+            // get the cancelled event.
+            ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
+            if (IPokecube.BEHAVIORS.containsKey(cube_id))
+            {
+                PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
+                cube.onPostCapture(evt);
+            }
+            StatsCollector.addCapture(evt.caught);
         }
-        else evt.pokecube.entityDropItem(evt.filledCube, 0.5f);
     }
 }

@@ -159,7 +159,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     Tools.giveItem(player, this.getItem());
                     this.remove();
                 }
-                else this.sendOut();
+                else this.sendOut(true);
             }
             else
             {
