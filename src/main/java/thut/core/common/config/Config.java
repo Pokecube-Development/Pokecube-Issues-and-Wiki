@@ -71,9 +71,7 @@ public class Config
         @SubscribeEvent
         public void onFileChange(final ModConfig.ConfigReloading configEvent)
         {
-            if (!ModLoadingContext.get().getActiveContainer().getModId().equals(this.MODID)) return;
-            ThutCore.LOGGER.debug("{} config just got changed on the file system!", configEvent.getConfig()
-                    .getFileName());
+            ThutCore.LOGGER.debug("{} config belongs to us!", configEvent.getConfig().getFileName());
             if (configEvent.getConfig().getConfigData() instanceof CommentedFileConfig)
                 ((CommentedFileConfig) configEvent.getConfig().getConfigData()).load();
             this.read(configEvent.getConfig());
@@ -82,7 +80,6 @@ public class Config
         @SubscribeEvent
         public void onLoad(final ModConfig.Loading configEvent)
         {
-            if (!ModLoadingContext.get().getActiveContainer().getModId().equals(this.MODID)) return;
             ThutCore.LOGGER.info("Loaded {} config file {}", this.MODID, configEvent.getConfig().getFileName());
             this.read(configEvent.getConfig());
         }
