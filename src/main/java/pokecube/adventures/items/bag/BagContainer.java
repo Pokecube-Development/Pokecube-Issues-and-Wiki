@@ -12,18 +12,12 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.WritableBookItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
-import pokecube.core.PokecubeCore;
 import pokecube.core.inventory.BaseContainer;
 import pokecube.core.inventory.pc.PCSlot;
-import pokecube.core.items.ItemPokedex;
-import pokecube.core.items.megastuff.MegaCapability;
-import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import thut.core.common.ThutCore;
 
 // TODO inventory tweaks
@@ -39,31 +33,22 @@ public class BagContainer extends BaseContainer
     public static int xOffset;
 
     /**
-     * Returns true if the item is a filled pokecube.
+     * Returns true if the item is valid for the bag
      *
      * @param itemstack
      *            the itemstack to test
-     * @return true if the id is a filled pokecube one, false otherwise
+     * @return true if the item is valid
      */
     public static boolean isItemValid(final ItemStack itemstack)
     {
         if (itemstack.isEmpty()) return false;
-        final boolean eggorCube = !PokecubeCore.getConfig().pcHoldsOnlyPokecubes || PokecubeManager.isFilled(itemstack)
-                || itemstack.getItem() instanceof WritableBookItem || itemstack.getItem() instanceof ItemPokemobEgg
-                || itemstack.getItem() instanceof ItemPokedex || itemstack.getCapability(MegaCapability.MEGA_CAP)
-                        .isPresent();
-        if (!eggorCube) for (final Predicate<ItemStack> tester : BagContainer.CUSTOMPCWHILTELIST)
-            if (tester.test(itemstack)) return true;
-        return eggorCube;
+        // TODO check tags on the item to see if it is valid
+        return true;
     }
 
     public final BagInventory inv;
 
     public final PlayerInventory invPlayer;
-    public boolean               release = false;
-    // private GuiPC gpc;
-
-    public boolean[] toRelease = new boolean[54];
 
     public BagContainer(final int id, final PlayerInventory ivplay)
     {
@@ -147,11 +132,6 @@ public class BagContainer extends BaseContainer
         return Integer.toString(this.inv.getPage() + 1);
     }
 
-    public boolean getRelease()
-    {
-        return this.release;
-    }
-
     @Override
     public Slot getSlot(final int par1)
     {
@@ -178,29 +158,10 @@ public class BagContainer extends BaseContainer
         this.inv.closeInventory(player);
     }
 
-    public void setRelease(final boolean bool)
-    {
-        if (this.release && !bool) if (ThutCore.proxy.isClientSide())
-        {
-            final PacketBag packet = new PacketBag(PacketBag.RELEASE, this.inv.owner);
-            packet.data.putBoolean("T", false);
-            packet.data.putInt("page", this.inv.getPage());
-            for (int i = 0; i < 54; i++)
-                if (this.toRelease[i]) packet.data.putBoolean("val" + i, true);
-            PokecubeAdv.packets.sendToServer(packet);
-        }
-        this.release = bool;
-    }
-
     @Override
     public ItemStack slotClick(final int slotId, final int dragType, final ClickType clickTypeIn,
             final PlayerEntity player)
     {
-        if (this.release)
-        {
-            if (slotId < 54 && slotId >= 0) this.toRelease[slotId] = !this.toRelease[slotId];
-            return ItemStack.EMPTY;
-        }
         return super.slotClick(slotId, dragType, clickTypeIn, player);
     }
 

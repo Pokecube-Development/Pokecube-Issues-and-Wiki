@@ -158,13 +158,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     }
 
     @Override
-    public boolean charTyped(final char typedChar, final int keyCode)
-    {
-        final boolean typed = super.charTyped(typedChar, keyCode);
-        return typed;
-    }
-
-    @Override
     protected PokeInfoPage createPage(final int index)
     {
         return PokemobInfoPage.makePage(PokemobInfoPage.PAGELIST.get(index), this);

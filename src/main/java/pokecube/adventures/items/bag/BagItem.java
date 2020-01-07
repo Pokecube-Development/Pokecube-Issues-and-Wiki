@@ -7,10 +7,25 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
+import thut.wearables.ThutWearables;
 
+@Mod.EventBusSubscriber
 public class BagItem extends Item
 {
+    @SubscribeEvent
+    public static void attachCaps(final AttachCapabilitiesEvent<ItemStack> event)
+    {
+        if (event.getCapabilities().containsKey(ThutWearables.WEARABLES_ITEM_TAG)) return;
+        if (event.getObject().getItem() instanceof BagItem)
+        {
+            event.addCapability(ThutWearables.WEARABLES_ITEM_TAG, PokecubeAdv.proxy.getWearable());
+        }
+    }
 
     public BagItem(final Properties properties)
     {

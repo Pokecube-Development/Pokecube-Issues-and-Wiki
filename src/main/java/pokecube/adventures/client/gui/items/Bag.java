@@ -1,5 +1,6 @@
 package pokecube.adventures.client.gui.items;
 
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -11,11 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.adventures.items.bag.BagContainer;
-import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.pc.PCInventory;
-import pokecube.core.inventory.pc.PCSlot;
-import pokecube.core.network.packets.PacketPC;
 
 public class Bag<T extends BagContainer> extends ContainerScreen<T>
 {
@@ -38,10 +36,9 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public boolean charTyped(final char par1, final int par2)
+    public boolean keyPressed(int keyCode, int b, int c)
     {
-        if (par2 == 1) this.minecraft.player.closeScreen();
-        if (par2 == 28)
+        if (textFieldSelectedBox.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER)
         {
             final String entry = this.textFieldSelectedBox.getText();
             String box = this.textFieldBoxName.getText();
@@ -59,20 +56,18 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
             number = Math.max(1, Math.min(number, PCInventory.PAGECOUNT));
             this.container.gotoInventoryPage(number);
 
-            if (this.textFieldBoxName.visible && box != this.boxName)
+            if (this.textFieldBoxName.enableBackgroundDrawing && box != this.boxName)
             {
-
-                if (this.textFieldBoxName.visible)
+                if (this.textFieldBoxName.enableBackgroundDrawing)
                 {
                     box = this.textFieldBoxName.getText();
                     if (box != this.boxName) this.container.changeName(box);
                 }
-                this.textFieldBoxName.visible = !this.textFieldBoxName.visible;
+                this.textFieldBoxName.enableBackgroundDrawing = !this.textFieldBoxName.enableBackgroundDrawing;
             }
             return true;
         }
-        return super.charTyped(par1, par2);
-
+        return super.keyPressed(keyCode, b, c);
     }
 
     @Override
@@ -89,20 +84,7 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
     @Override
     protected void drawGuiContainerForegroundLayer(final int par1, final int par2)
     {
-        for (int i = 0; i < 54; i++)
-            if (this.container.toRelease[i])
-            {
-                GL11.glPushMatrix();
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glColor4f(0, 1, 0, 1);
-                this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID,
-                        "textures/hologram.png"));
-                final int x = i % 9 * 18 + 8;
-                final int y = 18 + i / 9 * 18;
-                this.blit(x, y, 0, 0, 16, 16);
-                GL11.glDisable(GL11.GL_BLEND);
-                GL11.glPopMatrix();
-            }
+
     }
 
     @Override
@@ -112,100 +94,43 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
         final int xOffset = 0;
         final int yOffset = -11;
         final String next = I18n.format("block.pc.next");
-        this.addButton(new Button(this.width / 2 - xOffset + 15, this.height / 2 - yOffset, 50, 20, next, b ->
+        this.addButton(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10, next, b ->
         {
             this.container.updateInventoryPages((byte) 1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
         }));
         final String prev = I18n.format("block.pc.previous");
-        this.addButton(new Button(this.width / 2 - xOffset - 65, this.height / 2 - yOffset, 50, 20, prev, b ->
+        this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
         {
             this.container.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
         }));
+        this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
+                - yOffset - 121, 25, 10, this.page);
 
         final String rename = I18n.format("block.pc.rename");
-        this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 50, 20, rename, b ->
+        this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
         {
-            if (this.textFieldBoxName.visible)
+            if (this.textFieldBoxName.enableBackgroundDrawing)
             {
                 final String box = this.textFieldBoxName.getText();
                 if (box != this.boxName) this.container.changeName(box);
             }
-            this.textFieldBoxName.visible = !this.textFieldBoxName.visible;
+            this.textFieldBoxName.enableBackgroundDrawing = !this.textFieldBoxName.enableBackgroundDrawing;
         }));
 
-        final boolean releaseButton = false;
-        if (releaseButton)
-        {
-            this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 65, 50, 20, I18n
-                    .format("block.pc.option.release"), b ->
-                    {
-                        this.release = !this.release;
-                        if (!this.release && this.container.release)
-                        {
-                            this.container.toRelease = new boolean[54];
-                            for (int i = 0; i < 54; i++)
-                            {
-                                final int index = i;
-                                final PCSlot slot = (PCSlot) this.container.inventorySlots.get(index);
-                                slot.release = false;
-                            }
-                        }
-                        else for (int i = 0; i < 54; i++)
-                        {
-                            final int index = i;
-                            final PCSlot slot = (PCSlot) this.container.inventorySlots.get(index);
-                            slot.release = true;
-                        }
-                        this.container.release = this.release;
-                        final PacketPC packet = new PacketPC(PacketPC.RELEASE, this.container.inv.owner);
-                        packet.data.putBoolean("T", true);
-                        packet.data.putBoolean("R", this.release);
-                        PokecubeCore.packets.sendToServer(packet);
-                        if (this.release)
-                        {
-                            this.buttons.get(4).active = this.release;
-                            this.buttons.get(4).visible = this.release;
-                        }
-                        else
-                        {
-                            this.buttons.get(4).active = this.release;
-                            this.buttons.get(4).visible = this.release;
-                        }
-                    }));
-            this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 45, 50, 20, I18n
-                    .format("block.pc.option.confirm"), b ->
-                    {
-                        this.release = !this.release;
-                        this.container.setRelease(this.release);
-                        if (this.release)
-                        {
-                            this.buttons.get(4).active = this.release;
-                            this.buttons.get(4).visible = this.release;
-                        }
-                        else
-                        {
-                            this.buttons.get(4).active = this.release;
-                            this.buttons.get(4).visible = this.release;
-                        }
-                        this.minecraft.player.closeScreen();
-                    }));
-        }
-        this.buttons.get(4).visible = false;
-        this.buttons.get(4).active = false;
-
-        this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 13, this.height / 2
-                - yOffset + 5, 25, 10, this.page);
-        this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 190, this.height / 2 - yOffset
-                - 40, 100, 10, this.boxName);
-        this.textFieldBoxName.visible = false;
+        this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
+                + 0, 100, 10, this.boxName);
+        this.textFieldBoxName.enableBackgroundDrawing = false;
         this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
                 - 121, 90, 10, "");
 
         this.addButton(this.textFieldSelectedBox);
         this.addButton(this.textFieldBoxName);
         this.addButton(this.textFieldSearch);
+
+        this.textFieldSelectedBox.text = this.page;
+        this.textFieldBoxName.text = this.boxName;
     }
 
     /**
@@ -225,7 +150,7 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
 
         if (this.textFieldSearch == null || this.textFieldSearch.getText() == null)
         {
-            PokecubeCore.LOGGER.error("error with search box?");
+            // PokecubeCore.LOGGER.error("error with search box?");
             return;
         }
 

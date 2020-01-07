@@ -41,9 +41,20 @@ import pokecube.core.client.render.mobs.RenderNPC;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.wearables.EnumWearable;
 
 public class ClientProxy extends CommonProxy
 {
+    protected static class RenderWearable extends Wearable
+    {
+        @Override
+        public void renderWearable(EnumWearable slot, LivingEntity wearer, ItemStack stack, float partialTicks)
+        {
+            // TODO Auto-generated method stub
+            super.renderWearable(slot, wearer, stack, partialTicks);
+        }
+    }
+
     private static Map<TypeTrainer, ResourceLocation> males   = Maps.newHashMap();
     private static Map<TypeTrainer, ResourceLocation> females = Maps.newHashMap();
 
@@ -140,5 +151,11 @@ public class ClientProxy extends CommonProxy
         ScreenManager.registerFactory(SplicerContainer.TYPE, Splicer::new);
         ScreenManager.registerFactory(ExtractorContainer.TYPE, Extractor::new);
         ScreenManager.registerFactory(BagContainer.TYPE, Bag<BagContainer>::new);
+    }
+
+    @Override
+    public Wearable getWearable()
+    {
+        return new RenderWearable();
     }
 }

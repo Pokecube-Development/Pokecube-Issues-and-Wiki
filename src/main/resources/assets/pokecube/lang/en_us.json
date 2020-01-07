@@ -320,8 +320,8 @@
 
     "block.pokecube.repel": "Repel",
     "block.pokecube.table": "Pokécube Table",
-    "block.pc.next": "Next",
-    "block.pc.previous": "Previous",
+    "block.pc.next": ">",
+    "block.pc.previous": "<",
     "block.pc.public": "Public PC",
 
     "block.pokecube.tm_machine": "TM Machine",

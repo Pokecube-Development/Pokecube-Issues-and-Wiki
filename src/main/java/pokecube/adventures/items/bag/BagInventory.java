@@ -11,16 +11,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
-import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.inventory.pc.PCContainer;
-import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
 
 public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
 {
@@ -32,45 +26,6 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
 
     public static UUID defaultId = new UUID(1234, 4321);
     public static int  PAGECOUNT = 32;
-
-    public static void addPokecubeToPC(final ItemStack mob, final World world)
-    {
-        if (!PokecubeManager.isFilled(mob)) return;
-        final String player = PokecubeManager.getOwner(mob);
-        UUID id;
-        try
-        {
-            id = UUID.fromString(player);
-            BagInventory.addStackToPC(id, mob);
-        }
-        catch (final Exception e)
-        {
-
-        }
-    }
-
-    public static void addStackToPC(final UUID uuid, final ItemStack mob)
-    {
-        if (uuid == null || mob.isEmpty())
-        {
-            System.err.println("Could not find the owner of this item " + mob + " " + uuid);
-            return;
-        }
-        final BagInventory pc = BagInventory.getPC(uuid);
-
-        if (pc == null) return;
-
-        if (PokecubeManager.isFilled(mob))
-        {
-            final ItemStack stack = mob;
-            PokecubeManager.heal(stack);
-            PlayerPokemobCache.UpdateCache(mob, true, false);
-            if (PokecubeCore.proxy.getPlayer(uuid) != null) PokecubeCore.proxy.getPlayer(uuid).sendMessage(
-                    new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()));
-        }
-        pc.addItem(mob.copy());
-        BagSaveHandler.getInstance().savePC(uuid);
-    }
 
     public static void clearPC()
     {
@@ -94,7 +49,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
     {
         if (uuid != null)
         {
-            if (!BagInventory.getMap().containsKey(uuid)) BagSaveHandler.getInstance().loadPC(uuid);
+            if (!BagInventory.getMap().containsKey(uuid)) BagSaveHandler.getInstance().load(uuid);
             if (BagInventory.getMap().containsKey(uuid)) return BagInventory.getMap().get(uuid);
             return new BagInventory(uuid);
         }
@@ -193,7 +148,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
     @Override
     public void closeInventory(final PlayerEntity player)
     {
-        BagSaveHandler.getInstance().savePC(this.owner);
+        BagSaveHandler.getInstance().save(this.owner);
     }
 
     @Override
@@ -231,8 +186,6 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
         final CompoundNBT boxes = nbt.getCompound("boxes");
         final String id = boxes.getString("UUID");
         this.owner = UUID.fromString(id);
-        final PlayerPokemobCache cache = PlayerDataHandler.getInstance().getPlayerData(this.owner).getData(
-                PlayerPokemobCache.class);
         for (int k = 0; k < BagInventory.PAGECOUNT; k++)
         {
             if (k == 0) this.setPage(boxes.getInt("page"));
@@ -249,7 +202,6 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
                 if (this.contents.containsKey(j)) continue;
                 final ItemStack itemstack = ItemStack.read(CompoundNBT);
                 this.setInventorySlotContents(j, itemstack);
-                cache.addPokemob(id, itemstack, true, false);
             }
         }
     }
@@ -265,7 +217,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
     @Override
     public int getInventoryStackLimit()
     {
-        return PCContainer.STACKLIMIT;
+        return BagContainer.STACKLIMIT;
     }
 
     public int getPage()
@@ -300,7 +252,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
     @Override
     public boolean isItemValidForSlot(final int par1, final ItemStack stack)
     {
-        return PCContainer.isItemValid(stack);
+        return BagContainer.isItemValid(stack);
     }
 
     @Override

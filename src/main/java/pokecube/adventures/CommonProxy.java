@@ -1,8 +1,13 @@
 package pokecube.adventures;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
@@ -19,12 +24,38 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.network.PacketBag;
 import thut.core.common.Proxy;
+import thut.wearables.EnumWearable;
+import thut.wearables.IActiveWearable;
+import thut.wearables.ThutWearables;
 
 public class CommonProxy implements Proxy
 {
+    protected static class Wearable extends IActiveWearable.Default implements ICapabilityProvider
+    {
+        private final LazyOptional<IActiveWearable> holder = LazyOptional.of(() -> this);
+
+        @Override
+        public EnumWearable getSlot(ItemStack stack)
+        {
+            // TODO extend this based on stack if needed.
+            return EnumWearable.BACK;
+        }
+
+        @Override
+        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+        {
+            return ThutWearables.WEARABLE_CAP.orEmpty(cap, this.holder);
+        }
+    }
+
     public ResourceLocation getTrainerSkin(final LivingEntity mob, final TypeTrainer type, final byte gender)
     {
         return null;
+    }
+
+    public Wearable getWearable()
+    {
+        return new Wearable();
     }
 
     @Override
