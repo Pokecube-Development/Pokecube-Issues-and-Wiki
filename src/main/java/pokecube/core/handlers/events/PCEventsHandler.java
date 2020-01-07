@@ -11,6 +11,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -24,7 +25,11 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
+import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.events.pokemob.CaptureEvent;
+import pokecube.core.interfaces.IPokecube;
+import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.inventory.pc.PCContainer;
@@ -257,6 +262,16 @@ public class PCEventsHandler
             {
                 evt.setCanceled(true);
                 PCInventory.addPokecubeToPC(evt.filledCube, catcher.getEntityWorld());
+
+                // Apply the same code that StatsHandler does, as it does not
+                // get the cancelled event.
+                ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
+                if (IPokecube.BEHAVIORS.containsKey(cube_id))
+                {
+                    PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
+                    cube.onPostCapture(evt);
+                }
+                StatsCollector.addCapture(evt.caught);
             }
             else
             {
