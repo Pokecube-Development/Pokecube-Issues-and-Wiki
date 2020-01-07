@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -34,7 +35,14 @@ public class AttackEntityHandler extends DefaultHandler
     public void handleCommand(IPokemob pokemob)
     {
         final World world = pokemob.getEntity().getEntityWorld();
-        final Entity target = PokecubeCore.getEntityProvider().getEntity(world, this.targetId, true);
+        Entity target = PokecubeCore.getEntityProvider().getEntity(world, this.targetId, true);
+
+        if (target instanceof EnderDragonPartEntity)
+        {
+            EnderDragonPartEntity part = (EnderDragonPartEntity) target;
+            target = part.dragon;
+        }
+
         if (target == null || !(target instanceof LivingEntity))
         {
             if (PokecubeMod.debug) if (target == null) PokecubeCore.LOGGER.error("Target Mob cannot be null!",

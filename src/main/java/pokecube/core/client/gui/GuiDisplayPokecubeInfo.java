@@ -27,6 +27,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -658,8 +659,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 return;
             }
         }
-        if (target != null && !sameOwner && target instanceof LivingEntity) PacketCommand.sendCommand(pokemob,
-                Command.ATTACKENTITY, new AttackEntityHandler(target.getEntityId()).setFromOwner(true));
+        if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof EnderDragonPartEntity))
+            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getEntityId())
+                    .setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,
                 new AttackLocationHandler(targetLocation).setFromOwner(true));
         else PacketCommand.sendCommand(pokemob, Command.ATTACKNOTHING, new AttackNothingHandler().setFromOwner(true));
