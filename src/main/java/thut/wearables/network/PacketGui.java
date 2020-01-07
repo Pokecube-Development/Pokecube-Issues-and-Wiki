@@ -1,6 +1,8 @@
 package thut.wearables.network;
 
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -8,6 +10,8 @@ import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
@@ -25,9 +29,14 @@ public class PacketGui extends Packet
 
     public PacketGui(final PacketBuffer buffer)
     {
-
         this.data = buffer.readCompoundTag();
+    }
 
+    @Override
+    @OnlyIn(value = Dist.CLIENT)
+    public void handleClient()
+    {
+        Minecraft.getInstance().displayGuiScreen(new InventoryScreen(Minecraft.getInstance().player));
     }
 
     @Override
@@ -44,7 +53,7 @@ public class PacketGui extends Packet
             final boolean close = this.data.getBoolean("close");
             if (close)
             {
-                // player.openContainer(player.container);
+                ThutWearables.packets.sendTo(new PacketGui(), player);
             }
             else
             {
