@@ -30,6 +30,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
@@ -167,8 +168,10 @@ public class Health
                 boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
                 final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
                         .getInstance().player).getData(PokecubePlayerStats.class);
-                final boolean captureOrHatch = StatsCollector.getCaptured(pokemob.getPokedexEntry(), Minecraft
-                        .getInstance().player) > 0 || StatsCollector.getHatched(pokemob.getPokedexEntry(), Minecraft
+                PokedexEntry name_entry = pokemob.getPokedexEntry();
+                if (name_entry.isMega || name_entry.isGenderForme) name_entry = name_entry.getBaseForme();
+                final boolean captureOrHatch = StatsCollector.getCaptured(name_entry, Minecraft
+                        .getInstance().player) > 0 || StatsCollector.getHatched(name_entry, Minecraft
                                 .getInstance().player) > 0;
                 boolean scanned = false;
                 nametag = nametag || captureOrHatch || (scanned = stats.hasInspected(pokemob.getPokedexEntry()));
