@@ -50,6 +50,8 @@ import pokecube.core.blocks.trade.TraderBlock;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.ItemPokedex;
@@ -442,7 +444,7 @@ public class PokecubeItems extends Items
         for (final PokedexEntry entry : Database.getSortedFormes())
             array.add("pokecube:" + entry.getTrimmedName());
         json.add("values", array);
-        final File folder = new File(".", "generated");
+        File folder = new File(".", "generated");
         folder.mkdirs();
         File file = new File(folder, "pokemob.json");
         FileWriter writer;
@@ -457,6 +459,45 @@ public class PokecubeItems extends Items
             e.printStackTrace();
         }
 
+        // Init tag for the fossils
+        json = new JsonObject();
+        json.addProperty("replace", false);
+        array = new JsonArray();
+        for (final String type : ItemGenerator.fossilVariants)
+            array.add(PokecubeCore.MODID + ":fossil_" + type);
+        json.add("values", array);
+        file = new File(folder, "pokemob_fossils.json");
+        try
+        {
+            writer = new FileWriter(file);
+            writer.write(PokedexEntryLoader.gson.toJson(json));
+            writer.close();
+        }
+        catch (final IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        // Init tag for pokecubes
+        json = new JsonObject();
+        json.addProperty("replace", false);
+        array = new JsonArray();
+        for (final ResourceLocation type : IPokecube.BEHAVIORS.getKeys())
+            array.add(PokecubeCore.MODID + ":" + type.getPath() + "cube");
+        json.add("values", array);
+        file = new File(folder, "pokecubes.json");
+        try
+        {
+            writer = new FileWriter(file);
+            writer.write(PokedexEntryLoader.gson.toJson(json));
+            writer.close();
+        }
+        catch (final IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        // Init the specific tags registerd
         for (final ResourceLocation name : PokecubeItems.pendingTags.keySet())
         {
             json = new JsonObject();

@@ -1,0 +1,32 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:cherishcube",
+    "pokecube:divecube",
+    "pokecube:dreamcube",
+    "pokecube:duskcube",
+    "pokecube:fastcube",
+    "pokecube:friendcube",
+    "pokecube:greatcube",
+    "pokecube:healcube",
+    "pokecube:heavycube",
+    "pokecube:levelcube",
+    "pokecube:lovecube",
+    "pokecube:lurecube",
+    "pokecube:luxurycube",
+    "pokecube:mastercube",
+    "pokecube:mooncube",
+    "pokecube:nestcube",
+    "pokecube:netcube",
+    "pokecube:parkcube",
+    "pokecube:pokecube",
+    "pokecube:premiercube",
+    "pokecube:quickcube",
+    "pokecube:repeatcube",
+    "pokecube:safaricube",
+    "pokecube:snagcube",
+    "pokecube:sportcube",
+    "pokecube:timercube",
+    "pokecube:ultracube"
+  ]
+}
