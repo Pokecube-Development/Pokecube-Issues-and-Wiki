@@ -140,7 +140,7 @@
     "pokemob.description.evolve.day": "-  During the day.",
     "pokemob.description.evolve.night": "-  During Night.",
     "pokemob.description.evolve.rain": "- During Rain.",
-    "pokemob.description.evolve.chance": "-  With a chance of %1$s%.",
+    "pokemob.description.evolve.chance": "-  With a chance of %s",
     "pokemob.description.evolve.move": "-  And knows %1$s.",
     "pokemob.description.evolve.locations": "-  In %1$s.",
 

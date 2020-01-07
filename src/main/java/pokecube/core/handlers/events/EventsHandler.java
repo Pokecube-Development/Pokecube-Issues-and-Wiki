@@ -119,16 +119,14 @@ public class EventsHandler
         public ChooseFirst(final PlayerEntity player)
         {
             this.player = player;
-            System.out.println(player);
             if (!SpawnHandler.canSpawnInWorld(player.getEntityWorld())) return;
-            System.out.println(player);
             MinecraftForge.EVENT_BUS.register(this);
         }
 
         @SubscribeEvent
         public void onPlayerJoin(final TickEvent.PlayerTickEvent event)
         {
-            System.out.println(player+" "+event.player);
+            if (player.ticksExisted < 100) return;
             if (event.player == this.player)
             {
                 // TODO choose first stuff.
@@ -532,7 +530,7 @@ public class EventsHandler
     public static void PlayerLoggin(final PlayerLoggedInEvent evt)
     {
         final PlayerEntity player = evt.getPlayer();
-        System.out.println(player+" "+player.isServerWorld());
+        System.out.println(player + " " + player.isServerWorld());
         if (!player.isServerWorld()) return;
 
         PacketDataSync.sendInitPacket(player, "pokecube-data");
