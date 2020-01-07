@@ -62,9 +62,6 @@ public class AIFindTarget extends AIBase implements IAICombat
         if (!AIFindTarget.handleDamagedTargets || evt.getEntity().getEntityWorld().isRemote) return;
         // Only handle attack target set, not revenge target set.
         if (evt.getTarget() == ((LivingEntity) evt.getEntity()).getRevengeTarget()) return;
-        // Only handle actual changes in target.
-        if (evt.getEntity() instanceof MobEntity && evt.getTarget() == ((MobEntity) evt.getEntity()).getAttackTarget())
-            return;
         // Prevent mob from targetting self.
         if (evt.getTarget() == evt.getEntity())
         {
@@ -369,8 +366,7 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
 
-        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.pokemob.getOwner(), 16,
-                LivingEntity.class);
+        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.pokemob.getOwner(), 16, LivingEntity.class);
         final Entity old = this.entity.getAttackTarget();
         final Entity oldOwner = old instanceof TameableEntity ? ((TameableEntity) old).getOwner() : null;
 

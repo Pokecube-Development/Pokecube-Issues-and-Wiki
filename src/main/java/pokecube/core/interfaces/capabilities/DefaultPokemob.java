@@ -49,6 +49,7 @@ import pokecube.core.ai.tasks.utility.AIGatherStuff;
 import pokecube.core.ai.tasks.utility.AIStoreStuff;
 import pokecube.core.ai.tasks.utility.AIUseMove;
 import pokecube.core.events.pokemob.InitAIEvent;
+import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.impl.PokemobSaves;
@@ -307,6 +308,11 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             else if (entity instanceof TameableEntity && ((TameableEntity) entity).getOwner() == this.getOwner())
             {
             this.getEntity().setAttackTarget(null);
+            return;
+            }
+            else if (TeamManager.sameTeam(entity, this.getEntity()))
+            {
+            getEntity().setAttackTarget(null);
             return;
             }
             else if (!AITools.validTargets.test(entity))
