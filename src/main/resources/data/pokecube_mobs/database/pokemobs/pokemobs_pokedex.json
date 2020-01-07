@@ -8422,7 +8422,6 @@
 	    {
       "name": "Gengar Gigantamax",
       "number": 94,
-      "base": true,
       "stats": {
         "stats": {
           "values": {
@@ -8888,6 +8887,46 @@
         "misc": {
           "moves": "allyswitch, attract, blizzard, bodyslam, brickbreak, brine, bubble, bubblebeam, captivate, confide, crabhammer, curse, cut, dig, dive, doubleedge, doubleteam, facade, falseswipe, flail, fling, frustration, furycutter, gigaimpact, guillotine, hail, harden, hiddenpower, honeclaws, hyperbeam, icebeam, icywind, irondefense, knockoff, leer, liquidation, metalclaw, mimic, mudshot, mudslap, mudsport, naturalgift, protect, quash, rage, raindance, rest, return, rockslide, rocksmash, rocktomb, round, scald, secretpower, skullbash, slam, sleeptalk, snore, stomp, stompingtantrum, strength, substitute, superpower, surf, swagger, swordsdance, takedown, thief, toxic, vicegrip, watergun, waterpulse, whirlpool, wideguard, xscissor"
         }
+      }
+    },
+	{
+      "name": "Kingler Gigantamax",
+      "number": 99,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "50",
+            "spatk": "50",
+            "def": "115",
+            "spd": "75",
+            "hp": "55",
+            "atk": "130"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "2"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "2.0",
+            "width": "2.3",
+            "height": "5.3"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Water"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Hyper Cutter, Shell Armor",
+            "hidden": "Sheer Force"
+          }
+        },
+        "mass": 60.0
       }
     },
     {
@@ -11675,81 +11714,10 @@
         }
       }
     },
-    {
-      "name": "Eevee Partner",
-      "number": 133,
-      "base": true,
-      "stats": {
-        "stats": {
-          "values": {
-            "spdef": "65",
-            "spatk": "45",
-            "def": "50",
-            "spd": "55",
-            "hp": "55",
-            "atk": "55"
-          }
-        },
-        "evs": {
-          "values": {
-            "spdef": "1"
-          }
-        },
-        "sizes": {
-          "values": {
-            "length": "0.3",
-            "width": "0.3",
-            "height": "0.3"
-          }
-        },
-        "types": {
-          "values": {
-            "type1": "Normal"
-          }
-        },
-        "abilities": {
-          "values": {
-            "normal": "Run Away, Adaptability",
-            "hidden": "Anticipation"
-          }
-        },
-        "mass": 6.5,
-        "captureRate": 45,
-        "baseExp": 65,
-        "expMode": "Medium Fast",
-        "genderRatio": 30,
-        "logics": {
-          "values": {
-            "shoulder": "TRUE"
-          }
-        }
-      },
-      "moves": {
-        "lvlupMoves": {
-          "values": {
-            "1": "covet,helpinghand,growl,tackle,tailwhip",
-            "5": "sandattack",
-            "9": "babydolleyes",
-            "13": "quickattack",
-            "17": "bite,swift",
-            "20": "refresh",
-            "25": "takedown",
-            "29": "charm",
-            "33": "batonpass",
-            "37": "doubleedge",
-            "41": "lastresort",
-            "45": "trumpcard"
-          }
-        },
-        "misc": {
-          "moves": "attract, babydolleyes, batonpass, bide, bite, bodyslam, celebrate, charm, confide, covet, dig, doubleedge, doubleteam, echoedvoice, facade, focusenergy, frustration, growl, headbutt, healbell, helpinghand, hiddenpower, hypervoice, irontail, laserfocus, lastresort, mimic, mudslap, protect, quickattack, rage, raindance, reflect, refresh, rest, retaliate, return, round, sandattack, secretpower, shadowball, skullbash, sleeptalk, snore, substitute, sunnyday, swagger, swift, tackle, tailwhip, takedown, toxic, trumpcard, workup"
-        }
-      }
-    },
 	{
       "name": "Eevee",
       "number": 133,
-      "starter": true,
+      "base": true,
       "stats": {
         "stats": {
           "values": {

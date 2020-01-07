@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1" headDir2="-1"/>
   <customTex default="shellder">
    <part name="Head" tex="shellderhead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
   </customTex>
   <phase type="idle">
    <part name="l">

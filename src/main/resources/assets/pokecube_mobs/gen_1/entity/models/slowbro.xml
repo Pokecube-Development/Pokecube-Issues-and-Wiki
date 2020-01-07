@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="20" name="biWalk" rightArm="" rightLeg="leg1"/>
   <customTex default="slowbro">
    <part name="Head" tex="slowbrohead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:25"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

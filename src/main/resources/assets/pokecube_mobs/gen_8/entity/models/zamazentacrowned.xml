@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.7"/>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.8"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
   <customTex default="zamazentacrowned">
-   <part name="Head" tex="zamazentacrownedhead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Head_001" tex="zamazentacrownedhead"/>
+   <animation diffs="0,0.5" part="Head_001" trigger="random:0.005:1"/>
   </customTex>
   <phase axis="0" name="snakeIdle" parts="f1:f1_1:f1_2:f1_3:f1_4"/>
   <phase axis="0" name="snakeWalk" parts="f1:f1_1:f1_2:f1_3:f1_4"/>

@@ -2228,12 +2228,6 @@
         "species": "Fox"
       }
     },
-	{
-      "name": "Eevee Partner",
-      "stats": {
-        "species": "Fox"
-      }
-    },
     {
       "name": "Vaporeon",
       "stats": {
@@ -11258,7 +11252,7 @@
 		"megaRules": [
           {
             "name": "Zacian Crowned",
-            "move": "moonblast"
+            "item_preset": "rustedsword"
           }
         ]
       }
@@ -11278,13 +11272,7 @@
 	{
       "name": "Eternatus",
       "stats": {
-        "species": "Alien",
-		"megaRules": [
-          {
-            "name": "Eternatus Eternamax",
-            "item_preset": "rustedsword"
-          }
-        ]
+        "species": "Alien"
       }
     }
   ]

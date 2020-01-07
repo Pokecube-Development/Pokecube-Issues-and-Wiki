@@ -189,9 +189,16 @@
 					<Group DEF="group_ME_Cube_012">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Shellder_png" />
+								<Material DEF="MA_Body"
+								          diffuseColor="0.800 0.800 0.800"
+								          specularColor="0.401 0.401 0.401"
+								          emissiveColor="0.000 0.000 0.000"
+								          ambientIntensity="0.333"
+								          shininess="0.098"
+								          transparency="0.0"
+								          />
 							</Appearance>
-							<IndexedTriangleSet solid="false"
+							<IndexedTriangleSet solid="true"
 							                    normalPerVertex="true"
 							                    index="0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 16 17 18 16 18 19 20 21 14 20 14 22 23 24 25 23 25 26 27 28 29 27 29 30 31 32 33 31 33 34 35 36 37 35 37 38 16 39 40 16 40 41 42 43 44 42 44 45 46 47 48 46 48 49 50 51 52 50 52 53 54 55 56 54 56 57 58 59 60 58 60 61 62 63 64 62 64 65 66 67 68 66 68 69 70 71 72 70 72 73 74 75 76 74 76 19 77 78 79 77 79 80 81 5 82 81 82 83 84 85 86 84 86 87 88 24 62 88 62 89 66 90 91 66 91 92 93 94 82 93 82 95 96 97 86 96 86 98 99 21 100 99 100 101 102 103 104 102 104 105 106 85 107 106 107 108 109 110 111 109 111 112 113 114 115 113 115 116 117 118 119 117 119 120 121 122 123 121 123 80 124 125 126 124 126 127 128 103 115 128 115 129 130 110 119 130 119 131 132 133 134 132 134 92 135 136 137 135 137 127 138 139 140 138 140 141 121 142 143 121 143 144 124 145 146 124 146 147 148 149 150 148 150 151 152 153 154 152 154 155 "
 							                    >
@@ -202,10 +209,16 @@
 						</Shape>
 						<Shape>
 							<Appearance>
-								<ImageTexture DEF="IM_Shellderhead_png"
-								              />
+								<Material DEF="MA_Head"
+								          diffuseColor="0.800 0.800 0.800"
+								          specularColor="0.401 0.401 0.401"
+								          emissiveColor="0.000 0.000 0.000"
+								          ambientIntensity="0.333"
+								          shininess="0.098"
+								          transparency="0.0"
+								          />
 							</Appearance>
-							<IndexedTriangleSet solid="false"
+							<IndexedTriangleSet solid="true"
 							                    normalPerVertex="true"
 							                    index="0 1 2 0 2 3 4 5 6 4 6 7 "
 							                    >

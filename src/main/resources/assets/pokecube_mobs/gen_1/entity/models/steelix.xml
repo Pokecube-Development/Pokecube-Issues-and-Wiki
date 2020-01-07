@@ -1,49 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="Steelix">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="2.5,2.5,2.5"/>
-  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-70,70" headDir="-1"/>
-  <worn angles="90,0,180" id="__HAT__" offset="0,0.3,-0.3" parent="Head" scale="0.8"/>
-  <worn angles="90,0,180" id="__EYE__" offset="0,0.1,-0.78" parent="Head" scale="0.8"/>
-  <worn angles="160,0,180" id="__NECK__" offset="0.05,-0.35,0" parent="neck3" scale="1"/>
-  <phase name="snakeWalk" parts="tail1:tail2:tail3:tail4"/>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headDir="-1"/>
+  <phase name="snakeWalk" axis="0" parts="body1:body2:body3:body4:body5:body6"/>
   <customTex default="steelix">
    <part name="Head" tex="steelixhead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:11"/>
   </customTex>
   <phase type="idle">
-   <part name="neck1">
-    <component length="1" name="1" rotOffset="-60,0,0" startKey="0"/>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="40,0,0" rotChange="10,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-10,0,0" startKey="10"/>
    </part>
-   <part name="neck2">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,8,0" rotOffset="-40,0,0" startKey="0"/>
+   </part>
+   <part name="stone">
+    <component length="70" name="1" rotChange="0,0,360" startKey="0"/>
+   </part>
+   <part name="body1">
+    <component length="1" name="1" rotOffset="-40,0,0" startKey="0"/>
+   </part>
+   <part name="stone1">
+    <component length="70" name="1" rotChange="0,0,-360" startKey="0"/>
+   </part>
+   <part name="body2">
     <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
-   <part name="neck3">
-    <component length="1" name="1" rotOffset="30,0,0" startKey="0"/>
+   <part name="stone2">
+    <component length="70" name="1" rotChange="0,0,360" startKey="0"/>
    </part>
-   <part name="Head">
-    <component length="1" name="1" rotOffset="80,0,0" startKey="0"/>
+   <part name="body3">
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
-  </phase>
-  <phase type="sitting">
-   <part name="tail1">
-    <component length="1" name="1" rotOffset="0,40,0" startKey="0"/>
+   <part name="body4">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
    </part>
-   <part name="tail2">
-    <component length="1" name="1" rotOffset="0,-40,0" startKey="0"/>
+   <part name="body5">
+    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
    </part>
-   <part name="tail3">
-    <component length="1" name="1" rotOffset="0,40,0" startKey="0"/>
+   <part name="body6">
+    <component length="1" name="1" rotOffset="60,0,0" startKey="0"/>
    </part>
-   <part name="tail4">
-    <component length="1" name="1" rotOffset="0,-40,0" startKey="0"/>
+   <part name="head">
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;sitting"/>
+  <phase type="walking">
+   <part name="tail">
+    <component length="10" name="1" rotChange="10,0,0" startKey="0"/>
+	<component length="10" name="2" rotChange="-10,0,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="1" name="1" posOffset="0,-20,-60" startKey="0"/>
+   </part>
+   <part name="stone">
+    <component length="100" name="1" rotChange="0,0,360" startKey="0"/>
+   </part>
+   <part name="stone1">
+    <component length="100" name="1" rotChange="0,0,-360" startKey="0"/>
+   </part>
+   <part name="stone2">
+    <component length="100" name="1" rotChange="0,0,360" startKey="0"/>
+   </part>
+  </phase>
  </model>
  <details>
   <RIDDENOFFSET>
-   0.4
+   0.7
   </RIDDENOFFSET>
   <MODELSIZE>
    9.2,1,1
