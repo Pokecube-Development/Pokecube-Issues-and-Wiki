@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
@@ -41,9 +42,9 @@ import thut.core.common.handlers.PlayerDataHandler;
 
 public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 {
-    public static int savedIndex = 0;
+    public static int                                 savedIndex = 0;
 
-    public static List<Class<? extends PokeInfoPage>> PAGELIST = Lists.newArrayList();
+    public static List<Class<? extends PokeInfoPage>> PAGELIST   = Lists.newArrayList();
 
     static
     {
@@ -78,23 +79,23 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     }
 
     @Override
-    public boolean charTyped(final char typedChar, final int keyCode)
+    public boolean keyPressed(int keyCode, int b, int c)
     {
-        final boolean typed = super.charTyped(typedChar, keyCode);
-        if (this.search.isFocused()) if (keyCode == GLFW.GLFW_KEY_TAB)
-        {
+        if (this.search.isFocused())
+            if (keyCode == GLFW.GLFW_KEY_RIGHT && this.search.getCursorPosition() == this.search.text.length())
+            {
             String text = this.search.getText();
             text = Database.trim(text);
             final List<String> ret = new ArrayList<>();
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
-                final String check = entry.getTrimmedName();
-                if (check.startsWith(text))
-                {
-                    String name = entry.getName();
-                    if (name.contains(" ")) name = "\'" + name + "\'";
-                    ret.add(name);
-                }
+            final String check = entry.getTrimmedName();
+            if (check.startsWith(text))
+            {
+            String name = entry.getName();
+            if (name.contains(" ")) name = "\'" + name + "\'";
+            ret.add(name);
+            }
             }
             Collections.sort(ret, (o1, o2) ->
             {
@@ -108,45 +109,58 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 return t;
             });
             // TODO Tab completetion
-            // final String[] args = { text };
-            // ret = CommandBase.getListOfStringsMatchingLastWord(args,
-            // ret);
-            // if (!ret.isEmpty()) this.search.setText(ret.get(0));
+            String match = text;
+            for (String name : ret)
+            {
+            if (name.toLowerCase(Locale.ENGLISH).startsWith(match.toLowerCase(Locale.ENGLISH)))
+            {
+            match = name;
+            break;
+            }
+            }
+            if (!ret.isEmpty()) this.search.setText(ret.get(0));
             return true;
-        }
-        else if (keyCode == GLFW.GLFW_KEY_ENTER)
-        {
+            }
+            else if (keyCode == GLFW.GLFW_KEY_ENTER)
+            {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             final PokedexEntry newEntry = Database.getEntry(this.search.getText());
             // Search to see if maybe it was a translated name put into the
             // search.
             if (newEntry == null)
             {
-                for (final PokedexEntry e : Database.getSortedFormes())
-                {
-                    final String translated = I18n.format(e.getUnlocalizedName());
-                    if (translated.equalsIgnoreCase(this.search.getText()))
-                    {
-                        Database.data2.put(translated, e);
-                        entry = e;
-                        break;
-                    }
-                }
-                // If the pokedex entry is not actually registered, use
-                // old
-                // entry.
-                if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
+            for (final PokedexEntry e : Database.getSortedFormes())
+            {
+            final String translated = I18n.format(e.getUnlocalizedName());
+            if (translated.equalsIgnoreCase(this.search.getText()))
+            {
+            Database.data2.put(translated, e);
+            entry = e;
+            break;
+            }
+            }
+            // If the pokedex entry is not actually registered, use
+            // old
+            // entry.
+            if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
             }
 
             if (newEntry != null)
             {
-                this.search.setText(newEntry.getName());
-                this.pokemob = EventsHandlerClient.getRenderMob(newEntry, this.watch.player.getEntityWorld());
-                this.initPages(this.pokemob);
+            this.search.setText(newEntry.getName());
+            this.pokemob = EventsHandlerClient.getRenderMob(newEntry, this.watch.player.getEntityWorld());
+            this.initPages(this.pokemob);
             }
             else this.search.setText(entry.getName());
             return true;
-        }
+            }
+        return super.keyPressed(keyCode, b, c);
+    }
+
+    @Override
+    public boolean charTyped(final char typedChar, final int keyCode)
+    {
+        final boolean typed = super.charTyped(typedChar, keyCode);
         return typed;
     }
 
@@ -189,12 +203,12 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     {
         final boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
         // change gender if clicking on the gender, and shininess otherwise
-        if (!new Exception().getStackTrace()[2].getClassName().equals(
-                "pokecube.core.client.gui.watch.util.PageWithSubPages")) if (!this.watch.canEdit(this.pokemob))
-        {
+        if (!new Exception().getStackTrace()[2].getClassName()
+                .equals("pokecube.core.client.gui.watch.util.PageWithSubPages"))
+            if (!this.watch.canEdit(this.pokemob))
+            {
             // If it is actually a real mob, swap it out for the fake one.
-            if (this.pokemob.getEntity().addedToChunk) this.pokemob = this.renderMob = EventsHandlerClient.getRenderMob(
-                    this.pokemob.getPokedexEntry(), this.watch.player.getEntityWorld());
+            if (this.pokemob.getEntity().addedToChunk) this.pokemob = this.renderMob = EventsHandlerClient.getRenderMob(this.pokemob.getPokedexEntry(), this.watch.player.getEntityWorld());
 
             final int x = (this.watch.width - 160) / 2 + 80;
             final int y = (this.watch.height - 160) / 2 + 8;
@@ -203,15 +217,14 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             if (mx > -43 && mx < -43 + 76 && my > 42 && my < 42 + 7) switch (this.pokemob.getSexe())
             {
             case IPokemob.MALE:
-                this.pokemob.setSexe(IPokemob.FEMALE);
-                break;
+            this.pokemob.setSexe(IPokemob.FEMALE);
+            break;
             case IPokemob.FEMALE:
-                this.pokemob.setSexe(IPokemob.MALE);
-                break;
+            this.pokemob.setSexe(IPokemob.MALE);
+            break;
             }
-            else if (mx > -75 && mx < -75 + 40 && my > 10 && my < 10 + 40) if (this.pokemob.getPokedexEntry().hasShiny)
-                this.pokemob.setShiny(!this.pokemob.isShiny());
-        }
+            else if (mx > -75 && mx < -75 + 40 && my > 10 && my < 10 + 40) if (this.pokemob.getPokedexEntry().hasShiny) this.pokemob.setShiny(!this.pokemob.isShiny());
+            }
         return ret;
     }
 
@@ -235,8 +248,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             {
                 final List<String> text = Lists.newArrayList();
                 text.add(this.pokemob.getPokedexEntry().getTranslatedName());
-                if (!this.pokemob.getPokemonNickname().isEmpty()) text.add("\"" + this.pokemob.getPokemonNickname()
-                        + "\"");
+                if (!this.pokemob.getPokemonNickname().isEmpty())
+                    text.add("\"" + this.pokemob.getPokemonNickname() + "\"");
                 GlStateManager.disableDepthTest();
                 mx = -35;
                 my = 20;
@@ -300,16 +313,16 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Draw the icon indicating capture/inspect status.
             this.minecraft.getTextureManager().bindTexture(GuiPokeWatch.TEXTURE);
             final PokedexEntry pokedexEntry = this.pokemob.getPokedexEntry();
-            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
-                    .getInstance().player).getData(PokecubePlayerStats.class);
+            final PokecubePlayerStats stats = PlayerDataHandler.getInstance()
+                    .getPlayerData(Minecraft.getInstance().player).getData(PokecubePlayerStats.class);
             boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
                     || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
                     || this.minecraft.player.abilities.isCreativeMode;
 
             // Megas Inherit colouring from the base form.
-            if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
-                    Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry.getBaseForme(),
-                            Minecraft.getInstance().player) > 0;
+            if (!fullColour && pokedexEntry.isMega)
+                fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
+                        || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
 
             // Select which box to draw via position.
             if (fullColour) dr = 0;
@@ -325,8 +338,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Copy the stuff to the render mob if this mob is in world
             if (pokemob.getEntity().addedToChunk)
             {
-                final IPokemob newMob = EventsHandlerClient.getRenderMob(pokemob.getPokedexEntry(), pokemob.getEntity()
-                        .getEntityWorld());
+                final IPokemob newMob = EventsHandlerClient.getRenderMob(pokemob.getPokedexEntry(),
+                        pokemob.getEntity().getEntityWorld());
                 newMob.read(pokemob.write());
                 pokemob = this.renderMob = newMob;
             }
