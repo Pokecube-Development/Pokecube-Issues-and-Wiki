@@ -62,16 +62,22 @@ public class GuiPokemob extends GuiPokemobBase
             // Fill the background
             AbstractGui.fill(this.x, this.y, this.x + this.width, this.y + this.height, col);
             col = 0xFFFFFFFF;
-            final int col1 = 0xFF00FF77;
+            int col1 = 0xFF000000;
+            int greenness = (int) ((2 * (current - 0.35)) * 0xFF);
+            int redness = (int) ((1 - current) * 2 * 0xFF);
+            redness = Math.min(redness, 0xFF);
+            greenness = Math.min(greenness, 0xFF);
+            greenness = Math.max(0, greenness);
+            col1 |= redness << 16 | greenness << 8;
             // Fill the bar
             this.fillGradient(this.x, this.y, this.x + (int) (this.width * current), this.y + this.height, col, col1);
         }
 
     }
 
-    Button sit;
-    Button stay;
-    Button guard;
+    Button    sit;
+    Button    stay;
+    Button    guard;
 
     HungerBar bar;
 
@@ -91,16 +97,20 @@ public class GuiPokemob extends GuiPokemobBase
         // Button height
         int h = 10;
 
-        this.addButton(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h, I18n
-                .format("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
-                        new StanceHandler(!this.container.pokemob.getLogicState(LogicStates.SITTING),
-                                StanceHandler.BUTTONTOGGLESIT))));
-        this.addButton(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h, I18n
-                .format("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
+        this.addButton(
+                this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h,
+                        I18n.format("pokemob.gui.sit"),
+                        c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
+                                new StanceHandler(!this.container.pokemob.getLogicState(LogicStates.SITTING),
+                                        StanceHandler.BUTTONTOGGLESIT))));
+        this.addButton(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h,
+                I18n.format("pokemob.gui.stay"),
+                c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
                         new StanceHandler(!this.container.pokemob.getGeneralState(GeneralStates.STAYING),
                                 StanceHandler.BUTTONTOGGLESTAY))));
-        this.addButton(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h, I18n
-                .format("pokemob.gui.guard"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
+        this.addButton(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h,
+                I18n.format("pokemob.gui.guard"),
+                c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
                         new StanceHandler(!this.container.pokemob.getCombatState(CombatStates.GUARDING),
                                 StanceHandler.BUTTONTOGGLEGUARD))));
         // Bar width
@@ -115,14 +125,14 @@ public class GuiPokemob extends GuiPokemobBase
         yOffset = 77;
         w = 30;
         h = 10;
-        this.addButton(new Button(this.width / 2 - xOffset + 60, this.height / 2 - yOffset, w, h, I18n.format(
-                "pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI, this.container.pokemob
-                        .getEntity().getEntityId())));
-        this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, w, h, I18n.format(
-                "pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE,
+        this.addButton(new Button(this.width / 2 - xOffset + 60, this.height / 2 - yOffset, w, h,
+                I18n.format("pokemob.gui.ai"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.AI,
                         this.container.pokemob.getEntity().getEntityId())));
-        this.addButton(new Button(this.width / 2 - xOffset + 00, this.height / 2 - yOffset, w, h, I18n.format(
-                "pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES,
+        this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, w, h,
+                I18n.format("pokemob.gui.storage"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE,
+                        this.container.pokemob.getEntity().getEntityId())));
+        this.addButton(new Button(this.width / 2 - xOffset + 00, this.height / 2 - yOffset, w, h,
+                I18n.format("pokemob.gui.routes"), c -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.ROUTES,
                         this.container.pokemob.getEntity().getEntityId())));
     }
 
