@@ -16,14 +16,18 @@ import net.minecraft.item.WritableBookItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
 import pokecube.core.inventory.BaseContainer;
 import pokecube.core.items.ItemPokedex;
+import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.network.packets.PacketPC;
 import thut.core.common.ThutCore;
+import thut.wearables.IActiveWearable;
+import thut.wearables.ThutWearables;
 
 // TODO inventory tweaks
 // @ChestContainer(isLargeChest = true, showButtons = false)
@@ -47,10 +51,14 @@ public class PCContainer extends BaseContainer
     public static boolean isItemValid(final ItemStack itemstack)
     {
         if (itemstack.isEmpty()) return false;
+        LazyOptional<IMegaCapability> mega = itemstack.getCapability(MegaCapability.MEGA_CAP);
+        LazyOptional<IActiveWearable> worn = itemstack.getCapability(ThutWearables.WEARABLE_CAP);
+
         final boolean eggorCube = !PokecubeCore.getConfig().pcHoldsOnlyPokecubes || PokecubeManager.isFilled(itemstack)
                 || itemstack.getItem() instanceof WritableBookItem || itemstack.getItem() instanceof ItemPokemobEgg
-                || itemstack.getItem() instanceof ItemPokedex || itemstack.getCapability(MegaCapability.MEGA_CAP)
-                        .isPresent();
+                || itemstack.getItem() instanceof ItemPokedex || (mega.isPresent() && mega.orElse(null).getEntry(
+                        itemstack) != null) || worn.isPresent();
+        System.out.println(itemstack.getCapability(MegaCapability.MEGA_CAP).isPresent());
         if (!eggorCube) for (final Predicate<ItemStack> tester : PCContainer.CUSTOMPCWHILTELIST)
             if (tester.test(itemstack)) return true;
         return eggorCube;
