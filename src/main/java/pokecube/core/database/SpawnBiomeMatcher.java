@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -31,16 +32,16 @@ public class SpawnBiomeMatcher
 {
     public static class SpawnCheck
     {
-        public final boolean   day;
-        public final boolean   dusk;
-        public final boolean   dawn;
-        public final boolean   night;
-        public final Material  material;
-        public final float     light;
-        public final Biome     biome;
-        public final BiomeType type;
-        public final World     world;
-        public final Vector3   location;
+        public final boolean          day;
+        public final boolean          dusk;
+        public final boolean          dawn;
+        public final boolean          night;
+        public final Material         material;
+        public final float            light;
+        public final ResourceLocation biome;
+        public final BiomeType        type;
+        public final World            world;
+        public final Vector3          location;
 
         public SpawnCheck(Vector3 location, World world)
         {
@@ -57,7 +58,7 @@ public class SpawnBiomeMatcher
             final int lightDay = world.getLightFor(LightType.SKY, location.getPos());
             if (lightBlock == 0 && world.isDaytime()) lightBlock = lightDay;
             this.light = lightBlock / 15f;
-            this.biome = location.getBiome(world);
+            this.biome = location.getBiome(world).getRegistryName();
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
             final int subBiomeId = t.getBiome(location);
             if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
@@ -123,10 +124,10 @@ public class SpawnBiomeMatcher
         return SpawnBiomeMatcher.typeMap.get(name);
     }
 
-    public Set<Biome>     validBiomes        = Sets.newHashSet();
-    public Set<BiomeType> validSubBiomes     = Sets.newHashSet();
-    public Set<Biome>     blackListBiomes    = Sets.newHashSet();
-    public Set<BiomeType> blackListSubBiomes = Sets.newHashSet();
+    public Set<ResourceLocation> validBiomes        = Sets.newHashSet();
+    public Set<BiomeType>        validSubBiomes     = Sets.newHashSet();
+    public Set<ResourceLocation> blackListBiomes    = Sets.newHashSet();
+    public Set<BiomeType>        blackListSubBiomes = Sets.newHashSet();
 
     /**
      * If the spawnRule has an anyType key, make a child for each type in it,
@@ -272,12 +273,19 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 Biome biome = null;
                 for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+                {
+                    if (b.getRegistryName().toString().equals(s))
+                    {
+                        biome = b;
+                        break;
+                    }
                     if (b != null) if (Database.trim(BiomeDatabase.getBiomeName(b)).equals(Database.trim(s)))
                     {
                         biome = b;
                         break;
                     }
-                if (biome != null) this.validBiomes.add(biome);
+                }
+                if (biome != null) this.validBiomes.add(biome.getRegistryName());
             }
         }
         boolean hasForgeTypes = false;
@@ -312,12 +320,19 @@ public class SpawnBiomeMatcher
                 s = s.trim();
                 Biome biome = null;
                 for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+                {
+                    if (b.getRegistryName().toString().equals(s))
+                    {
+                        biome = b;
+                        break;
+                    }
                     if (b != null) if (Database.trim(BiomeDatabase.getBiomeName(b)).equals(Database.trim(s)))
                     {
                         biome = b;
                         break;
                     }
-                if (biome != null) this.blackListBiomes.add(biome);
+                }
+                if (biome != null) this.blackListBiomes.add(biome.getRegistryName());
             }
         }
         if (typeBlacklistString != null)
@@ -357,16 +372,24 @@ public class SpawnBiomeMatcher
                     matches = matches && SpawnBiomeMatcher.contains(b, type);
                     if (!matches) break;
                 }
-                if (matches) this.validBiomes.add(b);
+                if (matches) this.validBiomes.add(b.getRegistryName());
             }
-        final Set<Biome> toRemove = Sets.newHashSet();
-        for (final BiomeDictionary.Type type : blackListTypes)
-            for (final Biome b : this.validBiomes)
-                if (SpawnBiomeMatcher.contains(b, type))
+        final Set<ResourceLocation> toRemove = Sets.newHashSet();
+        if (!blackListTypes.isEmpty()) for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+            if (b != null && !this.blackListBiomes.contains(b))
+            {
+                boolean matches = false;
+                for (final BiomeDictionary.Type type : blackListTypes)
                 {
-                    toRemove.add(b);
-                    this.blackListBiomes.add(b);
+                    matches = matches || SpawnBiomeMatcher.contains(b, type);
+                    if (matches) break;
                 }
+                if (matches)
+                {
+                    toRemove.add(b.getRegistryName());
+                    this.blackListBiomes.add(b.getRegistryName());
+                }
+            }
         this.validBiomes.removeAll(toRemove);
         if (hasForgeTypes && this.validBiomes.isEmpty()) this.valid = false;
         if (this.validSubBiomes.isEmpty() && this.validBiomes.isEmpty() && this.blackListBiomes.isEmpty()

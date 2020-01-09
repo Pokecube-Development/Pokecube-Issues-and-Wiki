@@ -9,11 +9,12 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.biome.Biome;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
@@ -49,8 +50,8 @@ public class SpawnListEntry
         value.parse();
 
         final List<ITextComponent> biomes = Lists.newArrayList();
-        if (value.validBiomes != null) for (final Biome b : value.validBiomes)
-            biomes.add(b.getDisplayName());
+        if (value.validBiomes != null) for (final ResourceLocation b : value.validBiomes)
+            biomes.add(ForgeRegistries.BIOMES.getValue(b).getDisplayName());
         if (entry != null) this.output.add(entry.getName() + ":");
         final String ind = entry != null ? "  " : "";
         if (!biomes.isEmpty())

@@ -173,7 +173,7 @@ public class PokedexEntry
                     biomeNames.add(t.readableName);
                 for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                 {
-                    final boolean valid = this.matcher.validBiomes.contains(test);
+                    final boolean valid = this.matcher.validBiomes.contains(test.getRegistryName());
                     if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
                 }
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
@@ -182,7 +182,7 @@ public class PokedexEntry
                         biomeNames.add(t.readableName);
                     for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                     {
-                        final boolean valid = matcher.validBiomes.contains(test);
+                        final boolean valid = matcher.validBiomes.contains(test.getRegistryName());
                         if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
                     }
                 }
@@ -631,7 +631,7 @@ public class PokedexEntry
         public boolean isValid(final Biome biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher.validBiomes.contains(biome)) return true;
+                if (matcher.validBiomes.contains(biome.getRegistryName())) return true;
             return false;
         }
 
