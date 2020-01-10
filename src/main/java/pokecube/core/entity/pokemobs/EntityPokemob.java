@@ -16,6 +16,7 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -36,12 +37,13 @@ import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
-public class EntityPokemob extends TameableEntity implements IEntityAdditionalSpawnData
+public class EntityPokemob extends TameableEntity implements IEntityAdditionalSpawnData, IFlyingAnimal, IMobColourable
 {
     protected final DefaultPokemob pokemobCap;
     protected final EntitySize     size;
@@ -216,5 +218,30 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
         buffer.writeCompoundTag(nbt);
         nbt = this.getPersistentData().getCompound("url_model");
         buffer.writeCompoundTag(nbt);
+    }
+
+    // Methods for IMobColourable
+    @Override
+    public int getDyeColour()
+    {
+        return pokemobCap.getDyeColour();
+    }
+
+    @Override
+    public int[] getRGBA()
+    {
+        return pokemobCap.getRGBA();
+    }
+
+    @Override
+    public void setDyeColour(int colour)
+    {
+        pokemobCap.setDyeColour(colour);
+    }
+
+    @Override
+    public void setRGBA(int... colours)
+    {
+        pokemobCap.setRGBA(colours);
     }
 }

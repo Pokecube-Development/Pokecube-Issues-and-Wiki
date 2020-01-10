@@ -88,7 +88,7 @@ public class Status
         GL11.glColor4f(var7, var7, var7, 0.5F);
         var7 = 1;
         GL11.glScalef(var7, var7, var7);
-        final IMobColourable colour = (IMobColourable) mobEntity;
+        final IMobColourable colour = (IMobColourable) pokemob;
         final int[] col = colour.getRGBA();
         final int[] bak = col.clone();
         col[3] = 85;

@@ -30,7 +30,6 @@ import pokecube.core.ai.logic.LogicInMaterials;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.logic.LogicMovesUpdates;
-import pokecube.core.ai.pathing.PokemobNavigator;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAI.ShouldRun;
 import pokecube.core.ai.tasks.AIFollowOwner;
@@ -178,13 +177,15 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         // entity.moveController = new PokemobMoveHelper(entity);
         // entity.jumpController = new PokemobJumpHelper(entity);
 
-        entity.navigator = new PokemobNavigator(this, entity.getEntityWorld());
+        // entity.navigator = new PokemobNavigator(this,
+        // entity.getEntityWorld());
 
         // TODO decide on speed scaling here?
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);
+        entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(1.0f);
 
         // Non-Combat goals
-        entity.goalSelector.addGoal(0, new SwimGoal(entity));
+        if (!this.swims()) entity.goalSelector.addGoal(0, new SwimGoal(entity));
         entity.goalSelector.addGoal(6, new LookAtGoal(entity, PlayerEntity.class, 6.0F));
         entity.goalSelector.addGoal(7, new LookRandomlyGoal(entity));
 

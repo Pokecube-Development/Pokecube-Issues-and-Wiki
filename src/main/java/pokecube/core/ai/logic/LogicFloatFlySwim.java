@@ -1,17 +1,17 @@
 package pokecube.core.ai.logic;
 
-import net.minecraft.block.Block;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.controller.FlyingMovementController;
+import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.pathfinding.ClimberPathNavigator;
+import net.minecraft.pathfinding.FlyingPathNavigator;
+import net.minecraft.pathfinding.GroundPathNavigator;
+import net.minecraft.pathfinding.SwimmerPathNavigator;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Vector3;
 
 /**
@@ -23,87 +23,159 @@ import thut.api.maths.Vector3;
  */
 public class LogicFloatFlySwim extends LogicBase
 {
+    private static class SwimController extends MovementController
+    {
+        private MobEntity entity;
+        private IPokemob  pokemob;
+
+        public SwimController(IPokemob mob)
+        {
+            super(mob.getEntity());
+            this.pokemob = mob;
+            this.entity = mob.getEntity();
+        }
+
+        private void updateSpeed()
+        {
+            if (this.entity.isInWater())
+            {
+                this.entity.setMotion(this.entity.getMotion().add(0.0D, 0.005D, 0.0D));
+                if (!this.pokemob.getHome().withinDistance(this.entity.getPositionVec(), 16.0D))
+                {
+                    this.entity.setAIMoveSpeed(Math.max(this.entity.getAIMoveSpeed() / 2.0F, 0.08F));
+                }
+
+                if (this.entity.isChild())
+                {
+                    this.entity.setAIMoveSpeed(Math.max(this.entity.getAIMoveSpeed() / 3.0F, 0.06F));
+                }
+            }
+            else if (this.entity.onGround)
+            {
+                this.entity.setAIMoveSpeed(Math.max(this.entity.getAIMoveSpeed() / 2.0F, 0.06F));
+            }
+
+        }
+
+        public void tick()
+        {
+            this.updateSpeed();
+            if (this.action == MovementController.Action.MOVE_TO && !this.entity.getNavigator().noPath())
+            {
+                double d0 = this.posX - this.entity.posX;
+                double d1 = this.posY - this.entity.posY;
+                double d2 = this.posZ - this.entity.posZ;
+                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                d1 = d1 / d3;
+                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, f, 90.0F);
+                this.entity.renderYawOffset = this.entity.rotationYaw;
+                float f1 = (float) (this.speed * this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
+                        .getValue());
+                this.entity.setAIMoveSpeed(MathHelper.lerp(0.125F, this.entity.getAIMoveSpeed(), f1));
+                this.entity.setMotion(this.entity.getMotion().add(0.0D, (double) this.entity.getAIMoveSpeed() * d1
+                        * 0.1D, 0.0D));
+            }
+            else
+            {
+                this.entity.setAIMoveSpeed(0.0F);
+            }
+        }
+
+    }
+
+    private static class FlyMovementController extends FlyingMovementController
+    {
+        public FlyMovementController(IPokemob mob)
+        {
+            super(mob.getEntity());
+        }
+        
+        @Override
+        public double getSpeed()
+        {
+            // TODO Auto-generated method stub
+            return super.getSpeed();
+        }
+
+        public void tick()
+        {
+            if (this.action == MovementController.Action.MOVE_TO)
+            {
+                this.action = MovementController.Action.WAIT;
+                this.mob.setNoGravity(true);
+                double d0 = this.posX - this.mob.posX;
+                double d1 = this.posY - this.mob.posY;
+                double d2 = this.posZ - this.mob.posZ;
+                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+                if (d3 < (double) 2.5000003E-7F)
+                {
+                    this.mob.setMoveVertical(0.0F);
+                    this.mob.setMoveForward(0.0F);
+                    return;
+                }
+
+                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                this.mob.rotationYaw = this.limitAngle(this.mob.rotationYaw, f, 10.0F);
+                float f1;
+                if (this.mob.onGround)
+                {
+                    f1 = (float) (this.speed * this.mob.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
+                            .getValue());
+                }
+                else
+                {
+                    f1 = (float) (this.speed * this.mob.getAttribute(SharedMonsterAttributes.FLYING_SPEED).getValue());
+                }
+
+                this.mob.setAIMoveSpeed(f1);
+                double d4 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
+                float f2 = (float) (-(MathHelper.atan2(d1, d4) * (double) (180F / (float) Math.PI)));
+                this.mob.rotationPitch = this.limitAngle(this.mob.rotationPitch, f2, 10.0F);
+                this.mob.setMoveVertical(d1 > 0.0D ? f1 : -f1);
+            }
+            else
+            {
+                this.mob.setMoveVertical(0.0F);
+                this.mob.setMoveForward(0.0F);
+            }
+
+        }
+
+    }
+
     Vector3 here = Vector3.getNewVector();
+
+    // Navigators
+    private final FlyingPathNavigator  flyPather;
+    private final GroundPathNavigator  walkPather;
+    private final ClimberPathNavigator climbPather;
+    private final SwimmerPathNavigator swimPather;
+
+    // Movement controllers
+    private final MovementController flyController;
+    private final MovementController walkController;
+    private final MovementController swimController;
 
     public LogicFloatFlySwim(final IPokemob entity)
     {
         super(entity);
-    }
+        flyPather = new FlyingPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
+        walkPather = new GroundPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
+        climbPather = new ClimberPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
+        swimPather = new SwimmerPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
 
-    private void doFloatFly(final Vector3 here)
-    {
-        IPokemob pokemob = this.pokemob;
-        final IPokemob transformed = CapabilityPokemob.getPokemobFor(pokemob.getTransformedTo());
-        if (transformed != null) pokemob = transformed;
-        final PokedexEntry entry = pokemob.getPokedexEntry();
-        boolean canFloat = pokemob.floats();
-        final Vec3d v = this.entity.getMotion();
-        final double vx = v.x;
-        double vy = v.y;
-        final double vz = v.z;
-        if (canFloat && !pokemob.getLogicState(LogicStates.INWATER))
-        {
-            final float floatHeight = (float) entry.preferedHeight;
-            final Vector3 down = Vector3.getNextSurfacePoint(this.entity.getEntityWorld(), here.set(pokemob
-                    .getEntity()), Vector3.secondAxisNeg, floatHeight);
-            if (down != null) here.set(down);
-            final boolean solidDown = Block.hasSolidSide(here.getBlockState(this.world), this.world, here.getPos(),
-                    Direction.UP);
-            if (!solidDown && !pokemob.getLogicState(LogicStates.SLEEPING)) vy += 0.005;
-            else vy -= 0.01;
-            if (down == null || pokemob.getLogicState(LogicStates.SITTING)) vy -= 0.02;
-            here.set(pokemob.getEntity());
-        }
-        if ((canFloat || pokemob.flys()) && !pokemob.getCombatState(CombatStates.ANGRY))
-        {
-            final float floatHeight = (float) entry.preferedHeight;
-            final Path path = this.entity.getNavigator().getPath();
-            if (path != null)
-            {
-                final Vector3 end = Vector3.getNewVector().set(path.getFinalPathPoint());
-                final double dhs = (here.x - end.x) * (here.x - end.x) + (here.z - end.z) * (here.z - end.z);
-                final double dvs = (here.y - end.y) * (here.y - end.y);
-                final double width = Math.max(0.5, pokemob.getSize() * entry.length / 4);
-                if (dhs < width * width && dvs <= floatHeight * floatHeight) this.entity.getNavigator().clearPath();
-            }
-        }
-        canFloat = canFloat || pokemob.flys();
-        canFloat = canFloat && pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
-        this.entity.setNoGravity(canFloat);
-        if (canFloat && here.offset(Direction.DOWN).getBlockState(this.entity.getEntityWorld()).getMaterial()
-                .isLiquid())
-        {
-            if (vy < -0.1) vy = 0;
-            vy += 0.05;
-        }
-        this.entity.setMotion(vx, vy, vz);
-    }
+        flyPather.setCanOpenDoors(false);
+        flyPather.setCanSwim(true);
+        flyPather.setCanEnterDoors(true);
 
-    private void doSwim(final Vector3 here)
-    {
-        if (!(this.entity.isInWater() || this.entity.isInLava())) return;
-        IPokemob pokemob = this.pokemob;
-        final IPokemob transformed = CapabilityPokemob.getPokemobFor(pokemob.getTransformedTo());
-        if (transformed != null) pokemob = transformed;
-        final PokedexEntry entry = pokemob.getPokedexEntry();
-        final boolean isWaterMob = pokemob.getPokedexEntry().swims();
-        if (!isWaterMob)
-        {
-            if (this.entity.getRNG().nextFloat() < 0.8F) this.entity.getJumpController().setJumping();
-        }
-        else if (isWaterMob) if (!pokemob.getCombatState(CombatStates.ANGRY))
-        {
-            final float floatHeight = (float) 0.5;
-            final Path path = this.entity.getNavigator().getPath();
-            if (path != null)
-            {
-                final Vector3 end = Vector3.getNewVector().set(path.getFinalPathPoint());
-                final double dhs = (here.x - end.x) * (here.x - end.x) + (here.z - end.z) * (here.z - end.z);
-                final double dvs = (here.y - end.y) * (here.y - end.y);
-                final double width = Math.max(0.5, pokemob.getSize() * entry.length / 4);
-                if (dhs < width * width && dvs <= floatHeight * floatHeight) this.entity.getNavigator().clearPath();
-            }
-        }
+        walkPather.setCanSwim(true);
+        climbPather.setCanSwim(true);
+        swimPather.setCanSwim(true);
+
+        flyController = new FlyMovementController(entity);
+        walkController = new MovementController(entity.getEntity());
+        swimController = new SwimController(entity);
     }
 
     @Override
@@ -117,9 +189,21 @@ public class LogicFloatFlySwim extends LogicBase
     {
         super.tick(world);
         if (!this.shouldRun()) return;
-        this.here.set(this.entity);
-        if (this.pokemob.getDirectionPitch() == 0) this.entity.setMoveVertical(0);
-        if (this.entity.getNavigator().noPath()) this.doFloatFly(this.here);
-        this.doSwim(this.here);
+
+        if (this.pokemob.floats() || this.pokemob.flys())
+        {
+            this.pokemob.getEntity().navigator = flyPather;
+            this.pokemob.getEntity().moveController = flyController;
+        }
+        else if (this.pokemob.getEntity().isInWater())
+        {
+            this.pokemob.getEntity().navigator = swimPather;
+            this.pokemob.getEntity().moveController = swimController;
+        }
+        else
+        {
+            this.pokemob.getEntity().navigator = walkPather;
+            this.pokemob.getEntity().moveController = walkController;
+        }
     }
 }

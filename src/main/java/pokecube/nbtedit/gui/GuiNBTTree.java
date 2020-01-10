@@ -204,7 +204,6 @@ public class GuiNBTTree extends Screen
     @Override
     public boolean charTyped(final char ch, final int key)
     {
-        System.out.println(ch + " " + key);
         if (this.focusedSlotIndex != -1)
         {
             this.saves[this.focusedSlotIndex].charTyped(ch, key);

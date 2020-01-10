@@ -62,12 +62,10 @@ public class GuiEditNBTTree extends Screen
     public boolean charTyped(final char par1, final int key)
     {
         final GuiEditNBT window = this.guiTree.getWindow();
-        System.out.println(par1 + " " + key);
         final boolean ret = super.charTyped(par1, key);
         if (window != null) return window.charTyped(par1, key) || ret;
         else
         {
-            System.out.println(key + " " + par1);
             if (key == 1)
             {
                 if (this.guiTree.isEditingSlot()) return this.guiTree.stopEditingSlot();

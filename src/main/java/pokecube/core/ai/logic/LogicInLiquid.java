@@ -22,13 +22,6 @@ public class LogicInLiquid extends LogicBase
     public void tick(World world)
     {
         if (world == null) return;
-        // boolean lava = false;
-        // boolean water = false;
-        // box.set(entity.getBoundingBox());
-        // if (!lava) lava = lava || box.isInMaterial(world, Vector3.empty,
-        // Vector3.empty, Material.LAVA);
-        // if (!water) water = water || box.isInMaterial(world, Vector3.empty,
-        // Vector3.empty, Material.WATER);
         this.pokemob.setLogicState(LogicStates.INLAVA, this.entity.isInLava());
         this.pokemob.setLogicState(LogicStates.INWATER, this.entity.isInWater());
     }
