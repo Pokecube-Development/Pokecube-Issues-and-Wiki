@@ -160,10 +160,11 @@ public class TeleportsPage extends ListPage<TeleOption>
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getCachedUniqueIdString());
         this.teleNames.clear();
-        final int offsetX = (this.watch.width - 160) / 2 + 10;
-        final int offsetY = (this.watch.height - 160) / 2 + 20;
+        final int offsetX = (this.watch.width - 160) / 2 - 60;
+        final int offsetY = (this.watch.height - 160) / 2 - 30;
         final int height = 120;
-        this.list = new ScrollGui<>(this, this.minecraft, 146, height, 10, offsetX, offsetY);
+        final int width = 146;
+        this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
             final TextFieldWidget name = new TextFieldWidget(this.font, 0, 0, 104, 10, "");

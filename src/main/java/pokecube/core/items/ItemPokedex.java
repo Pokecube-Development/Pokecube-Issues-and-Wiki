@@ -3,6 +3,7 @@
  */
 package pokecube.core.items;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,21 +14,25 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
+import thut.api.maths.Vector4;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
@@ -104,21 +109,21 @@ public class ItemPokedex extends Item
     {
         final World worldIn = context.getWorld();
         final PlayerEntity playerIn = context.getPlayer();
-        // BlockPos pos = context.getPos();
-        // Vector3 hit = Vector3.getNewVector().set(pos);
-        // Block block = hit.getBlockState(worldIn).getBlock();
+        BlockPos pos = context.getPos();
+        Vector3 hit = Vector3.getNewVector().set(pos);
+        Block block = hit.getBlockState(worldIn).getBlock();
         // TODO healing table setting teleports
-        // if (block instanceof BlockHealTable)
-        // {
-        // Vector4 loc = new Vector4(playerIn);
-        // TeleportHandler.setTeleport(loc, playerIn.getCachedUniqueIdString());
-        // if (!worldIn.isRemote)
-        // {
-        // CommandTools.sendMessage(playerIn, "pokedex.setteleport");
-        // PacketDataSync.sendInitPacket(playerIn, "pokecube-data");
-        // }
-        // return ActionResultType.SUCCESS;
-        // }
+        if (block instanceof HealerBlock)
+        {
+            Vector4 loc = new Vector4(playerIn);
+            TeleportHandler.setTeleport(loc, playerIn.getCachedUniqueIdString());
+            if (!worldIn.isRemote)
+            {
+                CommandTools.sendMessage(playerIn, "pokedex.setteleport");
+                PacketDataSync.sendInitPacket(playerIn, "pokecube-data");
+            }
+            return ActionResultType.SUCCESS;
+        }
 
         if (playerIn.isSneaking() && !worldIn.isRemote)
         {
