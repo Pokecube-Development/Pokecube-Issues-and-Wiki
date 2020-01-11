@@ -216,8 +216,16 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         if (this.fontRenderer == null) this.fontRenderer = this.minecraft.fontRenderer;
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo());
         // TODO fix target info rendering
-        // MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo());
-        // MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports());
+        try
+        {
+            MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo());
+        }
+        catch (Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -498,14 +506,11 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             this.fontRenderer.drawString(displayName, nameOffsetX + 3 + w, nameOffsetY + 3 + h,
                     GuiDisplayPokecubeInfo.lightGrey);
 
-            // Render Mob
-            GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);
+            // Render Box behind Mob
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
-            GlStateManager.setProfile(GlStateManager.Profile.DEFAULT);
+
             // Render Mob
-            this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
-            this.blit(mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
             GL11.glColor4f(1, 1, 1, 1);
             GuiPokemob.renderMob(entity, -30, -25, 0, 0, 0, 0, 0, 0.75f);
 
