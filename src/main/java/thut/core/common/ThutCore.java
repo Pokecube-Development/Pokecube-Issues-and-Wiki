@@ -37,6 +37,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
 import thut.api.boom.ExplosionCustom;
 import thut.api.entity.IMobColourable;
@@ -258,6 +259,8 @@ public class ThutCore
         CapabilityAnimation.setup();
         // Setup Ownable capabilities
         OwnableCaps.setup();
+        // Setup Linkable capabilities
+        LinkableCaps.setup();
         // Register terrain capabilies
         CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class, new CapabilityTerrain.Storage(),
                 CapabilityTerrain.DefaultProvider::new);

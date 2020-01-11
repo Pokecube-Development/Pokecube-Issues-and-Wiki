@@ -5,6 +5,9 @@
 
     "item.pokecube_adventures.target": "Target",
     "item.pokecube_adventures.linker": "Location Linker",
+    "item.pokecube_adventures.linker.set": "Saved Location to Linker",
+    "item.pokecube_adventures.linker.unset": "Reset Linker",
+    
     "item.pokecube_adventures.biome_setter": "Sub-Biome Setter",
     "item.pokecube_adventures.exp_share": "Exp. Share",
     "item.pokecube_adventures.trainerspawner": "Trainer Editor",
@@ -33,6 +36,8 @@
     "igwtab.entry.Stones": "Evolution Stones",
 
     "block.pokecube_adventures.warppad": "Warp Pad",
+    "block.pokecube_adventures.warppad.link": "Warp Pad Linked to (%1$s, %2$s, %3$s, %4$s)",
+    
     "block.pokecube_adventures.splicer": "Gene Splicer",
     "block.pokecube_adventures.extractor": "Gene Extractor",
     "block.pokecube_adventures.cloner": "Cloning Device",

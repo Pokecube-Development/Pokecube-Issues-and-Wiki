@@ -58,7 +58,6 @@ public class PCContainer extends BaseContainer
                 || itemstack.getItem() instanceof WritableBookItem || itemstack.getItem() instanceof ItemPokemobEgg
                 || itemstack.getItem() instanceof ItemPokedex || (mega.isPresent() && mega.orElse(null).getEntry(
                         itemstack) != null) || worn.isPresent();
-        System.out.println(itemstack.getCapability(MegaCapability.MEGA_CAP).isPresent());
         if (!eggorCube) for (final Predicate<ItemStack> tester : PCContainer.CUSTOMPCWHILTELIST)
             if (tester.test(itemstack)) return true;
         return eggorCube;

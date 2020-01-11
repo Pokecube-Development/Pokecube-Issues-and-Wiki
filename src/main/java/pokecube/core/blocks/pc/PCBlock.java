@@ -74,10 +74,17 @@ public class PCBlock extends HorizontalBlock
     public boolean onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
-        if (this.top) if (!this.needsBase || world.getBlockState(pos.down()).getBlock() instanceof PCBlock)
-            if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
-                    playerInventory, playerIn) -> new PCContainer(id, playerInventory, PCInventory.getPC(playerIn)),
-                    player.getDisplayName()));
-        return true;
+        if (this.top)
+        {
+            if (!this.needsBase || world.getBlockState(pos.down()).getBlock() instanceof PCBlock)
+                if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
+                        playerInventory, playerIn) -> new PCContainer(id, playerInventory, PCInventory.getPC(playerIn)),
+                        player.getDisplayName()));
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

@@ -4,7 +4,9 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.dimension.DimensionType;
 
 public class Vector4
 {
@@ -26,6 +28,15 @@ public class Vector4
     {
         this.y = this.z = this.w = 0;
         this.x = 1;
+    }
+
+    public Vector4(BlockPos pos, DimensionType dim)
+    {
+        this();
+        this.x = pos.getX();
+        this.y = pos.getY();
+        this.z = pos.getZ();
+        this.w = dim.getId();
     }
 
     public Vector4(CompoundNBT nbt)
