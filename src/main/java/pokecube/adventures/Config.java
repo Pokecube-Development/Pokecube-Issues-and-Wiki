@@ -6,6 +6,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.config.ModConfig.Type;
+import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
+import pokecube.adventures.utils.EnergyHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -69,6 +71,20 @@ public class Config extends ConfigData
     @Configure
     public boolean anyReanimate = true;
 
+    @Configure
+    public int maxOutput = 256;
+
+    @Configure
+    public int energyHungerCost = 5;
+
+    @Configure
+    public String powerFunction = "a*x/10";
+
+    @Configure
+    public String warpPadCostFunction      = "(dx)*(dx) + (dy)*(dy) + (dz)*(dz) + (5*dw)^4";
+    @Configure
+    public String clonerEfficiencyFunction = "x";
+
     public Config()
     {
         super(PokecubeAdv.ID);
@@ -77,8 +93,8 @@ public class Config extends ConfigData
     @Override
     public void onUpdated()
     {
-        // TODO Auto-generated method stub
-
+        EnergyHandler.initParser();
+        BaseGeneticsTile.initParser(clonerEfficiencyFunction);
     }
 
 }

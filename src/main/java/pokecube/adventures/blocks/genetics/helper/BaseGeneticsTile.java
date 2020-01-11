@@ -56,8 +56,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
                                               // symbol table
         BaseGeneticsTile.parser.addStandardConstants();
         BaseGeneticsTile.parser.addComplex(); // among other things adds i to
-                                              // the symbol
-        // table
+                                              // the symbol table
         BaseGeneticsTile.parser.addVariable("x", 0);
         BaseGeneticsTile.parser.parseExpression(function);
     }
@@ -83,13 +82,47 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public int addEnergy(final int energy, final boolean simulate)
+    public int receiveEnergy(int maxReceive, boolean simulate)
     {
         if (this.getProcess() == null || !this.getProcess().valid()) return 0;
-        BaseGeneticsTile.parser.setVarValue("x", energy);
+        BaseGeneticsTile.parser.setVarValue("x", maxReceive);
         final int num = (int) Math.min(BaseGeneticsTile.parser.getValue(), this.getProcess().needed);
         if (!simulate) this.getProcess().needed -= num;
         return num;
+    }
+
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate)
+    {
+        // We cannot extract it!
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored()
+    {
+        // Claim to have none!
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored()
+    {
+        if (this.getProcess() == null || !this.getProcess().valid()) return 0;
+        // We know how much we need.
+        return this.getProcess().needed;
+    }
+
+    @Override
+    public boolean canExtract()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean canReceive()
+    {
+        return !(this.getProcess() == null || !this.getProcess().valid());
     }
 
     @Override
@@ -134,8 +167,16 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
             {
                 this.total.set(this.getProcess().recipe.getEnergyCost());
                 // TODO remove this when needed.
-                this.getProcess().needed -= 230;
-                done = !this.getProcess().tick();
+                // this.getProcess().needed -= 230;
+                try
+                {
+                    done = !this.getProcess().tick();
+                }
+                catch (Exception e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
             if (!valid || done)
             {
