@@ -78,16 +78,40 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
+        public boolean keyPressed(int keyCode, int p_keyPressed_2_, int p_keyPressed_3_)
+        {
+            if (this.text.isFocused())
+            {
+                if (keyCode == GLFW.GLFW_KEY_ENTER)
+                {
+                    if (!text.getText().equals(dest.getName()))
+                    {
+                        PacketPokedex.sendRenameTelePacket(text.getText(), dest.index);
+                        dest.setName(text.getText());
+                        return true;
+                    }
+                    return false;
+                }
+                return this.text.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+            }
+            return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+        }
+
+        @Override
         public boolean charTyped(final char typedChar, final int keyCode)
         {
-            final boolean ret = super.charTyped(typedChar, keyCode);
-            if (keyCode == GLFW.GLFW_KEY_ENTER) if (!this.text.getText().equals(this.dest.getName()))
+            if (this.text.isFocused()) { return this.text.charTyped(typedChar, keyCode); }
+
+            if (keyCode == GLFW.GLFW_KEY_ENTER)
             {
-                PacketPokedex.sendRenameTelePacket(this.text.getText(), this.dest.index);
-                this.dest.setName(this.text.getText());
-                return true;
+                if (!this.text.getText().equals(this.dest.getName()))
+                {
+                    PacketPokedex.sendRenameTelePacket(this.text.getText(), this.dest.index);
+                    this.dest.setName(this.text.getText());
+                    return true;
+                }
             }
-            return ret;
+            return super.charTyped(typedChar, keyCode);
         }
 
         @Override
@@ -101,25 +125,38 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.text.setFocused(fits);
             if (this.delete.isMouseOver(mouseX, mouseY))
             {
-
+                delete.playDownSound(this.mc.getSoundHandler());
+                confirm.active = !confirm.active;
             }
             else if (this.confirm.isMouseOver(mouseX, mouseY) && this.confirm.active)
             {
-
+                confirm.playDownSound(this.mc.getSoundHandler());
+                // Send packet for removal server side
+                PacketPokedex.sendRemoveTelePacket(dest.index);
+                // Also remove it client side so we update now.
+                TeleportHandler.unsetTeleport(dest.index, parent.watch.player.getCachedUniqueIdString());
+                // Update the list for the page.
+                parent.initList();
             }
             else if (this.moveUp.isMouseOver(mouseX, mouseY) && this.moveUp.active)
             {
-
+                moveUp.playDownSound(this.mc.getSoundHandler());
+                PacketPokedex.sendReorderTelePacket(dest.index, dest.index - 1);
+                // Update the list for the page.
+                parent.initList();
             }
             else if (this.moveDown.isMouseOver(mouseX, mouseY) && this.moveDown.active)
             {
-
+                moveDown.playDownSound(this.mc.getSoundHandler());
+                PacketPokedex.sendReorderTelePacket(dest.index, dest.index + 1);
+                // Update the list for the page.
+                parent.initList();
             }
             return fits;
         }
 
         @Override
-        public void render(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+        public void render(final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
                 final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
         {
             boolean fits = true;
@@ -160,8 +197,8 @@ public class TeleportsPage extends ListPage<TeleOption>
         super.initList();
         this.locations = TeleportHandler.getTeleports(this.watch.player.getCachedUniqueIdString());
         this.teleNames.clear();
-        final int offsetX = (this.watch.width - 160) / 2 - 60;
-        final int offsetY = (this.watch.height - 160) / 2 - 30;
+        final int offsetX = (this.watch.width - 160) / 2 + 10;
+        final int offsetY = (this.watch.height - 160) / 2 + 24;
         final int height = 120;
         final int width = 146;
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
@@ -172,5 +209,6 @@ public class TeleportsPage extends ListPage<TeleOption>
             name.setText(d.getName());
             this.list.addEntry(new TeleOption(this.minecraft, offsetY, d, name, height, this));
         }
+        this.children.add(this.list);
     }
 }
