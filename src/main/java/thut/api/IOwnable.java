@@ -30,7 +30,11 @@ public interface IOwnable
         if (owner == null && this.getOwnerId() != null)
         {
             final Entity mob = world.getEntityByUuid(this.getOwnerId());
-            if (mob instanceof LivingEntity) this.setOwner((LivingEntity) mob);
+            if (mob instanceof LivingEntity)
+            {
+                this.setOwner((LivingEntity) mob);
+                return (LivingEntity) mob;
+            }
         }
         return owner;
     }

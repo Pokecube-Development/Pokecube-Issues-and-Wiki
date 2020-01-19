@@ -178,7 +178,6 @@ public class ItemPokemobEgg extends Item
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
             double d0 = Double.MAX_VALUE;
-
             for (int i = 0; i < list.size(); ++i)
             {
                 final LivingEntity t1 = list.get(i);
@@ -234,7 +233,7 @@ public class ItemPokemobEgg extends Item
         }
         if (owner != null)
         {
-            mob.setOwner(owner);
+            mob.setOwner(owner.getUniqueID());
             mob.setGeneralState(GeneralStates.TAMED, true);
             mob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             mob.setHeldItem(ItemStack.EMPTY);
@@ -269,6 +268,7 @@ public class ItemPokemobEgg extends Item
             else ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag());
             mob.spawnInit();
             world.addEntity(entity);
+            System.out.println(mob.getOwner());
             if (mob.getOwner() != null)
             {
                 final LivingEntity owner = mob.getOwner();

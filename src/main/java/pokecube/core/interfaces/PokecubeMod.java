@@ -138,7 +138,7 @@ public abstract class PokecubeMod
 
     public abstract void setEntityProvider(IEntityProvider provider);
 
-    protected void setLogger(Logger logger)
+    public static void setLogger(Logger logger)
     {
         PokecubeMod.LOGGER = logger;
     }

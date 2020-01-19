@@ -1,7 +1,6 @@
 package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
 
@@ -19,6 +18,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
@@ -118,26 +118,9 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         final UUID ownerID = this.getOwnerId();
         if (ownerID == null) return null;
-        if (this.getOwnerHolder().getOwner() != null) return this.getOwnerHolder().getOwner();
-        LivingEntity mob = null;
-        try
-        {
-            final PlayerEntity o = this.getEntity().getEntityWorld().getPlayerByUuid(ownerID);
-            mob = o;
-        }
-        catch (final Exception e)
-        {
-
-        }
-        if (this.getEntity().isServerWorld() && mob == null)
-        {
-            final ServerWorld world = (ServerWorld) this.getEntity().getEntityWorld();
-            Stream<Entity> mobs = world.getEntities();
-            mobs = mobs.filter(e -> e instanceof LivingEntity && e.getUniqueID().equals(ownerID));
-            mob = (LivingEntity) mobs.findFirst().orElse(null);
-        }
-        if (mob != null) this.getOwnerHolder().setOwner(mob);
-        return this.getOwnerHolder().getOwner();
+        World world = this.getEntity().getEntityWorld();
+        boolean serv = world instanceof ServerWorld;
+        return (serv ? this.getOwnerHolder().getOwner((ServerWorld) world) : this.getOwnerHolder().getOwner());
     }
 
     @Override

@@ -149,6 +149,7 @@ public class EntityPokemobEgg extends MobEntity
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, this
                 .getEntityWorld()));
         if (pokemob == null) return null;
+        here.set(this);
         this.here.moveEntity(pokemob.getEntity());
         ItemPokemobEgg.initPokemobGenetics(pokemob, this.getHeldItemMainhand().getTag());
         pokemob.getEntity().setWorld(this.getEntityWorld());

@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.core.common.ThutCore;
 
 public class ThutParticles
 {
@@ -44,8 +45,14 @@ public class ThutParticles
         return ret;
     }
 
-    public static IParticleData makeParticle(final String name, final Vector3 pos, final Vector3 vel, final int... args)
+    public static IParticleData makeParticle(String name, final Vector3 pos, final Vector3 vel, final int... args)
     {
+        if (!name.toLowerCase().equals(name))
+        {
+            ThutCore.LOGGER.error("Error with particle name of: " + name);
+        }
+
+        name = name.toLowerCase();
         ParticleBase ret = null;
         if (name.equalsIgnoreCase("string"))
         {
