@@ -41,6 +41,7 @@ public class GuiNBTNode extends Button
     @Override
     public boolean clicked(final double x, final double y)
     {
+        if (!shouldDraw(tree.START_Y + 5, tree.bottom)) return false;
         return super.clicked(x, y);
     }
 
@@ -68,6 +69,8 @@ public class GuiNBTNode extends Button
     @Override
     public void render(final int mx, final int my, final float m)
     {
+        if (!shouldDraw(tree.START_Y + 5, tree.bottom)) return;
+
         this.x2 = mx;
         this.y2 = my;
         final boolean selected = this.tree.focusedNode() == this.node;

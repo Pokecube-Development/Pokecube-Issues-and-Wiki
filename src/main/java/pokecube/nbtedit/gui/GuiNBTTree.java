@@ -45,10 +45,14 @@ public class GuiNBTTree extends Screen
     private final GuiSaveSlotButton[] saves;
     private final GuiNBTButton[]      nbtButtons;
 
-    private final int X_GAP = 10, START_X = 10, START_Y = 30;
-    private final int Y_GAP = Minecraft.getInstance().fontRenderer.FONT_HEIGHT + 2;
+    private final int X_GAP = 10, START_X = 10;
 
-    private int y, yClick, bottom;
+    final int         START_Y = 30;
+    private final int Y_GAP   = Minecraft.getInstance().fontRenderer.FONT_HEIGHT + 2;
+
+    private int y, yClick;
+
+    int bottom;
 
     int width;
 
