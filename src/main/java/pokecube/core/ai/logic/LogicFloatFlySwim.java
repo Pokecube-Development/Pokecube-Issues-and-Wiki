@@ -40,7 +40,8 @@ public class LogicFloatFlySwim extends LogicBase
             if (this.entity.isInWater())
             {
                 this.entity.setMotion(this.entity.getMotion().add(0.0D, 0.005D, 0.0D));
-                if (!this.pokemob.getHome().withinDistance(this.entity.getPositionVec(), 16.0D))
+                if (this.pokemob.getHome() != null && !this.pokemob.getHome().withinDistance(this.entity
+                        .getPositionVec(), 16.0D))
                 {
                     this.entity.setAIMoveSpeed(Math.max(this.entity.getAIMoveSpeed() / 2.0F, 0.08F));
                 }
@@ -90,7 +91,7 @@ public class LogicFloatFlySwim extends LogicBase
         {
             super(mob.getEntity());
         }
-        
+
         @Override
         public double getSpeed()
         {

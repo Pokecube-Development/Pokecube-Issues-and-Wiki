@@ -51,16 +51,14 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public void displayMessageToOwner(final ITextComponent message)
     {
-        if (!this.getEntity().isServerWorld())
+        final Entity owner = this.getOwner();
+        if (PokecubeCore.proxy.isClientSide() && owner == PokecubeCore.proxy.getPlayer())
         {
-            final Entity owner = this.getOwner();
             // Ensure this is actually client side before sending this.
-            if (PokecubeCore.proxy.isClientSide() && owner == PokecubeCore.proxy.getPlayer()) GuiInfoMessages
-                    .addMessage(message);
+            GuiInfoMessages.addMessage(message);
         }
         else
         {
-            final Entity owner = this.getOwner();
             if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
             {
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getFormattedText());

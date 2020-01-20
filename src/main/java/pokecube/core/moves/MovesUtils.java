@@ -223,8 +223,7 @@ public class MovesUtils implements IMoveConstants
             return;
         }
         final ITextComponent attackName = new TranslationTextComponent(MovesUtils.getUnlocalizedMove(attack));
-        text = CommandTools.makeTranslatedMessage("pokemob.move.used", "green", attacker.getDisplayName(),
-                attackName);
+        text = CommandTools.makeTranslatedMessage("pokemob.move.used", "green", attacker.getDisplayName(), attackName);
         attacker.displayMessageToOwner(text);
         if (attackerMob == attacked) return;
 
@@ -303,8 +302,7 @@ public class MovesUtils implements IMoveConstants
             }
             else if (attacker == null && attackedPokemob != null)
             {
-                text = CommandTools.makeTranslatedMessage(message, "red", attackedPokemob.getDisplayName(),
-                        statName);
+                text = CommandTools.makeTranslatedMessage(message, "red", attackedPokemob.getDisplayName(), statName);
                 attackedPokemob.displayMessageToOwner(text);
             }
             else
@@ -625,8 +623,7 @@ public class MovesUtils implements IMoveConstants
         final ExplosionCustom var11 = new ExplosionCustom(entity.getEntityWorld(), entity, par2, par4, par6, par8)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
-        if (poke != null) if (poke.getOwner() instanceof PlayerEntity) var11.owner = (PlayerEntity) poke
-                .getOwner();
+        if (poke != null) if (poke.getOwner() instanceof PlayerEntity) var11.owner = (PlayerEntity) poke.getOwner();
         else var11.owner = null;
         return var11;
     }

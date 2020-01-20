@@ -319,6 +319,10 @@ public class PokemobEventsHandler
         final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getImmediateSource());
         if (attacker != null && damageSource.getImmediateSource() instanceof MobEntity) PokemobEventsHandler.handleExp(
                 (MobEntity) damageSource.getImmediateSource(), attacker, (LivingEntity) evt.getEntity());
+
+        // Recall if it is a pokemob.
+        IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        if (attacked != null) attacked.onRecall();
     }
 
     @SubscribeEvent

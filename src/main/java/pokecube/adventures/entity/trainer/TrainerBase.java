@@ -69,7 +69,7 @@ public abstract class TrainerBase extends AbstractVillagerEntity
     public void remove()
     {
         EventsHandler.recallAllPokemobs(this);
-        // TrainerSpawnHandler.removeTrainer(this);
+        TrainerSpawnHandler.removeTrainer(this);
         super.remove();
     }
 

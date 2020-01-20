@@ -268,7 +268,6 @@ public class ItemPokemobEgg extends Item
             else ItemPokemobEgg.initPokemobGenetics(mob, stack.getTag());
             mob.spawnInit();
             world.addEntity(entity);
-            System.out.println(mob.getOwner());
             if (mob.getOwner() != null)
             {
                 final LivingEntity owner = mob.getOwner();
