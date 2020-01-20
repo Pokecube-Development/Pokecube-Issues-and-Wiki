@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.dottler.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.dottler.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dottler": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dottler"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_blipbug"
+}

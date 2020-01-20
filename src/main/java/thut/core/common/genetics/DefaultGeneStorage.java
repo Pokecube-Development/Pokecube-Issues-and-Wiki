@@ -16,7 +16,8 @@ public class DefaultGeneStorage implements Capability.IStorage<IMobGenetics>
 {
 
     @Override
-    public void readNBT(Capability<IMobGenetics> capability, IMobGenetics instance, Direction side, INBT nbt)
+    public void readNBT(final Capability<IMobGenetics> capability, final IMobGenetics instance, final Direction side,
+            final INBT nbt)
     {
         final ListNBT list = (ListNBT) nbt;
         for (int i = 0; i < list.size(); i++)
@@ -37,7 +38,7 @@ public class DefaultGeneStorage implements Capability.IStorage<IMobGenetics>
     }
 
     @Override
-    public INBT writeNBT(Capability<IMobGenetics> capability, IMobGenetics instance, Direction side)
+    public INBT writeNBT(final Capability<IMobGenetics> capability, final IMobGenetics instance, final Direction side)
     {
         final ListNBT genes = new ListNBT();
         for (final Map.Entry<ResourceLocation, Alleles> entry : instance.getAlleles().entrySet())

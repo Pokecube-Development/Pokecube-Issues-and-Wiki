@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.thievul.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.thievul.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_thievul": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "thievul"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_nickit"
+}

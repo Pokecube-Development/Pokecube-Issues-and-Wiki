@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.carkol.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.carkol.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_carkol": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "carkol"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_rolycoly"
+}

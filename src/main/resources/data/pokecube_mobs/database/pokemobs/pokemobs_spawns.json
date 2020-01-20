@@ -2776,10 +2776,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "cold",
-              "min": "1",
-              "rate": "0.0",
-              "max": "1"
+              "types": "savanna",
+              "rate": "0.0"
             }
           }
         ]
@@ -2806,7 +2804,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ruin",
+              "types": "forest",
               "min": "1",
               "rate": "0.0",
               "max": "1"
@@ -6438,7 +6436,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "hills,mountain",
+              "types": "hills",
               "min": "1",
               "rate": "0.0",
               "max": "1"
@@ -6979,10 +6977,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "spooky",
-              "min": "1",
-              "rate": "0.0",
-              "max": "1"
+              "types": "forest",
+              "rate": "0.0"
             }
           }
         ]
@@ -7788,8 +7784,10 @@
         "spawnRules": [
           {
             "values": {
-              "types": "end",
-              "rate": "0.005"
+              "biomes": "pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
+              "min": "1",
+              "rate": "0.01",
+              "max": "1"
             }
           }
         ]
@@ -7818,7 +7816,7 @@
             "values": {
               "types": "hills",
               "min": "1",
-              "rate": "0.002",
+              "rate": "0.08",
               "max": "1"
             }
           }
@@ -7891,10 +7889,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "spooky",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub001",
+              "rate": "1"
             }
           }
         ]
@@ -7906,10 +7902,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub002",
+              "rate": "0.5"
             }
           }
         ]
@@ -7921,10 +7915,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "sandy",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub003",
+              "rate": "0.5"
             }
           }
         ]
@@ -7936,10 +7928,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "industrial",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub001",
+              "rate": "0.5"
             }
           }
         ]
@@ -7951,10 +7941,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "meteor",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub003",
+              "rate": "0.5"
             }
           }
         ]
@@ -7966,10 +7954,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub002",
+              "rate": "0.5"
             }
           }
         ]
@@ -7981,10 +7967,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub004",
+              "rate": "0.5"
             }
           }
         ]
@@ -7996,7 +7980,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "end",
+              "biomes": "pokecube_legends:ub001,pokecube_legends:ub002,pokecube_legends:ub003,pokecube_legends:ub004",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -8011,10 +7995,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "end",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub002",
+              "rate": "0.5"
             }
           }
         ]
@@ -8026,10 +8008,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "hills",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub003",
+              "rate": "0.5"
             }
           }
         ]
@@ -8041,10 +8021,8 @@
         "spawnRules": [
           {
             "values": {
-              "types": "village",
-              "min": "1",
-              "rate": "0.01",
-              "max": "1"
+              "biomes": "pokecube_legends:ub001",
+              "rate": "0.5"
             }
           }
         ]

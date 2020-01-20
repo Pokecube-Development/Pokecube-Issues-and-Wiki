@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.clobbopus.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.clobbopus.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_clobbopus": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "clobbopus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

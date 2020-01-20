@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.arctozolt.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.arctozolt.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_arctozolt": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "arctozolt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

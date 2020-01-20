@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.kingler"
+          "translate": "pkmn.kingler.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.kingler"
+          "translate": "pkmn.kingler.name"
         }
       ]
     }

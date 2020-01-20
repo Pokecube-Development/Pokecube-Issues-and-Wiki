@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.kingler"
+          "translate": "pkmn.kingler.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.kingler"
+          "translate": "pkmn.kingler.name"
         }
       ]
     }

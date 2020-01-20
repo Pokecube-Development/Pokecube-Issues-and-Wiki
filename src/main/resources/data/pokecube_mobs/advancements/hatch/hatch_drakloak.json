@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.drakloak.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.drakloak.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_drakloak": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "drakloak"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_dreepy"
+}

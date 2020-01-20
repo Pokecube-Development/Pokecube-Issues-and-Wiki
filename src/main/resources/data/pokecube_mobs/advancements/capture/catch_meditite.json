@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.meditite"
+          "translate": "pkmn.meditite.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.meditite"
+          "translate": "pkmn.meditite.name"
         }
       ]
     }

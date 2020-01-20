@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.arctozolt.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.arctozolt.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_arctozolt": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "arctozolt"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

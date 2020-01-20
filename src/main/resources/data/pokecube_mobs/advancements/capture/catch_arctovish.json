@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.arctovish.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.arctovish.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_arctovish": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "arctovish"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

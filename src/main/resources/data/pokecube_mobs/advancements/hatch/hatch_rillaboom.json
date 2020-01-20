@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.rillaboom.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.rillaboom.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rillaboom": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rillaboom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_thwackey"
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.cinderace.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.cinderace.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cinderace": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "cinderace"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_raboot"
+}

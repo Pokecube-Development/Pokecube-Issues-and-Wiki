@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.nickit.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.nickit.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_nickit": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "nickit"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

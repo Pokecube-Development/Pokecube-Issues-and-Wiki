@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.munna"
+          "translate": "pkmn.munna.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.munna"
+          "translate": "pkmn.munna.name"
         }
       ]
     }

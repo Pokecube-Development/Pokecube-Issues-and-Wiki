@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.sirfetchd.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.sirfetchd.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sirfetchd": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sirfetchd"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_farfetchdgalar"
+}

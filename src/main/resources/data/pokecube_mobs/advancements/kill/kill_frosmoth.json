@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.frosmoth.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.frosmoth.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_frosmoth": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "frosmoth"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_snom"
+}

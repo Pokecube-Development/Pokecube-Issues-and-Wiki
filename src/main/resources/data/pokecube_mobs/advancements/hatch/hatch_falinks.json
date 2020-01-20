@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.falinks.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.falinks.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_falinks": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "falinks"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

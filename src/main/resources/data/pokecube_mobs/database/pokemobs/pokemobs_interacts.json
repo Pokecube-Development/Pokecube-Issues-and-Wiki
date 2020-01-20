@@ -10925,7 +10925,7 @@
         "evolutions": [
           {
             "name": "Grapploct",
-            "move": "Taunt",
+            "move": "taunt",
             "animation": "18"
           }
         ],

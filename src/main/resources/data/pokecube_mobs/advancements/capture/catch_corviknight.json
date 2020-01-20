@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.corviknight.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.corviknight.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_corviknight": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "corviknight"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_corvisquire"
+}

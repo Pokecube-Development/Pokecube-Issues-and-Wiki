@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.eternatus.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.eternatus.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_eternatus": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "eternatus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

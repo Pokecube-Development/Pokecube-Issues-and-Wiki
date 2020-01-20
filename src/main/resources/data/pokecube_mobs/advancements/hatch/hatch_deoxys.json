@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.deoxys"
+          "translate": "pkmn.deoxys.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.deoxys"
+          "translate": "pkmn.deoxys.name"
         }
       ]
     },

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.snom.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.snom.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_snom": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "snom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

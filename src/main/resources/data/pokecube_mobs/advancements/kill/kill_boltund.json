@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.boltund.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.boltund.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_boltund": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "boltund"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_yamper"
+}

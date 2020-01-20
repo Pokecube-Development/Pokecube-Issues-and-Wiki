@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.zygarde50"
+          "translate": "pkmn.zygarde50.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.zygarde50"
+          "translate": "pkmn.zygarde50.name"
         }
       ]
     },

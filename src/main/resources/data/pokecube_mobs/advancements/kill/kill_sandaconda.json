@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.sandaconda.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.sandaconda.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sandaconda": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "sandaconda"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_silicobra"
+}

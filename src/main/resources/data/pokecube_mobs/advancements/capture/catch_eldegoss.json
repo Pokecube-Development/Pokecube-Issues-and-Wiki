@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.eldegoss.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.eldegoss.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_eldegoss": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "eldegoss"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_gossifleur"
+}

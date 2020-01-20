@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.drednaw.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.drednaw.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_drednaw": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "drednaw"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_chewtle"
+}

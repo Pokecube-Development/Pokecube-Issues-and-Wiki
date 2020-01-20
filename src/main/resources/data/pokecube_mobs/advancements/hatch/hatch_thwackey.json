@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.thwackey.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.thwackey.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_thwackey": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "thwackey"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_grookey"
+}

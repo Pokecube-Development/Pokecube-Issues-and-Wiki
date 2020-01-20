@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.lumineon"
+          "translate": "pkmn.lumineon.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.lumineon"
+          "translate": "pkmn.lumineon.name"
         }
       ]
     }
@@ -29,5 +29,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_finneon"
+  "parent": "pokecube_mobs:capture/catch_finneonfemale"
 }

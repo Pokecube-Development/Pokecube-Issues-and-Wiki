@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.orbeetle.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.orbeetle.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_orbeetle": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "orbeetle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_dottler"
+}

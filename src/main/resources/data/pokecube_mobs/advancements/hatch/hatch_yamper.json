@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.yamper.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.yamper.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_yamper": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "yamper"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

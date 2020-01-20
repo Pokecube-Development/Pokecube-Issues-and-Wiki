@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.frosmoth.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.frosmoth.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_frosmoth": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "frosmoth"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_snom"
+}

@@ -1,0 +1,5 @@
+{
+   "pokecenter": {"category": "block","sounds": [{"name": "pokecube_moves:pokecenter","stream": false}]},
+   "pokecenterloop": {"category": "record","sounds": [{"name": "pokecube_moves:pokecenterloop","stream": true}]},
+   "pokecube_caught": {"category": "player","sounds": [{"name": "pokecube_moves:pokecube_caught","stream": false}]}
+}

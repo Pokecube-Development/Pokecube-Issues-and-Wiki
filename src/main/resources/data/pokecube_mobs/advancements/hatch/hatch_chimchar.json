@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.chimchar"
+          "translate": "pkmn.chimchar.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.chimchar"
+          "translate": "pkmn.chimchar.name"
         }
       ]
     }

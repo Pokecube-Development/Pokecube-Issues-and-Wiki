@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "entity.pokecube.slowpoke"
+          "translate": "pkmn.slowpoke.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "entity.pokecube.slowpoke"
+          "translate": "pkmn.slowpoke.name"
         }
       ]
     }

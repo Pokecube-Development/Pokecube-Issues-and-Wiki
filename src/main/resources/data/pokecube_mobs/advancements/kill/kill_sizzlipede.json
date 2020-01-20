@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.sizzlipede.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.sizzlipede.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sizzlipede": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "sizzlipede"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

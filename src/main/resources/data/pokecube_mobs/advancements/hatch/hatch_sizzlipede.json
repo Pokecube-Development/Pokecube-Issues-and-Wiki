@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.sizzlipede.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.sizzlipede.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sizzlipede": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sizzlipede"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

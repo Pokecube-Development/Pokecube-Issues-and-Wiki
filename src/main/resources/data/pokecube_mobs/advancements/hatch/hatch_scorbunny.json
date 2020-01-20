@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.scorbunny.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.scorbunny.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_scorbunny": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "scorbunny"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

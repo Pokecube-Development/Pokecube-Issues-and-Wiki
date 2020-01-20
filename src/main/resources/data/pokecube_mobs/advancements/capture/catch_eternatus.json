@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.eternatus.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.eternatus.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_eternatus": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "eternatus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

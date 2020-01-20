@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.flapple.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.flapple.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_flapple": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "flapple"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_applin"
+}

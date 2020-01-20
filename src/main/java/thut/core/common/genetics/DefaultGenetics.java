@@ -41,7 +41,7 @@ public class DefaultGenetics implements IMobGenetics
     }
 
     @Override
-    public void setFromParents(IMobGenetics parent1, IMobGenetics parent2)
+    public void setFromParents(final IMobGenetics parent1, final IMobGenetics parent2)
     {
         final Map<ResourceLocation, Alleles> genetics1 = parent1.getAlleles();
         final Map<ResourceLocation, Alleles> genetics2 = parent2.getAlleles();

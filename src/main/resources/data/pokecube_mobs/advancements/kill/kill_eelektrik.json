@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "entity.pokecube.eelektrik"
+          "translate": "pkmn.eelektrik.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "entity.pokecube.eelektrik"
+          "translate": "pkmn.eelektrik.name"
         }
       ]
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.boltund.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.boltund.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_boltund": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "boltund"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_yamper"
+}

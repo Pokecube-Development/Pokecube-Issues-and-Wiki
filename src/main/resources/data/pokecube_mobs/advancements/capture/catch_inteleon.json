@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.inteleon.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.inteleon.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_inteleon": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "inteleon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_drizzile"
+}

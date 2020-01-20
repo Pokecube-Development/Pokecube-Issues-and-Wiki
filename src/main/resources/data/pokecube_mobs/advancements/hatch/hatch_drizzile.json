@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.drizzile.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.drizzile.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_drizzile": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "drizzile"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_sobble"
+}

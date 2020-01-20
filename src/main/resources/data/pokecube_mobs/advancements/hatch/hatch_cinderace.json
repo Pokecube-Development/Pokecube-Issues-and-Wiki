@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.cinderace.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.cinderace.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_cinderace": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "cinderace"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_raboot"
+}

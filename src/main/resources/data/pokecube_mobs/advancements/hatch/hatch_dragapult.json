@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.dragapult.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.dragapult.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dragapult": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dragapult"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_drakloak"
+}

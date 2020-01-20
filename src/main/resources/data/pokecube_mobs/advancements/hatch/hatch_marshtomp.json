@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.marshtomp"
+          "translate": "pkmn.marshtomp.name"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.marshtomp"
+          "translate": "pkmn.marshtomp.name"
         }
       ]
     }

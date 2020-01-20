@@ -1306,6 +1306,10 @@ public class PokedexEntryLoader
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + entry + " -> " + formeEntry);
             }
             }
+
+        // Add gigantamax things as "megas"
+        if (entry.getName().contains("Gigantamax")) entry.isMega = true;
+
     }
 
     public static void postInit()

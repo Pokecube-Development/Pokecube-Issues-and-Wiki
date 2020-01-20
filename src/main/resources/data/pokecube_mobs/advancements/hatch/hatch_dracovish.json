@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.dracovish.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.dracovish.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dracovish": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dracovish"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

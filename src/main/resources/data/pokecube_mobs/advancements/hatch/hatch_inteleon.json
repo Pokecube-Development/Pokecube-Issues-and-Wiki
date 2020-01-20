@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.inteleon.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.inteleon.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_inteleon": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "inteleon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_drizzile"
+}

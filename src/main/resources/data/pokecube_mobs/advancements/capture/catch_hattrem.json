@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.hattrem.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.hattrem.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_hattrem": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "hattrem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_hatenna"
+}

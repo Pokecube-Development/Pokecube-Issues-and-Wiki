@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.sandaconda.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.sandaconda.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_sandaconda": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "sandaconda"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_silicobra"
+}

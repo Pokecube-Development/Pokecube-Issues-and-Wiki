@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.coalossal.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.coalossal.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_coalossal": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "coalossal"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_carkol"
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.4"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <customTex default="snom">
+   <part name="Eye" tex="snomhead"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
+  </customTex>
+  <phase type="idle">
+   <part name="Cube_001">
+    <component length="10" name="1" rotChange="0,2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-2,0" startKey="10"/>
+   </part>
+   <part name="Cube_002">
+    <component length="10" name="1" rotChange="0,-2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,2,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posChange="0,0,0.5" startKey="0"/>
+    <component length="10" name="2" posChange="0,0,-0.5" startKey="10"/>
+   </part>
+   <part name="Cube_001">
+    <component length="10" name="1" rotChange="0,2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-2,0" startKey="10"/>
+   </part>
+   <part name="Cube_002">
+    <component length="10" name="1" rotChange="0,-2,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,2,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

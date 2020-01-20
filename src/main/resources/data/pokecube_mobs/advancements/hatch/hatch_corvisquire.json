@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.corvisquire.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.corvisquire.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_corvisquire": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "corvisquire"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_rookidee"
+}

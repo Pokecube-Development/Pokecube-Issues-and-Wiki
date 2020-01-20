@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.orbeetle.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.orbeetle.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_orbeetle": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "orbeetle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_dottler"
+}

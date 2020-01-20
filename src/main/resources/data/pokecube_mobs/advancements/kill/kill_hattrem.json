@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.hattrem.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.hattrem.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_hattrem": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "hattrem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_hatenna"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.mrrime.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.mrrime.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mrrime": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mrrime"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_mrmimegalar"
+}

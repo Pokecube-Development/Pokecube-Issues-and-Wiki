@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "pkmn.eldegoss.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "pkmn.eldegoss.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_eldegoss": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "eldegoss"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_gossifleur"
+}

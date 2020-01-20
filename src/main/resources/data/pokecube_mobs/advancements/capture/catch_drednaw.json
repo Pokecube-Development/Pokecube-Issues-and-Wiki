@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "pkmn.drednaw.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "pkmn.drednaw.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_drednaw": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "drednaw"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_chewtle"
+}

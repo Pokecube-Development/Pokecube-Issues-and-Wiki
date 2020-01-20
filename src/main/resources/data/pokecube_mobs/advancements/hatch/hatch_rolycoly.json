@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.rolycoly.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.rolycoly.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rolycoly": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rolycoly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

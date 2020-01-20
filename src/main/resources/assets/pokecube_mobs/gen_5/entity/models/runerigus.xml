@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.5"/>
+  <customTex default="runerigus">
+  </customTex>
+  <phase type="sitting">
+  </phase>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="0,0,-90" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="10" name="1" rotOffset="-30,0,180" startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="10" name="1" rotOffset="60,0,180" startKey="0"/>
+   </part>
+   <part name="arm1_3">
+    <component length="10" name="1" rotOffset="30,0,180" startKey="0"/>
+   </part>
+   <part name="stone1">
+    <component length="10" name="1" posOffset="0,3,-8" rotOffset="-80,0,-50" startKey="0"/>
+   </part>
+   <part name="d1">
+    <component length="10" name="1" rotOffset="0,0,120" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="0,0,-90" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="10" name="1" rotOffset="30,0,-180" startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="10" name="1" rotOffset="-60,0,-180" startKey="0"/>
+   </part>
+   <part name="arm2_3">
+    <component length="10" name="1" rotOffset="0,0,-180" startKey="0"/>
+   </part>
+   <part name="stone2">
+    <component length="10" name="1" posOffset="0,0,3" rotOffset="20,-80,40" startKey="0"/>
+   </part>
+   <part name="d2">
+    <component length="10" name="1" rotOffset="0,0,-180" startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="0,0,60" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotOffset="-60,0,-180" startKey="0"/>
+   </part>
+   <part name="tail2">
+    <component length="10" name="1" rotOffset="50,0,-180" startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component length="10" name="1" rotOffset="-60,0,-190" startKey="0"/>
+   </part>
+   <part name="tail4">
+    <component length="10" name="1" rotOffset="30,0,-200" startKey="0"/>
+   </part>
+   <part name="tail5">
+    <component length="10" name="1" rotOffset="0,0,-180" startKey="0"/>
+   </part>
+   <part name="stonetail">
+    <component length="10" name="1" posOffset="0,5,0" rotOffset="180,0,180" startKey="0"/>
+   </part>
+   <part name="head">
+    <component length="10" name="1" rotOffset="-50,0,0" startKey="0"/>
+   </part>
+   <part name="head1">
+    <component length="10" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+   <part name="head2">
+    <component length="10" name="1" rotOffset="-60,0,0" startKey="0"/>
+   </part>
+   <part name="stonehead">
+    <component length="10" name="1" rotOffset="50,0,0" rotChange="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-6,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="0,0,-90" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="10" name="1" rotOffset="-30,0,180" startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="10" name="1" rotOffset="60,0,180" startKey="0"/>
+   </part>
+   <part name="arm1_3">
+    <component length="10" name="1" rotOffset="30,0,180" startKey="0"/>
+   </part>
+   <part name="stone1">
+    <component length="10" name="1" posOffset="0,3,-8" rotOffset="-80,0,-50" startKey="0"/>
+   </part>
+   <part name="d1">
+    <component length="10" name="1" rotOffset="0,0,120" startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="0,0,-90" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="10" name="1" rotOffset="30,0,-180" startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="10" name="1" rotOffset="-60,0,-180" startKey="0"/>
+   </part>
+   <part name="arm2_3">
+    <component length="10" name="1" rotOffset="0,0,-180" startKey="0"/>
+   </part>
+   <part name="stone2">
+    <component length="10" name="1" posOffset="0,0,3" rotOffset="20,-80,40" startKey="0"/>
+   </part>
+   <part name="d2">
+    <component length="10" name="1" rotOffset="0,0,-180" startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="0,0,60" rotChange="0,0,6" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-6" startKey="10"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotOffset="-60,0,-180" startKey="0"/>
+   </part>
+   <part name="tail2">
+    <component length="10" name="1" rotOffset="50,0,-180" startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component length="10" name="1" rotOffset="-60,0,-190" startKey="0"/>
+   </part>
+   <part name="tail4">
+    <component length="10" name="1" rotOffset="30,0,-200" startKey="0"/>
+   </part>
+   <part name="tail5">
+    <component length="10" name="1" rotOffset="0,0,-180" startKey="0"/>
+   </part>
+   <part name="stonetail">
+    <component length="10" name="1" posOffset="0,5,0" rotOffset="180,0,180" startKey="0"/>
+   </part>
+   <part name="head">
+    <component length="10" name="1" rotOffset="-50,0,0" startKey="0"/>
+   </part>
+   <part name="head1">
+    <component length="10" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+   <part name="head2">
+    <component length="10" name="1" rotOffset="-60,0,0" startKey="0"/>
+   </part>
+   <part name="stonehead">
+    <component length="10" name="1" rotOffset="50,0,0" rotChange="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-6,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

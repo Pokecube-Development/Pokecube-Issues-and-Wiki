@@ -195,6 +195,13 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     }
 
     @Override
+    public void remove(final boolean keepData)
+    {
+        if (!keepData) this.pokemobCap.onRecall();
+        super.remove(keepData);
+    }
+
+    @Override
     public void writeSpawnData(final PacketBuffer data)
     {
         // Write the dataSync stuff
@@ -224,24 +231,24 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     @Override
     public int getDyeColour()
     {
-        return pokemobCap.getDyeColour();
+        return this.pokemobCap.getDyeColour();
     }
 
     @Override
     public int[] getRGBA()
     {
-        return pokemobCap.getRGBA();
+        return this.pokemobCap.getRGBA();
     }
 
     @Override
-    public void setDyeColour(int colour)
+    public void setDyeColour(final int colour)
     {
-        pokemobCap.setDyeColour(colour);
+        this.pokemobCap.setDyeColour(colour);
     }
 
     @Override
-    public void setRGBA(int... colours)
+    public void setRGBA(final int... colours)
     {
-        pokemobCap.setRGBA(colours);
+        this.pokemobCap.setRGBA(colours);
     }
 }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "pkmn.hattrem.name"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "pkmn.hattrem.name"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_hattrem": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "hattrem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_hatenna"
+}
