@@ -6,7 +6,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
@@ -17,7 +16,6 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
-@Mod.EventBusSubscriber
 public class RenderMobOverlays
 {
     public static boolean enabled = true;

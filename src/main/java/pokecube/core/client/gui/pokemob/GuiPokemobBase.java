@@ -90,24 +90,19 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         super(container, inv, container.pokemob.getDisplayName());
         this.name.setText(container.pokemob.getDisplayName().getUnformattedComponentText().trim());
         this.name.setEnableBackgroundDrawing(false);
+        this.name.enabledColor = 4210752;
     }
 
     @Override
-    public boolean charTyped(final char typedChar, final int keyCode)
+    public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
     {
-        if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE)
+        if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.name.setFocused(false);
+        else if (keyCode == GLFW.GLFW_KEY_ENTER && this.name.isFocused())
         {
-            // name.setFocused(false);
-        }
-        else
-        {
-            // name.textboxKeyTyped(typedChar, keyCode);
-            if (keyCode == GLFW.GLFW_KEY_ENTER && this.name.isFocused()) this.container.pokemob.setPokemonNickname(
-                    this.name.getText());
+            this.container.pokemob.setPokemonNickname(this.name.getText());
             return true;
         }
-        return super.charTyped(typedChar, keyCode);
-
+        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
     }
 
     @Override
@@ -133,7 +128,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     @Override
     protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
     {
-        this.font.drawString(this.getTitle().getFormattedText(), 8, 6, 4210752);
         this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, this.ySize - 96 + 2,
                 4210752);
     }

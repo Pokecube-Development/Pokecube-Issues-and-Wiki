@@ -39,7 +39,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
-import pokecube.core.client.gui.pokemob.GuiPokemob;
+import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
@@ -220,7 +220,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         {
             MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo());
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -415,7 +415,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
             GL11.glColor4f(1, 1, 1, 1);
-            GuiPokemob.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0, 0.75f);
+            GuiPokemobBase.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0, 0.75f);
         }
         GL11.glPopMatrix();
     }
@@ -512,7 +512,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
             // Render Mob
             GL11.glColor4f(1, 1, 1, 1);
-            GuiPokemob.renderMob(entity, -30, -25, 0, 0, 0, 0, 0, 0.75f);
+            GuiPokemobBase.renderMob(entity, -30, -25, 0, 0, 0, 0, 0, 0.75f);
 
         }
         GL11.glPopMatrix();
@@ -563,7 +563,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         Arrays.sort(this.arrayRet, (o1, o2) ->
         {
             final Entity e1 = o1.getEntity();
-            final Entity e2 = o2.getOwner();
+            final Entity e2 = o2.getEntity();
 
             if (e1.ticksExisted == e2.ticksExisted)
             {
@@ -698,7 +698,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final Vector3 temp = Vector3.getNewVector().set(player).addTo(0, player.getEyeHeight(), 0);
             target = temp.firstEntityExcluding(32, look, player.getEntityWorld(), player.isSneaking(), player);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
-            if (targetMob != null && targetMob.getOwner() == player) targetMob.onRecall();
+            if (targetMob != null && player.getUniqueID().equals(targetMob.getOwnerId())) targetMob.onRecall();
         }
 
         if (this.indexPokemob >= this.arrayRet.length) this.indexPokemob--;

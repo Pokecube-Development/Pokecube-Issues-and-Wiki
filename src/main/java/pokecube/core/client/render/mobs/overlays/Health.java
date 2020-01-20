@@ -289,6 +289,7 @@ public class Health
                 GlStateManager.scalef(s1, s1, s1);
                 GlStateManager.translatef(size / (s * s1) * 2 - 16, 0F, 0F);
                 Minecraft.getInstance().getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+
                 if (!stack.isEmpty() && config.showHeldItem)
                 {
                     Health.renderIcon(off, 0, stack, 16, 16);

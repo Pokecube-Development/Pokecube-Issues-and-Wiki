@@ -41,7 +41,6 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.GuiArranger;
@@ -63,87 +62,13 @@ import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
 
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber
 public class EventsHandlerClient
 {
-    @Mod.EventBusSubscriber
-    public static class UpdateNotifier
-    {
-        // public UpdateNotifier()
-        // {
-        // MinecraftForge.EVENT_BUS.register(this);
-        // }
-        //
-        // private ITextComponent getInfoMessage(CheckResult result, String
-        // name)
-        // {
-        // String linkName = "[" + TextFormatting.GREEN + name + " " +
-        // PokecubeMod.VERSION + TextFormatting.WHITE;
-        // String link = "" + result.url;
-        // String linkComponent = "{\"text\":\"" + linkName +
-        // "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\""
-        // + link + "\"}}";
-        // String info = "\"" + TextFormatting.GOLD + "Currently Running " +
-        // "\"";
-        // String mess = "[" + info + "," + linkComponent + ",\"]\"]";
-        // return ITextComponent.Serializer.jsonToComponent(mess);
-        // }
-        //
-        // private ITextComponent getIssuesMessage(CheckResult result)
-        // {
-        // String linkName = "[" + TextFormatting.GREEN + "Clicking Here." +
-        // TextFormatting.WHITE;
-        // String link =
-        // "https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/issues";
-        // String linkComponent = "{\"text\":\"" + linkName +
-        // "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\""
-        // + link + "\"}}";
-        // String info = "\"" + TextFormatting.GOLD
-        // + "If you find any bugs, please report them at the Github Issue
-        // tracker, you can find that by "
-        // + "\"";
-        // String mess = "[" + info + "," + linkComponent + ",\"]\"]";
-        // return ITextComponent.Serializer.jsonToComponent(mess);
-        // }
-        //
-        // @SubscribeEvent
-        // public void onPlayerJoin(TickEvent.PlayerTickEvent event)
-        // {
-        // if
-        // (!"".equals(Loader.instance().activeModContainer().getMetadata().parent))
-        // {
-        // MinecraftForge.EVENT_BUS.unregister(this);
-        // return;
-        // }
-        // if (event.player.getEntityWorld().isRemote
-        // && event.player ==
-        // FMLClientHandler.instance().getClientPlayerEntity())
-        // {
-        // MinecraftForge.EVENT_BUS.unregister(this);
-        // Object o = Loader.instance().getIndexedModList().get(PokecubeMod.ID);
-        // CheckResult result = ForgeVersion.getResult(((ModContainer) o));
-        // if (result.status == Status.OUTDATED)
-        // {
-        // ITextComponent mess = ClientProxy.getOutdatedMessage(result,
-        // "Pokecube Core");
-        // (event.player).sendMessage(mess);
-        // }
-        // else if (PokecubeCore.getConfig().loginmessage)
-        // {
-        // ITextComponent mess = getInfoMessage(result, "Pokecube Core");
-        // (event.player).sendMessage(mess);
-        // mess = getIssuesMessage(result);
-        // (event.player).sendMessage(mess);
-        // }
-        // }
-        // }
-    }
+    public static HashMap<PokedexEntry, IPokemob>        renderMobs = new HashMap<>();
+    private static Map<PokedexEntry, ResourceLocation[]> icons      = Maps.newHashMap();
+    static boolean                                       notifier   = false;
 
-    public static HashMap<PokedexEntry, IPokemob>        renderMobs  = new HashMap<>();
-    private static Map<PokedexEntry, ResourceLocation[]> icons       = Maps.newHashMap();
-    static boolean                                       notifier    = false;
-
-    static long                                          lastSetTime = 0;
+    static long lastSetTime = 0;
 
     @SubscribeEvent
     public static void clientTick(final TickEvent.PlayerTickEvent event)
@@ -153,15 +78,14 @@ public class EventsHandlerClient
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
             final Entity target = pokemob.getEntity().getAttackTarget();
-            if (target != null && !pokemob.getGeneralState(GeneralStates.MATING))
-                EventsHandlerClient.setMostDamagingMove(pokemob, target);
+            if (target != null && !pokemob.getGeneralState(GeneralStates.MATING)) EventsHandlerClient
+                    .setMostDamagingMove(pokemob, target);
         }
         if (PokecubeCore.getConfig().autoRecallPokemobs)
         {
             final IPokemob mob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().addedToChunk
-                    && event.player.getDistance(mob.getEntity()) > PokecubeCore.getConfig().autoRecallDistance)
-                mob.onRecall();
+            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().addedToChunk && event.player.getDistance(mob
+                    .getEntity()) > PokecubeCore.getConfig().autoRecallDistance) mob.onRecall();
         }
         control:
         if (event.player.isPassenger() && Minecraft.getInstance().currentScreen == null)
@@ -206,15 +130,14 @@ public class EventsHandlerClient
     {
         IPokemob mount;
 
-        if (evt.getInfo().getRenderViewEntity() instanceof PlayerEntity
-                && evt.getInfo().getRenderViewEntity().getRidingEntity() != null
-                && (mount = CapabilityPokemob
-                        .getPokemobFor(evt.getInfo().getRenderViewEntity().getRidingEntity())) != null)
-            if (evt.getInfo().getRenderViewEntity().isInWater() && mount.canUseDive())
-            {
+        if (evt.getInfo().getRenderViewEntity() instanceof PlayerEntity && evt.getInfo().getRenderViewEntity()
+                .getRidingEntity() != null && (mount = CapabilityPokemob.getPokemobFor(evt.getInfo()
+                        .getRenderViewEntity().getRidingEntity())) != null) if (evt.getInfo().getRenderViewEntity()
+                                .isInWater() && mount.canUseDive())
+        {
             evt.setDensity(0.05f);
             evt.setCanceled(true);
-            }
+        }
     }
 
     public static IPokemob getPokemobForRender(final ItemStack itemStack, final World world)
@@ -255,15 +178,13 @@ public class EventsHandlerClient
     @SubscribeEvent
     public static void keyInput(final KeyInputEvent evt)
     {
-        if ((evt.getKey() == GLFW.GLFW_KEY_F5) && Minecraft.getInstance().currentScreen != null)
-        {
+        if (evt.getKey() == GLFW.GLFW_KEY_F5 && Minecraft.getInstance().currentScreen != null)
             RenderPokemob.reload_models = true;
-        }
         if (ClientProxy.mobMegavolve.isPressed())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING))
-                PacketChangeForme.sendPacketToServer(current.getEntity(), null);
+            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING)) PacketChangeForme
+                    .sendPacketToServer(current.getEntity(), null);
         }
         if (ClientProxy.arrangeGui.isPressed()) GuiArranger.toggle = !GuiArranger.toggle;
         if (ClientProxy.noEvolve.isPressed() && GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null)
@@ -284,9 +205,9 @@ public class EventsHandlerClient
             if (GuiTeleport.instance().getState()) GuiTeleport.instance().previousMove();
             else GuiDisplayPokecubeInfo.instance().previousMove(num);
         }
-        if (ClientProxy.mobBack.isPressed())
-            if (GuiTeleport.instance().getState()) GuiTeleport.instance().setState(false);
-            else GuiDisplayPokecubeInfo.instance().pokemobBack();
+        if (ClientProxy.mobBack.isPressed()) if (GuiTeleport.instance().getState()) GuiTeleport.instance().setState(
+                false);
+        else GuiDisplayPokecubeInfo.instance().pokemobBack();
         if (ClientProxy.mobAttack.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobAttack();
         if (ClientProxy.mobStance.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobStance();
 
@@ -339,8 +260,8 @@ public class EventsHandlerClient
                 for (final Slot slot : slots)
                     if (slot.getHasStack() && PokecubeManager.isFilled(slot.getStack()))
                     {
-                        final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getStack(),
-                                gui.getMinecraft().world);
+                        final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getStack(), gui
+                                .getMinecraft().world);
                         if (pokemob == null) continue;
                         final int x = (w - xSize) / 2;
                         final int y = (h - ySize) / 2;
@@ -420,8 +341,8 @@ public class EventsHandlerClient
         {
             texs = new ResourceLocation[2];
             EventsHandlerClient.icons.put(entry, texs);
-            final String texture = entry.getModId() + ":"
-                    + entry.getTexture((byte) 0).replace("/entity/", "/entity_icon/");
+            final String texture = entry.getModId() + ":" + entry.getTexture((byte) 0).replace("/entity/",
+                    "/entity_icon/");
             final String textureS = entry.hasShiny ? texture.replace(".png", "s.png") : texture;
             tex = new ResourceLocation(texture);
             texs[0] = tex;

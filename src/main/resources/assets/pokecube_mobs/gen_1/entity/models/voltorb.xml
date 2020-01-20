@@ -8,11 +8,11 @@
   </customTex>
   <phase type="sitting">
    <part name="body">
-    <component length="10" name="1" rotChange="0,0,-30" startKey="0"/>
-    <component length="10" name="2" rotChange="-30,0,0" startKey="5"/>
-	<component length="10" name="3" rotChange="0,0,60" startKey="10"/>
-	<component length="10" name="4" rotChange="30,0,0" startKey="15"/>
-	<component length="10" name="5" rotChange="0,0,-30" startKey="20"/>
+    <component length="10" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="10" name="2" rotChange="-5,0,0" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,10" startKey="10"/>
+	<component length="10" name="4" rotChange="5,0,0" startKey="15"/>
+	<component length="10" name="5" rotChange="0,0,-5" startKey="20"/>
    </part>
   </phase>
   <phase type="idle">

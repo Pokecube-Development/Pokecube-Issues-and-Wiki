@@ -66,7 +66,6 @@ import thut.wearables.network.PacketSyncWearables;
 @Mod(ThutWearables.MODID)
 public class ThutWearables
 {
-    @OnlyIn(value = Dist.CLIENT)
     public static class ClientProxy extends CommonProxy
     {
         @Override
@@ -212,9 +211,8 @@ public class ThutWearables
 
     public static ThutWearables instance;
 
-
-    public static String                configPath;
-    public static boolean               baublesCompat      = false;
+    public static String  configPath;
+    public static boolean baublesCompat = false;
 
     static Map<CompatClass.Phase, Set<java.lang.reflect.Method>> initMethods = Maps.newHashMap();
 

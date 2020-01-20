@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -291,10 +292,9 @@ public class BlockEntityUpdater
             // Meed to set floatingTickCount to prevent being kicked for flying.
             if (!player.abilities.isCreativeMode && !player.getEntityWorld().isRemote)
             {
-                // final ServerPlayerEntity serverplayer = (ServerPlayerEntity)
-                // player;
-                // // TODO fix access transformer
-                // serverplayer.connection.floatingTickCount = 0;
+                final ServerPlayerEntity serverplayer = (ServerPlayerEntity) player;
+                // TODO fix access transformer
+                serverplayer.connection.floatingTickCount = 0;
             }
         }
 
@@ -307,8 +307,6 @@ public class BlockEntityUpdater
                 entity.fall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }
-            // TODO find way to get same effect without doing this.
-            if (entity.getServer() == null) entity.setWorld((World) this.blockEntity.getFakeWorld());
             final Vec3d motion = new Vec3d(temp1.x, temp1.y, temp1.z);
             entity.move(MoverType.SELF, motion);
 

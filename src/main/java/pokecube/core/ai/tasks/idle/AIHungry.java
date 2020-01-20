@@ -511,7 +511,7 @@ public class AIHungry extends AIBase
         if (this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getLogicState(LogicStates.SITTING))
         {
             this.pokemob.setHungerCooldown(100);
-            this.setCombatState(this.pokemob, CombatStates.HUNTING, false);
+            // Still let them go hunting if they really want to.
             return;
         }
         this.block = false;
@@ -630,8 +630,8 @@ public class AIHungry extends AIBase
         // Reset hunting status if we are not actually hungry
         if (!this.pokemob.neverHungry() && this.pokemob.getHungerCooldown() < 0 && this.hungerTime > 0)
         {
-            if (this.hungerTime > 0 && !this.pokemob.getCombatState(CombatStates.HUNTING)) this.pokemob.setCombatState(
-                    CombatStates.HUNTING, true);
+            if (!this.pokemob.getCombatState(CombatStates.HUNTING)) this.pokemob.setCombatState(CombatStates.HUNTING,
+                    true);
         }
         else if (this.hungerTime < 0 && this.pokemob.getCombatState(CombatStates.HUNTING)) this.pokemob.setCombatState(
                 CombatStates.HUNTING, false);
@@ -661,6 +661,30 @@ public class AIHungry extends AIBase
         final double hurtTime = deathTime / 2d;
         this.hungerTime = this.pokemob.getHungerTime();
         final int hungerTicks = AIHungry.TICKRATE;
+
+        // Everything after here only applies about once per second.
+        if (this.entity.ticksExisted % hungerTicks != 0) return;
+
+        this.v.set(this.entity);
+
+        // Check if we should go after bait. The Math.random() > 0.99 is to
+        // allow non-hungry fish to also try to get bait.
+        if (this.shouldRun() || Math.random() > 0.99) this.checkBait();
+
+        // Check if we should go to sleep instead.
+        this.checkSleep();
+
+        final Random rand = new Random(this.pokemob.getRNGValue());
+        final int cur = this.entity.ticksExisted / hungerTicks;
+        final int tick = rand.nextInt(10);
+
+        /*
+         * Check the various hunger types if it is hunting.
+         * And if so, refresh the hunger time counter.
+         */
+        if (this.pokemob.getCombatState(CombatStates.HUNTING)) if (this.checkHunt()) this.hungerTime = this.pokemob
+                .getHungerTime();
+
         final float ratio = (float) ((this.hungerTime - hurtTime) / deathTime);
 
         // Check own inventory for berries to eat, and then if the mob is
@@ -687,7 +711,7 @@ public class AIHungry extends AIBase
             {
                 final boolean dead = this.pokemob.getMaxHealth() * ratio > this.pokemob.getHealth();
                 final float damage = this.pokemob.getMaxHealth() * ratio;
-                if (damage >= 1 && ratio >= 0.0625)
+                if (damage >= 1 && ratio >= 0.0625 && this.entity.getHealth() > 0)
                 {
                     this.entity.attackEntityFrom(DamageSource.STARVE, damage);
                     if (!dead) this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.hurt",
@@ -697,27 +721,6 @@ public class AIHungry extends AIBase
                 }
             }
         }
-
-        // Everything after here only applies about once per second.
-        if (this.entity.ticksExisted % hungerTicks != 0) return;
-
-        this.v.set(this.entity);
-
-        // Check if we should go after bait. The Math.random() > 0.99 is to
-        // allow non-hungry fish to also try to get bait.
-        if (this.shouldRun() || Math.random() > 0.99) this.checkBait();
-
-        // Check if we should go to sleep instead.
-        this.checkSleep();
-
-        final Random rand = new Random(this.pokemob.getRNGValue());
-        final int cur = this.entity.ticksExisted / hungerTicks;
-        final int tick = rand.nextInt(10);
-
-        /*
-         * Check the various hunger types if it is hunting.
-         */
-        if (this.pokemob.getCombatState(CombatStates.HUNTING)) this.checkHunt();
 
         // cap hunger.
         this.hungerTime = this.pokemob.getHungerTime();

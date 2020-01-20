@@ -95,7 +95,7 @@ public class GuiPokeWatch extends Screen
 
     public boolean canEdit(final IPokemob pokemob)
     {
-        return pokemob.getEntity().addedToChunk && (pokemob.getOwner() == this.player
+        return pokemob.getEntity().addedToChunk && (this.player.getUniqueID().equals(pokemob.getOwnerId())
                 || this.player.abilities.isCreativeMode);
     }
 

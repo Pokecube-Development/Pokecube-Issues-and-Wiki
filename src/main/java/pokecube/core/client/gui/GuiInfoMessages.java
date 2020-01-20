@@ -17,11 +17,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent.RenderMoveMessages;
 
-@Mod.EventBusSubscriber
 public class GuiInfoMessages
 {
     private static final LinkedList<String> messages = Lists.newLinkedList();
@@ -65,7 +63,7 @@ public class GuiInfoMessages
         // TODO see about this?
         if (event.getType() == ElementType.CHAT && minecraft.currentScreen == null) return;
         if (event.getType() != ElementType.CHAT && minecraft.currentScreen != null) return;
-        
+
         final int texH = minecraft.fontRenderer.FONT_HEIGHT;
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);

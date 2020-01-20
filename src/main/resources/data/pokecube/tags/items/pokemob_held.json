@@ -115,6 +115,7 @@
     "pokecube:tyranitarmega",
     "pokecube:upgrade",
     "pokecube:venusaurmega",
-    "pokecube:waterstone"
+    "pokecube:waterstone",
+    "pokecube_adventures:exp_share"
   ]
 }

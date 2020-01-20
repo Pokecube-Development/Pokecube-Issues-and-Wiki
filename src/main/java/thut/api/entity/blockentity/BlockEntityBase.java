@@ -232,7 +232,11 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
             {
                 final Entity entity = (Entity) list.get(i);
                 this.applyEntityCollision(entity);
-                if (entity.getBoundingBox().grow(1).intersects(this.getBoundingBox())) this.hasPassenger = true;
+                if (entity.getBoundingBox().grow(1).intersects(this.getBoundingBox()))
+                {
+                    // TODO find way to get same effect without doing this.
+                    if (entity.getServer() == null) entity.setWorld((World) this.getFakeWorld());
+                }
                 else entity.setWorld(this.getFakeWorld().getWrapped());
             }
         }

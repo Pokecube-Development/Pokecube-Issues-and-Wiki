@@ -33,7 +33,6 @@ import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import pokecube.core.PokecubeCore;
 
 @Mod.EventBusSubscriber
 public class SecretBaseDimension extends ModDimension
@@ -199,18 +198,12 @@ public class SecretBaseDimension extends ModDimension
     public static DimensionType             TYPE;
     public static final Biome               BIOME     = new SecretBiome();
 
-    @SuppressWarnings("deprecation")
     @SubscribeEvent
     public static void register(final RegisterDimensionsEvent event)
     {
-        if (!DimensionManager.getRegistry().containsKey(SecretBaseDimension.DIMENSION.getRegistryName()))
-        {
-            PokecubeCore.LOGGER.info("Registering Secret Base Dimension/");
-            SecretBaseDimension.TYPE = DimensionManager.registerDimension(SecretBaseDimension.DIMENSION
-                    .getRegistryName(), SecretBaseDimension.DIMENSION, new PacketBuffer(Unpooled.EMPTY_BUFFER), true);
-            DimensionManager.keepLoaded(SecretBaseDimension.TYPE);
-        }
-
+        SecretBaseDimension.TYPE = DimensionManager.registerOrGetDimension(SecretBaseDimension.DIMENSION
+                .getRegistryName(), SecretBaseDimension.DIMENSION, new PacketBuffer(Unpooled.EMPTY_BUFFER), true);
+        DimensionManager.keepLoaded(SecretBaseDimension.TYPE);
     }
 
     @Override

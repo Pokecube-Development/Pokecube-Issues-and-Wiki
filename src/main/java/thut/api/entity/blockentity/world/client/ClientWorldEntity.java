@@ -30,15 +30,15 @@ public class ClientWorldEntity extends World implements IBlockEntityWorld<World>
 {
     public static ClientWorldEntity instance;
 
-    final World                     world;
-    IBlockEntity                    mob;
-    public boolean                  creating;
+    final World    world;
+    IBlockEntity   mob;
+    public boolean creating;
 
     public ClientWorldEntity(final World world)
     {
-        super(world.getWorldInfo(), world.getDimension().getType(),
-                (worldIn, dimensionIn) -> new BlockEntityChunkProvider((ClientWorldEntity) worldIn),
-                world.getProfiler(), world.isRemote);
+        super(world.getWorldInfo(), world.getDimension().getType(), (worldIn,
+                dimensionIn) -> new BlockEntityChunkProvider((ClientWorldEntity) worldIn), world.getProfiler(),
+                world.isRemote);
         this.world = world;
     }
 
@@ -74,13 +74,6 @@ public class ClientWorldEntity extends World implements IBlockEntityWorld<World>
     {
         return this.world.getEntityByID(id);
     }
-
-    // @Override
-    // public MapData getMapData(final String p_217406_1_)
-    // {
-    // TODO
-    // return this.world.getMapData(p_217406_1_);
-    // }
 
     @Override
     public int getNextMapId()
@@ -204,10 +197,12 @@ public class ClientWorldEntity extends World implements IBlockEntityWorld<World>
         this.mob = mob;
     }
 
-    /** Sets the block state at a given location. Flag 1 will cause a block
+    /**
+     * Sets the block state at a given location. Flag 1 will cause a block
      * update. Flag 2 will send the change to clients (you almost always want
      * this). Flag 4 prevents the block from being re-rendered, if this is a
-     * client world. Flags can be added together. */
+     * client world. Flags can be added together.
+     */
     @Override
     public boolean setBlockState(final BlockPos pos, final BlockState newState, final int flags)
     {
@@ -223,14 +218,14 @@ public class ClientWorldEntity extends World implements IBlockEntityWorld<World>
     }
 
     @Override
-    public MapData func_217406_a(String p_217406_1_)
+    public MapData func_217406_a(final String p_217406_1_)
     {
         // TODO Auto-generated method stub
         return this.world.func_217406_a(p_217406_1_);
     }
 
     @Override
-    public void func_217399_a(MapData p_217399_1_)
+    public void func_217399_a(final MapData p_217399_1_)
     {
         this.world.func_217399_a(p_217399_1_);
     }

@@ -52,20 +52,15 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     public void displayMessageToOwner(final ITextComponent message)
     {
         final Entity owner = this.getOwner();
-        if (PokecubeCore.proxy.isClientSide() && owner == PokecubeCore.proxy.getPlayer())
-        {
-            // Ensure this is actually client side before sending this.
+        // Ensure this is actually client side before sending this.
+        if (PokecubeCore.proxy.isClientSide() && PokecubeCore.proxy.getPlayer().getUniqueID().equals(this.getOwnerId()))
             GuiInfoMessages.addMessage(message);
-        }
-        else
+        else if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
         {
-            if (owner instanceof ServerPlayerEntity && this.getEntity().isAlive())
-            {
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getFormattedText());
-                final MoveMessageEvent event = new MoveMessageEvent(this, message);
-                PokecubeCore.MOVE_BUS.post(event);
-                PacketPokemobMessage.sendMessage((PlayerEntity) owner, this.getEntity().getEntityId(), event.message);
-            }
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(message.getFormattedText());
+            final MoveMessageEvent event = new MoveMessageEvent(this, message);
+            PokecubeCore.MOVE_BUS.post(event);
+            PacketPokemobMessage.sendMessage((PlayerEntity) owner, this.getEntity().getEntityId(), event.message);
         }
     }
 
@@ -116,9 +111,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         final UUID ownerID = this.getOwnerId();
         if (ownerID == null) return null;
-        World world = this.getEntity().getEntityWorld();
-        boolean serv = world instanceof ServerWorld;
-        return (serv ? this.getOwnerHolder().getOwner((ServerWorld) world) : this.getOwnerHolder().getOwner());
+        final World world = this.getEntity().getEntityWorld();
+        final boolean serv = world instanceof ServerWorld;
+        if (!serv && ownerID.equals(PokecubeCore.proxy.getPlayer().getUniqueID())) if (this.getOwnerHolder()
+                .getOwner() == null) this.getOwnerHolder().setOwner(PokecubeCore.proxy.getPlayer());
+        return serv ? this.getOwnerHolder().getOwner((ServerWorld) world) : this.getOwnerHolder().getOwner();
     }
 
     @Override

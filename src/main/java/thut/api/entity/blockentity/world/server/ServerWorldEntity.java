@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -44,7 +43,6 @@ import net.minecraft.tags.NetworkTagManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -77,7 +75,6 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.raid.Raid;
 import net.minecraft.world.raid.RaidManager;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.SessionLockException;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.capabilities.Capability;
@@ -153,15 +150,18 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
         this.getWrapped().addNewPlayer(p_217435_1_);
     }
 
-//    @Override
-//    public void addOptionalParticle(final IParticleData p_217404_1_, final boolean p_217404_2_,
-//            final double p_217404_3_, final double p_217404_5_, final double p_217404_7_, final double p_217404_9_,
-//            final double p_217404_11_, final double p_217404_13_)
-//    {
-//        // TODO Auto-generated method stub
-//        this.getWrapped().addOptionalParticle(p_217404_1_, p_217404_2_, p_217404_3_, p_217404_5_, p_217404_7_,
-//                p_217404_9_, p_217404_11_, p_217404_13_);
-//    }
+    // @Override
+    // public void addOptionalParticle(final IParticleData p_217404_1_, final
+    // boolean p_217404_2_,
+    // final double p_217404_3_, final double p_217404_5_, final double
+    // p_217404_7_, final double p_217404_9_,
+    // final double p_217404_11_, final double p_217404_13_)
+    // {
+    // // TODO Auto-generated method stub
+    // this.getWrapped().addOptionalParticle(p_217404_1_, p_217404_2_,
+    // p_217404_3_, p_217404_5_, p_217404_7_,
+    // p_217404_9_, p_217404_11_, p_217404_13_);
+    // }
 
     @Override
     public void addOptionalParticle(final IParticleData particleData, final double x, final double y, final double z,
@@ -889,12 +889,12 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
         return this.getWrapped().getLightValue(p_217298_1_);
     }
 
-//    @Override
-//    public MapData getMapData(final String p_217406_1_)
-//    {
-//        // TODO Auto-generated method stub
-//        return this.getWrapped().getMapData(p_217406_1_);
-//    }
+    // @Override
+    // public MapData getMapData(final String p_217406_1_)
+    // {
+    // // TODO Auto-generated method stub
+    // return this.getWrapped().getMapData(p_217406_1_);
+    // }
 
     @Override
     public double getMaxEntityRadius()
@@ -1433,20 +1433,6 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
     }
 
     @Override
-    public void onChunkUnloading(final Chunk p_217466_1_)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().onChunkUnloading(p_217466_1_);
-    }
-
-    @Override
-    public void onEntityRemoved(final Entity p_217484_1_)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().onEntityRemoved(p_217484_1_);
-    }
-
-    @Override
     public void playBroadcastSound(final int id, final BlockPos pos, final int data)
     {
         // TO DO Auto-generated method stub
@@ -1506,48 +1492,10 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
         return this.getWrapped().rayTraceBlocks(p_217299_1_);
     }
 
-//    @Override
-//    public void registerMapData(final MapData p_217399_1_)
-//    {
-//        // TODO Auto-generated method stub
-//        this.getWrapped().registerMapData(p_217399_1_);
-//    }
-
     @Override
     public boolean removeBlock(final BlockPos p_217377_1_, final boolean p_217377_2_)
     {
         return this.getWrapped().removeBlock(p_217377_1_, p_217377_2_);
-    }
-
-    @Override
-    public void removeEntity(final Entity p_217467_1_)
-    {
-        this.getWrapped().removeEntity(p_217467_1_);
-    }
-
-    @Override
-    public void removeEntity(final Entity p_217467_1_, final boolean keepData)
-    {
-        this.getWrapped().removeEntity(p_217467_1_, keepData);
-    }
-
-    @Override
-    public void removeEntityComplete(final Entity p_217484_1_, final boolean keepData)
-    {
-        this.getWrapped().removeEntityComplete(p_217484_1_, keepData);
-    }
-
-    @Override
-    public void removePlayer(final ServerPlayerEntity p_217434_1_)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().removePlayer(p_217434_1_);
-    }
-
-    @Override
-    public void removePlayer(final ServerPlayerEntity p_217434_1_, final boolean keepData)
-    {
-        this.getWrapped().removePlayer(p_217434_1_, keepData);
     }
 
     @Override
@@ -1563,21 +1511,6 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
     }
 
     @Override
-    public void save(final IProgressUpdate p_217445_1_, final boolean p_217445_2_, final boolean p_217445_3_)
-            throws SessionLockException
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().save(p_217445_1_, p_217445_2_, p_217445_3_);
-    }
-
-    @Override
-    protected void saveLevel() throws SessionLockException
-    {
-        // TO DO Auto-generated method stub
-        super.saveLevel();
-    }
-
-    @Override
     public void sendBlockBreakProgress(final int breakerId, final BlockPos pos, final int progress)
     {
         this.getWrapped().sendBlockBreakProgress(breakerId, pos, progress);
@@ -1587,18 +1520,6 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
     public void sendPacketToServer(final IPacket<?> packetIn)
     {
         this.getWrapped().sendPacketToServer(packetIn);
-    }
-
-    @Override
-    public void sendQuittingDisconnectingPacket()
-    {
-        this.getWrapped().sendQuittingDisconnectingPacket();
-    }
-
-    @Override
-    public void setAllowedSpawnTypes(final boolean hostile, final boolean peaceful)
-    {
-        this.getWrapped().setAllowedSpawnTypes(hostile, peaceful);
     }
 
     @Override
@@ -1625,61 +1546,6 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
     {
         if (this.setBlock(pos, newState)) return true;
         else return this.world.setBlockState(pos, newState, flags);
-    }
-
-    @Override
-    public void setDayTime(final long time)
-    {
-        this.getWrapped().setDayTime(time);
-    }
-
-    @Override
-    public void setEntityState(final Entity entityIn, final byte state)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().setEntityState(entityIn, state);
-    }
-
-    @Override
-    public void setGameTime(final long worldTime)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().setGameTime(worldTime);
-    }
-
-    @Override
-    public void setInitialSpawnLocation()
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().setInitialSpawnLocation();
-    }
-
-    @Override
-    public void setLastLightningBolt(final int lastLightningBoltIn)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().setLastLightningBolt(lastLightningBoltIn);
-    }
-
-    @Override
-    public void setRainStrength(final float strength)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().setRainStrength(strength);
-    }
-
-    @Override
-    public void setSpawnPoint(final BlockPos pos)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().setSpawnPoint(pos);
-    }
-
-    @Override
-    public void setThunderStrength(final float strength)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().setThunderStrength(strength);
     }
 
     @Override
@@ -1710,31 +1576,10 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
     }
 
     @Override
-    public boolean summonEntity(final Entity p_217470_1_)
-    {
-        // TO DO Auto-generated method stub
-        return this.getWrapped().summonEntity(p_217470_1_);
-    }
-
-    @Override
-    public void tick(final BooleanSupplier hasTimeLeft)
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().tick(hasTimeLeft);
-    }
-
-    @Override
     public String toString()
     {
         // TO DO Auto-generated method stub
         return this.getWrapped().toString();
-    }
-
-    @Override
-    public void updateAllPlayersSleepingFlag()
-    {
-        // TO DO Auto-generated method stub
-        this.getWrapped().updateAllPlayersSleepingFlag();
     }
 
     @Override
