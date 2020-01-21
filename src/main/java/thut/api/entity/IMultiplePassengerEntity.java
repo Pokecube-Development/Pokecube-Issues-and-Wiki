@@ -3,8 +3,8 @@ package thut.api.entity;
 import java.util.List;
 import java.util.UUID;
 
-import javax.vecmath.Matrix3f;
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Matrix3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;

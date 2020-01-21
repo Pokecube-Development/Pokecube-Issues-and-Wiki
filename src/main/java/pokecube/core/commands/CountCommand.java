@@ -13,9 +13,12 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -32,6 +35,9 @@ public class CountCommand
     public static int execute(final CommandSource source) throws CommandSyntaxException
     {
         final ServerWorld world = source.getWorld();
+
+        final JigsawPattern houses = JigsawManager.field_214891_a.get(new ResourceLocation("village/plains/houses"));
+        System.out.println(houses.field_214952_d);
 
         final Stream<Entity> mobs = world.getEntities();
         final Vec3d pos = source.getPos();

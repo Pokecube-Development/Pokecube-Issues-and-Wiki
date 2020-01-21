@@ -88,6 +88,13 @@ public class Vector3
             this.y = vector.intY();
             this.z = vector.intZ();
         }
+
+        public void set(final int x0, final int y0, final int z0)
+        {
+            this.x = x0;
+            this.y = y0;
+            this.z = z0;
+        }
     }
 
     public static final Vector3 secondAxis    = Vector3.getNewVector().set(0, 1, 0);
@@ -187,6 +194,7 @@ public class Vector3
         direction = direction.normalize();
 
         double dx, dy, dz;
+        final MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
 
         for (double i = 0; i < range; i += 0.0625)
         {
@@ -196,12 +204,26 @@ public class Vector3
 
             final double xtest = source.x + dx, ytest = source.y + dy, ztest = source.z + dz;
 
-            boolean check = Vector3.isPointClearBlocks(xtest, ytest - dy, ztest - dz, world);
-            check = check && Vector3.isPointClearBlocks(xtest - dx, ytest, ztest - dz, world);
-            check = check && Vector3.isPointClearBlocks(xtest - dx, ytest - dy, ztest, world);
+            boolean check = Vector3.isPointClearBlocks_internal(xtest, ytest - dy, ztest - dz, world, pos);
+            check = check && Vector3.isPointClearBlocks_internal(xtest - dx, ytest, ztest - dz, world, pos);
+            check = check && Vector3.isPointClearBlocks_internal(xtest - dx, ytest - dy, ztest, world, pos);
             if (!check) return Vector3.getNewVector().set(xtest, ytest, ztest);
         }
         return null;
+    }
+
+    private static boolean isPointClearBlocks_internal(final double x, final double y, final double z,
+            final IBlockReader world, final MutableBlockPos pos)
+    {
+        final int x0 = MathHelper.floor(x), y0 = MathHelper.floor(y), z0 = MathHelper.floor(z);
+        pos.set(x0, y0, z0);
+        final BlockState state = world.getBlockState(pos);
+        if (state == null) return true;
+        final VoxelShape shape = state.getCollisionShape(world, pos);
+        final List<AxisAlignedBB> aabbs = shape.toBoundingBoxList();
+        for (final AxisAlignedBB aabb : aabbs)
+            if (aabb != null) if (aabb.contains(x, y, z)) return false;
+        return true;
     }
 
     public static int Int(final double x)

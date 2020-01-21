@@ -1,7 +1,7 @@
 package thut.crafts.entity;
 
 import javax.annotation.Nullable;
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;

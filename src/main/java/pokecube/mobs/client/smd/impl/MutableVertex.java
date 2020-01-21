@@ -1,7 +1,7 @@
 package pokecube.mobs.client.smd.impl;
 
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector4f;
+import thut.api.maths.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Vector4f;
 
 import thut.core.client.render.model.Vertex;
 

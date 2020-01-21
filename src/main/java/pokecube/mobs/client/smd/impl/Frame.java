@@ -2,7 +2,7 @@ package pokecube.mobs.client.smd.impl;
 
 import java.util.ArrayList;
 
-import javax.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Matrix4f;
 
 import com.google.common.collect.Lists;
 

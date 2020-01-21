@@ -1,5 +1,6 @@
 package pokecube.core;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -9,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -20,8 +23,23 @@ import net.minecraft.particles.IParticleData;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
+import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
+import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
+import net.minecraft.world.gen.feature.structure.DesertVillagePools;
+import net.minecraft.world.gen.feature.structure.PlainsVillagePools;
+import net.minecraft.world.gen.feature.structure.SavannaVillagePools;
+import net.minecraft.world.gen.feature.structure.SnowyVillagePools;
+import net.minecraft.world.gen.feature.structure.TaigaVillagePools;
+import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -37,6 +55,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.ClientProxy;
 import pokecube.core.database.Database;
@@ -71,6 +90,8 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
+import pokecube.core.world.gen.structure.ConfigStructurePiece;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.CapabilityAnimation;
@@ -90,7 +111,50 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerBiomes(final RegistryEvent.Register<Biome> event)
         {
+            PokecubeCore.LOGGER.info("Registering Biomes");
+        }
 
+        @SubscribeEvent
+        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+        {
+            PokecubeCore.LOGGER.info("Registering Features");
+            event.getRegistry().register(PokecentreFeature.START_BUILDING);
+
+            Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
+            for (final Biome b : ForgeRegistries.BIOMES.getValues())
+            {
+                b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(
+                        PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE,
+                        IPlacementConfig.NO_PLACEMENT_CONFIG));
+                b.addStructure(PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG);
+            }
+
+            // Register village stuff
+
+            // First lets init the vanilla things.
+            PlainsVillagePools.init();
+            SnowyVillagePools.init();
+            SavannaVillagePools.init();
+            DesertVillagePools.init();
+            TaigaVillagePools.init();
+
+            // "village/plains/houses"
+            JigsawPattern houses = JigsawManager.field_214891_a.get(new ResourceLocation("village/plains/houses"));
+            JigsawManager.field_214891_a.register(RegistryEvents.copy(houses, Lists.newArrayList(
+                    new Pair<JigsawPiece, Integer>(new SingleJigsawPiece("village/plains/houses/plains_library_1"),
+                            100))));
+
+            houses = JigsawManager.field_214891_a.get(new ResourceLocation("village/desert/houses"));
+            JigsawManager.field_214891_a.register(RegistryEvents.copy(houses, Lists.newArrayList(
+                    new Pair<JigsawPiece, Integer>(new SingleJigsawPiece("pokecube:village/common/plains_library_1"),
+                            100))));
+        }
+
+        private static JigsawPattern copy(final JigsawPattern in, final List<Pair<JigsawPiece, Integer>> toAdd)
+        {
+            final List<Pair<JigsawPiece, Integer>> parts = Lists.newArrayList(toAdd);
+            parts.addAll(in.field_214952_d);
+            return new JigsawPattern(in.field_214951_c, in.field_214954_f, parts, in.field_214955_g);
         }
 
         @SubscribeEvent
@@ -104,7 +168,7 @@ public class PokecubeCore
             Database.preInit();
 
             // register a new block here
-            PokecubeCore.LOGGER.info("HELLO from Register Block");
+            PokecubeCore.LOGGER.info("Registering Blocks");
             ItemHandler.registerBlocks(event.getRegistry());
         }
 
@@ -308,8 +372,8 @@ public class PokecubeCore
 
     public PokecubeCore()
     {
-        PokecubeMod.setLogger(LOGGER);
-        
+        PokecubeMod.setLogger(PokecubeCore.LOGGER);
+
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeCore.config, PokecubeCore.MODID, PokecubeCore.MODID);
 

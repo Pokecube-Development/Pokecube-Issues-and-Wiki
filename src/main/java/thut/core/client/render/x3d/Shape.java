@@ -1,6 +1,6 @@
 package thut.core.client.render.x3d;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import org.lwjgl.opengl.GL11;
 

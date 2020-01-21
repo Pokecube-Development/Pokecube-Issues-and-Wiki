@@ -4,8 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;

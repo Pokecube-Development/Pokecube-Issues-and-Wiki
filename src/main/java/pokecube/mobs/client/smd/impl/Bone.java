@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Matrix4f;
 
 /** Bone, has associated Vertices for stretching. */
 public class Bone

@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;

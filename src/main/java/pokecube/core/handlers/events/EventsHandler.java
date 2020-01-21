@@ -126,7 +126,7 @@ public class EventsHandler
         @SubscribeEvent
         public void onPlayerJoin(final TickEvent.PlayerTickEvent event)
         {
-            if (player.ticksExisted < 100) return;
+            if (this.player.ticksExisted < 100) return;
             if (event.player == this.player)
             {
                 // TODO choose first stuff.

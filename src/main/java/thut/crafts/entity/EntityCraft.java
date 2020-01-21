@@ -3,7 +3,7 @@ package thut.crafts.entity;
 import java.util.List;
 import java.util.UUID;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import com.google.common.collect.Lists;
 

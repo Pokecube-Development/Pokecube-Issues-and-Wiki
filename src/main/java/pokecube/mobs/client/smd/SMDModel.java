@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import javax.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Matrix4f;
 
 import org.lwjgl.opengl.GL11;
 

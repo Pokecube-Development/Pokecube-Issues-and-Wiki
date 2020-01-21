@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 import net.minecraft.util.ResourceLocation;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.texturing.IPartTexturer;

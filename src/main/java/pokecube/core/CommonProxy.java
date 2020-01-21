@@ -24,6 +24,7 @@ import net.minecraft.world.gen.feature.template.RandomBlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.RuleEntry;
 import net.minecraft.world.gen.feature.template.RuleStructureProcessor;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.LogicalSide;
@@ -68,6 +69,12 @@ public class CommonProxy implements Proxy
     public ResourceLocation getUrlSkin(final String urlSkin)
     {
         return null;
+    }
+
+    public ServerWorld getServerWorld()
+    {
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+        return server.getWorld(DimensionType.OVERWORLD);
     }
 
     public World getWorld()

@@ -2,7 +2,7 @@ package pokecube.mobs.client.smd.impl;
 
 import java.util.ArrayList;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import org.lwjgl.opengl.GL11;
 

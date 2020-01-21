@@ -1,6 +1,6 @@
 package thut.core.client.render.model;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 public class Vector6f
 {

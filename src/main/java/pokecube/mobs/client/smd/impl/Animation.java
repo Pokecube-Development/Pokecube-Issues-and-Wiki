@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import javax.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Matrix4f;
 
 import net.minecraft.util.ResourceLocation;
 

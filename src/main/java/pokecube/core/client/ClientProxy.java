@@ -29,6 +29,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.FoliageColors;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -136,6 +137,12 @@ public class ClientProxy extends CommonProxy
     public PlayerEntity getPlayer()
     {
         return Minecraft.getInstance().player;
+    }
+
+    @Override
+    public World getWorld()
+    {
+        return Minecraft.getInstance().world;
     }
 
     @Override

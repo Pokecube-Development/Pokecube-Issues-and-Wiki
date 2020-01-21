@@ -3,7 +3,7 @@ package thut.api.entity.blockentity;
 import java.util.List;
 import java.util.Set;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

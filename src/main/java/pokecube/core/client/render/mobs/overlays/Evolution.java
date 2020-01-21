@@ -3,7 +3,7 @@ package pokecube.core.client.render.mobs.overlays;
 import java.awt.Color;
 import java.util.Random;
 
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Vector3f;
 
 import org.lwjgl.opengl.GL11;
 

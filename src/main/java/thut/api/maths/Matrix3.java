@@ -22,7 +22,7 @@ import net.minecraftforge.event.world.GetCollisionBoxesEvent;
 public class Matrix3
 {
 
-    private static boolean containsOrigin(List<Vector3> points)
+    private static boolean containsOrigin(final List<Vector3> points)
     {
         int index = 0;
         Vector3 base = points.get(index);
@@ -62,7 +62,7 @@ public class Matrix3
         return ret;
     }
 
-    public static AxisAlignedBB copyAndChange(AxisAlignedBB box, int index, double value)
+    public static AxisAlignedBB copyAndChange(final AxisAlignedBB box, final int index, final double value)
     {
         double x1 = box.minX;
         double x2 = box.maxX;
@@ -90,8 +90,8 @@ public class Matrix3
      * @param temp1
      * @return
      */
-    public static boolean doCollision(List<AxisAlignedBB> aabbs, AxisAlignedBB entityBox, Entity e, double yShift,
-            Vector3 diffs, Vector3 temp1)
+    public static boolean doCollision(final List<AxisAlignedBB> aabbs, final AxisAlignedBB entityBox, final Entity e,
+            final double yShift, final Vector3 diffs, final Vector3 temp1)
     {
         final double minX = entityBox.minX;
         final double minY = entityBox.minY;
@@ -180,7 +180,7 @@ public class Matrix3
         return collide;
     }
 
-    public static void expandAABBs(List<AxisAlignedBB> aabbs, AxisAlignedBB reference)
+    public static void expandAABBs(final List<AxisAlignedBB> aabbs, final AxisAlignedBB reference)
     {
         final double mx = reference.minX + (reference.maxX - reference.minX) / 2;
         final double my = reference.minY + (reference.maxY - reference.minY) / 2;
@@ -222,7 +222,8 @@ public class Matrix3
         }
     }
 
-    public static AxisAlignedBB getAABB(double minX, double minY, double minZ, double maxX, double maxY, double maxZ)
+    public static AxisAlignedBB getAABB(final double minX, final double minY, final double minZ, final double maxX,
+            final double maxY, final double maxZ)
     {
         return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
@@ -233,7 +234,7 @@ public class Matrix3
      * @param Matrix
      * @return
      */
-    public static double matrixDet(Matrix3 Matrix)
+    public static double matrixDet(final Matrix3 Matrix)
     {
         double det = 0;
         final int n = Matrix.size;
@@ -252,7 +253,7 @@ public class Matrix3
      * @param j
      * @return
      */
-    public static Matrix3 matrixMinor(Matrix3 input, int i, int j)
+    public static Matrix3 matrixMinor(final Matrix3 input, final int i, final int j)
     {
         final double[][] Matrix = input.toArray();
         final int n = Matrix.length;
@@ -282,7 +283,7 @@ public class Matrix3
      * @param Matrix
      * @return
      */
-    public static Matrix3 matrixTranspose(Matrix3 Matrix)
+    public static Matrix3 matrixTranspose(final Matrix3 Matrix)
     {
         final Matrix3 MatrixT = new Matrix3();
         for (int i = 0; i < 3; i++)
@@ -300,7 +301,7 @@ public class Matrix3
      * @param dy
      * @param dz
      */
-    public static void mergeAABBs(List<AxisAlignedBB> aabbs, double dx, double dy, double dz)
+    public static void mergeAABBs(final List<AxisAlignedBB> aabbs, final double dx, final double dy, final double dz)
     {
         final Comparator<AxisAlignedBB> comparator = (arg0, arg1) ->
         {
@@ -395,7 +396,7 @@ public class Matrix3
             if (b != null) aabbs.add(b);
     }
 
-    static List<Vector3> toMesh(ArrayList<Matrix3> boxes)
+    static List<Vector3> toMesh(final ArrayList<Matrix3> boxes)
     {
         final List<Vector3> ret = new ArrayList<>();
         for (final Matrix3 box : boxes)
@@ -431,13 +432,13 @@ public class Matrix3
         this.rows[2] = Vector3.getNewVector();
     }
 
-    public Matrix3(double d, double e, double f)
+    public Matrix3(final double d, final double e, final double f)
     {
         this();
         this.rows[1].set(d, e, f);
     }
 
-    public Matrix3(double[] a, double[] b, double[] c)
+    public Matrix3(final double[] a, final double[] b, final double[] c)
     {
         this();
         this.rows[0].set(a[0], a[1], a[2]);
@@ -445,19 +446,19 @@ public class Matrix3
         this.rows[2].set(c[0], c[1], c[2]);
     }
 
-    public Matrix3(Vector3 a, Vector3 b)
+    public Matrix3(final Vector3 a, final Vector3 b)
     {
         this(a, b, Vector3.empty);
     }
 
-    public Matrix3(Vector3 a, Vector3 b, Vector3 c)
+    public Matrix3(final Vector3 a, final Vector3 b, final Vector3 c)
     {
         this.rows[0] = a.copy();
         this.rows[1] = b.copy();
         this.rows[2] = c.copy();
     }
 
-    public Matrix3 addOffsetTo(Vector3 pushOffset)
+    public Matrix3 addOffsetTo(final Vector3 pushOffset)
     {
         this.rows[0].addTo(pushOffset);
         this.rows[1].addTo(pushOffset);
@@ -505,7 +506,7 @@ public class Matrix3
         return ret;
     }
 
-    public List<Vector3> corners(boolean rotate)
+    public List<Vector3> corners(final boolean rotate)
     {
         // if (corners.isEmpty())
         final List<Vector3> corners = new ArrayList<>();
@@ -551,12 +552,12 @@ public class Matrix3
      *
      * @return
      */
-    public Vector3[] corners(Vector3 mid)
+    public Vector3[] corners(final Vector3 mid)
     {
         return this.corners(mid != null).toArray(new Vector3[8]);
     }
 
-    private List<Vector3> diff(List<Vector3> cornersA, List<Vector3> cornersB)
+    private List<Vector3> diff(final List<Vector3> cornersA, final List<Vector3> cornersB)
     {
         final ArrayList<Vector3> ret = new ArrayList<>();
         final Vector3 c = Vector3.getNewVector();
@@ -581,7 +582,7 @@ public class Matrix3
         return ret;
     }
 
-    public boolean doCollision(Vector3 boxVelocity, Entity e)
+    public boolean doCollision(final Vector3 boxVelocity, final Entity e)
     {
         if (e == null) return false;
         final Vector3 ent = Vector3.getNewVector();
@@ -593,7 +594,8 @@ public class Matrix3
         return hit;
     }
 
-    public Vector3 doTileCollision(IBlockReader world, Entity e, Vector3 offset, Vector3 diffs, boolean move)
+    public Vector3 doTileCollision(final IBlockReader world, final Entity e, final Vector3 offset, final Vector3 diffs,
+            final boolean move)
     {
         final Matrix3 box = this.copy().addOffsetTo(offset);
         final Vector3 v1 = box.boxCentre();
@@ -717,14 +719,14 @@ public class Matrix3
         return this.doTileCollision(world, aabbs, e, offset, diffs, true);
     }
 
-    public Vector3 doTileCollision(IBlockReader world, List<AxisAlignedBB> aabbs, Entity e, Vector3 offset,
-            Vector3 diffs)
+    public Vector3 doTileCollision(final IBlockReader world, final List<AxisAlignedBB> aabbs, final Entity e,
+            final Vector3 offset, final Vector3 diffs)
     {
         return this.doTileCollision(world, aabbs, e, offset, diffs, false);
     }
 
-    public Vector3 doTileCollision(IBlockReader world, List<AxisAlignedBB> aabbs, Entity e, Vector3 offset,
-            Vector3 diffs, boolean moveEntity)
+    public Vector3 doTileCollision(final IBlockReader world, final List<AxisAlignedBB> aabbs, final Entity e,
+            final Vector3 offset, final Vector3 diffs, final boolean moveEntity)
     {
         final Vector3 temp1 = Vector3.getNewVector();
 
@@ -837,8 +839,8 @@ public class Matrix3
         return temp1;
     }
 
-    public boolean doTileCollision(IBlockReader world, List<AxisAlignedBB> aabbs, Vector3 location, Entity e,
-            Vector3 diffs)
+    public boolean doTileCollision(final IBlockReader world, final List<AxisAlignedBB> aabbs, final Vector3 location,
+            final Entity e, final Vector3 diffs)
     {
 
         final Vector3 temp1 = Vector3.getNewVector();
@@ -886,13 +888,13 @@ public class Matrix3
         return false;
     }
 
-    public Vector3 get(int i)
+    public Vector3 get(final int i)
     {
         assert i < 3;
         return this.rows[i];
     }
 
-    public double get(int i, int j)
+    public double get(final int i, final int j)
     {
         assert i < 3;
         return this.rows[i].get(j);
@@ -918,7 +920,7 @@ public class Matrix3
         return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    public List<AxisAlignedBB> getCollidingBoxes(AxisAlignedBB box, World world, IBlockReader access)
+    public List<AxisAlignedBB> getCollidingBoxes(final AxisAlignedBB box, final World world, final IBlockReader access)
     {
         if (this.collidingBoundingBoxes == null) this.collidingBoundingBoxes = new ArrayList<>();
 
@@ -950,7 +952,7 @@ public class Matrix3
         return this.collidingBoundingBoxes;
     }
 
-    public Matrix3 getOctant(int octant)
+    public Matrix3 getOctant(final int octant)
     {
         final Matrix3 ret = this.copy();
         switch (octant)
@@ -999,7 +1001,7 @@ public class Matrix3
         return ret;
     }
 
-    public boolean intersects(List<Vector3> mesh)
+    public boolean intersects(final List<Vector3> mesh)
     {
         final List<Vector3> cornersA = new ArrayList<>();
         final Vector3 v1 = this.boxCentre();
@@ -1011,7 +1013,7 @@ public class Matrix3
 
     }
 
-    public boolean intersects(Matrix3 b)
+    public boolean intersects(final Matrix3 b)
     {
         final List<Vector3> cornersB = new ArrayList<>();
         final Vector3 v1 = this.boxCentre();
@@ -1020,7 +1022,8 @@ public class Matrix3
         return this.intersects(cornersB);
     }
 
-    public boolean isInMaterial(IBlockReader world, Vector3 location, Vector3 offset, Material m)
+    public boolean isInMaterial(final IBlockReader world, final Vector3 location, final Vector3 offset,
+            final Material m)
     {
         boolean ret = false;
         final Vector3 ent = location;
@@ -1050,7 +1053,7 @@ public class Matrix3
         return ret;
     }
 
-    public Matrix3 resizeBox(double x, double y, double z)
+    public Matrix3 resizeBox(final double x, final double y, final double z)
     {
         final Matrix3 ret = this.copy();
 
@@ -1065,7 +1068,7 @@ public class Matrix3
         return ret;
     }
 
-    public void set(AxisAlignedBB aabb)
+    public void set(final AxisAlignedBB aabb)
     {
         this.rows[0].x = aabb.minX;
         this.rows[0].y = aabb.minY;
@@ -1076,19 +1079,19 @@ public class Matrix3
         this.rows[2].clear();
     }
 
-    public void set(int i, int j, double k)
+    public void set(final int i, final int j, final double k)
     {
         this.rows[i].set(j, k);
     }
 
-    public Matrix3 set(int i, Vector3 j)
+    public Matrix3 set(final int i, final Vector3 j)
     {
         assert i < 3;
         this.rows[i] = j;
         return this;
     }
 
-    public void set(Matrix3 box)
+    public void set(final Matrix3 box)
     {
         this.rows[0].set(box.rows[0]);
         this.rows[1].set(box.rows[1]);
@@ -1159,7 +1162,7 @@ public class Matrix3
                 + this.rows[2].toString();
     }
 
-    private double xOffset(AxisAlignedBB box, AxisAlignedBB aabb, double x)
+    private double xOffset(final AxisAlignedBB box, final AxisAlignedBB aabb, double x)
     {
         if (aabb.maxY > box.minY && aabb.minY < box.maxY && aabb.maxZ > box.minZ && aabb.minZ < box.maxZ)
         {
@@ -1181,7 +1184,7 @@ public class Matrix3
         else return x;
     }
 
-    private double yOffset(AxisAlignedBB box, AxisAlignedBB aabb, double x)
+    private double yOffset(final AxisAlignedBB box, final AxisAlignedBB aabb, double x)
     {
         if (aabb.maxX > box.minX && aabb.minX < box.maxX && aabb.maxZ > box.minZ && aabb.minZ < box.maxZ)
         {
@@ -1203,7 +1206,7 @@ public class Matrix3
         else return x;
     }
 
-    private double zOffset(AxisAlignedBB box, AxisAlignedBB aabb, double x)
+    private double zOffset(final AxisAlignedBB box, final AxisAlignedBB aabb, double x)
     {
         if (aabb.maxX > box.minX && aabb.minX < box.maxX && aabb.maxY > box.minY && aabb.minY < box.maxY)
         {

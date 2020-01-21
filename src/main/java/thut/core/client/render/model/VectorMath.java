@@ -1,7 +1,7 @@
 package thut.core.client.render.model;
 
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Vector3f;
+import thut.api.maths.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Vector3f;
 
 public class VectorMath
 {
