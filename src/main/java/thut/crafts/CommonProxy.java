@@ -1,6 +1,5 @@
 package thut.crafts;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -17,6 +16,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.maths.Vector3;
 import thut.core.common.Proxy;
@@ -68,7 +68,7 @@ public class CommonProxy implements Proxy
             final CompoundNBT min = new CompoundNBT();
             Vector3.getNewVector().set(pos).writeToNBT(min, "");
             itemstack.getTag().put("min", min);
-            final String message = "msg.lift.setcorner";
+            final String message = "msg.craft.setcorner";
             if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message, pos));
             evt.setCanceled(true);
             itemstack.getTag().putLong("time", worldIn.getDayTime());
@@ -101,7 +101,7 @@ public class CommonProxy implements Proxy
             final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
             if (max.getY() - min.getY() > 15 || dw > 2 * 10 + 1)
             {
-                final String message = "msg.lift.toobig";
+                final String message = "msg.craft.toobig";
                 if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message));
                 return;
             }
@@ -130,9 +130,14 @@ public class CommonProxy implements Proxy
     }
 
     @SubscribeEvent
+    /**
+     * Sends update packet to the mob.
+     *
+     * @param evt
+     */
     public void startTracking(final StartTracking evt)
     {
-        if (evt.getTarget() instanceof IEntityAdditionalSpawnData && evt.getEntity() instanceof LivingEntity)
+        if (evt.getTarget() instanceof IEntityAdditionalSpawnData && evt.getEntity() instanceof BlockEntityBase)
             EntityUpdate.sendEntityUpdate(evt.getEntity());
     }
 }

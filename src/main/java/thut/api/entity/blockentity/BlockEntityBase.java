@@ -533,10 +533,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 System.out.println(pos);
                 System.out.println(this.getMotion());
             }
-
-            // System.out.println(posVec + " " + this.getMotion());
-            // System.out.println(pos);
-            // System.out.println(this.getMotion());
         }
         this.setPosition(this.posX, this.posY, this.posZ);
 

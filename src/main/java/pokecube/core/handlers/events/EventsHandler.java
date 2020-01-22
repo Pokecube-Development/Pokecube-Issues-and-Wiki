@@ -530,7 +530,7 @@ public class EventsHandler
     public static void PlayerLoggin(final PlayerLoggedInEvent evt)
     {
         final PlayerEntity player = evt.getPlayer();
-        System.out.println(player + " " + player.isServerWorld());
+
         if (!player.isServerWorld()) return;
 
         PacketDataSync.sendInitPacket(player, "pokecube-data");

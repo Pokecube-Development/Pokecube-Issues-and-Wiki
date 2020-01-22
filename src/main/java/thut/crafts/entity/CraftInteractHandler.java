@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TranslationTextComponent;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.entity.blockentity.IBlockEntity;
@@ -117,6 +118,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     {
         if (stack.getItem() == Items.BLAZE_ROD) if (!player.world.isRemote)
         {
+            player.sendMessage(new TranslationTextComponent("msg.craft.killed"));
             this.craft.remove();
             return true;
         }
