@@ -1,7 +1,6 @@
 package thut.crafts.entity;
 
 import javax.annotation.Nullable;
-import thut.api.maths.vecmath.Vector3f;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;
@@ -17,19 +16,21 @@ import net.minecraft.util.math.Vec3d;
 import thut.api.entity.IMultiplePassengerEntity.Seat;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.api.maths.vecmath.Vector3f;
 
 public class CraftInteractHandler extends BlockEntityInteractHandler
 {
     final EntityCraft craft;
 
-    public CraftInteractHandler(EntityCraft lift)
+    public CraftInteractHandler(final EntityCraft lift)
     {
         super(lift);
         this.craft = lift;
     }
 
     @Override
-    public ActionResultType applyPlayerInteraction(PlayerEntity player, Vec3d vec, ItemStack stack, Hand hand)
+    public ActionResultType applyPlayerInteraction(final PlayerEntity player, Vec3d vec, final ItemStack stack,
+            final Hand hand)
     {
         if (player.isSneaking()) return ActionResultType.PASS;
         final ActionResultType result = super.applyPlayerInteraction(player, vec, stack, hand);
@@ -60,7 +61,8 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     }
 
     @Override
-    public ActionResultType interactInternal(PlayerEntity player, BlockPos pos, ItemStack stack, Hand hand)
+    public ActionResultType interactInternal(final PlayerEntity player, BlockPos pos, final ItemStack stack,
+            final Hand hand)
     {
         final BlockState state = this.craft.getFakeWorld().getBlock(pos);
         if (state != null && state.getBlock() instanceof StairsBlock)
@@ -111,7 +113,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     }
 
     @Override
-    public boolean processInitialInteract(PlayerEntity player, @Nullable ItemStack stack, Hand hand)
+    public boolean processInitialInteract(final PlayerEntity player, @Nullable final ItemStack stack, final Hand hand)
     {
         if (stack.getItem() == Items.BLAZE_ROD) if (!player.world.isRemote)
         {

@@ -15,14 +15,13 @@ import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.culling.ICamera;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -32,10 +31,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import thut.api.entity.IMultiplePassengerEntity;
+import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderBlockEntity<T extends LivingEntity> extends LivingRenderer<T, ModelBlockEntity<T>>
+public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer<T>
 {
     private static IBakedModel crate_model;
 
@@ -51,7 +51,7 @@ public class RenderBlockEntity<T extends LivingEntity> extends LivingRenderer<T,
 
     public RenderBlockEntity(final EntityRendererManager manager)
     {
-        super(manager, new ModelBlockEntity<>(), 0);
+        super(manager);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class RenderBlockEntity<T extends LivingEntity> extends LivingRenderer<T,
         if (!(entity instanceof IBlockEntity)) return;
         try
         {
-            final IBlockEntity blockEntity = (IBlockEntity) entity;
+            final IBlockEntity blockEntity = entity;
             GL11.glPushMatrix();
             GL11.glTranslated(x, y + 0.5, z);
             if (entity instanceof IMultiplePassengerEntity)
@@ -132,7 +132,7 @@ public class RenderBlockEntity<T extends LivingEntity> extends LivingRenderer<T,
                 GlStateManager.scalef(-f7, -f7, f7);
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 final IBakedModel model = blockrendererdispatcher.getModelForState(actualstate);
-                this.renderBakedBlockModel(entity, model, actualstate, ((LivingEntity) entity).getEntityWorld(), pos);
+                this.renderBakedBlockModel(entity, model, actualstate, ((Entity) entity).getEntityWorld(), pos);
                 GlStateManager.enableLighting();
                 GlStateManager.popMatrix();
             }
@@ -218,7 +218,7 @@ public class RenderBlockEntity<T extends LivingEntity> extends LivingRenderer<T,
     {
         GlStateManager.rotatef(90.0F, 0.0F, 1.0F, 0.0F);
 
-        final BlockPos origin = ((LivingEntity) entity).getPosition();
+        final BlockPos origin = ((Entity) entity).getPosition();
         pos = origin.subtract(pos);
 
         GlStateManager.translatef(-pos.getX(), -pos.getY(), -pos.getZ());
@@ -235,12 +235,5 @@ public class RenderBlockEntity<T extends LivingEntity> extends LivingRenderer<T,
 
         GlStateManager.translatef(pos.getX(), pos.getY(), pos.getZ());
         return;
-    }
-
-    @Override
-    public boolean shouldRender(final T entityIn, final ICamera camera, final double camX, final double camY,
-            final double camZ)
-    {
-        return true;
     }
 }

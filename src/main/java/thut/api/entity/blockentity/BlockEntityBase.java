@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
@@ -13,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -23,12 +20,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.datasync.IDataSerializer;
-import net.minecraft.potion.EffectInstance;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.HandSide;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -45,7 +40,7 @@ import thut.api.entity.blockentity.world.server.ServerWorldEntity;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 
-public abstract class BlockEntityBase extends LivingEntity implements IEntityAdditionalSpawnData, IBlockEntity
+public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
     public static class BlockEntityType<T extends BlockEntityBase> extends EntityType<T>
     {
@@ -123,7 +118,7 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     BlockEntityUpdater           collider;
     BlockEntityInteractHandler   interacter;
 
-    public BlockEntityBase(final EntityType<? extends LivingEntity> type, final World par1World)
+    public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final World par1World)
     {
         super(type, par1World);
         this.ignoreFrustumCheck = true;
@@ -187,6 +182,11 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
         return this.isAlive();
     }
 
+    public boolean isServerWorld()
+    {
+        return !this.world.isRemote;
+    }
+
     /**
      * Returns true if this entity should push and be pushed by other entities
      * when colliding.
@@ -228,14 +228,16 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
         {
             if (list.size() == 1 && this.getRecursivePassengers() != null && !this.getRecursivePassengers().isEmpty())
                 return;
+            final AxisAlignedBB box = this.getBoundingBox().grow(1);
             for (int i = 0; i < list.size(); ++i)
             {
                 final Entity entity = (Entity) list.get(i);
                 this.applyEntityCollision(entity);
-                if (entity.getBoundingBox().grow(1).intersects(this.getBoundingBox()))
+                if (box.intersects(entity.getBoundingBox()))
                 {
                     // TODO find way to get same effect without doing this.
-                    if (entity.getServer() == null) entity.setWorld((World) this.getFakeWorld());
+                    // if (entity.getServer() == null) entity.setWorld((World)
+                    // this.getFakeWorld());
                 }
                 else entity.setWorld(this.getFakeWorld().getWrapped());
             }
@@ -286,12 +288,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     }
 
     @Override
-    public ItemStack getHeldItem(final Hand hand)
-    {
-        return ItemStack.EMPTY;
-    }
-
-    @Override
     public BlockEntityInteractHandler getInteractor()
     {
         if (this.interacter == null) this.interacter = this.createInteractHandler();
@@ -314,12 +310,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     public Vec3d getMotion()
     {
         return this.getDataManager().get(BlockEntityBase.velocity);
-    }
-
-    @Override
-    public HandSide getPrimaryHand()
-    {
-        return HandSide.LEFT;
     }
 
     protected double getSpeed(final double pos, final double destPos, final double speed, final double speedPos,
@@ -367,19 +357,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
         return true;
     }
 
-    @Override
-    public boolean isPotionApplicable(final EffectInstance par1EffectInstance)
-    {
-        return false;
-    }
-
-    @Override
-    /** knocks back this entity */
-    public void knockBack(final Entity entityIn, final float strenght, final double xRatio, final double zRatio)
-    {
-
-    }
-
     abstract protected void onGridAlign();
 
     abstract protected void preColliderTick();
@@ -395,7 +372,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     @Override
     public void readAdditional(final CompoundNBT nbt)
     {
-        super.readAdditional(nbt);
         if (nbt.contains("bounds"))
         {
             final CompoundNBT bounds = nbt.getCompound("bounds");
@@ -450,7 +426,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     @Override
     protected void registerData()
     {
-        super.registerData();
         this.getDataManager().register(BlockEntityBase.velocity, new Vec3d(0, 0, 0));
         this.getDataManager().register(BlockEntityBase.position, new Vec3d(0, 0, 0));
     }
@@ -499,12 +474,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     }
 
     @Override
-    public void setHeldItem(final Hand hand, @Nullable final ItemStack stack)
-    {
-
-    }
-
-    @Override
     public void setMax(final BlockPos pos)
     {
         this.boundMax = pos;
@@ -548,7 +517,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     @Override
     public void tick()
     {
-        if (net.minecraftforge.common.ForgeHooks.onLivingUpdate(this)) return;
         if (this.getBlocks() == null && this.getEntityWorld().isRemote) return;
 
         this.prevPosX = this.posX;
@@ -600,7 +568,6 @@ public abstract class BlockEntityBase extends LivingEntity implements IEntityAdd
     @Override
     public void writeAdditional(final CompoundNBT nbt)
     {
-        super.writeAdditional(nbt);
         final CompoundNBT vector = new CompoundNBT();
         vector.putDouble("minx", this.boundMin.getX());
         vector.putDouble("miny", this.boundMin.getY());

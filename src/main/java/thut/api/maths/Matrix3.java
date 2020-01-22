@@ -305,12 +305,12 @@ public class Matrix3
     {
         final Comparator<AxisAlignedBB> comparator = (arg0, arg1) ->
         {
-            final int minX0 = (int) (arg0.minX * 32);
-            final int minY0 = (int) (arg0.minY * 32);
-            final int minZ0 = (int) (arg0.minZ * 32);
-            final int minX1 = (int) (arg1.minX * 32);
-            final int minY1 = (int) (arg1.minY * 32);
-            final int minZ1 = (int) (arg1.minZ * 32);
+            final int minX0 = (int) (arg0.minX * 16);
+            final int minY0 = (int) (arg0.minY * 16);
+            final int minZ0 = (int) (arg0.minZ * 16);
+            final int minX1 = (int) (arg1.minX * 16);
+            final int minY1 = (int) (arg1.minY * 16);
+            final int minZ1 = (int) (arg1.minZ * 16);
             if (minX0 == minX1)
             {
                 if (minZ0 == minZ1) return minY0 - minY1;

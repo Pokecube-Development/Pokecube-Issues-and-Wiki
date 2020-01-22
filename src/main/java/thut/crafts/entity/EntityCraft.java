@@ -3,8 +3,6 @@ package thut.crafts.entity;
 import java.util.List;
 import java.util.UUID;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
@@ -30,6 +28,7 @@ import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.network.EntityUpdate;
 
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
@@ -57,6 +56,8 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     int                    energy     = 0;
     public UUID            owner;
 
+    private boolean goingUp = false;
+
     EntitySize size;
 
     public EntityCraft(final EntityType<EntityCraft> type, final World par1World)
@@ -77,6 +78,12 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         float destX = this.toMoveX ? this.controller.leftInputDown ? 30 : -30 : 0;
         float destZ = this.toMoveZ ? this.controller.forwardInputDown ? 30 : -30 : 0;
         this.toMoveY = this.toMoveX = this.toMoveZ = false;
+        this.speedUp = 0.125;
+        this.speedDown = 0.125;
+        if (!this.goingUp && this.posY < 65) this.goingUp = true;
+        else if (this.goingUp && this.posY > 70) this.goingUp = false;
+
+        destY = this.goingUp ? 30 : -30;
 
         if (destX == destY && destY == destZ && destZ == 0)
         {
@@ -243,12 +250,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     public int getEnergy()
     {
         return this.energy;
-    }
-
-    @Override
-    public ItemStack getItemStackFromSlot(final EquipmentSlotType slotIn)
-    {
-        return ItemStack.EMPTY;
     }
 
     /** @return the destinationFloor */

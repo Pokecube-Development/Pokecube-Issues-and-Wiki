@@ -16,20 +16,17 @@ public class CraftController
 
     final EntityCraft entity;
 
-    public CraftController(EntityCraft entityCraft)
+    public CraftController(final EntityCraft entityCraft)
     {
         this.entity = entityCraft;
     }
 
-    public void doServerTick(IBlockEntityWorld<?> iBlockEntityWorld)
+    public void doServerTick(final IBlockEntityWorld<?> iBlockEntityWorld)
     {
         if (!this.entity.isBeingRidden()) return;
 
-        if (this.leftRotateDown || this.rightRotateDown)
-        {
-            this.entity.prevRotationYaw = this.entity.rotationYaw;
-            this.entity.prevRenderYawOffset = this.entity.renderYawOffset;
-        }
+        if (this.leftRotateDown || this.rightRotateDown) this.entity.prevRotationYaw = this.entity.rotationYaw;
+        // this.entity.prevRenderYawOffset = this.entity.renderYawOffset;
 
         if (this.leftRotateDown)
         {

@@ -3,8 +3,6 @@ package thut.api.entity.blockentity;
 import java.util.List;
 import java.util.Set;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -26,6 +24,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 import thut.api.TickHandler;
 import thut.api.maths.Matrix3;
+import thut.api.maths.vecmath.Vector3f;
 
 public class BlockEntityUpdater
 {
@@ -81,6 +80,7 @@ public class BlockEntityUpdater
         final AxisAlignedBB boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
         /** Expanded box by velocities to test for collision with. */
         final AxisAlignedBB testBox = boundingBox.expand(-diffs.x, -diffs.y, -diffs.z);
+        // testBox = testBox.grow(0.5);
         for (int i = 0; i < sizeX; i++)
             for (int j = 0; j < sizeY; j++)
                 for (int k = 0; k < sizeZ; k++)
@@ -136,6 +136,10 @@ public class BlockEntityUpdater
         final double lastTickMaxZ = maxZ + diffs.z;
         final double nextTickMaxZ = maxZ - diffs.z;
 
+        boolean colX = false;
+        boolean colY = false;
+        boolean colZ = false;
+        float stepY = 0;
         // for each box, compute collision.
         for (final AxisAlignedBB aabb : this.blockBoxes)
         {
@@ -165,7 +169,7 @@ public class BlockEntityUpdater
             final boolean collidesZNeg = zNeg && xPos && xNeg;
 
             final boolean collidesYNeg = yNeg && (xPos || xNeg || zPos || zNeg);
-            final boolean collidesYPos = yPos && (xPos || xNeg || zPos || zNeg);
+            boolean collidesYPos = yPos && (xPos || xNeg || zPos || zNeg);
 
             boolean collided = false;
             /** Collides with top of box, is standing on it. */
@@ -173,12 +177,14 @@ public class BlockEntityUpdater
             {
                 temp1.y = (float) Math.max(aabb.maxY - diffs.y - nextTickMinY, temp1.y);
                 collided = true;
+                colY = true;
             }
             /** Collides with bottom of box, is under it. */
             if (!collided && fromBelow)
             {
                 temp1.y = (float) Math.min(aabb.minY - diffs.y - nextTickMaxY, temp1.y);
                 collided = true;
+                colY = true;
             }
 
             /** Collides with middle of +x face. */
@@ -187,6 +193,7 @@ public class BlockEntityUpdater
                 r = Math.max(aabb.maxX - boundingBox.minX, temp1.x);
                 dx = Math.min(dx, r);
                 collided = true;
+                colX = true;
             }
             /** Collides with middle of -x face. */
             if (!collided && (fromXNeg || collidesXNeg))
@@ -194,6 +201,7 @@ public class BlockEntityUpdater
                 r = Math.min(aabb.minX - boundingBox.maxX, temp1.x);
                 dx = Math.min(dx, r);
                 collided = true;
+                colX = true;
             }
             /** Collides with middle of +z face. */
             if (!collided && (fromZPos || collidesZPos))
@@ -201,6 +209,7 @@ public class BlockEntityUpdater
                 r = Math.max(aabb.maxZ - boundingBox.minZ, temp1.z);
                 dz = Math.min(dz, r);
                 collided = true;
+                colZ = true;
             }
             /** Collides with middle of -z face. */
             if (!collided && (fromZNeg || collidesZNeg))
@@ -208,6 +217,7 @@ public class BlockEntityUpdater
                 r = Math.min(aabb.minZ - boundingBox.maxZ, temp1.z);
                 dz = Math.min(dz, r);
                 collided = true;
+                colZ = true;
             }
             /** Collides with +x, +z corner. */
             if (!collided && xPos && zPos)
@@ -217,6 +227,8 @@ public class BlockEntityUpdater
                 r = Math.max(aabb.maxX - boundingBox.minX, temp1.x);
                 dx = Math.min(dx, r);
                 collided = true;
+                colZ = true;
+                colX = true;
             }
             /** Collides with +x, -z corner. */
             if (!collided && xPos && zNeg)
@@ -226,6 +238,8 @@ public class BlockEntityUpdater
                 r = Math.max(aabb.maxX - boundingBox.minX, temp1.x);
                 dx = Math.min(dx, r);
                 collided = true;
+                colZ = true;
+                colX = true;
             }
             /** Collides with -x, -z corner. */
             if (!collided && xNeg && zNeg)
@@ -235,6 +249,8 @@ public class BlockEntityUpdater
                 r = Math.min(aabb.minX - boundingBox.maxX, temp1.x);
                 dx = Math.min(dx, r);
                 collided = true;
+                colZ = true;
+                colX = true;
             }
             /** Collides with -x, +z corner. */
             if (!collided && xNeg && zPos)
@@ -244,17 +260,31 @@ public class BlockEntityUpdater
                 r = Math.min(aabb.minX - boundingBox.maxX, temp1.x);
                 dx = Math.min(dx, r);
                 collided = true;
+                colZ = true;
+                colX = true;
+            }
+
+            if ((colX || colZ) && motion_a.y == 0)
+            {
+                final float boxTopDist = (float) Math.max(aabb.maxY - diffs.y - nextTickMinY, temp1.y);
+                if (boxTopDist <= entity.stepHeight)
+                {
+                    collidesYPos = true;
+                    stepY = boxTopDist;
+                }
             }
 
             if (collidesYNeg)
             {
                 r = (float) Math.min(aabb.minY - diffs.y - nextTickMaxY, temp1.y);
                 dy = Math.min(r, dy);
+                colY = true;
             }
             else if (collidesYPos)
             {
                 r = (float) Math.max(aabb.maxY - diffs.y - nextTickMinY, temp1.y);
                 dy = Math.min(r, dy);
+                colY = true;
             }
 
             final double dy1 = Math.abs(dy);
@@ -265,15 +295,19 @@ public class BlockEntityUpdater
             if (dy1 < dx1 && dy1 < dz1) temp1.y = (float) dy;
             else if (dx1 < dy1 && dx1 < dz1) temp1.x = (float) dx;
             else if (dz < 10e2) temp1.z = (float) dz;
-
         }
+
+        temp1.y += stepY;
+
         // Extra stuff to do with players.
         if (entity instanceof PlayerEntity)
         {
             final PlayerEntity player = (PlayerEntity) entity;
 
-            if (player.getEntityWorld().isRemote) // This fixes jitter, need a
-                                                  // better way to handle this.
+            if (player.getEntityWorld().isRemote) // This fixes jitter, need
+                                                  // a
+                                                  // better way to handle
+                                                  // this.
                 if (Minecraft.getInstance().gameSettings.viewBobbing || TickHandler.playerTickTracker.containsKey(player
                         .getUniqueID()))
                 {
@@ -289,44 +323,42 @@ public class BlockEntityUpdater
                 entity.fall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }
-            // Meed to set floatingTickCount to prevent being kicked for flying.
+            // Meed to set floatingTickCount to prevent being kicked for
+            // flying.
             if (!player.abilities.isCreativeMode && !player.getEntityWorld().isRemote)
             {
                 final ServerPlayerEntity serverplayer = (ServerPlayerEntity) player;
-                // TODO fix access transformer
                 serverplayer.connection.floatingTickCount = 0;
             }
         }
-
         // If entity has collided, adjust motion accordingly.
-        if (temp1.lengthSquared() > 0)
+        if (colX || colY || colZ)
         {
+
             if (temp1.y >= 0)
             {
                 entity.onGround = true;
                 entity.fall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }
-            final Vec3d motion = new Vec3d(temp1.x, temp1.y, temp1.z);
-            entity.move(MoverType.SELF, motion);
-
+            if (temp1.length() > 0.001)
+            {
+                final Vec3d motion = new Vec3d(temp1.x, temp1.y, temp1.z);
+                entity.move(MoverType.SELF, motion);
+            }
             dx = motion_b.x;
             dy = motion_b.y;
             dz = motion_b.z;
 
-            if (temp1.x != 0) dx = motion_a.x;
-            if (temp1.y != 0) dy = motion_a.y;
-            if (temp1.z != 0) dz = motion_a.z;
+            if (colX) dx = motion_a.x;
+            if (colY) dy = motion_a.y;
+            if (colZ) dz = motion_a.z;
+
+            dx *= 0.9;
+            dz *= 0.9;
 
             entity.setMotion(dx, dy, dz);
 
-            // Attempt to also set previous positions to prevent desync like
-            // issues on servers.
-            entity.prevPosX = entity.posX;
-            entity.prevPosY = entity.posY;
-            entity.prevPosZ = entity.posZ;
-            entity.prevRotationPitch = entity.rotationPitch;
-            entity.prevRotationYaw = entity.rotationYaw;
         }
     }
 

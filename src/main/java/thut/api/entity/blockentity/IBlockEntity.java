@@ -16,20 +16,24 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import thut.api.entity.blockentity.world.client.IBlockEntityWorld;
+import thut.api.maths.Vector3.MutableBlockPos;
 
 public interface IBlockEntity
 {
     public static class BlockEntityFormer
     {
-        public static BlockState[][][] checkBlocks(World world, BlockPos min, BlockPos max, BlockPos pos)
+        public static BlockState[][][] checkBlocks(final World world, final BlockPos min, final BlockPos max,
+                final BlockPos pos)
         {
             final int xMin = min.getX();
             final int zMin = min.getZ();
@@ -53,7 +57,8 @@ public interface IBlockEntity
             return valid ? ret : null;
         }
 
-        public static TileEntity[][][] checkTiles(World world, BlockPos min, BlockPos max, BlockPos pos)
+        public static TileEntity[][][] checkTiles(final World world, final BlockPos min, final BlockPos max,
+                final BlockPos pos)
         {
             final int xMin = min.getX();
             final int zMin = min.getZ();
@@ -78,8 +83,8 @@ public interface IBlockEntity
             return ret;
         }
 
-        public static <T extends Entity> T makeBlockEntity(World world, BlockPos min, BlockPos max, BlockPos pos,
-                EntityType<T> type)
+        public static <T extends Entity> T makeBlockEntity(final World world, BlockPos min, BlockPos max,
+                final BlockPos pos, final EntityType<T> type)
         {
             final T ret = type.create(world);
             // This enforces that min is the lower corner, and max is the upper.
@@ -99,14 +104,28 @@ public interface IBlockEntity
             return ret;
         }
 
-        public static RayTraceResult rayTraceInternal(Vec3d start, Vec3d end, IBlockEntity toTrace)
+        public static RayTraceResult rayTraceInternal(final Vec3d start, final Vec3d end, final IBlockEntity toTrace)
         {
-            final RayTraceContext context = new RayTraceContext(start, end, RayTraceContext.BlockMode.COLLIDER,
-                    RayTraceContext.FluidMode.NONE, (Entity) toTrace);
-            return toTrace.getFakeWorld().trace(context);
+            // final RayTraceContext context = new RayTraceContext(start, end,
+            // RayTraceContext.BlockMode.COLLIDER,
+            // RayTraceContext.FluidMode.NONE, (Entity) toTrace);
+            Vec3d diff = end.subtract(start);
+            final double l = diff.length();
+            diff = diff.normalize();
+            final IBlockEntityWorld<?> world = toTrace.getFakeWorld();
+            final MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
+            for (double i = 0; i < l; i += 0.1)
+            {
+                final Vec3d spot = start.add(diff.mul(i, i, i));
+                pos.set(MathHelper.floor(spot.x), MathHelper.floor(spot.y), MathHelper.floor(spot.z));
+                final BlockState state = world.getBlock(pos);
+                if (state != null && !state.isAir(world, pos)) return new BlockRayTraceResult(spot, Direction.UP, pos
+                        .toImmutable(), true);
+            }
+            return BlockRayTraceResult.createMiss(end, Direction.DOWN, new BlockPos(end));
         }
 
-        public static void removeBlocks(World world, BlockPos min, BlockPos max, BlockPos pos)
+        public static void removeBlocks(final World world, final BlockPos min, final BlockPos max, final BlockPos pos)
         {
             final int xMin = min.getX();
             final int zMin = min.getZ();
@@ -148,7 +167,7 @@ public interface IBlockEntity
                     }
         }
 
-        public static void RevertEntity(IBlockEntity toRevert)
+        public static void RevertEntity(final IBlockEntity toRevert)
         {
             final int xMin = toRevert.getMin().getX();
             final int zMin = toRevert.getMin().getZ();
@@ -210,25 +229,25 @@ public interface IBlockEntity
     {
 
         @Override
-        public void postBlockRemoval(TileEntity tileIn)
+        public void postBlockRemoval(final TileEntity tileIn)
         {
         }
 
         @Override
-        public void preBlockRemoval(TileEntity tileIn)
+        public void preBlockRemoval(final TileEntity tileIn)
         {
             tileIn.remove();
         }
     };
 
-    public static void addRemover(ITileRemover remover, Class<?> clas)
+    public static void addRemover(final ITileRemover remover, final Class<?> clas)
     {
         IBlockEntity.CUSTOMREMOVERS.put(clas, remover);
         IBlockEntity.SORTEDREMOVERS.add(remover);
         Collections.sort(IBlockEntity.SORTEDREMOVERS, (o1, o2) -> o1.getPriority() - o2.getPriority());
     }
 
-    public static ITileRemover getRemover(TileEntity tile)
+    public static ITileRemover getRemover(final TileEntity tile)
     {
         final ITileRemover ret = IBlockEntity.CUSTOMREMOVERS.get(tile.getClass());
         if (ret != null) return ret;
@@ -264,7 +283,7 @@ public interface IBlockEntity
 
     void setTiles(TileEntity[][][] tiles);
 
-    default boolean shouldHide(BlockPos pos)
+    default boolean shouldHide(final BlockPos pos)
     {
         final TileEntity tile = this.getFakeWorld().getTile(pos);
         if (tile != null && !BlockEntityUpdater.isWhitelisted(tile)) return true;

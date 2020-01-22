@@ -28,8 +28,6 @@ import thut.api.entity.blockentity.IBlockEntity;
 
 public class ClientWorldEntity extends World implements IBlockEntityWorld<World>
 {
-    public static ClientWorldEntity instance;
-
     final World    world;
     IBlockEntity   mob;
     public boolean creating;
@@ -177,12 +175,6 @@ public class ClientWorldEntity extends World implements IBlockEntityWorld<World>
     {
         this.world.playSound(player, x, y, z, soundIn, category, volume, pitch);
     }
-
-    // @Override
-    // public void registerMapData(final MapData p_217399_1_)
-    // {//TODO
-    // this.world.registerMapData(p_217399_1_);
-    // }
 
     @Override
     public void sendBlockBreakProgress(final int breakerId, final BlockPos pos, final int progress)

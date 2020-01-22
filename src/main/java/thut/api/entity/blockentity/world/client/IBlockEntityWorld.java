@@ -7,10 +7,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public interface IBlockEntityWorld<T extends World>
+public interface IBlockEntityWorld<T extends World> extends IBlockReader
 {
     default BlockState getBlock(final BlockPos pos)
     {
