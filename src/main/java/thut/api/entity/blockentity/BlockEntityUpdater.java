@@ -23,6 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 import thut.api.TickHandler;
+import thut.api.entity.blockentity.world.client.IBlockEntityWorld;
 import thut.api.maths.Matrix3;
 import thut.api.maths.vecmath.Vector3f;
 
@@ -58,7 +59,6 @@ public class BlockEntityUpdater
         final int sizeX = this.blockEntity.getBlocks().length;
         final int sizeY = this.blockEntity.getBlocks()[0].length;
         final int sizeZ = this.blockEntity.getBlocks()[0][0].length;
-        final Set<Double> topY = Sets.newHashSet();
         final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         final int xMin = this.blockEntity.getMin().getX();
         final int yMin = this.blockEntity.getMin().getY();
@@ -76,10 +76,11 @@ public class BlockEntityUpdater
         final Vec3d motion_b = entity.getMotion();
         final Vector3f diffs = new Vector3f((float) (motion_a.x - motion_b.x), (float) (motion_a.y - motion_b.y),
                 (float) (motion_a.z - motion_b.z));
-        final World fakeworld = (World) this.blockEntity.getFakeWorld();
+        final IBlockEntityWorld<?> fakeworld = this.blockEntity.getFakeWorld();
         final AxisAlignedBB boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
         /** Expanded box by velocities to test for collision with. */
         final AxisAlignedBB testBox = boundingBox.expand(-diffs.x, -diffs.y, -diffs.z);
+
         // testBox = testBox.grow(0.5);
         for (int i = 0; i < sizeX; i++)
             for (int j = 0; j < sizeY; j++)
@@ -98,13 +99,10 @@ public class BlockEntityUpdater
                             final float dz2 = (float) (this.theEntity.posZ - origin.getZ()) - 0.5f;
                             final AxisAlignedBB box = blockBox.offset(dx2 + pos.getX(), dy2 + pos.getY(), dz2 + pos
                                     .getZ());
-                            if (box.intersects(testBox))
-                            {
-                                this.blockBoxes.add(box);
-                                topY.add(box.maxY);
-                            }
+                            if (box.intersects(testBox)) this.blockBoxes.add(box);
                         }
                 }
+
         // No boxes, no need to process further.
         if (this.blockBoxes.isEmpty()) return;
 
@@ -331,6 +329,7 @@ public class BlockEntityUpdater
                 serverplayer.connection.floatingTickCount = 0;
             }
         }
+
         // If entity has collided, adjust motion accordingly.
         if (colX || colY || colZ)
         {

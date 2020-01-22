@@ -19,7 +19,7 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
         final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = (int) (pos.getY() - Math.round(entity.posY + mob.getMin().getY()));
+        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
         final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
         return mob.getBlocks()[i][j][k];
     }
@@ -32,7 +32,7 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
         final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = (int) (pos.getY() - Math.round(entity.posY + mob.getMin().getY()));
+        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
         final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
         final TileEntity tile = mob.getTiles()[i][j][k];
         if (tile != null)
@@ -54,7 +54,7 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
         if (mob.getBlocks() == null) return false;
         final Entity entity = (Entity) mob;
         final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = (int) (pos.getY() - Math.round(entity.posY + mob.getMin().getY()));
+        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
         final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
         if (i >= mob.getBlocks().length || j >= mob.getBlocks()[0].length || k >= mob.getBlocks()[0][0].length || i < 0
                 || j < 0 || k < 0) return false;
@@ -67,7 +67,7 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
         final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = (int) (pos.getY() - Math.round(entity.posY + mob.getMin().getY()));
+        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
         final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
         mob.getBlocks()[i][j][k] = state;
         return true;
@@ -106,7 +106,7 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
         final IBlockEntity mob = this.getBlockEntity();
         final Entity entity = (Entity) mob;
         final int i = pos.getX() - MathHelper.floor(entity.posX + mob.getMin().getX());
-        final int j = (int) (pos.getY() - Math.round(entity.posY + mob.getMin().getY()));
+        final int j = pos.getY() - MathHelper.floor(entity.posY + mob.getMin().getY());
         final int k = pos.getZ() - MathHelper.floor(entity.posZ + mob.getMin().getZ());
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)

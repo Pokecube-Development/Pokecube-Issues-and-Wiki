@@ -150,19 +150,6 @@ public class ServerWorldEntity extends ServerWorld implements IBlockEntityWorld<
         this.getWrapped().addNewPlayer(p_217435_1_);
     }
 
-    // @Override
-    // public void addOptionalParticle(final IParticleData p_217404_1_, final
-    // boolean p_217404_2_,
-    // final double p_217404_3_, final double p_217404_5_, final double
-    // p_217404_7_, final double p_217404_9_,
-    // final double p_217404_11_, final double p_217404_13_)
-    // {
-    // // TODO Auto-generated method stub
-    // this.getWrapped().addOptionalParticle(p_217404_1_, p_217404_2_,
-    // p_217404_3_, p_217404_5_, p_217404_7_,
-    // p_217404_9_, p_217404_11_, p_217404_13_);
-    // }
-
     @Override
     public void addOptionalParticle(final IParticleData particleData, final double x, final double y, final double z,
             final double xSpeed, final double ySpeed, final double zSpeed)
