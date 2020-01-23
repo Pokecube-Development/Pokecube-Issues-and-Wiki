@@ -579,8 +579,8 @@ public class EventsHandler
     public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
         // TODO See what this is breaking?
-        // Database.loadingThread.interrupt();
-        // Database.resourceManager = event.getServer().getResourceManager();
+        Database.loadingThread.interrupt();
+        Database.resourceManager = event.getServer().getResourceManager();
 
     }
 
@@ -604,8 +604,8 @@ public class EventsHandler
     public static void serverStarting(final FMLServerStartingEvent event)
     {
         PokecubeCore.LOGGER.info("Server Starting, Registering Commands");
-        Database.loadingThread.interrupt();
-        Database.resourceManager = event.getServer().getResourceManager();
+        // Database.loadingThread.interrupt();
+        // Database.resourceManager = event.getServer().getResourceManager();
         PokecubeItems.init(event.getServer());
         TMCommand.register(event.getCommandDispatcher());
         SecretBaseCommand.register(event.getCommandDispatcher());

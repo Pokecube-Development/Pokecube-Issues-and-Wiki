@@ -19,14 +19,12 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.Lists;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.core.PokecubeItems;
+import pokecube.core.database.Database;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.vitamins.ItemVitamin;
@@ -281,8 +279,7 @@ public class TradeEntryLoader
 
     public static XMLDatabase loadDatabase(final ResourceLocation file) throws Exception
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final InputStream res = server.getResourceManager().getResource(file).getInputStream();
+        final InputStream res = Database.resourceManager.getResource(file).getInputStream();
         final JAXBContext jaxbContext = JAXBContext.newInstance(XMLDatabase.class);
         final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         final Reader reader = new InputStreamReader(res);

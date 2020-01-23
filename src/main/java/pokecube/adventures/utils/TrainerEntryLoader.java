@@ -12,10 +12,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -68,8 +65,7 @@ public class TrainerEntryLoader
 
     private static XMLDatabase loadDatabase(final ResourceLocation file) throws Exception
     {
-        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-        final InputStream res = server.getResourceManager().getResource(file).getInputStream();
+        final InputStream res = Database.resourceManager.getResource(file).getInputStream();
         final Reader reader = new InputStreamReader(res);
         final XMLDatabase database = PokedexEntryLoader.gson.fromJson(reader, XMLDatabase.class);
         for (final TrainerEntry entry : database.trainers)
