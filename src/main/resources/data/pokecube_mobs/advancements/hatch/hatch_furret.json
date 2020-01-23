@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.furret.name"
+          "translate": "entity.pokecube.furret"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.furret.name"
+          "translate": "entity.pokecube.furret"
         }
       ]
     }

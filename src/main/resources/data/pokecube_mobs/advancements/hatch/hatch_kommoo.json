@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.kommoo.name"
+          "translate": "entity.pokecube.kommoo"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.kommoo.name"
+          "translate": "entity.pokecube.kommoo"
         }
       ]
     }

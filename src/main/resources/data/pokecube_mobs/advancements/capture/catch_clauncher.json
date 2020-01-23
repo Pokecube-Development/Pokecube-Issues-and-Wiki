@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.clauncher.name"
+          "translate": "entity.pokecube.clauncher"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.clauncher.name"
+          "translate": "entity.pokecube.clauncher"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.zygarde50.name"
+          "translate": "entity.pokecube.zygarde50"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.zygarde50.name"
+          "translate": "entity.pokecube.zygarde50"
         }
       ]
     },

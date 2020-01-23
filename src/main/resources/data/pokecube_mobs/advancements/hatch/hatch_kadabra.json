@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.kadabra.name"
+          "translate": "entity.pokecube.kadabra"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.kadabra.name"
+          "translate": "entity.pokecube.kadabra"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.togedemaru.name"
+          "translate": "entity.pokecube.togedemaru"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.togedemaru.name"
+          "translate": "entity.pokecube.togedemaru"
         }
       ]
     }

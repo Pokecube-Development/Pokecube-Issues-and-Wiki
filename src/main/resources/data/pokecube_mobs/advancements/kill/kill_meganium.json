@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.meganium.name"
+          "translate": "entity.pokecube.meganium"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.meganium.name"
+          "translate": "entity.pokecube.meganium"
         }
       ]
     }

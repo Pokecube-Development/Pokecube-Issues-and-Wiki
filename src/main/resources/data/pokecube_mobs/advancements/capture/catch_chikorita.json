@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.chikorita.name"
+          "translate": "entity.pokecube.chikorita"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.chikorita.name"
+          "translate": "entity.pokecube.chikorita"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.shieldon.name"
+          "translate": "entity.pokecube.shieldon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.shieldon.name"
+          "translate": "entity.pokecube.shieldon"
         }
       ]
     }

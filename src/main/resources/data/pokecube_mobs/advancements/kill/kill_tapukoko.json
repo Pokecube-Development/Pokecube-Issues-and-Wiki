@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.tapukoko.name"
+          "translate": "entity.pokecube.tapukoko"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.tapukoko.name"
+          "translate": "entity.pokecube.tapukoko"
         }
       ]
     },

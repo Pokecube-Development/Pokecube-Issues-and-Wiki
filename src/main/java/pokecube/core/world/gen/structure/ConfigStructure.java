@@ -19,14 +19,21 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 
 public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
 {
-    ResourceLocation structLoc;
-    BlockPos         offset = new BlockPos(0, 0, 0);
+    public ResourceLocation structLoc;
+    public float            chance   = 1;
+    public String           subbiome = "none";
+    public BlockPos         offset   = new BlockPos(0, 0, 0);
 
     public ConfigStructure(final Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn,
             final ResourceLocation name)
     {
         super(configFactoryIn);
         this.setRegistryName(name);
+    }
+
+    public ConfigStructure(final ResourceLocation name)
+    {
+        this(NoFeatureConfig::deserialize, name);
     }
 
     public ConfigStructure setStructure(final ResourceLocation structLoc)
@@ -51,11 +58,10 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
     public boolean hasStartAt(final ChunkGenerator<?> chunkGen, final Random rand, final int chunkPosX,
             final int chunkPosZ)
     {
+        if (rand.nextFloat() < this.chance) return true;
         // TODO instead actually check things?
         if (rand.nextInt(100) == 0) return true;
-
-        // TODO Auto-generated method stub
-        return super.hasStartAt(chunkGen, rand, chunkPosX, chunkPosZ);
+        return false;
     }
 
     @Override

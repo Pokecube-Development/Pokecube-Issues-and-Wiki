@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.rattata.name"
+          "translate": "entity.pokecube.rattata"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.rattata.name"
+          "translate": "entity.pokecube.rattata"
         }
       ]
     }

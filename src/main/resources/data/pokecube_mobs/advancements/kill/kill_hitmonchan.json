@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.hitmonchan.name"
+          "translate": "entity.pokecube.hitmonchan"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.hitmonchan.name"
+          "translate": "entity.pokecube.hitmonchan"
         }
       ]
     }

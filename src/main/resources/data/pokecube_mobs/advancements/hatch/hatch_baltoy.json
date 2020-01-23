@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.baltoy.name"
+          "translate": "entity.pokecube.baltoy"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.baltoy.name"
+          "translate": "entity.pokecube.baltoy"
         }
       ]
     }

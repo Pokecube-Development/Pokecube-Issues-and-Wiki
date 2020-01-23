@@ -43,7 +43,7 @@ public class SpawnBiomeMatcher
         public final World            world;
         public final Vector3          location;
 
-        public SpawnCheck(Vector3 location, World world)
+        public SpawnCheck(final Vector3 location, final World world)
         {
             this.world = world;
             this.location = location;
@@ -96,7 +96,7 @@ public class SpawnBiomeMatcher
     private static Map<String, BiomeDictionary.Type> typeMap        = Maps.newHashMap();
     private static List<Biome>                       allBiomes      = Lists.newArrayList();
 
-    public static boolean contains(Biome biome, BiomeDictionary.Type type)
+    public static boolean contains(final Biome biome, final BiomeDictionary.Type type)
     {
         return BiomeDatabase.contains(biome, type);
     }
@@ -151,7 +151,7 @@ public class SpawnBiomeMatcher
     boolean parsed = false;
     boolean valid  = true;
 
-    public SpawnBiomeMatcher(SpawnRule rules)
+    public SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
         if (rules.values.containsKey(SpawnBiomeMatcher.ATYPES))
@@ -171,7 +171,25 @@ public class SpawnBiomeMatcher
         MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
     }
 
-    private boolean biomeMatches(SpawnCheck checker)
+    /**
+     * This is a check for just a single biome, it doesn't factor in the other
+     * values such as subbiome (unless flagged all), lighting, time, etc.
+     *
+     * @param biome
+     * @return
+     */
+    public boolean checkBiome(final Biome biome)
+    {
+        this.parse();
+        if (!this.valid) return false;
+        if (this.validSubBiomes.contains(BiomeType.ALL)) return true;
+        if (this.validSubBiomes.contains(BiomeType.NONE) || this.validBiomes.isEmpty() && this.blackListBiomes
+                .isEmpty()) return false;
+        if (this.blackListBiomes.contains(biome.getRegistryName())) return false;
+        return this.validBiomes.contains(biome.getRegistryName());
+    }
+
+    private boolean biomeMatches(final SpawnCheck checker)
     {
         this.parse();
         if (!this.valid) return false;
@@ -190,7 +208,7 @@ public class SpawnBiomeMatcher
         return rightBiome && rightSubBiome;
     }
 
-    private boolean conditionsMatch(SpawnCheck checker)
+    private boolean conditionsMatch(final SpawnCheck checker)
     {
         if (checker.day && !this.day) return false;
         if (checker.night && !this.night) return false;
@@ -205,7 +223,7 @@ public class SpawnBiomeMatcher
         return light <= this.maxLight && light >= this.minLight;
     }
 
-    public boolean matches(SpawnCheck checker)
+    public boolean matches(final SpawnCheck checker)
     {
         if (!this.children.isEmpty())
         {

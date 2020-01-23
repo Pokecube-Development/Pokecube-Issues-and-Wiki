@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.solgaleo.name"
+          "translate": "entity.pokecube.solgaleo"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.solgaleo.name"
+          "translate": "entity.pokecube.solgaleo"
         }
       ]
     },

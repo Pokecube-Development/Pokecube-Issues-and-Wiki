@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.shayminland.name"
+          "translate": "entity.pokecube.shayminland"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.shayminland.name"
+          "translate": "entity.pokecube.shayminland"
         }
       ]
     },

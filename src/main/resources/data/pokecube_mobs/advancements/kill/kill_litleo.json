@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.litleo.name"
+          "translate": "entity.pokecube.litleo"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.litleo.name"
+          "translate": "entity.pokecube.litleo"
         }
       ]
     }

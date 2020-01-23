@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.pineco.name"
+          "translate": "entity.pokecube.pineco"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.pineco.name"
+          "translate": "entity.pokecube.pineco"
         }
       ]
     }

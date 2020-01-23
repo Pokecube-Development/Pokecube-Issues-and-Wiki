@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.golett.name"
+          "translate": "entity.pokecube.golett"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.golett.name"
+          "translate": "entity.pokecube.golett"
         }
       ]
     }

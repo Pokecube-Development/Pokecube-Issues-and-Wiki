@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.melmetal.name"
+          "translate": "entity.pokecube.melmetal"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.melmetal.name"
+          "translate": "entity.pokecube.melmetal"
         }
       ]
     }

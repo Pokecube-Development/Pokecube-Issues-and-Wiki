@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.abomasnow.name"
+          "translate": "entity.pokecube.abomasnow"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.abomasnow.name"
+          "translate": "entity.pokecube.abomasnow"
         }
       ]
     }

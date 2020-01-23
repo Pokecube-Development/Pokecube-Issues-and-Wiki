@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.wailmer.name"
+          "translate": "entity.pokecube.wailmer"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.wailmer.name"
+          "translate": "entity.pokecube.wailmer"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.tyranitar.name"
+          "translate": "entity.pokecube.tyranitar"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.tyranitar.name"
+          "translate": "entity.pokecube.tyranitar"
         }
       ]
     }

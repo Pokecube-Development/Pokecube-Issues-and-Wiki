@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.ditto.name"
+          "translate": "entity.pokecube.ditto"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.ditto.name"
+          "translate": "entity.pokecube.ditto"
         }
       ]
     }

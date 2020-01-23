@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.klang.name"
+          "translate": "entity.pokecube.klang"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.klang.name"
+          "translate": "entity.pokecube.klang"
         }
       ]
     }

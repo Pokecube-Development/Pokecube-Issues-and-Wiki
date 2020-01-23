@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.doublade.name"
+          "translate": "entity.pokecube.doublade"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.doublade.name"
+          "translate": "entity.pokecube.doublade"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.noivern.name"
+          "translate": "entity.pokecube.noivern"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.noivern.name"
+          "translate": "entity.pokecube.noivern"
         }
       ]
     }

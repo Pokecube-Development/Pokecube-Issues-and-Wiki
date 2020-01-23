@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.growlithe.name"
+          "translate": "entity.pokecube.growlithe"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.growlithe.name"
+          "translate": "entity.pokecube.growlithe"
         }
       ]
     }

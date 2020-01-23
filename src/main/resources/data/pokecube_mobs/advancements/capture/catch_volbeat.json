@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.volbeat.name"
+          "translate": "entity.pokecube.volbeat"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.volbeat.name"
+          "translate": "entity.pokecube.volbeat"
         }
       ]
     }

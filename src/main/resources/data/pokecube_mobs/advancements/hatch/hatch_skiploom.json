@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.skiploom.name"
+          "translate": "entity.pokecube.skiploom"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.skiploom.name"
+          "translate": "entity.pokecube.skiploom"
         }
       ]
     }

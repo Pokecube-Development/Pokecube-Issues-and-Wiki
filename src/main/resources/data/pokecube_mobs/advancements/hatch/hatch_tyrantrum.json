@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.tyrantrum.name"
+          "translate": "entity.pokecube.tyrantrum"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.tyrantrum.name"
+          "translate": "entity.pokecube.tyrantrum"
         }
       ]
     }

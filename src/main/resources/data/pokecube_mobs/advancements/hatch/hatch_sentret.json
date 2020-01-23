@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.sentret.name"
+          "translate": "entity.pokecube.sentret"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.sentret.name"
+          "translate": "entity.pokecube.sentret"
         }
       ]
     }

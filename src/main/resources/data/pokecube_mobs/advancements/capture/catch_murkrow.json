@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.murkrow.name"
+          "translate": "entity.pokecube.murkrow"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.murkrow.name"
+          "translate": "entity.pokecube.murkrow"
         }
       ]
     }

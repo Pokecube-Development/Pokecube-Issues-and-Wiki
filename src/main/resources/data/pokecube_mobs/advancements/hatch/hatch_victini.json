@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.victini.name"
+          "translate": "entity.pokecube.victini"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.victini.name"
+          "translate": "entity.pokecube.victini"
         }
       ]
     },

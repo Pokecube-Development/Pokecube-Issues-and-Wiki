@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.ariados.name"
+          "translate": "entity.pokecube.ariados"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.ariados.name"
+          "translate": "entity.pokecube.ariados"
         }
       ]
     }

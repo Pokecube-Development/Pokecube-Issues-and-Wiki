@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.lumineon.name"
+          "translate": "entity.pokecube.lumineon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.lumineon.name"
+          "translate": "entity.pokecube.lumineon"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.magneton.name"
+          "translate": "entity.pokecube.magneton"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.magneton.name"
+          "translate": "entity.pokecube.magneton"
         }
       ]
     }

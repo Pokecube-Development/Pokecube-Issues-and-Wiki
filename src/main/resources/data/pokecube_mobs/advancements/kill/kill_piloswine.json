@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.piloswine.name"
+          "translate": "entity.pokecube.piloswine"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.piloswine.name"
+          "translate": "entity.pokecube.piloswine"
         }
       ]
     }

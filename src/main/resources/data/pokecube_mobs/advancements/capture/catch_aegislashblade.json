@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.aegislashblade.name"
+          "translate": "entity.pokecube.aegislashblade"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.aegislashblade.name"
+          "translate": "entity.pokecube.aegislashblade"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.masquerain.name"
+          "translate": "entity.pokecube.masquerain"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.masquerain.name"
+          "translate": "entity.pokecube.masquerain"
         }
       ]
     }

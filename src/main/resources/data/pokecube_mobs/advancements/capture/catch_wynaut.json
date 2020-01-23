@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.wynaut.name"
+          "translate": "entity.pokecube.wynaut"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.wynaut.name"
+          "translate": "entity.pokecube.wynaut"
         }
       ]
     }

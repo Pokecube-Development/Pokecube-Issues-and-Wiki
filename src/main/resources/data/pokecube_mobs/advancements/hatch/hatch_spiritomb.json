@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.spiritomb.name"
+          "translate": "entity.pokecube.spiritomb"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.spiritomb.name"
+          "translate": "entity.pokecube.spiritomb"
         }
       ]
     }

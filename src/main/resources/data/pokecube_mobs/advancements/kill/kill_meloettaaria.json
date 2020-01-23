@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.meloettaaria.name"
+          "translate": "entity.pokecube.meloettaaria"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.meloettaaria.name"
+          "translate": "entity.pokecube.meloettaaria"
         }
       ]
     },

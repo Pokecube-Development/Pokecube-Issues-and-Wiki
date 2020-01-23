@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.manectric.name"
+          "translate": "entity.pokecube.manectric"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.manectric.name"
+          "translate": "entity.pokecube.manectric"
         }
       ]
     }

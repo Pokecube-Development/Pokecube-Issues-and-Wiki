@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.abomasnow.name"
+          "translate": "entity.pokecube.abomasnow"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.abomasnow.name"
+          "translate": "entity.pokecube.abomasnow"
         }
       ]
     }

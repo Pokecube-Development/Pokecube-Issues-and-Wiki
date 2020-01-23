@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.druddigon.name"
+          "translate": "entity.pokecube.druddigon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.druddigon.name"
+          "translate": "entity.pokecube.druddigon"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.cosmog.name"
+          "translate": "entity.pokecube.cosmog"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.cosmog.name"
+          "translate": "entity.pokecube.cosmog"
         }
       ]
     }

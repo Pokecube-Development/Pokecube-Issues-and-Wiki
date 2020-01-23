@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.arcanine.name"
+          "translate": "entity.pokecube.arcanine"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.arcanine.name"
+          "translate": "entity.pokecube.arcanine"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.vanilluxe.name"
+          "translate": "entity.pokecube.vanilluxe"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.vanilluxe.name"
+          "translate": "entity.pokecube.vanilluxe"
         }
       ]
     }

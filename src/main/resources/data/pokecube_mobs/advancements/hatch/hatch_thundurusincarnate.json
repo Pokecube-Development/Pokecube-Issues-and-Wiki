@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.thundurusincarnate.name"
+          "translate": "entity.pokecube.thundurusincarnate"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.thundurusincarnate.name"
+          "translate": "entity.pokecube.thundurusincarnate"
         }
       ]
     },

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.raboot.name"
+          "translate": "entity.pokecube.raboot"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.raboot.name"
+          "translate": "entity.pokecube.raboot"
         }
       ]
     }

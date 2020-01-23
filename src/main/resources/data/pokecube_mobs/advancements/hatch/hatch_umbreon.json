@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.umbreon.name"
+          "translate": "entity.pokecube.umbreon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.umbreon.name"
+          "translate": "entity.pokecube.umbreon"
         }
       ]
     }

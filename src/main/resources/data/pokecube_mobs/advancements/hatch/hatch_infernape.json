@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.infernape.name"
+          "translate": "entity.pokecube.infernape"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.infernape.name"
+          "translate": "entity.pokecube.infernape"
         }
       ]
     }

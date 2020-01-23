@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.lopunny.name"
+          "translate": "entity.pokecube.lopunny"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.lopunny.name"
+          "translate": "entity.pokecube.lopunny"
         }
       ]
     }

@@ -60,7 +60,9 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
+import pokecube.mobs.client.smd.SMDModel;
 import thut.api.maths.Vector3;
+import thut.core.client.render.model.ModelFactory;
 
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
@@ -126,6 +128,7 @@ public class PokecubeMobs
     {
         MinecraftForge.EVENT_BUS.register(this);
         PokecubeCore.POKEMOB_BUS.register(this);
+        // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
         Database.STARTERPACK = new ResourceLocation(PokecubeMobs.MODID, "database/pack.xml");
 
@@ -135,8 +138,8 @@ public class PokecubeMobs
         // MiscItemHelper.init();
 
         // // Register smd format for models
-        // ModelFactory.registerIModel("smd", SMDModel.class);
-        // ModelFactory.registerIModel("SMD", SMDModel.class);
+        ModelFactory.registerIModel("smd", SMDModel::new);
+        ModelFactory.registerIModel("SMD", SMDModel::new);
     }
 
     @SubscribeEvent
@@ -204,6 +207,8 @@ public class PokecubeMobs
             return "gen_6/entity/models/";
         case 7:
             return "gen_7/entity/models/";
+        case 8:
+            return "gen_8/entity/models/";
         }
         return "entity/models/";
     }
@@ -227,6 +232,8 @@ public class PokecubeMobs
             return "gen_6/entity/textures/";
         case 7:
             return "gen_7/entity/textures/";
+        case 8:
+            return "gen_8/entity/textures/";
         }
         return "entity/textures/";
     }
@@ -445,6 +452,10 @@ public class PokecubeMobs
         ItemGenerator.fossilVariants.add("tirtouga");
         ItemGenerator.fossilVariants.add("tyrunt");
         ItemGenerator.fossilVariants.add("amaura");
+        ItemGenerator.fossilVariants.add("dracozolt");
+        ItemGenerator.fossilVariants.add("arctozolt");
+        ItemGenerator.fossilVariants.add("dracovish");
+        ItemGenerator.fossilVariants.add("arctovish");
         BerryHelper.initBerries();
     }
 

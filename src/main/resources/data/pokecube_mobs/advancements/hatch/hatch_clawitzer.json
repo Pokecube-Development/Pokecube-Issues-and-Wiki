@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.clawitzer.name"
+          "translate": "entity.pokecube.clawitzer"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.clawitzer.name"
+          "translate": "entity.pokecube.clawitzer"
         }
       ]
     }

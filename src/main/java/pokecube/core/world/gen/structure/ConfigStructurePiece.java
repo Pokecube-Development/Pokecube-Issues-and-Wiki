@@ -76,15 +76,16 @@ public class ConfigStructurePiece extends TemplateStructurePiece
                 i = Math.min(i, k);
                 // TODO maybe use average?
             }
+            System.out.println("Making a " + this.template);
             this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
 
-            for (final Template.BlockInfo template$blockinfo : this.to_build.func_215381_a(this.templatePosition,
+            for (final Template.BlockInfo info : this.to_build.func_215381_a(this.templatePosition,
                     this.placeSettings, Blocks.STRUCTURE_BLOCK))
-                if (template$blockinfo.nbt != null)
+                if (info.nbt != null)
                 {
-                    final StructureMode structuremode = StructureMode.valueOf(template$blockinfo.nbt.getString("mode"));
-                    if (structuremode == StructureMode.DATA) this.handleDataMarker(template$blockinfo.nbt.getString(
-                            "metadata"), template$blockinfo.pos, worldIn, randomIn, structureBoundingBoxIn);
+                    final StructureMode structuremode = StructureMode.valueOf(info.nbt.getString("mode"));
+                    if (structuremode == StructureMode.DATA) this.handleDataMarker(info.nbt.getString(
+                            "metadata"), info.pos, worldIn, randomIn, structureBoundingBoxIn);
                 }
             this.set = true;
         }

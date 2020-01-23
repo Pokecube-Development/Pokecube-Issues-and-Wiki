@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.gallade.name"
+          "translate": "entity.pokecube.gallade"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.gallade.name"
+          "translate": "entity.pokecube.gallade"
         }
       ]
     }

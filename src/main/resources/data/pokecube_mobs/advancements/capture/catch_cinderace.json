@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.cinderace.name"
+          "translate": "entity.pokecube.cinderace"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.cinderace.name"
+          "translate": "entity.pokecube.cinderace"
         }
       ]
     }

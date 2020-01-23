@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.finneon.name"
+          "translate": "entity.pokecube.finneon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.finneon.name"
+          "translate": "entity.pokecube.finneon"
         }
       ]
     }

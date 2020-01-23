@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.rookidee.name"
+          "translate": "entity.pokecube.rookidee"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.rookidee.name"
+          "translate": "entity.pokecube.rookidee"
         }
       ]
     }

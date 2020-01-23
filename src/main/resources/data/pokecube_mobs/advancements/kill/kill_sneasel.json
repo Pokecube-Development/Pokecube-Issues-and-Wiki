@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.sneasel.name"
+          "translate": "entity.pokecube.sneasel"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.sneasel.name"
+          "translate": "entity.pokecube.sneasel"
         }
       ]
     }

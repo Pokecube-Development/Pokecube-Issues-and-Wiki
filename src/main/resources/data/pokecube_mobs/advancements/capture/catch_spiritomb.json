@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.spiritomb.name"
+          "translate": "entity.pokecube.spiritomb"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.spiritomb.name"
+          "translate": "entity.pokecube.spiritomb"
         }
       ]
     }

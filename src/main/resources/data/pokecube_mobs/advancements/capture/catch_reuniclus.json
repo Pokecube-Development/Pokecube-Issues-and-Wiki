@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.reuniclus.name"
+          "translate": "entity.pokecube.reuniclus"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.reuniclus.name"
+          "translate": "entity.pokecube.reuniclus"
         }
       ]
     }

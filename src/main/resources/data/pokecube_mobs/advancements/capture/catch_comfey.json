@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.comfey.name"
+          "translate": "entity.pokecube.comfey"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.comfey.name"
+          "translate": "entity.pokecube.comfey"
         }
       ]
     }

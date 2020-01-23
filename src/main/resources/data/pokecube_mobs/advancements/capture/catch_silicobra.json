@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.silicobra.name"
+          "translate": "entity.pokecube.silicobra"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.silicobra.name"
+          "translate": "entity.pokecube.silicobra"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.natu.name"
+          "translate": "entity.pokecube.natu"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.natu.name"
+          "translate": "entity.pokecube.natu"
         }
       ]
     }

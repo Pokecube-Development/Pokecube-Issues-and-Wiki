@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.fletchling.name"
+          "translate": "entity.pokecube.fletchling"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.fletchling.name"
+          "translate": "entity.pokecube.fletchling"
         }
       ]
     }

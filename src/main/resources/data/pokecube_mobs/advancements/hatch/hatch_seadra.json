@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.seadra.name"
+          "translate": "entity.pokecube.seadra"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.seadra.name"
+          "translate": "entity.pokecube.seadra"
         }
       ]
     }

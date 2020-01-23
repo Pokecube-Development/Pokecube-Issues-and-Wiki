@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.cobalion.name"
+          "translate": "entity.pokecube.cobalion"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.cobalion.name"
+          "translate": "entity.pokecube.cobalion"
         }
       ]
     },

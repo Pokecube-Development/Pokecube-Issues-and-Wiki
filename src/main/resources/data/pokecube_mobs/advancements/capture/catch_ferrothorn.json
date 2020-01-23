@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.ferrothorn.name"
+          "translate": "entity.pokecube.ferrothorn"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.ferrothorn.name"
+          "translate": "entity.pokecube.ferrothorn"
         }
       ]
     }

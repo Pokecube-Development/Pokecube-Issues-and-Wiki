@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.magmar.name"
+          "translate": "entity.pokecube.magmar"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.magmar.name"
+          "translate": "entity.pokecube.magmar"
         }
       ]
     }

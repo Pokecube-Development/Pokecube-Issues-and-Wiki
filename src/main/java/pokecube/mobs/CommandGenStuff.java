@@ -1,8 +1,11 @@
 package pokecube.mobs;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,9 +36,9 @@ public class CommandGenStuff
 
     public static class AdvancementGenerator
     {
-        static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+        static final Gson GSON = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
 
-        public static JsonObject fromCriteria(PokedexEntry entry, String id)
+        public static JsonObject fromCriteria(final PokedexEntry entry, final String id)
         {
             final JsonObject critmap = new JsonObject();
             final JsonObject sub = new JsonObject();
@@ -48,7 +51,7 @@ public class CommandGenStuff
             return critmap;
         }
 
-        public static JsonObject fromInfo(PokedexEntry entry, String id)
+        public static JsonObject fromInfo(final PokedexEntry entry, final String id)
         {
             final JsonObject displayJson = new JsonObject();
             final JsonObject icon = new JsonObject();
@@ -70,7 +73,7 @@ public class CommandGenStuff
             return displayJson;
         }
 
-        public static String makeJson(PokedexEntry entry, String id, String parent)
+        public static String makeJson(final PokedexEntry entry, final String id, String parent)
         {
             final JsonObject json = new JsonObject();
             json.add("display", AdvancementGenerator.fromInfo(entry, id));
@@ -89,7 +92,7 @@ public class CommandGenStuff
             return AdvancementGenerator.GSON.toJson(json);
         }
 
-        public static String[][] makeRequirements(PokedexEntry entry)
+        public static String[][] makeRequirements(final PokedexEntry entry)
         {
             return new String[][] { { entry.getTrimmedName() } };
         }
@@ -97,7 +100,7 @@ public class CommandGenStuff
 
     public static class SoundJsonGenerator
     {
-        public static String generateSoundJson(boolean small)
+        public static String generateSoundJson(final boolean small)
         {
             final JsonObject soundJson = new JsonObject();
             final List<PokedexEntry> pokedexEntries = Database.getSortedFormes();
@@ -147,7 +150,7 @@ public class CommandGenStuff
         }
     }
 
-    public static void execute(ServerPlayerEntity sender, String[] args)
+    public static void execute(final ServerPlayerEntity sender, final String[] args)
     {
         sender.sendMessage(new StringTextComponent("Starting File Output"));
         for (final PokedexEntry e : Database.getSortedFormes())
@@ -167,9 +170,10 @@ public class CommandGenStuff
         {
             file = new File(dir, "sounds.json");
             json = SoundJsonGenerator.generateSoundJson(small);
-            final FileWriter write = new FileWriter(file);
-            write.write(json);
-            write.close();
+            final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName(
+                    "UTF-8").newEncoder());
+            writer.write(json);
+            writer.close();
         }
         catch (final IOException e)
         {
@@ -177,171 +181,45 @@ public class CommandGenStuff
         }
         sender.sendMessage(new StringTextComponent("Sounds Done"));
         CommandGenStuff.generateBlockAndItemJsons();
+        CommandGenStuff.generateMobsLang();
 
-        // for (final String s : ItemGenerator.barks.keySet())
-        // {
-        // // BlockStates
-        // // Bark
-        // dir = new File("./mods/pokecube_mobs/assets/pokecube/blockstates/");
-        // dir.mkdirs();
-        // file = new File(dir, "bark_" + s + ".json");
-        // json = "{\n" + " \"variants\": {\n" + " \"normal\": { \"model\":
-        // \"pokecube:bark_" + s + "\" }\n"
-        // + " }\n" + "}";
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        // // Bark
-        // file = new File(dir, "plank_" + s + ".json");
-        // json = "{\n" + " \"variants\": {\n" + " \"normal\": { \"model\":
-        // \"pokecube:plank_" + s + "\" }\n"
-        // + " }\n" + "}";
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        // // Log
-        // json = "{\n" + " \"variants\": {\n" + " \"axis=y\": { \"model\":
-        // \"pokecube:log_" + s + "\" },\n"
-        // + " \"axis=z\": { \"model\": \"pokecube:log_" + s + "\",\"x\": 90
-        // },\n"
-        // + " \"axis=x\": { \"model\": \"pokecube:log_" + s + "\", \"x\": 90,
-        // \"y\": 90 },\n"
-        // + " \"axis=none\": { \"model\": \"pokecube:bark_" + s + "\"}\n" + "
-        // }\n" + "}";
-        // file = new File(dir, "log_" + s + ".json");
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        //
-        // // Block models
-        //
-        // dir = new File("./mods/pokecube_mobs/assets/pokecube/models/block/");
-        // dir.mkdirs();
-        //
-        // json = "{\n" + " \"parent\": \"block/cube_all\",\n" + " \"textures\":
-        // {\n"
-        // + " \"all\": \"pokecube:blocks/bark_" + s + "\"\n" + " }\n" + "}\n";
-        // file = new File(dir, "bark_" + s + ".json");
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        //
-        // json = "{\n" + " \"parent\": \"block/cube_all\",\n" + " \"textures\":
-        // {\n"
-        // + " \"all\": \"pokecube:blocks/plank_" + s + "\"\n" + " }\n" + "}";
-        // file = new File(dir, "plank_" + s + ".json");
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        //
-        // json = "{\n" + " \"parent\": \"block/cube_column\",\n" + "
-        // \"textures\": {\n"
-        // + " \"end\": \"pokecube:blocks/log_" + s + "\",\n"
-        // + " \"side\": \"pokecube:blocks/bark_" + s + "\"\n" + " }\n" + "}";
-        // file = new File(dir, "log_" + s + ".json");
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        //
-        // // Item Jsons
-        // dir = new File("./mods/pokecube_mobs/assets/pokecube/models/item/");
-        // dir.mkdirs();
-        //
-        // json = "{\n" + " \"parent\": \"pokecube:block/plank_" + s + "\",\n" +
-        // " \"display\": {\n"
-        // + " \"thirdperson\": {\n" + " \"rotation\": [ 10, -45, 170 ],\n"
-        // + " \"translation\": [ 0, 1.5, -2.75 ],\n"
-        // + " \"scale\": [ 0.375, 0.375, 0.375 ]\n" + " }\n" + " }\n" + "}";
-        // file = new File(dir, "plank_" + s + ".json");
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        //
-        // json = "{\n" + " \"parent\": \"pokecube:block/bark_" + s + "\",\n" +
-        // " \"display\": {\n"
-        // + " \"thirdperson\": {\n" + " \"rotation\": [ 10, -45, 170 ],\n"
-        // + " \"translation\": [ 0, 1.5, -2.75 ],\n"
-        // + " \"scale\": [ 0.375, 0.375, 0.375 ]\n" + " }\n" + " }\n" + "}";
-        // file = new File(dir, "bark_" + s + ".json");
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        //
-        // json = "{\n" + " \"parent\": \"pokecube:block/log_" + s + "\",\n" + "
-        // \"display\": {\n"
-        // + " \"thirdperson\": {\n" + " \"rotation\": [ 10, -45, 170 ],\n"
-        // + " \"translation\": [ 0, 1.5, -2.75 ],\n"
-        // + " \"scale\": [ 0.375, 0.375, 0.375 ]\n" + " }\n" + " }\n" + "}";
-        // file = new File(dir, "log_" + s + ".json");
-        // try
-        // {
-        // final FileWriter write = new FileWriter(file);
-        // write.write(json);
-        // write.close();
-        // }
-        // catch (final IOException e)
-        // {
-        // e.printStackTrace();
-        // }
-        //
-        // }
         sender.sendMessage(new StringTextComponent("Finished File Output"));
+    }
+
+    public static void generateMobsLang()
+    {
+        final JsonObject langJson = new JsonObject();
+        final File dir = new File("./mods/pokecube/assets/pokecube_mobs/lang/");
+        if (!dir.exists()) dir.mkdirs();
+
+        langJson.addProperty("_comment", "Pokemob Names");
+
+        for (PokedexEntry entry : Database.getSortedFormes())
+        {
+            final String name = entry.getUnlocalizedName();
+            if (entry.getBaseForme() != null) entry = entry.getBaseForme();
+            if(Database.dummyMap.containsKey(entry.getPokedexNb()))
+            {
+                entry = Database.dummyMap.get(entry.getPokedexNb());
+            }
+            langJson.addProperty(name, entry.getName());
+        }
+
+        final File file = new File(dir, "en_us.json");
+        final String json = AdvancementGenerator.GSON.toJson(langJson);
+
+        try
+        {
+            final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName(
+                    "UTF-8").newEncoder());
+            writer.write(json);
+            writer.close();
+        }
+        catch (final IOException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     public static void generateBlockAndItemJsons()
@@ -447,7 +325,7 @@ public class CommandGenStuff
         }
     }
 
-    private static void generateItemJson(String name, String prefix, String outerdir, String innerdir)
+    private static void generateItemJson(String name, final String prefix, final String outerdir, final String innerdir)
     {
         if (name.equals("???")) name = "unknown";
         final JsonObject blockJson = new JsonObject();
@@ -524,7 +402,7 @@ public class CommandGenStuff
         }
     }
 
-    protected static void make(PokedexEntry entry, String id, String parent, String path)
+    protected static void make(final PokedexEntry entry, final String id, final String parent, final String path)
     {
         final ResourceLocation key = new ResourceLocation(entry.getModId(), id + "_" + entry.getTrimmedName());
         String json = AdvancementGenerator.makeJson(entry, id, parent);
@@ -617,7 +495,7 @@ public class CommandGenStuff
     }
 
     /** Comment these out to re-generate advancements. */
-    public static void registerAchievements(PokedexEntry entry)
+    public static void registerAchievements(final PokedexEntry entry)
     {
         if (!entry.base) return;
         CommandGenStuff.make(entry, "catch", "pokecube_mobs:capture/get_first_pokemob", "capture");

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.typenull.name"
+          "translate": "entity.pokecube.typenull"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.typenull.name"
+          "translate": "entity.pokecube.typenull"
         }
       ]
     }

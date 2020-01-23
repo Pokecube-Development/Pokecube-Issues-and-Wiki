@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.nincada.name"
+          "translate": "entity.pokecube.nincada"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.nincada.name"
+          "translate": "entity.pokecube.nincada"
         }
       ]
     }

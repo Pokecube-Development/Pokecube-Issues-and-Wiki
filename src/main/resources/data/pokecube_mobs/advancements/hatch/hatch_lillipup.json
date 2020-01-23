@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.lillipup.name"
+          "translate": "entity.pokecube.lillipup"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.lillipup.name"
+          "translate": "entity.pokecube.lillipup"
         }
       ]
     }

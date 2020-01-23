@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.morgrem"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.morgrem"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_morgrem": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "morgrem"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_impidimp"
+}

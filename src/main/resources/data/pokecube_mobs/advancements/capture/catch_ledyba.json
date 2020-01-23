@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.ledyba.name"
+          "translate": "entity.pokecube.ledyba"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.ledyba.name"
+          "translate": "entity.pokecube.ledyba"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.cherrim.name"
+          "translate": "entity.pokecube.cherrim"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.cherrim.name"
+          "translate": "entity.pokecube.cherrim"
         }
       ]
     }

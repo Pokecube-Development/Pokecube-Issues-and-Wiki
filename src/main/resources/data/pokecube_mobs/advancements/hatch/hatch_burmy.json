@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.burmy.name"
+          "translate": "entity.pokecube.burmy"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.burmy.name"
+          "translate": "entity.pokecube.burmy"
         }
       ]
     }

@@ -1,0 +1,38 @@
+{
+  "structures": [
+    {
+      "name": "scattered/ruin_1",
+      "chance": 0.002,
+      "offset": -3,
+      "biomeType": "ruin",
+      "spawn": {
+        "values": {
+          "types": "plains"
+        }
+      }
+    },
+    {
+      "name": "scattered/pokecenter",
+      "chance": 0.02,
+      "offset": 0,
+      "biomeType": "village",
+      "spawn": {
+        "values": {
+          "types": "all"
+        }
+      }
+    },
+    {
+      "name": "scattered/gym_gerenal",
+      "chance": 0.002,
+      "offset": 0,
+      "biomeType": "village",
+      "spawn": {
+        "values": {
+          "types": "all"
+        }
+      }
+    }
+  ],
+  "multiStructures": []
+}

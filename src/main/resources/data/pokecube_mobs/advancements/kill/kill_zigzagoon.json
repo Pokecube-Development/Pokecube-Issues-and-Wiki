@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.zigzagoon.name"
+          "translate": "entity.pokecube.zigzagoon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.zigzagoon.name"
+          "translate": "entity.pokecube.zigzagoon"
         }
       ]
     }

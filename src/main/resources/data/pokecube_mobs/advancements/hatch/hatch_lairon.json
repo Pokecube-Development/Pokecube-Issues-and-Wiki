@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.lairon.name"
+          "translate": "entity.pokecube.lairon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.lairon.name"
+          "translate": "entity.pokecube.lairon"
         }
       ]
     }

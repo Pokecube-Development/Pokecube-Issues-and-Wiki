@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.araquanid.name"
+          "translate": "entity.pokecube.araquanid"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.araquanid.name"
+          "translate": "entity.pokecube.araquanid"
         }
       ]
     }

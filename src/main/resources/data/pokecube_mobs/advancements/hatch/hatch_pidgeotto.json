@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.pidgeotto.name"
+          "translate": "entity.pokecube.pidgeotto"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.pidgeotto.name"
+          "translate": "entity.pokecube.pidgeotto"
         }
       ]
     }

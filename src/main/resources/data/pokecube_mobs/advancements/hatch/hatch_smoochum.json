@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.smoochum.name"
+          "translate": "entity.pokecube.smoochum"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.smoochum.name"
+          "translate": "entity.pokecube.smoochum"
         }
       ]
     }

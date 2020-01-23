@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.dracozolt.name"
+          "translate": "entity.pokecube.dracozolt"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.dracozolt.name"
+          "translate": "entity.pokecube.dracozolt"
         }
       ]
     }

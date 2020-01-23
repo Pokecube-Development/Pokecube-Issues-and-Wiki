@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.slowbro.name"
+          "translate": "entity.pokecube.slowbro"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.slowbro.name"
+          "translate": "entity.pokecube.slowbro"
         }
       ]
     }

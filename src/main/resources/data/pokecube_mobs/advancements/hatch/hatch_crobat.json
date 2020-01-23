@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.crobat.name"
+          "translate": "entity.pokecube.crobat"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.crobat.name"
+          "translate": "entity.pokecube.crobat"
         }
       ]
     }

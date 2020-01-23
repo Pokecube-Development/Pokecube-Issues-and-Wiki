@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.pikachu.name"
+          "translate": "entity.pokecube.pikachu"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.pikachu.name"
+          "translate": "entity.pokecube.pikachu"
         }
       ]
     }

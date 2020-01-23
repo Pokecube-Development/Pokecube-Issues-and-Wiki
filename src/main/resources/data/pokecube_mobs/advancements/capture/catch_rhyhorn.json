@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.rhyhorn.name"
+          "translate": "entity.pokecube.rhyhorn"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.rhyhorn.name"
+          "translate": "entity.pokecube.rhyhorn"
         }
       ]
     }

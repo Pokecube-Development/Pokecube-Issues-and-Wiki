@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.corsola.name"
+          "translate": "entity.pokecube.corsola"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.corsola.name"
+          "translate": "entity.pokecube.corsola"
         }
       ]
     }

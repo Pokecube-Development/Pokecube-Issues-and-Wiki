@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.monferno.name"
+          "translate": "entity.pokecube.monferno"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.monferno.name"
+          "translate": "entity.pokecube.monferno"
         }
       ]
     }

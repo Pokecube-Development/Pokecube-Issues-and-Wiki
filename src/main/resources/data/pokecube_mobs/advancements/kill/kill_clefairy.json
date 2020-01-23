@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.clefairy.name"
+          "translate": "entity.pokecube.clefairy"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.clefairy.name"
+          "translate": "entity.pokecube.clefairy"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.marshadow.name"
+          "translate": "entity.pokecube.marshadow"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.marshadow.name"
+          "translate": "entity.pokecube.marshadow"
         }
       ]
     }

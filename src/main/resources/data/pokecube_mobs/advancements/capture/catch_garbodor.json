@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.garbodor.name"
+          "translate": "entity.pokecube.garbodor"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.garbodor.name"
+          "translate": "entity.pokecube.garbodor"
         }
       ]
     }

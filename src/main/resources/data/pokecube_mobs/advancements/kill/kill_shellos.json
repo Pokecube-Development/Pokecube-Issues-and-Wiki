@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.shellos.name"
+          "translate": "entity.pokecube.shellos"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.shellos.name"
+          "translate": "entity.pokecube.shellos"
         }
       ]
     }

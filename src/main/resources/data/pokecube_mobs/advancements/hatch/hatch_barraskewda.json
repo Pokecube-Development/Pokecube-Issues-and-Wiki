@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.barraskewda.name"
+          "translate": "entity.pokecube.barraskewda"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.barraskewda.name"
+          "translate": "entity.pokecube.barraskewda"
         }
       ]
     }

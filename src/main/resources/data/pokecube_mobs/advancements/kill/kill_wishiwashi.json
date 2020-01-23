@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.wishiwashi.name"
+          "translate": "entity.pokecube.wishiwashi"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.wishiwashi.name"
+          "translate": "entity.pokecube.wishiwashi"
         }
       ]
     }

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.grimmsnarl"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.grimmsnarl"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_grimmsnarl": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "grimmsnarl"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_morgrem"
+}

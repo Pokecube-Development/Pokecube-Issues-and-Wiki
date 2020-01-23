@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.kecleon.name"
+          "translate": "entity.pokecube.kecleon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.kecleon.name"
+          "translate": "entity.pokecube.kecleon"
         }
       ]
     }

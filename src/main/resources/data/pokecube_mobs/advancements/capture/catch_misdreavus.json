@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.misdreavus.name"
+          "translate": "entity.pokecube.misdreavus"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.misdreavus.name"
+          "translate": "entity.pokecube.misdreavus"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.charizard.name"
+          "translate": "entity.pokecube.charizard"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.charizard.name"
+          "translate": "entity.pokecube.charizard"
         }
       ]
     }

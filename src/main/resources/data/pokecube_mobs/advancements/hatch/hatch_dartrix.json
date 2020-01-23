@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.dartrix.name"
+          "translate": "entity.pokecube.dartrix"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.dartrix.name"
+          "translate": "entity.pokecube.dartrix"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.mudbray.name"
+          "translate": "entity.pokecube.mudbray"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.mudbray.name"
+          "translate": "entity.pokecube.mudbray"
         }
       ]
     }

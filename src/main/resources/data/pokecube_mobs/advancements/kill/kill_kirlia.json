@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.kirlia.name"
+          "translate": "entity.pokecube.kirlia"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.kirlia.name"
+          "translate": "entity.pokecube.kirlia"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.blissey.name"
+          "translate": "entity.pokecube.blissey"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.blissey.name"
+          "translate": "entity.pokecube.blissey"
         }
       ]
     }

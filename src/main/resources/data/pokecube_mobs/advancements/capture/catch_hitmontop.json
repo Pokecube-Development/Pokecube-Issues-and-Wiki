@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.hitmontop.name"
+          "translate": "entity.pokecube.hitmontop"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.hitmontop.name"
+          "translate": "entity.pokecube.hitmontop"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.heatmor.name"
+          "translate": "entity.pokecube.heatmor"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.heatmor.name"
+          "translate": "entity.pokecube.heatmor"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.forretress.name"
+          "translate": "entity.pokecube.forretress"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.forretress.name"
+          "translate": "entity.pokecube.forretress"
         }
       ]
     }

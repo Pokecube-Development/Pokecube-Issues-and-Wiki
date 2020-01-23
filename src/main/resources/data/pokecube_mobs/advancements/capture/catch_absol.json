@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.absol.name"
+          "translate": "entity.pokecube.absol"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.absol.name"
+          "translate": "entity.pokecube.absol"
         }
       ]
     }

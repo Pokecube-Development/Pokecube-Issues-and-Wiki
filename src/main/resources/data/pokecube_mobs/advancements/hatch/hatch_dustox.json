@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.dustox.name"
+          "translate": "entity.pokecube.dustox"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.dustox.name"
+          "translate": "entity.pokecube.dustox"
         }
       ]
     }

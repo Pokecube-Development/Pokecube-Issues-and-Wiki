@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.zacian.name"
+          "translate": "entity.pokecube.zacian"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.zacian.name"
+          "translate": "entity.pokecube.zacian"
         }
       ]
     }

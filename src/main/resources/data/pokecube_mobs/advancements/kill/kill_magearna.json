@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.magearna.name"
+          "translate": "entity.pokecube.magearna"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.magearna.name"
+          "translate": "entity.pokecube.magearna"
         }
       ]
     }

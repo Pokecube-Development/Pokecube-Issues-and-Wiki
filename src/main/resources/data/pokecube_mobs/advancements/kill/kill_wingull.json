@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.wingull.name"
+          "translate": "entity.pokecube.wingull"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.wingull.name"
+          "translate": "entity.pokecube.wingull"
         }
       ]
     }

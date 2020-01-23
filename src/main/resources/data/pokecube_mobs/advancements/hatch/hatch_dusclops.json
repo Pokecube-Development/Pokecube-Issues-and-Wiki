@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.dusclops.name"
+          "translate": "entity.pokecube.dusclops"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.dusclops.name"
+          "translate": "entity.pokecube.dusclops"
         }
       ]
     }

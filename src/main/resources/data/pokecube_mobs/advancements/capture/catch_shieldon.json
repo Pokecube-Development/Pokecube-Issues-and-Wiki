@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.shieldon.name"
+          "translate": "entity.pokecube.shieldon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.shieldon.name"
+          "translate": "entity.pokecube.shieldon"
         }
       ]
     }

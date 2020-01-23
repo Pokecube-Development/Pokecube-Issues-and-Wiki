@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.gastly.name"
+          "translate": "entity.pokecube.gastly"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.gastly.name"
+          "translate": "entity.pokecube.gastly"
         }
       ]
     }

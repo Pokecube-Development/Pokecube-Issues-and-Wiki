@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.seismitoad.name"
+          "translate": "entity.pokecube.seismitoad"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.seismitoad.name"
+          "translate": "entity.pokecube.seismitoad"
         }
       ]
     }

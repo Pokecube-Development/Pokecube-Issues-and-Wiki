@@ -1,9 +1,6 @@
 package pokecube.core.world.gen.feature.scattered;
 
 import java.util.Random;
-import java.util.function.Function;
-
-import com.mojang.datafixers.Dynamic;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -16,11 +13,11 @@ import pokecube.core.world.gen.structure.ConfigStructure;
 
 public class PokecentreFeature extends ConfigStructure
 {
-    public static final Structure<NoFeatureConfig> START_BUILDING = new PokecentreFeature(NoFeatureConfig::deserialize);
+    public static final Structure<NoFeatureConfig> START_BUILDING = new PokecentreFeature();
 
-    public PokecentreFeature(final Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn)
+    public PokecentreFeature()
     {
-        super(configFactoryIn, new ResourceLocation(PokecubeCore.MODID, "start_pokecentre"));
+        super(new ResourceLocation(PokecubeCore.MODID, "start_pokecentre"));
         this.setStructure(new ResourceLocation("pokecube", "scattered/start_pokecentre"));
     }
 

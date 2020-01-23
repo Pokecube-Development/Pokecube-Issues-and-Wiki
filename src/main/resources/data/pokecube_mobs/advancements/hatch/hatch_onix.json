@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.onix.name"
+          "translate": "entity.pokecube.onix"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.onix.name"
+          "translate": "entity.pokecube.onix"
         }
       ]
     }

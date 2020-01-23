@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.heliolisk.name"
+          "translate": "entity.pokecube.heliolisk"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.heliolisk.name"
+          "translate": "entity.pokecube.heliolisk"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.serperior.name"
+          "translate": "entity.pokecube.serperior"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.serperior.name"
+          "translate": "entity.pokecube.serperior"
         }
       ]
     }

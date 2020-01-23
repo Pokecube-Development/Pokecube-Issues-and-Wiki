@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.lickitung.name"
+          "translate": "entity.pokecube.lickitung"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.lickitung.name"
+          "translate": "entity.pokecube.lickitung"
         }
       ]
     }

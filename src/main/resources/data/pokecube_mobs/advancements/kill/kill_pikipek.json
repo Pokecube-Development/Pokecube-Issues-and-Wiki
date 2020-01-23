@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.pikipek.name"
+          "translate": "entity.pokecube.pikipek"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.pikipek.name"
+          "translate": "entity.pokecube.pikipek"
         }
       ]
     }

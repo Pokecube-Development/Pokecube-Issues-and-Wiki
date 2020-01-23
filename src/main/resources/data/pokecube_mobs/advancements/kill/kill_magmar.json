@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.magmar.name"
+          "translate": "entity.pokecube.magmar"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.magmar.name"
+          "translate": "entity.pokecube.magmar"
         }
       ]
     }

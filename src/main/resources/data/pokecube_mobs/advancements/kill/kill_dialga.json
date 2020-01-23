@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.dialga.name"
+          "translate": "entity.pokecube.dialga"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.dialga.name"
+          "translate": "entity.pokecube.dialga"
         }
       ]
     },

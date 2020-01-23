@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.linoone.name"
+          "translate": "entity.pokecube.linoone"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.linoone.name"
+          "translate": "entity.pokecube.linoone"
         }
       ]
     }

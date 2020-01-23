@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.buzzwole.name"
+          "translate": "entity.pokecube.buzzwole"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.buzzwole.name"
+          "translate": "entity.pokecube.buzzwole"
         }
       ]
     },

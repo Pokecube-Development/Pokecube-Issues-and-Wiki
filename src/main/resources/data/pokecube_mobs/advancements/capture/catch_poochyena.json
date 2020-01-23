@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.poochyena.name"
+          "translate": "entity.pokecube.poochyena"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.poochyena.name"
+          "translate": "entity.pokecube.poochyena"
         }
       ]
     }

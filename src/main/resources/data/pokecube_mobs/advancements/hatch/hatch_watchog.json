@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.watchog.name"
+          "translate": "entity.pokecube.watchog"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.watchog.name"
+          "translate": "entity.pokecube.watchog"
         }
       ]
     }

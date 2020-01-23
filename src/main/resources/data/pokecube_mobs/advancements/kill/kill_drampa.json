@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.drampa.name"
+          "translate": "entity.pokecube.drampa"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.drampa.name"
+          "translate": "entity.pokecube.drampa"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.hariyama.name"
+          "translate": "entity.pokecube.hariyama"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.hariyama.name"
+          "translate": "entity.pokecube.hariyama"
         }
       ]
     }

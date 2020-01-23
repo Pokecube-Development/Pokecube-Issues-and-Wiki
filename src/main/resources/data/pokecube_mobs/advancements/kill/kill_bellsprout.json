@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.bellsprout.name"
+          "translate": "entity.pokecube.bellsprout"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.bellsprout.name"
+          "translate": "entity.pokecube.bellsprout"
         }
       ]
     }

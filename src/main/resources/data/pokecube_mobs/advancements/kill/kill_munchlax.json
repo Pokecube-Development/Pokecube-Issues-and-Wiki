@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.munchlax.name"
+          "translate": "entity.pokecube.munchlax"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.munchlax.name"
+          "translate": "entity.pokecube.munchlax"
         }
       ]
     }

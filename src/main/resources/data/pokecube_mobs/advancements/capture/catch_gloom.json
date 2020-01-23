@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.gloom.name"
+          "translate": "entity.pokecube.gloom"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.gloom.name"
+          "translate": "entity.pokecube.gloom"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.squirtle.name"
+          "translate": "entity.pokecube.squirtle"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.squirtle.name"
+          "translate": "entity.pokecube.squirtle"
         }
       ]
     }

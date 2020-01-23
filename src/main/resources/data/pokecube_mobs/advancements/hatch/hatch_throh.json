@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.throh.name"
+          "translate": "entity.pokecube.throh"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.throh.name"
+          "translate": "entity.pokecube.throh"
         }
       ]
     }

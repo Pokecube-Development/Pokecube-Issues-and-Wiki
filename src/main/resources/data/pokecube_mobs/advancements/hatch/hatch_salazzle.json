@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.salazzle.name"
+          "translate": "entity.pokecube.salazzle"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.salazzle.name"
+          "translate": "entity.pokecube.salazzle"
         }
       ]
     }

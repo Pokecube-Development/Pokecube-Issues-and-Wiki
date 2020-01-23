@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.bunnelby.name"
+          "translate": "entity.pokecube.bunnelby"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.bunnelby.name"
+          "translate": "entity.pokecube.bunnelby"
         }
       ]
     }

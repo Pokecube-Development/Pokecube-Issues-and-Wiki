@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.drifblim.name"
+          "translate": "entity.pokecube.drifblim"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.drifblim.name"
+          "translate": "entity.pokecube.drifblim"
         }
       ]
     }

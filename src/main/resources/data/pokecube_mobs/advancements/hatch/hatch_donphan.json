@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.donphan.name"
+          "translate": "entity.pokecube.donphan"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.donphan.name"
+          "translate": "entity.pokecube.donphan"
         }
       ]
     }

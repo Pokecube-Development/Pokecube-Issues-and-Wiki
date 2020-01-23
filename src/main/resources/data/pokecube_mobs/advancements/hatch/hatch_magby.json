@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.magby.name"
+          "translate": "entity.pokecube.magby"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.magby.name"
+          "translate": "entity.pokecube.magby"
         }
       ]
     }

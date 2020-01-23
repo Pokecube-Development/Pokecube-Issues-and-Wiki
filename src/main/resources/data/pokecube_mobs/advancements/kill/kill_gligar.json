@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.gligar.name"
+          "translate": "entity.pokecube.gligar"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.gligar.name"
+          "translate": "entity.pokecube.gligar"
         }
       ]
     }

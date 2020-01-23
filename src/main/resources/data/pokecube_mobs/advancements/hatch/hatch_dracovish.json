@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.dracovish.name"
+          "translate": "entity.pokecube.dracovish"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.dracovish.name"
+          "translate": "entity.pokecube.dracovish"
         }
       ]
     }

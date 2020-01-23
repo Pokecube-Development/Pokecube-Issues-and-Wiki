@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.hippowdon.name"
+          "translate": "entity.pokecube.hippowdon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.hippowdon.name"
+          "translate": "entity.pokecube.hippowdon"
         }
       ]
     }

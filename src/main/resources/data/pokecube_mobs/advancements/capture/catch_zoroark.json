@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.zoroark.name"
+          "translate": "entity.pokecube.zoroark"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.zoroark.name"
+          "translate": "entity.pokecube.zoroark"
         }
       ]
     }

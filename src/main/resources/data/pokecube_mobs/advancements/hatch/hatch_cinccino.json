@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.cinccino.name"
+          "translate": "entity.pokecube.cinccino"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.cinccino.name"
+          "translate": "entity.pokecube.cinccino"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.staryu.name"
+          "translate": "entity.pokecube.staryu"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.staryu.name"
+          "translate": "entity.pokecube.staryu"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.aerodactyl.name"
+          "translate": "entity.pokecube.aerodactyl"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.aerodactyl.name"
+          "translate": "entity.pokecube.aerodactyl"
         }
       ]
     }

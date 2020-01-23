@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.cosmoem.name"
+          "translate": "entity.pokecube.cosmoem"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.cosmoem.name"
+          "translate": "entity.pokecube.cosmoem"
         }
       ]
     }

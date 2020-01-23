@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.dragapult.name"
+          "translate": "entity.pokecube.dragapult"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.dragapult.name"
+          "translate": "entity.pokecube.dragapult"
         }
       ]
     }

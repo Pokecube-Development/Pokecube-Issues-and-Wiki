@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.larvesta.name"
+          "translate": "entity.pokecube.larvesta"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.larvesta.name"
+          "translate": "entity.pokecube.larvesta"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.slakoth.name"
+          "translate": "entity.pokecube.slakoth"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.slakoth.name"
+          "translate": "entity.pokecube.slakoth"
         }
       ]
     }

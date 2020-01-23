@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.gliscor.name"
+          "translate": "entity.pokecube.gliscor"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.gliscor.name"
+          "translate": "entity.pokecube.gliscor"
         }
       ]
     }

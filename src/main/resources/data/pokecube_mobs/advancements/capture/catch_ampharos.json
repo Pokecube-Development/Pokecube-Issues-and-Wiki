@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.ampharos.name"
+          "translate": "entity.pokecube.ampharos"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.ampharos.name"
+          "translate": "entity.pokecube.ampharos"
         }
       ]
     }

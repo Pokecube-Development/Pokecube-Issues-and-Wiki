@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.bisharp.name"
+          "translate": "entity.pokecube.bisharp"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.bisharp.name"
+          "translate": "entity.pokecube.bisharp"
         }
       ]
     }

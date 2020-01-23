@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.purugly.name"
+          "translate": "entity.pokecube.purugly"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.purugly.name"
+          "translate": "entity.pokecube.purugly"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.togekiss.name"
+          "translate": "entity.pokecube.togekiss"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.togekiss.name"
+          "translate": "entity.pokecube.togekiss"
         }
       ]
     }

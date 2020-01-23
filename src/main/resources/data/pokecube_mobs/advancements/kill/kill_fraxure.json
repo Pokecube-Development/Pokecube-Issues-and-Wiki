@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.fraxure.name"
+          "translate": "entity.pokecube.fraxure"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.fraxure.name"
+          "translate": "entity.pokecube.fraxure"
         }
       ]
     }

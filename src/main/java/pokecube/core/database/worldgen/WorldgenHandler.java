@@ -1,26 +1,30 @@
 package pokecube.core.database.worldgen;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
-
-import javax.xml.namespace.QName;
+import java.util.Locale;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.world.gen.structure.ConfigStructure;
 
 public class WorldgenHandler
 {
@@ -63,7 +67,7 @@ public class WorldgenHandler
          * Parts are sorted by priority, then the first to have a successful
          * pick is what is generated for that position.
          */
-        float            chance   = 1;
+        float            chance = 1;
         int              offset;
         public String    biomeType;
         public SpawnRule spawn;
@@ -76,8 +80,6 @@ public class WorldgenHandler
         public String    position;
         public String    rotation;
         public String    mirror;
-        /** lower numbers get put higher up the "pick list" */
-        public int       priority = 100;
     }
 
     public static class Structures
@@ -90,260 +92,49 @@ public class WorldgenHandler
 
     public static CustomDims dims;
 
-    public static Structures defaults = new Structures();
+    public static ResourceLocation ROOT     = new ResourceLocation(PokecubeCore.MODID, "structures/");
+    public static Structures       defaults = new Structures();
 
-    static void init()
+    public static void loadStructures() throws Exception
     {
-        WorldgenHandler.defaults.structures.clear();
-        final Structure ruin_1 = new Structure();
-        ruin_1.name = "ruin_1";
-        ruin_1.chance = 0.002f;
-        ruin_1.offset = -3;
-        ruin_1.biomeType = "ruin";
-        final SpawnRule rule = new SpawnRule();
-        rule.values.put(SpawnBiomeMatcher.TYPES, "plains");
-        ruin_1.spawn = rule;
-        WorldgenHandler.defaults.structures.add(ruin_1);
-    }
-
-    public static void init(File file)
-    {
-        WorldgenHandler.init();
-        if (!file.exists())
-        {
-            final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, new TypeAdapter<QName>()
-            {
-                @Override
-                public QName read(JsonReader in) throws IOException
-                {
-                    return new QName(in.nextString());
-                }
-
-                @Override
-                public void write(JsonWriter out, QName value) throws IOException
-                {
-                    out.value(value.toString());
-                }
-            }).setPrettyPrinting().create();
-            final String json = gson.toJson(WorldgenHandler.defaults, Structures.class);
-            try
-            {
-                final FileWriter writer = new FileWriter(file);
-                writer.append(json);
-                writer.close();
-            }
-            catch (final IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        else
-        {
-            WorldgenHandler.defaults.structures.clear();
-            WorldgenHandler.defaults.multiStructures.clear();
-            FileInputStream stream;
-            try
-            {
-                stream = new FileInputStream(file);
-                try
-                {
-                    WorldgenHandler.loadStructures(stream, true);
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
-                stream.close();
-            }
-            catch (final FileNotFoundException e)
-            {
-                e.printStackTrace();
-            }
-            catch (final IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void loadCustomDims(String dimFile)
-    {
-        // File file = new File(PokecubeTemplates.TEMPLATES, dimFile);
-        // if (!file.exists())
-        // {
-        // PokecubeCore.LOGGER.info("No Custom Dimensions file found: " + file
-        // + " If you make one, it will allow specifying custom dimensions and
-        // worldgen.");
-        // return;
-        // }
-        //
-        // try
-        // {
-        // FileInputStream stream = new FileInputStream(file);
-        // InputStreamReader reader = new InputStreamReader(stream);
-        // dims = PokedexEntryLoader.gson.fromJson(reader, CustomDims.class);
-        // if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Loaded Dims: " +
-        // dims.dims);
-        // }
-        // catch (Exception e)
-        // {
-        // PokecubeCore.LOGGER.error("Error loading custom Dims from: " + file,
-        // e);
-        // }
-
-    }
-
-    public static void loadStructures(InputStream stream, boolean json) throws Exception
-    {
-        Structures database;
-        final InputStreamReader reader = new InputStreamReader(stream);
-        if (json) database = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
-        else throw new IllegalArgumentException("The database for structures Must be a json.");
+        final ResourceLocation json = new ResourceLocation(WorldgenHandler.ROOT.toString() + "worldgen.json");
+        final InputStream res = Database.resourceManager.getResource(json).getInputStream();
+        final Reader reader = new InputStreamReader(res);
+        final Structures database = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
         WorldgenHandler.defaults.structures.addAll(database.structures);
         WorldgenHandler.defaults.multiStructures.addAll(database.multiStructures);
     }
 
-    public static void loadStructures(String configFile)
+    public static void processStructures(final RegistryEvent.Register<Feature<?>> event)
     {
-        // boolean json = configFile.endsWith("json");
-        // File file = new File(PokecubeTemplates.TEMPLATES, configFile);
-        // try
-        // {
-        // FileInputStream stream = new FileInputStream(file);
-        // try
-        // {
-        // loadStructures(stream, json);
-        // }
-        // catch (Exception e)
-        // {
-        // e.printStackTrace();
-        // }
-        // stream.close();
-        // }
-        // catch (Exception e)
-        // {
-        // e.printStackTrace();
-        // }
+        try
+        {
+            WorldgenHandler.loadStructures();
+        }
+        catch (final Exception e)
+        {
+            PokecubeMod.LOGGER.catching(e);
+        }
 
-    }
+        for (final Structure struct : WorldgenHandler.defaults.structures)
+        {
+            final String structname = WorldgenHandler.ROOT.toString() + struct.name.replaceAll("/", "_").toLowerCase(
+                    Locale.ROOT);
+            final ResourceLocation regname = new ResourceLocation(structname);
+            final ConfigStructure toAdd = new ConfigStructure(regname);
+            toAdd.structLoc = new ResourceLocation(WorldgenHandler.ROOT.toString() + struct.name);
+            toAdd.subbiome = struct.biomeType;
 
-    public static void processStructures()
-    {
-        // for (Structure struct : defaults.structures)
-        // {
-        // try
-        // {
-        // WorldGenTemplates.TemplateGen template = new TemplateGen(struct.name,
-        // new SpawnBiomeMatcher(struct.spawn), struct.chance, struct.offset);
-        // WorldGenTemplates.templates.add(template);
-        // WorldGenTemplates.namedTemplates.put(struct.name, new
-        // TemplateGen(struct.name,
-        // new SpawnBiomeMatcher(struct.spawn), struct.chance, struct.offset));
-        // if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Loaded Structure: "
-        // + struct.name + " " + struct.spawn + " "
-        // + struct.chance + " " + struct.offset);
-        // }
-        // catch (Exception e)
-        // {
-        // PokecubeCore.LOGGER.error(
-        // (struct.name + " " + struct.spawn + " " + struct.chance + " " +
-        // struct.offset), e);
-        // }
-        // }
-        // for (MultiStructure struct : defaults.multiStructures)
-        // {
-        // WorldGenMultiTemplate gen = new WorldGenMultiTemplate(new
-        // SpawnBiomeMatcher(struct.spawn));
-        // gen.chance = struct.chance;
-        // gen.syncGround = struct.syncGround;
-        // for (Structure struct2 : struct.structures)
-        // {
-        // try
-        // {
-        // TemplateSet subGen = new TemplateSet(struct2.name, struct2.offset);
-        // WorldGenMultiTemplate.Template template = new
-        // WorldGenMultiTemplate.Template();
-        // template.template = subGen;
-        // String[] args = struct2.position.split(",");
-        // BlockPos pos = new BlockPos(Integer.parseInt(args[0]),
-        // Integer.parseInt(args[1]),
-        // Integer.parseInt(args[2]));
-        //
-        // if (struct2.rotation != null) template.rotation =
-        // Rotation.valueOf(struct2.rotation);
-        // if (struct2.mirror != null) template.mirror =
-        // Mirror.valueOf(struct2.mirror);
-        // template.priority = struct2.priority;
-        // template.position = pos;
-        // template.chance = struct2.chance;
-        // template.biome = struct2.biomeType;
-        // gen.subTemplates.add(template);
-        // }
-        // catch (Exception e)
-        // {
-        // PokecubeCore.LOGGER.error(
-        // (struct2.name + " " + struct2.spawn + " " + struct2.chance + " " +
-        // struct2.offset), e);
-        // }
-        // }
-        // if (PokecubeMod.debug) PokecubeCore.LOGGER.info(struct.name + " " +
-        // gen.subTemplates + " " + struct.structures);
-        // if (!gen.subTemplates.isEmpty())
-        // {
-        // WorldGenTemplates.templates.add(gen);
-        // gen = new WorldGenMultiTemplate(new SpawnBiomeMatcher(struct.spawn));
-        // gen.chance = struct.chance;
-        // gen.syncGround = struct.syncGround;
-        // if (PokecubeMod.debug) PokecubeMod
-        // .log("Loaded Multi Structure: " + struct.name + " " + struct.spawn +
-        // " " + struct.chance);
-        // for (Structure struct2 : struct.structures)
-        // {
-        // try
-        // {
-        // TemplateSet subGen = new TemplateSet(struct2.name, struct2.offset);
-        // WorldGenMultiTemplate.Template template = new
-        // WorldGenMultiTemplate.Template();
-        // template.template = subGen;
-        // String[] args = struct2.position.split(",");
-        // BlockPos pos = new BlockPos(Integer.parseInt(args[0]),
-        // Integer.parseInt(args[1]),
-        // Integer.parseInt(args[2]));
-        //
-        // if (struct2.rotation != null) template.rotation =
-        // Rotation.valueOf(struct2.rotation);
-        // if (struct2.mirror != null) template.mirror =
-        // Mirror.valueOf(struct2.mirror);
-        // template.priority = struct2.priority;
-        // template.position = pos;
-        // template.chance = struct2.chance;
-        // template.biome = struct2.biomeType;
-        // gen.subTemplates.add(template);
-        // }
-        // catch (Exception e)
-        // {
-        // PokecubeCore.LOGGER.error(
-        // (struct2.name + " " + struct2.spawn + " " + struct2.chance + " " +
-        // struct2.offset), e);
-        // }
-        // }
-        // WorldGenTemplates.namedTemplates.put(struct.name, gen);
-        // }
-        // }
-    }
+            event.getRegistry().register(toAdd);
+            final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(struct.spawn);
 
-    public static void reloadWorldgen()
-    {
-        // PokecubeTemplates.clear();
-        // WorldGenTemplates.templates.clear();
-        // WorldGenTemplates.namedTemplates.clear();
-        // WorldGenTemplates.TemplateGenStartBuilding.clear();
-        // init(DEFAULT);
-        // for (String s : PokecubeCore.getConfig().extraWorldgenDatabases)
-        // {
-        // WorldgenHandler.loadStructures(s);
-        // }
-        // WorldgenHandler.processStructures();
-        // loadCustomDims("custom_dims.json");
+            for (final Biome b : ForgeRegistries.BIOMES.getValues())
+            {
+                if (!matcher.checkBiome(b)) continue;
+                b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(toAdd,
+                        IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+                b.addStructure(toAdd, IFeatureConfig.NO_FEATURE_CONFIG);
+            }
+        }
     }
 }

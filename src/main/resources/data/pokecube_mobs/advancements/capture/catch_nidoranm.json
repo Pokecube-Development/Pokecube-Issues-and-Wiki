@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.nidoranm.name"
+          "translate": "entity.pokecube.nidoranm"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.nidoranm.name"
+          "translate": "entity.pokecube.nidoranm"
         }
       ]
     }

@@ -1,6 +1,5 @@
 package pokecube.core;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
@@ -10,8 +9,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Lists;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -29,15 +26,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
-import net.minecraft.world.gen.feature.structure.DesertVillagePools;
-import net.minecraft.world.gen.feature.structure.PlainsVillagePools;
-import net.minecraft.world.gen.feature.structure.SavannaVillagePools;
-import net.minecraft.world.gen.feature.structure.SnowyVillagePools;
-import net.minecraft.world.gen.feature.structure.TaigaVillagePools;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.api.distmarker.Dist;
@@ -111,16 +99,19 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerBiomes(final RegistryEvent.Register<Biome> event)
         {
-            PokecubeCore.LOGGER.info("Registering Biomes");
+            PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
         }
 
         @SubscribeEvent
         public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
         {
-            PokecubeCore.LOGGER.info("Registering Features");
-            event.getRegistry().register(PokecentreFeature.START_BUILDING);
+            PokecubeCore.LOGGER.debug("Registering Pokecube Features");
 
+            // Register the general structure piece we use
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
+
+            // Register the start building.
+            event.getRegistry().register(PokecentreFeature.START_BUILDING);
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(
@@ -129,32 +120,11 @@ public class PokecubeCore
                 b.addStructure(PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG);
             }
 
+            // Register the configurable worldgen things from datapack
+            // WorldgenHandler.processStructures(event);
+
             // Register village stuff
-
-            // First lets init the vanilla things.
-            PlainsVillagePools.init();
-            SnowyVillagePools.init();
-            SavannaVillagePools.init();
-            DesertVillagePools.init();
-            TaigaVillagePools.init();
-
-            // "village/plains/houses"
-            JigsawPattern houses = JigsawManager.field_214891_a.get(new ResourceLocation("village/plains/houses"));
-            JigsawManager.field_214891_a.register(RegistryEvents.copy(houses, Lists.newArrayList(
-                    new Pair<JigsawPiece, Integer>(new SingleJigsawPiece("village/plains/houses/plains_library_1"),
-                            100))));
-
-            houses = JigsawManager.field_214891_a.get(new ResourceLocation("village/desert/houses"));
-            JigsawManager.field_214891_a.register(RegistryEvents.copy(houses, Lists.newArrayList(
-                    new Pair<JigsawPiece, Integer>(new SingleJigsawPiece("pokecube:village/common/plains_library_1"),
-                            100))));
-        }
-
-        private static JigsawPattern copy(final JigsawPattern in, final List<Pair<JigsawPiece, Integer>> toAdd)
-        {
-            final List<Pair<JigsawPiece, Integer>> parts = Lists.newArrayList(toAdd);
-            parts.addAll(in.field_214952_d);
-            return new JigsawPattern(in.field_214951_c, in.field_214954_f, parts, in.field_214955_g);
+            // TODO add in forge village stuff maybe here when it is done.
         }
 
         @SubscribeEvent
@@ -168,7 +138,7 @@ public class PokecubeCore
             Database.preInit();
 
             // register a new block here
-            PokecubeCore.LOGGER.info("Registering Blocks");
+            PokecubeCore.LOGGER.debug("Registering Blocks");
             ItemHandler.registerBlocks(event.getRegistry());
         }
 
@@ -176,7 +146,7 @@ public class PokecubeCore
         public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event)
         {
             // register a new container here
-            PokecubeCore.LOGGER.info("Registering Pokecube Containers");
+            PokecubeCore.LOGGER.debug("Registering Pokecube Containers");
 
             event.getRegistry().register(ContainerPokemob.TYPE.setRegistryName(PokecubeCore.MODID, "pokemob"));
             event.getRegistry().register(HealerContainer.TYPE.setRegistryName(PokecubeCore.MODID, "healer"));
@@ -188,6 +158,7 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerDimensions(final RegistryEvent.Register<ModDimension> event)
         {
+            PokecubeCore.LOGGER.debug("Registering Pokecube Dimensions");
             event.getRegistry().register(SecretBaseDimension.DIMENSION.setRegistryName(PokecubeCore.MODID,
                     "secret_bases"));
         }
@@ -196,7 +167,7 @@ public class PokecubeCore
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
         {
             // register a new mob here
-            PokecubeCore.LOGGER.info("Registering Pokecube Mobs");
+            PokecubeCore.LOGGER.debug("Registering Pokecube Mobs");
 
             // Register the non-pokemobs first
             event.getRegistry().register(EntityPokecube.TYPE.setRegistryName(PokecubeCore.MODID, "pokecube"));
@@ -237,7 +208,7 @@ public class PokecubeCore
         public static void registerItems(final RegistryEvent.Register<Item> event)
         {
             // register a new item here
-            PokecubeCore.LOGGER.info("Registering Pokecube Items");
+            PokecubeCore.LOGGER.debug("Registering Pokecube Items");
             ItemHandler.registerItems(event.getRegistry());
         }
 
@@ -245,7 +216,7 @@ public class PokecubeCore
         public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
         {
             // register a new mob here
-            PokecubeCore.LOGGER.info("Registering Pokecube Sounds");
+            PokecubeCore.LOGGER.debug("Registering Pokecube Recipes");
             RecipeHandler.initRecipes(event);
         }
 
@@ -253,7 +224,7 @@ public class PokecubeCore
         public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
         {
             // register a new mob here
-            PokecubeCore.LOGGER.info("Registering Pokecube Sounds");
+            PokecubeCore.LOGGER.debug("Registering Pokecube Sounds");
             Database.initSounds(event.getRegistry());
 
             ResourceLocation sound = new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught");
@@ -269,7 +240,7 @@ public class PokecubeCore
         public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event)
         {
             // register a new TE here
-            PokecubeCore.LOGGER.info("Registering Pokecube TEs");
+            PokecubeCore.LOGGER.debug("Registering Pokecube TEs");
             ItemHandler.registerTiles(event.getRegistry());
         }
 
@@ -278,6 +249,7 @@ public class PokecubeCore
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
             if (!event.getMap().getBasePath().equals("textures")) return;
+            PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/cube_slot"));
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/tm_slot"));
         }

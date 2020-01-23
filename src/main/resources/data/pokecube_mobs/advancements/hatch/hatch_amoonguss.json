@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.amoonguss.name"
+          "translate": "entity.pokecube.amoonguss"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.amoonguss.name"
+          "translate": "entity.pokecube.amoonguss"
         }
       ]
     }

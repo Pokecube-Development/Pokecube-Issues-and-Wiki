@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.haunter.name"
+          "translate": "entity.pokecube.haunter"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.haunter.name"
+          "translate": "entity.pokecube.haunter"
         }
       ]
     }

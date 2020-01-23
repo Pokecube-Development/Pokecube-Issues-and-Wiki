@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.grimer.name"
+          "translate": "entity.pokecube.grimer"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.grimer.name"
+          "translate": "entity.pokecube.grimer"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.kricketot.name"
+          "translate": "entity.pokecube.kricketot"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.kricketot.name"
+          "translate": "entity.pokecube.kricketot"
         }
       ]
     }

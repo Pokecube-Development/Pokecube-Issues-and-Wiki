@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.cherubi.name"
+          "translate": "entity.pokecube.cherubi"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.cherubi.name"
+          "translate": "entity.pokecube.cherubi"
         }
       ]
     }

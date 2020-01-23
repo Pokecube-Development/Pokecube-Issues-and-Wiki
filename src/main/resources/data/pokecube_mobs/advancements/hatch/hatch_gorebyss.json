@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.gorebyss.name"
+          "translate": "entity.pokecube.gorebyss"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.gorebyss.name"
+          "translate": "entity.pokecube.gorebyss"
         }
       ]
     }

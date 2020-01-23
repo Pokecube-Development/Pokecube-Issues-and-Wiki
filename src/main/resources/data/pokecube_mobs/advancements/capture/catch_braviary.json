@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.braviary.name"
+          "translate": "entity.pokecube.braviary"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.braviary.name"
+          "translate": "entity.pokecube.braviary"
         }
       ]
     }

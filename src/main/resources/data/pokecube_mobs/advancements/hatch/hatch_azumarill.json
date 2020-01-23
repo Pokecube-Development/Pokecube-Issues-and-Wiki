@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.azumarill.name"
+          "translate": "entity.pokecube.azumarill"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.azumarill.name"
+          "translate": "entity.pokecube.azumarill"
         }
       ]
     }

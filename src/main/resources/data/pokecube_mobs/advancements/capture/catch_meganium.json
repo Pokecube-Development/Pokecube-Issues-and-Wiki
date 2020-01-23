@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.meganium.name"
+          "translate": "entity.pokecube.meganium"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.meganium.name"
+          "translate": "entity.pokecube.meganium"
         }
       ]
     }

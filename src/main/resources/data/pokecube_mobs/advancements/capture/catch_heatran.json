@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.heatran.name"
+          "translate": "entity.pokecube.heatran"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.heatran.name"
+          "translate": "entity.pokecube.heatran"
         }
       ]
     },

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.snubbull.name"
+          "translate": "entity.pokecube.snubbull"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.snubbull.name"
+          "translate": "entity.pokecube.snubbull"
         }
       ]
     }

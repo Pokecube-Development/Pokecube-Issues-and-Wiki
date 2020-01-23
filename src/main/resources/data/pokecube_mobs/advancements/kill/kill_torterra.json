@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.torterra.name"
+          "translate": "entity.pokecube.torterra"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.torterra.name"
+          "translate": "entity.pokecube.torterra"
         }
       ]
     }

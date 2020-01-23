@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.aron.name"
+          "translate": "entity.pokecube.aron"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.aron.name"
+          "translate": "entity.pokecube.aron"
         }
       ]
     }

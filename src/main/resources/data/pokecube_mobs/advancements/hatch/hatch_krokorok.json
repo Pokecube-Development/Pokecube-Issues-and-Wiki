@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.krokorok.name"
+          "translate": "entity.pokecube.krokorok"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.krokorok.name"
+          "translate": "entity.pokecube.krokorok"
         }
       ]
     }

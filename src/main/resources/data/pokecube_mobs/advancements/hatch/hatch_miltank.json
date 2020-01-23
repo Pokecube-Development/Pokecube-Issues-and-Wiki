@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.miltank.name"
+          "translate": "entity.pokecube.miltank"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.miltank.name"
+          "translate": "entity.pokecube.miltank"
         }
       ]
     }

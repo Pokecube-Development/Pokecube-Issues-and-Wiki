@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.maractus.name"
+          "translate": "entity.pokecube.maractus"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.maractus.name"
+          "translate": "entity.pokecube.maractus"
         }
       ]
     }

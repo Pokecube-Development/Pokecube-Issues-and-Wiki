@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.toxtricityamped.name"
+          "translate": "entity.pokecube.toxtricityamped"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.toxtricityamped.name"
+          "translate": "entity.pokecube.toxtricityamped"
         }
       ]
     }

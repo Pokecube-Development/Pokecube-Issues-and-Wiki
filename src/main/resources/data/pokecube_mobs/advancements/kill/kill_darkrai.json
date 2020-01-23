@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.darkrai.name"
+          "translate": "entity.pokecube.darkrai"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.darkrai.name"
+          "translate": "entity.pokecube.darkrai"
         }
       ]
     },

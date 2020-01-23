@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.mew.name"
+          "translate": "entity.pokecube.mew"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.mew.name"
+          "translate": "entity.pokecube.mew"
         }
       ]
     },

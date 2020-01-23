@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.oranguru.name"
+          "translate": "entity.pokecube.oranguru"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.oranguru.name"
+          "translate": "entity.pokecube.oranguru"
         }
       ]
     }

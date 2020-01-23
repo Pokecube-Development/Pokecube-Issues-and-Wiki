@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.cradily.name"
+          "translate": "entity.pokecube.cradily"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.cradily.name"
+          "translate": "entity.pokecube.cradily"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.lurantis.name"
+          "translate": "entity.pokecube.lurantis"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.lurantis.name"
+          "translate": "entity.pokecube.lurantis"
         }
       ]
     }

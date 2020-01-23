@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.morpeko.name"
+          "translate": "entity.pokecube.morpeko"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.morpeko.name"
+          "translate": "entity.pokecube.morpeko"
         }
       ]
     }

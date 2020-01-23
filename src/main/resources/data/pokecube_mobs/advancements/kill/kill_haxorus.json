@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.haxorus.name"
+          "translate": "entity.pokecube.haxorus"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.haxorus.name"
+          "translate": "entity.pokecube.haxorus"
         }
       ]
     }

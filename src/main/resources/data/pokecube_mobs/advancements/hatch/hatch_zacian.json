@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.zacian.name"
+          "translate": "entity.pokecube.zacian"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.zacian.name"
+          "translate": "entity.pokecube.zacian"
         }
       ]
     }

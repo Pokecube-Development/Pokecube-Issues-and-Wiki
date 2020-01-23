@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.minccino.name"
+          "translate": "entity.pokecube.minccino"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.minccino.name"
+          "translate": "entity.pokecube.minccino"
         }
       ]
     }

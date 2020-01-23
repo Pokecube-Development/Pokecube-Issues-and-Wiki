@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.perrserker"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.perrserker"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_perrserker": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "perrserker"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_meowthgalar"
+}

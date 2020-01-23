@@ -15,6 +15,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -116,8 +118,7 @@ public class EntityProfessor extends AgeableEntity implements IEntityAdditionalS
             if (player instanceof ServerPlayerEntity)
             {
                 final boolean canPick = PacketChoose.canPick(player.getGameProfile());
-                final PacketChoose packet = PacketChoose.createOpenPacket(false, true, Database.getStarters());
-                System.out.println(canPick);
+                final PacketChoose packet = PacketChoose.createOpenPacket(false, canPick, Database.getStarters());
                 PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) player);
             }
             break;
@@ -147,6 +148,13 @@ public class EntityProfessor extends AgeableEntity implements IEntityAdditionalS
             this.type = ProfessorType.PROFESSOR;
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ITextComponent getDisplayName()
+    {
+        if (this.name != null && !this.name.isEmpty()) return new StringTextComponent(this.name);
+        return super.getDisplayName();
     }
 
     @Override

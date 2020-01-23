@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.hatterene.name"
+          "translate": "entity.pokecube.hatterene"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.hatterene.name"
+          "translate": "entity.pokecube.hatterene"
         }
       ]
     }

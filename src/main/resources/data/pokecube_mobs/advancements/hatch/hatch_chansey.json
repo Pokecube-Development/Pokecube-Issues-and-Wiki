@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.chansey.name"
+          "translate": "entity.pokecube.chansey"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.chansey.name"
+          "translate": "entity.pokecube.chansey"
         }
       ]
     }

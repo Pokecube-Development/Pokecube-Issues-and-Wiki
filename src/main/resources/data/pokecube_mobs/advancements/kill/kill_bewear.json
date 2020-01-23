@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.bewear.name"
+          "translate": "entity.pokecube.bewear"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.bewear.name"
+          "translate": "entity.pokecube.bewear"
         }
       ]
     }

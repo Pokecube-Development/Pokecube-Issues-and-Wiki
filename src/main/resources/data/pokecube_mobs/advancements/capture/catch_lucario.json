@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.lucario.name"
+          "translate": "entity.pokecube.lucario"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.lucario.name"
+          "translate": "entity.pokecube.lucario"
         }
       ]
     }

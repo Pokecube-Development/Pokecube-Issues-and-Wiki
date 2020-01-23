@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.grapploct"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.grapploct"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_grapploct": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "grapploct"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_clobbopus"
+}

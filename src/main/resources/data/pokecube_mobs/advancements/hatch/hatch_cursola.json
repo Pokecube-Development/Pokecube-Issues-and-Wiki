@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cursola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cursola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_cursola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "cursola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_corsolagalar"
+}

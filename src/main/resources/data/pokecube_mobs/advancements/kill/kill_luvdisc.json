@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.luvdisc.name"
+          "translate": "entity.pokecube.luvdisc"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.luvdisc.name"
+          "translate": "entity.pokecube.luvdisc"
         }
       ]
     }

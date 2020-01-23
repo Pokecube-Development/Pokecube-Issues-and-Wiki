@@ -71,7 +71,6 @@ import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipes;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
-import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -215,6 +214,7 @@ public class Database
     static HashSet<PokedexEntry>                           allFormes       = new HashSet<>();
     private static List<PokedexEntry>                      sortedFormes    = Lists.newArrayList();
     public static HashMap<Integer, PokedexEntry>           baseFormes      = new HashMap<>();
+    public static HashMap<Integer, PokedexEntry>           dummyMap        = new HashMap<>();
     public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
 
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
@@ -340,25 +340,29 @@ public class Database
     private static void checkDummies(final List<PokedexEntry> formes, final Map.Entry<Integer, PokedexEntry> vars)
     {
         final PokedexEntry entry = vars.getValue();
-        if (entry.dummy) for (final PokedexEntry entry1 : formes)
-            if (!entry1.dummy)
-            {
-                entry1.base = true;
-                entry.base = false;
-                Database.data.put(entry1.getPokedexNb(), entry1);
-                Database.data2.put(entry.getTrimmedName(), entry1);
-                Database.data2.put(entry.getName(), entry1);
-                // Set all the subformes base to this new one.
-                for (final PokedexEntry e : formes)
+        if (entry.dummy)
+        {
+            Database.dummyMap.put(vars.getKey(), entry);
+            for (final PokedexEntry entry1 : formes)
+                if (!entry1.dummy)
                 {
-                    // Set the forme.
-                    e.setBaseForme(entry1);
-                    // Initialize some things.
-                    e.getBaseForme();
+                    entry1.base = true;
+                    entry.base = false;
+                    Database.data.put(entry1.getPokedexNb(), entry1);
+                    Database.data2.put(entry.getTrimmedName(), entry1);
+                    Database.data2.put(entry.getName(), entry1);
+                    // Set all the subformes base to this new one.
+                    for (final PokedexEntry e : formes)
+                    {
+                        // Set the forme.
+                        e.setBaseForme(entry1);
+                        // Initialize some things.
+                        e.getBaseForme();
+                    }
+                    vars.setValue(entry1);
+                    break;
                 }
-                vars.setValue(entry1);
-                break;
-            }
+        }
     }
 
     private static void checkGenderFormes(final List<PokedexEntry> formes, final Map.Entry<Integer, PokedexEntry> vars)
@@ -558,9 +562,6 @@ public class Database
         // Fire load event to let addons do stuff after databases have been
         // loaded.
         MinecraftForge.EVENT_BUS.post(new InitDatabase.Load());
-
-        // Load worldgen stuff
-        WorldgenHandler.reloadWorldgen();
 
         // Make the pokedex entries with what was in database.
         try

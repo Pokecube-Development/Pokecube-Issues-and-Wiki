@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.whimsicott.name"
+          "translate": "entity.pokecube.whimsicott"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.whimsicott.name"
+          "translate": "entity.pokecube.whimsicott"
         }
       ]
     }

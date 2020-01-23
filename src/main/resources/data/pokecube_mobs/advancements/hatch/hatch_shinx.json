@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.shinx.name"
+          "translate": "entity.pokecube.shinx"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.shinx.name"
+          "translate": "entity.pokecube.shinx"
         }
       ]
     }

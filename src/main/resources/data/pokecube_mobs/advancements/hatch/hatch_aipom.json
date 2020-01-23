@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.aipom.name"
+          "translate": "entity.pokecube.aipom"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.aipom.name"
+          "translate": "entity.pokecube.aipom"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.tangrowth.name"
+          "translate": "entity.pokecube.tangrowth"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.tangrowth.name"
+          "translate": "entity.pokecube.tangrowth"
         }
       ]
     }

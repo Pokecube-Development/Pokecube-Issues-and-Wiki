@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.electabuzz.name"
+          "translate": "entity.pokecube.electabuzz"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.electabuzz.name"
+          "translate": "entity.pokecube.electabuzz"
         }
       ]
     }

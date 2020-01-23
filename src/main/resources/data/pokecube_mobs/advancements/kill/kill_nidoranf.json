@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.nidoranf.name"
+          "translate": "entity.pokecube.nidoranf"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.nidoranf.name"
+          "translate": "entity.pokecube.nidoranf"
         }
       ]
     }

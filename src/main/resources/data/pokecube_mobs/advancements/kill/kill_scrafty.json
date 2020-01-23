@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.scrafty.name"
+          "translate": "entity.pokecube.scrafty"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.scrafty.name"
+          "translate": "entity.pokecube.scrafty"
         }
       ]
     }

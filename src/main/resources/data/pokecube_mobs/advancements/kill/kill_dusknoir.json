@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.dusknoir.name"
+          "translate": "entity.pokecube.dusknoir"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.dusknoir.name"
+          "translate": "entity.pokecube.dusknoir"
         }
       ]
     }

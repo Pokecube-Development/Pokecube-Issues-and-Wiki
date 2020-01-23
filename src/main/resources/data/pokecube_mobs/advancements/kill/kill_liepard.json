@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.liepard.name"
+          "translate": "entity.pokecube.liepard"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.liepard.name"
+          "translate": "entity.pokecube.liepard"
         }
       ]
     }

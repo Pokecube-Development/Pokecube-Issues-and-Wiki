@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.skiddo.name"
+          "translate": "entity.pokecube.skiddo"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.skiddo.name"
+          "translate": "entity.pokecube.skiddo"
         }
       ]
     }

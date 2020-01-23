@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.cascoon.name"
+          "translate": "entity.pokecube.cascoon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.cascoon.name"
+          "translate": "entity.pokecube.cascoon"
         }
       ]
     }

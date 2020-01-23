@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.magearna.name"
+          "translate": "entity.pokecube.magearna"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.magearna.name"
+          "translate": "entity.pokecube.magearna"
         }
       ]
     }

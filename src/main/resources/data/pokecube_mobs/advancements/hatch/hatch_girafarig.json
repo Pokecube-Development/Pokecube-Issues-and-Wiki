@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.girafarig.name"
+          "translate": "entity.pokecube.girafarig"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.girafarig.name"
+          "translate": "entity.pokecube.girafarig"
         }
       ]
     }

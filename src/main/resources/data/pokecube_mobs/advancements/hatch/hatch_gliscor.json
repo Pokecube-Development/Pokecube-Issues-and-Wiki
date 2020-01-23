@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.gliscor.name"
+          "translate": "entity.pokecube.gliscor"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.gliscor.name"
+          "translate": "entity.pokecube.gliscor"
         }
       ]
     }

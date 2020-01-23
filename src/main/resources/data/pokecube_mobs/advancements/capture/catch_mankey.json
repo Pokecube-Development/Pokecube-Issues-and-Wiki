@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.mankey.name"
+          "translate": "entity.pokecube.mankey"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.mankey.name"
+          "translate": "entity.pokecube.mankey"
         }
       ]
     }

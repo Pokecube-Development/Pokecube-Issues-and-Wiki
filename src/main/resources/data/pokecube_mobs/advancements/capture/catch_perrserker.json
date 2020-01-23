@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.perrserker"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.perrserker"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_perrserker": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "perrserker"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_meowthgalar"
+}

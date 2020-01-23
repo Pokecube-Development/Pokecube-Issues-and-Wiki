@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.corvisquire.name"
+          "translate": "entity.pokecube.corvisquire"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.corvisquire.name"
+          "translate": "entity.pokecube.corvisquire"
         }
       ]
     }

@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.chikorita.name"
+          "translate": "entity.pokecube.chikorita"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.chikorita.name"
+          "translate": "entity.pokecube.chikorita"
         }
       ]
     }

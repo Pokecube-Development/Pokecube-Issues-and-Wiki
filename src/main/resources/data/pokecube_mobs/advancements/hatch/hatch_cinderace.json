@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.cinderace.name"
+          "translate": "entity.pokecube.cinderace"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.cinderace.name"
+          "translate": "entity.pokecube.cinderace"
         }
       ]
     }

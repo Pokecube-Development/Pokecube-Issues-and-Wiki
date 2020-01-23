@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.tranquill.name"
+          "translate": "entity.pokecube.tranquill"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.tranquill.name"
+          "translate": "entity.pokecube.tranquill"
         }
       ]
     }

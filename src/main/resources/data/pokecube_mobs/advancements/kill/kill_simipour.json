@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.simipour.name"
+          "translate": "entity.pokecube.simipour"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.simipour.name"
+          "translate": "entity.pokecube.simipour"
         }
       ]
     }

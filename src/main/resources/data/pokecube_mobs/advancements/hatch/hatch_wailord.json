@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.wailord.name"
+          "translate": "entity.pokecube.wailord"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.wailord.name"
+          "translate": "entity.pokecube.wailord"
         }
       ]
     }

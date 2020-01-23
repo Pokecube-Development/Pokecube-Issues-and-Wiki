@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "pkmn.camerupt.name"
+          "translate": "entity.pokecube.camerupt"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "pkmn.camerupt.name"
+          "translate": "entity.pokecube.camerupt"
         }
       ]
     }

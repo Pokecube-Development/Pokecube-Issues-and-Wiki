@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.skwovet"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.skwovet"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_skwovet": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "skwovet"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

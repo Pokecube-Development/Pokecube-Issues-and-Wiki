@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.perrserker"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.perrserker"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_perrserker": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "perrserker"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_meowthgalar"
+}

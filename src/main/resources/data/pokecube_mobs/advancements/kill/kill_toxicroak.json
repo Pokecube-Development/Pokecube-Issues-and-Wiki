@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.toxicroak.name"
+          "translate": "entity.pokecube.toxicroak"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.toxicroak.name"
+          "translate": "entity.pokecube.toxicroak"
         }
       ]
     }

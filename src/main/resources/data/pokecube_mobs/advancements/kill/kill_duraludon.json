@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "pkmn.duraludon.name"
+          "translate": "entity.pokecube.duraludon"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "pkmn.duraludon.name"
+          "translate": "entity.pokecube.duraludon"
         }
       ]
     }

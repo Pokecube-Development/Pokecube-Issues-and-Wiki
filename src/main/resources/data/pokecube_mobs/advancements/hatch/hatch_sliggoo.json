@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.sliggoo.name"
+          "translate": "entity.pokecube.sliggoo"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.sliggoo.name"
+          "translate": "entity.pokecube.sliggoo"
         }
       ]
     }

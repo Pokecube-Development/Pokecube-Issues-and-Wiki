@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.lapras.name"
+          "translate": "entity.pokecube.lapras"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.lapras.name"
+          "translate": "entity.pokecube.lapras"
         }
       ]
     }

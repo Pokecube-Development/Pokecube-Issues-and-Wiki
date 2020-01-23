@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "pkmn.grookey.name"
+          "translate": "entity.pokecube.grookey"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "pkmn.grookey.name"
+          "translate": "entity.pokecube.grookey"
         }
       ]
     }
