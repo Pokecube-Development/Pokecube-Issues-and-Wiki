@@ -30,7 +30,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.AIBattle;
@@ -375,7 +375,7 @@ public class TrainerEventHandler
     }
 
     @SubscribeEvent
-    public static void serverStarting(final FMLServerStartingEvent event)
+    public static void serverStarting(final FMLServerAboutToStartEvent event)
     {
         DBLoader.load();
     }

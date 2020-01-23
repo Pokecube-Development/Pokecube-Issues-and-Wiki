@@ -22,7 +22,7 @@ public class GuiPokeWatch extends Screen
     private static class MissingPage extends WatchPage
     {
 
-        public MissingPage(final pokecube.core.client.gui.watch.GuiPokeWatch watch)
+        public MissingPage(final GuiPokeWatch watch)
         {
             super(new TranslationTextComponent("pokewatch.title.blank"), watch);
             this.font = Minecraft.getInstance().fontRenderer;

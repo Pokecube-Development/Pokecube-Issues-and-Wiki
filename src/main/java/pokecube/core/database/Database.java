@@ -711,7 +711,7 @@ public class Database
         PokecubeCore.LOGGER.debug("Processed Form Lists, found " + dummies + " Dummy Forms.");
     }
 
-    public static void initSounds(final IForgeRegistry<SoundEvent> registry)
+    public static void initMobSounds(final IForgeRegistry<SoundEvent> registry)
     {
         // Register sounds for the pokemobs
         final List<PokedexEntry> toProcess = Lists.newArrayList(Pokedex.getInstance().getRegisteredEntries());
@@ -719,7 +719,6 @@ public class Database
         for (final PokedexEntry e : toProcess)
         {
             if (e.getModId() == null || e.event != null) continue;
-
             if (e.sound == null) if (e.customSound != null) e.setSound("mobs." + Database.trim(e.customSound));
             else if (e.base) e.setSound("mobs." + e.getTrimmedName());
             else e.setSound("mobs." + e.getBaseForme().getTrimmedName());
@@ -730,7 +729,10 @@ public class Database
             if (registry.containsKey(e.sound)) continue;
             registry.register(e.event);
         }
+    }
 
+    public static void initSounds(final IForgeRegistry<SoundEvent> registry)
+    {
         // Register sounds for the moves
 
         // null as it should have been populated already

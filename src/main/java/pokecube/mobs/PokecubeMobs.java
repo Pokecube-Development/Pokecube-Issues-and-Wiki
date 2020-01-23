@@ -20,8 +20,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -67,6 +69,17 @@ import thut.core.client.render.model.ModelFactory;
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
 {
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeMobs.MODID)
+    public static class RegistryEvents
+    {
+        @SubscribeEvent
+        public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
+        {
+            // register a new mob here
+            PokecubeCore.LOGGER.debug("Registering Pokemob Sounds");
+            Database.initMobSounds(event.getRegistry());
+        }
+    }
 
     public static final String MODID = "pokecube_mobs";
 

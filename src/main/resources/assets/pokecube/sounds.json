@@ -40,5 +40,8 @@
 "moves.ember": {"category": "hostile","sounds": [{"name": "pokecube:moves/ember","stream": false}]},
 "moves.hitdamage": {"category": "hostile","sounds": [{"name": "pokecube:moves/hitdamage","stream": false}]},
 "moves.hitnoteffective": {"category": "hostile","sounds": [{"name": "pokecube:moves/hitnoteffective","stream": false}]},
-"moves.hitsupereffective": {"category": "hostile","sounds": [{"name": "pokecube:moves/hitsupereffective","stream": false}]}
+"moves.hitsupereffective": {"category": "hostile","sounds": [{"name": "pokecube:moves/hitsupereffective","stream": false}]},
+"pokecenter": {"category": "block","sounds": [{"name": "pokecube:pokecenter","stream": false}]},
+"pokecenterloop": {"category": "record","sounds": [{"name": "pokecube:pokecenterloop","stream": true}]},
+"pokecube_caught": {"category": "player","sounds": [{"name": "pokecube:pokecube_caught","stream": false}]}
 }

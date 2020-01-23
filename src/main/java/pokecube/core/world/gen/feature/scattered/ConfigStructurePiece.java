@@ -1,6 +1,8 @@
-package pokecube.core.world.gen.structure;
+package pokecube.core.world.gen.feature.scattered;
 
 import java.util.Random;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
@@ -22,7 +24,10 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 
 public class ConfigStructurePiece extends TemplateStructurePiece
 {
-    public static IStructurePieceType CONFIGTYPE = (manager, nbt) -> new ConfigStructurePiece(manager, nbt);
+    public static final BlockIgnoreStructureProcessor IGNORELIST = new BlockIgnoreStructureProcessor(ImmutableList.of(
+            Blocks.STRUCTURE_BLOCK, Blocks.JIGSAW));
+    public static IStructurePieceType                 CONFIGTYPE = (manager, nbt) -> new ConfigStructurePiece(manager,
+            nbt);
 
     private Template               to_build;
     private final ResourceLocation template;
@@ -55,8 +60,7 @@ public class ConfigStructurePiece extends TemplateStructurePiece
     {
         this.to_build = manager.getTemplateDefaulted(this.template);
         final PlacementSettings placementsettings = new PlacementSettings().setRotation(this.rot).setCenterOffset(
-                this.centreOffset).setMirror(Mirror.NONE).addProcessor(
-                        BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
+                this.centreOffset).setMirror(Mirror.NONE).addProcessor(ConfigStructurePiece.IGNORELIST);
         this.setup(this.to_build, this.templatePosition, placementsettings);
     }
 
@@ -76,16 +80,15 @@ public class ConfigStructurePiece extends TemplateStructurePiece
                 i = Math.min(i, k);
                 // TODO maybe use average?
             }
-            System.out.println("Making a " + this.template);
             this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
 
-            for (final Template.BlockInfo info : this.to_build.func_215381_a(this.templatePosition,
-                    this.placeSettings, Blocks.STRUCTURE_BLOCK))
+            for (final Template.BlockInfo info : this.to_build.func_215381_a(this.templatePosition, this.placeSettings,
+                    Blocks.STRUCTURE_BLOCK))
                 if (info.nbt != null)
                 {
                     final StructureMode structuremode = StructureMode.valueOf(info.nbt.getString("mode"));
-                    if (structuremode == StructureMode.DATA) this.handleDataMarker(info.nbt.getString(
-                            "metadata"), info.pos, worldIn, randomIn, structureBoundingBoxIn);
+                    if (structuremode == StructureMode.DATA) this.handleDataMarker(info.nbt.getString("metadata"),
+                            info.pos, worldIn, randomIn, structureBoundingBoxIn);
                 }
             this.set = true;
         }

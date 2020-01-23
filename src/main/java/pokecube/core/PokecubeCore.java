@@ -49,6 +49,7 @@ import pokecube.core.client.ClientProxy;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
@@ -78,8 +79,8 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.core.world.gen.feature.scattered.ConfigStructurePiece;
 import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
-import pokecube.core.world.gen.structure.ConfigStructurePiece;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.CapabilityAnimation;
@@ -121,7 +122,7 @@ public class PokecubeCore
             }
 
             // Register the configurable worldgen things from datapack
-            // WorldgenHandler.processStructures(event);
+            WorldgenHandler.processStructures(event);
 
             // Register village stuff
             // TODO add in forge village stuff maybe here when it is done.

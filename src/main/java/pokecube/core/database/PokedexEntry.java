@@ -15,7 +15,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import thut.api.maths.vecmath.Vector3f;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
@@ -44,6 +43,7 @@ import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntryLoader.Action;
@@ -66,6 +66,7 @@ import pokecube.core.utils.TimePeriod;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
@@ -1750,7 +1751,7 @@ public class PokedexEntry
         // Replace all non word chars.
         sound = sound.replaceAll("([\\W])", "");
         if (mobs) sound = "mobs." + sound;
-        this.sound = new ResourceLocation(PokecubeCore.MODID, sound);
+        this.sound = new ResourceLocation(ModLoadingContext.get().getActiveNamespace(), sound);
     }
 
     public void setSpawnData(final SpawnData data)

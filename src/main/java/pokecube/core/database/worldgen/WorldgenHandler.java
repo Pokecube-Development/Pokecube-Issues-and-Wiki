@@ -10,6 +10,7 @@ import java.util.Locale;
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
@@ -24,7 +25,7 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.world.gen.structure.ConfigStructure;
+import pokecube.core.world.gen.feature.scattered.ConfigStructure;
 
 public class WorldgenHandler
 {
@@ -67,9 +68,9 @@ public class WorldgenHandler
          * Parts are sorted by priority, then the first to have a successful
          * pick is what is generated for that position.
          */
-        float            chance = 1;
-        int              offset;
-        public String    biomeType;
+        float            chance    = 1;
+        int              offset    = 0;
+        public String    biomeType = "none";
         public SpawnRule spawn;
         /**
          * In MultiStructures, this is the relative position of the part. Only
@@ -122,7 +123,9 @@ public class WorldgenHandler
                     Locale.ROOT);
             final ResourceLocation regname = new ResourceLocation(structname);
             final ConfigStructure toAdd = new ConfigStructure(regname);
-            toAdd.structLoc = new ResourceLocation(WorldgenHandler.ROOT.toString() + struct.name);
+            toAdd.structLoc = new ResourceLocation(PokecubeCore.MODID, struct.name);
+            toAdd.chance = struct.chance;
+            toAdd.offset = new BlockPos(0, struct.offset, 0);
             toAdd.subbiome = struct.biomeType;
 
             event.getRegistry().register(toAdd);

@@ -1,10 +1,15 @@
 package pokecube.adventures.client.gui.items.editor.pages;
 
-public class Spawn
+import net.minecraft.util.text.ITextComponent;
+import pokecube.adventures.client.gui.items.editor.EditorGui;
+import pokecube.adventures.client.gui.items.editor.pages.util.Page;
+
+public class Spawn extends Page
 {
 
-    public Spawn()
+    public Spawn(final ITextComponent title, final EditorGui parent)
     {
+        super(title, parent);
         // TODO Auto-generated constructor stub
     }
 

@@ -9,7 +9,6 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.world.gen.structure.ConfigStructure;
 
 public class PokecentreFeature extends ConfigStructure
 {

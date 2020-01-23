@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.structure;
+package pokecube.core.world.gen.feature.scattered;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -59,8 +59,6 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
             final int chunkPosZ)
     {
         if (rand.nextFloat() < this.chance) return true;
-        // TODO instead actually check things?
-        if (rand.nextInt(100) == 0) return true;
         return false;
     }
 

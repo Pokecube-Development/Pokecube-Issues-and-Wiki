@@ -3,7 +3,6 @@
     {
       "name": "scattered/ruin_1",
       "chance": 0.002,
-      "offset": -3,
       "biomeType": "ruin",
       "spawn": {
         "values": {
@@ -13,8 +12,7 @@
     },
     {
       "name": "scattered/pokecenter",
-      "chance": 0.02,
-      "offset": 0,
+      "chance": 0.0005,
       "biomeType": "village",
       "spawn": {
         "values": {
@@ -24,8 +22,7 @@
     },
     {
       "name": "scattered/gym_gerenal",
-      "chance": 0.002,
-      "offset": 0,
+      "chance": 0.00005,
       "biomeType": "village",
       "spawn": {
         "values": {

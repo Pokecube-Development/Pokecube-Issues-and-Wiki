@@ -108,6 +108,11 @@ public class CommandGenStuff
             final int num = small ? 1 : 3;
             for (final PokedexEntry entry : pokedexEntries)
             {
+                if (entry.getSoundEvent() == null)
+                {
+                    System.out.println(entry);
+                    continue;
+                }
                 ResourceLocation event = entry.getSoundEvent().getName();
                 if (added.contains(event)) continue;
                 added.add(event);
@@ -198,22 +203,34 @@ public class CommandGenStuff
         {
             final String name = entry.getUnlocalizedName();
             if (entry.getBaseForme() != null) entry = entry.getBaseForme();
-            if(Database.dummyMap.containsKey(entry.getPokedexNb()))
-            {
-                entry = Database.dummyMap.get(entry.getPokedexNb());
-            }
+            if (Database.dummyMap.containsKey(entry.getPokedexNb())) entry = Database.dummyMap.get(entry
+                    .getPokedexNb());
             langJson.addProperty(name, entry.getName());
         }
 
-        final File file = new File(dir, "en_us.json");
+        File file = new File(dir, "en_us.json");
         final String json = AdvancementGenerator.GSON.toJson(langJson);
 
         try
         {
-            final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName(
-                    "UTF-8").newEncoder());
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8")
+                    .newEncoder());
             writer.write(json);
             writer.close();
+
+            try
+            {
+                file = new File(dir, "sounds.json");
+                final String sounds = SoundJsonGenerator.generateSoundJson(false);
+                writer = new OutputStreamWriter(new FileOutputStream(file), Charset.forName("UTF-8").newEncoder());
+                writer.write(sounds);
+                writer.close();
+            }
+            catch (final Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
         catch (final IOException e)
         {
