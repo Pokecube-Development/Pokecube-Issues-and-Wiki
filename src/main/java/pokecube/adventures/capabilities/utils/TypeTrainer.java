@@ -237,7 +237,7 @@ public class TypeTrainer
                     }
             pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
             pokemob = pokemob.setPokedexEntry(entry);
-            pokemob.setOwner(trainer);
+            pokemob.setOwner(trainer.getUniqueID());
             pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
             pokemob = pokemob.setForSpawn(exp);

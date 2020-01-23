@@ -20,10 +20,29 @@ public class RenderMobOverlays
 {
     public static boolean enabled = true;
 
-    @SuppressWarnings("unchecked")
     @SubscribeEvent
     public static void renderSpecial(@SuppressWarnings("rawtypes") final RenderLivingEvent.Specials.Pre event)
     {
+        if (!RenderMobOverlays.enabled) return;
+        final Minecraft mc = Minecraft.getInstance();
+        if (!PokecubeCore.getConfig().renderInF1 && !Minecraft.isGuiEnabled()) return;
+        final Entity cameraEntity = mc.getRenderViewEntity();
+        final float partialTicks = event.getPartialRenderTick();
+        if (cameraEntity == null || !event.getEntity().isAlive()) return;
+        final Vec3d pos = new Vec3d(event.getX(), event.getY(), event.getZ());
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
+        if (pokemob != null)
+        {
+            Evolution.render(pokemob, pos, partialTicks);
+            ExitCube.render(pokemob, pos, partialTicks);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @SubscribeEvent
+    public static void renderSpecial(@SuppressWarnings("rawtypes") final RenderLivingEvent.Post event)
+    {
+
         if (!RenderMobOverlays.enabled) return;
         final Minecraft mc = Minecraft.getInstance();
         if (!PokecubeCore.getConfig().renderInF1 && !Minecraft.isGuiEnabled()) return;
@@ -36,17 +55,12 @@ public class RenderMobOverlays
                 pos);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
-        if (pokemob != null)
+        if (pokemob != null) if (event.getRenderer().getEntityModel() instanceof ModelWrapper)
         {
-            Evolution.render(pokemob, pos, partialTicks);
-            ExitCube.render(pokemob, pos, partialTicks);
-
-            if (event.getRenderer().getEntityModel() instanceof ModelWrapper)
-            {
-                final ModelWrapper<?> wrapper = (ModelWrapper<?>) event.getRenderer().getEntityModel();
-                Status.render((IModelRenderer<MobEntity>) wrapper.renderer, pos, pokemob.getEntity(), 0, 0, 0, 1,
-                        partialTicks);
-            }
+            final ModelWrapper<?> wrapper = (ModelWrapper<?>) event.getRenderer().getEntityModel();
+            Status.render((IModelRenderer<MobEntity>) wrapper.renderer, pos, pokemob.getEntity(), 0, 0, 0, 1,
+                    partialTicks);
         }
     }
+
 }

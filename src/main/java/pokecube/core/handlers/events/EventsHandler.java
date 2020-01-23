@@ -67,6 +67,8 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CountCommand;
+import pokecube.core.commands.KillCommand;
+import pokecube.core.commands.MakeCommand;
 import pokecube.core.commands.SecretBaseCommand;
 import pokecube.core.commands.TMCommand;
 import pokecube.core.contributors.Contributor;
@@ -610,6 +612,8 @@ public class EventsHandler
         TMCommand.register(event.getCommandDispatcher());
         SecretBaseCommand.register(event.getCommandDispatcher());
         CountCommand.register(event.getCommandDispatcher());
+        KillCommand.register(event.getCommandDispatcher());
+        MakeCommand.register(event.getCommandDispatcher());
         CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher());
     }
 

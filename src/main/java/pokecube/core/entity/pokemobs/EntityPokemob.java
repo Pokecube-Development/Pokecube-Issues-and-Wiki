@@ -197,7 +197,7 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     @Override
     public void remove(final boolean keepData)
     {
-        if (!keepData) this.pokemobCap.onRecall();
+        if (!keepData && this.addedToChunk) this.pokemobCap.onRecall();
         super.remove(keepData);
     }
 

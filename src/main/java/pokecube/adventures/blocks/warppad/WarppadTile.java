@@ -37,12 +37,13 @@ public class WarppadTile extends InteractableTile
     {
         if (this.dest == null) this.dest = new TeleDest(new Vector4(this.getPos().getX() + 0.5, this.getPos().getY()
                 + 4, this.getPos().getZ() + 0.5, this.world.dimension.getType().getId()));
-        return dest;
+        return this.dest;
     }
 
     @Override
     public void onWalkedOn(final Entity entityIn)
     {
+        // TODO check energy here first.
         WarppadTile.warp(entityIn, this.getDest());
     }
 

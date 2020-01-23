@@ -403,6 +403,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
          * Set owner, and set original owner if none already exists.
          */
         this.getOwnerHolder().setOwner(e);
+        this.getOwnerHolder().setOwner(e.getUniqueID());
         if (this.getOriginalOwnerUUID() == null) this.setOriginalOwnerUUID(e.getUniqueID());
         /*
          * Trigger vanilla event for taming a mob.

@@ -47,40 +47,40 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
     public static class Holder extends ModelHolder implements IModelRenderer<GenericPokemob>
     {
         ModelWrapper<GenericPokemob>            wrapper;
-        final Vector3                           rotPoint                  = Vector3.getNewVector();
-        HashMap<String, List<Animation>>        anims                     = Maps.newHashMap();
+        final Vector3                           rotPoint   = Vector3.getNewVector();
+        HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
         private IAnimationChanger               animator;
         public String                           name;
-        public HashMap<String, PartInfo>        parts                     = Maps.newHashMap();
+        public HashMap<String, PartInfo>        parts      = Maps.newHashMap();
         HashMap<String, ArrayList<Vector5>>     global;
-        public HashMap<String, List<Animation>> animations                = Maps.newHashMap();
-        public Vector3                          offset                    = Vector3.getNewVector();;
-        public Vector3                          scale                     = Vector3.getNewVector();
+        public HashMap<String, List<Animation>> animations = Maps.newHashMap();
+        public Vector3                          offset     = Vector3.getNewVector();;
+        public Vector3                          scale      = Vector3.getNewVector();
         ResourceLocation                        texture;
         PokedexEntry                            entry;
         // Used to check if it has a custom sleeping animation.
-        private boolean                         checkedForContactAttack   = false;
-        private boolean                         hasContactAttackAnimation = false;
+        private boolean checkedForContactAttack   = false;
+        private boolean hasContactAttackAnimation = false;
 
         // Used to check if it has a custom sleeping animation.
-        private boolean                         checkedForRangedAttack    = false;
-        private boolean                         hasRangedAttackAnimation  = false;
+        private boolean checkedForRangedAttack   = false;
+        private boolean hasRangedAttackAnimation = false;
 
-        public boolean                          overrideAnim              = false;
-        public String                           anim                      = "";
+        public boolean overrideAnim = false;
+        public String  anim         = "";
 
-        public Vector5                          rotations                 = new Vector5();
+        public Vector5 rotations = new Vector5();
 
-        boolean                                 blend;
+        boolean blend;
 
-        boolean                                 light;
+        boolean light;
 
-        int                                     src;
+        int src;
 
         ///////////////////// IModelRenderer stuff below here//////////////////
 
-        int                                     dst;
+        int dst;
 
         public Holder(final PokedexEntry entry)
         {
@@ -172,8 +172,8 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             if (this.model == null || pokemob == null) return phase;
             final float walkspeed = entity.prevLimbSwingAmount + (entity.limbSwingAmount - entity.prevLimbSwingAmount);
 
-            final boolean asleep = pokemob.getStatus() == IMoveConstants.STATUS_SLP
-                    || pokemob.getLogicState(LogicStates.SLEEPING);
+            final boolean asleep = pokemob.getStatus() == IMoveConstants.STATUS_SLP || pokemob.getLogicState(
+                    LogicStates.SLEEPING);
 
             if (!this.checkedForContactAttack)
             {
@@ -191,14 +191,14 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                 Move_Base move;
                 if (index < 4 && (move = MovesUtils.getMoveFromName(pokemob.getMove(index))) != null)
                 {
-                    if (this.hasContactAttackAnimation
-                            && (move.getAttackCategory() & IMoveConstants.CATEGORY_CONTACT) > 0)
+                    if (this.hasContactAttackAnimation && (move.getAttackCategory()
+                            & IMoveConstants.CATEGORY_CONTACT) > 0)
                     {
                         phase = "attack_contact";
                         return phase;
                     }
-                    if (this.hasRangedAttackAnimation
-                            && (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0)
+                    if (this.hasRangedAttackAnimation && (move.getAttackCategory()
+                            & IMoveConstants.CATEGORY_DISTANCE) > 0)
                     {
                         phase = "attack_ranged";
                         return phase;
@@ -357,6 +357,8 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             sx *= s;
             sy *= s;
             sz *= s;
+            // TODO see if this is where things are going funny with tbl
+            // offsets?
             this.rotPoint.set(this.getRotationOffset()).scalarMultBy(s);
             model.setOffset(this.rotPoint);
             if (!this.getScale().isEmpty()) GlStateManager.scalef(sx, sy, sz);
@@ -431,9 +433,9 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         }
     }
 
-    public static boolean                     reload_models = false;
+    public static boolean reload_models = false;
 
-    public static Map<PokemobType<?>, Holder> holderMap     = Maps.newHashMap();
+    public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
 
     public static void register()
     {
@@ -457,23 +459,15 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
     }
 
     @Override
-    protected void applyRotations(final GenericPokemob entityLiving, final float ageInTicks, final float rotationYaw,
-            final float partialTicks)
-    {
-        super.applyRotations(entityLiving, ageInTicks, rotationYaw, partialTicks);
-    }
-
-    @Override
     public void doRender(final GenericPokemob entity, final double x, final double y, final double z,
             final float entityYaw, final float partialTicks)
     {
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = RenderPokemob.holderMap.getOrDefault(type, this.holder);
-        if (holder.wrapper == null || reload_models) holder.init();
-        reload_models = false;
-        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid()
-                || holder.entry != type.getEntry() || holder.model == null || holder.texture == null)
-            holder = this.holder;
+        if (holder.wrapper == null || RenderPokemob.reload_models) holder.init();
+        RenderPokemob.reload_models = false;
+        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.entry != type
+                .getEntry() || holder.model == null || holder.texture == null) holder = this.holder;
         this.entityModel = holder.wrapper;
         try
         {

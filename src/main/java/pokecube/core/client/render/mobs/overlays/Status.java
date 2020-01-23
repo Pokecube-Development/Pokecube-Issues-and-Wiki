@@ -48,6 +48,7 @@ public class Status
                 ResourceLocation texture = null;
                 if (status == IMoveConstants.STATUS_FRZ) texture = Status.FRZ;
                 else if (status == IMoveConstants.STATUS_PAR) texture = Status.PAR;
+                texture = Status.PAR;
                 Minecraft.getInstance().textureManager.bindTexture(texture);
             }
 
@@ -86,12 +87,12 @@ public class Status
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         float var7 = status == IMoveConstants.STATUS_FRZ ? 0.5f : 1F;
         GL11.glColor4f(var7, var7, var7, 0.5F);
-        var7 = 1;
+        var7 = 1.5f;
         GL11.glScalef(var7, var7, var7);
-        final IMobColourable colour = (IMobColourable) pokemob;
+        final IMobColourable colour = pokemob;
         final int[] col = colour.getRGBA();
         final int[] bak = col.clone();
-        col[3] = 85;
+        col[3] = 255;
         colour.setRGBA(col);
         renderer.setTexturer(statusTexturer);
         renderer.doRender(mobEntity, d, d1, d2, f, partialTick);

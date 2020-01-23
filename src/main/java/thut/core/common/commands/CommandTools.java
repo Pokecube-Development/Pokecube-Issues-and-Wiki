@@ -13,7 +13,7 @@ import net.minecraftforge.server.permission.PermissionAPI;
 
 public class CommandTools
 {
-    public static boolean hasPerm(CommandSource source, String permission)
+    public static boolean hasPerm(final CommandSource source, final String permission)
     {
         try
         {
@@ -27,7 +27,7 @@ public class CommandTools
         }
     }
 
-    public static boolean hasPerm(ServerPlayerEntity player, String permission)
+    public static boolean hasPerm(final ServerPlayerEntity player, final String permission)
     { /*
        * Check if the node is registered, if not, register it as OP, and send
        * error message about this.
@@ -41,7 +41,7 @@ public class CommandTools
         return PermissionAPI.hasPermission(player, permission);
     }
 
-    public static boolean isOp(ICommandSource sender, String permission)
+    public static boolean isOp(final ICommandSource sender, final String permission)
     {
         /*
          * If sent by a player, check permissions, otherwise return true.
@@ -63,12 +63,12 @@ public class CommandTools
         return true;
     }
 
-    public static ITextComponent makeError(String text)
+    public static ITextComponent makeError(final String text)
     {
         return CommandTools.makeTranslatedMessage(text, "red:italic");
     }
 
-    public static ITextComponent makeTranslatedMessage(String key, String formatting, Object... args)
+    public static ITextComponent makeTranslatedMessage(final String key, String formatting, final Object... args)
     {
         if (formatting == null) formatting = "";
         for (int i = 0; i < args.length; i++)
@@ -96,28 +96,33 @@ public class CommandTools
         return translated;
     }
 
-    public static void sendBadArgumentsMissingArg(ICommandSource sender)
+    public static void sendBadArgumentsMissingArg(final ICommandSource sender)
     {
         sender.sendMessage(CommandTools.makeError("pokecube.command.invalidmissing"));
     }
 
-    public static void sendBadArgumentsTryTab(ICommandSource sender)
+    public static void sendBadArgumentsTryTab(final ICommandSource sender)
     {
         sender.sendMessage(CommandTools.makeError("pokecube.command.invalidtab"));
     }
 
-    public static void sendError(ICommandSource sender, String text)
+    public static void sendError(final CommandSource sender, final String text)
+    {
+        sender.sendErrorMessage(CommandTools.makeError(text));
+    }
+
+    public static void sendError(final ICommandSource sender, final String text)
     {
         sender.sendMessage(CommandTools.makeError(text));
     }
 
-    public static void sendMessage(ICommandSource sender, String text)
+    public static void sendMessage(final ICommandSource sender, final String text)
     {
         final ITextComponent message = CommandTools.makeTranslatedMessage(text, null);
         sender.sendMessage(message);
     }
 
-    public static void sendNoPermissions(ICommandSource sender)
+    public static void sendNoPermissions(final ICommandSource sender)
     {
         sender.sendMessage(CommandTools.makeError("pokecube.command.noperms"));
     }

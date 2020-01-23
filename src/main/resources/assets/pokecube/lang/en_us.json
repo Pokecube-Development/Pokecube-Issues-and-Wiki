@@ -381,6 +381,8 @@
     "pokecube.command.reset": "Reset Starter for %1$s",
     "pokecube.command.canchoose": "You may choose a new starter",
     "pokecube.command.count": "Found %1$s in range and %2$s out of range",
+    "pokecube.command.kill": "Killed %1$s.",
+    "pokecube.command.cull": "Culled %1$s.",
 
     "pokecube.command.giftdisabled": "Mystery Gift is currently disabled via configs",
     "pokecube.command.giftdenyused": "§cYou have already used this code.",

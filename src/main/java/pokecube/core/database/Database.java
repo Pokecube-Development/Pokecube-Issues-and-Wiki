@@ -213,6 +213,7 @@ public class Database
     public static HashMap<String, PokedexEntry>            data2           = new HashMap<>();
     static HashSet<PokedexEntry>                           allFormes       = new HashSet<>();
     private static List<PokedexEntry>                      sortedFormes    = Lists.newArrayList();
+    private static List<String>                            sortedFormNames = Lists.newArrayList();
     public static HashMap<Integer, PokedexEntry>           baseFormes      = new HashMap<>();
     public static HashMap<Integer, PokedexEntry>           dummyMap        = new HashMap<>();
     public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
@@ -522,9 +523,17 @@ public class Database
             Database.sortedFormes.clear();
             Database.sortedFormes.addAll(Database.allFormes);
             Database.sortedFormes.sort(Database.COMPARATOR);
+            for (final PokedexEntry e : Database.sortedFormes)
+                Database.sortedFormNames.add(e.getTrimmedName());
             Database.lastCount = Database.sortedFormes.size();
         }
         return Database.sortedFormes;
+    }
+
+    public static List<String> getSortedFormNames()
+    {
+        Database.getSortedFormes();
+        return Database.sortedFormNames;
     }
 
     public static SpawnData getSpawnData(final int nb)

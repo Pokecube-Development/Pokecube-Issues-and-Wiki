@@ -2,26 +2,47 @@ package pokecube.core.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
 import com.google.common.collect.Lists;
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
 
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.EntityArgument;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.server.permission.DefaultPermissionLevel;
+import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.AbilityManager;
+import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
+import thut.core.common.commands.CommandTools;
 
 public class MakeCommand
 {
-    public static String setToArgs(String[] args, IPokemob mob, int index, Vector3 offset)
+    public static void setToArgs(final String[] args, final IPokemob mob, final int index, final Vector3 offset)
     {
-        return MakeCommand.setToArgs(args, mob, index, offset, true);
+        MakeCommand.setToArgs(args, mob, index, offset, true);
     }
 
     /**
@@ -30,7 +51,8 @@ public class MakeCommand
      * @param command
      * @return owner name for pokemob if needed.
      */
-    public static String setToArgs(String[] args, IPokemob mob, int index, Vector3 offset, boolean initLevel)
+    public static void setToArgs(String[] args, IPokemob mob, final int index, final Vector3 offset,
+            final boolean initLevel)
     {
         final List<String> cleaned = Lists.newArrayList();
         mob.setHungerTime(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
@@ -61,7 +83,6 @@ public class MakeCommand
         final String[] moves = new String[4];
         int mindex = 0;
         boolean asWild = false;
-        String ownerName = "";
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Making by Arguments: " + index + " " + Arrays.toString(args));
 
         if (index < args.length) for (int j = index; j < args.length; j++)
@@ -112,7 +133,6 @@ public class MakeCommand
             else if (arg.equalsIgnoreCase("r")) red = Integer.parseInt(val);
             else if (arg.equalsIgnoreCase("g")) green = Integer.parseInt(val);
             else if (arg.equalsIgnoreCase("b")) blue = Integer.parseInt(val);
-            else if (arg.equalsIgnoreCase("o")) ownerName = val;
             else if (arg.equalsIgnoreCase("a"))
             {
                 String ability = null;
@@ -159,7 +179,6 @@ public class MakeCommand
                 if (nature != null) mob.setNature(nature);
             }
             else if (arg.equalsIgnoreCase("n") && !val.isEmpty()) mob.setPokemonNickname(val);
-            else ownerName = args[j];
         }
         mob.setHealth(mob.getMaxHealth());
         if (mob.getEntity() instanceof IMobColourable) ((IMobColourable) mob.getEntity()).setRGBA(red, green, blue,
@@ -179,192 +198,152 @@ public class MakeCommand
                 if (!arg.isEmpty()) if (arg.equalsIgnoreCase("none")) mob.setMove(i1, null);
                 else mob.setMove(i1, arg);
             }
-
-        return ownerName;
     }
 
-    private final List<String> aliases;
-
-    public MakeCommand()
+    private static int execute(final CommandSource source, final String name, final List<Object> args)
     {
-        this.aliases = new ArrayList<>();
-        this.aliases.add("pokemake");
+        PokedexEntry entry = Database.getEntry(name);
+        if (name.startsWith("random_"))
+        {
+            final ArrayList<PokedexEntry> entries = Lists.newArrayList(Database.getSortedFormes());
+            Collections.shuffle(entries);
+            final Iterator<PokedexEntry> iterator = entries.iterator();
+            if (name.equalsIgnoreCase("random_normal"))
+            {
+                entry = iterator.next();
+                while (entry.legendary || entry.isMega)
+                    entry = iterator.next();
+            }
+            else if (name.equalsIgnoreCase("random_all"))
+            {
+                entry = iterator.next();
+                while (!entry.base)
+                    entry = iterator.next();
+            }
+            else if (name.equalsIgnoreCase("random_legend"))
+            {
+                entry = iterator.next();
+                while (!entry.legendary || !entry.base)
+                    entry = iterator.next();
+            }
+        }
+        final Entity mob = PokecubeCore.createPokemob(entry, source.getWorld());
+        if (mob == null)
+        {
+            CommandTools.sendError(source, "pokecube.command.makeinvalid");
+            return 1;
+        }
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+
+        if (!args.isEmpty() && args.get(0) instanceof LivingEntity)
+        {
+            final LivingEntity owner = (LivingEntity) args.remove(0);
+            pokemob.setOwner(owner.getUniqueID());
+            PokecubeCore.LOGGER.debug("Creating " + pokemob.getPokedexEntry() + " for " + owner.getName());
+            pokemob.setGeneralState(GeneralStates.TAMED, true);
+        }
+
+        final List<String> newArgs = Lists.newArrayList();
+        for (final Object o : args)
+        {
+            final String[] split = o.toString().split(" ");
+            for (final String s : split)
+                newArgs.add(s);
+        }
+        final Vector3 offset = Vector3.getNewVector().set(0, 1, 0);
+        MakeCommand.setToArgs(newArgs.toArray(new String[0]), pokemob, 0, offset);
+        pokemob.spawnInit();
+        final Vector3 temp = Vector3.getNewVector();
+        temp.set(source.getPos()).addTo(offset);
+        temp.moveEntity(mob);
+        GeneticsManager.initMob(mob);
+        mob.getEntityWorld().addEntity(mob);
+
+        final String text = TextFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getFormattedText();
+        final ITextComponent message = ITextComponent.Serializer.fromJson("[\"" + text + "\"]");
+        source.sendFeedback(message, true);
+        return 0;
     }
-    //
-    // @Override
-    // public void execute(MinecraftServer server, ICommandSource sender,
-    // String[] args) throws CommandException
-    // {
-    // String text = "";
-    // ITextComponent message;
-    // boolean deobfuscated = PokecubeMod.isDeobfuscated() ||
-    // server.isDedicatedServer();
-    // boolean commandBlock = !(sender instanceof PlayerEntity);
-    // if (deobfuscated || commandBlock)
-    // {
-    // String name;
-    // if (args.length > 0)
-    // {
-    // int index = 1;
-    // PokedexEntry entry = null;
-    // try
-    // {
-    // int id = Integer.parseInt(args[0]);
-    // entry = Database.getEntry(id);
-    // name = entry.getName();
-    // }
-    // catch (NumberFormatException e)
-    // {
-    // name = args[0];
-    // if (name.startsWith("\'"))
-    // {
-    // for (int j = 1; j < args.length; j++)
-    // {
-    // name += " " + args[j];
-    // if (args[j].contains("\'"))
-    // {
-    // index = j + 1;
-    // break;
-    // }
-    // }
-    // }
-    // ArrayList<PokedexEntry> entries =
-    // Lists.newArrayList(Database.getSortedFormes());
-    // Collections.shuffle(entries);
-    // Iterator<PokedexEntry> iterator = entries.iterator();
-    // if (name.equalsIgnoreCase("random"))
-    // {
-    // entry = iterator.next();
-    // while (entry.legendary || !entry.base)
-    // {
-    // entry = iterator.next();
-    // }
-    // }
-    // else if (name.equalsIgnoreCase("randomall"))
-    // {
-    // entry = iterator.next();
-    // while (!entry.base)
-    // {
-    // entry = iterator.next();
-    // }
-    // }
-    // else if (name.equalsIgnoreCase("randomlegend"))
-    // {
-    // entry = iterator.next();
-    // while (!entry.legendary || !entry.base)
-    // {
-    // entry = iterator.next();
-    // }
-    // }
-    // else entry = Database.getEntry(name);
-    // }
-    // Entity mob = PokecubeCore.createPokemob(entry,
-    // sender.getEntityWorld());
-    // if (mob == null)
-    // {
-    // CommandTools.sendError(sender, "pokecube.command.makeinvalid");
-    // return;
-    // }
-    // IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-    // pokemob.specificSpawnInit();
-    // Vector3 offset = Vector3.getNewVector().set(0, 1, 0);
-    // String ownerName = setToArgs(args, pokemob, index, offset);
-    // GameProfile profile = null;
-    // if (ownerName != null && !ownerName.isEmpty())
-    // {
-    // profile = getProfile(server, ownerName);
-    // }
-    // if (profile == null && ownerName != null && !ownerName.isEmpty())
-    // {
-    // PlayerEntity player = getPlayer(server, sender, ownerName);
-    // profile = player.getGameProfile();
-    // }
-    // Vector3 temp = Vector3.getNewVector();
-    // if (profile != null)
-    // {
-    // PokecubeCore.LOGGER.info(Level.INFO, "Creating " +
-    // pokemob.getPokedexEntry() + "
-    // for " + profile.getName());
-    // pokemob.setPokemonOwner(profile.getId());
-    // pokemob.setGeneralState(GeneralStates.TAMED, true);
-    // }
-    // temp.set(sender.getPosition()).addTo(offset);
-    // temp.moveEntity(mob);
-    // GeneticsManager.initMob(mob);
-    // mob.getEntityWorld().spawnEntity(mob);
-    // text = TextFormatting.GREEN + "Spawned " +
-    // pokemob.getPokemonDisplayName().getFormattedText();
-    // message = ITextComponent.Serializer.jsonToComponent("[\"" + text +
-    // "\"]");
-    // sender.sendMessage(message);
-    // return;
-    // }
-    // CommandTools.sendError(sender, "pokecube.command.makeneedname");
-    // return;
-    // }
-    // CommandTools.sendError(sender, "pokecube.command.makedeny");
-    // return;
-    // }
-    //
-    // @Override
-    // public List<String> getAliases()
-    // {
-    // return this.aliases;
-    // }
-    //
-    // @Override
-    // public String getName()
-    // {
-    // return aliases.get(0);
-    // }
-    //
-    // @Override
-    // public String getUsage(ICommandSource sender)
-    // {
-    // return "/" + aliases.get(0) + "<pokemob name/number> <arguments>";
-    // }
-    //
-    // @Override
-    // /** Return the required permission level for this command. */
-    // public int getRequiredPermissionLevel()
-    // {
-    // return 2;
-    // }
-    //
-    // @Override
-    // public List<String> getTabCompletions(MinecraftServer server,
-    // ICommandSource sender, String[] args, BlockPos pos)
-    // {
-    // List<String> ret = new ArrayList<String>();
-    // if (args.length == 1)
-    // {
-    // String text = args[0];
-    // for (PokedexEntry entry : Database.getSortedFormes())
-    // {
-    // String check = entry.getName().toLowerCase(java.util.Locale.ENGLISH);
-    // if (check.startsWith(text.toLowerCase(java.util.Locale.ENGLISH)))
-    // {
-    // String name = entry.getName();
-    // if (name.contains(" "))
-    // {
-    // name = "\'" + name + "\'";
-    // }
-    // ret.add(name);
-    // }
-    // }
-    // Collections.sort(ret, new Comparator<String>()
-    // {
-    // @Override
-    // public int compare(String o1, String o2)
-    // {
-    // if (o1.contains("'") && !o2.contains("'")) return 1;
-    // else if (o2.contains("'") && !o1.contains("'")) return -1;
-    // return o1.compareToIgnoreCase(o2);
-    // }
-    // });
-    // return getListOfStringsMatchingLastWord(args, ret);
-    // }
-    // return getListOfStringsMatchingLastWord(args,
-    // server.getOnlinePlayerNames());
-    // }
+
+    private static SuggestionProvider<CommandSource> SUGGEST_OTHERS = (ctx,
+            sb) -> net.minecraft.command.ISuggestionProvider.suggest(Lists.newArrayList("random_normal", "random_all",
+                    "random_legend"), sb);
+
+    private static SuggestionProvider<CommandSource> SUGGEST_POKEMOB = (ctx,
+            sb) -> net.minecraft.command.ISuggestionProvider.suggest(Database.getSortedFormNames(), sb);
+
+    public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
+    {
+        // Normal pokemake
+        PermissionAPI.registerNode("command.pokemake", DefaultPermissionLevel.OP,
+                "Is the player allowed to use /pokemake");
+
+        final SuggestionProvider<CommandSource> TEMP = (ctx, sb) -> net.minecraft.command.ISuggestionProvider.suggest(
+                Lists.newArrayList("args"), sb);
+
+        LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokemake");
+        // Set a permission
+        command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokemake"));
+        // Plain command, no args besides name.
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_POKEMOB).executes(ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType
+                        .getString(ctx, "mob"), Lists.newArrayList())));
+
+        // command with player and no arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_POKEMOB).then(Commands.argument("player", EntityArgument.player()).executes(
+                        ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
+                                .newArrayList(EntityArgument.getPlayer(ctx, "player"))))));
+
+        // Command with player then string arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_POKEMOB).then(Commands.argument("player", EntityArgument.player()).then(Commands
+                        .argument("args:", StringArgumentType.string()).suggests(TEMP).then(Commands.argument("arg1",
+                                StringArgumentType.greedyString()).executes(ctx -> MakeCommand.execute(ctx.getSource(),
+                                        StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument
+                                                .getPlayer(ctx, "player"), StringArgumentType.getString(ctx,
+                                                        "arg1"))))))));
+        // Command string arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_POKEMOB).then(Commands.argument("args:", StringArgumentType.string()).suggests(TEMP)
+                        .then(Commands.argument("arg1", StringArgumentType.greedyString()).executes(ctx -> MakeCommand
+                                .execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(
+                                        StringArgumentType.getString(ctx, "arg1")))))));
+
+        commandDispatcher.register(command);
+
+        // Random pokemake
+        PermissionAPI.registerNode("command.pokemakerand", DefaultPermissionLevel.OP,
+                "Is the player allowed to use /pokemakerand");
+
+        command = Commands.literal("pokemakerand");
+        // Set a permission
+        command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
+        // Plain command, no args besides name.
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_OTHERS).executes(ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType
+                        .getString(ctx, "mob"), Lists.newArrayList())));
+
+        // command with player an no arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_OTHERS).then(Commands.argument("player", EntityArgument.player()).executes(
+                        ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
+                                .newArrayList(EntityArgument.getPlayer(ctx, "player"))))));
+
+        // Command with player then string arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_OTHERS).then(Commands.argument("player", EntityArgument.player()).then(Commands
+                        .argument("arg1", StringArgumentType.greedyString()).executes(ctx -> MakeCommand.execute(ctx
+                                .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(
+                                        EntityArgument.getPlayer(ctx, "player"), StringArgumentType.getString(ctx,
+                                                "mob")))))));
+        // Command string arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
+                MakeCommand.SUGGEST_OTHERS).then(Commands.argument("arg1", StringArgumentType.greedyString()).executes(
+                        ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
+                                .newArrayList(StringArgumentType.getString(ctx, "mob"))))));
+
+        commandDispatcher.register(command);
+
+    }
 }

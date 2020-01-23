@@ -86,6 +86,6 @@ public class AITrainerBase implements IAIRunnable
     @Override
     public boolean shouldRun()
     {
-        return false;
+        return true;
     }
 }

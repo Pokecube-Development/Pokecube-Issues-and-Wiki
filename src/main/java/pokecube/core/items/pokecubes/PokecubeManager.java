@@ -183,11 +183,21 @@ public class PokecubeManager
         return stack.hasTag() && stack.getTag().contains(TagNames.MOBID);
     }
 
-    public static LivingEntity itemToMob(final ItemStack stack, final World world)
+    public static LivingEntity itemToMob(final ItemStack stack, World world)
     {
         if (!stack.hasTag()) return null;
         final String id = stack.getTag().getString(TagNames.MOBID);
         if (id.isEmpty()) return null;
+        if (world == null)
+        {
+            world = PokecubeCore.proxy.getWorld();
+            PokecubeCore.LOGGER.catching(new NullPointerException("World null when itemToMob!"));
+        }
+        if (world == null)
+        {
+            PokecubeCore.LOGGER.catching(new NullPointerException("World Still null when itemToMob!"));
+            return null;
+        }
         final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(id));
         final LivingEntity mob = (LivingEntity) type.create(world);
         mob.read(stack.getTag().getCompound(TagNames.POKEMOB));

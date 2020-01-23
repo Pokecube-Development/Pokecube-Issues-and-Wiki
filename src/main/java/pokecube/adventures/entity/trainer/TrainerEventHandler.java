@@ -303,9 +303,11 @@ public class TrainerEventHandler
         final LivingEntity npc = (LivingEntity) event.getEntity();
         final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(npc);
         if (mobs == null) return;
-
+        if (npc.world.isRemote) return;
+        if (npc.getPersistentData().getLong("pokeadv_join") == npc.getEntityWorld().getGameTime()) return;
+        npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
         // Wrap it as a fake vanilla AI
-        if (npc instanceof MobEntity && npc.isServerWorld())
+        if (npc instanceof MobEntity)
         {
             final List<IAIRunnable> ais = Lists.newArrayList();
             // All can battle, but only trainers will path during battle.
@@ -328,11 +330,10 @@ public class TrainerEventHandler
                     .setPriority(20));
             final MobEntity living = (MobEntity) npc;
             living.goalSelector.addGoal(0, new GoalsWrapper(ais.toArray(new IAIRunnable[0])));
-            PokecubeMod.LOGGER.info("Added AI for trainer");
+            PokecubeMod.LOGGER.debug("Added AI for trainer: " + npc);
         }
 
         final TypeTrainer newType = TypeTrainer.mobTypeMapper.getType(npc, true);
-        PokecubeMod.LOGGER.info("new Type: " + newType);
         if (newType == null) return;
         mobs.setType(newType);
         final int level = SpawnHandler.getSpawnLevel(npc.getEntityWorld(), Vector3.getNewVector().set(npc), Database

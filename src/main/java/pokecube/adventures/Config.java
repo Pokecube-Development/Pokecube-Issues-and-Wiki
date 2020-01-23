@@ -30,7 +30,7 @@ public class Config extends ConfigData
     public int trainerSightRange = 8;
 
     @Configure
-    public int trainerBattleDelay = 5000;
+    public int trainerBattleDelay = 50;
 
     @Configure
     public int trainerSendOutDelay = 50;
@@ -94,7 +94,7 @@ public class Config extends ConfigData
     public void onUpdated()
     {
         EnergyHandler.initParser();
-        BaseGeneticsTile.initParser(clonerEfficiencyFunction);
+        BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
     }
 
 }

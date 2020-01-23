@@ -212,9 +212,9 @@ public class AIBattle extends AITrainerBase
     public void tick()
     {
         super.tick();
-        this.trainer.lowerCooldowns();
         if (this.trainer.getTarget() != null) this.updateTask();
         else if (this.trainer.getOutID() != null) this.resetTask();
+        this.trainer.lowerCooldowns();
     }
 
     /** Updates the task */

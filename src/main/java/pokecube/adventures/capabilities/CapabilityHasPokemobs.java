@@ -427,8 +427,9 @@ public class CapabilityHasPokemobs
                 final ItemStack i = this.getPokemob(index);
                 if (i.isEmpty()) continue;
                 final CompoundNBT CompoundNBT = new CompoundNBT();
-                ListNBT.add(CompoundNBT);
+                ListNBT.add(i.write(CompoundNBT));
             }
+
             nbt.put("pokemobs", ListNBT);
             nbt.putInt("nextSlot", this.getNextSlot());
             if (this.getOutID() != null) nbt.putString("outPokemob", this.getOutID().toString());
@@ -844,7 +845,7 @@ public class CapabilityHasPokemobs
         public void readNBT(final Capability<IHasPokemobs> capability, final IHasPokemobs instance,
                 final Direction side, final INBT base)
         {
-            if (instance instanceof INBTSerializable) ((INBTSerializable) instance).deserializeNBT(base);
+            if (instance instanceof INBTSerializable<?>) ((INBTSerializable) instance).deserializeNBT(base);
         }
 
         @Override

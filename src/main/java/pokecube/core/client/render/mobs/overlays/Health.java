@@ -70,8 +70,7 @@ public class Health
         if (!Health.normalize) GL11.glDisable(GL11.GL_NORMALIZE);
         if (!Health.blend) GL11.glDisable(GL11.GL_BLEND);
         if (Health.lighting) GlStateManager.enableLighting();
-        GlStateManager.enableDepthTest();
-        GlStateManager.depthMask(true);
+
         GL11.glBlendFunc(Health.src, Health.dst);
     }
 
@@ -86,8 +85,6 @@ public class Health
         if (!Health.normalize) GL11.glEnable(GL11.GL_NORMALIZE);
         if (!Health.blend) GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.depthMask(false);
-        GlStateManager.disableDepthTest();
         // This applies the lighting.
         GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 240, 240);
     }
@@ -152,6 +149,8 @@ public class Health
                 final int barHeight1 = config.barHeight;
                 float size = config.plateSize;
 
+                final float zshift = -0.01f;
+                float zlevel = 0.1f;
                 int r = 0;
                 int g = 255;
                 int b = 0;
@@ -189,29 +188,32 @@ public class Health
                 {
                     final int a = 32;
                     buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                    buffer.pos(-size - padding, -bgHeight, 0.0D).color(0, 0, 0, a).endVertex();
-                    buffer.pos(-size - padding, barHeight1 + padding, 0.0D).color(0, 0, 0, a).endVertex();
-                    buffer.pos(size + padding, barHeight1 + padding, 0.0D).color(0, 0, 0, a).endVertex();
-                    buffer.pos(size + padding, -bgHeight, 0.0D).color(0, 0, 0, a).endVertex();
+                    buffer.pos(-size - padding, -bgHeight, zlevel).color(0, 0, 0, a).endVertex();
+                    buffer.pos(-size - padding, barHeight1 + padding, zlevel).color(0, 0, 0, a).endVertex();
+                    buffer.pos(size + padding, barHeight1 + padding, zlevel).color(0, 0, 0, a).endVertex();
+                    buffer.pos(size + padding, -bgHeight, zlevel).color(0, 0, 0, a).endVertex();
                     tessellator.draw();
+                    zlevel += zshift;
                 }
 
                 // Health bar
                 // Gray Space
                 buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                buffer.pos(-size, 0, 0.0D).color(127, 127, 127, 127).endVertex();
-                buffer.pos(-size, barHeight1, 0.0D).color(127, 127, 127, 127).endVertex();
-                buffer.pos(size, barHeight1, 0.0D).color(127, 127, 127, 127).endVertex();
-                buffer.pos(size, 0, 0.0D).color(127, 127, 127, 127).endVertex();
+                buffer.pos(-size, 0, zlevel).color(127, 127, 127, 127).endVertex();
+                buffer.pos(-size, barHeight1, zlevel).color(127, 127, 127, 127).endVertex();
+                buffer.pos(size, barHeight1, zlevel).color(127, 127, 127, 127).endVertex();
+                buffer.pos(size, 0, zlevel).color(127, 127, 127, 127).endVertex();
                 tessellator.draw();
+                zlevel += zshift;
 
                 // Health Bar
                 buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                buffer.pos(-size, 0, 0.0D).color(r, g, b, 127).endVertex();
-                buffer.pos(-size, barHeight1, 0.0D).color(r, g, b, 127).endVertex();
-                buffer.pos(healthSize * 2 - size, barHeight1, 0.0D).color(r, g, b, 127).endVertex();
-                buffer.pos(healthSize * 2 - size, 0, 0.0D).color(r, g, b, 127).endVertex();
+                buffer.pos(-size, 0, zlevel).color(r, g, b, 127).endVertex();
+                buffer.pos(-size, barHeight1, zlevel).color(r, g, b, 127).endVertex();
+                buffer.pos(healthSize * 2 - size, barHeight1, zlevel).color(r, g, b, 127).endVertex();
+                buffer.pos(healthSize * 2 - size, 0, zlevel).color(r, g, b, 127).endVertex();
                 tessellator.draw();
+                zlevel += zshift;
 
                 // Exp Bar
                 r = 64;
@@ -226,19 +228,21 @@ public class Health
                 final float expSize = size * (exp / maxExp);
                 // Gray Space
                 buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                buffer.pos(-size, barHeight1, 0.0D).color(127, 127, 127, 127).endVertex();
-                buffer.pos(-size, barHeight1 + 1, 0.0D).color(127, 127, 127, 127).endVertex();
-                buffer.pos(size, barHeight1 + 1, 0.0D).color(127, 127, 127, 127).endVertex();
-                buffer.pos(size, barHeight1, 0.0D).color(127, 127, 127, 127).endVertex();
+                buffer.pos(-size, barHeight1, zlevel).color(127, 127, 127, 127).endVertex();
+                buffer.pos(-size, barHeight1 + 1, zlevel).color(127, 127, 127, 127).endVertex();
+                buffer.pos(size, barHeight1 + 1, zlevel).color(127, 127, 127, 127).endVertex();
+                buffer.pos(size, barHeight1, zlevel).color(127, 127, 127, 127).endVertex();
                 tessellator.draw();
+                zlevel += zshift;
 
                 // Health Bar
                 buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                buffer.pos(-size, barHeight1, 0.0D).color(r, g, b, 127).endVertex();
-                buffer.pos(-size, barHeight1 + 1, 0.0D).color(r, g, b, 127).endVertex();
-                buffer.pos(expSize * 2 - size, barHeight1 + 1, 0.0D).color(r, g, b, 127).endVertex();
-                buffer.pos(expSize * 2 - size, barHeight1, 0.0D).color(r, g, b, 127).endVertex();
+                buffer.pos(-size, barHeight1, zlevel).color(r, g, b, 127).endVertex();
+                buffer.pos(-size, barHeight1 + 1, zlevel).color(r, g, b, 127).endVertex();
+                buffer.pos(expSize * 2 - size, barHeight1 + 1, zlevel).color(r, g, b, 127).endVertex();
+                buffer.pos(expSize * 2 - size, barHeight1, zlevel).color(r, g, b, 127).endVertex();
                 tessellator.draw();
+                zlevel += zshift;
 
                 GlStateManager.enableTexture();
 

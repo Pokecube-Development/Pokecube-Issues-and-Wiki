@@ -63,14 +63,17 @@ public class TMCommand
     {
         PermissionAPI.registerNode("command.poketm", DefaultPermissionLevel.OP, "Is the player allowed to use /poketm");
 
-        final LiteralArgumentBuilder<CommandSource> command = Commands.literal("poketm").requires(cs -> CommandTools
-                .hasPerm(cs, "command.poketm")).then(Commands.argument("tm", StringArgumentType.string()).suggests(
-                        TMCommand.SUGGEST_TMS).executes(ctx -> TMCommand.execute(ctx.getSource(), StringArgumentType
-                                .getString(ctx, "tm")))).then(Commands.argument("tm", StringArgumentType.string())
-                                        .suggests(TMCommand.SUGGEST_TMS).then(Commands.argument("player", EntityArgument
-                                                .player()).executes(ctx -> TMCommand.execute(ctx.getSource(),
-                                                        EntityArgument.getPlayer(ctx, "player"), StringArgumentType
-                                                                .getString(ctx, "tm")))));
+        // Setup with name and permission
+        LiteralArgumentBuilder<CommandSource> command = Commands.literal("poketm").requires(cs -> CommandTools.hasPerm(
+                cs, "command.poketm"));
+        // No target argument version
+        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TMCommand.SUGGEST_TMS)
+                .executes(ctx -> TMCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "tm"))));
+        // Target argument version
+        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TMCommand.SUGGEST_TMS)
+                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> TMCommand.execute(ctx
+                        .getSource(), EntityArgument.getPlayer(ctx, "player"), StringArgumentType.getString(ctx,
+                                "tm")))));
         commandDispatcher.register(command);
     }
 }

@@ -166,7 +166,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     {
         if (e.getEntityWorld().isRemote) return;
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
-        ServerWorld world = (ServerWorld) getEntityWorld();
+        final ServerWorld world = (ServerWorld) this.getEntityWorld();
         if (hitten != null)
         {
             if (this.shootingEntity != null && hitten.getOwner() == this.shootingEntity) return;
@@ -296,7 +296,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
         HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
         if (this.shootingEntity != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(
-                this.shootingEntity);
+                this.shootingEntity.getUniqueID());
         if (pokemob.getCombatState(CombatStates.MEGAFORME) || pokemob.getPokedexEntry().isMega)
         {
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
@@ -439,11 +439,11 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         this.getDataManager().register(EntityPokecubeBase.TIME, 40);
     }
 
-    public LivingEntity sendOut(boolean summon)
+    public LivingEntity sendOut(final boolean summon)
     {
         if (this.getEntityWorld().isRemote || this.isReleasing()) return null;
         this.setTime(20);
-        ServerWorld world = (ServerWorld) getEntityWorld();
+        final ServerWorld world = (ServerWorld) this.getEntityWorld();
         final Entity mob = PokecubeManager.itemToMob(this.getItem(), this.getEntityWorld());
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
