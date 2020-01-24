@@ -41,17 +41,28 @@ import pokecube.core.client.render.mobs.RenderNPC;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.bling.client.render.Back;
+import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
 public class ClientProxy extends CommonProxy
 {
     protected static class RenderWearable extends Wearable
-    {
+    {   // One model for each layer.
+        X3dModel bag;
+
+        // One Texture for each layer.
+        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_1.png");
+        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_2.png");
+
+        private final ResourceLocation[] BAG_TEXS = { this.BAG_1, this.BAG_2 };
+
         @Override
-        public void renderWearable(EnumWearable slot, LivingEntity wearer, ItemStack stack, float partialTicks)
+        public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                final ItemStack stack, final float partialTicks)
         {
-            // TODO Auto-generated method stub
-            super.renderWearable(slot, wearer, stack, partialTicks);
+            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.ID, "models/worn/bag.x3d"));
+            Back.renderBack(wearer, stack, this.bag, this.BAG_TEXS, wearer.getBrightnessForRender());
         }
     }
 

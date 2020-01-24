@@ -8,7 +8,7 @@ import net.minecraftforge.fml.config.ModConfig;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Configure
 {
-    String category() default "";
+    String category();
 
     String comment() default "";
 

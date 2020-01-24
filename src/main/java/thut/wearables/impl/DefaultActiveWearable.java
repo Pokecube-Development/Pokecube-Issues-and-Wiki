@@ -13,28 +13,32 @@ public class DefaultActiveWearable implements IActiveWearable
     }
 
     @Override
-    public EnumWearable getSlot(ItemStack stack)
+    public EnumWearable getSlot(final ItemStack stack)
     {
         return null;
     }
 
     @Override
-    public void onPutOn(LivingEntity player, ItemStack itemstack, EnumWearable slot, int subIndex)
+    public void onPutOn(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
+            final int subIndex)
     {
     }
 
     @Override
-    public void onTakeOff(LivingEntity player, ItemStack itemstack, EnumWearable slot, int subIndex)
+    public void onTakeOff(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
+            final int subIndex)
     {
     }
 
     @Override
-    public void onUpdate(LivingEntity player, ItemStack itemstack, EnumWearable slot, int subIndex)
+    public void onUpdate(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
+            final int subIndex)
     {
     }
 
     @Override
-    public void renderWearable(EnumWearable slot, LivingEntity wearer, ItemStack stack, float partialTicks)
+    public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+            final ItemStack stack, final float partialTicks)
     {
     }
 

@@ -224,9 +224,6 @@ public class Config
         final Builder COMMON_BUILDER = new Builder();
         final Builder CLIENT_BUILDER = new Builder();
         final Builder SERVER_BUILDER = new Builder();
-        COMMON_BUILDER.comment("General configuration").push("common");
-        CLIENT_BUILDER.comment("General configuration").push("client");
-        SERVER_BUILDER.comment("General configuration").push("server");
 
         final List<Field> commonList = Lists.newArrayList();
         final List<Field> clientList = Lists.newArrayList();
@@ -267,50 +264,44 @@ public class Config
         Collections.sort(clientList, comp);
         Collections.sort(serverList, comp);
 
-        for (final Field field : serverList)
-            try
-            {
-                final Configure conf = field.getAnnotation(Configure.class);
-                final String comment = conf.comment().isEmpty() ? "sets " + field.getName() : conf.comment();
-                final Object o = field.get(holder);
-                holder.init(Type.SERVER, field, SERVER_BUILDER.comment(comment).define(field.getName(), o));
-            }
-            catch (final Exception e)
-            {
-                ThutCore.LOGGER.error("Error getting field " + field, e);
-            }
-
-        for (final Field field : clientList)
-            try
-            {
-                final Configure conf = field.getAnnotation(Configure.class);
-                final String comment = conf.comment().isEmpty() ? "sets " + field.getName() : conf.comment();
-                final Object o = field.get(holder);
-                holder.init(Type.CLIENT, field, CLIENT_BUILDER.comment(comment).define(field.getName(), o));
-            }
-            catch (final Exception e)
-            {
-                ThutCore.LOGGER.error("Error getting field " + field, e);
-            }
-
-        for (final Field field : commonList)
-            try
-            {
-                final Configure conf = field.getAnnotation(Configure.class);
-                final String comment = conf.comment().isEmpty() ? "sets " + field.getName() : conf.comment();
-                final Object o = field.get(holder);
-                holder.init(Type.COMMON, field, COMMON_BUILDER.comment(comment).define(field.getName(), o));
-            }
-            catch (final Exception e)
-            {
-                ThutCore.LOGGER.error("Error getting field " + field, e);
-            }
+        Config.build(COMMON_BUILDER, commonList, holder, Type.COMMON);
+        Config.build(SERVER_BUILDER, serverList, holder, Type.SERVER);
+        Config.build(CLIENT_BUILDER, clientList, holder, Type.CLIENT);
 
         final ForgeConfigSpec COMMON_CONFIG_SPEC = commonList.isEmpty() ? null : COMMON_BUILDER.pop().build();
         final ForgeConfigSpec CLIENT_CONFIG_SPEC = clientList.isEmpty() ? null : CLIENT_BUILDER.pop().build();
         final ForgeConfigSpec SERVER_CONFIG_SPEC = serverList.isEmpty() ? null : SERVER_BUILDER.pop().build();
 
         return new ForgeConfigSpec[] { COMMON_CONFIG_SPEC, CLIENT_CONFIG_SPEC, SERVER_CONFIG_SPEC };
+    }
+
+    private static void build(final Builder builder, final List<Field> fields, final IConfigHolder holder,
+            final Type type)
+    {
+        String cat = "";
+        for (final Field field : fields)
+            try
+            {
+                final Configure conf = field.getAnnotation(Configure.class);
+                if (!cat.equals(conf.category()))
+                {
+                    // Empty the first time, otherwise we pop off
+                    if (!cat.isEmpty()) builder.pop();
+                    cat = conf.category();
+                    // Push the category
+                    builder.push(cat);
+                    builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + cat);
+                }
+                if (!conf.comment().isEmpty()) builder.comment(conf.comment());
+                else builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName()
+                        + ".tooltip");
+                final Object o = field.get(holder);
+                holder.init(type, field, builder.define(field.getName(), o));
+            }
+            catch (final Exception e)
+            {
+                ThutCore.LOGGER.error("Error getting field " + field, e);
+            }
     }
 
     private static void loadConfig(final IConfigHolder holder, final ForgeConfigSpec spec, final Path path)

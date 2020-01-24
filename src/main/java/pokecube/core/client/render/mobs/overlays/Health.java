@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
@@ -65,28 +62,21 @@ public class Health
 
     protected static void postRender()
     {
-        // Reset to original state. This fixes changes to guis when rendered in
-        // them.
-        if (!Health.normalize) GL11.glDisable(GL11.GL_NORMALIZE);
-        if (!Health.blend) GL11.glDisable(GL11.GL_BLEND);
-        if (Health.lighting) GlStateManager.enableLighting();
-
-        GL11.glBlendFunc(Health.src, Health.dst);
+        GlStateManager.enableDepthTest();
+        GlStateManager.enableLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     protected static void preRender()
     {
-        Health.blend = GL11.glGetBoolean(GL11.GL_BLEND);
-        Health.normalize = GL11.glGetBoolean(GL11.GL_NORMALIZE);
-        Health.src = GL11.glGetInteger(GL11.GL_BLEND_SRC);
-        Health.dst = GL11.glGetInteger(GL11.GL_BLEND_DST);
-        Health.lighting = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        if (Health.lighting) GlStateManager.disableLighting();
-        if (!Health.normalize) GL11.glEnable(GL11.GL_NORMALIZE);
-        if (!Health.blend) GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        // This applies the lighting.
-        GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 240, 240);
+        GlStateManager.disableLighting();
+        GlStateManager.disableDepthTest();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO);
+
     }
 
     public static void renderHealthBar(final LivingEntity passedEntity, final float partialTicks,
@@ -206,7 +196,8 @@ public class Health
                 tessellator.draw();
                 zlevel += zshift;
 
-                // Health Bar
+                // Health Bar Fill
+                GlStateManager.enableDepthTest();
                 buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
                 buffer.pos(-size, 0, zlevel).color(r, g, b, 127).endVertex();
                 buffer.pos(-size, barHeight1, zlevel).color(r, g, b, 127).endVertex();
@@ -214,6 +205,7 @@ public class Health
                 buffer.pos(healthSize * 2 - size, 0, zlevel).color(r, g, b, 127).endVertex();
                 tessellator.draw();
                 zlevel += zshift;
+                GlStateManager.disableDepthTest();
 
                 // Exp Bar
                 r = 64;
@@ -235,7 +227,8 @@ public class Health
                 tessellator.draw();
                 zlevel += zshift;
 
-                // Health Bar
+                // Exp Bar Fill
+                GlStateManager.enableDepthTest();
                 buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
                 buffer.pos(-size, barHeight1, zlevel).color(r, g, b, 127).endVertex();
                 buffer.pos(-size, barHeight1 + 1, zlevel).color(r, g, b, 127).endVertex();
@@ -243,6 +236,7 @@ public class Health
                 buffer.pos(expSize * 2 - size, barHeight1, zlevel).color(r, g, b, 127).endVertex();
                 tessellator.draw();
                 zlevel += zshift;
+                GlStateManager.disableDepthTest();
 
                 GlStateManager.enableTexture();
 
@@ -255,7 +249,9 @@ public class Health
                 int colour = isOwner ? config.ownedNameColour
                         : owner == null ? nametag ? scanned ? config.scannedNameColour : config.caughtNamedColour
                                 : config.unknownNameColour : config.otherOwnedNameColour;
+                GlStateManager.enableDepthTest();
                 mc.fontRenderer.drawString(name, 0, 0, colour);
+                GlStateManager.disableDepthTest();
 
                 GlStateManager.pushMatrix();
                 float s1 = 0.75F;

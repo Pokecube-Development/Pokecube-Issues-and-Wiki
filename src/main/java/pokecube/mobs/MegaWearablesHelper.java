@@ -42,8 +42,8 @@ public class MegaWearablesHelper
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.HAT) return;
                 if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
@@ -95,8 +95,8 @@ public class MegaWearablesHelper
                     "textures/worn/megaankletzinnia_2.png");
 
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.ANKLE) return;
 
@@ -153,8 +153,8 @@ public class MegaWearablesHelper
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.NECK) return;
                 if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
@@ -206,15 +206,15 @@ public class MegaWearablesHelper
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.EAR) return;
                 if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
                         "models/worn/megaearring.x3d"));
                 final Minecraft minecraft = Minecraft.getInstance();
                 GL11.glRotatef(180, 0, 0, 1);
-                final float dx = -0.0f, dy = .0f, dz = -0.3f;
+                final float dx = -0.0f, dy = index == 0 ? .01f : -.01f, dz = -0.3f;
                 GL11.glTranslatef(dx, dy, dz);
                 GlStateManager.pushMatrix();
                 final int brightness = wearer.getBrightnessForRender();
@@ -258,8 +258,8 @@ public class MegaWearablesHelper
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.EYE) return;
                 if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,

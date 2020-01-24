@@ -30,13 +30,13 @@ public interface IModelRenderer<T extends MobEntity>
             this.rotations = new Vector4();
         }
 
-        public Vector5(Vector4 rotation, int time)
+        public Vector5(final Vector4 rotation, final int time)
         {
             this.rotations = rotation;
             this.time = time;
         }
 
-        public Vector5 interpolate(Vector5 v, float time, boolean wrap)
+        public Vector5 interpolate(final Vector5 v, final float time, final boolean wrap)
         {
             if (v.time == 0) return this;
 
@@ -70,10 +70,10 @@ public interface IModelRenderer<T extends MobEntity>
 
     void doRender(T entity, double d, double d1, double d2, float f, float partialTick);
 
-    default String getAnimation(Entity entityIn)
+    default String getAnimation(final Entity entityIn)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
-        if (holder != null) return holder.getPendingAnimation();
+        if (holder != null) return holder.getCurrentAnimation();
         return "idle";
     }
 
@@ -105,10 +105,10 @@ public interface IModelRenderer<T extends MobEntity>
 
     void scaleEntity(Entity entity, IModel model, float partialTick);
 
-    default void setAnimation(String phase, Entity entity)
+    default void setAnimation(final String phase, final Entity entity)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
-        if (holder != null) holder.setPendingAnimation(phase);
+        if (holder != null) if (!holder.getCurrentAnimation().equals(phase)) holder.setPendingAnimation(phase);
     }
 
     void setAnimationChanger(IAnimationChanger changer);

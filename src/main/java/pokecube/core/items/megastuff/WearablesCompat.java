@@ -7,7 +7,6 @@ import java.util.Set;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
@@ -23,16 +22,18 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.models.ModelRing;
 import pokecube.core.interfaces.PokecubeMod;
-import thut.core.client.render.model.IExtendedModelPart;
+import thut.bling.client.render.Hat;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
 
+@Mod.EventBusSubscriber
 public class WearablesCompat
 {
     public static class WearableMega implements thut.wearables.IActiveWearable, ICapabilityProvider
@@ -71,19 +72,26 @@ public class WearablesCompat
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void renderWearable(final thut.wearables.EnumWearable slot, final LivingEntity wearer,
+        public void renderWearable(final thut.wearables.EnumWearable slot, final int index, final LivingEntity wearer,
                 final ItemStack stack, final float partialTicks)
         {
             final WearablesRenderer renderer = WearablesCompat.renderers.get(this.getVariant(stack));
-            if (renderer != null) renderer.renderWearable(slot, wearer, stack, partialTicks);
+            if (renderer != null) renderer.renderWearable(slot, index, wearer, stack, partialTicks);
         }
     }
 
     public abstract static class WearablesRenderer
     {
         @OnlyIn(Dist.CLIENT)
-        public abstract void renderWearable(thut.wearables.EnumWearable slot, LivingEntity wearer, ItemStack stack,
-                float partialTicks);
+        public void renderWearable(final thut.wearables.EnumWearable slot, final LivingEntity wearer,
+                final ItemStack stack, final float partialTicks)
+        {
+            this.renderWearable(slot, 0, wearer, stack, partialTicks);
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        public abstract void renderWearable(thut.wearables.EnumWearable slot, int index, LivingEntity wearer,
+                ItemStack stack, float partialTicks);
     }
 
     public static class WearableWatch implements thut.wearables.IActiveWearable, ICapabilityProvider
@@ -110,11 +118,11 @@ public class WearablesCompat
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void renderWearable(final thut.wearables.EnumWearable slot, final LivingEntity wearer,
+        public void renderWearable(final thut.wearables.EnumWearable slot, final int index, final LivingEntity wearer,
                 final ItemStack stack, final float partialTicks)
         {
             final WearablesRenderer renderer = WearablesCompat.renderers.get("pokewatch");
-            if (renderer != null) renderer.renderWearable(slot, wearer, stack, partialTicks);
+            if (renderer != null) renderer.renderWearable(slot, index, wearer, stack, partialTicks);
         }
     }
 
@@ -136,8 +144,8 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.WRIST) return;
                 if (this.model == null)
@@ -193,8 +201,8 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.FINGER) return;
                 if (this.ring == null) this.ring = new ModelRing();
@@ -214,8 +222,8 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.WAIST) return;
                 if (this.belt == null)
@@ -267,53 +275,24 @@ public class WearablesCompat
             X3dModel hat;
 
             // Textures for each hat layer.
-            private final ResourceLocation hat_1 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat.png");
-            private final ResourceLocation hat_2 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat2.png");
+            private final ResourceLocation   hat_1 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat.png");
+            private final ResourceLocation   hat_2 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat2.png");
+            private final ResourceLocation[] TEX   = { this.hat_1, this.hat_2 };
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                    final float partialTicks)
+            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+                    final ItemStack stack, final float partialTicks)
             {
                 if (slot != EnumWearable.HAT) return;
-
                 if (this.hat == null) this.hat = new X3dModel(new ResourceLocation(PokecubeMod.ID,
                         "models/worn/hat.x3d"));
-
-                final Minecraft minecraft = Minecraft.getInstance();
-                GlStateManager.pushMatrix();
-                final float s = 0.285f;
-                GL11.glScaled(s, -s, -s);
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                minecraft.getTextureManager().bindTexture(this.hat_1);
-                for (final IExtendedModelPart part1 : this.hat.getParts().values())
-                    part1.setRGBAB(col);
-                this.hat.renderAll();
-                GlStateManager.popMatrix();
-                GlStateManager.pushMatrix();
-                GL11.glScaled(s * 0.995f, -s * 0.995f, -s * 0.995f);
-                minecraft.getTextureManager().bindTexture(this.hat_2);
-                DyeColor ret = DyeColor.RED;
-                if (stack.hasTag() && stack.getTag().contains("dyeColour"))
-                {
-                    final int damage = stack.getTag().getInt("dyeColour");
-                    ret = DyeColor.byId(damage);
-                }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[1] = colour.getGreen();
-                col[2] = colour.getBlue();
-                for (final IExtendedModelPart part : this.hat.getParts().values())
-                    part.setRGBAB(col);
-                this.hat.renderAll();
-                GL11.glColor3f(1, 1, 1);
-                GlStateManager.popMatrix();
+                Hat.renderHat(wearer, stack, this.hat, this.TEX, wearer.getBrightnessForRender());
             }
         });
     }
 
-    public WearablesCompat()
+    public static void init()
     {
         MegaCapability.checker = (player, toEvolve) ->
         {
@@ -330,8 +309,9 @@ public class WearablesCompat
     }
 
     @SubscribeEvent
-    public void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
+    public static void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
     {
+        if (event.getCapabilities().containsKey(WearablesCompat.WEARABLESKEY)) return;
         if (event.getObject().getItem() instanceof ItemMegawearable) event.addCapability(WearablesCompat.WEARABLESKEY,
                 new WearableMega());
         else if (event.getObject().getItem() == PokecubeItems.POKEWATCH) event.addCapability(

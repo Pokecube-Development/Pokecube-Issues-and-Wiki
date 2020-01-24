@@ -209,11 +209,6 @@ public class ThutWearables
     // Holder for our config options
     public static final Config config = new Config();
 
-    public static ThutWearables instance;
-
-    public static String  configPath;
-    public static boolean baublesCompat = false;
-
     static Map<CompatClass.Phase, Set<java.lang.reflect.Method>> initMethods = Maps.newHashMap();
 
     private static void doPhase(final Phase pre, final Object event)
@@ -275,7 +270,6 @@ public class ThutWearables
             ThutWearables.initMethods.put(phase, new HashSet<java.lang.reflect.Method>());
         CompatParser.findClasses("thut.wearables.compat", ThutWearables.initMethods);
         ThutWearables.doPhase(Phase.CONSTRUCT, null);
-        ThutWearables.instance = this;
 
         MinecraftForge.EVENT_BUS.register(this);
 

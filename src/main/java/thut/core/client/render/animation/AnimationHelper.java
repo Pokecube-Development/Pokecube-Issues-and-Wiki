@@ -57,26 +57,26 @@ public class AnimationHelper
         }
 
         @Override
-        public int getStep(Animation animation)
+        public int getStep(final Animation animation)
         {
             if (this.stepsMap.containsKey(animation.id)) return this.stepsMap.get(animation.id);
             return 0;
         }
 
         @Override
-        public void setCurrentAnimation(String name)
+        public void setCurrentAnimation(final String name)
         {
             this.current = name;
         }
 
         @Override
-        public void setPendingAnimation(String name)
+        public void setPendingAnimation(final String name)
         {
             this.pending = name;
         }
 
         @Override
-        public void setStep(Animation animation, int step)
+        public void setStep(final Animation animation, final int step)
         {
             this.stepsMap.put(animation.id, step);
         }
@@ -84,8 +84,8 @@ public class AnimationHelper
 
     private final static Map<UUID, Holder> holderMap = Maps.newHashMap();
 
-    public static boolean animate(Animation animation, IAnimationHolder animate, String partName,
-            IExtendedModelPart part, float partialTick, float limbSwing, int tick)
+    public static boolean animate(final Animation animation, final IAnimationHolder animate, final String partName,
+            final IExtendedModelPart part, final float partialTick, final float limbSwing, final int tick)
     {
         final ArrayList<AnimationComponent> components = animation.getComponents(partName);
         boolean animated = false;
@@ -97,13 +97,14 @@ public class AnimationHelper
         float time1 = aniTick;
         float time2 = 0;
         final int animationLength = animation.getLength();
-        final float limbSpeedFactor = 1f;
+        final float limbSpeedFactor = 3f;
         time1 = (time1 + partialTick) % animationLength;
         time2 = limbSwing * limbSpeedFactor % animationLength;
-        animate.setStep(animation, tick);
+        aniTick = (int) time1;
         if (components != null) for (final AnimationComponent component : components)
         {
             final float time = component.limbBased ? time2 : time1;
+            if (component.limbBased) aniTick = (int) time2;
             if (time >= component.startKey)
             {
                 animated = true;
@@ -124,6 +125,7 @@ public class AnimationHelper
                 part.setHidden(component.hidden);
             }
         }
+        animate.setStep(animation, aniTick);
         if (animated)
         {
             part.setPreTranslations(temp);
@@ -139,8 +141,8 @@ public class AnimationHelper
         return animated;
     }
 
-    public static boolean doAnimation(List<Animation> list, Entity entity, String partName, IExtendedModelPart part,
-            float partialTick, float limbSwing)
+    public static boolean doAnimation(final List<Animation> list, final Entity entity, final String partName,
+            final IExtendedModelPart part, final float partialTick, final float limbSwing)
     {
         boolean animate = false;
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
@@ -150,7 +152,7 @@ public class AnimationHelper
         return animate;
     }
 
-    public static IAnimationHolder getHolder(Entity mob)
+    public static IAnimationHolder getHolder(final Entity mob)
     {
         final IAnimationHolder cap = mob.getCapability(CapabilityAnimation.CAPABILITY, null).orElse(null);
         if (cap != null) return cap;

@@ -37,6 +37,7 @@ import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -250,5 +251,26 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     public void setRGBA(final int... colours)
     {
         this.pokemobCap.setRGBA(colours);
+    }
+
+    private int despawntimer = 0;
+
+    private boolean cullCheck(final double distanceToClosestPlayer)
+    {
+        boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
+        this.despawntimer--;
+        if (PokecubeCore.getConfig().despawn) if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore
+                .getConfig().despawnTimer;
+        else if (this.despawntimer == 0) return true;
+        player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getEntityWorld().getHeight(),
+                this);
+        if (PokecubeCore.getConfig().cull && !player) return true;
+        return false;
+    }
+
+    @Override
+    public boolean canDespawn(final double distanceToClosestPlayer)
+    {
+        return this.cullCheck(distanceToClosestPlayer);
     }
 }

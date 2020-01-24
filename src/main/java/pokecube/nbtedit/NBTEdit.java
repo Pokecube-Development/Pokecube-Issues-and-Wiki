@@ -29,7 +29,7 @@ public class NBTEdit
 {
     public static class ConfigHolder extends ConfigData
     {
-        @Configure
+        @Configure(category = "misc")
         private final boolean opOnly = true;
 
         public ConfigHolder()

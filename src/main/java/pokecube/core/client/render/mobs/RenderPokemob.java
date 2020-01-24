@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -170,8 +171,10 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         {
             String phase = IModelRenderer.super.getAnimation(entity);
             if (this.model == null || pokemob == null) return phase;
-            final float walkspeed = entity.prevLimbSwingAmount + (entity.limbSwingAmount - entity.prevLimbSwingAmount);
-
+            final Vec3d velocity = entity.getMotion();
+            final float dStep = entity.limbSwingAmount - entity.prevLimbSwingAmount;
+            final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
+            final float stationary = 0.00001f;
             final boolean asleep = pokemob.getStatus() == IMoveConstants.STATUS_SLP || pokemob.getLogicState(
                     LogicStates.SLEEPING);
 
@@ -237,12 +240,12 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                 phase = "swimming";
                 return phase;
             }
-            if (entity.onGround && walkspeed > 0.1 && this.hasAnimation("walking", entity))
+            if (entity.onGround && walkspeed > stationary && this.hasAnimation("walking", entity))
             {
                 phase = "walking";
                 return phase;
             }
-            if (entity.onGround && walkspeed > 0.1 && this.hasAnimation("walk", entity))
+            if (entity.onGround && walkspeed > stationary && this.hasAnimation("walk", entity))
             {
                 phase = "walk";
                 return phase;

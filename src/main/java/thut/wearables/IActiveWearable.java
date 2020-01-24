@@ -33,8 +33,8 @@ public interface IActiveWearable extends IWearable
         }
 
         @Override
-        public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-                final float partialTicks)
+        public void renderWearable(final EnumWearable slot, final int subindex, final LivingEntity wearer,
+                final ItemStack stack, final float partialTicks)
         {
         }
 

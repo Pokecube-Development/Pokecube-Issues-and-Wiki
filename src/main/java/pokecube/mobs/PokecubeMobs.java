@@ -28,7 +28,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
@@ -470,13 +469,13 @@ public class PokecubeMobs
         ItemGenerator.fossilVariants.add("dracovish");
         ItemGenerator.fossilVariants.add("arctovish");
         BerryHelper.initBerries();
+        // We are depending on this now, so might as well always use it.
+        MegaWearablesHelper.initExtraWearables();
     }
 
     @SubscribeEvent
     public void registerPokecubes(final RegisterPokecubes event)
     {
-        if (ModList.get().isLoaded("thut_wearables")) MegaWearablesHelper.initExtraWearables();
-
         MiscItemHelper.init();
         // Charcoal
         MiscItemHelper.CHARCOALSTACK = new ItemStack(Items.CHARCOAL);

@@ -111,14 +111,17 @@ public class PokecubeCore
             // Register the general structure piece we use
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
 
-            // Register the start building.
-            event.getRegistry().register(PokecentreFeature.START_BUILDING);
-            for (final Biome b : ForgeRegistries.BIOMES.getValues())
+            if (PokecubeCore.config.doSpawnBuilding)
             {
-                b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(
-                        PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE,
-                        IPlacementConfig.NO_PLACEMENT_CONFIG));
-                b.addStructure(PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG);
+                // Register the start building.
+                event.getRegistry().register(PokecentreFeature.START_BUILDING);
+                for (final Biome b : ForgeRegistries.BIOMES.getValues())
+                {
+                    b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(
+                            PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE,
+                            IPlacementConfig.NO_PLACEMENT_CONFIG));
+                    b.addStructure(PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG);
+                }
             }
 
             // Register the configurable worldgen things from datapack

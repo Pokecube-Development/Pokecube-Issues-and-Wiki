@@ -7,12 +7,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public interface IWearable
 {
-    default boolean canPutOn(LivingEntity player, ItemStack itemstack, EnumWearable slot, int subIndex)
+    default boolean canPutOn(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
+            final int subIndex)
     {
         return true;
     }
 
-    default boolean canRemove(LivingEntity player, ItemStack itemstack, EnumWearable slot, int subIndex)
+    default boolean canRemove(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
+            final int subIndex)
     {
         return true;
     }
@@ -28,7 +30,7 @@ public interface IWearable
         return false;
     }
 
-    default boolean dyeable(ItemStack stack)
+    default boolean dyeable(final ItemStack stack)
     {
         return false;
     }
@@ -45,5 +47,5 @@ public interface IWearable
      * @param stack
      *            - The stack being worn
      */
-    void renderWearable(EnumWearable slot, LivingEntity wearer, ItemStack stack, float partialTicks);
+    void renderWearable(EnumWearable slot, int subindex, LivingEntity wearer, ItemStack stack, float partialTicks);
 }

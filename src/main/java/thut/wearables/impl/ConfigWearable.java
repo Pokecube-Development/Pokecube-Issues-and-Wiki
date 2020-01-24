@@ -48,8 +48,8 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
     }
 
     @Override
-    public void renderWearable(final EnumWearable slot, final LivingEntity wearer, final ItemStack stack,
-            final float partialTicks)
+    public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
+            final ItemStack stack, final float partialTicks)
     {
         // TODO way to register renderers for config wearables
 

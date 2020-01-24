@@ -16,6 +16,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.tasks.idle.AIIdle;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
@@ -80,8 +81,6 @@ public class Config extends ConfigData
     @Configure(category = Config.misc)
     public String       extra_contributors   = "";
     @Configure(category = Config.misc)
-    public boolean      loginmessage         = true;
-    @Configure(category = Config.misc)
     /** is there a choose first gui on login */
     public boolean      guiOnLogin           = true;
     @Configure(category = Config.misc)
@@ -94,10 +93,6 @@ public class Config extends ConfigData
     /** does defeating a tame pokemob give exp */
     public boolean      trainerExp           = true;
     @Configure(category = Config.misc)
-    public boolean      mysterygift          = true;
-    @Configure(category = Config.misc)
-    public String       defaultMobs          = "";
-    @Configure(category = Config.misc)
     @SyncConfig
     public double       scalefactor          = 1;
     @Configure(category = Config.misc)
@@ -106,7 +101,7 @@ public class Config extends ConfigData
     public double       expScaleFactor       = 1;
     @Configure(category = Config.misc, type = Type.SERVER)
     public boolean      pcHoldsOnlyPokecubes = true;
-    @Configure(category = Config.misc)
+    @Configure(category = Config.misc)// TODO implement
     public List<String> snagblacklist        = Lists.newArrayList(new String[] {
             "net.minecraft.entity.boss.EntityDragon", "net.minecraft.entity.boss.EntityWither" });
     @Configure(category = Config.misc)
@@ -188,9 +183,9 @@ public class Config extends ConfigData
     public double  pokemobToNPCDamageRatio      = 1;
     @Configure(category = Config.moves)
     public int     baseSmeltingHunger           = 100;
-    @Configure(category = Config.moves)
+    @Configure(category = Config.moves)// TODO reimplement
     public boolean onlyPokemobsDamagePokemobs   = false;
-    @Configure(category = Config.moves)
+    @Configure(category = Config.moves)// TODO reimplement
     public double  playerToPokemobDamageScale   = 1;
     @Configure(category = Config.moves)
     public boolean defaultFireActions           = true;
@@ -342,7 +337,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public boolean captureDelayTillAttack = true;
     @Configure(category = Config.mobAI)
-    public int     idleTickRate           = 20;
+    public int     idleTickRate           = 200;
     @Configure(category = Config.mobAI)
     public int     idleMaxPathWild        = 8;
     @Configure(category = Config.mobAI)
@@ -792,6 +787,8 @@ public class Config extends ConfigData
         if (this.spawnRate <= 0) this.spawnRate = 1;
         if (this.idleTickRate == 0) this.idleTickRate = 1;
         if (this.hungerTickRate == 0) this.hungerTickRate = 1;
+
+        AIIdle.IDLETIMER = this.idleTickRate;
 
         // TODO Init secret bases.
         // DimensionSecretBase.init(baseSizeFunction);

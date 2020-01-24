@@ -66,8 +66,10 @@ public class CapabilityAnimation
         @Override
         public int getStep(final Animation animation)
         {
-            if (this.stepsMap.containsKey(animation.id)) return this.stepsMap.get(animation.id);
-            return 0;
+            int step = 0;
+            if (this.stepsMap.containsKey(animation.id)) step = this.stepsMap.get(animation.id);
+            if (!this.pending.equals(this.current)) if (step == animation.length) this.current = this.pending;
+            return step;
         }
 
         @Override
