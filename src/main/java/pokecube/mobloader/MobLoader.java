@@ -2,23 +2,23 @@ package pokecube.mobloader;
 
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.events.onload.InitDatabase;
 
-@Mod.EventBusSubscriber
 public class MobLoader
 {
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerDatabases(final InitDatabase.Pre evt)
     {
-        Database.addDatabase("pokemobs_pokedex.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokemobs_spawns.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokemobs_drops.json", EnumDatabase.POKEMON);
-        Database.addDatabase("pokemobs_interacts.json", EnumDatabase.POKEMON);
+        PokecubeCore.LOGGER.debug("Registering Loadable Databases");
+        Database.addDatabase("database/pokemobs/pokemobs_pokedex.json", EnumDatabase.POKEMON);
+        Database.addDatabase("database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
+        Database.addDatabase("database/pokemobs/pokemobs_drops.json", EnumDatabase.POKEMON);
+        Database.addDatabase("database/pokemobs/pokemobs_interacts.json", EnumDatabase.POKEMON);
 
-        Database.addDatabase("moves.json", EnumDatabase.MOVES);
-        Database.addDatabase("spawns.json", EnumDatabase.BERRIES);
+        Database.addDatabase("database/moves.json", EnumDatabase.MOVES);
+        Database.addDatabase("database/spawns.json", EnumDatabase.BERRIES);
     }
 }

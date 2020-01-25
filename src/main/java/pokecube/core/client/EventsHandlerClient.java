@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -60,8 +58,8 @@ import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.api.maths.vecmath.Vector3f;
 
-@OnlyIn(Dist.CLIENT)
 public class EventsHandlerClient
 {
     public static HashMap<PokedexEntry, IPokemob>        renderMobs = new HashMap<>();
@@ -124,7 +122,6 @@ public class EventsHandlerClient
         EventsHandlerClient.lastSetTime = System.currentTimeMillis() + 500;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void FogRenderTick(final EntityViewRenderEvent.FogDensity evt)
     {
@@ -282,7 +279,6 @@ public class EventsHandlerClient
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void onRenderHotbar(final RenderGameOverlayEvent.Post event)
     {

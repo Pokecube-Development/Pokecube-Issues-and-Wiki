@@ -81,6 +81,7 @@ import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.gen.feature.scattered.ConfigStructurePiece;
 import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
+import pokecube.mobloader.MobLoader;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.CapabilityAnimation;
@@ -101,6 +102,7 @@ public class PokecubeCore
         public static void registerBiomes(final RegistryEvent.Register<Biome> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
+            event.getRegistry().register(SecretBaseDimension.BIOME);
         }
 
         @SubscribeEvent
@@ -352,6 +354,8 @@ public class PokecubeCore
 
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeCore.config, PokecubeCore.MODID, PokecubeCore.MODID);
+
+        PokecubeCore.POKEMOB_BUS.register(MobLoader.class);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::setup);
         // Register the doClientStuff method for modloading

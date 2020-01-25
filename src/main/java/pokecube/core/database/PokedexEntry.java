@@ -973,10 +973,10 @@ public class PokedexEntry
 
     private ITextComponent description;
 
-    public ResourceLocation model = PokedexEntry.MODELNO;
-
-    public ResourceLocation texture = PokedexEntry.TEXNO;
-
+    // "" for automatic assignment
+    public String           modelExt  = "";
+    public ResourceLocation model     = PokedexEntry.MODELNO;
+    public ResourceLocation texture   = PokedexEntry.TEXNO;
     public ResourceLocation animation = PokedexEntry.ANIMNO;
 
     /**

@@ -34,7 +34,7 @@ public class Bone
     public HashMap<String, ArrayList<Matrix4f>> animatedTransforms = new HashMap<>();
     public float[]                              currentVals        = new float[6];
 
-    public Bone(Bone b, Bone parent, Body owner)
+    public Bone(final Bone b, final Bone parent, final Body owner)
     {
         this.name = b.name;
         this.ID = b.ID;
@@ -53,7 +53,7 @@ public class Bone
         b.copy = this;
     }
 
-    public Bone(String name, int ID, Bone parent, Body owner)
+    public Bone(final String name, final int ID, final Bone parent, final Body owner)
     {
         this.name = name;
         this.ID = ID;
@@ -61,12 +61,12 @@ public class Bone
         this.owner = owner;
     }
 
-    public void addChild(Bone child)
+    public void addChild(final Bone child)
     {
         this.children.add(child);
     }
 
-    public void addVertex(MutableVertex v, float weight)
+    public void addVertex(final MutableVertex v, final float weight)
     {
         if (this.name.equals("blender_implicit")) throw new UnsupportedOperationException(
                 "Cannot add vertex to this part!");
@@ -85,9 +85,9 @@ public class Bone
      *
      * @param parentMatrix
      */
-    public void applyToRest(Matrix4f parentMatrix)
+    public void applyToRest(final Matrix4f parentMatrix)
     {
-        this.rest.mul(parentMatrix, this.rest);
+        this.rest = Matrix4f.mul(parentMatrix, this.rest, this.rest);
         this.applyChildrenToRest();
     }
 
@@ -99,9 +99,9 @@ public class Bone
         {
             final ArrayList<Matrix4f> precalcArray = this.animatedTransforms.get(currentFrame.owner.name);
             final Matrix4f animated = precalcArray.get(currentFrame.ID);
-            this.dummy1.mul(animated, this.restInv);
-            if (this.transform == null) this.transform = this.dummy1;
-            else this.transform.mul(this.transform, this.dummy1);
+            final Matrix4f animatedChange = Matrix4f.mul(animated, this.restInv, this.dummy1);
+            this.transform = this.transform == null ? animatedChange
+                    : Matrix4f.mul(this.transform, animatedChange, this.transform);
         }
         for (final Map.Entry<MutableVertex, Float> entry : this.verts.entrySet())
             entry.getKey().mutateFromBone(this, entry.getValue().floatValue());
@@ -114,9 +114,9 @@ public class Bone
      *
      * @param transform
      */
-    public void applyTransform(Matrix4f transform)
+    public void applyTransform(final Matrix4f transform)
     {
-        this.dynamicTransform.mul(this.dynamicTransform, transform);
+        Matrix4f.mul(this.dynamicTransform, transform, this.dynamicTransform);
     }
 
     protected Matrix4f getTransform()
@@ -126,7 +126,7 @@ public class Bone
 
     public void invertRestMatrix()
     {
-        this.restInv.invert(this.rest);
+        this.restInv = Matrix4f.invert(this.rest, this.restInv);
     }
 
     /**
@@ -135,7 +135,7 @@ public class Bone
      * @param key
      * @param animated
      */
-    public void preloadAnimation(Frame key, Matrix4f animated)
+    public void preloadAnimation(final Frame key, final Matrix4f animated)
     {
         ArrayList<Matrix4f> precalcArray;
         if (this.animatedTransforms.containsKey(key.owner.name)) precalcArray = this.animatedTransforms.get(
@@ -160,20 +160,20 @@ public class Bone
         {
             // We have an animation, so our delta matrix will be based on this.
             final Frame currentFrame = this.owner.currentAnim.frames.get(this.owner.currentAnim.index);
-            delta.set(currentFrame.transforms.get(this.ID));
-            inverted.set(currentFrame.invertTransforms.get(this.ID));
+            Matrix4f.load(currentFrame.transforms.get(this.ID), delta);
+            Matrix4f.load(currentFrame.invertTransforms.get(this.ID), inverted);
         }
         else
         {
             // No animation, so use rest matrix for the delta.
-            delta.set(this.rest);
-            inverted.set(this.restInv);
+            Matrix4f.load(this.rest, delta);
+            Matrix4f.load(this.restInv, inverted);
         }
         // Apply the dynamic transformation.
-        delta.mul(delta, this.dynamicTransform);
-        delta.mul(delta, inverted);
-        if (this.parent != null) this.getTransform().mul(this.parent.transform, delta);
-        else this.transform = this.getTransform();
+        Matrix4f.mul(delta, this.dynamicTransform, delta);
+        Matrix4f.mul(delta, inverted, delta);
+        this.transform = this.parent != null ? Matrix4f.mul(this.parent.transform, delta, this.getTransform())
+                : this.getTransform();
         for (final Bone child : this.children)
             child.prepareTransform();
     }
@@ -184,7 +184,7 @@ public class Bone
         this.dynamicTransform.setIdentity();
     }
 
-    public void setChildren(Bone b, ArrayList<Bone> bones)
+    public void setChildren(final Bone b, final ArrayList<Bone> bones)
     {
         for (int i = 0; i < b.children.size(); i++)
         {
@@ -194,7 +194,7 @@ public class Bone
         }
     }
 
-    public void setRest(Matrix4f resting)
+    public void setRest(final Matrix4f resting)
     {
         this.rest = resting;
     }

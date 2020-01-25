@@ -1,5 +1,6 @@
 package pokecube.mobs.client.smd.impl;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.ResourceLocation;
+import thut.core.common.ThutCore;
 
 /**
  * Base model object, this contains the body, a list of the bones, and the
@@ -26,7 +28,7 @@ public class Model
     public boolean                    hasAnimations = true;
     public boolean                    usesMaterials = true;
 
-    public Model(Model model)
+    public Model(final Model model)
     {
         this.body = new Body(model.body, this);
         final Iterator<Map.Entry<String, Animation>> iterator = model.anims.entrySet().iterator();
@@ -40,7 +42,7 @@ public class Model
         this.currentAnimation = this.anims.get("idle");
     }
 
-    public Model(ResourceLocation resource) throws Exception
+    public Model(final ResourceLocation resource) throws Exception
     {
         this.load(resource);
         this.reformBones();
@@ -57,7 +59,7 @@ public class Model
         this.applyVertChange(this.body);
     }
 
-    private void applyVertChange(Body body)
+    private void applyVertChange(final Body body)
     {
         if (body == null) return;
         for (final MutableVertex v : body.verts)
@@ -69,7 +71,7 @@ public class Model
         return this.hasAnimations;
     }
 
-    private void load(ResourceLocation resloc) throws Exception
+    private void load(final ResourceLocation resloc) throws Exception
     {
         try
         {
@@ -90,9 +92,14 @@ public class Model
                     this.anims.put(s, new Animation(this, s, animation));
                     if (s.equalsIgnoreCase("idle")) this.currentAnimation = this.anims.get(s);
                 }
+                catch (final FileNotFoundException e1)
+                {
+                    // Ignore these, we don't really care about them
+                    ThutCore.LOGGER.debug("No animation of {} for {}", s, resloc);
+                }
                 catch (final Exception e)
                 {
-                    // e.printStackTrace();
+                    ThutCore.LOGGER.error(e);
                 }
             }
         }
@@ -122,14 +129,14 @@ public class Model
         GL11.glShadeModel(GL11.GL_FLAT);
     }
 
-    private void resetVerts(Body body)
+    private void resetVerts(final Body body)
     {
         if (body == null) return;
         for (final MutableVertex v : body.verts)
             v.reset();
     }
 
-    public void setAnimation(String name)
+    public void setAnimation(final String name)
     {
         final Animation old = this.currentAnimation;
         if (this.anims.containsKey(name)) this.currentAnimation = this.anims.get(name);
@@ -140,7 +147,7 @@ public class Model
         }
     }
 
-    void syncBones(Body body)
+    void syncBones(final Body body)
     {
         this.allBones = body.bones;
         if (!body.partOfGroup) this.root = body.root;

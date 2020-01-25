@@ -6,6 +6,28 @@ package thut.api.maths.vecmath;
  */
 public class Vector4f extends Tuple4f implements java.io.Serializable
 {
+    /**
+     * Add a vector to another vector and place the result in a destination
+     * vector.
+     * 
+     * @param left
+     *            The LHS vector
+     * @param right
+     *            The RHS vector
+     * @param dest
+     *            The destination vector, or null if a new vector is to be
+     *            created
+     * @return the sum of left and right in dest
+     */
+    public static Vector4f add(final Vector4f left, final Vector4f right, final Vector4f dest)
+    {
+        if (dest == null) return new Vector4f(left.x + right.x, left.y + right.y, left.z + right.z, left.w + right.w);
+        else
+        {
+            dest.set(left.x + right.x, left.y + right.y, left.z + right.z, left.w + right.w);
+            return dest;
+        }
+    }
 
     // Compatible with 1.1
     static final long serialVersionUID = 8749319902347760659L;

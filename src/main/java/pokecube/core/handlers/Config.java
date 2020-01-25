@@ -17,6 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.idle.AIIdle;
+import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
@@ -761,7 +762,7 @@ public class Config extends ConfigData
     @Override
     public void onUpdated()
     {
-        if (PokecubeCore.getConfig() == this) this.initDefaultStarts();
+        this.initDefaultStarts();
 
         // Check version stuff.
         if (this.version != Config.VERSION)
@@ -780,6 +781,15 @@ public class Config extends ConfigData
                     PokecubeCore.LOGGER.error("Error updating " + f.getName(), e);
                 }
             }
+        }
+
+        // Load in the extra databases from configs.
+        // TODO this is called too late!
+        for (int i = 0; i < Math.min(this.configDatabases.size(), 3); i++)
+        {
+            final String[] args = this.configDatabases.get(i).split(";");
+            for (final String s : args)
+                if (!s.trim().isEmpty()) Database.addDatabase(s, EnumDatabase.values()[i]);
         }
 
         // Ensure these values are in bounds.

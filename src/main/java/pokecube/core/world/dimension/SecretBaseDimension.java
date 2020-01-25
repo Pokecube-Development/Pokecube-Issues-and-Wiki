@@ -33,6 +33,7 @@ import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import pokecube.core.PokecubeCore;
 
 @Mod.EventBusSubscriber
 public class SecretBaseDimension extends ModDimension
@@ -46,6 +47,7 @@ public class SecretBaseDimension extends ModDimension
             super(new Biome.Builder().surfaceBuilder(SurfaceBuilder.DEFAULT, SurfaceBuilder.GRASS_DIRT_GRAVEL_CONFIG)
                     .precipitation(Biome.RainType.RAIN).category(Biome.Category.PLAINS).depth(0.125F).scale(0.05F)
                     .temperature(0.8F).downfall(0.4F).waterColor(4159204).waterFogColor(329011).parent((String) null));
+            this.setRegistryName(PokecubeCore.MODID, "secret_base");
         }
 
     }

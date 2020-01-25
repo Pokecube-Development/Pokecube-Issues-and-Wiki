@@ -2,7 +2,6 @@ package pokecube.mobs.client.smd.impl;
 
 import thut.api.maths.vecmath.Matrix4f;
 import thut.api.maths.vecmath.Vector4f;
-
 import thut.core.client.render.model.Vertex;
 
 /**
@@ -27,7 +26,8 @@ public class MutableVertex extends Vertex
     // Used for searching
     public final int ID;
 
-    public MutableVertex(float x, float y, float z, float xn, float yn, float zn, int ID)
+    public MutableVertex(final float x, final float y, final float z, final float xn, final float yn, final float zn,
+            final int ID)
     {
         super(x, y, z);
         this.xn = xn;
@@ -38,7 +38,7 @@ public class MutableVertex extends Vertex
         this.ID = ID;
     }
 
-    public MutableVertex(MutableVertex vertex)
+    public MutableVertex(final MutableVertex vertex)
     {
         super(vertex.x, vertex.y, vertex.z);
         this.xn = vertex.xn;
@@ -83,7 +83,7 @@ public class MutableVertex extends Vertex
         }
     }
 
-    public boolean equals(float x, float y, float z)
+    public boolean equals(final float x, final float y, final float z)
     {
         return this.x == x && this.y == y && this.z == z;
     }
@@ -101,18 +101,18 @@ public class MutableVertex extends Vertex
      * @param bone
      * @param weight
      */
-    public void mutateFromBone(Bone bone, float weight)
+    public void mutateFromBone(final Bone bone, final float weight)
     {
         final Matrix4f transform = bone.transform;
         if (transform != null)
         {
             this.init();
-            transform.transform(this.defPos, this.posTemp);
-            transform.transform(this.defNorm, this.normTemp);
-            this.posTemp.scale(weight);
-            this.normTemp.scale(weight);
-            this.mutPos.add(this.posTemp, this.mutPos);
-            this.mutNorm.add(this.normTemp, this.mutNorm);
+            final Vector4f posTemp = Matrix4f.transform(transform, this.defPos, null);
+            final Vector4f normTemp = Matrix4f.transform(transform, this.defNorm, null);
+            posTemp.scale(weight);
+            normTemp.scale(weight);
+            Vector4f.add(posTemp, this.mutPos, this.mutPos);
+            Vector4f.add(normTemp, this.mutNorm, this.mutNorm);
         }
     }
 

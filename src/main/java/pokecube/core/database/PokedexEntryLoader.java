@@ -1,6 +1,7 @@
 package pokecube.core.database;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -432,6 +433,8 @@ public class PokedexEntryLoader
         @XmlAttribute
         public String    genderBase = "";
         @XmlAttribute
+        public String    modelType  = "";
+        @XmlAttribute
         public String    sound      = null;
         @XmlElement(name = "STATS")
         public StatsNode stats;
@@ -680,6 +683,11 @@ public class PokedexEntryLoader
         try
         {
             return PokedexEntryLoader.initDatabase(Database.resourceManager.getResource(file).getInputStream(), true);
+        }
+        catch (final FileNotFoundException e)
+        {
+            PokecubeCore.LOGGER.debug("No Pokemob Database: {}", file);
+            return null;
         }
         catch (final Exception e)
         {
@@ -1352,6 +1360,7 @@ public class PokedexEntryLoader
         if (xmlEntry.sound != null) entry.customSound = xmlEntry.sound;
         final StatsNode stats = xmlEntry.stats;
         final Moves moves = xmlEntry.moves;
+        entry.modelExt = xmlEntry.modelType;
         if (stats != null) try
         {
             PokedexEntryLoader.initStats(entry, stats);

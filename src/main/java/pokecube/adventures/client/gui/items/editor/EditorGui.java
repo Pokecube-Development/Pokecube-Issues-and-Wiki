@@ -7,19 +7,30 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasRewards;
+import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.CapabilityNPCMessages;
+import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.client.gui.items.editor.pages.AI;
 import pokecube.adventures.client.gui.items.editor.pages.Messages;
 import pokecube.adventures.client.gui.items.editor.pages.Pokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Rewards;
 import pokecube.adventures.client.gui.items.editor.pages.Routes;
 import pokecube.adventures.client.gui.items.editor.pages.Trades;
-import pokecube.adventures.client.gui.items.editor.pages.Trainer;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 
 public class EditorGui extends Screen
 {
@@ -49,7 +60,9 @@ public class EditorGui extends Screen
 
     static
     {
-        EditorGui.PAGELIST.add(Trainer.class);
+        // We start with this as it will be replaced based on why this gui is
+        // opened.
+        EditorGui.PAGELIST.add(MissingPage.class);
         EditorGui.PAGELIST.add(AI.class);
         EditorGui.PAGELIST.add(Messages.class);
         EditorGui.PAGELIST.add(Pokemob.class);
@@ -75,14 +88,27 @@ public class EditorGui extends Screen
 
     public Page current_page = null;
 
-    // public final IPokemob pokemob;
-    // public final PlayerEntity player;
-    public int index = 0;
+    public final Entity             entity;
+    public final Minecraft          mc    = Minecraft.getInstance();
+    public final IGuardAICapability guard;
+    public final IHasPokemobs       trainer;
+    public final IHasRewards        rewards;
+    public final IHasMessages       messages;
+    public final IHasNPCAIStates    aiStates;
+    public final IPokemob           pokemob;
+    public int                      index = 0;
 
-    protected EditorGui(final ITextComponent titleIn)
+    protected EditorGui(final Entity mob)
     {
-        super(titleIn);
-        // TODO Auto-generated constructor stub
+        super(mob.getDisplayName());
+        this.entity = mob;
+        this.trainer = CapabilityHasPokemobs.getHasPokemobs(mob);
+        this.rewards = CapabilityHasRewards.getHasRewards(mob);
+        this.messages = CapabilityNPCMessages.getMessages(mob);
+        this.aiStates = CapabilityNPCAIStates.getNPCAIStates(mob);
+        this.pokemob = CapabilityPokemob.getPokemobFor(mob);
+        if (this.entity != null) this.guard = this.entity.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
+        else this.guard = null;
     }
 
     public void changePage(final int newIndex)

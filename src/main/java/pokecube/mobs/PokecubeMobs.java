@@ -731,7 +731,7 @@ public class PokecubeMobs
             final String model = this.getModelDirectory(entry);
             entry.setModId(PokecubeMobs.MODID);
             entry.texturePath = tex;
-            entry.model = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName());
+            entry.model = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(PokecubeMobs.MODID, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + ".xml");
         }

@@ -1,11 +1,10 @@
 package pokecube.core.database;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -33,8 +31,10 @@ import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.resources.FolderPackFinder;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackList;
 import net.minecraft.resources.ResourcePackType;
@@ -44,14 +44,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.Logging;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.ModLoadingStage;
-import net.minecraftforge.fml.ModLoadingWarning;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.fml.packs.ModFileResourcePack;
-import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -90,58 +86,54 @@ public class Database
 
     private static class ModPackFinder implements IPackFinder
     {
-        private static Map<ModFile, ModFileResourcePack> modResourcePacks;
-        private static Method                            SETINFO;
+        private Map<ModFile, IResourcePack> modResourcePacks = Maps.newHashMap();
+        private final List<IResourcePack>   allPacks         = Lists.newArrayList();
 
-        static
+        private final FolderPackFinder folderFinder;
+
+        public ModPackFinder(final ResourcePackInfo.IFactory<ResourcePackInfo> packInfoFactoryIn)
+        {
+            final File folder = new File(FMLPaths.GAMEDIR.get().toFile(), "resourcepacks");
+            PokecubeCore.LOGGER.debug("Setting resourcepacks folder as: {}", folder);
+            this.folderFinder = new FolderPackFinder(folder);
+            this.init(packInfoFactoryIn);
+        }
+
+        public void init(final ResourcePackInfo.IFactory<ResourcePackInfo> packInfoFactoryIn)
         {
             try
             {
-                ModPackFinder.SETINFO = ModFileResourcePack.class.getMethod("setPackInfo", Object.class);
-                ModPackFinder.SETINFO.setAccessible(true);
+                this.modResourcePacks = ModList.get().getModFiles().stream().map(mf -> new ModFileResourcePack(mf
+                        .getFile())).collect(Collectors.toMap(ModFileResourcePack::getModFile, Function.identity()));
+                this.allPacks.addAll(this.modResourcePacks.values());
             }
-            catch (NoSuchMethodException | SecurityException e)
+            catch (final Exception e)
             {
-                ModPackFinder.SETINFO = null;
+                throw new RuntimeException(e);
             }
-        }
 
-        public static void init()
-        {
-            ModPackFinder.modResourcePacks = ModList.get().getModFiles().stream().map(mf -> new ModFileResourcePack(mf
-                    .getFile())).collect(Collectors.toMap(ModFileResourcePack::getModFile, Function.identity()));
+            final Map<String, ResourcePackInfo> map = Maps.newHashMap();
+            this.folderFinder.addPackInfosToMap(map, packInfoFactoryIn);
+
+            for (final ResourcePackInfo info : map.values())
+                try
+                {
+                    final IResourcePack pack = info.getResourcePack();
+                    if (pack != null) this.allPacks.add(pack);
+                    else PokecubeCore.LOGGER.debug("No Pack found for " + info);
+                }
+                catch (final Exception e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
         }
 
         @Override
         public <T extends ResourcePackInfo> void addPackInfosToMap(final Map<String, T> packList,
                 final ResourcePackInfo.IFactory<T> factory)
         {
-            for (final Entry<ModFile, ModFileResourcePack> e : ModPackFinder.modResourcePacks.entrySet())
-            {
-                final IModInfo mod = e.getKey().getModInfos().get(0);
-                final String name = "mod:" + mod.getModId();
-                final T packInfo = ResourcePackInfo.createResourcePack(name, true, e::getValue, factory,
-                        ResourcePackInfo.Priority.BOTTOM);
-                if (packInfo == null)
-                {
-                    // Vanilla only logs an error, instead of propagating, so
-                    // handle null and warn that something went wrong
-                    ModLoader.get().addWarning(new ModLoadingWarning(mod, ModLoadingStage.ERROR,
-                            "fml.modloading.brokenresources", e.getKey()));
-                    continue;
-                }
-                try
-                {
-                    ModPackFinder.SETINFO.invoke(e.getValue(), packInfo);
-                }
-                catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1)
-                {
-                    PokecubeCore.LOGGER.warn("Error setting packinfo", e1);
-                }
-                PokecubeCore.LOGGER.debug(Logging.CORE, "Generating PackInfo named {} for mod file {}", name, e.getKey()
-                        .getFilePath());
-                packList.put(name, packInfo);
-            }
+            throw new RuntimeException("Opps we, don't do this yet!");
         }
 
     }
@@ -306,13 +298,8 @@ public class Database
         final ArrayList<ResourceLocation> list = Database.configDatabases.get(index);
         for (final ResourceLocation s : list)
             if (s.equals(loc)) return;
+        PokecubeCore.LOGGER.debug("Adding Database: {}", loc);
         list.add(loc);
-    }
-
-    public static void addDropData(final String file)
-    {
-        final ResourceLocation loc = PokecubeItems.toPokecubeResource(file);
-        Database.dropDatabases.add(loc);
     }
 
     public static void addEntry(final PokedexEntry entry)
@@ -987,10 +974,10 @@ public class Database
         // Initialize the resourceloader.
         @SuppressWarnings("deprecation")
         final ResourcePackList<ResourcePackInfo> resourcePacks = new ResourcePackList<>(ResourcePackInfo::new);
-        ModPackFinder.init();
-        final ModPackFinder finder = new ModPackFinder();
+        @SuppressWarnings("deprecation")
+        final ModPackFinder finder = new ModPackFinder(ResourcePackInfo::new);
         resourcePacks.addPackFinder(finder);
-        for (final ModFileResourcePack info : ModPackFinder.modResourcePacks.values())
+        for (final IResourcePack info : finder.allPacks)
         {
             PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
             Database.resourceManager.addResourcePack(info);
@@ -1004,11 +991,12 @@ public class Database
         for (final ResourceLocation s : Database.configDatabases.get(EnumDatabase.POKEMON.ordinal()))
             try
             {
+                PokecubeCore.LOGGER.debug("Loading from: {}", s);
                 PokedexEntryLoader.initDatabase(s);
             }
             catch (final Exception e)
             {
-                PokecubeCore.LOGGER.error("Error with pokemobs database" + s, e);
+                PokecubeCore.LOGGER.error("Error with pokemobs database " + s, e);
             }
         PokecubeCore.LOGGER.info("Loaded all databases");
     }

@@ -1,5 +1,6 @@
 package pokecube.core.database.moves.json;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -206,9 +207,13 @@ public class JsonMoves
             JsonMoves.moves.init();
             reader.close();
         }
+        catch (final FileNotFoundException e)
+        {
+            PokecubeCore.LOGGER.debug("No Moves File: {}", file);
+        }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with read " + file, e);
+            PokecubeCore.LOGGER.error("Error reading moves file " + file, e);
         }
     }
 
@@ -275,9 +280,13 @@ public class JsonMoves
                 cleaned.moves.add(newEntry);
             }
         }
+        catch (final FileNotFoundException e)
+        {
+            PokecubeCore.LOGGER.debug("No animation File: {}", animationFile);
+        }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error with animation parsing.", e);
+            PokecubeCore.LOGGER.error("Error reading moves animation file " + animationFile, e);
         }
     }
 }

@@ -29,7 +29,7 @@ public class ModelFactory
         ModelFactory.registerIModel("tbl", TabulaModelParser::load);
     }
 
-    public static IModel create(ModelHolder model)
+    public static IModel create(final ModelHolder model)
     {
         final String path = model.model.getPath();
         String ext = path.contains(".") ? path.substring(path.lastIndexOf(".") + 1, path.length()) : "";
@@ -67,7 +67,7 @@ public class ModelFactory
         return ModelFactory.modelFactories.keySet();
     }
 
-    public static void registerIModel(String extension, IFactory<?> clazz)
+    public static void registerIModel(final String extension, final IFactory<?> clazz)
     {
         ModelFactory.modelFactories.put(extension, clazz);
         if (!ModelFactory.knownExtension.contains(extension)) ModelFactory.knownExtension.add(extension);

@@ -11,6 +11,7 @@ import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.GameProfileArgument;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -28,10 +29,14 @@ public class SecretBaseCommand
         final ServerWorld baseWorld = DimensionManager.getWorld(source.getServer(), SecretBaseDimension.TYPE, true,
                 true);
 
+        final DimensionType targetDim = player.dimension == SecretBaseDimension.TYPE ? DimensionType.OVERWORLD
+                : SecretBaseDimension.TYPE;
+
         System.out.println(source.getServer().getWorlds());
         System.out.println(baseWorld);
         player.setPosition(8, 200, 8);
-        source.getServer().getPlayerList().recreatePlayerEntity(player, SecretBaseDimension.TYPE, true);
+        // ThutTeleporter.transferTo(player, new Vector4(player.posX,
+        // player.posY, player.posZ));
 
         return 0;
     }

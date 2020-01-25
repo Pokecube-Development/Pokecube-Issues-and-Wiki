@@ -2,10 +2,9 @@ package pokecube.mobs.client.smd.impl;
 
 import java.util.ArrayList;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.opengl.GL11;
 
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
 
@@ -20,12 +19,10 @@ public class Face
     public Vertex              normal;
 
     Vector3f a = new Vector3f();
-
     Vector3f b = new Vector3f();
-
     Vector3f c = new Vector3f();
 
-    public Face(Face face, ArrayList<MutableVertex> verts)
+    public Face(final Face face, final ArrayList<MutableVertex> verts)
     {
         this.verts = new MutableVertex[face.verts.length];
         for (int i = 0; i < this.verts.length; i++)
@@ -35,7 +32,7 @@ public class Face
         if (face.normal != null) this.normal = face.normal;
     }
 
-    public Face(MutableVertex[] xyz, TextureCoordinate[] uvs)
+    public Face(final MutableVertex[] xyz, final TextureCoordinate[] uvs)
     {
         this.verts = xyz;
         this.uvs = uvs;
@@ -48,7 +45,7 @@ public class Face
      *            - if false, this will render entire face with constant
      *            normal.
      */
-    public void addForRender(boolean smoothShading)
+    public void addForRender(final boolean smoothShading)
     {
         if (!smoothShading) this.normal = this.calculateNormal();
         for (int i = 0; i < 3; i++)
