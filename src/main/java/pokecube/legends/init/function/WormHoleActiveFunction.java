@@ -1,14 +1,17 @@
 package pokecube.legends.init.function;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-// import pokecube.core.interfaces.IPokemob;
-// import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import pokecube.legends.init.DimensionInit;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.network.play.server.SPlayerAbilitiesPacket;
+import net.minecraft.network.play.server.SPlaySoundEventPacket;
+import net.minecraft.network.play.server.SPlayEntityEffectPacket;
+import net.minecraft.network.play.server.SChangeGameStatePacket;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.Entity;
 
 /**
  * Uses player interact here to also prevent opening of inventories.
@@ -17,38 +20,44 @@ import net.minecraft.world.server.ServerWorld;
  */
 public class WormHoleActiveFunction
 {
-    public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
-    {
-        if (dependencies.get("x") == null)
-        {
-            System.err.println("Failed to load dependency x for PortalActive!");
-            return;
-        }
-        if (dependencies.get("y") == null)
-        {
-            System.err.println("Failed to load dependency y for PortalActive!");
-            return;
-        }
-        if (dependencies.get("z") == null)
-        {
-            System.err.println("Failed to load dependency z for PortalActive!");
-            return;
-        }
-        if (dependencies.get("world") == null)
-        {
-            System.err.println("Failed to load dependency world for PortalActive!");
-            return;
-        }
-        final int x = (int) dependencies.get("x");
-        final int y = (int) dependencies.get("y");
-        final int z = (int) dependencies.get("z");
-        final World world = (World) dependencies.get("world");
-        world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
-        if (world instanceof ServerWorld)
-        {
-            final ServerWorld sworld = (ServerWorld) world;
-            sworld.spawnParticle(ParticleTypes.FIREWORK, x, y + 1, z, 15, 6, 6, 6, 0.4);
-            sworld.playSound(x, y, z, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
-        }
-    }
+	public static void executeProcedure(java.util.HashMap<String, Object> dependencies) {
+		if (dependencies.get("entity") == null) {
+			System.err.println("Failed to load dependency entity for procedure MCreatorTeleportDimension!");
+			return;
+		}
+		Entity entity = (Entity) dependencies.get("entity");
+		if (((entity.dimension.getId()) == 0)) {
+			if (!entity.world.isRemote && entity instanceof ServerPlayerEntity) {
+				DimensionType destinationType = DimensionInit.type;
+				
+				ObfuscationReflectionHelper.setPrivateValue(ServerPlayerEntity.class, (ServerPlayerEntity) entity, true, "field_184851_cj");
+				ServerWorld nextWorld = entity.getServer().getWorld(destinationType);
+				
+				((ServerPlayerEntity) entity).connection.sendPacket(new SChangeGameStatePacket(4, 0));
+				((ServerPlayerEntity) entity).teleport(nextWorld, nextWorld.getSpawnPoint().getX(), nextWorld.getSpawnPoint().getY() + 1, nextWorld
+						.getSpawnPoint().getZ(), entity.rotationYaw, entity.rotationPitch);
+				((ServerPlayerEntity) entity).connection.sendPacket(new SPlayerAbilitiesPacket(((ServerPlayerEntity) entity).abilities));
+				for (EffectInstance effectinstance : ((ServerPlayerEntity) entity).getActivePotionEffects()) {
+					((ServerPlayerEntity) entity).connection.sendPacket(new SPlayEntityEffectPacket(entity.getEntityId(), effectinstance));
+				}
+				((ServerPlayerEntity) entity).connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false));
+			}
+		} else if (((entity.dimension.getId()) == DimensionInit.type.getId())) {
+			if (!entity.world.isRemote && entity instanceof ServerPlayerEntity) {
+				DimensionType destinationType = DimensionType.OVERWORLD;
+				
+				ObfuscationReflectionHelper.setPrivateValue(ServerPlayerEntity.class, (ServerPlayerEntity) entity, true, "field_184851_cj");
+				ServerWorld nextWorld = entity.getServer().getWorld(destinationType);
+				
+				((ServerPlayerEntity) entity).connection.sendPacket(new SChangeGameStatePacket(4, 0));
+				((ServerPlayerEntity) entity).teleport(nextWorld, nextWorld.getSpawnPoint().getX(), nextWorld.getSpawnPoint().getY() + 1, nextWorld
+						.getSpawnPoint().getZ(), entity.rotationYaw, entity.rotationPitch);
+				((ServerPlayerEntity) entity).connection.sendPacket(new SPlayerAbilitiesPacket(((ServerPlayerEntity) entity).abilities));
+				for (EffectInstance effectinstance : ((ServerPlayerEntity) entity).getActivePotionEffects()) {
+					((ServerPlayerEntity) entity).connection.sendPacket(new SPlayEntityEffectPacket(entity.getEntityId(), effectinstance));
+				}
+				((ServerPlayerEntity) entity).connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false));
+			}
+		}
+	}
 }

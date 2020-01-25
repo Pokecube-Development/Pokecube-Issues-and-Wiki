@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/oceanbrick"
+	"down": "pokecube_legends:blocks/oceanbrick",
+    "up": "pokecube_legends:blocks/oceanbrick",
+    "north": "pokecube_legends:blocks/oceanbrick",
+    "east": "pokecube_legends:blocks/oceanbrick",
+    "south": "pokecube_legends:blocks/oceanbrick",
+    "west": "pokecube_legends:blocks/oceanbrick",
+    "particle": "pokecube_legends:blocks/oceanbrick"
    }
 }

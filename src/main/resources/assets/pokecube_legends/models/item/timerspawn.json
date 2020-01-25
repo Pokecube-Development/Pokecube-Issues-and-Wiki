@@ -1,5 +1,5 @@
 {
-  "parent": "pokecube_legends:block/ubportal",
+  "parent": "pokecube_legends:block/timerspawn",
   "display": {
     "thirdperson": {
       "rotation": [

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:regigiga_spawn" }
+        "": { 
+			"model": "pokecube_legends:block/regigiga_spawn" 
+		}
     }
 }
