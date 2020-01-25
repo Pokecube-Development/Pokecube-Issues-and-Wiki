@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.network.PacketBuffer;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -73,6 +74,7 @@ public class ParticleOrientable extends ParticleBase
 
         final double u1 = u * 1d / 16d, v1 = v * 1d / 16d;
         final double u2 = (u + 1) * 1d / 16d, v2 = (v + 1) * 1d / 16d;
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
         buffer.pos(0.0 - this.size, 0.0 - this.size, 0.0).tex(u1, v2).color(red, green, blue, alpha).endVertex();
         buffer.pos(0.0, 0.0 - this.size, 0.0).tex(u2, v2).color(red, green, blue, alpha).endVertex();
