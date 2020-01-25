@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:ultramagnetic" }
+        "": { "model": "pokecube_legends:block/ultramagnetic" }
     }
 }

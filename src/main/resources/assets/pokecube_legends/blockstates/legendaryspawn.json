@@ -1,5 +1,7 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:legendaryspawn" }
-    }
+        "": { 
+	"model": "pokecube_legends:block/legendaryspawn" 
+	}
+   }
 }

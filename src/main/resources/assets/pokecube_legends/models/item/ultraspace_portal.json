@@ -1,0 +1,6 @@
+{
+   "parent": "item/handheld",
+	"textures": {
+		"layer0":"pokecube_legends:blocks/ultraspace_portal"
+	}
+}

@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:ultragrass1" }
+        "": { "model": "pokecube_legends:block/ultragrass1" }
     }
 }

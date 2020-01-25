@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/ruby_block"
+	"down": "pokecube_legends:blocks/ruby_block",
+    "up": "pokecube_legends:blocks/ruby_block",
+    "north": "pokecube_legends:blocks/ruby_block",
+    "east": "pokecube_legends:blocks/ruby_block",
+    "south": "pokecube_legends:blocks/ruby_block",
+    "west": "pokecube_legends:blocks/ruby_block",
+    "particle": "pokecube_legends:blocks/ruby_block"
    }
 }

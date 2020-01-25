@@ -5,36 +5,36 @@
             "#None": "pokecube_legends:blocks/keldeoblock2",
 			"#None_keldeoblock1.png": "pokecube_legends:blocks/keldeoblock1" //the identifier must be a name of a material defined by the "model" obj's .mtl file
         },
-        "model": "pokecube_legends:keldeoblock.obj",
+        "model": "pokecube_legends:block/keldeoblock.obj",
 		"custom": {
 	      "flip-v": true
 	    }
      },
     "variants": {
         "normal": {
-	      "model": "pokecube_legends:keldeoblock.obj"
+	      "model": "pokecube_legends:block/keldeoblock.obj"
 	    },
 	    "facing=north": {
-	      "model": "pokecube_legends:keldeoblock.obj"
+	      "model": "pokecube_legends:block/keldeoblock.obj"
 	    },
 	    "facing=east": {
-	      "model": "pokecube_legends:keldeoblock.obj",
+	      "model": "pokecube_legends:block/keldeoblock.obj",
 	      "y": 90
 	    },
 	    "facing=south": {
-	      "model": "pokecube_legends:keldeoblock.obj",
+	      "model": "pokecube_legends:block/keldeoblock.obj",
 	      "y": 180
 	    },
 	    "facing=west": {
-	      "model": "pokecube_legends:keldeoblock.obj",
+	      "model": "pokecube_legends:block/keldeoblock.obj",
 	      "y": 270
 	    },
 	    "facing=up": {
-	      "model": "pokecube_legends:keldeoblock.obj",
+	      "model": "pokecube_legends:block/keldeoblock.obj",
 	      "x": 90
 	    },
 	    "facing=down": {
-	      "model": "pokecube_legends:keldeoblock.obj",
+	      "model": "pokecube_legends:block/keldeoblock.obj",
 	      "x": 270
 	    },
         "inventory": [{

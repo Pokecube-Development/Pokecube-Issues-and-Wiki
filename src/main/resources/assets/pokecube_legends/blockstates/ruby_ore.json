@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:ruby_ore" }
+        "": { "model": "pokecube_legends:block/ruby_ore" }
     }
 }

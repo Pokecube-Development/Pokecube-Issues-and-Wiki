@@ -4,36 +4,36 @@
         "textures": {
             "#None": "pokecube_legends:blocks/xerneas_tree" //the identifier must be a name of a material defined by the "model" obj's .mtl file
         },
-        "model": "pokecube_legends:xerneas_tree.obj",
+        "model": "pokecube_legends:block/xerneas_tree.obj",
 		"custom": {
 	      "flip-v": true
 	    }
      },
     "variants": {
         "normal": {
-	      "model": "pokecube_legends:xerneas_tree.obj"
+	      "model": "pokecube_legends:block/xerneas_tree.obj"
 	    },
 	    "facing=north": {
-	      "model": "pokecube_legends:xerneas_tree.obj"
+	      "model": "pokecube_legends:block/xerneas_tree.obj"
 	    },
 	    "facing=east": {
-	      "model": "pokecube_legends:xerneas_tree.obj",
+	      "model": "pokecube_legends:block/xerneas_tree.obj",
 	      "y": 90
 	    },
 	    "facing=south": {
-	      "model": "pokecube_legends:xerneas_tree.obj",
+	      "model": "pokecube_legends:block/xerneas_tree.obj",
 	      "y": 180
 	    },
 	    "facing=west": {
-	      "model": "pokecube_legends:xerneas_tree.obj",
+	      "model": "pokecube_legends:block/xerneas_tree.obj",
 	      "y": 270
 	    },
 	    "facing=up": {
-	      "model": "pokecube_legends:xerneas_tree.obj",
+	      "model": "pokecube_legends:block/xerneas_tree.obj",
 	      "x": 90
 	    },
 	    "facing=down": {
-	      "model": "pokecube_legends:xerneas_tree.obj",
+	      "model": "pokecube_legends:block/xerneas_tree.obj",
 	      "x": 270
 	    },
         "inventory": [{

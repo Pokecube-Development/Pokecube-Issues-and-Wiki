@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:temporal_crystal" }
+        "": { "model": "pokecube_legends:block/temporal_crystal" }
     }
 }
