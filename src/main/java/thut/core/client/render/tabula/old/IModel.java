@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.model;
+package thut.core.client.render.tabula.old;
 
 import com.google.common.annotations.Beta;
 

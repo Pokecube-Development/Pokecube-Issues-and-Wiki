@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.model.tabula;
+package thut.core.client.render.tabula.old;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,19 +14,18 @@ import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import thut.core.client.render.tabula.components.ModelJson;
-import thut.core.client.render.tabula.json.JsonFactory;
+import thut.core.client.render.tabula.json.TblJson;
 import thut.core.common.ThutCore;
 
 public class TabulaModelParser
 {
     @OnlyIn(Dist.CLIENT)
-    public static ModelJson<?> load(ResourceLocation model)
+    public static ModelJson<?> load(final ResourceLocation model)
     {
         try
         {
             final IResource res = Minecraft.getInstance().getResourceManager().getResource(model);
-            if (res == null) return new ModelJson<>(new TabulaModel());
+            if (res == null) return new ModelJson<>(new TblJson());
             final ZipInputStream zip = new ZipInputStream(res.getInputStream());
             final Scanner scanner = new Scanner(zip);
             zip.getNextEntry();
@@ -43,12 +42,12 @@ public class TabulaModelParser
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static ModelJson<?> parse(String json) throws IOException
+    public static ModelJson<?> parse(final String json) throws IOException
     {
-        TabulaModel tabulaModel = null;
+        TblJson tabulaModel = null;
         final InputStream in = IOUtils.toInputStream(json, "UTF-8");
         final InputStreamReader reader = new InputStreamReader(in);
-        tabulaModel = JsonFactory.getGson().fromJson(reader, TabulaModel.class);
+        tabulaModel = JsonFactory.getGson().fromJson(reader, TblJson.class);
         reader.close();
         ModelJson<?> model = null;
         if (tabulaModel != null)
@@ -56,7 +55,7 @@ public class TabulaModelParser
             model = new ModelJson<>(tabulaModel);
             model.valid = true;
         }
-        else model = new ModelJson<>(new TabulaModel());
+        else model = new ModelJson<>(new TblJson());
         return model;
     }
 }

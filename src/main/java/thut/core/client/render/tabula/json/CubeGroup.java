@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.components;
+package thut.core.client.render.tabula.json;
 
 import java.util.ArrayList;
 

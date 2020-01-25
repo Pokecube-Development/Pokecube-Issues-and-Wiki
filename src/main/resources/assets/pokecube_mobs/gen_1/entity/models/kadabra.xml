@@ -8,6 +8,77 @@
    <part name="Head" tex="kadabrahead"/>
    <animation diffs="0,0.48" part="Head" trigger="random:0.005:1"/>
   </customTex>
+  <phase type="sitting">
+   <part name="cint">
+    <component length="1" name="1" posOffset="0,20,0," startKey="0"/>
+   </part>
+   <part name="body1">
+    <component length="10" name="1" rotChange="0.3,0,0" rotOffset="1,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.3,0,0" startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="4,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-4,0,0" startKey="10"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotChange="4,0,0" rotOffset="0,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-4,0,0" startKey="10"/>
+   </part>
+   <part name="p1">
+    <component length="10" name="1" rotChange="0,0,-2," rotOffset="0,0,-20," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,2," startKey="10"/>
+   </part>
+   <part name="p1_1">
+    <component length="10" name="1" rotChange="0,0,-2," rotOffset="0,0,-20," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,2," startKey="10"/>
+   </part>
+   <part name="p2">
+    <component length="10" name="1" rotChange="0,0,2," rotOffset="0,0,20," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-2," startKey="10"/>
+   </part>
+   <part name="p2_1">
+    <component length="10" name="1" rotChange="0,0,2," rotOffset="0,0,20," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-2," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-0.5," rotOffset="0,0,-70," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0.5," startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="1" name="1" rotOffset="0,10,-10," startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="1" name="1" rotOffset="0,-50,0," startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="1" name="1" rotOffset="30,0,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,0.5," rotOffset="0,0,70," startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-0.5," startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="1" name="1" rotOffset="0,30,10," startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="1" name="1" rotOffset="0,50,0," startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="1" name="1" rotOffset="-10,10,-10," startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="-85,0,0," startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="1" name="1" rotOffset="-5,80,-20," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="-85,0,0," startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component length="1" name="1" rotOffset="-5,-80,50," startKey="0"/>
+   </part>
+  </phase>
   <phase type="idle">
    <part name="cint">
     <component length="1" name="1" posOffset="0,3.5,0," startKey="0"/>

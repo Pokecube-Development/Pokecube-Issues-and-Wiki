@@ -31,7 +31,6 @@ public class ClientProxy extends CommonProxy
     {
         // // Register smd format for models
         ModelFactory.registerIModel("smd", SMDModel::new);
-        ModelFactory.registerIModel("SMD", SMDModel::new);
     }
 
     @Override

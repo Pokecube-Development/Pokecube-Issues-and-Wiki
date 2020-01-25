@@ -16,7 +16,7 @@ public class ParticleFlow extends MoveAnimationBase
     }
 
     @Override
-    public IMoveAnimation init(String preset)
+    public IMoveAnimation init(final String preset)
     {
         this.particle = "misc";
         final String[] args = preset.split(":");
@@ -45,7 +45,7 @@ public class ParticleFlow extends MoveAnimationBase
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info)
+    public void spawnClientEntities(final MovePacketInfo info)
     {
         final Vector3 source = this.reverse ? info.target : info.source;
         final Vector3 target = this.reverse ? info.source : info.target;
@@ -63,6 +63,7 @@ public class ParticleFlow extends MoveAnimationBase
             angleF.rotateAboutLine(temp.normalize(), this.angle, temp1);
             angleF.set(temp1);
         }
+        final Vector3 dir = target.subtract(source).norm().scalarMult(0.01);
         for (double i = frac; i < frac3; i += 0.1)
         {
             if (this.density < 1 && Math.random() > this.density) continue;
@@ -74,7 +75,7 @@ public class ParticleFlow extends MoveAnimationBase
                 else temp1.set(factor * (0.5 - rand.nextDouble()), factor * (0.5 - rand.nextDouble()), factor * (0.5
                         - rand.nextDouble()));
                 PokecubeCore.spawnParticle(info.attacker.getEntityWorld(), this.particle, source.add(temp.scalarMult(i)
-                        .addTo(temp1)), null, this.rgba, this.particleLife);
+                        .addTo(temp1)), dir, this.rgba, this.particleLife);
             }
         }
     }

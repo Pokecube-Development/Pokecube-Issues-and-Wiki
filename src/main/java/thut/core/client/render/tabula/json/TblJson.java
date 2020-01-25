@@ -1,23 +1,10 @@
 package thut.core.client.render.tabula.json;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import thut.core.client.render.animation.Animation;
-import thut.core.client.render.tabula.components.CubeGroup;
-import thut.core.client.render.tabula.components.CubeInfo;
 
-/**
- * Container class for
- * {@link net.ilexiconn.llibrary.client.model.tabula.ModelJson}. Use
- * {@link net.ilexiconn.llibrary.common.json.JsonHelper#parseTabulaModel(InputStream)}
- * to get a new instance.
- *
- * @author Gegy1000
- * @see net.ilexiconn.llibrary.client.model.tabula.ModelJson
- * @since 0.1.0
- */
-public class JsonTabulaModel
+public class TblJson
 {
     private final int textureWidth  = 64;
     private final int textureHeight = 32;

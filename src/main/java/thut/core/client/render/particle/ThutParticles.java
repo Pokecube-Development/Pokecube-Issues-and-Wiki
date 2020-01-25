@@ -47,10 +47,7 @@ public class ThutParticles
 
     public static IParticleData makeParticle(String name, final Vector3 pos, final Vector3 vel, final int... args)
     {
-        if (!name.toLowerCase().equals(name))
-        {
-            ThutCore.LOGGER.error("Error with particle name of: " + name);
-        }
+        if (!name.toLowerCase().equals(name)) ThutCore.LOGGER.error("Error with particle name of: " + name);
 
         name = name.toLowerCase();
         ParticleBase ret = null;

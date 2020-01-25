@@ -9,7 +9,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.util.ResourceLocation;
 import thut.core.client.render.animation.ModelHolder;
-import thut.core.client.render.tabula.model.tabula.TabulaModelParser;
+import thut.core.client.render.tabula.TblModel;
 import thut.core.client.render.x3d.X3dModel;
 import thut.core.common.ThutCore;
 
@@ -26,7 +26,8 @@ public class ModelFactory
     static
     {
         ModelFactory.registerIModel("x3d", X3dModel::new);
-        ModelFactory.registerIModel("tbl", TabulaModelParser::load);
+        // ModelFactory.registerIModel("tbl", TabulaModelParser::load);
+        ModelFactory.registerIModel("tbl", TblModel::new);
     }
 
     public static IModel create(final ModelHolder model)

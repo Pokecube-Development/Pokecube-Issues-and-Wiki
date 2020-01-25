@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.model.modelbase;
+package thut.core.client.render.tabula.old;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +18,7 @@ import thut.api.maths.Vector4;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.Vertex;
-import thut.core.client.render.tabula.components.CubeInfo;
-import thut.core.client.render.tabula.components.ModelJson;
+import thut.core.client.render.tabula.json.CubeInfo;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 

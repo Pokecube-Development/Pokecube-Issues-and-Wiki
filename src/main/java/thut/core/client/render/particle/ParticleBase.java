@@ -118,8 +118,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     }
 
     protected ParticleBase read(final StringReader reader)
-    {
-        // TODO Auto-generated method stub
+    {// TODO finish this?
         return this;
     }
 
@@ -146,25 +145,22 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
         final int num = this.getDuration() / this.animSpeed % this.tex.length;
         final int u = this.tex[num][0], v = this.tex[num][1];
-        final Vector3 temp = Vector3.getNewVector();
         final double u1 = u * 1d / 16d, v1 = v * 1d / 16d;
         final double u2 = (u + 1) * 1d / 16d, v2 = (v + 1) * 1d / 16d;
         Minecraft.getInstance().getTextureManager().bindTexture(ParticleBase.TEXTUREMAP);
+        final double x0 = -this.size, y0 = -this.size, z0 = 0;
+        final double x1 = 0, y1 = this.size;
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
         // Face 1
-        buffer.pos(temp.x - this.size, temp.y - this.size, temp.z).tex(u1, v2).color(red, green, blue, alpha)
-                .endVertex();
-        buffer.pos(temp.x, temp.y - this.size, temp.z).tex(u2, v2).color(red, green, blue, alpha).endVertex();
-        buffer.pos(temp.x, temp.y + this.size, temp.z).tex(u2, v1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(temp.x - this.size, temp.y + this.size, temp.z).tex(u1, v1).color(red, green, blue, alpha)
-                .endVertex();
+        buffer.pos(x0, y0, z0).tex(u1, v2).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y0, z0).tex(u2, v2).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y1, z0).tex(u2, v1).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x0, y1, z0).tex(u1, v1).color(red, green, blue, alpha).endVertex();
         // Face 2
-        buffer.pos(temp.x - this.size, temp.y - this.size, temp.z).tex(u1, v2).color(red, green, blue, alpha)
-                .endVertex();
-        buffer.pos(temp.x - this.size, temp.y + this.size, temp.z).tex(u1, v1).color(red, green, blue, alpha)
-                .endVertex();
-        buffer.pos(temp.x, temp.y + this.size, temp.z).tex(u2, v1).color(red, green, blue, alpha).endVertex();
-        buffer.pos(temp.x, temp.y - this.size, temp.z).tex(u2, v2).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x0, y0, z0).tex(u1, v2).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x0, y1, z0).tex(u1, v1).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y1, z0).tex(u2, v1).color(red, green, blue, alpha).endVertex();
+        buffer.pos(x1, y0, z0).tex(u2, v2).color(red, green, blue, alpha).endVertex();
         Tessellator.getInstance().draw();
         GL11.glPopMatrix();
     }

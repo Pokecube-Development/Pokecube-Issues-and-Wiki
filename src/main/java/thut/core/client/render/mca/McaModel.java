@@ -17,9 +17,10 @@ import thut.core.client.render.mca.McaXML.Rot;
 import thut.core.client.render.mca.McaXML.SceneNode;
 import thut.core.client.render.mca.McaXML.Translation;
 import thut.core.client.render.model.IExtendedModelPart;
-import thut.core.client.render.x3d.Shape;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.x3d.X3dModel;
-import thut.core.client.render.x3d.X3dObject;
+import thut.core.client.render.x3d.X3dPart;
+import thut.core.client.render.x3d.X3dMesh;
 
 public class McaModel extends X3dModel
 {
@@ -29,7 +30,7 @@ public class McaModel extends X3dModel
     // loadModel(l);
     // }
 
-    public McaModel(InputStream l)
+    public McaModel(final InputStream l)
     {
         super();
         this.loadModel(l);
@@ -51,7 +52,7 @@ public class McaModel extends X3dModel
     // }
     // }
 
-    private void addChildren(Set<Children> set, Children node)
+    private void addChildren(final Set<Children> set, final Children node)
     {
         if (node.geometry != null) set.add(node);
         for (final SceneNode child : node.scenes)
@@ -61,7 +62,7 @@ public class McaModel extends X3dModel
         }
     }
 
-    private Set<String> getChildren(Children parent)
+    private Set<String> getChildren(final Children parent)
     {
         final Set<String> ret = Sets.newHashSet();
         for (final SceneNode child : parent.scenes)
@@ -69,7 +70,7 @@ public class McaModel extends X3dModel
         return ret;
     }
 
-    public void loadModel(InputStream stream)
+    public void loadModel(final InputStream stream)
     {
         try
         {
@@ -82,7 +83,7 @@ public class McaModel extends X3dModel
         }
     }
 
-    HashMap<String, IExtendedModelPart> makeObjects(McaXML xml) throws Exception
+    HashMap<String, IExtendedModelPart> makeObjects(final McaXML xml) throws Exception
     {
         final Set<Children> scenes = Sets.newHashSet();
         this.addChildren(scenes, xml.model.node.children);
@@ -95,9 +96,9 @@ public class McaModel extends X3dModel
             final Rot rot = node.parent.transform.rotation;
             final Buffers buffers = geom.mesh.buffers;
             final String name = node.parent.name;
-            final X3dObject o = new X3dObject(name);
-            final List<Shape> shapes = Lists.newArrayList();
-            final Shape shape = new Shape(buffers.getOrder(), buffers.getVerts(), buffers.getNormals(), buffers
+            final X3dPart o = new X3dPart(name);
+            final List<Mesh> shapes = Lists.newArrayList();
+            final X3dMesh shape = new X3dMesh(buffers.getOrder(), buffers.getVerts(), buffers.getNormals(), buffers
                     .getTex());
             shapes.add(shape);
             o.shapes = shapes;

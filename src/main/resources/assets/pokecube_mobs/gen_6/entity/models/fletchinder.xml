@@ -38,12 +38,14 @@
     <component length="10" name="2" rotChange="-2,0,0," startKey="10"/>
    </part>
    <part name="wing1">
-    <component length="3" name="1" rotChange="0,0,12," startKey="0"/>
-    <component length="3" name="2" rotChange="0,0,-12," startKey="5"/>
+    <component length="10" name="1" rotChange="0,0,35" rotOffset="-2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-75" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,35" startKey="10"/>
    </part>
    <part name="wing2">
-    <component length="3" name="1" rotChange="0,0,-12," startKey="0"/>
-    <component length="3" name="2" rotChange="0,0,12," startKey="5"/>
+    <component length="10" name="1" rotChange="0,0,-35" rotOffset="-2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,75" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,-35" startKey="10"/>
    </part>
    <part name="leg1">
     <component length="1" name="1" rotOffset="40,0,0," startKey="0"/>

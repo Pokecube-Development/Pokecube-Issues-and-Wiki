@@ -15,10 +15,10 @@ import com.google.common.collect.Maps;
 import thut.api.maths.vecmath.Vector3f;
 import net.minecraft.util.ResourceLocation;
 import thut.core.client.render.animation.IAnimationChanger;
+import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureCoordinate;
-import thut.core.client.render.x3d.Material;
 
 /** Body, Made of Bones, Faces, and Materials. */
 public class Body implements IRetexturableModel

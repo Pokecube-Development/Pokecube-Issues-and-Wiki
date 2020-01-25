@@ -1,4 +1,4 @@
-package thut.core.client.render.x3d;
+package thut.core.client.render.model.parts;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +15,9 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 
-public class X3dObject implements IExtendedModelPart, IRetexturableModel
+public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
-    public int GLMODE = GL11.GL_TRIANGLES;
-
-    public List<Shape> shapes = Lists.newArrayList();
+    public List<Mesh> shapes = Lists.newArrayList();
 
     private final HashMap<String, IExtendedModelPart> childParts = new HashMap<>();
     private final String                              name;
@@ -46,13 +44,13 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
 
     private boolean hidden = false;
 
-    public X3dObject(String name)
+    public Part(final String name)
     {
         this.name = name;
     }
 
     @Override
-    public void addChild(IExtendedModelPart subPart)
+    public void addChild(final IExtendedModelPart subPart)
     {
         this.childParts.put(subPart.getName(), subPart);
         subPart.setParent(this);
@@ -63,7 +61,7 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
         // Set colours.
         GL11.glColor4f(this.red / 255f, this.green / 255f, this.blue / 255f, this.alpha / 255f);
         // Render each Shape
-        for (final Shape s : this.shapes)
+        for (final Mesh s : this.shapes)
             s.renderShape(this.texturer);
     }
 
@@ -107,12 +105,6 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
     public HashMap<String, IExtendedModelPart> getSubParts()
     {
         return this.childParts;
-    }
-
-    @Override
-    public String getType()
-    {
-        return "x3d";
     }
 
     private void postRender()
@@ -180,7 +172,7 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void renderAllExcept(String... excludedGroupNames)
+    public void renderAllExcept(final String... excludedGroupNames)
     {
         boolean skip = false;
         for (final String s1 : excludedGroupNames)
@@ -197,7 +189,7 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void renderOnly(String... groupNames)
+    public void renderOnly(final String... groupNames)
     {
         boolean rendered = false;
         for (final String s1 : groupNames)
@@ -222,7 +214,7 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void renderPart(String partName)
+    public void renderPart(final String partName)
     {
         this.renderOnly(partName);
     }
@@ -239,16 +231,16 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
 
     private void rotateToParent()
     {
-        if (this.parent != null) if (this.parent instanceof X3dObject)
+        if (this.parent != null) if (this.parent instanceof Part)
         {
-            final X3dObject parent = (X3dObject) this.parent;
+            final Part parent = (Part) this.parent;
             parent.postRot.glRotate();
             parent.postRot1.glRotate();
         }
     }
 
     @Override
-    public void setAnimationChanger(IAnimationChanger changer)
+    public void setAnimationChanger(final IAnimationChanger changer)
     {
         this.changer = changer;
         for (final IExtendedModelPart part : this.childParts.values())
@@ -256,43 +248,43 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setHidden(boolean hidden)
+    public void setHidden(final boolean hidden)
     {
         this.hidden = hidden;
     }
 
     @Override
-    public void setParent(IExtendedModelPart parent)
+    public void setParent(final IExtendedModelPart parent)
     {
         this.parent = parent;
     }
 
     @Override
-    public void setPostRotations(Vector4 angles)
+    public void setPostRotations(final Vector4 angles)
     {
         this.postRot = angles;
     }
 
     @Override
-    public void setPostRotations2(Vector4 rotations)
+    public void setPostRotations2(final Vector4 rotations)
     {
         this.postRot1 = rotations;
     }
 
     @Override
-    public void setPostTranslations(Vector3 point)
+    public void setPostTranslations(final Vector3 point)
     {
         this.postTrans.set(point);
     }
 
     @Override
-    public void setPreRotations(Vector4 angles)
+    public void setPreRotations(final Vector4 angles)
     {
         this.preRot = angles;
     }
 
     @Override
-    public void setPreScale(Vector3 scale)
+    public void setPreScale(final Vector3 scale)
     {
         this.preScale.x = (float) scale.x;
         this.preScale.y = (float) scale.y;
@@ -300,13 +292,13 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setPreTranslations(Vector3 point)
+    public void setPreTranslations(final Vector3 point)
     {
         this.preTrans.set(point);
     }
 
     @Override
-    public void setRGBAB(int[] array)
+    public void setRGBAB(final int[] array)
     {
         this.red = array[0];
         this.green = array[1];
@@ -316,7 +308,7 @@ public class X3dObject implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setTexturer(IPartTexturer texturer)
+    public void setTexturer(final IPartTexturer texturer)
     {
         this.texturer = texturer;
         for (final IExtendedModelPart part : this.childParts.values())

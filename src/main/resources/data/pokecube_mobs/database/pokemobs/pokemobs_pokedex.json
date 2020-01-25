@@ -508,8 +508,7 @@
             "hidden": "Solar Power"
           }
         },
-        "mass": 90.5,
-        "movementType": "flying"
+        "mass": 90.5
       }
     },
     {

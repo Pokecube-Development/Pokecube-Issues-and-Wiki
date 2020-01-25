@@ -1,6 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.35"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
+  <customTex default="dratini">
+   <part name="Head" tex="dratinieye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:11"/>
+  </customTex>
+  <phase axis="2" name="snakeWalk" parts="tail1:tail2:tail3:tail4:tail5"/>
+  <phase axis="0" name="snakeSwim" parts="neck2:neck1:tail:tail1:tail2:tail3:tail4:tail5"/>
+  <phase type="sitting">
+   <part name="body">
+    <component length="10" name="1" rotOffset="40,0,0," startKey="0"/>
+   </part>
+   <part name="neck1">
+    <component length="10" name="1" rotOffset="-20,0,0," startKey="0"/>
+   </part>
+   <part name="neck2">
+    <component length="10" name="1" rotOffset="-20,0,0," startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="50,0,0," rotChange="0,0,1" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-1" startKey="10"/>
+   </part>
+   <part name="tail1">
+    <component length="1" name="1" rotOffset="0,0,40," startKey="0"/>
+   </part>
+   <part name="tail2">
+    <component length="1" name="1" rotOffset="0,0,40," startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component length="1" name="1" rotOffset="0,0,40," startKey="0"/>
+   </part>
+   <part name="tail4">
+    <component length="1" name="1" rotOffset="0,0,40," startKey="0"/>
+   </part>
+   <part name="tail5">
+    <component length="1" name="1" rotOffset="0,0,40," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" rotOffset="40,0,0," startKey="0"/>
+   </part>
+   <part name="neck1">
+    <component length="10" name="1" rotOffset="-20,0,0," startKey="0"/>
+   </part>
+   <part name="neck2">
+    <component length="10" name="1" rotOffset="-20,0,0," startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="50,0,0," rotChange="-3,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="3,0,0" startKey="10"/>
+   </part>
+   <part name="tail1">
+    <component length="1" name="1" rotOffset="30,0,0," startKey="0"/>
+   </part>
+   <part name="tail2">
+    <component length="1" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component length="1" name="1" rotOffset="-30,0,0," startKey="0"/>
+   </part>
+   <part name="tail4">
+    <component length="1" name="1" rotOffset="-30,0,0," startKey="0"/>
+   </part>
+   <part name="tail5">
+    <component length="1" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" rotOffset="40,0,0," startKey="0"/>
+   </part>
+   <part name="neck1">
+    <component length="10" name="1" rotOffset="-10,0,0," startKey="0"/>
+   </part>
+   <part name="neck2">
+    <component length="10" name="1" rotOffset="-20,0,0," startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="50,0,0," rotChange="0,0,-2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,4" startKey="5"/>
+	<component length="10" name="2" rotChange="0,0,-2" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="swimming">
+   <part name="body">
+    <component length="10" name="1" rotOffset="90,0,0," startKey="0"/>
+   </part>
+   <part name="head">
+    <component length="10" name="1" rotOffset="-60,0,0," startKey="0"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

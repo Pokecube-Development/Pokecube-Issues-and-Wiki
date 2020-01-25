@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.components;
+package thut.core.client.render.tabula.old;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -25,16 +25,15 @@ import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModelRenderer;
-import thut.core.client.render.tabula.model.IModel;
-import thut.core.client.render.tabula.model.modelbase.TabulaModelBase;
-import thut.core.client.render.tabula.model.modelbase.TabulaRenderer;
-import thut.core.client.render.tabula.model.tabula.TabulaModel;
+import thut.core.client.render.tabula.json.CubeGroup;
+import thut.core.client.render.tabula.json.CubeInfo;
+import thut.core.client.render.tabula.json.TblJson;
 import thut.core.client.render.texturing.IPartTexturer;
 
 @OnlyIn(Dist.CLIENT)
 public class ModelJson<T extends Entity> extends TabulaModelBase<T> implements IModel
 {
-    public TabulaModel tabulaModel;
+    public TblJson tabulaModel;
 
     public HashMap<String, IExtendedModelPart> nameMap       = Maps.newHashMap();
     public Map<String, TabulaRenderer>         identifierMap = Maps.newHashMap();
@@ -67,7 +66,7 @@ public class ModelJson<T extends Entity> extends TabulaModelBase<T> implements I
 
     public boolean valid = false;
 
-    public ModelJson(final TabulaModel model)
+    public ModelJson(final TblJson model)
     {
         this.tabulaModel = model;
 
