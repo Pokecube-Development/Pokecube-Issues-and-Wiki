@@ -1,0 +1,53 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "#None": "pokecube_legends:blocks/yveltal_egg" //the identifier must be a name of a material defined by the "model" obj's .mtl file
+        },
+        "model": "pokecube_legends:yveltal_egg.obj",
+		"custom": {
+	      "flip-v": true
+	    }
+     },
+    "variants": {
+        "normal": {
+	      "model": "pokecube_legends:yveltal_egg.obj"
+	    },
+	    "facing=north": {
+	      "model": "pokecube_legends:yveltal_egg.obj"
+	    },
+	    "facing=east": {
+	      "model": "pokecube_legends:yveltal_egg.obj",
+	      "y": 90
+	    },
+	    "facing=south": {
+	      "model": "pokecube_legends:yveltal_egg.obj",
+	      "y": 180
+	    },
+	    "facing=west": {
+	      "model": "pokecube_legends:yveltal_egg.obj",
+	      "y": 270
+	    },
+	    "facing=up": {
+	      "model": "pokecube_legends:yveltal_egg.obj",
+	      "x": 90
+	    },
+	    "facing=down": {
+	      "model": "pokecube_legends:yveltal_egg.obj",
+	      "x": 270
+	    },
+        "inventory": [{
+            "transform": {
+				"scale": 0.45,
+				"rotation": [
+					{
+						"x": 20
+					},
+					{
+						"y": -45
+					}
+				]
+			}
+        }]
+    }
+}

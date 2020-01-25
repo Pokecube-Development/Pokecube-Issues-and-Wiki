@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "RCR",
+        "CAC",
+        "RCR"
+    ],
+    
+    "key":
+    {
+        "R":
+        {
+            "item": "minecraft:magma"
+        },
+		"A":
+        {
+            "item": "minecraft:redstone_block"
+        },
+		"C":
+        {
+            "item": "minecraft:iron_block"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:registeel_spawn",
+        "count": 1
+    }
+}

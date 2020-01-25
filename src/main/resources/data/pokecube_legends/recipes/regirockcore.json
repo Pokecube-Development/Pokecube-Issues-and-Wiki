@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "RCR",
+        "CAC",
+        "RCR"
+    ],
+    
+    "key":
+    {
+        "C":
+        {
+            "item": "minecraft:hardened_clay"
+        },
+		"A":
+        {
+            "item": "minecraft:redstone_block"
+        },
+		"R":
+        {
+            "item": "minecraft:gold_block"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:regirock_spawn",
+        "count": 1
+    }
+}

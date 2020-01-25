@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:ultracube"
+    },
+    "title": {
+	    "text": "Metal Heart",
+	    "color": "light_purple",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Magearna"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_magearna": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "magearna"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/legendscore" ]
+  },
+  "parent": "pokecube_legends:root"
+}

@@ -1,0 +1,36 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:mastercube"
+    },
+    "title": {
+	    "text": "Guardian of the seas",
+	    "color": "gold",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Lugia"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_lugia": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "lugia"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/sea" ]
+  },
+  "parent": "pokecube_legends:birds"
+}

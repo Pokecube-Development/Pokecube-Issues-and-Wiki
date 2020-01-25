@@ -1,0 +1,50 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:ultracube"
+    },
+    "title": {
+	    "text": "Legendary Birds",
+	    "color": "gold",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Moltres/Articuno/Zapdos"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_zapdos": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "zapdos"
+      }
+    },
+	"catch_moltres": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "moltres"
+      }
+    },
+	"catch_articuno": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "articuno"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/legendscore" ]
+  },
+  "parent": "pokecube_legends:root"
+}

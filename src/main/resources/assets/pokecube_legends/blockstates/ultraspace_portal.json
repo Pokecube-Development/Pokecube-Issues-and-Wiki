@@ -1,0 +1,53 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "#None": "pokecube_legends:blocks/wormhole"
+        },
+        "model": "pokecube_legends:wormhole.obj",
+		"custom": {
+	      "flip-v": true
+	    }
+     },
+    "variants": {
+        "normal": {
+	      "model": "pokecube_legends:wormhole.obj"
+	    },
+	    "facing=north": {
+	      "model": "pokecube_legends:wormhole.obj"
+	    },
+	    "facing=east": {
+	      "model": "pokecube_legends:wormhole.obj",
+	      "y": 90
+	    },
+	    "facing=south": {
+	      "model": "pokecube_legends:wormhole.obj",
+	      "y": 180
+	    },
+	    "facing=west": {
+	      "model": "pokecube_legends:wormhole.obj",
+	      "y": 270
+	    },
+	    "facing=up": {
+	      "model": "pokecube_legends:wormhole.obj",
+	      "x": 90
+	    },
+	    "facing=down": {
+	      "model": "pokecube_legends:wormhole.obj",
+	      "x": 270
+	    },
+        "inventory": [{
+            "transform": {
+				"scale": 0.19,
+				"rotation": [
+					{
+						"x": 20
+					},
+					{
+						"y": -45
+					}
+				]
+			}
+        }]
+    }
+}

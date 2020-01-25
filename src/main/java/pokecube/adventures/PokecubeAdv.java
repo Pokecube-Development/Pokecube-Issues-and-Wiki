@@ -1,5 +1,6 @@
 package pokecube.adventures;
 
+import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -127,7 +128,7 @@ public class PokecubeAdv
                 final Item badge = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
                 final String name = type.name.equals("???") ? "unknown" : type.name;
                 PokecubeAdv.BADGES.put(type, badge);
-                badge.setRegistryName(PokecubeAdv.ID, "badge_" + name);
+                badge.setRegistryName(PokecubeAdv.ID, "badge_" + name.toLowerCase(Locale.ROOT));
                 event.getRegistry().register(badge);
             }
         }

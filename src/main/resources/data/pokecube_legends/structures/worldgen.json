@@ -1,0 +1,162 @@
+{
+  "structures": [
+    {
+      "name": "ruin_1",
+      "chance": 0.002,
+      "offset": -3,
+      "biomeType": "ruin",
+      "spawn": {
+        "values": {
+          "types": "plains"
+        }
+      },
+      "priority": 100
+    },
+	{
+      "name": "space_temple",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "end"
+        }
+      },
+      "priority": 80
+    },
+	{
+      "name": "celebi_temple",
+      "chance": 0.001,
+      "offset": -7,
+      "biomeType": "ruin",
+      "spawn": {
+        "values": {
+		  "typesBlacklist": "sparse,cold,dry,spooky",
+          "types": "forest"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "hooh_tower",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "plains"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "zacian_temple",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "river"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "zamazenta_temple",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "river"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "kyogre_temple",
+      "chance": 0.001,
+      "offset": -25,
+      "spawn": {
+        "values": {
+          "types": "ocean"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "groudon_temple",
+      "chance": 0.01,
+      "offset": -80,
+      "spawn": {
+        "values": {
+          "types": "nether"
+        }
+      },
+      "priority": 70
+    },
+	{
+      "name": "regis_temple",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "snowy"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "xerneas_place",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "spooky"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "yveltal_place",
+      "chance": 0.001,
+      "offset": -2,
+      "spawn": {
+        "values": {
+          "types": "sandy"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "nature_place",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "swamp"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "keldeo_place",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "mountain"
+        }
+      },
+      "priority": 60
+    },
+	{
+      "name": "lugia_tower",
+      "chance": 0.001,
+      "offset": -1,
+      "spawn": {
+        "values": {
+          "types": "cold"
+        }
+      },
+      "priority": 60
+    }
+  ],
+  "multiStructures": []
+}

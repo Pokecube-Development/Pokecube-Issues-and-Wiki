@@ -1,0 +1,53 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "#None": "pokecube_legends:blocks/ubportal"
+        },
+        "model": "pokecube_legends:ubportal.obj",
+		"custom": {
+	      "flip-v": true
+	    }
+     },
+    "variants": {
+        "normal": {
+	      "model": "pokecube_legends:ubportal.obj"
+	    },
+	    "facing=north": {
+	      "model": "pokecube_legends:ubportal.obj"
+	    },
+	    "facing=east": {
+	      "model": "pokecube_legends:ubportal.obj",
+	      "y": 90
+	    },
+	    "facing=south": {
+	      "model": "pokecube_legends:ubportal.obj",
+	      "y": 180
+	    },
+	    "facing=west": {
+	      "model": "pokecube_legends:ubportal.obj",
+	      "y": 270
+	    },
+	    "facing=up": {
+	      "model": "pokecube_legends:ubportal.obj",
+	      "x": 90
+	    },
+	    "facing=down": {
+	      "model": "pokecube_legends:ubportal.obj",
+	      "x": 270
+	    },
+        "inventory": [{
+            "transform": {
+				"scale": 0.25,
+				"rotation": [
+					{
+						"x": 20
+					},
+					{
+						"y": -45
+					}
+				]
+			}
+        }]
+    }
+}

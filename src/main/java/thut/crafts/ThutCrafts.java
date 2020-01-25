@@ -83,7 +83,7 @@ public class ThutCrafts
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         // Register Config stuff
-        Config.setupConfigs(ThutCrafts.conf, Reference.MODID, Reference.MODID);
+        Config.setupConfigs(ThutCrafts.conf, ThutCore.MODID, Reference.MODID);
     }
 
     private void doClientStuff(final FMLClientSetupEvent event)

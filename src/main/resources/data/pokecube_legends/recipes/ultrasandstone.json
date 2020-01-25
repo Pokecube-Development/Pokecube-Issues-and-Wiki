@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "   ",
+        "RRR",
+        "RRR"
+    ],
+    
+    "key":
+    {
+		"R":
+        {
+            "item": "pokecube_legends:ultrasand"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:ultrasandstone",
+        "count": 3
+    }
+}

@@ -1,0 +1,50 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:ultracube"
+    },
+    "title": {
+	    "text": "Swords of Justice",
+	    "color": "gold",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Cobalion/Terrakion/Virizion"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_virizion": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "virizion"
+      }
+    },
+	"catch_terrakion": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "terrakion"
+      }
+    },
+	"catch_cobalion": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "cobalion"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/legendscore" ]
+  },
+  "parent": "pokecube_legends:root"
+}

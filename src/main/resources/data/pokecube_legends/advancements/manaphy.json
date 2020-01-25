@@ -1,0 +1,43 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:ultracube"
+    },
+    "title": {
+	    "text": "Sea Guardians",
+	    "color": "light_purple",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Manaphy"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_manaphy": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "manaphy"
+      }
+    },
+	"catch_phione": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "phione"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/legendscore" ]
+  },
+  "parent": "pokecube_legends:root"
+}

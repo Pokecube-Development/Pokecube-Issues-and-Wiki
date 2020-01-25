@@ -31,6 +31,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import pokecube.core.PokecubeCore;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.gui.GuiEditNBTTree;
 import pokecube.nbtedit.nbt.SaveStates;
@@ -44,7 +45,7 @@ public class ClientProxy extends CommonProxy
 
     public static KeyBinding NBTEditKey;
 
-    private void drawBoundingBox(WorldRenderer r, float f, AxisAlignedBB aabb)
+    private void drawBoundingBox(final WorldRenderer r, final float f, AxisAlignedBB aabb)
     {
         if (aabb == null) return;
 
@@ -98,7 +99,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @SubscribeEvent
-    public void onKey(InputEvent.KeyInputEvent event)
+    public void onKey(final InputEvent.KeyInputEvent event)
     {
         if (ClientProxy.NBTEditKey.isPressed())
         {
@@ -145,7 +146,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @SubscribeEvent
-    public void renderWorldLast(RenderWorldLastEvent event)
+    public void renderWorldLast(final RenderWorldLastEvent event)
     {
         final Screen curScreen = Minecraft.getInstance().currentScreen;
         if (curScreen instanceof GuiEditNBTTree)
@@ -171,7 +172,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void sendMessage(PlayerEntity player, String message, TextFormatting color)
+    public void sendMessage(final PlayerEntity player, final String message, final TextFormatting color)
     {
         final ITextComponent component = new StringTextComponent(message);
         component.getStyle().setColor(color);
@@ -182,9 +183,16 @@ public class ClientProxy extends CommonProxy
     public void setupClient()
     {
         MinecraftForge.EVENT_BUS.register(this);
-        final SaveStates save = NBTEdit.getSaveStates();
-        save.load();
-        save.save();
+        try
+        {
+            final SaveStates save = NBTEdit.getSaveStates();
+            save.load();
+            save.save();
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.catching(e);
+        }
         ClientProxy.NBTEditKey = new KeyBinding("NBTEdit Shortcut", InputMappings.INPUT_INVALID.getKeyCode(),
                 "key.categories.misc");
         ClientRegistry.registerKeyBinding(ClientProxy.NBTEditKey);

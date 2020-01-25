@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube_all",
+   "textures": {
+    "down": "pokecube_legends:blocks/ultradirt1",
+    "up": "pokecube_legends:blocks/ultragrass1",
+    "north": "pokecube_legends:blocks/ultragrass1_side",
+    "east": "pokecube_legends:blocks/ultragrass1_side",
+    "south": "pokecube_legends:blocks/ultragrass1_side",
+    "west": "pokecube_legends:blocks/ultragrass1_side",
+    "particle": "pokecube_legends:blocks/ultragrass1"
+  }
+}

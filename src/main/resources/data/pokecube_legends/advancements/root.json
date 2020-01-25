@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+	    "text": "The Legends",
+	    "color": "yellow",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": ""
+    },
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "get_first_pokemob": {
+      "trigger": "pokecube:get_first_pokemob"
+    }
+  }
+}

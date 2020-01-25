@@ -12,9 +12,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import pokecube.core.blocks.trade.TraderTile;
 
 public abstract class InteractableHorizontalBlock extends HorizontalBlock
 {
@@ -24,12 +22,6 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(HorizontalBlock.HORIZONTAL_FACING,
                 Direction.NORTH));
-    }
-
-    @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world)
-    {
-        return new TraderTile();
     }
 
     @Override

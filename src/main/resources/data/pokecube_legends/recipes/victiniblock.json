@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "RGR",
+        "RAR",
+        " R "
+    ],
+    
+    "key":
+    {
+        "G":
+        {
+            "item": "pokecube_legends:grayorb"
+        },
+		"A":
+        {
+            "item": "pokecube_legends:redorb"
+        },
+		"R":
+        {
+            "item": "minecraft:gold_block"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:victiniblock",
+        "count": 1
+    }
+}

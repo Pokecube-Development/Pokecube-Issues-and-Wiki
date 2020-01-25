@@ -1,0 +1,49 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_legends:magmacore"
+    },
+    "title": {
+	    "text": "Core to Core",
+	    "color": "red",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Go deep into the Nether."
+    },
+	"frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    	"touch": {
+        "trigger": "minecraft:location",
+        "conditions": {
+            "dimension": "the_nether",
+            "position": {
+                "x": {
+                    "min": 0,
+                    "max": 300
+                },
+                "y": {
+                    "min": 5,
+                    "max": 5
+                },
+                "z": {
+                    "min": 0,
+                    "max": 300
+                }
+            }
+        }
+     }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/heatrancore" ]
+  },
+  "parent": "pokecube_legends:root"
+}

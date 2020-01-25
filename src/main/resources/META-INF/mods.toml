@@ -66,3 +66,11 @@ authors="Thutmose"
 description='''
 Additional Features for Pokécube..
 '''
+[[mods]]
+modId="pokecube_legends"
+version="${file.jarVersion}"
+displayName="Pokécube Legends"
+authors="NelkGames, Thutmose"
+description='''
+Legendary Spawning mechanics for Pokécube..
+'''

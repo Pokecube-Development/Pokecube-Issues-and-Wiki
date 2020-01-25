@@ -1,0 +1,50 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_legends:zygardecube"
+    },
+    "title": {
+	    "text": "Aura trio",
+	    "color": "gold",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Xerneas/Yveltal/Zygarde"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_yveltal": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "yveltal"
+      }
+    },
+	"catch_xerneas": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "xerneas"
+      }
+    },
+	"catch_zygarde10": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "zygarde10"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/legendscore" ]
+  },
+  "parent": "pokecube_legends:root"
+}

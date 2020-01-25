@@ -1,0 +1,50 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_legends:azure_flute"
+    },
+    "title": {
+	    "text": "Creation Trio",
+	    "color": "gold",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Palkia/Dialga/Giratina"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_palkia": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "palkia"
+      }
+    },
+	"catch_giratina": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "giratina"
+      }
+    },
+	"catch_dialga": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "dialga"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/azurecore" ]
+  },
+  "parent": "pokecube_legends:lake"
+}

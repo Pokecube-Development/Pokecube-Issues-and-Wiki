@@ -27,17 +27,16 @@ public interface Proxy
         return true;
     }
 
-    default void loaded(FMLLoadCompleteEvent event)
+    default void loaded(final FMLLoadCompleteEvent event)
     {
     }
 
-    default void setup(FMLCommonSetupEvent event)
+    default void setup(final FMLCommonSetupEvent event)
     {
 
     }
 
-    default void setupClient(FMLClientSetupEvent event)
+    default void setupClient(final FMLClientSetupEvent event)
     {
-        // Nothing to do here.
     }
 }

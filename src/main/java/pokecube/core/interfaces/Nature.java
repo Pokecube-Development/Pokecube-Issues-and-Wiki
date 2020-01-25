@@ -1,5 +1,7 @@
 package pokecube.core.interfaces;
 
+import java.util.Locale;
+
 import pokecube.core.items.berries.BerryManager;
 
 public enum Nature
@@ -32,7 +34,7 @@ public enum Nature
     QUIRKY  (new byte[]{0,0,0,0,0,0});
     // @formatter:on
 
-    public static int getBerryWeight(int berryIndex, Nature type)
+    public static int getBerryWeight(final int berryIndex, final Nature type)
     {
         int ret = 0;
         final int[] flavours = BerryManager.berryItems.get(berryIndex).type.flavours;
@@ -48,7 +50,7 @@ public enum Nature
      * @param type
      * @return
      */
-    public static int getFavouriteBerryIndex(Nature type)
+    public static int getFavouriteBerryIndex(final Nature type)
     {
         int ret = -1;
         final byte good = type.goodFlavour;
@@ -79,7 +81,7 @@ public enum Nature
 
     int favourteBerry = -1;
 
-    private Nature(byte[] stats)
+    private Nature(final byte[] stats)
     {
         this.stats = stats;
         byte good = -1;
@@ -96,5 +98,10 @@ public enum Nature
     public byte[] getStatsMod()
     {
         return this.stats;
+    }
+
+    public static String getLocalizationKey(final Nature type)
+    {
+        return "pokecube.nature." + type.toString().toLowerCase(Locale.ENGLISH);
     }
 }

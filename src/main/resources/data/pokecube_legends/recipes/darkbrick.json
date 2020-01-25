@@ -1,0 +1,30 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        " A ",
+        "ARA",
+        " A "
+    ],
+    
+    "key":
+    {
+        "R":
+        {
+            "item": "minecraft:dye",
+			"data": 2
+        },
+		"A":
+        {
+            "item": "minecraft:stonebrick",
+			"data": 1
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:darkskybrick",
+        "count": 4
+    }
+}

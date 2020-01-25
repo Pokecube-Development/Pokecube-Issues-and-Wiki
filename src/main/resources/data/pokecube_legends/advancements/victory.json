@@ -1,0 +1,189 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+	    "text": "A Master in Battle!",
+	    "color": "green",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Get all the badges"
+    },
+	"frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_bug"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_steel"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_fire"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_water"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_ground"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_ice"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_grass"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_dark"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_ghost"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_psychic"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_fairy"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_dragon"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_electric"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_rock"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_flying"
+          }
+        ]
+      }
+    },
+	"get_badge": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "pokecube_adventures:badge_fighting"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+		"loot": [ "pokecube_legends:entities/vict" ]
+  },
+  "parent": "pokecube_legends:root"
+}

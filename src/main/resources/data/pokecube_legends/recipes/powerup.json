@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "RRR",
+        "RRR",
+        "RRR"
+    ],
+    
+    "key":
+    {
+        "R":
+        {
+            "item": "pokecube_legends:ultrastone"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:ultrablock",
+        "count": 4
+    }
+}

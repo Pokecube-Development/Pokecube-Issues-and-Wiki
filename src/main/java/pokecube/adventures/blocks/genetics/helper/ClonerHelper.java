@@ -15,8 +15,11 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.MinecraftForge;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
+import pokecube.adventures.events.GeneEditEvent;
+import pokecube.adventures.events.GeneEditEvent.EditType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
@@ -191,7 +194,7 @@ public class ClonerHelper
             eggsAllele = selector.merge(alleles, eggsAllele);
             if (eggsAllele != null) eggs.getAlleles().put(loc, eggsAllele);
         }
-        ClonerHelper.setGenes(destination, eggs);
+        ClonerHelper.setGenes(destination, eggs, EditType.EXTRACT);
     }
 
     public static void registerDNA(final DNAPack entry, final ItemStack stack)
@@ -199,9 +202,10 @@ public class ClonerHelper
         ClonerHelper.DNAITEMS.put(stack, entry);
     }
 
-    public static void setGenes(final ItemStack stack, final IMobGenetics genes)
+    public static void setGenes(final ItemStack stack, final IMobGenetics genes, final EditType reason)
     {
         if (stack.isEmpty() || !stack.hasTag()) return;
+        MinecraftForge.EVENT_BUS.post(new GeneEditEvent(genes, reason));
         final CompoundNBT nbt = stack.getTag();
         final INBT geneTag = GeneRegistry.GENETICS_CAP.getStorage().writeNBT(GeneRegistry.GENETICS_CAP, genes, null);
         if (PokecubeManager.isFilled(stack))
@@ -225,6 +229,6 @@ public class ClonerHelper
             alleles = selector.merge(alleles, eggsAllele);
             if (alleles != null) eggs.getAlleles().put(loc, alleles);
         }
-        ClonerHelper.setGenes(destination, eggs);
+        ClonerHelper.setGenes(destination, eggs, EditType.SPLICE);
     }
 }

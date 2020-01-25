@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "AAA",
+        "A A",
+        "AAA"
+    ],
+    
+    "key":
+    {
+		"A":
+        {
+            "item": "minecraft:purpur_block"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:spatianbrick",
+        "count": 8
+    }
+}

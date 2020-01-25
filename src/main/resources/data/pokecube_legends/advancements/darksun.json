@@ -1,0 +1,43 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_legends:n_sun"
+    },
+    "title": {
+	    "text": "Dark Sun",
+	    "color": "gold",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Catch Solgaleo/Necrozma"
+    },
+	"frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_solgaleo": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "solgaleo"
+      }
+    },
+	"catch_necrozma": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "necrozma"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/nsun" ]
+  },
+  "parent": "pokecube_legends:root"
+}

@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "GRG",
+        "RAR",
+        "GRG"
+    ],
+    
+    "key":
+    {
+        "G":
+        {
+            "item": "pokecube_legends:ruby"
+        },
+		"A":
+        {
+            "item": "pokecube_legends:grayorb"
+        },
+		"R":
+        {
+            "item": "pokecube_legends:ruby_block"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:redorb",
+        "count": 1
+    }
+}

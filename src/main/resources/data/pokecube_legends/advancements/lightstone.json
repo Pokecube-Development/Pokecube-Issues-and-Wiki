@@ -1,0 +1,43 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube_legends:lightstone"
+    },
+    "title": {
+	    "text": "Yin..",
+	    "color": "white",
+	    "bold": false,
+	    "italic": false,
+	    "underlined": false,
+	    "strikethrough": false,
+	    "obfuscated": false
+    },
+    "description": {
+        "text": "Get a Tao Trio member (Reshiram)."
+    },
+	"frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "catch_kyurem": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "kyurem"
+      }
+    },
+	"catch_reshiram": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "reshiram"
+      }
+    }
+  },
+  "rewards": {
+        "loot": [ "pokecube_legends:entities/lightcore" ]
+  },
+  "parent": "pokecube_legends:darkstone"
+}

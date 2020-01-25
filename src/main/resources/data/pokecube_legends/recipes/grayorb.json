@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    
+    "pattern":
+    [
+        "GRG",
+        "RAR",
+        "GRG"
+    ],
+    
+    "key":
+    {
+        "G":
+        {
+            "item": "minecraft:emerald"
+        },
+		"A":
+        {
+            "item": "minecraft:magma_cream"
+        },
+		"R":
+        {
+            "item": "minecraft:ender_eye"
+        }
+    },
+    
+    "result":
+    {
+        "item": "pokecube_legends:grayorb",
+        "count": 1
+    }
+}
