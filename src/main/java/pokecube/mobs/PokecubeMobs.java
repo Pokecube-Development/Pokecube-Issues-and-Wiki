@@ -1,12 +1,5 @@
 package pokecube.mobs;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
@@ -28,7 +21,9 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -61,9 +56,8 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
-import pokecube.mobs.client.smd.SMDModel;
+import pokecube.mobs.client.ClientProxy;
 import thut.api.maths.Vector3;
-import thut.core.client.render.model.ModelFactory;
 
 @Mod(value = PokecubeMobs.MODID)
 public class PokecubeMobs
@@ -81,58 +75,8 @@ public class PokecubeMobs
     }
 
     public static final String MODID = "pokecube_mobs";
-
-    public static ArrayList<String> getFile(final String file)
-    {
-        final InputStream res = PokecubeMobs.class.getResourceAsStream(file);
-
-        final ArrayList<String> rows = new ArrayList<>();
-        BufferedReader br = null;
-        String line = "";
-        try
-        {
-            br = new BufferedReader(new InputStreamReader(res));
-            while ((line = br.readLine()) != null)
-                rows.add(line);
-
-        }
-        catch (final FileNotFoundException e)
-        {
-            PokecubeCore.LOGGER.error("Missing a Database file " + file, e);
-        }
-        catch (final NullPointerException e)
-        {
-            try
-            {
-                final FileReader temp = new FileReader(new File(file));
-                br = new BufferedReader(temp);
-                while ((line = br.readLine()) != null)
-                    rows.add(line);
-            }
-            catch (final Exception e1)
-            {
-                PokecubeCore.LOGGER.error("Error with " + file, e1);
-            }
-
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.error("Error with " + file, e);
-        }
-        finally
-        {
-            if (br != null) try
-            {
-                br.close();
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.error("Error with " + file, e);
-            }
-        }
-
-        return rows;
-    }
+    public static CommonProxy  proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
+            () -> () -> new CommonProxy());
 
     Map<PokedexEntry, Integer> genMap = Maps.newHashMap();
 
@@ -147,11 +91,16 @@ public class PokecubeMobs
         DBLoader.trainerDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trainers.json"));
         DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.xml"));
 
-        // MiscItemHelper.init();
+        // Register setup for proxy
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeMobs.proxy::setup);
+        // Register the doClientStuff method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeMobs.proxy::setupClient);
+        // Register the loaded method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeMobs.proxy::loaded);
+        // Just generally register it to event bus.
+        FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeMobs.proxy);
 
-        // // Register smd format for models
-        ModelFactory.registerIModel("smd", SMDModel::new);
-        ModelFactory.registerIModel("SMD", SMDModel::new);
+        // MiscItemHelper.init();
     }
 
     @SubscribeEvent
@@ -470,7 +419,7 @@ public class PokecubeMobs
         ItemGenerator.fossilVariants.add("arctovish");
         BerryHelper.initBerries();
         // We are depending on this now, so might as well always use it.
-        MegaWearablesHelper.initExtraWearables();
+        PokecubeMobs.proxy.initWearables();
     }
 
     @SubscribeEvent

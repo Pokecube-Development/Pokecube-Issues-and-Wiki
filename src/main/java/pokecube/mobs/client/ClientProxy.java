@@ -1,4 +1,4 @@
-package pokecube.mobs;
+package pokecube.mobs.client;
 
 import java.awt.Color;
 
@@ -13,21 +13,33 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
+import pokecube.mobs.CommonProxy;
+import pokecube.mobs.client.smd.SMDModel;
+import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
-public class MegaWearablesHelper
+public class ClientProxy extends CommonProxy
 {
-    public static void initExtraWearables()
+    @Override
+    public void setupClient(final FMLClientSetupEvent event)
     {
+        // // Register smd format for models
+        ModelFactory.registerIModel("smd", SMDModel::new);
+        ModelFactory.registerIModel("SMD", SMDModel::new);
+    }
+
+    @Override
+    public void initWearables()
+    {
+        super.initWearables();
         // Tiara like worn by Lisia, but rotated to be centered on head instead
         // of at angle.
-        ItemMegawearable.registerWearable("tiara", "HAT");
         WearablesCompat.renderers.put("tiara", new WearablesRenderer()
         {
             // 2 layers of hat rendering for the different colours.
@@ -81,7 +93,6 @@ public class MegaWearablesHelper
         });
 
         // Mega Anklet like one worn by Zinnia
-        ItemMegawearable.registerWearable("ankletzinnia", "ANKLE");
         WearablesCompat.renderers.put("ankletzinnia", new WearablesRenderer()
         {
             // 2 layers of hat rendering for the different colours.
@@ -138,7 +149,6 @@ public class MegaWearablesHelper
             }
         });
         // a Pendant
-        ItemMegawearable.registerWearable("pendant", "NECK");
         WearablesCompat.renderers.put("pendant", new WearablesRenderer()
         {
             // 2 layers of hat rendering for the different colours.
@@ -191,7 +201,6 @@ public class MegaWearablesHelper
             }
         });
         // Earrings
-        ItemMegawearable.registerWearable("earring", "EAR");
         WearablesCompat.renderers.put("earring", new WearablesRenderer()
         {
             // 2 layers of hat rendering for the different colours.
@@ -243,7 +252,6 @@ public class MegaWearablesHelper
             }
         });
         // Glasses
-        ItemMegawearable.registerWearable("glasses", "EYE");
         WearablesCompat.renderers.put("glasses", new WearablesRenderer()
         {
             // 2 layers of hat rendering for the different colours.
@@ -295,6 +303,5 @@ public class MegaWearablesHelper
 
             }
         });
-
     }
 }

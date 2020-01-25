@@ -1,5 +1,6 @@
 package pokecube.core.blocks.berries;
 
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collections;
@@ -330,6 +331,10 @@ public class BerryGenManager
                 loaded = PokedexEntryLoader.gson.fromJson(reader, BerryGenList.class);
                 reader.close();
                 BerryGenManager.list.locations.addAll(loaded.locations);
+            }
+            catch (final FileNotFoundException e1)
+            {
+                PokecubeCore.LOGGER.debug("No berry spawns list {} found.", s);
             }
             catch (final Exception e)
             {
