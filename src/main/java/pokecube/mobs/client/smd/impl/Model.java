@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.ResourceLocation;
-import thut.core.common.ThutCore;
+import pokecube.core.PokecubeCore;
 
 /**
  * Base model object, this contains the body, a list of the bones, and the
@@ -95,11 +95,11 @@ public class Model
                 catch (final FileNotFoundException e1)
                 {
                     // Ignore these, we don't really care about them
-                    ThutCore.LOGGER.debug("No animation of {} for {}", s, resloc);
+                    PokecubeCore.LOGGER.debug("No animation of {} for {}", s, resloc);
                 }
                 catch (final Exception e)
                 {
-                    ThutCore.LOGGER.error(e);
+                    PokecubeCore.LOGGER.error(e);
                 }
             }
         }
