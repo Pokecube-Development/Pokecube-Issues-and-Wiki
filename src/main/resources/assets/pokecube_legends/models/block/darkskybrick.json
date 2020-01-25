@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/darkskybrick"
+	"down": "pokecube_legends:blocks/darkskybrick",
+    "up": "pokecube_legends:blocks/darkskybrick",
+    "north": "pokecube_legends:blocks/darkskybrick",
+    "east": "pokecube_legends:blocks/darkskybrick",
+    "south": "pokecube_legends:blocks/darkskybrick",
+    "west": "pokecube_legends:blocks/darkskybrick",
+    "particle": "pokecube_legends:blocks/darkskybrick"
    }
 }

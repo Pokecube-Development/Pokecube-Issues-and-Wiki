@@ -10,7 +10,6 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -133,7 +132,6 @@ public class PortalActiveFunction
         if (world instanceof ServerWorld)
         {
             final ServerWorld sworld = (ServerWorld) world;
-            sworld.spawnParticle(ParticleTypes.FIREWORK, x, y + 1, z, 15, 6, 6, 6, 0.4);
             sworld.playSound(x, y, z, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
         }
 

@@ -4,36 +4,36 @@
         "textures": {
             "#None": "pokecube_legends:blocks/victiniblock" //the identifier must be a name of a material defined by the "model" obj's .mtl file
         },
-        "model": "pokecube_legends:victiniblock.obj",
+        "model": "pokecube_legends:block/victiniblock.obj",
 		"custom": {
 	      "flip-v": true
 	    }
      },
     "variants": {
         "normal": {
-	      "model": "pokecube_legends:victiniblock.obj"
+	      "model": "pokecube_legends:block/victiniblock.obj"
 	    },
 	    "facing=north": {
-	      "model": "pokecube_legends:victiniblock.obj"
+	      "model": "pokecube_legends:block/victiniblock.obj"
 	    },
 	    "facing=east": {
-	      "model": "pokecube_legends:victiniblock.obj",
+	      "model": "pokecube_legends:block/victiniblock.obj",
 	      "y": 90
 	    },
 	    "facing=south": {
-	      "model": "pokecube_legends:victiniblock.obj",
+	      "model": "pokecube_legends:block/victiniblock.obj",
 	      "y": 180
 	    },
 	    "facing=west": {
-	      "model": "pokecube_legends:victiniblock.obj",
+	      "model": "pokecube_legends:block/victiniblock.obj",
 	      "y": 270
 	    },
 	    "facing=up": {
-	      "model": "pokecube_legends:victiniblock.obj",
+	      "model": "pokecube_legends:block/victiniblock.obj",
 	      "x": 90
 	    },
 	    "facing=down": {
-	      "model": "pokecube_legends:victiniblock.obj",
+	      "model": "pokecube_legends:block/victiniblock.obj",
 	      "x": 270
 	    },
         "inventory": [{

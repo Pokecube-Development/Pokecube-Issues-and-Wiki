@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:ultrasandstone" }
+        "": { "model": "pokecube_legends:block/ultrasandstone" }
     }
 }

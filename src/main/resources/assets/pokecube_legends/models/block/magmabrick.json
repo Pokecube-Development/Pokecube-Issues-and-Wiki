@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/magmabrick"
+	"down": "pokecube_legends:blocks/magmabrick",
+    "up": "pokecube_legends:blocks/magmabrick",
+    "north": "pokecube_legends:blocks/magmabrick",
+    "east": "pokecube_legends:blocks/magmabrick",
+    "south": "pokecube_legends:blocks/magmabrick",
+    "west": "pokecube_legends:blocks/magmabrick",
+    "particle": "pokecube_legends:blocks/magmabrick"
    }
 }

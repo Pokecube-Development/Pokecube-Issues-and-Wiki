@@ -1,22 +1,6 @@
 {
-  "parent": "pokecube_legends:block/portal",
-  "display": {
-    "thirdperson": {
-      "rotation": [
-        10,
-        -45,
-        170
-      ],
-      "translation": [
-        0,
-        1.5,
-        -2.75
-      ],
-      "scale": [
-        0.375,
-        0.375,
-        0.375
-      ]
-    }
-  }
+   "parent": "item/handheld",
+	"textures": {
+		"layer0":"pokecube_legends:blocks/portal1"
+	}
 }

@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:skybrick" }
+        "": { "model": "pokecube_legends:block/skybrick" }
     }
 }

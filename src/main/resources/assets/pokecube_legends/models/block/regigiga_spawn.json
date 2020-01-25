@@ -1,6 +1,12 @@
 {
-	"parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/golemstone"
+	"down": "pokecube_legends:blocks/golemstone",
+    "up": "pokecube_legends:blocks/golemstone",
+    "north": "pokecube_legends:blocks/golemstone",
+    "east": "pokecube_legends:blocks/golemstone",
+    "south": "pokecube_legends:blocks/golemstone",
+    "west": "pokecube_legends:blocks/golemstone",
+    "particle": "pokecube_legends:blocks/golemstone"
    }
 }

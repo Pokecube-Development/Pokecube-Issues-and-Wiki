@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/ultra_cobble"
+	"down": "pokecube_legends:blocks/ultra_cobble",
+    "up": "pokecube_legends:blocks/ultra_cobble",
+    "north": "pokecube_legends:blocks/ultra_cobble",
+    "east": "pokecube_legends:blocks/ultra_cobble",
+    "south": "pokecube_legends:blocks/ultra_cobble",
+    "west": "pokecube_legends:blocks/ultra_cobble",
+    "particle": "pokecube_legends:blocks/ultra_cobble"
    }
 }

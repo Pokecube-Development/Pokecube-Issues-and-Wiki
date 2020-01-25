@@ -9,11 +9,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraftforge.common.ToolType;
 import pokecube.legends.blocks.BlockBase;
+import pokecube.legends.blocks.GrassJungleBlock;
+import pokecube.legends.blocks.GrassMussBlock;
 import pokecube.legends.blocks.LegendaryBlock;
 import pokecube.legends.blocks.NatureCoreBlock;
 import pokecube.legends.blocks.PortalWarp;
 import pokecube.legends.blocks.Rotates;
+import pokecube.legends.blocks.SandUltraBlock;
 import pokecube.legends.blocks.SpaceCoreBlock;
+import pokecube.legends.blocks.StoneMagneticBlock;
 import pokecube.legends.blocks.UltraSpacePortal;
 
 public class BlockInit
@@ -21,10 +25,9 @@ public class BlockInit
     public static List<Block> BLOCKS = new ArrayList<>();
 
     // Blocks
-    public static Block RUBY_BLOCK     = new BlockBase("ruby_block", Material.IRON, 1.5f, 10f, SoundType.METAL);
-    public static Block SAPPHIRE_BLOCK = new BlockBase("sapphire_block", Material.IRON, 1.5f, 10f, SoundType.METAL);
-    // public static Block TEMPORAL_CRYSTAL = new
-    // TemporalCrystal("temporal_crystal", Material.GLASS);
+    public static Block RUBY_BLOCK       = new BlockBase("ruby_block", Material.IRON, 1.5f, 10f, SoundType.METAL);
+    public static Block SAPPHIRE_BLOCK   = new BlockBase("sapphire_block", Material.IRON, 1.5f, 10f, SoundType.METAL);
+    public static Block TEMPORAL_CRYSTAL = new BlockBase("temporal_crystal", Material.GLASS, 1.0f, 12f, SoundType.GLASS);
 
     // Decorative_Blocks
     public static Block OCEAN_BRICK   = new BlockBase("oceanbrick", Material.ROCK, 1.5f, 10f, SoundType.STONE);
@@ -37,18 +40,14 @@ public class BlockInit
     // Dimension and Decoration
     public static Block ULTRA_MAGNETIC  = new BlockBase("ultramagnetic", Material.GLASS, 0.5F, SoundType.GLASS);
     public static Block ULTRA_SANDSTONE = new BlockBase("ultrasandstone", Material.SAND, 0.5f, SoundType.SAND);
-    // public static Block ULTRA_COBBLES = new CobbleUltraBlock("ultracobbles",
-    // Material.ROCK);
-    // public static Block ULTRA_GRASSMUSS = new GrassMussBlock("ultragrass1",
-    // Material.ORGANIC);
-    public static Block ULTRA_DIRTMUSS = new BlockBase("ultradirt1", Material.CLAY, 0.5f, SoundType.GROUND);
-    // public static Block ULTRA_GRASSJUN = new GrassJungleBlock("ultragrass2",
-    // Material.ORGANIC);
-    public static Block ULTRA_DIRTJUN = new BlockBase("ultradirt2", Material.CLAY, 0.5f, SoundType.GROUND);
-    public static Block ULTRA_STONE   = new BlockBase("ultrastone", Material.ROCK, 1.5f, 10f, SoundType.STONE);
-    public static Block ULTRA_METAL   = new BlockBase("ultrablock", Material.IRON, 5.0f, 10f, SoundType.STONE);
-    // public static Block ULTRA_SAND = new SandUltraBlock("ultrasand",
-    // Material.SAND);
+    public static Block ULTRA_COBBLES   = new StoneMagneticBlock("ultracobbles", Material.ROCK);
+    public static Block ULTRA_GRASSMUSS = new GrassMussBlock("ultragrass1", Material.ORGANIC);
+    public static Block ULTRA_DIRTMUSS  = new BlockBase("ultradirt1", Material.CLAY, 0.5f, SoundType.GROUND);
+    public static Block ULTRA_GRASSJUN  = new GrassJungleBlock("ultragrass2", Material.ORGANIC);
+    public static Block ULTRA_DIRTJUN   = new BlockBase("ultradirt2", Material.CLAY, 0.5f, SoundType.GROUND);
+    public static Block ULTRA_STONE     = new BlockBase("ultrastone", Material.ROCK, 1.5f, 10f, SoundType.STONE);
+    public static Block ULTRA_METAL     = new BlockBase("ultrablock", Material.IRON, 5.0f, 10f, SoundType.STONE);
+    public static Block ULTRA_SAND      = new SandUltraBlock("ultrasand", Material.SAND);
 
     // public static Block ULTRA_MUSS1 = new MussPlant("mussplant1",
     // Material.PLANTS);
@@ -58,10 +57,10 @@ public class BlockInit
     // Portal
     public static Block ULTRASPACE_PORTAL = new UltraSpacePortal("ultraspace_portal", Block.Properties.create(
             Material.GLASS).sound(SoundType.GLASS).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-            .harvestLevel(3)).setShape(VoxelShapes.create(0.05, 0, 0.05, 15.95, 48, 15.95));
+            .harvestLevel(3)).setShape(VoxelShapes.create(0.05, 0, 0.05, 2, 2, 2));
     public static Block BLOCK_PORTALWARP  = new PortalWarp("portal", Block.Properties.create(Material.ROCK).sound(
             SoundType.METAL).hardnessAndResistance(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(3)).setShape(
-                    VoxelShapes.create(0.05, 0, 0.05, 15.95, 48, 15.95));
+                    VoxelShapes.create(0.05, 0, 0.05, 2, 2, 2));
     // public static Block BLOCK_MAXRAID = new
     // MaxRaidSpawnBlock("maxraidspawn", Material.ROCK);
 

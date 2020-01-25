@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/sapphire_block"
+	"down": "pokecube_legends:blocks/sapphire_block",
+    "up": "pokecube_legends:blocks/sapphire_block",
+    "north": "pokecube_legends:blocks/sapphire_block",
+    "east": "pokecube_legends:blocks/sapphire_block",
+    "south": "pokecube_legends:blocks/sapphire_block",
+    "west": "pokecube_legends:blocks/sapphire_block",
+    "particle": "pokecube_legends:blocks/sapphire_block"
    }
 }

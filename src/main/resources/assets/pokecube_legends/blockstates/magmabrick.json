@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "normal": { "model": "pokecube_legends:magmabrick" }
+	"variants": {
+    	"": { 
+			"model": "pokecube_legends:block/magmabrick" 
+		}
     }
 }

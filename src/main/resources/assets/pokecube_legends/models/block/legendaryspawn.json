@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/legendaryspawn"
+	"down": "pokecube_legends:blocks/legendaryspawn",
+    "up": "pokecube_legends:blocks/legendaryspawn",
+    "north": "pokecube_legends:blocks/legendaryspawn",
+    "east": "pokecube_legends:blocks/legendaryspawn",
+    "south": "pokecube_legends:blocks/legendaryspawn",
+    "west": "pokecube_legends:blocks/legendaryspawn",
+    "particle": "pokecube_legends:blocks/legendaryspawn"
    }
 }

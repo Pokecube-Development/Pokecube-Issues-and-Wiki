@@ -1,6 +1,12 @@
 {
-   "parent": "block/cube_all",
+   "parent": "block/cube",
    "textures": {
-       "all": "pokecube_legends:blocks/regirockspawn"
+	"down": "pokecube_legends:blocks/regirockspawn",
+    "up": "pokecube_legends:blocks/regirockspawn",
+    "north": "pokecube_legends:blocks/regirockspawn",
+    "east": "pokecube_legends:blocks/regirockspawn",
+    "south": "pokecube_legends:blocks/regirockspawn",
+    "west": "pokecube_legends:blocks/regirockspawn",
+    "particle": "pokecube_legends:blocks/regirockspawn"
    }
 }

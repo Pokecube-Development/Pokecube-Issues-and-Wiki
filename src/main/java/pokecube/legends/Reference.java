@@ -8,7 +8,4 @@ public class Reference
     public static final String DEPSTRING   = "required-after:pokecube";
     public static final String COMMON_PROXY_CLASS = "pokecube.legends.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "pokecube.legends.proxy.ClientProxy";
-    
-    public static final int ENTITY_WORMHOLE = 120;
-    public static final int ENTITY_MIRAGE = 121;
 }

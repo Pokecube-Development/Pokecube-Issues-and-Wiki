@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "pokecube_legends:registeel_spawn" }
+        "": { "model": "pokecube_legends:block/registeel_spawn" }
     }
 }
