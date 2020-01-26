@@ -5,50 +5,15 @@
             "#None": "pokecube_legends:blocks/spaceblock",
 			"#None_spaceportal.png": "pokecube_legends:blocks/spaceportal" //the identifier must be a name of a material defined by the "model" obj's .mtl file
         },
-        "model": "pokecube_legends:block/spaceblock.obj",
-		"custom": {
+        "model": "minecraft:block/cube",
+    	"custom": {
+		  "base_model": "pokecube_legends:block/spaceblock.obj",
 	      "flip-v": true
 	    }
      },
     "variants": {
-        "normal": {
-	      "model": "pokecube_legends:block/spaceblock.obj"
-	    },
-	    "facing=north": {
-	      "model": "pokecube_legends:block/spaceblock.obj"
-	    },
-	    "facing=east": {
-	      "model": "pokecube_legends:block/spaceblock.obj",
-	      "y": 90
-	    },
-	    "facing=south": {
-	      "model": "pokecube_legends:block/spaceblock.obj",
-	      "y": 180
-	    },
-	    "facing=west": {
-	      "model": "pokecube_legends:block/spaceblock.obj",
-	      "y": 270
-	    },
-	    "facing=up": {
-	      "model": "pokecube_legends:block/spaceblock.obj",
-	      "x": 90
-	    },
-	    "facing=down": {
-	      "model": "pokecube_legends:block/spaceblock.obj",
-	      "x": 270
-	    },
-        "inventory": [{
-            "transform": {
-				"scale": 0.45,
-				"rotation": [
-					{
-						"x": 20
-					},
-					{
-						"y": -45
-					}
-				]
-			}
-        }]
+        "": {
+	      "model": "pokecube_legends:item/spaceblock.obj"
+	    }
     }
 }

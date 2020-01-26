@@ -4,50 +4,15 @@
         "textures": {
             "#None": "pokecube_legends:blocks/portal1"
         },
-        "model": "pokecube_legends:block/portal.obj",
-		"custom": {
+        "model": "minecraft:block/cube",
+    	"custom": {
+		  "base_model": "pokecube_legends:block/portal.obj",
 	      "flip-v": true
 	    }
      },
     "variants": {
-        "normal": {
-	      "model": "pokecube_legends:block/portal.obj"
-	    },
-	    "facing=north": {
-	      "model": "pokecube_legends:block/portal.obj"
-	    },
-	    "facing=east": {
-	      "model": "pokecube_legends:block/portal.obj",
-	      "y": 90
-	    },
-	    "facing=south": {
-	      "model": "pokecube_legends:block/portal.obj",
-	      "y": 180
-	    },
-	    "facing=west": {
-	      "model": "pokecube_legends:block/portal.obj",
-	      "y": 270
-	    },
-	    "facing=up": {
-	      "model": "pokecube_legends:block/portal.obj",
-	      "x": 90
-	    },
-	    "facing=down": {
-	      "model": "pokecube_legends:block/portal.obj",
-	      "x": 270
-	    },
-        "inventory": [{
-            "transform": {
-				"scale": 0.25,
-				"rotation": [
-					{
-						"x": 20
-					},
-					{
-						"y": -45
-					}
-				]
-			}
-        }]
+        "": {
+	      "model": "pokecube_legends:item/portal.obj"
+	    }
     }
 }
