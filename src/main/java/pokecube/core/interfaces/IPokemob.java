@@ -86,6 +86,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     int TYPE_CRIT = 2;
 
+    default void onTick()
+    {
+
+    }
+
     /**
      * Whether this mob can use the item HMDive to be ridden underwater.
      *
