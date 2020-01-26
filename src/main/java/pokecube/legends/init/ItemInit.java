@@ -49,8 +49,6 @@ public class ItemInit
     public static final Item GREEN_RUNE   = new ItemBase("green_rune", 1);
     public static final Item REGIS_ORB    = new ItemBase("regisorb", 1);
 
-    // Dynamax
-
     // Gens_ores
     public static final Item SAPPHIRE = new ItemBase("sapphire", 64);
     public static final Item RUBY     = new ItemBase("ruby", 64);
@@ -74,9 +72,6 @@ public class ItemInit
     public static final Item RSWORD         = new ItemBase("rustedsword", 1);
     public static final Item CHPOT          = new ItemBase("chippedpot", 1);
     public static final Item CRPOT          = new ItemBase("crackedpot", 1);
-
-    // Mint Nature
-    // public static final Item MINT_1 = new MintLonely("mint_lonely", 1);
 
     // Tools
     public static final SwordItem RAINBOW_SWORD = new RainbowSword("rainbow_sword", 4, -4, ItemInit.MATERIAL_RAINBOW);

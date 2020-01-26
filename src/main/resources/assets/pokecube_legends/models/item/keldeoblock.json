@@ -1,6 +1,6 @@
 {
    "parent": "item/handheld",
 	"textures": {
-		"layer0":"pokecube_legends:blocks/keldeoblock"
+		"layer0":"pokecube_legends:blocks/keldeo_"
 	}
 }

@@ -1,6 +1,6 @@
 {
-   "parent": "item/handheld",
+  "parent": "item/handheld",
 	"textures": {
-		"layer0":"pokecube_legends:blocks/portal1"
+		"layer0":"pokecube_legends:blocks/mirage_"
 	}
 }

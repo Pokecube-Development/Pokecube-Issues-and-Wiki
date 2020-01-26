@@ -4,50 +4,15 @@
         "textures": {
             "#None": "pokecube_legends:blocks/naturespawn" //the identifier must be a name of a material defined by the "model" obj's .mtl file
         },
-        "model": "pokecube_legends:block/naturespawn.obj",
+		"model": "minecraft:block/cube",
 		"custom": {
+		  "model": "pokecube_legends:naturespawn.obj",
 	      "flip-v": true
 	    }
      },
     "variants": {
-        "normal": {
-	      "model": "pokecube_legends:block/naturespawn.obj"
-	    },
-	    "facing=north": {
-	      "model": "pokecube_legends:block/naturespawn.obj"
-	    },
-	    "facing=east": {
-	      "model": "pokecube_legends:block/naturespawn.obj",
-	      "y": 90
-	    },
-	    "facing=south": {
-	      "model": "pokecube_legends:block/naturespawn.obj",
-	      "y": 180
-	    },
-	    "facing=west": {
-	      "model": "pokecube_legends:block/naturespawn.obj",
-	      "y": 270
-	    },
-	    "facing=up": {
-	      "model": "pokecube_legends:block/naturespawn.obj",
-	      "x": 90
-	    },
-	    "facing=down": {
-	      "model": "pokecube_legends:block/naturespawn.obj",
-	      "x": 270
-	    },
-        "inventory": [{
-            "transform": {
-				"scale": 0.45,
-				"rotation": [
-					{
-						"x": 20
-					},
-					{
-						"y": -45
-					}
-				]
-			}
-        }]
+        "": {
+	      "model": "pokecube_legends:item/naturespawn.obj"
+	    }
     }
 }

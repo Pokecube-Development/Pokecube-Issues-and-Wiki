@@ -1,34 +1,24 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "GRG",
-        "GAG",
-        "GRG"
-    ],
-    
-    "key":
-    {
-        "G":
-        {
-            "item": "minecraft:stone",
-			"data": 4
-        },
-		"A":
-        {
-            "item": "pokecube_legends:redorb"
-        },
-		"R":
-        {
-            "item": "minecraft:dye",
-			"data": 14
-        }
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "010",
+    "040",
+    "010"
+  ],
+  "key": {
+    "0": {
+      "item": "minecraft:stone"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:orange_rune",
-        "count": 1
+    "1": {
+      "item": "pokecube_legends:redorb"
+    },
+    "4": {
+      "item": "minecraft:orange_dye"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:orange_rune",
+    "count": 1
+  }
 }

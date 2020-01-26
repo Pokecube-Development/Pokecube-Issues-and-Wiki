@@ -1,24 +1,18 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "RRR",
-        "RRR",
-        "RRR"
-    ],
-    
-    "key":
-    {
-        "R":
-        {
-            "item": "pokecube_legends:crystal_shard"
-        }
-    },
-    
-    "result":
-    {
-        "item": "pokecube_legends:temporal_crystal",
-        "count": 1
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "000",
+    "000",
+    "000"
+  ],
+  "key": {
+    "0": {
+      "item": "pokecube_legends:crystal_shard"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:temporal_crystal",
+    "count": 1
+  }
 }

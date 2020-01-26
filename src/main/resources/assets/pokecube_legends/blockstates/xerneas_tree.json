@@ -2,52 +2,17 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "#None": "pokecube_legends:blocks/xerneas_tree" //the identifier must be a name of a material defined by the "model" obj's .mtl file
+            "#None": "pokecube_legends:blocks/xerneas_tree"
         },
-        "model": "pokecube_legends:block/xerneas_tree.obj",
-		"custom": {
+        "model": "minecraft:block/cube",
+    	"custom": {
+		  "base_model": "pokecube_legends:block/xerneas_tree.obj",
 	      "flip-v": true
 	    }
      },
     "variants": {
-        "normal": {
-	      "model": "pokecube_legends:block/xerneas_tree.obj"
-	    },
-	    "facing=north": {
-	      "model": "pokecube_legends:block/xerneas_tree.obj"
-	    },
-	    "facing=east": {
-	      "model": "pokecube_legends:block/xerneas_tree.obj",
-	      "y": 90
-	    },
-	    "facing=south": {
-	      "model": "pokecube_legends:block/xerneas_tree.obj",
-	      "y": 180
-	    },
-	    "facing=west": {
-	      "model": "pokecube_legends:block/xerneas_tree.obj",
-	      "y": 270
-	    },
-	    "facing=up": {
-	      "model": "pokecube_legends:block/xerneas_tree.obj",
-	      "x": 90
-	    },
-	    "facing=down": {
-	      "model": "pokecube_legends:block/xerneas_tree.obj",
-	      "x": 270
-	    },
-        "inventory": [{
-            "transform": {
-				"scale": 0.35,
-				"rotation": [
-					{
-						"x": 20
-					},
-					{
-						"y": -45
-					}
-				]
-			}
-        }]
+        "": {
+	      "model": "pokecube_legends:item/xerneas_tree.obj"
+	    }
     }
 }

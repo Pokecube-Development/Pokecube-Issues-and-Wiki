@@ -1,24 +1,21 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "RRR",
-        "RRR",
-        "RRR"
-    ],
-    
-    "key":
-    {
-        "R":
-        {
-            "item": "minecraft:magma"
-        }
+  "group": "pokecube_legends",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " 0 ",
+    "040",
+    " 0 "
+  ],
+  "key": {
+    "0": {
+      "tag": "minecraft:stone_bricks"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:magmabrick",
-        "count": 2
+    "4": {
+      "item": "minecraft:magma_block"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:magmabrick",
+    "count": 2
+  }
 }
