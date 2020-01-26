@@ -10,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
@@ -19,8 +18,7 @@ import pokecube.core.items.berries.ItemBerry;
 
 public class RepelTile extends InteractableTile
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(RepelTile::new,
-            PokecubeItems.REPELBLOCK).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public static int NESTSPAWNTYPES = 1;
 

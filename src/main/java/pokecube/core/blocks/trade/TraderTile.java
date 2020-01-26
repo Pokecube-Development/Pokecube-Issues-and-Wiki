@@ -19,7 +19,7 @@ import pokecube.core.inventory.trade.TradeContainer;
 
 public class TraderTile extends InteractableTile
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(TraderTile::new,
+    public static TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(TraderTile::new,
             PokecubeItems.TRADER).build(null);
 
     public final boolean[] confirmed = new boolean[2];

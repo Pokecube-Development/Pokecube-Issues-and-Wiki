@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.utils.PokecubeSerializer.TeleDest;
 import thut.api.entity.ThutTeleporter;
@@ -12,8 +11,7 @@ import thut.api.maths.Vector4;
 
 public class WarppadTile extends InteractableTile
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(WarppadTile::new,
-            PokecubeAdv.WARPPAD).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public static void warp(final Entity entityIn, final TeleDest dest)
     {

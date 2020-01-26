@@ -189,10 +189,11 @@
     "pokemob.createbase.deny.wrongloc": "§cYou cannot create a secret base on these blocks.",
     "pokemob.createbase.deny.noperms": "§cYou cannot create a secret base here.",
     "pokemob.createbase.confirmed": "§aSecret Base entrance set to %1$s!",
+    "pokecube.secretbase.exit.notinbase": "§cYou must be in a secret base to do that!",
     "pokemob.removebase.stale": "§cRemoved stale SecretBase Entrance.",
 
-    "pokecube.secretBase.exit": "Left the Secret Base",
-    "pokecube.secretBase.enter": "Use \"/pokebase exit\" to leave, or create an exit with secret power.",
+    "pokecube.secretbase.exit": "Left the Secret Base",
+    "pokecube.secretbase.enter": "Use \"/pokebase exit\" to leave, or create an exit with secret power.",
 
     "pokemob.action.sendout": "%1$s was sent out",
     "pokemob.action.return": "%1$s §ahas returned to the Pokécube",

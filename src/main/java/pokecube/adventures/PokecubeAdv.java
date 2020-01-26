@@ -142,6 +142,15 @@ public class PokecubeAdv
         @SubscribeEvent
         public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
+
+            AfaTile.TYPE = TileEntityType.Builder.create(AfaTile::new, PokecubeAdv.AFA).build(null);
+            CommanderTile.TYPE = TileEntityType.Builder.create(CommanderTile::new, PokecubeAdv.COMMANDER).build(null);
+            DaycareTile.TYPE = TileEntityType.Builder.create(DaycareTile::new, PokecubeAdv.DAYCARE).build(null);
+            ClonerTile.TYPE = TileEntityType.Builder.create(ClonerTile::new, PokecubeAdv.CLONER).build(null);
+            ExtractorTile.TYPE = TileEntityType.Builder.create(ExtractorTile::new, PokecubeAdv.EXTRACTOR).build(null);
+            SplicerTile.TYPE = TileEntityType.Builder.create(SplicerTile::new, PokecubeAdv.SPLICER).build(null);
+            SiphonTile.TYPE = TileEntityType.Builder.create(SiphonTile::new, PokecubeAdv.SIPHON).build(null);
+            WarppadTile.TYPE = TileEntityType.Builder.create(WarppadTile::new, PokecubeAdv.WARPPAD).build(null);
             // register tile entities
             event.getRegistry().register(AfaTile.TYPE.setRegistryName(PokecubeAdv.AFA.getRegistryName()));
             event.getRegistry().register(CommanderTile.TYPE.setRegistryName(PokecubeAdv.COMMANDER.getRegistryName()));
@@ -167,40 +176,44 @@ public class PokecubeAdv
 
     public static final String ID = "pokecube_adventures";
 
-    public static final Block AFA;
-    public static final Block COMMANDER;
-    public static final Block DAYCARE;
-    public static final Block CLONER;
-    public static final Block EXTRACTOR;
-    public static final Block SPLICER;
-    public static final Block SIPHON;
-    public static final Block WARPPAD;
+    public static Block AFA;
+    public static Block COMMANDER;
+    public static Block DAYCARE;
+    public static Block CLONER;
+    public static Block EXTRACTOR;
+    public static Block SPLICER;
+    public static Block SIPHON;
+    public static Block WARPPAD;
 
-    public static final Item EXPSHARE;
-    public static final Item LINKER;
-    public static final Item BAG;
+    public static Item EXPSHARE;
+    public static Item LINKER;
+    public static Item BAG;
 
     public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
 
-    static
+    static void init()
     {
-        AFA = new AfaBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID, "afa");
-        COMMANDER = new CommanderBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID,
-                "commander");
-        DAYCARE = new DaycareBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID, "daycare");
-        CLONER = new ClonerBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID, "cloner");
-        EXTRACTOR = new ExtractorBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID,
-                "extractor");
-        SPLICER = new SplicerBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID, "splicer");
-        SIPHON = new SiphonBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID, "siphon");
-        WARPPAD = new WarppadBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID, "warppad");
-
-        EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeAdv.ID,
-                "exp_share");
-        LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeAdv.ID,
-                "linker");
-        BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeAdv.ID,
-                "bag");
+        PokecubeAdv.AFA = new AfaBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID, "afa");
+        PokecubeAdv.COMMANDER = new CommanderBlock(Block.Properties.create(Material.IRON)).setRegistryName(
+                PokecubeAdv.ID, "commander");
+        PokecubeAdv.DAYCARE = new DaycareBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID,
+                "daycare");
+        PokecubeAdv.CLONER = new ClonerBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID,
+                "cloner");
+        PokecubeAdv.EXTRACTOR = new ExtractorBlock(Block.Properties.create(Material.IRON)).setRegistryName(
+                PokecubeAdv.ID, "extractor");
+        PokecubeAdv.SPLICER = new SplicerBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID,
+                "splicer");
+        PokecubeAdv.SIPHON = new SiphonBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID,
+                "siphon");
+        PokecubeAdv.WARPPAD = new WarppadBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.ID,
+                "warppad");
+        PokecubeAdv.EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(
+                PokecubeAdv.ID, "exp_share");
+        PokecubeAdv.LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(
+                PokecubeAdv.ID, "linker");
+        PokecubeAdv.BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(
+                PokecubeAdv.ID, "bag");
     }
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.ID + ":textures/trainer/";
@@ -217,6 +230,8 @@ public class PokecubeAdv
 
     public PokecubeAdv()
     {
+        // Initialize items and blocks
+        PokecubeAdv.init();
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::setup);
         // Register the doClientStuff method for modloading

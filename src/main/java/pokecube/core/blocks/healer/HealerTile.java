@@ -7,12 +7,10 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 
 public class HealerTile extends TileEntity implements ITickableTileEntity
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(HealerTile::new,
-            PokecubeItems.HEALER).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public static SoundEvent MUSICLOOP;
 

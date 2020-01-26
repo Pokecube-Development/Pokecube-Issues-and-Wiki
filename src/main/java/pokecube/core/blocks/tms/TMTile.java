@@ -15,7 +15,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -24,8 +23,7 @@ import pokecube.core.items.ItemTM;
 
 public class TMTile extends InteractableTile
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(TMTile::new,
-            PokecubeItems.TRADER).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public final Set<UUID> users = Sets.newHashSet();
 

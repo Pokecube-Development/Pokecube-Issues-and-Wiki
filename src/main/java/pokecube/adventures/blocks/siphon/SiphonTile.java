@@ -17,7 +17,6 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 
 public class SiphonTile extends InteractableTile implements ITickableTileEntity
@@ -29,51 +28,51 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
         public int                                 theoreticalOutput;
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(cap, holder);
+            return CapabilityEnergy.ENERGY.orEmpty(cap, this.holder);
         }
 
         @Override
         public CompoundNBT serializeNBT()
         {
-            CompoundNBT tag = new CompoundNBT();
-            tag.putInt("cO", currentOutput);
-            tag.putInt("tO", theoreticalOutput);
+            final CompoundNBT tag = new CompoundNBT();
+            tag.putInt("cO", this.currentOutput);
+            tag.putInt("tO", this.theoreticalOutput);
             return tag;
         }
 
         @Override
-        public void deserializeNBT(CompoundNBT nbt)
+        public void deserializeNBT(final CompoundNBT nbt)
         {
-            currentOutput = nbt.getInt("cO");
-            theoreticalOutput = nbt.getInt("yO");
+            this.currentOutput = nbt.getInt("cO");
+            this.theoreticalOutput = nbt.getInt("yO");
         }
 
         @Override
-        public int receiveEnergy(int maxReceive, boolean simulate)
+        public int receiveEnergy(final int maxReceive, final boolean simulate)
         {
             return 0;
         }
 
         @Override
-        public int extractEnergy(int maxExtract, boolean simulate)
+        public int extractEnergy(final int maxExtract, final boolean simulate)
         {
-            int output = Math.min(maxExtract, currentOutput);
-            if (!simulate) currentOutput -= output;
+            final int output = Math.min(maxExtract, this.currentOutput);
+            if (!simulate) this.currentOutput -= output;
             return output;
         }
 
         @Override
         public int getEnergyStored()
         {
-            return currentOutput;
+            return this.currentOutput;
         }
 
         @Override
         public int getMaxEnergyStored()
         {
-            return theoreticalOutput;
+            return this.theoreticalOutput;
         }
 
         @Override
@@ -90,8 +89,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
 
     }
 
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(SiphonTile::new,
-            PokecubeAdv.SIPHON).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public AxisAlignedBB   box;
     public List<MobEntity> mobs       = Lists.newArrayList();
@@ -111,6 +109,6 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
     @Override
     public void tick()
     {
-        if (!world.isRemote) MinecraftForge.EVENT_BUS.post(new SiphonTickEvent(this));
+        if (!this.world.isRemote) MinecraftForge.EVENT_BUS.post(new SiphonTickEvent(this));
     }
 }

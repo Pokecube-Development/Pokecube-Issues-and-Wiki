@@ -79,6 +79,7 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.feature.scattered.ConfigStructurePiece;
 import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
 import pokecube.mobloader.MobLoader;
@@ -102,6 +103,7 @@ public class PokecubeCore
         public static void registerBiomes(final RegistryEvent.Register<Biome> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
+            SecretBaseDimension.BIOME = new SecretBiome();
             event.getRegistry().register(SecretBaseDimension.BIOME);
         }
 
@@ -351,6 +353,9 @@ public class PokecubeCore
     public PokecubeCore()
     {
         PokecubeMod.setLogger(PokecubeCore.LOGGER);
+
+        // Initialize the items and blocks.
+        PokecubeItems.init();
 
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeCore.config, PokecubeCore.MODID, PokecubeCore.MODID);
