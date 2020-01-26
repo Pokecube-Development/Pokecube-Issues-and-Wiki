@@ -18,13 +18,7 @@
             }
           ],
           "name":"pokecube:fossil_omanyte"
-        }
-      ]
-    },
-    { 
-      "name":"pool_1",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -38,13 +32,7 @@
             }
           ],
           "name":"pokecube:fossil_kabuto"
-        }
-      ]
-    },
-    { 
-      "name":"pool_2",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -58,13 +46,7 @@
             }
           ],
           "name":"pokecube:fossil_aerodactyl"
-        }
-      ]
-    },
-    { 
-      "name":"pool_3",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -78,13 +60,7 @@
             }
           ],
           "name":"pokecube:fossil_lileep"
-        }
-      ]
-    },
-    { 
-      "name":"pool_4",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -98,13 +74,7 @@
             }
           ],
           "name":"pokecube:fossil_anorith"
-        }
-      ]
-    },
-    { 
-      "name":"pool_5",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -118,13 +88,7 @@
             }
           ],
           "name":"pokecube:fossil_cranidos"
-        }
-      ]
-    },
-    { 
-      "name":"pool_6",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -137,14 +101,8 @@
               "function":"minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_sheildon"
-        }
-      ]
-    },
-    { 
-      "name":"pool_7",
-      "rolls":1,
-      "entries":[ 
+          "name":"pokecube:fossil_shieldon"
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -158,13 +116,7 @@
             }
           ],
           "name":"pokecube:fossil_archen"
-        }
-      ]
-    },
-    { 
-      "name":"pool_8",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -178,13 +130,7 @@
             }
           ],
           "name":"pokecube:fossil_tirtouga"
-        }
-      ]
-    },
-    { 
-      "name":"pool_9",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -198,13 +144,7 @@
             }
           ],
           "name":"pokecube:fossil_tyrunt"
-        }
-      ]
-    },
-    { 
-      "name":"pool_a",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -218,13 +158,7 @@
             }
           ],
           "name":"pokecube:fossil_amaura"
-        }
-      ]
-    },
-    { 
-      "name":"pool_b",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -238,13 +172,7 @@
             }
           ],
           "name":"pokecube:fossil_dracozolt"
-        }
-      ]
-    },
-    { 
-      "name":"pool_c",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -258,13 +186,7 @@
             }
           ],
           "name":"pokecube:fossil_arctozolt"
-        }
-      ]
-    },
-    { 
-      "name":"pool_d",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 
@@ -278,13 +200,7 @@
             }
           ],
           "name":"pokecube:fossil_dracovish"
-        }
-      ]
-    },
-    { 
-      "name":"pool_e",
-      "rolls":1,
-      "entries":[ 
+        },
         { 
           "type":"minecraft:item",
           "functions":[ 

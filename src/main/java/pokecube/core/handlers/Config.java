@@ -358,34 +358,33 @@ public class Config extends ConfigData
     // World Gen and World effect settings
     @Configure(category = Config.world)
     /** do meteors fall. */
-    public boolean meteors              = true;
+    public boolean      meteors                = true;
     @Configure(category = Config.world)
-    public int     meteorDistance       = 3000;
+    public int          meteorDistance         = 3000;
     @Configure(category = Config.world)
-    public int     meteorRadius         = 64;
+    public int          meteorRadius           = 64;
     @Configure(category = Config.world)
-    public boolean doSpawnBuilding      = true;
+    public boolean      doSpawnBuilding        = true;
     @Configure(category = Config.world)
-    public boolean basesLoaded          = true;
+    public boolean      basesLoaded            = true;
     @Configure(category = Config.world)
-    public boolean autoPopulateLists    = true;
+    public boolean      autoPopulateLists      = true;
     @Configure(category = Config.world)
-    public boolean refreshSubbiomes     = false;
+    public boolean      refreshSubbiomes       = false;
     @Configure(category = Config.world)
-    public boolean autoAddNullBerries   = false;
+    public boolean      autoAddNullBerries     = false;
     @Configure(category = Config.world)
-    public int     cropGrowthTicks      = 75;
+    public int          cropGrowthTicks        = 75;
     @Configure(category = Config.world)
-    public int     leafBerryTicks       = 75;
+    public int          leafBerryTicks         = 75;
     @Configure(category = Config.world)
-    public boolean autoDetectSubbiomes  = true;
+    public boolean      autoDetectSubbiomes    = true;
     @Configure(category = Config.world)
-    public boolean generateFossils      = true;
+    public boolean      generateFossils        = true;
     @Configure(category = Config.world)
-    public boolean villagePokecenters   = true;
+    public boolean      villagePokecenters     = true;
     @Configure(category = Config.world)
-    public boolean chunkLoadPokecenters = true;
-
+    public boolean      chunkLoadPokecenters   = true;
     @Configure(category = Config.world)
     public String       baseSizeFunction       = "8 + c/10 + h/10 + k/20";
     @Configure(category = Config.world)
@@ -397,6 +396,7 @@ public class Config extends ConfigData
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)
     public int          spawnDimension         = 0;
+
     // Mob Spawning settings
     @Configure(category = Config.spawning)
     /** Do monsters not spawn. */
