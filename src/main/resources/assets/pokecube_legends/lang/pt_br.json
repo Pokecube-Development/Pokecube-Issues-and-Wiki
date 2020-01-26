@@ -2,7 +2,7 @@
     "_comment": "Pokecube Legends translation",
 
     "": "/pokecubes",
-    "item.pokecube_legends.beastcube": "Beast Cube",
+    "item.pokecube.beastcube": "Beast Cube",
 
     "": "/Alert Pokemon Legendary Capture",
     "msg.infolegend.txt": "§aCapture [%1$s§a] Type Pokemob so he can Trust You. Needs: %2$s. §aOwn: %3$s.",
