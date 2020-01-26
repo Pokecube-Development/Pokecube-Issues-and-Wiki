@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.old;
+package thut.core.client.render.tabula.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,13 +14,14 @@ import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.core.client.render.model.IModel;
 import thut.core.client.render.tabula.json.TblJson;
 import thut.core.common.ThutCore;
 
 public class TabulaModelParser
 {
     @OnlyIn(Dist.CLIENT)
-    public static ModelJson<?> load(final ResourceLocation model)
+    public static IModel load(final ResourceLocation model)
     {
         try
         {
@@ -42,7 +43,7 @@ public class TabulaModelParser
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static ModelJson<?> parse(final String json) throws IOException
+    public static IModel parse(final String json) throws IOException
     {
         TblJson tabulaModel = null;
         final InputStream in = IOUtils.toInputStream(json, "UTF-8");

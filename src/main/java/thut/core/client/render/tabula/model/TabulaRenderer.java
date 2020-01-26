@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.old;
+package thut.core.client.render.tabula.model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -95,8 +95,11 @@ public class TabulaRenderer implements IExtendedModelPart, IRetexturableModel
         this.hidden = cubeInfo.hidden;
 
         final RendererModel dummy = new RendererModel(this.model, cubeInfo.txOffset[0], cubeInfo.txOffset[1]);
+        dummy.textureHeight = modelBase.textureHeight;
+        dummy.textureWidth = modelBase.textureWidth;
+        System.out.println(dummy.textureHeight + " " + dummy.textureWidth);
         // Use cubeInfo.mcScale as the scale, this lets it work properly.
-        this.cubeList.add(new ModelBox(dummy, cubeInfo.txOffset[0], cubeInfo.txOffset[1], (float) cubeInfo.offset[0],
+        this.cubeList.add(new TblModelBox(dummy, cubeInfo.txOffset[0], cubeInfo.txOffset[1], (float) cubeInfo.offset[0],
                 (float) cubeInfo.offset[1], (float) cubeInfo.offset[2], cubeInfo.dimensions[0], cubeInfo.dimensions[1],
                 cubeInfo.dimensions[2], (float) cubeInfo.mcScale));
     }

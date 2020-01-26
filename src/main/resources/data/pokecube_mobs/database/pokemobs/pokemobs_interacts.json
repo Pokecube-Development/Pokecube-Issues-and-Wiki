@@ -6686,7 +6686,12 @@
     {
       "name": "Giratina",
       "stats": {
-        "species": "Renegade"
+        "species": "Renegade",
+        "formeItems": {
+          "values": {
+            "forme": "NGiratina Origin:Igriseousorb"
+          }
+        }
       }
     },
     {
@@ -11250,11 +11255,11 @@
       "name": "Zacian",
       "stats": {
         "species": "Wolf",
-		"megaRules": [
-          {
-            "name": "Zacian Crowned",
-            "item_preset": "rustedsword"
+        "formeItems": {
+          "values": {
+            "forme": "NZacian Crowned:Irustedsword"
           }
+        }
         ]
       }
     },
@@ -11262,11 +11267,11 @@
       "name": "Zamazenta",
       "stats": {
         "species": "Wolf",
-		"megaRules": [
-          {
-            "name": "Zamazenta Crowned",
-            "item_preset": "rustedshield"
+        "formeItems": {
+          "values": {
+            "forme": "NZamazenta Crowned:Irustedshield"
           }
+        }
         ]
       }
     },

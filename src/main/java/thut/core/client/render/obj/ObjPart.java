@@ -1,11 +1,10 @@
-package thut.core.client.render.tabula;
+package thut.core.client.render.obj;
 
 import thut.core.client.render.model.parts.Part;
 
-public class TblPart extends Part
+public class ObjPart extends Part
 {
-
-    public TblPart(final String name)
+    public ObjPart(final String name)
     {
         super(name);
     }
@@ -13,7 +12,7 @@ public class TblPart extends Part
     @Override
     public String getType()
     {
-        return "tbl";
+        return ".obj";
     }
 
 }

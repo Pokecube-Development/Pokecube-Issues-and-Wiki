@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.old;
+package thut.core.client.render.tabula.model;
 
 import java.util.ArrayList;
 import java.util.List;

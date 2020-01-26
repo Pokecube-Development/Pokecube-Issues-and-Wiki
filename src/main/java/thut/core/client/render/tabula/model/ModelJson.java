@@ -1,4 +1,4 @@
-package thut.core.client.render.tabula.old;
+package thut.core.client.render.tabula.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
+import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.tabula.json.CubeGroup;
 import thut.core.client.render.tabula.json.CubeInfo;
@@ -57,9 +58,6 @@ public class ModelJson<T extends Entity> extends TabulaModelBase<T> implements I
 
     public IPartTexturer     texturer;
     public IAnimationChanger changer;
-
-    private String modelName;
-    private String authorName;
 
     final Set<String> head = Sets.newHashSet();
     final HeadInfo    info = new HeadInfo();
@@ -151,22 +149,9 @@ public class ModelJson<T extends Entity> extends TabulaModelBase<T> implements I
     }
 
     @Override
-    public String getAuthor()
-    {
-        return this.authorName;
-    }
-
-    @Override
     public Set<String> getBuiltInAnimations()
     {
         return this.animationMap.keySet();
-    }
-
-    @Override
-    public int getCubeCount()
-    {
-        // TODO Auto-generated method stub
-        return 0;
     }
 
     @Override
@@ -179,12 +164,6 @@ public class ModelJson<T extends Entity> extends TabulaModelBase<T> implements I
     public Set<String> getHeadParts()
     {
         return this.head;
-    }
-
-    @Override
-    public String getName()
-    {
-        return this.modelName;
     }
 
     @Override
