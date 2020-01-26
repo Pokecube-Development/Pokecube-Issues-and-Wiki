@@ -3,10 +3,8 @@ package pokecube.core.handlers;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -360,62 +358,33 @@ public class Config extends ConfigData
     // World Gen and World effect settings
     @Configure(category = Config.world)
     /** do meteors fall. */
-    public boolean      meteors              = true;
+    public boolean      meteors                = true;
     @Configure(category = Config.world)
-    public int          meteorDistance       = 3000;
+    public int          meteorDistance         = 3000;
     @Configure(category = Config.world)
-    public int          meteorRadius         = 64;
+    public int          meteorRadius           = 64;
     @Configure(category = Config.world)
-    public boolean      doSpawnBuilding      = true;
+    public boolean      doSpawnBuilding        = true;
     @Configure(category = Config.world)
-    public boolean      basesLoaded          = true;
+    public boolean      basesLoaded            = true;
     @Configure(category = Config.world)
-    public boolean      autoPopulateLists    = true;
+    public boolean      autoPopulateLists      = true;
     @Configure(category = Config.world)
-    public boolean      refreshSubbiomes     = false;
+    public boolean      refreshSubbiomes       = false;
     @Configure(category = Config.world)
-    public List<String> blocksStones         = Lists.newArrayList(new String[] { "minecraft:stone variant=stone",
-            "minecraft:stone variant=granite", "minecraft:stone variant=diorite", "minecraft:stone variant=andesite",
-            "minecraft:netherrack", "minecraft:sandstone type=sandstone", "minecraft:red_sandstone type=red_sandstone",
-            "minecraft:cobblestone" });
+    public boolean      autoAddNullBerries     = false;
     @Configure(category = Config.world)
-    public List<String> blocksOre            = Lists.newArrayList(new String[] { ".*:.*_ore", ".*:ore*", ".*:ore" });
+    public int          cropGrowthTicks        = 75;
     @Configure(category = Config.world)
-    public List<String> blocksGround         = Lists.newArrayList(new String[] { "minecraft:sand", "minecraft:gravel",
-            "minecraft:stained_hardened_clay", "minecraft:hardened_clay", "minecraft:dirt", "minecraft:grass" });
+    public int          leafBerryTicks         = 75;
     @Configure(category = Config.world)
-    public List<String> blocksWood           = Lists.newArrayList();
+    public boolean      autoDetectSubbiomes    = true;
     @Configure(category = Config.world)
-    public List<String> blocksLeaves         = Lists.newArrayList();
+    public boolean      generateFossils        = true;
     @Configure(category = Config.world)
-    public List<String> blocksPlants         = Lists.newArrayList(new String[] { "minecraft:double_plant",
-            "minecraft:red_flower", "minecraft:yellow_flower", "minecraft:tallgrass", "minecraft:deadbush",
-            "minecraft:wheat", "minecraft:carrots", "minecraft:potatoes", "pokecube:berryfruit" });
+    public boolean      villagePokecenters     = true;
     @Configure(category = Config.world)
-    public List<String> blocksFruits         = Lists.newArrayList(new String[] { "minecraft:wheat age=7",
-            "minecraft:nether_wart age=3", "minecraft:carrots age=7", "minecraft:potatoes age=7",
-            "minecraft:melon_block", "minecraft:pumpkin", "pokecube:berryfruit" });
-    @Configure(category = Config.world)
-    public List<String> blocksTerrain        = Lists.newArrayList();
-    @Configure(category = Config.world)
-    public List<String> blocksIndustrial     = Lists.newArrayList(new String[] { "minecraft:redstone_block",
-            "minecraft:furnace", "minecraft:lit_furnace", "minecraft:piston", "minecraft:sticky_piston",
-            "minecraft:dispenser", "minecraft:dropper", "minecraft:hopper", "minecraft:anvil" });
-    @Configure(category = Config.world)
-    public boolean      autoAddNullBerries   = false;
-    @Configure(category = Config.world)
-    public int          cropGrowthTicks      = 75;
-    @Configure(category = Config.world)
-    public int          leafBerryTicks       = 75;
-    @Configure(category = Config.world)
-    public boolean      autoDetectSubbiomes  = true;
-    @Configure(category = Config.world)
-    public boolean      generateFossils      = true;
-    @Configure(category = Config.world)
-    public boolean      villagePokecenters   = true;
-    @Configure(category = Config.world)
-    public boolean      chunkLoadPokecenters = true;
-
+    public boolean      chunkLoadPokecenters   = true;
     @Configure(category = Config.world)
     public String       baseSizeFunction       = "8 + c/10 + h/10 + k/20";
     @Configure(category = Config.world)
@@ -427,6 +396,7 @@ public class Config extends ConfigData
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)
     public int          spawnDimension         = 0;
+
     // Mob Spawning settings
     @Configure(category = Config.spawning)
     /** Do monsters not spawn. */
@@ -649,79 +619,14 @@ public class Config extends ConfigData
     @Configure(category = Config.items)
     public List<String> customFossils   = Lists.newArrayList();
 
-    /** List of blocks to be considered for the floor of a cave. */
-    private final List<Predicate<BlockState>> caveBlocks    = Lists.newArrayList();
-    /** List of blocks to be considered for the surface. */
-    private final List<Predicate<BlockState>> surfaceBlocks = Lists.newArrayList();
-    /**
-     * List of blocks to be considered to be rocks for the purpose of rocksmash
-     * and lithovore eating
-     */
-    private final List<Predicate<BlockState>> rocks         = Lists.newArrayList();
-    /**
-     * List of blocks to be considered to be generic terrain, for dig to reduce
-     * drop rates for
-     */
-    private final List<Predicate<BlockState>> terrain       = Lists.newArrayList();
-    private final List<Predicate<BlockState>> woodTypes     = Lists.newArrayList();
-    private final List<Predicate<BlockState>> plantTypes    = Lists.newArrayList();
-    private final List<Predicate<BlockState>> fruitTypes    = Lists.newArrayList();
-    private final List<Predicate<BlockState>> dirtTypes     = Lists.newArrayList();
-    private final List<Predicate<BlockState>> industrial    = Lists.newArrayList();
-
     public Config()
     {
         super(PokecubeCore.MODID);
     }
 
-    public List<Predicate<BlockState>> getCaveBlocks()
-    {
-        return this.caveBlocks;
-    }
-
-    public List<Predicate<BlockState>> getDirtTypes()
-    {
-        return this.dirtTypes;
-    }
-
-    public List<Predicate<BlockState>> getFruitTypes()
-    {
-        return this.fruitTypes;
-    }
-
-    public List<Predicate<BlockState>> getIndustrial()
-    {
-        return this.industrial;
-    }
-
-    public List<Predicate<BlockState>> getPlantTypes()
-    {
-        return this.plantTypes;
-    }
-
-    public List<Predicate<BlockState>> getRocks()
-    {
-        return this.rocks;
-    }
-
-    public List<Predicate<BlockState>> getSurfaceBlocks()
-    {
-        return this.surfaceBlocks;
-    }
-
-    public List<Predicate<BlockState>> getTerrain()
-    {
-        return this.terrain;
-    }
-
-    public List<Predicate<BlockState>> getWoodTypes()
-    {
-        return this.woodTypes;
-    }
-
     public void initDefaultStarts()
     {
-        // TODO process starter info.
+        // // TODO process starter info.
         // FMLCommonHandler.callFuture(new FutureTask<Object>(new
         // Callable<Object>()
         // {

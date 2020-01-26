@@ -76,9 +76,16 @@ public final class SpawnHandler
         }
     }
 
-    public static enum ForbidReason
+    public static class ForbidReason
     {
-        NONE, REPEL, NEST;
+        public static final ForbidReason NONE, REPEL, NEST;
+
+        static
+        {
+            NONE = new ForbidReason();
+            REPEL = new ForbidReason();
+            NEST = new ForbidReason();
+        }
     }
 
     public static Variance                                    DEFAULT_VARIANCE        = new Variance();

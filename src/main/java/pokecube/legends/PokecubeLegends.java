@@ -75,6 +75,7 @@ public class PokecubeLegends
     {
         thut.core.common.config.Config.setupConfigs(PokecubeLegends.config, PokecubeCore.MODID, Reference.ID);
         MinecraftForge.EVENT_BUS.register(this);
+        PokecubeCore.POKEMOB_BUS.register(this);
         // DimensionInit.initDimension();
         // Register setup for proxy
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeLegends.proxy::setup);

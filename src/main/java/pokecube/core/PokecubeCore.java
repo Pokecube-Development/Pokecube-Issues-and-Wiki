@@ -26,11 +26,14 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
@@ -49,6 +52,7 @@ import pokecube.core.client.ClientProxy;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
@@ -111,6 +115,16 @@ public class PokecubeCore
         public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Features");
+
+            // Register the fossil stone spawning.
+            if (PokecubeCore.config.generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())
+            {
+                if (!(SpawnBiomeMatcher.contains(b, Type.SANDY) || SpawnBiomeMatcher.contains(b, Type.OCEAN))) continue;
+                // Currently this uses same settings as gold ore.
+                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE,
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE
+                                .getDefaultState(), 9), Placement.COUNT_RANGE, new CountRangeConfig(2, 0, 0, 32)));
+            }
 
             // Register the general structure piece we use
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);

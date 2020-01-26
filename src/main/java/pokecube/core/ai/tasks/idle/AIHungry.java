@@ -3,6 +3,7 @@ package pokecube.core.ai.tasks.idle;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -205,8 +206,8 @@ public class AIHungry extends AIBase
         // Look for nearby rocks.
         if (!PokecubeTerrainChecker.isRock(state))
         {
-            final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, PokecubeCore
-                    .getConfig().getRocks());
+            final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
+            final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, checker);
             if (temp != null)
             {
                 this.block = true;
@@ -428,8 +429,8 @@ public class AIHungry extends AIBase
             this.block = false;
             this.v.set(this.entity).add(0, this.entity.getHeight(), 0);
 
-            final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, PokecubeCore
-                    .getConfig().getRocks());
+            final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
+            final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, checker);
             if (temp != null)
             {
                 this.block = true;
@@ -521,8 +522,8 @@ public class AIHungry extends AIBase
         {
             if (!this.block && this.pokemob.isHerbivore())
             {
-                final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, PokecubeCore
-                        .getConfig().getPlantTypes());
+                final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isPlant(b2);
+                final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, checker);
                 if (temp != null)
                 {
                     this.block = true;

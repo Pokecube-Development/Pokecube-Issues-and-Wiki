@@ -2,11 +2,11 @@ package pokecube.core.world.terrain;
 
 import java.util.Map;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -15,6 +15,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
@@ -25,6 +26,16 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
 {
     public static BiomeType INSIDE = BiomeType.getBiome("inside", true);
 
+    public static ResourceLocation CAVETAG       = new ResourceLocation(PokecubeCore.MODID, "cave");
+    public static ResourceLocation FRUITTAG      = new ResourceLocation(PokecubeCore.MODID, "fruit");
+    public static ResourceLocation GROUNDTAG     = new ResourceLocation(PokecubeCore.MODID, "ground");
+    public static ResourceLocation INDUSTRIALTAG = new ResourceLocation(PokecubeCore.MODID, "industrial");
+    public static ResourceLocation PLANTTAG      = new ResourceLocation(PokecubeCore.MODID, "plants");
+    public static ResourceLocation ROCKTAG       = new ResourceLocation(PokecubeCore.MODID, "rocks");
+    public static ResourceLocation SURFACETAG    = new ResourceLocation(PokecubeCore.MODID, "surface");
+    public static ResourceLocation TERRAINTAG    = new ResourceLocation(PokecubeCore.MODID, "terrain");
+    public static ResourceLocation WOODTAG       = new ResourceLocation(PokecubeCore.MODID, "wood");
+
     public static Map<String, String> structureSubbiomeMap = Maps.newHashMap();
 
     public static void init()
@@ -33,80 +44,54 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         TerrainSegment.defaultChecker = checker;
     }
 
-    public static boolean isCave(BlockState state)
+    public static boolean isCave(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getCaveBlocks())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.CAVETAG, state);
     }
 
-    public static boolean isDirt(BlockState state)
+    public static boolean isGround(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getDirtTypes())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.GROUNDTAG, state);
     }
 
-    public static boolean isFruit(BlockState state)
+    public static boolean isFruit(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getFruitTypes())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.FRUITTAG, state);
     }
 
-    public static boolean isIndustrial(BlockState state)
+    public static boolean isIndustrial(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getIndustrial())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.INDUSTRIALTAG, state);
     }
 
-    public static boolean isPlant(BlockState state)
+    public static boolean isPlant(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getPlantTypes())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.PLANTTAG, state);
     }
 
-    public static boolean isRock(BlockState state)
+    public static boolean isRock(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getRocks())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.ROCKTAG, state);
     }
 
-    public static boolean isSurface(BlockState state)
+    public static boolean isSurface(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getSurfaceBlocks())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.SURFACETAG, state);
     }
 
-    public static boolean isTerrain(BlockState state)
+    public static boolean isTerrain(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getTerrain())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.TERRAINTAG, state);
     }
 
-    public static boolean isWood(BlockState state)
+    public static boolean isWood(final BlockState state)
     {
-        if (state.getMaterial() == Material.AIR) return false;
-        for (final Predicate<BlockState> predicate : PokecubeCore.getConfig().getWoodTypes())
-            if (predicate.apply(state)) return true;
-        return false;
+        return PokecubeItems.is(PokecubeTerrainChecker.WOODTAG, state);
     }
 
     @Override
-    public int getSubBiome(World world, Vector3 v, TerrainSegment segment, Chunk chunk, boolean caveAdjusted)
+    public int getSubBiome(final World world, final Vector3 v, final TerrainSegment segment, final Chunk chunk,
+            final boolean caveAdjusted)
     {
         if (caveAdjusted)
         {
@@ -206,12 +191,12 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         return biome;
     }
 
-    public boolean isCave(Vector3 v, World world)
+    public boolean isCave(final Vector3 v, final World world)
     {
         return this.isCaveFloor(v, world) && this.isCaveCeiling(v, world);
     }
 
-    public boolean isCaveCeiling(Vector3 v, World world)
+    public boolean isCaveCeiling(final Vector3 v, final World world)
     {
         final double y = v.getMaxY(world);
         if (y <= v.y) return false;
@@ -223,7 +208,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         return PokecubeTerrainChecker.isCave(state);
     }
 
-    public boolean isCaveFloor(Vector3 v, World world)
+    public boolean isCaveFloor(final Vector3 v, final World world)
     {
         final BlockState state = v.getBlockState(world);
         if (state.getMaterial().isSolid()) return PokecubeTerrainChecker.isCave(state);
