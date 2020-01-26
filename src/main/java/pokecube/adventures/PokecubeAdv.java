@@ -22,6 +22,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -51,6 +52,7 @@ import pokecube.adventures.items.bag.BagItem;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.utils.PokeType;
+import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
 
 @Mod(value = PokecubeAdv.ID)
@@ -244,5 +246,16 @@ public class PokecubeAdv
 
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeAdv.config, PokecubeCore.MODID, PokecubeAdv.ID);
+    }
+
+    @SubscribeEvent
+    /**
+     * Register the commands.
+     *
+     * @param event
+     */
+    public void serverStarting(final FMLServerStartingEvent event)
+    {
+        CommandConfigs.register(PokecubeAdv.config, event.getCommandDispatcher());
     }
 }

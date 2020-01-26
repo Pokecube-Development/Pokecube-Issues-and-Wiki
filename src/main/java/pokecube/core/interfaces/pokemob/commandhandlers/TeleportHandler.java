@@ -20,10 +20,9 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import pokecube.core.utils.PokecubeSerializer.TeleDest;
-import thut.api.maths.Vector3;
+import thut.api.entity.ThutTeleporter;
 import thut.api.maths.Vector4;
 import thut.core.common.commands.CommandTools;
-import thut.core.common.entity.Transporter;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class TeleportHandler extends DefaultHandler
@@ -33,17 +32,17 @@ public class TeleportHandler extends DefaultHandler
 
     public static Predicate<ItemStack> VALIDTELEITEMS = t -> t.getItem() == Items.ENDER_PEARL;
 
-    public static int getTeleIndex(String uuid)
+    public static int getTeleIndex(final String uuid)
     {
         return PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerData.class).getTeleIndex();
     }
 
-    public static TeleDest getTeleport(String uuid)
+    public static TeleDest getTeleport(final String uuid)
     {
         return TeleportHandler.getTeleport(uuid, TeleportHandler.getTeleIndex(uuid));
     }
 
-    public static TeleDest getTeleport(String uuid, int teleIndex)
+    public static TeleDest getTeleport(final String uuid, final int teleIndex)
     {
         final List<TeleDest> list = TeleportHandler.getTeleports(uuid);
         for (final TeleDest dest : list)
@@ -51,7 +50,7 @@ public class TeleportHandler extends DefaultHandler
         return null;
     }
 
-    public static List<TeleDest> getTeleports(String uuid)
+    public static List<TeleDest> getTeleports(final String uuid)
     {
         return PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerData.class).getTeleDests();
     }
@@ -63,12 +62,12 @@ public class TeleportHandler extends DefaultHandler
             TeleportHandler.invalidDests.add(new Integer(i));
     }
 
-    public static void renameTeleport(String uuid, int index, String customName)
+    public static void renameTeleport(final String uuid, final int index, final String customName)
     {
         TeleportHandler.getTeleport(uuid, index).setName(customName);
     }
 
-    public static void setTeleIndex(String uuid, int index)
+    public static void setTeleIndex(final String uuid, int index)
     {
         final List<?> list = TeleportHandler.getTeleports(uuid);
         if (index < 0) index = list.size() - 1;
@@ -76,7 +75,7 @@ public class TeleportHandler extends DefaultHandler
         PlayerDataHandler.getInstance().getPlayerData(uuid).getData(PokecubePlayerData.class).setTeleIndex(index);
     }
 
-    public static void setTeleport(String uuid, TeleDest teleport)
+    public static void setTeleport(final String uuid, final TeleDest teleport)
     {
         boolean set = false;
         final List<TeleDest> list = TeleportHandler.getTeleports(uuid);
@@ -101,13 +100,13 @@ public class TeleportHandler extends DefaultHandler
             list.get(i).index = i;
     }
 
-    public static void setTeleport(Vector4 v, String uuid)
+    public static void setTeleport(final Vector4 v, final String uuid)
     {
         final TeleDest d = new TeleDest(v);
         TeleportHandler.setTeleport(uuid, d);
     }
 
-    public static void swapTeleports(String uuid, int index1, int index2)
+    public static void swapTeleports(final String uuid, final int index1, final int index2)
     {
         final List<TeleDest> teleports = TeleportHandler.getTeleports(uuid);
         if (index1 < 0 || index1 >= teleports.size() || index2 < 0 || index2 >= teleports.size()) return;
@@ -121,7 +120,7 @@ public class TeleportHandler extends DefaultHandler
             teleports.get(i).index = i;
     }
 
-    public static void unsetTeleport(int index, String uuid)
+    public static void unsetTeleport(final int index, final String uuid)
     {
         final TeleDest dest = TeleportHandler.getTeleport(uuid, index);
         final List<TeleDest> list = TeleportHandler.getTeleports(uuid);
@@ -131,12 +130,11 @@ public class TeleportHandler extends DefaultHandler
     }
 
     @Override
-    public void handleCommand(IPokemob pokemob) throws Exception
+    public void handleCommand(final IPokemob pokemob) throws Exception
     {
         final ServerPlayerEntity player = (ServerPlayerEntity) pokemob.getOwner();
         final TeleDest d = TeleportHandler.getTeleport(player.getCachedUniqueIdString());
         if (d == null) return;
-        final Vector3 loc = d.getLoc();
         final Integer dim = d.getDim();
         final Integer oldDim = player.dimension.getId();
         int needed = PokecubeCore.getConfig().telePearlsCostSameDim;
@@ -190,6 +188,6 @@ public class TeleportHandler extends DefaultHandler
                 .getDisplayName(), attackName);
         if (this.fromOwner()) pokemob.displayMessageToOwner(text);
         EventsHandler.recallAllPokemobsExcluding(player, null, false);
-        Transporter.teleportEntity(player, loc, dim, false);
+        ThutTeleporter.transferTo(player, d.loc, true);
     }
 }
