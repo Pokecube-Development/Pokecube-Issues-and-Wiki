@@ -79,24 +79,24 @@
     <component length="10" name="2" rotChange="-2,0,0," startKey="10"/>
    </part>
    <part name="wing1">
-    <component length="5" name="1" rotChange="0,0,12," startKey="0"/>
-    <component length="5" name="2" rotChange="0,0,-24," startKey="5"/>
-    <component length="5" name="3" rotChange="0,0,12," startKey="10"/>
+    <component length="10" name="1" rotChange="0,0,35" rotOffset="10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-75" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,35" startKey="10"/>
    </part>
    <part name="wing1_1">
-    <component length="9" name="1" rotChange="0,0,-12," startKey="0"/>
-    <component length="9" name="2" rotChange="0,0,24," startKey="5"/>
-    <component length="9" name="3" rotChange="0,0,-12," startKey="10"/>
+    <component length="10" name="1" rotChange="0,0,20" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-40" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,20" startKey="10"/>
    </part>
    <part name="wing2">
-    <component length="5" name="1" rotChange="0,0,-12," startKey="0"/>
-    <component length="5" name="2" rotChange="0,0,24," startKey="5"/>
-    <component length="5" name="3" rotChange="0,0,-12," startKey="10"/>
+    <component length="10" name="1" rotChange="0,0,-35" rotOffset="10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,75" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,-35" startKey="10"/>
    </part>
    <part name="wing2_1">
-    <component length="9" name="1" rotChange="0,0,12," startKey="0"/>
-    <component length="9" name="2" rotChange="0,0,-24," startKey="5"/>
-    <component length="9" name="3" rotChange="0,0,12," startKey="10"/>
+    <component length="10" name="1" rotChange="0,0,-20" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,40" startKey="5"/>
+    <component length="10" name="3" rotChange="0,0,-20" startKey="10"/>
    </part>
    <part name="neck1">
     <component length="1" name="1" rotOffset="-10,0,0," startKey="0"/>

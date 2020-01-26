@@ -30,6 +30,8 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.Vertex;
+import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.x3d.X3dXML.Appearance;
@@ -51,13 +53,13 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         this.valid = false;
     }
 
-    public X3dModel(ResourceLocation l)
+    public X3dModel(final ResourceLocation l)
     {
         this();
         this.loadModel(l);
     }
 
-    private void addChildren(Set<Transform> allTransforms, Transform transform)
+    private void addChildren(final Set<Transform> allTransforms, final Transform transform)
     {
         for (final Transform f : transform.transforms)
             if (!f.DEF.contains("ifs_TRANSFORM"))
@@ -68,8 +70,8 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void applyAnimation(Entity entity, IAnimationHolder animate, IModelRenderer<?> renderer, float partialTicks,
-            float limbSwing)
+    public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
+            final float partialTicks, final float limbSwing)
     {
         this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks, this.getHeadInfo().headYaw,
                 this.getHeadInfo().headYaw, limbSwing);
@@ -87,7 +89,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         return this.heads;
     }
 
-    private Material getMaterial(X3dXML.Appearance appearance)
+    private Material getMaterial(final X3dXML.Appearance appearance)
     {
         final X3dXML.Material mat = appearance.material;
         if (mat == null) return null;
@@ -129,7 +131,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         return this.parts;
     }
 
-    private boolean isHead(String partName)
+    private boolean isHead(final String partName)
     {
         return this.getHeadParts().contains(partName);
     }
@@ -140,7 +142,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         return this.valid;
     }
 
-    public void loadModel(ResourceLocation model)
+    public void loadModel(final ResourceLocation model)
     {
         this.valid = true;
         try
@@ -162,7 +164,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         }
     }
 
-    public HashMap<String, IExtendedModelPart> makeObjects(X3dXML xml) throws Exception
+    public HashMap<String, IExtendedModelPart> makeObjects(final X3dXML xml) throws Exception
     {
         final Map<String, Set<String>> childMap = Maps.newHashMap();
         final Set<Transform> allTransforms = Sets.newHashSet();
@@ -188,18 +190,18 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             if (t == null) continue;
             final X3dXML.Group group = t.group;
             final String name = t.getGroupName();
-            final List<Shape> shapes = Lists.newArrayList();
+            final List<Mesh> shapes = Lists.newArrayList();
             for (final X3dXML.Shape shape : group.shapes)
             {
                 final IndexedTriangleSet triangleSet = shape.triangleSet;
-                final Shape renderShape = new Shape(triangleSet.getOrder(), triangleSet.getVertices(), triangleSet
+                final X3dMesh renderShape = new X3dMesh(triangleSet.getOrder(), triangleSet.getVertices(), triangleSet
                         .getNormals(), triangleSet.getTexture());
                 shapes.add(renderShape);
                 final Appearance appearance = shape.appearance;
                 final Material material = this.getMaterial(appearance);
                 if (material != null) renderShape.setMaterial(material);
             }
-            final X3dObject o = new X3dObject(name);
+            final X3dPart o = new X3dPart(name);
             o.shapes = shapes;
             o.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
             o.offset.set(translation);
@@ -222,7 +224,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void preProcessAnimations(Collection<List<Animation>> animations)
+    public void preProcessAnimations(final Collection<List<Animation>> animations)
     {
         for (final List<Animation> list : animations)
             for (final Animation animation : list)
@@ -249,42 +251,42 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void renderAllExcept(String... excludedGroupNames)
+    public void renderAllExcept(final String... excludedGroupNames)
     {
         for (final IExtendedModelPart o : this.parts.values())
             if (o.getParent() == null) o.renderAllExcept(excludedGroupNames);
     }
 
     @Override
-    public void renderOnly(String... groupNames)
+    public void renderOnly(final String... groupNames)
     {
         for (final IExtendedModelPart o : this.parts.values())
             if (o.getParent() == null) o.renderOnly(groupNames);
     }
 
     @Override
-    public void renderPart(String partName)
+    public void renderPart(final String partName)
     {
         for (final IExtendedModelPart o : this.parts.values())
             if (o.getParent() == null) o.renderPart(partName);
     }
 
     @Override
-    public void setAnimationChanger(IAnimationChanger changer)
+    public void setAnimationChanger(final IAnimationChanger changer)
     {
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setAnimationChanger(changer);
     }
 
     @Override
-    public void setTexturer(IPartTexturer texturer)
+    public void setTexturer(final IPartTexturer texturer)
     {
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(texturer);
     }
 
-    protected void updateAnimation(Entity entity, IModelRenderer<?> renderer, String currentPhase, float partialTicks,
-            float headYaw, float headPitch, float limbSwing)
+    protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
+            final float partialTicks, final float headYaw, final float headPitch, final float limbSwing)
     {
         for (final String partName : this.getParts().keySet())
         {
@@ -293,8 +295,9 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         }
     }
 
-    private void updateSubParts(Entity entity, IModelRenderer<?> renderer, String currentPhase, float partialTick,
-            IExtendedModelPart parent, float headYaw, float headPitch, float limbSwing)
+    private void updateSubParts(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
+            final float partialTick, final IExtendedModelPart parent, final float headYaw, final float headPitch,
+            final float limbSwing)
     {
         if (parent == null) return;
         final HeadInfo info = this.getHeadInfo();

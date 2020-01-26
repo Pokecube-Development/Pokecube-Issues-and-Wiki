@@ -1,37 +1,25 @@
-package thut.core.client.render.x3d;
-
-import thut.api.maths.vecmath.Vector3f;
+package thut.core.client.render.tabula;
 
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
 
-public class Shape
+public class TblMesh extends Mesh
 {
-    private int                meshId  = 0;
-    private final boolean      hasTextures;
-    public Vertex[]            vertices;
-    public Vertex[]            normals;
-    public TextureCoordinate[] textureCoordinates;
-    public Integer[]           order;
-    private Material           material;
-    public String              name;
-    private final double[]     uvShift = { 0, 0 };
 
-    public Shape(Integer[] order, Vertex[] vert, Vertex[] norm, TextureCoordinate[] tex)
+    public TblMesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex)
     {
-        this.order = order;
-        this.vertices = vert;
-        this.normals = norm;
-        this.textureCoordinates = tex;
-        this.hasTextures = tex != null;
+        super(order, vert, norm, tex);
     }
 
-    void addTris(IPartTexturer texturer)
+    @Override
+    protected void doRender(final IPartTexturer texturer)
     {
         Vertex vertex;
         Vertex normal;
@@ -68,7 +56,7 @@ public class Shape
 
         if (!this.hasTextures) GlStateManager.disableTexture();
 
-        GL11.glBegin(GL11.GL_TRIANGLES);
+        GL11.glBegin(GL11.GL_QUADS);
         int n = 0;
         for (final Integer i : this.order)
         {
@@ -98,53 +86,4 @@ public class Shape
         if (!this.hasTextures) GlStateManager.enableTexture();
     }
 
-    private void compileList(IPartTexturer texturer)
-    {
-        if (!GL11.glIsList(this.meshId))
-        {
-            if (this.material != null && texturer != null && !texturer.hasMapping(this.material.name)
-                    && this.material.texture != null) texturer.addMapping(this.material.name, this.material.texture);
-            this.meshId = GL11.glGenLists(1);
-            GL11.glNewList(this.meshId, GL11.GL_COMPILE);
-            this.addTris(texturer);
-            GL11.glEndList();
-        }
-    }
-
-    public void renderShape(IPartTexturer texturer)
-    {
-        // Compiles the list if the meshId is invalid.
-        this.compileList(texturer);
-        boolean textureShift = false;
-        // Apply Texturing.
-        if (texturer != null)
-        {
-            texturer.applyTexture(this.name);
-            if (textureShift = texturer.shiftUVs(this.name, this.uvShift))
-            {
-                GL11.glMatrixMode(GL11.GL_TEXTURE);
-                GL11.glTranslated(this.uvShift[0], this.uvShift[1], 0.0F);
-                GL11.glMatrixMode(GL11.GL_MODELVIEW);
-            }
-        }
-        if (this.material != null) this.material.preRender();
-        // Call the list
-        GL11.glCallList(this.meshId);
-        GL11.glFlush();
-        if (this.material != null) this.material.postRender();
-
-        // Reset Texture Matrix if changed.
-        if (textureShift)
-        {
-            GL11.glMatrixMode(GL11.GL_TEXTURE);
-            GL11.glLoadIdentity();
-            GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        }
-    }
-
-    public void setMaterial(Material material)
-    {
-        this.material = material;
-        this.name = material.name;
-    }
 }

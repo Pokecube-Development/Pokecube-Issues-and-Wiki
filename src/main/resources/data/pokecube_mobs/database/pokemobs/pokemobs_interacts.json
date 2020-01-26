@@ -1600,7 +1600,8 @@
 		"evolutions": [
           {
             "name": "Sirfetch\u0027d",
-            "level": 31
+            "item_preset": "protector",
+			"trade": true
           }
         ]
       }

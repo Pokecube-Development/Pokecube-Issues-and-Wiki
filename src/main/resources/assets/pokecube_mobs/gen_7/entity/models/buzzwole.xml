@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="5,-5" headDir="1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftFront="leg3" leftHind="leg2" name="quadWalk" rightFront="leg4" rightHind="leg1"/>
   <phase type="walking">
    <part name="arm1">
@@ -146,8 +146,5 @@
     <component length="1" name="1" rotOffset="0,0,-30.0," startKey="0"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;sitting"/>
-  <merges merge="idle-&gt;walking"/>
-  <merges merge="idle-&gt;flying"/>
  </model>
 </ModelAnimator>

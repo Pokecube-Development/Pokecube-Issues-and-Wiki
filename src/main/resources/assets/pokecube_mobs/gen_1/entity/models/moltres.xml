@@ -6,26 +6,51 @@
   <phase duration="6" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="moltres">
    <part name="Head" tex="moltreshead"/>
-   <animation diffs="0,0.35" part="Head" trigger="random:0.005:1"/>
+   <part name="Flame" tex="flame_moltres"/>
+   <animation diffs="0,0.35" part="Head" trigger="random:0.005:10"/>
+   <animation diffs="0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65" part="Flame" trigger="sequence"/>
+
   </customTex>
   <phase type="idle">
    <part name="wing1">
-    <component length="10" name="1" rotOffset="20,30,-80" startKey="0"/>
+    <component length="1" name="1" rotOffset="0,50,-60," startKey="0"/>
    </part>
    <part name="wing1_1">
-    <component length="10" name="1" rotOffset="0,0,170" startKey="0"/>
+    <component length="1" name="1" rotOffset="0,55,0," startKey="0"/>
    </part>
    <part name="wing2">
-    <component length="10" name="1" rotOffset="20,-30,80" startKey="0"/>
+    <component length="1" name="1" rotOffset="0,-50,60," startKey="0"/>
    </part>
    <part name="wing2_1">
-    <component length="10" name="1" rotOffset="0,0,-170" startKey="0"/>
+    <component length="1" name="1" rotOffset="0,-55,0," startKey="0"/>
    </part>
    <part name="leg1">
     <component length="10" name="1" rotOffset="0,0,0" startKey="0"/>
    </part>
    <part name="leg2">
     <component length="10" name="1" rotOffset="0,0,0" startKey="0"/>
+   </part>
+   <part name="tail">
+    <component length="10" name="1" rotChange="-8,0,0" rotOffset="7,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" startKey="10"/>
+   </part>
+   <part name="tail1">
+    <component length="7" name="1" rotChange="8,0,0" rotOffset="2,0,0" startKey="0"/>
+    <component length="7" name="2" rotChange="-8,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="wing1">
+    <component length="1" name="1" rotOffset="0,50,-60," startKey="0"/>
+   </part>
+   <part name="wing1_1">
+    <component length="1" name="1" rotOffset="0,55,0," startKey="0"/>
+   </part>
+   <part name="wing2">
+    <component length="1" name="1" rotOffset="0,-50,60," startKey="0"/>
+   </part>
+   <part name="wing2_1">
+    <component length="1" name="1" rotOffset="0,-55,0," startKey="0"/>
    </part>
    <part name="tail">
     <component length="10" name="1" rotChange="-8,0,0" rotOffset="7,0,0" startKey="0"/>

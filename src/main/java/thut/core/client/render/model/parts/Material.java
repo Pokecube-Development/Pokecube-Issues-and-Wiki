@@ -1,4 +1,4 @@
-package thut.core.client.render.x3d;
+package thut.core.client.render.model.parts;
 
 import java.nio.FloatBuffer;
 
