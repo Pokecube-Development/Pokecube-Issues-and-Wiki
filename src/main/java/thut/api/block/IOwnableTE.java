@@ -20,5 +20,6 @@ public interface IOwnableTE extends IOwnable
     default void setPlacer(final LivingEntity placer)
     {
         this.setOwner(placer);
+        this.setOwner(placer.getUniqueID());
     }
 }

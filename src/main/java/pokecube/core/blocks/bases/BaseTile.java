@@ -40,6 +40,7 @@ public class BaseTile extends InteractableTile
         {
             final IOwnableTE tile = (IOwnableTE) this.getCapability(OwnableCaps.CAPABILITY).orElse(null);
             targetBase = tile.getOwnerId();
+            if (targetBase == null) return true;
         }
         final DimensionType dim = player.dimension == SecretBaseDimension.TYPE ? DimensionType.OVERWORLD
                 : SecretBaseDimension.TYPE;

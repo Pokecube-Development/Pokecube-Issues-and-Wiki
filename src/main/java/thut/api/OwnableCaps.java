@@ -145,7 +145,8 @@ public class OwnableCaps
         if (tile != null && event.getEntity() instanceof LivingEntity)
         {
             final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
-            if (ownable != null) ownable.setOwner((LivingEntity) event.getEntity());
+            if (ownable instanceof IOwnableTE) ((IOwnableTE) ownable).setPlacer((LivingEntity) event.getEntity());
+            else if (ownable != null) ownable.setOwner((LivingEntity) event.getEntity());
         }
     }
 
