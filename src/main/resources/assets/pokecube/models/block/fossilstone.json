@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "pokecube:blocks/fossilstone"
+		"all": "pokecube:block/fossilstone"
 	}
 }
