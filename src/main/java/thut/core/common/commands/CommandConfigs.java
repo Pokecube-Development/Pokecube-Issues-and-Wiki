@@ -13,12 +13,11 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.command.arguments.MessageArgument;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
 
 public class CommandConfigs
@@ -40,56 +39,56 @@ public class CommandConfigs
     }
 
     protected static int execute(final ConfigData data, final CommandSource source, final String field,
-            final ITextComponent value)
+            final String message)
     {
         Field f = null;
-        Object old = null;
+        Object value = null;
         try
         {
             f = data.getClass().getField(field);
-            old = f.get(data);
+            value = f.get(data);
         }
         catch (final Exception e)
         {
+            ThutCore.LOGGER.error(e);
             throw new CommandException(new StringTextComponent("Error with field name " + field));
         }
-
-        final String message = value.getUnformattedComponentText();
         final String[] args = message.split(" ");
-        String val = args[1];
+        String val = args[0];
         if (val.equals("!set"))
         {
-            CommandConfigs.handleSet(data, args, old, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.set", field, old), true);
+            CommandConfigs.handleSet(data, args, value, f);
+            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.set", field, value), true);
             return 0;
         }
 
         if (val.equals("!add"))
         {
-            CommandConfigs.handleAdd(data, args, old, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.add", field, old), true);
+            CommandConfigs.handleAdd(data, args, value, f);
+            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.add", field, value), true);
             return 0;
         }
 
         if (val.equals("!remove"))
         {
-            CommandConfigs.handleRemove(data, args, old, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.remove", field, old),
+            CommandConfigs.handleRemove(data, args, value, f);
+            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.remove", field, value),
                     true);
             return 0;
         }
 
-        if (args.length > 2) for (int i = 2; i < args.length; i++)
+        if (args.length > 1) for (int i = 1; i < args.length; i++)
             val = val + " " + args[i];
         try
         {
             data.updateField(f, val);
+            value = f.get(data);
         }
         catch (final Exception e)
         {
             throw new CommandException(new StringTextComponent("Error with setting field name " + field));
         }
-        source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.set", field, old), true);
+        source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.set", field, value), true);
 
         return 0;
     }
@@ -224,6 +223,7 @@ public class CommandConfigs
         final String perm1 = "command." + name;
         PermissionAPI.registerNode(perm1, DefaultPermissionLevel.OP, "Is the player allowed to check configs for "
                 + data.MODID);
+
         LiteralArgumentBuilder<CommandSource> command = Commands.literal(name).requires(cs -> CommandTools.hasPerm(cs,
                 perm1)).then(Commands.argument("option", StringArgumentType.string()).suggests(CommandConfigs
                         .MakeProvider(data)).executes(ctx -> CommandConfigs.execute(data, ctx.getSource(),
@@ -234,11 +234,12 @@ public class CommandConfigs
         final String perm2 = "command." + name;
         PermissionAPI.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to set configs for "
                 + data.MODID);
+
         command = Commands.literal(name).requires(cs -> CommandTools.hasPerm(cs, perm2)).then(Commands.argument(
                 "option", StringArgumentType.string()).suggests(CommandConfigs.MakeProvider(data)).then(Commands
-                        .argument("value", MessageArgument.message())).executes(ctx -> CommandConfigs.execute(data, ctx
-                                .getSource(), StringArgumentType.getString(ctx, "option"), MessageArgument.getMessage(
-                                        ctx, "value"))));
+                        .argument("value", StringArgumentType.greedyString()).executes(ctx -> CommandConfigs.execute(
+                                data, ctx.getSource(), StringArgumentType.getString(ctx, "option"), StringArgumentType
+                                        .getString(ctx, "value")))));
         commandDispatcher.register(command);
     }
 }
