@@ -1,6 +1,5 @@
 package pokecube.core.blocks.healer;
 
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -20,23 +19,14 @@ public class HealerTile extends TileEntity implements ITickableTileEntity
 
     public HealerTile()
     {
-        this(HealerTile.TYPE);
-    }
-
-    public HealerTile(final TileEntityType<?> tileEntityTypeIn)
-    {
-        super(tileEntityTypeIn);
-    }
-
-    @Override
-    public void read(final CompoundNBT compound)
-    {
-        super.read(compound);
+        super(HealerTile.TYPE);
+        this.tickDuration = PokecubeCore.getConfig().pokeCenterLoopDir;
     }
 
     @Override
     public void tick()
     {
+        if (!PokecubeCore.getConfig().pokeCenterMusic) return;
         if (!this.getWorld().isRemote || HealerTile.MUSICLOOP == null) return;
         final int power = this.getWorld().getStrongPower(this.getPos());
         final boolean play = power > 0;
@@ -45,41 +35,26 @@ public class HealerTile extends TileEntity implements ITickableTileEntity
         if (!play)
         {
             this.tick = 0;
-            if (sound) PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), power > 0, false,
+            if (sound) PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), play, false,
                     SoundCategory.RECORDS);
             return;
         }
 
-        // Conclude timer for tick length
-        if (!sound && this.startTick != -1)
+        // No sound, so we need to start timer.
+        if (!sound)
         {
-            if (this.tickDuration == -1) this.tickDuration = (int) (this.getWorld().getGameTime() - this.startTick) - 1;
-            this.startTick = -1;
+            if (this.tick > 2) this.tickDuration = this.tick - 3;
         }
-        // Start timer for tick length
-        if (!sound && this.startTick == -1) this.startTick = this.getWorld().getGameTime();
+        else this.tick++;
 
-        // Stop the sound, as we are right at the end.
-        if (this.tickDuration != -1 && this.tickDuration < this.tick++ && sound)
-        {
-            sound = false;
-            PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), power > 0, true, SoundCategory.RECORDS);
-            this.tick = 0;
-        }
+        if (sound && this.tick > this.tickDuration) sound = false;
 
         // Start playing the sound
         if (!sound)
         {
+            System.out.println("Starting: " + this.tick + " " + this.tickDuration + " " + this.startTick);
             this.tick = 0;
-            PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), power > 0, false,
-                    SoundCategory.RECORDS);
+            PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), play, false, SoundCategory.RECORDS);
         }
     }
-
-    @Override
-    public CompoundNBT write(final CompoundNBT compound)
-    {
-        return super.write(compound);
-    }
-
 }

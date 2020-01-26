@@ -510,6 +510,10 @@ public class Config extends ConfigData
     public boolean       extraberries           = false;
     @Configure(category = Config.client)
     public boolean       battleLogInChat        = false;
+    @Configure(category = Config.client)
+    public boolean       pokeCenterMusic        = true;
+    @Configure(category = Config.client)
+    public int           pokeCenterLoopDir      = 578;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs               = Lists.newArrayList();

@@ -15,16 +15,18 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import pokecube.core.blocks.tms.TMBlock;
 import pokecube.core.inventory.healer.HealerContainer;
 
 public class HealerBlock extends HorizontalBlock
 {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty   FIXED  = BooleanProperty.create("fixed");
+    public static final VoxelShape        SHAPE  = VoxelShapes.create(0.01, 0.01, 0.01, 0.99, 0.99, 0.99);
 
     public HealerBlock(final Properties builder)
     {
@@ -47,9 +49,10 @@ public class HealerBlock extends HorizontalBlock
     }
 
     @Override
-    public VoxelShape getRenderShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
+    public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
+            final ISelectionContext context)
     {
-        return TMBlock.RENDERSHAPE;
+        return HealerBlock.SHAPE;
     }
 
     @Override
