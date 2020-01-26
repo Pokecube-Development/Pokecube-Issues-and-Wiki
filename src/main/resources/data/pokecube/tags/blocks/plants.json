@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:leaves",
+    "#minecraft:small_flowers",
+    "#pokecube:berry_fruits",
+    "#pokecube:berry_crops"
+  ]
+}

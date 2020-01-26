@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:crop_cheri",
+    "pokecube:crop_chesto",
+    "pokecube:crop_pecha",
+    "pokecube:crop_rawst",
+    "pokecube:crop_aspear",
+    "pokecube:crop_leppa",
+    "pokecube:crop_oran",
+    "pokecube:crop_persim",
+    "pokecube:crop_lum",
+    "pokecube:crop_sitrus",
+    "pokecube:crop_nanab",
+    "pokecube:crop_pinap",
+    "pokecube:crop_cornn",
+    "pokecube:crop_pomeg",
+    "pokecube:crop_kelpsy",
+    "pokecube:crop_qualot",
+    "pokecube:crop_hondew",
+    "pokecube:crop_grepa",
+    "pokecube:crop_tamato",
+    "pokecube:crop_enigma",
+    "pokecube:crop_jaboca",
+    "pokecube:crop_rowap"
+  ]
+}

@@ -34,6 +34,7 @@ import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.IProperty;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
@@ -573,6 +574,15 @@ public class PokecubeItems extends Items
             return tagged;
         }
         else if (toCheck instanceof ItemStack) return PokecubeItems.is(tag, ((ItemStack) toCheck).getItem());
+        else if (toCheck instanceof Block)
+        {
+
+            final Block block = (Block) toCheck;
+            final boolean tagged = BlockTags.getCollection().getOrCreate(tag).contains(block);
+            if (!tagged) return block.getRegistryName().equals(tag);
+            return tagged;
+        }
+        else if (toCheck instanceof BlockState) return PokecubeItems.is(tag, ((BlockState) toCheck).getBlock());
         return false;
     }
 

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:dispenser",
+    "minecraft:redstone_block",
+    "minecraft:furnace",
+    "minecraft:piston",
+    "minecraft:sticky_piston",
+    "minecraft:dropper",
+    "minecraft:hopper",
+    "minecraft:anvil"
+  ]
+}

@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.dimension.DimensionType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.OwnableCaps;
@@ -41,18 +42,26 @@ public class BaseTile extends InteractableTile
             final IOwnableTE tile = (IOwnableTE) this.getCapability(OwnableCaps.CAPABILITY).orElse(null);
             targetBase = tile.getOwnerId();
             if (targetBase == null) return true;
+            BlockPos exit_here;
+            try
+            {
+                exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.dimension);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error(e);
+                return false;
+            }
+            if (exit_here.distanceSq(pos) > 15)
+            {
+                // We need to remove the location.
+                this.world.setBlockState(pos, Blocks.STONE.getDefaultState());
+                player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"));
+            }
         }
         final DimensionType dim = player.dimension == SecretBaseDimension.TYPE ? DimensionType.OVERWORLD
                 : SecretBaseDimension.TYPE;
-        final BlockPos exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server, player.dimension);
-        if (exit_here.distanceSq(pos) > 1)
-        {
-            // We need to remove the location.
-            this.world.setBlockState(pos, Blocks.STONE.getDefaultState());
-            player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"));
-        }
-        else if (dim == DimensionType.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player,
-                targetBase);
+        if (dim == DimensionType.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
         else SecretBaseDimension.sendToExit((ServerPlayerEntity) player, targetBase);
         return true;
     }

@@ -86,7 +86,7 @@ public class TreeRemover
                 if (PokecubeTerrainChecker.isWood(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
                 {
                 }
-                else if (PokecubeTerrainChecker.isDirt(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
+                else if (PokecubeTerrainChecker.isGround(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
                     valid = true;
                 else break;
                 if (valid) break;

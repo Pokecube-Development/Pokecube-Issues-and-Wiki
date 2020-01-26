@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube:rocks",
+    "#forge:dirt",
+    "#forge:gravel"
+  ]
+}
