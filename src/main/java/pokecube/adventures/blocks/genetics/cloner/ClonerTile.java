@@ -11,7 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
@@ -20,8 +19,7 @@ import pokecube.core.PokecubeItems;
 
 public class ClonerTile extends BaseGeneticsTile
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(ClonerTile::new,
-            PokecubeAdv.CLONER).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public static final ResourceLocation EGGS = new ResourceLocation("forge", "eggs");
 

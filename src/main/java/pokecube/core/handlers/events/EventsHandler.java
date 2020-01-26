@@ -503,6 +503,9 @@ public class EventsHandler
     @SubscribeEvent
     public static void livingUpdate(final LivingUpdateEvent evt)
     {
+        final IPokemob poke = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        if (poke != null) poke.onTick();
+
         if (evt.getEntity().getEntityWorld().isRemote || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.

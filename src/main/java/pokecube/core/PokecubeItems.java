@@ -40,7 +40,9 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.nests.NestBlock;
 import pokecube.core.blocks.pc.PCBlock;
@@ -108,29 +110,22 @@ public class PokecubeItems extends Items
     public static final ResourceLocation TMKEY      = new ResourceLocation("pokecube:tms");
 
     // Items
-    public static final Item BERRYJUICE = new Item(new Properties().food(new Food.Builder().hunger(4).saturation(0.3F)
-            .build()).group(PokecubeItems.POKECUBEITEMS));
-    public static final Item POKEDEX    = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), false);
-    public static final Item POKEWATCH  = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), true);
-    public static final Item EGG        = new ItemPokemobEgg(new Properties().group(PokecubeItems.POKECUBEITEMS));
-    public static final Item CANDY      = new Item(new Item.Properties().rarity(Rarity.EPIC).group(
-            PokecubeItems.POKECUBEITEMS));
+    public static Item BERRYJUICE;
+    public static Item POKEDEX;
+    public static Item POKEWATCH;
+    public static Item EGG;
+    public static Item CANDY;
 
     // Blocks
-    public static final Block HEALER     = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(
-            100).lightValue(15)).setRegistryName(PokecubeCore.MODID, "pokecenter");
-    public static final Block NESTBLOCK  = new NestBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
-            PokecubeCore.MODID, "nest");
-    public static final Block REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
-            PokecubeCore.MODID, "repel");
-    public static final Block PCTOP      = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
-            .lightValue(15), true).setRegistryName(PokecubeCore.MODID, "pc_top");
-    public static final Block PCBASE     = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
-            .lightValue(15), false).setRegistryName(PokecubeCore.MODID, "pc_base");
-    public static final Block TRADER     = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(
-            100).lightValue(15)).setRegistryName(PokecubeCore.MODID, "trade_machine");
-    public static final Block TMMACHINE  = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
-            .lightValue(15)).setRegistryName(PokecubeCore.MODID, "tm_machine");
+    public static Block HEALER;
+    public static Block NESTBLOCK;
+    public static Block REPELBLOCK;
+    public static Block PCTOP;
+    public static Block PCBASE;
+    public static Block TRADER;
+    public static Block TMMACHINE;
+    public static Block SECRETBASE;
+    public static Block FOSSILSTONE;
 
     public static boolean      resetTimeTags = false;
     public static Vector<Long> times         = new Vector<>();
@@ -158,6 +153,37 @@ public class PokecubeItems extends Items
     }
 
     private static Set<ResourceLocation> errored = Sets.newHashSet();
+
+    public static void init()
+    {
+        // Items
+        PokecubeItems.BERRYJUICE = new Item(new Properties().food(new Food.Builder().hunger(4).saturation(0.3F).build())
+                .group(PokecubeItems.POKECUBEITEMS));
+        PokecubeItems.POKEDEX = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), false);
+        PokecubeItems.POKEWATCH = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), true);
+        PokecubeItems.EGG = new ItemPokemobEgg(new Properties().group(PokecubeItems.POKECUBEITEMS));
+        PokecubeItems.CANDY = new Item(new Item.Properties().rarity(Rarity.EPIC).group(PokecubeItems.POKECUBEITEMS));
+
+        // Blocks
+        PokecubeItems.HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
+                .lightValue(15)).setRegistryName(PokecubeCore.MODID, "pokecenter");
+        PokecubeItems.NESTBLOCK = new NestBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
+                PokecubeCore.MODID, "nest");
+        PokecubeItems.REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
+                PokecubeCore.MODID, "repel");
+        PokecubeItems.PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(
+                15), true).setRegistryName(PokecubeCore.MODID, "pc_top");
+        PokecubeItems.PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(
+                15), false).setRegistryName(PokecubeCore.MODID, "pc_base");
+        PokecubeItems.TRADER = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
+                .lightValue(15)).setRegistryName(PokecubeCore.MODID, "trade_machine");
+        PokecubeItems.TMMACHINE = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
+                .lightValue(15)).setRegistryName(PokecubeCore.MODID, "tm_machine");
+        PokecubeItems.SECRETBASE = new BaseBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(100))
+                .setRegistryName(PokecubeCore.MODID, "secret_base");
+        PokecubeItems.FOSSILSTONE = new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 10)
+                .harvestTool(ToolType.PICKAXE)).setRegistryName(PokecubeCore.MODID, "fossilstone");
+    }
 
     /**
      * Registers a pokecube id, the Object[] is an array with the item or block
@@ -444,7 +470,7 @@ public class PokecubeItems extends Items
         for (final PokedexEntry entry : Database.getSortedFormes())
             array.add("pokecube:" + entry.getTrimmedName());
         json.add("values", array);
-        File folder = new File(".", "generated");
+        final File folder = new File(".", "generated");
         folder.mkdirs();
         File file = new File(folder, "pokemob.json");
         FileWriter writer;

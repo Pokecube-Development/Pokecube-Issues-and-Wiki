@@ -20,7 +20,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Difficulty;
 import net.minecraftforge.common.MinecraftForge;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -36,8 +35,7 @@ import thut.api.maths.Vector3;
 
 public class NestTile extends InteractableTile implements ITickableTileEntity
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(NestTile::new,
-            PokecubeItems.NESTBLOCK).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public static int NESTSPAWNTYPES = 1;
 

@@ -313,7 +313,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             }
             else if (TeamManager.sameTeam(entity, this.getEntity()))
             {
-            getEntity().setAttackTarget(null);
+            this.getEntity().setAttackTarget(null);
             return;
             }
             else if (!AITools.validTargets.test(entity))

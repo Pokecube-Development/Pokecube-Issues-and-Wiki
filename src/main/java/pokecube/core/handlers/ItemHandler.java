@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.blocks.pc.PCTile;
@@ -30,8 +31,7 @@ public class ItemHandler
 {
     private static void addFossilBlocks(final IForgeRegistry<Block> registry)
     {
-        // PokecubeItems.register(PokecubeItems.fossilStone, registry);
-        // PokecubeItems.fossilStone.setCreativeTab(PokecubeMod.creativeTabPokecubeBlocks);
+        registry.register(PokecubeItems.FOSSILSTONE);
     }
 
     private static void addMiscBlocks(final IForgeRegistry<Block> registry)
@@ -43,6 +43,7 @@ public class ItemHandler
         registry.register(PokecubeItems.PCBASE);
         registry.register(PokecubeItems.TMMACHINE);
         registry.register(PokecubeItems.TRADER);
+        registry.register(PokecubeItems.SECRETBASE);
 
         // tableBlock.setUnlocalizedName("pokecube_table").setRegistryName(PokecubeMod.ID,
         // "pokecube_table");
@@ -76,9 +77,18 @@ public class ItemHandler
 
     private static void addMiscTiles(final IForgeRegistry<TileEntityType<?>> registry)
     {
+        BaseTile.TYPE = TileEntityType.Builder.create(BaseTile::new, PokecubeItems.SECRETBASE).build(null);
+        NestTile.TYPE = TileEntityType.Builder.create(NestTile::new, PokecubeItems.NESTBLOCK).build(null);
+        RepelTile.TYPE = TileEntityType.Builder.create(RepelTile::new, PokecubeItems.REPELBLOCK).build(null);
+        TraderTile.TYPE = TileEntityType.Builder.create(TraderTile::new, PokecubeItems.TRADER).build(null);
+        TMTile.TYPE = TileEntityType.Builder.create(TMTile::new, PokecubeItems.TMMACHINE).build(null);
+        HealerTile.TYPE = TileEntityType.Builder.create(HealerTile::new, PokecubeItems.HEALER).build(null);
+        PCTile.TYPE = TileEntityType.Builder.create(PCTile::new, PokecubeItems.PCTOP, PokecubeItems.PCBASE).build(null);
+
         // Register the tiles
         registry.register(NestTile.TYPE.setRegistryName(PokecubeCore.MODID, "nest"));
         registry.register(RepelTile.TYPE.setRegistryName(PokecubeCore.MODID, "repel"));
+        registry.register(BaseTile.TYPE.setRegistryName(PokecubeCore.MODID, "secret_base"));
 
         registry.register(TraderTile.TYPE.setRegistryName(PokecubeCore.MODID, "trade_machine"));
         registry.register(TMTile.TYPE.setRegistryName(PokecubeCore.MODID, "tm_machine"));
@@ -90,6 +100,7 @@ public class ItemHandler
         OwnableCaps.TILES.add(TMTile.class);
         OwnableCaps.TILES.add(PCTile.class);
         OwnableCaps.TILES.add(HealerTile.class);
+        OwnableCaps.TILES.add(BaseTile.class);
 
         // GameRegistry.registerTileEntity(TileEntityPokecubeTable.class, new
         // ResourceLocation("pokecube:pokecube_table"));
@@ -160,6 +171,10 @@ public class ItemHandler
                 PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.TMMACHINE.getRegistryName()));
         registry.register(new BlockItem(PokecubeItems.TRADER, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
                 .setRegistryName(PokecubeItems.TRADER.getRegistryName()));
+        registry.register(new BlockItem(PokecubeItems.SECRETBASE, new Item.Properties().group(
+                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.SECRETBASE.getRegistryName()));
+        registry.register(new BlockItem(PokecubeItems.FOSSILSTONE, new Item.Properties().group(
+                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.FOSSILSTONE.getRegistryName()));
 
         PokecubeItems.POKECUBE_BLOCKS = new ItemStack(PokecubeItems.HEALER);
         // registerItemBlock(fossilStone, registry);

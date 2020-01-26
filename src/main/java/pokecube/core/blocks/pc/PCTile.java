@@ -2,13 +2,11 @@ package pokecube.core.blocks.pc;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 
 public class PCTile extends InteractableTile
 {
-    public static final TileEntityType<? extends TileEntity> TYPE = TileEntityType.Builder.create(PCTile::new,
-            PokecubeItems.PCTOP, PokecubeItems.PCBASE).build(null);
+    public static TileEntityType<? extends TileEntity> TYPE;
 
     public PCTile()
     {
