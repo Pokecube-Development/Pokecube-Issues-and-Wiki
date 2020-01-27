@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import javax.xml.namespace.QName;
 
@@ -28,6 +29,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -313,6 +315,8 @@ public class PokedexEntry
 
     public static class InteractionLogic
     {
+        public static Predicate<ItemStack> isShears = (s) -> s.getItem() == Items.SHEARS;
+
         public static class Interaction
         {
             public final ItemStack  key;
@@ -490,6 +494,14 @@ public class PokedexEntry
                 pokemob.megaEvolve(forme);
                 return true;
             }
+
+            if (InteractionLogic.isShears.test(stack))
+            {
+                if (pokemob.isSheared()) return false;
+                pokemob.shear();
+                return pokemob.isSheared();
+            }
+
             final CompoundNBT data = entity.getPersistentData();
             final Interaction action = this.actions.get(stack);
             if (data.contains("lastInteract"))

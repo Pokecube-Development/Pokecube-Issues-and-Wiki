@@ -319,9 +319,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             this.getEntity().captureDrops(null);
 
             // Set Dead for deletion
-            System.out.println(onDeath);
             this.getEntity().remove(onDeath);
-            Thread.dumpStack();
         }
     }
 
