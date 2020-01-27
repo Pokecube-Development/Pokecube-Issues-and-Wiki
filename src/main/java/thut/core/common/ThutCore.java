@@ -43,6 +43,7 @@ import thut.api.boom.ExplosionCustom;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IMobTexturable;
 import thut.api.entity.IMultiplePassengerEntity;
+import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.genetics.IMobGenetics;
@@ -255,12 +256,12 @@ public class ThutCore
         // Register texturable
         CapabilityManager.INSTANCE.register(IMobTexturable.class, new IMobTexturable.Storage(),
                 IMobTexturable.Defaults::new);
-        // Setup animation capabilities
+
         CapabilityAnimation.setup();
-        // Setup Ownable capabilities
         OwnableCaps.setup();
-        // Setup Linkable capabilities
         LinkableCaps.setup();
+        ShearableCaps.setup();
+
         // Register terrain capabilies
         CapabilityManager.INSTANCE.register(CapabilityTerrain.ITerrainProvider.class, new CapabilityTerrain.Storage(),
                 CapabilityTerrain.DefaultProvider::new);
