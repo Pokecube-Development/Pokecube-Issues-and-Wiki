@@ -143,7 +143,7 @@ public class PokecubeCore
             }
 
             // Register the configurable worldgen things from datapack
-            WorldgenHandler.processStructures(event);
+            new WorldgenHandler().processStructures(event);
 
             // Register village stuff
             // TODO add in forge village stuff maybe here when it is done.

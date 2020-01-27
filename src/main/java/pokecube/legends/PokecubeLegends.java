@@ -13,6 +13,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.events.onload.RegisterPokecubes;
 // import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
@@ -56,7 +57,7 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
         {
-
+            new WorldgenHandler(Reference.ID).processStructures(event);
         }
 
         @SubscribeEvent
