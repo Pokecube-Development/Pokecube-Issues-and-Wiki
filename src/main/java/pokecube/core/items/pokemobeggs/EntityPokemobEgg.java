@@ -2,14 +2,13 @@ package pokecube.core.items.pokemobeggs;
 
 import java.util.UUID;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.HopperTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -27,7 +26,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.maths.Vector3;
 
 /** @author Manchou */
-public class EntityPokemobEgg extends MobEntity
+public class EntityPokemobEgg extends AgeableEntity
 {
     public static final EntityType<EntityPokemobEgg> TYPE;
 
@@ -38,9 +37,7 @@ public class EntityPokemobEgg extends MobEntity
     }
 
     int               delayBeforeCanPickup = 0;
-    int               age                  = 0;
     int               lastIncubate         = 0;
-    public int        hatch                = 0;
     public IPokemob   mother               = null;
     Vector3           here                 = Vector3.getNewVector();
     private ItemStack eggCache             = null;
@@ -50,17 +47,18 @@ public class EntityPokemobEgg extends MobEntity
      *
      * @param world
      */
-    public EntityPokemobEgg(EntityType<EntityPokemobEgg> type, World world)
+    public EntityPokemobEgg(final EntityType<EntityPokemobEgg> type, final World world)
     {
         super(type, world);
-        this.hatch = 1000 + this.getEntityWorld().rand.nextInt(PokecubeCore.getConfig().eggHatchTime);
+        final int hatch = 1000 + this.getEntityWorld().rand.nextInt(PokecubeCore.getConfig().eggHatchTime);
+        this.setGrowingAge(-hatch);
         this.enablePersistence();
         this.delayBeforeCanPickup = 20;
     }
 
     @Override
     /** Called when the entity is attacked. */
-    public boolean attackEntityFrom(DamageSource source, float damage)
+    public boolean attackEntityFrom(final DamageSource source, final float damage)
     {
         final Entity e = source.getImmediateSource();
         if (!this.getEntityWorld().isRemote && e instanceof PlayerEntity)
@@ -123,7 +121,7 @@ public class EntityPokemobEgg extends MobEntity
      *         should be added.
      */
     @Override
-    public ItemStack getPickedResult(RayTraceResult target)
+    public ItemStack getPickedResult(final RayTraceResult target)
     {
         return this.getHeldItemMainhand().copy();
     }
@@ -134,7 +132,7 @@ public class EntityPokemobEgg extends MobEntity
      *
      * @return
      */
-    public IPokemob getPokemob(boolean real)
+    public IPokemob getPokemob(final boolean real)
     {
         if (!real)
         {
@@ -149,7 +147,7 @@ public class EntityPokemobEgg extends MobEntity
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, this
                 .getEntityWorld()));
         if (pokemob == null) return null;
-        here.set(this);
+        this.here.set(this);
         this.here.moveEntity(pokemob.getEntity());
         ItemPokemobEgg.initPokemobGenetics(pokemob, this.getHeldItemMainhand().getTag());
         pokemob.getEntity().setWorld(this.getEntityWorld());
@@ -161,12 +159,15 @@ public class EntityPokemobEgg extends MobEntity
         if (this.ticksExisted != this.lastIncubate)
         {
             this.lastIncubate = this.ticksExisted;
-            this.age++;
+            int i = this.getGrowingAge();
+            i = i + 1;
+            if (i > 0) i = 0;
+            this.setGrowingAge(i);
         }
     }
 
     @Override
-    protected boolean processInteract(PlayerEntity player, Hand hand)
+    public boolean processInteract(final PlayerEntity player, final Hand hand)
     {
         if (this.delayBeforeCanPickup > 0) return false;
         final ItemStack itemstack = this.getHeldItemMainhand();
@@ -182,48 +183,56 @@ public class EntityPokemobEgg extends MobEntity
     }
 
     @Override
-    /**
-     * (abstract) Protected helper method to read subclass entity data from
-     * NBT.
-     */
-    public void readAdditional(CompoundNBT nbt)
-    {
-        super.readAdditional(nbt);
-        this.age = nbt.getInt("age");
-        this.hatch = nbt.getInt("hatchtime");
-    }
-
-    @Override
-    public void setHeldItem(Hand hand, ItemStack stack)
+    public void setHeldItem(final Hand hand, final ItemStack stack)
     {
         super.setHeldItem(hand, stack);
         this.eggCache = stack;
     }
 
-    public EntityPokemobEgg setPos(double d, double d1, double d2)
+    public EntityPokemobEgg setPos(final double d, final double d1, final double d2)
     {
         this.setPosition(d, d1, d2);
         return this;
     }
 
-    public EntityPokemobEgg setPos(Vector3 pos)
+    public EntityPokemobEgg setPos(final Vector3 pos)
     {
         return this.setPos(pos.x, pos.y, pos.z);
     }
 
-    public EntityPokemobEgg setStack(ItemStack stack)
+    public EntityPokemobEgg setStack(final ItemStack stack)
     {
         this.setHeldItem(Hand.MAIN_HAND, stack);
         return this;
     }
 
-    public EntityPokemobEgg setStackByParents(Entity placer, IPokemob father)
+    public EntityPokemobEgg setStackByParents(final Entity placer, final IPokemob father)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(placer);
         final ItemStack itemstack = ItemPokemobEgg.getEggStack(pokemob);
         ItemPokemobEgg.initStack(placer, father, itemstack);
         this.setHeldItem(Hand.MAIN_HAND, itemstack);
         return this;
+    }
+
+    /**
+     * This is called when Entity's growing age timer reaches 0 (negative values
+     * are considered as a child, positive as
+     * an adult)
+     */
+    @Override
+    protected void onGrowingAdult()
+    {
+        final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (!event.isCanceled())
+        {
+            final EggEvent.Hatch evt = new EggEvent.Hatch(this);
+            MinecraftForge.EVENT_BUS.post(evt);
+            ItemPokemobEgg.spawn(this.getEntityWorld(), this.getHeldItemMainhand(), Math.floor(this.posX) + 0.5, Math
+                    .floor(this.posY) + 0.5, Math.floor(this.posZ) + 0.5);
+        }
+        this.remove();
     }
 
     @Override
@@ -234,29 +243,13 @@ public class EntityPokemobEgg extends MobEntity
         this.here.set(this);
         super.tick();
         if (this.getEntityWorld().isRemote) return;
-        if (this.getHeldItemMainhand().isEmpty())
+        if (this.getHeldItemMainhand().isEmpty() || this.getGrowingAge() > 0)
         {
             this.remove();
             return;
         }
         this.delayBeforeCanPickup--;
-        final boolean spawned = this.getHeldItemMainhand().hasTag() && this.getHeldItemMainhand().getTag().contains(
-                "nestLocation");
-
-        if (this.age++ >= this.hatch || spawned)
-        {
-            final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
-            MinecraftForge.EVENT_BUS.post(event);
-            if (!event.isCanceled())
-            {
-                final EggEvent.Hatch evt = new EggEvent.Hatch(this);
-                MinecraftForge.EVENT_BUS.post(evt);
-                ItemPokemobEgg.spawn(this.getEntityWorld(), this.getHeldItemMainhand(), Math.floor(this.posX) + 0.5,
-                        Math.floor(this.posY) + 0.5, Math.floor(this.posZ) + 0.5);
-                this.remove();
-            }
-        }
-        else if (this.age > this.hatch * 0.8 && this.rand.nextInt(20 + this.hatch - this.age) == 0)
+        if (this.rand.nextInt(20 - this.getGrowingAge()) == 0)
         {
             final IPokemob mob = this.getPokemob(false);
             if (mob == null) this.remove();
@@ -274,14 +267,9 @@ public class EntityPokemobEgg extends MobEntity
     }
 
     @Override
-    /**
-     * (abstract) Protected helper method to write subclass entity data to
-     * NBT.
-     */
-    public void writeAdditional(CompoundNBT nbt)
+    public AgeableEntity createChild(final AgeableEntity ageable)
     {
-        super.writeAdditional(nbt);
-        nbt.putInt("age", this.age);
-        nbt.putInt("hatchtime", this.hatch);
+        // This is the child.
+        return null;
     }
 }

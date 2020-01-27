@@ -32,10 +32,12 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
+import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
@@ -61,15 +63,24 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     @Override
     public boolean canFitPassenger(final Entity passenger)
     {
-        // TODO Auto-generated method stub
+        // TODO see thutcrafts for what to do here!
         return super.canFitPassenger(passenger);
     }
 
     @Override
     public AgeableEntity createChild(final AgeableEntity ageable)
     {
-        // TODO Auto-generated method stub
-        return null;
+        final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
+        if (other == null) return null;
+        final EntityPokemobEgg egg = EntityPokemobEgg.TYPE.create(this.getEntityWorld());
+        egg.setStackByParents(this, other);
+        return egg;
+    }
+
+    @Override
+    public boolean canBreatheUnderwater()
+    {
+        return this.pokemobCap.swims() || this.pokemobCap.canUseDive();
     }
 
     @Override
@@ -86,7 +97,7 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     @Override
     public SitGoal getAISit()
     {
-        // TODO custom sitting ai.
+        // TODO custom sitting ai?
         return super.getAISit();
     }
 
