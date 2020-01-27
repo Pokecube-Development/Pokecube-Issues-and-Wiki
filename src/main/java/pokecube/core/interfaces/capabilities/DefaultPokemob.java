@@ -84,6 +84,9 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     {
         this();
         this.setEntity(mob);
+        // Register flying speed attribute.
+        if (this.entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED) == null) this.entity.getAttributes()
+                .registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
     }
 
     @Override
@@ -179,10 +182,6 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 entity.setPathPriority(PathNodeType.DAMAGE_FIRE, -1);
                 entity.setPathPriority(PathNodeType.DANGER_FIRE, -1);
             }
-
-        // Register flying speed attribute.
-        if (entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED) == null) entity.getAttributes().registerAttribute(
-                SharedMonsterAttributes.FLYING_SPEED);
 
         // TODO decide on speed scaling here?
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);
