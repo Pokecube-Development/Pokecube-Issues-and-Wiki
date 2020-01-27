@@ -41,6 +41,7 @@ public class EntityPokemobEgg extends AgeableEntity
     public IPokemob   mother               = null;
     Vector3           here                 = Vector3.getNewVector();
     private ItemStack eggCache             = null;
+    boolean           init                 = false;
 
     /**
      * Do not call this, this is here only for vanilla reasons
@@ -52,6 +53,7 @@ public class EntityPokemobEgg extends AgeableEntity
         super(type, world);
         final int hatch = 1000 + this.getEntityWorld().rand.nextInt(PokecubeCore.getConfig().eggHatchTime);
         this.setGrowingAge(-hatch);
+        this.init = true;
         this.enablePersistence();
         this.delayBeforeCanPickup = 20;
     }
@@ -223,6 +225,7 @@ public class EntityPokemobEgg extends AgeableEntity
     @Override
     protected void onGrowingAdult()
     {
+        if (!this.init) return;
         final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
         MinecraftForge.EVENT_BUS.post(event);
         if (!event.isCanceled())

@@ -34,7 +34,7 @@ public class BaseTile extends InteractableTile
     public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        if (!player.isServerWorld()) return true;
+        if (!(player instanceof ServerPlayerEntity)) return true;
         final MinecraftServer server = player.getServer();
         UUID targetBase = player.getUniqueID();
         if (!this.any)
@@ -59,8 +59,7 @@ public class BaseTile extends InteractableTile
                 player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"));
             }
         }
-        final DimensionType dim = player.dimension == SecretBaseDimension.TYPE ? DimensionType.OVERWORLD
-                : SecretBaseDimension.TYPE;
+        final DimensionType dim = player.dimension;
         if (dim == DimensionType.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
         else SecretBaseDimension.sendToExit((ServerPlayerEntity) player, targetBase);
         return true;

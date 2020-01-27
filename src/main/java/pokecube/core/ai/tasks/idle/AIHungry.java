@@ -73,13 +73,15 @@ public class AIHungry extends AIBase
     // final World world;
     final ItemEntity berry;
     final double     distance;
-    Vector3          foodLoc = null;
-    boolean          block   = false;
-    boolean          sleepy  = false;
+    int              lastMessageTick1 = -1;
+    int              lastMessageTick2 = -1;
+    Vector3          foodLoc          = null;
+    boolean          block            = false;
+    boolean          sleepy           = false;
     int              hungerTime;
     double           moveSpeed;
-    Vector3          v       = Vector3.getNewVector();
-    Vector3          v1      = Vector3.getNewVector();
+    Vector3          v                = Vector3.getNewVector();
+    Vector3          v1               = Vector3.getNewVector();
     Random           rand;
 
     public AIHungry(final IPokemob pokemob, final ItemEntity berry_, final double distance)
@@ -715,10 +717,23 @@ public class AIHungry extends AIBase
                 if (damage >= 1 && ratio >= 0.0625 && this.entity.getHealth() > 0)
                 {
                     this.entity.attackEntityFrom(DamageSource.STARVE, damage);
-                    if (!dead) this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.hurt",
-                            this.pokemob.getDisplayName()));
-                    else this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.dead",
-                            this.pokemob.getDisplayName()));
+                    if (!dead)
+                    {
+                        if (this.lastMessageTick1 < this.entity.getEntityWorld().getGameTime())
+                        {
+                            System.out.println("Sent message " + this.lastMessageTick1 + " " + this);
+                            this.lastMessageTick1 = (int) (this.entity.getEntityWorld().getGameTime() + 100);
+                            this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.hurt",
+                                    this.pokemob.getDisplayName()));
+                        }
+                    }
+                    else if (this.lastMessageTick2 < this.entity.getEntityWorld().getGameTime())
+                    {
+                        this.lastMessageTick2 = (int) (this.entity.getEntityWorld().getGameTime() + 100);
+                        this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.dead",
+                                this.pokemob.getDisplayName()));
+                        System.out.println("Sent message");
+                    }
                 }
             }
         }

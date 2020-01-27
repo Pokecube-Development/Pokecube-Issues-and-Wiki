@@ -70,8 +70,8 @@ public class SecretBaseDimension extends ModDimension
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player);
         final CompoundNBT exit = new CompoundNBT();
         exit.putInt("x", pos.getX());
-        exit.putInt("y", pos.getX());
-        exit.putInt("z", pos.getX());
+        exit.putInt("y", pos.getY());
+        exit.putInt("z", pos.getZ());
         if (dim == SecretBaseDimension.TYPE) tag.put("secret_base_internal", exit);
         else tag.put("secret_base_exit", exit);
     }
