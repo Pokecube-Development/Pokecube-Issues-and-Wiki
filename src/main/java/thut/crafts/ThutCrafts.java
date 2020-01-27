@@ -18,7 +18,6 @@ import thut.core.common.config.Config;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.network.PacketHandler;
-import thut.crafts.ThutCrafts.CraftsConfig;
 import thut.crafts.client.ClientProxy;
 import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
@@ -77,8 +76,8 @@ public class ThutCrafts
 
     public ThutCrafts()
     {
-        CRAFTMAKER = new Item(new Item.Properties().group(ThutCore.THUTITEMS)).setRegistryName(Reference.MODID,
-                "craftmaker");
+        ThutCrafts.CRAFTMAKER = new Item(new Item.Properties().group(ThutCore.THUTITEMS)).setRegistryName(
+                Reference.MODID, "craftmaker");
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the doClientStuff method for modloading

@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
@@ -105,6 +104,7 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.boom.ExplosionCustom;
+import thut.api.entity.ShearableCaps;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
@@ -335,10 +335,7 @@ public class EventsHandler
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);
             event.addCapability(EventsHandler.GUARDCAP, new Provider());
-
-            // Register flying speed attribute.
-            pokemob.getEntity().getAttributes().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
-            pokemob.getEntity().getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.4F);
+            event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
         }
 
         if (event.getObject() instanceof EntityProfessor)
@@ -617,7 +614,7 @@ public class EventsHandler
         CountCommand.register(event.getCommandDispatcher());
         KillCommand.register(event.getCommandDispatcher());
         MakeCommand.register(event.getCommandDispatcher());
-        CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher());
+        CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher(), "pokesettings");
     }
 
     @SubscribeEvent

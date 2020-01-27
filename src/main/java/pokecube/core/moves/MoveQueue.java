@@ -57,7 +57,7 @@ public class MoveQueue
                 final long time = System.nanoTime();
                 queue.executeMoves();
                 final double dt = (System.nanoTime() - time) / 1000d;
-                if (dt > 100) PokecubeCore.LOGGER.debug("move queue took " + dt + " for world " + evt.world);
+                if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took " + dt + " for world " + evt.world);
             }
         }
 

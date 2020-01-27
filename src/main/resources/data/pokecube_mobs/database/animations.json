@@ -243,7 +243,7 @@
           "applyAfter": false
         },
         {
-          "preset": "pont:psweepAttack:~aircutter",
+          "preset": "pont:psweep_attack:~aircutter",
           "duration": "0",
           "starttick": "5",
           "sound": "pokecube:moves.cut",
@@ -259,7 +259,7 @@
       "name": "airslash",
       "animations": [
         {
-          "preset": "flow:psweepAttack:w0.75:d0.1:l10:~aircutter:~airslash",
+          "preset": "flow:psweep_attack:w0.75:d0.1:l10:~aircutter:~airslash",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.gustwind",
@@ -391,7 +391,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d1:l5:~aquatail",
+          "preset": "cartFunc:psweep_attack:d1:l5:~aquatail",
           "duration": "2",
           "starttick": "0",
           "sound": "pokecube:moves.dig",
@@ -457,7 +457,7 @@
       "name": "assist",
       "animations": [
         {
-          "preset": "cartFunc:phappyVillager:d0.5:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~assist",
+          "preset": "cartFunc:phappy_villager:d0.5:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~assist",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -561,7 +561,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.6:w1:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~attract",
+          "preset": "cartFunc:pend_rod:d0.6:w1:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~attract",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -626,7 +626,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d1:w2:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~autotomize",
+          "preset": "cartFunc:pend_rod:d1:w2:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~autotomize",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -648,7 +648,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psnowballpoof:d0.01:w1:l4:f(0.5-rand())*(2.5),(0.5-rand())*(10),(0.5-rand())*(2.5):~avalanche",
+          "preset": "cartFunc:ppoof:d0.01:w1:l4:f(0.5-rand())*(2.5),(0.5-rand())*(10),(0.5-rand())*(2.5):~avalanche",
           "duration": "1",
           "starttick": "3",
           "sound": "pokecube:moves.iceball",
@@ -659,7 +659,7 @@
           "applyAfter": false
         },
         {
-          "preset": "powder:psnowshovel:d0.5:w1:l4:~avalanche",
+          "preset": "powder:pitem_snowball:d0.5:w1:l4:~avalanche",
           "duration": "1",
           "starttick": "4",
           "sound": "pokecube:moves.icebreak",
@@ -675,7 +675,7 @@
       "name": "babydolleyes",
       "animations": [
         {
-          "preset": "cartFunc:rtrue:pendRod:d0.7:w1:l5:f0,1,0:~babydolleyes",
+          "preset": "cartFunc:rtrue:pend_rod:d0.7:w1:l5:f0,1,0:~babydolleyes",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.charm",
@@ -881,7 +881,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:psnowballpoof:d1:w4:~blizzard",
+          "preset": "flow:ppoof:d1:w4:~blizzard",
           "duration": "3",
           "starttick": "2",
           "sound": "pokecube:moves.iceball",
@@ -941,7 +941,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:clight_blue:d0.3:w2:l6:atrue:~blueflare",
+          "preset": "flow:pend_rod:clight_blue:d0.3:w2:l6:atrue:~blueflare",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.megaattack",
@@ -1300,7 +1300,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.6:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~captivate",
+          "preset": "cartFunc:pend_rod:d0.6:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~captivate",
           "duration": "3",
           "starttick": "0",
           "applyAfter": false
@@ -1408,7 +1408,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pdragonbreath:cblue:d1:w1.2:l0:~clangingscales",
+          "preset": "flow:pdragon_breath:cblue:d1:w1.2:l0:~clangingscales",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -1506,7 +1506,7 @@
       "name": "confuseray",
       "animations": [
         {
-          "preset": "beam:pendRod:~confuseray",
+          "preset": "beam:pend_rod:~confuseray",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -1571,7 +1571,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:cmagenta:d0.9:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~cosmicpower",
+          "preset": "cartFunc:pend_rod:cmagenta:d0.9:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~cosmicpower",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -1658,7 +1658,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d1:~crushclaw",
+          "preset": "cartFunc:psweep_attack:d1:~crushclaw",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.dig",
@@ -1696,7 +1696,7 @@
       "name": "cut",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d0.7:w1:l5:f0,0,0:~cut",
+          "preset": "cartFunc:psweep_attack:d0.7:w1:l5:f0,0,0:~cut",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.cut",
@@ -1768,7 +1768,7 @@
       "name": "dazzlinggleam",
       "animations": [
         {
-          "preset": "flow:w2.2:pendRod:~dazzlinggleam",
+          "preset": "flow:w2.2:pend_rod:~dazzlinggleam",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.safeguard",
@@ -1779,7 +1779,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:w0.5:~dazzlinggleam",
+          "preset": "flow:pend_rod:w0.5:~dazzlinggleam",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.",
@@ -1838,7 +1838,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:cpink:d5:w4:l1:~diamondstorm",
+          "preset": "flow:pend_rod:cpink:d5:w4:l1:~diamondstorm",
           "duration": "3",
           "starttick": "0",
           "applyAfter": false
@@ -1877,7 +1877,7 @@
       "name": "disarmingvoice",
       "animations": [
         {
-          "preset": "flow:pendRod:d0.1:atrue:w2.5:l10:~disarmingvoice",
+          "preset": "flow:pend_rod:d0.1:atrue:w2.5:l10:~disarmingvoice",
           "duration": "5",
           "starttick": "3",
           "sound": "pokecube:moves.charm",
@@ -1975,7 +1975,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.1:w3:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~doomdesire",
+          "preset": "cartFunc:pend_rod:d0.1:w3:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~doomdesire",
           "duration": "2",
           "starttick": "3",
           "sound": "pokecube:moves.unknown",
@@ -2231,7 +2231,7 @@
       "name": "dragonbreath",
       "animations": [
         {
-          "preset": "flow:pdragonbreath:~dragonbreath",
+          "preset": "flow:pdragon_breath:~dragonbreath",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.sacredfire",
@@ -2302,7 +2302,7 @@
       "name": "dragontail",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d0.5:l10:~dragontail",
+          "preset": "cartFunc:psweep_attack:d0.5:l10:~dragontail",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.ember",
@@ -2582,7 +2582,7 @@
       "name": "encore",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~encore",
+          "preset": "cartFunc:pend_rod:d1:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~encore",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -2631,7 +2631,7 @@
       "name": "extrasensory",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d0.8:w1:l5:f(0.5-rand())*(1.5),(0.5-rand())*(1.5),(0.5-rand())*(1.5):~extrasensory",
+          "preset": "cartFunc:pend_rod:d0.8:w1:l5:f(0.5-rand())*(1.5),(0.5-rand())*(1.5),(0.5-rand())*(1.5):~extrasensory",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -2729,7 +2729,7 @@
       "name": "falseswipe",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d1:w1:l5:~falseswipe",
+          "preset": "cartFunc:psweep_attack:d1:w1:l5:~falseswipe",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.cut",
@@ -2761,13 +2761,13 @@
       "name": "finalgambit",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d0.2:w1:rtrue:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~finalgambit",
+          "preset": "cartFunc:pend_rod:d0.2:w1:rtrue:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~finalgambit",
           "duration": "3",
           "starttick": "0",
           "applyAfter": false
         },
         {
-          "preset": "throw:pendRod:clight_blue:d1:w1:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~finalgambit",
+          "preset": "throw:pend_rod:clight_blue:d1:w1:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~finalgambit",
           "duration": "5",
           "starttick": "3",
           "applyAfter": false
@@ -3090,7 +3090,7 @@
       "name": "flash",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~flash",
+          "preset": "cartFunc:pend_rod:d1:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~flash",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.unknown",
@@ -3117,7 +3117,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d1:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~:~flashcannon",
+          "preset": "cartFunc:pend_rod:d1:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~:~flashcannon",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.metalclaw",
@@ -3269,7 +3269,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pmagicCrit:d0.5:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~forcepalm",
+          "preset": "cartFunc:pcrit:d0.5:w1:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~forcepalm",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -3378,7 +3378,7 @@
       "name": "frustration",
       "animations": [
         {
-          "preset": "cartFunc:pangryVillager:d0.5:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~frustration",
+          "preset": "cartFunc:pangry_villager:d0.5:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~frustration",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.dig",
@@ -3427,7 +3427,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d2:f0,0,0:~furycutter",
+          "preset": "cartFunc:psweep_attack:d2:f0,0,0:~furycutter",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -3438,7 +3438,7 @@
       "name": "furyswipes",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d0.4:w1:l5:f0,0,0:~furyswipes",
+          "preset": "cartFunc:psweep_attack:d0.4:w1:l5:f0,0,0:~furyswipes",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.scratch",
@@ -3519,7 +3519,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d0.05:w1:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~futuresight",
+          "preset": "cartFunc:psweep_attack:d0.05:w1:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~futuresight",
           "duration": "1",
           "starttick": "40",
           "sound": "minecraft:entity.elder_guardian.curse",
@@ -3580,7 +3580,7 @@
       "name": "gearup",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:w1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~gearup",
+          "preset": "cartFunc:pend_rod:d1:w1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~gearup",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -3591,7 +3591,7 @@
       "name": "geomancy",
       "animations": [
         {
-          "preset": "cartFunc:pinstantSpell:cblack:d0.5:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geomancy",
+          "preset": "cartFunc:pinstant_effect:cblack:d0.5:w3:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~geomancy",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -3664,7 +3664,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~gigadrain",
+          "preset": "cartFunc:pend_rod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~gigadrain",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.",
@@ -3811,7 +3811,7 @@
       "name": "guillotine",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d0.7:w1:l5:f0,0,0:~guillotine",
+          "preset": "cartFunc:psweep_attack:d0.7:w1:l5:f0,0,0:~guillotine",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -3882,7 +3882,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):rtrue:l3:~gyroball",
+          "preset": "cartFunc:pend_rod:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):rtrue:l3:~gyroball",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -3898,7 +3898,7 @@
       "name": "haze",
       "animations": [
         {
-          "preset": "flow:plargesmoke:d1:1000:w2:~haze",
+          "preset": "flow:plarge_smoke:d1:1000:w2:~haze",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.fly",
@@ -4039,7 +4039,7 @@
       "name": "honeclaws",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~honeclaws",
+          "preset": "cartFunc:pend_rod:d1:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~honeclaws",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.scratch",
@@ -4050,7 +4050,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d1:rtrue:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~honeclaws",
+          "preset": "cartFunc:psweep_attack:d1:rtrue:l1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~honeclaws",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.scratch",
@@ -4072,7 +4072,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pangryVillager:d3:w1:rtrue:f0,1,0:~howl",
+          "preset": "cartFunc:pangry_villager:d3:w1:rtrue:f0,1,0:~howl",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -4083,7 +4083,7 @@
       "name": "hurricane",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:atrue:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(18),(0.5-rand())*(2):~hurricane",
+          "preset": "cartFunc:psweep_attack:atrue:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(18),(0.5-rand())*(2):~hurricane",
           "duration": "4",
           "starttick": "0",
           "sound": "pokecube:moves.gustwind",
@@ -4329,7 +4329,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psnowballpoof:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~icefang",
+          "preset": "cartFunc:ppoof:d1:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~icefang",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.iceball",
@@ -4394,7 +4394,7 @@
       "name": "iciclecrash",
       "animations": [
         {
-          "preset": "cartFunc:psnowballpoof:atrue:d0.05:w1:l10:f(0.5-rand())*(3),(5),(0.5-rand())*(3):~iciclecrash",
+          "preset": "cartFunc:ppoof:atrue:d0.05:w1:l10:f(0.5-rand())*(3),(5),(0.5-rand())*(3):~iciclecrash",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.iceball",
@@ -4508,7 +4508,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pendRod:csilver:d1:w1.5:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~irondefense",
+          "preset": "cartFunc:pend_rod:csilver:d1:w1.5:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~irondefense",
           "duration": "5",
           "starttick": "5",
           "applyAfter": false
@@ -4546,7 +4546,7 @@
       "name": "irontail",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:~irontail",
+          "preset": "cartFunc:psweep_attack:~irontail",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -4573,7 +4573,7 @@
       "name": "judgment",
       "animations": [
         {
-          "preset": "cartFunc:atrue:pendRod:d0.01:rtrue:l4:frand()*0.8,rand()*25,rand()*0.8:~judgment",
+          "preset": "cartFunc:atrue:pend_rod:d0.01:rtrue:l4:frand()*0.8,rand()*25,rand()*0.8:~judgment",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.evocation_illager.cast_spell",
@@ -4584,7 +4584,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pendRod:d0.01:l4:frand()*0.8,rand()*25,rand()*0.8:~judgment",
+          "preset": "cartFunc:pend_rod:d0.01:l4:frand()*0.8,rand()*25,rand()*0.8:~judgment",
           "duration": "5",
           "starttick": "5",
           "sound": "minecraft:entity.evocation_illager.prepare_summon",
@@ -4689,7 +4689,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.5:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~lastresort",
+          "preset": "cartFunc:pend_rod:d0.5:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~lastresort",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -4760,7 +4760,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d1:w1:~leafblade",
+          "preset": "cartFunc:psweep_attack:d1:w1:~leafblade",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -4809,7 +4809,7 @@
       "name": "leaftornado",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d0.5:atrue:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(10),(0.5-rand())*(1):~leaftornado",
+          "preset": "cartFunc:psweep_attack:d0.5:atrue:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(10),(0.5-rand())*(1):~leaftornado",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.cut",
@@ -4885,7 +4885,7 @@
       "name": "leer",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:w0.5:rtrue:atrue:~leer",
+          "preset": "cartFunc:pend_rod:d1:w0.5:rtrue:atrue:~leer",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -4956,7 +4956,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:cmagenta:d1:w1:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~lightscreen",
+          "preset": "cartFunc:pend_rod:cmagenta:d1:w1:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~lightscreen",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5005,13 +5005,13 @@
       "name": "luckychant",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d0.8:w1:rtrue:l20:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~luckychant",
+          "preset": "cartFunc:pend_rod:d0.8:w1:rtrue:l20:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~luckychant",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pmagicCrit:d0.4:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~luckychant",
+          "preset": "cartFunc:pcrit:d0.4:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~luckychant",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5022,7 +5022,7 @@
       "name": "lusterpurge",
       "animations": [
         {
-          "preset": "flow:pendRod:~lusterpurge",
+          "preset": "flow:pend_rod:~lusterpurge",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.unknown",
@@ -5033,7 +5033,7 @@
           "applyAfter": false
         },
         {
-          "preset": "throw:pendRod:~lusterpurge",
+          "preset": "throw:pend_rod:~lusterpurge",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.megaattack",
@@ -5127,7 +5127,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:cmagenta:d0.9:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
+          "preset": "cartFunc:pend_rod:cmagenta:d0.9:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5277,7 +5277,7 @@
           "applyAfter": false
         },
         {
-          "preset": "pons:pangryVillager:cblack:d0.8:w1:rtrue:l15:~meanlook",
+          "preset": "pons:pangry_villager:cblack:d0.8:w1:rtrue:l15:~meanlook",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5304,13 +5304,13 @@
       "name": "mefirst",
       "animations": [
         {
-          "preset": "pons:pendRod:d1:l3:~mefirst",
+          "preset": "pons:pend_rod:d1:l3:~mefirst",
           "duration": "3",
           "starttick": "2",
           "applyAfter": false
         },
         {
-          "preset": "beam:pendRod:d1:rtrue:l3:~mefirst",
+          "preset": "beam:pend_rod:d1:rtrue:l3:~mefirst",
           "duration": "2",
           "starttick": "0",
           "applyAfter": false
@@ -5338,7 +5338,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pendRod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~megadrain",
+          "preset": "cartFunc:pend_rod:d2:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~megadrain",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.waterpulse",
@@ -5430,7 +5430,7 @@
       "name": "metalclaw",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~metalclaw",
+          "preset": "cartFunc:pend_rod:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~metalclaw",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -5441,7 +5441,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:atrue:psweepAttack:d1:~metalclaw",
+          "preset": "cartFunc:atrue:psweep_attack:d1:~metalclaw",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -5479,7 +5479,7 @@
           "applyAfter": false
         },
         {
-          "preset": "pont:pendRod:d1:w1.5:l1:~miracleeye",
+          "preset": "pont:pend_rod:d1:w1.5:l1:~miracleeye",
           "duration": "2",
           "starttick": "3",
           "applyAfter": false
@@ -5490,7 +5490,7 @@
       "name": "mirrorshot",
       "animations": [
         {
-          "preset": "beam:atrue:pendRod:~mirrorshot",
+          "preset": "beam:atrue:pend_rod:~mirrorshot",
           "duration": "5",
           "starttick": "3",
           "sound": "pokecube:moves.payday",
@@ -5501,7 +5501,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.75:rtrue:atrue:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~mirrorshot",
+          "preset": "cartFunc:pend_rod:d0.75:rtrue:atrue:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~mirrorshot",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -5551,7 +5551,7 @@
       "name": "moonblast",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:rtrue:d0.75:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonblast",
+          "preset": "cartFunc:pend_rod:rtrue:d0.75:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonblast",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -5573,7 +5573,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:atrue:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonblast",
+          "preset": "cartFunc:pend_rod:atrue:d1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonblast",
           "duration": "5",
           "starttick": "5",
           "sound": "pokecube:moves.dig",
@@ -5589,7 +5589,7 @@
       "name": "moonlight",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d0.33:w3:rtrue:atrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1):~moonlight",
+          "preset": "cartFunc:pend_rod:d0.33:w3:rtrue:atrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1):~moonlight",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.unknown",
@@ -5600,7 +5600,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:phappyVillager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonlight",
+          "preset": "cartFunc:phappy_villager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~moonlight",
           "duration": "5",
           "starttick": "5",
           "applyAfter": false
@@ -5611,13 +5611,13 @@
       "name": "morningsun",
       "animations": [
         {
-          "preset": "cartFunc:phappyVillager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~morningsun",
+          "preset": "cartFunc:phappy_villager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~morningsun",
           "duration": "5",
           "starttick": "5",
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pfireworksSpark:d0.33:w3:atrue:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1):~morningsun",
+          "preset": "cartFunc:pfirework:d0.33:w3:atrue:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1):~morningsun",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.unknown",
@@ -5725,7 +5725,7 @@
       "name": "multiattack",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:atrue:d2:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~multiattack",
+          "preset": "cartFunc:psweep_attack:atrue:d2:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~multiattack",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.cut",
@@ -5736,7 +5736,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pmagicCrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~multiattack",
+          "preset": "cartFunc:pcrit:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~multiattack",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -5801,7 +5801,7 @@
       "name": "naturalgift",
       "animations": [
         {
-          "preset": "beam:pendRod:d0.5:w1:~naturalgift",
+          "preset": "beam:pend_rod:d0.5:w1:~naturalgift",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5834,7 +5834,7 @@
           "applyAfter": false
         },
         {
-          "preset": "powder:pendRod:cpink:d0.05:w2:l16:~naturesmadness",
+          "preset": "powder:pend_rod:cpink:d0.05:w2:l16:~naturesmadness",
           "duration": "5",
           "starttick": "5",
           "sound": "pokecube:moves.payday",
@@ -5921,7 +5921,7 @@
       "name": "nightslash",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:f0,0,0:~nightslash",
+          "preset": "cartFunc:psweep_attack:f0,0,0:~nightslash",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -5954,7 +5954,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pangryVillager:d2:w2:rtrue:l4:~nobleroar",
+          "preset": "cartFunc:pangry_villager:d2:w2:rtrue:l4:~nobleroar",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5998,7 +5998,7 @@
           "applyAfter": true
         },
         {
-          "preset": "flow:pendRod:cblack:d0.5:w0.5:~oblivionwing",
+          "preset": "flow:pend_rod:cblack:d0.5:w0.5:~oblivionwing",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.evocation_illager.prepare_attack",
@@ -6080,7 +6080,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pangryVillager:d1.5:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~outrage",
+          "preset": "cartFunc:pangry_villager:d1.5:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~outrage",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.sacredfire",
@@ -6421,7 +6421,7 @@
       "name": "powdersnow",
       "animations": [
         {
-          "preset": "flow:d0.5:psnowshovel:l7:~powdersnow",
+          "preset": "flow:d0.5:pitem_snowball:l7:~powdersnow",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.iceball",
@@ -6437,7 +6437,7 @@
       "name": "powergem",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:rtrue:d0.5:f(0.5-rand())*(1),(1.80-rand())*(2),(0.5-rand())*(1):~powergem",
+          "preset": "cartFunc:pend_rod:rtrue:d0.5:f(0.5-rand())*(1),(1.80-rand())*(2),(0.5-rand())*(1):~powergem",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -6549,7 +6549,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:w0.3:d0.1:~psybeam",
+          "preset": "flow:pend_rod:w0.3:d0.1:~psybeam",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -6637,7 +6637,7 @@
       "name": "psychocut",
       "animations": [
         {
-          "preset": "flow:psweepAttack:d0.1:w0.5:~psychocut",
+          "preset": "flow:psweep_attack:d0.1:w0.5:~psychocut",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.cut",
@@ -6768,13 +6768,13 @@
       "name": "punishment",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d4:l2:atrue:~punishment",
+          "preset": "cartFunc:psweep_attack:d4:l2:atrue:~punishment",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:plargesmoke:d1:atrue:w2.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~punishment",
+          "preset": "cartFunc:plarge_smoke:d1:atrue:w2.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~punishment",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.vicegrip",
@@ -6790,7 +6790,7 @@
       "name": "purify",
       "animations": [
         {
-          "preset": "flow:phappyVillager:~purify",
+          "preset": "flow:phappy_villager:~purify",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -6850,7 +6850,7 @@
       "name": "quiverdance",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:w1:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~quiverdance",
+          "preset": "cartFunc:pend_rod:d1:w1:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~quiverdance",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.safeguard",
@@ -6861,7 +6861,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:phappyVillager:d1:w1:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~quiverdance",
+          "preset": "cartFunc:phappy_villager:d1:w1:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~quiverdance",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -6932,7 +6932,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d3:~razorleaf",
+          "preset": "cartFunc:psweep_attack:d3:~razorleaf",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.cut",
@@ -6959,7 +6959,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d2:~razorshell",
+          "preset": "cartFunc:psweep_attack:d2:~razorshell",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -6986,13 +6986,13 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:d0.1:psweepAttack:~razorwind",
+          "preset": "flow:d0.1:psweep_attack:~razorwind",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:d10:psweepAttack:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~razorwind",
+          "preset": "cartFunc:d10:psweep_attack:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~razorwind",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.cut",
@@ -7008,7 +7008,7 @@
       "name": "recover",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:rtrue:atrue:l10:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover",
+          "preset": "cartFunc:pend_rod:rtrue:atrue:l10:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.safeguard",
@@ -7019,7 +7019,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:atrue:rtrue:d0.66:l3:w0.25:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover",
+          "preset": "cartFunc:pend_rod:atrue:rtrue:d0.66:l3:w0.25:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -7035,7 +7035,7 @@
       "name": "recycle",
       "animations": [
         {
-          "preset": "pons:phappyVillager:d1:l10:~recycle",
+          "preset": "pons:phappy_villager:d1:l10:~recycle",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -7070,7 +7070,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:clight_blue:d1:w1:rtrue:atrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~reflect",
+          "preset": "cartFunc:pend_rod:clight_blue:d1:w1:rtrue:atrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~reflect",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -7098,7 +7098,7 @@
       "name": "refresh",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:rtrue:atrue:l10:w0.9:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover:~refresh",
+          "preset": "cartFunc:pend_rod:rtrue:atrue:l10:w0.9:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover:~refresh",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.safeguard",
@@ -7109,7 +7109,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:atrue:rtrue:d0.66:l3:w0.18:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover:~refresh",
+          "preset": "cartFunc:pend_rod:atrue:rtrue:d0.66:l3:w0.18:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover:~refresh",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -7125,7 +7125,7 @@
       "name": "relicsong",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:w1.5:rtrue:atrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~relicsong",
+          "preset": "cartFunc:pend_rod:d1:w1.5:rtrue:atrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~relicsong",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.safeguard",
@@ -7136,7 +7136,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pfireworksSpark:d2:w2:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~relicsong",
+          "preset": "cartFunc:pfirework:d2:w2:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~relicsong",
           "duration": "5",
           "starttick": "2",
           "applyAfter": false
@@ -7174,7 +7174,7 @@
       "name": "retaliate",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:~retaliate",
+          "preset": "cartFunc:psweep_attack:~retaliate",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.fly",
@@ -7212,7 +7212,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d2:w1:rtrue:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~return",
+          "preset": "cartFunc:pend_rod:d2:w1:rtrue:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~return",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -7240,7 +7240,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pfireworksSpark:d2:atrue:rtrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~revelationdance",
+          "preset": "cartFunc:pfirework:d2:atrue:rtrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~revelationdance",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.withdraw",
@@ -7295,7 +7295,7 @@
       "name": "roar",
       "animations": [
         {
-          "preset": "flow:psnowshovel:d0.5:w3:l4:~roar",
+          "preset": "flow:pitem_snowball:d0.5:w3:l4:~roar",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -7312,7 +7312,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:w0.2:d0.7:l8:~roaroftime",
+          "preset": "flow:pend_rod:w0.2:d0.7:l8:~roaroftime",
           "duration": "5",
           "starttick": "2",
           "sound": "minecraft:entity.illusion_illager.prepare_blindness",
@@ -7334,7 +7334,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:rtrue:w1.5:d0.66:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~roaroftime",
+          "preset": "cartFunc:pend_rod:rtrue:w1.5:d0.66:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~:~roaroftime",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -7404,7 +7404,7 @@
       "name": "rockpolish",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:atrue:rtrue:d3:l3:~rockpolish",
+          "preset": "cartFunc:psweep_attack:atrue:rtrue:d3:l3:~rockpolish",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.withdraw",
@@ -7415,7 +7415,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pendRod:w1:rtrue:atrue:w1.25:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~rockpolish",
+          "preset": "cartFunc:pend_rod:w1:rtrue:atrue:w1.25:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~rockpolish",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.payday",
@@ -7649,7 +7649,7 @@
       "name": "roleplay",
       "animations": [
         {
-          "preset": "beam:pendRod:d0.5:rtrue:l5:atrue:~roleplay",
+          "preset": "beam:pend_rod:d0.5:rtrue:l5:atrue:~roleplay",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -7709,7 +7709,7 @@
       "name": "roost",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:rtrue:atrue:l10:w0.9:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover:~refresh:~roost",
+          "preset": "cartFunc:pend_rod:rtrue:atrue:l10:w0.9:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~recover:~refresh:~roost",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.safeguard",
@@ -7720,7 +7720,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pfireworksSpark:atrue:rtrue:d1:l3:w0.18:l30:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover:~refresh:~roost",
+          "preset": "cartFunc:pfirework:atrue:rtrue:d1:l3:w0.18:l30:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3):~:~recover:~refresh:~roost",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.fly",
@@ -7747,7 +7747,7 @@
       "name": "round",
       "animations": [
         {
-          "preset": "flow:pfireworksSpark:cwhite:d0.66:l3:~round",
+          "preset": "flow:pfirework:cwhite:d0.66:l3:~round",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.charm",
@@ -7769,7 +7769,7 @@
       "name": "sacredfire",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:clight_blue:d0.66:w0.66:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sacredfire",
+          "preset": "cartFunc:pend_rod:clight_blue:d0.66:w0.66:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sacredfire",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.flamewheel",
@@ -7791,7 +7791,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:w1.66:d0.5:~sacredfire",
+          "preset": "flow:pend_rod:w1.66:d0.5:~sacredfire",
           "duration": "5",
           "starttick": "2",
           "applyAfter": false
@@ -7830,7 +7830,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:psweepAttack:d4:atrue:l3:~sacredsword",
+          "preset": "cartFunc:psweep_attack:d4:atrue:l3:~sacredsword",
           "duration": "5",
           "starttick": "2",
           "sound": "pokecube:moves.slash",
@@ -7884,7 +7884,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d0.5:atrue:w1:l10:f(0.5-rand())*(1.5),(0.5-rand())*(18),(0.5-rand())*(1.5):~sandtomb",
+          "preset": "cartFunc:psweep_attack:d0.5:atrue:w1:l10:f(0.5-rand())*(1.5),(0.5-rand())*(18),(0.5-rand())*(1.5):~sandtomb",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -7938,7 +7938,7 @@
       "name": "scratch",
       "animations": [
         {
-          "preset": "cartFunc:atrue:psweepAttack:d1:w1:l2:~scratch",
+          "preset": "cartFunc:atrue:psweep_attack:d1:w1:l2:~scratch",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.scratch",
@@ -7954,7 +7954,7 @@
       "name": "screech",
       "animations": [
         {
-          "preset": "flow:pfireworksSpark:csilver:w2:atrue:d0.20:~screech",
+          "preset": "flow:pfirework:csilver:w2:atrue:d0.20:~screech",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -8008,7 +8008,7 @@
       "name": "secretpower",
       "animations": [
         {
-          "preset": "beam:pendRod:~secretpower",
+          "preset": "beam:pend_rod:~secretpower",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.zombie_villager.converted",
@@ -8019,7 +8019,7 @@
           "applyAfter": false
         },
         {
-          "preset": "beam:pfireworksSpark:l5:~secretpower",
+          "preset": "beam:pfirework:l5:~secretpower",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.zombie_villager.converted",
@@ -8035,7 +8035,7 @@
       "name": "secretsword",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:l3:atrue:~secretsword",
+          "preset": "cartFunc:psweep_attack:l3:atrue:~secretsword",
           "duration": "5",
           "starttick": "3",
           "sound": "pokecube:moves.slash",
@@ -8046,7 +8046,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:w1.75:l3:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~secretsword",
+          "preset": "cartFunc:pend_rod:w1.75:l3:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~secretsword",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -8100,7 +8100,7 @@
       "name": "seedflare",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d0.66:rtrue:atrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~seedflare",
+          "preset": "cartFunc:pend_rod:d0.66:rtrue:atrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~seedflare",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.unknown",
@@ -8122,7 +8122,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:atrue:d0.5:w0.5:~seedflare",
+          "preset": "flow:pend_rod:atrue:d0.5:w0.5:~seedflare",
           "duration": "5",
           "starttick": "3",
           "applyAfter": false
@@ -8226,7 +8226,7 @@
       "name": "shadowclaw",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d3:~shadowclaw",
+          "preset": "cartFunc:psweep_attack:d3:~shadowclaw",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -8340,7 +8340,7 @@
       "name": "sharpen",
       "animations": [
         {
-          "preset": "cartFunc:pfireworksSpark:cwhite:d2:w0.6:atrue:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sharpen",
+          "preset": "cartFunc:pfirework:cwhite:d2:w0.6:atrue:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sharpen",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -8383,7 +8383,7 @@
       "name": "shellsmash",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d0.8:w1.5:atrue:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shellsmash",
+          "preset": "cartFunc:pend_rod:d0.8:w1.5:atrue:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shellsmash",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.withdraw",
@@ -8437,7 +8437,7 @@
       "name": "shiftgear",
       "animations": [
         {
-          "preset": "cartFunc:pfireworksSpark:d1:w0.5:atrue:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shiftgear",
+          "preset": "cartFunc:pfirework:d1:w0.5:atrue:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~shiftgear",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -8546,7 +8546,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pendRod:w0.5:atrue:d0.33:~signalbeam",
+          "preset": "flow:pend_rod:w0.5:atrue:d0.33:~signalbeam",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -8557,7 +8557,7 @@
       "name": "silverwind",
       "animations": [
         {
-          "preset": "flow:pendRod:d0.5:w3.5:l5:~silverwind",
+          "preset": "flow:pend_rod:d0.5:w3.5:l5:~silverwind",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.unknown",
@@ -8612,7 +8612,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pendRod:cgreen:d1:w2:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sketch",
+          "preset": "cartFunc:pend_rod:cgreen:d1:w2:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~sketch",
           "duration": "5",
           "starttick": "5",
           "sound": "pokecube:moves.charm",
@@ -8672,7 +8672,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.5:w0.8:atrue:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~skyattack",
+          "preset": "cartFunc:pend_rod:d0.5:w0.8:atrue:rtrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~skyattack",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.safeguard",
@@ -8763,7 +8763,7 @@
       "name": "slash",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:~slash",
+          "preset": "cartFunc:psweep_attack:~slash",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -8931,7 +8931,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.75:w3:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~smartstrike",
+          "preset": "cartFunc:pend_rod:d0.75:w3:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~smartstrike",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -8979,7 +8979,7 @@
       "name": "smokescreen",
       "animations": [
         {
-          "preset": "powder:d0.33:w1.5:plargesmoke:l15:~smokescreen",
+          "preset": "powder:d0.33:w1.5:plarge_smoke:l15:~smokescreen",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.fly",
@@ -9061,7 +9061,7 @@
       "name": "softboiled",
       "animations": [
         {
-          "preset": "cartFunc:phappyVillager:d1:w1:rtrue:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~softboiled",
+          "preset": "cartFunc:phappy_villager:d1:w1:rtrue:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~softboiled",
           "duration": "5",
           "starttick": "5",
           "sound": "pokecube:moves.payday",
@@ -9072,7 +9072,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psnowballpoof:d3:w1:rtrue:atrue:l5:f0,0.5,0:~softboiled",
+          "preset": "cartFunc:ppoof:d3:w1:rtrue:atrue:l5:f0,0.5,0:~softboiled",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:block.glass.break",
@@ -9088,13 +9088,13 @@
       "name": "solarbeam",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:rtrue:d0.8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):atrue:~solarbeam",
+          "preset": "cartFunc:pend_rod:rtrue:d0.8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):atrue:~solarbeam",
           "duration": "5",
           "starttick": "0",
           "applyAfter": true
         },
         {
-          "preset": "flow:pendRod:atrue:d0.8:w0.4:~solarbeam",
+          "preset": "flow:pend_rod:atrue:d0.8:w0.4:~solarbeam",
           "duration": "5",
           "starttick": "3",
           "sound": "pokecube:moves.megaattack",
@@ -9121,7 +9121,7 @@
       "name": "solarblade",
       "animations": [
         {
-          "preset": "cartFunc:phappyVillager:d1:rtrue:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~solarblade",
+          "preset": "cartFunc:phappy_villager:d1:rtrue:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~solarblade",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.safeguard",
@@ -9138,7 +9138,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d1:w1:l4:~solarblade",
+          "preset": "cartFunc:psweep_attack:d1:w1:l4:~solarblade",
           "duration": "5",
           "starttick": "5",
           "sound": "pokecube:moves.slash",
@@ -9165,7 +9165,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:d3:psweepAttack:~sonicboom",
+          "preset": "cartFunc:d3:psweep_attack:~sonicboom",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.slash",
@@ -9192,7 +9192,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:d0.75:w3.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spacialrend",
+          "preset": "cartFunc:psweep_attack:d0.75:w3.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spacialrend",
           "duration": "5",
           "starttick": "2",
           "sound": "pokecube:moves.slash",
@@ -9323,7 +9323,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:plargesmoke:atrue:d1:w2:l25:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spectralthief",
+          "preset": "cartFunc:plarge_smoke:atrue:d1:w2:l25:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spectralthief",
           "duration": "5",
           "starttick": "4",
           "applyAfter": false
@@ -9552,7 +9552,7 @@
       "name": "steelwing",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:~steelwing",
+          "preset": "cartFunc:psweep_attack:~steelwing",
           "duration": "5",
           "starttick": "2",
           "applyAfter": false
@@ -9569,7 +9569,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:rtrue:d1.33:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~steelwing",
+          "preset": "cartFunc:pend_rod:rtrue:d1.33:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~steelwing",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -9689,7 +9689,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pendRod:rtrue:d0.8:w1:atrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~storedpower",
+          "preset": "cartFunc:pend_rod:rtrue:d0.8:w1:atrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~storedpower",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -9706,7 +9706,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d0.8:w1:atrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~storedpower",
+          "preset": "cartFunc:pend_rod:d0.8:w1:atrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~storedpower",
           "duration": "5",
           "starttick": "5",
           "applyAfter": false
@@ -9857,7 +9857,7 @@
       "name": "supersonic",
       "animations": [
         {
-          "preset": "flow:pendRod:d0.33:w0.5:atrue:l2:~supersonic",
+          "preset": "flow:pend_rod:d0.33:w0.5:atrue:l2:~supersonic",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -9938,7 +9938,7 @@
       "name": "swordsdance",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d2:atrue:w0.8:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~swordsdance",
+          "preset": "cartFunc:pend_rod:d2:atrue:w0.8:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~swordsdance",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.metalclaw",
@@ -9949,7 +9949,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pendRod:d2:atrue:w1.6:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~swordsdance",
+          "preset": "cartFunc:pend_rod:d2:atrue:w1.6:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~swordsdance",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.metalclaw",
@@ -9981,7 +9981,7 @@
       "name": "tailglow",
       "animations": [
         {
-          "preset": "cartFunc:pendRod:d1:w0.5:rtrue:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tailglow",
+          "preset": "cartFunc:pend_rod:d1:w0.5:rtrue:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tailglow",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.payday",
@@ -9992,7 +9992,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pendRod:d1:w3:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tailglow",
+          "preset": "cartFunc:pend_rod:d1:w3:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tailglow",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.safeguard",
@@ -10063,7 +10063,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pangryVillager:d1.5:w1:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~taunt",
+          "preset": "cartFunc:pangry_villager:d1.5:w1:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~taunt",
           "duration": "2",
           "starttick": "3",
           "applyAfter": false
@@ -10222,7 +10222,7 @@
       "name": "throatchop",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d1:l3:~throatchop",
+          "preset": "cartFunc:psweep_attack:d1:l3:~throatchop",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -10396,7 +10396,7 @@
       "name": "tickle",
       "animations": [
         {
-          "preset": "cartFunc:psnowshovel:d1.5:w0.3:atrue:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tickle",
+          "preset": "cartFunc:pitem_snowball:d1.5:w0.3:atrue:l3:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tickle",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.charm",
@@ -10439,7 +10439,7 @@
       "name": "toxicspikes",
       "animations": [
         {
-          "preset": "cartFunc:pmagicCrit:d0.1:w1:l3:f(0.5-rand())*(13),(0.5-rand())*(2),(0.5-rand())*(13):~toxicspikes",
+          "preset": "cartFunc:pcrit:d0.1:w1:l3:f(0.5-rand())*(13),(0.5-rand())*(2),(0.5-rand())*(13):~toxicspikes",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -10483,7 +10483,7 @@
       "name": "triattack",
       "animations": [
         {
-          "preset": "beam:psnowballpoof:clight_blue:d0.5:w1:l5:~triattack",
+          "preset": "beam:ppoof:clight_blue:d0.5:w1:l5:~triattack",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.iceball",
@@ -10567,7 +10567,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:preddust:cred:atrue:d1:w1.2:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tropkick",
+          "preset": "cartFunc:pdust:cred:atrue:d1:w1.2:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~tropkick",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -10638,7 +10638,7 @@
       "name": "twister",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~twister",
+          "preset": "cartFunc:psweep_attack:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(25),(0.5-rand())*(2):~twister",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.gustwind",
@@ -10997,7 +10997,7 @@
       "name": "wingattack",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:atrue:~wingattack",
+          "preset": "cartFunc:psweep_attack:atrue:~wingattack",
           "duration": "5",
           "starttick": "2",
           "sound": "pokecube:moves.cut",
@@ -11125,7 +11125,7 @@
       "name": "wrap",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:atrue:d1:l15:~wrap",
+          "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wrap",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.withdraw",
@@ -11136,13 +11136,13 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:atrue:d1:l15:~wrap",
+          "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wrap",
           "duration": "5",
           "starttick": "3",
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:atrue:d1:l10:~wrap",
+          "preset": "cartFunc:psweep_attack:atrue:d1:l10:~wrap",
           "duration": "5",
           "starttick": "5",
           "sound": "pokecube:moves.withdraw",
@@ -11158,7 +11158,7 @@
       "name": "wringout",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:atrue:d1:~wringout",
+          "preset": "cartFunc:psweep_attack:atrue:d1:~wringout",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.withdraw",
@@ -11169,13 +11169,13 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:atrue:d1:l15:~wringout",
+          "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wringout",
           "duration": "5",
           "starttick": "2",
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:psweepAttack:atrue:d1:l15:~wringout",
+          "preset": "cartFunc:psweep_attack:atrue:d1:l15:~wringout",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.withdraw",
@@ -11191,7 +11191,7 @@
       "name": "xscissor",
       "animations": [
         {
-          "preset": "cartFunc:psweepAttack:atrue:~xscissor",
+          "preset": "cartFunc:psweep_attack:atrue:~xscissor",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.slash",
@@ -11202,7 +11202,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:psweepAttack:atrue:~xscissor",
+          "preset": "cartFunc:psweep_attack:atrue:~xscissor",
           "duration": "5",
           "starttick": "5",
           "sound": "pokecube:moves.slash",

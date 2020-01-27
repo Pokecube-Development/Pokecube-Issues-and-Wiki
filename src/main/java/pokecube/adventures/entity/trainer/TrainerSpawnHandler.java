@@ -45,7 +45,6 @@ public class TrainerSpawnHandler
 {
     public static Map<UUID, ChunkCoordinate> trainerMap = Maps.newConcurrentMap();
     private static Vector3                   vec1       = Vector3.getNewVector();
-    private static Vector3                   vec2       = Vector3.getNewVector();
 
     static Vector3 v = Vector3.getNewVector(), v1 = Vector3.getNewVector(), v2 = Vector3.getNewVector();
 
@@ -59,26 +58,23 @@ public class TrainerSpawnHandler
      */
     public static void addTrainerCoord(final Entity e)
     {
-        final int x = (int) e.posX / 16;
-        final int y = (int) e.posY / 16;
-        final int z = (int) e.posZ / 16;
+        final int x = (int) e.posX;
+        final int y = (int) e.posY;
+        final int z = (int) e.posZ;
         final int dim = e.dimension.getId();
         final ChunkCoordinate coord = new ChunkCoordinate(x, y, z, dim);
         TrainerSpawnHandler.trainerMap.put(e.getUniqueID(), coord);
     }
 
-    public static int countTrainersInArea(final World world, final int chunkPosX, final int chunkPosY,
-            final int chunkPosZ, final int trainerBox)
+    public static int countTrainersInArea(final World world, final int x, final int y, final int z, final int radius)
     {
-        final int tolerance = trainerBox / 16;
         int ret = 0;
         for (final ChunkCoordinate o : TrainerSpawnHandler.trainerMap.values())
         {
             final ChunkCoordinate coord = o;
-            if (chunkPosX >= coord.getX() - tolerance && chunkPosZ >= coord.getZ() - tolerance && chunkPosY >= coord
-                    .getY() - tolerance && chunkPosY <= coord.getY() + tolerance && chunkPosX <= coord.getX()
-                            + tolerance && chunkPosZ <= coord.getZ() + tolerance && world.getDimension().getType()
-                                    .getId() == coord.dim) ret++;
+            if (x >= coord.getX() - radius && z >= coord.getZ() - radius && y >= coord.getY() - radius && y <= coord
+                    .getY() + radius && x <= coord.getX() + radius && z <= coord.getZ() + radius && world.getDimension()
+                            .getType().getId() == coord.dim) ret++;
         }
         return ret;
     }
@@ -116,8 +112,7 @@ public class TrainerSpawnHandler
         if (!world.isAreaLoaded(v.getPos(), 8)) return null;
 
         // Find surface
-        final Vector3 temp1 = Vector3.getNextSurfacePoint(world, TrainerSpawnHandler.vec1, TrainerSpawnHandler.vec2.set(
-                Direction.DOWN), 10);
+        final Vector3 temp1 = Vector3.getNextSurfacePoint(world, TrainerSpawnHandler.vec1, Vector3.secondAxisNeg, 10);
 
         if (temp1 != null)
         {
@@ -230,7 +225,7 @@ public class TrainerSpawnHandler
         v = temp != null ? temp.offset(Direction.UP) : v;
 
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
-        final int count = TrainerSpawnHandler.countTrainersInArea(w, v.intX() / 16, v.intY() / 16, v.intZ() / 16,
+        final int count = TrainerSpawnHandler.countTrainersInArea(w, v.intX(), v.intY(), v.intZ(),
                 Config.instance.trainerBox);
 
         if (count < Config.instance.trainerDensity)
@@ -252,6 +247,7 @@ public class TrainerSpawnHandler
                     (int) t.posZ))
             {
                 w.addEntity(t);
+                PokecubeCore.LOGGER.debug("Spawned Trainer: " + t);
                 TrainerSpawnHandler.addTrainerCoord(t);
             }
             else t.remove();

@@ -1,5 +1,6 @@
 package pokecube.core.interfaces.capabilities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -16,9 +17,13 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -47,6 +52,7 @@ import pokecube.core.ai.tasks.idle.AIRoutes;
 import pokecube.core.ai.tasks.utility.AIGatherStuff;
 import pokecube.core.ai.tasks.utility.AIStoreStuff;
 import pokecube.core.ai.tasks.utility.AIUseMove;
+import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.core.events.pokemob.InitAIEvent;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.EventsHandler;
@@ -56,6 +62,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.AITools;
+import pokecube.core.utils.TagNames;
 import thut.api.entity.ai.GoalsWrapper;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.GeneRegistry;
@@ -77,6 +84,9 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     {
         this();
         this.setEntity(mob);
+        // Register flying speed attribute.
+        if (this.entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED) == null) this.entity.getAttributes()
+                .registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
     }
 
     @Override
@@ -172,13 +182,6 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 entity.setPathPriority(PathNodeType.DAMAGE_FIRE, -1);
                 entity.setPathPriority(PathNodeType.DANGER_FIRE, -1);
             }
-
-        // TODO fix move helper.
-        // entity.moveController = new PokemobMoveHelper(entity);
-        // entity.jumpController = new PokemobJumpHelper(entity);
-
-        // entity.navigator = new PokemobNavigator(this,
-        // entity.getEntityWorld());
 
         // TODO decide on speed scaling here?
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);
@@ -359,5 +362,59 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     public void setTargetID(final int id)
     {
         this.dataSync.set(this.params.ATTACKTARGETIDDW, Integer.valueOf(id));
+    }
+
+    @Override
+    public boolean isSheared()
+    {
+        boolean sheared = this.getGeneralState(GeneralStates.SHEARED);
+        if (sheared && this.getEntity().isServerWorld())
+        {
+            final MinecraftServer server = this.getEntity().getServer();
+            final long lastShear = this.getEntity().getPersistentData().getLong(TagNames.SHEARTIME);
+            final ItemStack key = new ItemStack(Items.SHEARS);
+            if (this.getPokedexEntry().interact(key))
+            {
+                final Interaction action = this.getPokedexEntry().interactionLogic.actions.get(this
+                        .getPokedexEntry().interactionLogic.getKey(key));
+                final int timer = action.cooldown + this.rand.nextInt(1 + action.variance);
+                if (lastShear < server.getTickCounter() - timer)
+                {
+                    this.setGeneralState(GeneralStates.SHEARED, false);
+                    sheared = false;
+                }
+            }
+            // Cannot shear this!
+            else sheared = false;
+        }
+        return sheared;
+    }
+
+    @Override
+    public void shear()
+    {
+        if (this.isSheared() || !this.getEntity().isServerWorld()) return;
+
+        final ItemStack key = new ItemStack(Items.SHEARS);
+        if (this.getPokedexEntry().interact(key))
+        {
+            final MinecraftServer server = this.getEntity().getServer();
+            final ArrayList<ItemStack> ret = new ArrayList<>();
+            this.setGeneralState(GeneralStates.SHEARED, true);
+            this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, server.getTickCounter());
+            final List<ItemStack> list = this.getPokedexEntry().getInteractResult(key);
+            final Interaction action = this.getPokedexEntry().interactionLogic.actions.get(this
+                    .getPokedexEntry().interactionLogic.getKey(key));
+            final int time = this.getHungerTime();
+            this.setHungerTime(time + action.hunger);
+            for (final ItemStack stack : list)
+            {
+                final ItemStack toAdd = stack.copy();
+                // TODO process colour change of items properly?
+                ret.add(toAdd);
+            }
+            this.getEntity().playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
+        }
+
     }
 }

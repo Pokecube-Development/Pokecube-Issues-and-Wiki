@@ -272,8 +272,8 @@ public class PokecubeCore
         {
             if (!event.getMap().getBasePath().equals("textures")) return;
             PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
-            event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/cube_slot"));
-            event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/tm_slot"));
+            event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
+            event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));
         }
     }
 

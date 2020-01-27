@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
@@ -71,6 +69,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vector3f;
 
 @Mod.EventBusSubscriber
 public class PokemobEventsHandler
@@ -84,6 +83,12 @@ public class PokemobEventsHandler
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
+            if (pokemob.getOwnerId() != null && !(event.getEntity() instanceof PlayerEntity))
+            {
+                event.setCanceled(true);
+                return;
+            }
+
             final Collection<ItemEntity> bak = event.getEntity().captureDrops();
             event.getEntity().captureDrops(Lists.newArrayList());
             if (!pokemob.getGeneralState(GeneralStates.TAMED)) for (int i = 0; i < pokemob.getInventory()
@@ -320,9 +325,9 @@ public class PokemobEventsHandler
         if (attacker != null && damageSource.getImmediateSource() instanceof MobEntity) PokemobEventsHandler.handleExp(
                 (MobEntity) damageSource.getImmediateSource(), attacker, (LivingEntity) evt.getEntity());
 
-        // Recall if it is a pokemob.
-        IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (attacked != null) attacked.onRecall();
+        // // Recall if it is a pokemob.
+        final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        if (attacked != null && attacked.getGeneralState(GeneralStates.TAMED)) attacked.onRecall(true);
     }
 
     @SubscribeEvent
@@ -572,4 +577,5 @@ public class PokemobEventsHandler
         if (pokemob != null) for (final Logic l : pokemob.getTickLogic())
             if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
     }
+
 }

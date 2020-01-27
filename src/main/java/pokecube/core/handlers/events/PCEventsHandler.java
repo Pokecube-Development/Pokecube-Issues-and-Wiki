@@ -1,5 +1,6 @@
 package pokecube.core.handlers.events;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,6 +55,7 @@ public class PCEventsHandler
      */
     public static List<Entity> getOutMobs(final LivingEntity player, final boolean includeStay)
     {
+        if (player == null) return Collections.emptyList();
         return ((ServerWorld) player.getEntityWorld()).getEntities(null, c -> EventsHandler.validRecall(player, c, null,
                 false, includeStay));
     }
@@ -260,10 +262,8 @@ public class PCEventsHandler
             final PCInventory pc = PCInventory.getPC(id);
             final int num = inv.getFirstEmptyStack();
             if (evt.filledCube == null || pc == null) System.err.println("Cube is null");
-            else if (num == -1 || pc.autoToPC || !player.isAlive() || player.getHealth() <= 0)
-            {
-                PCInventory.addPokecubeToPC(evt.filledCube, catcher.getEntityWorld());
-            }
+            else if (num == -1 || pc.autoToPC || !player.isAlive() || player.getHealth() <= 0) PCInventory
+                    .addPokecubeToPC(evt.filledCube, catcher.getEntityWorld());
             else
             {
                 player.inventory.addItemStackToInventory(evt.filledCube);
@@ -273,10 +273,10 @@ public class PCEventsHandler
 
             // Apply the same code that StatsHandler does, as it does not
             // get the cancelled event.
-            ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
+            final ResourceLocation cube_id = PokecubeItems.getCubeId(evt.filledCube);
             if (IPokecube.BEHAVIORS.containsKey(cube_id))
             {
-                PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
+                final PokecubeBehavior cube = IPokecube.BEHAVIORS.getValue(cube_id);
                 cube.onPostCapture(evt);
             }
             StatsCollector.addCapture(evt.caught);

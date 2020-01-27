@@ -49,6 +49,7 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
         final BipedModel<?> theModel = (BipedModel<?>) this.livingEntityRenderer.getEntityModel();
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
+        if (worn == null) return;
 
         boolean thin = false;
 

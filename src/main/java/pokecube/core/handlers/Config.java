@@ -14,6 +14,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.ai.tasks.idle.AIIdle;
 import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
@@ -510,6 +511,10 @@ public class Config extends ConfigData
     public boolean       extraberries           = false;
     @Configure(category = Config.client)
     public boolean       battleLogInChat        = false;
+    @Configure(category = Config.client)
+    public boolean       pokeCenterMusic        = true;
+    @Configure(category = Config.client)
+    public int           pokeCenterLoopDir      = 577;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs               = Lists.newArrayList();
@@ -704,6 +709,7 @@ public class Config extends ConfigData
         if (this.hungerTickRate == 0) this.hungerTickRate = 1;
 
         AIIdle.IDLETIMER = this.idleTickRate;
+        AIHungry.TICKRATE = this.hungerTickRate;
 
         // TODO Init secret bases.
         // DimensionSecretBase.init(baseSizeFunction);

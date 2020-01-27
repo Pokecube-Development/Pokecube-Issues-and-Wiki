@@ -52,7 +52,7 @@ public class SecretBaseDimension extends ModDimension
         final DimensionType targetDim = SecretBaseDimension.TYPE;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
         final Vector4 dest = new Vector4(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, targetDim.getId());
-        ThutTeleporter.transferTo(player, dest);
+        ThutTeleporter.transferTo(player, dest, true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.enter"));
     }
 
@@ -61,7 +61,7 @@ public class SecretBaseDimension extends ModDimension
         final DimensionType targetDim = DimensionType.OVERWORLD;
         final BlockPos pos = SecretBaseDimension.getSecretBaseLoc(baseOwner, player.getServer(), targetDim);
         final Vector4 dest = new Vector4(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, targetDim.getId());
-        ThutTeleporter.transferTo(player, dest);
+        ThutTeleporter.transferTo(player, dest, true);
         player.sendMessage(new TranslationTextComponent("pokecube.secretbase.exit"));
     }
 
@@ -70,8 +70,8 @@ public class SecretBaseDimension extends ModDimension
         final CompoundNBT tag = PokecubePlayerDataHandler.getCustomDataTag(player);
         final CompoundNBT exit = new CompoundNBT();
         exit.putInt("x", pos.getX());
-        exit.putInt("y", pos.getX());
-        exit.putInt("z", pos.getX());
+        exit.putInt("y", pos.getY());
+        exit.putInt("z", pos.getZ());
         if (dim == SecretBaseDimension.TYPE) tag.put("secret_base_internal", exit);
         else tag.put("secret_base_exit", exit);
     }

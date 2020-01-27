@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -212,6 +213,9 @@ public class AIBattle extends AITrainerBase
     public void tick()
     {
         super.tick();
+        ItemStack cube = this.trainer.getNextPokemob();
+        if (this.trainer.getCooldown() > 0 && this.trainer.getTarget() == null) cube = ItemStack.EMPTY;
+        this.entity.setHeldItem(Hand.MAIN_HAND, cube);
         if (this.trainer.getTarget() != null) this.updateTask();
         else if (this.trainer.getOutID() != null) this.resetTask();
         this.trainer.lowerCooldowns();

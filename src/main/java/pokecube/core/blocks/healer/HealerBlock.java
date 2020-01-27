@@ -15,10 +15,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import pokecube.core.blocks.tms.TMBlock;
 import pokecube.core.inventory.healer.HealerContainer;
 
 public class HealerBlock extends HorizontalBlock
@@ -44,12 +42,6 @@ public class HealerBlock extends HorizontalBlock
     {
         builder.add(HealerBlock.FACING);
         builder.add(HealerBlock.FIXED);
-    }
-
-    @Override
-    public VoxelShape getRenderShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
-    {
-        return TMBlock.RENDERSHAPE;
     }
 
     @Override

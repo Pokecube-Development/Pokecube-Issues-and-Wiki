@@ -72,6 +72,7 @@ import thut.api.entity.ai.GoalsWrapper;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.SyncHandler;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
@@ -339,6 +340,7 @@ public class TrainerEventHandler
         final int level = SpawnHandler.getSpawnLevel(npc.getEntityWorld(), Vector3.getNewVector().set(npc), Database
                 .getEntry(1));
         TypeTrainer.getRandomTeam(mobs, npc, level, npc.getEntityWorld());
+        EntityUpdate.sendEntityUpdate(npc);
     }
 
     /**

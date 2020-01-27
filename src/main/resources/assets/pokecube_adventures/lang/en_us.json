@@ -45,6 +45,9 @@
     "block.pokecube_adventures.daycare": "Daycare Block",
     "block.pokecube_adventures.commander": "Pokemob Command Block",
     "block.pokecube_adventures.siphon": "Energy Siphon",
+    
+    
+    "entity.pokecube_adventures.trainer": "Trainer",
 
     "gui.pokemobbag.title": "%s's Bag",
 

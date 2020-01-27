@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -34,6 +33,7 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -304,8 +304,7 @@ public class TypeTrainer
         final IHasPokemobs cap = CapabilityHasPokemobs.getHasPokemobs(trainer);
         if (this.texture == null && (this.genders == 1 || this.genders == 2))
         {
-            this.texture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + this.name.toLowerCase(Locale.US)
-                    + ".png");
+            this.texture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.name) + ".png");
             if (!this.texExists(this.texture)) this.texture = null;
             if (this.genders == 2 && this.texture == null) this.texture = new ResourceLocation(
                     PokecubeAdv.TRAINERTEXTUREPATH + "female.png");
@@ -316,14 +315,13 @@ public class TypeTrainer
         {
             if (this.femaleTexture == null)
             {
-                this.femaleTexture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + this.name.toLowerCase(
-                        Locale.US) + "female.png");
+                this.femaleTexture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.name)
+                        + "female.png");
                 if (!this.texExists(this.femaleTexture)) this.femaleTexture = null;
             }
             if (this.texture == null)
             {
-                this.texture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + this.name.toLowerCase(Locale.US)
-                        + ".png");
+                this.texture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.name) + ".png");
                 if (!this.texExists(this.texture)) this.texture = null;
             }
             if (this.femaleTexture == null) this.femaleTexture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH

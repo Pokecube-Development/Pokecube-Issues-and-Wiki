@@ -18,6 +18,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -573,7 +574,8 @@ public class CapabilityHasPokemobs
         @Override
         public void throwCubeAt(final Entity target)
         {
-            if (target == null || this.aiStates.getAIState(IHasNPCAIStates.THROWING)) return;
+            if (target == null || this.aiStates.getAIState(IHasNPCAIStates.THROWING) || !(target
+                    .getEntityWorld() instanceof ServerWorld)) return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())
             {
@@ -582,6 +584,8 @@ public class CapabilityHasPokemobs
                 final Vector3 here = Vector3.getNewVector().set(this.user);
                 final Vector3 t = Vector3.getNewVector().set(target);
                 t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
+                PokecubeManager.heal(i);// Heal them here, so we don't need
+                                        // world to add to inventory
                 cube.throwPokecubeAt(this.user.getEntityWorld(), this.user, i, t, null);
                 this.aiStates.setAIState(IHasNPCAIStates.THROWING, true);
                 this.attackCooldown = Config.instance.trainerSendOutDelay;
@@ -630,11 +634,7 @@ public class CapabilityHasPokemobs
                     {
                         found = true;
                         foundID = i;
-                        if (this.canLevel())
-                        {
-                            PokecubeManager.heal(mob);
-                            this.setPokemob(i, mob.copy());
-                        }
+                        if (this.canLevel()) this.setPokemob(i, mob.copy());
                         else mob = this.getPokemob(i);
                         break;
                     }
@@ -644,12 +644,10 @@ public class CapabilityHasPokemobs
                 if (!found && this.getPokemob(i).isEmpty())
                 {
                     this.setPokemob(i, mob.copy());
-                    PokecubeManager.heal(this.getPokemob(i));
                     break;
                 }
                 if (found && foundID == i) if (this.getPokemob(i).isEmpty())
                 {
-                    PokecubeManager.heal(mob);
                     this.setPokemob(i, mob.copy());
                     break;
                 }

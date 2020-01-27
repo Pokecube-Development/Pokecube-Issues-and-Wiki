@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1" shear="tail:tail1:tail2:tail3"/>
   <customTex default="slowpoke">
    <part name="Head" tex="slowpokehead"/>
    <animation diffs="0.39,0" part="Head" trigger="random:0.005:25"/>
