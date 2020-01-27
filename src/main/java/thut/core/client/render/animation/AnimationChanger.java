@@ -116,8 +116,8 @@ public class AnimationChanger implements IAnimationChanger
         this.checkWildCard(part);
         for (final IAnimationChanger child : this.children)
             if (child.isPartHidden(part, entity, default_)) return true;
-        if (this.shearables.contains(part)) return !((IShearable) entity).isShearable(new ItemStack(Items.SHEARS),
-                entity.getEntityWorld(), entity.getPosition());
+        if (this.shearables.contains(part) && entity instanceof IShearable) return !((IShearable) entity).isShearable(
+                new ItemStack(Items.SHEARS), entity.getEntityWorld(), entity.getPosition());
         return default_;
     }
 

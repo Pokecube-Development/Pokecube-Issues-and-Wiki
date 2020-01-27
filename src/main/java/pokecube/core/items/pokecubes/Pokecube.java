@@ -379,7 +379,7 @@ public class Pokecube extends Item implements IPokecube
         }
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
-        entity.shootingEntity = thrower;
+        entity.shootingEntity = thrower.isSneaking() ? null : thrower;
         entity.shooter = thrower.getUniqueID();
         entity.setItem(stack);
 
@@ -396,7 +396,7 @@ public class Pokecube extends Item implements IPokecube
         {
             thrower.playSound(SoundEvents.ENTITY_EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
             world.addEntity(entity);
-            if (hasMob) PlayerPokemobCache.UpdateCache(stack, false, false);
+            if (hasMob && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(stack, false, false);
         }
         return true;
     }
@@ -443,7 +443,8 @@ public class Pokecube extends Item implements IPokecube
             {
                 thrower.playSound(SoundEvents.ENTITY_EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
                 world.addEntity(entity);
-                if (PokecubeManager.isFilled(stack)) PlayerPokemobCache.UpdateCache(stack, false, false);
+                if (PokecubeManager.isFilled(stack) && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(
+                        stack, false, false);
             }
         }
         else if (!rightclick) return false;

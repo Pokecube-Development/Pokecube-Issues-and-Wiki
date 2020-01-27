@@ -197,7 +197,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     }
 
     @Override
-    public void onRecall()
+    public void onRecall(final boolean onDeath)
     {
         if (this.returning) return;
         this.returning = true;
@@ -319,7 +319,9 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             this.getEntity().captureDrops(null);
 
             // Set Dead for deletion
-            this.getEntity().remove();
+            System.out.println(onDeath);
+            this.getEntity().remove(onDeath);
+            Thread.dumpStack();
         }
     }
 

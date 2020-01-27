@@ -297,8 +297,13 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     }
 
+    void onRecall(boolean onDeath);
+
     /** The mob returns to its pokecube. */
-    void onRecall();
+    default void onRecall()
+    {
+        this.onRecall(false);
+    }
 
     /** Called to init the mob after it went out of its pokecube. */
     void onSendOut();

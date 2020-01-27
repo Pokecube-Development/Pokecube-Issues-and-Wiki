@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks.combat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -21,9 +22,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.handlers.TeamManager;
+import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -57,7 +58,7 @@ public class AIFindTarget extends AIBase implements IAICombat
     public static Predicate<IPokemob> shouldAgroNearestPlayer = AITools.shouldAgroNearestPlayer;
 
     @SubscribeEvent
-    public static void livingSetTargetEvent(LivingSetAttackTargetEvent evt)
+    public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
     {
         if (!AIFindTarget.handleDamagedTargets || evt.getEntity().getEntityWorld().isRemote) return;
         // Only handle attack target set, not revenge target set.
@@ -69,11 +70,30 @@ public class AIFindTarget extends AIBase implements IAICombat
                     + " is targetting self again.", new IllegalArgumentException());
             return;
         }
+
+        final List<Entity> outmobs = PCEventsHandler.getOutMobs(evt.getTarget(), true);
+        if (!outmobs.isEmpty() && evt.getEntityLiving() instanceof MobEntity)
+        {
+            Collections.sort(outmobs, (o1, o2) ->
+            {
+                final double dist1 = o1.getDistanceSq(evt.getEntityLiving());
+                final double dist2 = o2.getDistanceSq(evt.getEntityLiving());
+                return (int) (dist1 - dist2);
+            });
+            final Entity nearest = outmobs.get(0);
+            if (nearest.getDistanceSq(evt.getEntityLiving()) < 256 && nearest instanceof LivingEntity)
+            {
+                ((MobEntity) evt.getEntityLiving()).setAttackTarget((LivingEntity) nearest);
+                return;
+            }
+        }
+
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (pokemob != null)
         {
             // Prevent pokemob from targetting its owner.
-            if (pokemob.getOwner() != null && evt.getTarget() == pokemob.getOwner())
+            if (evt.getTarget() != null && pokemob.getOwnerId() != null && pokemob.getOwnerId().equals(evt.getTarget()
+                    .getUniqueID()))
             {
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.log(Level.WARN, evt.getTarget()
                         + " is targetting owner.", new IllegalArgumentException());
@@ -85,7 +105,7 @@ public class AIFindTarget extends AIBase implements IAICombat
 
     /** Prevents the owner from attacking their own pokemob. */
     @SubscribeEvent
-    public static void onAttacked(LivingAttackEvent event)
+    public static void onAttacked(final LivingAttackEvent event)
     {
         if (!AIFindTarget.handleDamagedTargets || event.getEntity().getEntityWorld().isRemote) return;
 
@@ -97,8 +117,8 @@ public class AIFindTarget extends AIBase implements IAICombat
         final Entity attacker = source.getTrueSource();
 
         // Camcel the event if it is from owner.
-        if (pokemobCap.getGeneralState(GeneralStates.TAMED) && attacker instanceof PlayerEntity
-                && (PlayerEntity) attacker == pokemobCap.getOwner())
+        if (pokemobCap.getGeneralState(GeneralStates.TAMED) && attacker instanceof PlayerEntity && attacker
+                .getUniqueID().equals(pokemobCap.getOwnerId()))
         {
             event.setCanceled(true);
             event.setResult(Result.DENY);
@@ -111,7 +131,7 @@ public class AIFindTarget extends AIBase implements IAICombat
      * properly setting attack targets for whatever was hurt.
      */
     @SubscribeEvent
-    public static void onDamaged(LivingDamageEvent event)
+    public static void onDamaged(final LivingDamageEvent event)
     {
         if (!AIFindTarget.handleDamagedTargets || event.getEntity().getEntityWorld().isRemote) return;
 
@@ -179,7 +199,7 @@ public class AIFindTarget extends AIBase implements IAICombat
     private int             agroTimer        = -1;
     private LivingEntity    entityTarget     = null;
 
-    public AIFindTarget(IPokemob mob)
+    public AIFindTarget(final IPokemob mob)
     {
         super(mob);
     }
@@ -191,7 +211,7 @@ public class AIFindTarget extends AIBase implements IAICombat
      *
      * @return someone needed help.
      */
-    protected boolean checkForHelp(LivingEntity from)
+    protected boolean checkForHelp(final LivingEntity from)
     {
         // No need to get help against null
         if (from == null) return false;
@@ -393,7 +413,7 @@ public class AIFindTarget extends AIBase implements IAICombat
      * Returns the closest vulnerable player within the given radius, or null
      * if none is found.
      */
-    PlayerEntity getClosestVulnerablePlayer(double x, double y, double z, double distance)
+    PlayerEntity getClosestVulnerablePlayer(final double x, final double y, final double z, final double distance)
     {
         double d4 = -1.0D;
         PlayerEntity PlayerEntity = null;
@@ -427,7 +447,7 @@ public class AIFindTarget extends AIBase implements IAICombat
      * Returns the closest vulnerable player to this entity within the given
      * radius, or null if none is found
      */
-    PlayerEntity getClosestVulnerablePlayerToEntity(Entity entity, double distance)
+    PlayerEntity getClosestVulnerablePlayerToEntity(final Entity entity, final double distance)
     {
         return this.getClosestVulnerablePlayer(entity.posX, entity.posY, entity.posZ, distance);
     }
@@ -462,6 +482,10 @@ public class AIFindTarget extends AIBase implements IAICombat
     public boolean shouldRun()
     {
         if (!this.pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
+
+        // Ensure the correct owner is tracked.
+        this.pokemob.getOwner(this.world);
+
         LivingEntity target = this.entity.getAttackTarget();
 
         // Don't look for targets if you are sitting.
@@ -471,7 +495,7 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Target is too far away, lets forget it.
         if (target != null && this.entity.getDistance(target) > PokecubeCore.getConfig().chaseDistance)
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Forgetting Target due to distance.");
+            PokecubeCore.LOGGER.debug("Forgetting Target due to distance.");
             this.setAttackTarget(this.entity, null);
             this.agroTimer = -1;
             this.entityTarget = null;
@@ -503,8 +527,7 @@ public class AIFindTarget extends AIBase implements IAICombat
                 }
                 else
                 {
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO,
-                            "Somehow lost target? Well, found it back again!");
+                    PokecubeCore.LOGGER.debug("Somehow lost target? Well, found it back again!");
                     this.setAttackTarget(this.entity, this.entityTarget);
                 }
             }
@@ -520,7 +543,7 @@ public class AIFindTarget extends AIBase implements IAICombat
                     && ((TameableEntity) this.entityTarget).getOwner() == target && this.pokemob.getGeneralState(
                             GeneralStates.TAMED) && this.entityTarget.getHealth() <= 0)
             {
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Battle is over.");
+                PokecubeCore.LOGGER.debug("Battle is over.");
                 this.setAttackTarget(this.entity, null);
                 this.setCombatState(this.pokemob, CombatStates.ANGRY, false);
                 this.entityTarget = null;
@@ -536,7 +559,7 @@ public class AIFindTarget extends AIBase implements IAICombat
             {
                 this.setAttackTarget(this.entity, null);
                 this.entityTarget = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Target is dead!");
+                PokecubeCore.LOGGER.debug("Target is dead!");
                 return false;
             }
 
@@ -545,7 +568,7 @@ public class AIFindTarget extends AIBase implements IAICombat
             {
                 this.setAttackTarget(this.entity, null);
                 this.entityTarget = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Cannot target self.");
+                PokecubeCore.LOGGER.debug("Cannot target self.");
                 return false;
             }
 
@@ -554,16 +577,16 @@ public class AIFindTarget extends AIBase implements IAICombat
             {
                 this.setAttackTarget(this.entity, null);
                 this.entityTarget = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Not Angry. losing target now.");
+                PokecubeCore.LOGGER.debug("Not Angry. losing target now.");
                 return false;
             }
 
             // If our target is owner, we should forget it.
-            if (target == this.pokemob.getOwner())
+            if (target.getUniqueID().equals(this.pokemob.getOwnerId()))
             {
                 this.setAttackTarget(this.entity, null);
                 this.entityTarget = null;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Cannot target owner.");
+                PokecubeCore.LOGGER.debug("Cannot target owner.");
                 return false;
             }
 
@@ -596,7 +619,7 @@ public class AIFindTarget extends AIBase implements IAICombat
                 this.setCombatState(this.pokemob, CombatStates.ANGRY, true);
                 this.setAttackTarget(this.entity, player);
                 this.entityTarget = player;
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Found player to be angry with, agressing.");
+                PokecubeCore.LOGGER.debug("Found player to be angry with, agressing.");
                 return false;
             }
         }

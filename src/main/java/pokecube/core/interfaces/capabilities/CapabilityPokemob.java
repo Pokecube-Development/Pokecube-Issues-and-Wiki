@@ -14,25 +14,25 @@ public class CapabilityPokemob
     {
 
         @Override
-        public void readNBT(Capability<IPokemob> capability, IPokemob instance, Direction side, INBT nbt)
+        public void readNBT(final Capability<IPokemob> capability, final IPokemob instance, final Direction side,
+                final INBT nbt)
         {
-            if (instance instanceof DefaultPokemob && nbt instanceof CompoundNBT) ((DefaultPokemob) instance)
-                    .read((CompoundNBT) nbt);
+            if (instance instanceof DefaultPokemob && nbt instanceof CompoundNBT) ((DefaultPokemob) instance).read(
+                    (CompoundNBT) nbt);
         }
 
         @Override
-        public INBT writeNBT(Capability<IPokemob> capability, IPokemob instance, Direction side)
+        public INBT writeNBT(final Capability<IPokemob> capability, final IPokemob instance, final Direction side)
         {
             if (instance instanceof DefaultPokemob) return ((DefaultPokemob) instance).write();
             return null;
         }
-
     }
 
     @CapabilityInject(IPokemob.class)
     public static final Capability<IPokemob> POKEMOB_CAP = null;
 
-    public static IPokemob getPokemobFor(ICapabilityProvider entityIn)
+    public static IPokemob getPokemobFor(final ICapabilityProvider entityIn)
     {
         if (entityIn == null) return null;
         final IPokemob pokemobHolder = entityIn.getCapability(CapabilityPokemob.POKEMOB_CAP, null).orElse(null);

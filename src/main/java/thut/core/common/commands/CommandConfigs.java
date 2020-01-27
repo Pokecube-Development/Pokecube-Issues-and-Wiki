@@ -58,14 +58,16 @@ public class CommandConfigs
         if (val.equals("!set"))
         {
             CommandConfigs.handleSet(data, args, value, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.set", field, value), true);
+            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.set", field, value),
+                    true);
             return 0;
         }
 
         if (val.equals("!add"))
         {
             CommandConfigs.handleAdd(data, args, value, f);
-            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.add", field, value), true);
+            source.sendFeedback(new TranslationTextComponent("thutcore.command.settings.array.add", field, value),
+                    true);
             return 0;
         }
 
@@ -216,10 +218,11 @@ public class CommandConfigs
         }
     }
 
-    public static void register(final ConfigData data, final CommandDispatcher<CommandSource> commandDispatcher)
+    public static void register(final ConfigData data, final CommandDispatcher<CommandSource> commandDispatcher,
+            final String prefix)
     {
         String name = "";
-        name = "conf_check_" + data.MODID;
+        name = prefix + "_check";
         final String perm1 = "command." + name;
         PermissionAPI.registerNode(perm1, DefaultPermissionLevel.OP, "Is the player allowed to check configs for "
                 + data.MODID);
@@ -230,7 +233,7 @@ public class CommandConfigs
                                 StringArgumentType.getString(ctx, "option"))));
         commandDispatcher.register(command);
 
-        name = "conf_set_" + data.MODID;
+        name = prefix + "_set";
         final String perm2 = "command." + name;
         PermissionAPI.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to set configs for "
                 + data.MODID);

@@ -201,9 +201,7 @@ public class Vector3
             dx = i * direction.x;
             dy = i * direction.y;
             dz = i * direction.z;
-
             final double xtest = source.x + dx, ytest = source.y + dy, ztest = source.z + dz;
-
             boolean check = Vector3.isPointClearBlocks_internal(xtest, ytest - dy, ztest - dz, world, pos);
             check = check && Vector3.isPointClearBlocks_internal(xtest - dx, ytest, ztest - dz, world, pos);
             check = check && Vector3.isPointClearBlocks_internal(xtest - dx, ytest - dy, ztest, world, pos);
@@ -212,7 +210,7 @@ public class Vector3
         return null;
     }
 
-    private static boolean isPointClearBlocks_internal(final double x, final double y, final double z,
+    public static boolean isPointClearBlocks_internal(final double x, final double y, final double z,
             final IBlockReader world, final MutableBlockPos pos)
     {
         final int x0 = MathHelper.floor(x), y0 = MathHelper.floor(y), z0 = MathHelper.floor(z);
@@ -222,7 +220,7 @@ public class Vector3
         final VoxelShape shape = state.getCollisionShape(world, pos);
         final List<AxisAlignedBB> aabbs = shape.toBoundingBoxList();
         for (final AxisAlignedBB aabb : aabbs)
-            if (aabb != null) if (aabb.contains(x, y, z)) return false;
+            if (aabb != null) if (aabb.contains(x - x0, y - y0, z - z0)) return false;
         return true;
     }
 

@@ -52,7 +52,6 @@ public class HealerTile extends TileEntity implements ITickableTileEntity
         // Start playing the sound
         if (!sound)
         {
-            System.out.println("Starting: " + this.tick + " " + this.tickDuration + " " + this.startTick);
             this.tick = 0;
             PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), play, false, SoundCategory.RECORDS);
         }

@@ -514,7 +514,7 @@ public class Config extends ConfigData
     @Configure(category = Config.client)
     public boolean       pokeCenterMusic        = true;
     @Configure(category = Config.client)
-    public int           pokeCenterLoopDir      = 578;
+    public int           pokeCenterLoopDir      = 577;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs               = Lists.newArrayList();

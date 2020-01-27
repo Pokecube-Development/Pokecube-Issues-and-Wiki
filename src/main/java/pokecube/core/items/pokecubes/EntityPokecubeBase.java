@@ -387,7 +387,6 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         case BLOCK:
             // No phasing through stuff.
             this.setMotion(0, 0, 0);
-
             // Only handle this on clients, and if not capturing something
             if (this.isServerWorld()) if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) this.sendOut(true);
             break;
@@ -672,6 +671,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
                     raytraceresult);
         }
+        else if (this.shootingEntity != null && this.getMotion().lengthSquared() == 0) if (this.isServerWorld())
+            if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) this.sendOut(true);
 
         final Vec3d vec3d = this.getMotion();
         this.posX += vec3d.x;

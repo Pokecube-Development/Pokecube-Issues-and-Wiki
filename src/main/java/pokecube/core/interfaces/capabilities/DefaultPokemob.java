@@ -173,12 +173,9 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 entity.setPathPriority(PathNodeType.DANGER_FIRE, -1);
             }
 
-        // TODO fix move helper.
-        // entity.moveController = new PokemobMoveHelper(entity);
-        // entity.jumpController = new PokemobJumpHelper(entity);
-
-        // entity.navigator = new PokemobNavigator(this,
-        // entity.getEntityWorld());
+        // Register flying speed attribute.
+        if (entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED) == null) entity.getAttributes().registerAttribute(
+                SharedMonsterAttributes.FLYING_SPEED);
 
         // TODO decide on speed scaling here?
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);

@@ -68,7 +68,6 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     public void init()
     {
         final Vector3 pos = Vector3.getNewVector().set(this);
-        // TODO init spawn for nest here.
         for (int i = 0; i < NestTile.NESTSPAWNTYPES; i++)
         {
             int tries = 0;
@@ -161,6 +160,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
                     .nextGaussian()).setStack(eggItem);
             final EggEvent.Lay event = new EggEvent.Lay(egg);
             MinecraftForge.EVENT_BUS.post(event);
+            egg.setGrowingAge(-100);// Make it spawn after 5s
             if (!event.isCanceled()) this.world.addEntity(egg);
         }
     }

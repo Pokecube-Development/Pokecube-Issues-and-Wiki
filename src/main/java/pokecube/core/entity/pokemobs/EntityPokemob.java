@@ -48,8 +48,8 @@ import thut.core.common.world.mobs.data.DataSync_Impl;
 
 public class EntityPokemob extends TameableEntity implements IEntityAdditionalSpawnData, IFlyingAnimal, IMobColourable
 {
-    protected final DefaultPokemob pokemobCap;
-    protected final EntitySize     size;
+    public final DefaultPokemob pokemobCap;
+    protected final EntitySize  size;
 
     public EntityPokemob(final EntityType<? extends TameableEntity> type, final World world)
     {
