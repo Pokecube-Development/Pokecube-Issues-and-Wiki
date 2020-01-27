@@ -1,17 +1,5 @@
 {
   "structures": [
-    {
-      "name": "ruin_1",
-      "chance": 0.002,
-      "offset": -3,
-      "biomeType": "ruin",
-      "spawn": {
-        "values": {
-          "types": "plains"
-        }
-      },
-      "priority": 100
-    },
 	{
       "name": "space_temple",
       "chance": 0.001,
@@ -20,8 +8,7 @@
         "values": {
           "types": "end"
         }
-      },
-      "priority": 80
+      }
     },
 	{
       "name": "celebi_temple",
@@ -33,8 +20,7 @@
 		  "typesBlacklist": "sparse,cold,dry,spooky",
           "types": "forest"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "hooh_tower",
@@ -44,8 +30,7 @@
         "values": {
           "types": "plains"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "zacian_temple",
@@ -55,8 +40,7 @@
         "values": {
           "types": "river"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "zamazenta_temple",
@@ -66,8 +50,7 @@
         "values": {
           "types": "river"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "kyogre_temple",
@@ -77,8 +60,7 @@
         "values": {
           "types": "ocean"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "groudon_temple",
@@ -88,8 +70,7 @@
         "values": {
           "types": "nether"
         }
-      },
-      "priority": 70
+      }
     },
 	{
       "name": "regis_temple",
@@ -99,8 +80,7 @@
         "values": {
           "types": "snowy"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "xerneas_place",
@@ -110,8 +90,7 @@
         "values": {
           "types": "spooky"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "yveltal_place",
@@ -121,8 +100,7 @@
         "values": {
           "types": "sandy"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "nature_place",
@@ -132,8 +110,7 @@
         "values": {
           "types": "swamp"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "keldeo_place",
@@ -143,8 +120,7 @@
         "values": {
           "types": "mountain"
         }
-      },
-      "priority": 60
+      }
     },
 	{
       "name": "lugia_tower",
@@ -154,8 +130,7 @@
         "values": {
           "types": "cold"
         }
-      },
-      "priority": 60
+      }
     }
   ],
   "multiStructures": []

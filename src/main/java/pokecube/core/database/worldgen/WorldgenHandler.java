@@ -68,8 +68,8 @@ public class WorldgenHandler
          * Parts are sorted by priority, then the first to have a successful
          * pick is what is generated for that position.
          */
-        float            chance    = 1;
-        int              offset    = 0;
+        public float     chance    = 1;
+        public int       offset    = 0;
         public String    biomeType = "none";
         public SpawnRule spawn;
         /**
@@ -89,41 +89,51 @@ public class WorldgenHandler
         public List<MultiStructure> multiStructures = Lists.newArrayList();
     }
 
-    public static File DEFAULT;
+    public File DEFAULT;
 
-    public static CustomDims dims;
+    public CustomDims dims;
 
-    public static ResourceLocation ROOT     = new ResourceLocation(PokecubeCore.MODID, "structures/");
-    public static Structures       defaults = new Structures();
+    public String           MODID    = PokecubeCore.MODID;
+    public ResourceLocation ROOT     = new ResourceLocation(PokecubeCore.MODID, "structures/");
+    public Structures       defaults = new Structures();
 
-    public static void loadStructures() throws Exception
+    public WorldgenHandler()
     {
-        final ResourceLocation json = new ResourceLocation(WorldgenHandler.ROOT.toString() + "worldgen.json");
+    }
+
+    public WorldgenHandler(final String modid)
+    {
+        this.MODID = modid;
+        this.ROOT = new ResourceLocation(this.MODID, "structures/");
+    }
+
+    public void loadStructures() throws Exception
+    {
+        final ResourceLocation json = new ResourceLocation(this.ROOT.toString() + "worldgen.json");
         final InputStream res = Database.resourceManager.getResource(json).getInputStream();
         final Reader reader = new InputStreamReader(res);
         final Structures database = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
-        WorldgenHandler.defaults.structures.addAll(database.structures);
-        WorldgenHandler.defaults.multiStructures.addAll(database.multiStructures);
+        this.defaults.structures.addAll(database.structures);
+        this.defaults.multiStructures.addAll(database.multiStructures);
     }
 
-    public static void processStructures(final RegistryEvent.Register<Feature<?>> event)
+    public void processStructures(final RegistryEvent.Register<Feature<?>> event)
     {
         try
         {
-            WorldgenHandler.loadStructures();
+            this.loadStructures();
         }
         catch (final Exception e)
         {
             PokecubeMod.LOGGER.catching(e);
         }
 
-        for (final Structure struct : WorldgenHandler.defaults.structures)
+        for (final Structure struct : this.defaults.structures)
         {
-            final String structname = WorldgenHandler.ROOT.toString() + struct.name.replaceAll("/", "_").toLowerCase(
-                    Locale.ROOT);
+            final String structname = this.ROOT.toString() + struct.name.replaceAll("/", "_").toLowerCase(Locale.ROOT);
             final ResourceLocation regname = new ResourceLocation(structname);
             final ConfigStructure toAdd = new ConfigStructure(regname);
-            toAdd.structLoc = new ResourceLocation(PokecubeCore.MODID, struct.name);
+            toAdd.structLoc = new ResourceLocation(this.MODID, struct.name);
             toAdd.chance = struct.chance;
             toAdd.offset = new BlockPos(0, struct.offset, 0);
             toAdd.subbiome = struct.biomeType;

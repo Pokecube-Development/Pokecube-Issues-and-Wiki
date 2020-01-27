@@ -21,6 +21,7 @@ import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import pokecube.core.PokecubeCore;
 
 public class ConfigStructurePiece extends TemplateStructurePiece
 {
@@ -68,31 +69,40 @@ public class ConfigStructurePiece extends TemplateStructurePiece
     public boolean addComponentParts(final IWorld worldIn, final Random randomIn,
             final MutableBoundingBox structureBoundingBoxIn, final ChunkPos p_74875_4_)
     {
-        if (!this.set)
+        try
         {
-            int i = 256;
-            final BlockPos blockpos = this.templatePosition.add(this.to_build.getSize().getX() - 1, 0, this.to_build
-                    .getSize().getZ() - 1);
-
-            for (final BlockPos blockpos1 : BlockPos.getAllInBoxMutable(this.templatePosition, blockpos))
+            if (!this.set)
             {
-                final int k = worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, blockpos1.getX(), blockpos1.getZ());
-                i = Math.min(i, k);
-                // TODO maybe use average?
-            }
-            this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
+                int i = 256;
+                final BlockPos blockpos = this.templatePosition.add(this.to_build.getSize().getX() - 1, 0, this.to_build
+                        .getSize().getZ() - 1);
 
-            for (final Template.BlockInfo info : this.to_build.func_215381_a(this.templatePosition, this.placeSettings,
-                    Blocks.STRUCTURE_BLOCK))
-                if (info.nbt != null)
+                for (final BlockPos blockpos1 : BlockPos.getAllInBoxMutable(this.templatePosition, blockpos))
                 {
-                    final StructureMode structuremode = StructureMode.valueOf(info.nbt.getString("mode"));
-                    if (structuremode == StructureMode.DATA) this.handleDataMarker(info.nbt.getString("metadata"),
-                            info.pos, worldIn, randomIn, structureBoundingBoxIn);
+                    final int k = worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, blockpos1.getX(), blockpos1
+                            .getZ());
+                    i = Math.min(i, k);
+                    // TODO maybe use average?
                 }
-            this.set = true;
+                this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
+
+                for (final Template.BlockInfo info : this.to_build.func_215381_a(this.templatePosition,
+                        this.placeSettings, Blocks.STRUCTURE_BLOCK))
+                    if (info.nbt != null)
+                    {
+                        final StructureMode structuremode = StructureMode.valueOf(info.nbt.getString("mode"));
+                        if (structuremode == StructureMode.DATA) this.handleDataMarker(info.nbt.getString("metadata"),
+                                info.pos, worldIn, randomIn, structureBoundingBoxIn);
+                    }
+                this.set = true;
+            }
+            return super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn, p_74875_4_);
         }
-        return super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn, p_74875_4_);
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error building " + this.template);
+            return false;
+        }
     }
 
     @Override
