@@ -12,12 +12,11 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import thut.api.entity.IMobColourable;
+import thut.api.entity.IShearable;
+import thut.api.entity.ShearableCaps;
 
 public class AnimationChanger implements IAnimationChanger
 {
@@ -116,8 +115,8 @@ public class AnimationChanger implements IAnimationChanger
         this.checkWildCard(part);
         for (final IAnimationChanger child : this.children)
             if (child.isPartHidden(part, entity, default_)) return true;
-        if (this.shearables.contains(part) && entity instanceof IShearable) return !((IShearable) entity).isShearable(
-                new ItemStack(Items.SHEARS), entity.getEntityWorld(), entity.getPosition());
+        final IShearable shear = ShearableCaps.get(entity);
+        if (this.shearables.contains(part) && shear != null) return shear.isSheared();
         return default_;
     }
 

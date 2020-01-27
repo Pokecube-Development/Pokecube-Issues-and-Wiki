@@ -104,6 +104,7 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.boom.ExplosionCustom;
+import thut.api.entity.ShearableCaps;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
@@ -334,6 +335,7 @@ public class EventsHandler
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);
             event.addCapability(EventsHandler.GUARDCAP, new Provider());
+            event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
         }
 
         if (event.getObject() instanceof EntityProfessor)

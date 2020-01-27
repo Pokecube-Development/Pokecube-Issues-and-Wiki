@@ -10,10 +10,14 @@ import thut.core.client.render.model.Vertex;
  */
 public class MutableVertex extends Vertex
 {
-    private final Vector4f defPos;
-    public Vector4f        mutPos  = new Vector4f();
-    private final Vector4f defNorm;
-    public Vector4f        mutNorm = new Vector4f();
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7245933158127493865L;
+    private final Vector4f    defPos;
+    public Vector4f           mutPos           = new Vector4f();
+    private final Vector4f    defNorm;
+    public Vector4f           mutNorm          = new Vector4f();
 
     // Temproary vectors used in transforms.
     final Vector4f posTemp  = new Vector4f();

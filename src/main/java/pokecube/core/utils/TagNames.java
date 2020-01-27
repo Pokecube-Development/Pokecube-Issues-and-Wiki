@@ -77,7 +77,9 @@ public interface TagNames
 
     public static final String POKESEAL = "Explosion";
 
-    public static CompoundNBT getEntityPokemobTag(CompoundNBT entityRootTag)
+    public static final String SHEARTIME = "pokecube:shearedtime";
+
+    public static CompoundNBT getEntityPokemobTag(final CompoundNBT entityRootTag)
     {
         final CompoundNBT ret = new CompoundNBT();
         if (entityRootTag.contains(TagNames.POKEMOBTAG)) return entityRootTag.getCompound(TagNames.POKEMOBTAG);
@@ -89,7 +91,7 @@ public interface TagNames
         return ret;
     }
 
-    public static INBT getPokecubeGenesTag(CompoundNBT itemRootTag)
+    public static INBT getPokecubeGenesTag(final CompoundNBT itemRootTag)
     {
         final CompoundNBT ret = new CompoundNBT();
         if (itemRootTag.contains(TagNames.POKEMOB))
@@ -104,7 +106,7 @@ public interface TagNames
         return ret;
     }
 
-    public static CompoundNBT getPokecubePokemobTag(CompoundNBT itemRootTag)
+    public static CompoundNBT getPokecubePokemobTag(final CompoundNBT itemRootTag)
     {
         final CompoundNBT ret = new CompoundNBT();
         if (itemRootTag.contains(TagNames.POKEMOB))

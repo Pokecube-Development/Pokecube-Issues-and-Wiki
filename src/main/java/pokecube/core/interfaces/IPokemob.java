@@ -31,13 +31,14 @@ import pokecube.core.utils.PokeType;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
+import thut.api.entity.IShearable;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 
 /** @author Manchou */
 public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
-        IBreedingMob, IHasCommands, IMobColourable
+        IBreedingMob, IHasCommands, IMobColourable, IShearable
 {
     public static enum HappinessType
     {
