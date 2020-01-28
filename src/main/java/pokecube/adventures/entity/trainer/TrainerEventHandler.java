@@ -125,10 +125,10 @@ public class TrainerEventHandler
 
     private static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!(event.getObject() instanceof MobEntity) || event.getObject().getEntityWorld() == null
-                || TypeTrainer.mobTypeMapper.getType((LivingEntity) event.getObject(), false) == null) return;
-
+        if (!(event.getObject() instanceof MobEntity)) return;
+        if (TypeTrainer.mobTypeMapper.getType((LivingEntity) event.getObject(), false) == null) return;
         if (TrainerEventHandler.hasCap(event)) return;
+
         final DefaultPokemobs mobs = new DefaultPokemobs();
         final DefaultRewards rewards = new DefaultRewards();
         final MobEntity mob = (MobEntity) event.getObject();
@@ -392,12 +392,9 @@ public class TrainerEventHandler
      */
     public static void StructureSpawn(final StructureEvent.SpawnEntity event)
     {
-        final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(event.getEntity());
-        if (mobs == null) return;
-        boolean randomize = event.getEntity().getPersistentData().getBoolean("randomizeTeam");
-        if (event.getEntity() instanceof EntityTrainer) randomize = ((EntityTrainer) event.getEntity())
-                .getShouldRandomize();
-        if (randomize) TrainerSpawnHandler.randomizeTrainerTeam(event.getEntity(), mobs);
+
+        // TODO: we need to ensure that the trainer's positions are properly
+        // reset to relative coordinates.
     }
 
     @SubscribeEvent

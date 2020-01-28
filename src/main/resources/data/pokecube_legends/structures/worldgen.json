@@ -55,7 +55,7 @@
 	{
       "name": "kyogre_temple",
       "chance": 0.001,
-      "offset": -25,
+      "water": true,
       "spawn": {
         "values": {
           "types": "ocean"
@@ -65,7 +65,7 @@
 	{
       "name": "groudon_temple",
       "chance": 0.01,
-      "offset": -80,
+      "surface": false,
       "spawn": {
         "values": {
           "types": "nether"
@@ -95,7 +95,7 @@
 	{
       "name": "yveltal_place",
       "chance": 0.001,
-      "offset": -2,
+      "offset": -6,
       "spawn": {
         "values": {
           "types": "sandy"

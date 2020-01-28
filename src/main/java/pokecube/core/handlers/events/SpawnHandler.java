@@ -169,6 +169,7 @@ public final class SpawnHandler
     public static boolean canSpawnInWorld(final World world)
     {
         if (world == null) return true;
+        if (world.getDifficulty() == Difficulty.PEACEFUL || !SpawnHandler.doSpawns) return false;
         if (SpawnHandler.dimensionBlacklist.contains(world.getDimension())) return false;
         if (PokecubeCore.getConfig().whiteListEnabled && !SpawnHandler.dimensionWhitelist.contains(world
                 .getDimension())) return false;
@@ -795,7 +796,6 @@ public final class SpawnHandler
 
     public void spawn(final ServerWorld world)
     {
-        if (world.getDifficulty() == Difficulty.PEACEFUL || !SpawnHandler.doSpawns) return;
         final List<ServerPlayerEntity> players = world.getPlayers();
         if (players.isEmpty()) return;
         Collections.shuffle(players);

@@ -9,7 +9,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -22,7 +22,7 @@ public class CapabilityTerrain
     {
         private final LazyOptional<ITerrainProvider> holder   = LazyOptional.of(() -> this);
         private BlockPos                             pos;
-        private final Chunk                          chunk;
+        private IChunk                               chunk;
         private final TerrainSegment[]               segments = new TerrainSegment[16];
 
         public DefaultProvider()
@@ -30,9 +30,15 @@ public class CapabilityTerrain
             this.chunk = null;
         }
 
-        public DefaultProvider(final Chunk chunk)
+        public DefaultProvider(final IChunk chunk)
         {
             this.chunk = chunk;
+        }
+
+        public DefaultProvider setChunk(final IChunk chunk)
+        {
+            this.chunk = chunk;
+            return this;
         }
 
         @Override

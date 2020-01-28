@@ -422,7 +422,7 @@ public class PokecubeMobs
         PokecubeMobs.proxy.initWearables();
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public void registerPokecubes(final RegisterPokecubes event)
     {
         MiscItemHelper.init();

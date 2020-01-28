@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -23,7 +22,7 @@ public class SpawnEventsHandler
 {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void CapLevel(SpawnEvent.Level event)
+    public static void CapLevel(final SpawnEvent.Level event)
     {
         int level = event.getInitialLevel();
         if (SpawnHandler.lvlCap) level = Math.min(level, SpawnHandler.capLevel);
@@ -36,13 +35,13 @@ public class SpawnEventsHandler
      * @param event
      */
     @SubscribeEvent
-    public static void onSpawnCheck(SpawnEvent.Check event)
+    public static void onSpawnCheck(final SpawnEvent.Check event)
     {
         if (!SpawnHandler.canSpawnInWorld(event.world)) event.setCanceled(true);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void PickSpawn(SpawnEvent.Pick.Pre event)
+    public static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
         final World world = event.world;
@@ -92,9 +91,9 @@ public class SpawnEventsHandler
     }
 
     @SubscribeEvent
-    public static void StructureSpawn(StructureEvent.SpawnEntity event)
+    public static void StructureSpawn(final StructureEvent.SpawnEntity event)
     {
-        if (!(event.getEntity() instanceof MobEntity)) return;
+        // if (!(event.getEntity() instanceof MobEntity)) return;
         // MobEntity v = (MobEntity) event.getEntity();
         // Vector3 pos = Vector3.getNewVector().set(v);
         // IGuardAICapability capability = null;

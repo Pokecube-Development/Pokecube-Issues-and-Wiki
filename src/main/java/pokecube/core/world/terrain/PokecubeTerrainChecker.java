@@ -8,9 +8,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -90,7 +89,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     }
 
     @Override
-    public int getSubBiome(final World world, final Vector3 v, final TerrainSegment segment, final Chunk chunk,
+    public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
             final boolean caveAdjusted)
     {
         if (caveAdjusted)
@@ -112,7 +111,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
                     }
                 }
             }
-            if (world.dimension.doesWaterVaporize() || v.canSeeSky(world) || !PokecubeCore
+            if (world.getDimension().doesWaterVaporize() || v.canSeeSky(world) || !PokecubeCore
                     .getConfig().autoDetectSubbiomes) return -1;
             boolean sky = false;
             final Vector3 temp1 = Vector3.getNewVector();
@@ -191,12 +190,12 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         return biome;
     }
 
-    public boolean isCave(final Vector3 v, final World world)
+    public boolean isCave(final Vector3 v, final IWorld world)
     {
         return this.isCaveFloor(v, world) && this.isCaveCeiling(v, world);
     }
 
-    public boolean isCaveCeiling(final Vector3 v, final World world)
+    public boolean isCaveCeiling(final Vector3 v, final IWorld world)
     {
         final double y = v.getMaxY(world);
         if (y <= v.y) return false;
@@ -208,7 +207,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         return PokecubeTerrainChecker.isCave(state);
     }
 
-    public boolean isCaveFloor(final Vector3 v, final World world)
+    public boolean isCaveFloor(final Vector3 v, final IWorld world)
     {
         final BlockState state = v.getBlockState(world);
         if (state.getMaterial().isSolid()) return PokecubeTerrainChecker.isCave(state);

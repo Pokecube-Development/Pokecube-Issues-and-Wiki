@@ -56,8 +56,8 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
     public EntityTrainer(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.enablePersistence();
         this.pokemobsCap.setType(TypeTrainer.mobTypeMapper.getType(this, true));
+        this.enablePersistence();
     }
 
     protected void addMobTrades(final ItemStack buy1)

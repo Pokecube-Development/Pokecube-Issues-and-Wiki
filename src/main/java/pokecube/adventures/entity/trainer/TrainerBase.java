@@ -32,11 +32,10 @@ public abstract class TrainerBase extends AbstractVillagerEntity
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.pokemobsCap = (DefaultPokemobs) this.getCapability(CapabilityHasPokemobs.HASPOKEMOBS_CAP, null).orElse(
-                null);
-        this.rewardsCap = this.getCapability(CapabilityHasRewards.REWARDS_CAP, null).orElse(null);
-        this.messages = this.getCapability(CapabilityNPCMessages.MESSAGES_CAP, null).orElse(null);
-        this.aiStates = this.getCapability(CapabilityNPCAIStates.AISTATES_CAP, null).orElse(null);
+        this.pokemobsCap = (DefaultPokemobs) this.getCapability(CapabilityHasPokemobs.HASPOKEMOBS_CAP).orElse(null);
+        this.rewardsCap = this.getCapability(CapabilityHasRewards.REWARDS_CAP).orElse(null);
+        this.messages = this.getCapability(CapabilityNPCMessages.MESSAGES_CAP).orElse(null);
+        this.aiStates = this.getCapability(CapabilityNPCAIStates.AISTATES_CAP).orElse(null);
     }
 
     @Override

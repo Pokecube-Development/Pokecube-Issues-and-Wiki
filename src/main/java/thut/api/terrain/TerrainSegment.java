@@ -16,12 +16,14 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class TerrainSegment
 {
@@ -29,12 +31,13 @@ public class TerrainSegment
     public static class DefaultChecker implements ISubBiomeChecker
     {
         @Override
-        public int getSubBiome(World world, Vector3 v, TerrainSegment segment, Chunk chunk, boolean caveAdjusted)
+        public int getSubBiome(final IWorld world, final Vector3 v, final TerrainSegment segment,
+                final boolean caveAdjusted)
         {
             if (caveAdjusted)
             {
                 // Do not return this for cave worlds
-                if (!world.dimension.isSurfaceWorld()) return -1;
+                if (!world.getDimension().isSurfaceWorld()) return -1;
                 boolean sky = false;
                 final Vector3 temp1 = Vector3.getNewVector();
                 final int x0 = segment.chunkX * 16, y0 = segment.chunkY * 16, z0 = segment.chunkZ * 16;
@@ -112,7 +115,7 @@ public class TerrainSegment
          * @param caveAdjusted
          * @return
          */
-        int getSubBiome(World world, Vector3 v, TerrainSegment segment, Chunk chunk, boolean caveAdjusted);
+        int getSubBiome(IWorld world, Vector3 v, TerrainSegment segment, boolean caveAdjusted);
     }
 
     public static interface ITerrainEffect
@@ -146,7 +149,7 @@ public class TerrainSegment
     public static Set<Class<? extends ITerrainEffect>> terrainEffectClasses = Sets.newHashSet();
     public static boolean                              noLoad               = false;
 
-    public static int count(World world, Block b, Vector3 v, int range)
+    public static int count(final IWorld world, final Block b, final Vector3 v, final int range)
     {
         final Vector3 temp = Vector3.getNewVector();
         temp.set(v);
@@ -172,17 +175,17 @@ public class TerrainSegment
         return ret;
     }
 
-    public static boolean isInTerrainColumn(Vector3 t, Vector3 point)
+    public static boolean isInTerrainColumn(final Vector3 t, final Vector3 point)
     {
         boolean ret = true;
-        final int i = MathHelper.floor(point.intX() / 16.0D);
-        final int k = MathHelper.floor(point.intZ() / 16.0D);
+        final int i = point.intX() >> 4;
+        final int k = point.intZ() >> 4;
 
         ret = i == t.intX() && k == t.intZ();
         return ret;
     }
 
-    public static void readFromNBT(TerrainSegment t, CompoundNBT nbt)
+    public static void readFromNBT(final TerrainSegment t, final CompoundNBT nbt)
     {
         if (TerrainSegment.noLoad) return;
         final int[] biomes = nbt.getIntArray("biomes");
@@ -210,7 +213,7 @@ public class TerrainSegment
 
     public final BlockPos pos;
 
-    public Chunk chunk;
+    public IChunk chunk;
 
     public boolean toSave = false;
 
@@ -229,7 +232,16 @@ public class TerrainSegment
     HashMap<String, ITerrainEffect> effects = new HashMap<>();
     public final ITerrainEffect[]   effectArr;
 
-    public TerrainSegment(int x, int y, int z)
+    /**
+     * @param pos
+     *            in chunk coordinates, not block coordinates.
+     */
+    public TerrainSegment(final BlockPos pos)
+    {
+        this(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public TerrainSegment(final int x, final int y, final int z)
     {
         this.chunkX = x;
         this.chunkY = y;
@@ -251,18 +263,18 @@ public class TerrainSegment
         this.effectArr = toSort.toArray(new ITerrainEffect[0]);
     }
 
-    private void addEffect(ITerrainEffect effect, String name)
+    private void addEffect(final ITerrainEffect effect, final String name)
     {
         effect.bindToTerrain(this.chunkX, this.chunkY, this.chunkZ);
         this.effects.put(name, effect);
     }
 
-    public int adjustedCaveBiome(World world, Vector3 v)
+    public int adjustedCaveBiome(final World world, final Vector3 v)
     {
         return this.getBiome(world, v, true);
     }
 
-    public int adjustedNonCaveBiome(World world, Vector3 v)
+    public int adjustedNonCaveBiome(final World world, final Vector3 v)
     {
         return this.getBiome(world, v, false);
     }
@@ -283,7 +295,7 @@ public class TerrainSegment
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         boolean ret = false;
         if (o instanceof TerrainSegment) ret = ((TerrainSegment) o).chunkX == this.chunkX
@@ -292,7 +304,7 @@ public class TerrainSegment
         return ret;
     }
 
-    public double getAverageSlope(World world, Vector3 point, int range)
+    public double getAverageSlope(final World world, final Vector3 point, final int range)
     {
         double slope = 0;
 
@@ -321,7 +333,7 @@ public class TerrainSegment
         return slope / count;
     }
 
-    public int getBiome(int x, int y, int z)
+    public int getBiome(final int x, final int y, final int z)
     {
         int ret = 0;
         final int relX = (x & 15) / TerrainSegment.GRIDSIZE, relY = (y & 15) / TerrainSegment.GRIDSIZE, relZ = (z & 15)
@@ -334,12 +346,12 @@ public class TerrainSegment
         return ret;
     }
 
-    public int getBiome(Vector3 v)
+    public int getBiome(final Vector3 v)
     {
         return this.getBiome(v.intX(), v.intY(), v.intZ());
     }
 
-    private int getBiome(World world, Vector3 v, boolean caveAdjust)
+    private int getBiome(final IWorld world, final Vector3 v, final boolean caveAdjust)
     {
         if (this.chunk == null || this.chunk.getPos().x != this.chunkX || this.chunk.getPos().z != this.chunkZ)
             this.chunk = world.getChunk(this.chunkX, this.chunkZ);
@@ -350,13 +362,13 @@ public class TerrainSegment
         }
         if (!TerrainSegment.biomeCheckers.isEmpty()) for (final ISubBiomeChecker checker : TerrainSegment.biomeCheckers)
         {
-            final int biome = checker.getSubBiome(world, v, this, this.chunk, caveAdjust);
+            final int biome = checker.getSubBiome(world, v, this, caveAdjust);
             if (biome != -1) return biome;
         }
-        return TerrainSegment.defaultChecker.getSubBiome(world, v, this, this.chunk, caveAdjust);
+        return TerrainSegment.defaultChecker.getSubBiome(world, v, this, caveAdjust);
     }
 
-    public int getBiomeLocal(int x, int y, int z)
+    public int getBiomeLocal(final int x, final int y, final int z)
     {
         final int relX = x % TerrainSegment.GRIDSIZE;
         final int relY = y % TerrainSegment.GRIDSIZE;
@@ -380,7 +392,7 @@ public class TerrainSegment
         return this.effects.values();
     }
 
-    public ITerrainEffect geTerrainEffect(String name)
+    public ITerrainEffect geTerrainEffect(final String name)
     {
         return this.effects.get(name);
     }
@@ -391,7 +403,7 @@ public class TerrainSegment
         return this.chunkX + this.chunkZ << 8 << 8 + this.chunkY;
     }
 
-    public void initBiomes(World world)
+    public void initBiomes(final World world)
     {
         if (this.init)
         {
@@ -400,18 +412,18 @@ public class TerrainSegment
         }
     }
 
-    public boolean isInTerrainSegment(double x, double y, double z)
+    public boolean isInTerrainSegment(final double x, final double y, final double z)
     {
         boolean ret = true;
-        final int i = MathHelper.floor(x / 16.0D);
-        final int j = MathHelper.floor(y / 16.0D);
-        final int k = MathHelper.floor(z / 16.0D);
+        final int i = MathHelper.floor(x) >> 4;
+        final int j = MathHelper.floor(y) >> 4;
+        final int k = MathHelper.floor(z) >> 4;
 
         ret = i == this.chunkX && k == this.chunkZ && j == this.chunkY;
         return ret;
     }
 
-    public void refresh(World world)
+    public void refresh(final World world)
     {
         final long time = System.nanoTime();
         if (this.chunk == null) this.chunk = world.getChunk(this.chunkX, this.chunkZ);
@@ -429,10 +441,10 @@ public class TerrainSegment
                             * k] = biome;
                 }
         final double dt = (System.nanoTime() - time) / 10e9;
-        if (dt > 0.01) System.out.println("subBiome refresh took " + dt);
+        if (dt > 0.01) ThutCore.LOGGER.debug("subBiome refresh took " + dt);
     }
 
-    public void saveToNBT(CompoundNBT nbt)
+    public void saveToNBT(final CompoundNBT nbt)
     {
         if (!this.toSave) return;
         nbt.putIntArray("biomes", this.biomes);
@@ -442,12 +454,12 @@ public class TerrainSegment
         nbt.putBoolean("toSave", this.toSave);
     }
 
-    public void setBiome(BlockPos p, int type)
+    public void setBiome(final BlockPos p, final int type)
     {
         this.setBiome(p.getX(), p.getY(), p.getZ(), type);
     }
 
-    public void setBiome(int x, int y, int z, int biome)
+    public void setBiome(final int x, final int y, final int z, final int biome)
     {
         final int relX = (x & 15) / TerrainSegment.GRIDSIZE, relY = (y & 15) / TerrainSegment.GRIDSIZE, relZ = (z & 15)
                 / TerrainSegment.GRIDSIZE;
@@ -457,7 +469,7 @@ public class TerrainSegment
 
     }
 
-    public void setBiome(int[] biomes)
+    public void setBiome(final int[] biomes)
     {
         if (biomes.length == this.biomes.length) this.biomes = biomes;
         else for (int i = 0; i < biomes.length; i++)
@@ -467,17 +479,17 @@ public class TerrainSegment
         }
     }
 
-    public void setBiome(Vector3 v, BiomeType type)
+    public void setBiome(final Vector3 v, final BiomeType type)
     {
         this.setBiome(v, type.getType());
     }
 
-    public void setBiome(Vector3 v, int i)
+    public void setBiome(final Vector3 v, final int i)
     {
         this.setBiome(v.intX(), v.intY(), v.intZ(), i);
     }
 
-    public void setBiomeLocal(int x, int y, int z, int biome)
+    public void setBiomeLocal(final int x, final int y, final int z, final int biome)
     {
         final int relX = x % TerrainSegment.GRIDSIZE;
         final int relY = y % TerrainSegment.GRIDSIZE;

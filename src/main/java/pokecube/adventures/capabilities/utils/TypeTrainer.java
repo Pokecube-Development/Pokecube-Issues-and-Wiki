@@ -59,7 +59,6 @@ public class TypeTrainer
          */
         default TypeTrainer getType(final LivingEntity mob, final boolean forSpawn)
         {
-            if (!SpawnHandler.canSpawnInWorld(mob.getEntityWorld())) return null;
             if (!forSpawn)
             {
                 if (mob instanceof TrainerBase) return TypeTrainer.merchant;

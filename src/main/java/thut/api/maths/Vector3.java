@@ -28,6 +28,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
@@ -577,7 +578,7 @@ public class Vector3
         return ret;
     }
 
-    public int blockCount2(final World world, final Block block, final int range)
+    public int blockCount2(final IWorld world, final Block block, final int range)
     {
         int ret = 0;
         final Vector3 v = this.copy();
@@ -610,7 +611,7 @@ public class Vector3
         world.destroyBlock(this.getPos(), drops);
     }
 
-    public boolean canSeeSky(final World world)
+    public boolean canSeeSky(final IWorld world)
     {
         // TODO confirm that this works at night
         return world.getLightFor(LightType.SKY, this.getPos()) >= 15;
@@ -926,7 +927,7 @@ public class Vector3
         return Matrix3.getAABB(this.x, this.y, this.z, this.x, this.y, this.z);
     }
 
-    public Biome getBiome(final World world)
+    public Biome getBiome(final IWorld world)
     {
         return world.getBiome(new BlockPos(this.intX(), 0, this.intZ()));
     }
@@ -969,12 +970,12 @@ public class Vector3
         return world.getLight(this.getPos());
     }
 
-    public int getMaxY(final World world)
+    public int getMaxY(final IWorld world)
     {
         return this.getMaxY(world, this.intX(), this.intZ());
     }
 
-    public int getMaxY(final World world, final int x, final int z)
+    public int getMaxY(final IWorld world, final int x, final int z)
     {
         final IChunk chunk = world.getChunk(this.getPos());
         final int y = chunk.getTopBlockY(Type.MOTION_BLOCKING, this.intX() & 15, this.intZ() & 15);

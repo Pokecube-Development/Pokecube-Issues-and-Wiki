@@ -27,6 +27,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -86,6 +87,7 @@ import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.feature.scattered.ConfigStructurePiece;
 import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
+import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
@@ -128,6 +130,10 @@ public class PokecubeCore
 
             // Register the general structure piece we use
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
+
+            // Register structure processor type
+            PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",
+                    PokecubeStructureProcessor::new);
 
             if (PokecubeCore.config.doSpawnBuilding)
             {
