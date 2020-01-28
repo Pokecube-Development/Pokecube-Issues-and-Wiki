@@ -4,8 +4,14 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -13,7 +19,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.entity.professor.EntityProfessor;
+import pokecube.core.entity.professor.EntityProfessor.ProfessorType;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import thut.api.maths.Vector3;
@@ -91,8 +100,54 @@ public class SpawnEventsHandler
     }
 
     @SubscribeEvent
-    public static void StructureSpawn(final StructureEvent.SpawnEntity event)
+    public static void StructureSpawn(final StructureEvent.ReadTag event)
     {
+
+        if (event.function.startsWith("pokecube:mob:nurse"))
+        {
+            // Set it to air so mob can spawn.
+            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
+            final EntityProfessor nurse = EntityProfessor.TYPE.create(event.world.getWorld());
+            nurse.type = ProfessorType.HEALER;
+            nurse.enablePersistence();
+            nurse.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
+            nurse.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
+                    (ILivingEntityData) null, (CompoundNBT) null);
+            final String args = event.function.replaceFirst("pokecube:mob:nurse", "");
+            if (!args.isEmpty()) try
+            {
+                final JsonObject thing = PokedexEntryLoader.gson.fromJson(args, JsonObject.class);
+                if (thing.has("name")) nurse.name = thing.get("name").getAsString();
+                System.out.println(thing.get("name").getAsString());
+            }
+            catch (final JsonSyntaxException e)
+            {
+                PokecubeCore.LOGGER.error("Error parsing " + args, e);
+            }
+            event.world.addEntity(nurse);
+        }
+        else if (event.function.startsWith("pokecube:mob:professor"))
+        {
+            // Set it to air so mob can spawn.
+            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
+            final EntityProfessor professor = EntityProfessor.TYPE.create(event.world.getWorld());
+            professor.enablePersistence();
+            professor.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
+            professor.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos),
+                    SpawnReason.STRUCTURE, (ILivingEntityData) null, (CompoundNBT) null);
+            final String args = event.function.replaceFirst("pokecube:mob:professor", "");
+            if (!args.isEmpty()) try
+            {
+                final JsonObject thing = PokedexEntryLoader.gson.fromJson(args, JsonObject.class);
+                if (thing.has("name")) professor.name = thing.get("name").getAsString();
+            }
+            catch (final JsonSyntaxException e)
+            {
+                PokecubeCore.LOGGER.error("Error parsing " + args, e);
+            }
+            event.world.addEntity(professor);
+        }
+
         // if (!(event.getEntity() instanceof MobEntity)) return;
         // MobEntity v = (MobEntity) event.getEntity();
         // Vector3 pos = Vector3.getNewVector().set(v);

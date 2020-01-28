@@ -65,6 +65,8 @@ import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.handlers.events.PokemobEventsHandler;
+import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
@@ -381,6 +383,11 @@ public class PokecubeCore
         thut.core.common.config.Config.setupConfigs(PokecubeCore.config, PokecubeCore.MODID, PokecubeCore.MODID);
 
         PokecubeCore.POKEMOB_BUS.register(MobLoader.class);
+        PokecubeCore.POKEMOB_BUS.register(SpawnEventsHandler.class);
+        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
+
+        MinecraftForge.EVENT_BUS.register(SpawnEventsHandler.class);
+        MinecraftForge.EVENT_BUS.register(EventsHandler.class);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::setup);
         // Register the doClientStuff method for modloading
@@ -405,8 +412,6 @@ public class PokecubeCore
 
         // Initialize advancement triggers
         Triggers.init();
-
-        MinecraftForge.EVENT_BUS.register(EventsHandler.class);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

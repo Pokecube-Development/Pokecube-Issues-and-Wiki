@@ -175,15 +175,23 @@ public class ConfigStructurePiece extends TemplateStructurePiece
         if (function.equalsIgnoreCase("Floor") && !this.set)
         {
             final int y = 2 * this.templatePosition.getY() - pos.getY();
-            this.templatePosition = new BlockPos(this.templatePosition.getX(), y + 1, this.templatePosition.getZ());
+            this.templatePosition = new BlockPos(this.templatePosition.getX(), y, this.templatePosition.getZ());
         }
 
-        if (!this.set) return;
-
+        if (!this.set || function.equalsIgnoreCase("Floor")) return;
+        System.out.println(function);
         if (function.startsWith("pokecube:chest:"))
         {
             final BlockPos blockpos = pos.down();
+            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
             final ResourceLocation key = new ResourceLocation(function.replaceFirst("pokecube:chest:", ""));
+            if (sbb.isVecInside(blockpos)) LockableLootTileEntity.setLootTable(worldIn, rand, blockpos, key);
+        }
+        else if (function.startsWith("Chest "))
+        {
+            final BlockPos blockpos = pos.down();
+            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+            final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
             if (sbb.isVecInside(blockpos)) LockableLootTileEntity.setLootTable(worldIn, rand, blockpos, key);
         }
         else MinecraftForge.EVENT_BUS.post(new StructureEvent.ReadTag(function, pos, worldIn, rand, sbb));
