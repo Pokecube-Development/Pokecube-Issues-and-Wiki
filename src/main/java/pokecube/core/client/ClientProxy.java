@@ -307,7 +307,7 @@ public class ClientProxy extends CommonProxy
 
     @Override
     public void toggleSound(final SoundEvent sound, final BlockPos pos, final boolean play, final boolean loops,
-            final SoundCategory category)
+            final SoundCategory category, final int maxDistance)
     {
         if (sound != null)
         {
@@ -319,9 +319,12 @@ public class ClientProxy extends CommonProxy
                     Minecraft.getInstance().worldRenderer.mapSoundPositions.remove(pos);
                     Minecraft.getInstance().getSoundHandler().stop(sound.getName(), category);
                 }
-
-                final ISound simplesound = new SimpleSound(sound.getName(), category, 4.0F, 1.0F, loops, 0,
-                        ISound.AttenuationType.NONE, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, false);
+                double distance = Minecraft.getInstance().player.getPosition().distanceSq(pos);
+                distance = Math.sqrt(distance);
+                if (distance > maxDistance) return;
+                // if (volume < 0.05) return;
+                final ISound simplesound = new SimpleSound(sound.getName(), category, 1.0f, 1.0F, loops, 0,
+                        ISound.AttenuationType.LINEAR, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, false);
                 Minecraft.getInstance().worldRenderer.mapSoundPositions.put(pos, simplesound);
                 Minecraft.getInstance().getSoundHandler().play(simplesound);
             }

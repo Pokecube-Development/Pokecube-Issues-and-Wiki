@@ -151,7 +151,7 @@ public class CommonProxy implements Proxy
     }
 
     public void toggleSound(final SoundEvent sound, final BlockPos pos, final boolean play, final boolean loops,
-            final SoundCategory category)
+            final SoundCategory category, final int maxDistance)
     {
 
     }
