@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.85"/>
-  <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
-  <customTex default="stakataka">
-   <part name="Head" tex="stakatakahead"/>
-   <part name="Head1" tex="stakatakahead"/>
-   <animation diffs="0,0.5" part="Head1" trigger="random:0.005:1"/>
-  </customTex>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
+  <phase duration="10" angle="5" leftFront="p1:p1_1:p1_2:p1_3:p1_4" leftHind="p3:p3_1:p3_2:p3_3:p3_4" name="quadWalk" rightFront="p2:p2_1:p2_2:p2_3:p2_4" rightHind="p4:p4_1:p4_2:p4_3:p4_4"/>
   <phase type="idle">
    <part name="base">
     <component length="8" name="1" posOffset="0,3,0," startKey="0"/>
@@ -54,70 +49,7 @@
    </part>
   </phase>
   <phase type="walking">
-   <part name="p1">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p1_2">
-    <component length="8" name="1" rotChange="7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="-7,0,0," startKey="10"/>
-   </part>
-   <part name="p1_3">
-    <component length="8" name="1" rotChange="7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="-7,0,0," startKey="10"/>
-   </part>
-   <part name="p1_4">
-    <component length="8" name="1" rotChange="7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="-7,0,0," startKey="10"/>
-   </part>
-   <part name="p2">
-    <component length="8" name="1" rotChange="7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="-7,0,0," startKey="10"/>
-   </part>
-   <part name="p2_2">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p2_3">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p2_4">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p3">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="-7,0,0," startKey="10"/>
-   </part>
-   <part name="p3_2">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p3_3">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p3_4">
-    <component length="8" name="1" rotChange="7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="-7,0,0," startKey="10"/>
-   </part>
-   <part name="p4">
-    <component length="8" name="1" rotChange="7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="-7,0,0," startKey="10"/>
-   </part>
-   <part name="p4_2">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p4_3">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
-   <part name="p4_4">
-    <component length="8" name="1" rotChange="-7,0,0," rotOffset="-7,0,0," startKey="0"/>
-    <component length="8" name="2" rotChange="7,0,0," startKey="10"/>
-   </part>
+   
   </phase>
  </model>
 </ModelAnimator>

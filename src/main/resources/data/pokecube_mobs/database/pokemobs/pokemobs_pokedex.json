@@ -7069,6 +7069,80 @@
         }
       }
     },
+	{
+      "name": "Slowpoke Galar",
+      "number": 79,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "40",
+            "spatk": "40",
+            "def": "65",
+            "spd": "15",
+            "hp": "90",
+            "atk": "65"
+          }
+        },
+        "evs": {
+          "values": {
+            "hp": "1"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "1.2",
+            "width": "1.0",
+            "height": "1.0"
+          }
+        },
+        "types": {
+          "values": {
+            "type2": "Psychic"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Gluttony, Own Tempo",
+            "hidden": "Regenerator"
+          }
+        },
+        "mass": 36.0,
+        "captureRate": 190,
+        "baseExp": 63,
+        "expMode": "Medium Fast",
+        "genderRatio": 127,
+        "logics": {
+          "values": {
+            "shoulder": "FALSE"
+          }
+        }
+      },
+      "moves": {
+        "lvlupMoves": {
+          "values": {
+            "1": "curse,tackle",
+            "3": "growl",
+            "6": "acid",
+            "9": "yawn",
+            "12": "confusion",
+            "15": "disable",
+            "18": "waterpulse",
+            "21": "headbutt",
+            "24": "zenheadbutt",
+            "27": "amnesia",
+            "30": "surf",
+            "33": "slackoff",
+            "36": "psychic",
+            "39": "psychup",
+			"42": "raindance",
+			"45": "healpulse"
+          }
+        },
+        "misc": {
+          "moves": "raindance, hydropump, brine, dive, liquidation,whirlpool,scald,surf,irontail,trickroom,rest,imprison,wonderroom,psychicterrain,skillswap,trick,storedpower, psyshock, psychic, futuresight, zenheadbutt, amnesia, calmmind, lightscreen, protect, substitute, sleeptalk, weatherball, triattack, attract, snore, round, bodyslam, swift, payday, facade, safeguard, blizzard, hail, icebeam, icywind, dig, earthquake, mudshot, bulldoze, grassknot, shadowball, sunnyday, fireblast, flamethrower, thunderwave"
+        }
+      }
+    },
     {
       "name": "Slowbro",
       "number": 80,

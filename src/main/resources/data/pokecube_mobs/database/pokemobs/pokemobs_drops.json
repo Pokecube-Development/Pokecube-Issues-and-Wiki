@@ -588,6 +588,12 @@
         "heldTable": "pokecube:entities/kingsrock"
       }
     },
+	{
+      "name": "Slowpoke Galar",
+      "stats": {
+        "lootTable": "pokecube:entities/pig_1"
+      }
+    },
     {
       "name": "Slowbro",
       "stats": {
