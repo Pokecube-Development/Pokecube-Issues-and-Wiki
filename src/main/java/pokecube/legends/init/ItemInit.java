@@ -50,8 +50,8 @@ public class ItemInit
     public static final Item REGIS_ORB    = new ItemBase("regisorb", 1);
 
     // Gens_ores
-    public static final Item SAPPHIRE = new ItemBase("sapphire", 64);
-    public static final Item RUBY     = new ItemBase("ruby", 64);
+    public static final Item SAPPHIRE = new ItemBase("sapphire", 64).noTooltop();
+    public static final Item RUBY     = new ItemBase("ruby", 64).noTooltop();
 
     // Extra
     public static final Item SILVER_WING    = new ItemBase("silver_wing", 5);

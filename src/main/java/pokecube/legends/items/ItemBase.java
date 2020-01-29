@@ -18,7 +18,8 @@ import pokecube.legends.init.ItemInit;
 
 public class ItemBase extends Item
 {
-    String tooltipname;
+    String  tooltipname;
+    boolean hasTooltip = true;
 
     public ItemBase(final String name, final int num)
     {
@@ -31,6 +32,12 @@ public class ItemBase extends Item
     public ItemBase setTooltipName(final String tooltipname)
     {
         this.tooltipname = tooltipname;
+        return this;
+    }
+
+    public ItemBase noTooltop()
+    {
+        this.hasTooltip = false;
         return this;
     }
 
