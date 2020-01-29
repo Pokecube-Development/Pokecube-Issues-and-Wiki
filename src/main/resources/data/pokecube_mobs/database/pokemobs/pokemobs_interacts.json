@@ -1538,6 +1538,37 @@
         ]
       }
     },
+	{
+      "name": "Slowpoke Galar",
+      "stats": {
+        "species": "Lizard Artiodactyla",
+        "interactions": [
+          {
+            "cooldown": 800,
+            "baseHunger": 500,
+            "key": {
+              "values": {
+                "d": "32767",
+                "id": "minecraft:shears"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:porkchop",
+                    "n": "1"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
     {
       "name": "Slowbro",
       "stats": {

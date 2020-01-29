@@ -3,9 +3,9 @@
  <model name="">
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1" shear="tail:tail1:tail2:tail3"/>
-  <customTex default="slowpoke">
-   <part name="Head" tex="slowpokehead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+  <customTex default="slowpokegalar">
+   <part name="Head" tex="slowpokegalarhead"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
   </customTex>
   <phase type="sitting">
    <part name="body">
@@ -28,15 +28,15 @@
     <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
    </part>
    <part name="tail">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="35,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="-30,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
     <component length="10" name="3" rotChange="0,5,0" startKey="10"/>
    </part>
    <part name="tail1">
-    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
    <part name="tail2">
-    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
+    <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
    </part>
    <part name="tail3">
     <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
@@ -48,15 +48,15 @@
     <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
    </part>
    <part name="tail">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="35,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="-30,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
     <component length="10" name="3" rotChange="0,5,0" startKey="10"/>
    </part>
    <part name="tail1">
-    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
    <part name="tail2">
-    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
    <part name="tail3">
     <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
@@ -68,15 +68,15 @@
     <component length="10" name="2" rotChange="-5,0,0" startKey="10"/>
    </part>
    <part name="tail">
-    <component length="10" name="1" rotChange="0,5,0" rotOffset="35,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="0,5,0" rotOffset="-30,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="0,-10,0" startKey="5"/>
     <component length="10" name="3" rotChange="0,5,0" startKey="10"/>
    </part>
    <part name="tail1">
-    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
    <part name="tail2">
-    <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>
+    <component length="1" name="1" rotOffset="-20,0,0" startKey="0"/>
    </part>
    <part name="tail3">
     <component length="1" name="1" rotOffset="40,0,0" startKey="0"/>

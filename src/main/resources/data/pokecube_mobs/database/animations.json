@@ -6819,6 +6819,28 @@
         }
       ]
     },
+	{
+      "name": "pyroball",
+      "animations": [
+        {
+          "preset": "throw:pmisc:atrue:w0.8:~pyroball",
+          "duration": "5",
+          "starttick": "0",
+          "sound": "minecraft:entity.evocation_illager.prepare_summon",
+          "soundSource": true,
+          "soundTarget": false,
+          "volume": 1.0,
+          "pitch": 1.9,
+          "applyAfter": false
+        },
+        {
+          "preset": "flow:pmisc:d0.5:w0.6:l3:cred:atrue:~pyroball",
+          "duration": "5",
+          "starttick": "0",
+          "applyAfter": false
+        }
+      ]
+    },
     {
       "name": "quickattack",
       "animations": [
@@ -10759,6 +10781,22 @@
         }
       ]
     },
+	{
+      "name": "drumbeating",
+      "animations": [
+        {
+          "preset": "beam:ppowder:~drumbeating",
+          "duration": "6",
+          "starttick": "0",
+          "sound": "pokecube:moves.vicegrip",
+          "soundSource": true,
+          "soundTarget": true,
+          "volume": 1.0,
+          "pitch": 1.6,
+          "applyAfter": false
+        }
+      ]
+    },
     {
       "name": "voltswitch",
       "animations": [
@@ -10852,6 +10890,22 @@
           "soundTarget": false,
           "volume": 1.0,
           "pitch": 1.2,
+          "applyAfter": false
+        }
+      ]
+    },
+	{
+      "name": "snipeshot",
+      "animations": [
+        {
+          "preset": "beam:psplash:~snipeshot",
+          "duration": "3",
+          "starttick": "0",
+          "sound": "pokecube:moves.waterpulse",
+          "soundSource": true,
+          "soundTarget": true,
+          "volume": 1.2,
+          "pitch": 1.5,
           "applyAfter": false
         }
       ]

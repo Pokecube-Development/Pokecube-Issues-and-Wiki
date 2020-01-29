@@ -772,6 +772,53 @@
         ]
       }
     },
+	{
+      "name": "Slowpoke Galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "beach,cave",
+              "rate": "0.3",
+              "water": "true"
+            }
+          },
+          {
+            "values": {
+              "types": "river,cave",
+              "rate": "0.3",
+              "water": "true"
+            }
+          },
+          {
+            "values": {
+              "types": "lake,cave",
+              "rate": "0.3",
+              "water": "true"
+            }
+          },
+          {
+            "values": {
+              "types": "beach",
+              "rate": "0.3"
+            }
+          },
+          {
+            "values": {
+              "types": "river",
+              "rate": "0.2",
+              "water": "true"
+            }
+          },
+          {
+            "values": {
+              "types": "lake",
+              "rate": "0.2"
+            }
+          }
+        ]
+      }
+    },
     {
       "name": "Magnemite",
       "stats": {

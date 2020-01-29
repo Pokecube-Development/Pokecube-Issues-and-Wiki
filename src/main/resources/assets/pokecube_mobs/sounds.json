@@ -1658,6 +1658,27 @@
       }
     ]
   },
+  "mobs.slowpokegalar": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.slowpokegalar",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/slowpoke",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowpoke",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/slowpoke",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "mobs.slowbro": {
     "category": "hostile",
     "subtitle": "entity.pokecube.slowbro",
