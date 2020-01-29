@@ -1,6 +1,8 @@
 package pokecube.adventures.entity.trainer;
 
 import java.util.List;
+import java.util.Random;
+import java.util.function.Consumer;
 
 import com.google.common.collect.Lists;
 
@@ -13,8 +15,11 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -41,6 +46,7 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
+import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -49,12 +55,15 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.items.TrainerEditor;
+import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.EntityPokemob;
+import pokecube.core.entity.professor.EntityProfessor;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.InteractEvent;
@@ -109,11 +118,48 @@ public class TrainerEventHandler
         }
     }
 
+    private static class ProfessorOffers implements Consumer<MerchantOffers>
+    {
+        final EntityProfessor mob;
+
+        public ProfessorOffers(final EntityProfessor mob)
+        {
+            this.mob = mob;
+        }
+
+        @Override
+        public void accept(final MerchantOffers t)
+        {
+            PokecubeCore.LOGGER.debug("Merchant Offer Init: " + this.mob);
+            final Random rand = new Random(this.mob.getUniqueID().getLeastSignificantBits());
+            this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
+        }
+
+    }
+
+    private static class ProfessorOffer implements Consumer<MerchantOffer>
+    {
+        final EntityProfessor mob;
+
+        public ProfessorOffer(final EntityProfessor mob)
+        {
+            this.mob = mob;
+        }
+
+        @Override
+        public void accept(final MerchantOffer t)
+        {
+            PokecubeCore.LOGGER.debug("Merchant Offer Use: " + this.mob);
+        }
+
+    }
+
     static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.ID, "pokemobs");
     static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.ID, "ai");
     static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.ID, "messages");
     static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.ID, "rewards");
     static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.ID, "data");
+    static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.ID, "trades");
     static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.ID, "guardai");
 
     private static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
@@ -132,8 +178,6 @@ public class TrainerEventHandler
         final DefaultPokemobs mobs = new DefaultPokemobs();
         final DefaultRewards rewards = new DefaultRewards();
         final MobEntity mob = (MobEntity) event.getObject();
-        if (mob instanceof TrainerBase) event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(mob, e -> mobs
-                .getType().getTexture(e), e -> mobs.getGender() == 2));
         ItemStack stack = ItemStack.EMPTY;
         try
         {
@@ -143,6 +187,7 @@ public class TrainerEventHandler
         {
             PokecubeCore.LOGGER.warn("Error with default trainer rewards " + Config.instance.defaultReward, e);
         }
+        PokecubeCore.LOGGER.debug("Adding caps for " + mob);
         if (!stack.isEmpty()) rewards.getRewards().add(new Reward(stack));
         final DefaultAIStates aiStates = new DefaultAIStates();
         final DefaultMessager messages = new DefaultMessager();
@@ -151,6 +196,13 @@ public class TrainerEventHandler
         event.addCapability(TrainerEventHandler.AICAP, aiStates);
         event.addCapability(TrainerEventHandler.MESSAGECAP, messages);
         event.addCapability(TrainerEventHandler.REWARDSCAP, rewards);
+
+        if (mob instanceof TrainerBase)
+        {
+            event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(mob, e -> mobs.getType().getTexture(e), e -> mobs
+                    .getGender() == 2));
+            event.addCapability(TrainerEventHandler.TRADESCAP, new DefaultTrades());
+        }
 
         DataSync data = TrainerEventHandler.getData(event);
         if (data == null)
@@ -307,6 +359,14 @@ public class TrainerEventHandler
         if (npc.world.isRemote) return;
         if (npc.getPersistentData().getLong("pokeadv_join") == npc.getEntityWorld().getGameTime()) return;
         npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
+
+        if (npc instanceof EntityProfessor)
+        {
+            PokecubeCore.LOGGER.debug("Setting trade stuff for professor" + npc);
+            ((EntityProfessor) npc).setInitOffers(new ProfessorOffers((EntityProfessor) npc));
+            ((EntityProfessor) npc).setUseOffers(new ProfessorOffer((EntityProfessor) npc));
+        }
+
         // Wrap it as a fake vanilla AI
         if (npc instanceof MobEntity)
         {
@@ -355,26 +415,21 @@ public class TrainerEventHandler
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
         // TODO trainer edit item.
-        // final IHasMessages messages =
-        // CapabilityNPCMessages.getMessages(target);
-        // final IHasPokemobs pokemobs =
-        // CapabilityHasPokemobs.getHasPokemobs(target);
-        // if (!target.isSneaking() && pokemobs != null &&
-        // evt.getItemStack().getItem() instanceof ItemTrainer)
-        // {
-        // evt.setCanceled(true);
-        // if (evt.getEntityPlayer() instanceof ServerPlayerEntity)
-        // PacketTrainer.sendEditOpenPacket(target,
-        // (ServerPlayerEntity) evt.getEntityPlayer());
-        // return;
-        // }
-        // if (messages != null)
-        // {
-        // messages.sendMessage(MessageState.INTERACT, evt.getEntityPlayer(),
-        // target.getDisplayName(), evt
-        // .getEntityPlayer().getDisplayName());
-        // messages.doAction(MessageState.INTERACT, evt.getEntityPlayer());
-        // }
+        final IHasMessages messages = CapabilityNPCMessages.getMessages(target);
+        final IHasPokemobs pokemobs = CapabilityHasPokemobs.getHasPokemobs(target);
+        if (!target.isSneaking() && pokemobs != null && evt.getItemStack().getItem() instanceof TrainerEditor)
+        {
+            evt.setCanceled(true);
+            if (evt.getPlayer() instanceof ServerPlayerEntity) PacketTrainer.sendEditOpenPacket(target,
+                    (ServerPlayerEntity) evt.getPlayer());
+            return;
+        }
+        if (messages != null)
+        {
+            messages.sendMessage(MessageState.INTERACT, evt.getPlayer(), target.getDisplayName(), evt.getPlayer()
+                    .getDisplayName());
+            messages.doAction(MessageState.INTERACT, evt.getPlayer());
+        }
     }
 
     @SubscribeEvent
@@ -390,11 +445,10 @@ public class TrainerEventHandler
      *
      * @param event
      */
-    public static void StructureSpawn(final StructureEvent.SpawnEntity event)
+    public static void StructureSpawn(final StructureEvent.ReadTag event)
     {
 
-        // TODO: we need to ensure that the trainer's positions are properly
-        // reset to relative coordinates.
+        // TODO: handle tags in structures for spawning trainers/leaders
     }
 
     @SubscribeEvent
@@ -469,7 +523,7 @@ public class TrainerEventHandler
         // CapabilityHasPokemobs.getHasPokemobs(event.getEntity());
         // if (!(mobs instanceof DefaultPokemobs)) return;
         // final DefaultPokemobs pokemobs = (DefaultPokemobs) mobs;
-        // if (event.getEntityPlayer() instanceof ServerPlayerEntity)
+        // if (event.getPlayer() instanceof ServerPlayerEntity)
         // {
         // final EntityTrainer trainer = (EntityTrainer) event.getTarget();
         // if (pokemobs.notifyDefeat)
@@ -478,9 +532,9 @@ public class TrainerEventHandler
         // PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
         // packet.data.putInt("I", trainer.getEntityId());
         // packet.data.putBoolean("V",
-        // pokemobs.hasDefeated(event.getEntityPlayer()));
+        // pokemobs.hasDefeated(event.getPlayer()));
         // PokecubeMod.packetPipeline.sendTo(packet, (ServerPlayerEntity)
-        // event.getEntityPlayer());
+        // event.getPlayer());
         // }
         // }
     }

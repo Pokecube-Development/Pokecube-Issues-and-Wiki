@@ -45,10 +45,9 @@ public class TrainerSpawnHandler
 {
     public static Map<UUID, ChunkCoordinate> trainerMap = Maps.newConcurrentMap();
     private static Vector3                   vec1       = Vector3.getNewVector();
-
-    static Vector3 v = Vector3.getNewVector(), v1 = Vector3.getNewVector(), v2 = Vector3.getNewVector();
-
-    static JEP parser = new JEP();
+    static Vector3                           v          = Vector3.getNewVector(), v1 = Vector3.getNewVector(),
+            v2 = Vector3.getNewVector();
+    static JEP                               parser     = new JEP();
 
     /**
      * Adds or updates the location of the trainer.

@@ -26,8 +26,12 @@ public interface IOwnable
     @Nullable
     default LivingEntity getOwner(final ServerWorld world)
     {
-        final LivingEntity owner = this.getOwner();
-        if (owner == null && this.getOwnerId() != null)
+        return this.getOwner(world, this.getOwner());
+    }
+
+    default LivingEntity getOwner(final ServerWorld world, final LivingEntity _default)
+    {
+        if (_default == null && this.getOwnerId() != null)
         {
             final Entity mob = world.getEntityByUuid(this.getOwnerId());
             if (mob instanceof LivingEntity)
@@ -36,7 +40,7 @@ public interface IOwnable
                 return (LivingEntity) mob;
             }
         }
-        return owner;
+        return _default;
     }
 
     @Nullable

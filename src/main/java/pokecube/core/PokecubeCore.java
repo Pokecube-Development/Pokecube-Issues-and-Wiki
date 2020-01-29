@@ -91,7 +91,6 @@ import pokecube.core.world.gen.feature.scattered.ConfigStructurePiece;
 import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
-import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.client.render.particle.ThutParticles;
@@ -208,9 +207,6 @@ public class PokecubeCore
             Database.init();
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
-
-            // Register pokemob class for ownable caps
-            OwnableCaps.MOBS.add(GenericPokemob.class);
 
             for (final PokedexEntry entry : Database.getSortedFormes())
             {

@@ -1,13 +1,19 @@
 package pokecube.core.entity.professor;
 
+import java.util.function.Consumer;
+
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.INPC;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
@@ -25,10 +31,11 @@ import pokecube.core.database.Database;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketChoose;
+import pokecube.core.utils.PokecubeSerializer;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
-public class EntityProfessor extends AgeableEntity implements IEntityAdditionalSpawnData, INPC
+public class EntityProfessor extends AbstractVillagerEntity implements IEntityAdditionalSpawnData
 {
     public static enum ProfessorType
     {
@@ -54,10 +61,20 @@ public class EntityProfessor extends AgeableEntity implements IEntityAdditionalS
     public boolean       stationary = false;
     public Vector3       location   = null;
 
-    protected EntityProfessor(final EntityType<? extends AgeableEntity> type, final World world)
+    private Consumer<MerchantOffers> init_offers = t ->
+    {
+    };
+
+    private Consumer<MerchantOffer> use_offer = t ->
+    {
+    };
+
+    protected EntityProfessor(final EntityType<? extends EntityProfessor> type, final World world)
     {
         super(type, world);
         this.enablePersistence();
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -75,7 +92,6 @@ public class EntityProfessor extends AgeableEntity implements IEntityAdditionalS
                     else if (this.type == ProfessorType.HEALER) this.type = ProfessorType.PROFESSOR;
                     if (this.type == ProfessorType.PROFESSOR) this.male = true;
                     else this.male = false;
-                    System.out.println("test");
                     EntityUpdate.sendEntityUpdate(this);
                     return false;
                 }
@@ -115,11 +131,17 @@ public class EntityProfessor extends AgeableEntity implements IEntityAdditionalS
                             this.world, this.getPosition())), player.getDisplayName()));
             return true;
         case PROFESSOR:
-            if (player instanceof ServerPlayerEntity)
+            if (player instanceof ServerPlayerEntity && !PokecubeSerializer.getInstance().hasStarter(player))
             {
                 final boolean canPick = PacketChoose.canPick(player.getGameProfile());
                 final PacketChoose packet = PacketChoose.createOpenPacket(false, canPick, Database.getStarters());
                 PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) player);
+            }
+            else if (this.getCustomer() == null && !this.getOffers().isEmpty())
+            {
+                this.setCustomer(player);
+                this.func_213707_a(player, this.getDisplayName(), 10);
+                return true;
             }
             break;
         default:
@@ -183,4 +205,29 @@ public class EntityProfessor extends AgeableEntity implements IEntityAdditionalS
         buffer.writeCompoundTag(tag);
     }
 
+    @Override
+    protected void func_213713_b(final MerchantOffer offer)
+    {
+        this.use_offer.accept(offer);
+    }
+
+    @Override
+    protected void populateTradeData()
+    {
+        this.init_offers.accept(this.offers);
+    }
+
+    public void setInitOffers(final Consumer<MerchantOffers> in)
+    {
+        PokecubeCore.LOGGER.debug("Overriding Offers Init for " + this);
+        this.init_offers = in;
+        // Clear offers so that it can be reset.
+        this.offers = null;
+    }
+
+    public void setUseOffers(final Consumer<MerchantOffer> in)
+    {
+        PokecubeCore.LOGGER.debug("Overriding Offers Use for " + this);
+        this.use_offer = in;
+    }
 }

@@ -63,6 +63,8 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.TagNames;
+import thut.api.IOwnable;
+import thut.api.OwnableCaps;
 import thut.api.entity.ai.GoalsWrapper;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.GeneRegistry;
@@ -73,6 +75,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     private final LazyOptional<IPokemob> holder = LazyOptional.of(() -> this);
 
     private List<IAIRunnable> tasks = Lists.newArrayList();
+    private AIFindTarget      targetFinder;
 
     public DefaultPokemob()
     {
@@ -209,7 +212,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             // Move around in combat
             aiList.add(new AICombatMovement(this).setPriority(250));
             // Look for targets to kill
-            aiList.add(new AIFindTarget(this).setPriority(400));
+            aiList.add((this.targetFinder = new AIFindTarget(this)).setPriority(400));
 
             // Idle tasks
             // Guard your egg
@@ -292,44 +295,48 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     }
 
     @Override
-    public void onSetTarget(final LivingEntity entity)
+    public void onSetTarget(final LivingEntity entity, final boolean forced)
     {
         final boolean remote = this.getEntity().getEntityWorld().isRemote;
+        if (entity == null && forced) this.targetFinder.clear();
         if (entity == null && !remote)
         {
             this.setTargetID(-1);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");
         }
-        else if (entity != null) /**
-                                  * Ensure that the target being set is
-                                  * actually a valid target.
-                                  */
+        else if (entity != null)
+        {
+            final IOwnable target = OwnableCaps.getOwnable(entity);
+            /**
+             * Ensure that the target being set is actually a valid target.
+             */
             if (entity == this.getEntity())
             {
-            if (this.getEntity().getAttackTarget() == this.getEntity()) this.getEntity().setAttackTarget(null);
-            return;
+                if (this.getEntity().getAttackTarget() == this.getEntity()) this.getEntity().setAttackTarget(null);
+                return;
             }
-            else if (entity instanceof TameableEntity && ((TameableEntity) entity).getOwner() == this.getOwner())
+            else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId()))
             {
-            this.getEntity().setAttackTarget(null);
-            return;
+                this.getEntity().setAttackTarget(null);
+                return;
             }
             else if (TeamManager.sameTeam(entity, this.getEntity()))
             {
-            this.getEntity().setAttackTarget(null);
-            return;
+                this.getEntity().setAttackTarget(null);
+                return;
             }
             else if (!AITools.validTargets.test(entity))
             {
-            this.getEntity().setAttackTarget(null);
-            return;
+                this.getEntity().setAttackTarget(null);
+                return;
             }
-        if (entity == null || remote) return;
-        this.setLogicState(LogicStates.SITTING, false);
-        this.setTargetID(entity.getEntityId());
-        this.setCombatState(CombatStates.ANGRY, true);
-        if (entity != this.getEntity().getAttackTarget() && this.getAbility() != null && !entity
-                .getEntityWorld().isRemote) this.getAbility().onAgress(this, entity);
+            if (entity == null || remote) return;
+            this.setLogicState(LogicStates.SITTING, false);
+            this.setTargetID(entity.getEntityId());
+            this.setCombatState(CombatStates.ANGRY, true);
+            if (entity != this.getEntity().getAttackTarget() && this.getAbility() != null && !entity
+                    .getEntityWorld().isRemote) this.getAbility().onAgress(this, entity);
+        }
     }
 
     @Override

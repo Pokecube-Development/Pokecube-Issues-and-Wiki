@@ -121,13 +121,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public UUID getOwnerId()
     {
-        UUID ownerId = this.getOwnerHolder().getOwnerId();
-        if (this.getEntity() instanceof TameableEntity)
-        {
-            ownerId = ((TameableEntity) this.getEntity()).getOwnerId();
-            this.getOwnerHolder().setOwner(ownerId);
-        }
-        return ownerId;
+        return this.getOwnerHolder().getOwnerId();
     }
 
     @Override

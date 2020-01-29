@@ -179,7 +179,7 @@ public class ConfigStructurePiece extends TemplateStructurePiece
         }
 
         if (!this.set || function.equalsIgnoreCase("Floor")) return;
-        System.out.println(function);
+        PokecubeCore.LOGGER.debug("Structure Tag: {}", function);
         if (function.startsWith("pokecube:chest:"))
         {
             final BlockPos blockpos = pos.down();
@@ -194,6 +194,6 @@ public class ConfigStructurePiece extends TemplateStructurePiece
             final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
             if (sbb.isVecInside(blockpos)) LockableLootTileEntity.setLootTable(worldIn, rand, blockpos, key);
         }
-        else MinecraftForge.EVENT_BUS.post(new StructureEvent.ReadTag(function, pos, worldIn, rand, sbb));
+        else MinecraftForge.EVENT_BUS.post(new StructureEvent.ReadTag(function.trim(), pos, worldIn, rand, sbb));
     }
 }

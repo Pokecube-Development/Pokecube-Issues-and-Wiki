@@ -69,10 +69,11 @@ public class ItemHandler
                 "emerald_shard");
         registry.register(item);
 
-        ItemGenerator.registerItems(registry);
         for (final String s : PokecubeCore.getConfig().customHeldItems)
             if (!ItemGenerator.variants.contains(s.toLowerCase(Locale.ENGLISH))) ItemGenerator.variants.add(s
                     .toLowerCase(Locale.ENGLISH));
+
+        ItemGenerator.registerItems(registry);
     }
 
     private static void addMiscTiles(final IForgeRegistry<TileEntityType<?>> registry)
@@ -101,11 +102,6 @@ public class ItemHandler
         OwnableCaps.TILES.add(PCTile.class);
         OwnableCaps.TILES.add(HealerTile.class);
         OwnableCaps.TILES.add(BaseTile.class);
-
-        // GameRegistry.registerTileEntity(TileEntityPokecubeTable.class, new
-        // ResourceLocation("pokecube:pokecube_table"));
-        // GameRegistry.registerTileEntity(TileEntityBasePortal.class,
-        // new ResourceLocation("pokecube:pokecubebaseportal"));
     }
 
     private static void addPokecubes(final IForgeRegistry<Item> registry)

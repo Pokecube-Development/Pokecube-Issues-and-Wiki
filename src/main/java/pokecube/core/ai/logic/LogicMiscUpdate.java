@@ -9,6 +9,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.nests.NestTile;
@@ -212,7 +213,7 @@ public class LogicMiscUpdate extends LogicBase
         }
         final int id = this.pokemob.getTargetID();
 
-        if (!this.entity.getEntityWorld().isRemote)
+        if (this.entity.getEntityWorld() instanceof ServerWorld)
         {
             final LivingEntity targ = this.entity.getAttackTarget();
             if (targ != null && targ.isAlive())
@@ -223,6 +224,8 @@ public class LogicMiscUpdate extends LogicBase
             this.pokemob.setTargetID(-1);
             return;
         }
+
+        // Everything below here is client side only!
 
         if (id >= 0 && this.entity.getAttackTarget() == null) this.entity.setAttackTarget((LivingEntity) PokecubeCore
                 .getEntityProvider().getEntity(world, id, false));

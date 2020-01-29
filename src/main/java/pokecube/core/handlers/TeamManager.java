@@ -5,10 +5,9 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.scoreboard.Team;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.IOwnable;
+import thut.api.OwnableCaps;
 
 public class TeamManager
 {
@@ -16,19 +15,14 @@ public class TeamManager
     {
         @Override
         @Nonnull
-        public String getTeam(Entity entityIn)
+        public String getTeam(final Entity entityIn)
         {
             final Team team = entityIn.getTeam();
             String name = team == null ? "" : team.getName();
-            IPokemob pokemob;
-            if (entityIn instanceof TameableEntity && team == null)
+            final IOwnable ownable = OwnableCaps.getOwnable(entityIn);
+            if (ownable != null)
             {
-                final UUID id = ((TameableEntity) entityIn).getOwnerId();
-                if (id != null) name = id.toString();
-            }
-            else if ((pokemob = CapabilityPokemob.getPokemobFor(entityIn)) != null)
-            {
-                final UUID id = pokemob.getOwnerId();
+                final UUID id = ownable.getOwnerId();
                 if (id != null) name = id.toString();
             }
             return name;
@@ -37,7 +31,7 @@ public class TeamManager
 
     public static interface ITeamProvider
     {
-        default boolean areAllied(String team, Entity target)
+        default boolean areAllied(final String team, final Entity target)
         {
             return team.equals(this.getTeam(target));
         }
@@ -49,12 +43,12 @@ public class TeamManager
     public static ITeamProvider provider = new DefaultProvider();
 
     @Nonnull
-    public static String getTeam(Entity entityIn)
+    public static String getTeam(final Entity entityIn)
     {
         return TeamManager.provider.getTeam(entityIn);
     }
 
-    public static boolean sameTeam(Entity entityA, Entity entityB)
+    public static boolean sameTeam(final Entity entityA, final Entity entityB)
     {
         final String teamA = TeamManager.getTeam(entityA);
         return !teamA.isEmpty() && TeamManager.provider.areAllied(teamA, entityB);

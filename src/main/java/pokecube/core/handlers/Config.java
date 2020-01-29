@@ -82,7 +82,7 @@ public class Config extends ConfigData
     public String       extra_contributors   = "";
     @Configure(category = Config.misc)
     /** is there a choose first gui on login */
-    public boolean      guiOnLogin           = true;
+    public boolean      guiOnLogin           = false;
     @Configure(category = Config.misc)
     /** does defeating a tame pokemob give exp */
     public boolean      pvpExp               = false;

@@ -100,7 +100,7 @@ public class AIBattle extends AITrainerBase
             if (tarMob != null)
             {
                 tarMob.setCombatState(CombatStates.ANGRY, true);
-                tarMob.getEntity().setAttackTarget(null);
+                tarMob.onSetTarget(null, true);
             }
         }
 

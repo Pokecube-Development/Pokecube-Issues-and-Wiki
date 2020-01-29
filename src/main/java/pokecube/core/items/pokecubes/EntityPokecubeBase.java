@@ -10,8 +10,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
@@ -65,6 +63,8 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
+import thut.api.IOwnable;
+import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
@@ -277,15 +277,13 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         PokecubeManager.setTilt(this.getItem(), -1);
         final Entity mob = PokecubeManager.itemToMob(this.getItem(), this.getEntityWorld());
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if (mob == null || this.shootingEntity == null)
         {
             PokecubeCore.LOGGER.error("Error with mob capture?", new NullPointerException());
             return false;
         }
-        if (mob instanceof TameableEntity) ((TameableEntity) mob).setOwnerId(this.shootingEntity.getUniqueID());
-        if (mob instanceof AbstractHorseEntity) ((AbstractHorseEntity) mob).setOwnerUniqueId(this.shootingEntity
-                .getUniqueID());
-
+        if (ownable != null) ownable.setOwner(this.shootingEntity.getUniqueID());
         if (pokemob == null)
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
@@ -293,7 +291,6 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             this.playSound(EntityPokecubeBase.POKECUBESOUND, 0.4f, 1);
             return true;
         }
-
         HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
         if (this.shootingEntity != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(
                 this.shootingEntity.getUniqueID());

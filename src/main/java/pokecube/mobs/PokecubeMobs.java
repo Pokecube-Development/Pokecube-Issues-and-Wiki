@@ -25,6 +25,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.utils.DBLoader;
+import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.CombatTypeLoader;
@@ -400,7 +401,12 @@ public class PokecubeMobs
         ItemGenerator.variants.add("tyranitarmega");
         ItemGenerator.variants.add("venusaurmega");
 
-        ItemGenerator.variants.add("mewhair");
+        ItemGenerator.other.add("mewhair");
+
+        TradeEntryLoader.genericTradeBlacklist.add("megastone");
+        TradeEntryLoader.genericTradeBlacklist.add("alphaorb");
+        TradeEntryLoader.genericTradeBlacklist.add("omegaorb");
+        TradeEntryLoader.genericTradeBlacklist.add("shiny_charm");
 
         ItemGenerator.fossilVariants.add("omanyte");
         ItemGenerator.fossilVariants.add("kabuto");
