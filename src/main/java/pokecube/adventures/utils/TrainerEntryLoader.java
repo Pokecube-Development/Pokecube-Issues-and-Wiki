@@ -137,7 +137,7 @@ public class TrainerEntryLoader
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.warn("Error with weight for " + type.name + " " + rule.values + " "
+                    PokecubeCore.LOGGER.warn("Error with weight for " + type.getName() + " " + rule.values + " "
                             + entry.spawns, e);
                     continue;
                 }

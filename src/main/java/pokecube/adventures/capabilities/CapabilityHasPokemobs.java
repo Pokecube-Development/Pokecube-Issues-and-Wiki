@@ -434,7 +434,7 @@ public class CapabilityHasPokemobs
             nbt.put("pokemobs", ListNBT);
             nbt.putInt("nextSlot", this.getNextSlot());
             if (this.getOutID() != null) nbt.putString("outPokemob", this.getOutID().toString());
-            if (this.getType() != null) nbt.putString("type", this.getType().name);
+            if (this.getType() != null) nbt.putString("type", this.getType().getName());
             nbt.putLong("nextBattle", this.getCooldown());
             nbt.putByte("gender", this.getGender());
 
@@ -568,7 +568,7 @@ public class CapabilityHasPokemobs
         {
             this.type = type;
             if (!this.user.getEntityWorld().isRemote) this.datasync.set(this.holder.TYPE, type == null ? ""
-                    : type.name);
+                    : type.getName());
         }
 
         @Override

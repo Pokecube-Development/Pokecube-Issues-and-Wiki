@@ -55,6 +55,7 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
@@ -62,10 +63,10 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
+import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.entity.pokemobs.EntityPokemob;
-import pokecube.core.entity.professor.EntityProfessor;
 import pokecube.core.events.PCEvent;
-import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
@@ -120,9 +121,9 @@ public class TrainerEventHandler
 
     private static class ProfessorOffers implements Consumer<MerchantOffers>
     {
-        final EntityProfessor mob;
+        final NpcMob mob;
 
-        public ProfessorOffers(final EntityProfessor mob)
+        public ProfessorOffers(final NpcMob mob)
         {
             this.mob = mob;
         }
@@ -132,16 +133,19 @@ public class TrainerEventHandler
         {
             PokecubeCore.LOGGER.debug("Merchant Offer Init: " + this.mob);
             final Random rand = new Random(this.mob.getUniqueID().getLeastSignificantBits());
-            this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
+            final TrainerTrades trades = TypeTrainer.tradesMap.get(this.mob.getNpcType() == NpcType.PROFESSOR
+                    ? "professor" : "merchant");
+            if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
+            else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
         }
 
     }
 
     private static class ProfessorOffer implements Consumer<MerchantOffer>
     {
-        final EntityProfessor mob;
+        final NpcMob mob;
 
-        public ProfessorOffer(final EntityProfessor mob)
+        public ProfessorOffer(final NpcMob mob)
         {
             this.mob = mob;
         }
@@ -165,8 +169,8 @@ public class TrainerEventHandler
     private static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getCapabilities().containsKey(TrainerEventHandler.GUARDCAP)) return;
-        if (event.getObject() instanceof VillagerEntity || event.getObject() instanceof EntityTrainer) event
-                .addCapability(TrainerEventHandler.GUARDCAP, new Provider());
+        if (event.getObject() instanceof VillagerEntity || event.getObject() instanceof TrainerNpc) event.addCapability(
+                TrainerEventHandler.GUARDCAP, new Provider());
     }
 
     private static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
@@ -360,11 +364,11 @@ public class TrainerEventHandler
         if (npc.getPersistentData().getLong("pokeadv_join") == npc.getEntityWorld().getGameTime()) return;
         npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
 
-        if (npc instanceof EntityProfessor)
+        if (npc instanceof NpcMob && !(npc instanceof TrainerBase))
         {
             PokecubeCore.LOGGER.debug("Setting trade stuff for professor" + npc);
-            ((EntityProfessor) npc).setInitOffers(new ProfessorOffers((EntityProfessor) npc));
-            ((EntityProfessor) npc).setUseOffers(new ProfessorOffer((EntityProfessor) npc));
+            ((NpcMob) npc).setInitOffers(new ProfessorOffers((NpcMob) npc));
+            ((NpcMob) npc).setUseOffers(new ProfessorOffer((NpcMob) npc));
         }
 
         // Wrap it as a fake vanilla AI
@@ -372,15 +376,15 @@ public class TrainerEventHandler
         {
             final List<IAIRunnable> ais = Lists.newArrayList();
             // All can battle, but only trainers will path during battle.
-            ais.add(new AIBattle(npc, !(npc instanceof EntityTrainer)).setPriority(0));
+            ais.add(new AIBattle(npc, !(npc instanceof TrainerNpc)).setPriority(0));
 
             // All attack zombies.
             ais.add(new AIFindTarget(npc, ZombieEntity.class).setPriority(20));
             // Only trainers specifically target players.
-            if (npc instanceof EntityTrainer)
+            if (npc instanceof TrainerNpc)
             {
                 ais.add(new AIFindTarget(npc, PlayerEntity.class).setPriority(10));
-                ais.add(new AIMate(npc, ((EntityTrainer) npc).getClass()));
+                ais.add(new AIMate(npc, ((TrainerNpc) npc).getClass()));
             }
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs) ais.add(new AIFindTarget(npc, 0.05f, EntityPokemob.class)
@@ -440,26 +444,13 @@ public class TrainerEventHandler
 
     @SubscribeEvent
     /**
-     * This takes care of randomization for trainer teams when spawned in
-     * structuress.
-     *
-     * @param event
-     */
-    public static void StructureSpawn(final StructureEvent.ReadTag event)
-    {
-
-        // TODO: handle tags in structures for spawning trainers/leaders
-    }
-
-    @SubscribeEvent
-    /**
      * This prevents trainer's pokemobs going to PC
      *
      * @param evt
      */
     public static void TrainerPokemobPC(final PCEvent evt)
     {
-        if (evt.owner instanceof EntityTrainer) evt.setCanceled(true);
+        if (evt.owner instanceof TrainerNpc) evt.setCanceled(true);
     }
 
     @SubscribeEvent(receiveCanceled = false)

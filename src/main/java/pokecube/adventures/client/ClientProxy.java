@@ -35,7 +35,7 @@ import pokecube.adventures.client.gui.blocks.Cloner;
 import pokecube.adventures.client.gui.blocks.Extractor;
 import pokecube.adventures.client.gui.blocks.Splicer;
 import pokecube.adventures.client.gui.items.Bag;
-import pokecube.adventures.entity.trainer.EntityTrainer;
+import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.core.client.render.mobs.RenderNPC;
 import thut.api.entity.genetics.Alleles;
@@ -155,7 +155,7 @@ public class ClientProxy extends CommonProxy
     {
         MinecraftForge.EVENT_BUS.register(this);
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityTrainer.class, (manager) -> new RenderNPC<>(manager));
+        RenderingRegistry.registerEntityRenderingHandler(TrainerNpc.class, (manager) -> new RenderNPC<>(manager));
 
         // Register container guis.
         ScreenManager.registerFactory(ClonerContainer.TYPE, Cloner::new);

@@ -62,9 +62,9 @@ import pokecube.core.client.render.util.URLSkinImageBuffer;
 import pokecube.core.client.render.util.URLSkinTexture;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
-import pokecube.core.entity.professor.EntityProfessor;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
@@ -300,7 +300,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.class, (manager) -> new RenderPokecube(
                 manager));
         RenderingRegistry.registerEntityRenderingHandler(EntityMoveUse.class, (manager) -> new RenderMoves(manager));
-        RenderingRegistry.registerEntityRenderingHandler(EntityProfessor.class, (manager) -> new RenderNPC<>(manager));
+        RenderingRegistry.registerEntityRenderingHandler(NpcMob.class, (manager) -> new RenderNPC<>(manager));
         RenderingRegistry.registerEntityRenderingHandler(EntityPokemobEgg.class, (manager) -> new RenderEgg(manager));
 
     }

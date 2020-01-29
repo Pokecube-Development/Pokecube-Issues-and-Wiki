@@ -5,18 +5,16 @@ import java.util.UUID;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs.DefeatEntry;
@@ -24,9 +22,7 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
@@ -34,36 +30,37 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
 
-public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawnData
+public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnData
 {
-    public static final EntityType<EntityTrainer> TYPE;
+    public static final EntityType<TrainerNpc> TYPE;
 
     static
     {
-        TYPE = EntityType.Builder.create(EntityTrainer::new, EntityClassification.CREATURE).setCustomClientFactory((s,
-                w) -> EntityTrainer.TYPE.create(w)).build("trainer");
+        TYPE = EntityType.Builder.create(TrainerNpc::new, EntityClassification.CREATURE).setCustomClientFactory((s,
+                w) -> TrainerNpc.TYPE.create(w)).build("trainer");
     }
 
-    private boolean randomize   = false;
-    public Vector3  location    = null;
-    public String   name        = "";
-    public String   playerName  = "";
-    public String   urlSkin     = "";
-    boolean         added       = false;
-    public GuardAI  guardAI;
-    public long     visibleTime = 0;
+    boolean     added       = false;
+    public long visibleTime = 0;
 
-    public EntityTrainer(final EntityType<? extends TrainerBase> type, final World worldIn)
+    public TrainerNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
         this.pokemobsCap.setType(TypeTrainer.mobTypeMapper.getType(this, true));
         this.enablePersistence();
     }
 
+    @Override
+    protected void addMobTrades(final PlayerEntity player, final ItemStack stack)
+    {
+        if (this.getCustomer() != null && PokecubeAdv.config.trainersTradeMobs) this.addMobTrades(stack);
+    }
+
     protected void addMobTrades(final ItemStack buy1)
     {
         final ItemStack buy = buy1.copy();
         final IPokemob mon1 = PokecubeManager.itemToPokemob(buy1, this.getEntityWorld());
+        if (mon1 == null) return;
         final int stat1 = this.getBaseStats(mon1);
         for (int i = 0; i < this.pokemobsCap.getMaxPokemobCount(); i++)
         {
@@ -86,6 +83,23 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
     }
 
     @Override
+    public void onTrade(final MerchantOffer recipe)
+    {
+        super.onTrade(recipe);
+        // If this was our mob trade, we need to set our mob as it.
+        ItemStack poke1 = recipe.func_222218_a();
+        final ItemStack poke2 = recipe.func_222200_d();
+        if (!(PokecubeManager.isFilled(poke1) && PokecubeManager.isFilled(poke2))) return;
+        final int num = poke2.getTag().getInt("slotnum");
+        final LivingEntity player2 = this;
+        final IPokemob mon1 = PokecubeManager.itemToPokemob(poke1, this.getEntityWorld());
+        final UUID trader2 = player2.getUniqueID();
+        mon1.setOwner(trader2);
+        poke1 = PokecubeManager.pokemobToItem(mon1);
+        this.pokemobsCap.setPokemob(num, poke1);
+    }
+
+    @Override
     public AgeableEntity createChild(final AgeableEntity ageable)
     {
         if (this.isChild() || this.getGrowingAge() > 0 || !this.aiStates.getAIState(IHasNPCAIStates.MATES)) return null;
@@ -96,19 +110,12 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
             if (other != null && otherAI != null && otherAI.getAIState(IHasNPCAIStates.MATES) && other.getGender() == 1)
             {
                 if (this.location == null) this.location = Vector3.getNewVector();
-                final EntityTrainer baby = TrainerSpawnHandler.getTrainer(this.location.set(this), this
-                        .getEntityWorld());
+                final TrainerNpc baby = TrainerSpawnHandler.getTrainer(this.location.set(this), this.getEntityWorld());
                 if (baby != null) baby.setGrowingAge(-24000);
                 return baby;
             }
         }
         return null;
-    }
-
-    @Override
-    public IPacket<?> createSpawnPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     private int getBaseStats(final IPokemob mob)
@@ -118,27 +125,12 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
                 .getStatDEFSPE() + entry.getStatVIT();
     }
 
-    public boolean getShouldRandomize()
-    {
-        return this.randomize;
-    }
-
-    public ResourceLocation getTex()
-    {
-        if (!this.playerName.isEmpty()) return PokecubeCore.proxy.getPlayerSkin(this.playerName);
-        else if (!this.urlSkin.isEmpty()) return PokecubeCore.proxy.getUrlSkin(this.urlSkin);
-        else return PokecubeAdv.proxy.getTrainerSkin(this, this.pokemobsCap.getType(), this.pokemobsCap.getGender());
-    }
-
     @Override
     public void readAdditional(final CompoundNBT nbt)
     {
         super.readAdditional(nbt);
-        this.playerName = nbt.getString("playerName");
-        this.urlSkin = nbt.getString("urlSkin");
         if (nbt.contains("trades")) this.aiStates.setAIState(IHasNPCAIStates.TRADES, nbt.getBoolean("trades"));
-        this.randomize = nbt.getBoolean("randomTeam");
-        this.name = nbt.getString("name");
+        this.fixedTrades = nbt.getBoolean("fixedTrades");
         this.setTypes();
         if (nbt.contains("DefeatList"))
         {
@@ -155,19 +147,13 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
         }
     }
 
-    @Override
-    public void readSpawnData(final PacketBuffer additionalData)
-    {
-        this.readAdditional(additionalData.readCompoundTag());
-    }
-
-    public EntityTrainer setLevel(final int level)
+    public TrainerNpc setLevel(final int level)
     {
         TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.getEntityWorld());
         return this;
     }
 
-    public EntityTrainer setStationary(final Vector3 location)
+    public TrainerNpc setStationary(final Vector3 location)
     {
         this.location = location;
         if (location == null)
@@ -183,7 +169,7 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
         return this;
     }
 
-    public EntityTrainer setType(final TypeTrainer type)
+    public TrainerNpc setType(final TypeTrainer type)
     {
         this.pokemobsCap.setType(type);
         this.pokemobsCap.getType().initTrainerItems(this);
@@ -203,25 +189,15 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
                     : TypeTrainer.femaleNames.size());
             this.name = this.pokemobsCap.getGender() == 1 ? TypeTrainer.maleNames.get(index)
                     : TypeTrainer.femaleNames.get(index);
-            this.setCustomName(new StringTextComponent(this.pokemobsCap.getType().name + " " + this.name));
+            this.setCustomName(new StringTextComponent(this.pokemobsCap.getType().getName() + " " + this.name));
         }
     }
 
     @Override
     public void writeAdditional(final CompoundNBT compound)
     {
+        this.setTypes(); // Ensure types are valid before saving.
         super.writeAdditional(compound);
-        compound.putString("playerName", this.playerName);
-        compound.putString("urlSkin", this.urlSkin);
-        compound.putBoolean("randomTeam", this.randomize);
-        compound.putString("name", this.name);
-    }
-
-    @Override
-    public void writeSpawnData(final PacketBuffer buffer)
-    {
-        final CompoundNBT tag = new CompoundNBT();
-        this.writeAdditional(tag);
-        buffer.writeCompoundTag(tag);
+        compound.putBoolean("fixedTrades", this.fixedTrades);
     }
 }

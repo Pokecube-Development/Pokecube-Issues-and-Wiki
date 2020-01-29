@@ -12,7 +12,7 @@
     },
     {
       "name": "scattered/pokecenter",
-      "chance": 0.0005,
+      "chance": 0.05,
       "biomeType": "village",
       "spawn": {
         "values": {
@@ -22,7 +22,7 @@
     },
     {
       "name": "scattered/gym_gerenal",
-      "chance": 0.00005,
+      "chance": 0.005,
       "biomeType": "village",
       "spawn": {
         "values": {

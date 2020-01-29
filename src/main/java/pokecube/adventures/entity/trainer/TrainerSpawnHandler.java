@@ -11,13 +11,18 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,19 +30,26 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.Config;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
+import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerSpawnEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.events.StructureEvent;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.utils.ChunkCoordinate;
+import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
 @Mod.EventBusSubscriber
@@ -124,7 +136,7 @@ public class TrainerSpawnHandler
         return null;
     }
 
-    public static EntityTrainer getTrainer(Vector3 v, final World w)
+    public static TrainerNpc getTrainer(Vector3 v, final World w)
     {
         TypeTrainer ttype = null;
         final Material m = v.getBlockMaterial(w);
@@ -147,7 +159,7 @@ public class TrainerSpawnHandler
             }
         if (ttype == null) return null;
         final int level = SpawnHandler.getSpawnLevel(w, v, Database.getEntry(1));
-        final EntityTrainer trainer = new EntityTrainer(EntityTrainer.TYPE, w).setType(ttype).setLevel(level);
+        final TrainerNpc trainer = new TrainerNpc(TrainerNpc.TYPE, w).setType(ttype).setLevel(level);
         trainer.aiStates.setAIState(IHasNPCAIStates.MATES, true);
         trainer.aiStates.setAIState(IHasNPCAIStates.TRADES, true);
         return trainer;
@@ -157,36 +169,29 @@ public class TrainerSpawnHandler
     {
         final Vector3 loc = Vector3.getNewVector().set(trainer);
         // Set level based on what wild pokemobs have.
-        final int level = SpawnHandler.getSpawnLevel(trainer.getEntityWorld(), loc, Pokedex.getInstance()
-                .getFirstEntry());
+        int level = SpawnHandler.getSpawnLevel(trainer.getEntityWorld(), loc, Pokedex.getInstance().getFirstEntry());
         // TODO add leaders and handle them.
-        // if (trainer instanceof EntityLeader)
-        // {
-        // // Gym leaders are 10 lvls higher than others.
-        // level += 10;
-        // // Randomize badge for leader.
-        // if (((EntityLeader) trainer).randomBadge())
-        // {
-        // final IHasRewards rewardsCap = ((EntityLeader) trainer).rewardsCap;
-        // final PokeType type = PokeType.values()[new
-        // Random().nextInt(PokeType.values().length)];
-        // final Item item = Item.getByNameOrId(PokecubeAdv.ID + ":badge_" +
-        // type);
-        // if (item != null)
-        // {
-        // final ItemStack badge = new ItemStack(item);
-        // if (!rewardsCap.getRewards().isEmpty())
-        // rewardsCap.getRewards().set(0, new Reward(badge));
-        // else rewardsCap.getRewards().add(new Reward(badge));
-        // ((EntityLeader) trainer).setHeldItem(Hand.OFF_HAND,
-        // rewardsCap.getRewards().get(0).stack);
-        // }
-        // }
-        // }
-        // Randomize team.
-        if (trainer instanceof EntityTrainer)
+        if (trainer instanceof LeaderNpc)
         {
-            final EntityTrainer t = (EntityTrainer) trainer;
+            // Gym leaders are 10 lvls higher than others.
+            level += 10;
+            // Randomize badge for leader.
+
+            final IHasRewards rewardsCap = ((LeaderNpc) trainer).rewardsCap;
+            final PokeType type = PokeType.values()[new Random().nextInt(PokeType.values().length)];
+            final Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(PokecubeAdv.ID, ":badge_" + type));
+            if (item != null)
+            {
+                final ItemStack badge = new ItemStack(item);
+                if (!rewardsCap.getRewards().isEmpty()) rewardsCap.getRewards().set(0, new Reward(badge));
+                else rewardsCap.getRewards().add(new Reward(badge));
+                ((LeaderNpc) trainer).setHeldItem(Hand.OFF_HAND, rewardsCap.getRewards().get(0).stack);
+            }
+        }
+        // Randomize team.
+        if (trainer instanceof TrainerNpc)
+        {
+            final TrainerNpc t = (TrainerNpc) trainer;
             t.name = "";
             // Reset their trades, as this will randomize them when trades are
             // needed later.
@@ -230,7 +235,7 @@ public class TrainerSpawnHandler
         if (count < Config.instance.trainerDensity)
         {
             final long time = System.nanoTime();
-            final EntityTrainer t = TrainerSpawnHandler.getTrainer(v, w);
+            final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
             if (t == null) return;
             final IHasPokemobs cap = CapabilityHasPokemobs.getHasPokemobs(t);
             final TrainerSpawnEvent event = new TrainerSpawnEvent(cap.getType(), t, v.getPos(), w);
@@ -240,7 +245,7 @@ public class TrainerSpawnHandler
                 return;
             }
             final double dt = (System.nanoTime() - time) / 1000000D;
-            if (dt > 20) PokecubeCore.LOGGER.warn("Trainer " + cap.getType().name + " " + dt + "ms ");
+            if (dt > 20) PokecubeCore.LOGGER.warn("Trainer " + cap.getType().getName() + " " + dt + "ms ");
             v.offsetBy(Direction.UP).moveEntity(t);
             if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.posX, (int) t.posY,
                     (int) t.posZ))
@@ -265,5 +270,51 @@ public class TrainerSpawnHandler
             final double dt = (System.nanoTime() - time) / 1000000D;
             if (dt > 50) PokecubeCore.LOGGER.warn("Trainer Spawn Tick took " + dt + "ms");
         }
+    }
+
+    @SubscribeEvent
+    /**
+     * This takes care of randomization for trainer teams when spawned in
+     * structuress.
+     *
+     * @param event
+     */
+    public static void StructureSpawn(final StructureEvent.ReadTag event)
+    {
+        if (!event.function.startsWith("pokecube_adventures:")) return;
+        String function = event.function.replaceFirst("pokecube_adventures:", "");
+        boolean leader = false;
+        // Here we process custom options for trainers or leaders in structures.
+        if (function.startsWith("trainer") || (leader = function.startsWith("leader")))
+        {
+            function = function.replaceFirst(leader ? "leader" : "trainer", "");
+            final TrainerNpc trainer = leader ? LeaderNpc.TYPE.create(event.world.getWorld())
+                    : TrainerNpc.TYPE.create(event.world.getWorld());
+            if (!function.isEmpty() && function.contains("{")) try
+            {
+                final JsonObject thing = PokedexEntryLoader.gson.fromJson(function, JsonObject.class);
+                TrainerSpawnHandler.applyFunction(trainer, thing, leader);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error parsing " + function, e);
+            }
+        }
+    }
+
+    private static void applyFunction(final TrainerNpc trainer, final JsonObject thing, final boolean leader)
+    {
+        int level = SpawnHandler.getSpawnLevel(trainer.getEntityWorld(), Vector3.getNewVector().set(trainer),
+                Database.missingno);
+        if (thing.has("name")) trainer.name = thing.get("name").getAsString();
+        if (thing.has("customTrades")) trainer.customTrades = thing.get("customTrades").getAsString();
+        if (thing.has("level")) level = thing.get("level").getAsInt();
+        if (thing.has("trainerType"))
+        {
+            final TypeTrainer type = TypeTrainer.typeMap.get(thing.get("trainerType").getAsString());
+            if (type != null) trainer.pokemobsCap.setType(type);
+            else PokecubeCore.LOGGER.error("No trainer type registerd for {}", thing.get("trainerType").getAsString());
+        }
+        TypeTrainer.getRandomTeam(trainer.pokemobsCap, trainer, level, trainer.getEntityWorld());
     }
 }

@@ -73,10 +73,10 @@ import pokecube.core.commands.TMCommand;
 import pokecube.core.contributors.Contributor;
 import pokecube.core.contributors.ContributorManager;
 import pokecube.core.database.Database;
+import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
-import pokecube.core.entity.professor.EntityProfessor;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
@@ -338,9 +338,9 @@ public class EventsHandler
             event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
         }
 
-        if (event.getObject() instanceof EntityProfessor)
+        if (event.getObject() instanceof NpcMob)
         {
-            final EntityProfessor prof = (EntityProfessor) event.getObject();
+            final NpcMob prof = (NpcMob) event.getObject();
             event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(prof, e -> e.getTex(), e -> !e.male));
             event.addCapability(EventsHandler.GUARDCAP, new Provider());
         }

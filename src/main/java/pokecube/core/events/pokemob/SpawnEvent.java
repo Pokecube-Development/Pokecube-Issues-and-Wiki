@@ -5,6 +5,7 @@ import java.util.Random;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.entity.MobEntity;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
@@ -30,7 +31,7 @@ public class SpawnEvent extends Event
          */
         public final boolean forSpawn;
 
-        public Check(PokedexEntry entry, Vector3 location, World world, boolean forSpawn)
+        public Check(final PokedexEntry entry, final Vector3 location, final IWorld world, final boolean forSpawn)
         {
             super(entry, location, world);
             this.forSpawn = forSpawn;
@@ -42,7 +43,7 @@ public class SpawnEvent extends Event
     {
         public final IPokemob pokemob;
 
-        public Despawn(Vector3 location, World world, IPokemob pokemob_)
+        public Despawn(final Vector3 location, final IWorld world, final IPokemob pokemob_)
         {
             super(pokemob_.getPokedexEntry(), location, world);
             this.pokemob = pokemob_;
@@ -56,7 +57,7 @@ public class SpawnEvent extends Event
         public final boolean radial;
         public final boolean central;
 
-        public Function(String[] args)
+        public Function(final String[] args)
         {
             this.function = args[1];
             this.radial = Boolean.parseBoolean(args[2]);
@@ -68,7 +69,7 @@ public class SpawnEvent extends Event
     {
         final JEP parser;
 
-        public FunctionVariance(String function)
+        public FunctionVariance(final String function)
         {
             this.parser = new JEP();
             this.parser.initFunTab(); // clear the contents of the function
@@ -83,7 +84,7 @@ public class SpawnEvent extends Event
         }
 
         @Override
-        public int apply(int level)
+        public int apply(final int level)
         {
             this.parser.setVarValue("x", level);
             return (int) this.parser.getValue();
@@ -100,7 +101,8 @@ public class SpawnEvent extends Event
         private final Variance variance;
         private final int      original;
 
-        public Level(PokedexEntry entry_, Vector3 location_, World world, int level, Variance variance)
+        public Level(final PokedexEntry entry_, final Vector3 location_, final IWorld world, final int level,
+                final Variance variance)
         {
             super(entry_, location_, world);
             this.level = level;
@@ -123,7 +125,7 @@ public class SpawnEvent extends Event
             return this.level;
         }
 
-        public void setLevel(int level)
+        public void setLevel(final int level)
         {
             this.level = level;
         }
@@ -134,7 +136,7 @@ public class SpawnEvent extends Event
     {
         int[] nums;
 
-        public LevelRange(int[] vars)
+        public LevelRange(final int[] vars)
         {
             this.nums = vars.clone();
             if (this.nums[0] <= 0 || this.nums[1] <= 0) this.nums[1] = this.nums[0] = 1;
@@ -142,7 +144,7 @@ public class SpawnEvent extends Event
         }
 
         @Override
-        public int apply(int level)
+        public int apply(final int level)
         {
             return this.nums[0] + new Random().nextInt(this.nums[1] - this.nums[0]);
         }
@@ -158,7 +160,7 @@ public class SpawnEvent extends Event
         {
             private String args = "";
 
-            public Final(PokedexEntry entry_, Vector3 location_, World worldObj_)
+            public Final(final PokedexEntry entry_, final Vector3 location_, final World worldObj_)
             {
                 super(entry_, location_, worldObj_);
             }
@@ -182,7 +184,7 @@ public class SpawnEvent extends Event
          */
         public static class Post extends Pick
         {
-            public Post(PokedexEntry entry_, Vector3 location_, World world_)
+            public Post(final PokedexEntry entry_, final Vector3 location_, final World world_)
             {
                 super(entry_, location_, world_);
             }
@@ -196,7 +198,7 @@ public class SpawnEvent extends Event
          */
         public static class Pre extends Pick
         {
-            public Pre(PokedexEntry entry_, Vector3 location_, World world_)
+            public Pre(final PokedexEntry entry_, final Vector3 location_, final World world_)
             {
                 super(entry_, location_, world_);
             }
@@ -204,7 +206,7 @@ public class SpawnEvent extends Event
 
         private PokedexEntry pick;
 
-        public Pick(PokedexEntry entry_, Vector3 location_, World world_)
+        public Pick(final PokedexEntry entry_, final Vector3 location_, final World world_)
         {
             super(entry_, location_, world_);
             this.pick = entry_;
@@ -220,12 +222,12 @@ public class SpawnEvent extends Event
             return this.pick;
         }
 
-        public void setLocation(Vector3 loc)
+        public void setLocation(final Vector3 loc)
         {
             this.location.set(loc);
         }
 
-        public void setPick(PokedexEntry toPick)
+        public void setPick(final PokedexEntry toPick)
         {
             this.pick = toPick;
         }
@@ -241,7 +243,7 @@ public class SpawnEvent extends Event
         public final IPokemob  pokemob;
         public final MobEntity entity;
 
-        public Post(PokedexEntry entry, Vector3 location, World world, IPokemob pokemob)
+        public Post(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
         {
             super(entry, location, world);
             this.pokemob = pokemob;
@@ -257,7 +259,7 @@ public class SpawnEvent extends Event
     @Cancelable
     public static class Pre extends SpawnEvent
     {
-        public Pre(PokedexEntry entry, Vector3 location, World world)
+        public Pre(final PokedexEntry entry, final Vector3 location, final World world)
         {
             super(entry, location, world);
         }
@@ -268,7 +270,7 @@ public class SpawnEvent extends Event
     {
         public static class Post extends SendOut
         {
-            public Post(PokedexEntry entry, Vector3 location, World world, IPokemob pokemob)
+            public Post(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
             {
                 super(entry, location, world, pokemob);
             }
@@ -283,7 +285,7 @@ public class SpawnEvent extends Event
         @Cancelable
         public static class Pre extends SendOut
         {
-            public Pre(PokedexEntry entry, Vector3 location, World world, IPokemob pokemob)
+            public Pre(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
             {
                 super(entry, location, world, pokemob);
             }
@@ -293,7 +295,7 @@ public class SpawnEvent extends Event
 
         public final MobEntity entity;
 
-        protected SendOut(PokedexEntry entry, Vector3 location, World world, IPokemob pokemob)
+        protected SendOut(final PokedexEntry entry, final Vector3 location, final World world, final IPokemob pokemob)
         {
             super(entry, location, world);
             this.pokemob = pokemob;
@@ -307,7 +309,7 @@ public class SpawnEvent extends Event
         {
         }
 
-        public int apply(int level)
+        public int apply(final int level)
         {
             return level;
         }
@@ -317,12 +319,12 @@ public class SpawnEvent extends Event
 
     public final Vector3 location;
 
-    public final World world;
+    public final IWorld world;
 
-    public SpawnEvent(PokedexEntry entry_, Vector3 location_, World world_)
+    public SpawnEvent(final PokedexEntry entry_, final Vector3 location_, final IWorld world)
     {
         this.entry = entry_;
         this.location = location_;
-        this.world = world_;
+        this.world = world;
     }
 }

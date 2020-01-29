@@ -1,4 +1,4 @@
-package pokecube.core.entity.professor;
+package pokecube.core.entity.npc;
 
 import java.util.function.Consumer;
 
@@ -10,8 +10,6 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,7 +17,6 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -27,39 +24,28 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
-import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.inventory.healer.HealerContainer;
-import pokecube.core.network.packets.PacketChoose;
-import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.ai.routes.GuardAI;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
-public class EntityProfessor extends AbstractVillagerEntity implements IEntityAdditionalSpawnData
+public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalSpawnData
 {
-    public static enum ProfessorType
-    {
-        PROFESSOR, HEALER;
-    }
-
-    public static final EntityType<EntityProfessor> TYPE;
+    public static final EntityType<NpcMob> TYPE;
 
     static
     {
-        TYPE = EntityType.Builder.create(EntityProfessor::new, EntityClassification.CREATURE).setCustomClientFactory((s,
-                w) -> EntityProfessor.TYPE.create(w)).build("professor");
+        TYPE = EntityType.Builder.create(NpcMob::new, EntityClassification.CREATURE).setCustomClientFactory((s,
+                w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
     }
-
-    public static final ResourceLocation PROFTEX  = new ResourceLocation(PokecubeMod.ID + ":textures/professor.png");
-    public static final ResourceLocation NURSETEX = new ResourceLocation(PokecubeMod.ID + ":textures/nurse.png");
-
-    public ProfessorType type       = ProfessorType.PROFESSOR;
-    public String        name       = "";
-    public String        playerName = "";
-    public String        urlSkin    = "";
-    public boolean       male       = true;
-    public boolean       stationary = false;
-    public Vector3       location   = null;
+    private NpcType type       = NpcType.NONE;
+    public String   name       = "";
+    public String   playerName = "";
+    public String   urlSkin    = "";
+    public String   customTex  = "";
+    public boolean  male       = true;
+    public boolean  stationary = false;
+    public Vector3  location   = null;
+    public GuardAI  guardAI;
 
     private Consumer<MerchantOffers> init_offers = t ->
     {
@@ -69,7 +55,7 @@ public class EntityProfessor extends AbstractVillagerEntity implements IEntityAd
     {
     };
 
-    protected EntityProfessor(final EntityType<? extends EntityProfessor> type, final World world)
+    protected NpcMob(final EntityType<? extends NpcMob> type, final World world)
     {
         super(type, world);
         this.enablePersistence();
@@ -88,9 +74,9 @@ public class EntityProfessor extends AbstractVillagerEntity implements IEntityAd
             {
                 if (!this.getEntityWorld().isRemote)
                 {
-                    if (this.type == ProfessorType.PROFESSOR) this.type = ProfessorType.HEALER;
-                    else if (this.type == ProfessorType.HEALER) this.type = ProfessorType.PROFESSOR;
-                    if (this.type == ProfessorType.PROFESSOR) this.male = true;
+                    if (this.getNpcType() == NpcType.PROFESSOR) this.setNpcType(NpcType.HEALER);
+                    else if (this.getNpcType() == NpcType.HEALER) this.setNpcType(NpcType.PROFESSOR);
+                    if (this.getNpcType() == NpcType.PROFESSOR) this.male = true;
                     else this.male = false;
                     EntityUpdate.sendEntityUpdate(this);
                     return false;
@@ -117,37 +103,14 @@ public class EntityProfessor extends AbstractVillagerEntity implements IEntityAd
     public ResourceLocation getTex()
     {
         if (!this.playerName.isEmpty()) return PokecubeCore.proxy.getPlayerSkin(this.playerName);
-        return this.type == ProfessorType.PROFESSOR ? EntityProfessor.PROFTEX : EntityProfessor.NURSETEX;
+        else if (!this.customTex.isEmpty()) return new ResourceLocation(this.customTex);
+        return this.male ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
     }
 
     @Override
     public boolean processInteract(final PlayerEntity player, final Hand hand)
     {
-        switch (this.type)
-        {
-        case HEALER:
-            if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
-                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.of(
-                            this.world, this.getPosition())), player.getDisplayName()));
-            return true;
-        case PROFESSOR:
-            if (player instanceof ServerPlayerEntity && !PokecubeSerializer.getInstance().hasStarter(player))
-            {
-                final boolean canPick = PacketChoose.canPick(player.getGameProfile());
-                final PacketChoose packet = PacketChoose.createOpenPacket(false, canPick, Database.getStarters());
-                PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) player);
-            }
-            else if (this.getCustomer() == null && !this.getOffers().isEmpty())
-            {
-                this.setCustomer(player);
-                this.func_213707_a(player, this.getDisplayName(), 10);
-                return true;
-            }
-            break;
-        default:
-            break;
-
-        }
+        if (this.getNpcType().getInteraction().processInteract(player, hand, this)) return true;
         return super.processInteract(player, hand);
     }
 
@@ -160,14 +123,15 @@ public class EntityProfessor extends AbstractVillagerEntity implements IEntityAd
         this.name = nbt.getString("name");
         this.playerName = nbt.getString("playerName");
         this.urlSkin = nbt.getString("urlSkin");
+        this.customTex = nbt.getString("customTex");
         try
         {
-            if (nbt.contains("type")) this.type = ProfessorType.valueOf(nbt.getString("type"));
-            else this.type = ProfessorType.PROFESSOR;
+            if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
+            else this.setNpcType(NpcType.PROFESSOR);
         }
         catch (final Exception e)
         {
-            this.type = ProfessorType.PROFESSOR;
+            this.setNpcType(NpcType.PROFESSOR);
             e.printStackTrace();
         }
     }
@@ -194,7 +158,8 @@ public class EntityProfessor extends AbstractVillagerEntity implements IEntityAd
         nbt.putBoolean("stationary", this.stationary);
         nbt.putString("playerName", this.playerName);
         nbt.putString("urlSkin", this.urlSkin);
-        nbt.putString("type", this.type.toString());
+        nbt.putString("customTex", this.customTex);
+        nbt.putString("type", this.getNpcType().toString());
     }
 
     @Override
@@ -229,5 +194,22 @@ public class EntityProfessor extends AbstractVillagerEntity implements IEntityAd
     {
         PokecubeCore.LOGGER.debug("Overriding Offers Use for " + this);
         this.use_offer = in;
+    }
+
+    /**
+     * @return the type
+     */
+    public NpcType getNpcType()
+    {
+        return this.type;
+    }
+
+    /**
+     * @param type
+     *            the type to set
+     */
+    public void setNpcType(final NpcType type)
+    {
+        this.type = type;
     }
 }
