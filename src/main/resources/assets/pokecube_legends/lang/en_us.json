@@ -182,12 +182,12 @@
     "legends.nsun.tooltip": "Use this item in 'Solgaleo' to change it.",
     "legends.oceanorb.tooltip": "Use this item on 'Legendary Spawn' to Spawn Lugia",
     "legends.orangerune.tooltip": "Use this item on 'Nature Spawn' Spawn Landorus",
-    "legends.bottle.tooltip": "Use this item in 'Hoopa' to change it.",
+    "legends.prisonbottle.tooltip": "Use this item in 'Hoopa' to change it.",
     "legends.rainsword.tooltip": "Use this item on 'Keldeo Spawn' Spawn Keldeo.",
     "legends.redorb.tooltip": "Use this item on 'Legendary Spawn' to Spawn Groudon",
     "legends.regisorb.tooltip": "Use this item on 'Regigigas Core' to Spawn Regigigas",
-    "legends.reveal.tooltip": "Use this item in 'Thundurus/Tornadus/Landorus' to change it.",
-    "legends.shield.tooltip": "Use this item on 'Legendary Spawn' to Spawn Zamazenta. Use this item in 'Zamazenta' to change it.",
-    "legends.sword.tooltip": "Use this item on 'Legendary Spawn' to Spawn Zacian. Use this item in 'Zacian' to change it.",
-    "legends.zycube.tooltip": "Use this item in 'Zygarde' to change it."
+    "legends.revealglass.tooltip": "Use this item in 'Thundurus/Tornadus/Landorus' to change it.",
+    "legends.rustedshield.tooltip": "Use this item on 'Legendary Spawn' to Spawn Zamazenta. Use this item in 'Zamazenta' to change it.",
+    "legends.rustedsword.tooltip": "Use this item on 'Legendary Spawn' to Spawn Zacian. Use this item in 'Zacian' to change it.",
+    "legends.zygardecube.tooltip": "Use this item in 'Zygarde' to change it."
 }

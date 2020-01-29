@@ -44,9 +44,9 @@ public class ItemInit
     public static final Item MAGMA_CORE   = new ItemBase("magmacore", 1);
     public static final Item LIFEORB      = new ItemBase("lifeorb", 1);
     public static final Item DESTRUCTORB  = new ItemBase("destructorb", 1);
-    public static final Item ORANGE_RUNE  = new ItemBase("orange_rune", 1);
-    public static final Item BLUE_RUNE    = new ItemBase("blue_rune", 1);
-    public static final Item GREEN_RUNE   = new ItemBase("green_rune", 1);
+    public static final Item ORANGE_RUNE  = new ItemBase("orange_rune", 1).setTooltipName("orangerune");
+    public static final Item BLUE_RUNE    = new ItemBase("blue_rune", 1).setTooltipName("bluerune");
+    public static final Item GREEN_RUNE   = new ItemBase("green_rune", 1).setTooltipName("greenrune");
     public static final Item REGIS_ORB    = new ItemBase("regisorb", 1);
 
     // Gens_ores
@@ -54,9 +54,9 @@ public class ItemInit
     public static final Item RUBY     = new ItemBase("ruby", 64).noTooltop();
 
     // Extra
-    public static final Item SILVER_WING    = new ItemBase("silver_wing", 5);
-    public static final Item RAINBOW_WING   = new ItemBase("rainbow_wing", 5);
-    public static final Item CRYSTAL_SHARD  = new ItemBase("crystal_shard", 35);
+    public static final Item SILVER_WING    = new ItemBase("silver_wing", 5).noTooltop();
+    public static final Item RAINBOW_WING   = new ItemBase("rainbow_wing", 5).noTooltop();
+    public static final Item CRYSTAL_SHARD  = new ItemBase("crystal_shard", 35).noTooltop();
     public static final Item GRISEOUS_ORB   = new ItemBase("griseousorb", 1);
     public static final Item ZYGARDE_CUBE   = new ItemBase("zygardecube", 1);
     public static final Item PRISION_BOTTLE = new ItemBase("prisonbottle", 1);
@@ -65,13 +65,13 @@ public class ItemInit
     public static final Item DNA_SPLICERB   = new ItemBase("dna_splicerb", 1).setTooltipName("dnasplicer");
     public static final Item GRACIDEA       = new ItemBase("gracidea", 10);
     public static final Item METEORITE      = new ItemBase("meteorite", 16);
-    public static final Item NSUN           = new ItemBase("n_sun", 1);
-    public static final Item NMOON          = new ItemBase("n_moon", 1);
-    public static final Item AZURE_FLUTE    = new ItemBase("azure_flute", 1);
+    public static final Item NSUN           = new ItemBase("n_sun", 1).setTooltipName("nsun");
+    public static final Item NMOON          = new ItemBase("n_moon", 1).setTooltipName("nmoon");
+    public static final Item AZURE_FLUTE    = new ItemBase("azure_flute", 1).setTooltipName("azureflute");
     public static final Item RSHIELD        = new ItemBase("rustedshield", 1);
     public static final Item RSWORD         = new ItemBase("rustedsword", 1);
-    public static final Item CHPOT          = new ItemBase("chippedpot", 1);
-    public static final Item CRPOT          = new ItemBase("crackedpot", 1);
+    public static final Item CHPOT          = new ItemBase("chippedpot", 1).noTooltop();
+    public static final Item CRPOT          = new ItemBase("crackedpot", 1).noTooltop();
 
     // Tools
     public static final SwordItem RAINBOW_SWORD = new RainbowSword("rainbow_sword", 4, -4, ItemInit.MATERIAL_RAINBOW);
