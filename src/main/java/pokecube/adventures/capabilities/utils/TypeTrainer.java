@@ -38,6 +38,7 @@ import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.entity.professor.EntityProfessor;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
@@ -59,7 +60,6 @@ public class TypeTrainer
          */
         default TypeTrainer getType(final LivingEntity mob, final boolean forSpawn)
         {
-            if (!SpawnHandler.canSpawnInWorld(mob.getEntityWorld())) return null;
             if (!forSpawn)
             {
                 if (mob instanceof TrainerBase) return TypeTrainer.merchant;
@@ -81,6 +81,7 @@ public class TypeTrainer
                 if (type != null) return type;
                 return TypeTrainer.merchant;
             }
+            if (mob instanceof EntityProfessor) return TypeTrainer.merchant;
             return null;
         }
 
@@ -103,10 +104,10 @@ public class TypeTrainer
 
         public TrainerTrade(final ItemStack buy1, final ItemStack buy2, final ItemStack sell)
         {
-            super(buy1, buy2, sell, -1, -1, 1);
+            super(buy1, buy2, sell, Integer.MAX_VALUE, -1, 1);
         }
 
-        public MerchantOffer getRecipe()
+        public MerchantOffer getRecipe(final Random rand)
         {
             ItemStack buy1 = this.func_222218_a();
             ItemStack buy2 = this.func_222202_c();
@@ -118,11 +119,9 @@ public class TypeTrainer
             if (this.min != -1 && this.max != -1)
             {
                 if (this.max < this.min) this.max = this.min;
-                sell.setCount(this.min + new Random().nextInt(1 + this.max - this.min));
+                sell.setCount(this.min + rand.nextInt(1 + this.max - this.min));
             }
-            // TODO Find out where the mess with client side so the 65 isn't
-            // needed.
-            final MerchantOffer ret = new MerchantOffer(buy1, buy2, sell, 0, 65, 1);
+            final MerchantOffer ret = new MerchantOffer(buy1, buy2, sell, Integer.MAX_VALUE, 10, 1);
             return ret;
         }
     }
@@ -131,12 +130,12 @@ public class TypeTrainer
     {
         public List<TrainerTrade> tradesList = Lists.newArrayList();
 
-        public void addTrades(final List<MerchantOffer> ret)
+        public void addTrades(final List<MerchantOffer> ret, final Random rand)
         {
             for (final TrainerTrade trade : this.tradesList)
                 if (Math.random() < trade.chance)
                 {
-                    final MerchantOffer toAdd = trade.getRecipe();
+                    final MerchantOffer toAdd = trade.getRecipe(rand);
                     if (toAdd != null) ret.add(toAdd);
                 }
         }
@@ -286,7 +285,7 @@ public class TypeTrainer
         TypeTrainer.addTrainer(name, this);
     }
 
-    public Collection<MerchantOffer> getRecipes()
+    public Collection<MerchantOffer> getRecipes(final Random rand)
     {
         if (this.trades == null && this.tradeTemplate != null)
         {
@@ -294,7 +293,7 @@ public class TypeTrainer
             if (this.trades == null) this.tradeTemplate = null;
         }
         final List<MerchantOffer> ret = Lists.newArrayList();
-        if (this.trades != null) this.trades.addTrades(ret);
+        if (this.trades != null) this.trades.addTrades(ret, rand);
         return ret;
     }
 

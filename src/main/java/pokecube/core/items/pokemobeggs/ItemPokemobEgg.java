@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -51,6 +50,8 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.Tools;
+import thut.api.IOwnable;
+import thut.api.OwnableCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -196,12 +197,13 @@ public class ItemPokemobEgg extends Item
             owner = t;
         }
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
-        if (owner == null || pokemob != null || owner instanceof TameableEntity)
+        final IOwnable ownable = OwnableCaps.getOwnable(owner);
+        if (owner == null || pokemob != null || ownable != null)
         {
             if (pokemob != null && pokemob.getOwner() instanceof PlayerEntity) player = (PlayerEntity) pokemob
                     .getOwner();
-            else if (owner instanceof TameableEntity && ((TameableEntity) owner).getOwner() instanceof PlayerEntity)
-                player = (PlayerEntity) ((TameableEntity) owner).getOwner();
+            else if (ownable != null && ownable.getOwner() instanceof PlayerEntity) player = (PlayerEntity) ownable
+                    .getOwner();
             owner = player;
         }
         return owner;

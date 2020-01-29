@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Level;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,6 +29,8 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.AITools;
+import thut.api.IOwnable;
+import thut.api.OwnableCaps;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 
@@ -71,6 +72,7 @@ public class AIFindTarget extends AIBase implements IAICombat
             return;
         }
 
+        // Attempt to divert the target over to one of our mobs.
         final List<Entity> outmobs = PCEventsHandler.getOutMobs(evt.getTarget(), true);
         if (!outmobs.isEmpty() && evt.getEntityLiving() instanceof MobEntity)
         {
@@ -92,8 +94,7 @@ public class AIFindTarget extends AIBase implements IAICombat
         if (pokemob != null)
         {
             // Prevent pokemob from targetting its owner.
-            if (evt.getTarget() != null && pokemob.getOwnerId() != null && pokemob.getOwnerId().equals(evt.getTarget()
-                    .getUniqueID()))
+            if (evt.getTarget() != null && evt.getTarget().getUniqueID().equals(pokemob.getOwnerId()))
             {
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.log(Level.WARN, evt.getTarget()
                         + " is targetting owner.", new IllegalArgumentException());
@@ -202,6 +203,12 @@ public class AIFindTarget extends AIBase implements IAICombat
     public AIFindTarget(final IPokemob mob)
     {
         super(mob);
+    }
+
+    public void clear()
+    {
+        this.agroTimer = AIFindTarget.DEAGROTIMER;
+        this.entityTarget = null;
     }
 
     /**
@@ -388,9 +395,10 @@ public class AIFindTarget extends AIBase implements IAICombat
 
         final List<LivingEntity> list = this.getEntitiesWithinDistance(this.pokemob.getOwner(), 16, LivingEntity.class);
         final Entity old = this.entity.getAttackTarget();
-        final Entity oldOwner = old instanceof TameableEntity ? ((TameableEntity) old).getOwner() : null;
+        final IOwnable oldOwnable = OwnableCaps.getOwnable(old);
+        final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;
 
-        if (!list.isEmpty() && this.pokemob.getOwner() != null) for (int j = 0; j < list.size(); j++)
+        if (!list.isEmpty()) for (int j = 0; j < list.size(); j++)
         {
             final LivingEntity entity = list.get(j);
             if (oldOwner != null && entity == oldOwner) return false;
@@ -465,8 +473,11 @@ public class AIFindTarget extends AIBase implements IAICombat
         if (this.entity.getAttackTarget() != null)
         {
             // If target is dead, lets forget about it.
-            if (!this.entity.getAttackTarget().isAlive() || this.entity.getAttackTarget().getHealth() <= 0) this
-                    .setAttackTarget(this.entity, null);
+            if (!this.entity.getAttackTarget().isAlive() || this.entity.getAttackTarget().getHealth() <= 0)
+            {
+                this.entityTarget = null;
+                this.setAttackTarget(this.entity, null);
+            }
             return;
         }
 
@@ -502,6 +513,103 @@ public class AIFindTarget extends AIBase implements IAICombat
             return false;
         }
 
+        // If we have a target, we don't need to look for another.
+        if (target != null)
+        {
+            final IOwnable targetOwnable = OwnableCaps.getOwnable(this.entityTarget);
+
+            // Prevents swapping to owner as target if we are owned and we just
+            // defeated someone, only applies to tame mobs, wild mobs will still
+            // try to kill the owner if they run away.
+            if (this.entityTarget != null && this.entityTarget != target && targetOwnable != null && targetOwnable
+                    .getOwner(this.world) == target && this.pokemob.getGeneralState(GeneralStates.TAMED)
+                    && this.entityTarget.getHealth() <= 0)
+            {
+                PokecubeCore.LOGGER.debug("Battle is over.");
+                this.setAttackTarget(this.entity, null);
+                this.setCombatState(this.pokemob, CombatStates.ANGRY, false);
+                this.entityTarget = null;
+                target = null;
+                this.agroTimer = -1;
+                return false;
+            }
+
+            this.entityTarget = target;
+            // If our target is dead, we can forget it, so long as it isn't
+            // owned
+            if (!target.isAlive() || target.getHealth() <= 0)
+            {
+                PokecubeCore.LOGGER.debug("Target is dead!");
+                this.setAttackTarget(this.entity, null);
+                this.entityTarget = null;
+                target = null;
+                this.agroTimer = -1;
+                return false;
+            }
+
+            // If our target is us, we should forget it.
+            if (target == this.entity)
+            {
+                this.setAttackTarget(this.entity, null);
+                this.entityTarget = null;
+                target = null;
+                this.agroTimer = -1;
+                PokecubeCore.LOGGER.debug("Cannot target self.");
+                return false;
+            }
+
+            // If we are not angry, we should forget target.
+            if (!this.pokemob.getCombatState(CombatStates.ANGRY))
+            {
+                this.setAttackTarget(this.entity, null);
+                this.entityTarget = null;
+                target = null;
+                this.agroTimer = -1;
+                PokecubeCore.LOGGER.debug("Not Angry. losing target now.");
+                return false;
+            }
+
+            // If our target is owner, we should forget it.
+            if (target.getUniqueID().equals(this.pokemob.getOwnerId()))
+            {
+                this.setAttackTarget(this.entity, null);
+                this.entityTarget = null;
+                target = null;
+                this.agroTimer = -1;
+                PokecubeCore.LOGGER.debug("Cannot target owner.");
+                return false;
+            }
+
+            // If your owner is too far away, shouldn't have a target, should be
+            // going back to the owner.
+            if (tame)
+            {
+                final Entity owner = this.pokemob.getOwner();
+                final boolean stayOrGuard = this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob
+                        .getGeneralState(GeneralStates.STAYING);
+                if (owner != null && !stayOrGuard && owner.getDistance(this.entity) > PokecubeCore
+                        .getConfig().chaseDistance)
+                {
+                    this.setAttackTarget(this.entity, null);
+                    this.entityTarget = null;
+                    return false;
+                }
+
+                // If the target is a pokemob, on same team, we shouldn't target
+                // it either
+                if (TeamManager.sameTeam(target, this.entity))
+                {
+                    this.entityTarget = null;
+                    target = null;
+                    this.agroTimer = -1;
+                    PokecubeCore.LOGGER.debug("Cannot target team mates.");
+                    return false;
+                }
+
+            }
+            return false;
+        }
+
         // Check if the pokemob is set to follow, and if so, look for mobs
         // nearby trying to attack the owner of the pokemob, if any such are
         // found, try to aggress them immediately.
@@ -527,85 +635,11 @@ public class AIFindTarget extends AIBase implements IAICombat
                 }
                 else
                 {
-                    PokecubeCore.LOGGER.debug("Somehow lost target? Well, found it back again!");
+                    PokecubeCore.LOGGER.debug("Somehow lost target? Well, found it back again! {} -> {}", this.entity,
+                            this.entityTarget);
                     this.setAttackTarget(this.entity, this.entityTarget);
                 }
             }
-        }
-
-        // If we have a target, we don't need to look for another.
-        if (target != null)
-        {
-            // Prevents swapping to owner as target if we are owned and we just
-            // defeated someone, only applies to tame mobs, wild mobs will still
-            // try to kill the owner if they run away.
-            if (this.entityTarget != null && this.entityTarget != target && this.entityTarget instanceof TameableEntity
-                    && ((TameableEntity) this.entityTarget).getOwner() == target && this.pokemob.getGeneralState(
-                            GeneralStates.TAMED) && this.entityTarget.getHealth() <= 0)
-            {
-                PokecubeCore.LOGGER.debug("Battle is over.");
-                this.setAttackTarget(this.entity, null);
-                this.setCombatState(this.pokemob, CombatStates.ANGRY, false);
-                this.entityTarget = null;
-                target = null;
-                this.agroTimer = -1;
-                return false;
-            }
-
-            this.entityTarget = target;
-            // If our target is dead, we can forget it, so long as it isn't
-            // owned
-            if (!target.isAlive() || target.getHealth() <= 0)
-            {
-                this.setAttackTarget(this.entity, null);
-                this.entityTarget = null;
-                PokecubeCore.LOGGER.debug("Target is dead!");
-                return false;
-            }
-
-            // If our target is us, we should forget it.
-            if (target == this.entity)
-            {
-                this.setAttackTarget(this.entity, null);
-                this.entityTarget = null;
-                PokecubeCore.LOGGER.debug("Cannot target self.");
-                return false;
-            }
-
-            // If we are not angry, we should forget target.
-            if (!this.pokemob.getCombatState(CombatStates.ANGRY))
-            {
-                this.setAttackTarget(this.entity, null);
-                this.entityTarget = null;
-                PokecubeCore.LOGGER.debug("Not Angry. losing target now.");
-                return false;
-            }
-
-            // If our target is owner, we should forget it.
-            if (target.getUniqueID().equals(this.pokemob.getOwnerId()))
-            {
-                this.setAttackTarget(this.entity, null);
-                this.entityTarget = null;
-                PokecubeCore.LOGGER.debug("Cannot target owner.");
-                return false;
-            }
-
-            // If your owner is too far away, shouldn't have a target, should be
-            // going back to the owner.
-            if (tame)
-            {
-                final Entity owner = this.pokemob.getOwner();
-                final boolean stayOrGuard = this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob
-                        .getGeneralState(GeneralStates.STAYING);
-                if (owner != null && !stayOrGuard && owner.getDistance(this.entity) > PokecubeCore
-                        .getConfig().chaseDistance)
-                {
-                    this.setAttackTarget(this.entity, null);
-                    this.entityTarget = null;
-                    return false;
-                }
-            }
-            return false;
         }
 
         // If wild, randomly decided to agro a nearby player instead.

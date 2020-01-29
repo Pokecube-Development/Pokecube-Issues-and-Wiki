@@ -56,8 +56,8 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
     public EntityTrainer(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.enablePersistence();
         this.pokemobsCap.setType(TypeTrainer.mobTypeMapper.getType(this, true));
+        this.enablePersistence();
     }
 
     protected void addMobTrades(final ItemStack buy1)
@@ -111,13 +111,6 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    @Override
-    protected void func_213713_b(final MerchantOffer p_213713_1_)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
     private int getBaseStats(final IPokemob mob)
     {
         final PokedexEntry entry = mob.getPokedexEntry();
@@ -135,13 +128,6 @@ public class EntityTrainer extends TrainerBase implements IEntityAdditionalSpawn
         if (!this.playerName.isEmpty()) return PokecubeCore.proxy.getPlayerSkin(this.playerName);
         else if (!this.urlSkin.isEmpty()) return PokecubeCore.proxy.getUrlSkin(this.urlSkin);
         else return PokecubeAdv.proxy.getTrainerSkin(this, this.pokemobsCap.getType(), this.pokemobsCap.getGender());
-    }
-
-    @Override
-    protected void populateTradeData()
-    {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

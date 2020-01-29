@@ -5,11 +5,12 @@ import java.util.List;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.core.moves.MovesUtils;
+import thut.api.IOwnable;
+import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
 
 public class AIFindTarget extends AITrainerBase implements ITargetWatcher
@@ -45,8 +46,9 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                         .getLastAttackedEntityTime() < 50) return true;
                 // Only target valid classes.
                 if (!this.validClass(input) || !input.attackable()) return false;
+                final IOwnable ownable = OwnableCaps.getOwnable(input);
                 // Don't target pets
-                if (input instanceof TameableEntity && ((TameableEntity) input).getOwner() == entityIn) return false;
+                if (ownable != null && ownable.getOwner() == entityIn) return false;
                 // Don't target invulnerable players (spectator/creative)
                 if (input instanceof PlayerEntity && (((PlayerEntity) input).abilities.isCreativeMode
                         || ((PlayerEntity) input).isSpectator())) return false;

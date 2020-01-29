@@ -35,7 +35,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
@@ -49,6 +49,7 @@ import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain;
+import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.TerrainManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.client.ClientProxy;
@@ -220,10 +221,11 @@ public class ThutCore
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(final FMLServerStartingEvent event)
+    public void onServerAboutToStart(final FMLServerAboutToStartEvent event)
     {
         // do something when the server starts
-        ThutCore.LOGGER.info("HELLO from server starting");
+        ThutCore.LOGGER.debug("Clearing terrain cache");
+        ITerrainProvider.pendingCache.clear();
     }
 
     private void processIMC(final InterModProcessEvent event)

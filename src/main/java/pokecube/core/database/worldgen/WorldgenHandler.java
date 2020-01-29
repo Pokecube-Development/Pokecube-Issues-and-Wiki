@@ -1,16 +1,23 @@
 package pokecube.core.database.worldgen;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.namespace.QName;
+
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
@@ -29,6 +36,26 @@ import pokecube.core.world.gen.feature.scattered.ConfigStructure;
 
 public class WorldgenHandler
 {
+    public static final Gson GSON;
+
+    static
+    {
+        GSON = new GsonBuilder().registerTypeAdapter(QName.class, new TypeAdapter<QName>()
+        {
+            @Override
+            public QName read(final JsonReader in) throws IOException
+            {
+                return new QName(in.nextString());
+            }
+
+            @Override
+            public void write(final JsonWriter out, final QName value) throws IOException
+            {
+                out.value(value.toString());
+            }
+        }).create();
+    }
+
     public static class CustomDim
     {
         public int    dimid;
@@ -53,14 +80,14 @@ public class WorldgenHandler
 
     public static class MultiStructure
     {
-        public String          name;
-        float                  chance;
-        boolean                syncGround = false;
-        public SpawnRule       spawn;
-        public List<Structure> structures = Lists.newArrayList();
+        public String              name;
+        float                      chance;
+        boolean                    syncGround = false;
+        public SpawnRule           spawn;
+        public List<JsonStructure> structures = Lists.newArrayList();
     }
 
-    public static class Structure
+    public static class JsonStructure
     {
         public String    name;
         /**
@@ -79,13 +106,20 @@ public class WorldgenHandler
          * parts.
          */
         public String    position;
+        public boolean   surface   = true;
+        public boolean   water     = false;
         public String    rotation;
         public String    mirror;
+
+        public String serialize()
+        {
+            return WorldgenHandler.GSON.toJson(this);
+        }
     }
 
     public static class Structures
     {
-        public List<Structure>      structures      = Lists.newArrayList();
+        public List<JsonStructure>  structures      = Lists.newArrayList();
         public List<MultiStructure> multiStructures = Lists.newArrayList();
     }
 
@@ -128,15 +162,13 @@ public class WorldgenHandler
             PokecubeMod.LOGGER.catching(e);
         }
 
-        for (final Structure struct : this.defaults.structures)
+        for (final JsonStructure struct : this.defaults.structures)
         {
             final String structname = this.ROOT.toString() + struct.name.replaceAll("/", "_").toLowerCase(Locale.ROOT);
             final ResourceLocation regname = new ResourceLocation(structname);
             final ConfigStructure toAdd = new ConfigStructure(regname);
             toAdd.structLoc = new ResourceLocation(this.MODID, struct.name);
-            toAdd.chance = struct.chance;
-            toAdd.offset = new BlockPos(0, struct.offset, 0);
-            toAdd.subbiome = struct.biomeType;
+            toAdd.struct = struct;
 
             event.getRegistry().register(toAdd);
             final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(struct.spawn);
@@ -145,7 +177,8 @@ public class WorldgenHandler
             {
                 if (!matcher.checkBiome(b)) continue;
                 b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(toAdd,
-                        IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+                        IFeatureConfig.NO_FEATURE_CONFIG, Placement.TOP_SOLID_HEIGHTMAP,
+                        IPlacementConfig.NO_PLACEMENT_CONFIG));
                 b.addStructure(toAdd, IFeatureConfig.NO_FEATURE_CONFIG);
             }
         }

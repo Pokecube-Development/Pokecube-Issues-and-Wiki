@@ -15,6 +15,9 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
+import pokecube.adventures.capabilities.CapabilityHasTrades;
+import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
+import pokecube.adventures.capabilities.CapabilityHasTrades.IHasTrades;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -35,14 +38,14 @@ public class CommonProxy implements Proxy
         private final LazyOptional<IActiveWearable> holder = LazyOptional.of(() -> this);
 
         @Override
-        public EnumWearable getSlot(ItemStack stack)
+        public EnumWearable getSlot(final ItemStack stack)
         {
             // TODO extend this based on stack if needed.
             return EnumWearable.BACK;
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
             return ThutWearables.WEARABLE_CAP.orEmpty(cap, this.holder);
         }
@@ -72,6 +75,8 @@ public class CommonProxy implements Proxy
                 CapabilityNPCMessages.storage = new CapabilityNPCMessages.Storage(), DefaultMessager::new);
         CapabilityManager.INSTANCE.register(IHasRewards.class,
                 CapabilityHasRewards.storage = new CapabilityHasRewards.Storage(), DefaultRewards::new);
+        CapabilityManager.INSTANCE.register(IHasTrades.class,
+                CapabilityHasTrades.storage = new CapabilityHasTrades.Storage(), DefaultTrades::new);
 
         // Register packets
         PokecubeAdv.packets.registerMessage(PacketBag.class, PacketBag::new);

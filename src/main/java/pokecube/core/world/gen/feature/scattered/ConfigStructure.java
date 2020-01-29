@@ -16,13 +16,13 @@ import net.minecraft.world.gen.feature.structure.ScatteredStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import pokecube.core.database.worldgen.WorldgenHandler.JsonStructure;
 
 public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
 {
     public ResourceLocation structLoc;
-    public float            chance   = 1;
-    public String           subbiome = "none";
-    public BlockPos         offset   = new BlockPos(0, 0, 0);
+    public JsonStructure    struct;
+    public BlockPos         offset = new BlockPos(0, 0, 0);
 
     public ConfigStructure(final Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn,
             final ResourceLocation name)
@@ -58,7 +58,8 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
     public boolean hasStartAt(final ChunkGenerator<?> chunkGen, final Random rand, final int chunkPosX,
             final int chunkPosZ)
     {
-        if (rand.nextFloat() < this.chance) return true;
+        // Now lets pick a number.
+        if (rand.nextFloat() < this.struct.chance) return true;
         return false;
     }
 
@@ -77,7 +78,7 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
     @Override
     protected int getSeedModifier()
     {
-        return 452384706;
+        return 14762148;
     }
 
     public static class Start extends StructureStart
@@ -97,10 +98,15 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
         {
             final int i = chunkX * 16;
             final int j = chunkZ * 16;
-            final BlockPos pos = new BlockPos(i + 8, 90, j + 8);
+
+            // TODO handle the "255" better if the structure shouldn't be on
+            // surface.
+            // TODO find out how to make the structure properly build across
+            // chunks?
+            final BlockPos pos = new BlockPos(i, 255, j);
             final Rotation rot = Rotation.values()[new Random().nextInt(Rotation.values().length)];
             final ConfigStructurePiece part = new ConfigStructurePiece(templateManagerIn, this.feature.structLoc, rot,
-                    pos, this.feature.offset);
+                    pos, this.feature.offset, this.feature.struct);
             this.components.add(part);
             this.recalculateStructureSize();
         }

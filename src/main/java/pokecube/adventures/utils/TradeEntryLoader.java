@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -17,6 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -101,13 +103,19 @@ public class TradeEntryLoader
 
     static XMLDatabase database;
 
+    /**
+     * These items will not be auto-added to "allGenericHeld"
+     */
+    public static Set<String> genericTradeBlacklist = Sets.newHashSet();
+
     private static void addTemplatedTrades(final Trade trade, final TrainerTrades trades)
     {
         final String custom = trade.custom;
         if (custom.equals("allMegas"))
         {
             for (final String s : ItemGenerator.variants)
-                if (s.contains("mega") && !s.equals("megastone") || s.contains("orb"))
+                // Only mega stones
+                if (s.contains("mega") && !s.equals("megastone"))
                 {
                     final ItemStack sell = PokecubeItems.getStack(s);
                     Map<QName, String> values;
@@ -162,7 +170,10 @@ public class TradeEntryLoader
         }
         else if (custom.equals("allGenericHeld")) for (final String s : ItemGenerator.variants)
         {
-            if (s.contains("mega") && !s.equals("megastone") || s.contains("orb") || s.equals("shiny_charm")) continue;
+            // Exclude mega stones.
+            if (s.contains("mega") && !s.equals("megastone")) continue;
+            // Exclude specifically blacklisted.
+            if (TradeEntryLoader.genericTradeBlacklist.contains(s)) continue;
 
             final ItemStack sell = PokecubeItems.getStack(s);
             Map<QName, String> values;
@@ -226,7 +237,7 @@ public class TradeEntryLoader
             for (final PokeType type : PokeType.values())
                 if (type != PokeType.unknown)
                 {
-                    final ItemStack badge = PokecubeItems.getStack("badge_" + type);
+                    final ItemStack badge = PokecubeItems.getStack("pokecube_adventures:badge_" + type);
                     if (!badge.isEmpty())
                     {
                         Map<QName, String> values;
@@ -257,7 +268,7 @@ public class TradeEntryLoader
         else if (custom.equals("buyRandomBadge")) for (final PokeType type : PokeType.values())
             if (type != PokeType.unknown)
             {
-                final ItemStack badge = PokecubeItems.getStack("badge_" + type);
+                final ItemStack badge = PokecubeItems.getStack("pokecube_adventures:badge_" + type);
                 if (!badge.isEmpty())
                 {
                     Map<QName, String> values = trade.sell.values;

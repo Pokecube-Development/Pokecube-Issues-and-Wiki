@@ -3,6 +3,7 @@ package thut.api.terrain;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -40,7 +41,7 @@ public class TerrainManager
     {
     };
 
-    public TerrainSegment getTerrain(final World world, final BlockPos p)
+    public TerrainSegment getTerrain(final IWorld world, final BlockPos p)
     {
         return this.provider.getTerrain(world, p);
     }

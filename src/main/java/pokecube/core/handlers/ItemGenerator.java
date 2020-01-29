@@ -47,6 +47,7 @@ public class ItemGenerator
     public static Map<Predicate<ItemStack>, IMoveModifier> ITEMMODIFIERS = Maps.newHashMap();
 
     public static ArrayList<String>        variants       = Lists.newArrayList();
+    public static ArrayList<String>        other          = Lists.newArrayList();
     public static ArrayList<String>        fossilVariants = new ArrayList<>();
     private static Map<String, ItemFossil> fossils        = Maps.newHashMap();
 
@@ -171,6 +172,16 @@ public class ItemGenerator
         }
     }
 
+    public static void makeOtherItems(final IForgeRegistry<Item> registry)
+    {
+        final Item.Properties props = new Item.Properties().group(PokecubeItems.POKECUBEITEMS);
+        for (final String type : ItemGenerator.other)
+        {
+            final ItemTyped item = new ItemTyped(props, type);
+            registry.register(item);
+        }
+    }
+
     public static void makeMegaWearables(final IForgeRegistry<Item> registry)
     {
         for (final String type : ItemMegawearable.getWearables())
@@ -238,6 +249,7 @@ public class ItemGenerator
         ItemGenerator.makeBerries(registry);
         ItemGenerator.makeFossils(registry);
         ItemGenerator.makeHeldItems(registry);
+        ItemGenerator.makeOtherItems(registry);
         ItemGenerator.makeMegaWearables(registry);
         ItemGenerator.makeWoodItems(registry);
         ItemGenerator.makeTMs(registry);

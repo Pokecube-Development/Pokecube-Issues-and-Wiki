@@ -8,6 +8,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.worldgen.WorldgenHandler.JsonStructure;
 import pokecube.core.utils.PokecubeSerializer;
 
 public class PokecentreFeature extends ConfigStructure
@@ -17,6 +18,10 @@ public class PokecentreFeature extends ConfigStructure
     public PokecentreFeature()
     {
         super(new ResourceLocation(PokecubeCore.MODID, "start_pokecentre"));
+        this.struct = new JsonStructure();
+        this.struct.biomeType = "village";
+        this.struct.name = "scattered/start_pokecentre";
+        this.struct.chance = 1;
         this.setStructure(new ResourceLocation("pokecube", "scattered/start_pokecentre"));
     }
 

@@ -1,12 +1,14 @@
 package pokecube.core.events;
 
-import net.minecraft.entity.Entity;
+import java.util.Random;
+
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
-import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraft.world.gen.feature.template.Template.EntityInfo;
 import net.minecraftforge.eventbus.api.Event;
 
 public class StructureEvent extends Event
@@ -19,7 +21,8 @@ public class StructureEvent extends Event
         private String                   structureOverride;
         private final World              world;
 
-        public BuildStructure(BlockPos pos, World world, String name, BlockPos size, PlacementSettings settings)
+        public BuildStructure(final BlockPos pos, final World world, final String name, final BlockPos size,
+                final PlacementSettings settings)
         {
             this.structure = name;
             this.world = world;
@@ -56,44 +59,50 @@ public class StructureEvent extends Event
             return this.world;
         }
 
-        public void seBiomeType(String structureOverride)
+        public void seBiomeType(final String structureOverride)
         {
             this.structureOverride = structureOverride;
         }
     }
 
-    @Cancelable
     public static class SpawnEntity extends StructureEvent
     {
-        private Entity       toSpawn;
-        private final String structure;
-        private final Entity original;
+        private final EntityInfo info;
+        private final EntityInfo raw;
 
-        public SpawnEntity(Entity entity, String structure)
+        public SpawnEntity(final EntityInfo entity, final EntityInfo raw)
         {
-            this.structure = structure;
-            this.original = entity;
-            this.toSpawn = this.original;
+            this.info = entity;
+            this.raw = raw;
         }
 
-        public Entity getEntity()
+        public EntityInfo getRawInfo()
         {
-            return this.original;
+            return this.raw;
         }
 
-        public String getStructureName()
+        public EntityInfo getInfo()
         {
-            return this.structure;
+            return this.info;
         }
+    }
 
-        public Entity getToSpawn()
-        {
-            return this.toSpawn;
-        }
+    public static class ReadTag extends StructureEvent
+    {
+        public String             function;
+        public IWorld             world;
+        public BlockPos           pos;
+        public MutableBoundingBox sbb;
+        public Random             rand;
 
-        public void setToSpawn(Entity entity)
+        public ReadTag(final String function, final BlockPos pos, final IWorld worldIn, final Random rand,
+                final MutableBoundingBox sbb)
         {
-            this.toSpawn = entity;
+            this.function = function;
+            this.world = worldIn;
+            this.pos = pos;
+            this.sbb = sbb;
+            this.rand = rand;
         }
     }
 }

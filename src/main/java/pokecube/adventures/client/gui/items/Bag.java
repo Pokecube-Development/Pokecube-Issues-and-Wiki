@@ -3,9 +3,13 @@ package pokecube.adventures.client.gui.items;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -36,9 +40,10 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int b, int c)
+    public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        if (textFieldSelectedBox.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER)
+        if (this.textFieldSearch.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
+        if (this.textFieldSelectedBox.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER)
         {
             final String entry = this.textFieldSelectedBox.getText();
             String box = this.textFieldBoxName.getText();
@@ -147,49 +152,44 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
     public void render(final int mouseX, final int mouseY, final float f)
     {
         this.renderBackground();
-
-        if (this.textFieldSearch == null || this.textFieldSearch.getText() == null)
-        {
-            // PokecubeCore.LOGGER.error("error with search box?");
-            return;
-        }
-
-        final float zLevel = 1000;
+        super.render(mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
             if (!this.textFieldSearch.getText().isEmpty())
             {
                 final ItemStack stack = this.container.inv.getStackInSlot(i + 54 * this.container.inv.getPage());
+                if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
                 final int y = i / 9 * 18 + this.height / 2 - 96;
-
+                // System.out.println(this.textFieldSearch.getText() + " " + i +
+                // " " + stack);
+                RenderHelper.disableStandardItemLighting();
                 final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
                 if (name.isEmpty() || !name.toLowerCase(java.util.Locale.ENGLISH).contains(this.textFieldSearch
-                        .getText()))
+                        .getText().toLowerCase(java.util.Locale.ENGLISH)))
                 {
-                    GL11.glPushMatrix();
-                    GL11.glTranslated(0, 0, zLevel);
-                    GL11.glEnable(GL11.GL_BLEND);
-                    GL11.glColor4f(0, 0, 0, 1);
-                    this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID,
-                            "textures/hologram.png"));
-                    this.blit(x, y, 0, 0, 16, 16);
-                    GL11.glDisable(GL11.GL_BLEND);
-                    GL11.glTranslated(0, 0, -zLevel);
-                    GL11.glPopMatrix();
+
+                    GlStateManager.disableLighting();
+                    GlStateManager.disableDepthTest();
+                    GlStateManager.colorMask(true, true, true, false);
+                    final int slotColor = 0x55FF0000;
+                    AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+                    GlStateManager.colorMask(true, true, true, true);
+                    GlStateManager.enableLighting();
+                    GlStateManager.enableDepthTest();
                 }
                 else
                 {
-                    GL11.glPushMatrix();
-                    GL11.glEnable(GL11.GL_BLEND);
-                    GL11.glColor4f(0, 1, 0, 1);
-                    this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID,
-                            "textures/hologram.png"));
-                    this.blit(x, y, 0, 0, 16, 16);
-                    GL11.glDisable(GL11.GL_BLEND);
-                    GL11.glPopMatrix();
+                    GlStateManager.disableLighting();
+                    GlStateManager.disableDepthTest();
+                    GlStateManager.colorMask(true, true, true, false);
+                    final int slotColor = 0x5500FF00;
+                    AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+                    GlStateManager.colorMask(true, true, true, true);
+                    GlStateManager.enableLighting();
+                    GlStateManager.enableDepthTest();
                 }
+                RenderHelper.enableGUIStandardItemLighting();
             }
-        super.render(mouseX, mouseY, f);
         this.renderHoveredToolTip(mouseX, mouseY);
     }
 

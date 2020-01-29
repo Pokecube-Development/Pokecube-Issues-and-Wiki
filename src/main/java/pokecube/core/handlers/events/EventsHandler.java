@@ -573,13 +573,10 @@ public class EventsHandler
     }
 
     @SubscribeEvent
-    /**
-     * Register the commands.
-     *
-     * @param event
-     */
     public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
+        // Reset this.
+        PokecubeSerializer.instance = null;
         // TODO See what this is breaking?
         Database.loadingThread.interrupt();
         Database.resourceManager = event.getServer().getResourceManager();
@@ -587,11 +584,6 @@ public class EventsHandler
     }
 
     @SubscribeEvent
-    /**
-     * Register the commands.
-     *
-     * @param event
-     */
     public static void serverStarted(final FMLServerStartedEvent event)
     {
         Database.postResourcesLoaded();

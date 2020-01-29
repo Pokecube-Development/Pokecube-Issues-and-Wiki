@@ -38,7 +38,7 @@ public interface IHasMoves extends IHasStats
      *            the change to add
      * @return whether the change has actually been added
      */
-    default boolean addChange(int change)
+    default boolean addChange(final int change)
     {
         final int old = this.getMoveStats().changes;
         this.getMoveStats().changes |= change;
@@ -53,7 +53,7 @@ public interface IHasMoves extends IHasStats
      * @param moveIndex1
      *            index of 2nd move
      */
-    default void exchangeMoves(int moveIndex0, int moveIndex1)
+    default void exchangeMoves(final int moveIndex0, final int moveIndex1)
     {
         if (!this.getEntity().isServerWorld() && this.getGeneralState(GeneralStates.TAMED))
         {
@@ -152,7 +152,7 @@ public interface IHasMoves extends IHasStats
      *            from 0 to 3
      * @return the String name of the move
      */
-    default String getMove(int index)
+    default String getMove(final int index)
     {
         final IPokemob to = CapabilityPokemob.getPokemobFor(this.getTransformedTo());
         if (to != null && this.getTransformedTo() == null) return to.getMove(index);
@@ -215,7 +215,7 @@ public interface IHasMoves extends IHasStats
      * @param moveName
      *            an existing move (registered in {@link MovesUtils})
      */
-    default void learn(String moveName)
+    default void learn(final String moveName)
     {
         if (moveName == null || this.getEntity().getEntityWorld() == null || this.getEntity().getEntityWorld().isRemote)
             return;
@@ -275,7 +275,7 @@ public interface IHasMoves extends IHasStats
      *
      * @param move
      */
-    default void onMoveUse(MovePacket move)
+    default void onMoveUse(final MovePacket move)
     {
         final Event toPost = move.pre ? new MoveUse.DuringUse.Pre(move, move.attacker == this)
                 : new MoveUse.DuringUse.Post(move, move.attacker == this);
@@ -287,13 +287,25 @@ public interface IHasMoves extends IHasStats
      *
      * @param entity
      */
-    void onSetTarget(LivingEntity entity);
+    default void onSetTarget(final LivingEntity entity)
+    {
+        this.onSetTarget(entity, false);
+    }
+
+    /**
+     * Called to notify the pokemob that a new target has been set.
+     *
+     * @param entity
+     * @param force
+     *            - if true will clear tracked target for ai.
+     */
+    void onSetTarget(LivingEntity entity, boolean force);
 
     /**
      * @param change
      *            the changes to set
      */
-    default void removeChange(int change)
+    default void removeChange(final int change)
     {
         this.getMoveStats().changes -= change;
         final IOngoingAffected affected = CapabilityAffected.getAffected(this.getEntity());
@@ -341,7 +353,7 @@ public interface IHasMoves extends IHasStats
      *
      * @param num
      */
-    default void setLeaningMoveIndex(int num)
+    default void setLeaningMoveIndex(final int num)
     {
         this.getMoveStats().num = num;
     }
@@ -373,7 +385,7 @@ public interface IHasMoves extends IHasStats
      *            the status to set
      * @return whether the status has actually been set
      */
-    default boolean setStatus(byte status)
+    default boolean setStatus(final byte status)
     {
         return this.setStatus(status, -1);
     }

@@ -27,6 +27,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -64,6 +65,8 @@ import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.handlers.events.PokemobEventsHandler;
+import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
@@ -86,8 +89,8 @@ import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.feature.scattered.ConfigStructurePiece;
 import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
+import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
-import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.client.render.particle.ThutParticles;
@@ -128,6 +131,10 @@ public class PokecubeCore
 
             // Register the general structure piece we use
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
+
+            // Register structure processor type
+            PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",
+                    PokecubeStructureProcessor::new);
 
             if (PokecubeCore.config.doSpawnBuilding)
             {
@@ -200,9 +207,6 @@ public class PokecubeCore
             Database.init();
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Pre());
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Register());
-
-            // Register pokemob class for ownable caps
-            OwnableCaps.MOBS.add(GenericPokemob.class);
 
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
@@ -375,6 +379,11 @@ public class PokecubeCore
         thut.core.common.config.Config.setupConfigs(PokecubeCore.config, PokecubeCore.MODID, PokecubeCore.MODID);
 
         PokecubeCore.POKEMOB_BUS.register(MobLoader.class);
+        PokecubeCore.POKEMOB_BUS.register(SpawnEventsHandler.class);
+        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
+
+        MinecraftForge.EVENT_BUS.register(SpawnEventsHandler.class);
+        MinecraftForge.EVENT_BUS.register(EventsHandler.class);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::setup);
         // Register the doClientStuff method for modloading
@@ -399,8 +408,6 @@ public class PokecubeCore
 
         // Initialize advancement triggers
         Triggers.init();
-
-        MinecraftForge.EVENT_BUS.register(EventsHandler.class);
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

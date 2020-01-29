@@ -4,9 +4,14 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -14,7 +19,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.entity.professor.EntityProfessor;
+import pokecube.core.entity.professor.EntityProfessor.ProfessorType;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import thut.api.maths.Vector3;
@@ -23,7 +31,7 @@ public class SpawnEventsHandler
 {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void CapLevel(SpawnEvent.Level event)
+    public static void CapLevel(final SpawnEvent.Level event)
     {
         int level = event.getInitialLevel();
         if (SpawnHandler.lvlCap) level = Math.min(level, SpawnHandler.capLevel);
@@ -36,13 +44,13 @@ public class SpawnEventsHandler
      * @param event
      */
     @SubscribeEvent
-    public static void onSpawnCheck(SpawnEvent.Check event)
+    public static void onSpawnCheck(final SpawnEvent.Check event)
     {
         if (!SpawnHandler.canSpawnInWorld(event.world)) event.setCanceled(true);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void PickSpawn(SpawnEvent.Pick.Pre event)
+    public static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
         final World world = event.world;
@@ -92,22 +100,52 @@ public class SpawnEventsHandler
     }
 
     @SubscribeEvent
-    public static void StructureSpawn(StructureEvent.SpawnEntity event)
+    public static void StructureSpawn(final StructureEvent.ReadTag event)
     {
-        if (!(event.getEntity() instanceof MobEntity)) return;
-        // MobEntity v = (MobEntity) event.getEntity();
-        // Vector3 pos = Vector3.getNewVector().set(v);
-        // IGuardAICapability capability = null;
-        // TODO apply guard ai cap properly.
-        // for (Object o2 : v.tasks.taskEntries)
-        // {
-        // EntityAITaskEntry taskEntry = (EntityAITaskEntry) o2;
-        // if (taskEntry.action instanceof GuardAI)
-        // {
-        // capability = ((GuardAI) taskEntry.action).capability;
-        // capability.getPrimaryTask().setPos(pos.getPos());
-        // break;
-        // }
-        // }
+        PokecubeCore.LOGGER.debug("Recieved Event for {}", event.function);
+        if (event.function.startsWith("pokecube:mob:"))
+        {
+            final String function = event.function.replaceFirst("pokecube:mob:", "");
+            boolean nurse = false;
+            if ((nurse = function.startsWith("nurse")) || function.startsWith("professor"))
+            {
+                // Set it to air so mob can spawn.
+                event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
+                final EntityProfessor mob = EntityProfessor.TYPE.create(event.world.getWorld());
+                mob.type = nurse ? ProfessorType.HEALER : ProfessorType.PROFESSOR;
+                mob.enablePersistence();
+                mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
+                mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
+                        (ILivingEntityData) null, (CompoundNBT) null);
+                final String args = function.replaceFirst(nurse ? "nurse" : "professor", "");
+                if (!args.isEmpty() && args.contains("{")) try
+                {
+                    final JsonObject thing = PokedexEntryLoader.gson.fromJson(args, JsonObject.class);
+                    SpawnEventsHandler.applyFunction(mob, thing);
+                }
+                catch (final JsonSyntaxException e)
+                {
+                    PokecubeCore.LOGGER.error("Error parsing " + args, e);
+                }
+                event.world.addEntity(mob);
+            }
+            else if (function.startsWith("pokemob"))
+            {
+
+            }
+        }
+        else if (event.function.startsWith("pokecube:worldspawn"))
+        {
+            // Set it to air so player can spawn here.
+            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
+            event.world.getWorld().setSpawnPoint(event.pos);
+            PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
+        }
     }
+
+    private static void applyFunction(final EntityProfessor prof, final JsonObject thing)
+    {
+        if (thing.has("name")) prof.name = thing.get("name").getAsString();
+    }
+
 }

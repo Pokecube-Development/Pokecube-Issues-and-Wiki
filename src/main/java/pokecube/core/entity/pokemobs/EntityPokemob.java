@@ -68,6 +68,12 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     }
 
     @Override
+    public boolean canBeRiddenInWater()
+    {
+        return this.pokemobCap.canUseSurf() || this.pokemobCap.canUseDive();
+    }
+
+    @Override
     public AgeableEntity createChild(final AgeableEntity ageable)
     {
         final IPokemob other = CapabilityPokemob.getPokemobFor(ageable);
