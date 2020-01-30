@@ -29,6 +29,7 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap.Type;
@@ -166,7 +167,7 @@ public final class SpawnHandler
         return data.isValid(world, v);
     }
 
-    public static boolean canSpawnInWorld(final World world)
+    public static boolean canSpawnInWorld(final IWorld world)
     {
         if (world == null) return true;
         if (world.getDifficulty() == Difficulty.PEACEFUL || !SpawnHandler.doSpawns) return false;
@@ -176,7 +177,7 @@ public final class SpawnHandler
         return true;
     }
 
-    public static boolean checkNoSpawnerInArea(final World world, final int x, final int y, final int z)
+    public static boolean checkNoSpawnerInArea(final IWorld world, final int x, final int y, final int z)
     {
         final ForbidReason reason = SpawnHandler.getNoSpawnReason(world, x, y, z);
         return reason == ForbidReason.NONE;
@@ -252,7 +253,7 @@ public final class SpawnHandler
         return null;
     }
 
-    public static ForbiddenEntry getForbiddenEntry(final World world, final int x, final int y, final int z)
+    public static ForbiddenEntry getForbiddenEntry(final IWorld world, final int x, final int y, final int z)
     {
         final ArrayList<ChunkCoordinate> coords = new ArrayList<>(SpawnHandler.forbiddenSpawningCoords.keySet());
         for (final ChunkCoordinate coord : coords)
@@ -266,7 +267,7 @@ public final class SpawnHandler
         return null;
     }
 
-    public static ForbidReason getNoSpawnReason(final World world, final int x, final int y, final int z)
+    public static ForbidReason getNoSpawnReason(final IWorld world, final int x, final int y, final int z)
     {
         final ForbiddenEntry entry = SpawnHandler.getForbiddenEntry(world, x, y, z);
         return entry == null ? ForbidReason.NONE : entry.reason;
@@ -324,12 +325,12 @@ public final class SpawnHandler
         return dbe;
     }
 
-    public static int getSpawnLevel(final World world, final Vector3 location, final PokedexEntry pokemon)
+    public static int getSpawnLevel(final IWorld world, final Vector3 location, final PokedexEntry pokemon)
     {
         return SpawnHandler.getSpawnLevel(world, location, pokemon, SpawnHandler.DEFAULT_VARIANCE, -1);
     }
 
-    public static int getSpawnLevel(final World world, final Vector3 location, final PokedexEntry pokemon,
+    public static int getSpawnLevel(final IWorld world, final Vector3 location, final PokedexEntry pokemon,
             Variance variance, final int baseLevel)
     {
         int spawnLevel = baseLevel;
@@ -344,7 +345,7 @@ public final class SpawnHandler
         // {
         // variance = SpawnHandler.subBiomeLevels.get(b);
         // spawnLevel = variance.apply(baseLevel);
-        // }
+        // }//TODO find out what is wrong with this...
         // else
         spawnLevel = SpawnHandler.parse(world, location);
         variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
@@ -460,7 +461,7 @@ public final class SpawnHandler
                 .getDimension().getType().getId()));
     }
 
-    private static int parse(final World world, final Vector3 location)
+    private static int parse(final IWorld world, final Vector3 location)
     {
         final Vector3 spawn = SpawnHandler.temp.set(world.getSpawnPoint());
         JEP toUse;

@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
+import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.capabilities.TextureableCaps;
 import pokecube.core.interfaces.capabilities.TextureableCaps.NPCCap;
 import thut.api.entity.IMobTexturable;
@@ -49,6 +50,12 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
         final IMobTexturable mob = entity.getCapability(TextureableCaps.CAPABILITY).orElse(null);
         if (mob instanceof NPCCap) return ((NPCCap<?>) mob).texGetter.apply(entity);
         return entity.func_213346_cF();
+    }
+
+    @Override
+    protected boolean canRenderName(final T entity)
+    {
+        return PokecubeCore.getConfig().npcNameTags && super.canRenderName(entity);
     }
 
 }

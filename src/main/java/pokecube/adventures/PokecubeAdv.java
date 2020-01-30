@@ -45,7 +45,8 @@ import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warppad.WarppadBlock;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.client.ClientProxy;
-import pokecube.adventures.entity.trainer.EntityTrainer;
+import pokecube.adventures.entity.trainer.LeaderNpc;
+import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
@@ -93,7 +94,8 @@ public class PokecubeAdv
         public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
         {
             // register a new mob here
-            event.getRegistry().register(EntityTrainer.TYPE.setRegistryName(PokecubeAdv.ID, "trainer"));
+            event.getRegistry().register(TrainerNpc.TYPE.setRegistryName(PokecubeAdv.ID, "trainer"));
+            event.getRegistry().register(LeaderNpc.TYPE.setRegistryName(PokecubeAdv.ID, "leader"));
         }
 
         @SubscribeEvent

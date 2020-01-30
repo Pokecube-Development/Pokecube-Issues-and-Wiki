@@ -92,14 +92,14 @@ public class Model
                     this.anims.put(s, new Animation(this, s, animation));
                     if (s.equalsIgnoreCase("idle")) this.currentAnimation = this.anims.get(s);
                 }
-                catch (final FileNotFoundException e1)
+                catch (final FileNotFoundException | NullPointerException e1)
                 {
                     // Ignore these, we don't really care about them
                     PokecubeCore.LOGGER.debug("No animation of {} for {}", s, resloc);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.error(e);
+                    PokecubeCore.LOGGER.error("Error with animation " + s, e);
                 }
             }
         }

@@ -269,12 +269,12 @@ public class TerrainSegment
         this.effects.put(name, effect);
     }
 
-    public int adjustedCaveBiome(final World world, final Vector3 v)
+    public int adjustedCaveBiome(final IWorld world, final Vector3 v)
     {
         return this.getBiome(world, v, true);
     }
 
-    public int adjustedNonCaveBiome(final World world, final Vector3 v)
+    public int adjustedNonCaveBiome(final IWorld world, final Vector3 v)
     {
         return this.getBiome(world, v, false);
     }
@@ -403,7 +403,7 @@ public class TerrainSegment
         return this.chunkX + this.chunkZ << 8 << 8 + this.chunkY;
     }
 
-    public void initBiomes(final World world)
+    public void initBiomes(final IWorld world)
     {
         if (this.init)
         {
@@ -423,7 +423,7 @@ public class TerrainSegment
         return ret;
     }
 
-    public void refresh(final World world)
+    public void refresh(final IWorld world)
     {
         final long time = System.nanoTime();
         if (this.chunk == null) this.chunk = world.getChunk(this.chunkX, this.chunkZ);

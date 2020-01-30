@@ -146,11 +146,6 @@
 
     "pokemob.description.evolve.from": "%1$s evolves from %2$s.",
 
-    "item.pokecube.pokewatch": "PokéWatch",
-
-    "item.pokecube.berry_null": "Berry",
-    "item.pokecube.berry_null.desc": "Just a Berry, Pokémobs might eat it.",
-
     "pkmn.missingno": "MissingNo.",
 
     "pokemob.teleport.invalid": "§cYou cannot teleport there!",
@@ -162,7 +157,9 @@
     "repel.info.setrange": "Radius was set to %1$s blocks.",
     "repel.info.getrange": "Radius is currently %1$s blocks.",
 
-    "entity.pokecube.cube": "Pokécube",
+    "item.pokecube.bubbles": "Droplets",
+    "item.pokecube.flames": "Flames",
+    "item.pokecube.leaves": "Leaves",
 
     "pokemob.status.curse": "%1$s was hurt by the curse",
     "pokemob.status.flinch": "%1$s flinched",
@@ -231,20 +228,8 @@
     "pokemob.killed.tame": "%1$s §cwas slain by %2$s's %3$s",
     "pokemob.killed.wild": "%1$s §cwas slain by a wild %2$s",
 
-    "pokecube.tooltip.level": "Level: %1$s",
-    "pokecube.tooltip.health": "HP: %1$s/%2$s",
-    "pokecube.tooltip.xp": "XP: %1$s/%2$s",
-    "pokecube.tooltip.moves": "Moves: %1$s",
-    "pokecube.tooltip.ivs": "IVs: %s",
-    "pokecube.tooltip.evs": "EVs: %s",
-    "pokecube.tooltip.nature": "N: %s",
-    "pokecube.tooltip.ability": "A: %s",
-    "pokecube.tooltip.advanced": "<Shift for more info>",
-
     "pokemob.info.berrybrew": "A sweet smell is coming from %1$s.",
     "pokemob.info.berrybrewtwice": "The smell coming from %1$s has changed!",
-
-    "entity.pokecube.cube": "Pokécube",
 
     "achievement.pokecube.catch.root": "Gotta Catchem All!",
     "achievement.pokecube.catch.root.desc": "Capture all of the Pokémobs!",
@@ -301,18 +286,7 @@
     "pokedex.inspect.mastercube": "§aCongratulations, you have recieved a Mastercube from the inspection of your Pokédex.",
     "pokedex.inspect.shinycharm": "§aCongratulations, you have recieved a Shiny Charm from the inspection of your Pokédex.",
 
-    "item.pokecube.pokemobegg": "Pokémob Egg",
-    "item.pokecube.pokemobegg.named": "Egg of %1$s",
-
-    "item.berry.istree.desc": "This grows into a tree.",
-    "item.berry.favourite.desc": "%1$s's Favourite.",
-    "item.berry.nomind.desc": "%1$s doesn't mind this.",
-    "item.berry.like1.desc": "%1$s somewhat likes this.",
-    "item.berry.like2.desc": "%1$s likes this a lot.",
-    "item.berry.like3.desc": "%1$s likes this very much.",
-    "item.berry.hate1.desc": "%1$s somewhat hates this.",
-    "item.berry.hate2.desc": "%1$s hates this a lot.",
-    "item.berry.hate3.desc": "%1$s hates this very much.",
+    "_comment": "Blocks",
 
     "block.pokecube.pokecenter": "Pokécenter",
     "block.pokecenter.heal": "Heal",
@@ -347,27 +321,62 @@
     "block.pc.option.bind": "Bind",
     "block.pc.option.release": "Release",
     "block.pc.option.confirm": "Confirm",
-
-    "item.pokecube.bubbles": "Droplets",
-    "item.pokecube.flames": "Flames",
-    "item.pokecube.leaves": "Leaves",
+    
+    "_comment": "Items",
 
     "block.pokecube.fossilstone": "Fossil Stone",
-
     "item.pokecube.pokedex": "Pokédex",
+    "item.pokecube.pokewatch": "PokéWatch",
     "item.pokecube.tm0": "Blank TM",
-    
     "item.pokecube.mega_ring": "Mega Ring",
     "item.pokecube.mega_belt": "Mega Belt",
     "item.pokecube.mega_hat": "Mega Hat",
     "item.pokecube.megastone": "Mega Stone",
-    
     "item.pokecube.revive": "Revive",
     "item.pokecube.emerald_shard": "Emerald Shard",
     "item.pokecube.modelreloader": "Model Reloader",
+    "item.pokecube.pokemobegg": "Pokémob Egg",
+    "item.pokecube.pokemobegg.named": "Egg of %1$s",
+    "item.pokecube.berry_null": "Berry",
+    
+    "_comment": "Item Tooltips",
+
+    "item.berry.istree.desc": "This grows into a tree.",
+    "item.berry.favourite.desc": "%1$s's Favourite.",
+    "item.berry.nomind.desc": "%1$s doesn't mind this.",
+    "item.berry.like1.desc": "%1$s somewhat likes this.",
+    "item.berry.like2.desc": "%1$s likes this a lot.",
+    "item.berry.like3.desc": "%1$s likes this very much.",
+    "item.berry.hate1.desc": "%1$s somewhat hates this.",
+    "item.berry.hate2.desc": "%1$s hates this a lot.",
+    "item.berry.hate3.desc": "%1$s hates this very much.",
+
+    "item.pokecube.berry_null.desc": "Just a Berry, Pokémobs might eat it.",
+
+    "pokecube.tooltip.level": "Level: %1$s",
+    "pokecube.tooltip.health": "HP: %1$s/%2$s",
+    "pokecube.tooltip.xp": "XP: %1$s/%2$s",
+    "pokecube.tooltip.moves": "Moves: %1$s",
+    "pokecube.tooltip.ivs": "IVs: %s",
+    "pokecube.tooltip.evs": "EVs: %s",
+    "pokecube.tooltip.nature": "N: %s",
+    "pokecube.tooltip.ability": "A: %s",
+    "pokecube.tooltip.advanced": "<Shift for more info>",
+    
+    "_comment": "Mob Internal Names",
 
     "entity.pokecube.egg": "Pokémob Egg",
-    "entity.pokecube.professor": "Professor",
+    "entity.pokecube.npc": "Npc",
+    "entity.pokecube.cube": "Pokécube",
+    
+    "_comment": "Named NPCs",
+    
+    "pokecube.none.named": "%s",
+    "pokecube.professor.named": "Professor %s",
+    "pokecube.healer.named": "Nurse %s",
+    "pokecube.trader.named": "Merchant %s",
+    
+    "_comment": "Item Groups",
 
     "itemGroup.pokecube_items": "Pokécube Items",
     "itemGroup.pokecube_blocks": "Pokécube Blocks",

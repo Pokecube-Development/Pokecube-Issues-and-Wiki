@@ -30,6 +30,29 @@
 			<Buy id="minecraft:emerald" n="32" />
 		</Trade>
 	</Trades>
+    <Trades template="professor">
+        <Trade chance="1">
+			<Sell id="pokecube:pokecube" n="4" />
+			<Buy id="minecraft:emerald" n="1" />
+		</Trade>
+		<Trade chance="1">
+			<Sell id="pokecube:greatcube" n="2" />
+			<Buy id="minecraft:emerald" n="1" />
+		</Trade>
+		<Trade chance="1">
+			<Sell id="pokecube:ultracube" n="1" />
+			<Buy id="minecraft:emerald" n="1" />
+		</Trade>
+		<Trade chance="1">
+			<Sell id="pokecube:mastercube" />
+			<Buy id="minecraft:emerald_block" n="64" />
+			<Buy id="minecraft:emerald_block" n="64" />
+		</Trade>
+		<Trade chance="1">
+			<Sell id="pokecube:revive" n="2" />
+			<Buy id="minecraft:emerald" n="1" />
+		</Trade>
+    </Trades>
 	<Trades template="merchant">
 		<Trade chance="1">
 			<Sell id="pokecube:pokecube" n="4" />

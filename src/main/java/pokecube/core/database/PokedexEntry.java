@@ -37,6 +37,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
@@ -611,7 +612,7 @@ public class PokedexEntry
             return null;
         }
 
-        public SpawnBiomeMatcher getMatcher(final World world, final Vector3 location)
+        public SpawnBiomeMatcher getMatcher(final IWorld world, final Vector3 location)
         {
             final SpawnCheck checker = new SpawnCheck(location, world);
             return this.getMatcher(checker);
@@ -667,7 +668,7 @@ public class PokedexEntry
          * @param b
          * @return
          */
-        public boolean isValid(final World world, final Vector3 location)
+        public boolean isValid(final IWorld world, final Vector3 location)
         {
             return this.getMatcher(world, location) != null;
         }
@@ -1454,9 +1455,9 @@ public class PokedexEntry
                     .withParameter(LootParameters.BLOCK_STATE, Blocks.AIR.getDefaultState())
                     .withParameter(LootParameters.THIS_ENTITY, mob)
                     .withParameter(LootParameters.POSITION, new BlockPos(mob))
-                    .withParameter(LootParameters.KILLER_ENTITY, null)
+                    .withParameter(LootParameters.KILLER_ENTITY, mob)
                     .withParameter(LootParameters.TOOL, null)
-                    .withParameter(LootParameters.DIRECT_KILLER_ENTITY, null)
+                    .withParameter(LootParameters.DIRECT_KILLER_ENTITY, mob)
                     .withParameter(LootParameters.LAST_DAMAGE_PLAYER, null)
                     .withParameter(LootParameters.BLOCK_ENTITY, null)
                     .withParameter(LootParameters.DAMAGE_SOURCE, null)

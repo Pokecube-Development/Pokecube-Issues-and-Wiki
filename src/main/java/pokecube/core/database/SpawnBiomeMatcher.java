@@ -14,8 +14,8 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
@@ -40,15 +40,15 @@ public class SpawnBiomeMatcher
         public final float            light;
         public final ResourceLocation biome;
         public final BiomeType        type;
-        public final World            world;
+        public final IWorld           world;
         public final Vector3          location;
 
-        public SpawnCheck(final Vector3 location, final World world)
+        public SpawnCheck(final Vector3 location, final IWorld world)
         {
             this.world = world;
             this.location = location;
             // TODO better way to choose current time.
-            final double time = world.getDayTime() / 24000;
+            final double time = world.getWorld().getDayTime() / 24000;
             this.day = PokedexEntry.day.contains(time);
             this.dusk = PokedexEntry.dusk.contains(time);
             this.dawn = PokedexEntry.dawn.contains(time);
@@ -56,7 +56,7 @@ public class SpawnBiomeMatcher
             this.material = location.getBlockMaterial(world);
             int lightBlock = world.getLightFor(LightType.BLOCK, location.getPos());
             final int lightDay = world.getLightFor(LightType.SKY, location.getPos());
-            if (lightBlock == 0 && world.isDaytime()) lightBlock = lightDay;
+            if (lightBlock == 0 && world.getWorld().isDaytime()) lightBlock = lightDay;
             this.light = lightBlock / 15f;
             this.biome = location.getBiome(world).getRegistryName();
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);

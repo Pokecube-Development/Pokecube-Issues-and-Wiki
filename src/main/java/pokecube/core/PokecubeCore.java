@@ -55,10 +55,10 @@ import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.worldgen.WorldgenHandler;
+import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.entity.professor.EntityProfessor;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokemobsEvent;
 import pokecube.core.handlers.Config;
@@ -201,7 +201,7 @@ public class PokecubeCore
             // Register the non-pokemobs first
             event.getRegistry().register(EntityPokecube.TYPE.setRegistryName(PokecubeCore.MODID, "pokecube"));
             event.getRegistry().register(EntityPokemobEgg.TYPE.setRegistryName(PokecubeCore.MODID, "egg"));
-            event.getRegistry().register(EntityProfessor.TYPE.setRegistryName(PokecubeCore.MODID, "professor"));
+            event.getRegistry().register(NpcMob.TYPE.setRegistryName(PokecubeCore.MODID, "npc"));
             event.getRegistry().register(EntityMoveUse.TYPE.setRegistryName(PokecubeCore.MODID, "move_use"));
 
             Database.init();

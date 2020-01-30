@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.MerchantContainer;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -33,13 +32,18 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
+import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.core.PokecubeItems;
+import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
 
-public abstract class TrainerBase extends AbstractVillagerEntity
+public abstract class TrainerBase extends NpcMob
 {
     public static final ResourceLocation BRIBE = new ResourceLocation(PokecubeAdv.ID, "trainer_bribe");
 
@@ -50,6 +54,8 @@ public abstract class TrainerBase extends AbstractVillagerEntity
     public IHasNPCAIStates aiStates;
     public IHasTrades      trades;
     int                    despawncounter  = 0;
+    public String          customTrades    = "";
+    boolean                fixedTrades     = false;
 
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
@@ -59,6 +65,9 @@ public abstract class TrainerBase extends AbstractVillagerEntity
         this.messages = this.getCapability(CapabilityNPCMessages.MESSAGES_CAP).orElse(null);
         this.aiStates = this.getCapability(CapabilityNPCAIStates.AISTATES_CAP).orElse(null);
         this.trades = this.getCapability(CapabilityHasTrades.CAPABILITY).orElse(null);
+
+        this.aiStates.setAIState(IHasNPCAIStates.TRADES, PokecubeAdv.config.trainersTradeItems
+                || PokecubeAdv.config.trainersTradeMobs);
 
         // Add some ai goals
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -87,9 +96,11 @@ public abstract class TrainerBase extends AbstractVillagerEntity
             else if (player.getHeldItemMainhand().getItem() == Items.STICK) this.pokemobsCap.setTarget(player);
             return true;
         }
-        else if (PokecubeItems.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0)
+        else if (PokecubeItems.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this
+                .getOffers().isEmpty())
         {
             stack.split(1);
+            player.setHeldItem(hand, stack);
             this.pokemobsCap.setTarget(null);
             for (final IPokemob pokemob : this.currentPokemobs)
                 pokemob.onRecall(false);
@@ -97,11 +108,16 @@ public abstract class TrainerBase extends AbstractVillagerEntity
             this.func_213711_eb();// Celebrate, should make some fancy sounds.
             return true;
         }
-        else if (this.pokemobsCap.friendlyCooldown >= 0) if (!this.getEntityWorld().isRemote && this.aiStates
-                .getAIState(IHasNPCAIStates.TRADES) && !this.getOffers().isEmpty())
+        else if (this.pokemobsCap.friendlyCooldown >= 0 && this.aiStates.getAIState(IHasNPCAIStates.TRADES))
         {
             this.setCustomer(player);
-            this.func_213707_a(player, this.getDisplayName(), 0);
+            if (!this.fixedTrades)
+            {
+                this.populateTradeData();
+                this.addMobTrades(player, stack);
+            }
+            if (!this.getOffers().isEmpty()) this.func_213707_a(player, this.getDisplayName(), 0);
+            else this.setCustomer(null);
             return true;
         }
         return super.processInteract(player, hand);
@@ -159,29 +175,25 @@ public abstract class TrainerBase extends AbstractVillagerEntity
         super.setCustomer(player);
     }
 
-    @Override
-    public PlayerEntity getCustomer()
-    {
-        return super.getCustomer();
-    }
+    protected abstract void addMobTrades(final PlayerEntity player, final ItemStack stack);
 
     @Override
     protected void populateTradeData()
     {
         final Random rand = new Random(this.getUniqueID().getLeastSignificantBits());
-        this.getOffers().addAll(this.pokemobsCap.getType().getRecipes(rand));
+        this.getOffers().clear();
+        if (this.customTrades.isEmpty()) this.getOffers().addAll(this.pokemobsCap.getType().getRecipes(rand));
+        else
+        {
+            final TrainerTrades trades = TypeTrainer.tradesMap.get(this.customTrades);
+            if (trades != null) trades.addTrades(this.getOffers(), rand);
+        }
     }
 
     @Override
     public MerchantOffers getOffers()
     {
         return this.trades.getOffers();
-    }
-
-    @Override
-    public void onTrade(final MerchantOffer p_213704_1_)
-    {// Fine as is.
-        super.onTrade(p_213704_1_);
     }
 
     @Override
@@ -217,4 +229,28 @@ public abstract class TrainerBase extends AbstractVillagerEntity
 
     }
 
+    /**
+     * @return the male
+     */
+    @Override
+    public boolean isMale()
+    {
+        return this.pokemobsCap.getGender() == 1;
+    }
+
+    /**
+     * @param male
+     *            the male to set
+     */
+    @Override
+    public void setMale(final boolean male)
+    {
+        if (male) this.pokemobsCap.setGender((byte) (male ? 1 : 2));
+    }
+
+    @Override
+    public NpcType getNpcType()
+    {
+        return this.pokemobsCap.getType();
+    }
 }

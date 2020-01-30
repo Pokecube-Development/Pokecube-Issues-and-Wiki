@@ -13,7 +13,8 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
@@ -21,8 +22,9 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
-import pokecube.core.entity.professor.EntityProfessor;
-import pokecube.core.entity.professor.EntityProfessor.ProfessorType;
+import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
+import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import thut.api.maths.Vector3;
@@ -53,7 +55,7 @@ public class SpawnEventsHandler
     public static void PickSpawn(final SpawnEvent.Pick.Pre event)
     {
         Vector3 v = event.getLocation();
-        final World world = event.world;
+        final IWorld world = event.world;
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
         Collections.shuffle(entries);
         int index = 0;
@@ -102,17 +104,19 @@ public class SpawnEventsHandler
     @SubscribeEvent
     public static void StructureSpawn(final StructureEvent.ReadTag event)
     {
-        PokecubeCore.LOGGER.debug("Recieved Event for {}", event.function);
         if (event.function.startsWith("pokecube:mob:"))
         {
             final String function = event.function.replaceFirst("pokecube:mob:", "");
-            boolean nurse = false;
-            if ((nurse = function.startsWith("nurse")) || function.startsWith("professor"))
+            final boolean nurse = function.startsWith("nurse");
+            final boolean professor = function.startsWith("professor");
+            final boolean trader = function.startsWith("trader");
+            if (nurse || professor || trader)
             {
                 // Set it to air so mob can spawn.
                 event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
-                final EntityProfessor mob = EntityProfessor.TYPE.create(event.world.getWorld());
-                mob.type = nurse ? ProfessorType.HEALER : ProfessorType.PROFESSOR;
+                final NpcMob mob = NpcMob.TYPE.create(event.world.getWorld());
+                mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
+                if (nurse) mob.setMale(false);
                 mob.enablePersistence();
                 mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
                 mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
@@ -127,7 +131,8 @@ public class SpawnEventsHandler
                 {
                     PokecubeCore.LOGGER.error("Error parsing " + args, e);
                 }
-                event.world.addEntity(mob);
+                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world))) event.world.addEntity(
+                        mob);
             }
             else if (function.startsWith("pokemob"))
             {
@@ -143,7 +148,7 @@ public class SpawnEventsHandler
         }
     }
 
-    private static void applyFunction(final EntityProfessor prof, final JsonObject thing)
+    private static void applyFunction(final NpcMob prof, final JsonObject thing)
     {
         if (thing.has("name")) prof.name = thing.get("name").getAsString();
     }

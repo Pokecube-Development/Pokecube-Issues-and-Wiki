@@ -87,7 +87,7 @@ public class TrainerEntryLoader
         catch (final Exception e)
         {
             PokecubeCore.LOGGER.warn(file + "", e);
-            throw new RuntimeException();
+            return;
         }
         else try
         {
@@ -107,7 +107,7 @@ public class TrainerEntryLoader
         catch (final Exception e)
         {
             PokecubeCore.LOGGER.warn(file + "", e);
-            throw new RuntimeException();
+            return;
         }
         for (final TrainerEntry entry : TrainerEntryLoader.database.trainers)
         {
@@ -137,7 +137,7 @@ public class TrainerEntryLoader
                 }
                 catch (final Exception e)
                 {
-                    PokecubeCore.LOGGER.warn("Error with weight for " + type.name + " " + rule.values + " "
+                    PokecubeCore.LOGGER.warn("Error with weight for " + type.getName() + " " + rule.values + " "
                             + entry.spawns, e);
                     continue;
                 }

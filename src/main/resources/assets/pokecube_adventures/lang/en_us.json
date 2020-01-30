@@ -47,7 +47,38 @@
     "block.pokecube_adventures.siphon": "Energy Siphon",
     
     
+    "_comment": "Named NPCs",
+    
+    "pokecube.bug_catcher.named": "Bug Catcher %s",
+    "pokecube.youngster.named": "Youngster %s",
+    "pokecube.lass.named": "Lass %s",
+    "pokecube.hiker.named": "Hiker %s",
+    "pokecube.fisherman_trainer.named": "Fisherman %s",
+    "pokecube.cooltrainer.named": "Cooltrainer %s",
+    "pokecube.super_nerd.named": "Super Nerd %s",
+    "pokecube.scientist.named": "Scientist %s",
+    "pokecube.bird_keeper.named": "Bird Keeper %s",
+    "pokecube.beauty.named": "Beauty %s",
+    "pokecube.biker.named": "Biker %s",
+    "pokecube.black_belt.named": "Black Belt %s",
+    "pokecube.roughneck.named": "RoughNeck %s",
+    "pokecube.engineer.named": "Engineer %s",
+    "pokecube.pi.named": "PI %s",
+    "pokecube.gentleman.named": "Gentleman %s",
+    "pokecube.camper.named": "Camper %s",
+    "pokecube.picknicker.named": "Picknicker %s",
+    "pokecube.juggler.named": "Juggler %s",
+    "pokecube.poke_maniac.named": "Poke Maniac %s",
+    "pokecube.rocker.named": "Rocker %s",
+    "pokecube.sailor.named": "Sailor %s",
+    "pokecube.swimmer.named": "Swimmer %s",
+    "pokecube.tamer.named": "Tamer %s",
+    "pokecube.notch.named": "Notch",
+    "pokecube.red.named": "Red",
+    "pokecube.merchant.named": "Merchant %s",
+    
     "entity.pokecube_adventures.trainer": "Trainer",
+    "entity.pokecube_adventures.leader": "Leader",
 
     "gui.pokemobbag.title": "%s's Bag",
 

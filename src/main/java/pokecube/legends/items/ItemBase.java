@@ -46,6 +46,7 @@ public class ItemBase extends Item
     public void addInformation(final ItemStack stack, final World worldIn, final List<ITextComponent> tooltip,
             final ITooltipFlag flagIn)
     {
+        if (!this.hasTooltip) return;
         String message;
         if (Screen.hasShiftDown()) message = I18n.format("legends." + this.tooltipname + ".tooltip");
         else message = I18n.format("pokecube.tooltip.advanced");

@@ -38,7 +38,8 @@ import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.SpawnBiomeMatcher;
-import pokecube.core.entity.professor.EntityProfessor;
+import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
@@ -47,7 +48,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 
-public class TypeTrainer
+public class TypeTrainer extends NpcType
 {
     public static interface ITypeMapper
     {
@@ -81,7 +82,7 @@ public class TypeTrainer
                 if (type != null) return type;
                 return TypeTrainer.merchant;
             }
-            if (mob instanceof EntityProfessor) return TypeTrainer.merchant;
+            if (mob instanceof NpcMob) return TypeTrainer.merchant;
             return null;
         }
 
@@ -133,7 +134,7 @@ public class TypeTrainer
         public void addTrades(final List<MerchantOffer> ret, final Random rand)
         {
             for (final TrainerTrade trade : this.tradesList)
-                if (Math.random() < trade.chance)
+                if (rand.nextFloat() < trade.chance)
                 {
                     final MerchantOffer toAdd = trade.getRecipe(rand);
                     if (toAdd != null) ret.add(toAdd);
@@ -150,7 +151,7 @@ public class TypeTrainer
     public static ArrayList<String>              maleNames   = new ArrayList<>();
     public static ArrayList<String>              femaleNames = new ArrayList<>();
 
-    public static TypeTrainer merchant = new TypeTrainer("Merchant");
+    public static TypeTrainer merchant = new TypeTrainer("merchant");
     static
     {
         TypeTrainer.merchant.tradeTemplate = "merchant";
@@ -196,7 +197,7 @@ public class TypeTrainer
         if (ret == null)
         {
             for (final TypeTrainer t : TypeTrainer.typeMap.values())
-                if (t != null && t.name.equalsIgnoreCase(name)) return t;
+                if (t != null && t.getName().equalsIgnoreCase(name)) return t;
             for (final TypeTrainer t : TypeTrainer.typeMap.values())
                 if (t != null) return t;
         }
@@ -255,24 +256,21 @@ public class TypeTrainer
             if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);
         if (!toRemove.isEmpty()) PokecubeCore.LOGGER.debug("Removing Trainer Types: " + toRemove);
         for (final TypeTrainer t : toRemove)
-            TypeTrainer.typeMap.remove(t.name);
+            TypeTrainer.typeMap.remove(t.getName());
     }
 
-    public final String name;
     /** 1 = male, 2 = female, 3 = both */
-    public byte         genders = 1;
+    public byte genders = 1;
 
     public Map<SpawnBiomeMatcher, Float> matchers = Maps.newHashMap();
     public boolean                       hasBag   = false;
     public ItemStack                     bag      = ItemStack.EMPTY;
     public boolean                       hasBelt  = false;
-    private ResourceLocation             texture;
-
-    private ResourceLocation femaleTexture;
 
     public String             tradeTemplate = "default";
     public List<PokedexEntry> pokemon       = Lists.newArrayList();
     public TrainerTrades      trades;
+    private boolean           checkedTex    = false;
 
     private final ItemStack[] loot = NonNullList.<ItemStack> withSize(4, ItemStack.EMPTY).toArray(new ItemStack[4]);
 
@@ -281,17 +279,18 @@ public class TypeTrainer
 
     public TypeTrainer(final String name)
     {
-        this.name = name;
+        super(name);
         TypeTrainer.addTrainer(name, this);
+        this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
+                + "female.png"));
+        this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
+                + "male.png"));
     }
 
     public Collection<MerchantOffer> getRecipes(final Random rand)
     {
-        if (this.trades == null && this.tradeTemplate != null)
-        {
-            this.trades = TypeTrainer.tradesMap.get(this.tradeTemplate);
-            if (this.trades == null) this.tradeTemplate = null;
-        }
+        if (this.trades == null && this.tradeTemplate != null) this.trades = TypeTrainer.tradesMap.get(
+                this.tradeTemplate);
         final List<MerchantOffer> ret = Lists.newArrayList();
         if (this.trades != null) this.trades.addTrades(ret, rand);
         return ret;
@@ -301,35 +300,15 @@ public class TypeTrainer
     public ResourceLocation getTexture(final LivingEntity trainer)
     {
         final IHasPokemobs cap = CapabilityHasPokemobs.getHasPokemobs(trainer);
-        if (this.texture == null && (this.genders == 1 || this.genders == 2))
+        if (!this.checkedTex)
         {
-            this.texture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.name) + ".png");
-            if (!this.texExists(this.texture)) this.texture = null;
-            if (this.genders == 2 && this.texture == null) this.texture = new ResourceLocation(
-                    PokecubeAdv.TRAINERTEXTUREPATH + "female.png");
-            if (this.genders == 1 && this.texture == null) this.texture = new ResourceLocation(
-                    PokecubeAdv.TRAINERTEXTUREPATH + "male.png");
+            this.checkedTex = true;
+            if (!this.texExists(this.getFemaleTex())) this.setFemaleTex(new ResourceLocation(
+                    PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName()) + ".png"));
+            if (!this.texExists(this.getMaleTex())) this.setMaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH
+                    + Database.trim(this.getName()) + ".png"));
         }
-        else if (this.genders == 3)
-        {
-            if (this.femaleTexture == null)
-            {
-                this.femaleTexture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.name)
-                        + "female.png");
-                if (!this.texExists(this.femaleTexture)) this.femaleTexture = null;
-            }
-            if (this.texture == null)
-            {
-                this.texture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.name) + ".png");
-                if (!this.texExists(this.texture)) this.texture = null;
-            }
-            if (this.femaleTexture == null) this.femaleTexture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH
-                    + "female.png");
-            if (this.texture == null) this.texture = new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + "male.png");
-
-            return cap.getGender() == 1 ? this.texture : this.femaleTexture;
-        }
-        return this.texture;
+        return cap.getGender() == 1 ? this.getMaleTex() : this.getFemaleTex();
     }
 
     private void initLoot()
@@ -388,6 +367,6 @@ public class TypeTrainer
     @Override
     public String toString()
     {
-        return "" + this.name;
+        return "" + this.getName();
     }
 }

@@ -108,6 +108,8 @@ public class Config extends ConfigData
     public boolean      defaultInteractions  = true;
     @Configure(category = Config.misc)
     public boolean      berryBreeding        = true;
+    @Configure(category = Config.misc, type = Type.SERVER)
+    public boolean      npcNameTags          = true;
     @Configure(category = Config.misc)
     public List<String> customSounds         = Lists.newArrayList();
 

@@ -1,16 +1,16 @@
 package pokecube.mobs.client.smd.impl;
 
 import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import thut.api.maths.vecmath.Matrix4f;
-import thut.api.maths.vecmath.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.api.maths.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.VectorMath;
 
 /** Misc helper methods. */
@@ -28,7 +28,7 @@ public class Helpers
      * @param i
      *            index to check.
      */
-    public static void ensureFits(ArrayList<?> list, int index)
+    public static void ensureFits(final ArrayList<?> list, final int index)
     {
         while (list.size() <= index)
             list.add(null);
@@ -41,12 +41,16 @@ public class Helpers
      * @param resloc
      * @return
      */
-    public static BufferedInputStream getStream(ResourceLocation resloc)
+    public static BufferedInputStream getStream(final ResourceLocation resloc)
     {
         try
         {
             return new BufferedInputStream(Minecraft.getInstance().getResourceManager().getResource(resloc)
                     .getInputStream());
+        }
+        catch (final FileNotFoundException nofile)
+        {
+            return null;
         }
         catch (final IOException e)
         {
@@ -60,7 +64,8 @@ public class Helpers
      * y1, z1, and then it is rotated by zr, yr and xr, in that order, along
      * their respective axes.
      */
-    public static Matrix4f makeMatrix(float xl, float yl, float zl, float xr, float yr, float zr)
+    public static Matrix4f makeMatrix(final float xl, final float yl, final float zl, final float xr, final float yr,
+            final float zr)
     {
         return VectorMath.fromVector6f(xl, yl, zl, xr, yr, zr);
     }

@@ -22,7 +22,7 @@
     },
     {
       "name": "scattered/gym_gerenal",
-      "chance": 0.00005,
+      "chance": 0.0005,
       "biomeType": "village",
       "spawn": {
         "values": {

@@ -31,6 +31,8 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.entity.trainer.TrainerBase;
+import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
@@ -103,7 +105,7 @@ public class CapabilityHasPokemobs
 
         // This is the reference cooldown.
         public int              battleCooldown = -1;
-        private byte            gender         = 1;
+        private byte            gender         = 0;
         private LivingEntity    user;
         private IHasNPCAIStates aiStates;
         private IHasMessages    messages;
@@ -217,6 +219,19 @@ public class CapabilityHasPokemobs
         @Override
         public byte getGender()
         {
+            if (this.getType() == null)
+            {
+                // We only log this error if it was supposed to be a trainer,
+                // other things can deal with their types however they feel
+                // like.
+                if (this.user instanceof TrainerBase) PokecubeCore.LOGGER.error("Checking gender with no type!",
+                        new IllegalStateException(new NullPointerException()));
+                return 0;
+            }
+            final byte genders = this.getType().genders;
+            if (genders == 1) this.setGender((byte) 1);
+            if (genders == 2) this.setGender((byte) 2);
+            if (this.gender == 0) if (genders == 3) this.setGender((byte) (Math.random() < 0.5 ? 1 : 2));
             return this.gender;
         }
 
@@ -434,7 +449,7 @@ public class CapabilityHasPokemobs
             nbt.put("pokemobs", ListNBT);
             nbt.putInt("nextSlot", this.getNextSlot());
             if (this.getOutID() != null) nbt.putString("outPokemob", this.getOutID().toString());
-            if (this.getType() != null) nbt.putString("type", this.getType().name);
+            if (this.getType() != null) nbt.putString("type", this.getType().getName());
             nbt.putLong("nextBattle", this.getCooldown());
             nbt.putByte("gender", this.getGender());
 
@@ -568,7 +583,7 @@ public class CapabilityHasPokemobs
         {
             this.type = type;
             if (!this.user.getEntityWorld().isRemote) this.datasync.set(this.holder.TYPE, type == null ? ""
-                    : type.name);
+                    : type.getName());
         }
 
         @Override
