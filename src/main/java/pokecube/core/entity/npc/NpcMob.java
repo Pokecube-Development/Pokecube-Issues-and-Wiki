@@ -187,7 +187,6 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
 
     public void setInitOffers(final Consumer<MerchantOffers> in)
     {
-        PokecubeCore.LOGGER.debug("Overriding Offers Init for " + this);
         this.init_offers = in;
         // Clear offers so that it can be reset.
         this.offers = null;
@@ -195,7 +194,6 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
 
     public void setUseOffers(final Consumer<MerchantOffer> in)
     {
-        PokecubeCore.LOGGER.debug("Overriding Offers Use for " + this);
         this.use_offer = in;
     }
 

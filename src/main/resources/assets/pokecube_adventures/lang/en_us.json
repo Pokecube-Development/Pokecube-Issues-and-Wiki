@@ -53,7 +53,7 @@
     "pokecube.youngster.named": "Youngster %s",
     "pokecube.lass.named": "Lass %s",
     "pokecube.hiker.named": "Hiker %s",
-    "pokecube.fisherman.named": "Fisherman %s",
+    "pokecube.fisherman_trainer.named": "Fisherman %s",
     "pokecube.cooltrainer.named": "Cooltrainer %s",
     "pokecube.super_nerd.named": "Super Nerd %s",
     "pokecube.scientist.named": "Scientist %s",
@@ -75,6 +75,7 @@
     "pokecube.tamer.named": "Tamer %s",
     "pokecube.notch.named": "Notch",
     "pokecube.red.named": "Red",
+    "pokecube.merchant.named": "Merchant %s",
     
     "entity.pokecube_adventures.trainer": "Trainer",
     "entity.pokecube_adventures.leader": "Leader",

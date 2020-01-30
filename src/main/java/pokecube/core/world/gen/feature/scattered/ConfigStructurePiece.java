@@ -16,8 +16,10 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
@@ -46,8 +48,10 @@ public class ConfigStructurePiece extends TemplateStructurePiece
     private final ResourceLocation template;
     private final Rotation         rot;
     private final BlockPos         centreOffset;
-    private JsonStructure          struct = new JsonStructure();
-    private boolean                set    = false;
+    private JsonStructure          struct   = new JsonStructure();
+    private boolean                set      = false;
+    private int                    floor    = 0;
+    private BlockPos               entrance = null;
 
     public ConfigStructurePiece(final TemplateManager manager, final CompoundNBT nbt)
     {
@@ -109,25 +113,9 @@ public class ConfigStructurePiece extends TemplateStructurePiece
         {
             if (!this.set)
             {
-                int i = this.templatePosition.getY();
-                final BlockPos blockpos = this.templatePosition.add(this.to_build.getSize().getX() - 1, 0, this.to_build
-                        .getSize().getZ() - 1);
-                boolean inWater = false;
-                if (this.struct.surface) for (final BlockPos blockpos1 : BlockPos.getAllInBoxMutable(
-                        this.templatePosition, blockpos))
-                {
-                    final int k = worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, blockpos1.getX(), blockpos1.getZ());
-                    if (k == 0) // Not sure what to do here?
-                        continue;
-                    inWater = inWater || worldIn.getBlockState(blockpos1.up()).getMaterial() == Material.WATER;
-                    i = Math.min(i, k);
-                    // TODO maybe use average?
-                }
-                if (inWater && !this.struct.water) return false;
-                i += this.struct.offset;
-                System.out.println("Shifted: " + this.templatePosition.getY() + "->" + i);
-                this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
 
+                int i = this.templatePosition.getY();
+                final int dy = this.to_build.getSize().getY();
                 for (final Template.BlockInfo info : this.to_build.func_215381_a(this.templatePosition,
                         this.placeSettings, Blocks.STRUCTURE_BLOCK))
                     if (info.nbt != null)
@@ -136,10 +124,54 @@ public class ConfigStructurePiece extends TemplateStructurePiece
                         if (structuremode == StructureMode.DATA) this.handleDataMarker(info.nbt.getString("metadata"),
                                 info.pos, worldIn, randomIn, structureBoundingBoxIn);
                     }
+                boolean inWater = false;
+                int max = Integer.MIN_VALUE;
+                int min = Integer.MAX_VALUE;
+                double sum = 0;
+                double count = 0;
+                final BlockPos blockpos = this.templatePosition.add(this.to_build.getSize().getX() - 1, 0, this.to_build
+                        .getSize().getZ() - 1);
+                if (this.struct.surface)
+                {
+                    for (final BlockPos blockpos1 : BlockPos.getAllInBoxMutable(this.templatePosition, blockpos))
+                    {
+                        final int k = worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, blockpos1.getX(), blockpos1
+                                .getZ());
+                        min = Math.min(min, k);
+                        max = Math.max(max, k);
+                        sum += k;
+                        count++;
+                        if (k == 0) // Not sure what to do here?
+                            return false;
+                        inWater = inWater || worldIn.getBlockState(blockpos1.up()).getMaterial() == Material.WATER
+                                || worldIn.getBlockState(blockpos1.down()).getMaterial() == Material.WATER || worldIn
+                                        .getBlockState(blockpos1).getMaterial() == Material.WATER || k < worldIn
+                                                .getSeaLevel() + this.floor;
+                    }
+                    if (inWater && !this.struct.water) return false;
+                    final int diff = max - min;
+                    // Don't place it on really slanted ground, but we only care
+                    // about this if the structure isn't offset out of the way
+                    // anyway
+                    if (dy > Math.abs(this.struct.offset)) if (diff > -this.floor) return false;
+                    i = MathHelper.ceil(sum / count);
+
+                    // If we do actually have an entrance, set that to the
+                    // height.
+                    if (this.entrance != null) i = worldIn.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, this.entrance
+                            .getX(), this.entrance.getZ());
+                }
+                i += this.struct.offset + this.floor;
+                if (World.isYOutOfBounds(i + dy))
+                {
+                    PokecubeCore.LOGGER.error("Attempted to place a structure out of build bounds! "
+                            + this.templatePosition);
+                    return false;
+                }
+                this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
+                PokecubeCore.LOGGER.debug("Placing " + this.template + " at " + this.templatePosition);
                 this.set = true;
             }
-            PokecubeCore.LOGGER.debug("Adding parts for: " + this.template + ", " + this.templatePosition);
-
             final boolean built = super.addComponentParts(worldIn, randomIn, structureBoundingBoxIn, p_74875_4_);
             terrain:
             if (built)
@@ -161,7 +193,9 @@ public class ConfigStructurePiece extends TemplateStructurePiece
             }
             return built;
         }
-        catch (final Exception e)
+        catch (
+
+        final Exception e)
         {
             PokecubeCore.LOGGER.error("Error building " + this.template, e);
             return false;
@@ -172,14 +206,22 @@ public class ConfigStructurePiece extends TemplateStructurePiece
     protected void handleDataMarker(final String function, final BlockPos pos, final IWorld worldIn, final Random rand,
             final MutableBoundingBox sbb)
     {
-        if (function.equalsIgnoreCase("Floor") && !this.set)
+        if (function.equalsIgnoreCase("Floor"))
         {
-            final int y = 2 * this.templatePosition.getY() - pos.getY();
-            this.templatePosition = new BlockPos(this.templatePosition.getX(), y, this.templatePosition.getZ());
+            if (!this.set) this.floor = this.templatePosition.getY() - pos.getY();
+            else worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+            return;
+        }
+        if (function.equalsIgnoreCase("Entrance"))
+        {
+            // We don't check the y here anyway, so don't care.
+            if (!this.set) this.entrance = pos.toImmutable();
+            else worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+            return;
         }
 
-        if (!this.set || function.equalsIgnoreCase("Floor")) return;
-        PokecubeCore.LOGGER.debug("Structure Tag: {}", function);
+        if (!this.set) return;
+
         if (function.startsWith("pokecube:chest:"))
         {
             final BlockPos blockpos = pos.down();

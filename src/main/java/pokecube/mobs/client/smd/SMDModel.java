@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import thut.api.maths.vecmath.Matrix4f;
-
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
@@ -17,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.mobs.client.smd.impl.Bone;
 import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
+import thut.api.maths.vecmath.Matrix4f;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -44,7 +43,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         this.nullPartsMap.put(this.getName(), this);
     }
 
-    public SMDModel(ResourceLocation model)
+    public SMDModel(final ResourceLocation model)
     {
         this();
         try
@@ -56,13 +55,13 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         }
         catch (final Exception e)
         {
-            e.printStackTrace();
+            // We failed to load, so not valid!
         }
     }
 
     @Override
-    public void applyAnimation(Entity entity, IAnimationHolder animate, IModelRenderer<?> renderer, float partialTicks,
-            float limbSwing)
+    public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
+            final float partialTicks, final float limbSwing)
     {
         this.wrapped.setAnimation(renderer.getAnimation(entity));
     }
@@ -117,12 +116,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void preProcessAnimations(Collection<List<Animation>> collection)
+    public void preProcessAnimations(final Collection<List<Animation>> collection)
     {
         // TODO figure out animations for this.
     }
 
-    public void render(IModelRenderer<?> renderer)
+    public void render(final IModelRenderer<?> renderer)
     {
         if (this.wrapped != null)
         {
@@ -197,40 +196,40 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void renderAll(IModelRenderer<?> renderer)
+    public void renderAll(final IModelRenderer<?> renderer)
     {
         this.render(renderer);
     }
 
     @Override
-    public void renderAllExcept(IModelRenderer<?> renderer, String... excludedGroupNames)
-    {
-        // SMD Renders whole thing at once, so no part rendering.
-        this.render(renderer);
-    }
-
-    @Override
-    public void renderOnly(IModelRenderer<?> renderer, String... groupNames)
+    public void renderAllExcept(final IModelRenderer<?> renderer, final String... excludedGroupNames)
     {
         // SMD Renders whole thing at once, so no part rendering.
         this.render(renderer);
     }
 
     @Override
-    public void renderPart(IModelRenderer<?> renderer, String partName)
+    public void renderOnly(final IModelRenderer<?> renderer, final String... groupNames)
     {
         // SMD Renders whole thing at once, so no part rendering.
         this.render(renderer);
     }
 
     @Override
-    public void setAnimationChanger(IAnimationChanger changer)
+    public void renderPart(final IModelRenderer<?> renderer, final String partName)
+    {
+        // SMD Renders whole thing at once, so no part rendering.
+        this.render(renderer);
+    }
+
+    @Override
+    public void setAnimationChanger(final IAnimationChanger changer)
     {
         this.changer = changer;
     }
 
     @Override
-    public void setTexturer(IPartTexturer texturer)
+    public void setTexturer(final IPartTexturer texturer)
     {
         this.texturer = texturer;
     }

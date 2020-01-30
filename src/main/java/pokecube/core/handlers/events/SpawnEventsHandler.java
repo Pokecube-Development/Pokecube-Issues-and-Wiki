@@ -14,6 +14,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.IWorld;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
@@ -21,8 +22,9 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
-import pokecube.core.entity.npc.NpcType;
 import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
+import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import thut.api.maths.Vector3;
@@ -102,7 +104,6 @@ public class SpawnEventsHandler
     @SubscribeEvent
     public static void StructureSpawn(final StructureEvent.ReadTag event)
     {
-        PokecubeCore.LOGGER.debug("Recieved Event for {}", event.function);
         if (event.function.startsWith("pokecube:mob:"))
         {
             final String function = event.function.replaceFirst("pokecube:mob:", "");
@@ -130,7 +131,8 @@ public class SpawnEventsHandler
                 {
                     PokecubeCore.LOGGER.error("Error parsing " + args, e);
                 }
-                event.world.addEntity(mob);
+                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world))) event.world.addEntity(
+                        mob);
             }
             else if (function.startsWith("pokemob"))
             {
