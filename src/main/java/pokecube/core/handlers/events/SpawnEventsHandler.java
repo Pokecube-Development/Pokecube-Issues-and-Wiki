@@ -115,7 +115,7 @@ public class SpawnEventsHandler
                 event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
                 final NpcMob mob = NpcMob.TYPE.create(event.world.getWorld());
                 mob.setNpcType(nurse ? NpcType.HEALER : trader ? NpcType.TRADER : NpcType.PROFESSOR);
-                if (nurse) mob.male = false;
+                if (nurse) mob.setMale(false);
                 mob.enablePersistence();
                 mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
                 mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,

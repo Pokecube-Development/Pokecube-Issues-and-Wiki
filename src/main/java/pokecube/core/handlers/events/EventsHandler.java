@@ -341,7 +341,7 @@ public class EventsHandler
         if (event.getObject() instanceof NpcMob)
         {
             final NpcMob prof = (NpcMob) event.getObject();
-            event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(prof, e -> e.getTex(), e -> !e.male));
+            event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(prof, e -> e.getTex(), e -> !e.isMale()));
             event.addCapability(EventsHandler.GUARDCAP, new Provider());
         }
     }

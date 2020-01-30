@@ -36,6 +36,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
+import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -227,4 +228,28 @@ public abstract class TrainerBase extends NpcMob
 
     }
 
+    /**
+     * @return the male
+     */
+    @Override
+    public boolean isMale()
+    {
+        return this.pokemobsCap.getGender() != 2;
+    }
+
+    /**
+     * @param male
+     *            the male to set
+     */
+    @Override
+    public void setMale(final boolean male)
+    {
+        if (male) this.pokemobsCap.setGender((byte) (male ? 1 : 2));
+    }
+
+    @Override
+    public NpcType getNpcType()
+    {
+        return this.pokemobsCap.getType();
+    }
 }

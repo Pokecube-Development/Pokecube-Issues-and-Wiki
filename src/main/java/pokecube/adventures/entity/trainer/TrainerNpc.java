@@ -1,5 +1,7 @@
 package pokecube.adventures.entity.trainer;
 
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.entity.AgeableEntity;
@@ -12,7 +14,6 @@ import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import pokecube.adventures.PokecubeAdv;
@@ -185,11 +186,10 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         }
         if (this.name.isEmpty())
         {
-            final int index = this.getEntityId() % (this.pokemobsCap.getGender() == 1 ? TypeTrainer.maleNames.size()
-                    : TypeTrainer.femaleNames.size());
-            this.name = this.pokemobsCap.getGender() == 1 ? TypeTrainer.maleNames.get(index)
-                    : TypeTrainer.femaleNames.get(index);
-            this.setCustomName(new StringTextComponent(this.pokemobsCap.getType().getName() + " " + this.name));
+            final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
+            if (!names.isEmpty()) this.name = "pokecube." + this.getNpcType().getName() + ".named:" + names.get(
+                    new Random().nextInt(names.size()));
+            this.setCustomName(this.getDisplayName());
         }
     }
 

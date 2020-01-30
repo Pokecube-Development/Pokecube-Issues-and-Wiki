@@ -46,7 +46,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     Set<String>                                heads = Sets.newHashSet();
     final HeadInfo                             info  = new HeadInfo();
     public String                              name;
-    private boolean                            valid = true;
+    protected boolean                          valid = true;
 
     public X3dModel()
     {

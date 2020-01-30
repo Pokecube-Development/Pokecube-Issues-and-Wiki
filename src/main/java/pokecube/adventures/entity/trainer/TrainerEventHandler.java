@@ -74,7 +74,6 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.TextureableCaps.NPCCap;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.PokemobDamageSource;
 import pokecube.core.moves.TerrainDamageSource;
@@ -126,6 +125,11 @@ public class TrainerEventHandler
         public ProfessorOffers(final NpcMob mob)
         {
             this.mob = mob;
+
+            // Check for blank name, and if so, randomize it.
+            final List<String> names = mob.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
+            if (!names.isEmpty() && mob.name.isEmpty()) mob.name = "pokecube." + mob.getNpcType().getName() + ".named:"
+                    + names.get(new Random().nextInt(names.size()));
         }
 
         @Override
@@ -133,8 +137,8 @@ public class TrainerEventHandler
         {
             PokecubeCore.LOGGER.debug("Merchant Offer Init: " + this.mob);
             final Random rand = new Random(this.mob.getUniqueID().getLeastSignificantBits());
-            final TrainerTrades trades = TypeTrainer.tradesMap.get(this.mob.getNpcType() == NpcType.PROFESSOR
-                    ? "professor" : "merchant");
+            final String type = this.mob.getNpcType() == NpcType.PROFESSOR ? "professor" : "merchant";
+            final TrainerTrades trades = TypeTrainer.tradesMap.get(type);
             if (trades != null) trades.addTrades(this.mob.getOffers(), rand);
             else this.mob.getOffers().addAll(TypeTrainer.merchant.getRecipes(rand));
         }
@@ -201,12 +205,7 @@ public class TrainerEventHandler
         event.addCapability(TrainerEventHandler.MESSAGECAP, messages);
         event.addCapability(TrainerEventHandler.REWARDSCAP, rewards);
 
-        if (mob instanceof TrainerBase)
-        {
-            event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(mob, e -> mobs.getType().getTexture(e), e -> mobs
-                    .getGender() == 2));
-            event.addCapability(TrainerEventHandler.TRADESCAP, new DefaultTrades());
-        }
+        if (mob instanceof TrainerBase) event.addCapability(TrainerEventHandler.TRADESCAP, new DefaultTrades());
 
         DataSync data = TrainerEventHandler.getData(event);
         if (data == null)

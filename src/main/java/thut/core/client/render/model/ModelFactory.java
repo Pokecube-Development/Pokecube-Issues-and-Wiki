@@ -9,8 +9,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.util.ResourceLocation;
 import thut.core.client.render.animation.ModelHolder;
+import thut.core.client.render.mca.McaModel;
 import thut.core.client.render.obj.ObjModel;
-import thut.core.client.render.tabula.model.TabulaModelParser;
 import thut.core.client.render.x3d.X3dModel;
 import thut.core.common.ThutCore;
 
@@ -27,8 +27,9 @@ public class ModelFactory
     static
     {
         ModelFactory.registerIModel("x3d", X3dModel::new);
+        ModelFactory.registerIModel("mca", McaModel::new);
         ModelFactory.registerIModel("obj", ObjModel::new);
-        ModelFactory.registerIModel("tbl", TabulaModelParser::load);
+        // ModelFactory.registerIModel("tbl", TabulaModelParser::load);
         // ModelFactory.registerIModel("tbl", TblModel::new);
     }
 

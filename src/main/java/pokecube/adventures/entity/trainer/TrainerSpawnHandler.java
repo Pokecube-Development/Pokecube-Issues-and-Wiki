@@ -13,13 +13,17 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -281,24 +285,32 @@ public class TrainerSpawnHandler
      */
     public static void StructureSpawn(final StructureEvent.ReadTag event)
     {
+        PokecubeCore.LOGGER.debug("Handling Function: " + event.function);
         if (!event.function.startsWith("pokecube_adventures:")) return;
         String function = event.function.replaceFirst("pokecube_adventures:", "");
         boolean leader = false;
         // Here we process custom options for trainers or leaders in structures.
         if (function.startsWith("trainer") || (leader = function.startsWith("leader")))
         {
+            // Set it to air so mob can spawn.
+            event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
             function = function.replaceFirst(leader ? "leader" : "trainer", "");
-            final TrainerNpc trainer = leader ? LeaderNpc.TYPE.create(event.world.getWorld())
+            final TrainerNpc mob = leader ? LeaderNpc.TYPE.create(event.world.getWorld())
                     : TrainerNpc.TYPE.create(event.world.getWorld());
+            mob.enablePersistence();
+            mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
+            mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
+                    (ILivingEntityData) null, (CompoundNBT) null);
             if (!function.isEmpty() && function.contains("{")) try
             {
                 final JsonObject thing = PokedexEntryLoader.gson.fromJson(function, JsonObject.class);
-                TrainerSpawnHandler.applyFunction(trainer, thing, leader);
+                TrainerSpawnHandler.applyFunction(mob, thing, leader);
             }
             catch (final Exception e)
             {
                 PokecubeCore.LOGGER.error("Error parsing " + function, e);
             }
+            event.world.addEntity(mob);
         }
     }
 

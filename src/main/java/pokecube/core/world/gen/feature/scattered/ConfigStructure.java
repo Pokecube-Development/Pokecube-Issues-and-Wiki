@@ -72,7 +72,7 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
     @Override
     public int getSize()
     {
-        return 1;
+        return 2;
     }
 
     @Override

@@ -22,6 +22,8 @@ public class DBLoader
     public static List<ResourceLocation> tradeDatabases   = Lists.newArrayList();
     public static ResourceLocation       NAMESLOC         = new ResourceLocation(PokecubeAdv.ID, "database/names.csv");
 
+    public static boolean loaded = false;
+
     protected static ArrayList<ArrayList<String>> getRows(final ResourceLocation location) throws IOException
     {
         final InputStream res = Database.resourceManager.getResource(location).getInputStream();
@@ -68,13 +70,29 @@ public class DBLoader
 
     public static void load()
     {
+        if (DBLoader.loaded) return;
         PokecubeCore.LOGGER.debug("Loading Trainer Databases");
+        DBLoader.loaded = true;
         try
         {
             for (final ResourceLocation s : DBLoader.trainerDatabases)
-                TrainerEntryLoader.makeEntries(s);
+                try
+                {
+                    TrainerEntryLoader.makeEntries(s);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error loading trainers from " + s, e);
+                }
             for (final ResourceLocation s : DBLoader.tradeDatabases)
-                TradeEntryLoader.makeEntries(s);
+                try
+                {
+                    TradeEntryLoader.makeEntries(s);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error loading trades from " + s, e);
+                }
         }
         catch (final Exception e)
         {

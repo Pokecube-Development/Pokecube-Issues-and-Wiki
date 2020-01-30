@@ -87,7 +87,7 @@ public class TrainerEntryLoader
         catch (final Exception e)
         {
             PokecubeCore.LOGGER.warn(file + "", e);
-            throw new RuntimeException();
+            return;
         }
         else try
         {
@@ -107,7 +107,7 @@ public class TrainerEntryLoader
         catch (final Exception e)
         {
             PokecubeCore.LOGGER.warn(file + "", e);
-            throw new RuntimeException();
+            return;
         }
         for (final TrainerEntry entry : TrainerEntryLoader.database.trainers)
         {

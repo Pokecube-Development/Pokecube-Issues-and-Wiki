@@ -20,13 +20,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAI;
 import thut.api.maths.Vector3;
-import thut.core.common.network.EntityUpdate;
 
 public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalSpawnData
 {
@@ -42,7 +42,7 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     public String   playerName = "";
     public String   urlSkin    = "";
     public String   customTex  = "";
-    public boolean  male       = true;
+    private boolean male       = true;
     public boolean  stationary = false;
     public Vector3  location   = null;
     public GuardAI  guardAI;
@@ -70,19 +70,7 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
         if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.isCreativeMode)
         {
             final PlayerEntity player = (PlayerEntity) e;
-            if (!player.getHeldItemMainhand().isEmpty())
-            {
-                if (!this.getEntityWorld().isRemote)
-                {
-                    if (this.getNpcType() == NpcType.PROFESSOR) this.setNpcType(NpcType.HEALER);
-                    else if (this.getNpcType() == NpcType.HEALER) this.setNpcType(NpcType.PROFESSOR);
-                    if (this.getNpcType() == NpcType.PROFESSOR) this.male = true;
-                    else this.male = false;
-                    EntityUpdate.sendEntityUpdate(this);
-                    return false;
-                }
-            }
-            else this.remove();
+            if (player.getHeldItemMainhand().isEmpty()) this.remove();
         }
         return super.attackEntityFrom(source, i);
     }
@@ -104,7 +92,7 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     {
         if (!this.playerName.isEmpty()) return PokecubeCore.proxy.getPlayerSkin(this.playerName);
         else if (!this.customTex.isEmpty()) return new ResourceLocation(this.customTex);
-        return this.male ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
+        return this.isMale() ? this.getNpcType().getMaleTex() : this.getNpcType().getFemaleTex();
     }
 
     @Override
@@ -119,7 +107,7 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     {
         super.readAdditional(nbt);
         this.stationary = nbt.getBoolean("stationary");
-        this.male = nbt.getBoolean("gender");
+        this.setMale(nbt.getBoolean("gender"));
         this.name = nbt.getString("name");
         this.playerName = nbt.getString("playerName");
         this.urlSkin = nbt.getString("urlSkin");
@@ -139,7 +127,22 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     @Override
     public ITextComponent getDisplayName()
     {
-        if (this.name != null && !this.name.isEmpty()) return new StringTextComponent(this.name);
+        if (this.name != null && !this.name.isEmpty())
+        {
+            ITextComponent display;
+            if (this.name.startsWith("pokecube."))
+            {
+                final String[] args = this.name.split(":");
+                if (args.length == 2) display = new TranslationTextComponent(args[0], args[1]);
+                else display = new StringTextComponent(this.name);
+            }
+            else display = new StringTextComponent(this.name);
+            display.applyTextStyle((style) ->
+            {
+                style.setHoverEvent(this.getHoverEvent()).setInsertion(this.getCachedUniqueIdString());
+            });
+            return display;
+        }
         return super.getDisplayName();
     }
 
@@ -153,13 +156,13 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     public void writeAdditional(final CompoundNBT nbt)
     {
         super.writeAdditional(nbt);
-        nbt.putBoolean("gender", this.male);
+        nbt.putBoolean("gender", this.isMale());
         nbt.putString("name", this.name);
         nbt.putBoolean("stationary", this.stationary);
         nbt.putString("playerName", this.playerName);
         nbt.putString("urlSkin", this.urlSkin);
         nbt.putString("customTex", this.customTex);
-        nbt.putString("type", this.getNpcType().toString());
+        nbt.putString("type", this.getNpcType().getName());
     }
 
     @Override
@@ -211,5 +214,22 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     public void setNpcType(final NpcType type)
     {
         this.type = type;
+    }
+
+    /**
+     * @return the male
+     */
+    public boolean isMale()
+    {
+        return this.male;
+    }
+
+    /**
+     * @param male
+     *            the male to set
+     */
+    public void setMale(final boolean male)
+    {
+        this.male = male;
     }
 }

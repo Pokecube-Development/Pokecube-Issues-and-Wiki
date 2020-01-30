@@ -2,6 +2,7 @@ package pokecube.core.entity.npc;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import com.google.common.collect.Maps;
 
@@ -23,7 +24,21 @@ public class NpcType
     public static interface IInteract
     {
         boolean processInteract(final PlayerEntity player, final Hand hand, NpcMob mob);
+
+        default IInteract and(final IInteract other)
+        {
+            Objects.requireNonNull(other);
+            return (p, h, m) -> this.processInteract(p, h, m) && other.processInteract(p, h, m);
+        }
+
+        default IInteract or(final IInteract other)
+        {
+            Objects.requireNonNull(other);
+            return (p, h, m) -> this.processInteract(p, h, m) || other.processInteract(p, h, m);
+        }
     }
+
+    private static final Map<String, NpcType> typeMap = Maps.newHashMap();
 
     public static final NpcType NONE      = new NpcType("none");
     public static final NpcType PROFESSOR = new NpcType("professor");
@@ -32,15 +47,17 @@ public class NpcType
 
     static
     {
-        // Initialize the interactions for these defaults.
-        NpcType.HEALER.setInteraction((player, hand, mob) ->
+        final IInteract trade = (player, hand, mob) ->
         {
-            if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
-                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.of(
-                            mob.world, mob.getPosition())), player.getDisplayName()));
-            return true;
-        });
-        NpcType.PROFESSOR.setInteraction((player, hand, mob) ->
+            if (mob.getCustomer() == null && !mob.getOffers().isEmpty())
+            {
+                mob.setCustomer(player);
+                mob.func_213707_a(player, mob.getDisplayName(), 10);
+                return true;
+            }
+            return false;
+        };
+        final IInteract starter = (player, hand, mob) ->
         {
             if (player instanceof ServerPlayerEntity && !PokecubeSerializer.getInstance().hasStarter(player))
             {
@@ -50,20 +67,19 @@ public class NpcType
                 return true;
             }
             return false;
-        });
-        NpcType.TRADER.setInteraction((player, hand, mob) ->
+        };
+        final IInteract heal = (player, hand, mob) ->
         {
-            if (mob.getCustomer() == null && !mob.getOffers().isEmpty())
-            {
-                mob.setCustomer(player);
-                mob.func_213707_a(player, mob.getDisplayName(), 10);
-                return true;
-            }
-            return false;
-        });
+            if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
+                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.of(
+                            mob.world, mob.getPosition())), player.getDisplayName()));
+            return true;
+        };
+        // Initialize the interactions for these defaults.
+        NpcType.HEALER.setInteraction(heal);
+        NpcType.TRADER.setInteraction(trade);
+        NpcType.PROFESSOR.setInteraction(starter.or(trade));
     }
-
-    private static Map<String, NpcType> typeMap = Maps.newHashMap();
 
     public static NpcType byType(String string)
     {
@@ -77,10 +93,13 @@ public class NpcType
 
     private IInteract interaction = (p, h, mob) -> false;
 
-    public NpcType(final String string)
+    public NpcType(String string)
     {
         this.name = string;
-        NpcType.typeMap.put(string.toLowerCase(Locale.ROOT), this);
+        NpcType.typeMap.put(string = string.toLowerCase(Locale.ROOT), this);
+
+        // We will set these as a default here, sub-classes can replace them
+        // later, or by calling their setters.
         this.maleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_male.png");
         this.femaleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_female.png");
     }
