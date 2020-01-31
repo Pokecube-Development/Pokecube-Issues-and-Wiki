@@ -8,8 +8,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
@@ -23,16 +21,6 @@ import thut.wearables.ThutWearables;
 
 public class ContainerWearables extends Container
 {
-    public static class ArmourInventory extends Inventory
-    {
-        final LivingEntity mob;
-
-        public ArmourInventory(final LivingEntity mob)
-        {
-            super(4);
-            this.mob = mob;
-        }
-    }
 
     public static class WornSlot extends Slot
     {
@@ -147,17 +135,11 @@ public class ContainerWearables extends Container
 
     private void bindVanillaInventory(final PlayerInventory playerInventory)
     {
-        final IInventory armour = new ArmourInventory(this.wearer);
-
         // Player armour slots.
         for (int k = 0; k < 4; ++k)
         {
             final EquipmentSlotType entityequipmentslot = ContainerWearables.VALID_EQUIPMENT_SLOTS[k];
-            int index = 36 + 3 - k;
-
-            index = 3 - k;
-
-            this.addSlot(new Slot(armour, index, 8, 8 + k * 18)
+            this.addSlot(new Slot(playerInventory, 39 - k, 8, 8 + k * 18)
             {
                 /**
                  * Return whether this slot's stack can be taken from this
