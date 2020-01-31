@@ -288,7 +288,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
             ((PlayerEntity) this.shootingEntity).sendMessage(mess);
-            this.playSound(EntityPokecubeBase.POKECUBESOUND, 0.4f, 1);
+            this.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
             return true;
         }
         HappinessType.applyHappiness(pokemob, HappinessType.TRADE);

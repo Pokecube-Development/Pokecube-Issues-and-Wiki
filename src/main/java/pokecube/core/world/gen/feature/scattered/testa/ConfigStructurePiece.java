@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.feature.scattered;
+package pokecube.core.world.gen.feature.scattered.testa;
 
 import java.util.Random;
 

@@ -32,7 +32,10 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.world.gen.feature.scattered.ConfigStructure;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawConfig;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawStructure;
+import pokecube.core.world.gen.feature.scattered.testa.ConfigStructure;
 
 public class WorldgenHandler
 {
@@ -78,15 +81,6 @@ public class WorldgenHandler
         public List<CustomDim> dims = Lists.newArrayList();
     }
 
-    public static class MultiStructure
-    {
-        public String              name;
-        float                      chance;
-        boolean                    syncGround = false;
-        public SpawnRule           spawn;
-        public List<JsonStructure> structures = Lists.newArrayList();
-    }
-
     public static class JsonStructure
     {
         public String    name;
@@ -99,28 +93,52 @@ public class WorldgenHandler
         public int       offset    = 0;
         public String    biomeType = "none";
         public SpawnRule spawn;
-        /**
-         * In MultiStructures, this is the relative position of the part. Only
-         * one part for each unique positon can be picked, the actual distance
-         * the structure spawns, is this scaled by the size of the intermediate
-         * parts.
-         */
-        public String    position;
         public boolean   surface   = true;
         public boolean   water     = false;
-        public String    rotation;
-        public String    mirror;
 
         public String serialize()
         {
             return WorldgenHandler.GSON.toJson(this);
         }
+
+        public static JsonStructure deserialize(final String structstring)
+        {
+            return WorldgenHandler.GSON.fromJson(structstring, JsonStructure.class);
+        }
+
+    }
+
+    public static class JigSawConfig
+    {
+        public String       name;
+        public String       plate_name;
+        public String       building_name;
+        public float        chance    = 1;
+        public int          offset    = 1;
+        public int          size      = 4;
+        public String       biomeType = "ruin";
+        public SpawnRule    spawn;
+        public boolean      surface   = true;
+        public boolean      water     = false;
+        public boolean      atSpawn   = false;
+        public List<String> parts     = Lists.newArrayList();
+        public List<String> plates    = Lists.newArrayList();
+
+        public String serialize()
+        {
+            return WorldgenHandler.GSON.toJson(this);
+        }
+
+        public static JigSawConfig deserialize(final String structstring)
+        {
+            return WorldgenHandler.GSON.fromJson(structstring, JigSawConfig.class);
+        }
     }
 
     public static class Structures
     {
-        public List<JsonStructure>  structures      = Lists.newArrayList();
-        public List<MultiStructure> multiStructures = Lists.newArrayList();
+        public List<JsonStructure> structures = Lists.newArrayList();
+        public List<JigSawConfig>  jigsaws    = Lists.newArrayList();
     }
 
     public File DEFAULT;
@@ -148,7 +166,7 @@ public class WorldgenHandler
         final Reader reader = new InputStreamReader(res);
         final Structures database = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
         this.defaults.structures.addAll(database.structures);
-        this.defaults.multiStructures.addAll(database.multiStructures);
+        this.defaults.jigsaws.addAll(database.jigsaws);
     }
 
     public void processStructures(final RegistryEvent.Register<Feature<?>> event)
@@ -181,6 +199,25 @@ public class WorldgenHandler
                         IPlacementConfig.NO_PLACEMENT_CONFIG));
                 b.addStructure(toAdd, IFeatureConfig.NO_FEATURE_CONFIG);
             }
+        }
+        for (final JigSawConfig struct : this.defaults.jigsaws)
+        {
+            JigsawPieces.registerJigsaw(struct);
+            final JigsawStructure toAdd = new JigsawStructure(struct);
+            toAdd.setRegistryName(new ResourceLocation(struct.name));
+            event.getRegistry().register(toAdd);
+            final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(struct.spawn);
+            final JigsawConfig config = new JigsawConfig(struct);
+            final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
+                    : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
+            for (final Biome b : ForgeRegistries.BIOMES.getValues())
+            {
+                if (!matcher.checkBiome(b)) continue;
+                b.addFeature(stage, Biome.createDecoratedFeature(toAdd, config, Placement.NOPE,
+                        IPlacementConfig.NO_PLACEMENT_CONFIG));
+                b.addStructure(toAdd, config);
+            }
+
         }
     }
 }

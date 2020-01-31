@@ -234,7 +234,7 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
         }
         this.pokemobCap.updateHealth();
         this.pokemobCap.onGenesChanged();
-        final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+        final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
         final PacketBuffer buffer = new PacketBuffer(data);
         final ListNBT list = (ListNBT) GeneRegistry.GENETICS_CAP.writeNBT(genes, null);
         CompoundNBT nbt = new CompoundNBT();

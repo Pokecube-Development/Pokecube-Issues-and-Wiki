@@ -18,10 +18,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.ItemGenerator;
@@ -339,6 +341,36 @@ public class CommandGenStuff
                 e.printStackTrace();
             }
 
+        }
+
+        for (final Block b : ForgeRegistries.BLOCKS.getValues())
+        {
+            if (b.getRegistryName().toString().startsWith("minecraft")) continue;
+            CommandGenStuff.generateBlockDropJson(b);
+        }
+    }
+
+    private static void generateBlockDropJson(final Block block)
+    {
+        final File dir = new File("./mods/data/" + block.getRegistryName().getNamespace() + "/loot_tables/blocks");
+        dir.mkdirs();
+        final File out = new File(dir, block.getRegistryName().getPath() + ".json");
+
+        String loottable = "{\"type\": \"minecraft:block\",\"pools\":[{\"name\":\"pool_0\",\"rolls\":1,\"entries\":[{\"type\":\"minecraft:item\",\"name\":\""
+                + block.getRegistryName()
+                + "\"}],\"conditions\":[{\"condition\": \"minecraft:survives_explosion\"}]}]}";
+        final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
+        loottable = AdvancementGenerator.GSON.toJson(obj);
+        FileWriter write;
+        try
+        {
+            write = new FileWriter(out);
+            write.write(loottable);
+            write.close();
+        }
+        catch (final IOException e)
+        {
+            e.printStackTrace();
         }
     }
 

@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.ByteNBT;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -26,6 +27,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -257,10 +259,11 @@ public class OwnableCaps
         }
     }
 
-    public static final Set<Class<? extends LivingEntity>> MOBS    = Sets.newHashSet();
-    public static final Set<Class<? extends TileEntity>>   TILES   = Sets.newHashSet();
-    private static final ResourceLocation                  LOCBASE = new ResourceLocation("thutcore:ownable_base");
-    public static final ResourceLocation                   LOCWRAP = new ResourceLocation("thutcore:ownable_wrap");
+    public static final Set<Class<? extends LivingEntity>> MOBS     = Sets.newHashSet();
+    public static final Set<Class<? extends TileEntity>>   TILES    = Sets.newHashSet();
+    private static final ResourceLocation                  LOCBASE  = new ResourceLocation("thutcore:ownable_base");
+    public static final ResourceLocation                   LOCWRAP  = new ResourceLocation("thutcore:ownable_wrap");
+    public static final ResourceLocation                   STICKTAG = new ResourceLocation("thutcore:pokeystick");
 
     @CapabilityInject(IOwnable.class)
     public static final Capability<IOwnable> CAPABILITY = null;
@@ -304,6 +307,31 @@ public class OwnableCaps
             final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
             if (ownable instanceof IOwnableTE) ((IOwnableTE) ownable).setPlacer((LivingEntity) event.getEntity());
             else if (ownable != null) ownable.setOwner((LivingEntity) event.getEntity());
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockHit(final PlayerInteractEvent.LeftClickBlock event)
+    {
+        final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        if (tile != null)
+        {
+            final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+            if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags
+                    .getCollection().getOrCreate(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())) event
+                            .getWorld().destroyBlock(event.getPos(), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(final BlockEvent.BreakEvent event)
+    {
+        final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        if (tile != null)
+        {
+            final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+            if (ownable instanceof IOwnableTE && !((IOwnableTE) ownable).canEdit(event.getPlayer())) event.setCanceled(
+                    true);
         }
     }
 
