@@ -70,13 +70,13 @@ public class PacketPokedex extends Packet
     private static final TypeAdapter<QName> adapter       = new TypeAdapter<QName>()
                                                           {
                                                               @Override
-                                                              public QName read(JsonReader in) throws IOException
+                                                              public QName read(final JsonReader in) throws IOException
                                                               {
                                                                   return new QName(in.nextString());
                                                               }
 
                                                               @Override
-                                                              public void write(JsonWriter out, QName value)
+                                                              public void write(final JsonWriter out, final QName value)
                                                                       throws IOException
                                                               {
                                                                   out.value(value.toString());
@@ -85,13 +85,13 @@ public class PacketPokedex extends Packet
     private static final ExclusionStrategy  spawn_matcher = new ExclusionStrategy()
                                                           {
                                                               @Override
-                                                              public boolean shouldSkipClass(Class<?> clazz)
+                                                              public boolean shouldSkipClass(final Class<?> clazz)
                                                               {
                                                                   return false;
                                                               }
 
                                                               @Override
-                                                              public boolean shouldSkipField(FieldAttributes f)
+                                                              public boolean shouldSkipField(final FieldAttributes f)
                                                               {
                                                                   switch (f.getName())
                                                                   {
@@ -118,7 +118,7 @@ public class PacketPokedex extends Packet
     public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc = Maps.newHashMap();
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void sendChangePagePacket(byte page, boolean mode, PokedexEntry selected)
+    public static void sendChangePagePacket(final byte page, final boolean mode, final PokedexEntry selected)
     {
         final PacketPokedex packet = new PacketPokedex();
         packet.message = page;
@@ -128,7 +128,7 @@ public class PacketPokedex extends Packet
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void sendInspectPacket(boolean reward, String lang)
+    public static void sendInspectPacket(final boolean reward, final String lang)
     {
         final PacketPokedex packet = new PacketPokedex();
         packet.message = PacketPokedex.INSPECT;
@@ -138,7 +138,7 @@ public class PacketPokedex extends Packet
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void sendInspectPacket(IPokemob pokemob)
+    public static void sendInspectPacket(final IPokemob pokemob)
     {
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.INSPECTMOB);
         PlayerDataHandler.getInstance().getPlayerData(PokecubeCore.proxy.getPlayer()).getData(PokecubePlayerStats.class)
@@ -155,7 +155,7 @@ public class PacketPokedex extends Packet
         PokecubeCore.packets.sendToServer(packet);
     }
 
-    public static void sendOpenPacket(ServerPlayerEntity player, IPokemob pokemob, boolean watch)
+    public static void sendOpenPacket(final ServerPlayerEntity player, final IPokemob pokemob, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex();
         packet.message = PacketPokedex.OPEN;
@@ -165,7 +165,7 @@ public class PacketPokedex extends Packet
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void sendRemoveTelePacket(int index)
+    public static void sendRemoveTelePacket(final int index)
     {
         final PacketPokedex packet = new PacketPokedex();
         packet.message = PacketPokedex.REMOVE;
@@ -174,7 +174,7 @@ public class PacketPokedex extends Packet
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void sendRenameTelePacket(String newName, int index)
+    public static void sendRenameTelePacket(final String newName, final int index)
     {
         final PacketPokedex packet = new PacketPokedex();
         packet.message = PacketPokedex.RENAME;
@@ -184,7 +184,7 @@ public class PacketPokedex extends Packet
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void sendReorderTelePacket(int index1, int index2)
+    public static void sendReorderTelePacket(final int index1, final int index2)
     {
         final PacketPokedex packet = new PacketPokedex();
         packet.message = PacketPokedex.REORDER;
@@ -194,7 +194,7 @@ public class PacketPokedex extends Packet
         TeleportHandler.swapTeleports(PokecubeCore.proxy.getPlayer().getCachedUniqueIdString(), index1, index2);
     }
 
-    public static void sendSecretBaseInfoPacket(ServerPlayerEntity player, boolean watch)
+    public static void sendSecretBaseInfoPacket(final ServerPlayerEntity player, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex();
         final ListNBT list = new ListNBT();
@@ -239,7 +239,7 @@ public class PacketPokedex extends Packet
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void sendSpecificSpawnsRequest(PokedexEntry entry)
+    public static void sendSpecificSpawnsRequest(final PokedexEntry entry)
     {
         PacketPokedex.selectedMob.clear();
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
@@ -248,7 +248,7 @@ public class PacketPokedex extends Packet
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public static void updateWatchEntry(PokedexEntry entry)
+    public static void updateWatchEntry(final PokedexEntry entry)
     {
         final String name = PokecubePlayerDataHandler.getCustomDataTag(PokecubeCore.proxy.getPlayer()).getString(
                 "WEntry");
@@ -266,12 +266,12 @@ public class PacketPokedex extends Packet
     {
     }
 
-    public PacketPokedex(byte message)
+    public PacketPokedex(final byte message)
     {
         this.message = message;
     }
 
-    public PacketPokedex(PacketBuffer buf)
+    public PacketPokedex(final PacketBuffer buf)
     {
         this.message = buf.readByte();
         if (buf.isReadable()) this.data = buf.readCompoundTag();
@@ -282,6 +282,7 @@ public class PacketPokedex extends Packet
     public void handleClient()
     {
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
+        int n = 0;
         switch (this.message)
         {
         case OPEN:
@@ -294,7 +295,7 @@ public class PacketPokedex extends Packet
             return;
         case REQUEST:
             PacketPokedex.values.clear();
-            final int n = this.data.keySet().size();
+            n = this.data.keySet().size();
             for (int i = 0; i < n; i++)
                 PacketPokedex.values.add(this.data.getString("" + i));
             return;
@@ -324,11 +325,20 @@ public class PacketPokedex extends Packet
             // pokecube.core.client.gui.watch.SecretBaseRadarPage.baseRange =
             // this.data.getInt("R");
             return;
+        case REQUESTLOC:
+            PacketPokedex.selectedLoc.clear();
+            final CompoundNBT data = this.data.getCompound("V");
+            n = data.keySet().size() / 2;
+            for (int i = 0; i < n; i++)
+                PacketPokedex.selectedLoc.put(Database.getEntry(data.getString("e" + i)), PacketPokedex.gson.fromJson(
+                        data.getString("" + i), SpawnBiomeMatcher.class));
+            if (this.data.contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry",
+                    this.data.getString("E"));
         }
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         // Declair some stuff before the switch;
         IPokemob pokemob;
@@ -519,14 +529,6 @@ public class PacketPokedex extends Packet
             }
             return;
         }
-
-        PacketPokedex.selectedLoc.clear();
-
-        final CompoundNBT tag = this.data.getCompound("V");
-        final int n = tag.keySet().size() / 2;
-        for (int i = 0; i < n; i++)
-            PacketPokedex.selectedLoc.put(Database.getEntry(tag.getString("e" + i)), PacketPokedex.gson.fromJson(tag
-                    .getString("" + i), SpawnBiomeMatcher.class));
         if (this.data.contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.data
                 .getString("E"));
         final boolean mode = this.data.getBoolean("M");
@@ -537,7 +539,7 @@ public class PacketPokedex extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeByte(this.message);
         if (!this.data.isEmpty()) buf.writeCompoundTag(this.data);

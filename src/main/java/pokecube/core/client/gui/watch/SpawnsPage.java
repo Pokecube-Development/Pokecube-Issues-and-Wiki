@@ -117,6 +117,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             for (final LineEntry line : lines)
                 this.list.addEntry(line);
         }
+        this.children.add(this.list);
     }
 
     @Override
