@@ -78,32 +78,27 @@ public class TrainerSpawnHandler
      */
     public static void addTrainerCoord(final Entity e)
     {
-        final int x = (int) e.posX;
-        final int y = (int) e.posY;
-        final int z = (int) e.posZ;
         final int dim = e.dimension.getId();
-        final ChunkCoordinate coord = new ChunkCoordinate(x, y, z, dim);
+        final ChunkCoordinate coord = ChunkCoordinate.getChunkCoordFromWorldCoord(e.getPosition(), dim);
         TrainerSpawnHandler.trainerMap.put(e.getUniqueID(), coord);
     }
 
-    public static int countTrainersInArea(final World world, final int x, final int y, final int z, final int radius)
+    public static int countTrainersInArea(final World world, final int x, final int y, final int z, int radius)
     {
         int ret = 0;
-        for (final ChunkCoordinate o : TrainerSpawnHandler.trainerMap.values())
-        {
-            final ChunkCoordinate coord = o;
+        radius = radius >> 4;
+        for (final ChunkCoordinate coord : TrainerSpawnHandler.trainerMap.values())
             if (x >= coord.getX() - radius && z >= coord.getZ() - radius && y >= coord.getY() - radius && y <= coord
                     .getY() + radius && x <= coord.getX() + radius && z <= coord.getZ() + radius && world.getDimension()
                             .getType().getId() == coord.dim) ret++;
-        }
         return ret;
     }
 
     public static int countTrainersNear(final Entity e, final int trainerBox)
     {
-        final int x = (int) e.posX / 16;
-        final int y = (int) e.posY / 16;
-        final int z = (int) e.posZ / 16;
+        final int x = (int) e.posX >> 4;
+        final int y = (int) e.posY >> 4;
+        final int z = (int) e.posZ >> 4;
         return TrainerSpawnHandler.countTrainersInArea(e.getEntityWorld(), x, y, z, trainerBox);
     }
 
@@ -231,7 +226,7 @@ public class TrainerSpawnHandler
         v = temp != null ? temp.offset(Direction.UP) : v;
 
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
-        final int count = TrainerSpawnHandler.countTrainersInArea(w, v.intX(), v.intY(), v.intZ(),
+        final int count = TrainerSpawnHandler.countTrainersInArea(w, v.intX() >> 4, v.intY() >> 4, v.intZ() >> 4,
                 Config.instance.trainerBox);
 
         if (count < Config.instance.trainerDensity)
@@ -253,7 +248,7 @@ public class TrainerSpawnHandler
                     (int) t.posZ))
             {
                 w.addEntity(t);
-                PokecubeCore.LOGGER.debug("Spawned Trainer: " + t);
+                PokecubeCore.LOGGER.debug("Spawned Trainer: " + t + " " + count);
                 TrainerSpawnHandler.addTrainerCoord(t);
             }
             else t.remove();

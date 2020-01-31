@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:legendaryspawn"
+          "name": "pokecube_adventures:cloner"
         }
       ],
       "conditions": [
