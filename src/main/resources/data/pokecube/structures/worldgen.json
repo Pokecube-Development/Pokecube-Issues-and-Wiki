@@ -1,35 +1,57 @@
-{
-  "structures": [
-    {
-      "name": "scattered/ruin_1",
-      "chance": 0.002,
-      "biomeType": "ruin",
-      "spawn": {
-        "values": {
-          "types": "plains"
-        }
-      }
-    },
-    {
-      "name": "scattered/pokecenter",
-      "chance": 0.0005,
-      "biomeType": "village",
-      "spawn": {
-        "values": {
-          "types": "all"
-        }
-      }
-    },
-    {
-      "name": "scattered/gym_gerenal",
-      "chance": 0.0005,
-      "biomeType": "village",
-      "spawn": {
-        "values": {
-          "types": "all"
+{ 
+  "structures":[ 
+    { 
+      "name":"scattered/ruin_1",
+      "chance":0.002,
+      "biomeType":"ruin",
+      "spawn":{ 
+        "values":{ 
+          "types":"plains"
         }
       }
     }
   ],
-  "multiStructures": []
+  "jigsaws":[
+    { 
+      "name":"pokecube:scattered/pokecenter_start",
+      "plate_name":"pokecube:scattered/pokecenter_start/plates",
+      "building_name":"pokecube:scattered/pokecenter_start/buildings",
+      "chance":1,
+      "offset":-3,
+      "biomeType":"village",
+      "atSpawn": true,
+      "parts":[ 
+        "pokecube:scattered/pokecenter_start/building"
+      ],
+      "plates":[ 
+        "pokecube:scattered/pokecenter_start/plate"
+      ],
+      "spawn":{ 
+        "values":{ 
+          "types":"all",
+          "typesBlacklist": "river,ocean"
+        }
+      }
+    },
+    {
+      "name":"pokecube:scattered/pokecenter_rand",
+      "plate_name":"pokecube:scattered/pokecenter_rand/plates",
+      "building_name":"pokecube:scattered/pokecenter_rand/buildings",
+      "chance":0.05,
+      "offset":-3,
+      "biomeType":"village",
+      "parts":[ 
+        "pokecube:scattered/pokecenter_rand/building"
+      ],
+      "plates":[ 
+        "pokecube:scattered/pokecenter_rand/plate"
+      ],
+      "spawn":{ 
+        "values":{ 
+          "types":"all",
+          "typesBlacklist": "river,ocean"
+        }
+      }
+    }
+  ]
 }

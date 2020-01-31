@@ -9,6 +9,7 @@ import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.Template.EntityInfo;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.events.StructureEvent;
@@ -24,6 +25,13 @@ public class PokecubeStructureProcessor extends StructureProcessor
 
     public PokecubeStructureProcessor(final Dynamic<?> p_deserialize_1_)
     {
+    }
+
+    @Override
+    public BlockInfo process(final IWorldReader world, final BlockPos pos, final BlockInfo rawInfo,
+            final BlockInfo info, final PlacementSettings settings, final Template template)
+    {
+        return super.process(world, pos, rawInfo, info, settings, template);
     }
 
     @Override

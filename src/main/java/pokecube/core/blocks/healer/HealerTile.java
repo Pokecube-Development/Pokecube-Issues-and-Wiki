@@ -28,9 +28,9 @@ public class HealerTile extends TileEntity implements ITickableTileEntity
     {
         if (!PokecubeCore.getConfig().pokeCenterMusic) return;
         if (!this.getWorld().isRemote || HealerTile.MUSICLOOP == null) return;
-        final int power = this.getWorld().getStrongPower(this.getPos());
-        final boolean play = power > 0 && PokecubeCore.proxy.getPlayer().getPosition().distanceSq(this.getPos()) < 32
-                * 32;
+        final int power = this.getWorld().getRedstonePowerFromNeighbors(this.getPos());
+        final boolean play = power > 0 && PokecubeCore.proxy.getPlayer().getPosition().distanceSq(this.getPos()) < 24
+                * 24;
         final boolean sound = PokecubeCore.proxy.hasSound(this.getPos());
 
         if (!play)
@@ -52,6 +52,6 @@ public class HealerTile extends TileEntity implements ITickableTileEntity
 
         // Start playing the sound
         if (!sound) // this.tick = 0;
-            PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), play, false, SoundCategory.BLOCKS, 32);
+            PokecubeCore.proxy.toggleSound(HealerTile.MUSICLOOP, this.getPos(), play, false, SoundCategory.BLOCKS, 24);
     }
 }

@@ -25,11 +25,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.template.IStructureProcessorType;
 import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -87,8 +85,8 @@ import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
-import pokecube.core.world.gen.feature.scattered.ConfigStructurePiece;
-import pokecube.core.world.gen.feature.scattered.PokecentreFeature;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
+import pokecube.core.world.gen.feature.scattered.testa.ConfigStructurePiece;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
@@ -131,23 +129,11 @@ public class PokecubeCore
 
             // Register the general structure piece we use
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
+            Registry.register(Registry.STRUCTURE_PIECE, "pokecube:jigsaw_piece", JigsawPieces.CSP);
 
             // Register structure processor type
             PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",
                     PokecubeStructureProcessor::new);
-
-            if (PokecubeCore.config.doSpawnBuilding)
-            {
-                // Register the start building.
-                event.getRegistry().register(PokecentreFeature.START_BUILDING);
-                for (final Biome b : ForgeRegistries.BIOMES.getValues())
-                {
-                    b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(
-                            PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG, Placement.NOPE,
-                            IPlacementConfig.NO_PLACEMENT_CONFIG));
-                    b.addStructure(PokecentreFeature.START_BUILDING, IFeatureConfig.NO_FEATURE_CONFIG);
-                }
-            }
 
             // Register the configurable worldgen things from datapack
             new WorldgenHandler().processStructures(event);
