@@ -31,6 +31,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -131,6 +132,9 @@ public class TrainerSpawnHandler
 
         if (temp1 != null)
         {
+            int y_Test;
+            if (temp1.y > (y_Test = world.getHeight(Type.MOTION_BLOCKING_NO_LEAVES, temp1.intX(), temp1.intY())))
+                temp1.y = y_Test;
             temp1.y++;
             // Check for headroom
             if (!temp1.addTo(0, 1, 0).isClearOfBlocks(world)) return null;

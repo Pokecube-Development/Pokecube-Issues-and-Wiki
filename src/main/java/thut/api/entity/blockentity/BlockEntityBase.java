@@ -28,15 +28,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages.SpawnEntity;
 import net.minecraftforge.fml.network.NetworkHooks;
-import thut.api.entity.blockentity.world.client.ClientWorldEntity;
-import thut.api.entity.blockentity.world.client.IBlockEntityWorld;
-import thut.api.entity.blockentity.world.server.ServerWorldEntity;
+import thut.api.entity.blockentity.world.WorldEntity;
+import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 
@@ -95,28 +93,28 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     static final DataParameter<Vec3d> position = EntityDataManager.<Vec3d> createKey(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
 
-    public static int            ACCELERATIONTICKS = 20;
-    public BlockPos              boundMin          = BlockPos.ZERO;
-    public BlockPos              boundMax          = BlockPos.ZERO;
-    private IBlockEntityWorld<?> fake_world;
-    private boolean              shouldRevert      = true;
-    public double                speedUp           = 0.5;
-    public double                speedDown         = -0.5;
-    public double                speedHoriz        = 0.5;
-    public double                acceleration      = 0.05;
-    public boolean               toMoveY           = false;
-    public boolean               toMoveX           = false;
-    public boolean               toMoveZ           = false;
-    public boolean               hasPassenger      = false;
-    int                          n                 = 0;
-    boolean                      first             = true;
-    Random                       r                 = new Random();
-    public UUID                  owner;
-    public List<AxisAlignedBB>   blockBoxes        = Lists.newArrayList();
-    public BlockState[][][]      blocks            = null;
-    public TileEntity[][][]      tiles             = null;
-    BlockEntityUpdater           collider;
-    BlockEntityInteractHandler   interacter;
+    public static int          ACCELERATIONTICKS = 20;
+    public BlockPos            boundMin          = BlockPos.ZERO;
+    public BlockPos            boundMax          = BlockPos.ZERO;
+    private IBlockEntityWorld  fake_world;
+    private boolean            shouldRevert      = true;
+    public double              speedUp           = 0.5;
+    public double              speedDown         = -0.5;
+    public double              speedHoriz        = 0.5;
+    public double              acceleration      = 0.05;
+    public boolean             toMoveY           = false;
+    public boolean             toMoveX           = false;
+    public boolean             toMoveZ           = false;
+    public boolean             hasPassenger      = false;
+    int                        n                 = 0;
+    boolean                    first             = true;
+    Random                     r                 = new Random();
+    public UUID                owner;
+    public List<AxisAlignedBB> blockBoxes        = Lists.newArrayList();
+    public BlockState[][][]    blocks            = null;
+    public TileEntity[][][]    tiles             = null;
+    BlockEntityUpdater         collider;
+    BlockEntityInteractHandler interacter;
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final World par1World)
     {
@@ -228,18 +226,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         {
             if (list.size() == 1 && this.getRecursivePassengers() != null && !this.getRecursivePassengers().isEmpty())
                 return;
-            final AxisAlignedBB box = this.getBoundingBox().grow(1);
             for (int i = 0; i < list.size(); ++i)
             {
                 final Entity entity = (Entity) list.get(i);
                 this.applyEntityCollision(entity);
-                if (box.intersects(entity.getBoundingBox()))
-                {
-                    // TODO find way to get same effect without doing this.
-                    // if (entity.getServer() == null) entity.setWorld((World)
-                    // this.getFakeWorld());
-                }
-                else entity.setWorld(this.getFakeWorld().getWrapped());
             }
         }
     }
@@ -276,12 +266,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public IBlockEntityWorld<?> getFakeWorld()
+    public IBlockEntityWorld getFakeWorld()
     {
         if (this.fake_world == null)
         {
-            this.fake_world = this.world.isRemote ? new ClientWorldEntity(this.world)
-                    : new ServerWorldEntity((ServerWorld) this.world);
+            this.fake_world = new WorldEntity(this.world);
             this.fake_world.setBlockEntity(this);
         }
         return this.fake_world;
@@ -468,7 +457,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
-    public void setFakeWorld(@SuppressWarnings("rawtypes") final IBlockEntityWorld world)
+    public void setFakeWorld(final IBlockEntityWorld world)
     {
         this.fake_world = world;
     }

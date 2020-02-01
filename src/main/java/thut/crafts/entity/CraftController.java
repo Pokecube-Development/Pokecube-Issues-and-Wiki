@@ -1,7 +1,7 @@
 package thut.crafts.entity;
 
 import net.minecraft.entity.Entity;
-import thut.api.entity.blockentity.world.client.IBlockEntityWorld;
+import thut.api.entity.blockentity.world.IBlockEntityWorld;
 
 public class CraftController
 {
@@ -21,7 +21,7 @@ public class CraftController
         this.entity = entityCraft;
     }
 
-    public void doServerTick(final IBlockEntityWorld<?> iBlockEntityWorld)
+    public void doServerTick(final IBlockEntityWorld iBlockEntityWorld)
     {
         if (!this.entity.isBeingRidden()) return;
 

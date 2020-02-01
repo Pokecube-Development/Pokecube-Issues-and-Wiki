@@ -60,7 +60,7 @@ public class AIHungry extends AIBase
                     .getPosition());
             if (!stack.isEmpty())
             {
-                ItemStackTools.addItemStackToInventory(stack, this.pokemob.getInventory(), 2);
+                ItemStackTools.addItemStackToInventory(stack.copy(), this.pokemob.getInventory(), 2);
                 this.pokemob.eat(new ItemEntity(world, 0, 0, 0, stack));
             }
             return true;
