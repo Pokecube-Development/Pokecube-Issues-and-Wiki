@@ -154,7 +154,8 @@ public class AIAttack extends AIBase implements IAICombat
                         .getDisplayName().getFormattedText());
                 try
                 {
-                    this.entityTarget.sendMessage(message);
+                    // Only send this once.
+                    if (this.pokemob.getAttackCooldown() == 0) this.entityTarget.sendMessage(message);
                 }
                 catch (final Exception e)
                 {
