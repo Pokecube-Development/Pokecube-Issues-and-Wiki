@@ -377,6 +377,8 @@ public class CommandGenStuff
                 }
             }
         }
+
+        // Generate some more item related tags
     }
 
     private static void generateBlockDropJson(final Block block)

@@ -17,11 +17,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.handlers.events.MoveEventsHandler;
@@ -30,7 +32,6 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.TimePeriod;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -44,6 +45,8 @@ import thut.lib.ItemStackTools;
  */
 public class AIHungry extends AIBase
 {
+    public static final ResourceLocation FOODTAG = new ResourceLocation(PokecubeCore.MODID, "pokemob_food");
+
     private static class GenBerries implements IRunnable
     {
         final IPokemob pokemob;
@@ -168,7 +171,7 @@ public class AIHungry extends AIBase
         for (int i = 2; i < 7; i++)
         {
             final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
-            if (stack != null && stack.getItem() instanceof ItemBerry)
+            if (PokecubeItems.is(AIHungry.FOODTAG, stack))
             {
                 this.setCombatState(this.pokemob, CombatStates.HUNTING, false);
                 this.pokemob.eat(this.berry);
@@ -493,7 +496,7 @@ public class AIHungry extends AIBase
                 for (int i1 = 0; i1 < container.getSizeInventory(); i1++)
                 {
                     final ItemStack stack = container.getStackInSlot(i1);
-                    if (!stack.isEmpty() && stack.getItem() instanceof ItemBerry)
+                    if (PokecubeItems.is(AIHungry.FOODTAG, stack))
                     {
                         stack.shrink(1);
                         if (stack.isEmpty()) container.setInventorySlotContents(i1, ItemStack.EMPTY);

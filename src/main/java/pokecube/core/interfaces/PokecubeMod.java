@@ -22,7 +22,6 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
-import pokecube.core.ByteClassLoader;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
 import thut.api.maths.Vector3;
@@ -59,7 +58,7 @@ public abstract class PokecubeMod
         return PokecubeMod.getFakePlayer(DimensionType.OVERWORLD);
     }
 
-    public static FakePlayer getFakePlayer(DimensionType dim)
+    public static FakePlayer getFakePlayer(final DimensionType dim)
     {
         if (PokecubeMod.fakePlayers.get(dim) == null)
         {
@@ -78,14 +77,12 @@ public abstract class PokecubeMod
         return PokecubeMod.fakePlayers.get(dim);
     }
 
-    public static FakePlayer getFakePlayer(World world)
+    public static FakePlayer getFakePlayer(final World world)
     {
         final FakePlayer player = PokecubeMod.getFakePlayer(world.dimension.getDimension().getType());
         player.setWorld(world);
         return player;
     }
-
-    public ByteClassLoader loader;
 
     public ArrayList<PokedexEntry> starters = new ArrayList<>();
 
@@ -138,7 +135,7 @@ public abstract class PokecubeMod
 
     public abstract void setEntityProvider(IEntityProvider provider);
 
-    public static void setLogger(Logger logger)
+    public static void setLogger(final Logger logger)
     {
         PokecubeMod.LOGGER = logger;
     }
