@@ -178,7 +178,8 @@ public class ThutWearables
         @SubscribeEvent
         public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
         {
-            event.getRegistry().register(RecipeDye.SERIALIZER);
+            event.getRegistry().register(RecipeDye.SERIALIZER.setRegistryName(new ResourceLocation(
+                    "thut_wearables:dye")));
         }
 
         @OnlyIn(Dist.CLIENT)

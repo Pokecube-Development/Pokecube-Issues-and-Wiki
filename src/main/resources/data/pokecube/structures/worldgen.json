@@ -37,7 +37,7 @@
       "name":"pokecube:scattered/pokecenter_rand",
       "plate_name":"pokecube:scattered/pokecenter_rand/plates",
       "building_name":"pokecube:scattered/pokecenter_rand/buildings",
-      "chance":0.05,
+      "chance":0.01,
       "offset":-3,
       "biomeType":"village",
       "parts":[ 

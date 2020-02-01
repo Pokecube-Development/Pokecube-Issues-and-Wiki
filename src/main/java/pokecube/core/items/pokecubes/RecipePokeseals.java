@@ -15,8 +15,8 @@ import pokecube.core.utils.TagNames;
 
 public class RecipePokeseals extends SpecialRecipe
 {
-    public static final IRecipeSerializer<RecipePokeseals> SERIALIZER = IRecipeSerializer.register(
-            "pokecube:seal_apply", new SpecialRecipeSerializer<>(RecipePokeseals::new));
+    public static final IRecipeSerializer<RecipePokeseals> SERIALIZER = new SpecialRecipeSerializer<>(
+            RecipePokeseals::new);
 
     public static ItemStack process(final ItemStack cube, final ItemStack seal)
     {

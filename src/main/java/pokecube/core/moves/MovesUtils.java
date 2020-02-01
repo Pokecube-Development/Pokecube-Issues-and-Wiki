@@ -56,7 +56,7 @@ public class MovesUtils implements IMoveConstants
 
     public static HashMap<String, Move_Base> moves = Maps.newHashMap();
 
-    public static void addChange(Entity target, IPokemob attacker, byte change)
+    public static void addChange(final Entity target, final IPokemob attacker, final byte change)
     {
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
         final boolean effect = CapabilityAffected.addEffect(target, new NonPersistantStatusEffect(Effect.getStatus(
@@ -87,7 +87,7 @@ public class MovesUtils implements IMoveConstants
      * @param attacker
      * @return can attacker use its currently selected move.
      */
-    public static boolean canUseMove(IPokemob attacker)
+    public static boolean canUseMove(final IPokemob attacker)
     {
         if (MovesUtils.isAbleToUseMoves(attacker) != AbleStatus.ABLE) return false;
         if (attacker.getAttackCooldown() <= 0)
@@ -111,7 +111,7 @@ public class MovesUtils implements IMoveConstants
      *
      * @return whether the mob can attack
      */
-    public static boolean contactAttack(IPokemob attacker, Entity attacked)
+    public static boolean contactAttack(final IPokemob attacker, final Entity attacked)
     {
         if (attacked == null || attacker == null) return false;
         double range = PokecubeCore.getConfig().contactAttackDistance;
@@ -129,8 +129,8 @@ public class MovesUtils implements IMoveConstants
      * @param criticalRatio
      *            >1 = critical hit.
      */
-    public static void displayEfficiencyMessages(IPokemob attacker, Entity attacked, float efficiency,
-            float criticalRatio)
+    public static void displayEfficiencyMessages(final IPokemob attacker, Entity attacked, final float efficiency,
+            final float criticalRatio)
     {
         ITextComponent text;
         final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
@@ -206,7 +206,7 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void displayMoveMessages(IPokemob attacker, Entity attacked, String attack)
+    public static void displayMoveMessages(final IPokemob attacker, final Entity attacked, final String attack)
     {
         ITextComponent text;
 
@@ -241,7 +241,8 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void displayStatsMessage(IPokemob attacker, Entity attacked, float efficiency, byte stat, byte amount)
+    public static void displayStatsMessage(IPokemob attacker, final Entity attacked, final float efficiency,
+            final byte stat, final byte amount)
     {
         ITextComponent text;
         final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
@@ -314,7 +315,8 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void displayStatusMessages(IPokemob attacker, Entity attacked, byte status, boolean onMove)
+    public static void displayStatusMessages(final IPokemob attacker, final Entity attacked, final byte status,
+            final boolean onMove)
     {
         final String message = MovesUtils.getStatusMessage(status, onMove);
         ITextComponent text;
@@ -339,7 +341,7 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void doAttack(String attackName, IPokemob attacker, Entity attacked)
+    public static void doAttack(final String attackName, final IPokemob attacker, final Entity attacked)
     {
         final Move_Base move = MovesUtils.moves.get(attackName);
         if (move != null) move.attack(attacker, attacked);
@@ -350,7 +352,7 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void doAttack(String attackName, IPokemob attacker, Vector3 attacked)
+    public static void doAttack(final String attackName, final IPokemob attacker, final Vector3 attacked)
     {
         final Move_Base move = MovesUtils.moves.get(attackName);
 
@@ -362,7 +364,8 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static int getAttackDelay(IPokemob attacker, String moveName, boolean distanced, boolean playerTarget)
+    public static int getAttackDelay(final IPokemob attacker, final String moveName, final boolean distanced,
+            final boolean playerTarget)
     {
         int cd = PokecubeCore.getConfig().attackCooldown;
         if (playerTarget) cd *= 2;
@@ -371,8 +374,8 @@ public class MovesUtils implements IMoveConstants
         return (int) (cd * moveMod / accuracyMod);
     }
 
-    public static float getAttackStrength(IPokemob attacker, IPokemob attacked, Category type, int PWR,
-            MovePacket movePacket)
+    public static float getAttackStrength(final IPokemob attacker, final IPokemob attacked, final Category type,
+            final int PWR, final MovePacket movePacket)
     {
         final Move_Base move = movePacket.getMove();
         if (move.fixedDamage) return move.getPWR(attacker, attacked.getEntity());
@@ -409,7 +412,7 @@ public class MovesUtils implements IMoveConstants
      *
      * @return muliplier on attack delay
      */
-    public static float getDelayMultiplier(IPokemob attacker, String moveName)
+    public static float getDelayMultiplier(final IPokemob attacker, final String moveName)
     {
         float statusMultiplier = PokecubeCore.getConfig().attackCooldown / 20F;
         if (attacker.getStatus() == IMoveConstants.STATUS_PAR) statusMultiplier *= 4F;
@@ -419,19 +422,19 @@ public class MovesUtils implements IMoveConstants
         return statusMultiplier;
     }
 
-    public static Move_Base getMoveFromName(String moveName)
+    public static Move_Base getMoveFromName(final String moveName)
     {
         if (moveName == null) return null;
         final Move_Base ret = MovesUtils.moves.get(moveName);
         return ret;
     }
 
-    public static ITextComponent getMoveName(String attack)
+    public static ITextComponent getMoveName(final String attack)
     {
         return new TranslationTextComponent("pokemob.move." + attack);
     }
 
-    protected static String getStatusMessage(byte status, boolean onMove)
+    protected static String getStatusMessage(final byte status, final boolean onMove)
     {
         String message = null;
         if (status == IMoveConstants.STATUS_FRZ) message = "pokemob.move.isfrozen";
@@ -444,7 +447,8 @@ public class MovesUtils implements IMoveConstants
         return message;
     }
 
-    public static float getTerrainDamageModifier(PokeType type, Entity attacker, TerrainSegment terrain)
+    public static float getTerrainDamageModifier(final PokeType type, final Entity attacker,
+            final TerrainSegment terrain)
     {
         float ret = 1;
         long terrainDuration = 0;
@@ -486,7 +490,7 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static String getUnlocalizedMove(String attack)
+    public static String getUnlocalizedMove(final String attack)
     {
         return "pokemob.move." + attack;
     }
@@ -502,7 +506,8 @@ public class MovesUtils implements IMoveConstants
      *            whether the mob is the attacked mob, or the attacker
      * @return
      */
-    public static boolean handleStats(IPokemob attacker, Entity target, MovePacket atk, boolean attacked)
+    public static boolean handleStats(final IPokemob attacker, final Entity target, final MovePacket atk,
+            final boolean attacked)
     {
         final int[] stats = attacked ? atk.attackedStatModification : atk.attackerStatModification;
         final IPokemob affected = attacked ? CapabilityPokemob.getPokemobFor(target) : attacker;
@@ -559,7 +564,8 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static boolean handleStats2(IPokemob targetPokemob, Entity attacker, int statEffect, int statEffectAmount)
+    public static boolean handleStats2(final IPokemob targetPokemob, final Entity attacker, final int statEffect,
+            final int statEffectAmount)
     {
         final DefaultModifiers modifiers = targetPokemob.getModifiers().getDefaultMods();
         final float[] mods = modifiers.values;
@@ -594,7 +600,7 @@ public class MovesUtils implements IMoveConstants
      * @return is attacker able to use any moves, this doesn't check attack
      *         cooldown, instead checks things like status or ai
      */
-    public static AbleStatus isAbleToUseMoves(IPokemob attacker)
+    public static AbleStatus isAbleToUseMoves(final IPokemob attacker)
     {
         if (!attacker.isRoutineEnabled(AIRoutine.AGRESSIVE)) return AbleStatus.AIOFF;
         if ((attacker.getStatus() & IMoveConstants.STATUS_SLP) > 0) return AbleStatus.SLEEP;
@@ -617,8 +623,8 @@ public class MovesUtils implements IMoveConstants
     }
 
     /** creats and ExplosionCustom */
-    public static ExplosionCustom newExplosion(Entity entity, double par2, double par4, double par6, float par8,
-            boolean par9, boolean par10)
+    public static ExplosionCustom newExplosion(final Entity entity, final double par2, final double par4,
+            final double par6, final float par8, final boolean par9, final boolean par10)
     {
         final ExplosionCustom var11 = new ExplosionCustom(entity.getEntityWorld(), entity, par2, par4, par6, par8)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
@@ -628,14 +634,14 @@ public class MovesUtils implements IMoveConstants
         return var11;
     }
 
-    public static void registerMove(Move_Base move_Base)
+    public static void registerMove(final Move_Base move_Base)
     {
         MovesUtils.moves.put(move_Base.name, move_Base);
         if (move_Base.move.baseEntry.ohko) MoveEntry.oneHitKos.add(move_Base.name);
         if (move_Base.move.baseEntry.protectionMoves) MoveEntry.protectionMoves.add(move_Base.name);
     }
 
-    public static boolean setStatus(Entity attacked, byte status)
+    public static boolean setStatus(final Entity attacked, final byte status)
     {
         final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
         if (attackedPokemob != null)
@@ -657,7 +663,7 @@ public class MovesUtils implements IMoveConstants
         return true;
     }
 
-    public static Entity targetHit(final Entity attacker, Vector3 dest)
+    public static Entity targetHit(final Entity attacker, final Vector3 dest)
     {
         final Vector3 source = Vector3.getNewVector().set(attacker, true);
         source.y += attacker.getHeight() / 4;
@@ -678,8 +684,8 @@ public class MovesUtils implements IMoveConstants
                 ignoreAllies, matcher);
     }
 
-    public static Entity targetHit(Vector3 source, Vector3 dir, int distance, World world, Entity attacker,
-            boolean ignoreAllies, Predicate<? super Entity> matcher)
+    public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final World world,
+            final Entity attacker, final boolean ignoreAllies, final Predicate<? super Entity> matcher)
     {
         // Vector3 dest = Vector3.getVector().set(target, true);
         Entity target = null;
@@ -699,7 +705,7 @@ public class MovesUtils implements IMoveConstants
         return target;
     }
 
-    public static List<LivingEntity> targetsHit(final Entity attacker, Vector3 dest)
+    public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest)
     {
         final Vector3 source = Vector3.getNewVector().set(attacker, true);
 
@@ -730,7 +736,8 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static List<LivingEntity> targetsHit(Entity attacker, Vector3 dest, int range, double area)
+    public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final int range,
+            final double area)
     {
         final Vector3 source = Vector3.getNewVector().set(attacker);
 
@@ -743,8 +750,8 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static void useMove(@Nonnull Move_Base move, @Nonnull Entity user, @Nullable Entity target,
-            @Nonnull Vector3 start, @Nonnull Vector3 end)
+    public static void useMove(@Nonnull final Move_Base move, @Nonnull final Entity user, @Nullable final Entity target,
+            @Nonnull final Vector3 start, @Nonnull final Vector3 end)
     {
         move.ActualMoveUse(user, target, start, end);
     }
