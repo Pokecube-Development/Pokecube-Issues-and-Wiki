@@ -7,17 +7,21 @@ import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.goal.Goal;
 import thut.core.common.ThutCore;
 
 public class GoalsWrapper extends Goal
 {
     public final List<IAIRunnable> wrapped;
+    private final Entity           mob;
+    private int                    lastTick = -1;
 
-    public GoalsWrapper(final IAIRunnable... wrap)
+    public GoalsWrapper(final Entity mob, final IAIRunnable... wrap)
     {
         this.wrapped = Lists.newArrayList(wrap);
         this.wrapped.sort((a, b) -> a.getPriority() - b.getPriority());
+        this.mob = mob;
     }
 
     /**
@@ -82,6 +86,8 @@ public class GoalsWrapper extends Goal
     @Override
     public void tick()
     {
+        if (this.lastTick == this.mob.ticksExisted) return;
+        this.lastTick = this.mob.ticksExisted;
         for (final IAIRunnable ai : this.wrapped)
             try
             {

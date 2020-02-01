@@ -378,7 +378,6 @@ public class AIAttack extends AIBase implements IAICombat
     @Override
     public void tick()
     {
-
         this.canSee = false;
         if (this.running)
         {
@@ -391,8 +390,9 @@ public class AIAttack extends AIBase implements IAICombat
 
                 if (CapabilityPokemob.getPokemobFor(this.entityTarget) == null
                         && this.entity.ticksExisted > this.targetTestTime && this.pokemob.getCombatState(
-                                CombatStates.ANGRY))
+                                CombatStates.ANGRY) && this.pokemob.getTargetID() != this.entityTarget.getEntityId())
                 {
+
                     ForgeHooks.onLivingSetAttackTarget(this.entity, this.entityTarget);
                     this.targetTestTime = this.entity.ticksExisted + 20;
                 }

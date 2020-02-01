@@ -1,4 +1,4 @@
-package thut.api.entity.blockentity.world.client;
+package thut.api.entity.blockentity.world;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -11,7 +11,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public interface IBlockEntityWorld<T extends World> extends IBlockReader
+public interface IBlockEntityWorld extends IBlockReader
 {
     default BlockState getBlock(final BlockPos pos)
     {
@@ -25,6 +25,12 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
     }
 
     IBlockEntity getBlockEntity();
+
+    default World getWorld()
+    {
+        final Entity entity = (Entity) this.getBlockEntity();
+        return entity.getEntityWorld();
+    }
 
     default TileEntity getTile(final BlockPos pos)
     {
@@ -45,8 +51,6 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
         }
         return tile;
     }
-
-    T getWrapped();
 
     default boolean inBounds(final BlockPos pos)
     {
@@ -81,7 +85,7 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
         final int yMin = mob.getMin().getY();
         if (mob.getBlocks() == null)
         {
-            if (!this.getWrapped().isRemote) entity.remove();
+            if (!entity.getEntityWorld().isRemote) entity.remove();
             return;
         }
         final int sizeX = mob.getBlocks().length;
@@ -122,6 +126,6 @@ public interface IBlockEntityWorld<T extends World> extends IBlockReader
 
     default RayTraceResult trace(final RayTraceContext context)
     {
-        return this.getWrapped().rayTraceBlocks(context);
+        return this.getWorld().rayTraceBlocks(context);
     }
 }

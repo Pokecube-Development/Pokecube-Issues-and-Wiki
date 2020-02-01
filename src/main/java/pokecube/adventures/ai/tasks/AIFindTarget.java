@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.core.PokecubeCore;
 import pokecube.core.moves.MovesUtils;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -71,6 +72,13 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         if (this.trainer.getTarget() != null)
         { // Check if target is invalid.
             if (this.trainer.getTarget() != null && !this.trainer.getTarget().isAlive())
+            {
+                this.trainer.setTarget(null);
+                this.trainer.resetPokemob();
+                return false;
+            }
+            // check if too far away
+            if (this.entity.getDistance(this.trainer.getTarget()) > PokecubeCore.getConfig().chaseDistance)
             {
                 this.trainer.setTarget(null);
                 this.trainer.resetPokemob();
