@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "pokecube:log_sitrus"
+    }
+  ],
+  "result": {
+    "item": "pokecube:plank_sitrus",
+    "count": 4
+  }
+}
