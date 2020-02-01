@@ -9,6 +9,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.SoundEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IHealer;
 import pokecube.core.inventory.BaseContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -73,7 +74,8 @@ public class HealerContainer extends BaseContainer implements IHealer
         for (int i = 0; i < 6; i++)
         {
             final Slot slot = this.getSlot(i);
-            if (PokecubeManager.isFilled(slot.getStack())) PokecubeManager.heal(slot.getStack());
+            if (PokecubeManager.isFilled(slot.getStack())) PokecubeManager.heal(slot.getStack(), PokecubeCore.proxy
+                    .getWorld());
         }
     }
 

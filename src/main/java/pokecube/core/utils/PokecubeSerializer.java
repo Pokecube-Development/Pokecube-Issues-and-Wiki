@@ -315,7 +315,7 @@ public class PokecubeSerializer
             if (contrib != null) entity.setPokecube(contrib.getStarterCube());
             else entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
-            PokecubeManager.heal(item);
+            PokecubeManager.heal(item, owner.getEntityWorld());
             entity.getEntity().remove();
             return item;
         }

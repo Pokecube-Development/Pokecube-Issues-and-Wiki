@@ -129,7 +129,7 @@ public class PokecubePacketHandler
                     pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
                     if (this.args.length > 1) MakeCommand.setToArgs(this.args, pokemob, 1, null, false);
                     final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
-                    PokecubeManager.heal(item);
+                    PokecubeManager.heal(item, owner.getEntityWorld());
                     pokemob.getEntity().remove();
                     return item;
                 }

@@ -32,7 +32,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     public static UUID defaultId = new UUID(1234, 4321);
     public static int  PAGECOUNT = 32;
 
-    public static void addPokecubeToPC(ItemStack mob, World world)
+    public static void addPokecubeToPC(final ItemStack mob, final World world)
     {
         if (!PokecubeManager.isFilled(mob)) return;
         final String player = PokecubeManager.getOwner(mob);
@@ -48,7 +48,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
         }
     }
 
-    public static void addStackToPC(UUID uuid, ItemStack mob)
+    public static void addStackToPC(final UUID uuid, final ItemStack mob)
     {
         if (uuid == null || mob.isEmpty())
         {
@@ -62,7 +62,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
         if (PokecubeManager.isFilled(mob))
         {
             final ItemStack stack = mob;
-            PokecubeManager.heal(stack);
+            PokecubeManager.heal(stack, PokecubeCore.proxy.getWorld());
             PlayerPokemobCache.UpdateCache(mob, true, false);
             if (PokecubeCore.proxy.getPlayer(uuid) != null) PokecubeCore.proxy.getPlayer(uuid).sendMessage(
                     new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()));
@@ -82,14 +82,14 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
         return PCInventory.map_server;
     }
 
-    public static PCInventory getPC(Entity player)
+    public static PCInventory getPC(final Entity player)
     {// TODO Sync box names/numbers to blank
         if (player == null || player.getEntityWorld().isRemote) return PCInventory.blank == null
                 ? PCInventory.blank = new PCInventory(PCInventory.defaultId) : PCInventory.blank;
         return PCInventory.getPC(player.getUniqueID());
     }
 
-    public static PCInventory getPC(UUID uuid)
+    public static PCInventory getPC(final UUID uuid)
     {
         if (uuid != null)
         {
@@ -100,12 +100,12 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
         return null;
     }
 
-    public static void loadFromNBT(ListNBT nbt)
+    public static void loadFromNBT(final ListNBT nbt)
     {
         PCInventory.loadFromNBT(nbt, true);
     }
 
-    public static void loadFromNBT(ListNBT nbt, boolean replace)
+    public static void loadFromNBT(final ListNBT nbt, final boolean replace)
     {
         int i;
         tags:
@@ -135,7 +135,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
         }
     }
 
-    public static ListNBT saveToNBT(UUID uuid)
+    public static ListNBT saveToNBT(final UUID uuid)
     {
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Saving PC for " + uuid);
         final ListNBT nbttag = new ListNBT();
@@ -166,14 +166,14 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
         this.contents.defaultReturnValue(ItemStack.EMPTY);
     }
 
-    public PCInventory(UUID player)
+    public PCInventory(final UUID player)
     {
         this();
         if (!PCInventory.getMap().containsKey(player)) PCInventory.getMap().put(player, this);
         this.owner = player;
     }
 
-    public void addItem(ItemStack stack)
+    public void addItem(final ItemStack stack)
     {
         for (int i = this.page * 54; i < this.getSizeInventory(); i++)
             if (this.getStackInSlot(i).isEmpty())
@@ -196,13 +196,13 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     }
 
     @Override
-    public void closeInventory(PlayerEntity player)
+    public void closeInventory(final PlayerEntity player)
     {
         PCSaveHandler.getInstance().savePC(this.owner);
     }
 
     @Override
-    public ItemStack decrStackSize(int i, int j)
+    public ItemStack decrStackSize(final int i, final int j)
     {
         if (!this.contents.get(i).isEmpty())
         {
@@ -213,7 +213,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
         return ItemStack.EMPTY;
     }
 
-    public void deserializeBox(CompoundNBT nbt)
+    public void deserializeBox(final CompoundNBT nbt)
     {
         final int start = nbt.getInt("box") * 54;
         for (int i = start; i < start + 54; i++)
@@ -231,7 +231,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         final CompoundNBT boxes = nbt.getCompound("boxes");
         final String id = boxes.getString("UUID");
@@ -290,7 +290,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     }
 
     @Override
-    public ItemStack getStackInSlot(int i)
+    public ItemStack getStackInSlot(final int i)
     {
         ItemStack stack = this.contents.get(i);
         if (stack == null) stack = ItemStack.EMPTY;
@@ -308,13 +308,13 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
      * (ignoring stack size) into the given slot.
      */
     @Override
-    public boolean isItemValidForSlot(int par1, ItemStack stack)
+    public boolean isItemValidForSlot(final int par1, final ItemStack stack)
     {
         return PCContainer.isItemValid(stack);
     }
 
     @Override
-    public boolean isUsableByPlayer(PlayerEntity PlayerEntity)
+    public boolean isUsableByPlayer(final PlayerEntity PlayerEntity)
     {
         return true;
     }
@@ -325,19 +325,19 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     }
 
     @Override
-    public void openInventory(PlayerEntity player)
+    public void openInventory(final PlayerEntity player)
     {
     }
 
     @Override
-    public ItemStack removeStackFromSlot(int i)
+    public ItemStack removeStackFromSlot(final int i)
     {
         ItemStack stack = this.contents.remove(i);
         if (stack == null) stack = ItemStack.EMPTY;
         return stack;
     }
 
-    public CompoundNBT serializeBox(int box)
+    public CompoundNBT serializeBox(final int box)
     {
         final CompoundNBT items = new CompoundNBT();
         items.putInt("box", box);
@@ -384,13 +384,13 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     }
 
     @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack)
+    public void setInventorySlotContents(final int i, final ItemStack itemstack)
     {
         if (!itemstack.isEmpty()) this.contents.put(i, itemstack);
         else this.contents.remove(i);
     }
 
-    public void setPage(int page)
+    public void setPage(final int page)
     {
         this.page = page;
     }
