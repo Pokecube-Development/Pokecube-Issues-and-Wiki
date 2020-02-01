@@ -79,7 +79,7 @@ public class PokemobEventsHandler
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void dropEvent(final LivingDropsEvent event)
     {
-        // Handles the mobs dropping their inventory. TODO test if this works.
+        // Handles the mobs dropping their inventory.
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
         if (pokemob != null)
         {
@@ -89,17 +89,17 @@ public class PokemobEventsHandler
                 return;
             }
 
-            final Collection<ItemEntity> bak = event.getEntity().captureDrops();
+            final Collection<ItemEntity> bak = Lists.newArrayList();
             event.getEntity().captureDrops(Lists.newArrayList());
             if (!pokemob.getGeneralState(GeneralStates.TAMED)) for (int i = 0; i < pokemob.getInventory()
                     .getSizeInventory(); i++)
             {
                 final ItemStack stack = pokemob.getInventory().getStackInSlot(i);
-                if (!stack.isEmpty()) event.getEntity().entityDropItem(stack.copy(), 0.0f);
+                if (!stack.isEmpty()) bak.add(event.getEntity().entityDropItem(stack.copy(), 0.0f));
                 pokemob.getInventory().setInventorySlotContents(i, ItemStack.EMPTY);
             }
             else event.getDrops().clear();
-            event.getEntity().captureDrops(bak);
+            if (!bak.isEmpty()) event.getDrops().addAll(bak);
         }
     }
 
