@@ -145,8 +145,10 @@ public class PokemobEventsHandler
             attacker.setExp(attacker.getExp() + exp, true);
             return;
         }
-        if (attackedMob != null && attacked.getHealth() <= 0)
+        if (attackedMob != null && attacked.getHealth() <= 0 && attacked.getPersistentData().getInt(
+                "lastDeathTick") != attacked.ticksExisted)
         {
+            attacked.getPersistentData().putInt("lastDeathTick", attacked.ticksExisted);
             boolean giveExp = !attackedMob.isShadow();
             final boolean pvp = attackedMob.getGeneralState(GeneralStates.TAMED) && attackedMob
                     .getOwner() instanceof PlayerEntity;
