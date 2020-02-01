@@ -125,7 +125,6 @@ public class AnimationHelper
                 part.setHidden(component.hidden);
             }
         }
-        animate.setStep(animation, aniTick);
         if (animated)
         {
             part.setPreTranslations(temp);
