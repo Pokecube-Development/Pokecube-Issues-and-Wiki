@@ -68,6 +68,7 @@ import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CountCommand;
 import pokecube.core.commands.KillCommand;
 import pokecube.core.commands.MakeCommand;
+import pokecube.core.commands.MeteorCommand;
 import pokecube.core.commands.SecretBaseCommand;
 import pokecube.core.commands.TMCommand;
 import pokecube.core.contributors.Contributor;
@@ -166,6 +167,7 @@ public class EventsHandler
 
         public static void addBlocks(final Collection<BlockPos> toAdd, final DimensionType dimension)
         {
+            if (toAdd.isEmpty()) return;
             final List<BlockPos> blocks = MeteorAreaSetter.toProcess.get(dimension);
             if (blocks == null) PokecubeCore.LOGGER.error("Trying to add meteor blocks to unloaded world!",
                     new IllegalStateException());
@@ -183,7 +185,8 @@ public class EventsHandler
         {
             if (evt.phase == Phase.END)
             {
-                final List<BlockPos> thisTick = MeteorAreaSetter.toProcess.get(evt.world.dimension.getDimension());
+                final List<BlockPos> thisTick = MeteorAreaSetter.toProcess.get(evt.world.dimension.getDimension()
+                        .getType());
                 if (thisTick == null || thisTick.isEmpty()) return;
                 int i = 0;
                 int num = 0;
@@ -606,6 +609,7 @@ public class EventsHandler
         CountCommand.register(event.getCommandDispatcher());
         KillCommand.register(event.getCommandDispatcher());
         MakeCommand.register(event.getCommandDispatcher());
+        MeteorCommand.register(event.getCommandDispatcher());
         CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher(), "pokesettings");
     }
 
