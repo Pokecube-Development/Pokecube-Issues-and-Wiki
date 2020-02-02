@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.Blocks;
@@ -18,21 +19,25 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
-import net.minecraft.world.gen.feature.jigsaw.ListJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.JigsawReplacementStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
+import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig.JigSawPart;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 
@@ -44,44 +49,73 @@ public class JigsawPieces
             final BlockPos pos, final List<StructurePiece> parts, final SharedSeedRandom rand,
             final JigSawConfig struct)
     {
-        final ResourceLocation key = new ResourceLocation(struct.plate_name);
+        final ResourceLocation key = new ResourceLocation(struct.root.name);
         JigsawManager.func_214889_a(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos, parts,
                 rand);
     }
 
-    public static void registerJigsaw(final JigSawConfig jigsaw)
+    private static void registerPart(final JigSawPart part, final int offset)
     {
-        final ResourceLocation platesKey = new ResourceLocation(jigsaw.plate_name);
-        final ResourceLocation buildingKey = new ResourceLocation(jigsaw.building_name);
-        final List<Pair<JigsawPiece, Integer>> plates = Lists.newArrayList();
-        for (final String plate : jigsaw.plates)
-            plates.add(Pair.of(new SingleOffsetPiece(plate, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR),
-                    JigsawPattern.PlacementBehaviour.RIGID, -jigsaw.offset), 1));
-        final List<JigsawPiece> buildings = Lists.newArrayList();
-        for (final String part : jigsaw.parts)
-            buildings.add(new SingleOffsetPiece(part, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR),
-                    JigsawPattern.PlacementBehaviour.RIGID, -jigsaw.offset));
+        final ResourceLocation key = new ResourceLocation(part.name);
+        final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
+                : PlacementBehaviour.TERRAIN_MATCHING;
+        final List<Pair<JigsawPiece, Integer>> parts = Lists.newArrayList();
+        for (String option : part.options)
+        {
+            final String[] args = option.split(";");
+            boolean ignoreAir = part.ignoreAir;
+            Integer second = 1;
+            PlacementBehaviour place = behaviour;
+            if (args.length > 2) try
+            {
+                final JsonObject thing = PokedexEntryLoader.gson.fromJson(args[1], JsonObject.class);
+                if (thing.has("weight")) second = thing.get("weight").getAsInt();
+                if (thing.has("noAir")) ignoreAir = thing.get("noAir").getAsBoolean();
+                if (thing.has("rigid")) place = thing.get("rigid").getAsBoolean() ? PlacementBehaviour.RIGID
+                        : PlacementBehaviour.TERRAIN_MATCHING;
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+            option = args[0];
+            if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
+            else parts.add(Pair.of(new SingleOffsetPiece(option, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR),
+                    place, ignoreAir), second));
 
-        // Register the plate.
-        JigsawManager.field_214891_a.register(new JigsawPattern(platesKey, new ResourceLocation("empty"), plates,
-                JigsawPattern.PlacementBehaviour.RIGID));
+        }
 
         // Register the buildings
-        JigsawManager.field_214891_a.register(new JigsawPattern(buildingKey, new ResourceLocation("empty"),
-                ImmutableList.of(Pair.of(new ListJigsawPiece(buildings, JigsawPattern.PlacementBehaviour.RIGID), 1)),
-                JigsawPattern.PlacementBehaviour.RIGID));
+        JigsawManager.field_214891_a.register(new JigsawPattern(key, new ResourceLocation(part.target), parts,
+                behaviour));
+    }
 
+    public static void registerJigsaw(final JigSawConfig jigsaw)
+    {
+        JigsawPieces.registerPart(jigsaw.root, jigsaw.offset);
+        for (final JigSawPart part : jigsaw.parts)
+            JigsawPieces.registerPart(part, jigsaw.offset);
     }
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
-        private final int offset;
+        private final int     offset;
+        private final boolean ignoreAir;
 
         public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
-                final PlacementBehaviour type, final int offset)
+                final PlacementBehaviour type, final int offset, final boolean ignoreAir)
         {
             super(location, processors, type);
             this.offset = offset;
+            this.ignoreAir = ignoreAir;
+        }
+
+        public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
+                final PlacementBehaviour type, final boolean ignoreAir)
+        {
+            super(location, processors, type);
+            this.offset = 0;
+            this.ignoreAir = ignoreAir;
         }
 
         @Override
@@ -92,12 +126,29 @@ public class JigsawPieces
         }
 
         @Override
+        protected PlacementSettings func_214860_a(final Rotation p_214860_1_, final MutableBoundingBox p_214860_2_)
+        {
+            final PlacementSettings placementsettings = new PlacementSettings();
+            placementsettings.setBoundingBox(p_214860_2_);
+            placementsettings.setRotation(p_214860_1_);
+            placementsettings.func_215223_c(true);
+            placementsettings.setIgnoreEntities(false);
+            if (this.ignoreAir) placementsettings.addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
+            else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+            placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
+            this.processors.forEach(placementsettings::addProcessor);
+            this.getPlacementBehaviour().func_214937_b().forEach(placementsettings::addProcessor);
+            return placementsettings;
+        }
+
+        @Override
         public boolean func_214848_a(final TemplateManager manager, final IWorld worldIn, final BlockPos pos,
                 final Rotation rotation, final MutableBoundingBox box, final Random rand)
         {
 
             final Template template = manager.getTemplateDefaulted(this.location);
             final PlacementSettings placementsettings = this.func_214860_a(rotation, box);
+
             if (!template.addBlocksToWorld(worldIn, pos, placementsettings, 18)) return false;
             else
             {
