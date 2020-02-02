@@ -57,6 +57,7 @@ import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
@@ -70,6 +71,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
 
 public class Database
@@ -987,7 +989,7 @@ public class Database
         // Load in the combat types first.
         CombatTypeLoader.loadTypes();
         // Load in the various databases, starting with moves, then pokemobs.
-        Database.preInitMoves();
+        MovesAdder.registerMoves();
         for (final ResourceLocation s : Database.configDatabases.get(EnumDatabase.POKEMON.ordinal()))
             try
             {
@@ -998,7 +1000,10 @@ public class Database
             {
                 PokecubeCore.LOGGER.error("Error with pokemobs database " + s, e);
             }
-        PokecubeCore.LOGGER.info("Loaded all databases");
+        // Finally load in the abilities
+        AbilityManager.init();
+
+        PokecubeCore.LOGGER.debug("Loaded all databases");
     }
 
     public static void preInitMoves()

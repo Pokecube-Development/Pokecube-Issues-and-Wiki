@@ -81,7 +81,6 @@ import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.animations.EntityMoveUse;
-import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
@@ -212,7 +211,6 @@ public class PokecubeCore
             }
             PokecubeCore.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
             Database.postInit();
-            MovesAdder.registerMoves();
             PokecubeCore.POKEMOB_BUS.post(new InitDatabase.Post());
         }
 

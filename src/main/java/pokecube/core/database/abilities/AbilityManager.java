@@ -9,7 +9,6 @@ import com.google.common.collect.Sets;
 
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
 import thut.lib.CompatParser.ClassFinder;
 
 @SuppressWarnings("unchecked")
@@ -99,8 +98,8 @@ public class AbilityManager
                         num++;
                         AbilityManager.addAbility((Class<? extends Ability>) candidateClass);
                     }
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Registered " + num + " Abilities");
             }
+            PokecubeCore.LOGGER.debug("Registered " + num + " Abilities");
         }
         catch (final Exception e)
         {

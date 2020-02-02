@@ -96,7 +96,7 @@ public class MovesAdder implements IMoveConstants
                         MovesAdder.registerMove(move);
                     }
             }
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Registered " + num + " Custom Moves");
+            PokecubeCore.LOGGER.debug("Registered " + num + " Custom Moves");
         }
         catch (final Exception e)
         {
@@ -131,6 +131,9 @@ public class MovesAdder implements IMoveConstants
 
     public static void registerMoves()
     {
+        // Initialize the databases
+        Database.preInitMoves();
+
         MovesAdder.registerAutodetect();
         MovesAdder.registerRemainder();
         // Reload the moves databases to apply the animations to the newly added
