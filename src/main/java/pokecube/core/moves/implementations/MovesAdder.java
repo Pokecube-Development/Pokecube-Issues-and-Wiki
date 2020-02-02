@@ -80,6 +80,7 @@ public class MovesAdder implements IMoveConstants
             int num = 0;
             for (final Package pack : MovesAdder.packages)
             {
+                if (pack == null) continue;
                 foundClasses = ClassFinder.find(pack.getName());
                 for (final Class<?> candidateClass : foundClasses)
                     if (Move_Basic.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
@@ -106,8 +107,8 @@ public class MovesAdder implements IMoveConstants
         {
             for (final Package pack : MovesAdder.packages)
             {
+                if (pack == null) continue;
                 foundClasses = ClassFinder.find(pack.getName());
-                foundClasses = ClassFinder.find(MovesAdder.class.getPackage().getName());
                 for (final Class<?> candidateClass : foundClasses)
                     if (IMoveAction.class.isAssignableFrom(candidateClass) && candidateClass
                             .getEnclosingClass() == null)

@@ -33,7 +33,6 @@ import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.StatsCollector;
@@ -57,9 +56,10 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.Tools;
+import pokecube.mobs.abilities.AbilityRegister;
 import pokecube.mobs.client.ClientProxy;
+import pokecube.mobs.moves.MoveRegister;
 import thut.api.maths.Vector3;
 
 @Mod(value = PokecubeMobs.MODID)
@@ -103,8 +103,8 @@ public class PokecubeMobs
         // Just generally register it to event bus.
         FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeMobs.proxy);
 
-        AbilityManager.packages.add(Package.getPackage("pokecube.mobs.abilities"));
-        MovesAdder.packages.add(Package.getPackage("pokecube.mobs.moves"));
+        MoveRegister.init();
+        AbilityRegister.init();
     }
 
     @SubscribeEvent

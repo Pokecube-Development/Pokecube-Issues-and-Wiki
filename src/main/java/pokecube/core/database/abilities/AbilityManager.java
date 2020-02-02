@@ -91,6 +91,7 @@ public class AbilityManager
             int num = 0;
             for (final Package pack : AbilityManager.packages)
             {
+                if (pack == null) continue;
                 foundClasses = ClassFinder.find(pack.getName());
                 for (final Class<?> candidateClass : foundClasses)
                     if (Ability.class.isAssignableFrom(candidateClass) && candidateClass != Ability.class)
