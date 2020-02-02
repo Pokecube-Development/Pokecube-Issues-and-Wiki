@@ -599,8 +599,7 @@ public class CapabilityHasPokemobs
                 final Vector3 here = Vector3.getNewVector().set(this.user);
                 final Vector3 t = Vector3.getNewVector().set(target);
                 t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
-                PokecubeManager.heal(i);// Heal them here, so we don't need
-                                        // world to add to inventory
+                PokecubeManager.heal(i, target.getEntityWorld());
                 cube.throwPokecubeAt(this.user.getEntityWorld(), this.user, i, t, null);
                 this.aiStates.setAIState(IHasNPCAIStates.THROWING, true);
                 this.attackCooldown = Config.instance.trainerSendOutDelay;
@@ -666,7 +665,6 @@ public class CapabilityHasPokemobs
                     this.setPokemob(i, mob.copy());
                     break;
                 }
-                else if (!this.getPokemob(i).isEmpty()) PokecubeManager.heal(this.getPokemob(i));
             }
             for (int i = 0; i < this.getMaxPokemobCount(); i++)
             {

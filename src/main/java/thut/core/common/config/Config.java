@@ -170,6 +170,7 @@ public class Config
                 else System.err.println("Unknown Type " + field.getType() + " " + field.getName() + " " + o.getClass());
             }
             this.onUpdated();
+            this.write();
         }
 
         @Override

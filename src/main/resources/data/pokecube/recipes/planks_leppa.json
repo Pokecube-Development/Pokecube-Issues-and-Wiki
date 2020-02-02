@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "pokecube:log_leppa"
+    }
+  ],
+  "result": {
+    "item": "pokecube:plank_leppa",
+    "count": 4
+  }
+}

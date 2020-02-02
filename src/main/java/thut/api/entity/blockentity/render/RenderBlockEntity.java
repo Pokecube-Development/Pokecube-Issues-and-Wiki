@@ -118,9 +118,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         {
             final BlockRendererDispatcher blockrendererdispatcher = Minecraft.getInstance()
                     .getBlockRendererDispatcher();
-            BlockState actualstate = BlockState.getExtendedState((IBlockReader) entity.getFakeWorld(), pos);
-            actualstate = actualstate.getBlock().getExtendedState(actualstate, (IBlockReader) entity.getFakeWorld(),
-                    pos);
+            BlockState actualstate = BlockState.getExtendedState(entity.getFakeWorld(), pos);
+            actualstate = actualstate.getBlock().getExtendedState(actualstate, entity.getFakeWorld(), pos);
             if (actualstate.getRenderType() == BlockRenderType.MODEL)
             {
                 GlStateManager.pushMatrix();
@@ -229,7 +228,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
 
         Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelRenderer().renderModelSmooth(entity
-                .getFakeWorld().getWrapped(), model, state, origin, buffer, false, new Random(), 0,
+                .getFakeWorld().getWorld(), model, state, origin, buffer, false, new Random(), 0,
                 EmptyModelData.INSTANCE);
         tessellator.draw();
 

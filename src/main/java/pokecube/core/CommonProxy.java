@@ -29,7 +29,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -91,7 +90,6 @@ public class CommonProxy implements Proxy
     @Override
     public void setup(final FMLCommonSetupEvent event)
     {
-        if (!ModLoadingContext.get().getActiveContainer().getModId().equals(PokecubeCore.MODID)) return;
         PokecubeCore.LOGGER.info("Hello from Common Proxy setup!");
         // Initialize the capabilities.
         CapabilityManager.INSTANCE.register(IGuardAICapability.class, new IGuardAICapability.Storage(),

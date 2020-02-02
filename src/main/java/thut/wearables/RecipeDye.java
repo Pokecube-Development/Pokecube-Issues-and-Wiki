@@ -23,8 +23,7 @@ public class RecipeDye extends SpecialRecipe
 {
     private static Map<DyeColor, Tag<Item>> DYETAGS = Maps.newHashMap();
 
-    public static final IRecipeSerializer<RecipeDye> SERIALIZER = IRecipeSerializer.register("thut_wearables:dye",
-            new SpecialRecipeSerializer<>(RecipeDye::new));
+    public static final IRecipeSerializer<RecipeDye> SERIALIZER = new SpecialRecipeSerializer<>(RecipeDye::new);
 
     public static Map<DyeColor, Tag<Item>> getDyeTagMap()
     {

@@ -145,7 +145,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public boolean attackEntityFrom(final DamageSource source, final float damage)
     {
         if (this.isLoot || this.isReleasing()) return false;
-        if (source.getImmediateSource() instanceof ServerPlayerEntity)
+        if (source.getImmediateSource() instanceof ServerPlayerEntity && (this.tilt <= 0 || ((PlayerEntity) source
+                .getImmediateSource()).abilities.isCreativeMode))
         {
             Tools.giveItem((PlayerEntity) source.getImmediateSource(), this.getItem());
             this.remove();

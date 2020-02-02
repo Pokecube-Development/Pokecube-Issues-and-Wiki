@@ -19,6 +19,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -59,6 +60,8 @@ import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.UsableItemEffects;
+import pokecube.core.items.berries.BerryManager;
+import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.loot.functions.MakeBerry;
 import pokecube.core.items.loot.functions.MakeFossil;
 import pokecube.core.items.loot.functions.MakeHeldItem;
@@ -471,7 +474,7 @@ public class PokecubeItems extends Items
         for (final PokedexEntry entry : Database.getSortedFormes())
             array.add("pokecube:" + entry.getTrimmedName());
         json.add("values", array);
-        final File folder = new File(".", "generated");
+        File folder = new File(".", "generated/entity_types");
         folder.mkdirs();
         File file = new File(folder, "pokemob.json");
         FileWriter writer;
@@ -485,6 +488,9 @@ public class PokecubeItems extends Items
         {
             e.printStackTrace();
         }
+
+        folder = new File(".", "generated/items");
+        folder.mkdirs();
 
         // Init tag for the fossils
         json = new JsonObject();
@@ -513,6 +519,25 @@ public class PokecubeItems extends Items
             array.add(PokecubeCore.MODID + ":" + type.getPath() + "cube");
         json.add("values", array);
         file = new File(folder, "pokecubes.json");
+        try
+        {
+            writer = new FileWriter(file);
+            writer.write(PokedexEntryLoader.gson.toJson(json));
+            writer.close();
+        }
+        catch (final IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        // Init tag for berries
+        json = new JsonObject();
+        json.addProperty("replace", false);
+        array = new JsonArray();
+        for (final Entry<ItemBerry> type : BerryManager.berryItems.int2ObjectEntrySet())
+            array.add(type.getValue().getRegistryName().toString());
+        json.add("values", array);
+        file = new File(folder, "berries.json");
         try
         {
             writer = new FileWriter(file);

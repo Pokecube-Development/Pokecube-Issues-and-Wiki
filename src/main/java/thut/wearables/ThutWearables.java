@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
@@ -21,6 +22,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,6 +36,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
@@ -178,7 +181,8 @@ public class ThutWearables
         @SubscribeEvent
         public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
         {
-            event.getRegistry().register(RecipeDye.SERIALIZER);
+            event.getRegistry().register(RecipeDye.SERIALIZER.setRegistryName(new ResourceLocation(
+                    "thut_wearables:dye")));
         }
 
         @OnlyIn(Dist.CLIENT)
@@ -280,37 +284,33 @@ public class ThutWearables
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutWearables.proxy::finish);
     }
-    // TODO wearables drops
-    // @SubscribeEvent(priority = EventPriority.HIGHEST)
-    // public void dropLoot(final PlayerDropsEvent event)
-    // {
-    // final PlayerEntity player = event.getPlayerEntity();
-    // final GameRules rules = this.overworldRules ?
-    // player.getServer().getWorld(0).getGameRules()
-    // : player.getEntityWorld().getGameRules();
-    // final PlayerWearables cap = ThutWearables.getWearables(player);
-    // if (rules.getBoolean("keepInventory")) return;
-    //
-    // for (int i = 0; i < 13; i++)
-    // {
-    // final ItemStack stack = cap.getStackInSlot(i);
-    // if (stack != null)
-    // {
-    // EnumWearable.takeOff(player, stack, i);
-    // final double d0 = player.posY - 0.3D + player.getEyeHeight();
-    // final ItemEntity drop = new ItemEntity(player.getEntityWorld(),
-    // player.posX, d0, player.posZ, stack);
-    // final float f = player.getRNG().nextFloat() * 0.5F;
-    // final float f1 = player.getRNG().nextFloat() * ((float) Math.PI * 2F);
-    // drop.motionX = -MathHelper.sin(f1) * f;
-    // drop.motionZ = MathHelper.cos(f1) * f;
-    // drop.motionY = 0.20000000298023224D;
-    // event.getDrops().add(drop);
-    // cap.setStackInSlot(i, ItemStack.EMPTY);
-    // }
-    // }
-    // ThutWearables.syncWearables(player);
-    // }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void dropLoot(final LivingDropsEvent event)
+    {
+        final LivingEntity mob = event.getEntityLiving();
+        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(DimensionType.OVERWORLD)
+                .getGameRules() : mob.getEntityWorld().getGameRules();
+        final PlayerWearables cap = ThutWearables.getWearables(mob);
+        if (rules.getBoolean(GameRules.KEEP_INVENTORY)) return;
+
+        for (int i = 0; i < 13; i++)
+        {
+            final ItemStack stack = cap.getStackInSlot(i);
+            if (stack != null)
+            {
+                EnumWearable.takeOff(mob, stack, i);
+                final double d0 = mob.posY - 0.3D + mob.getEyeHeight();
+                final ItemEntity drop = new ItemEntity(mob.getEntityWorld(), mob.posX, d0, mob.posZ, stack);
+                final float f = mob.getRNG().nextFloat() * 0.5F;
+                final float f1 = mob.getRNG().nextFloat() * ((float) Math.PI * 2F);
+                drop.setMotion(-MathHelper.sin(f1) * f, MathHelper.cos(f1) * f, 0.2);
+                event.getDrops().add(drop);
+                cap.setStackInSlot(i, ItemStack.EMPTY);
+            }
+        }
+        ThutWearables.syncWearables(mob);
+    }
 
     /**
      * Syncs wearables to the player when they join a world. This fixes client

@@ -252,7 +252,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 aiList.add(new AIFollowOwner(this, 2 + entity.getWidth() + this.length, 2 + entity.getWidth()
                         + this.length).setPriority(400));
 
-            entity.goalSelector.addGoal(0, new GoalsWrapper(aiList.toArray(new IAIRunnable[0])));
+            entity.goalSelector.addGoal(0, new GoalsWrapper(entity, aiList.toArray(new IAIRunnable[0])));
             this.tasks = aiList;
 
             if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
@@ -298,15 +298,19 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     public void onSetTarget(final LivingEntity entity, final boolean forced)
     {
         final boolean remote = this.getEntity().getEntityWorld().isRemote;
-        if (entity == null && forced) this.targetFinder.clear();
-        if (entity == null && !remote)
+        if (remote) return;
+        if (entity == null)
         {
+            if (forced) this.targetFinder.clear();
+            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Null Target Set for " + this.getEntity());
             this.setTargetID(-1);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");
         }
         else if (entity != null)
         {
             final IOwnable target = OwnableCaps.getOwnable(entity);
+            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Target Set: {} -> {} ", this.getEntity(),
+                    entity);
             /**
              * Ensure that the target being set is actually a valid target.
              */

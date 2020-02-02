@@ -17,8 +17,8 @@ import pokecube.core.utils.TagNames;
 
 public class RecipeRevive extends SpecialRecipe
 {
-    public static final IRecipeSerializer<RecipeRevive> SERIALIZER = IRecipeSerializer.register("pokecube:revive",
-            new SpecialRecipeSerializer<>(RecipeRevive::new));
+    public static final IRecipeSerializer<RecipeRevive> SERIALIZER = new SpecialRecipeSerializer<>(RecipeRevive::new);
+    public static final ResourceLocation                REVIVETAG  = new ResourceLocation("pokecube:revive");
 
     public RecipeRevive(final ResourceLocation idIn)
     {
@@ -46,7 +46,7 @@ public class RecipeRevive extends SpecialRecipe
             if (!stack.isEmpty())
             {
                 if (PokecubeManager.isFilled(stack)) other = stack;
-                if (stack.isItemEqual(PokecubeItems.getStack("Revive"))) revive = true;
+                if (PokecubeItems.is(RecipeRevive.REVIVETAG, stack)) revive = true;
                 if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL)) seal = stack;
             }
         }
@@ -71,7 +71,7 @@ public class RecipeRevive extends SpecialRecipe
             if (PokecubeManager.isFilled(stack))
             {
                 healed = stack.copy();
-                PokecubeManager.heal(healed);
+                PokecubeManager.heal(healed, PokecubeCore.proxy.getWorld());
             }
         }
         return healed;
@@ -99,13 +99,13 @@ public class RecipeRevive extends SpecialRecipe
             {
                 n++;
                 if (PokecubeManager.isFilled(stack)) other = stack;
-                if (stack.isItemEqual(PokecubeItems.getStack("Revive"))) revive = true;
+                if (PokecubeItems.is(RecipeRevive.REVIVETAG, stack)) revive = true;
                 if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL)) seal = stack;
             }
         }
         revive = revive && !other.isEmpty();
         pokeseal = !seal.isEmpty() && !other.isEmpty();
         if (n != 2) return false;
-        return pokeseal || other.getDamage() == 32767;
+        return pokeseal || other.getDamage() == 0;
     }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "pokecube:log_oran"
+    }
+  ],
+  "result": {
+    "item": "pokecube:plank_oran",
+    "count": 4
+  }
+}

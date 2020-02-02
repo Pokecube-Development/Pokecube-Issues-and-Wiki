@@ -149,13 +149,13 @@ public class PokecubeManager
         return new UUID(max, min);
     }
 
-    public static void heal(final ItemStack stack)
+    public static void heal(final ItemStack stack, final World world)
     {
         if (PokecubeManager.isFilled(stack))
         {
             try
             {
-                final LivingEntity mob = PokecubeManager.itemToMob(stack, PokecubeCore.proxy.getWorld());
+                final LivingEntity mob = PokecubeManager.itemToMob(stack, world);
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
                 float maxHP = mob.getMaxHealth();
                 if (pokemob != null)

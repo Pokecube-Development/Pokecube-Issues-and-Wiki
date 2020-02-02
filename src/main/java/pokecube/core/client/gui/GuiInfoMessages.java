@@ -11,6 +11,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -61,7 +62,7 @@ public class GuiInfoMessages
         if (PokecubeCore.getConfig().battleLogInChat) return;
         final Minecraft minecraft = Minecraft.getInstance();
         // TODO see about this?
-        if (event.getType() == ElementType.CHAT && minecraft.currentScreen == null) return;
+        if (event.getType() == ElementType.CHAT && !(minecraft.currentScreen instanceof ChatScreen)) return;
         if (event.getType() != ElementType.CHAT && minecraft.currentScreen != null) return;
 
         final int texH = minecraft.fontRenderer.FONT_HEIGHT;

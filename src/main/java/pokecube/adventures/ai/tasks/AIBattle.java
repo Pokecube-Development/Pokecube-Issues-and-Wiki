@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.utils.MessageState;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.PCEventsHandler;
@@ -255,7 +256,7 @@ public class AIBattle extends AITrainerBase
         // Check if in range, if too far, target has run away, so forget about
         // it.
         final double distance = this.entity.getDistanceSq(this.trainer.getTarget());
-        if (distance > 1024)
+        if (distance > PokecubeCore.getConfig().chaseDistance * PokecubeCore.getConfig().chaseDistance)
         {
             this.trainer.setTarget(null);
             this.trainer.resetPokemob();

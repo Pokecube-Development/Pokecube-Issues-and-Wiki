@@ -1,4 +1,4 @@
-package thut.api.entity.blockentity.world.client;
+package thut.api.entity.blockentity.world;
 
 import java.util.Map;
 import java.util.function.BooleanSupplier;
@@ -26,24 +26,24 @@ import thut.api.entity.blockentity.IBlockEntity;
 
 public class BlockEntityChunkProvider extends AbstractChunkProvider
 {
-    private final ClientWorldEntity world;
+    private final WorldEntity world;
     private final WorldLightManager lightManager;
 
     private final Map<BlockPos, Chunk> chunks     = Maps.newHashMap();
     private BlockPos                   lastOrigin = null;
 
-    public BlockEntityChunkProvider(final ClientWorldEntity worldIn)
+    public BlockEntityChunkProvider(final WorldEntity worldIn)
     {
         this.world = worldIn;
-        this.lightManager = new WorldLightManager(this, true, worldIn.getDimension().hasSkyLight());
+        this.lightManager = new WorldLightManager(this, true, worldIn.getWorld().getDimension().hasSkyLight());
     }
 
     @Override
     public IChunk getChunk(final int chunkX, final int chunkZ, final ChunkStatus status, final boolean load)
     {
         final AxisAlignedBB chunkBox = new AxisAlignedBB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15, this.world
-                .getDimension().getHeight(), chunkZ * 16 + 15);
-        if (!this.intersects(chunkBox)) return this.world.getWrapped().getChunk(chunkX, chunkZ);
+                .getWorld().getDimension().getHeight(), chunkZ * 16 + 15);
+        if (!this.intersects(chunkBox)) return this.world.getWorld().getChunk(chunkX, chunkZ);
 
         // TODO improvements to this.
 
@@ -60,7 +60,7 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
         if (this.chunks.containsKey(immut)) return this.chunks.get(immut);
         final ChunkPrimer primer = new ChunkPrimer(new ChunkPos(chunkX, chunkZ), UpgradeData.EMPTY);
 
-        final Chunk ret = new Chunk(this.world, primer);
+        final Chunk ret = new Chunk(this.world.getWorld(), primer);
         this.chunks.put(immut, ret);
         for (int i = 0; i < 16; i++)
             for (int j = 0; j < 256; j++)
@@ -118,7 +118,7 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     @Override
     public String makeString()
     {
-        return "BlockEntity: " + this.world + " " + this.world.getWrapped();
+        return "BlockEntity: " + this.world + " " + this.world.getWorld();
     }
 
     @Override

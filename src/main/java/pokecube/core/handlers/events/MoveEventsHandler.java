@@ -154,6 +154,7 @@ public class MoveEventsHandler
         {
             boolean smelt = false;
             final AbstractFurnaceTileEntity tile = new FurnaceTileEntity();
+            tile.setWorld(world);
             for (int i = 0; i < items.size(); i++)
             {
                 final ItemEntity item = items.get(i);
@@ -163,7 +164,7 @@ public class MoveEventsHandler
                 tile.setInventorySlotContents(1, stack);
                 final IRecipe<?> irecipe = world.getRecipeManager().getRecipe(IRecipeType.SMELTING, tile, world).orElse(
                         null);
-
+                if (irecipe == null) continue;
                 ItemStack newstack = irecipe.getRecipeOutput();
                 if (newstack != null)
                 {

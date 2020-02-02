@@ -25,7 +25,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import thut.api.entity.blockentity.world.client.IBlockEntityWorld;
+import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Vector3.MutableBlockPos;
 
 public interface IBlockEntity
@@ -112,7 +112,7 @@ public interface IBlockEntity
             Vec3d diff = end.subtract(start);
             final double l = diff.length();
             diff = diff.normalize();
-            final IBlockEntityWorld<?> world = toTrace.getFakeWorld();
+            final IBlockEntityWorld world = toTrace.getFakeWorld();
             final MutableBlockPos pos = new MutableBlockPos(0, 0, 0);
             for (double i = 0; i < l; i += 0.1)
             {
@@ -261,7 +261,7 @@ public interface IBlockEntity
 
     BlockState[][][] getBlocks();
 
-    IBlockEntityWorld<?> getFakeWorld();
+    IBlockEntityWorld getFakeWorld();
 
     BlockEntityInteractHandler getInteractor();
 
@@ -273,7 +273,7 @@ public interface IBlockEntity
 
     void setBlocks(BlockState[][][] blocks);
 
-    void setFakeWorld(IBlockEntityWorld<?> world);
+    void setFakeWorld(IBlockEntityWorld world);
 
     void setMax(BlockPos pos);
 

@@ -348,6 +348,37 @@ public class CommandGenStuff
             if (b.getRegistryName().toString().startsWith("minecraft")) continue;
             CommandGenStuff.generateBlockDropJson(b);
         }
+
+        // Generate the berry log recipes
+        for (final String s : ItemGenerator.berryWoods.keySet())
+        {
+            final Block log = ItemGenerator.logs.get(s);
+            final Block plank = ItemGenerator.planks.get(s);
+            if (log != null && plank != null)
+            {
+                final File dir = new File("./mods/data/" + log.getRegistryName().getNamespace() + "/recipes");
+                dir.mkdirs();
+                final File out = new File(dir, log.getRegistryName().getPath() + ".json");
+                String loottable = "{\"type\":\"minecraft:crafting_shapeless\",\"group\":\"planks\",\"ingredients\":[{\"tag\":\""
+                        + log.getRegistryName() + "\"}],\"result\":{\"item\":\"" + plank.getRegistryName()
+                        + "\",\"count\":4}}";
+                final JsonObject obj = AdvancementGenerator.GSON.fromJson(loottable, JsonObject.class);
+                loottable = AdvancementGenerator.GSON.toJson(obj);
+                FileWriter write;
+                try
+                {
+                    write = new FileWriter(out);
+                    write.write(loottable);
+                    write.close();
+                }
+                catch (final IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Generate some more item related tags
     }
 
     private static void generateBlockDropJson(final Block block)

@@ -1456,11 +1456,7 @@ public class PokedexEntry
                     .withParameter(LootParameters.THIS_ENTITY, mob)
                     .withParameter(LootParameters.POSITION, new BlockPos(mob))
                     .withParameter(LootParameters.KILLER_ENTITY, mob)
-                    .withParameter(LootParameters.TOOL, null)
                     .withParameter(LootParameters.DIRECT_KILLER_ENTITY, mob)
-                    .withParameter(LootParameters.LAST_DAMAGE_PLAYER, null)
-                    .withParameter(LootParameters.BLOCK_ENTITY, null)
-                    .withParameter(LootParameters.DAMAGE_SOURCE, null)
                     .withParameter(LootParameters.EXPLOSION_RADIUS, 0f);//@formatter:on
             for (final ItemStack itemstack : loottable.generate(lootcontext$builder.build(loottable.getParameterSet())))
             if (!itemstack.isEmpty()) return itemstack;

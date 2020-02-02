@@ -128,6 +128,7 @@ public abstract class TrainerBase extends NpcMob
     {
         super.livingTick();
         if (!this.isServerWorld()) return;
+        if (this.ticksExisted % 20 == 1) TrainerSpawnHandler.addTrainerCoord(this);
         if (this.pokemobsCap.getOutID() != null && this.pokemobsCap.getOutMob() == null)
         {
             final Entity mob = this.getServer().getWorld(this.dimension).getEntityByUuid(this.pokemobsCap.getOutID());

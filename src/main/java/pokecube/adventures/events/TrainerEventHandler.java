@@ -403,7 +403,7 @@ public class TrainerEventHandler
             if (Config.instance.trainersBattleEachOther) ais.add(new AIFindTarget(npc, 0.01f, npc.getClass())
                     .setPriority(20));
             final MobEntity living = (MobEntity) npc;
-            living.goalSelector.addGoal(0, new GoalsWrapper(ais.toArray(new IAIRunnable[0])));
+            living.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));
         }
 
         final TypeTrainer newType = TypeTrainer.mobTypeMapper.getType(npc, true);

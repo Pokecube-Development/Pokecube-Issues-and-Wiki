@@ -23,7 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 import thut.api.TickHandler;
-import thut.api.entity.blockentity.world.client.IBlockEntityWorld;
+import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Matrix3;
 import thut.api.maths.vecmath.Vector3f;
 
@@ -76,7 +76,7 @@ public class BlockEntityUpdater
         final Vec3d motion_b = entity.getMotion();
         final Vector3f diffs = new Vector3f((float) (motion_a.x - motion_b.x), (float) (motion_a.y - motion_b.y),
                 (float) (motion_a.z - motion_b.z));
-        final IBlockEntityWorld<?> fakeworld = this.blockEntity.getFakeWorld();
+        final IBlockEntityWorld fakeworld = this.blockEntity.getFakeWorld();
         final AxisAlignedBB boundingBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
         /** Expanded box by velocities to test for collision with. */
         final AxisAlignedBB testBox = boundingBox.expand(-diffs.x, -diffs.y, -diffs.z);
