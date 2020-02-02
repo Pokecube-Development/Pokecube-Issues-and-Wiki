@@ -59,32 +59,32 @@ public class MiscItemHelper
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob != null)
         {
-            if (PokecubeItems.is(new ResourceLocation("hpup"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:hpup"), stack))
             {
                 pokemob.addEVs(new byte[] { 10, 0, 0, 0, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("protein"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:protein"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 10, 0, 0, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("iron"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:iron"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 10, 0, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("calcium"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:calcium"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 0, 10, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("zinc"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:zinc"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 0, 0, 10, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("carbos"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:carbos"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 0, 0, 0, 10 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
@@ -124,8 +124,8 @@ public class MiscItemHelper
     {
         if (event.getCapabilities().containsKey(MiscItemHelper.USABLE) || MiscItemHelper.CHARCOALSTACK == null
                 || MiscItemHelper.CHARCOALSTACK == event.getObject()) return;
-        if (MiscItemHelper.CHARCOALSTACK.getItem() == event.getObject().getItem()) event.addCapability(MiscItemHelper.USABLE,
-                new CharcoalEffect());
+        if (MiscItemHelper.CHARCOALSTACK.getItem() == event.getObject().getItem()) event.addCapability(
+                MiscItemHelper.USABLE, new CharcoalEffect());
     }
 
 }

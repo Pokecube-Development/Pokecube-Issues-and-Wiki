@@ -2,8 +2,10 @@ package pokecube.core.database.abilities;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
@@ -18,6 +20,12 @@ public class AbilityManager
     private static HashMap<Class<? extends Ability>, String>  nameMap2 = Maps.newHashMap();
     private static HashMap<Class<? extends Ability>, Integer> idMap    = Maps.newHashMap();
     private static HashMap<Integer, Class<? extends Ability>> idMap2   = Maps.newHashMap();
+    public static Set<Package>                                packages = Sets.newHashSet();
+
+    static
+    {
+        AbilityManager.packages.add(AbilityManager.class.getPackage());
+    }
 
     static int nextID = 0;
 
@@ -28,12 +36,12 @@ public class AbilityManager
         return AbilityManager.nameMap.containsKey(name);
     }
 
-    public static void addAbility(Class<? extends Ability> ability)
+    public static void addAbility(final Class<? extends Ability> ability)
     {
         AbilityManager.addAbility(ability, ability.getSimpleName());
     }
 
-    public static void addAbility(Class<? extends Ability> ability, String name)
+    public static void addAbility(final Class<? extends Ability> ability, String name)
     {
         name = name.trim().toLowerCase(java.util.Locale.ENGLISH).replaceAll("[^\\w\\s ]", "").replaceAll(" ", "");
         AbilityManager.nameMap.put(name, ability);
@@ -43,12 +51,12 @@ public class AbilityManager
         AbilityManager.nextID++;
     }
 
-    public static Ability getAbility(Integer id, Object... args)
+    public static Ability getAbility(final Integer id, final Object... args)
     {
         return AbilityManager.makeAbility(id, args);
     }
 
-    public static Ability getAbility(String name, Object... args)
+    public static Ability getAbility(String name, final Object... args)
     {
         if (name == null) return null;
         if (name.startsWith("ability.")) name = name.substring(7);
@@ -57,17 +65,17 @@ public class AbilityManager
                 .replaceAll(" ", ""), args);
     }
 
-    public static int getIdForAbility(Ability ability)
+    public static int getIdForAbility(final Ability ability)
     {
         return AbilityManager.idMap.get(ability.getClass());
     }
 
-    public static String getNameForAbility(Ability ability)
+    public static String getNameForAbility(final Ability ability)
     {
         return AbilityManager.nameMap2.get(ability.getClass());
     }
 
-    public static boolean hasAbility(String abilityName, IPokemob pokemob)
+    public static boolean hasAbility(final String abilityName, final IPokemob pokemob)
     {
         final Ability ability = pokemob.getAbility();
         if (ability == null) return false;
@@ -80,15 +88,18 @@ public class AbilityManager
         List<Class<?>> foundClasses;
         try
         {
-            foundClasses = ClassFinder.find(AbilityManager.class.getPackage().getName());
             int num = 0;
-            for (final Class<?> candidateClass : foundClasses)
-                if (Ability.class.isAssignableFrom(candidateClass) && candidateClass != Ability.class)
-                {
-                    num++;
-                    AbilityManager.addAbility((Class<? extends Ability>) candidateClass);
-                }
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Registered " + num + " Abilities");
+            for (final Package pack : AbilityManager.packages)
+            {
+                foundClasses = ClassFinder.find(pack.getName());
+                for (final Class<?> candidateClass : foundClasses)
+                    if (Ability.class.isAssignableFrom(candidateClass) && candidateClass != Ability.class)
+                    {
+                        num++;
+                        AbilityManager.addAbility((Class<? extends Ability>) candidateClass);
+                    }
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Registered " + num + " Abilities");
+            }
         }
         catch (final Exception e)
         {
@@ -96,7 +107,7 @@ public class AbilityManager
         }
     }
 
-    public static Ability makeAbility(Object val, Object... args)
+    public static Ability makeAbility(final Object val, final Object... args)
     {
         Class<? extends Ability> abil = null;
         if (val instanceof String) abil = AbilityManager.nameMap.get(val);
@@ -116,7 +127,7 @@ public class AbilityManager
         return ret;
     }
 
-    public static void replaceAbility(Class<? extends Ability> ability, String name)
+    public static void replaceAbility(final Class<? extends Ability> ability, String name)
     {
         name = name.trim().toLowerCase(java.util.Locale.ENGLISH).replaceAll("[^\\w\\s ]", "").replaceAll(" ", "");
         if (AbilityManager.nameMap.containsKey(name))

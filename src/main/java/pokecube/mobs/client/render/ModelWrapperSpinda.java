@@ -38,6 +38,7 @@ public class ModelWrapperSpinda<T extends Entity> extends ModelWrapper<T>
 
     public ModelWrapperSpinda(final ModelHolder model, final IModelRenderer<?> renderer)
     {
+        // TODO call this
         super(model, renderer);
     }
 

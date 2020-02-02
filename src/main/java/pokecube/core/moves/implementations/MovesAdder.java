@@ -3,8 +3,10 @@ package pokecube.core.moves.implementations;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -30,9 +32,11 @@ import thut.lib.CompatParser.ClassFinder;
 public class MovesAdder implements IMoveConstants
 {
     public static Map<String, Class<? extends Move_Base>> presetMap = Maps.newHashMap();
+    public static Set<Package>                            packages  = Sets.newHashSet();
 
     static
     {
+        MovesAdder.packages.add(MovesAdder.class.getPackage());
         MovesAdder.presetMap.put("ongoing", Move_Ongoing.class);
         MovesAdder.presetMap.put("explode", Move_Explode.class);
         MovesAdder.presetMap.put("terrain", Move_Terrain.class);
@@ -73,21 +77,24 @@ public class MovesAdder implements IMoveConstants
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Autodecting Moves...");
         try
         {
-            foundClasses = ClassFinder.find(MovesAdder.class.getPackage().getName());
             int num = 0;
-            for (final Class<?> candidateClass : foundClasses)
-                if (Move_Basic.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
-                {
-                    final Move_Basic move = (Move_Basic) candidateClass.getConstructor().newInstance();
-                    if (MovesUtils.isMoveImplemented(move.name))
+            for (final Package pack : MovesAdder.packages)
+            {
+                foundClasses = ClassFinder.find(pack.getName());
+                for (final Class<?> candidateClass : foundClasses)
+                    if (Move_Basic.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
                     {
-                        PokecubeCore.LOGGER.info("Error, Double registration of " + move.name
-                                + " Replacing old entry with new one.");
-                        num--;
+                        final Move_Basic move = (Move_Basic) candidateClass.getConstructor().newInstance();
+                        if (MovesUtils.isMoveImplemented(move.name))
+                        {
+                            PokecubeCore.LOGGER.info("Error, Double registration of " + move.name
+                                    + " Replacing old entry with new one.");
+                            num--;
+                        }
+                        num++;
+                        MovesAdder.registerMove(move);
                     }
-                    num++;
-                    MovesAdder.registerMove(move);
-                }
+            }
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Registered " + num + " Custom Moves");
         }
         catch (final Exception e)
@@ -97,13 +104,18 @@ public class MovesAdder implements IMoveConstants
         // Register Move Actions.
         try
         {
-            foundClasses = ClassFinder.find(MovesAdder.class.getPackage().getName());
-            for (final Class<?> candidateClass : foundClasses)
-                if (IMoveAction.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
-                {
-                    final IMoveAction move = (IMoveAction) candidateClass.getConstructor().newInstance();
-                    MoveEventsHandler.register(move);
-                }
+            for (final Package pack : MovesAdder.packages)
+            {
+                foundClasses = ClassFinder.find(pack.getName());
+                foundClasses = ClassFinder.find(MovesAdder.class.getPackage().getName());
+                for (final Class<?> candidateClass : foundClasses)
+                    if (IMoveAction.class.isAssignableFrom(candidateClass) && candidateClass
+                            .getEnclosingClass() == null)
+                    {
+                        final IMoveAction move = (IMoveAction) candidateClass.getConstructor().newInstance();
+                        MoveEventsHandler.register(move);
+                    }
+            }
         }
         catch (final Exception e)
         {
