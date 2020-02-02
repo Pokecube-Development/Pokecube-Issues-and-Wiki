@@ -54,7 +54,7 @@ public class JigsawPieces
                 rand);
     }
 
-    private static void registerPart(final JigSawPart part, final int offset)
+    private static void registerPart(final JigSawPart part, final int offset, final String subbiome)
     {
         final ResourceLocation key = new ResourceLocation(part.name);
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
@@ -66,11 +66,11 @@ public class JigsawPieces
             boolean ignoreAir = part.ignoreAir;
             Integer second = 1;
             PlacementBehaviour place = behaviour;
-            if (args.length > 2) try
+            if (args.length > 1) try
             {
                 final JsonObject thing = PokedexEntryLoader.gson.fromJson(args[1], JsonObject.class);
                 if (thing.has("weight")) second = thing.get("weight").getAsInt();
-                if (thing.has("noAir")) ignoreAir = thing.get("noAir").getAsBoolean();
+                if (thing.has("ignoreAir")) ignoreAir = thing.get("ignoreAir").getAsBoolean();
                 if (thing.has("rigid")) place = thing.get("rigid").getAsBoolean() ? PlacementBehaviour.RIGID
                         : PlacementBehaviour.TERRAIN_MATCHING;
             }
@@ -81,7 +81,7 @@ public class JigsawPieces
             option = args[0];
             if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
             else parts.add(Pair.of(new SingleOffsetPiece(option, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR),
-                    place, ignoreAir), second));
+                    place, ignoreAir, subbiome), second));
 
         }
 
@@ -92,30 +92,33 @@ public class JigsawPieces
 
     public static void registerJigsaw(final JigSawConfig jigsaw)
     {
-        JigsawPieces.registerPart(jigsaw.root, jigsaw.offset);
+        JigsawPieces.registerPart(jigsaw.root, jigsaw.offset, jigsaw.biomeType);
         for (final JigSawPart part : jigsaw.parts)
-            JigsawPieces.registerPart(part, jigsaw.offset);
+            JigsawPieces.registerPart(part, jigsaw.offset, jigsaw.biomeType);
     }
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
         private final int     offset;
+        private final String  subbiome;
         private final boolean ignoreAir;
 
         public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
-                final PlacementBehaviour type, final int offset, final boolean ignoreAir)
+                final PlacementBehaviour type, final int offset, final boolean ignoreAir, final String subbiome)
         {
             super(location, processors, type);
             this.offset = offset;
             this.ignoreAir = ignoreAir;
+            this.subbiome = subbiome;
         }
 
         public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
-                final PlacementBehaviour type, final boolean ignoreAir)
+                final PlacementBehaviour type, final boolean ignoreAir, final String subbiome)
         {
             super(location, processors, type);
             this.offset = 0;
             this.ignoreAir = ignoreAir;
+            this.subbiome = subbiome;
         }
 
         @Override
@@ -152,6 +155,11 @@ public class JigsawPieces
             if (!template.addBlocksToWorld(worldIn, pos, placementsettings, 18)) return false;
             else
             {
+                final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, worldIn,
+                        this.location.toString(), placementsettings);
+                event.seBiomeType(this.subbiome);
+                MinecraftForge.EVENT_BUS.post(event);
+
                 // This section is added what is modifed in, it copies the
                 // structure block processing from the template structures, so
                 // that we can also handle metadata on marker blocks.

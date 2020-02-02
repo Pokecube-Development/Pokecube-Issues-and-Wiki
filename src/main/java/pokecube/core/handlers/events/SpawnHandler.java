@@ -109,8 +109,6 @@ public final class SpawnHandler
                                                                                                           .getType()
                                                                                                   || input == BiomeType.CAVE_WATER
                                                                                                           .getType()
-                                                                                                  || input == BiomeType.VILLAGE
-                                                                                                          .getType()
                                                                                                   || input == BiomeType.ALL
                                                                                                           .getType()
                                                                                                   || input == PokecubeTerrainChecker.INSIDE

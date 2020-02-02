@@ -69,13 +69,13 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     @Override
     protected int getBiomeFeatureDistance(final ChunkGenerator<?> chunkGenerator)
     {
-        return 8;
+        return this.struct.distance;
     }
 
     @Override
     protected int getBiomeFeatureSeparation(final ChunkGenerator<?> chunkGenerator)
     {
-        return 2;
+        return this.struct.separation;
     }
 
     @Override

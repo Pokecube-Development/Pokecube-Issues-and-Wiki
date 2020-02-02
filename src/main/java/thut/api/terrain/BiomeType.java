@@ -2,6 +2,7 @@ package thut.api.terrain;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -16,25 +17,34 @@ public class BiomeType
     private static final Map<Integer, BiomeType> typeMap       = Maps.newHashMap();
     private static final Map<Integer, BiomeType> typeMapClient = Maps.newHashMap();
     private static int                           MAXID         = 256;
-    public static final BiomeType                NONE          = new BiomeType("none", "None"), SKY = new BiomeType(
-            "sky", "Sky"), FLOWER = new BiomeType("flower", "Flowers"), LAKE = new BiomeType("lake", "Lake"),
-            INDUSTRIAL = new BiomeType("industrial", "Industrial Area"), METEOR = new BiomeType("meteor",
-                    "Meteor Area"), RUIN = new BiomeType("ruin", "Ruins"), CAVE = new BiomeType("cave", "Cave"),
-            CAVE_WATER = new BiomeType("cavewater", "Cave Lake"), VILLAGE = new BiomeType("village", "Village"),
-            ALL = new BiomeType("all", "All");
+    public static final BiomeType
+    //@formatter:off
+    NONE  = new BiomeType("none"),
+    SKY = new BiomeType("sky"),
+    FLOWER = new BiomeType("flower"),
+    LAKE = new BiomeType("lake"),
+    INDUSTRIAL = new BiomeType("industrial"),
+    METEOR = new BiomeType("meteor"),
+    RUIN = new BiomeType("ruin"),
+    CAVE = new BiomeType("cave"),
+    CAVE_WATER = new BiomeType("cavewater"),
+    VILLAGE = new BiomeType("village"),
+    ALL = new BiomeType("all");
+    //@formatter:on
 
-    public static BiomeType getBiome(String name)
+    public static BiomeType getBiome(final String name)
     {
         return BiomeType.getBiome(name, true);
     }
 
-    public static BiomeType getBiome(String name, boolean generate)
+    public static BiomeType getBiome(String name, final boolean generate)
     {
+        name = name.toLowerCase(Locale.ROOT).replace(" ", "_");
         for (final BiomeType b : BiomeType.values())
-            if (b.name.equalsIgnoreCase(name) || b.readableName.equalsIgnoreCase(name)) return b;
+            if (b.name.equalsIgnoreCase(name)) return b;
         if (generate)
         {
-            final BiomeType ret = new BiomeType(name.toLowerCase(java.util.Locale.ENGLISH), name);
+            final BiomeType ret = new BiomeType(name);
             return ret;
         }
         return BiomeType.NONE;
@@ -48,7 +58,7 @@ public class BiomeType
         return map;
     }
 
-    public static BiomeType getType(int id)
+    public static BiomeType getType(final int id)
     {
         if (ThutCore.proxy.isClientSide()) return BiomeType.typeMapClient.containsKey(id) ? BiomeType.typeMapClient.get(
                 id) : BiomeType.NONE;
@@ -56,7 +66,7 @@ public class BiomeType
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void setMap(Map<Integer, String> mapIn)
+    public static void setMap(final Map<Integer, String> mapIn)
     {
         BiomeType.typeMapClient.clear();
         for (final Integer i : mapIn.keySet())
@@ -92,10 +102,10 @@ public class BiomeType
     private int         id;
     public final String readableName;
 
-    private BiomeType(String name, String readableName)
+    private BiomeType(final String name)
     {
         this.name = name;
-        this.readableName = readableName;
+        this.readableName = "thutcore.biometype." + name;
         this.id = -1;
         for (final BiomeType type : BiomeType.typeMap.values())
             if (type.name.equals(name)) this.id = type.id;
@@ -105,7 +115,7 @@ public class BiomeType
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (o instanceof BiomeType) return ((BiomeType) o).id == this.id;
         return false;

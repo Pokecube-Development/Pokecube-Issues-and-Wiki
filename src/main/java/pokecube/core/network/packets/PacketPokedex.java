@@ -437,7 +437,7 @@ public class PacketPokedex extends Packet
                 }
                 final int biome = TerrainManager.getInstance().getTerrainForEntity(player).getBiome(pos);
                 packet.data.putString("0", "" + biome);
-                packet.data.putString("1", BiomeDatabase.getReadableNameFromType(biome));
+                packet.data.putString("1", BiomeDatabase.getUnlocalizedNameFromType(biome));
                 for (int i = 0; i < names.size(); i++)
                 {
                     final PokedexEntry e = names.get(i);

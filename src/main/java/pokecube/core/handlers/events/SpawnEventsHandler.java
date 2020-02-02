@@ -2,6 +2,7 @@ package pokecube.core.handlers.events;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
@@ -13,6 +14,8 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -28,6 +31,8 @@ import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import thut.api.maths.Vector3;
+import thut.api.terrain.BiomeType;
+import thut.api.terrain.TerrainManager;
 
 public class SpawnEventsHandler
 {
@@ -153,4 +158,20 @@ public class SpawnEventsHandler
         if (thing.has("name")) prof.name = thing.get("name").getAsString();
     }
 
+    @SubscribeEvent
+    public static void StructureSpawn(final StructureEvent.BuildStructure event)
+    {
+        if (event.getBiomeType() != null)
+        {
+            final BiomeType subbiome = BiomeType.getBiome(event.getBiomeType(), true);
+            final MutableBoundingBox box = event.getBoundingBox();
+            final Stream<BlockPos> poses = BlockPos.getAllInBox(box.minX, box.minY, box.minZ, box.maxX, box.maxY,
+                    box.maxZ);
+            final IWorld world = event.getWorld();
+            poses.forEach((p) ->
+            {
+                TerrainManager.getInstance().getTerrain(world, p).setBiome(p, subbiome.getType());
+            });
+        }
+    }
 }

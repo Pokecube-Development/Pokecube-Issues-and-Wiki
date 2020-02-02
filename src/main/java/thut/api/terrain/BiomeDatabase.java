@@ -45,7 +45,7 @@ public class BiomeDatabase
         return biome.getRegistryName().getNamespace();
     }
 
-    public static String getReadableNameFromType(int type)
+    public static String getUnlocalizedNameFromType(int type)
     {
         return BiomeType.getType(type).readableName;
     }

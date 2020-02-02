@@ -1,16 +1,5 @@
 {
-  "structures":[
-    {
-      "name":"scattered/ruin_1",
-      "chance":0.002,
-      "biomeType":"ruin",
-      "spawn":{ 
-        "values":{ 
-          "types":"plains"
-        }
-      }
-    }
-  ],
+  "structures":[],
   "jigsaws":[ 
     { 
       "name":"pokecube:scattered/pokecenter_start",
@@ -42,6 +31,27 @@
       }
     },
     { 
+      "name":"pokecube:scattered/ruin_1",
+      "chance":0.02,
+      "biomeType":"ruin",
+      "distance":8,
+      "separation":4,
+      "offset":-3,
+      "parts":[],
+      "spawn":{ 
+        "values":{ 
+          "types":"plains"
+        }
+      },
+      "root":{ 
+        "name":"pokecube:scattered/ruin/ruin_1",
+        "rigid": false,
+        "options":[ 
+          "pokecube:scattered/ruin/ruin_1"
+        ]
+      }
+    },
+    { 
       "name":"pokecube:village/common",
       "root":{ 
         "name":"pokecube:village/common/town_centers",
@@ -50,7 +60,9 @@
           "pokecube:village/common/town_centers/plains"
         ]
       },
-      "chance":0.001,
+      "chance":0.1,
+      "distance":16,
+      "separation":4,
       "biomeType":"village",
       "parts":[ 
        { 
@@ -66,7 +78,7 @@
           "rigid": false,
           "options":[
             "pokecube:village/common/streets/road_t_01",
-            "pokecube:village/common/streets/road_01;{\"weight\":4}"
+            "pokecube:village/common/streets/road_02;{\"weight\":4}"
           ]
         },
         { 
@@ -88,8 +100,8 @@
           "target":"pokecube:village/common/terminators",
           "options":[
             "pokecube:village/common/houses/house_small_1;{\"weight\":4}",
-            "pokecube:village/common/pokecenter/center_01;{\"noAir\":true}",
-            "pokecube:village/common/gym/gym_01;{\"noAir\":true}"
+            "pokecube:village/common/pokecenter/center_01;{\"ignoreAir\":false}",
+            "pokecube:village/common/gym/gym_01;{\"ignoreAir\":false}"
           ]
         }
       ],

@@ -121,15 +121,17 @@ public class WorldgenHandler
 
         public String           name;
         public JigSawPart       root;
-        public float            chance    = 1;
-        public int              offset    = 0;
-        public int              size      = 4;
-        public String           biomeType = "ruin";
+        public float            chance     = 1;
+        public int              offset     = 0;
+        public int              size       = 4;
+        public int              distance   = 8;
+        public int              separation = 4;
+        public String           biomeType  = "ruin";
         public SpawnRule        spawn;
-        public boolean          surface   = true;
-        public boolean          water     = false;
-        public boolean          atSpawn   = false;
-        public List<JigSawPart> parts     = Lists.newArrayList();
+        public boolean          surface    = true;
+        public boolean          water      = false;
+        public boolean          atSpawn    = false;
+        public List<JigSawPart> parts      = Lists.newArrayList();
 
         public String serialize()
         {
@@ -226,5 +228,6 @@ public class WorldgenHandler
             }
 
         }
+        PokecubeMod.LOGGER.debug("Loaded configurable worldgen");
     }
 }
