@@ -155,6 +155,11 @@ public class ItemGenerator
         final Item.Properties props = new Item.Properties().group(PokecubeItems.POKECUBEITEMS);
         for (final String type : ItemGenerator.fossilVariants)
         {
+            if (Database.getEntry(type) == null)
+            {
+                PokecubeCore.LOGGER.error("No Pokedex entry for {}", type);
+                continue;
+            }
             final ItemFossil item = new ItemFossil(props, Database.trim(type));
             registry.register(item);
             ItemGenerator.fossils.put(type, item);
