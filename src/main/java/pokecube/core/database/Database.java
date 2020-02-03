@@ -57,6 +57,7 @@ import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
 import pokecube.core.database.moves.json.JsonMoves.MoveJsonEntry;
@@ -70,6 +71,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
 
 public class Database
@@ -741,7 +743,7 @@ public class Database
                 final ResourceLocation sound = new ResourceLocation(entry.soundEffectSource);
                 final SoundEvent event = new SoundEvent(sound);
                 event.setRegistryName(sound);
-                if (!registry.containsKey(sound)) registry.register(event);
+                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
             }
             // Register sound on target
             if (entry.soundEffectTarget != null)
@@ -749,7 +751,7 @@ public class Database
                 final ResourceLocation sound = new ResourceLocation(entry.soundEffectTarget);
                 final SoundEvent event = new SoundEvent(sound);
                 event.setRegistryName(sound);
-                if (!registry.containsKey(sound)) registry.register(event);
+                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
             }
             // Register sounds for the animations
             if (entry.animations != null) for (final AnimationJson anim : entry.animations)
@@ -758,7 +760,8 @@ public class Database
                     final ResourceLocation sound = new ResourceLocation(anim.sound);
                     final SoundEvent event = new SoundEvent(sound);
                     event.setRegistryName(sound);
-                    if (!registry.containsKey(sound)) registry.register(event);
+                    if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(
+                            event);
                 }
         }
 
@@ -768,7 +771,7 @@ public class Database
             final ResourceLocation sound = new ResourceLocation(var);
             final SoundEvent event = new SoundEvent(sound);
             event.setRegistryName(sound);
-            if (!registry.containsKey(sound)) registry.register(event);
+            if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
         }
     }
 
@@ -987,7 +990,7 @@ public class Database
         // Load in the combat types first.
         CombatTypeLoader.loadTypes();
         // Load in the various databases, starting with moves, then pokemobs.
-        Database.preInitMoves();
+        MovesAdder.registerMoves();
         for (final ResourceLocation s : Database.configDatabases.get(EnumDatabase.POKEMON.ordinal()))
             try
             {
@@ -998,7 +1001,10 @@ public class Database
             {
                 PokecubeCore.LOGGER.error("Error with pokemobs database " + s, e);
             }
-        PokecubeCore.LOGGER.info("Loaded all databases");
+        // Finally load in the abilities
+        AbilityManager.init();
+
+        PokecubeCore.LOGGER.debug("Loaded all databases");
     }
 
     public static void preInitMoves()

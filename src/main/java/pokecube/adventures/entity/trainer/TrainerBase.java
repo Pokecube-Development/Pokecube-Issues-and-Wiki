@@ -7,8 +7,6 @@ import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.MerchantContainer;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -70,8 +68,10 @@ public abstract class TrainerBase extends NpcMob
                 || PokecubeAdv.config.trainersTradeMobs);
 
         // Add some ai goals
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
+        // These are not needed if we extend villager.
+        // this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class,
+        // 6.0F));
+        // this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     @Override

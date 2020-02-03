@@ -32,8 +32,8 @@ public class SpawnListEntry
     final FontRenderer        fontRender;
     public final List<String> output = Lists.newArrayList();
 
-    public SpawnListEntry(WatchPage parent, FontRenderer fontRender, SpawnBiomeMatcher value, PokedexEntry entry,
-            int width, int height, int yMin)
+    public SpawnListEntry(final WatchPage parent, final FontRenderer fontRender, final SpawnBiomeMatcher value,
+            final PokedexEntry entry, final int width, final int height, final int yMin)
     {
         this.width = width;
         this.height = height;
@@ -68,7 +68,7 @@ public class SpawnListEntry
 
         final List<String> types = Lists.newArrayList();
         if (value.validSubBiomes != null) for (final BiomeType t : value.validSubBiomes)
-            types.add(t.readableName);
+            types.add(I18n.format(t.readableName));
         if (!types.isEmpty())
         {
             String typeString = I18n.format("pokewatch.spawns.types") + " ";
@@ -157,7 +157,7 @@ public class SpawnListEntry
         this.output.add("");
     }
 
-    public List<LineEntry> getLines(ScrollGui<LineEntry> parent, IClickListener listener)
+    public List<LineEntry> getLines(final ScrollGui<LineEntry> parent, final IClickListener listener)
     {
         final int y0 = this.yMin;
         final int y1 = this.yMin + this.height;

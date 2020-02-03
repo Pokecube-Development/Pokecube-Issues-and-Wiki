@@ -70,19 +70,19 @@ public class TypeTrainer extends NpcType
                 return null;
             }
 
-            if (mob instanceof VillagerEntity && Config.instance.npcsAreTrainers)
-            {
-                final VillagerEntity villager = (VillagerEntity) mob;
-                final String type = villager.getVillagerData().getProfession().toString();
-                return TypeTrainer.getTrainer(type);
-            }
             if (mob instanceof TrainerBase)
             {
                 final TypeTrainer type = ((TrainerBase) mob).pokemobsCap.getType();
                 if (type != null) return type;
                 return TypeTrainer.merchant;
             }
-            if (mob instanceof NpcMob) return TypeTrainer.merchant;
+            else if (mob instanceof NpcMob) return TypeTrainer.merchant;
+            else if (mob instanceof VillagerEntity && Config.instance.npcsAreTrainers)
+            {
+                final VillagerEntity villager = (VillagerEntity) mob;
+                final String type = villager.getVillagerData().getProfession().toString();
+                return TypeTrainer.getTrainer(type);
+            }
             return null;
         }
 

@@ -175,7 +175,7 @@ public class PokedexEntry
                 this.matcher.parse();
                 final List<String> biomeNames = Lists.newArrayList();
                 for (final BiomeType t : this.matcher.validSubBiomes)
-                    biomeNames.add(t.readableName);
+                    biomeNames.add(I18n.format(t.readableName));
                 for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                 {
                     final boolean valid = this.matcher.validBiomes.contains(test.getRegistryName());
@@ -184,7 +184,7 @@ public class PokedexEntry
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
                 {
                     for (final BiomeType t : matcher.validSubBiomes)
-                        biomeNames.add(t.readableName);
+                        biomeNames.add(I18n.format(t.readableName));
                     for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                     {
                         final boolean valid = matcher.validBiomes.contains(test.getRegistryName());
@@ -213,7 +213,7 @@ public class PokedexEntry
             if (data.level != null) this.level = data.level;
             if (data.location != null) this.matcher = new SpawnBiomeMatcher(data.location);
             if (data.animation != null) this.FX = data.animation;
-            if (data.item != null) this.item = Tools.getStack(data.item.values);
+            if (data.item != null) this.item = Tools.getStack(data.item.getValues());
             if (data.item_preset != null) this.preset = PokecubeItems.toPokecubeResource(data.item_preset);
             if (data.time != null)
             {
@@ -404,12 +404,7 @@ public class PokedexEntry
                 final Key key = interact.key;
                 final Action action = interact.action;
                 final boolean isForme = action.values.get(new QName("type")).equals("forme");
-                Map<QName, String> values = key.values;
-                if (key.tag != null)
-                {
-                    final QName name = new QName("tag");
-                    values.put(name, key.tag);
-                }
+                Map<QName, String> values = key.getValues();
                 final ItemStack keyStack = Tools.getStack(values);
                 final Interaction interaction = new Interaction(keyStack);
                 interaction.male = interact.male;
@@ -428,12 +423,7 @@ public class PokedexEntry
                     final List<ItemStack> stacks = Lists.newArrayList();
                     for (final Drop d : action.drops)
                     {
-                        values = d.values;
-                        if (d.tag != null)
-                        {
-                            final QName name = new QName("tag");
-                            values.put(name, d.tag);
-                        }
+                        values = d.getValues();
                         final ItemStack stack = Tools.getStack(values);
                         if (stack != ItemStack.EMPTY) stacks.add(stack);
                     }

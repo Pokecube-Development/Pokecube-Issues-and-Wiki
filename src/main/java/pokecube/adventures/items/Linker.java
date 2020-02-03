@@ -10,12 +10,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.PokecubeAdv;
 import thut.api.LinkableCaps.LinkStorage;
 import thut.api.maths.Vector4;
 
-@Mod.EventBusSubscriber
 public class Linker extends Item
 {
     private static final ResourceLocation LINKSTOREKEY = new ResourceLocation(PokecubeAdv.ID, "linker");
@@ -24,41 +22,39 @@ public class Linker extends Item
     {
         private final ItemStack linker;
 
-        public LinkStore(ItemStack linker)
+        public LinkStore(final ItemStack linker)
         {
             this.linker = linker;
         }
 
         @Override
-        public boolean setLinkedMob(UUID mobid, Entity user)
+        public boolean setLinkedMob(final UUID mobid, final Entity user)
         {
             // we do not link mobs;
             return false;
         }
 
         @Override
-        public Vector4 getLinkedPos(Entity user)
+        public Vector4 getLinkedPos(final Entity user)
         {
-            if (linker.getOrCreateTag().contains("link_pos"))
-            {
-                return new Vector4(linker.getTag().getCompound("link_pos"));
-            }
+            if (this.linker.getOrCreateTag().contains("link_pos")) return new Vector4(this.linker.getTag().getCompound(
+                    "link_pos"));
             else return null;
         }
 
         @Override
-        public boolean setLinkedPos(Vector4 pos, Entity user)
+        public boolean setLinkedPos(final Vector4 pos, final Entity user)
         {
             if (pos == null || user.isSneaking())
             {
-                linker.getOrCreateTag().remove("link_pos");
+                this.linker.getOrCreateTag().remove("link_pos");
                 user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.unset"));
             }
             else
             {
-                CompoundNBT posTag = new CompoundNBT();
+                final CompoundNBT posTag = new CompoundNBT();
                 pos.writeToNBT(posTag);
-                linker.getOrCreateTag().put("link_pos", posTag);
+                this.linker.getOrCreateTag().put("link_pos", posTag);
                 user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.set"));
             }
             return true;
@@ -68,11 +64,9 @@ public class Linker extends Item
     @SubscribeEvent
     public static void attachCaps(final AttachCapabilitiesEvent<ItemStack> event)
     {
-        if (event.getCapabilities().containsKey(LINKSTOREKEY)) return;
-        if (event.getObject().getItem() instanceof Linker)
-        {
-            event.addCapability(LINKSTOREKEY, new LinkStore(event.getObject()));
-        }
+        if (event.getCapabilities().containsKey(Linker.LINKSTOREKEY)) return;
+        if (event.getObject().getItem() instanceof Linker) event.addCapability(Linker.LINKSTOREKEY, new LinkStore(event
+                .getObject()));
     }
 
     public Linker(final Properties properties)

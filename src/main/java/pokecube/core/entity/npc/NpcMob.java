@@ -2,13 +2,13 @@ package pokecube.core.entity.npc;
 
 import java.util.function.Consumer;
 
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
+import net.minecraft.entity.merchant.villager.VillagerData;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
@@ -28,7 +28,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAI;
 import thut.api.maths.Vector3;
 
-public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalSpawnData
+public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
 {
     public static final EntityType<NpcMob> TYPE;
 
@@ -76,10 +76,11 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     }
 
     @Override
-    public AgeableEntity createChild(final AgeableEntity ageable)
+    public void setVillagerData(final VillagerData data)
     {
-        // TODO Auto-generated method stub
-        return null;
+        final MerchantOffers trades = this.offers;
+        super.setVillagerData(data);
+        this.offers = trades;
     }
 
     @Override
@@ -149,7 +150,23 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     @Override
     public void readSpawnData(final PacketBuffer additionalData)
     {
-        this.readAdditional(additionalData.readCompoundTag());
+        final CompoundNBT nbt = additionalData.readCompoundTag();
+        this.stationary = nbt.getBoolean("stationary");
+        this.setMale(nbt.getBoolean("gender"));
+        this.name = nbt.getString("name");
+        this.playerName = nbt.getString("playerName");
+        this.urlSkin = nbt.getString("urlSkin");
+        this.customTex = nbt.getString("customTex");
+        try
+        {
+            if (nbt.contains("type")) this.setNpcType(NpcType.byType(nbt.getString("type")));
+            else this.setNpcType(NpcType.PROFESSOR);
+        }
+        catch (final Exception e)
+        {
+            this.setNpcType(NpcType.PROFESSOR);
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -168,9 +185,15 @@ public class NpcMob extends AbstractVillagerEntity implements IEntityAdditionalS
     @Override
     public void writeSpawnData(final PacketBuffer buffer)
     {
-        final CompoundNBT tag = new CompoundNBT();
-        this.writeAdditional(tag);
-        buffer.writeCompoundTag(tag);
+        final CompoundNBT nbt = new CompoundNBT();
+        nbt.putBoolean("gender", this.isMale());
+        nbt.putString("name", this.name);
+        nbt.putBoolean("stationary", this.stationary);
+        nbt.putString("playerName", this.playerName);
+        nbt.putString("urlSkin", this.urlSkin);
+        nbt.putString("customTex", this.customTex);
+        nbt.putString("type", this.getNpcType().getName());
+        buffer.writeCompoundTag(nbt);
     }
 
     @Override

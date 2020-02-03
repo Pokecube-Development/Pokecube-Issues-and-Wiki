@@ -372,7 +372,7 @@ public class Tools
         ItemStack stack = ItemStack.EMPTY;
         Item item = null;
         if (resource) item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
-        else stack = PokecubeItems.getStack(id, false);
+        if (!resource || item == null) stack = PokecubeItems.getStack(id, false);
         if (!stack.isEmpty()) item = stack.getItem();
         if (item == null) return ItemStack.EMPTY;
         if (stack.isEmpty()) stack = new ItemStack(item, 1);

@@ -1,55 +1,114 @@
-{ 
-  "structures":[ 
+{
+  "structures":[],
+  "jigsaws":[ 
     { 
-      "name":"scattered/ruin_1",
-      "chance":0.002,
+      "name":"pokecube:scattered/pokecenter_start",
+      "root":{ 
+        "name":"pokecube:scattered/pokecenter_start/path",
+        "rigid": false,
+        "options":[ 
+          "pokecube:scattered/pokecenter_start/path"
+        ]
+      },
+      "chance":1,
+      "biomeType":"village",
+      "atSpawn":true,
+      "parts":[ 
+        { 
+          "name":"pokecube:scattered/pokecenter_start/building",
+          "target":"pokecube:scattered/pokecenter_start/path",
+          "ignoreAir": false,
+          "options":[ 
+            "pokecube:scattered/pokecenter_start/building"
+          ]
+        }
+      ],
+      "spawn":{ 
+        "values":{ 
+          "types":"all",
+          "typesBlacklist":"river,ocean"
+        }
+      }
+    },
+    { 
+      "name":"pokecube:scattered/ruin_1",
+      "chance":0.02,
       "biomeType":"ruin",
+      "distance":8,
+      "separation":4,
+      "offset":-3,
+      "parts":[],
       "spawn":{ 
         "values":{ 
           "types":"plains"
         }
-      }
-    }
-  ],
-  "jigsaws":[
-    { 
-      "name":"pokecube:scattered/pokecenter_start",
-      "plate_name":"pokecube:scattered/pokecenter_start/plates",
-      "building_name":"pokecube:scattered/pokecenter_start/buildings",
-      "chance":1,
-      "offset":-3,
-      "biomeType":"village",
-      "atSpawn": true,
-      "parts":[ 
-        "pokecube:scattered/pokecenter_start/building"
-      ],
-      "plates":[ 
-        "pokecube:scattered/pokecenter_start/plate"
-      ],
-      "spawn":{ 
-        "values":{ 
-          "types":"all",
-          "typesBlacklist": "river,ocean"
-        }
+      },
+      "root":{ 
+        "name":"pokecube:scattered/ruin/ruin_1",
+        "rigid": false,
+        "options":[ 
+          "pokecube:scattered/ruin/ruin_1"
+        ]
       }
     },
-    {
-      "name":"pokecube:scattered/pokecenter_rand",
-      "plate_name":"pokecube:scattered/pokecenter_rand/plates",
-      "building_name":"pokecube:scattered/pokecenter_rand/buildings",
-      "chance":0.01,
-      "offset":-3,
+    { 
+      "name":"pokecube:village/common",
+      "root":{ 
+        "name":"pokecube:village/common/town_centers",
+        "rigid": false,
+        "options":[ 
+          "pokecube:village/common/town_centers/plains"
+        ]
+      },
+      "chance":0.1,
+      "distance":16,
+      "separation":4,
       "biomeType":"village",
       "parts":[ 
-        "pokecube:scattered/pokecenter_rand/building"
-      ],
-      "plates":[ 
-        "pokecube:scattered/pokecenter_rand/plate"
+       { 
+          "name":"pokecube:village/common/terminators",
+          "rigid": false,
+          "options":[ 
+            "pokecube:village/common/terminators/terminator_01"
+          ]
+        },
+        { 
+          "name":"pokecube:village/common/streets",
+          "target":"pokecube:village/common/terminators",
+          "rigid": false,
+          "options":[
+            "pokecube:village/common/streets/road_t_01",
+            "pokecube:village/common/streets/road_02;{\"weight\":4}"
+          ]
+        },
+        { 
+          "name":"pokecube:village/common/pokecenter/path",
+          "rigid": false,
+          "options":[
+            "pokecube:village/common/pokecenter/path"
+          ]
+        },
+        { 
+          "name":"pokecube:village/common/gym/path",
+          "rigid": false,
+          "options":[
+            "pokecube:village/common/gym/path"
+          ]
+        },
+        { 
+          "name":"pokecube:village/common/houses",
+          "target":"pokecube:village/common/terminators",
+          "options":[
+            "pokecube:village/common/houses/house_small_1;{\"weight\":4}",
+            "pokecube:village/common/pokecenter/center_01;{\"ignoreAir\":false}",
+            "pokecube:village/common/gym/gym_01;{\"ignoreAir\":false}"
+          ]
+        }
       ],
       "spawn":{ 
         "values":{ 
           "types":"all",
-          "typesBlacklist": "river,ocean"
+          "typesBlacklist":"river,ocean"
         }
       }
     }

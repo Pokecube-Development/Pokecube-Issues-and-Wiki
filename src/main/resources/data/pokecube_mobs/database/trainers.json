@@ -55,8 +55,8 @@
       ],
       "gender":"Male",
       "bag":{ 
-        "id":"pokecube_adventures:pokecubebag",
-        "tag":"\\\"dyeColour\\\": 2"
+        "id":"pokecube_adventures:bag",
+        "tag":"{\"dyeColour\": 2}"
       }
     },
     { 
@@ -401,7 +401,7 @@
       ],
       "gender":"Male",
       "bag":{ 
-        "id":"pokecube_adventures:pokecubebag"
+        "id":"pokecube_adventures:bag"
       }
     }
   ]

@@ -1,8 +1,11 @@
 package pokecube.core.commands;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -23,7 +26,6 @@ import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
-import pokecube.core.moves.implementations.actions.ActionSecretPower;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.OwnableCaps;
 import thut.api.block.IOwnableTE;
@@ -34,6 +36,8 @@ import thut.core.common.commands.CommandTools;
 
 public class SecretBaseCommand
 {
+    public static Map<UUID, Vector4> pendingBaseLocations = Maps.newHashMap();
+
     public static int execute(final CommandSource source, final ServerPlayerEntity player,
             final Collection<GameProfile> profiles)
     {
@@ -59,9 +63,9 @@ public class SecretBaseCommand
 
     public static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vec3d input)
     {
-        if (ActionSecretPower.pendingBaseLocations.containsKey(player.getUniqueID()))
+        if (SecretBaseCommand.pendingBaseLocations.containsKey(player.getUniqueID()))
         {
-            final Vector4 loc = ActionSecretPower.pendingBaseLocations.remove(player.getUniqueID());
+            final Vector4 loc = SecretBaseCommand.pendingBaseLocations.remove(player.getUniqueID());
             final Vector3 pos = Vector3.getNewVector().set(loc.x, loc.y, loc.z);
             final DimensionType type = DimensionType.getById((int) loc.w);
             if (type == player.dimension && pos.distTo(Vector3.getNewVector().set(input)) < 16)

@@ -7,7 +7,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -23,7 +22,6 @@ import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
 @Mod(Reference.MODID)
-@EventBusSubscriber
 public class ThutCrafts
 {
     // This is our config storing object.

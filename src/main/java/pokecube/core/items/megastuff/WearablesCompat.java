@@ -22,7 +22,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.models.ModelRing;
@@ -33,7 +32,6 @@ import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
 
-@Mod.EventBusSubscriber
 public class WearablesCompat
 {
     public static class WearableMega implements thut.wearables.IActiveWearable, ICapabilityProvider

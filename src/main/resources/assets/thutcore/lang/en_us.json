@@ -8,7 +8,21 @@
     "_comment": "Commands",
     "thutcore.command.settings.check": "%1$s §ais currently set to:§6 %2$s",
     "thutcore.command.settings.set": "%1$s §aset to:§6 %2$s",
-
+    
+    
+    "_comment": "Sub Biomes",
+    "thutcore.biometype.none": "None",
+    "thutcore.biometype.sky": "Sky",
+    "thutcore.biometype.flower": "Flower Area",
+    "thutcore.biometype.lake": "Lake",
+    "thutcore.biometype.industrial": "Industrial Area",
+    "thutcore.biometype.meteor": "Meteor Area",
+    "thutcore.biometype.ruin": "Ruin",
+    "thutcore.biometype.cave": "Cave",
+    "thutcore.biometype.cavewater": "Cave Lake",
+    "thutcore.biometype.village": "Village",
+    "thutcore.biometype.all": "All",
+    
     "_comment": "Config Options",
     "thutcore.config.explosions": "Explosion Settings",
     "thutcore.config.explosions.tooltip": "Explosion Settings",

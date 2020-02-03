@@ -8,7 +8,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -19,7 +18,6 @@ import pokecube.core.items.UsableItemEffects.VitaminUsable.VitaminEffect;
 import pokecube.core.items.vitamins.ItemVitamin;
 import pokecube.core.utils.PokeType;
 
-@Mod.EventBusSubscriber
 public class MiscItemHelper
 {
     public static class CharcoalEffect extends BaseUseable
@@ -59,32 +57,32 @@ public class MiscItemHelper
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob != null)
         {
-            if (PokecubeItems.is(new ResourceLocation("hpup"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:hpup"), stack))
             {
                 pokemob.addEVs(new byte[] { 10, 0, 0, 0, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("protein"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:protein"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 10, 0, 0, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("iron"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:iron"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 10, 0, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("calcium"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:calcium"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 0, 10, 0, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("zinc"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:zinc"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 0, 0, 10, 0 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
             }
-            if (PokecubeItems.is(new ResourceLocation("carbos"), stack))
+            if (PokecubeItems.is(new ResourceLocation("pokecube:carbos"), stack))
             {
                 pokemob.addEVs(new byte[] { 0, 0, 0, 0, 0, 10 });
                 return new ActionResult<>(ActionResultType.SUCCESS, stack);
@@ -124,8 +122,8 @@ public class MiscItemHelper
     {
         if (event.getCapabilities().containsKey(MiscItemHelper.USABLE) || MiscItemHelper.CHARCOALSTACK == null
                 || MiscItemHelper.CHARCOALSTACK == event.getObject()) return;
-        if (MiscItemHelper.CHARCOALSTACK.getItem() == event.getObject().getItem()) event.addCapability(MiscItemHelper.USABLE,
-                new CharcoalEffect());
+        if (MiscItemHelper.CHARCOALSTACK.getItem() == event.getObject().getItem()) event.addCapability(
+                MiscItemHelper.USABLE, new CharcoalEffect());
     }
 
 }

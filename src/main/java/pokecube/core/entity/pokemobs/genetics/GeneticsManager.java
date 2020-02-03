@@ -20,7 +20,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
 import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
@@ -37,7 +36,6 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 
-@Mod.EventBusSubscriber
 public class GeneticsManager
 {
     public static class GeneticsProvider implements ICapabilityProvider, INBTSerializable<CompoundNBT>
@@ -46,7 +44,7 @@ public class GeneticsManager
         private final LazyOptional<IMobGenetics> holder  = LazyOptional.of(() -> this.wrapped);
 
         @Override
-        public void deserializeNBT(CompoundNBT tag)
+        public void deserializeNBT(final CompoundNBT tag)
         {
             final INBT nbt = tag.get("V");
             GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, this.holder.orElse(null), null,
@@ -54,7 +52,7 @@ public class GeneticsManager
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
             return GeneRegistry.GENETICS_CAP.orEmpty(cap, this.holder);
         }
@@ -105,7 +103,7 @@ public class GeneticsManager
     }
 
     @SubscribeEvent
-    public static void attachItemCapability(AttachCapabilitiesEvent<ItemStack> event)
+    public static void attachItemCapability(final AttachCapabilitiesEvent<ItemStack> event)
     {
         if (PokecubeItems.is(PokecubeItems.POKEMOBEGG, event.getObject()) && !event.getCapabilities().containsKey(
                 GeneticsManager.POKECUBEGENETICS)) event.addCapability(GeneticsManager.POKECUBEGENETICS,
@@ -123,12 +121,12 @@ public class GeneticsManager
         return ret;
     }
 
-    public static void handleEpigenetics(IPokemob pokemob)
+    public static void handleEpigenetics(final IPokemob pokemob)
     {
         // pokemob.onGenesChanged();
     }
 
-    public static void handleLoad(IPokemob pokemob)
+    public static void handleLoad(final IPokemob pokemob)
     {
         final Entity mob = pokemob.getEntity();
         final IMobGenetics genes = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
@@ -149,13 +147,13 @@ public class GeneticsManager
         GeneRegistry.register(SizeGene.class);
     }
 
-    public static void initEgg(IMobGenetics eggs, IMobGenetics mothers, IMobGenetics fathers)
+    public static void initEgg(final IMobGenetics eggs, final IMobGenetics mothers, final IMobGenetics fathers)
     {
         if (eggs == null || mothers == null || fathers == null) return;
         eggs.setFromParents(mothers, fathers);
     }
 
-    public static void initFromGenes(IMobGenetics genes, IPokemob pokemob)
+    public static void initFromGenes(final IMobGenetics genes, final IPokemob pokemob)
     {
         final Entity mob = pokemob.getEntity();
         final IMobGenetics mobs = mob.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
@@ -177,7 +175,7 @@ public class GeneticsManager
         GeneticsManager.epigeneticParser.parseExpression(GeneticsManager.epigeneticFunction);
     }
 
-    public static void initMob(Entity mob)
+    public static void initMob(final Entity mob)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         pokemob.onGenesChanged();

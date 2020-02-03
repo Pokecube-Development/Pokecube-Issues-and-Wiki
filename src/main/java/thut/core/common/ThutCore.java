@@ -75,7 +75,6 @@ public class ThutCore
     // You can use EventBusSubscriber to automatically subscribe events on the
     // contained class (this is subscribing to the main event bus, as it gets
     // generic minecraft events.)
-    @Mod.EventBusSubscriber
     public static class MobEvents
     {
         @SubscribeEvent

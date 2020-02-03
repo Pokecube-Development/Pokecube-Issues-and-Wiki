@@ -32,10 +32,6 @@ import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.handlers.events.PCEventsHandler;
-import pokecube.core.handlers.events.PokemobEventsHandler;
-import pokecube.core.handlers.events.SpawnEventsHandler;
-import pokecube.core.handlers.events.StatsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
@@ -123,12 +119,6 @@ public class CommonProxy implements Proxy
 
         // Forward this to PCEdit mod:
         NBTEdit.setup(event);
-
-        // Register some event handlers
-        PokecubeCore.POKEMOB_BUS.register(StatsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(SpawnEventsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(PCEventsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
 
         // Register some Village stuff
         if (PokecubeCore.getConfig().villagePokecenters)

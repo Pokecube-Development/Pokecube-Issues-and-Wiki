@@ -24,7 +24,6 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.stats.StatsCollector;
@@ -41,7 +40,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.packets.PacketPC;
 import thut.core.common.ThutCore;
 
-@Mod.EventBusSubscriber
 public class PCEventsHandler
 {
     public static final UUID THUTMOSE = UUID.fromString("f1dacdfd-42d6-4af0-8234-b2f180ecd6a8");

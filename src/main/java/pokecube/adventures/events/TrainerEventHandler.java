@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,7 +36,6 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
@@ -63,6 +63,7 @@ import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -90,14 +91,8 @@ import thut.core.common.world.mobs.data.SyncHandler;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
 import thut.core.common.world.mobs.data.types.Data_String;
 
-@Mod.EventBusSubscriber
 public class TrainerEventHandler
 {
-    static
-    {
-        PokecubeCore.POKEMOB_BUS.register(TrainerEventHandler.class);
-    }
-
     private static class Provider extends GuardAICapability implements ICapabilitySerializable<CompoundNBT>
     {
         private final LazyOptional<IGuardAICapability> holder = LazyOptional.of(() -> this);
@@ -358,16 +353,16 @@ public class TrainerEventHandler
     public static void onJoinWorld(final EntityJoinWorldEvent event)
     {
         if (!(event.getEntity() instanceof LivingEntity)) return;
-        TrainerEventHandler.initTrainer((LivingEntity) event.getEntity());
+        TrainerEventHandler.initTrainer((LivingEntity) event.getEntity(), SpawnReason.NATURAL);
     }
 
     @SubscribeEvent
     public static void onNpcSpawn(final NpcSpawn event)
     {
-        TrainerEventHandler.initTrainer(event.getNpcMob());
+        TrainerEventHandler.initTrainer(event.getNpcMob(), event.getReason());
     }
 
-    private static void initTrainer(final LivingEntity npc)
+    private static void initTrainer(final LivingEntity npc, final SpawnReason reason)
     {
         if (npc instanceof NpcMob && !(npc instanceof TrainerBase))
         {
@@ -395,6 +390,7 @@ public class TrainerEventHandler
                 ais.add(new AIFindTarget(npc, PlayerEntity.class).setPriority(10));
                 ais.add(new AIMate(npc, ((TrainerNpc) npc).getClass()));
             }
+
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs) ais.add(new AIFindTarget(npc, 0.05f, EntityPokemob.class)
                     .setPriority(20));
@@ -404,6 +400,9 @@ public class TrainerEventHandler
                     .setPriority(20));
             final MobEntity living = (MobEntity) npc;
             living.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));
+
+            final IGuardAICapability guard = npc.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+            if (guard != null) living.goalSelector.addGoal(0, new GuardAI(living, guard));
         }
 
         final TypeTrainer newType = TypeTrainer.mobTypeMapper.getType(npc, true);
@@ -516,25 +515,20 @@ public class TrainerEventHandler
      */
     public static void TrainerWatchEvent(final StartTracking event)
     {
-        // TODO invisible trainer options.
-        // if (event.getEntity().getEntityWorld().isRemote) return;
-        // final IHasPokemobs mobs =
-        // CapabilityHasPokemobs.getHasPokemobs(event.getEntity());
-        // if (!(mobs instanceof DefaultPokemobs)) return;
-        // final DefaultPokemobs pokemobs = (DefaultPokemobs) mobs;
-        // if (event.getPlayer() instanceof ServerPlayerEntity)
-        // {
-        // final EntityTrainer trainer = (EntityTrainer) event.getTarget();
-        // if (pokemobs.notifyDefeat)
-        // {
-        // final PacketTrainer packet = new
-        // PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
-        // packet.data.putInt("I", trainer.getEntityId());
-        // packet.data.putBoolean("V",
-        // pokemobs.hasDefeated(event.getPlayer()));
-        // PokecubeMod.packetPipeline.sendTo(packet, (ServerPlayerEntity)
-        // event.getPlayer());
-        // }
-        // }
+        if (!(event.getTarget() instanceof TrainerNpc)) return;
+        final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(event.getEntity());
+        if (!(mobs instanceof DefaultPokemobs)) return;
+        final DefaultPokemobs pokemobs = (DefaultPokemobs) mobs;
+        if (event.getPlayer() instanceof ServerPlayerEntity)
+        {
+            final TrainerNpc trainer = (TrainerNpc) event.getTarget();
+            if (pokemobs.notifyDefeat)
+            {
+                final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
+                packet.data.putInt("I", trainer.getEntityId());
+                packet.data.putBoolean("V", pokemobs.hasDefeated(event.getPlayer()));
+                PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) event.getPlayer());
+            }
+        }
     }
 }

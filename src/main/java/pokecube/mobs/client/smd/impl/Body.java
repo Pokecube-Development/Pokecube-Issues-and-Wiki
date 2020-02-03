@@ -12,8 +12,8 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import thut.api.maths.vecmath.Vector3f;
 import net.minecraft.util.ResourceLocation;
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -39,7 +39,7 @@ public class Body implements IRetexturableModel
     IAnimationChanger                         changer;
     private final double[]                    uvShift      = { 0, 0 };
 
-    public Body(Body body, Model parent)
+    public Body(final Body body, final Model parent)
     {
         this.parent = parent;
         this.partOfGroup = body.partOfGroup;
@@ -69,7 +69,7 @@ public class Body implements IRetexturableModel
         parent.syncBones(this);
     }
 
-    public Body(Model parent, ResourceLocation resloc) throws Exception
+    public Body(final Model parent, final ResourceLocation resloc) throws Exception
     {
         this.parent = parent;
         this.partOfGroup = false;
@@ -95,12 +95,12 @@ public class Body implements IRetexturableModel
             }
     }
 
-    public Bone getBone(int id)
+    public Bone getBone(final int id)
     {
         return id < this.bones.size() && id >= 0 ? this.bones.get(id) : null;
     }
 
-    public Bone getBone(String name)
+    public Bone getBone(final String name)
     {
         for (final Bone b : this.bones)
             if (b.name.equals(name)) return b;
@@ -112,7 +112,7 @@ public class Body implements IRetexturableModel
         return this.currentAnim == null ? null : this.currentAnim.getCurrentFrame();
     }
 
-    private MutableVertex getExisting(float x, float y, float z)
+    private MutableVertex getExisting(final float x, final float y, final float z)
     {
         for (final MutableVertex v : this.verts)
             if (v.equals(x, y, z)) return v;
@@ -130,7 +130,7 @@ public class Body implements IRetexturableModel
         }
     }
 
-    private void loadModel(ResourceLocation resloc, Body body) throws Exception
+    private void loadModel(final ResourceLocation resloc, final Body body) throws Exception
     {
         final InputStream inputStream = Helpers.getStream(resloc);
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -190,7 +190,7 @@ public class Body implements IRetexturableModel
         }
     }
 
-    private void parseBone(String line, int lineCount, Body body)
+    private void parseBone(final String line, final int lineCount, final Body body)
     {
         final String[] params = line.split("\\s+");
         final int id = Integer.parseInt(params[0]);
@@ -206,7 +206,7 @@ public class Body implements IRetexturableModel
         this.bones.set(id, theBone);
     }
 
-    private void parseFace(String[] params, int lineCount, Material mat)
+    private void parseFace(final String[] params, final int lineCount, final Material mat)
     {
         final MutableVertex[] faceVerts = new MutableVertex[3];
         final TextureCoordinate[] uvs = new TextureCoordinate[3];
@@ -250,7 +250,7 @@ public class Body implements IRetexturableModel
         }
     }
 
-    public Material parseMaterial(String materialName) throws Exception
+    public Material parseMaterial(final String materialName) throws Exception
     {
         if (!this.parent.usesMaterials) return null;
         if (this.namesToMats == null) this.namesToMats = Maps.newHashMap();
@@ -296,7 +296,9 @@ public class Body implements IRetexturableModel
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
                     }
                 }
+                mat.preRender();
                 this.render(entry, smooth);
+                mat.postRender();
                 if (textureShift)
                 {
                     GL11.glMatrixMode(GL11.GL_TEXTURE);
@@ -308,7 +310,7 @@ public class Body implements IRetexturableModel
         GL11.glPopMatrix();
     }
 
-    private void render(Map.Entry<Material, ArrayList<Face>> entry, boolean smooth)
+    private void render(final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)
     {
         GL11.glBegin(GL11.GL_TRIANGLES);
         for (final Face face : entry.getValue())
@@ -322,24 +324,24 @@ public class Body implements IRetexturableModel
             v.reset();
     }
 
-    public void setAnimation(Animation anim)
+    public void setAnimation(final Animation anim)
     {
         this.currentAnim = anim;
     }
 
     @Override
-    public void setAnimationChanger(IAnimationChanger changer)
+    public void setAnimationChanger(final IAnimationChanger changer)
     {
         this.changer = changer;
     }
 
     @Override
-    public void setTexturer(IPartTexturer texturer)
+    public void setTexturer(final IPartTexturer texturer)
     {
         this.texturer = texturer;
     }
 
-    private void updateBone(String line, int lineCount)
+    private void updateBone(final String line, final int lineCount)
     {
         final String[] params = line.split("\\s+");
         final int id = Integer.parseInt(params[0]);
@@ -355,7 +357,7 @@ public class Body implements IRetexturableModel
         theBone.setRest(Helpers.makeMatrix(locRots[0], -locRots[1], -locRots[2], locRots[3], -locRots[4], -locRots[5]));
     }
 
-    private void weighBones(String[] values, MutableVertex vert)
+    private void weighBones(final String[] values, final MutableVertex vert)
     {
         final int links = Integer.parseInt(values[9]);
         final float[] weights = new float[links];

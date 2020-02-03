@@ -4,12 +4,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -18,6 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.utils.PokeType;
@@ -25,16 +24,12 @@ import pokecube.core.utils.Tools;
 
 public class TrainerEntryLoader
 {
-    public static class Bag
+    public static class Bag extends Drop
     {
-        Map<QName, String> values;
-        String             tag;
     }
 
-    public static class Held
+    public static class Held extends Drop
     {
-        Map<QName, String> values;
-        String             tag;
     }
 
     public static class TrainerEntry
@@ -123,9 +118,7 @@ public class TrainerEntryLoader
             type.hasBag = entry.bag != null;
             if (type.hasBag)
             {
-                if (entry.bag.values == null) entry.bag.values = Maps.newHashMap();
-                if (entry.bag.tag != null) entry.bag.values.put(new QName("tag"), entry.bag.tag);
-                final ItemStack bag = Tools.getStack(entry.bag.values);
+                final ItemStack bag = Tools.getStack(entry.bag.getValues());
                 type.bag = bag;
             }
             if (entry.spawns != null) for (final SpawnRule rule : entry.spawns)
@@ -151,9 +144,7 @@ public class TrainerEntryLoader
             final String[] pokeList = entry.pokemon == null ? new String[] {} : entry.pokemon.split(",");
             if (entry.held != null)
             {
-                if (entry.held.values == null) entry.held.values = Maps.newHashMap();
-                if (entry.held.tag != null) entry.held.values.put(new QName("tag"), entry.held.tag);
-                final ItemStack held = Tools.getStack(entry.held.values);
+                final ItemStack held = Tools.getStack(entry.held.getValues());
                 type.held = held;
             }
             if (pokeList.length == 0) continue;

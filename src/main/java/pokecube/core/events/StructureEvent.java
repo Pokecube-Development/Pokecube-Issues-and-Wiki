@@ -2,11 +2,9 @@ package pokecube.core.events;
 
 import java.util.Random;
 
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template.EntityInfo;
 import net.minecraftforge.eventbus.api.Event;
@@ -19,19 +17,15 @@ public class StructureEvent extends Event
         private final PlacementSettings  settings;
         private final String             structure;
         private String                   structureOverride;
-        private final World              world;
+        private final IWorld             world;
 
-        public BuildStructure(final BlockPos pos, final World world, final String name, final BlockPos size,
+        public BuildStructure(final MutableBoundingBox bounds, final IWorld world, final String name,
                 final PlacementSettings settings)
         {
             this.structure = name;
             this.world = world;
             this.settings = settings;
-            Direction dir = Direction.SOUTH;
-            if (settings.getMirror() != null) dir = settings.getMirror().mirror(dir);
-            if (settings.getRotation() != null) dir = settings.getRotation().rotate(dir);
-            this.bounds = MutableBoundingBox.getComponentToAddBoundingBox(pos.getX(), pos.getY(), pos.getZ(), 0, 0, 0,
-                    size.getX(), size.getY(), size.getZ(), dir);
+            this.bounds = bounds;
         }
 
         public String getBiomeType()
@@ -54,7 +48,7 @@ public class StructureEvent extends Event
             return this.structure;
         }
 
-        public World getWorld()
+        public IWorld getWorld()
         {
             return this.world;
         }

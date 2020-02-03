@@ -1,6 +1,7 @@
 package thut.core.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -73,7 +74,7 @@ public class ClientProxy extends CommonProxy
         final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(Minecraft.getInstance().player);
         final Vector3 v = Vector3.getNewVector().set(Minecraft.getInstance().player);
         final int num = t.getBiome(v);
-        final String msg = "Sub-Biome: " + BiomeDatabase.getReadableNameFromType(num);
+        final String msg = "Sub-Biome: " + I18n.format(BiomeDatabase.getUnlocalizedNameFromType(num));
         event.getLeft().add("");
         event.getLeft().add(msg);
     }

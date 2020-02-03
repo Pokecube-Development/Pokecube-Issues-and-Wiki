@@ -127,6 +127,7 @@ public class CommonProxy implements Proxy
     public void setup(final FMLCommonSetupEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(ThutCrafts.class);
     }
 
     @SubscribeEvent

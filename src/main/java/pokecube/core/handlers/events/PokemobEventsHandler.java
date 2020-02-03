@@ -40,7 +40,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -71,7 +70,6 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 
-@Mod.EventBusSubscriber
 public class PokemobEventsHandler
 {
     private static Map<DyeColor, Tag<Item>> DYETAGS = Maps.newHashMap();

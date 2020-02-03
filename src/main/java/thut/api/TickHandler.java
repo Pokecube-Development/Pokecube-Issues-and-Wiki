@@ -12,9 +12,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
 public class TickHandler
 {
     public static Map<UUID, Integer> playerTickTracker = Maps.newHashMap();

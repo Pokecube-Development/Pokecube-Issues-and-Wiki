@@ -274,12 +274,6 @@ public class XMLRewardsHandler
 
     public static ItemStack getStack(final Drop drop)
     {
-        final Map<QName, String> values = drop.values;
-        if (drop.tag != null)
-        {
-            final QName name = new QName("tag");
-            values.put(name, drop.tag);
-        }
-        return Tools.getStack(drop.values);
+        return Tools.getStack(drop.getValues());
     }
 }

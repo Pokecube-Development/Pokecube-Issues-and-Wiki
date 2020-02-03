@@ -27,6 +27,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.vitamins.ItemVitamin;
@@ -37,13 +38,8 @@ import pokecube.core.utils.Tools;
 public class TradeEntryLoader
 {
     @XmlRootElement(name = "Buy")
-    public static class Buy
+    public static class Buy extends Drop
     {
-        @XmlAnyAttribute
-        Map<QName, String> values;
-        @XmlElement(name = "tag")
-        String             tag;
-
         @Override
         public String toString()
         {
@@ -52,13 +48,8 @@ public class TradeEntryLoader
     }
 
     @XmlRootElement(name = "Sell")
-    public static class Sell
+    public static class Sell extends Drop
     {
-        @XmlAnyAttribute
-        Map<QName, String> values;
-        @XmlElement(name = "tag")
-        String             tag;
-
         @Override
         public String toString()
         {
@@ -122,13 +113,11 @@ public class TradeEntryLoader
                     TrainerTrade recipe;
                     ItemStack buy1 = ItemStack.EMPTY;
                     ItemStack buy2 = ItemStack.EMPTY;
-                    values = trade.buys.get(0).values;
-                    if (trade.buys.get(0).tag != null) values.put(new QName("tag"), trade.buys.get(0).tag);
+                    values = trade.buys.get(0).getValues();
                     buy1 = Tools.getStack(values);
                     if (trade.buys.size() > 1)
                     {
-                        values = trade.buys.get(1).values;
-                        if (trade.buys.get(1).tag != null) values.put(new QName("tag"), trade.buys.get(1).tag);
+                        values = trade.buys.get(1).getValues();
                         buy2 = Tools.getStack(values);
                     }
                     recipe = new TrainerTrade(buy1, buy2, sell);
@@ -149,13 +138,11 @@ public class TradeEntryLoader
             TrainerTrade recipe;
             ItemStack buy1 = ItemStack.EMPTY;
             ItemStack buy2 = ItemStack.EMPTY;
-            values = trade.buys.get(0).values;
-            if (trade.buys.get(0).tag != null) values.put(new QName("tag"), trade.buys.get(0).tag);
+            values = trade.buys.get(0).getValues();
             buy1 = Tools.getStack(values);
             if (trade.buys.size() > 1)
             {
-                values = trade.buys.get(1).values;
-                if (trade.buys.get(1).tag != null) values.put(new QName("tag"), trade.buys.get(1).tag);
+                values = trade.buys.get(1).getValues();
                 buy2 = Tools.getStack(values);
             }
             recipe = new TrainerTrade(buy1, buy2, sell);
@@ -180,13 +167,11 @@ public class TradeEntryLoader
             TrainerTrade recipe;
             ItemStack buy1 = ItemStack.EMPTY;
             ItemStack buy2 = ItemStack.EMPTY;
-            values = trade.buys.get(0).values;
-            if (trade.buys.get(0).tag != null) values.put(new QName("tag"), trade.buys.get(0).tag);
+            values = trade.buys.get(0).getValues();
             buy1 = Tools.getStack(values);
             if (trade.buys.size() > 1)
             {
-                values = trade.buys.get(1).values;
-                if (trade.buys.get(1).tag != null) values.put(new QName("tag"), trade.buys.get(1).tag);
+                values = trade.buys.get(1).getValues();
                 buy2 = Tools.getStack(values);
             }
             recipe = new TrainerTrade(buy1, buy2, sell);
@@ -212,13 +197,11 @@ public class TradeEntryLoader
                 TrainerTrade recipe;
                 ItemStack buy1 = ItemStack.EMPTY;
                 ItemStack buy2 = ItemStack.EMPTY;
-                values = trade.buys.get(0).values;
-                if (trade.buys.get(0).tag != null) values.put(new QName("tag"), trade.buys.get(0).tag);
+                values = trade.buys.get(0).getValues();
                 buy1 = Tools.getStack(values);
                 if (trade.buys.size() > 1)
                 {
-                    values = trade.buys.get(1).values;
-                    if (trade.buys.get(1).tag != null) values.put(new QName("tag"), trade.buys.get(1).tag);
+                    values = trade.buys.get(1).getValues();
                     buy2 = Tools.getStack(values);
                 }
                 recipe = new TrainerTrade(buy1, buy2, sell);
@@ -244,13 +227,11 @@ public class TradeEntryLoader
                         TrainerTrade recipe;
                         ItemStack buy1 = ItemStack.EMPTY;
                         ItemStack buy2 = ItemStack.EMPTY;
-                        values = trade.buys.get(0).values;
-                        if (trade.buys.get(0).tag != null) values.put(new QName("tag"), trade.buys.get(0).tag);
+                        values = trade.buys.get(0).getValues();
                         buy1 = Tools.getStack(values);
                         if (trade.buys.size() > 1)
                         {
-                            values = trade.buys.get(1).values;
-                            if (trade.buys.get(1).tag != null) values.put(new QName("tag"), trade.buys.get(1).tag);
+                            values = trade.buys.get(1).getValues();
                             buy2 = Tools.getStack(values);
                         }
                         recipe = new TrainerTrade(buy1, buy2, badge);
@@ -271,9 +252,8 @@ public class TradeEntryLoader
                 final ItemStack badge = PokecubeItems.getStack("pokecube_adventures:badge_" + type);
                 if (!badge.isEmpty())
                 {
-                    Map<QName, String> values = trade.sell.values;
+                    Map<QName, String> values = trade.sell.getValues();
                     TrainerTrade recipe;
-                    if (trade.sell.tag != null) values.put(new QName("tag"), trade.sell.tag);
                     final ItemStack sell = Tools.getStack(values);
                     recipe = new TrainerTrade(badge, ItemStack.EMPTY, sell);
                     values = trade.values;
@@ -313,20 +293,17 @@ public class TradeEntryLoader
                     TradeEntryLoader.addTemplatedTrades(trade, trades);
                     continue inner;
                 }
-                Map<QName, String> values = trade.sell.values;
                 TrainerTrade recipe;
                 ItemStack sell = ItemStack.EMPTY;
                 ItemStack buy1 = ItemStack.EMPTY;
                 ItemStack buy2 = ItemStack.EMPTY;
-                if (trade.sell.tag != null) values.put(new QName("tag"), trade.sell.tag);
+                Map<QName, String> values = trade.sell.getValues();
                 sell = Tools.getStack(values);
-                values = trade.buys.get(0).values;
-                if (trade.buys.get(0).tag != null) values.put(new QName("tag"), trade.buys.get(0).tag);
+                values = trade.buys.get(0).getValues();
                 buy1 = Tools.getStack(values);
                 if (trade.buys.size() > 1)
                 {
-                    values = trade.buys.get(1).values;
-                    if (trade.buys.get(1).tag != null) values.put(new QName("tag"), trade.buys.get(1).tag);
+                    values = trade.buys.get(1).getValues();
                     buy2 = Tools.getStack(values);
                 }
                 if (sell.isEmpty())

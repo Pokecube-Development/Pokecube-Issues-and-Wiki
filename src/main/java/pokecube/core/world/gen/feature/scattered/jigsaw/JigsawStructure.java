@@ -69,13 +69,13 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     @Override
     protected int getBiomeFeatureDistance(final ChunkGenerator<?> chunkGenerator)
     {
-        return 8;
+        return this.struct.distance;
     }
 
     @Override
     protected int getBiomeFeatureSeparation(final ChunkGenerator<?> chunkGenerator)
     {
-        return 2;
+        return this.struct.separation;
     }
 
     @Override
@@ -107,6 +107,9 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                 final BlockPos blockpos = new BlockPos(chunkX * 16, 90, chunkZ * 16);
                 JigsawPieces.initStructure(generator, templateManagerIn, blockpos, this.components, this.rand,
                         ((JigsawStructure) this.getStructure()).struct);
+                PokecubeCore.LOGGER.debug("Placing structure {} at {} {} {} composed of {} parts ",
+                        ((JigsawStructure) this.getStructure()).struct.name, blockpos.getX(), blockpos.getY(), blockpos
+                                .getZ(), this.components.size());
                 this.recalculateStructureSize();
             }
         }

@@ -173,11 +173,6 @@ public class ItemHandler
                 PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.FOSSILSTONE.getRegistryName()));
 
         PokecubeItems.POKECUBE_BLOCKS = new ItemStack(PokecubeItems.HEALER);
-        // registerItemBlock(fossilStone, registry);
-        //
-        // item = new ItemBlock(tableBlock);
-        // item.setRegistryName(PokecubeMod.ID, "pokecube_table");
-        // register(item, registry);
     }
 
     public static void registerItems(final IForgeRegistry<Item> iForgeRegistry)

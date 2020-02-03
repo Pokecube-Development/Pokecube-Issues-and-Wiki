@@ -97,6 +97,8 @@ public class Health
         if (renderManager == null || renderManager.info == null) return;
         final ActiveRenderInfo viewer = renderManager.info;
 
+        if (!entity.canEntityBeSeen(viewer.getRenderViewEntity())) return;
+
         final UUID viewerID = viewer.getRenderViewEntity().getUniqueID();
 
         ridingStack.push(entity);
