@@ -1,9 +1,6 @@
 package pokecube.core.client.gui;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,12 +12,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
-import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -46,15 +43,11 @@ public class GuiChooseFirstPokemob extends Screen
     private boolean gotSpecial = true;
 
     private float yRenderAngle = 10;
+    private float xRenderAngle = 0;
 
-    private final float xRenderAngle = 0;
-
-    private final float yHeadRenderAngle = 10;
-
-    private final float    xHeadRenderAngle = 0;
-    protected PlayerEntity player           = null;
-    protected PokedexEntry pokedexEntry     = null;
-    int                    index            = 0;
+    protected PlayerEntity player       = null;
+    protected PokedexEntry pokedexEntry = null;
+    int                    index        = 0;
 
     Button next;
 
@@ -166,14 +159,7 @@ public class GuiChooseFirstPokemob extends Screen
     @Override
     public void render(final int i, final int j, final float f)
     {
-        try
-        {
-            this.renderBackground();
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+        this.renderBackground();
         super.render(i, j, f);
 
         if (GuiChooseFirstPokemob.special)
@@ -267,7 +253,7 @@ public class GuiChooseFirstPokemob extends Screen
             GL11.glPushMatrix();
             GL11.glTranslatef(0.5F, 1.0f, 0.5F);
             GL11.glRotatef(-180, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(this.player.getEntityWorld().getDayTime() * 2, 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
             GL11.glScalef(50f, 50f, 50f);
 
             GL11.glRotatef(this.yRenderAngle, 0.0F, 1.0F, 0.0F);
@@ -290,55 +276,26 @@ public class GuiChooseFirstPokemob extends Screen
         {
             final MobEntity entity = this.getEntityToDisplay();
 
-            float size = 0;
-            int j = 0;
-            int k = 0;
-
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             pokemob.setShiny(false);
             pokemob.setSize(4);
 
+            this.yRenderAngle *= 1;
+            this.xRenderAngle *= 1;
+
             if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
-            size = Math.max(entity.getWidth(), entity.getHeight());
-            j = (this.width - this.xSize) / 2;
-            k = (this.height - this.ySize) / 2;
-
+            //@formatter:off
+            final int dx = -50;
+            final int dy = 0;
+            final float size = 2;
+            final float yaw =  Util.milliTime() / 20;
+            final float hx = 0;
+            final float hy = yaw;
+            //@formatter:on
             GL11.glPushMatrix();
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-            GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-            GL11.glTranslatef(j + 0, k + 90, 500F);
-            final float zoom = (float) (50F / Math.sqrt(size + 0.6));
-
-            GL11.glScalef(-zoom, zoom, zoom);
-            GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-            final float f5 = (float) (k + 75 - 50) - this.ySize;
-            GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
-
-            RenderHelper.enableStandardItemLighting();
-            GL11.glRotatef(-135F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(-(float) Math.atan(f5 / 40F) * 20F, 1.0F, 0.0F, 0.0F);
-            entity.renderYawOffset = 0F;
-            entity.rotationYaw = this.yHeadRenderAngle;
-            entity.rotationPitch = this.xHeadRenderAngle;
-            entity.rotationYawHead = entity.rotationYaw;
-            entity.prevRotationYawHead = entity.rotationYaw;
-            GL11.glTranslatef(0.0F, (float) entity.getYOffset(), 0.0F);
-            this.yRenderAngle = this.yRenderAngle + 0.15F;
-            GL11.glRotatef(this.yRenderAngle, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(this.xRenderAngle, 1.0F, 0.0F, 0.0F);
-
-            entity.limbSwing = 0;
-            entity.limbSwingAmount = 0;
-            final PokeType flying = PokeType.getType("flying");
-            entity.onGround = !pokemob.isType(flying);
-            RenderMobOverlays.enabled = false;
-            Minecraft.getInstance().getRenderManager().renderEntity(entity, 0, 0, 0, 0,
-                    GuiChooseFirstPokemob.POKEDEX_RENDER, false);
-            RenderMobOverlays.enabled = true;
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-            GlStateManager.disableLighting();
-            GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+            GL11.glTranslatef(0, 0, 40);
+            GuiPokedex.renderMob(entity, this.getMinecraft(), dx, dy, size, this.height, this.width, this.xSize,
+                    this.ySize, hx, hy, yaw);
             GL11.glPopMatrix();
         }
         catch (final Throwable e)
