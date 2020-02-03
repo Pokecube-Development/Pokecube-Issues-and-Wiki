@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -32,6 +33,9 @@ import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
+import thut.wearables.EnumWearable;
+import thut.wearables.ThutWearables;
+import thut.wearables.inventory.PlayerWearables;
 
 public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnData
 {
@@ -204,6 +208,14 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     @Override
     public void writeAdditional(final CompoundNBT compound)
     {
+        if (this.getHeldItem(Hand.OFF_HAND).isEmpty() && !this.pokemobsCap.getType().held.isEmpty()) this.setHeldItem(
+                Hand.OFF_HAND, this.pokemobsCap.getType().held.copy());
+        if (!this.pokemobsCap.getType().bag.isEmpty())
+        {
+            final PlayerWearables worn = ThutWearables.getWearables(this);
+            if (worn.getWearable(EnumWearable.BACK).isEmpty()) worn.setWearable(EnumWearable.BACK, this.pokemobsCap
+                    .getType().bag.copy());
+        }
         this.setTypes(); // Ensure types are valid before saving.
         super.writeAdditional(compound);
         compound.putBoolean("fixedTrades", this.fixedTrades);

@@ -126,15 +126,16 @@ public class SpawnEventsHandler
                 mob.moveToBlockPosAndAngles(event.pos, 0.0F, 0.0F);
                 mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
                         (ILivingEntityData) null, (CompoundNBT) null);
-                final String args = function.replaceFirst(nurse ? "nurse" : "professor", "");
-                if (!args.isEmpty() && args.contains("{")) try
+                JsonObject thing = new JsonObject();
+                if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
                 {
-                    final JsonObject thing = PokedexEntryLoader.gson.fromJson(args, JsonObject.class);
+                    final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
+                    thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
                     SpawnEventsHandler.applyFunction(mob, thing);
                 }
                 catch (final JsonSyntaxException e)
                 {
-                    PokecubeCore.LOGGER.error("Error parsing " + args, e);
+                    PokecubeCore.LOGGER.error("Error parsing " + function, e);
                 }
                 if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world))) event.world.addEntity(
                         mob);

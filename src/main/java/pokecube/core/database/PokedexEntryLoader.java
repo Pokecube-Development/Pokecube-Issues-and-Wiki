@@ -95,6 +95,24 @@ public class PokedexEntryLoader
         public Map<QName, String> values = Maps.newHashMap();
         @XmlElement(name = "tag")
         public String             tag;
+        @XmlElement(name = "id")
+        public String             id;
+
+        public Map<QName, String> getValues()
+        {
+            if (this.values == null) this.values = Maps.newHashMap();
+            if (this.tag != null)
+            {
+                final QName name = new QName("tag");
+                this.values.put(name, this.tag);
+            }
+            if (this.id != null)
+            {
+                final QName name = new QName("id");
+                this.values.put(name, this.id);
+            }
+            return this.values;
+        }
     }
 
     public static class Evolution
@@ -151,12 +169,8 @@ public class PokedexEntryLoader
     }
 
     @XmlRootElement(name = "Key")
-    public static class Key
+    public static class Key extends Drop
     {
-        @XmlAnyAttribute
-        public Map<QName, String> values = Maps.newHashMap();
-        @XmlElement(name = "tag")
-        public String             tag;
     }
 
     public static class MegaEvoRule implements MegaRule
@@ -598,15 +612,9 @@ public class PokedexEntryLoader
      * @param d
      * @return
      */
-    public static ItemStack getStackFromDrop(final Drop d)
+    public static ItemStack getStackFromDrop(final Drop drop)
     {
-        final Map<QName, String> values = d.values;
-        if (d.tag != null)
-        {
-            final QName name = new QName("tag");
-            values.put(name, d.tag);
-        }
-        return Tools.getStack(d.values);
+        return Tools.getStack(drop.getValues());
     }
 
     /**
@@ -1293,8 +1301,8 @@ public class PokedexEntryLoader
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(forme + " " + item_preset);
             stack = item_preset.isEmpty() ? ItemStack.EMPTY : PokecubeItems.getStack(item_preset, false);
             }
-            else if (rule.item != null) stack = Tools.getStack(rule.item.values);
-            if (rule.item != null) if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item.values);
+            else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
+            if (rule.item != null) if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item.getValues());
             if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
             {
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Skipping Mega: " + entry + " -> " + formeEntry + " as it has no conditions, or conditions cannot be met.");

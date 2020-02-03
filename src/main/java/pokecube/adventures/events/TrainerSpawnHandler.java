@@ -301,9 +301,10 @@ public class TrainerSpawnHandler
             mob.onInitialSpawn(event.world, event.world.getDifficultyForLocation(event.pos), SpawnReason.STRUCTURE,
                     (ILivingEntityData) null, (CompoundNBT) null);
             JsonObject thing = new JsonObject();
-            if (!function.isEmpty() && function.contains("{")) try
+            if (!function.isEmpty() && function.contains("{") && function.contains("}")) try
             {
-                thing = PokedexEntryLoader.gson.fromJson(function, JsonObject.class);
+                final String trimmed = function.substring(function.indexOf("{"), function.lastIndexOf("}") + 1);
+                thing = PokedexEntryLoader.gson.fromJson(trimmed, JsonObject.class);
             }
             catch (final Exception e)
             {

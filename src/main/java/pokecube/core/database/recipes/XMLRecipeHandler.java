@@ -14,12 +14,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.utils.Tools;
 
 public class XMLRecipeHandler
 {
@@ -100,16 +98,5 @@ public class XMLRecipeHandler
         {
             PokecubeCore.LOGGER.error("Error with a recipe, Error for: " + recipe, e);
         }
-    }
-
-    public static ItemStack getStack(final Drop drop)
-    {
-        final Map<QName, String> values = drop.values;
-        if (drop.tag != null)
-        {
-            final QName name = new QName("tag");
-            values.put(name, drop.tag);
-        }
-        return Tools.getStack(drop.values);
     }
 }
