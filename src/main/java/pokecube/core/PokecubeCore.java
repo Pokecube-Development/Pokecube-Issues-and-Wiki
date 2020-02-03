@@ -57,19 +57,15 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokemobsEvent;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemHandler;
 import pokecube.core.handlers.RecipeHandler;
 import pokecube.core.handlers.events.EventsHandler;
-import pokecube.core.handlers.events.EventsHandler.MeteorAreaSetter;
-import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.handlers.events.PokemobEventsHandler;
 import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.handlers.events.StatsHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
@@ -81,11 +77,9 @@ import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
-import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
@@ -94,7 +88,6 @@ import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.feature.scattered.testa.ConfigStructurePiece;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
-import pokecube.nbtedit.NBTEdit;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.client.render.particle.ThutParticles;
@@ -396,21 +389,6 @@ public class PokecubeCore
 
         // Register the pokemob class for animations.
         CapabilityAnimation.registerAnimateClass(GenericPokemob.class);
-
-        // Register some event handlers
-        PokecubeCore.POKEMOB_BUS.register(StatsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(SpawnEventsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(PCEventsHandler.class);
-        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
-
-        MinecraftForge.EVENT_BUS.register(GeneticsManager.class);
-        MinecraftForge.EVENT_BUS.register(MeteorAreaSetter.class);
-        MinecraftForge.EVENT_BUS.register(PCEventsHandler.class);
-        MinecraftForge.EVENT_BUS.register(PokemobEventsHandler.class);
-        MinecraftForge.EVENT_BUS.register(WearablesCompat.class);
-        MinecraftForge.EVENT_BUS.register(NBTEdit.class);
-        MinecraftForge.EVENT_BUS.register(MoveQueuer.class);
-        MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
 
         // Initialize advancement triggers
         Triggers.init();

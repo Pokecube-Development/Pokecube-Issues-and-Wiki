@@ -5,10 +5,9 @@ import java.util.function.Consumer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
@@ -59,8 +58,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         super(type, world);
         this.enablePersistence();
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -79,7 +76,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public void setVillagerData(final VillagerData data)
     {
         final MerchantOffers trades = this.offers;
-        super.setVillagerData(data);
+        super.setVillagerData(data.withProfession(VillagerProfession.NITWIT));
         this.offers = trades;
     }
 
@@ -101,6 +98,13 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         if (this.getNpcType().getInteraction().processInteract(player, hand, this)) return true;
         return super.processInteract(player, hand);
+    }
+
+    @Override
+    protected void func_213750_eg()
+    {
+        // Do nothing here, it prevents us trading!
+        super.func_213750_eg();
     }
 
     @Override
@@ -200,6 +204,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     protected void func_213713_b(final MerchantOffer offer)
     {
         this.use_offer.accept(offer);
+        super.func_213713_b(offer);
     }
 
     @Override

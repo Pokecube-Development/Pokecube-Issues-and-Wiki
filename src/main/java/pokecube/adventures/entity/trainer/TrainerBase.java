@@ -66,12 +66,6 @@ public abstract class TrainerBase extends NpcMob
 
         this.aiStates.setAIState(IHasNPCAIStates.TRADES, PokecubeAdv.config.trainersTradeItems
                 || PokecubeAdv.config.trainersTradeMobs);
-
-        // Add some ai goals
-        // These are not needed if we extend villager.
-        // this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class,
-        // 6.0F));
-        // this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -113,14 +107,17 @@ public abstract class TrainerBase extends NpcMob
             this.setCustomer(player);
             if (!this.fixedTrades)
             {
-                this.populateTradeData();
+                this.resetTrades();
+                // This re-fills the default trades
+                this.getOffers();
+                // This adds in pokemobs to trade.
                 this.addMobTrades(player, stack);
             }
             if (!this.getOffers().isEmpty()) this.func_213707_a(player, this.getDisplayName(), 0);
             else this.setCustomer(null);
             return true;
         }
-        return super.processInteract(player, hand);
+        return false;
     }
 
     @Override
@@ -160,13 +157,14 @@ public abstract class TrainerBase extends NpcMob
 
     public void resetTrades()
     {
-        this.trades.setOffers(null);
+        this.trades.setOffers(this.offers = null);
     }
 
     @Override
     protected void func_213713_b(final MerchantOffer offer)
     {
         this.trades.applyTrade(offer);
+        super.func_213713_b(offer);
     }
 
     @Override
@@ -182,7 +180,7 @@ public abstract class TrainerBase extends NpcMob
     protected void populateTradeData()
     {
         final Random rand = new Random(this.getUniqueID().getLeastSignificantBits());
-        this.getOffers().clear();
+        if (this.offers != null) this.offers.clear();
         if (this.customTrades.isEmpty()) this.getOffers().addAll(this.pokemobsCap.getType().getRecipes(rand));
         else
         {
@@ -194,7 +192,13 @@ public abstract class TrainerBase extends NpcMob
     @Override
     public MerchantOffers getOffers()
     {
-        return this.trades.getOffers();
+        if (this.offers == null)
+        {
+            this.offers = new MerchantOffers();
+            this.trades.setOffers(this.offers);
+            this.populateTradeData();
+        }
+        return this.offers;
     }
 
     @Override

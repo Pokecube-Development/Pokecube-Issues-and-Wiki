@@ -7,7 +7,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.moves.implementations.actions.ActionTeleport;
+import pokecube.mobs.moves.world.ActionTeleport;
 
 public class Mew extends Condition
 {

@@ -31,7 +31,7 @@
       }
     },
     { 
-      "name":"pokecube:scattered/ruin_1",
+      "name":"pokecube:scattered/ruins",
       "chance":0.02,
       "biomeType":"ruin",
       "distance":8,
@@ -44,10 +44,10 @@
         }
       },
       "root":{ 
-        "name":"pokecube:scattered/ruin/ruin_1",
+        "name":"pokecube:scattered/ruins",
         "rigid": false,
         "options":[ 
-          "pokecube:scattered/ruin/ruin_1"
+          "pokecube:scattered/ruins/ruin_1"
         ]
       }
     },

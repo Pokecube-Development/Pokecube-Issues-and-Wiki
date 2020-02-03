@@ -40,17 +40,13 @@ public class CapabilityHasTrades
         @Override
         public CompoundNBT serializeNBT()
         {
-            return this.getOffers().func_222199_a();
+            return new CompoundNBT();
         }
 
         @Override
         public void deserializeNBT(final CompoundNBT nbt)
         {
-            if (!nbt.isEmpty())
-            {
-                this.offers = new MerchantOffers(nbt);
-                if (this.offers.isEmpty()) this.offers = null;
-            }
+
         }
 
         @Override
@@ -74,11 +70,7 @@ public class CapabilityHasTrades
         @Override
         public MerchantOffers getOffers()
         {
-            if (this.offers == null)
-            {
-                this.offers = new MerchantOffers();
-                this.initTrades();
-            }
+            if (this.offers == null) this.offers = new MerchantOffers();
             return this.offers;
         }
 
@@ -91,7 +83,7 @@ public class CapabilityHasTrades
         @Override
         public void initTrades()
         {
-            // We do nothing here, ideally someone who owns us called setOffers.
+            // We do nothing, as are intended as a holder for IMerchants.
         }
 
         @Override

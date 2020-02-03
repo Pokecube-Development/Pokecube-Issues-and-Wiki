@@ -1,6 +1,3 @@
-/**
- *
- */
 package pokecube.core.database;
 
 import java.lang.annotation.Retention;
@@ -22,7 +19,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -32,9 +28,9 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IWorld;
@@ -1436,25 +1432,20 @@ public class PokedexEntry
     public ItemStack getRandomHeldItem(final MobEntity mob)
     {
         if (mob.getEntityWorld().isRemote) return ItemStack.EMPTY;
-        if (this.heldTable != null) // TODO fix parameters for the loot table.
-            try
-            {
-            final LootTable loottable = mob.getEntityWorld().getServer().getLootTableManager().getLootTableFromLocation(this.heldTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntityWorld())//@formatter:off
-                    .withRandom(mob.getRNG())
-                    .withParameter(LootParameters.BLOCK_STATE, Blocks.AIR.getDefaultState())
-                    .withParameter(LootParameters.THIS_ENTITY, mob)
-                    .withParameter(LootParameters.POSITION, new BlockPos(mob))
-                    .withParameter(LootParameters.KILLER_ENTITY, mob)
-                    .withParameter(LootParameters.DIRECT_KILLER_ENTITY, mob)
-                    .withParameter(LootParameters.EXPLOSION_RADIUS, 0f);//@formatter:on
+        if (this.heldTable != null) try
+        {
+            final LootTable loottable = mob.getEntityWorld().getServer().getLootTableManager().getLootTableFromLocation(
+                    this.heldTable);
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntityWorld())
+                    .withParameter(LootParameters.THIS_ENTITY, mob).withParameter(LootParameters.DAMAGE_SOURCE,
+                            DamageSource.GENERIC).withParameter(LootParameters.POSITION, mob.getPosition());
             for (final ItemStack itemstack : loottable.generate(lootcontext$builder.build(loottable.getParameterSet())))
-            if (!itemstack.isEmpty()) return itemstack;
-            }
-            catch (final Exception e)
-            {
+                if (!itemstack.isEmpty()) return itemstack;
+        }
+        catch (final Exception e)
+        {
             PokecubeCore.LOGGER.error("Error loading table: " + this.heldTable, e);
-            }
+        }
         return ItemStack.EMPTY;
     }
 

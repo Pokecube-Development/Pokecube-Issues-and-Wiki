@@ -81,7 +81,7 @@ public class JigsawPieces
             option = args[0];
             if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
             else parts.add(Pair.of(new SingleOffsetPiece(option, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR),
-                    place, ignoreAir, subbiome), second));
+                    place, offset, ignoreAir, subbiome), second));
 
         }
 

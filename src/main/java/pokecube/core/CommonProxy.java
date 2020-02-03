@@ -25,6 +25,7 @@ import net.minecraft.world.gen.feature.template.RuleEntry;
 import net.minecraft.world.gen.feature.template.RuleStructureProcessor;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.LogicalSide;
@@ -32,6 +33,12 @@ import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.handlers.events.EventsHandler.MeteorAreaSetter;
+import pokecube.core.handlers.events.PCEventsHandler;
+import pokecube.core.handlers.events.PokemobEventsHandler;
+import pokecube.core.handlers.events.SpawnEventsHandler;
+import pokecube.core.handlers.events.StatsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.capabilities.CapabilityAffected;
@@ -41,8 +48,11 @@ import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.items.megastuff.MegaCapability;
+import pokecube.core.items.megastuff.WearablesCompat;
+import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.network.PokecubePacketHandler;
+import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.Proxy;
@@ -87,6 +97,22 @@ public class CommonProxy implements Proxy
     public void setup(final FMLCommonSetupEvent event)
     {
         PokecubeCore.LOGGER.info("Hello from Common Proxy setup!");
+
+        // Register some event handlers
+        PokecubeCore.POKEMOB_BUS.register(StatsHandler.class);
+        PokecubeCore.POKEMOB_BUS.register(SpawnEventsHandler.class);
+        PokecubeCore.POKEMOB_BUS.register(PCEventsHandler.class);
+        PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
+
+        MinecraftForge.EVENT_BUS.register(GeneticsManager.class);
+        MinecraftForge.EVENT_BUS.register(MeteorAreaSetter.class);
+        MinecraftForge.EVENT_BUS.register(PCEventsHandler.class);
+        MinecraftForge.EVENT_BUS.register(PokemobEventsHandler.class);
+        MinecraftForge.EVENT_BUS.register(WearablesCompat.class);
+        MinecraftForge.EVENT_BUS.register(NBTEdit.class);
+        MinecraftForge.EVENT_BUS.register(MoveQueuer.class);
+        MinecraftForge.EVENT_BUS.register(SecretBaseDimension.class);
+
         // Initialize the capabilities.
         CapabilityManager.INSTANCE.register(IGuardAICapability.class, new IGuardAICapability.Storage(),
                 GuardAICapability::new);

@@ -203,7 +203,7 @@ public class UltraSpaceConfig {
 	}
 	
 	public static class UltraSpaceChunkGenerator extends OverworldChunkGenerator {
-		private static final int SEALEVEL = 63;
+		//private static final int SEALEVEL = 63;
 
 		public UltraSpaceChunkGenerator(IWorld world, BiomeProvider provider) {
 			super(world, provider, new OverworldGenSettings() {

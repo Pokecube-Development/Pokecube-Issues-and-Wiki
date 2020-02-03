@@ -698,7 +698,8 @@ public class AIHungry extends AIBase
         if (this.hungerTime > 0 && !this.checkInventory())
         {
             // Pokemobs set to stay can collect berries, or wild ones,
-            boolean tameCheck = !this.pokemob.isPlayerOwned() || this.pokemob.getGeneralState(GeneralStates.STAYING);
+            boolean tameCheck = this.pokemob.getGeneralState(GeneralStates.STAYING) || this.pokemob
+                    .getOwnerId() == null;
             if (this.entity.getPersistentData().contains("lastInteract"))
             {
                 final long time = this.entity.getPersistentData().getLong("lastInteract");

@@ -2,6 +2,7 @@ package pokecube.adventures.ai.tasks;
 
 import java.util.List;
 
+import net.minecraft.command.arguments.EntityAnchorArgument.Type;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -215,7 +216,7 @@ public class AIBattle extends AITrainerBase
     {
         super.tick();
         ItemStack cube = this.trainer.getNextPokemob();
-        if (this.trainer.getCooldown() > 0 && this.trainer.getTarget() == null) cube = ItemStack.EMPTY;
+        if (this.trainer.getCooldown() > 0) cube = ItemStack.EMPTY;
         this.entity.setHeldItem(Hand.MAIN_HAND, cube);
         if (this.trainer.getTarget() != null) this.updateTask();
         else if (this.trainer.getOutID() != null) this.resetTask();
@@ -241,6 +242,8 @@ public class AIBattle extends AITrainerBase
             ((MobEntity) this.entity).getNavigator().setPath(((MobEntity) this.entity).getNavigator().getPathToPos(
                     this.battleLoc, 0), 0.75);
         }
+
+        this.entity.lookAt(Type.EYES, this.trainer.getTarget().getEyePosition(0));
 
         // If target is no longer visbile, forget about it and reset.
         if (!Vector3.isVisibleEntityFromEntity(this.entity, this.trainer.getTarget()))

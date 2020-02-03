@@ -4,12 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraft.world.storage.loot.LootTable;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.abilities.Ability;
@@ -34,31 +32,31 @@ public class Pickup extends Ability
         if (poke.ticksExisted % 200 != 0 || Math.random() > 0.05) return;
         if (!mob.getHeldItem().isEmpty()) return;
 
-        if (Pickup.lootTable != null && Pickup.useLootTable)
-        {
-            // Load in the loot table.
-            final LootTable loottable = mob.getEntity().getEntityWorld().getServer().getLootTableManager()
-                    .getLootTableFromLocation(Pickup.lootTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntity()
-                    .getEntityWorld()).withParameter(LootParameters.THIS_ENTITY, mob.getEntity());
-            // Apply bonuses from the player
-            if (mob.getOwner() instanceof ServerPlayerEntity) lootcontext$builder.withParameter(
-                    LootParameters.KILLER_ENTITY, mob.getOwner());
+        if (Pickup.lootTable != null && Pickup.useLootTable) // Load in the loot
+                                                             // table.
+            try
+            {
+            final LootTable loottable = mob.getEntity().getEntityWorld().getServer().getLootTableManager().getLootTableFromLocation(Pickup.lootTable);
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntity().getEntityWorld()).withRandom(poke.getRNG());
             // Generate the loot list.
             final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
             // Shuffle the list.
             if (!list.isEmpty()) Collections.shuffle(list);
             for (final ItemStack itemstack : list)
-                // Pick first valid item in it.
-                if (!itemstack.isEmpty())
-                {
-                    final ItemStack stack = itemstack.copy();
-                    if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
-                        PokecubeItems.makeStackValid(stack);
-                    mob.setHeldItem(stack);
-                    return;
-                }
-        }
+            // Pick first valid item in it.
+            if (!itemstack.isEmpty())
+            {
+            final ItemStack stack = itemstack.copy();
+            if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy"))) PokecubeItems.makeStackValid(stack);
+            mob.setHeldItem(stack);
+            return;
+            }
+            }
+            catch (final Exception e)
+            {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            }
     }
 
 }

@@ -49,7 +49,8 @@ public class NpcType
     {
         final IInteract trade = (player, hand, mob) ->
         {
-            if (mob.getCustomer() == null && !mob.getOffers().isEmpty())
+            final boolean validCustomer = mob.getCustomer() == null || mob.getCustomer() == player;
+            if (validCustomer && !mob.getOffers().isEmpty())
             {
                 mob.setCustomer(player);
                 mob.func_213707_a(player, mob.getDisplayName(), 10);
