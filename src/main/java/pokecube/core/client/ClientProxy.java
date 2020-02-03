@@ -31,6 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColors;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -137,6 +138,19 @@ public class ClientProxy extends CommonProxy
     public PlayerEntity getPlayer()
     {
         return Minecraft.getInstance().player;
+    }
+
+    @Override
+    public ServerWorld getServerWorld()
+    {
+        try
+        {
+            return super.getServerWorld();
+        }
+        catch (final Exception e)
+        {
+            return null;
+        }
     }
 
     @Override

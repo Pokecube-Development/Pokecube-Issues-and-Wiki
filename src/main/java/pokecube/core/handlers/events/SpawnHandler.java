@@ -461,7 +461,7 @@ public final class SpawnHandler
 
     private static int parse(final IWorld world, final Vector3 location)
     {
-        final Vector3 spawn = SpawnHandler.temp.set(world.getSpawnPoint());
+        final Vector3 spawn = SpawnHandler.temp.set(world.getWorld().getSpawnPoint());
         JEP toUse;
         final int type = world.getDimension().getType().getId();
         boolean isNew = false;

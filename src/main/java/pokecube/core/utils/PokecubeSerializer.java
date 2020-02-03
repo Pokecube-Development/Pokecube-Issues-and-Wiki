@@ -114,7 +114,7 @@ public class PokecubeSerializer
 
     public static PokecubeSerializer getInstance()
     {
-        final World world = PokecubeCore.proxy.getServerWorld();
+        final World world = PokecubeCore.proxy.getWorld();
         if (world == null || world.isRemote) return PokecubeSerializer.instance == null
                 ? PokecubeSerializer.instance = new PokecubeSerializer(world.getServer()) : PokecubeSerializer.instance;
 
@@ -145,7 +145,7 @@ public class PokecubeSerializer
     private PokecubeSerializer(final MinecraftServer server)
     {
         /** This data is saved to surface world's folder. */
-        this.myWorld = server.getWorld(DimensionType.OVERWORLD);
+        this.myWorld = server != null ? server.getWorld(DimensionType.OVERWORLD) : null;
         if (this.myWorld != null) this.saveHandler = this.myWorld.getSaveHandler();
         this.lastId = 0;
         this.meteors = new ArrayList<>();
