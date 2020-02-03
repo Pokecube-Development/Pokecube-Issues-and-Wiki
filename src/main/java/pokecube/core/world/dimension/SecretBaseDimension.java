@@ -37,14 +37,12 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.ThutTeleporter;
 import thut.api.maths.Vector4;
 
-@Mod.EventBusSubscriber
 public class SecretBaseDimension extends ModDimension
 {
     public static void sendToBase(final ServerPlayerEntity player, final UUID baseOwner)

@@ -12,7 +12,6 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -21,7 +20,6 @@ import pokecube.adventures.blocks.daycare.DaycareTile;
 import pokecube.core.PokecubeItems;
 import thut.api.OwnableCaps;
 
-@Mod.EventBusSubscriber
 public class InventoryHandler
 {
     private static final ResourceLocation CAPID = new ResourceLocation("pokecube_adventures:inventory");

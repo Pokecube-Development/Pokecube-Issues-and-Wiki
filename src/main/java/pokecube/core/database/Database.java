@@ -743,7 +743,7 @@ public class Database
                 final ResourceLocation sound = new ResourceLocation(entry.soundEffectSource);
                 final SoundEvent event = new SoundEvent(sound);
                 event.setRegistryName(sound);
-                if (!registry.containsKey(sound)) registry.register(event);
+                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
             }
             // Register sound on target
             if (entry.soundEffectTarget != null)
@@ -751,7 +751,7 @@ public class Database
                 final ResourceLocation sound = new ResourceLocation(entry.soundEffectTarget);
                 final SoundEvent event = new SoundEvent(sound);
                 event.setRegistryName(sound);
-                if (!registry.containsKey(sound)) registry.register(event);
+                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
             }
             // Register sounds for the animations
             if (entry.animations != null) for (final AnimationJson anim : entry.animations)
@@ -760,7 +760,8 @@ public class Database
                     final ResourceLocation sound = new ResourceLocation(anim.sound);
                     final SoundEvent event = new SoundEvent(sound);
                     event.setRegistryName(sound);
-                    if (!registry.containsKey(sound)) registry.register(event);
+                    if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(
+                            event);
                 }
         }
 
@@ -770,7 +771,7 @@ public class Database
             final ResourceLocation sound = new ResourceLocation(var);
             final SoundEvent event = new SoundEvent(sound);
             event.setRegistryName(sound);
-            if (!registry.containsKey(sound)) registry.register(event);
+            if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
         }
     }
 

@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -24,7 +23,6 @@ import pokecube.nbtedit.packets.PacketHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
-@Mod.EventBusSubscriber
 public class NBTEdit
 {
     public static class ConfigHolder extends ConfigData

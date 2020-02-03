@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
@@ -21,6 +22,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
@@ -30,6 +32,7 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
@@ -137,8 +140,9 @@ public class SpawnEventsHandler
                 {
                     PokecubeCore.LOGGER.error("Error parsing " + function, e);
                 }
-                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world))) event.world.addEntity(
-                        mob);
+
+                if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
+                    event.world.addEntity(mob);
             }
             else if (function.startsWith("pokemob"))
             {
@@ -154,9 +158,38 @@ public class SpawnEventsHandler
         }
     }
 
-    private static void applyFunction(final NpcMob prof, final JsonObject thing)
+    private static class GuardInfo
     {
-        if (thing.has("name")) prof.name = thing.get("name").getAsString();
+        public String time = "";
+        public int    roam = 0;
+    }
+
+    public static void applyFunction(final NpcMob npc, final JsonObject thing)
+    {
+        if (thing.has("name")) npc.name = thing.get("name").getAsString();
+
+        GuardInfo info = null;
+        if (thing.has("guard")) try
+        {
+            final JsonElement guardthing = thing.get("guard");
+            info = PokedexEntryLoader.gson.fromJson(guardthing, GuardInfo.class);
+        }
+        catch (final JsonSyntaxException e)
+        {
+            PokecubeCore.LOGGER.error("Error parsing " + thing.get("guard"), e);
+            info = new GuardInfo();
+        }
+        if (info == null) info = new GuardInfo();
+        // Set us to sit at this location.
+        final IGuardAICapability guard = npc.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+        npc.setHomePosAndDistance(npc.getPosition(), info.roam);
+        if (guard != null)
+        {
+            final TimePeriod duration = info.time.equals("allday") ? TimePeriod.fullDay : new TimePeriod(0.55, 9.5);
+            guard.getPrimaryTask().setPos(npc.getPosition());
+            guard.getPrimaryTask().setRoamDistance(info.roam);
+            guard.getPrimaryTask().setActiveTime(duration);
+        }
     }
 
     @SubscribeEvent

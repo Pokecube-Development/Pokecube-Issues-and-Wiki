@@ -55,7 +55,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -160,7 +159,6 @@ public class EventsHandler
         }
     }
 
-    @Mod.EventBusSubscriber
     public static class MeteorAreaSetter
     {
         static Map<DimensionType, List<BlockPos>> toProcess = Maps.newHashMap();

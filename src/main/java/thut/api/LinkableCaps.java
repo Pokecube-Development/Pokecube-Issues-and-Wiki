@@ -18,10 +18,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import thut.api.maths.Vector4;
 
-@Mod.EventBusSubscriber
 public class LinkableCaps
 {
 
@@ -78,35 +76,35 @@ public class LinkableCaps
         Vector4                                  pos;
 
         @Override
-        public UUID getLinkedMob(Entity user)
+        public UUID getLinkedMob(final Entity user)
         {
-            return uuid;
+            return this.uuid;
         }
 
         @Override
-        public Vector4 getLinkedPos(Entity user)
+        public Vector4 getLinkedPos(final Entity user)
         {
-            return pos;
+            return this.pos;
         }
 
         @Override
-        public boolean setLinkedMob(UUID mobid, Entity user)
+        public boolean setLinkedMob(final UUID mobid, final Entity user)
         {
-            uuid = mobid;
+            this.uuid = mobid;
             return true;
         }
 
         @Override
-        public boolean setLinkedPos(Vector4 pos, Entity user)
+        public boolean setLinkedPos(final Vector4 pos, final Entity user)
         {
             this.pos = pos;
             return true;
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return STORE.orEmpty(cap, this.holder);
+            return LinkableCaps.STORE.orEmpty(cap, this.holder);
         }
 
     }
@@ -117,23 +115,23 @@ public class LinkableCaps
         LinkStorage                           store  = new LinkStorage();
 
         @Override
-        public boolean link(ILinkStorage link, Entity user)
+        public boolean link(final ILinkStorage link, final Entity user)
         {
-            store.setLinkedMob(link.getLinkedMob(user), user);
-            store.setLinkedPos(link.getLinkedPos(user), user);
+            this.store.setLinkedMob(link.getLinkedMob(user), user);
+            this.store.setLinkedPos(link.getLinkedPos(user), user);
             return true;
         }
 
         @Override
-        public ILinkStorage getLink(Entity user)
+        public ILinkStorage getLink(final Entity user)
         {
-            return store;
+            return this.store;
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return LINK.orEmpty(cap, this.holder);
+            return LinkableCaps.LINK.orEmpty(cap, this.holder);
         }
 
     }
@@ -182,36 +180,34 @@ public class LinkableCaps
     }
 
     @SubscribeEvent
-    public static void linkBlock(RightClickBlock event)
+    public static void linkBlock(final RightClickBlock event)
     {
         // Only run server side
         if (event.getWorld().isRemote) return;
         // Only run for items
         if (event.getItemStack().isEmpty()) return;
         // Check if stack is a linkstore
-        LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(STORE, event.getFace());
+        final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(LinkableCaps.STORE, event
+                .getFace());
         if (!test_stack.isPresent()) return;
-        ILinkStorage storage = test_stack.orElse(null);
-        TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        final ILinkStorage storage = test_stack.orElse(null);
+        final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
         // Only run for tile entities
         if (tile != null)
         {
-            LazyOptional<ILinkable> test_tile = tile.getCapability(LINK, event.getFace());
+            final LazyOptional<ILinkable> test_tile = tile.getCapability(LinkableCaps.LINK, event.getFace());
             // Only run for linkable ones
-            if (test_tile.isPresent())
+            if (test_tile.isPresent()) if (test_tile.orElse(null).link(storage, event.getPlayer()))
             {
-                if (test_tile.orElse(null).link(storage, event.getPlayer()))
-                {
-                    event.setCanceled(true);
-                    event.setUseBlock(Result.DENY);
-                    event.setUseItem(Result.DENY);
-                }
+                event.setCanceled(true);
+                event.setUseBlock(Result.DENY);
+                event.setUseItem(Result.DENY);
             }
         }
         // Otherwise try to save the location instead
         else
         {
-            Vector4 loc = new Vector4(event.getPos(), event.getPlayer().dimension);
+            final Vector4 loc = new Vector4(event.getPos(), event.getPlayer().dimension);
             if (storage.setLinkedPos(loc, event.getPlayer()))
             {
                 event.setCanceled(true);

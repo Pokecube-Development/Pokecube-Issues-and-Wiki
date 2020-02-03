@@ -8,51 +8,49 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.Linkable;
 import thut.api.maths.Vector4;
 
-@Mod.EventBusSubscriber
 public class BlockEventHandler
 {
     private static class WarpPadStore implements ILinkStorage
     {
         final WarppadTile tile;
 
-        public WarpPadStore(WarppadTile tile)
+        public WarpPadStore(final WarppadTile tile)
         {
             this.tile = tile;
         }
 
         @Override
-        public UUID getLinkedMob(Entity user)
+        public UUID getLinkedMob(final Entity user)
         {
             return null;
         }
 
         @Override
-        public Vector4 getLinkedPos(Entity user)
+        public Vector4 getLinkedPos(final Entity user)
         {
-            return tile.getDest().loc;
+            return this.tile.getDest().loc;
         }
 
         @Override
-        public boolean setLinkedMob(UUID mobid, Entity user)
+        public boolean setLinkedMob(final UUID mobid, final Entity user)
         {
             return false;
         }
 
         @Override
-        public boolean setLinkedPos(Vector4 pos, Entity user)
+        public boolean setLinkedPos(final Vector4 pos, final Entity user)
         {
             // TODO confirm owner of tile.
-            
+
             // Assume that we right clicked the top of the block.
             pos.y += 1;
-            tile.getDest().loc = pos;
+            this.tile.getDest().loc = pos;
             user.sendMessage(new TranslationTextComponent("block.pokecube_adventures.warppad.link", pos.x, pos.y, pos.z,
                     pos.w));
             return true;
@@ -64,21 +62,21 @@ public class BlockEventHandler
     {
         final WarpPadStore store;
 
-        public WarpPadLink(WarppadTile store)
+        public WarpPadLink(final WarppadTile store)
         {
             this.store = new WarpPadStore(store);
         }
 
         @Override
-        public boolean link(ILinkStorage link, Entity user)
+        public boolean link(final ILinkStorage link, final Entity user)
         {
-            return store.setLinkedPos(link.getLinkedPos(user), user);
+            return this.store.setLinkedPos(link.getLinkedPos(user), user);
         }
 
         @Override
-        public ILinkStorage getLink(Entity user)
+        public ILinkStorage getLink(final Entity user)
         {
-            return store;
+            return this.store;
         }
 
     }
@@ -90,10 +88,9 @@ public class BlockEventHandler
     @SubscribeEvent
     public static void attachCaps(final AttachCapabilitiesEvent<TileEntity> event)
     {
-        if (event.getObject() instanceof WarppadTile && !event.getCapabilities().containsKey(LINKABLECAP))
-        {
-            event.addCapability(LINKABLECAP, new WarpPadLink((WarppadTile) event.getObject()));
-        }
+        if (event.getObject() instanceof WarppadTile && !event.getCapabilities().containsKey(
+                BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink(
+                        (WarppadTile) event.getObject()));
 
     }
 }

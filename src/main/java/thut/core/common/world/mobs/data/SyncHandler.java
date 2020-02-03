@@ -7,17 +7,15 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import thut.api.world.mobs.data.DataSync;
 
-@Mod.EventBusSubscriber
 public class SyncHandler
 {
     @CapabilityInject(DataSync.class)
     public static final Capability<DataSync> CAP = null;
 
     @SubscribeEvent
-    public static void EntityUpdate(LivingUpdateEvent event)
+    public static void EntityUpdate(final LivingUpdateEvent event)
     {
         if (event.getEntity().getEntityWorld().isRemote) return;
         final DataSync data = SyncHandler.getData(event.getEntity());
@@ -25,13 +23,13 @@ public class SyncHandler
         PacketDataSync.sync(event.getEntity(), data, event.getEntity().getEntityId(), false);
     }
 
-    public static DataSync getData(Entity mob)
+    public static DataSync getData(final Entity mob)
     {
         return mob.getCapability(SyncHandler.CAP, null).orElse(null);
     }
 
     @SubscribeEvent
-    public static void startTracking(StartTracking event)
+    public static void startTracking(final StartTracking event)
     {
         if (event.getTarget().getEntityWorld().isRemote) return;
         final DataSync data = SyncHandler.getData(event.getTarget());

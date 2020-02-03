@@ -14,7 +14,6 @@ import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
@@ -23,7 +22,6 @@ import pokecube.core.moves.animations.EntityMoveUse;
 
 public class MoveQueue
 {
-    @Mod.EventBusSubscriber
     public static class MoveQueuer
     {
         private static final Map<IWorld, MoveQueue> queues = Maps.newHashMap();

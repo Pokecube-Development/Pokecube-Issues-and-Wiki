@@ -8,6 +8,7 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
@@ -113,7 +114,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     }
 
     @Override
-    public AgeableEntity createChild(final AgeableEntity ageable)
+    public VillagerEntity createChild(final AgeableEntity ageable)
     {
         if (this.isChild() || this.getGrowingAge() > 0 || !this.aiStates.getAIState(IHasNPCAIStates.MATES)) return null;
         if (this.pokemobsCap.getGender() == 2)

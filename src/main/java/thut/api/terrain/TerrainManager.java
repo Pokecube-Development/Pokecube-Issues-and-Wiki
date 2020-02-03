@@ -7,11 +7,9 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.DefaultProvider;
 
-@Mod.EventBusSubscriber
 public class TerrainManager
 {
     public static final ResourceLocation TERRAINCAP = new ResourceLocation("thutcore", "terrain");

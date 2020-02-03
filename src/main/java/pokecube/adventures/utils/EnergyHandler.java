@@ -22,7 +22,6 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -38,7 +37,6 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
-@Mod.EventBusSubscriber
 public class EnergyHandler
 {
     private static final ResourceLocation ENERGYCAP = new ResourceLocation("pokecube:energy");

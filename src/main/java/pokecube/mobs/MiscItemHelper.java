@@ -8,7 +8,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -19,7 +18,6 @@ import pokecube.core.items.UsableItemEffects.VitaminUsable.VitaminEffect;
 import pokecube.core.items.vitamins.ItemVitamin;
 import pokecube.core.utils.PokeType;
 
-@Mod.EventBusSubscriber
 public class MiscItemHelper
 {
     public static class CharcoalEffect extends BaseUseable
