@@ -102,9 +102,5 @@ public class ItemInit
     {
         ItemInit.addMint(event);
         ItemInit.addZCrystal(event);
-
-        // ItemGenerator.ITEMMODIFIERS.put(t -> ItemNature.isNature(t), null);
-        // ItemGenerator.ITEMMODIFIERS.put(t -> ItemZCrystal.isZCrystal(t),
-        // null);
     }
 }

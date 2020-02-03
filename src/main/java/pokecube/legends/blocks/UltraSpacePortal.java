@@ -1,25 +1,17 @@
 package pokecube.legends.blocks;
 
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,18 +23,6 @@ public class UltraSpacePortal extends Rotates
     public UltraSpacePortal(final String name, final Properties props)
     {
         super(name, props.tickRandomly());
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void addInformation(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
-            final ITooltipFlag flagIn)
-    {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        String message;
-        if (Screen.hasShiftDown()) message = I18n.format("legends.ultraportal.tooltip");
-        else message = I18n.format("pokecube.tooltip.advanced");
-        tooltip.add(new TranslationTextComponent(message));
     }
 
     // Time for Despawn

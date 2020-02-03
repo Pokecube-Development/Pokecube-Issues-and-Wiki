@@ -9,6 +9,10 @@
     "msg.infolegendduo.txt": "§aCapture [%1$s§a] Type Pokemob and Kill [%2$s§a] Type Pokemob. Needs: %3$s. §aOwn: %4$s. §aNeeds Kill: %5$s. §aOwn: %6$s.",
     "msg.infolegendextra.txt": "§a Get [%1$s§a] to Catch this Pokemob.",
 
+	"": "/Biomes",
+	"block.pokecube_legends.mush_plant1": "Mushroom U_01",
+	"block.pokecube_legends.mush_plant2": "Mushroom U_02",
+	
     "": "/Items",
     "item.pokecube_legends.lightstone": "Light Stone",
     "item.pokecube_legends.darkstone": "Dark Stone",
@@ -152,9 +156,8 @@
     "block.pokecube_legends.ultrablock": "Ultra Stone Compressed",
 
     "": "/Tooltips Block",
-    "legends.portalwarp.tooltip": "This portal spawns a random Pokemon over a period of time.",
-    "legends.ultraportal.tooltip": "Use to enter and exit Ultra Space",
-    "legends.ubportal.tooltip": "This portal creates an Ultra Beast.",
+    "legendblock.portalwarp.tooltip": "This portal spawns a random Pokemon over a period of time.",
+    "legendblock.ultraportal.tooltip": "Use to enter and exit Ultra Space",
 
     "": "/Tooltips Items",
     "legends.adamantorb.tooltip": "Use this item on 'Time and Space Spawn' to Spawn Dialga",

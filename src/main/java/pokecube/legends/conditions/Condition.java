@@ -88,56 +88,64 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
             final boolean here = Tools.countPokemon(location, trainer.getEntityWorld(), 32, this.getEntry()) > 0;
             return !here;
         }
-        this.sendNoHere(trainer);
+        sendNoHere(trainer);
         return false;
     }
 
     public void sendNoTrust(final Entity trainer)
     {
-        final String message = "msg.notrust.txt";
+        final String message = "msg.notrust.json";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
-                .getEntry().getUnlocalizedName()));
+        		.getEntry().getUnlocalizedName()));
         trainer.sendMessage(component);
+        //trainer.sendMessage(new TranslationTextComponent(message));
     }
 
     public void sendNoHere(final Entity trainer)
     {
-        final String message = "msg.nohere.txt";
+        final String message = "msg.nohere.json";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
                 .getEntry().getUnlocalizedName()));
         trainer.sendMessage(component);
+        //trainer.sendMessage(new TranslationTextComponent(message));
     }
 
-    // Basic Legend
-    public void sendLegend(final Entity trainer, final String type, final float numA, final double numB)
+    //Basic Legend
+    @SuppressWarnings("unused")
+	public void sendLegend(final Entity trainer, final String type, final float numA, final double numB)
     {
-        final String message = "msg.infolegend.txt";
+        final String message = "msg.infolegend.info";
         final ITextComponent component = new TranslationTextComponent(message, type, numA, numB);
-        trainer.sendMessage(component);
+        //trainer.sendMessage(component);
+        trainer.sendMessage(new TranslationTextComponent(message, type, numA, numB));
     }
 
     // Duo Type Legend
-    public void sendLegendDuo(final Entity trainer, final String type, final String kill, final float numA,
+    @SuppressWarnings("unused")
+	public void sendLegendDuo(final Entity trainer, final String type, final String kill, final float numA,
             final double numB, final float killa, final double killb)
     {
-        final String message = "msg.infolegendduo.txt";
+        final String message = "msg.infolegendduo.info";
         final ITextComponent component = new TranslationTextComponent(message, type, kill, numA, numB, killa, killb);
-        trainer.sendMessage(component);
+        //trainer.sendMessage(component);
+        trainer.sendMessage(new TranslationTextComponent(message, type, kill, numA, numB, killa, killb));
     }
 
     // Catch specific Legend
-    public void sendLegendExtra(final Entity trainer, final String names)
+    @SuppressWarnings("unused")
+	public void sendLegendExtra(final Entity trainer, final String names)
     {
-        final String message = "msg.infolegendextra.txt";
+        final String message = "msg.infolegendextra.info";
         final ITextComponent component = new TranslationTextComponent(message, names);
-        trainer.sendMessage(component);
+        //trainer.sendMessage(component);
+        trainer.sendMessage(new TranslationTextComponent(message, names));
     }
 
     public void sendAngered(final Entity trainer)
     {
-        final String message = "msg.angeredlegend.txt";
+        final String message = "msg.angeredlegend.json";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
                 .getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component);
+        trainer.sendMessage(component);        
     }
 }
