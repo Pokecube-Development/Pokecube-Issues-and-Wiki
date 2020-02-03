@@ -1,7 +1,7 @@
 package pokecube.legends.init.function;
 
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import pokecube.legends.init.DimensionInit;
+import pokecube.legends.worldgen.dimension.ModDimensions;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.util.math.BlockPos;
@@ -28,7 +28,7 @@ public class WormHoleActiveFunction
 		Entity entity = (Entity) dependencies.get("entity");
 		if (((entity.dimension.getId()) == 0)) {
 			if (!entity.world.isRemote && entity instanceof ServerPlayerEntity) {
-				DimensionType destinationType = DimensionInit.type;
+				DimensionType destinationType = ModDimensions.DIMENSION_TYPE;
 				
 				ObfuscationReflectionHelper.setPrivateValue(ServerPlayerEntity.class, (ServerPlayerEntity) entity, true, "field_184851_cj");
 				ServerWorld nextWorld = entity.getServer().getWorld(destinationType);
@@ -42,7 +42,7 @@ public class WormHoleActiveFunction
 				}
 				((ServerPlayerEntity) entity).connection.sendPacket(new SPlaySoundEventPacket(1032, BlockPos.ZERO, 0, false));
 			}
-		} else if (((entity.dimension.getId()) == DimensionInit.type.getId())) {
+		} else if (((entity.dimension.getId()) == ModDimensions.DIMENSION_TYPE.getId())) {
 			if (!entity.world.isRemote && entity instanceof ServerPlayerEntity) {
 				DimensionType destinationType = DimensionType.OVERWORLD;
 				
