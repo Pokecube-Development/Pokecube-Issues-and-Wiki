@@ -93,11 +93,6 @@ import thut.core.common.world.mobs.data.types.Data_String;
 
 public class TrainerEventHandler
 {
-    static
-    {
-        PokecubeCore.POKEMOB_BUS.register(TrainerEventHandler.class);
-    }
-
     private static class Provider extends GuardAICapability implements ICapabilitySerializable<CompoundNBT>
     {
         private final LazyOptional<IGuardAICapability> holder = LazyOptional.of(() -> this);

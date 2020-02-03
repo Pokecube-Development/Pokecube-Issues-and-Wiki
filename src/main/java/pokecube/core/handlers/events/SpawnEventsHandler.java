@@ -185,10 +185,13 @@ public class SpawnEventsHandler
         npc.setHomePosAndDistance(npc.getPosition(), info.roam);
         if (guard != null)
         {
-            final TimePeriod duration = info.time.equals("allday") ? TimePeriod.fullDay : new TimePeriod(0.55, 9.5);
+            TimePeriod duration = info.time.equals("allday") ? TimePeriod.fullDay : new TimePeriod(0.55, .95);
+            duration = info.time.equals("day") ? new TimePeriod(0, 0.5) : duration;
+            duration = info.time.equals("night") ? new TimePeriod(0.55, .95) : duration;
             guard.getPrimaryTask().setPos(npc.getPosition());
             guard.getPrimaryTask().setRoamDistance(info.roam);
             guard.getPrimaryTask().setActiveTime(duration);
+            System.out.println(info.time + " " + info.roam);
         }
     }
 

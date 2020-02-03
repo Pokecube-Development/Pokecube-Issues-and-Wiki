@@ -24,6 +24,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.commander.CommanderBlock;
@@ -47,9 +48,13 @@ import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.client.ClientProxy;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.events.TrainerEventHandler;
+import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
+import pokecube.adventures.utils.EnergyHandler;
+import pokecube.adventures.utils.InventoryHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.utils.PokeType;
@@ -243,11 +248,22 @@ public class PokecubeAdv
         // Register the loaded method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::loaded);
 
-        MinecraftForge.EVENT_BUS.register(this);
-        PokecubeCore.POKEMOB_BUS.register(this);
-
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(PokecubeAdv.config, PokecubeCore.MODID, PokecubeAdv.ID);
+
+        // Register event handlers
+
+        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(TrainerEventHandler.class);
+        MinecraftForge.EVENT_BUS.register(TrainerSpawnHandler.class);
+        MinecraftForge.EVENT_BUS.register(BagItem.class);
+        MinecraftForge.EVENT_BUS.register(Linker.class);
+        MinecraftForge.EVENT_BUS.register(EnergyHandler.class);
+        MinecraftForge.EVENT_BUS.register(InventoryHandler.class);
+        MinecraftForge.EVENT_BUS.register(BlockEventHandler.class);
+
+        PokecubeCore.POKEMOB_BUS.register(TrainerEventHandler.class);
+        PokecubeCore.POKEMOB_BUS.register(this);
     }
 
     @SubscribeEvent
