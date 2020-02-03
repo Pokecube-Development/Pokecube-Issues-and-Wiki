@@ -14,7 +14,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -173,16 +172,19 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         boolean rightSize = width < 1 && height < 1 && length < 1;
         rightSize |= this.getPokedexEntry().canSitShoulder;
         if (!rightSize) return false;
-        final CompoundNBT CompoundNBT = new CompoundNBT();
-        CompoundNBT.putString("id", this.getEntity().getType().getRegistryName().toString());
-        this.getEntity().writeAdditional(CompoundNBT);
-
-        if (player.addShoulderEntity(CompoundNBT))
-        {
-            this.getEntity().remove();
-            return true;
-        }
-        else return false;
+        // TODO fix this.
+        // final CompoundNBT CompoundNBT = new CompoundNBT();
+        // CompoundNBT.putString("id",
+        // this.getEntity().getType().getRegistryName().toString());
+        // this.getEntity().writeAdditional(CompoundNBT);
+        //
+        // if (player.addShoulderEntity(CompoundNBT))
+        // {
+        // this.getEntity().remove(true);
+        // return true;
+        // }
+        // else
+        return false;
     }
 
     @Override

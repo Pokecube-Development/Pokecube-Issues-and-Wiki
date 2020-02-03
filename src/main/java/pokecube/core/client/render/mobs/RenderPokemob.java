@@ -472,6 +472,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.entry != type
                 .getEntry() || holder.model == null || holder.texture == null) holder = this.holder;
         this.entityModel = holder.wrapper;
+        this.shadowSize = entity.getWidth();
         try
         {
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
