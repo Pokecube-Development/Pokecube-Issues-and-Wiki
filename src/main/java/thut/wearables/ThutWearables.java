@@ -289,10 +289,10 @@ public class ThutWearables
     public void dropLoot(final LivingDropsEvent event)
     {
         final LivingEntity mob = event.getEntityLiving();
-        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(DimensionType.OVERWORLD)
-                .getGameRules() : mob.getEntityWorld().getGameRules();
+        final GameRules rules = this.overworldRules ? mob.getServer().getWorld(DimensionType.OVERWORLD).getGameRules()
+                : mob.getEntityWorld().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
-        if (rules.getBoolean(GameRules.KEEP_INVENTORY)) return;
+        if (rules.getBoolean(GameRules.KEEP_INVENTORY) || cap == null) return;
 
         for (int i = 0; i < 13; i++)
         {
