@@ -1,10 +1,24 @@
 package pokecube.core.entity.npc;
 
+import java.util.List;
 import java.util.function.Consumer;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.VillagerTasks;
 import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
@@ -25,6 +39,9 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAI;
+import pokecube.core.ai.routes.GuardTask;
+import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.handlers.events.EventsHandler;
 import thut.api.maths.Vector3;
 
 public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
@@ -58,6 +75,61 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         super(type, world);
         this.enablePersistence();
+    }
+
+    private ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addGuard(final GuardAI guardai,
+            final ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addTo)
+    {
+        final List<Pair<Integer, ? extends Task<? super VillagerEntity>>> temp = Lists.newArrayList(addTo);
+        final Pair<Integer, GuardTask> pair = Pair.of(0, new GuardTask(guardai));
+        temp.add(0, pair);
+        return ImmutableList.copyOf(temp);
+    }
+
+    @Override
+    protected void initBrain(final Brain<VillagerEntity> brain)
+    {
+        final IGuardAICapability guard = this.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+        if (guard != null)
+        {
+            final GuardAI guardai = new GuardAI(this, guard);
+
+            final VillagerProfession villagerprofession = this.getVillagerData().getProfession();
+            final float f = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            if (this.isChild())
+            {
+                brain.setSchedule(Schedule.VILLAGER_BABY);
+                brain.registerActivity(Activity.PLAY, this.addGuard(guardai, VillagerTasks.play(f)));
+            }
+            else
+            {
+                brain.setSchedule(Schedule.VILLAGER_DEFAULT);
+                brain.registerActivity(Activity.WORK, this.addGuard(guardai, VillagerTasks.work(
+                        villagerprofession, f)), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE,
+                                MemoryModuleStatus.VALUE_PRESENT)));
+            }
+            brain.registerActivity(Activity.CORE, this.addGuard(guardai, VillagerTasks.core(villagerprofession,
+                    f)));
+            brain.registerActivity(Activity.MEET, this.addGuard(guardai, VillagerTasks.meet(villagerprofession,
+                    f)), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
+            brain.registerActivity(Activity.REST, this.addGuard(guardai, VillagerTasks.rest(villagerprofession,
+                    f)));
+            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, VillagerTasks.idle(villagerprofession,
+                    f)));
+            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, VillagerTasks.panic(villagerprofession,
+                    f)));
+            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, VillagerTasks.preRaid(
+                    villagerprofession, f)));
+            brain.registerActivity(Activity.RAID, this.addGuard(guardai, VillagerTasks.raid(villagerprofession,
+                    f)));
+            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, VillagerTasks.hide(villagerprofession,
+                    f)));
+            brain.setDefaultActivities(ImmutableSet.of(Activity.CORE));
+            brain.setFallbackActivity(Activity.IDLE);
+            brain.switchTo(Activity.IDLE);
+            brain.updateActivity(this.world.getDayTime(), this.world.getGameTime());
+        }
+        else super.initBrain(brain);
     }
 
     @Override

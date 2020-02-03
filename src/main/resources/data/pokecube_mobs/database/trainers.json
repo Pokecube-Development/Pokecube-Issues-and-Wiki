@@ -16,7 +16,7 @@
     },
     { 
       "type":"youngster",
-      "pokemon":"rattata,zubat,nidoranm,poochyena,tailow,zigzagoon,starly,kricketot,magikarp,bidoof,ekans,sandshrew,wooper,seedot,geodude,lotad,electrike,burmy,slowpoke,spearow,mankey,diglett,machop,bellsprout,growlithe,aron,trapinch,shroomish,onix,gastly,gligar,buizel",
+      "pokemon":"rattata,zubat,nidoranm,poochyena,taillow,zigzagoon,starly,kricketot,magikarp,bidoof,ekans,sandshrew,wooper,seedot,geodude,lotad,electrike,burmy,slowpoke,spearow,mankey,diglett,machop,bellsprout,growlithe,aron,trapinch,shroomish,onix,gastly,gligar,buizel",
       "spawns":[ 
         { 
           "values":{ 
@@ -30,7 +30,7 @@
     },
     { 
       "type":"lass",
-      "pokemon":"nidoranm,nidoranf,pidgey,rattata,pikachu,meowth,bellsprout,oddish,clefairy,jigglypuff,paras,chingling,buneary,pachirisu,budew,abra,starly,psyduck,bidoof,hoppip,luvdisc,wailmer,lotad,shroomish,marill,skitty,urrloin,woobat,seedot,deerling,gothita,ducklett,vulpix,lillipup",
+      "pokemon":"nidoranm,nidoranf,pidgey,rattata,pikachu,meowth,bellsprout,oddish,clefairy,jigglypuff,paras,chingling,buneary,pachirisu,budew,abra,starly,psyduck,bidoof,hoppip,luvdisc,wailmer,lotad,shroomish,marill,skitty,purrloin,woobat,seedot,deerling,gothita,ducklett,vulpix,lillipup",
       "spawns":[ 
         { 
           "values":{ 
@@ -61,7 +61,7 @@
     },
     { 
       "type":"fisherman_trainer",
-      "pokemon":"tentacool,magikarp,goldeen,polywag,staryu,shellder,horsea,qwilfish,remoraid,carvanha,feebas,barboach,wailmer,finneon,basculin,stunfisk,frillish,krabby",
+      "pokemon":"tentacool,magikarp,goldeen,poliwag,staryu,shellder,horsea,qwilfish,remoraid,carvanha,feebas,barboach,wailmer,finneon,basculin,stunfisk,frillish,krabby",
       "spawns":[ 
         { 
           "values":{ 
@@ -116,7 +116,7 @@
     },
     { 
       "type":"super_nerd",
-      "pokemon":"grimer,magnemite,voltorb,koffing,growlith,vulpix,porygon,slowpoke,ponyta",
+      "pokemon":"grimer,magnemite,voltorb,koffing,growlithe,vulpix,porygon,slowpoke,ponyta",
       "spawns":[ 
         { 
           "values":{ 
@@ -129,7 +129,7 @@
     },
     { 
       "type":"scientist",
-      "pokemon":"grimer,magnemite,voltorb,koffing,porygon,ditto,abra,ralts,munna,drowsey,klink,deerling,elgyem",
+      "pokemon":"grimer,magnemite,voltorb,koffing,porygon,ditto,abra,ralts,munna,drowzee,klink,deerling,elgyem",
       "spawns":[ 
         { 
           "values":{ 
@@ -142,7 +142,7 @@
     },
     { 
       "type":"bird_keeper",
-      "pokemon":"pidgey,spearow,tailow,wingull,starly,pidove,fletchling,natu,skarmory,doduo,farfetch'd,swablu,hoothoot,murkrow",
+      "pokemon":"pidgey,spearow,taillow,wingull,starly,pidove,fletchling,natu,skarmory,doduo,farfetch'd,swablu,hoothoot,murkrow",
       "spawns":[ 
         { 
           "values":{ 
@@ -155,7 +155,7 @@
     },
     { 
       "type":"beauty",
-      "pokemon":"bellsprout,oddish,exeggcute,rattata,clefairy,meowth,jigglypuff,goldeen,poliwag,staryu,horsea,cloyster,paras,corsola,hoppip,sentret,marill,wailmer,keckleon,seviper,lotad,shroomish,numel,carvanha,clamperl,corphish,luvdisc,glameow,burmy,skitty,finneon,buneary,fletchling,espurr,roserade,blitzle,mareep",
+      "pokemon":"bellsprout,oddish,exeggcute,rattata,clefairy,meowth,jigglypuff,goldeen,poliwag,staryu,horsea,cloyster,paras,corsola,hoppip,sentret,marill,wailmer,kecleon,seviper,lotad,shroomish,numel,carvanha,clamperl,corphish,luvdisc,glameow,burmy,skitty,finneon,buneary,fletchling,espurr,roserade,blitzle,mareep",
       "spawns":[ 
         { 
           "values":{ 
@@ -168,7 +168,7 @@
     },
     { 
       "type":"biker",
-      "pokemon":"grimer,koffing,voltorb,magmar,gulpin,ekans,surviper,croagunk,skorupi",
+      "pokemon":"grimer,koffing,voltorb,magmar,gulpin,ekans,seviper,croagunk,skorupi",
       "spawns":[ 
         { 
           "values":{ 
@@ -272,7 +272,7 @@
     },
     { 
       "type":"camper",
-      "pokemon":"diglett,rattata,sandshrew,ekans,mankey,zubat,zigzagoon,tailow,seedot,baltoy,spearow,nidoranM",
+      "pokemon":"diglett,rattata,sandshrew,ekans,mankey,zubat,zigzagoon,taillow,seedot,baltoy,spearow,nidoranM",
       "spawns":[ 
         { 
           "values":{ 
@@ -324,7 +324,7 @@
     },
     { 
       "type":"rocker",
-      "pokemon":"voltorb,magnemite,mareep",
+      "pokemon":"voltorb,magnemite,mareep,zigzagoongalar,toxel,grookey",
       "spawns":[ 
         { 
           "values":{ 
@@ -350,7 +350,7 @@
     },
     { 
       "type":"swimmer",
-      "pokemon":"horsea,cloyster,goldeen,staryu,poilwag,tentacool,psyduck,remoraid,magikarp,wingull,wailmer,marill,carvanha,luvdisc,spheal,chinchou,mantine,seel,finneon,buizel,qwilfish,bidoof,lapras,frillish,clamperl,skrelp",
+      "pokemon":"horsea,cloyster,goldeen,staryu,poliwag,tentacool,psyduck,remoraid,magikarp,wingull,wailmer,marill,carvanha,luvdisc,spheal,chinchou,mantine,seel,finneon,buizel,qwilfish,bidoof,lapras,frillish,clamperl,skrelp",
       "spawns":[ 
         { 
           "values":{ 

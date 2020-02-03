@@ -46,6 +46,7 @@ import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 
 public class TypeTrainer extends NpcType
@@ -253,10 +254,36 @@ public class TypeTrainer extends NpcType
     {
         final List<TypeTrainer> toRemove = new ArrayList<>();
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
+        {
+            t.pokemon.clear();
+            if (t.pokelist != null && t.pokelist.length != 0) if (!t.pokelist[0].startsWith("-"))
+                for (final String s : t.pokelist)
+                {
+                final PokedexEntry e = Database.getEntry(s);
+                if (e != null && !t.pokemon.contains(e)) t.pokemon.add(e);
+                else if (e == null) PokecubeCore.LOGGER.error("Error in reading of " + s);
+                }
+            else
+            {
+                final String[] types = t.pokelist[0].replace("-", "").split(":");
+                if (types[0].equalsIgnoreCase("all"))
+                {
+                    for (final PokedexEntry s : Database.spawnables)
+                        if (!s.legendary && s.getPokedexNb() != 151) t.pokemon.add(s);
+                }
+                else for (final String type2 : types)
+                {
+                    final PokeType pokeType = PokeType.getType(type2);
+                    if (pokeType != PokeType.unknown) for (final PokedexEntry s : Database.spawnables)
+                        if (s.isType(pokeType) && !s.legendary && s.getPokedexNb() != 151) t.pokemon.add(s);
+                }
+            }
             if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);
+        }
         if (!toRemove.isEmpty()) PokecubeCore.LOGGER.debug("Removing Trainer Types: " + toRemove);
         for (final TypeTrainer t : toRemove)
             TypeTrainer.typeMap.remove(t.getName());
+        TypeTrainer.initSpawns();
     }
 
     /** 1 = male, 2 = female, 3 = both */
@@ -276,6 +303,9 @@ public class TypeTrainer extends NpcType
 
     public String    drops = "";
     public ItemStack held  = ItemStack.EMPTY;
+
+    // Temporary array used to load in the allowed mobs.
+    public String[] pokelist;
 
     public TypeTrainer(final String name)
     {

@@ -58,6 +58,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.GuardAICapability;
@@ -588,6 +589,12 @@ public class EventsHandler
     public static void serverStarted(final FMLServerStartedEvent event)
     {
         Database.postResourcesLoaded();
+    }
+
+    @SubscribeEvent
+    public static void serverSopped(final FMLServerStoppedEvent event)
+    {
+        PokecubeSerializer.clearInstance();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

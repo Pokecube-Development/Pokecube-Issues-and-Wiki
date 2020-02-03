@@ -102,7 +102,8 @@ public class PokecubeSerializer
 
     public static int MeteorDistance = 3000 * 3000;
 
-    public static PokecubeSerializer instance = null;
+    public static PokecubeSerializer  instance;
+    private static PokecubeSerializer client = new PokecubeSerializer(null);
 
     public static double distSq(final Vector4 location, final Vector4 meteor)
     {
@@ -115,10 +116,10 @@ public class PokecubeSerializer
     public static PokecubeSerializer getInstance()
     {
         final World world = PokecubeCore.proxy.getWorld();
-        if (world == null || world.isRemote) return PokecubeSerializer.instance == null
-                ? PokecubeSerializer.instance = new PokecubeSerializer(world.getServer()) : PokecubeSerializer.instance;
-
-        if (PokecubeSerializer.instance == null || PokecubeSerializer.instance.myWorld == world)
+        if (!(world instanceof ServerWorld)) return PokecubeSerializer.client;
+        if (PokecubeSerializer.instance == null) return PokecubeSerializer.instance = new PokecubeSerializer(world
+                .getServer());
+        else if (PokecubeSerializer.instance.myWorld == world)
         {
             boolean toNew = false;
             toNew = PokecubeSerializer.instance == null || PokecubeSerializer.instance.saveHandler == null;
@@ -165,8 +166,9 @@ public class PokecubeSerializer
         return true;
     }
 
-    public void clearInstance()
+    public static void clearInstance()
     {
+        PokecubeSerializer.client = new PokecubeSerializer(null);
         if (PokecubeSerializer.instance == null) return;
         PokecubeSerializer.instance.save();
         PokecubeItems.times = new Vector<>();

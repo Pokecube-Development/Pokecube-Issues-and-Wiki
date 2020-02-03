@@ -338,7 +338,12 @@ public class TrainerSpawnHandler
         {
             final List<TypeTrainer> types = Lists.newArrayList(TypeTrainer.typeMap.values());
             Collections.shuffle(types);
-            npc.pokemobsCap.setType(types.get(0));
+            for (final TypeTrainer type : types)
+            {
+                if (type.matchers.isEmpty()) continue;
+                npc.pokemobsCap.setType(type);
+                break;
+            }
         }
         TypeTrainer.getRandomTeam(npc.pokemobsCap, npc, level, npc.getEntityWorld());
     }

@@ -99,7 +99,6 @@ public class DBLoader
             PokecubeCore.LOGGER.warn("error loading databases.", e);
         }
         DBLoader.loadNames();
-        TypeTrainer.postInitTrainers();
     }
 
     public static void loadNames()

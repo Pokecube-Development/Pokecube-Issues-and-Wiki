@@ -35,8 +35,10 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.AIBattle;
@@ -63,7 +65,6 @@ import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -400,9 +401,6 @@ public class TrainerEventHandler
                     .setPriority(20));
             final MobEntity living = (MobEntity) npc;
             living.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));
-
-            final IGuardAICapability guard = npc.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
-            if (guard != null) living.goalSelector.addGoal(0, new GuardAI(living, guard));
         }
 
         final TypeTrainer newType = TypeTrainer.mobTypeMapper.getType(npc, true);
@@ -447,6 +445,12 @@ public class TrainerEventHandler
     public static void serverStarting(final FMLServerAboutToStartEvent event)
     {
         DBLoader.load();
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void serverStarted(final FMLServerStartedEvent event)
+    {
+        TypeTrainer.postInitTrainers();
     }
 
     @SubscribeEvent

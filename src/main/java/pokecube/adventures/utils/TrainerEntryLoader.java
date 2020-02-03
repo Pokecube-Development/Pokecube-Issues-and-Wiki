@@ -14,12 +14,10 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
-import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 
 public class TrainerEntryLoader
@@ -141,37 +139,12 @@ public class TrainerEntryLoader
             type.hasBelt = entry.belt;
             if (entry.gender != null) type.genders = entry.gender.equalsIgnoreCase("male") ? male
                     : entry.gender.equalsIgnoreCase("female") ? female : male + female;
-            final String[] pokeList = entry.pokemon == null ? new String[] {} : entry.pokemon.split(",");
             if (entry.held != null)
             {
                 final ItemStack held = Tools.getStack(entry.held.getValues());
                 type.held = held;
             }
-            if (pokeList.length == 0) continue;
-            if (!pokeList[0].startsWith("-")) for (final String s : pokeList)
-            {
-                final PokedexEntry e = Database.getEntry(s);
-                if (e != null && !type.pokemon.contains(e)) type.pokemon.add(e);
-                else if (e == null)
-                {
-                    // System.err.println("Error in reading of "+s);
-                }
-            }
-            else
-            {
-                final String[] types = pokeList[0].replace("-", "").split(":");
-                if (types[0].equalsIgnoreCase("all"))
-                {
-                    for (final PokedexEntry s : Database.spawnables)
-                        if (!s.legendary && s.getPokedexNb() != 151) type.pokemon.add(s);
-                }
-                else for (final String type2 : types)
-                {
-                    final PokeType pokeType = PokeType.getType(type2);
-                    if (pokeType != PokeType.unknown) for (final PokedexEntry s : Database.spawnables)
-                        if (s.isType(pokeType) && !s.legendary && s.getPokedexNb() != 151) type.pokemon.add(s);
-                }
-            }
+            type.pokelist = entry.pokemon == null ? new String[] {} : entry.pokemon.split(",");
         }
     }
 }
