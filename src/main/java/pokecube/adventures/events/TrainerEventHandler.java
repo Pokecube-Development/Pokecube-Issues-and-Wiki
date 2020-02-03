@@ -426,7 +426,7 @@ public class TrainerEventHandler
         // TODO trainer edit item.
         final IHasMessages messages = CapabilityNPCMessages.getMessages(target);
         final IHasPokemobs pokemobs = CapabilityHasPokemobs.getHasPokemobs(target);
-        if (!target.isSneaking() && pokemobs != null && evt.getItemStack().getItem() instanceof TrainerEditor)
+        if (!target.isCrouching() && pokemobs != null && evt.getItemStack().getItem() instanceof TrainerEditor)
         {
             evt.setCanceled(true);
             if (evt.getPlayer() instanceof ServerPlayerEntity) PacketTrainer.sendEditOpenPacket(target,

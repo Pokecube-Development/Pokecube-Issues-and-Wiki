@@ -306,7 +306,7 @@ public class Pokecube extends Item implements IPokecube
             if (!filled && target instanceof LivingEntity && this.getCaptureModifier((LivingEntity) target,
                     PokecubeItems.getCubeId(stack)) == 0) target = null;
             boolean used = false;
-            final boolean filledOrSneak = filled || player.isSneaking() || dt > 10;
+            final boolean filledOrSneak = filled || player.isCrouching() || dt > 10;
             if (target != null && EntityPokecubeBase.SEEKING) used = this.throwPokecubeAt(worldIn, player, stack,
                     targetLocation, target);
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
@@ -379,7 +379,7 @@ public class Pokecube extends Item implements IPokecube
         }
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
-        entity.shootingEntity = thrower.isSneaking() ? null : thrower;
+        entity.shootingEntity = thrower.isCrouching() ? null : thrower;
         entity.shooter = thrower.getUniqueID();
         entity.setItem(stack);
 
@@ -391,7 +391,7 @@ public class Pokecube extends Item implements IPokecube
         entity.targetEntity = null;
         entity.targetLocation.clear();
         entity.forceSpawn = true;
-        if (hasMob && !thrower.isSneaking()) entity.targetLocation.y = -1;
+        if (hasMob && !thrower.isCrouching()) entity.targetLocation.y = -1;
         if (!world.isRemote)
         {
             thrower.playSound(SoundEvents.ENTITY_EGG_THROW, 0.5F, 0.4F / (new Random().nextFloat() * 0.4F + 0.8F));
@@ -417,14 +417,14 @@ public class Pokecube extends Item implements IPokecube
         final boolean rightclick = target == thrower;
         if (rightclick) target = null;
 
-        if (target instanceof LivingEntity || PokecubeManager.isFilled(cube) || thrower.isSneaking()
+        if (target instanceof LivingEntity || PokecubeManager.isFilled(cube) || thrower.isCrouching()
                 || thrower instanceof FakePlayer)
         {
             if (target instanceof LivingEntity) entity.targetEntity = (LivingEntity) target;
             if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
                 targetLocation = Vector3.secondAxisNeg;
             entity.targetLocation.set(targetLocation);
-            if (thrower.isSneaking())
+            if (thrower.isCrouching())
             {
                 final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
                 final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).scalarMultBy(1.5);

@@ -72,7 +72,7 @@ public abstract class TrainerBase extends NpcMob
     public boolean processInteract(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
-        if (player.abilities.isCreativeMode && player.isSneaking())
+        if (player.abilities.isCreativeMode && player.isCrouching())
         {
             if (this.pokemobsCap.getType() != null && !this.getEntityWorld().isRemote && stack.isEmpty())
             {
@@ -85,7 +85,7 @@ public abstract class TrainerBase extends NpcMob
                 }
                 player.sendMessage(new StringTextComponent(message));
             }
-            else if (!this.getEntityWorld().isRemote && player.isSneaking() && player.getHeldItemMainhand()
+            else if (!this.getEntityWorld().isRemote && player.isCrouching() && player.getHeldItemMainhand()
                     .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
             else if (player.getHeldItemMainhand().getItem() == Items.STICK) this.pokemobsCap.setTarget(player);
             return true;

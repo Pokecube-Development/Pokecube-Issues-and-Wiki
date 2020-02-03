@@ -2,14 +2,13 @@ package thut.core.client.render.model.parts;
 
 import java.nio.FloatBuffer;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GLX;
 
 import net.minecraft.util.ResourceLocation;
+import thut.api.maths.vecmath.Vector3f;
 
 public class Material
 {

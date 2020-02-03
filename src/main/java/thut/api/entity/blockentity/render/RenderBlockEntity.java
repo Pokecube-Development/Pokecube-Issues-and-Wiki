@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.block.BlockRenderType;
@@ -13,6 +14,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -55,25 +58,22 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     }
 
     @Override
-    public void doRender(final T entity, final double x, final double y, final double z, final float entityYaw,
-            final float partialTicks)
+    public void render(final T entity, final float entityYaw, final float partialTicks, final MatrixStack mat,
+            final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         // Incase some other mod tries to render as us.
         if (!(entity instanceof IBlockEntity)) return;
         try
         {
             final IBlockEntity blockEntity = entity;
-            GL11.glPushMatrix();
-            GL11.glTranslated(x, y + 0.5, z);
             if (entity instanceof IMultiplePassengerEntity)
             {
                 final IMultiplePassengerEntity multi = (IMultiplePassengerEntity) entity;
                 final float yaw = -(multi.getPrevYaw() + (multi.getYaw() - multi.getPrevYaw()) * partialTicks);
                 final float pitch = -(multi.getPrevPitch() + (multi.getPitch() - multi.getPrevPitch()) * partialTicks);
-                GL11.glRotatef(yaw, 0, 1, 0);
-                GL11.glRotatef(pitch, 0, 0, 1);
+                mat.rotate(new Quaternion(0, yaw, pitch, true));
             }
-            final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+            final BlockPos.Mutable pos = new BlockPos.Mutable();
 
             final int xMin = MathHelper.floor(blockEntity.getMin().getX());
             final int xMax = MathHelper.floor(blockEntity.getMax().getX());
@@ -107,6 +107,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         }
     }
 
+
     private void drawBlockAt(BlockPos pos, final IBlockEntity entity)
     {
         if (entity.getBlocks() == null) return;
@@ -118,8 +119,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         {
             final BlockRendererDispatcher blockrendererdispatcher = Minecraft.getInstance()
                     .getBlockRendererDispatcher();
-            BlockState actualstate = BlockState.getExtendedState(entity.getFakeWorld(), pos);
-            actualstate = actualstate.getBlock().getExtendedState(actualstate, entity.getFakeWorld(), pos);
+            final BlockState actualstate = BlockState.getBlock().getExtendedState(BlockState, entity.getFakeWorld(),
+                    pos);
             if (actualstate.getRenderType() == BlockRenderType.MODEL)
             {
                 GlStateManager.pushMatrix();
@@ -138,7 +139,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         }
     }
 
-    private void drawCrateAt(final BlockPos.MutableBlockPos pos, final IBlockEntity blockEntity)
+    private void drawCrateAt(final BlockPos.Mutable pos, final IBlockEntity blockEntity)
     {
         GlStateManager.pushMatrix();
         GlStateManager.rotatef(90.0F, 0.0F, 1.0F, 0.0F);

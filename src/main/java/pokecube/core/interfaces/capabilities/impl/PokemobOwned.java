@@ -284,7 +284,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
                         if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
                     }
                 }
-                if (!owner.isSneaking() && this.getEntity().isAlive() && !ownerDead)
+                if (!owner.isCrouching() && this.getEntity().isAlive() && !ownerDead)
                 {
                     boolean has = StatsCollector.getCaptured(this.getPokedexEntry(), player) > 0;
                     has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;

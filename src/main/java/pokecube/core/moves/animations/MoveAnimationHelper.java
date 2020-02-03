@@ -156,7 +156,7 @@ public class MoveAnimationHelper
             final PlayerEntity player = Minecraft.getInstance().player;
             this.source.set(player);
             final int range = 4;
-            final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+            final BlockPos.Mutable pos = new BlockPos.Mutable();
             for (int i = -range; i <= range; i++)
                 for (int j = -range; j <= range; j++)
                     for (int k = -range; k <= range; k++)

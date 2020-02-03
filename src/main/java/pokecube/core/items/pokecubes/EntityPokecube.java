@@ -145,7 +145,7 @@ public class EntityPokecube extends EntityPokecubeBase
         final ItemStack stack = player.getHeldItem(hand);
         if (!player.getEntityWorld().isRemote)
         {
-            if (player.isSneaking() && PokecubeManager.isFilled(this.getItem()) && player.abilities.isCreativeMode)
+            if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player.abilities.isCreativeMode)
                 if (!stack.isEmpty())
                 {
                 this.isLoot = true;
@@ -154,7 +154,7 @@ public class EntityPokecube extends EntityPokecubeBase
                 }
             if (!this.isReleasing()) if (PokecubeManager.isFilled(this.getItem()))
             {
-                if (player.isSneaking())
+                if (player.isCrouching())
                 {
                     Tools.giveItem(player, this.getItem());
                     this.remove();

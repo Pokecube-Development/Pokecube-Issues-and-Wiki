@@ -33,8 +33,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages.SpawnEntity;
 import net.minecraftforge.fml.network.NetworkHooks;
-import thut.api.entity.blockentity.world.WorldEntity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
+import thut.api.entity.blockentity.world.WorldEntity;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 

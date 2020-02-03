@@ -2,8 +2,6 @@ package pokecube.core.client.gui.pokemob;
 
 import java.util.List;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -24,6 +22,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.maths.vecmath.Vector3f;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {

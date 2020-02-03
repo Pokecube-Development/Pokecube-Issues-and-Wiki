@@ -48,7 +48,7 @@ public class WalkNodeLadderProcessor extends WalkNodeProcessor
 
     private PathPoint getLadder(final int x, final int y, final int z)
     {
-        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        final BlockPos.Mutable pos = new BlockPos.Mutable();
         for (int i = x; i < x + this.entitySizeX; ++i)
             for (int j = y; j < y + this.entitySizeY; ++j)
                 for (int k = z; k < z + this.entitySizeZ; ++k)

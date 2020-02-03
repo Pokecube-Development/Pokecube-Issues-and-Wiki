@@ -429,7 +429,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         if (this.isPassenger(passenger))
         {
-            if (passenger.isSneaking()) passenger.stopRiding();
+            if (passenger.isCrouching()) passenger.stopRiding();
             IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
         }
     }

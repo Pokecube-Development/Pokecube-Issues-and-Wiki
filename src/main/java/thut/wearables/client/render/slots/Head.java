@@ -27,7 +27,7 @@ public class Head
         float[] offsetArr;
 
         GlStateManager.pushMatrix();
-        if (wearer.isSneaking())
+        if (wearer.isCrouching())
         {
             GlStateManager.translatef(0.0F, 0.2F, 0.0F);
             if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) GlStateManager.translatef(

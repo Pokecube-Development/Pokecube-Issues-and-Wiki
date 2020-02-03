@@ -388,7 +388,7 @@ public class PokemobEventsHandler
             // on shoulder
             if (held.getItem() == Items.STICK || held.getItem() == Blocks.TORCH.asItem())
             {
-                if (player.isSneaking())
+                if (player.isCrouching())
                 {
                     if (pokemob.getEntity().isAlive()) pokemob.moveToShoulder(player);
                     return;
@@ -399,15 +399,15 @@ public class PokemobEventsHandler
                 return;
             }
             // Debug thing to maximize happiness
-            if (held.getItem() == Items.APPLE) if (player.abilities.isCreativeMode && player.isSneaking()) pokemob
+            if (held.getItem() == Items.APPLE) if (player.abilities.isCreativeMode && player.isCrouching()) pokemob
                     .addHappiness(255);
             // Debug thing to increase hunger time
-            if (held.getItem() == Items.GOLDEN_HOE) if (player.abilities.isCreativeMode && player.isSneaking()) pokemob
+            if (held.getItem() == Items.GOLDEN_HOE) if (player.abilities.isCreativeMode && player.isCrouching()) pokemob
                     .setHungerTime(pokemob.getHungerTime() + 4000);
             // Use shiny charm to make shiny
             if (PokecubeItems.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {
-                if (player.isSneaking())
+                if (player.isCrouching())
                 {
                     pokemob.setShiny(!pokemob.isShiny());
                     if (!player.abilities.isCreativeMode) held.split(1);
@@ -458,7 +458,7 @@ public class PokemobEventsHandler
             return;
         }
 
-        final boolean saddleCheck = !player.isSneaking() && held.isEmpty() && (isOwner || pokemob
+        final boolean saddleCheck = !player.isCrouching() && held.isEmpty() && (isOwner || pokemob
                 .getEntity() instanceof EntityPokemob && ((EntityPokemob) pokemob.getEntity()).canFitPassenger(player))
                 && PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
 
@@ -466,7 +466,7 @@ public class PokemobEventsHandler
         if (isOwner || player instanceof FakePlayer)
         {
             final int fav = Nature.getFavouriteBerryIndex(pokemob.getNature());
-            if (PokecubeCore.getConfig().berryBreeding && (player.isSneaking() || player instanceof FakePlayer)
+            if (PokecubeCore.getConfig().berryBreeding && (player.isCrouching() || player instanceof FakePlayer)
                     && entity.getAttackTarget() == null && held.getItem() instanceof ItemBerry && (fav == -1
                             || fav == ((ItemBerry) held.getItem()).type.index))
             {

@@ -133,7 +133,7 @@ public interface IBlockEntity
             final int zMax = max.getZ();
             final int yMin = min.getY();
             final int yMax = max.getY();
-            final BlockPos.MutableBlockPos temp = new BlockPos.MutableBlockPos();
+            final BlockPos.Mutable temp = new BlockPos.Mutable();
             for (int i = xMin; i <= xMax; i++)
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)

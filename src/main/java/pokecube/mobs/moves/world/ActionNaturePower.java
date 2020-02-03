@@ -395,8 +395,7 @@ public class ActionNaturePower implements IMoveAction
                 {
                     vec.addTo(i, 0, j);
                     final Biome here = vec.getBiome(world);
-                    final Biome natural = world.getChunkProvider().getChunkGenerator().getBiomeProvider().getBiome(vec
-                            .getPos());
+                    final Biome natural = world.getChunkProvider().getChunkGenerator().getBiomeProvider().getNoiseBiome(vec.intX(), vec.intY(), vec.intZ());
                     if (natural != here)
                     {
                         vec.setBiome(natural, world);

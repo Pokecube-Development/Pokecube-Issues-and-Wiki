@@ -447,7 +447,7 @@ public class AIFindTarget extends AIBase implements IAICombat
             {
                 final double d5 = PlayerEntity1.getDistanceSq(x, y, z);
                 double d6 = distance;
-                if (PlayerEntity1.isSneaking()) d6 = distance * 0.800000011920929D;
+                if (PlayerEntity1.isCrouching()) d6 = distance * 0.800000011920929D;
                 if ((distance < 0.0D || d5 < d6 * d6) && (d4 == -1.0D || d5 < d4))
                 {
                     d4 = d5;

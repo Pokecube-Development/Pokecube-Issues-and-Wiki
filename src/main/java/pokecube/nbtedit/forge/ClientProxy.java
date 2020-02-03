@@ -2,6 +2,7 @@ package pokecube.nbtedit.forge;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.block.Block;
@@ -45,7 +46,7 @@ public class ClientProxy extends CommonProxy
 
     public static KeyBinding NBTEditKey;
 
-    private void drawBoundingBox(final WorldRenderer r, final float f, AxisAlignedBB aabb)
+    private void drawBoundingBox(final WorldRenderer r, MatrixStack mat, final float f, AxisAlignedBB aabb)
     {
         if (aabb == null) return;
 
@@ -154,7 +155,7 @@ public class ClientProxy extends CommonProxy
             final GuiEditNBTTree screen = (GuiEditNBTTree) curScreen;
             final Entity e = screen.getEntity();
 
-            if (e != null && e.isAlive()) this.drawBoundingBox(event.getContext(), event.getPartialTicks(), e
+            if (e != null && e.isAlive()) this.drawBoundingBox(event.getContext(), event.getMatrixStack(), event.getPartialTicks(), e
                     .getBoundingBox());
             else if (screen.isTileEntity())
             {

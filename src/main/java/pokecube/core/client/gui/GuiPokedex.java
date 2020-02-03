@@ -5,8 +5,6 @@ package pokecube.core.client.gui;
 
 import java.util.List;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -45,6 +43,7 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokeType;
 import thut.api.entity.IMobColourable;
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class GuiPokedex extends Screen

@@ -59,7 +59,7 @@ public class LegendarySpawn
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        final boolean invalid = !evt.getPlayer().isSneaking() || this.heldItemChecker.test(evt.getItemStack()) || !(evt
+        final boolean invalid = !evt.getPlayer().isCrouching() || this.heldItemChecker.test(evt.getItemStack()) || !(evt
                 .getWorld() instanceof ServerWorld);
         if (invalid) return;
         final PlayerEntity playerIn = evt.getPlayer();

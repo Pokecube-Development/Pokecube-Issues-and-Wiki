@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.palette.UpgradeData;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.Chunk;
@@ -19,15 +20,13 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
-import net.minecraft.world.chunk.UpgradeData;
-import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.lighting.WorldLightManager;
 import thut.api.entity.blockentity.IBlockEntity;
 
 public class BlockEntityChunkProvider extends AbstractChunkProvider
 {
-    private final WorldEntity world;
-    private final WorldLightManager lightManager;
+    private final WorldEntity          world;
+    private final WorldLightManager    lightManager;
 
     private final Map<BlockPos, Chunk> chunks     = Maps.newHashMap();
     private BlockPos                   lastOrigin = null;
@@ -41,8 +40,8 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     @Override
     public IChunk getChunk(final int chunkX, final int chunkZ, final ChunkStatus status, final boolean load)
     {
-        final AxisAlignedBB chunkBox = new AxisAlignedBB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15, this.world
-                .getWorld().getDimension().getHeight(), chunkZ * 16 + 15);
+        final AxisAlignedBB chunkBox = new AxisAlignedBB(chunkX * 16, 0, chunkZ * 16, chunkX * 16 + 15,
+                this.world.getWorld().getDimension().getHeight(), chunkZ * 16 + 15);
         if (!this.intersects(chunkBox)) return this.world.getWorld().getChunk(chunkX, chunkZ);
 
         // TODO improvements to this.
@@ -54,7 +53,7 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
             this.chunks.clear();
         }
 
-        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        final BlockPos.Mutable pos = new BlockPos.Mutable();
         pos.setPos(chunkX, 0, chunkZ);
         final BlockPos immut = pos.toImmutable();
         if (this.chunks.containsKey(immut)) return this.chunks.get(immut);
@@ -87,13 +86,6 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     }
 
     @Override
-    public ChunkGenerator<?> getChunkGenerator()
-    {
-        // None, as we don't generate.
-        return null;
-    }
-
-    @Override
     public WorldLightManager getLightManager()
     {
         return this.lightManager;
@@ -109,8 +101,8 @@ public class BlockEntityChunkProvider extends AbstractChunkProvider
     {
         final IBlockEntity mob = this.world.getBlockEntity();
         final BlockPos pos = ((Entity) mob).getPosition();
-        final AxisAlignedBB thisBox = new AxisAlignedBB(mob.getMin().add(pos).add(-1, -1, -1), mob.getMax().add(pos)
-                .add(1, 1, 1));
+        final AxisAlignedBB thisBox = new AxisAlignedBB(mob.getMin().add(pos).add(-1, -1, -1),
+                mob.getMax().add(pos).add(1, 1, 1));
         if (thisBox.intersects(other)) return true;
         return false;
     }

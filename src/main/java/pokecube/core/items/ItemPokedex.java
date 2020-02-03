@@ -74,7 +74,7 @@ public class ItemPokedex extends Item
     {
         final ItemStack itemstack = player.getHeldItem(hand);
         if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld());
-        if (!player.isSneaking())
+        if (!player.isCrouching())
         {
             this.showGui(player);
             return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
@@ -125,7 +125,7 @@ public class ItemPokedex extends Item
             return ActionResultType.SUCCESS;
         }
 
-        if (playerIn.isSneaking() && !worldIn.isRemote)
+        if (playerIn.isCrouching() && !worldIn.isRemote)
         {
             ITextComponent message = CommandTools.makeTranslatedMessage("pokedex.locationinfo1", "green",
                     Database.spawnables.size());
@@ -138,7 +138,7 @@ public class ItemPokedex extends Item
             playerIn.sendMessage(message);
         }
 
-        if (!playerIn.isSneaking()) this.showGui(playerIn);
+        if (!playerIn.isCrouching()) this.showGui(playerIn);
         return ActionResultType.FAIL;
     }
 

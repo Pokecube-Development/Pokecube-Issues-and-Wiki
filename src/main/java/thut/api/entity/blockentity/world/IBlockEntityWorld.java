@@ -43,7 +43,7 @@ public interface IBlockEntityWorld extends IBlockReader
         final TileEntity tile = mob.getTiles()[i][j][k];
         if (tile != null)
         {
-            tile.setWorld((World) this);
+            // TODO see about setting world for tiles.
             final boolean invalid = tile.isRemoved();
             if (!invalid) tile.remove();
             tile.setPos(pos.toImmutable());
@@ -98,9 +98,9 @@ public interface IBlockEntityWorld extends IBlockReader
                     {
                         final BlockPos pos = new BlockPos(i + xMin + entity.posX, j + yMin + entity.posY, k + zMin
                                 + entity.posZ);
-                        mob.getTiles()[i][j][k].setWorld((World) this);
                         mob.getTiles()[i][j][k].setPos(pos);
                         mob.getTiles()[i][j][k].validate();
+                        // TODO see about setting world for tiles.
                     }
     }
 
@@ -115,10 +115,10 @@ public interface IBlockEntityWorld extends IBlockReader
         mob.getTiles()[i][j][k] = tile;
         if (tile != null)
         {
-            tile.setWorld((World) this);
             final boolean invalid = tile.isRemoved();
             if (!invalid) tile.remove();
             tile.setPos(pos.toImmutable());
+            // TODO see about setting world for tiles.
             tile.validate();
         }
         return true;

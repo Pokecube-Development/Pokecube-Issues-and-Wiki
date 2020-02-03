@@ -47,7 +47,7 @@ public class PacketTrainer extends Packet
 
     public static void sendEditOpenPacket(final Entity target, final ServerPlayerEntity editor)
     {
-        final String node = target == editor || target == null ? editor.isSneaking() ? PacketTrainer.EDITSELF
+        final String node = target == editor || target == null ? editor.isCrouching() ? PacketTrainer.EDITSELF
                 : PacketTrainer.SPAWNTRAINER
                 : target instanceof ServerPlayerEntity ? PacketTrainer.EDITOTHER
                         : CapabilityHasPokemobs.getHasPokemobs(target) != null ? PacketTrainer.EDITTRAINER

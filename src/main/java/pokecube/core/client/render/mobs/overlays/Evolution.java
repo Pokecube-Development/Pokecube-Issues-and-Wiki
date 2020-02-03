@@ -3,8 +3,6 @@ package pokecube.core.client.render.mobs.overlays;
 import java.awt.Color;
 import java.util.Random;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -18,6 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
+import thut.api.maths.vecmath.Vector3f;
 
 public class Evolution
 {

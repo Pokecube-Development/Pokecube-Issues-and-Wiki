@@ -197,7 +197,7 @@ public class CommanderTile extends InteractableTile
             if (!player.getEntityWorld().isRemote) CommandTools.sendMessage(player, "UUID Set to: " + id);
             return true;
         }
-        else if (!player.isSneaking())
+        else if (!player.isCrouching())
         {
             // TODO gui
         }

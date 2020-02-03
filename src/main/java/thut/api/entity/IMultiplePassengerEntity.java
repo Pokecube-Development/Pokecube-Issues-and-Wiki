@@ -3,9 +3,6 @@ package thut.api.entity;
 import java.util.List;
 import java.util.UUID;
 
-import thut.api.maths.vecmath.Matrix3f;
-import thut.api.maths.vecmath.Vector3f;
-
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
@@ -13,6 +10,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.IDataSerializer;
 import net.minecraft.util.math.MathHelper;
+import thut.api.maths.vecmath.Matrix3f;
+import thut.api.maths.vecmath.Vector3f;
 
 public interface IMultiplePassengerEntity
 {

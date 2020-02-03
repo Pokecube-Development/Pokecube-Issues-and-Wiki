@@ -157,7 +157,7 @@ public class SecretBaseDimension extends ModDimension
             final ChunkPos pos = chunk.getPos();
             if (pos.x % 16 == 0 && pos.z % 16 == 0)
             {
-                final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
                 final Heightmap heightmap = chunk.func_217303_b(Heightmap.Type.OCEAN_FLOOR_WG);
                 final Heightmap heightmap1 = chunk.func_217303_b(Heightmap.Type.WORLD_SURFACE_WG);
                 BlockState state = Blocks.STONE.getDefaultState();
@@ -188,7 +188,7 @@ public class SecretBaseDimension extends ModDimension
             }
             else
             {
-                final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
                 final BlockState state = Blocks.BARRIER.getDefaultState();
                 for (int i = 0; i < world.getMaxHeight(); ++i)
                     for (int j = 0; j < 16; ++j)

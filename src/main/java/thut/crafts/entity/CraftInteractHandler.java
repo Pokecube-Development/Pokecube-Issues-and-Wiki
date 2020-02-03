@@ -33,7 +33,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     public ActionResultType applyPlayerInteraction(final PlayerEntity player, Vec3d vec, final ItemStack stack,
             final Hand hand)
     {
-        if (player.isSneaking()) return ActionResultType.PASS;
+        if (player.isCrouching()) return ActionResultType.PASS;
         final ActionResultType result = super.applyPlayerInteraction(player, vec, stack, hand);
         if (result == ActionResultType.SUCCESS || this.processInitialInteract(player, player.getHeldItem(hand), hand))
             return ActionResultType.SUCCESS;
@@ -70,7 +70,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         {
             if (this.craft.getSeatCount() == 0)
             {
-                final BlockPos.MutableBlockPos pos1 = new BlockPos.MutableBlockPos();
+                final BlockPos.Mutable pos1 = new BlockPos.Mutable();
                 final int xMin = this.craft.getMin().getX();
                 final int zMin = this.craft.getMin().getZ();
                 final int yMin = this.craft.getMin().getY();

@@ -45,7 +45,7 @@ public class Linker extends Item
         @Override
         public boolean setLinkedPos(final Vector4 pos, final Entity user)
         {
-            if (pos == null || user.isSneaking())
+            if (pos == null || user.isCrouching())
             {
                 this.linker.getOrCreateTag().remove("link_pos");
                 user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.unset"));

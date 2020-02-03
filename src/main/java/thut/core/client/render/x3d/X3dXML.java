@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import thut.api.maths.vecmath.Vector3f;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -24,6 +23,7 @@ import org.xml.sax.XMLReader;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 
 public class X3dXML

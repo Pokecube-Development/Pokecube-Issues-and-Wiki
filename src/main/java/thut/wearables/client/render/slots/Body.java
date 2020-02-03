@@ -30,7 +30,7 @@ public class Body
         {
         case BACK:
             if (ThutWearables.config.renderBlacklist.contains(7)) break;
-            if (wearer.isSneaking())
+            if (wearer.isCrouching())
             {
                 GlStateManager.translatef(0.0F, 0.23125F, 0.0F);
                 if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(7)) != null) GlStateManager.translatef(
@@ -43,7 +43,7 @@ public class Body
             break;
         case NECK:
             if (ThutWearables.config.renderBlacklist.contains(6)) break;
-            if (wearer.isSneaking())
+            if (wearer.isCrouching())
             {
                 GlStateManager.translatef(0.0F, 0.23125F, 0.0F);
                 if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(6)) != null) GlStateManager.translatef(
@@ -57,7 +57,7 @@ public class Body
         case WAIST:
             if (ThutWearables.config.renderBlacklist.contains(8)) break;
             theModel.bipedBody.postRender(0.0625F);
-            if (wearer.isSneaking())
+            if (wearer.isCrouching())
             {
                 GlStateManager.translatef(0.0F, 0.13125F, -0.105F);
                 if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(8)) != null) GlStateManager.translatef(

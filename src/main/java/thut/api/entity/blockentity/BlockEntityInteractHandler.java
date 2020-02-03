@@ -45,7 +45,7 @@ public abstract class BlockEntityInteractHandler
         else pos = trace.getPos();
         BlockState state = this.blockEntity.getFakeWorld().getBlock(pos);
         boolean activate = state != null && state.onBlockActivated((World) this.blockEntity.getFakeWorld(), player,
-                hand, trace);
+                hand, trace).isSuccessOrConsume();
         if (activate) return ActionResultType.SUCCESS;
         else if (trace == null || trace.getType() == Type.MISS || state != null && !state.getMaterial().isSolid())
         {
@@ -62,14 +62,15 @@ public abstract class BlockEntityInteractHandler
                 pos = trace.getPos();
                 state = this.theEntity.getEntityWorld().getBlockState(pos);
                 final ItemUseContext context2 = new ItemUseContext(player, hand, trace);
-                if (player.isSneaking() && !stack.isEmpty())
+                if (player.isCrouching() && !stack.isEmpty())
                 {
                     final ActionResultType itemUse = ForgeHooks.onPlaceItemIntoWorld(context2);
                     if (itemUse != ActionResultType.PASS) return itemUse;
                 }
-                activate = state.onBlockActivated(this.theEntity.getEntityWorld(), player, hand, trace);
+                activate = state.onBlockActivated(this.theEntity.getEntityWorld(), player, hand, trace)
+                        .isSuccessOrConsume();
                 if (activate) return ActionResultType.SUCCESS;
-                else if (!player.isSneaking() && !stack.isEmpty())
+                else if (!player.isCrouching() && !stack.isEmpty())
                 {
                     final ActionResultType itemUse = ForgeHooks.onPlaceItemIntoWorld(context2);
                     if (itemUse != ActionResultType.PASS) return itemUse;

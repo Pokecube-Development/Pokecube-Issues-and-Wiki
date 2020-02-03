@@ -26,7 +26,7 @@ public class Leg
 
         GlStateManager.pushMatrix();
 
-        if (wearer.isSneaking())
+        if (wearer.isCrouching())
         {
             GlStateManager.translatef(0.0F, 0.23125F, 0.01F);
             if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(4 + index)) != null) GlStateManager.translatef(

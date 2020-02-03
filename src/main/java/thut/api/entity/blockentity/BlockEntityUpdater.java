@@ -59,7 +59,7 @@ public class BlockEntityUpdater
         final int sizeX = this.blockEntity.getBlocks().length;
         final int sizeY = this.blockEntity.getBlocks()[0].length;
         final int sizeZ = this.blockEntity.getBlocks()[0][0].length;
-        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        final BlockPos.Mutable pos = new BlockPos.Mutable();
         final int xMin = this.blockEntity.getMin().getX();
         final int yMin = this.blockEntity.getMin().getY();
         final int zMin = this.blockEntity.getMin().getZ();
@@ -87,8 +87,8 @@ public class BlockEntityUpdater
                 for (int k = 0; k < sizeZ; k++)
                 {
                     pos.setPos(i + xMin + origin.getX(), j + yMin + origin.getY(), k + zMin + origin.getZ());
-                    BlockState state = fakeworld.getBlockState(pos);
-                    state = state.getExtendedState(fakeworld, pos);
+                    final BlockState state = fakeworld.getBlockState(pos);
+                    // TODO see if we needed any other state here?
                     final VoxelShape shape = state.getCollisionShape(fakeworld, pos);
                     final List<AxisAlignedBB> toAdd = shape.toBoundingBoxList();
                     for (final AxisAlignedBB blockBox : toAdd)
@@ -303,14 +303,14 @@ public class BlockEntityUpdater
             final PlayerEntity player = (PlayerEntity) entity;
 
             if (player.getEntityWorld().isRemote) // This fixes jitter, need
-                                                  // a
-                                                  // better way to handle
-                                                  // this.
+                // a
+                // better way to handle
+                // this.
                 if (Minecraft.getInstance().gameSettings.viewBobbing || TickHandler.playerTickTracker.containsKey(player
                         .getUniqueID()))
                 {
-                TickHandler.playerTickTracker.put(player.getUniqueID(), (int) (System.currentTimeMillis() % 2000));
-                Minecraft.getInstance().gameSettings.viewBobbing = false;
+                    TickHandler.playerTickTracker.put(player.getUniqueID(), (int) (System.currentTimeMillis() % 2000));
+                    Minecraft.getInstance().gameSettings.viewBobbing = false;
                 }
             /** This is for clearing jump values on client. */
             if (player.getEntityWorld().isRemote) player.getPersistentData().putInt("lastStandTick",
@@ -318,7 +318,7 @@ public class BlockEntityUpdater
             if (!player.abilities.isFlying)
             {
                 entity.onGround = true;
-                entity.fall(entity.fallDistance, 0);
+                entity.onLivingFall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }
             // Meed to set floatingTickCount to prevent being kicked for
@@ -337,7 +337,7 @@ public class BlockEntityUpdater
             if (temp1.y >= 0)
             {
                 entity.onGround = true;
-                entity.fall(entity.fallDistance, 0);
+                entity.onLivingFall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }
             if (temp1.length() > 0.001)
@@ -388,7 +388,7 @@ public class BlockEntityUpdater
         this.blockEntity.setSize(size);
         if (this.theEntity.getMotion().y == 0) this.theEntity.setPosition(this.theEntity.posX, Math.round(
                 this.theEntity.posY), this.theEntity.posZ);
-        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        final BlockPos.Mutable pos = new BlockPos.Mutable();
         final int xMin = this.blockEntity.getMin().getX();
         final int zMin = this.blockEntity.getMin().getZ();
         final int yMin = this.blockEntity.getMin().getY();
@@ -404,11 +404,7 @@ public class BlockEntityUpdater
 
                     // TODO rotate here by entity rotation.
                     final TileEntity tile = this.blockEntity.getTiles()[i][j][k];
-                    if (tile != null)
-                    {
-                        tile.setPos(pos.toImmutable());
-                        tile.setWorld((World) this.blockEntity.getFakeWorld());
-                    }
+                    if (tile != null) tile.setWorldAndPos((World) this.blockEntity.getFakeWorld(), pos.toImmutable());
                     if (tile instanceof ITickable)
                     {
                         if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;

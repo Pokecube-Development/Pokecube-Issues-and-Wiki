@@ -24,9 +24,9 @@ public class Arm
             return;
         }
         float[] offsetArr;
-        final boolean sneak = wearer.isSneaking();
+        final boolean sneak = wearer.isCrouching();
         GlStateManager.pushMatrix();
-        if (wearer.isSneaking()) GlStateManager.translatef(0.0F, 0.23125F, 0.01F);
+        if (wearer.isCrouching()) GlStateManager.translatef(0.0F, 0.23125F, 0.01F);
         boolean render = false;
         // Right side
         if (index == 0) switch (slot)
