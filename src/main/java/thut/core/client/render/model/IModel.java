@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
@@ -67,12 +68,11 @@ public interface IModel
      *
      * @param dy
      */
-    default void globalFix(float dx, float dy, float dz)
+    default void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
-        GlStateManager.rotatef(180, 0, 1, 0);
-        GlStateManager.rotatef(90, 1, 0, 0);
-        GlStateManager.translatef(0, 0, dy - 1.5f);
+        mat.rotate(new Quaternion(90, 180, 0, true));
+        mat.translate(0, 0, dy - 1.5f);
     }
 
     /**
@@ -83,12 +83,12 @@ public interface IModel
 
     void preProcessAnimations(Collection<List<Animation>> collection);
 
-    default void setHeadInfo(HeadInfo in)
+    default void setHeadInfo(final HeadInfo in)
     {
 
     }
 
-    default void setOffset(Vector3 offset)
+    default void setOffset(final Vector3 offset)
     {
 
     }

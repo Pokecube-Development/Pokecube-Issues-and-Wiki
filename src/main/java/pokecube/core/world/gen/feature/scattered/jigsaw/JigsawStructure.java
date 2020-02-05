@@ -6,6 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
 import net.minecraft.world.gen.feature.structure.ScatteredStructure;
@@ -39,11 +40,12 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     }
 
     @Override
-    public boolean hasStartAt(final ChunkGenerator<?> chunkGen, final Random rand, final int chunkPosX,
-            final int chunkPosZ)
+    public boolean func_225558_a_(final BiomeManager biomeManager, final ChunkGenerator<?> chunkGen, final Random rand,
+            final int chunkPosX, final int chunkPosZ, final Biome biome)
     {
         if (this.struct.atSpawn && (PokecubeSerializer.getInstance().customData.contains("start_pokecentre")
-                || !PokecubeCore.getConfig().doSpawnBuilding)) return false;
+                || !PokecubeCore.getConfig().doSpawnBuilding))
+            return false;
         final ChunkPos chunkpos = this.getStartPositionForPosition(chunkGen, rand, chunkPosX, chunkPosZ, 0, 0);
 
         if (chunkPosX == chunkpos.x && chunkPosZ == chunkpos.z)
@@ -53,13 +55,10 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             rand.setSeed(i ^ j << 4 ^ chunkGen.getSeed());
             rand.nextFloat();
             if (rand.nextFloat() > this.struct.chance) return false;
-
-            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos((chunkPosX << 4) + 9, 0,
-                    (chunkPosZ << 4) + 9));
             if (chunkGen.hasStructure(biome, this))
             {
-                if (this.struct.atSpawn) PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre",
-                        true);
+                if (this.struct.atSpawn)
+                    PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
                 return true;
             }
         }
@@ -92,10 +91,10 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
 
     public static class Start extends MarginedStructureStart
     {
-        public Start(final Structure<?> struct, final int x, final int z, final Biome biome,
-                final MutableBoundingBox box, final int ref, final long seed)
+        public Start(final Structure<?> struct, final int x, final int z, final MutableBoundingBox box, final int ref,
+                final long seed)
         {
-            super(struct, x, z, biome, box, ref, seed);
+            super(struct, x, z, box, ref, seed);
         }
 
         @Override
@@ -108,8 +107,8 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                 JigsawPieces.initStructure(generator, templateManagerIn, blockpos, this.components, this.rand,
                         ((JigsawStructure) this.getStructure()).struct);
                 PokecubeCore.LOGGER.debug("Placing structure {} at {} {} {} composed of {} parts ",
-                        ((JigsawStructure) this.getStructure()).struct.name, blockpos.getX(), blockpos.getY(), blockpos
-                                .getZ(), this.components.size());
+                        ((JigsawStructure) this.getStructure()).struct.name, blockpos.getX(), blockpos.getY(),
+                        blockpos.getZ(), this.components.size());
                 this.recalculateStructureSize();
             }
         }

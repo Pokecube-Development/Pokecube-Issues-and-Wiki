@@ -106,7 +106,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         for (int i = 0; i < 54; i++)
             if (this.container.toRelease[i])
             {
-                GL11.glPushMatrix();
+                mat.push();
                 GlStateManager.enableBlend();
                 GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
                         GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
@@ -119,7 +119,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                 this.blit(x, y, 0, 0, 16, 16);
                 GlStateManager.disableBlend();
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                GL11.glPopMatrix();
+                mat.pop();
             }
     }
 

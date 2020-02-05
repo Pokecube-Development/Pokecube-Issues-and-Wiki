@@ -54,7 +54,6 @@ import thut.api.terrain.TerrainManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.client.ClientProxy;
 import thut.core.client.render.animation.CapabilityAnimation;
-import thut.core.client.render.particle.ThutParticles;
 import thut.core.common.config.Config;
 import thut.core.common.genetics.DefaultGeneStorage;
 import thut.core.common.genetics.DefaultGenetics;
@@ -87,7 +86,7 @@ public class ThutCore
                 final Vec3d face = event.getPlayer().getEyePosition(0);
                 final Vec3d look = event.getPlayer().getLookVec();
                 final AxisAlignedBB box = event.getPlayer().getBoundingBox().grow(3, 3, 3);
-                final EntityRayTraceResult var = ProjectileHelper.func_221273_a(player, face, look, box,
+                final EntityRayTraceResult var = ProjectileHelper.rayTraceEntities(player, face, look, box,
                         e -> e instanceof IBlockEntity, 3);
                 if (var != null && var.getType() == EntityRayTraceResult.Type.ENTITY)
                 {
@@ -141,11 +140,16 @@ public class ThutCore
         public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> event)
         {
             ThutCore.LOGGER.debug("Registering Particle Types");
-            event.getRegistry().register(ThutParticles.AURORA.setRegistryName(ThutCore.MODID, "aurora"));
-            event.getRegistry().register(ThutParticles.LEAF.setRegistryName(ThutCore.MODID, "leaf"));
-            event.getRegistry().register(ThutParticles.MISC.setRegistryName(ThutCore.MODID, "misc"));
-            event.getRegistry().register(ThutParticles.STRING.setRegistryName(ThutCore.MODID, "string"));
-            event.getRegistry().register(ThutParticles.POWDER.setRegistryName(ThutCore.MODID, "powder"));
+            // event.getRegistry().register(ThutParticles.AURORA.setRegistryName(ThutCore.MODID,
+            // "aurora"));
+            // event.getRegistry().register(ThutParticles.LEAF.setRegistryName(ThutCore.MODID,
+            // "leaf"));
+            // event.getRegistry().register(ThutParticles.MISC.setRegistryName(ThutCore.MODID,
+            // "misc"));
+            // event.getRegistry().register(ThutParticles.STRING.setRegistryName(ThutCore.MODID,
+            // "string"));
+            // event.getRegistry().register(ThutParticles.POWDER.setRegistryName(ThutCore.MODID,
+            // "powder"));
         }
     }
 

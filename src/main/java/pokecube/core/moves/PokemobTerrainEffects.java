@@ -214,7 +214,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         final Vector3 temp = Vector3.getNewVector();
         final Vector3 temp2 = Vector3.getNewVector();
         final Random rand = new Random(Minecraft.getInstance().player.ticksExisted / 200);
-        GlStateManager.translated(-direction.x * 8, -direction.y * 8, -direction.z * 8);
+        mat.translate(-direction.x * 8, -direction.y * 8, -direction.z * 8);
         for (int i = 0; i < 1000; i++)
         {
             GL11.glBegin(GL11.GL_QUADS);

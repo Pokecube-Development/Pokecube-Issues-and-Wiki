@@ -270,7 +270,7 @@ public class Body implements IRetexturableModel
 
     public void render()
     {
-        GL11.glPushMatrix();
+        mat.push();
         final boolean smooth = this.texturer == null ? false : !this.texturer.isFlat(null);
         if (!this.parent.usesMaterials)
         {
@@ -292,7 +292,7 @@ public class Body implements IRetexturableModel
                     if (textureShift = this.texturer.shiftUVs(tex, this.uvShift))
                     {
                         GL11.glMatrixMode(GL11.GL_TEXTURE);
-                        GL11.glTranslated(this.uvShift[0], this.uvShift[1], 0.0F);
+                        mat.translate(this.uvShift[0], this.uvShift[1], 0.0F);
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
                     }
                 }
@@ -307,7 +307,7 @@ public class Body implements IRetexturableModel
                 }
             }
         }
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     private void render(final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)

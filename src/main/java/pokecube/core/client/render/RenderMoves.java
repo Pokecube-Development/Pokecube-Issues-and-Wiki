@@ -30,11 +30,11 @@ public class RenderMoves extends EntityRenderer<EntityMoveUse>
         if (move != null && (animation = move.getAnimation(CapabilityPokemob.getPokemobFor(entity.getUser()))) != null
                 && entity.getUser() != null)
         {
-            GlStateManager.pushMatrix();
+            mat.push();
             final MovePacketInfo info = entity.getMoveInfo();
-            GlStateManager.translatef((float) x, (float) y, (float) z);
+            mat.translate((float) x, (float) y, (float) z);
             animation.clientAnimation(info, partialTicks);
-            GlStateManager.popMatrix();
+            mat.pop();
         }
     }
 

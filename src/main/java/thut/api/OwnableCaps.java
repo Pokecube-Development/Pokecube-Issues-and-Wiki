@@ -36,7 +36,7 @@ import thut.api.block.IOwnableTE;
 public class OwnableCaps
 {
     public abstract static class VanillaWrapper<M extends MobEntity> implements IOwnable,
-            ICapabilitySerializable<ByteNBT>
+    ICapabilitySerializable<ByteNBT>
     {
         private final LazyOptional<IOwnable> holder      = LazyOptional.of(() -> this);
         boolean                              playerOwned = false;
@@ -56,7 +56,7 @@ public class OwnableCaps
         @Override
         public ByteNBT serializeNBT()
         {
-            final ByteNBT tag = new ByteNBT((byte) (this.playerOwned ? 1 : 0));
+            final ByteNBT tag = ByteNBT.valueOf((byte) (this.playerOwned ? 1 : 0));
             return tag;
         }
 
@@ -319,7 +319,7 @@ public class OwnableCaps
             final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
             if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags
                     .getCollection().getOrCreate(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())) event
-                            .getWorld().destroyBlock(event.getPos(), true);
+            .getWorld().destroyBlock(event.getPos(), true);
         }
     }
 

@@ -70,9 +70,9 @@ public class ModelPokemobEgg extends EntityModel<EntityPokemobEgg>
             final float f4, final float f5)
     {
 
-        GL11.glPushMatrix();
-        GL11.glScaled(0.25, 0.25, 0.25);
-        GL11.glTranslated(0, 4.45, 0);
+        mat.push();
+        mat.scale(0.25, 0.25, 0.25);
+        mat.translate(0, 4.45, 0);
         final PokedexEntry entry = ItemPokemobEgg.getEntry(entity.getHeldItemMainhand());
 
         Color colour = new Color(PokeType.unknown.colour);
@@ -110,7 +110,7 @@ public class ModelPokemobEgg extends EntityModel<EntityPokemobEgg>
         this.Egg1.render(f5);
 
         GL11.glColor3f(1, 1, 1);
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     /**

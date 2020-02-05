@@ -11,6 +11,7 @@ import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.math.BlockPos;
@@ -61,11 +62,11 @@ public class TMTile extends InteractableTile
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new TMContainer(id,
                 playerInventory, IWorldPosCallable.of(this.getWorld(), pos)), player.getDisplayName()));
-        return true;
+        return ActionResultType.SUCCESS;
     }
 }

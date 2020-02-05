@@ -3,10 +3,11 @@ package thut.core.client.render.model.parts;
 import java.util.HashMap;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Vector3f;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -17,32 +18,32 @@ import thut.core.client.render.texturing.IRetexturableModel;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
-    public List<Mesh> shapes = Lists.newArrayList();
-
     private final HashMap<String, IExtendedModelPart> childParts = new HashMap<>();
+    public List<Mesh>                                 shapes     = Lists.newArrayList();
+
     private final String                              name;
     private IExtendedModelPart                        parent     = null;
     IPartTexturer                                     texturer;
     IAnimationChanger                                 changer;
 
-    public Vector4 preRot    = new Vector4();
-    public Vector4 postRot   = new Vector4();
-    public Vector4 postRot1  = new Vector4();
-    public Vector3 preTrans  = Vector3.getNewVector();
-    public Vector3 postTrans = Vector3.getNewVector();
-    public Vertex  preScale  = new Vertex(1, 1, 1);
+    public Vector4                                    preRot     = new Vector4();
+    public Vector4                                    postRot    = new Vector4();
+    public Vector4                                    postRot1   = new Vector4();
+    public Vector3                                    preTrans   = Vector3.getNewVector();
+    public Vector3                                    postTrans  = Vector3.getNewVector();
+    public Vertex                                     preScale   = new Vertex(1, 1, 1);
 
-    public Vector3 offset    = Vector3.getNewVector();
-    public Vector4 rotations = new Vector4();
-    public Vertex  scale     = new Vertex(1, 1, 1);
+    public Vector3                                    offset     = Vector3.getNewVector();
+    public Vector4                                    rotations  = new Vector4();
+    public Vertex                                     scale      = new Vertex(1, 1, 1);
 
-    public int red = 255, green = 255, blue = 255, alpha = 255;
+    public int                                        red        = 255, green = 255, blue = 255, alpha = 255;
+    public int                                        brightness = 15728640;
+    public int                                        overlay    = 0;
 
-    public int brightness = 15728640;
+    private final int[]                               rgbabro    = new int[6];
 
-    private final int[] rgbab = new int[5];
-
-    private boolean hidden = false;
+    private boolean                                   hidden     = false;
 
     public Part(final String name)
     {
@@ -56,13 +57,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         subPart.setParent(this);
     }
 
-    public void addForRender()
+    public void addForRender(final MatrixStack mat, final IVertexBuilder buffer)
     {
-        // Set colours.
-        GL11.glColor4f(this.red / 255f, this.green / 255f, this.blue / 255f, this.alpha / 255f);
-        // Render each Shape
+        // Fill the int array
+        this.getRGBABrO();
         for (final Mesh s : this.shapes)
-            s.renderShape(this.texturer);
+        {
+            s.rgbabro = this.rgbabro;
+            // Render each Shape
+            s.renderShape(mat, buffer, this.texturer);
+        }
     }
 
     @Override
@@ -90,14 +94,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public int[] getRGBAB()
+    public int[] getRGBABrO()
     {
-        this.rgbab[0] = this.red;
-        this.rgbab[1] = this.green;
-        this.rgbab[2] = this.blue;
-        this.rgbab[3] = this.alpha;
-        this.rgbab[4] = this.brightness;
-        return this.rgbab;
+        this.rgbabro[0] = this.red;
+        this.rgbabro[1] = this.green;
+        this.rgbabro[2] = this.blue;
+        this.rgbabro[3] = this.alpha;
+        this.rgbabro[4] = this.brightness;
+        this.rgbabro[5] = this.overlay;
+        return this.rgbabro;
     }
 
     @SuppressWarnings("unchecked")
@@ -107,116 +112,116 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         return this.childParts;
     }
 
-    private void postRender()
+    private void postRender(final MatrixStack mat, final IVertexBuilder buffer)
     {
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
-    private void preRender()
+    private void preRender(final MatrixStack mat, final IVertexBuilder buffer)
     {
         // Rotate to the offset of the parent.
-        this.rotateToParent();
+        this.rotateToParent(mat, buffer);
         // Translate of offset for rotation.
-        GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
+        mat.translate(this.offset.x, this.offset.y, this.offset.z);
         // Rotate by this to account for a coordinate difference.
-        GL11.glRotatef(90, 1, 0, 0);
-        GL11.glTranslated(this.preTrans.x, this.preTrans.y, this.preTrans.z);
+        mat.rotate(Vector3f.XP.rotationDegrees(90));
+        mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
         // UnRotate coordinate difference.
-        GL11.glRotatef(-90, 1, 0, 0);
+        mat.rotate(Vector3f.XN.rotationDegrees(90));
         // Apply initial part rotation
-        this.rotations.glRotate();
+        this.rotations.glRotate(mat);
         // Rotate by this to account for a coordinate difference.
-        GL11.glRotatef(90, 1, 0, 0);
+        mat.rotate(Vector3f.XP.rotationDegrees(90));
         // Apply PreOffset-Rotations.
-        this.preRot.glRotate();
+        this.preRot.glRotate(mat);
         // Translate by post-PreOffset amount.
-        GL11.glTranslated(this.postTrans.x, this.postTrans.y, this.postTrans.z);
+        mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
         // UnRotate coordinate difference.
-        GL11.glRotatef(-90, 1, 0, 0);
+        mat.rotate(Vector3f.XN.rotationDegrees(90));
         // Undo pre-translate offset.
-        GL11.glTranslated(-this.offset.x, -this.offset.y, -this.offset.z);
-        GL11.glPushMatrix();
+        mat.translate(-this.offset.x, -this.offset.y, -this.offset.z);
+        mat.push();
         // Translate to Offset.
-        GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
+        mat.translate(this.offset.x, this.offset.y, this.offset.z);
 
         // Apply first postRotation
-        this.postRot.glRotate();
+        this.postRot.glRotate(mat);
         // Apply second post rotation.
-        this.postRot1.glRotate();
+        this.postRot1.glRotate(mat);
         // Scale
-        GL11.glScalef(this.scale.x, this.scale.y, this.scale.z);
+        mat.scale(this.scale.x, this.scale.y, this.scale.z);
     }
 
-    public void render()
+    public void render(final MatrixStack mat, final IVertexBuilder buffer)
     {
         if (this.hidden) return;
-        this.preRender();
+        this.preRender(mat, buffer);
         // Renders the model.
-        this.addForRender();
-        this.postRender();
+        this.addForRender(mat, buffer);
+        this.postRender(mat, buffer);
     }
 
     @Override
-    public void renderAll()
+    public void renderAll(final MatrixStack mat, final IVertexBuilder buffer)
     {
-        GL11.glScalef(this.preScale.x, this.preScale.y, this.preScale.z);
-        this.render();
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
+        this.render(mat, buffer);
         for (final IExtendedModelPart o : this.childParts.values())
         {
-            GL11.glPushMatrix();
-            GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
-            GL11.glScalef(this.scale.x, this.scale.y, this.scale.z);
-            o.renderAll();
-            GL11.glPopMatrix();
+            mat.push();
+            mat.translate(this.offset.x, this.offset.y, this.offset.z);
+            mat.scale(this.scale.x, this.scale.y, this.scale.z);
+            o.renderAll(mat, buffer);
+            mat.pop();
         }
     }
 
     @Override
-    public void renderAllExcept(final String... excludedGroupNames)
+    public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
     {
         boolean skip = false;
         for (final String s1 : excludedGroupNames)
             if (skip = s1.equalsIgnoreCase(this.name)) break;
-        if (!skip) this.render();
+        if (!skip) this.render(mat, buffer);
         for (final IExtendedModelPart o : this.childParts.values())
         {
-            GL11.glPushMatrix();
-            GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
-            GL11.glScalef(this.scale.x, this.scale.y, this.scale.z);
-            o.renderAllExcept(excludedGroupNames);
-            GL11.glPopMatrix();
+            mat.push();
+            mat.translate(this.offset.x, this.offset.y, this.offset.z);
+            mat.scale(this.scale.x, this.scale.y, this.scale.z);
+            o.renderAllExcept(mat, buffer, excludedGroupNames);
+            mat.pop();
         }
     }
 
     @Override
-    public void renderOnly(final String... groupNames)
+    public void renderOnly(final MatrixStack mat, final IVertexBuilder buffer, final String... groupNames)
     {
         boolean rendered = false;
         for (final String s1 : groupNames)
             if (rendered = s1.equalsIgnoreCase(this.name))
             {
-                this.render();
+                this.render(mat, buffer);
                 break;
             }
         if (!rendered)
         {
-            this.preRender();
-            this.postRender();
+            this.preRender(mat, buffer);
+            this.postRender(mat, buffer);
         }
         for (final IExtendedModelPart o : this.childParts.values())
         {
-            GL11.glPushMatrix();
-            GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
-            GL11.glScalef(this.scale.x, this.scale.y, this.scale.z);
-            o.renderOnly(groupNames);
-            GL11.glPopMatrix();
+            mat.push();
+            mat.translate(this.offset.x, this.offset.y, this.offset.z);
+            mat.scale(this.scale.x, this.scale.y, this.scale.z);
+            o.renderOnly(mat, buffer, groupNames);
+            mat.pop();
         }
     }
 
     @Override
-    public void renderPart(final String partName)
+    public void renderPart(final MatrixStack mat, final IVertexBuilder buffer, final String partName)
     {
-        this.renderOnly(partName);
+        this.renderOnly(mat, buffer, partName);
     }
 
     @Override
@@ -229,13 +234,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.postTrans.clear();
     }
 
-    private void rotateToParent()
+    private void rotateToParent(final MatrixStack mat, final IVertexBuilder buffer)
     {
         if (this.parent != null) if (this.parent instanceof Part)
         {
             final Part parent = (Part) this.parent;
-            parent.postRot.glRotate();
-            parent.postRot1.glRotate();
+            parent.postRot.glRotate(mat);
+            parent.postRot1.glRotate(mat);
         }
     }
 
@@ -298,13 +303,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setRGBAB(final int[] array)
+    public void setRGBABrO(final int r, final int g, final int b, final int a, final int br, final int o)
     {
-        this.red = array[0];
-        this.green = array[1];
-        this.blue = array[2];
-        this.alpha = array[3];
-        this.brightness = array[4];
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+        this.alpha = br;
+        this.brightness = o;
     }
 
     @Override

@@ -94,10 +94,10 @@ public class GuiPokedex extends Screen
             j = (width - xSize) / 2 + dx;
             k = (height - ySize) / 2 + dy;
 
-            GL11.glPushMatrix();
-            GL11.glTranslatef(j + 60, k + 100, 50F);
+            mat.push();
+            mat.translate(j + 60, k + 100, 50F);
             final float zoom = 25F / size * scale;
-            GL11.glScalef(zoom, zoom, zoom);
+            mat.scale(zoom, zoom, zoom);
             GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
             final float f5 = k + 75 - 50 - ySize;
             GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
@@ -142,7 +142,7 @@ public class GuiPokedex extends Screen
             GlStateManager.activeTexture(GLX.GL_TEXTURE0);
             if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
 
-            GL11.glPopMatrix();
+            mat.pop();
 
         }
         catch (final Throwable e)
@@ -383,7 +383,7 @@ public class GuiPokedex extends Screen
         this.blit(j2, k2, 0, 0, this.xSize, this.ySize);
 
         // Draw mob
-        GL11.glPushMatrix();
+        mat.push();
         final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity
                 .getEntityWorld());
         if (!renderMob.getEntity().addedToChunk) EntityTools.copyEntityTransforms(renderMob.getEntity(),
@@ -391,10 +391,10 @@ public class GuiPokedex extends Screen
         GlStateManager.enableDepthTest();
         GuiPokedex.renderMob(renderMob.getEntity(), minecraft, 0, 0, 1f, this.height, this.width, this.xSize,
                 this.ySize, this.xHeadRenderAngle, this.yHeadRenderAngle, this.xRenderAngle);
-        GL11.glPopMatrix();
+        mat.pop();
 
         // Draw info about mob
-        GL11.glPushMatrix();
+        mat.push();
         final int yOffset = this.height / 2 - 80;
         int xOffset = this.width / 2;
         final int nb = GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getPokedexNb() : 0;
@@ -415,7 +415,7 @@ public class GuiPokedex extends Screen
         catch (final Exception e)
         {
         }
-        GL11.glPopMatrix();
+        mat.pop();
 
         // Draw default gui stuff.
         final int length = this.font.getStringWidth(this.pokemobTextField.getText()) / 2;

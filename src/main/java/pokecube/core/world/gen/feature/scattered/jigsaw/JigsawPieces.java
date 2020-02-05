@@ -86,8 +86,7 @@ public class JigsawPieces
         }
 
         // Register the buildings
-        JigsawManager.field_214891_a.register(new JigsawPattern(key, new ResourceLocation(part.target), parts,
-                behaviour));
+        JigsawManager.REGISTRY.register(new JigsawPattern(key, new ResourceLocation(part.target), parts, behaviour));
     }
 
     public static void registerJigsaw(final JigSawConfig jigsaw)
@@ -129,7 +128,8 @@ public class JigsawPieces
         }
 
         @Override
-        protected PlacementSettings func_214860_a(final Rotation p_214860_1_, final MutableBoundingBox p_214860_2_)
+        protected PlacementSettings createPlacementSettings(final Rotation p_214860_1_,
+                final MutableBoundingBox p_214860_2_)
         {
             final PlacementSettings placementsettings = new PlacementSettings();
             placementsettings.setBoundingBox(p_214860_2_);
@@ -140,17 +140,18 @@ public class JigsawPieces
             else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
             this.processors.forEach(placementsettings::addProcessor);
-            this.getPlacementBehaviour().func_214937_b().forEach(placementsettings::addProcessor);
+            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
             return placementsettings;
         }
 
         @Override
-        public boolean func_214848_a(final TemplateManager manager, final IWorld worldIn, final BlockPos pos,
-                final Rotation rotation, final MutableBoundingBox box, final Random rand)
+        public boolean func_225575_a_(final TemplateManager manager, final IWorld worldIn,
+                final ChunkGenerator<?> p_225575_3_, final BlockPos pos, final Rotation rotation,
+                final MutableBoundingBox box, final Random rand)
         {
 
             final Template template = manager.getTemplateDefaulted(this.location);
-            final PlacementSettings placementsettings = this.func_214860_a(rotation, box);
+            final PlacementSettings placementsettings = this.createPlacementSettings(rotation, box);
 
             if (!template.addBlocksToWorld(worldIn, pos, placementsettings, 18)) return false;
             else
@@ -167,10 +168,11 @@ public class JigsawPieces
                         Blocks.STRUCTURE_BLOCK))
                     if (template$blockinfo.nbt != null)
                     {
-                        final StructureMode structuremode = StructureMode.valueOf(template$blockinfo.nbt.getString(
-                                "mode"));
-                        if (structuremode == StructureMode.DATA) this.handleDataMarker(template$blockinfo.nbt.getString(
-                                "metadata"), template$blockinfo.pos, worldIn, rand, box);
+                        final StructureMode structuremode = StructureMode
+                                .valueOf(template$blockinfo.nbt.getString("mode"));
+                        if (structuremode == StructureMode.DATA)
+                            this.handleDataMarker(template$blockinfo.nbt.getString("metadata"), template$blockinfo.pos,
+                                    worldIn, rand, box);
                     }
                 // Back to the stuff that the superclass does.
                 for (final Template.BlockInfo template$blockinfo : Template.processBlockInfos(template, worldIn, pos,

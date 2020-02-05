@@ -30,14 +30,14 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     @Override
     protected void drawGuiContainerBackgroundLayer(final float f, final int i, final int j)
     {
-        GL11.glPushMatrix();
+        mat.push();
         GL11.glColor4f(1f, 1f, 1f, 1f);
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID,
                 "textures/gui/trade_machine.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     /**
@@ -47,14 +47,14 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     @Override
     protected void drawGuiContainerForegroundLayer(final int p_146979_1_, final int p_146979_2_)
     {
-        GL11.glPushMatrix();
+        mat.push();
         GL11.glEnable(GL11.GL_BLEND);
         ItemStack stack = this.container.getInv().getStackInSlot(0);
         if (PokecubeManager.isFilled(stack)) this.renderMob(0);
         stack = this.container.getInv().getStackInSlot(1);
         if (PokecubeManager.isFilled(stack)) this.renderMob(1);
         GL11.glDisable(GL11.GL_BLEND);
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     @Override

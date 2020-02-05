@@ -26,7 +26,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Constructs and initializes a Tuple3f from the specified xyz coordinates.
-     * 
+     *
      * @param x
      *            the x coordinate
      * @param y
@@ -43,7 +43,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Constructs and initializes a Tuple3f from the array of length 3.
-     * 
+     *
      * @param t
      *            the array of length 3 containing xyz in order
      */
@@ -56,7 +56,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Constructs and initializes a Tuple3f from the specified Tuple3f.
-     * 
+     *
      * @param t1
      *            the Tuple3f containing the initialization x y z data
      */
@@ -69,7 +69,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Constructs and initializes a Tuple3f from the specified Tuple3d.
-     * 
+     *
      * @param t1
      *            the Tuple3d containing the initialization x y z data
      */
@@ -93,7 +93,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Returns a string that contains the values of this Tuple3f.
      * The form is (x,y,z).
-     * 
+     *
      * @return the String representation
      */
     @Override
@@ -104,7 +104,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Sets the value of this tuple to the specified xyz coordinates.
-     * 
+     *
      * @param x
      *            the x coordinate
      * @param y
@@ -122,7 +122,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets the value of this tuple to the xyz coordinates specified in
      * the array of length 3.
-     * 
+     *
      * @param t
      *            the array of length 3 containing xyz in order
      */
@@ -135,7 +135,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Sets the value of this tuple to the value of tuple t1.
-     * 
+     *
      * @param t1
      *            the tuple to be copied
      */
@@ -148,7 +148,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Sets the value of this tuple to the value of tuple t1.
-     * 
+     *
      * @param t1
      *            the tuple to be copied
      */
@@ -161,7 +161,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Gets the value of this tuple and copies the values into t.
-     * 
+     *
      * @param t
      *            the array of length 3 into which the values are copied
      */
@@ -174,7 +174,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Gets the value of this tuple and copies the values into t.
-     * 
+     *
      * @param t
      *            the Tuple3f object into which the values of this object are
      *            copied
@@ -188,7 +188,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Sets the value of this tuple to the vector sum of tuples t1 and t2.
-     * 
+     *
      * @param t1
      *            the first tuple
      * @param t2
@@ -203,7 +203,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Sets the value of this tuple to the vector sum of itself and tuple t1.
-     * 
+     *
      * @param t1
      *            the other tuple
      */
@@ -217,7 +217,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets the value of this tuple to the vector difference
      * of tuples t1 and t2 (this = t1 - t2).
-     * 
+     *
      * @param t1
      *            the first tuple
      * @param t2
@@ -233,7 +233,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets the value of this tuple to the vector difference of
      * itself and tuple t1 (this = this - t1) .
-     * 
+     *
      * @param t1
      *            the other tuple
      */
@@ -246,7 +246,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Sets the value of this tuple to the negation of tuple t1.
-     * 
+     *
      * @param t1
      *            the source tuple
      */
@@ -270,7 +270,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets the value of this vector to the scalar multiplication
      * of tuple t1.
-     * 
+     *
      * @param s
      *            the scalar value
      * @param t1
@@ -286,7 +286,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets the value of this tuple to the scalar multiplication
      * of the scale factor with this.
-     * 
+     *
      * @param s
      *            the scalar value
      */
@@ -300,7 +300,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets the value of this tuple to the scalar multiplication
      * of tuple t1 and then adds tuple t2 (this = s*t1 + t2).
-     * 
+     *
      * @param s
      *            the scalar value
      * @param t1
@@ -318,7 +318,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets the value of this tuple to the scalar multiplication
      * of itself and then adds tuple t1 (this = s*this + t1).
-     * 
+     *
      * @param s
      *            the scalar value
      * @param t1
@@ -335,7 +335,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
      * Returns true if the Object t1 is of type Tuple3f and all of the
      * data members of t1 are equal to the corresponding data members in
      * this Tuple3f.
-     * 
+     *
      * @param t1
      *            the vector with which the comparison is made
      * @return true or false
@@ -356,7 +356,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
      * Returns true if the Object t1 is of type Tuple3f and all of the
      * data members of t1 are equal to the corresponding data members in
      * this Tuple3f.
-     * 
+     *
      * @param t1
      *            the Object with which the comparison is made
      * @return true or false
@@ -384,7 +384,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
      * and tuple t1 is less than or equal to the epsilon parameter,
      * otherwise returns false. The L-infinite
      * distance is equal to MAX[abs(x1-x2), abs(y1-y2), abs(z1-z2)].
-     * 
+     *
      * @param t1
      *            the tuple to be compared to this tuple
      * @param epsilon
@@ -417,23 +417,23 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
      * (i.e., Tuple3f.equals returns true) will return the same hash
      * code value. Two objects with different data members may return the
      * same hash value, although this is not likely.
-     * 
+     *
      * @return the integer hash code value
      */
     @Override
     public int hashCode()
     {
         long bits = 1L;
-        bits = 31L * bits + (long) VecMathUtil.floatToIntBits(this.x);
-        bits = 31L * bits + (long) VecMathUtil.floatToIntBits(this.y);
-        bits = 31L * bits + (long) VecMathUtil.floatToIntBits(this.z);
+        bits = 31L * bits + VecMathUtil.floatToIntBits(this.x);
+        bits = 31L * bits + VecMathUtil.floatToIntBits(this.y);
+        bits = 31L * bits + VecMathUtil.floatToIntBits(this.z);
         return (int) (bits ^ bits >> 32);
     }
 
     /**
      * Clamps the tuple parameter to the range [low, high] and
      * places the values into this tuple.
-     * 
+     *
      * @param min
      *            the lowest value in the tuple after clamping
      * @param max
@@ -460,7 +460,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Clamps the minimum value of the tuple parameter to the min
      * parameter and places the values into this tuple.
-     * 
+     *
      * @param min
      *            the lowest value in the tuple after clamping
      * @param t
@@ -482,7 +482,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Clamps the maximum value of the tuple parameter to the max
      * parameter and places the values into this tuple.
-     * 
+     *
      * @param max
      *            the highest value in the tuple after clamping
      * @param t
@@ -504,7 +504,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Sets each component of the tuple parameter to its absolute
      * value and places the modified values into this tuple.
-     * 
+     *
      * @param t
      *            the source tuple, which will not be modified
      */
@@ -517,7 +517,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Clamps this tuple to the range [low, high].
-     * 
+     *
      * @param min
      *            the lowest value in this tuple after clamping
      * @param max
@@ -538,7 +538,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Clamps the minimum value of this tuple to the min parameter.
-     * 
+     *
      * @param min
      *            the lowest value in this tuple after clamping
      */
@@ -552,7 +552,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
 
     /**
      * Clamps the maximum value of this tuple to the max parameter.
-     * 
+     *
      * @param max
      *            the highest value in the tuple after clamping
      */
@@ -578,7 +578,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Linearly interpolates between tuples t1 and t2 and places the
      * result into this tuple: this = (1-alpha)*t1 + alpha*t2.
-     * 
+     *
      * @param t1
      *            the first tuple
      * @param t2
@@ -597,7 +597,7 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     /**
      * Linearly interpolates between this tuple and tuple t1 and
      * places the result into this tuple: this = (1-alpha)*this + alpha*t1.
-     * 
+     *
      * @param t1
      *            the first tuple
      * @param alpha

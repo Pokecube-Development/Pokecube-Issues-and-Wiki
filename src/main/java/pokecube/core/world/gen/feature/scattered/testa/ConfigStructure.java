@@ -10,6 +10,7 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.ScatteredStructure;
@@ -55,8 +56,8 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
     }
 
     @Override
-    public boolean hasStartAt(final ChunkGenerator<?> chunkGen, final Random rand, final int chunkPosX,
-            final int chunkPosZ)
+    public boolean func_225558_a_(final BiomeManager p_225558_1_, final ChunkGenerator<?> p_225558_2_,
+            final Random rand, final int p_225558_4_, final int p_225558_5_, final Biome p_225558_6_)
     {
         // Now lets pick a number.
         if (rand.nextFloat() < this.struct.chance) return true;
@@ -85,10 +86,10 @@ public class ConfigStructure extends ScatteredStructure<NoFeatureConfig>
     {
         private ConfigStructure feature;
 
-        public Start(final Structure<?> structure, final int chunkX, final int chunkZ, final Biome biomeIn,
+        public Start(final Structure<?> structure, final int chunkX, final int chunkZ,
                 final MutableBoundingBox boundsIn, final int referenceIn, final long seed)
         {
-            super(structure, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed);
+            super(structure, chunkX, chunkZ, boundsIn, referenceIn, seed);
             if (structure instanceof ConfigStructure) this.feature = (ConfigStructure) structure;
         }
 

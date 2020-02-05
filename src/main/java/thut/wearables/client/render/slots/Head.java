@@ -1,9 +1,9 @@
 package thut.wearables.client.render.slots;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.IHasHead;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -13,42 +13,40 @@ import thut.wearables.ThutWearables;
 
 public class Head
 {
-    public static void render(final IWearable wearable, final EnumWearable slot, final int index,
-            final LivingEntity wearer, final ItemStack stack, final float partialTicks, final boolean thinArms,
-            final float scale, final IHasHead theModel)
+    public static void render(final MatrixStack mat, final IRenderTypeBuffer buff, final IWearable wearable,
+            final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
+            final float partialTicks, final boolean thinArms, final int brightness, final int overlay,
+            final IHasHead theModel)
     {
         if (wearable == null) return;
 
         if (wearable.customOffsets())
         {
-            wearable.renderWearable(slot, index, wearer, stack, partialTicks);
+            wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
             return;
         }
         float[] offsetArr;
 
-        GlStateManager.pushMatrix();
+        mat.push();
         if (wearer.isCrouching())
         {
-            GlStateManager.translatef(0.0F, 0.2F, 0.0F);
-            if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) GlStateManager.translatef(
-                    offsetArr[0], offsetArr[1], offsetArr[2]);
+            mat.translate(0.0F, 0.2F, 0.0F);
+            if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null)
+                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
         }
         if (wearer.isChild())
         {
             final float af = 2.0F;
             final float af1 = 1.4F;
-            GlStateManager.translatef(0.0F, 0.5F * scale, 0.0F);
-            GlStateManager.scalef(af1 / af, af1 / af, af1 / af);
-            GlStateManager.translatef(0.0F, 16.0F * scale, 0.0F);
+            mat.translate(0.0F, 0.5F, 0.0F);
+            mat.scale(af1 / af, af1 / af, af1 / af);
+            mat.translate(0.0F, 16.0F, 0.0F);
         }
 
         // Translate to head
-        theModel.func_217142_c(0.0625F);
+        theModel.getModelHead().setAnglesAndRotation(mat);
 
-        GlStateManager.translatef(0, -0.25f, 0);
-        GlStateManager.pushMatrix();
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.pushMatrix();
+        mat.translate(0, -0.25f, 0);
         boolean render = false;
         switch (slot)
         {
@@ -56,45 +54,43 @@ public class Head
             if (index == 0)
             {
                 if (ThutWearables.config.renderBlacklist.contains(9)) break;
-                GL11.glTranslated(-0.25, -0.1, 0.0);
-                GL11.glRotated(90, 0, 1, 0);
-                GL11.glRotated(90, 1, 0, 0);
-                if ((offsetArr = ThutWearables.config.renderOffsets.get(9)) != null) GlStateManager.translatef(
-                        offsetArr[0], offsetArr[1], offsetArr[2]);
+                mat.translate(-0.25, -0.1, 0.0);
+                mat.rotate(Vector3f.YP.rotationDegrees(90));
+                mat.rotate(Vector3f.XP.rotationDegrees(90));
+                if ((offsetArr = ThutWearables.config.renderOffsets.get(9)) != null)
+                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
                 render = true;
             }
             else
             {
                 if (ThutWearables.config.renderBlacklist.contains(10)) break;
-                GL11.glTranslated(0.25, -0.1, 0.0);
-                GL11.glRotated(90, 0, 1, 0);
-                GL11.glRotated(90, 1, 0, 0);
-                if ((offsetArr = ThutWearables.config.renderOffsets.get(10)) != null) GlStateManager.translatef(
-                        offsetArr[0], offsetArr[1], offsetArr[2]);
-                GlStateManager.scalef(-1, 1, 1); // This mirrors it.
+                mat.translate(0.25, -0.1, 0.0);
+                mat.rotate(Vector3f.YP.rotationDegrees(90));
+                mat.rotate(Vector3f.XP.rotationDegrees(90));
+                if ((offsetArr = ThutWearables.config.renderOffsets.get(10)) != null)
+                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                mat.scale(-1, 1, 1); // This mirrors it.
                 render = true;
             }
             break;
         case EYE:
             if (ThutWearables.config.renderBlacklist.contains(11)) break;
-            if ((offsetArr = ThutWearables.config.renderOffsets.get(11)) != null) GlStateManager.translatef(
-                    offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsets.get(11)) != null)
+                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
             render = true;
             break;
         case HAT:
             if (ThutWearables.config.renderBlacklist.contains(12)) break;
-            if ((offsetArr = ThutWearables.config.renderOffsets.get(12)) != null) GlStateManager.translatef(
-                    offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsets.get(12)) != null)
+                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
             render = true;
             break;
         default:
             break;
 
         }
-        if (render) wearable.renderWearable(slot, index, wearer, stack, partialTicks);
-        GlStateManager.popMatrix();
-        GlStateManager.popMatrix();
-        GlStateManager.popMatrix();
+        if (render) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+        mat.pop();
     }
 
 }

@@ -1,9 +1,11 @@
 package thut.core.client.render.particle;
 
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.api.maths.vecmath.Vector3f;
 
 public interface IParticle
 {
@@ -14,9 +16,8 @@ public interface IParticle
     long lastTick();
 
     @OnlyIn(value = Dist.CLIENT)
-    public void renderParticle(final BufferBuilder buffer, final ActiveRenderInfo entityIn, final float partialTicks,
-            final float rotationX, final float rotationZ, final float rotationYZ, final float rotationXY,
-            final float rotationXZ);
+    public void renderParticle(final IVertexBuilder buffer, final ActiveRenderInfo entityIn,
+            final float partialTicks, Vector3f offset);
 
     void setColour(int colour);
 

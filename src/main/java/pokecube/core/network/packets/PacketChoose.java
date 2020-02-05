@@ -83,7 +83,7 @@ public class PacketChoose extends Packet
         packet.data.putBoolean("P", pick);
         final ListNBT starters = new ListNBT();
         for (final PokedexEntry e : starts)
-            starters.add(new StringNBT(e.getTrimmedName()));
+            starters.add(StringNBT.valueOf(e.getTrimmedName()));
         packet.data.put("L", starters);
         return packet;
     }

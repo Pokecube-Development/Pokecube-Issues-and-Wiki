@@ -8,7 +8,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -76,10 +78,8 @@ public class BlingItem extends Item implements IWearable
         // if (name.equals("bag_ender_large")) InventoryLarge.INVALID.add(this);
     }
 
-    /**
-     * allows items to add custom lines of information to the mouseover
-     * description
-     */
+    /** allows items to add custom lines of information to the mouseover
+     * description */
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(final ItemStack stack, @Nullable final World playerIn, final List<ITextComponent> list,
@@ -122,11 +122,13 @@ public class BlingItem extends Item implements IWearable
         return this.slot;
     }
 
+    @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-            final ItemStack stack, final float partialTicks)
+    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+            final int brightness, final int overlay)
     {
-        ThutBling.PROXY.renderWearable(slot, index, wearer, stack, partialTicks);
+        ThutBling.PROXY.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
     }
 
     @Override

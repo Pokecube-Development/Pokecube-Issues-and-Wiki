@@ -1,5 +1,8 @@
 package thut.bling.client.render;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -8,8 +11,9 @@ import thut.core.client.render.model.IModel;
 
 public class Ankle
 {
-    public static void renderAnkle(final LivingEntity wearer, final ItemStack stack, final IModel model,
-            final ResourceLocation[] textures, final int brightness)
+    public static void renderAnkle(final MatrixStack mat, final IRenderTypeBuffer buff, final LivingEntity wearer,
+            final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,
+            final int overlay)
     {
         float s, sy, sx, sz, dx, dy, dz;
         dx = 0.f;
@@ -21,7 +25,7 @@ public class Ankle
         sz = s / 2;
         final Vector3f dr = new Vector3f(dx, dy, dz);
         final Vector3f ds = new Vector3f(sx, sy, sz);
-        Util.renderStandardModelWithGem(stack, "main", "gem", model, textures, brightness, dr, ds);
+        Util.renderStandardModelWithGem(mat, buff, stack, "main", "gem", model, textures, dr, ds, brightness, overlay);
     }
 
 }

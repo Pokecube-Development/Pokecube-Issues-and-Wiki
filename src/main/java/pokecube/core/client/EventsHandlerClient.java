@@ -252,8 +252,8 @@ public class EventsHandlerClient
                 final int xSize = gui.getXSize();
                 final int ySize = gui.getYSize();
                 final float zLevel = 800;
-                GL11.glPushMatrix();
-                GlStateManager.translatef(0, 0, zLevel);
+                mat.push();
+                mat.translate(0, 0, zLevel);
                 for (final Slot slot : slots)
                     if (slot.getHasStack() && PokecubeManager.isFilled(slot.getStack()))
                     {
@@ -265,12 +265,12 @@ public class EventsHandlerClient
                         int i, j;
                         i = slot.xPos + 8;
                         j = slot.yPos + 10;
-                        GL11.glPushMatrix();
-                        GL11.glTranslatef(i + x, j + y, 0F);
+                        mat.push();
+                        mat.translate(i + x, j + y, 0F);
                         EventsHandlerClient.renderIcon(pokemob, -8, -12, 16, 16);
-                        GL11.glPopMatrix();
+                        mat.pop();
                     }
-                GL11.glPopMatrix();
+                mat.pop();
             }
         }
         catch (final Exception e)
@@ -296,8 +296,8 @@ public class EventsHandlerClient
             final int xSize = 0;
             final int ySize = 0;
             final float zLevel = 800;
-            GL11.glPushMatrix();
-            GlStateManager.translatef(0, 0, zLevel);
+            mat.push();
+            mat.translate(0, 0, zLevel);
 
             for (int l = 0; l < 9; l++)
             {
@@ -308,13 +308,13 @@ public class EventsHandlerClient
                     if (pokemob == null) continue;
                     final int x = (w - xSize) / 2;
                     final int y = h - ySize;
-                    GL11.glPushMatrix();
-                    GL11.glTranslatef(i + x + 20 * l, j + y, 0F);
+                    mat.push();
+                    mat.translate(i + x + 20 * l, j + y, 0F);
                     EventsHandlerClient.renderIcon(pokemob, -8, -12, 16, 16);
-                    GL11.glPopMatrix();
+                    mat.pop();
                 }
             }
-            GL11.glPopMatrix();
+            mat.pop();
         }
     }
 
@@ -413,9 +413,9 @@ public class EventsHandlerClient
         final float mobScale = pokemob.getSize();
         final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
         size = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-        GL11.glPushMatrix();
+        mat.push();
         final float zoom = 12f / size;
-        GL11.glScalef(-zoom, zoom, zoom);
+        mat.scale(-zoom, zoom, zoom);
         GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
         final long time = System.currentTimeMillis();
         if (rotates) GL11.glRotatef((time + tick) / 20f, 0, 1, 0);
@@ -426,7 +426,7 @@ public class EventsHandlerClient
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableLighting();
-        GL11.glPopMatrix();
+        mat.pop();
 
     }
 

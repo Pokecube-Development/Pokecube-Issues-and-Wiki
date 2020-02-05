@@ -1,6 +1,5 @@
 package thut.core.client.render.x3d;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,12 +11,13 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
-import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
@@ -244,31 +244,31 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void renderAll()
+    public void renderAll(final MatrixStack mat, final IVertexBuilder buffer)
     {
         for (final IExtendedModelPart o : this.parts.values())
-            if (o.getParent() == null) o.renderAll();
+            if (o.getParent() == null) o.renderAll(mat, buffer);
     }
 
     @Override
-    public void renderAllExcept(final String... excludedGroupNames)
+    public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
     {
         for (final IExtendedModelPart o : this.parts.values())
-            if (o.getParent() == null) o.renderAllExcept(excludedGroupNames);
+            if (o.getParent() == null) o.renderAllExcept(mat, buffer, excludedGroupNames);
     }
 
     @Override
-    public void renderOnly(final String... groupNames)
+    public void renderOnly(final MatrixStack mat, final IVertexBuilder buffer, final String... groupNames)
     {
         for (final IExtendedModelPart o : this.parts.values())
-            if (o.getParent() == null) o.renderOnly(groupNames);
+            if (o.getParent() == null) o.renderOnly(mat, buffer, groupNames);
     }
 
     @Override
-    public void renderPart(final String partName)
+    public void renderPart(final MatrixStack mat, final IVertexBuilder buffer, final String partName)
     {
         for (final IExtendedModelPart o : this.parts.values())
-            if (o.getParent() == null) o.renderPart(partName);
+            if (o.getParent() == null) o.renderPart(mat, buffer, partName);
     }
 
     @Override
@@ -286,12 +286,14 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
-            final float partialTicks, final float headYaw, final float headPitch, final float limbSwing)
+            final float partialTicks, final float headYaw, final float headPitch, final float limbSwing
+            )
     {
         for (final String partName : this.getParts().keySet())
         {
             final IExtendedModelPart part = this.getParts().get(partName);
-            this.updateSubParts(entity, renderer, currentPhase, partialTicks, part, headYaw, headPitch, limbSwing);
+            this.updateSubParts(entity, renderer, currentPhase, partialTicks, part, headYaw, headPitch, limbSwing
+                    );
         }
     }
 
@@ -334,42 +336,6 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             parent.setPostRotations(dir);
             parent.setPostRotations2(dir2);
         }
-
-        final int red = 255, green = 255, blue = 255;
-        final int brightness = entity.getBrightnessForRender();
-        final int alpha = 255;
-        final int[] rgbab = parent.getRGBAB();
-        if (entity instanceof IMobColourable)
-        {
-            final IMobColourable poke = (IMobColourable) entity;
-            rgbab[0] = poke.getRGBA()[0];
-            rgbab[1] = poke.getRGBA()[1];
-            rgbab[2] = poke.getRGBA()[2];
-            rgbab[3] = poke.getRGBA()[3];
-        }
-        else
-        {
-            rgbab[0] = red;
-            rgbab[1] = green;
-            rgbab[2] = blue;
-            rgbab[3] = alpha;
-            rgbab[4] = brightness;
-        }
-        rgbab[4] = brightness;
-        final IAnimationChanger animChanger = renderer.getAnimationChanger();
-        if (animChanger != null)
-        {
-            final int default_ = new Color(rgbab[0], rgbab[1], rgbab[2], rgbab[3]).getRGB();
-            final int rgb = animChanger.getColourForPart(parent.getName(), entity, default_);
-            if (rgb != default_)
-            {
-                final Color col = new Color(rgb);
-                rgbab[0] = col.getRed();
-                rgbab[1] = col.getGreen();
-                rgbab[2] = col.getBlue();
-            }
-        }
-        parent.setRGBAB(rgbab);
         for (final String partName : parent.getSubParts().keySet())
         {
             final IExtendedModelPart part = (IExtendedModelPart) parent.getSubParts().get(partName);

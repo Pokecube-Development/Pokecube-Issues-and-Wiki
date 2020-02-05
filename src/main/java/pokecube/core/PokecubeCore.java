@@ -121,9 +121,10 @@ public class PokecubeCore
             {
                 if (!(SpawnBiomeMatcher.contains(b, Type.SANDY) || SpawnBiomeMatcher.contains(b, Type.OCEAN))) continue;
                 // Currently this uses same settings as gold ore.
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE,
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE
-                                .getDefaultState(), 9), Placement.COUNT_RANGE, new CountRangeConfig(2, 0, 0, 32)));
+                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                PokecubeItems.FOSSILSTONE.getDefaultState(), 9))
+                        .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(2, 0, 0, 32))));
             }
 
             // Register the general structure piece we use
@@ -173,8 +174,8 @@ public class PokecubeCore
         public static void registerDimensions(final RegistryEvent.Register<ModDimension> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Dimensions");
-            event.getRegistry().register(SecretBaseDimension.DIMENSION.setRegistryName(PokecubeCore.MODID,
-                    "secret_bases"));
+            event.getRegistry()
+            .register(SecretBaseDimension.DIMENSION.setRegistryName(PokecubeCore.MODID, "secret_bases"));
         }
 
         @SubscribeEvent
@@ -238,8 +239,8 @@ public class PokecubeCore
             Database.initSounds(event.getRegistry());
 
             ResourceLocation sound = new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught");
-            event.getRegistry().register((EntityPokecubeBase.POKECUBESOUND = new SoundEvent(sound)).setRegistryName(
-                    sound));
+            event.getRegistry()
+            .register((EntityPokecubeBase.POKECUBESOUND = new SoundEvent(sound)).setRegistryName(sound));
             sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenter");
             event.getRegistry().register((HealerContainer.HEAL_SOUND = new SoundEvent(sound)).setRegistryName(sound));
             sound = new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop");
@@ -266,42 +267,40 @@ public class PokecubeCore
     }
 
     // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger();
-    public static final String MODID  = "pokecube";
+    public static final Logger                                         LOGGER      = LogManager.getLogger();
+    public static final String                                         MODID       = "pokecube";
 
-    private static final String NETVERSION = "1.0.0";
+    private static final String                                        NETVERSION  = "1.0.0";
     // Handler for network stuff.
-    public static final PacketHandler packets = new PacketHandler(new ResourceLocation(PokecubeCore.MODID, "comms"),
-            PokecubeCore.NETVERSION);
+    public static final PacketHandler                                  packets     = new PacketHandler(
+            new ResourceLocation(PokecubeCore.MODID, "comms"), PokecubeCore.NETVERSION);
     // Bus for move events
-    public static final IEventBus MOVE_BUS = BusBuilder.builder().build();
+    public static final IEventBus                                      MOVE_BUS    = BusBuilder.builder().build();
 
     // Bus for Pokemob Events
-    public static final IEventBus POKEMOB_BUS = BusBuilder.builder().build();
+    public static final IEventBus                                      POKEMOB_BUS = BusBuilder.builder().build();
 
     // Holder for our config options
-    private static final Config config = new Config();
+    private static final Config                                        config      = new Config();
 
     // Sided proxy for handling server/client only stuff.
-    public final static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public final static CommonProxy                                    proxy       = DistExecutor
+            .runForDist(() -> () -> new ClientProxy(), () -> () -> new CommonProxy());
 
     // Spawner for world spawning of pokemobs.
-    public static SpawnHandler spawner = new SpawnHandler();
+    public static SpawnHandler                                         spawner     = new SpawnHandler();
 
     // Map to store the registered mobs in.
-    public static BiMap<PokedexEntry, EntityType<? extends MobEntity>> typeMap = HashBiMap.create();
+    public static BiMap<PokedexEntry, EntityType<? extends MobEntity>> typeMap     = HashBiMap.create();
 
     // Provider for entities.
-    public static IEntityProvider provider = new EntityProvider(null);
+    public static IEntityProvider                                      provider    = new EntityProvider(null);
 
-    /**
-     * Generates the mobEntity for the given pokedex entry.
+    /** Generates the mobEntity for the given pokedex entry.
      *
      * @param evolution
      * @param world
-     * @return
-     */
+     * @return */
     public static MobEntity createPokemob(final PokedexEntry entry, final World world)
     {
         EntityType<? extends MobEntity> type = PokecubeCore.typeMap.get(entry);
@@ -310,34 +309,28 @@ public class PokecubeCore
         return null;
     }
 
-    /**
-     * The config storing all our stuff.
+    /** The config storing all our stuff.
      *
-     * @return
-     */
+     * @return */
     public static Config getConfig()
     {
         return PokecubeCore.config;
     }
 
-    /**
-     * Allows for dealing with cases like pokeplayer, where the entity that the
+    /** Allows for dealing with cases like pokeplayer, where the entity that the
      * world stores is not necessarily the one wanted for pokemob interaction.
      *
-     * @return
-     */
+     * @return */
     public static IEntityProvider getEntityProvider()
     {
         return PokecubeCore.provider;
     }
 
-    /**
-     * For pokemob type mobs, this returns the pokedex entry for the
+    /** For pokemob type mobs, this returns the pokedex entry for the
      * corresponding entity type, for other mobs it returns null.
      *
      * @param type
-     * @return
-     */
+     * @return */
     @Nullable
     public static PokedexEntry getEntryFor(final EntityType<?> type)
     {
@@ -408,7 +401,7 @@ public class PokecubeCore
     {
         // some example code to receive and process InterModComms from other
         // mods
-        PokecubeCore.LOGGER.info("Got IMC {}", event.getIMCStream().map(m -> m.getMessageSupplier().get()).collect(
-                Collectors.toList()));
+        PokecubeCore.LOGGER.info("Got IMC {}",
+                event.getIMCStream().map(m -> m.getMessageSupplier().get()).collect(Collectors.toList()));
     }
 }

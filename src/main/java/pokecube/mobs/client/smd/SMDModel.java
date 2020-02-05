@@ -128,7 +128,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             this.wrapped.body.setTexturer(this.texturer);
             this.wrapped.body.setAnimationChanger(this.changer);
             // Scaling factor for model.
-            GL11.glScaled(0.165, 0.165, 0.165);
+            mat.scale(0.165, 0.165, 0.165);
             // Makes model face correct way.
             GL11.glRotated(180, 0, 1, 0);
 

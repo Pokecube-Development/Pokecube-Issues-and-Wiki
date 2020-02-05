@@ -69,13 +69,13 @@ public class ModelRing extends EntityModel<Entity>
         super.render(entity, f, f1, f2, f3, f4, f5);
         if (this.stack == null) return;
         Minecraft.getInstance().getTextureManager().bindTexture(this.texture_1);
-        GL11.glPushMatrix();
+        mat.push();
         GL11.glRotated(90, 0, 1, 0);
-        GL11.glTranslated(-0.08, -0.3, 0);
+        mat.translate(-0.08, -0.3, 0);
         this.setRotationAngles(entity, f, f1, f2, f3, f4, f5);
-        GL11.glScaled(0.5, 0.5, 0.5);
+        mat.scale(0.5, 0.5, 0.5);
         this.Shape2.render(f5);
-        GL11.glScaled(1.01, 1.01, 1.01);
+        mat.scale(1.01, 1.01, 1.01);
         Minecraft.getInstance().getTextureManager().bindTexture(this.texture_2);
         DyeColor ret = DyeColor.GRAY;
         if (this.stack.hasTag() && this.stack.getTag().contains("dyeColour"))
@@ -91,7 +91,7 @@ public class ModelRing extends EntityModel<Entity>
         this.Shape5.render(f5);
         GL11.glColor3f(1f, 1f, 1f);
 
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     private void setRotation(RendererModel model, float x, float y, float z)

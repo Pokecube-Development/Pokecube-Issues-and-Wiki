@@ -47,8 +47,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.setPokemonNickname(ownerShipTag.getString(TagNames.NICKNAME));
             try
             {
-                if (ownerShipTag.contains(TagNames.OT)) this.setOriginalOwnerUUID(UUID.fromString(ownerShipTag
-                        .getString(TagNames.OT)));
+                if (ownerShipTag.contains(TagNames.OT))
+                    this.setOriginalOwnerUUID(UUID.fromString(ownerShipTag.getString(TagNames.OT)));
             }
             catch (final Exception e)
             {
@@ -70,8 +70,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             {
                 final ListNBT newMoves = (ListNBT) movesTag.get(TagNames.NEWMOVES);
                 for (int i = 0; i < newMoves.size(); i++)
-                    if (!this.getMoveStats().newMoves.contains(newMoves.getString(i))) this.getMoveStats().newMoves.add(
-                            newMoves.getString(i));
+                    if (!this.getMoveStats().newMoves.contains(newMoves.getString(i)))
+                        this.getMoveStats().newMoves.add(newMoves.getString(i));
             }
             catch (final Exception e)
             {
@@ -91,8 +91,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             {
                 final CompoundNBT CompoundNBT1 = ListNBT.getCompound(i);
                 final int j = CompoundNBT1.getByte("Slot") & 255;
-                if (j < this.getInventory().getSizeInventory()) this.getInventory().setInventorySlotContents(j,
-                        ItemStack.read(CompoundNBT1));
+                if (j < this.getInventory().getSizeInventory())
+                    this.getInventory().setInventorySlotContents(j, ItemStack.read(CompoundNBT1));
                 this.setHeldItem(this.getInventory().getStackInSlot(1));
             }
         }
@@ -125,14 +125,14 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             for (final String s : routines.keySet())
                 // try/catch block incase addons add more routines to the enum.
                 try
-                {
+            {
                     final AIRoutine routine = AIRoutine.valueOf(s);
                     this.setRoutineState(routine, routines.getBoolean(s));
-                }
-                catch (final Exception e)
-                {
+            }
+            catch (final Exception e)
+            {
 
-                }
+            }
             this.loadedTasks = aiTag.getCompound(TagNames.AITAG);
         }
         // Read Misc other
@@ -159,8 +159,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (this.getOwnerId() != null) ownerShipTag.putString(TagNames.OWNER, this.getOwnerId().toString());
         ownerShipTag.putString(TagNames.NICKNAME, this.getPokemonNickname());
         ownerShipTag.putString(TagNames.TEAM, this.getPokemobTeam());
-        if (this.getOriginalOwnerUUID() != null) ownerShipTag.putString(TagNames.OT, this.getOriginalOwnerUUID()
-                .toString());
+        if (this.getOriginalOwnerUUID() != null)
+            ownerShipTag.putString(TagNames.OT, this.getOriginalOwnerUUID().toString());
 
         // Write stats tag
         final CompoundNBT statsTag = new CompoundNBT();
@@ -175,7 +175,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         {
             final ListNBT newMoves = new ListNBT();
             for (final String s : this.getMoveStats().newMoves)
-                newMoves.add(new StringNBT(s));
+                newMoves.add(StringNBT.valueOf(s));
             movesTag.put(TagNames.NEWMOVES, newMoves);
         }
         movesTag.putInt(TagNames.COOLDOWN, this.getAttackCooldown());
@@ -239,8 +239,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         aiTag.put(TagNames.AIROUTINES, aiRoutineTag);
         final CompoundNBT taskTag = new CompoundNBT();
         for (final IAIRunnable task : this.getTasks())
-            if (task instanceof INBTSerializable) taskTag.put(task.getIdentifier(), ((INBTSerializable<?>) task)
-                    .serializeNBT());
+            if (task instanceof INBTSerializable)
+                taskTag.put(task.getIdentifier(), ((INBTSerializable<?>) task).serializeNBT());
         aiTag.put(TagNames.AITAG, taskTag);
 
         // Misc other

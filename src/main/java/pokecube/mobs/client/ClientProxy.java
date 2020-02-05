@@ -63,15 +63,15 @@ public class ClientProxy extends CommonProxy
                 GL11.glRotatef(90, 1, 0, 0);
                 GL11.glRotatef(180, 0, 0, 1);
                 final float dx = -0.0f, dy = .235f, dz = 0.25f;
-                GL11.glTranslatef(dx, dy, dz);
-                GlStateManager.pushMatrix();
+                mat.translate(dx, dy, dz);
+                mat.push();
                 final int brightness = wearer.getBrightnessForRender();
                 final int[] col = new int[] { 255, 255, 255, 255, brightness };
                 minecraft.getTextureManager().bindTexture(this.keystone);
                 this.model.renderOnly("stone");
-                GlStateManager.popMatrix();
+                mat.pop();
 
-                GlStateManager.pushMatrix();
+                mat.push();
                 minecraft.getTextureManager().bindTexture(this.metal);
                 DyeColor ret = DyeColor.BLUE;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -86,7 +86,7 @@ public class ClientProxy extends CommonProxy
                 this.model.getParts().get("tiara").setRGBAB(col);
                 this.model.renderOnly("tiara");
                 GL11.glColor3f(1, 1, 1);
-                GlStateManager.popMatrix();
+                mat.pop();
 
             }
         });
@@ -113,23 +113,23 @@ public class ClientProxy extends CommonProxy
                 if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
                         "models/worn/megaankletzinnia.x3d"));
                 final Minecraft minecraft = Minecraft.getInstance();
-                GlStateManager.pushMatrix();
+                mat.push();
                 GL11.glRotatef(90, 1, 0, 0);
                 GL11.glRotatef(180, 0, 0, 1);
                 final float dx = -0.0f, dy = .05f, dz = 0.f;
                 final double s = 1;
-                GL11.glScaled(s, s, s);
-                GL11.glTranslatef(dx, dy, dz);
+                mat.scale(s, s, s);
+                mat.translate(dx, dy, dz);
                 final int brightness = wearer.getBrightnessForRender();
                 final int[] col = new int[] { 255, 255, 255, 255, brightness };
                 minecraft.getTextureManager().bindTexture(this.keystone);
                 this.model.renderOnly("stone");
-                GlStateManager.popMatrix();
-                GlStateManager.pushMatrix();
+                mat.pop();
+                mat.push();
                 GL11.glRotatef(90, 1, 0, 0);
                 GL11.glRotatef(180, 0, 0, 1);
-                GL11.glScaled(s, s, s);
-                GL11.glTranslatef(dx, dy, dz);
+                mat.scale(s, s, s);
+                mat.translate(dx, dy, dz);
                 minecraft.getTextureManager().bindTexture(this.texture);
                 DyeColor ret = DyeColor.CYAN;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -144,7 +144,7 @@ public class ClientProxy extends CommonProxy
                 this.model.getParts().get("anklet").setRGBAB(col);
                 this.model.renderOnly("anklet");
                 GL11.glColor3f(1, 1, 1);
-                GlStateManager.popMatrix();
+                mat.pop();
             }
         });
         // a Pendant
@@ -172,15 +172,15 @@ public class ClientProxy extends CommonProxy
                 GL11.glRotatef(90, 1, 0, 0);
                 GL11.glRotatef(180, 0, 0, 1);
                 final float dx = -0.0f, dy = .0f, dz = 0.01f;
-                GL11.glTranslatef(dx, dy, dz);
-                GlStateManager.pushMatrix();
+                mat.translate(dx, dy, dz);
+                mat.push();
                 final int brightness = wearer.getBrightnessForRender();
                 final int[] col = new int[] { 255, 255, 255, 255, brightness };
                 minecraft.getTextureManager().bindTexture(this.keystone);
                 this.model.renderOnly("keystone");
-                GlStateManager.popMatrix();
+                mat.pop();
 
-                GlStateManager.pushMatrix();
+                mat.push();
                 minecraft.getTextureManager().bindTexture(this.pendant);
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -195,7 +195,7 @@ public class ClientProxy extends CommonProxy
                 this.model.getParts().get("pendant").setRGBAB(col);
                 this.model.renderOnly("pendant");
                 GL11.glColor3f(1, 1, 1);
-                GlStateManager.popMatrix();
+                mat.pop();
 
             }
         });
@@ -223,15 +223,15 @@ public class ClientProxy extends CommonProxy
                 final Minecraft minecraft = Minecraft.getInstance();
                 GL11.glRotatef(180, 0, 0, 1);
                 final float dx = -0.0f, dy = index == 0 ? .01f : -.01f, dz = -0.3f;
-                GL11.glTranslatef(dx, dy, dz);
-                GlStateManager.pushMatrix();
+                mat.translate(dx, dy, dz);
+                mat.push();
                 final int brightness = wearer.getBrightnessForRender();
                 final int[] col = new int[] { 255, 255, 255, 255, brightness };
                 minecraft.getTextureManager().bindTexture(this.keystone);
                 this.model.renderOnly("keystone");
-                GlStateManager.popMatrix();
+                mat.pop();
 
-                GlStateManager.pushMatrix();
+                mat.push();
                 minecraft.getTextureManager().bindTexture(this.loop);
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -246,7 +246,7 @@ public class ClientProxy extends CommonProxy
                 this.model.getParts().get("earing").setRGBAB(col);
                 this.model.renderOnly("earing");
                 GL11.glColor3f(1, 1, 1);
-                GlStateManager.popMatrix();
+                mat.pop();
 
             }
         });
@@ -275,15 +275,15 @@ public class ClientProxy extends CommonProxy
                 GL11.glRotatef(90, 1, 0, 0);
                 GL11.glRotatef(180, 0, 0, 1);
                 final float dx = -0.0f, dy = .01f, dz = -0.25f;
-                GL11.glTranslatef(dx, dy, dz);
-                GlStateManager.pushMatrix();
+                mat.translate(dx, dy, dz);
+                mat.push();
                 final int brightness = wearer.getBrightnessForRender();
                 final int[] col = new int[] { 255, 255, 255, 255, brightness };
                 minecraft.getTextureManager().bindTexture(this.keystone);
                 this.model.renderOnly("keystone");
-                GlStateManager.popMatrix();
+                mat.pop();
 
-                GlStateManager.pushMatrix();
+                mat.push();
                 minecraft.getTextureManager().bindTexture(this.loop);
                 DyeColor ret = DyeColor.GRAY;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -298,7 +298,7 @@ public class ClientProxy extends CommonProxy
                 this.model.getParts().get("glasses").setRGBAB(col);
                 this.model.renderOnly("glasses");
                 GL11.glColor3f(1, 1, 1);
-                GlStateManager.popMatrix();
+                mat.pop();
 
             }
         });

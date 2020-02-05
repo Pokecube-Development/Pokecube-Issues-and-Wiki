@@ -45,7 +45,7 @@ public class ThrowParticle extends MoveAnimationBase
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder tez = tessellator.getBuffer();
 
-        GL11.glPushMatrix();
+        mat.push();
 
         this.initColour(info.currentTick * 300, partialTick, info.move);
         final float alpha = (this.rgba >> 24 & 255) / 255f;
@@ -72,7 +72,7 @@ public class ThrowParticle extends MoveAnimationBase
         }
         tessellator.draw();
 
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     @Override

@@ -55,17 +55,17 @@ public class Evolution
         GlStateManager.disableAlphaTest();
         GlStateManager.enableCull();
         GlStateManager.depthMask(false);
-        GlStateManager.pushMatrix();
+        mat.push();
 
         final double x = pos.x, y = pos.y, z = pos.z;
-        GlStateManager.translated(x, y, z);
+        mat.translate(x, y, z);
 
         if (scaleMob)
         {
             final float mobScale = pokemob.getSize();
             final Vector3f dims = entry.getModelSize();
             scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-            GL11.glTranslatef(0.0F, dims.y * pokemob.getSize() / 2, 0.0F);
+            mat.translate(0.0F, dims.y * pokemob.getSize() / 2, 0.0F);
         }
         for (int i = 0; i < (f + f * f) / 2.0F * 100.0F; ++i)
         {
@@ -90,7 +90,7 @@ public class Evolution
             tessellator.draw();
         }
 
-        GlStateManager.popMatrix();
+        mat.pop();
         GlStateManager.depthMask(true);
         GlStateManager.disableCull();
         GlStateManager.disableBlend();

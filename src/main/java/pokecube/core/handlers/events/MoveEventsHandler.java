@@ -154,7 +154,7 @@ public class MoveEventsHandler
         {
             boolean smelt = false;
             final AbstractFurnaceTileEntity tile = new FurnaceTileEntity();
-            tile.setWorld(world);
+            tile.setWorldAndPos(world, location.getPos());
             for (int i = 0; i < items.size(); i++)
             {
                 final ItemEntity item = items.get(i);

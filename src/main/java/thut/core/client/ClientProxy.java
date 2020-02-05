@@ -1,6 +1,10 @@
 package thut.core.client;
 
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -21,6 +25,25 @@ import thut.core.common.CommonProxy;
 
 public class ClientProxy extends CommonProxy
 {
+
+    public static void line(final IVertexBuilder builder, final Matrix4f positionMatrix,
+            final float dx1, final float dy1, final float dz1, final float dx2, final float dy2, final float dz2,
+            final float r, final float g, final float b, final float a)
+    {
+        builder.pos(positionMatrix, dx1, dy1, dz1)
+        .color(r, g, b, a)
+        .endVertex();
+        builder.pos(positionMatrix, dx2, dy2, dz2).color(r, g, b, a)
+        .endVertex();
+    }
+
+    public static void line(final IVertexBuilder builder, final Matrix4f positionMatrix,
+            final Vector3f start, final Vector3f end, final float r, final float g, final float b, final float a)
+    {
+        ClientProxy.line(builder, positionMatrix, start.getX(), start.getY(), start.getZ(), end.getX(),
+                end.getY(), end.getZ(), r, g, b, a);
+    }
+
     private boolean initParticles = false;
 
     @Override

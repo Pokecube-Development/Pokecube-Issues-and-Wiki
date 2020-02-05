@@ -6,8 +6,11 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -56,8 +59,8 @@ public class Util
             {
                 textures = new ResourceLocation[2];
                 textures[0] = new ResourceLocation(tex);
-                if (stack.getTag().contains("tex2")) textures[1] = new ResourceLocation(stack.getTag().getString(
-                        "tex2"));
+                if (stack.getTag().contains("tex2"))
+                    textures[1] = new ResourceLocation(stack.getTag().getString("tex2"));
                 else textures[1] = textures[0];
                 Util.customTextures.put(tex, textures);
                 return textures;
@@ -67,8 +70,14 @@ public class Util
         return null;
     }
 
-    public static void renderStandardModelWithGem(final ItemStack stack, final String colorpart, final String itempart,
-            final IModel model, ResourceLocation[] tex, final int brightness, final Vector3f dr, final Vector3f ds)
+    public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc)
+    {
+        return buff.getBuffer(RenderType.entityTranslucent(loc));
+    }
+
+    public static void renderStandardModelWithGem(final MatrixStack mat, final IRenderTypeBuffer buff,
+            final ItemStack stack, final String colorpart, final String itempart, final IModel model,
+            ResourceLocation[] tex, final Vector3f dr, final Vector3f ds, final int brightness, final int overlay)
     {
         if (!(model instanceof IModelCustom)) return;
         tex = tex.clone();
@@ -80,30 +89,29 @@ public class Util
             ret = DyeColor.byId(damage);
         }
         final Color colour = new Color(ret.getColorValue() + 0xFF000000);
-        final int[] col = new int[] { colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness };
         IExtendedModelPart part = model.getParts().get(colorpart);
 
-        if (stack.hasTag() && stack.getTag().contains("gem")) tex[0] = new ResourceLocation(stack.getTag().getString(
-                "gem"));
+        if (stack.hasTag() && stack.getTag().contains("gem"))
+            tex[0] = new ResourceLocation(stack.getTag().getString("gem"));
         else tex[0] = null;
-        GL11.glPushMatrix();
+        mat.push();
         GL11.glRotated(90, 1, 0, 0);
         GL11.glRotated(180, 0, 0, 1);
-        GL11.glTranslatef(dr.x, dr.y, dr.z);
-        GL11.glScalef(ds.x, ds.y, ds.z);
+        mat.translate(dr.x, dr.y, dr.z);
+        mat.scale(ds.x, ds.y, ds.z);
         if (part != null)
         {
-            part.setRGBAB(col);
-            Minecraft.getInstance().textureManager.bindTexture(tex[1]);
-            renderable.renderPart(colorpart);
+            part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+            final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
+            renderable.renderPart(mat, buf1, colorpart);
         }
         GL11.glColor3f(1, 1, 1);
         part = model.getParts().get(itempart);
         if (part != null && tex[0] != null)
         {
-            Minecraft.getInstance().textureManager.bindTexture(tex[0]);
-            renderable.renderPart(itempart);
+            final IVertexBuilder buf0 = Util.makeBuilder(buff, tex[0]);
+            renderable.renderPart(mat, buf0, itempart);
         }
-        GL11.glPopMatrix();
+        mat.pop();
     }
 }

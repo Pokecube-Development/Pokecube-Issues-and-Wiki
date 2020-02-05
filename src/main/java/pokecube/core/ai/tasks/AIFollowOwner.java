@@ -59,7 +59,7 @@ public class AIFollowOwner extends AIBase
         }
         // Look at owner.
         if (Vector3.isVisibleEntityFromEntity(this.entity, this.theOwner)) this.entity.getLookController()
-                .setLookPositionWithEntity(this.theOwner, 10.0F, this.entity.getVerticalFaceSpeed());
+        .setLookPositionWithEntity(this.theOwner, 10.0F, this.entity.getVerticalFaceSpeed());
         else if (!this.petPathfinder.noPath() && this.petPathfinder.getPath().getCurrentPathIndex() < this.petPathfinder
                 .getPath().getCurrentPathLength() - 3)
         {
@@ -82,7 +82,7 @@ public class AIFollowOwner extends AIBase
             final Vec3d v = this.theOwner.getMotion();
             this.speed = Math.sqrt(v.x * v.x + v.z * v.z);
             this.speed = Math.max(0.6, this.speed);
-            final Path path = this.petPathfinder.getPathToEntityLiving(this.theOwner, 0);
+            final Path path = this.petPathfinder.getPathToEntity(this.theOwner, 0);
             if (path != null) this.addEntityPath(this.entity, path, this.speed);
         }
     }

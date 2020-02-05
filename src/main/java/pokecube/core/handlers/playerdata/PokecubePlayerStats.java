@@ -31,19 +31,19 @@ public class PokecubePlayerStats extends PlayerData
         super();
     }
 
-    public void addCapture(PokedexEntry entry)
+    public void addCapture(final PokedexEntry entry)
     {
         final int num = this.getCaptures().get(entry) == null ? 0 : this.getCaptures().get(entry);
         this.getCaptures().put(entry, num + 1);
     }
 
-    public void addHatch(PokedexEntry entry)
+    public void addHatch(final PokedexEntry entry)
     {
         final int num = this.getHatches().get(entry) == null ? 0 : this.getHatches().get(entry);
         this.getHatches().put(entry, num + 1);
     }
 
-    public void addKill(PokedexEntry entry)
+    public void addKill(final PokedexEntry entry)
     {
         final int num = this.getKills().get(entry) == null ? 0 : this.getKills().get(entry);
         this.getKills().put(entry, num + 1);
@@ -84,7 +84,7 @@ public class PokecubePlayerStats extends PlayerData
         return this.hasFirst;
     }
 
-    public boolean hasInspected(PokedexEntry entry)
+    public boolean hasInspected(final PokedexEntry entry)
     {
         if (this.inspected == null) this.initMaps();
         return this.inspected.contains(entry);
@@ -98,7 +98,7 @@ public class PokecubePlayerStats extends PlayerData
         this.inspected = Sets.newHashSet();
     }
 
-    public boolean inspect(PlayerEntity player, IPokemob pokemob)
+    public boolean inspect(final PlayerEntity player, final IPokemob pokemob)
     {
         if (this.inspected == null) this.initMaps();
         if (player instanceof ServerPlayerEntity) Triggers.INSPECTPOKEMOB.trigger((ServerPlayerEntity) player, pokemob);
@@ -106,7 +106,7 @@ public class PokecubePlayerStats extends PlayerData
     }
 
     @Override
-    public void readFromNBT(CompoundNBT tag)
+    public void readFromNBT(final CompoundNBT tag)
     {
         CompoundNBT temp = tag.getCompound("kills");
         PokedexEntry entry;
@@ -145,7 +145,7 @@ public class PokecubePlayerStats extends PlayerData
         }
     }
 
-    public void setHasFirst(PlayerEntity player)
+    public void setHasFirst(final PlayerEntity player)
     {
         this.hasFirst = true;
         Triggers.FIRSTPOKEMOB.trigger((ServerPlayerEntity) player);
@@ -158,7 +158,7 @@ public class PokecubePlayerStats extends PlayerData
     }
 
     @Override
-    public void writeToNBT(CompoundNBT tag_)
+    public void writeToNBT(final CompoundNBT tag_)
     {
         CompoundNBT tag = new CompoundNBT();
         for (final PokedexEntry e : this.getKills().keySet())
@@ -174,7 +174,7 @@ public class PokecubePlayerStats extends PlayerData
         tag_.put("hatches", tag);
         final ListNBT list = new ListNBT();
         for (final PokedexEntry e : this.inspected)
-            list.add(new StringNBT(e.getName()));
+            list.add(StringNBT.valueOf(e.getName()));
         tag_.put("inspected", list);
         tag_.putBoolean("F", this.hasFirst);
     }

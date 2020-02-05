@@ -33,6 +33,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeContainer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap.Type;
@@ -294,64 +295,64 @@ public class Vector3
             int n = 0;
 
             clear:
-            while (!v.clearOfBlocks(world))
-            {
-                for (final Direction side : Direction.values())
+                while (!v.clearOfBlocks(world))
                 {
-                    v2.set(v);
-                    if (v.offsetBy(side).clearOfBlocks(world)) break clear;
-                    v.set(v2);
-                }
-                boolean step = true;
-                if (n < 2) v.offset(Direction.UP);
-                else if (n < 4)
-                {
-                    if (step)
+                    for (final Direction side : Direction.values())
                     {
-                        step = false;
-                        v.set(v1);
+                        v2.set(v);
+                        if (v.offsetBy(side).clearOfBlocks(world)) break clear;
+                        v.set(v2);
                     }
-                    v.offsetBy(Direction.NORTH);
-                }
-                else if (n < 6)
-                {
-                    if (!step)
+                    boolean step = true;
+                    if (n < 2) v.offset(Direction.UP);
+                    else if (n < 4)
                     {
-                        step = true;
-                        v.set(v1);
+                        if (step)
+                        {
+                            step = false;
+                            v.set(v1);
+                        }
+                        v.offsetBy(Direction.NORTH);
                     }
-                    v.offsetBy(Direction.SOUTH);
-                }
-                else if (n < 8)
-                {
-                    if (step)
+                    else if (n < 6)
                     {
-                        step = false;
-                        v.set(v1);
+                        if (!step)
+                        {
+                            step = true;
+                            v.set(v1);
+                        }
+                        v.offsetBy(Direction.SOUTH);
                     }
-                    v.offsetBy(Direction.EAST);
-                }
-                else if (n < 10)
-                {
-                    if (!step)
+                    else if (n < 8)
                     {
-                        step = true;
-                        v.set(v1);
+                        if (step)
+                        {
+                            step = false;
+                            v.set(v1);
+                        }
+                        v.offsetBy(Direction.EAST);
                     }
-                    v.offsetBy(Direction.WEST);
-                }
-                else if (n < 12)
-                {
-                    if (step)
+                    else if (n < 10)
                     {
-                        step = false;
-                        v.set(v1);
+                        if (!step)
+                        {
+                            step = true;
+                            v.set(v1);
+                        }
+                        v.offsetBy(Direction.WEST);
                     }
-                    v.offsetBy(Direction.DOWN);
+                    else if (n < 12)
+                    {
+                        if (step)
+                        {
+                            step = false;
+                            v.set(v1);
+                        }
+                        v.offsetBy(Direction.DOWN);
+                    }
+                    n++;
+                    if (n >= 12) break;
                 }
-                n++;
-                if (n >= 12) break;
-            }
 
             final long end = System.nanoTime() - start;
 
@@ -743,81 +744,81 @@ public class Vector3
         final HashMap<Class<?>, List<Object>> interfaces = new HashMap<>();
 
         loop:
-        for (int i = 0; i < size * size * size; i++)
-        {
-
-            Cruncher.indexToVals(i, r);
-            rAbs.set(r).addTo(this);
-            rHat.set(temp.set(r).norm());
-            double rm;
-            if ((rm = r.mag()) > size || rm > sightDistance) continue;
-
-            if (rAbs.isAir(world) && !r.isEmpty()) continue;
-
-            rTest.clear();
-            rTestPrev.clear();
-            rMag = r.mag();
-            final float dj = 1;
-            for (float j = 0F; j <= rMag; j += dj)
+            for (int i = 0; i < size * size * size; i++)
             {
-                rTest = temp.set(rHat).scalarMultBy(j);
-                if (!rTest.sameBlock(rTestPrev))
+
+                Cruncher.indexToVals(i, r);
+                rAbs.set(r).addTo(this);
+                rHat.set(temp.set(r).norm());
+                double rm;
+                if ((rm = r.mag()) > size || rm > sightDistance) continue;
+
+                if (rAbs.isAir(world) && !r.isEmpty()) continue;
+
+                rTest.clear();
+                rTestPrev.clear();
+                rMag = r.mag();
+                final float dj = 1;
+                for (float j = 0F; j <= rMag; j += dj)
                 {
-                    rTestAbs.set(rTest).addTo(this);
-                    final BlockState state = rTestAbs.getBlockState(world);
-                    if (state == null) continue loop;
-                    final Block b = state.getBlock();
-                    if (predicateList) for (final Object o : list)
-                        if (((Predicate<BlockState>) o).apply(state))
+                    rTest = temp.set(rHat).scalarMultBy(j);
+                    if (!rTest.sameBlock(rTestPrev))
+                    {
+                        rTestAbs.set(rTest).addTo(this);
+                        final BlockState state = rTestAbs.getBlockState(world);
+                        if (state == null) continue loop;
+                        final Block b = state.getBlock();
+                        if (predicateList) for (final Object o : list)
+                            if (((Predicate<BlockState>) o).apply(state))
+                            {
+                                ret.set(rTestAbs);
+                                return ret;
+                            }
+                        if (isInterface)
+                        {
+                            List<Object> tempList;
+                            if ((tempList = interfaces.get(b.getClass())) != null)
+                            {
+                            }
+                            else
+                            {
+                                tempList = new ArrayList<>();
+                                interfaces.put(b.getClass(), tempList);
+                                for (final Object o : b.getClass().getInterfaces())
+                                    tempList.add(o);
+                            }
+                            list = tempList;
+                        }
+                        if (matcher != null && matcher.apply(state))
                         {
                             ret.set(rTestAbs);
                             return ret;
                         }
-                    if (isInterface)
-                    {
-                        List<Object> tempList;
-                        if ((tempList = interfaces.get(b.getClass())) != null)
+                        else if (seekingBlock != null && b == seekingBlock)
                         {
+                            ret.set(rTestAbs);
+                            return ret;
                         }
-                        else
+                        else if (!isInterface && seekingClass != null && b.getClass().isAssignableFrom(seekingClass))
                         {
-                            tempList = new ArrayList<>();
-                            interfaces.put(b.getClass(), tempList);
-                            for (final Object o : b.getClass().getInterfaces())
-                                tempList.add(o);
+                            ret.set(rTestAbs);
+                            return ret;
                         }
-                        list = tempList;
+                        else if (seekingClass != null && list.contains(seekingClass))
+                        {
+                            ret.set(rTestAbs);
+                            return ret;
+                        }
+                        else if (blockList && list.contains(b))
+                        {
+                            ret.set(rTestAbs);
+                            return ret;
+                        }
+                        else if (!rTestAbs.isClearOfBlocks(world)) continue loop;
+                        else if (!water && state.getMaterial() == Material.WATER) continue loop;
                     }
-                    if (matcher != null && matcher.apply(state))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (seekingBlock != null && b == seekingBlock)
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (!isInterface && seekingClass != null && b.getClass().isAssignableFrom(seekingClass))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (seekingClass != null && list.contains(seekingClass))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (blockList && list.contains(b))
-                    {
-                        ret.set(rTestAbs);
-                        return ret;
-                    }
-                    else if (!rTestAbs.isClearOfBlocks(world)) continue loop;
-                    else if (!water && state.getMaterial() == Material.WATER) continue loop;
                 }
             }
-        }
         return null;
     }
 
@@ -863,15 +864,15 @@ public class Vector3
             {
                 final int x0 = xtest > 0 ? (int) xtest : (int) xtest - 1, y0 = ytest > 0 ? (int) ytest
                         : (int) ytest - 1, z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-                final List<LivingEntity> targets = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(x0
-                        - 0.5, y0 - 0.5, z0 - 0.5, x0 + 0.5, y0 + 0.5, z0 + 0.5));
-                if (targets != null && targets.size() > 0)
-                {
-                    final List<Entity> ret = new ArrayList<>();
-                    for (final Entity e : targets)
-                        if (e instanceof LivingEntity && !excluded.contains(e)) ret.add(e);
-                    if (ret.size() > 0) return ret.get(0);
-                }
+                        final List<LivingEntity> targets = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(x0
+                                - 0.5, y0 - 0.5, z0 - 0.5, x0 + 0.5, y0 + 0.5, z0 + 0.5));
+                        if (targets != null && targets.size() > 0)
+                        {
+                            final List<Entity> ret = new ArrayList<>();
+                            for (final Entity e : targets)
+                                if (e instanceof LivingEntity && !excluded.contains(e)) ret.add(e);
+                            if (ret.size() > 0) return ret.get(0);
+                        }
             }
             yprev = ytest;
             xprev = xtest;
@@ -901,15 +902,15 @@ public class Vector3
 
             final double x0 = xtest > 0 ? (int) xtest : (int) xtest - 1, y0 = ytest > 0 ? (int) ytest : (int) ytest - 1,
                     z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded, new AxisAlignedBB(x0
-                    - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
-            if (targets != null && targets.size() > 0)
-            {
-                final List<Entity> ret = new ArrayList<>();
-                for (final Entity e : targets)
-                    if (e instanceof MobEntity) ret.add(e);
-                if (ret.size() > 0) return ret;
-            }
+                    final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded, new AxisAlignedBB(x0
+                            - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
+                    if (targets != null && targets.size() > 0)
+                    {
+                        final List<Entity> ret = new ArrayList<>();
+                        for (final Entity e : targets)
+                            if (e instanceof MobEntity) ret.add(e);
+                        if (ret.size() > 0) return ret;
+                    }
 
         }
 
@@ -1154,7 +1155,7 @@ public class Vector3
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
                 ret = ret && v.set(this).addTo(v1.set(i * size.width / 2, size.height, j * size.width / 2))
-                        .isClearOfBlocks(world);
+                .isClearOfBlocks(world);
 
         return ret;
     }
@@ -1542,19 +1543,14 @@ public class Vector3
         final int z = this.intZ();
 
         final IChunk chunk = world.getChunk(new BlockPos(x, 0, z));
-        final Biome[] biomes = chunk.getBiomes();
+        final BiomeContainer biomes = chunk.getBiomes();
 
         final int chunkX = Math.abs(x & 15);
         final int chunkZ = Math.abs(z & 15);
 
         final int point = chunkX + 16 * chunkZ;
 
-        if (biomes[point] != biome)
-        {
-            biomes[point] = biome;
-            chunk.setBiomes(biomes);
-            if (chunk instanceof Chunk) ((Chunk) chunk).markDirty();
-        }
+        // TODO fix set biomes!
     }
 
     public void setBlock(final World world, final BlockState defaultState)

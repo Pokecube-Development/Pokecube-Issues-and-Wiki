@@ -122,16 +122,16 @@ public class Health
 
                 if (maxHealth <= 0) break processing;
 
-                GlStateManager.pushMatrix();
+                mat.push();
 
                 Health.preRender();
 
                 final double x = pos.x, y = pos.y, z = pos.z;
-                GlStateManager.translated(x, y + passedEntity.getHeight() + config.heightAbove, z);
+                mat.translate(x, y + passedEntity.getHeight() + config.heightAbove, z);
 
                 GlStateManager.rotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-                GlStateManager.scalef(-scale, -scale, scale);
+                mat.scale(-scale, -scale, scale);
                 GlStateManager.disableTexture();
                 final Tessellator tessellator = Tessellator.getInstance();
                 final BufferBuilder buffer = tessellator.getBuffer();
@@ -154,7 +154,7 @@ public class Health
                 r = color.getRed();
                 g = color.getGreen();
                 b = color.getBlue();
-                GlStateManager.translatef(0F, pastTranslate, 0F);
+                mat.translate(0F, pastTranslate, 0F);
                 ITextComponent nameComp = pokemob.getDisplayName();
                 boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
                 final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
@@ -242,9 +242,9 @@ public class Health
 
                 GlStateManager.enableTexture();
 
-                GlStateManager.pushMatrix();
-                GlStateManager.translatef(-size, -4.5F, 0F);
-                GlStateManager.scalef(s, s, s);
+                mat.push();
+                mat.translate(-size, -4.5F, 0F);
+                mat.scale(s, s, s);
 
                 final UUID owner = pokemob.getOwnerId();
                 final boolean isOwner = viewerID.equals(owner);
@@ -255,9 +255,9 @@ public class Health
                 mc.fontRenderer.drawString(name, 0, 0, colour);
                 GlStateManager.disableDepthTest();
 
-                GlStateManager.pushMatrix();
+                mat.push();
                 float s1 = 0.75F;
-                GlStateManager.scalef(s1, s1, s1);
+                mat.scale(s1, s1, s1);
 
                 final int h = config.hpTextHeight;
                 String maxHpStr = "" + (int) (Math.round(maxHealth * 100.0) / 100.0);
@@ -283,13 +283,13 @@ public class Health
                     mc.fontRenderer.drawString("ID: \"" + entityID + "\"" + "(" + entity.getEntityId() + ")", 0, h + 16,
                             0xFFFFFFFF);
                 }
-                GlStateManager.popMatrix();
+                mat.pop();
 
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 int off = 0;
                 s1 = 0.5F;
-                GlStateManager.scalef(s1, s1, s1);
-                GlStateManager.translatef(size / (s * s1) * 2 - 16, 0F, 0F);
+                mat.scale(s1, s1, s1);
+                mat.translate(size / (s * s1) * 2 - 16, 0F, 0F);
                 Minecraft.getInstance().getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 
                 if (!stack.isEmpty() && config.showHeldItem)
@@ -323,10 +323,10 @@ public class Health
                     }
                 }
 
-                GlStateManager.popMatrix();
+                mat.pop();
                 Health.postRender();
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                GlStateManager.popMatrix();
+                mat.pop();
 
                 pastTranslate -= bgHeight + barHeight1 + padding;
             }

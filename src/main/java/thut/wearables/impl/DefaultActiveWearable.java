@@ -1,7 +1,12 @@
 package thut.wearables.impl;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
 
@@ -36,10 +41,11 @@ public class DefaultActiveWearable implements IActiveWearable
     {
     }
 
+    @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-            final ItemStack stack, final float partialTicks)
+    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+            final int brightness, final int overlay)
     {
     }
-
 }

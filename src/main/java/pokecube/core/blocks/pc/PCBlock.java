@@ -10,6 +10,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -71,7 +72,7 @@ public class PCBlock extends HorizontalBlock
     }
 
     @Override
-    public boolean onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
         if (this.top)
@@ -80,11 +81,8 @@ public class PCBlock extends HorizontalBlock
                 if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
                         playerInventory, playerIn) -> new PCContainer(id, playerInventory, PCInventory.getPC(playerIn)),
                         player.getDisplayName()));
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        else
-        {
-            return false;
-        }
+        else return ActionResultType.PASS;
     }
 }

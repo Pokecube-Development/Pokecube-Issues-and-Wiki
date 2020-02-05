@@ -1,8 +1,5 @@
 package pokecube.core.world.dimension;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
@@ -31,6 +28,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.DimensionManager;
@@ -140,8 +138,9 @@ public class SecretBaseDimension extends ModDimension
         }
 
         @Override
-        public void generateSurface(final IChunk chunk)
+        public void func_225551_a_(final WorldGenRegion p_225551_1_, final IChunk p_225551_2_)
         {
+            // TODO Auto-generated method stub
 
         }
 
@@ -158,8 +157,8 @@ public class SecretBaseDimension extends ModDimension
             if (pos.x % 16 == 0 && pos.z % 16 == 0)
             {
                 final BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
-                final Heightmap heightmap = chunk.func_217303_b(Heightmap.Type.OCEAN_FLOOR_WG);
-                final Heightmap heightmap1 = chunk.func_217303_b(Heightmap.Type.WORLD_SURFACE_WG);
+                final Heightmap heightmap = chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG);
+                final Heightmap heightmap1 = chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE_WG);
                 BlockState state = Blocks.STONE.getDefaultState();
                 for (int i = 58; i < 64; ++i)
                     for (int j = 4; j < 12; ++j)
@@ -216,38 +215,22 @@ public class SecretBaseDimension extends ModDimension
 
     public static class SecretProvider extends BiomeProvider
     {
-        Set<BlockState> blocks   = Sets.newHashSet(Blocks.STONE.getDefaultState());
-        Set<Biome>      biomes   = Sets.newHashSet(SecretBaseDimension.BIOME);
-        Biome[]         biomeArr = new Biome[256];
+        private static final Set<Biome> BIOMES   = Sets.newHashSet(SecretBaseDimension.BIOME);
+        Set<BlockState>                 blocks   = Sets.newHashSet(Blocks.STONE.getDefaultState());
+        final Set<Biome>                biomes;
+        Biome[]                         biomeArr = new Biome[256];
 
         public SecretProvider()
         {
-            Arrays.fill(this.biomeArr, SecretBaseDimension.BIOME);
+            super(SecretProvider.BIOMES);
+            this.biomes = SecretProvider.BIOMES;
         }
 
         @Override
-        public BlockPos findBiomePosition(final int arg0, final int arg1, final int arg2, final List<Biome> arg3,
-                final Random arg4)
+        public Set<Biome> func_225530_a_(final int p_225530_1_, final int p_225530_2_, final int p_225530_3_,
+                final int p_225530_4_)
         {
-            return new BlockPos(arg0, arg1, arg2);
-        }
-
-        @Override
-        public Biome getBiome(final int arg0, final int arg1)
-        {
-            return SecretBaseDimension.BIOME;
-        }
-
-        @Override
-        public Biome[] getBiomes(final int arg0, final int arg1, final int arg2, final int arg3, final boolean arg4)
-        {
-            return this.biomeArr;
-        }
-
-        @Override
-        public Set<Biome> getBiomesInSquare(final int arg0, final int arg1, final int arg2)
-        {
-            return this.biomes;
+            return SecretProvider.BIOMES;
         }
 
         @Override
@@ -260,6 +243,13 @@ public class SecretBaseDimension extends ModDimension
         public boolean hasStructure(final Structure<?> arg0)
         {
             return false;
+        }
+
+        @Override
+        public Biome getNoiseBiome(final int x, final int y, final int z)
+        {
+            // TODO Auto-generated method stub
+            return SecretBaseDimension.BIOME;
         }
 
     }
@@ -276,8 +266,9 @@ public class SecretBaseDimension extends ModDimension
     @SubscribeEvent
     public static void register(final RegisterDimensionsEvent event)
     {
-        SecretBaseDimension.TYPE = DimensionManager.registerOrGetDimension(SecretBaseDimension.DIMENSION
-                .getRegistryName(), SecretBaseDimension.DIMENSION, new PacketBuffer(Unpooled.EMPTY_BUFFER), true);
+        SecretBaseDimension.TYPE = DimensionManager.registerOrGetDimension(
+                SecretBaseDimension.DIMENSION.getRegistryName(), SecretBaseDimension.DIMENSION,
+                new PacketBuffer(Unpooled.EMPTY_BUFFER), true);
         DimensionManager.keepLoaded(SecretBaseDimension.TYPE);
     }
 

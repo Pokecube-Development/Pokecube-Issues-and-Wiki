@@ -174,10 +174,10 @@ public class MoveAnimationHelper
                         final double d1 = (-player.posY + player.lastTickPosY) * event.getRenderPartialTicks();
                         final double d2 = (-player.posZ + player.lastTickPosZ) * event.getRenderPartialTicks();
                         this.source.addTo(d0, d1, d2);
-                        GL11.glPushMatrix();
-                        GL11.glTranslated(this.source.x, this.source.y, this.source.z);
+                        mat.push();
+                        mat.translate(this.source.x, this.source.y, this.source.z);
                         teffect.renderTerrainEffects(event);
-                        GL11.glPopMatrix();
+                        mat.pop();
                         num++;
                     }
         }

@@ -22,8 +22,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.placement.IPlacementConfig;
-import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -84,11 +82,9 @@ public class WorldgenHandler
     public static class JsonStructure
     {
         public String    name;
-        /**
-         * In MultiStructures, this is the chance that the part will be picked.
+        /** In MultiStructures, this is the chance that the part will be picked.
          * Parts are sorted by priority, then the first to have a successful
-         * pick is what is generated for that position.
-         */
+         * pick is what is generated for that position. */
         public float     chance    = 1;
         public int       offset    = 0;
         public String    biomeType = "none";
@@ -150,9 +146,9 @@ public class WorldgenHandler
         public List<JigSawConfig>  jigsaws    = Lists.newArrayList();
     }
 
-    public File DEFAULT;
+    public File             DEFAULT;
 
-    public CustomDims dims;
+    public CustomDims       dims;
 
     public String           MODID    = PokecubeCore.MODID;
     public ResourceLocation ROOT     = new ResourceLocation(PokecubeCore.MODID, "structures/");
@@ -200,13 +196,13 @@ public class WorldgenHandler
             event.getRegistry().register(toAdd);
             final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(struct.spawn);
 
+            final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
+                    : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!matcher.checkBiome(b)) continue;
-                b.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, Biome.createDecoratedFeature(toAdd,
-                        IFeatureConfig.NO_FEATURE_CONFIG, Placement.TOP_SOLID_HEIGHTMAP,
-                        IPlacementConfig.NO_PLACEMENT_CONFIG));
-                b.addStructure(toAdd, IFeatureConfig.NO_FEATURE_CONFIG);
+                b.addFeature(stage, toAdd.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+                b.addStructure(toAdd.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
             }
         }
         for (final JigSawConfig struct : this.defaults.jigsaws)
@@ -222,9 +218,8 @@ public class WorldgenHandler
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!matcher.checkBiome(b)) continue;
-                b.addFeature(stage, Biome.createDecoratedFeature(toAdd, config, Placement.NOPE,
-                        IPlacementConfig.NO_PLACEMENT_CONFIG));
-                b.addStructure(toAdd, config);
+                b.addFeature(stage, toAdd.withConfiguration(config));
+                b.addStructure(toAdd.withConfiguration(config));
             }
 
         }

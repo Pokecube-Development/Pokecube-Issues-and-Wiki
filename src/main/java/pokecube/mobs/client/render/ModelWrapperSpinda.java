@@ -47,7 +47,7 @@ public class ModelWrapperSpinda<T extends Entity> extends ModelWrapper<T>
     public void render(final Entity entityIn, final float limbSwing, final float limbSwingAmount,
             final float ageInTicks, final float netHeadYaw, final float headPitch, final float scale)
     {
-        GlStateManager.pushMatrix();
+        mat.push();
         GlStateManager.disableCull();
         final IPokemob spinda = CapabilityPokemob.getPokemobFor(entityIn);
         for (final String partName : this.imodel.getParts().keySet())
@@ -62,31 +62,31 @@ public class ModelWrapperSpinda<T extends Entity> extends ModelWrapper<T>
                     ((IRetexturableModel) part).setTexturer(null);
 
                     // Render the base layer of the head and ears
-                    GlStateManager.pushMatrix();
+                    mat.push();
                     Minecraft.getInstance().getTextureManager().bindTexture(spinda.isShiny()
                             ? ModelWrapperSpinda.shinyhb : ModelWrapperSpinda.normalhb);
                     part.renderOnly("Head");
-                    GlStateManager.popMatrix();
-                    GlStateManager.pushMatrix();
+                    mat.pop();
+                    mat.push();
                     Minecraft.getInstance().getTextureManager().bindTexture(spinda.isShiny()
                             ? ModelWrapperSpinda.shinyeb : ModelWrapperSpinda.normaleb);
                     part.renderOnly("Left_ear");
-                    GlStateManager.popMatrix();
-                    GlStateManager.pushMatrix();
+                    mat.pop();
+                    mat.push();
                     Minecraft.getInstance().getTextureManager().bindTexture(spinda.isShiny()
                             ? ModelWrapperSpinda.shinyeb : ModelWrapperSpinda.normaleb);
                     part.renderOnly("Right_ear");
-                    GlStateManager.popMatrix();
+                    mat.pop();
 
                     // Render the 4 spots
                     for (int i = 0; i < 4; i++)
                     {
                         float dx = rand.nextFloat();
                         float dy = rand.nextFloat() / 2 + 0.5f;
-                        GlStateManager.pushMatrix();
+                        mat.push();
                         GL11.glMatrixMode(GL11.GL_TEXTURE);
                         GL11.glLoadIdentity();
-                        GL11.glTranslatef(dx, dy, 0.0F);
+                        mat.translate(dx, dy, 0.0F);
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
                         Minecraft.getInstance().getTextureManager().bindTexture(spinda.isShiny()
                                 ? ModelWrapperSpinda.shinyh : ModelWrapperSpinda.normalh);
@@ -94,13 +94,13 @@ public class ModelWrapperSpinda<T extends Entity> extends ModelWrapper<T>
                         GL11.glMatrixMode(GL11.GL_TEXTURE);
                         GL11.glLoadIdentity();
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                        GlStateManager.popMatrix();
-                        GlStateManager.pushMatrix();
+                        mat.pop();
+                        mat.push();
                         GL11.glMatrixMode(GL11.GL_TEXTURE);
                         GL11.glLoadIdentity();
                         dx = rand.nextFloat();
                         dy = rand.nextFloat() / 2 + 0.5f;
-                        GL11.glTranslatef(dx, dy, 0.0F);
+                        mat.translate(dx, dy, 0.0F);
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
                         Minecraft.getInstance().getTextureManager().bindTexture(spinda.isShiny()
                                 ? ModelWrapperSpinda.shinye : ModelWrapperSpinda.normale);
@@ -108,19 +108,19 @@ public class ModelWrapperSpinda<T extends Entity> extends ModelWrapper<T>
                         GL11.glMatrixMode(GL11.GL_TEXTURE);
                         GL11.glLoadIdentity();
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                        GlStateManager.popMatrix();
-                        GlStateManager.pushMatrix();
+                        mat.pop();
+                        mat.push();
                         GL11.glMatrixMode(GL11.GL_TEXTURE);
                         GL11.glLoadIdentity();
                         dx = rand.nextFloat();
                         dy = rand.nextFloat() / 2 + 0.5f;
-                        GL11.glTranslatef(dx, dy, 0.0F);
+                        mat.translate(dx, dy, 0.0F);
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
                         part.renderOnly("Right_ear");
                         GL11.glMatrixMode(GL11.GL_TEXTURE);
                         GL11.glLoadIdentity();
                         GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                        GlStateManager.popMatrix();
+                        mat.pop();
                     }
                     // Render the model normally.
                     if (this.renderer.getTexturer() != null && part instanceof IRetexturableModel)
@@ -128,9 +128,9 @@ public class ModelWrapperSpinda<T extends Entity> extends ModelWrapper<T>
                         this.renderer.getTexturer().bindObject(entityIn);
                         ((IRetexturableModel) part).setTexturer(this.renderer.getTexturer());
                     }
-                    GlStateManager.pushMatrix();
+                    mat.push();
                     part.renderAll();
-                    GlStateManager.popMatrix();
+                    mat.pop();
                 }
             }
             catch (final Exception e)
@@ -140,6 +140,6 @@ public class ModelWrapperSpinda<T extends Entity> extends ModelWrapper<T>
         }
         GlStateManager.color4f(1, 1, 1, 1);
         GlStateManager.enableCull();
-        GlStateManager.popMatrix();
+        mat.pop();
     }
 }

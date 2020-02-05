@@ -111,11 +111,11 @@ public class TypeTrainer extends NpcType
 
         public MerchantOffer getRecipe(final Random rand)
         {
-            ItemStack buy1 = this.func_222218_a();
-            ItemStack buy2 = this.func_222202_c();
+            ItemStack buy1 = this.getBuyingStackFirst();
+            ItemStack buy2 = this.getBuyingStackSecond();
             if (!buy1.isEmpty()) buy1 = buy1.copy();
             if (!buy2.isEmpty()) buy2 = buy2.copy();
-            ItemStack sell = this.func_222200_d();
+            ItemStack sell = this.getSellingStack();
             if (!sell.isEmpty()) sell = sell.copy();
             else return null;
             if (this.min != -1 && this.max != -1)
@@ -259,9 +259,9 @@ public class TypeTrainer extends NpcType
             if (t.pokelist != null && t.pokelist.length != 0) if (!t.pokelist[0].startsWith("-"))
                 for (final String s : t.pokelist)
                 {
-                final PokedexEntry e = Database.getEntry(s);
-                if (e != null && !t.pokemon.contains(e)) t.pokemon.add(e);
-                else if (e == null) PokecubeCore.LOGGER.error("Error in reading of " + s);
+                    final PokedexEntry e = Database.getEntry(s);
+                    if (e != null && !t.pokemon.contains(e)) t.pokemon.add(e);
+                    else if (e == null) PokecubeCore.LOGGER.error("Error in reading of " + s);
                 }
             else
             {
@@ -312,9 +312,9 @@ public class TypeTrainer extends NpcType
         super(name);
         TypeTrainer.addTrainer(name, this);
         this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "female.png"));
+        + "female.png"));
         this.setFemaleTex(new ResourceLocation(PokecubeAdv.TRAINERTEXTUREPATH + Database.trim(this.getName())
-                + "male.png"));
+        + "male.png"));
     }
 
     public Collection<MerchantOffer> getRecipes(final Random rand)

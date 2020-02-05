@@ -180,7 +180,7 @@ public class GuiChooseFirstPokemob extends Screen
             return;
         }
 
-        GL11.glPushMatrix();
+        mat.push();
 
         this.drawCenteredString(this.font, I18n.format("gui.pokemob.choose1st"), this.width / 2, 17, 0xffffff);
 
@@ -204,7 +204,7 @@ public class GuiChooseFirstPokemob extends Screen
             this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType2()), this.width / 2
                     + 20, 65, this.pokedexEntry.getType2().colour);
         }
-        GL11.glPushMatrix();
+        mat.push();
 
         this.minecraft.getTextureManager().bindTexture(Resources.GUI_POKEMOB);
 
@@ -232,13 +232,13 @@ public class GuiChooseFirstPokemob extends Screen
         this.drawCenteredString(this.font, "ATTSPE: ", n + k - 18, m + l + 42, 0x4C68AD);
         this.drawCenteredString(this.font, "DEFSPE: ", n + k - 18, m + l + 55, 0x57933A);
         this.drawCenteredString(this.font, "SPE: ", n + k - 10, m + l + 67, 0xB44062);
-        GL11.glPopMatrix();
+        mat.pop();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.renderItem(n + 00, m + 75, 40);
         this.renderMob();
 
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     public void renderItem(final double x, final double y, final double z)
@@ -246,15 +246,15 @@ public class GuiChooseFirstPokemob extends Screen
         final ItemStack item = PokecubeItems.POKECUBE_CUBES;
         if (item.getItem() instanceof IPokecube)
         {
-            GL11.glPushMatrix();
+            mat.push();
             GL11.glPushAttrib(GL11.GL_BLEND);
             GL11.glEnable(GL11.GL_BLEND);
-            GL11.glTranslatef((float) x, (float) y, (float) z);
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0.5F, 1.0f, 0.5F);
+            mat.translate((float) x, (float) y, (float) z);
+            mat.push();
+            mat.translate(0.5F, 1.0f, 0.5F);
             GL11.glRotatef(-180, 1.0F, 0.0F, 0.0F);
             GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
-            GL11.glScalef(50f, 50f, 50f);
+            mat.scale(50f, 50f, 50f);
 
             GL11.glRotatef(this.yRenderAngle, 0.0F, 1.0F, 0.0F);
             GL11.glRotatef(this.xRenderAngle, 1.0F, 0.0F, 0.0F);
@@ -263,10 +263,10 @@ public class GuiChooseFirstPokemob extends Screen
             Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
             final IBakedModel model = Minecraft.getInstance().getItemRenderer().getModelWithOverrides(item);
             Minecraft.getInstance().getItemRenderer().renderItem(item, model);
-            GL11.glPopMatrix();
+            mat.pop();
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopAttrib();
-            GL11.glPopMatrix();
+            mat.pop();
         }
     }
 
@@ -292,11 +292,11 @@ public class GuiChooseFirstPokemob extends Screen
             final float hx = 0;
             final float hy = yaw;
             //@formatter:on
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0, 0, 40);
+            mat.push();
+            mat.translate(0, 0, 40);
             GuiPokedex.renderMob(entity, this.getMinecraft(), dx, dy, size, this.height, this.width, this.xSize,
                     this.ySize, hx, hy, yaw);
-            GL11.glPopMatrix();
+            mat.pop();
         }
         catch (final Throwable e)
         {

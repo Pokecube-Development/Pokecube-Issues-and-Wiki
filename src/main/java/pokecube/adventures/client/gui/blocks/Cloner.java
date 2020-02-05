@@ -20,7 +20,7 @@ public class Cloner extends ContainerScreen<ClonerContainer>
     @Override
     protected void drawGuiContainerBackgroundLayer(final float partialTicks, final int mouseX, final int mouseY)
     {
-        GL11.glPushMatrix();
+        mat.push();
         GL11.glColor4f(1f, 1f, 1f, 1f);
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeAdv.ID, "textures/gui/cloner.png"));
         final int x = (this.width - this.xSize) / 2;
@@ -34,7 +34,7 @@ public class Cloner extends ContainerScreen<ClonerContainer>
         final int l1 = j != 0 && i != 0 ? i * 24 / j : 0;
         this.blit(x + 89, y + 34, 176, 0, l1 + 1, 16);
 
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     @Override

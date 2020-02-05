@@ -43,17 +43,17 @@ import pokecube.core.utils.Tools;
 
 public abstract class TrainerBase extends NpcMob
 {
-    public static final ResourceLocation BRIBE = new ResourceLocation(PokecubeAdv.ID, "trainer_bribe");
+    public static final ResourceLocation BRIBE           = new ResourceLocation(PokecubeAdv.ID, "trainer_bribe");
 
-    public List<IPokemob>  currentPokemobs = new ArrayList<>();
-    public DefaultPokemobs pokemobsCap;
-    public IHasMessages    messages;
-    public IHasRewards     rewardsCap;
-    public IHasNPCAIStates aiStates;
-    public IHasTrades      trades;
-    int                    despawncounter  = 0;
-    public String          customTrades    = "";
-    boolean                fixedTrades     = false;
+    public List<IPokemob>                currentPokemobs = new ArrayList<>();
+    public DefaultPokemobs               pokemobsCap;
+    public IHasMessages                  messages;
+    public IHasRewards                   rewardsCap;
+    public IHasNPCAIStates               aiStates;
+    public IHasTrades                    trades;
+    int                                  despawncounter  = 0;
+    public String                        customTrades    = "";
+    boolean                              fixedTrades     = false;
 
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
@@ -64,8 +64,8 @@ public abstract class TrainerBase extends NpcMob
         this.aiStates = this.getCapability(CapabilityNPCAIStates.AISTATES_CAP).orElse(null);
         this.trades = this.getCapability(CapabilityHasTrades.CAPABILITY).orElse(null);
 
-        this.aiStates.setAIState(IHasNPCAIStates.TRADES, PokecubeAdv.config.trainersTradeItems
-                || PokecubeAdv.config.trainersTradeMobs);
+        this.aiStates.setAIState(IHasNPCAIStates.TRADES,
+                PokecubeAdv.config.trainersTradeItems || PokecubeAdv.config.trainersTradeMobs);
     }
 
     @Override
@@ -85,13 +85,14 @@ public abstract class TrainerBase extends NpcMob
                 }
                 player.sendMessage(new StringTextComponent(message));
             }
-            else if (!this.getEntityWorld().isRemote && player.isCrouching() && player.getHeldItemMainhand()
-                    .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
+            else if (!this.getEntityWorld().isRemote && player.isCrouching()
+                    && player.getHeldItemMainhand().getItem() == Items.STICK)
+                this.pokemobsCap.throwCubeAt(player);
             else if (player.getHeldItemMainhand().getItem() == Items.STICK) this.pokemobsCap.setTarget(player);
             return true;
         }
-        else if (PokecubeItems.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this
-                .getOffers().isEmpty())
+        else if (PokecubeItems.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0
+                && !this.getOffers().isEmpty())
         {
             stack.split(1);
             player.setHeldItem(hand, stack);
@@ -99,7 +100,7 @@ public abstract class TrainerBase extends NpcMob
             for (final IPokemob pokemob : this.currentPokemobs)
                 pokemob.onRecall(false);
             this.pokemobsCap.friendlyCooldown = 2400;
-            this.func_213711_eb();// Celebrate, should make some fancy sounds.
+            this.playCelebrateSound();
             return true;
         }
         else if (this.pokemobsCap.friendlyCooldown >= 0 && this.aiStates.getAIState(IHasNPCAIStates.TRADES))
@@ -113,7 +114,7 @@ public abstract class TrainerBase extends NpcMob
                 // This adds in pokemobs to trade.
                 this.addMobTrades(player, stack);
             }
-            if (!this.getOffers().isEmpty()) this.func_213707_a(player, this.getDisplayName(), 0);
+            if (!this.getOffers().isEmpty()) this.openMerchantContainer(player, this.getDisplayName(), 0);
             else this.setCustomer(null);
             return true;
         }
@@ -142,8 +143,8 @@ public abstract class TrainerBase extends NpcMob
             if (this.despawncounter > 200) this.remove();
             return;
         }
-        if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0) this
-                .setHealth(Math.min(this.getHealth() + 1, this.getMaxHealth()));
+        if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0)
+            this.setHealth(Math.min(this.getHealth() + 1, this.getMaxHealth()));
         this.despawncounter = 0;
     }
 
@@ -161,10 +162,10 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    protected void func_213713_b(final MerchantOffer offer)
+    protected void onVillagerTrade(final MerchantOffer offer)
     {
         this.trades.applyTrade(offer);
-        super.func_213713_b(offer);
+        super.onVillagerTrade(offer);
     }
 
     @Override
@@ -216,37 +217,33 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public void func_213707_a(final PlayerEntity player, final ITextComponent tittle, final int level)
+    public void openMerchantContainer(final PlayerEntity player, final ITextComponent tittle, final int level)
     {
         // This is the player specific get recipes and open inventory thing
-        final OptionalInt optionalint = player.openContainer(new SimpleNamedContainerProvider((int_unk_2,
-                player_inventory, unk) ->
-        {
-            return new MerchantContainer(int_unk_2, player_inventory, this);
-        }, tittle));
+        final OptionalInt optionalint = player
+                .openContainer(new SimpleNamedContainerProvider((int_unk_2, player_inventory, unk) ->
+                {
+                    return new MerchantContainer(int_unk_2, player_inventory, this);
+                }, tittle));
         if (optionalint.isPresent())
         {
             final MerchantOffers merchantoffers = this.getOffers();
             // TODO here we add in a hook to see if we want to trade pokemobs.
-            if (!merchantoffers.isEmpty()) player.func_213818_a(optionalint.getAsInt(), merchantoffers, level, this
-                    .getXp(), this.func_213705_dZ(), this.func_223340_ej());
+            if (!merchantoffers.isEmpty()) player.openMerchantContainer(optionalint.getAsInt(), merchantoffers, level,
+                    this.getXp(), this.func_213705_dZ(), this.func_223340_ej());
         }
 
     }
 
-    /**
-     * @return the male
-     */
+    /** @return the male */
     @Override
     public boolean isMale()
     {
         return this.pokemobsCap.getGender() == 1;
     }
 
-    /**
-     * @param male
-     *            the male to set
-     */
+    /** @param male
+     *            the male to set */
     @Override
     public void setMale(final boolean male)
     {

@@ -54,8 +54,8 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     public EntityPokemob(final EntityType<? extends TameableEntity> type, final World world)
     {
         super(type, world);
-        final DefaultPokemob cap = (DefaultPokemob) this.getCapability(CapabilityPokemob.POKEMOB_CAP, null).orElse(
-                null);
+        final DefaultPokemob cap = (DefaultPokemob) this.getCapability(CapabilityPokemob.POKEMOB_CAP, null)
+                .orElse(null);
         this.pokemobCap = cap == null ? new DefaultPokemob(this) : cap;
         this.size = new EntitySize(cap.getPokedexEntry().width, cap.getPokedexEntry().height, true);
     }
@@ -96,8 +96,12 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     }
 
     @Override
-    public void fall(final float distance, final float damageMultiplier)
+    public boolean onLivingFall(final float distance, final float damageMultiplier)
     {
+        // TODO maybe do something here?
+        // Vanilla plays sound and does damage, but only plays the sound if
+        // damage occurred, maybe we should just play the sound instead?
+        return super.onLivingFall(distance, damageMultiplier);
     }
 
     @Override
@@ -112,8 +116,8 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     protected int getExperiencePoints(final PlayerEntity player)
     {
         final float scale = (float) PokecubeCore.getConfig().expFromDeathDropScale;
-        final int exp = (int) Math.max(1, this.pokemobCap.getBaseXP() * scale * 0.01 * Math.sqrt(this.pokemobCap
-                .getLevel()));
+        final int exp = (int) Math.max(1,
+                this.pokemobCap.getBaseXP() * scale * 0.01 * Math.sqrt(this.pokemobCap.getLevel()));
         return exp;
     }
 
@@ -276,9 +280,9 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     {
         boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
         this.despawntimer--;
-        if (PokecubeCore.getConfig().despawn) if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore
-                .getConfig().despawnTimer;
-        else if (this.despawntimer == 0) return true;
+        if (PokecubeCore.getConfig().despawn)
+            if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
+            else if (this.despawntimer == 0) return true;
         player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getEntityWorld().getHeight(),
                 this);
         if (PokecubeCore.getConfig().cull && !player) return true;

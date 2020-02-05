@@ -21,10 +21,8 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Vector3;
 
-/**
- * This IAIRunnable makes the mobs randomly wander around if they have nothing
- * better to do.
- */
+/** This IAIRunnable makes the mobs randomly wander around if they have nothing
+ * better to do. */
 public class AIIdle extends AIBase
 {
     public static int IDLETIMER = 1;
@@ -57,10 +55,10 @@ public class AIIdle extends AIBase
     private double            z;
     private final double      speed;
 
-    private double maxLength = 16;
-    Vector3        v         = Vector3.getNewVector();
+    private double            maxLength   = 16;
+    Vector3                   v           = Vector3.getNewVector();
 
-    Vector3 v1 = Vector3.getNewVector();
+    Vector3                   v1          = Vector3.getNewVector();
 
     public AIIdle(final IPokemob pokemob)
     {
@@ -81,16 +79,14 @@ public class AIIdle extends AIBase
         this.y = temp.y + this.entry.preferedHeight;
     }
 
-    /**
-     * Flying things will path to air, so long as not airborne, somethimes they
+    /** Flying things will path to air, so long as not airborne, somethimes they
      * will decide to path downwards, the height they path to will be centered
-     * around players, to prevent them from all flying way up, or way down
-     */
+     * around players, to prevent them from all flying way up, or way down */
     private void doFlyingIdle()
     {
         final boolean grounded = !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
-        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED)
+                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
         else if (!tamed)
@@ -138,15 +134,15 @@ public class AIIdle extends AIBase
 
     private boolean getLocation()
     {
-        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
-                GeneralStates.STAYING);
+        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED)
+                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
         int distance = (int) (this.maxLength = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame
                 : PokecubeCore.getConfig().idleMaxPathWild);
         boolean goHome = false;
         if (!tameFactor)
         {
-            if (this.pokemob.getHome() == null || this.pokemob.getHome().getX() == 0 && this.pokemob.getHome()
-                    .getY() == 0 & this.pokemob.getHome().getZ() == 0)
+            if (this.pokemob.getHome() == null || this.pokemob.getHome().getX() == 0
+                    && this.pokemob.getHome().getY() == 0 & this.pokemob.getHome().getZ() == 0)
             {
                 this.v1.set(this.entity);
                 this.pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
@@ -154,7 +150,8 @@ public class AIIdle extends AIBase
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
             if (this.entity.getPosition().distanceSq(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance()) goHome = true;
+                    * this.pokemob.getHomeDistance())
+                goHome = true;
         }
         else
         {
@@ -172,8 +169,8 @@ public class AIIdle extends AIBase
         {
             final Vector3 v = AIIdle.getRandomPointNear(this.world, this.pokemob, this.v1, distance);
             if (v == null) return false;
-            double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(), this.pokemob
-                    .getPokedexEntry().width * this.pokemob.getSize());
+            double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(),
+                    this.pokemob.getPokedexEntry().width * this.pokemob.getSize());
             diff = Math.max(2, diff);
             if (this.v.distToSq(v) < diff) return false;
             this.x = v.x;
@@ -207,7 +204,7 @@ public class AIIdle extends AIBase
 
         this.entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.idlePathing);
         this.entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(this.idlePathing);
-        Path path = this.entity.getNavigator().func_225466_a(this.x, this.y, this.z, 0);
+        Path path = this.entity.getNavigator().getPathToPos(this.x, this.y, this.z, 0);
         this.entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.idlePathing);
         if (path != null && path.getCurrentPathLength() > this.maxLength) path = null;
         this.addEntityPath(this.entity, path, this.speed);

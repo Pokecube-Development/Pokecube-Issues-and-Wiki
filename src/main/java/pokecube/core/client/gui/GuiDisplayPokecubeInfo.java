@@ -86,40 +86,40 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         switch (ref)
         {
         case "top_left":
-            GlStateManager.translatef(w, h, 0);
-            GlStateManager.scalef(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             break;
         case "middle_left":
             h = scaledHeight / 2 - h - dims[1];
-            GlStateManager.translatef(w, h, 0);
-            GlStateManager.scalef(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             break;
         case "bottom_left":
             h = scaledHeight - h - dims[1];
-            GlStateManager.translatef(w, h, 0);
-            GlStateManager.scalef(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dy = -1;
             break;
         case "top_right":
             w = scaledWidth - w;
             h = Math.min(h + dims[1], scaledHeight);
-            GlStateManager.translatef(w, h, 0);
-            GlStateManager.scalef(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dx = -1;
             break;
         case "right_bottom":
             w = scaledWidth - w - dims[0];
             h = scaledHeight - h - dims[1];
-            GlStateManager.translatef(w, h, 0);
-            GlStateManager.scalef(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dx = -1;
             dy = -1;
             break;
         case "right_middle":
             w = scaledWidth - w - dims[0];
             h = scaledHeight / 2 - h - dims[1];
-            GlStateManager.translatef(w, h, 0);
-            GlStateManager.scalef(targetSize, targetSize, targetSize);
+            mat.translate(w, h, 0);
+            mat.scale(targetSize, targetSize, targetSize);
             dx = -1;
             dy = -1;
             break;
@@ -128,12 +128,12 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             y = scaledHeight;
             w = scaledWidth / 2 - w;
             h = scaledHeight - h - dims[1];
-            GlStateManager.translatef(w, h, 0);
+            mat.translate(w, h, 0);
             h = (int) (-dims[1] / targetSize - offsets.get(1));
             w = 0;
             dx = -1;
             dy = -1;
-            GlStateManager.scalef(targetSize, targetSize, targetSize);
+            mat.scale(targetSize, targetSize, targetSize);
             break;
         }
         final int[] ret = { x, y, w, h, dx, dy };
@@ -168,7 +168,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
         if (flag && scaleFactor2 % 2 != 0 && scaleFactor2 != 1) --scaleFactor2;
         scaleFactor2 *= scaled;
-        if (apply) GL11.glScaled(scaleFactor2 / scaleFactor, scaleFactor2 / scaleFactor, scaleFactor2 / scaleFactor);
+        if (apply) mat.scale(scaleFactor2 / scaleFactor, scaleFactor2 / scaleFactor, scaleFactor2 / scaleFactor);
         return scaleFactor2;
     }
 
@@ -246,7 +246,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         final int statusOffsetY = 27;
         final int confuseOffsetX = 12;
         final int confuseOffsetY = 1;
-        GL11.glPushMatrix();
+        mat.push();
         GL11.glColor4f(1, 1, 1, 1);
 
         GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().guiRef, PokecubeCore.getConfig().guiPos,
@@ -320,9 +320,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
             if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
             {
-                GlStateManager.translatef(0, 0, 100);
+                mat.translate(0, 0, 100);
                 this.blit(confuseOffsetX + w, confuseOffsetY + h, 0, 211, 24, 16);
-                GlStateManager.translatef(0, 0, -100);
+                mat.translate(0, 0, -100);
             }
 
             // Render Name
@@ -367,7 +367,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 {// TODO find out why both needed
                     GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                     // bind texture
-                    GL11.glPushMatrix();
+                    mat.push();
                     this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
                     this.blit(movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 21 + h1, 91, 13);
 
@@ -398,15 +398,15 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                         GL11.glColor4f(0F, 1.0F, 1.0F, 1.0F);
                     }
 
-                    GL11.glPopMatrix();
+                    mat.pop();
                     GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    GL11.glPushMatrix();
+                    mat.push();
                     final Color moveColor = new Color(move.getType(pokemob).colour);
                     GL11.glColor4f(moveColor.getRed() / 255f, moveColor.getGreen() / 255f, moveColor.getBlue() / 255f,
                             1.0F);
                     this.fontRenderer.drawString(MovesUtils.getMoveName(move.getName()).getFormattedText(), 5
                             + movesOffsetX + w, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
-                    GL11.glPopMatrix();
+                    mat.pop();
                 }
             }
 
@@ -417,7 +417,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             GL11.glColor4f(1, 1, 1, 1);
             GuiPokemobBase.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0, 0.75f);
         }
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
@@ -434,7 +434,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         final int statusOffsetY = 27;
         final int confuseOffsetX = 12;
         final int confuseOffsetY = 1;
-        GL11.glPushMatrix();
+        mat.push();
         GL11.glColor4f(1, 1, 1, 1);
         GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().targetRef, PokecubeCore.getConfig().targetPos,
                 GuiDisplayPokecubeInfo.targetDims, (float) PokecubeCore.getConfig().targetSize);
@@ -487,9 +487,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 }
                 if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
                 {
-                    GlStateManager.translatef(0, 0, 100);
+                    mat.translate(0, 0, 100);
                     this.blit(confuseOffsetX + w, confuseOffsetY + h, 0, 211, 24, 16);
-                    GlStateManager.translatef(0, 0, -100);
+                    mat.translate(0, 0, -100);
                 }
             }
 
@@ -515,7 +515,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             GuiPokemobBase.renderMob(entity, -30, -25, 0, 0, 0, 0, 0, 0.75f);
 
         }
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     /** @return the currently selected pokemob */

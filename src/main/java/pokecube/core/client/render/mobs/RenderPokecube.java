@@ -37,10 +37,10 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         public void render(EntityPokecube entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
                 float netHeadYaw, float headPitch, float scale)
         {
-            GL11.glPushMatrix();
-            GL11.glTranslated(-0.0, 1.4, -0.0);
+            mat.push();
+            mat.translate(-0.0, 1.4, -0.0);
             scale = 0.25f;
-            GL11.glScalef(scale, scale, scale);
+            mat.scale(scale, scale, scale);
             GL11.glColor4f(1, 1, 1, 1f);
             GL11.glRotated(180, 0, 0, 1);
             GL11.glRotated(entityIn.rotationYaw, 0, 1, 0);
@@ -74,7 +74,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             final IBakedModel model = Minecraft.getInstance().getItemRenderer().getModelWithOverrides(renderStack);
             Minecraft.getInstance().getItemRenderer().renderItem(renderStack, model);
 
-            GL11.glPopMatrix();
+            mat.pop();
         }
     }
 

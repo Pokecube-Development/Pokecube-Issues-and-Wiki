@@ -364,8 +364,8 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             // offsets?
             this.rotPoint.set(this.getRotationOffset()).scalarMultBy(s);
             model.setOffset(this.rotPoint);
-            if (!this.getScale().isEmpty()) GlStateManager.scalef(sx, sy, sz);
-            else GlStateManager.scalef(s, s, s);
+            if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
+            else mat.scale(s, s, s);
         }
 
         @Override

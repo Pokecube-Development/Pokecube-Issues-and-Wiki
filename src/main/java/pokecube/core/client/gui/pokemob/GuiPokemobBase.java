@@ -43,9 +43,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
         if (Float.isNaN(yRenderAngle)) yRenderAngle = entity.renderYawOffset - entity.ticksExisted;
         final float zoom = 25f / size * scale;
-        GlStateManager.pushMatrix();
-        GL11.glTranslatef(j + 55, k + 60, 50F);
-        GL11.glScalef(-zoom, zoom, zoom);
+        mat.push();
+        mat.translate(j + 55, k + 60, 50F);
+        mat.scale(-zoom, zoom, zoom);
         GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
         GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
 
@@ -67,7 +67,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         GlStateManager.activeTexture(GLX.GL_TEXTURE1);
         GlStateManager.disableTexture();
         GlStateManager.activeTexture(GLX.GL_TEXTURE0);
-        GL11.glPopMatrix();
+        mat.pop();
     }
 
     public static void setPokemob(final IPokemob pokemobIn)

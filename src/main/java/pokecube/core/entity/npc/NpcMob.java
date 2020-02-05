@@ -173,13 +173,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void func_213750_eg()
-    {
-        // Do nothing here, it prevents us trading!
-        super.func_213750_eg();
-    }
-
-    @Override
     public void readAdditional(final CompoundNBT nbt)
     {
         super.readAdditional(nbt);
@@ -273,10 +266,10 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void func_213713_b(final MerchantOffer offer)
+    protected void onVillagerTrade(final MerchantOffer offer)
     {
         this.use_offer.accept(offer);
-        super.func_213713_b(offer);
+        super.onVillagerTrade(offer);
     }
 
     @Override

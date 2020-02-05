@@ -1,14 +1,20 @@
 package thut.crafts.client;
 
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,10 +22,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -81,74 +88,79 @@ public class ClientProxy extends CommonProxy
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void RenderBounds(final DrawBlockHighlightEvent event)
+    public void RenderBounds(final RenderWorldLastEvent event)
     {
-        if (!(event.getTarget() instanceof BlockRayTraceResult)) return;
-        final BlockRayTraceResult target = (BlockRayTraceResult) event.getTarget();
         ItemStack held;
         final PlayerEntity player = Minecraft.getInstance().player;
         if (!(held = player.getHeldItemMainhand()).isEmpty() || !(held = player.getHeldItemOffhand()).isEmpty())
         {
-            BlockPos pos = target.getPos();
-            if (pos == null || held.getItem() != ThutCrafts.CRAFTMAKER) return;
-            if (!player.world.getBlockState(pos).getMaterial().isSolid())
-            {
-                final Vec3d loc = player.getPositionVector().add(0, player.getEyeHeight(), 0).add(player.getLookVec()
-                        .scale(2));
-                pos = new BlockPos(loc);
-            }
-
+            if (held.getItem() != ThutCrafts.CRAFTMAKER) return;
             if (held.getTag() != null && held.getTag().contains("min"))
             {
-                BlockPos min = Vector3.readFromNBT(held.getTag().getCompound("min"), "").getPos();
-                BlockPos max = pos;
-                AxisAlignedBB box = new AxisAlignedBB(min, max);
-                min = new BlockPos(box.minX, box.minY, box.minZ);
-                max = new BlockPos(box.maxX, box.maxY, box.maxZ).add(1, 1, 1);
-                box = new AxisAlignedBB(min, max);
-                final float partialTicks = event.getPartialTicks();
-                final double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
-                final double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
-                final double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
-                box = box.offset(-d0, -d1 - player.getEyeHeight(), -d2);
-                GlStateManager.enableBlend();
-                GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-                        GlStateManager.DestFactor.ZERO);
-                GlStateManager.color4f(0.0F, 0.0F, 0.0F, 0.4F);
-                GlStateManager.lineWidth(2.0F);
-                GlStateManager.disableTexture();
-                GlStateManager.depthMask(false);
-                GlStateManager.color4f(1.0F, 0.0F, 0.0F, 1F);
-                final Tessellator tessellator = Tessellator.getInstance();
-                final BufferBuilder vertexbuffer = tessellator.getBuffer();
-                vertexbuffer.begin(3, DefaultVertexFormats.POSITION);
-                vertexbuffer.pos(box.minX, box.minY, box.minZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.minY, box.minZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-                vertexbuffer.pos(box.minX, box.minY, box.maxZ).endVertex();
-                vertexbuffer.pos(box.minX, box.minY, box.minZ).endVertex();
-                tessellator.draw();
-                vertexbuffer.begin(3, DefaultVertexFormats.POSITION);
-                vertexbuffer.pos(box.minX, box.maxY, box.minZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-                vertexbuffer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-                vertexbuffer.pos(box.minX, box.maxY, box.minZ).endVertex();
-                tessellator.draw();
-                vertexbuffer.begin(1, DefaultVertexFormats.POSITION);
-                vertexbuffer.pos(box.minX, box.minY, box.minZ).endVertex();
-                vertexbuffer.pos(box.minX, box.maxY, box.minZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.minY, box.minZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.maxY, box.minZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.minY, box.maxZ).endVertex();
-                vertexbuffer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
-                vertexbuffer.pos(box.minX, box.minY, box.maxZ).endVertex();
-                vertexbuffer.pos(box.minX, box.maxY, box.maxZ).endVertex();
-                tessellator.draw();
-                GlStateManager.depthMask(true);
-                GlStateManager.enableTexture();
-                GlStateManager.disableBlend();
+                Minecraft mc = Minecraft.getInstance();
+                Vec3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
+                Vec3d pointed = new Vec3d(projectedView.x, projectedView.y, projectedView.z)
+                        .add(mc.player.getLook(event.getPartialTicks()));
+                if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == Type.BLOCK)
+                {
+                    BlockRayTraceResult result = (BlockRayTraceResult) mc.objectMouseOver;
+                    pointed = new Vec3d(result.getPos());
+                    //
+                }
+                Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
+
+                AxisAlignedBB one = new AxisAlignedBB(v.getPos());
+                AxisAlignedBB two = new AxisAlignedBB(new BlockPos(pointed));
+
+                double minX = Math.min(one.minX, two.minX);
+                double minY = Math.min(one.minY, two.minY);
+                double minZ = Math.min(one.minZ, two.minZ);
+                double maxX = Math.max(one.maxX, two.maxX);
+                double maxY = Math.max(one.maxY, two.maxY);
+                double maxZ = Math.max(one.maxZ, two.maxZ);
+
+                final MatrixStack mat = event.getMatrixStack();
+                mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
+                final List<Pair<Vector3f, Vector3f>> lines = Lists.newArrayList();
+
+                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ),
+                        new Vector3f((float) maxX, (float) minY, (float) minZ)));
+                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) minZ),
+                        new Vector3f((float) maxX, (float) maxY, (float) minZ)));
+                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) maxZ),
+                        new Vector3f((float) maxX, (float) minY, (float) maxZ)));
+                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) maxZ),
+                        new Vector3f((float) maxX, (float) maxY, (float) maxZ)));
+
+                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ),
+                        new Vector3f((float) minX, (float) minY, (float) maxZ)));
+                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) minZ),
+                        new Vector3f((float) maxX, (float) minY, (float) maxZ)));
+                lines.add(Pair.of(new Vector3f((float) minX, (float) maxY, (float) minZ),
+                        new Vector3f((float) minX, (float) maxY, (float) maxZ)));
+                lines.add(Pair.of(new Vector3f((float) maxX, (float) maxY, (float) minZ),
+                        new Vector3f((float) maxX, (float) maxY, (float) maxZ)));
+
+                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) minZ),
+                        new Vector3f((float) minX, (float) maxY, (float) minZ)));
+                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) minZ),
+                        new Vector3f((float) maxX, (float) maxY, (float) minZ)));
+                lines.add(Pair.of(new Vector3f((float) minX, (float) minY, (float) maxZ),
+                        new Vector3f((float) minX, (float) maxY, (float) maxZ)));
+                lines.add(Pair.of(new Vector3f((float) maxX, (float) minY, (float) maxZ),
+                        new Vector3f((float) maxX, (float) maxY, (float) maxZ)));
+
+                mat.push();
+
+                final Matrix4f positionMatrix = mat.getLast().getPositionMatrix();
+
+                final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+                final IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);
+                for (final Pair<Vector3f, Vector3f> line : lines)
+                    thut.core.client.ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
+                            1f);
+                mat.pop();
             }
         }
     }
@@ -179,7 +191,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(this.ROTATELEFT);
         ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityCraft.class, (manager) -> new RenderBlockEntity<>(
-                manager));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE,
+                (manager) -> new RenderBlockEntity<>(manager));
     }
 }

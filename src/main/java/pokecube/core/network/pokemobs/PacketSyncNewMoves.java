@@ -15,14 +15,14 @@ import thut.core.common.network.Packet;
 
 public class PacketSyncNewMoves extends Packet
 {
-    public static void sendUpdatePacket(IPokemob pokemob)
+    public static void sendUpdatePacket(final IPokemob pokemob)
     {
         if (pokemob.getOwner() instanceof ServerPlayerEntity)
         {
             final ServerPlayerEntity player = (ServerPlayerEntity) pokemob.getOwner();
             final ListNBT newMoves = new ListNBT();
             for (final String s : pokemob.getMoveStats().newMoves)
-                newMoves.add(new StringNBT(s));
+                newMoves.add(StringNBT.valueOf(s));
             final PacketSyncNewMoves packet = new PacketSyncNewMoves();
             packet.data.put(TagNames.NEWMOVES, newMoves);
             packet.entityId = pokemob.getEntity().getEntityId();
@@ -39,7 +39,7 @@ public class PacketSyncNewMoves extends Packet
         super(null);
     }
 
-    public PacketSyncNewMoves(PacketBuffer buffer)
+    public PacketSyncNewMoves(final PacketBuffer buffer)
     {
         super(buffer);
         this.entityId = buffer.readInt();
@@ -60,12 +60,12 @@ public class PacketSyncNewMoves extends Packet
             pokemob.getMoveStats().newMoves.clear();
             for (int i = 0; i < newMoves.size(); i++)
                 if (!pokemob.getMoveStats().newMoves.contains(newMoves.getString(i))) pokemob.getMoveStats().newMoves
-                        .add(newMoves.getString(i));
+                .add(newMoves.getString(i));
         }
     }
 
     @Override
-    public void write(PacketBuffer buffer)
+    public void write(final PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
         buffer.writeCompoundTag(this.data);

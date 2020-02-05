@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -19,12 +20,12 @@ public abstract class InteractableBlock extends Block
     }
 
     @Override
-    public boolean onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
         final TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof InteractableTile) return ((InteractableTile) tile).onInteract(pos, player, hand, hit);
-        return true;
+        return ActionResultType.PASS;
     }
 
     @Override

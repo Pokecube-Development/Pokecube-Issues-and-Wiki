@@ -69,7 +69,7 @@ public class GuiInfoMessages
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
-        GL11.glPushMatrix();
+        mat.push();
 
         // TODO possbly fix lighitng here?
         final int[] mess = GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().messageRef, PokecubeCore
@@ -105,8 +105,8 @@ public class GuiInfoMessages
         y = h;
         GL11.glNormal3f(0.0F, -1.0F, 0.0F);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.translatef(0, -texH * 7, 0);
-        GlStateManager.translatef(0, 0, 0);
+        mat.translate(0, -texH * 7, 0);
+        mat.translate(0, 0, 0);
         int num = -1;
         if (event.getType() == ElementType.CHAT)
         {
@@ -151,6 +151,6 @@ public class GuiInfoMessages
             }
             shift++;
         }
-        GL11.glPopMatrix();
+        mat.pop();
     }
 }

@@ -17,20 +17,20 @@ public interface IExtendedModelPart extends IModelCustom
 
     IExtendedModelPart getParent();
 
-    int[] getRGBAB();
+    int[] getRGBABrO();
 
     <T> HashMap<String, T> getSubParts();
 
     String getType();
 
-    default void removeChild(String name)
+    default void removeChild(final String name)
     {
         this.getSubParts().remove(name);
     }
 
     void resetToInit();
 
-    default void setHidden(boolean hidden)
+    default void setHidden(final boolean hidden)
     {
 
     }
@@ -49,5 +49,5 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setPreTranslations(Vector3 translations);
 
-    void setRGBAB(int[] arrays);
+    void setRGBABrO(int r, int g, int b, int a, int br, int o);
 }

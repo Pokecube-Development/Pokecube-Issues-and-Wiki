@@ -128,7 +128,7 @@ public class AIAttack extends AIBase implements IAICombat
             if (!(this.attack == null || (this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0)
                     && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
             {
-                path = this.entity.getNavigator().getPathToEntityLiving(this.entityTarget, 0);
+                path = this.entity.getNavigator().getPathToEntity(this.entityTarget, 0);
                 this.addEntityPath(this.entity, path, this.movementSpeed);
             }
             this.targetLoc.set(this.entityTarget);
@@ -147,8 +147,8 @@ public class AIAttack extends AIBase implements IAICombat
             if (!previousCaptureAttempt && PokecubeCore.getConfig().pokemobagresswarning
                     && this.entityTarget instanceof ServerPlayerEntity && !(this.entityTarget instanceof FakePlayer)
                     && !this.pokemob.getGeneralState(GeneralStates.TAMED) && ((PlayerEntity) this.entityTarget)
-                            .getRevengeTarget() != this.entity && ((PlayerEntity) this.entityTarget)
-                                    .getLastAttackedEntity() != this.entity)
+                    .getRevengeTarget() != this.entity && ((PlayerEntity) this.entityTarget)
+                    .getLastAttackedEntity() != this.entity)
             {
                 final ITextComponent message = new TranslationTextComponent("pokemob.agress", this.pokemob
                         .getDisplayName().getFormattedText());
@@ -345,7 +345,7 @@ public class AIAttack extends AIBase implements IAICombat
         // for the mob.
         if (!this.targetLoc.isEmpty() && shouldPath)
         {
-            path = this.entity.getNavigator().func_225466_a(this.targetLoc.x, this.targetLoc.y, this.targetLoc.z, 0);
+            path = this.entity.getNavigator().getPathToPos(this.targetLoc.x, this.targetLoc.y, this.targetLoc.z, 0);
             if (path != null) this.addEntityPath(this.entity, path, this.movementSpeed);
         }
     }
@@ -358,7 +358,7 @@ public class AIAttack extends AIBase implements IAICombat
         if (target == null)
         {
             if (this.entity.getNavigator().noPath() && this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this
-                    .setCombatState(this.pokemob, CombatStates.EXECUTINGMOVE, false);
+            .setCombatState(this.pokemob, CombatStates.EXECUTINGMOVE, false);
             return false;
         }
         // If either us, or target is dead, or about to be so (0 health) return

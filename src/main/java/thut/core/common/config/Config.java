@@ -20,6 +20,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.ModConfig.Reloading;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -69,7 +70,7 @@ public class Config
         }
 
         @SubscribeEvent
-        public void onFileChange(final ModConfig.ConfigReloading configEvent)
+        public void onFileChange(final Reloading configEvent)
         {
             ThutCore.LOGGER.debug("{} config belongs to us!", configEvent.getConfig().getFileName());
             if (configEvent.getConfig().getConfigData() instanceof CommentedFileConfig)
@@ -115,7 +116,7 @@ public class Config
             boolean changed = false;
             for (final Field f : values.keySet())
                 try
-                {
+            {
                     f.setAccessible(true);
                     final Object ours = f.get(this);
                     final Object o = values.get(f).get();
@@ -123,11 +124,11 @@ public class Config
                     ThutCore.LOGGER.info("Set {} to {}", f.getName(), o);
                     f.set(this, o);
                     changed = true;
-                }
-                catch (final Exception e)
-                {
-                    ThutCore.LOGGER.error("Error updating config value for " + f, e);
-                }
+            }
+            catch (final Exception e)
+            {
+                ThutCore.LOGGER.error("Error updating config value for " + f, e);
+            }
             return changed;
         }
 
@@ -157,15 +158,15 @@ public class Config
                 {
                     final String[] vars = update instanceof String ? ((String) update).split("``")
                             : update instanceof String[] ? (String[]) update : null;
-                    int[] toSet = null;
-                    if (vars == null) toSet = (int[]) update;
-                    else
-                    {
-                        toSet = new int[vars.length];
-                        for (int i = 0; i < vars.length; i++)
-                            toSet[i] = Integer.parseInt(vars[i].trim());
-                    }
-                    field.set(this, toSet);
+                            int[] toSet = null;
+                            if (vars == null) toSet = (int[]) update;
+                            else
+                            {
+                                toSet = new int[vars.length];
+                                for (int i = 0; i < vars.length; i++)
+                                    toSet[i] = Integer.parseInt(vars[i].trim());
+                            }
+                            field.set(this, toSet);
                 }
                 else System.err.println("Unknown Type " + field.getType() + " " + field.getName() + " " + o.getClass());
             }
@@ -186,17 +187,17 @@ public class Config
             boolean ret = false;
             for (final Field f : values.keySet())
                 try
-                {
+            {
                     final Object ours = f.get(this);
                     final Object val = values.get(f).get();
                     if (ours.equals(val)) continue;
                     config.getConfigData().set(values.get(f).getPath(), ours);
                     ret = true;
-                }
-                catch (final Exception e)
-                {
-                    ThutCore.LOGGER.error("Error saving config value for " + f, e);
-                }
+            }
+            catch (final Exception e)
+            {
+                ThutCore.LOGGER.error("Error saving config value for " + f, e);
+            }
             return ret;
         }
     }
@@ -282,7 +283,7 @@ public class Config
         String cat = "";
         for (final Field field : fields)
             try
-            {
+        {
                 final Configure conf = field.getAnnotation(Configure.class);
                 if (!cat.equals(conf.category()))
                 {
@@ -295,14 +296,14 @@ public class Config
                 }
                 if (!conf.comment().isEmpty()) builder.comment(conf.comment());
                 else builder.translation(ModLoadingContext.get().getActiveNamespace() + ".config." + field.getName()
-                        + ".tooltip");
+                + ".tooltip");
                 final Object o = field.get(holder);
                 holder.init(type, field, builder.define(field.getName(), o));
-            }
-            catch (final Exception e)
-            {
-                ThutCore.LOGGER.error("Error getting field " + field, e);
-            }
+        }
+        catch (final Exception e)
+        {
+            ThutCore.LOGGER.error("Error getting field " + field, e);
+        }
     }
 
     private static void loadConfig(final IConfigHolder holder, final ForgeConfigSpec spec, final Path path)

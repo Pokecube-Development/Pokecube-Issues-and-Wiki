@@ -50,7 +50,7 @@ public class AIGuardEgg extends AIBase
         if (this.eggPathCooldown-- > 0) return;
         this.eggPathCooldown = AIGuardEgg.PATHCOOLDOWN;
         // Path to the egg.
-        final Path path = this.entity.getNavigator().getPathToEntityLiving(this.egg, 0);
+        final Path path = this.entity.getNavigator().getPathToEntity(this.egg, 0);
         this.addEntityPath(this.entity, path, this.pokemob.getMovementSpeed());
     }
 

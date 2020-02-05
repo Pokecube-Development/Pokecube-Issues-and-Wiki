@@ -1,5 +1,8 @@
 package thut.wearables;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,11 +23,9 @@ public interface IWearable
     }
 
     @OnlyIn(Dist.CLIENT)
-    /**
-     * Does this wearable handle the render offsets by itself?
+    /** Does this wearable handle the render offsets by itself?
      *
-     * @return
-     */
+     * @return */
     default boolean customOffsets()
     {
         return false;
@@ -38,14 +39,14 @@ public interface IWearable
     EnumWearable getSlot(ItemStack stack);
 
     @OnlyIn(Dist.CLIENT)
-    /**
-     * This is called after doing the main transforms needed to get the gl
+    /** This is called after doing the main transforms needed to get the gl
      * calls to the correct spot.
      *
      * @param wearer
      *            - The entity wearing the stack
      * @param stack
-     *            - The stack being worn
-     */
-    void renderWearable(EnumWearable slot, int subindex, LivingEntity wearer, ItemStack stack, float partialTicks);
+     *            - The stack being worn */
+    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks, int brightness,
+            int overlay);
 }

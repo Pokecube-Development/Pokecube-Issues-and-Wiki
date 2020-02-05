@@ -7,8 +7,10 @@ import java.util.Set;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.DyeColor;
@@ -70,26 +72,30 @@ public class WearablesCompat
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void renderWearable(final thut.wearables.EnumWearable slot, final int index, final LivingEntity wearer,
-                final ItemStack stack, final float partialTicks)
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                final int brightness, final int overlay)
         {
             final WearablesRenderer renderer = WearablesCompat.renderers.get(this.getVariant(stack));
-            if (renderer != null) renderer.renderWearable(slot, index, wearer, stack, partialTicks);
+            if (renderer != null)
+                renderer.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
         }
     }
 
     public abstract static class WearablesRenderer
     {
         @OnlyIn(Dist.CLIENT)
-        public void renderWearable(final thut.wearables.EnumWearable slot, final LivingEntity wearer,
-                final ItemStack stack, final float partialTicks)
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                final LivingEntity wearer, final ItemStack stack, final float partialTicks, final int brightness,
+                final int overlay)
         {
-            this.renderWearable(slot, 0, wearer, stack, partialTicks);
+            this.renderWearable(mat, buff, slot, 0, wearer, stack, partialTicks, brightness, overlay);
         }
 
         @OnlyIn(Dist.CLIENT)
-        public abstract void renderWearable(thut.wearables.EnumWearable slot, int index, LivingEntity wearer,
-                ItemStack stack, float partialTicks);
+        public abstract void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff,
+                final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
+                final float partialTicks, int brightness, int overlay);
     }
 
     public static class WearableWatch implements thut.wearables.IActiveWearable, ICapabilityProvider
@@ -116,11 +122,13 @@ public class WearablesCompat
 
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void renderWearable(final thut.wearables.EnumWearable slot, final int index, final LivingEntity wearer,
-                final ItemStack stack, final float partialTicks)
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                final int brightness, final int overlay)
         {
             final WearablesRenderer renderer = WearablesCompat.renderers.get("pokewatch");
-            if (renderer != null) renderer.renderWearable(slot, index, wearer, stack, partialTicks);
+            if (renderer != null)
+                renderer.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
         }
     }
 
@@ -142,8 +150,9 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.WRIST) return;
                 if (this.model == null)
@@ -162,9 +171,9 @@ public class WearablesCompat
                 sx = s;
                 sy = s;
                 sz = s * 1.5f;
-                GL11.glPushMatrix();
-                GL11.glTranslatef(dx, dy, dz);
-                GL11.glScalef(sx * 0.75f, sy, sz);
+                mat.push();
+                mat.translate(dx, dy, dz);
+                mat.scale(sx * 0.75f, sy, sz);
                 GL11.glRotatef(-90, 1, 0, 0);
                 Minecraft.getInstance().getTextureManager().bindTexture(this.strap);
                 DyeColor ret = DyeColor.GRAY;
@@ -179,14 +188,14 @@ public class WearablesCompat
                 col[2] = colour.getBlue();
                 this.model.getParts().get("strap").setRGBAB(col);
                 this.model.renderOnly("strap");
-                GL11.glPopMatrix();
-                GL11.glPushMatrix();
-                GL11.glTranslatef(dx, dy, dz);
-                GL11.glScalef(sx, sy, sz);
+                mat.pop();
+                mat.push();
+                mat.translate(dx, dy, dz);
+                mat.scale(sx, sy, sz);
                 GL11.glRotatef(-90, 1, 0, 0);
                 Minecraft.getInstance().getTextureManager().bindTexture(this.watch);
                 this.model.renderOnly("watch");
-                GL11.glPopMatrix();
+                mat.pop();
 
             }
         });
@@ -199,8 +208,9 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.FINGER) return;
                 if (this.ring == null) this.ring = new ModelRing();
@@ -220,8 +230,9 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.WAIST) return;
                 if (this.belt == null)
@@ -232,22 +243,22 @@ public class WearablesCompat
                 }
                 final int brightness = wearer.getBrightnessForRender();
                 final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                GL11.glPushMatrix();
+                mat.push();
                 final float dx = 0, dy = .6f, dz = -0.f;
-                GL11.glTranslatef(dx, dy, dz);
+                mat.translate(dx, dy, dz);
                 float s = 1.1f;
                 if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS).isEmpty()) s = 0.95f;
-                GL11.glScalef(s, s, s);
+                mat.scale(s, s, s);
                 GL11.glRotatef(90, 1, 0, 0);
                 GL11.glRotatef(180, 0, 1, 0);
                 Minecraft.getInstance().getTextureManager().bindTexture(this.keystone);
                 GL11.glRotatef(90, 1, 0, 0);
                 this.belt.renderOnly("stone");
-                GL11.glPopMatrix();
+                mat.pop();
 
-                GL11.glPushMatrix();
-                GL11.glTranslatef(dx, dy, dz);
-                GL11.glScalef(s, s, s);
+                mat.push();
+                mat.translate(dx, dy, dz);
+                mat.scale(s, s, s);
                 GL11.glRotatef(90, 1, 0, 0);
                 GL11.glRotatef(180, 0, 1, 0);
                 Minecraft.getInstance().getTextureManager().bindTexture(this.belt_2);
@@ -263,7 +274,7 @@ public class WearablesCompat
                 col[2] = colour.getBlue();
                 this.belt.getParts().get("belt").setRGBAB(col);
                 this.belt.renderOnly("belt");
-                GL11.glPopMatrix();
+                mat.pop();
             }
         });
         WearablesCompat.renderers.put("hat", new WearablesRenderer()
@@ -279,13 +290,14 @@ public class WearablesCompat
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.HAT) return;
                 if (this.hat == null) this.hat = new X3dModel(new ResourceLocation(PokecubeMod.ID,
                         "models/worn/hat.x3d"));
-                Hat.renderHat(wearer, stack, this.hat, this.TEX, wearer.getBrightnessForRender());
+                Hat.renderHat(mat, buff, wearer, stack, this.hat, this.TEX, brightness, overlay);
             }
         });
     }

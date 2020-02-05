@@ -80,9 +80,9 @@ public abstract class PokemobBase implements IPokemob
             this.NICKNAMEDW = sync.register(new Data_String(), "");// nickname
             this.HAPPYDW = sync.register(new Data_Int(), new Integer(0));// Happiness
             this.TYPE1DW = sync.register(new Data_String(), "");// overriden
-                                                                // type1
+            // type1
             this.TYPE2DW = sync.register(new Data_String(), "");// overriden
-                                                                // type2
+            // type2
 
             // From EntityAiPokemob
             this.DIRECTIONPITCHDW = sync.register(new Data_Float(), Float.valueOf(0));
@@ -257,7 +257,7 @@ public abstract class PokemobBase implements IPokemob
     protected void setMaxHealth(final float maxHealth)
     {
         final IAttributeInstance health = this.getEntity().getAttribute(SharedMonsterAttributes.MAX_HEALTH);
-        final List<AttributeModifier> mods = Lists.newArrayList(health.getModifiers());
+        final List<AttributeModifier> mods = Lists.newArrayList(health.func_225505_c_());
         for (final AttributeModifier modifier : mods)
             health.removeModifier(modifier);
         health.setBaseValue(maxHealth);

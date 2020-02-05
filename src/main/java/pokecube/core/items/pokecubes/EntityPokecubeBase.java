@@ -646,37 +646,37 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (hit.getType() == Type.ENTITY) this.onImpact(hit);
         }
 
-        final RayTraceResult raytraceresult = ProjectileHelper.func_221267_a(this, axisalignedbb, (p_213880_1_) ->
+        final RayTraceResult raytraceresult = ProjectileHelper.rayTrace(this, axisalignedbb, (p_213880_1_) ->
         {
             return !p_213880_1_.isSpectator() && p_213880_1_.canBeCollidedWith() && p_213880_1_ != this.ignoreEntity;
         }, RayTraceContext.BlockMode.OUTLINE, true);
         if (this.ignoreEntity != null && this.ignoreTime-- <= 0) this.ignoreEntity = null;
 
         trace:
-        if (raytraceresult.getType() != RayTraceResult.Type.MISS)
-        {
-            if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(
-                    ((BlockRayTraceResult) raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) this.setPortal(
-                            ((BlockRayTraceResult) raytraceresult).getPos());
-            if (raytraceresult instanceof BlockRayTraceResult)
+            if (raytraceresult.getType() != RayTraceResult.Type.MISS)
             {
-                final BlockRayTraceResult result = (BlockRayTraceResult) raytraceresult;
-                final BlockState hit = this.getEntityWorld().getBlockState(result.getPos());
-                final VoxelShape shape = hit.getCollisionShape(this.getEntityWorld(), result.getPos());
-                if (!shape.isEmpty() && !shape.getBoundingBox().offset(result.getPos()).intersects(axisalignedbb))
-                    break trace;
+                if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(
+                        ((BlockRayTraceResult) raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) this.setPortal(
+                                ((BlockRayTraceResult) raytraceresult).getPos());
+                if (raytraceresult instanceof BlockRayTraceResult)
+                {
+                    final BlockRayTraceResult result = (BlockRayTraceResult) raytraceresult;
+                    final BlockState hit = this.getEntityWorld().getBlockState(result.getPos());
+                    final VoxelShape shape = hit.getCollisionShape(this.getEntityWorld(), result.getPos());
+                    if (!shape.isEmpty() && !shape.getBoundingBox().offset(result.getPos()).intersects(axisalignedbb))
+                        break trace;
+                }
+                if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
+                        raytraceresult);
             }
-            if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
-                    raytraceresult);
-        }
-        else if (this.shootingEntity != null && this.getMotion().lengthSquared() == 0) if (this.isServerWorld())
-            if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) this.sendOut(true);
+            else if (this.shootingEntity != null && this.getMotion().lengthSquared() == 0) if (this.isServerWorld())
+                if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) this.sendOut(true);
 
         final Vec3d vec3d = this.getMotion();
         this.posX += vec3d.x;
         this.posY += vec3d.y;
         this.posZ += vec3d.z;
-        final float f = MathHelper.sqrt(Entity.func_213296_b(vec3d));
+        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
         this.rotationYaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
 
         for (this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI)); this.rotationPitch

@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -20,10 +21,10 @@ public class RepelTile extends InteractableTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
 
-    public static int NESTSPAWNTYPES = 1;
+    public static int                                  NESTSPAWNTYPES = 1;
 
-    public int     range   = PokecubeCore.getConfig().repelRadius;
-    public boolean enabled = true;
+    public int                                         range          = PokecubeCore.getConfig().repelRadius;
+    public boolean                                     enabled        = true;
 
     public RepelTile()
     {
@@ -39,12 +40,12 @@ public class RepelTile extends InteractableTile
     {
         if (this.getWorld() == null || this.getWorld().isRemote || !this.enabled) return false;
         final BlockPos pos = this.getPos();
-        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world.getDimension()
-                .getType().getId(), this.range, ForbidReason.REPEL);
+        return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(),
+                this.world.getDimension().getType().getId(), this.range, ForbidReason.REPEL);
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         final ItemStack stack = player.getHeldItem(hand);
@@ -54,17 +55,17 @@ public class RepelTile extends InteractableTile
             final int old = this.range;
             this.range = Math.max(1, berry.type.index);
             if (!player.isCreative() && old != this.range) stack.split(1);
-            if (!this.getWorld().isRemote) player.sendMessage(new TranslationTextComponent("repel.info.setrange",
-                    this.range, this.enabled));
-            return true;
+            if (!this.getWorld().isRemote)
+                player.sendMessage(new TranslationTextComponent("repel.info.setrange", this.range, this.enabled));
+            return ActionResultType.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
-            if (!this.getWorld().isRemote) player.sendMessage(new TranslationTextComponent("repel.info.getrange",
-                    this.range, this.enabled));
-            return true;
+            if (!this.getWorld().isRemote)
+                player.sendMessage(new TranslationTextComponent("repel.info.getrange", this.range, this.enabled));
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     /** Reads a tile entity from NBT. */
@@ -96,11 +97,9 @@ public class RepelTile extends InteractableTile
         this.addForbiddenSpawningCoord();
     }
 
-    /**
-     * Writes a tile entity to NBT.
+    /** Writes a tile entity to NBT.
      *
-     * @return
-     */
+     * @return */
     @Override
     public CompoundNBT write(final CompoundNBT nbt)
     {

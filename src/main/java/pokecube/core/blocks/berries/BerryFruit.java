@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BushBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +19,7 @@ public class BerryFruit extends BushBlock
     public static final VoxelShape BERRY_UP   = Block.makeCuboidShape(5.0D, 5.0D, 5.0D, 11.0D, 16.0D, 11.0D);
     public static final VoxelShape BERRY_DOWN = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 11.0D, 11.0D);
 
-    public final Integer index;
+    public final Integer           index;
 
     public BerryFruit(final Properties builder, final int index)
     {
@@ -60,10 +61,10 @@ public class BerryFruit extends BushBlock
     }
 
     @Override
-    public boolean onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
         if (!world.isRemote) world.destroyBlock(pos, true);
-        return true;
+        return ActionResultType.CONSUME;
     }
 }

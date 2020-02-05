@@ -74,15 +74,15 @@ public class AIUseMove extends AIBase
                 }
                 // Try to path to where the move is needed.
                 this.pokemob.setCombatState(CombatStates.EXECUTINGMOVE, true);
-                final Path path = this.entity.getNavigator().func_225466_a(destination.x, destination.y, destination.z,
+                final Path path = this.entity.getNavigator().getPathToPos(destination.x, destination.y, destination.z,
                         0);
                 this.addEntityPath(this.entity, path, this.speed);
             }
             this.running = true;
         }
         // Look at your destination
-        this.entity.getLookController().setLookPosition(destination.x, destination.y, destination.z, 10, this.entity
-                .getVerticalFaceSpeed());
+        this.entity.getLookController().setLookPosition(destination.x, destination.y, destination.z, 10,
+                this.entity.getVerticalFaceSpeed());
         final Vector3 loc = Vector3.getNewVector().set(this.entity, false);
         final double dist = loc.distToSq(destination);
         double var1 = 16;
@@ -114,8 +114,8 @@ public class AIUseMove extends AIBase
     @Override
     public boolean shouldRun()
     {
-        return this.running || this.pokemob.getCombatState(CombatStates.NEWEXECUTEMOVE) && !this.pokemob.getCombatState(
-                CombatStates.ANGRY) && this.pokemob.getAttackCooldown() <= 0;
+        return this.running || this.pokemob.getCombatState(CombatStates.NEWEXECUTEMOVE)
+                && !this.pokemob.getCombatState(CombatStates.ANGRY) && this.pokemob.getAttackCooldown() <= 0;
     }
 
     @Override
@@ -129,8 +129,9 @@ public class AIUseMove extends AIBase
             final Vector3 destination = this.pokemob.getTargetPos();
             if (destination != null)
             {
-                RayTraceContext context = new RayTraceContext(this.entity.getPositionVector(), new Vec3d(destination.x,
-                        destination.y, destination.z), BlockMode.COLLIDER, FluidMode.NONE, this.entity);
+                RayTraceContext context = new RayTraceContext(this.entity.getPositionVector(),
+                        new Vec3d(destination.x, destination.y, destination.z), BlockMode.COLLIDER, FluidMode.NONE,
+                        this.entity);
                 RayTraceResult trace = this.world.rayTraceBlocks(context);
                 BlockRayTraceResult result = null;
 
@@ -167,7 +168,7 @@ public class AIUseMove extends AIBase
                     // Set destination and wait for move to be checked again.
                     this.running = true;
                     this.pokemob.setCombatState(CombatStates.EXECUTINGMOVE, true);
-                    final Path path = this.entity.getNavigator().func_225466_a(destination.x, destination.y,
+                    final Path path = this.entity.getNavigator().getPathToPos(destination.x, destination.y,
                             destination.z, 0);
                     this.addEntityPath(this.entity, path, this.speed);
                 }

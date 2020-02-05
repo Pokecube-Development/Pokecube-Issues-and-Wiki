@@ -3,7 +3,9 @@ package thut.bling.client;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -42,15 +44,14 @@ public abstract class BlingRenderBase
         return textures;
     }
 
-    /**
-     * This should setup the models if they are not setup, it will be called at
+    /** This should setup the models if they are not setup, it will be called at
      * the begining of the render, so should do nothing if there is no setup to
-     * do.
-     */
+     * do. */
     protected abstract void initModels();
 
-    public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-            final ItemStack stack, final float partialTicks)
+    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+            final int brightness, final int overlay)
     {
         this.initModels();
         final IModel model = this.getModel(slot, stack);
@@ -58,35 +59,34 @@ public abstract class BlingRenderBase
         // TODO remove hardcoded allowance for eyes to be textures instead of
         // models.
         if (model == null && slot != EnumWearable.EYE) return;
-        final int brightness = wearer.getBrightnessForRender();
         switch (slot)
         {
         case ANKLE:
-            Ankle.renderAnkle(wearer, stack, model, textures, brightness);
+            Ankle.renderAnkle(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case BACK:
-            Back.renderBack(wearer, stack, model, textures, brightness);
+            Back.renderBack(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case EAR:
-            Ear.renderEar(wearer, stack, model, textures, brightness);
+            Ear.renderEar(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case EYE:
-            Eye.renderEye(wearer, stack, model, textures, brightness);
+            Eye.renderEye(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case FINGER:
-            Finger.renderFinger(wearer, stack, model, textures, brightness);
+            Finger.renderFinger(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case HAT:
-            Hat.renderHat(wearer, stack, model, textures, brightness);
+            Hat.renderHat(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case NECK:
-            Neck.renderNeck(wearer, stack, model, textures, brightness);
+            Neck.renderNeck(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case WAIST:
-            Waist.renderWaist(wearer, stack, model, textures, brightness);
+            Waist.renderWaist(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         case WRIST:
-            Wrist.renderWrist(wearer, stack, model, textures, brightness);
+            Wrist.renderWrist(mat, buff, wearer, stack, model, textures, brightness, overlay);
             break;
         default:
             break;

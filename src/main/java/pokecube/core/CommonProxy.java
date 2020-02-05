@@ -157,7 +157,8 @@ public class CommonProxy implements Proxy
                     "village/common/pokecenter").toString(), replacementRules,
                     JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING);
 
-            JigsawManager.field_214891_a.register(new JigsawPattern(new ResourceLocation(PokecubeCore.MODID,
+            JigsawManager.REGISTRY
+                    .register(new JigsawPattern(new ResourceLocation(PokecubeCore.MODID,
                     "village/common/pokecenter"), new ResourceLocation("village/plains/terminators"), ImmutableList.of(
                             new Pair<>(part, 100)), JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
         }

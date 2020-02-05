@@ -38,12 +38,12 @@ public class NpcType
         }
     }
 
-    private static final Map<String, NpcType> typeMap = Maps.newHashMap();
+    private static final Map<String, NpcType> typeMap   = Maps.newHashMap();
 
-    public static final NpcType NONE      = new NpcType("none");
-    public static final NpcType PROFESSOR = new NpcType("professor");
-    public static final NpcType HEALER    = new NpcType("healer");
-    public static final NpcType TRADER    = new NpcType("trader");
+    public static final NpcType               NONE      = new NpcType("none");
+    public static final NpcType               PROFESSOR = new NpcType("professor");
+    public static final NpcType               HEALER    = new NpcType("healer");
+    public static final NpcType               TRADER    = new NpcType("trader");
 
     static
     {
@@ -53,7 +53,7 @@ public class NpcType
             if (validCustomer && !mob.getOffers().isEmpty())
             {
                 mob.setCustomer(player);
-                mob.func_213707_a(player, mob.getDisplayName(), 10);
+                mob.openMerchantContainer(player, mob.getDisplayName(), 10);
                 return true;
             }
             return false;
@@ -71,9 +71,12 @@ public class NpcType
         };
         final IInteract heal = (player, hand, mob) ->
         {
-            if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
-                    playerInventory, playerIn) -> new HealerContainer(id, playerInventory, IWorldPosCallable.of(
-                            mob.world, mob.getPosition())), player.getDisplayName()));
+            if (player instanceof ServerPlayerEntity) player
+            .openContainer(
+                    new SimpleNamedContainerProvider(
+                            (id, playerInventory, playerIn) -> new HealerContainer(id, playerInventory,
+                                    IWorldPosCallable.of(mob.world, mob.getPosition())),
+                            player.getDisplayName()));
             return true;
         };
         // Initialize the interactions for these defaults.
@@ -92,7 +95,7 @@ public class NpcType
     private ResourceLocation maleTex;
     private ResourceLocation femaleTex;
 
-    private IInteract interaction = (p, h, mob) -> false;
+    private IInteract        interaction = (p, h, mob) -> false;
 
     public NpcType(String string)
     {
@@ -105,63 +108,49 @@ public class NpcType
         this.femaleTex = new ResourceLocation(PokecubeMod.ID + ":textures/entity/" + string + "_female.png");
     }
 
-    /**
-     * @param maleTex
-     *            the maleTex to set
-     */
+    /** @param maleTex
+     *            the maleTex to set */
     public NpcType setMaleTex(final ResourceLocation maleTex)
     {
         this.maleTex = maleTex;
         return this;
     }
 
-    /**
-     * @param femaleTex
-     *            the femaleTex to set
-     */
+    /** @param femaleTex
+     *            the femaleTex to set */
     public NpcType setFemaleTex(final ResourceLocation femaleTex)
     {
         this.femaleTex = femaleTex;
         return this;
     }
 
-    /**
-     * @param interaction
-     *            the interaction to set
-     */
+    /** @param interaction
+     *            the interaction to set */
     public NpcType setInteraction(final IInteract interaction)
     {
         this.interaction = interaction;
         return this;
     }
 
-    /**
-     * @return the name
-     */
+    /** @return the name */
     public String getName()
     {
         return this.name;
     }
 
-    /**
-     * @return the maleTex
-     */
+    /** @return the maleTex */
     public ResourceLocation getMaleTex()
     {
         return this.maleTex;
     }
 
-    /**
-     * @return the femaleTex
-     */
+    /** @return the femaleTex */
     public ResourceLocation getFemaleTex()
     {
         return this.femaleTex;
     }
 
-    /**
-     * @return the interaction
-     */
+    /** @return the interaction */
     public IInteract getInteraction()
     {
         return this.interaction;

@@ -1,12 +1,13 @@
 package thut.wearables.client.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.model.ModelRenderer.ModelBox;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effects;
@@ -21,7 +22,7 @@ import thut.wearables.inventory.PlayerWearables;
 
 public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> extends LayerRenderer<T, M>
 {
-    float[] offsetArr = { 0, 0, 0 };
+    float[]                             offsetArr = { 0, 0, 0 };
 
     private final IEntityRenderer<?, ?> livingEntityRenderer;
 
@@ -38,8 +39,9 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
     }
 
     @Override
-    public void render(final LivingEntity wearer, final float f, final float f1, final float partialTicks,
-            final float f3, final float f4, final float f5, final float scale)
+    public void render(final MatrixStack mat, final IRenderTypeBuffer buff, final int packedLightIn, final T wearer,
+            final float limbSwing, final float limbSwingAmount, final float partialTicks, final float ageInTicks,
+            final float netHeadYaw, final float headPitch)
     {
         // No Render invisible.
         if (wearer.getActivePotionEffect(Effects.INVISIBILITY) != null) return;
@@ -50,18 +52,15 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
 
         final PlayerWearables worn = ThutWearables.getWearables(wearer);
         if (worn == null) return;
-
         boolean thin = false;
 
-        if (wearer instanceof AbstractClientPlayerEntity) thin = ((AbstractClientPlayerEntity) wearer).getSkinType()
-                .equals("slim");
-        else
-        {
-            final ModelBox box = theModel.bipedLeftArm.cubeList.get(0);
-            thin = box.posX2 - box.posX1 != box.posZ2 - box.posZ1;
-        }
+        // TODO find out where this comes from?
+        final int overlay = 0;
 
-        GlStateManager.pushMatrix();
+        if (wearer instanceof AbstractClientPlayerEntity)
+            thin = ((AbstractClientPlayerEntity) wearer).getSkinType().equals("slim");
+        else if (theModel instanceof PlayerModel<?>) thin = ((PlayerModel<?>) theModel).smallArms;
+
         for (int i = 0; i < worn.getSlots(); i++)
         {
             final EnumWearable slot = EnumWearable.getWearable(i);
@@ -73,44 +72,45 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
             switch (slot)
             {
             case ANKLE:
-                Leg.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Leg.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case BACK:
-                Body.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Body.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case EAR:
-                Head.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Head.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case EYE:
-                Head.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Head.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case FINGER:
-                Arm.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Arm.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case HAT:
-                Head.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Head.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case NECK:
-                Body.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Body.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case WAIST:
-                Body.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Body.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             case WRIST:
-                Arm.render(wearable, slot, index, wearer, stack, partialTicks, thin, scale, theModel);
+                Arm.render(mat, buff, wearable, slot, index, wearer, stack, partialTicks, thin, packedLightIn, overlay,
+                        theModel);
                 break;
             default:
                 break;
 
             }
         }
-        GlStateManager.popMatrix();
     }
-
-    @Override
-    public boolean shouldCombineTextures()
-    {
-        return false;
-    }
-
 }

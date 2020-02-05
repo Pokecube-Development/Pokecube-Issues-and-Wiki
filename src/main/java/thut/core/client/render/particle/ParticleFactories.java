@@ -1,6 +1,6 @@
 package thut.core.client.render.particle;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
@@ -10,10 +10,12 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vector3f;
 
 @OnlyIn(value = Dist.CLIENT)
 public class ParticleFactories
@@ -73,20 +75,15 @@ public class ParticleFactories
         }
 
         @Override
-        public void renderParticle(final BufferBuilder buffer, final ActiveRenderInfo entityIn,
-                final float partialTicks, final float rotationX, final float rotationZ, final float rotationYZ,
-                final float rotationXY, final float rotationXZ)
+        public void renderParticle(final IVertexBuilder buffer, final ActiveRenderInfo renderInfo,
+                final float partialTicks)
         {
-            GL11.glPushMatrix();
-            final Vector3 source = Vector3.getNewVector();
-            final float x = (float) (MathHelper.lerp(partialTicks, this.prevPosX, this.posX) - Particle.interpPosX);
-            final float y = (float) (MathHelper.lerp(partialTicks, this.prevPosY, this.posY) - Particle.interpPosY);
-            final float z = (float) (MathHelper.lerp(partialTicks, this.prevPosZ, this.posZ) - Particle.interpPosZ);
-            source.set(x, y, z);
-            GL11.glTranslated(source.x, source.y, source.z);
-            this.particle.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY,
-                    rotationXZ);
-            GL11.glPopMatrix();
+            final Vec3d vec3d = renderInfo.getProjectedView();
+            final float x = (float) (MathHelper.lerp(partialTicks, this.prevPosX, this.posX) - vec3d.x);
+            final float y = (float) (MathHelper.lerp(partialTicks, this.prevPosY, this.posY) - vec3d.y);
+            final float z = (float) (MathHelper.lerp(partialTicks, this.prevPosZ, this.posZ) - vec3d.z);
+            final Vector3f source = new Vector3f(x, y, z);
+            this.particle.renderParticle(buffer, renderInfo, partialTicks, source);
         }
 
         @Override

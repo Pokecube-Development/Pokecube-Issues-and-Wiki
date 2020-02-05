@@ -4,9 +4,11 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
@@ -35,6 +37,7 @@ import pokecube.adventures.client.gui.blocks.Cloner;
 import pokecube.adventures.client.gui.blocks.Extractor;
 import pokecube.adventures.client.gui.blocks.Splicer;
 import pokecube.adventures.client.gui.items.Bag;
+import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.core.client.render.mobs.RenderNPC;
@@ -48,21 +51,22 @@ import thut.wearables.EnumWearable;
 public class ClientProxy extends CommonProxy
 {
     protected static class RenderWearable extends Wearable
-    {   // One model for each layer.
-        X3dModel bag;
+    { // One model for each layer.
+        X3dModel                         bag;
 
         // One Texture for each layer.
-        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_1.png");
-        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_2.png");
+        private final ResourceLocation   BAG_1    = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_1.png");
+        private final ResourceLocation   BAG_2    = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_2.png");
 
         private final ResourceLocation[] BAG_TEXS = { this.BAG_1, this.BAG_2 };
 
         @Override
-        public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                final ItemStack stack, final float partialTicks)
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                final int brightness, final int overlay)
         {
             if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.ID, "models/worn/bag.x3d"));
-            Back.renderBack(wearer, stack, this.bag, this.BAG_TEXS, wearer.getBrightnessForRender());
+            Back.renderBack(mat, buff, wearer, stack, this.bag, this.BAG_TEXS, brightness, overlay);
         }
     }
 
@@ -93,12 +97,12 @@ public class ClientProxy extends CommonProxy
         final ItemStack stack = evt.getItemStack();
         if (stack.isEmpty()) return;
         final CompoundNBT tag = stack.hasTag() ? stack.getTag() : new CompoundNBT();
-        if (tag.getBoolean("isapokebag")) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID
-                + ".tooltip.bag"));
+        if (tag.getBoolean("isapokebag"))
+            evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.bag"));
         if (tag.contains("dyeColour"))
         {
-            final ITextComponent colour = new TranslationTextComponent(DyeColor.byId(tag.getInt("dyeColour"))
-                    .getTranslationKey());
+            final ITextComponent colour = new TranslationTextComponent(
+                    DyeColor.byId(tag.getInt("dyeColour")).getTranslationKey());
             boolean has = false;
             for (final ITextComponent s : evt.getToolTip())
             {
@@ -108,40 +112,42 @@ public class ClientProxy extends CommonProxy
             if (!has) evt.getToolTip().add(colour);
         }
         if (player == null || player.openContainer == null) return;
-        if (player.openContainer instanceof PoweredContainer || Screen.hasShiftDown() && !ClonerHelper.getGeneSelectors(
-                stack).isEmpty())
+        if (player.openContainer instanceof PoweredContainer
+                || Screen.hasShiftDown() && !ClonerHelper.getGeneSelectors(stack).isEmpty())
         {
             final IMobGenetics genes = ClonerHelper.getGenes(stack);
             final int index = ClonerHelper.getIndex(stack);
             if (genes != null) for (final Alleles a : genes.getAlleles().values())
             {
-                TranslationTextComponent comp = new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expressed."
-                        + a.getExpressed().getKey().getPath(), a.getExpressed());
+                TranslationTextComponent comp = new TranslationTextComponent(
+                        PokecubeAdv.ID + ".tooltip.gene.expressed." + a.getExpressed().getKey().getPath(),
+                        a.getExpressed());
                 evt.getToolTip().add(comp);
                 if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                 {
-                    comp = new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.parent." + a.getExpressed()
-                            .getKey().getPath(), a.getAlleles()[0], a.getAlleles()[1]);
+                    comp = new TranslationTextComponent(
+                            PokecubeAdv.ID + ".tooltip.gene.parent." + a.getExpressed().getKey().getPath(),
+                            a.getAlleles()[0], a.getAlleles()[1]);
                     evt.getToolTip().add(comp);
                 }
             }
-            if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown())) evt.getToolTip()
-                    .add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expand"));
-            if (index != -1) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID
-                    + ".tooltip.gene.array.index", index));
+            if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown()))
+                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expand"));
+            if (index != -1)
+                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.array.index", index));
             Set<Class<? extends Gene>> genesSet;
-            if (!(genesSet = ClonerHelper.getGeneSelectors(stack)).isEmpty()) if (Screen.hasControlDown())
-                for (final Class<? extends Gene> geneC : genesSet)
-                try
-                {
-                final Gene gene = geneC.newInstance();
-                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.selector.gene." + gene.getKey().getPath()));
-                }
-                catch (InstantiationException | IllegalAccessException e)
-                {
+            if (!(genesSet = ClonerHelper.getGeneSelectors(stack)).isEmpty())
+                if (Screen.hasControlDown()) for (final Class<? extends Gene> geneC : genesSet)
+                    try
+            {
+                        final Gene gene = geneC.newInstance();
+                        evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.selector.gene." + gene.getKey().getPath()));
+            }
+            catch (InstantiationException | IllegalAccessException e)
+            {
 
-                }
-            else evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expand"));
+            }
+                else evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expand"));
             if (RecipeSelector.isSelector(stack))
             {
                 final SelectorValue value = ClonerHelper.getSelectorValue(stack);
@@ -155,7 +161,8 @@ public class ClientProxy extends CommonProxy
     {
         MinecraftForge.EVENT_BUS.register(this);
 
-        RenderingRegistry.registerEntityRenderingHandler(TrainerNpc.class, (manager) -> new RenderNPC<>(manager));
+        RenderingRegistry.registerEntityRenderingHandler(TrainerNpc.TYPE, (manager) -> new RenderNPC<>(manager));
+        RenderingRegistry.registerEntityRenderingHandler(LeaderNpc.TYPE, (manager) -> new RenderNPC<>(manager));
 
         // Register container guis.
         ScreenManager.registerFactory(ClonerContainer.TYPE, Cloner::new);

@@ -50,7 +50,7 @@ public class TMContainer extends BaseContainer
         if (this.inv == null)
         {
             this.tile = new TMTile();
-            this.tile.setWorld(PokecubeCore.proxy.getWorld());
+            this.tile.setWorldAndPos(PokecubeCore.proxy.getWorld(), inv.player.getPosition());
             final InvWrapper wrapper = (InvWrapper) this.tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
             this.inv = wrapper.getInv();

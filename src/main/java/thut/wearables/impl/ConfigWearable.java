@@ -1,14 +1,20 @@
 package thut.wearables.impl;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -42,14 +48,17 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
     @Override
     public EnumWearable getSlot(final ItemStack stack)
     {
-        if (this.slot == null && stack.hasTag() && stack.getTag().contains("wslot")) this.slot = EnumWearable.valueOf(
-                stack.getTag().getString("wslot"));
+        if (this.slot == null && stack.hasTag() && stack.getTag().contains("wslot"))
+            this.slot = EnumWearable.valueOf(stack.getTag().getString("wslot"));
         return this.slot;
     }
 
+    @SuppressWarnings("deprecation")
+    @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-            final ItemStack stack, final float partialTicks)
+    public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+            final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+            final int brightness, final int overlay)
     {
         // TODO way to register renderers for config wearables
 
@@ -57,9 +66,9 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
         if (stack.hasTag() && stack.getTag().contains("wslot"))
         {
 
-            GlStateManager.pushMatrix();
+            mat.push();
 
-            GlStateManager.rotatef(180, 0, 0, 1);
+            mat.rotate(new Quaternion(0, 0, 180, true));
 
             if (stack.getTag().contains("winfo"))
             {
@@ -67,46 +76,50 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
                 if (info.contains("scale"))
                 {
                     final float scale = info.getFloat("scale");
-                    GlStateManager.scalef(scale, scale, scale);
+                    mat.scale(scale, scale, scale);
                 }
                 if (info.contains("shiftx"))
                 {
                     final float shift = info.getFloat("shiftx");
-                    GlStateManager.translatef(shift, 0, 0);
+                    mat.translate(shift, 0, 0);
                 }
                 if (info.contains("shifty"))
                 {
                     final float shift = info.getFloat("shifty");
-                    GlStateManager.translatef(0, shift, 0);
+                    mat.translate(0, shift, 0);
                 }
                 if (info.contains("shiftz"))
                 {
                     final float shift = info.getFloat("shiftz");
-                    GlStateManager.translatef(0, 0, shift);
+                    mat.translate(0, 0, shift);
                 }
                 if (info.contains("rotx"))
                 {
                     final float shift = info.getFloat("rotx");
-                    GlStateManager.rotatef(shift, 1, 0, 0);
+                    mat.rotate(new Quaternion(shift, 0, 0, true));
                 }
                 if (info.contains("roty"))
                 {
                     final float shift = info.getFloat("roty");
-                    GlStateManager.rotatef(shift, 0, 1, 0);
+                    mat.rotate(new Quaternion(0, shift, 0, true));
                 }
                 if (info.contains("rotz"))
                 {
                     final float shift = info.getFloat("rotz");
-                    GlStateManager.rotatef(shift, 0, 0, 1);
+                    mat.rotate(new Quaternion(0, 0, shift, true));
                 }
 
             }
 
-            GlStateManager.translatef(-0.25f, 0, 0);
-            Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-            final IBakedModel model = Minecraft.getInstance().getItemRenderer().getModelWithOverrides(stack);
-            Minecraft.getInstance().getItemRenderer().renderItem(stack, model);
-            GlStateManager.popMatrix();
+            mat.translate(-0.25f, 0, 0);
+            Minecraft.getInstance().textureManager.bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
+            final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+            final IBakedModel ibakedmodel = itemRenderer.getItemModelWithOverrides(stack, wearer.getEntityWorld(),
+                    null);
+            // TODO check lighting/etc in this call!
+            itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED, true, mat, buff, 0, 0,
+                    ibakedmodel);
+            mat.pop();
         }
 
     }

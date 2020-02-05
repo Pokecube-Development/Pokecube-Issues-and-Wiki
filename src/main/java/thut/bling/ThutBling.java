@@ -1,5 +1,8 @@
 package thut.bling;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -54,10 +57,12 @@ public class ThutBling
 
         @Override
         @OnlyIn(value = Dist.CLIENT)
-        public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                final ItemStack stack, final float partialTicks)
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                final int brightness, final int overlay)
         {
-            BlingRender.INSTANCE.renderWearable(slot, index, wearer, stack, partialTicks);
+            BlingRender.INSTANCE.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness,
+                    overlay);
         }
     }
 
@@ -87,8 +92,9 @@ public class ThutBling
 
         }
 
-        public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                final ItemStack stack, final float partialTicks)
+        public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                final int brightness, final int overlay)
         {
             // Nothing in common
         }

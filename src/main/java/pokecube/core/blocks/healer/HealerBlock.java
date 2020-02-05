@@ -10,6 +10,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
@@ -58,12 +59,12 @@ public class HealerBlock extends HorizontalBlock
     }
 
     @Override
-    public boolean onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity player, final Hand hand, final BlockRayTraceResult hit)
     {
         player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new HealerContainer(id,
                 playerInventory, IWorldPosCallable.of(world, pos)), player.getDisplayName()));
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
 }

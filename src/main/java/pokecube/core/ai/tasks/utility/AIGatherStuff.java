@@ -38,18 +38,14 @@ import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
-/**
- * This IAIRunnable gets the mob to look for and collect dropped items and
+/** This IAIRunnable gets the mob to look for and collect dropped items and
  * berries. It requires an AIStoreStuff to have located a suitable storage
- * before it will run.
- */
+ * before it will run. */
 public class AIGatherStuff extends AIBase
 {
-    /**
-     * This manages the pokemobs replanting anything that they gather.
+    /** This manages the pokemobs replanting anything that they gather.
      *
-     * @author Patrick
-     */
+     * @author Patrick */
     private static class ReplantTask implements IRunnable
     {
         final Entity    entity;
@@ -78,8 +74,8 @@ public class AIGatherStuff extends AIBase
                     final PlayerEntity player = PokecubeMod.getFakePlayer(world);
                     player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
                     player.setHeldItem(Hand.MAIN_HAND, this.seeds);
-                    final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(
-                            new Vec3d(0.5, 1, 0.5), Direction.UP, this.pos, false));
+                    final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND,
+                            new BlockRayTraceResult(new Vec3d(0.5, 1, 0.5), Direction.UP, this.pos, false));
                     // Attempt to plant it.
                     this.seeds.getItem().onItemUse(context);
                 }
@@ -87,34 +83,34 @@ public class AIGatherStuff extends AIBase
                 // Add the "returned" stack to the inventory (ie remaining
                 // seeds)
                 if (!this.seeds.isEmpty() && (pokemob = CapabilityPokemob.getPokemobFor(this.entity)) != null)
-                    if (!ItemStackTools.addItemStackToInventory(this.seeds, pokemob.getInventory(), 2)) this.entity
-                            .entityDropItem(this.seeds, 0);
+                    if (!ItemStackTools.addItemStackToInventory(this.seeds, pokemob.getInventory(), 2))
+                        this.entity.entityDropItem(this.seeds, 0);
             }
             return true;
         }
     }
 
-    public static int COOLDOWN_SEARCH  = 200;
-    public static int COOLDOWN_COLLECT = 5;
+    public static int                          COOLDOWN_SEARCH  = 200;
+    public static int                          COOLDOWN_COLLECT = 5;
 
-    public static int COOLDOWN_PATH = 5;
+    public static int                          COOLDOWN_PATH    = 5;
     // Matcher used to determine if a block is a fruit or crop to be picked.
-    private static final Predicate<BlockState> berryMatcher = input -> PokecubeTerrainChecker.isFruit(input);
+    private static final Predicate<BlockState> berryMatcher     = input -> PokecubeTerrainChecker.isFruit(input);
 
-    private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
+    private static final Predicate<ItemEntity> deaditemmatcher  = input -> !input.isAlive() || !input.addedToChunk
             || !input.isAddedToWorld();
 
-    final double       distance;
-    boolean            block           = false;
-    List<ItemEntity>   stuff           = Lists.newArrayList();
-    Vector3            stuffLoc        = Vector3.getNewVector();
-    boolean            hasRoom         = true;
-    int                collectCooldown = 0;
-    int                pathCooldown    = 0;
-    final AIStoreStuff storage;
-    Vector3            seeking         = Vector3.getNewVector();
-    Vector3            v               = Vector3.getNewVector();
-    Vector3            v1              = Vector3.getNewVector();
+    final double                               distance;
+    boolean                                    block            = false;
+    List<ItemEntity>                           stuff            = Lists.newArrayList();
+    Vector3                                    stuffLoc         = Vector3.getNewVector();
+    boolean                                    hasRoom          = true;
+    int                                        collectCooldown  = 0;
+    int                                        pathCooldown     = 0;
+    final AIStoreStuff                         storage;
+    Vector3                                    seeking          = Vector3.getNewVector();
+    Vector3                                    v                = Vector3.getNewVector();
+    Vector3                                    v1               = Vector3.getNewVector();
 
     public AIGatherStuff(final IPokemob mob, final double distance, final AIStoreStuff storage)
     {
@@ -127,60 +123,61 @@ public class AIGatherStuff extends AIBase
     private void findStuff()
     {
         // Only mobs that are standing with homes should look for stuff.
-        if (this.pokemob.getHome() == null || this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob
-                .getLogicState(LogicStates.SITTING)) return;
+        if (this.pokemob.getHome() == null
+                || this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getLogicState(LogicStates.SITTING))
+            return;
         this.block = false;
         this.v.set(this.pokemob.getHome()).add(0, this.entity.getHeight(), 0);
 
-        final int distance = this.pokemob.getGeneralState(GeneralStates.TAMED) ? PokecubeCore
-                .getConfig().tameGatherDistance : PokecubeCore.getConfig().wildGatherDistance;
+        final int distance = this.pokemob.getGeneralState(GeneralStates.TAMED)
+                ? PokecubeCore.getConfig().tameGatherDistance : PokecubeCore.getConfig().wildGatherDistance;
 
-        final List<ItemEntity> list = this.getEntitiesWithinDistance(this.entity, distance, ItemEntity.class);
-        this.stuff.clear();
-        double closest = 1000;
+                final List<ItemEntity> list = this.getEntitiesWithinDistance(this.entity, distance, ItemEntity.class);
+                this.stuff.clear();
+                double closest = 1000;
 
-        // Check for items to possibly gather.
-        for (final Entity o : list)
-        {
-            final ItemEntity e = (ItemEntity) o;
-            final double dist = e.getPosition().distanceSq(this.pokemob.getHome());
-            this.v.set(e);
-            if (dist < closest && Vector3.isVisibleEntityFromEntity(this.entity, e))
-            {
-                this.stuff.add(e);
-                closest = dist;
-            }
-        }
-        // Found an item, return.
-        if (!this.stuff.isEmpty())
-        {
-            Collections.sort(this.stuff, (o1, o2) ->
-            {
-                final int dist1 = (int) o1.getDistanceSq(AIGatherStuff.this.entity);
-                final int dist2 = (int) o2.getDistanceSq(AIGatherStuff.this.entity);
-                return dist1 - dist2;
-            });
-            this.stuffLoc.set(this.stuff.get(0));
-            return;
-        }
-        this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0);
-        // check for berries to collect.
-        if (!this.block && this.pokemob.eatsBerries())
-        {
-            final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, distance,
-                    AIGatherStuff.berryMatcher);
-            if (temp != null)
-            {
-                this.block = true;
-                this.stuffLoc.set(temp);
-            }
-        }
-        if (this.pokemob.isElectrotroph())
-        {
+                // Check for items to possibly gather.
+                for (final Entity o : list)
+                {
+                    final ItemEntity e = (ItemEntity) o;
+                    final double dist = e.getPosition().distanceSq(this.pokemob.getHome());
+                    this.v.set(e);
+                    if (dist < closest && Vector3.isVisibleEntityFromEntity(this.entity, e))
+                    {
+                        this.stuff.add(e);
+                        closest = dist;
+                    }
+                }
+                // Found an item, return.
+                if (!this.stuff.isEmpty())
+                {
+                    Collections.sort(this.stuff, (o1, o2) ->
+                    {
+                        final int dist1 = (int) o1.getDistanceSq(AIGatherStuff.this.entity);
+                        final int dist2 = (int) o2.getDistanceSq(AIGatherStuff.this.entity);
+                        return dist1 - dist2;
+                    });
+                    this.stuffLoc.set(this.stuff.get(0));
+                    return;
+                }
+                this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0);
+                // check for berries to collect.
+                if (!this.block && this.pokemob.eatsBerries())
+                {
+                    final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, distance,
+                            AIGatherStuff.berryMatcher);
+                    if (temp != null)
+                    {
+                        this.block = true;
+                        this.stuffLoc.set(temp);
+                    }
+                }
+                if (this.pokemob.isElectrotroph())
+                {
 
-        }
-        // Nothing found, enter cooldown.
-        if (this.stuffLoc.isEmpty()) this.collectCooldown = AIGatherStuff.COOLDOWN_SEARCH;
+                }
+                // Nothing found, enter cooldown.
+                if (this.stuffLoc.isEmpty()) this.collectCooldown = AIGatherStuff.COOLDOWN_SEARCH;
     }
 
     private void gatherStuff(final boolean mainThread)
@@ -193,13 +190,13 @@ public class AIGatherStuff extends AIBase
             if (this.stuff != null)
             {
                 this.stuffLoc.set(this.stuff);
-                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
+                final Path path = this.entity.getNavigator().getPathToPos(this.stuffLoc.x, this.stuffLoc.y,
                         this.stuffLoc.z, 0);
                 this.addEntityPath(this.entity, path, speed);
             }
             else
             {
-                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
+                final Path path = this.entity.getNavigator().getPathToPos(this.stuffLoc.x, this.stuffLoc.y,
                         this.stuffLoc.z, 0);
                 this.addEntityPath(this.entity, path, speed);
             }
@@ -235,21 +232,21 @@ public class AIGatherStuff extends AIBase
                         }
                         else this.toRun.add(new InventoryChange(this.entity, 2, stack.copy(), true));
                     if (!replanted) // Try to find a seed in our inventory for
-                                    // this plant.
+                        // this plant.
                         for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
                         {
-                        final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
-                        if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
-                        {
-                        final IPlantable plantable = (IPlantable) stack.getItem();
-                        final BlockState plantState = plantable.getPlant(this.world, this.stuffLoc.getPos().up());
-                        if (plantState.getBlock() == state.getBlock())
-                        {
-                        this.toRun.add(new ReplantTask(this.entity, stack.copy(), this.stuffLoc.getPos()));
-                        replanted = true;
-                        break;
-                        }
-                        }
+                            final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
+                            if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
+                            {
+                                final IPlantable plantable = (IPlantable) stack.getItem();
+                                final BlockState plantState = plantable.getPlant(this.world, this.stuffLoc.getPos().up());
+                                if (plantState.getBlock() == state.getBlock())
+                                {
+                                    this.toRun.add(new ReplantTask(this.entity, stack.copy(), this.stuffLoc.getPos()));
+                                    replanted = true;
+                                    break;
+                                }
+                            }
                         }
                 }
                 this.stuffLoc.clear();
@@ -277,8 +274,8 @@ public class AIGatherStuff extends AIBase
     {
         // Check if gather is enabled first.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.GATHER)) return false;
-        final boolean wildCheck = !PokecubeCore.getConfig().wildGather && !this.pokemob.getGeneralState(
-                GeneralStates.TAMED);
+        final boolean wildCheck = !PokecubeCore.getConfig().wildGather
+                && !this.pokemob.getGeneralState(GeneralStates.TAMED);
         // Check if this should be doing something else instead, if so return
         // false.
         if (this.tameCheck() || this.entity.getAttackTarget() != null || wildCheck) return false;
@@ -305,15 +302,13 @@ public class AIGatherStuff extends AIBase
         return false;
     }
 
-    /**
-     * Only tame pokemobs set to "stay" should run this AI.
+    /** Only tame pokemobs set to "stay" should run this AI.
      *
-     * @return
-     */
+     * @return */
     private boolean tameCheck()
     {
-        return this.pokemob.getGeneralState(GeneralStates.TAMED) && (!this.pokemob.getGeneralState(
-                GeneralStates.STAYING) || !PokecubeCore.getConfig().tameGather);
+        return this.pokemob.getGeneralState(GeneralStates.TAMED)
+                && (!this.pokemob.getGeneralState(GeneralStates.STAYING) || !PokecubeCore.getConfig().tameGather);
     }
 
     @Override

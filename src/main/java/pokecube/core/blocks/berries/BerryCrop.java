@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.blocks.berries.BerryGenManager.TreeGrower;
 import pokecube.core.items.berries.BerryManager;
 
@@ -27,7 +27,7 @@ public class BerryCrop extends CropsBlock
     }
 
     @Override
-    public void grow(final World worldIn, final Random rand, BlockPos pos, final BlockState state)
+    public void grow(final ServerWorld worldIn, final Random rand, BlockPos pos, final BlockState state)
     {
         super.grow(worldIn, rand, pos, state);
         final int age = worldIn.getBlockState(pos).get(CropsBlock.AGE);

@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -31,17 +32,17 @@ public class BaseTile extends InteractableTile
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
-        if (!(player instanceof ServerPlayerEntity)) return true;
+        if (!(player instanceof ServerPlayerEntity)) return ActionResultType.SUCCESS;
         final MinecraftServer server = player.getServer();
         UUID targetBase = player.getUniqueID();
         if (!this.any)
         {
             final IOwnableTE tile = (IOwnableTE) this.getCapability(OwnableCaps.CAPABILITY).orElse(null);
             targetBase = tile.getOwnerId();
-            if (targetBase == null) return true;
+            if (targetBase == null) return ActionResultType.SUCCESS;
             BlockPos exit_here;
             try
             {
@@ -50,7 +51,7 @@ public class BaseTile extends InteractableTile
             catch (final Exception e)
             {
                 PokecubeCore.LOGGER.error(e);
-                return false;
+                return ActionResultType.FAIL;
             }
             if (exit_here.distanceSq(pos) > 15)
             {
@@ -62,7 +63,7 @@ public class BaseTile extends InteractableTile
         final DimensionType dim = player.dimension;
         if (dim == DimensionType.OVERWORLD) SecretBaseDimension.sendToBase((ServerPlayerEntity) player, targetBase);
         else SecretBaseDimension.sendToExit((ServerPlayerEntity) player, targetBase);
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override

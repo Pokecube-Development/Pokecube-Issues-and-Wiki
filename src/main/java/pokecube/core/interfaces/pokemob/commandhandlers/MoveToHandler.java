@@ -24,10 +24,11 @@ public class MoveToHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
-        this.speed = (float) Math.min(this.speed, pokemob.getEntity().getAttribute(
-                SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-        pokemob.getEntity().getNavigator().setPath(pokemob.getEntity().getNavigator().func_225466_a(this.location.x,
-                this.location.y, this.location.z, 0), this.speed);
+        this.speed = (float) Math.min(this.speed,
+                pokemob.getEntity().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+        pokemob.getEntity().getNavigator().setPath(
+                pokemob.getEntity().getNavigator().getPathToPos(this.location.x, this.location.y, this.location.z, 0),
+                this.speed);
     }
 
     @Override

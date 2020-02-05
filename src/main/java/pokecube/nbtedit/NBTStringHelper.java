@@ -19,17 +19,9 @@ import pokecube.nbtedit.nbt.NamedNBT;
 
 public class NBTStringHelper
 {
-
-    private static class NBTTagEnd2 extends EndNBT
-    {
-        public NBTTagEnd2()
-        {
-        }
-    }
-
     public static final char SECTION_SIGN = '\u00A7';
 
-    public static String getButtonName(byte id)
+    public static String getButtonName(final byte id)
     {
         switch (id)
         {
@@ -70,7 +62,7 @@ public class NBTStringHelper
         }
     }
 
-    public static String getNBTName(NamedNBT namedNBT)
+    public static String getNBTName(final NamedNBT namedNBT)
     {
         final String name = namedNBT.getName();
         final INBT obj = namedNBT.getNBT();
@@ -79,7 +71,7 @@ public class NBTStringHelper
         return Strings.isNullOrEmpty(name) ? "" + s : name + ": " + s;
     }
 
-    public static String getNBTNameSpecial(NamedNBT namedNBT)
+    public static String getNBTNameSpecial(final NamedNBT namedNBT)
     {
         final String name = namedNBT.getName();
         final INBT obj = namedNBT.getNBT();
@@ -88,28 +80,28 @@ public class NBTStringHelper
         return Strings.isNullOrEmpty(name) ? "" + s : name + ": " + s + NBTStringHelper.SECTION_SIGN + 'r';
     }
 
-    public static INBT newTag(byte type)
+    public static INBT newTag(final byte type)
     {
         switch (type)
         {
         case 0:
-            return new NBTTagEnd2();
+            return EndNBT.INSTANCE;
         case 1:
-            return new ByteNBT((byte) 0);
+            return ByteNBT.valueOf((byte) 0);
         case 2:
-            return new ShortNBT();
+            return ShortNBT.valueOf((short) 0);
         case 3:
-            return new IntNBT(0);
+            return IntNBT.valueOf(0);
         case 4:
-            return new LongNBT(0);
+            return LongNBT.valueOf(0);
         case 5:
-            return new FloatNBT(0);
+            return FloatNBT.valueOf(0);
         case 6:
-            return new DoubleNBT(0);
+            return DoubleNBT.valueOf(0);
         case 7:
             return new ByteArrayNBT(new byte[0]);
         case 8:
-            return new StringNBT("");
+            return StringNBT.valueOf("");
         case 9:
             return new ListNBT();
         case 10:
@@ -121,7 +113,7 @@ public class NBTStringHelper
         }
     }
 
-    public static String toString(INBT base)
+    public static String toString(final INBT base)
     {
         switch (base.getId())
         {

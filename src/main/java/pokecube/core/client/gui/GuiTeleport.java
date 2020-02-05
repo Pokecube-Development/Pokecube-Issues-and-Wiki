@@ -74,7 +74,7 @@ public class GuiTeleport extends AbstractGui
         GuiDisplayPokecubeInfo.teleDims[1] = 25;
         final IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob == null) return;
-        GlStateManager.pushMatrix();
+        mat.push();
         GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
                 GuiDisplayPokecubeInfo.teleDims, (float) PokecubeCore.getConfig().teleSize);
         GlStateManager.enableBlend();
@@ -104,7 +104,7 @@ public class GuiTeleport extends AbstractGui
         }
         i++;
         GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
+        mat.pop();
     }
 
     public boolean getState()

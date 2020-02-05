@@ -14,6 +14,7 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -79,7 +80,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         // TODO Auto-generated method stub
@@ -183,7 +184,7 @@ public class NestTile extends InteractableTile implements ITickableTileEntity
         super.write(nbt);
         final ListNBT spawnsTag = new ListNBT();
         for (final PokedexEntry entry : this.spawns)
-            spawnsTag.add(new StringNBT(entry.getTrimmedName()));
+            spawnsTag.add(StringNBT.valueOf(entry.getTrimmedName()));
         nbt.put("spawns", spawnsTag);
         nbt.putInt("time", this.time);
         return nbt;
