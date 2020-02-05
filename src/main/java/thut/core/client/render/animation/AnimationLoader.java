@@ -36,7 +36,7 @@ public class AnimationLoader
 
     public static HashMap<String, ModelHolder> models = new HashMap<>();
 
-    public static void addStrings(String key, Node node, Set<String> toAddTo)
+    public static void addStrings(final String key, final Node node, final Set<String> toAddTo)
     {
         if (node.getAttributes() == null) return;
         if (node.getAttributes().getNamedItem(key) != null)
@@ -52,7 +52,7 @@ public class AnimationLoader
         AnimationLoader.models.clear();
     }
 
-    public static Vector3 getAngles(Node node, Vector3 default_)
+    public static Vector3 getAngles(final Node node, final Vector3 default_)
     {
         if (node.getAttributes() == null) return default_;
         Vector3 vect = null;
@@ -69,7 +69,7 @@ public class AnimationLoader
         return default_;
     }
 
-    public static int getIntValue(Node node, String key, int default_)
+    public static int getIntValue(final Node node, final String key, final int default_)
     {
         int ret = default_;
         if (node.getAttributes() == null) return ret;
@@ -78,7 +78,7 @@ public class AnimationLoader
         return ret;
     }
 
-    public static Vector3 getOffset(Node node, Vector3 default_)
+    public static Vector3 getOffset(final Node node, final Vector3 default_)
     {
         if (node.getAttributes() == null) return default_;
         Vector3 vect = null;
@@ -95,7 +95,7 @@ public class AnimationLoader
         return default_;
     }
 
-    public static Vector5 getRotation(Node node, Vector5 default_)
+    public static Vector5 getRotation(final Node node, final Vector5 default_)
     {
         if (node.getAttributes() == null) return default_;
         if (node.getAttributes().getNamedItem("rotation") != null)
@@ -124,7 +124,7 @@ public class AnimationLoader
         return default_;
     }
 
-    public static Vector3 getScale(Node node, Vector3 default_)
+    public static Vector3 getScale(final Node node, final Vector3 default_)
     {
         if (node.getAttributes() == null) return default_;
         if (node.getAttributes().getNamedItem("scale") != null)
@@ -144,7 +144,8 @@ public class AnimationLoader
         return default_;
     }
 
-    public static void parse(InputStream stream, ModelHolder holder, IModel model, IModelRenderer<?> renderer)
+    public static void parse(final InputStream stream, final ModelHolder holder, final IModel model,
+            final IModelRenderer<?> renderer)
     {
         try
         {
@@ -163,9 +164,9 @@ public class AnimationLoader
             final float[] headCaps1 = { -30, 70 };
 
             // Global model transforms
-            Vector3 offset = null;
-            Vector5 rotation = null;
-            Vector3 scale = null;
+            Vector3 offset = Vector3.getNewVector();
+            Vector5 rotation = new Vector5();
+            Vector3 scale = Vector3.getNewVector();
 
             // Objects for modifying textures/animations
             IPartTexturer texturer = renderer.getTexturer();
@@ -283,9 +284,9 @@ public class AnimationLoader
 
                 final IModelRenderer<?> loaded = renderer;
                 loaded.updateModel(phaseList, holder);
-                
-                //Test for messing with tbl models
-                if(holder.extension.equals("tbl")) offset = offset.add(0, -0.5, 0);
+
+                // Test for messing with tbl models
+                if (holder.extension.equals("tbl")) offset = offset.add(0, -0.5, 0);
 
                 // Set the global transforms
                 loaded.setRotationOffset(offset);
@@ -374,7 +375,7 @@ public class AnimationLoader
         }
     }
 
-    public static void parse(ModelHolder holder, IModel model, IModelRenderer<?> renderer)
+    public static void parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer)
     {
         try
         {
@@ -390,7 +391,7 @@ public class AnimationLoader
         }
     }
 
-    public static void setHeadCaps(Node node, float[] toFill, float[] toFill1)
+    public static void setHeadCaps(final Node node, final float[] toFill, final float[] toFill1)
     {
         if (node.getAttributes() == null) return;
         if (node.getAttributes().getNamedItem("headCap") != null)
