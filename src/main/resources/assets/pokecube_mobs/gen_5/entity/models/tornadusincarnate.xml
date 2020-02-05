@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0.2,0" rotation="1,0,0,0" scale="0.55"/>
+  <phase name="global" offset="0,0.2,0" scale="0.55"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
   <customTex default="tornadusincarnate">
    <part name="Head" tex="tornadushead"/>

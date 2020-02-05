@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="4"/>
+  <phase name="global" scale="4"/>
   <phase axis="0" name="snakeWalk" parts="l1:l2:l3:l4:l5:l6"/>
   <phase duration="10" leftArm="" leftLeg="arm2" legAngle="15" name="biWalk" rightArm="" rightLeg="arm1"/>
   <customTex default="gengargigantamax">

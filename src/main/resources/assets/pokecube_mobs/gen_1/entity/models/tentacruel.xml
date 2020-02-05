@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1"/>
+  <phase name="global" scale="1"/>
   <phase axis="0" angle="-10" name="snakeSwim" parts="t1:t1_1:t1_2:t1_3:t1_4:t1_5"/>
   <phase axis="2" angle="-10" name="snakeSwim" parts="t2:t2_1:t2_2:t2_3:t2_4:t2_5"/>
   <phase axis="0" angle="-10" name="snakeSwim" parts="t3:t3_1:t3_2:t3_3:t3_4:t3_5"/>

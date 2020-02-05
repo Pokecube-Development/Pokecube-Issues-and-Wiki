@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
+  <phase name="global" scale="0.6"/>
   <customTex default="doublade">
    <part name="Head" tex="doubladehead"/>
    <animation diffs="0.105,0" part="Head" trigger="random:0.005:1"/>

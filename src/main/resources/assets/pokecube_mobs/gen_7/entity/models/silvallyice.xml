@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.28"/>
+  <phase name="global" scale="0.28"/>
   <customTex default="silvallyice">
    <part name="Head" tex="silvallyicehead"/>
    <animation diffs="0,0.35" part="Head" trigger="random:0.005:20"/>

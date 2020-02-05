@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.14"/>
+  <phase name="global" scale="0.14"/>
   <customTex default="swirlix">
    <part name="Head" tex="slurpuffhead"/>
    <animation diffs="0.43,0" part="Head" trigger="random:0.005:1"/>

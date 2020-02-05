@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
+  <phase name="global" scale="0.45"/>
   <phase duration="10" angle="5" leftFront="p1:p1_1:p1_2:p1_3:p1_4" leftHind="p3:p3_1:p3_2:p3_3:p3_4" name="quadWalk" rightFront="p2:p2_1:p2_2:p2_3:p2_4" rightHind="p4:p4_1:p4_2:p4_3:p4_4"/>
   <phase type="idle">
    <part name="base">

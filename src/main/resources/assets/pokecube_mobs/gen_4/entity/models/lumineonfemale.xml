@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
+  <phase name="global" scale="0.45"/>
   <phase type="idle">
    <part name="Tail_l_pt1">
     <component length="5" name="1" rotChange="-3,0,0" rotOffset="3,0,0" startKey="0"/>

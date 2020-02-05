@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0.025,0.025,0.0" rotation="1,0,0,0" scale="0.5"/>
+  <phase name="global" offset="0.025,0.025,0.0" scale="0.5"/>
   <metadata headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
   <customTex default="Tynamo">
    <animation diffs="1,1,1,2,2,2,3,3,3" part="Fin" trigger="time"/>
