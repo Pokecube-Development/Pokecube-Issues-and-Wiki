@@ -22,6 +22,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -389,8 +390,11 @@ public class GuiPokedex extends Screen
         if (!renderMob.getEntity().addedToChunk) EntityTools.copyEntityTransforms(renderMob.getEntity(),
                 this.PlayerEntity);
         GlStateManager.enableDepthTest();
+        final float yaw = Util.milliTime() / 20;
+        final float hx = 0;
+        final float hy = yaw;
         GuiPokedex.renderMob(renderMob.getEntity(), minecraft, 0, 0, 1f, this.height, this.width, this.xSize,
-                this.ySize, this.xHeadRenderAngle, this.yHeadRenderAngle, this.xRenderAngle);
+                this.ySize, hx, hy, yaw);
         mat.pop();
 
         // Draw info about mob
