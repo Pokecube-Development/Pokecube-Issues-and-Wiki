@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="Shroomish">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.35"/>
+  <phase name="global" scale="0.35"/>
   <phase duration="10" leftArm="" leftLeg="Left_foot" name="biWalk" rightArm="" rightLeg="Right_foot"/>
   <metadata head="_"/>
  </model>

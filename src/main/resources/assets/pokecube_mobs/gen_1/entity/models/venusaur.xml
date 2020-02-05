@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headCap="-10,10" name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
+  <phase headCap="-10,10" name="global" scale="0.6"/>
   <metadata head="head" headAxis="2" headAxis2="0" headDir="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <worn angles="-90,0,0" id="__HAT__" offset="0,0.45,0" parent="head" scale="1.8"/>

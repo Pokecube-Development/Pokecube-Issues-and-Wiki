@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.7"/>
+  <phase name="global" scale="1.7"/>
   <customTex default="kinglergigantamax">
    <part name="Head" tex="kinglergigantamaxhead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:12"/>

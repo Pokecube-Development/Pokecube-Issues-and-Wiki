@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <phase name="global" scale="1.0"/>
   <metadata head="Head:Neck2:Neck3" headAxis="1" headAxis2="0" headCap="-10,10" headCap1="-15,10" headDir="1"/>
   <phase angle="5" axis="0" duration="20" name="snakeFly" parts="Body2:Body3:Body4:Body5:Body6:Body7:Body8:Body9:Body10:Body11"/>
  </model>

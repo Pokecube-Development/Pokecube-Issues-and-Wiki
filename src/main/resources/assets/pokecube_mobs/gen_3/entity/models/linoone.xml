@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ModelAnimator>
   <model>
-   <phase name="global" rotation="1,0,0,0" offset="0,0,0" scale="0.25"/>
+   <phase name="global" scale="0.25"/>
    <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="-1"/>
    <customTex default="linoone">
    <part name="Eye" tex="linoonehead"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.45"/>
+  <phase name="global" scale="1.45"/>
   <metadata head="head1" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1" headDir1="-1"/>
   <phase type="sitting">
    <part name="body">

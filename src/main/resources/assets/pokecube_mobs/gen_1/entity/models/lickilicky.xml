@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
+  <phase name="global" scale="0.45"/>
   <metadata head="Cube_005" headAxis="2" headAxis2="1" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <phase angle="20" axis="2" length="10" name="snakeIdle" parts="Cube_009:Cube_017:Cube_016:Cube_015:Cube_014:Cube_014:Cube_013:Cube_012:Cube_011"/>
   <phase type="walking">

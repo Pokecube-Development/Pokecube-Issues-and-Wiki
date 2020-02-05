@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <phase headAxis="1" headCap="-50,50" name="global" scale="0.25"/>
   <phase duration="10" leftFront="leglef2" leftHind="leglef1" name="quadWalk" rightFront="legright2" rightHind="legright1"/>
   <phase type="idle">
    <part name="rig1_garra2_m_ob1">

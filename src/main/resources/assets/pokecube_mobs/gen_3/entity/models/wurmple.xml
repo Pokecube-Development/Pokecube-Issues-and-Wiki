@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
+  <phase name="global" scale="0.6"/>
   <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
   <phase duration="10" leftFront="l0:l1:l4" leftHind="l3:l2" name="quadWalk" rightFront="r0:r1:r4" rightHind="r3:r2"/>
  </model>

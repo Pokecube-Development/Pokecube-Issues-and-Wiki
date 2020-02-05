@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.35"/>
+  <phase name="global" scale="0.35"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <worn angles="-90,0,0" id="__HAT__" offset="0,0.45,0.2" parent="head" scale="1"/>
   <worn angles="-90,0,0" id="__EYE__" offset="0,0.36,0.15" parent="head" scale="1,1,1"/>

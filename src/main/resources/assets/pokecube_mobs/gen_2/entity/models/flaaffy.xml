@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
+  <phase headAxis="1" headCap="-50,50" name="global" scale="0.25"/>
   <phase armAngle="50" duration="10" leftArm="Left_arm" leftLeg="Left_leg" legAngle="45" name="biWalk" rightArm="Right_arm" rightLeg="Right_leg"/>
  </model>
 </ModelAnimator>

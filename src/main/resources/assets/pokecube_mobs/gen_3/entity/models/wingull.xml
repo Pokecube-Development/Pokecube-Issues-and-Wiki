@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.4"/>
+  <phase name="global" scale="0.4"/>
   <phase duration="10" leftArm="" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="foot2"/>
   <customTex default="wingull">
    <part name="Head" tex="wingullhead"/>

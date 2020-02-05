@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
+  <phase name="global" scale="0.6"/>
   <metadata head="Cube_024" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <phase duration="10" leftArm="Cube_029" leftLeg="Cube_052" name="biWalk" rightArm="Cube_030" rightLeg="Cube_053"/>
  </model>
