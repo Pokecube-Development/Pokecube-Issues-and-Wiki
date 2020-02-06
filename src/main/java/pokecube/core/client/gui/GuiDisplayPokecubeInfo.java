@@ -173,20 +173,20 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
     public static void sendMoveIndexPacket(final IPokemob pokemob, final int moveIndex)
     {
-        PacketCommand.sendCommand(pokemob, Command.CHANGEMOVEINDEX, new MoveIndexHandler((byte) moveIndex).setFromOwner(
-                true));
+        PacketCommand.sendCommand(pokemob, Command.CHANGEMOVEINDEX,
+                new MoveIndexHandler((byte) moveIndex).setFromOwner(true));
     }
 
     protected FontRenderer fontRenderer;
 
-    protected Minecraft minecraft;
+    protected Minecraft    minecraft;
 
-    IPokemob[] arrayRet = new IPokemob[0];
+    IPokemob[]             arrayRet         = new IPokemob[0];
 
-    int refreshCounter = 0;
+    int                    refreshCounter   = 0;
 
-    int        indexPokemob     = 0;
-    public int currentMoveIndex = 0;
+    int                    indexPokemob     = 0;
+    public int             currentMoveIndex = 0;
 
     /**
      *
@@ -195,8 +195,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         this.minecraft = Minecraft.getInstance();
         this.fontRenderer = this.minecraft.fontRenderer;
-        if (GuiDisplayPokecubeInfo.instance != null) MinecraftForge.EVENT_BUS.unregister(
-                GuiDisplayPokecubeInfo.instance);
+        if (GuiDisplayPokecubeInfo.instance != null)
+            MinecraftForge.EVENT_BUS.unregister(GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
         MinecraftForge.EVENT_BUS.register(GuiDisplayPokecubeInfo.instance);
     }
@@ -328,16 +328,17 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             if (currentMoveIndex == 5) GL11.glColor4f(0.0F, 1.0F, 0.4F, 1.0F);
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(nameOffsetX + w, nameOffsetY + h, 44, 0, 90, 13);
-            if (this.fontRenderer.getStringWidth(displayName) > 70) displayName = this.fontRenderer.trimStringToWidth(
-                    displayName, 70);
+            if (this.fontRenderer.getStringWidth(displayName) > 70)
+                displayName = this.fontRenderer.trimStringToWidth(displayName, 70);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.fontRenderer.drawString(displayName, nameOffsetX + 3 + w, nameOffsetY + 3 + h,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render level
             GL11.glColor4f(1.0F, 0.5F, 0.0F, 1.0F);
-            this.fontRenderer.drawString("L." + level, nameOffsetX + 88 + w - this.fontRenderer.getStringWidth("L."
-                    + level), nameOffsetY + 3 + h, GuiDisplayPokecubeInfo.lightGrey);
+            this.fontRenderer.drawString("L." + level,
+                    nameOffsetX + 88 + w - this.fontRenderer.getStringWidth("L." + level), nameOffsetY + 3 + h,
+                    GuiDisplayPokecubeInfo.lightGrey);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             // Draw number of pokemon
@@ -382,9 +383,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                         Move_Base lastMove;
                         if (MovesUtils.isAbleToUseMoves(pokemob) != AbleStatus.ABLE) timer = 0;
                         else if ((lastMove = MovesUtils.getMoveFromName(pokemob.getLastMoveUsed())) != null)
-                            timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob, pokemob
-                                    .getLastMoveUsed(), (lastMove.getAttackCategory()
-                                            & IMoveConstants.CATEGORY_DISTANCE) > 0, false);
+                            timer -= pokemob.getAttackCooldown() / (float) MovesUtils.getAttackDelay(pokemob,
+                                    pokemob.getLastMoveUsed(),
+                                    (lastMove.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0, false);
                         timer = Math.max(0, Math.min(timer, 1));
                         GL11.glColor4f(0F, 0.1F, 1.0F, 0.5F);
                         this.blit(movesOffsetX + w, movesOffsetY + 13 * index + h, 43, 21 + h1, (int) (91 * timer), 13);
@@ -403,8 +404,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                     final Color moveColor = new Color(move.getType(pokemob).colour);
                     GL11.glColor4f(moveColor.getRed() / 255f, moveColor.getGreen() / 255f, moveColor.getBlue() / 255f,
                             1.0F);
-                    this.fontRenderer.drawString(MovesUtils.getMoveName(move.getName()).getFormattedText(), 5
-                            + movesOffsetX + w, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
+                    this.fontRenderer.drawString(MovesUtils.getMoveName(move.getName()).getFormattedText(),
+                            5 + movesOffsetX + w, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
                     GL11.glPopMatrix();
                 }
             }
@@ -446,7 +447,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 final LivingEntity entity = pokemob.getEntity().getAttackTarget();
                 if (entity == null || !entity.isAlive()) break render;
 
-            // GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);
+                // GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);
                 // Render HP
                 this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
                 this.blit(hpOffsetX + w, hpOffsetY + h, 43, 12, 92, 7);
@@ -463,11 +464,11 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
                 final Tessellator tessellator = Tessellator.getInstance();
                 final BufferBuilder vertexbuffer = tessellator.getBuffer();
                 vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            vertexbuffer.pos(x + 0, y + height, this.getBlitOffset()).tex(u * f, (v + height) * f1).endVertex();
-            vertexbuffer.pos(x + width, y + height, this.getBlitOffset()).tex((u + width) * f, (v + height) * f1)
+                vertexbuffer.pos(x + 0, y + height, this.getBlitOffset()).tex(u * f, (v + height) * f1).endVertex();
+                vertexbuffer.pos(x + width, y + height, this.getBlitOffset()).tex((u + width) * f, (v + height) * f1)
                 .endVertex();
-            vertexbuffer.pos(x + width, y + 0, this.getBlitOffset()).tex((u + width) * f, v * f1).endVertex();
-            vertexbuffer.pos(x + 0, y + 0, this.getBlitOffset()).tex(u * f, v * f1).endVertex();
+                vertexbuffer.pos(x + width, y + 0, this.getBlitOffset()).tex((u + width) * f, v * f1).endVertex();
+                vertexbuffer.pos(x + 0, y + 0, this.getBlitOffset()).tex(u * f, v * f1).endVertex();
                 tessellator.draw();
 
                 // Render Status
@@ -566,8 +567,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
             if (e1.ticksExisted == e2.ticksExisted)
             {
-                if (o2.getLevel() == o1.getLevel()) return o1.getDisplayName().getFormattedText().compareTo(o2
-                        .getDisplayName().getFormattedText());
+                if (o2.getLevel() == o1.getLevel())
+                    return o1.getDisplayName().getFormattedText().compareTo(o2.getDisplayName().getFormattedText());
                 return o2.getLevel() - o1.getLevel();
             }
             return e1.ticksExisted - e2.ticksExisted;
@@ -575,12 +576,10 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         return this.arrayRet;
     }
 
-    /**
-     * Shifts the gui by x and y
+    /** Shifts the gui by x and y
      *
      * @param x
-     * @param y
-     */
+     * @param y */
     public void moveGui(final int x, final int y)
     {
         PokecubeCore.getConfig().guiPos.set(0, PokecubeCore.getConfig().guiPos.get(0) + x);
@@ -588,11 +587,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         this.saveConfig();
     }
 
-    /**
-     * Incremenrs pokemob move index
+    /** Incremenrs pokemob move index
      *
-     * @param i
-     */
+     * @param i */
     public void nextMove(final int i)
     {
         final IPokemob pokemob = this.getCurrentPokemob();
@@ -621,9 +618,10 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         try
         {
-            if ((this.minecraft.currentScreen == null || GuiArranger.toggle) && !Minecraft
-                    .getInstance().gameSettings.hideGUI && event.getType() == ElementType.HOTBAR || event
-                    .getType() == ElementType.CHAT) this.draw(event);
+            if ((this.minecraft.currentScreen == null || GuiArranger.toggle)
+                    && !Minecraft.getInstance().gameSettings.hideGUI && event.getType() == ElementType.HOTBAR
+                    || event.getType() == ElementType.CHAT)
+                this.draw(event);
         }
         catch (final Throwable e)
         {
@@ -664,26 +662,24 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             }
         }
         if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof EnderDragonPartEntity))
-            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getEntityId())
-                    .setFromOwner(true));
+            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY,
+                    new AttackEntityHandler(target.getEntityId()).setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,
                 new AttackLocationHandler(targetLocation).setFromOwner(true));
         else PacketCommand.sendCommand(pokemob, Command.ATTACKNOTHING, new AttackNothingHandler().setFromOwner(true));
     }
 
-    /**
-     * Recalls selected pokemob, if none selected, will try to identify a
-     * pokemob being looked at, and recalls that
-     */
+    /** Recalls selected pokemob, if none selected, will try to identify a
+     * pokemob being looked at, and recalls that */
     public void pokemobBack()
     {
         final IPokemob pokemob = this.getCurrentPokemob();
 
         if (Screen.hasShiftDown() && pokemob != null && pokemob.getOwner() != null)
         {
-            PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(Vector3.getNewVector().set(pokemob
-                    .getOwner()), (float) pokemob.getEntity().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
-                    .getValue()));
+            PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(
+                    Vector3.getNewVector().set(pokemob.getOwner()),
+                    (float) pokemob.getEntity().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue()));
             return;
         }
 
@@ -706,10 +702,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
     }
 
-    /**
-     * Sends the packet to toggle all pokemobs set to follow between sit and
-     * stand
-     */
+    /** Sends the packet to toggle all pokemobs set to follow between sit and
+     * stand */
     public void pokemobStance()
     {
         IPokemob pokemob;
@@ -724,17 +718,16 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final Vector3 temp = Vector3.getNewVector().set(player).addTo(0, player.getEyeHeight(), 0);
             target = temp.firstEntityExcluding(32, look, player.getEntityWorld(), player.isCrouching(), player);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
-            if (targetMob != null && targetMob.getOwner() == player) PacketCommand.sendCommand(targetMob,
-                    Command.STANCE, new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING),
-                            StanceHandler.BUTTONTOGGLESIT).setFromOwner(true));
+            if (targetMob != null && targetMob.getOwner() == player)
+                PacketCommand.sendCommand(targetMob, Command.STANCE,
+                        new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.BUTTONTOGGLESIT)
+                        .setFromOwner(true));
         }
     }
 
-    /**
-     * Decrements pokemob move index
+    /** Decrements pokemob move index
      *
-     * @param j
-     */
+     * @param j */
     public void previousMove(final int j)
     {
         final IPokemob pokemob = this.getCurrentPokemob();
@@ -770,11 +763,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         // PokecubeCore.getConfig().setSettings();
     }
 
-    /**
-     * Sets pokemob's move index.
+    /** Sets pokemob's move index.
      *
-     * @param num
-     */
+     * @param num */
     public void setMove(final int num)
     {
         final IPokemob pokemob = this.getCurrentPokemob();

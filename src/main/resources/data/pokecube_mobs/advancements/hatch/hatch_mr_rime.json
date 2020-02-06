@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mr_rime"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mr_rime"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mr_rime": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mr_rime"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_mr_mime_galar"
+}

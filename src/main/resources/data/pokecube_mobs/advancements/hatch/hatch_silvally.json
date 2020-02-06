@@ -28,5 +28,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:hatch/hatch_typenull"
+  "parent": "pokecube_mobs:hatch/hatch_type_null"
 }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa_confined"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hoopa_confined"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_hoopa_confined": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "hoopa_confined"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

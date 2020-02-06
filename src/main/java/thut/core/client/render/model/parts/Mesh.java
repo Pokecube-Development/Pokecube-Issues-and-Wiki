@@ -67,7 +67,7 @@ public abstract class Mesh
         }
 
         // Initialize a "default" material for us
-        this.material = new Material("auto:" + name);
+        this.material = new Material("auto:" + this.name);
     }
 
     protected void doRender(final MatrixStack mat, final IVertexBuilder buffer, final IPartTexturer texturer)
@@ -86,9 +86,9 @@ public abstract class Mesh
         final int overlayUV = this.rgbabro[5];
         int n = 0;
 
-        MatrixStack.Entry matrixstack$entry = mat.getLast();
-        Matrix4f pos = matrixstack$entry.getPositionMatrix();
-        Matrix3f norm = matrixstack$entry.getNormalMatrix();
+        final MatrixStack.Entry matrixstack$entry = mat.getLast();
+        final Matrix4f pos = matrixstack$entry.getPositionMatrix();
+        final Matrix3f norm = matrixstack$entry.getNormalMatrix();
 
         for (final Integer i : this.order)
         {
@@ -97,16 +97,16 @@ public abstract class Mesh
             normal = this.normals[i];
             if (flat) normal = this.normalList[n];
 
-            float x = vertex.x;
-            float y = vertex.y;
-            float z = vertex.z;
+            final float x = vertex.x;
+            final float y = vertex.y;
+            final float z = vertex.z;
 
-            float nx = normal.x;
-            float ny = normal.y;
-            float nz = normal.z;
+            final float nx = normal.x;
+            final float ny = normal.y;
+            final float nz = normal.z;
 
-            float u = textureCoordinate.u + (float) uvShift[0];
-            float v = textureCoordinate.v + (float) uvShift[1];
+            final float u = textureCoordinate.u + (float) this.uvShift[0];
+            final float v = textureCoordinate.v + (float) this.uvShift[1];
 
             // We use the default Item format, since that is what mobs use.
             // This means we need these in this order!
@@ -126,10 +126,7 @@ public abstract class Mesh
     public void renderShape(final MatrixStack mat, IVertexBuilder buffer, final IPartTexturer texturer)
     {
         // Apply Texturing.
-        if (texturer != null)
-        {
-            texturer.shiftUVs(this.name, this.uvShift);
-        }
+        if (texturer != null) texturer.shiftUVs(this.name, this.uvShift);
         if (this.material != null) buffer = this.material.preRender(mat, buffer);
         this.doRender(mat, buffer, texturer);
     }

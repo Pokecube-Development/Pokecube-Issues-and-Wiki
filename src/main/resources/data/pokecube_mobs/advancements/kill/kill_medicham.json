@@ -29,5 +29,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:kill/kill_meditite"
+  "parent": "pokecube_mobs:kill/kill_meditite_female"
 }

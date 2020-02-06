@@ -19,6 +19,7 @@ import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.common.ThutCore;
 
 /** Body, Made of Bones, Faces, and Materials. */
 public class Body implements IRetexturableModel
@@ -167,7 +168,8 @@ public class Body implements IRetexturableModel
                     lineCount += 1;
                     while (!(currentLine = reader.readLine()).startsWith("end"))
                     {
-                        final Material mat = this.parent.usesMaterials ? this.parseMaterial(currentLine) : null;
+                        final Material mat = this.parent.usesMaterials ? this.parseMaterial(ThutCore.trim(currentLine))
+                                : null;
                         final String[] params = new String[3];
                         for (int i = 0; i < 3; i++)
                         {
@@ -194,7 +196,7 @@ public class Body implements IRetexturableModel
     {
         final String[] params = line.split("\\s+");
         final int id = Integer.parseInt(params[0]);
-        final String boneName = params[1].replaceAll("\"", "");
+        final String boneName = ThutCore.trim(params[1].replaceAll("\"", ""));
         Bone theBone = body != null ? body.getBone(boneName) : null;
         if (theBone == null)
         {

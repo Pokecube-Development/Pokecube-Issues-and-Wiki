@@ -22,7 +22,7 @@ import thut.core.client.render.texturing.IRetexturableModel;
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
     private final HashMap<String, IExtendedModelPart> childParts = new HashMap<>();
-    private List<Mesh>                                shapes     = Lists.newArrayList();
+    private final List<Mesh>                          shapes     = Lists.newArrayList();
 
     private final String                              name;
     private IExtendedModelPart                        parent     = null;
@@ -47,42 +47,41 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private final int[]                               rgbabro    = new int[6];
 
     private boolean                                   hidden     = false;
-    private List<Material>                            materials  = Lists.newArrayList();
-    private Set<Material>                             matcache   = Sets.newHashSet();
+    private final List<Material>                      materials  = Lists.newArrayList();
+    private final Set<Material>                       matcache   = Sets.newHashSet();
 
     public Part(final String name)
     {
         this.name = name;
     }
 
-    public void addShape(Mesh shape)
+    public void addShape(final Mesh shape)
     {
         this.shapes.add(shape);
         if (shape.material == null) return;
-        if (matcache.add(shape.material)) this.materials.add(shape.material);
+        if (this.matcache.add(shape.material)) this.materials.add(shape.material);
     }
 
-    public void setShapes(List<Mesh> shapes)
+    public void setShapes(final List<Mesh> shapes)
     {
         this.shapes.clear();
         this.shapes.addAll(shapes);
-        for (Mesh shape : shapes)
+        for (final Mesh shape : shapes)
         {
             if (shape.material == null) continue;
-            if (matcache.add(shape.material))
-            {
-                this.materials.add(shape.material);
-            }
+            if (this.matcache.add(shape.material)) this.materials.add(shape.material);
         }
     }
 
     @Override
-    public void applyTexture(IRenderTypeBuffer bufferIn, ResourceLocation tex, IPartTexturer texer)
+    public void applyTexture(final IRenderTypeBuffer bufferIn, final ResourceLocation tex, final IPartTexturer texer)
     {
-        for (Mesh shape : shapes)
+        for (final Mesh shape : this.shapes)
         {
-            ResourceLocation tex_1 = texer.getTexture(shape.name, tex);
-            tex_1 = texer.getTexture(shape.material.name, tex_1);
+            ResourceLocation tex_1 = tex;
+            if (texer.hasMapping(shape.material.name)) tex_1 = texer.getTexture(shape.material.name, tex);
+            else if (texer.hasMapping(shape.name)) tex_1 = texer.getTexture(shape.name, tex);
+            else if (texer.hasMapping(shape.name)) tex_1 = texer.getTexture(shape.name, tex);
             shape.material.makeVertexBuilder(tex_1, bufferIn);
         }
     }
@@ -97,7 +96,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public List<Material> getMaterials()
     {
-        return materials;
+        return this.materials;
     }
 
     public void addForRender(final MatrixStack mat, final IVertexBuilder buffer)
@@ -214,7 +213,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
     {
-        float s = 1.f;
+        final float s = 1.f;
         this.preScale.set(s, s, s);
         mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         boolean skip = false;

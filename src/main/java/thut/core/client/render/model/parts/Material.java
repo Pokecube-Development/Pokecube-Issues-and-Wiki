@@ -15,18 +15,19 @@ import thut.api.maths.vecmath.Vector3f;
 
 public class Material
 {
-    public final String  name;
-    private final String render_name;
-    public String        texture;
-    public Vector3f      diffuseColor;
-    public Vector3f      specularColor;
-    public Vector3f      emissiveColor;
-    public float         emissiveMagnitude;
-    public float         ambientIntensity;
-    public float         shininess;
-    public float         transparency;
+    public final String     name;
+    private final String    render_name;
+    public String           texture;
+    public Vector3f         diffuseColor;
+    public Vector3f         specularColor;
+    public Vector3f         emissiveColor;
+    public ResourceLocation tex;
+    public float            emissiveMagnitude;
+    public float            ambientIntensity;
+    public float            shininess;
+    public float            transparency;
 
-    IVertexBuilder       override_buff = null;
+    IVertexBuilder          override_buff = null;
 
     public Material(final String name)
     {
@@ -48,14 +49,17 @@ public class Material
         this.emissiveMagnitude = Math.min(1, (float) (this.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
     }
 
-    public void makeVertexBuilder(ResourceLocation texture, IRenderTypeBuffer buffer)
+    public void makeVertexBuilder(final ResourceLocation texture, final IRenderTypeBuffer buffer)
     {
-        override_buff = buffer.getBuffer(makeRenderType(texture));
+        final RenderType type = this.makeRenderType(texture);
+        final IVertexBuilder buff = buffer.getBuffer(type);
+        this.override_buff = buff;
     }
 
-    private RenderType makeRenderType(ResourceLocation tex)
+    private RenderType makeRenderType(final ResourceLocation tex)
     {
-        RenderType.State rendertype$state = RenderType.State.builder()
+        this.tex = tex;
+        final RenderType.State rendertype$state = RenderType.State.builder()
                 .texture(new RenderState.TextureState(tex, true, false))
                 .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
                 {
@@ -68,12 +72,15 @@ public class Material
                 .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
                 .lightmap(new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true)).build(false);
         // TODO see where we need to properly apply the material texture.
-        return RenderType.get(render_name, DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
+
+        final String id = this.render_name + tex;
+        final RenderType type = RenderType.get(id, DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
                 rendertype$state);
+        return type;
     }
 
     public IVertexBuilder preRender(final MatrixStack mat, final IVertexBuilder buffer)
     {
-        return override_buff == null ? buffer : override_buff;
+        return this.override_buff == null ? buffer : this.override_buff;
     }
 }

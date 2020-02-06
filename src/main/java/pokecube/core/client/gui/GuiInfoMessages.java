@@ -64,6 +64,7 @@ public class GuiInfoMessages
         if (event.getType() == ElementType.CHAT && !(minecraft.currentScreen instanceof ChatScreen)) return;
         if (event.getType() != ElementType.CHAT && minecraft.currentScreen != null) return;
 
+        GL11.glPushMatrix();
         final int texH = minecraft.fontRenderer.FONT_HEIGHT;
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
@@ -147,5 +148,6 @@ public class GuiInfoMessages
             }
             shift++;
         }
+        GL11.glPopMatrix();
     }
 }

@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -73,6 +72,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
+import thut.core.common.ThutCore;
 
 public class Database
 {
@@ -1001,12 +1001,8 @@ public class Database
         }
     }
 
-    public static String trim(String name)
+    public static String trim(final String name)
     {
-        // English locale to prevent issues with turkish letters.
-        name = name.toLowerCase(Locale.ENGLISH);
-        // Replace all non word chars.
-        name = name.replaceAll("([\\W])", "");
-        return name;
+        return ThutCore.trim(name);
     }
 }

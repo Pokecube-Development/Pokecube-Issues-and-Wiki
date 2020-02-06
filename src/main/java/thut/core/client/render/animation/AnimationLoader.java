@@ -43,7 +43,7 @@ public class AnimationLoader
         {
             final String[] names = node.getAttributes().getNamedItem(key).getNodeValue().split(":");
             for (final String s : names)
-                toAddTo.add(s);
+                toAddTo.add(ThutCore.trim(s));
         }
     }
 
@@ -224,46 +224,46 @@ public class AnimationLoader
                     {
                         final Node phase = part.getAttributes().getNamedItem("name") == null ? part.getAttributes()
                                 .getNamedItem("type") : part.getAttributes().getNamedItem("name");
-                        final String phaseName = phase.getNodeValue();
-                        for (final String s : AnimationRegistry.animations.keySet())
-                            if (phaseName.equals(s))
-                            {
-                                ThutCore.LOGGER.debug("Loading " + s + " for " + holder.name);
-                                try
+                                final String phaseName = phase.getNodeValue();
+                                for (final String s : AnimationRegistry.animations.keySet())
+                                    if (phaseName.equals(s))
+                                    {
+                                        ThutCore.LOGGER.debug("Loading " + s + " for " + holder.name);
+                                        try
+                                        {
+                                            final Animation anim = AnimationRegistry.make(s, part.getAttributes(), null);
+                                            if (anim != null) tblAnims.add(anim);
+                                        }
+                                        catch (final Exception e)
+                                        {
+                                            ThutCore.LOGGER.debug("Error with animation for model: " + holder.name + " Anim: "
+                                                    + s, e);
+                                        }
+                                    }
+                                if (phaseName.equals("global")) try
                                 {
-                                    final Animation anim = AnimationRegistry.make(s, part.getAttributes(), null);
-                                    if (anim != null) tblAnims.add(anim);
+                                    offset = AnimationLoader.getOffset(part, offset);
+                                    scale = AnimationLoader.getScale(part, scale);
+                                    rotation = AnimationLoader.getRotation(part, rotation);
+                                    headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
+                                    headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
+                                    headAxis = AnimationLoader.getIntValue(part, "headAxis", 2);
+                                    headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", 0);
+                                    AnimationLoader.addStrings("head", part, headNames);
+                                    AnimationLoader.addStrings("shear", part, shear);
+                                    AnimationLoader.addStrings("dye", part, dye);
+                                    AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
                                 }
                                 catch (final Exception e)
                                 {
-                                    ThutCore.LOGGER.debug("Error with animation for model: " + holder.name + " Anim: "
-                                            + s, e);
+                                    e.printStackTrace();
                                 }
-                            }
-                        if (phaseName.equals("global")) try
-                        {
-                            offset = AnimationLoader.getOffset(part, offset);
-                            scale = AnimationLoader.getScale(part, scale);
-                            rotation = AnimationLoader.getRotation(part, rotation);
-                            headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
-                            headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
-                            headAxis = AnimationLoader.getIntValue(part, "headAxis", 2);
-                            headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", 0);
-                            AnimationLoader.addStrings("head", part, headNames);
-                            AnimationLoader.addStrings("shear", part, shear);
-                            AnimationLoader.addStrings("dye", part, dye);
-                            AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
-                        }
-                        catch (final Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                        else if (phaseName.equals("textures")) holder.handleCustomTextures(part);
-                        else
-                        {
-                            final Animation anim = AnimationBuilder.build(part, null);
-                            if (anim != null) tblAnims.add(anim);
-                        }
+                                else if (phaseName.equals("textures")) holder.handleCustomTextures(part);
+                                else
+                                {
+                                    final Animation anim = AnimationBuilder.build(part, null);
+                                    if (anim != null) tblAnims.add(anim);
+                                }
                     }
                     else if (part.getNodeName().equals("merges"))
                     {

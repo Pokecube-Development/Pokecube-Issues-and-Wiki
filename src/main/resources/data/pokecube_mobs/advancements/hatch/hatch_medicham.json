@@ -28,5 +28,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:hatch/hatch_meditite"
+  "parent": "pokecube_mobs:hatch/hatch_meditite_female"
 }

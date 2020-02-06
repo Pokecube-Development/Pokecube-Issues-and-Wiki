@@ -29,5 +29,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:kill/kill_typenull"
+  "parent": "pokecube_mobs:kill/kill_type_null"
 }

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta_aria"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meloetta_aria"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_meloetta_aria": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "meloetta_aria"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}
