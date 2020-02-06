@@ -20,6 +20,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
+import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -68,8 +69,10 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         entityrenderermanager.setRenderShadow(false);
         final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                 .getBufferSource();
+        RenderMobOverlays.enabled = false;
         entityrenderermanager.renderEntityStatic(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrixstack,
                 irendertypebuffer$impl, 15728880);
+        RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.finish();
         entityrenderermanager.setRenderShadow(true);
         entity.renderYawOffset = f2;

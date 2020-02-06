@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
@@ -117,7 +116,8 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
             final IBakedModel ibakedmodel = itemRenderer.getItemModelWithOverrides(stack, wearer.getEntityWorld(),
                     null);
             // TODO check lighting/etc in this call!
-            itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED, true, mat, buff, 0, 0,
+            itemRenderer.renderItem(stack, net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.FIXED,
+                    true, mat, buff, 0, 0,
                     ibakedmodel);
             mat.pop();
         }

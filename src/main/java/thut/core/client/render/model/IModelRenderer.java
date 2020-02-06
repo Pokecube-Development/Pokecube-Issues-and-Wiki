@@ -46,7 +46,8 @@ public interface IModelRenderer<T extends MobEntity>
             Vector4 rotDiff = this.rotations.copy();
 
             if (this.rotations.x == this.rotations.z && this.rotations.z == this.rotations.y
-                    && this.rotations.y == this.rotations.w && this.rotations.w == 0) this.rotations.x = 1;
+                    && this.rotations.y == this.rotations.w && this.rotations.w == 0)
+                this.rotations.x = 1;
 
             if (!v.rotations.equals(this.rotations))
             {
@@ -68,14 +69,14 @@ public interface IModelRenderer<T extends MobEntity>
 
     public static final String DEFAULTPHASE = "idle";
 
-    static final Vector3 DEFAULTSCALE = Vector3.getNewVector().set(1);
+    static final Vector3       DEFAULTSCALE = Vector3.getNewVector().set(1);
 
     void doRender(T entity, double d, double d1, double d2, float f, float partialTick);
 
     default String getAnimation(final Entity entityIn)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
-        if (holder != null) return holder.getCurrentAnimation();
+        if (holder != null && !holder.getPlaying().isEmpty()) return holder.getPlaying().get(0).name;
         return "idle";
     }
 
@@ -108,7 +109,9 @@ public interface IModelRenderer<T extends MobEntity>
     default void setAnimation(final String phase, final Entity entity)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
-        if (holder != null) if (!holder.getCurrentAnimation().equals(phase)) holder.setPendingAnimation(phase);
+        final List<Animation> anim = this.getAnimations().get(phase);
+        if (holder != null && anim != null)
+            if (holder.getPendingAnimations().isEmpty()) holder.setPendingAnimations(anim);
     }
 
     void setAnimationChanger(IAnimationChanger changer);

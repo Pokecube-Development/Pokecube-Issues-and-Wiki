@@ -1,9 +1,11 @@
 package thut.core.client.render.animation;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -24,18 +26,18 @@ public class CapabilityAnimation
 {
     public static class DefaultImpl implements IAnimationHolder, ICapabilityProvider
     {
-        private final LazyOptional<IAnimationHolder> holder = LazyOptional.of(() -> this);
+        private final LazyOptional<IAnimationHolder> holder   = LazyOptional.of(() -> this);
 
-        Map<UUID, Integer> stepsMap = Maps.newHashMap();
-        Set<Animation>     playing  = Sets.newHashSet();
-        private String     pending  = "idle";
-        private String     current  = "idle";
+        Map<UUID, Integer>                           stepsMap = Maps.newHashMap();
+        List<Animation>                              playing  = Lists.newArrayList();
+        private final List<Animation>                pending  = Lists.newArrayList();
 
         @Override
         public void clean()
         {
             this.stepsMap.clear();
-            this.pending = this.current = "idle";
+            this.pending.clear();
+            ;
             this.playing.clear();
         }
 
@@ -46,19 +48,13 @@ public class CapabilityAnimation
         }
 
         @Override
-        public String getCurrentAnimation()
-        {
-            return this.current;
-        }
-
-        @Override
-        public String getPendingAnimation()
+        public List<Animation> getPendingAnimations()
         {
             return this.pending;
         }
 
         @Override
-        public Set<Animation> getPlaying()
+        public List<Animation> getPlaying()
         {
             return this.playing;
         }
@@ -68,26 +64,27 @@ public class CapabilityAnimation
         {
             int step = 0;
             if (this.stepsMap.containsKey(animation.id)) step = this.stepsMap.get(animation.id);
-            if (!this.pending.equals(this.current)) if (step == animation.length) this.current = this.pending;
             return step;
         }
 
         @Override
-        public void setCurrentAnimation(final String name)
+        public void setPendingAnimations(final List<Animation> name)
         {
-            this.current = name;
-        }
-
-        @Override
-        public void setPendingAnimation(final String name)
-        {
-            this.pending = name;
+            if (name != null) this.pending.addAll(name);
+            else this.pending.clear();
+            if (this.playing.isEmpty() && !this.pending.isEmpty())
+                if (!this.pending.isEmpty()) this.playing.add(this.pending.remove(0));
         }
 
         @Override
         public void setStep(final Animation animation, final int step)
         {
             this.stepsMap.put(animation.id, step);
+            if (step == animation.length)
+            {
+                if (!this.pending.isEmpty()) this.playing.add(this.pending.remove(0));
+                this.playing.remove(animation);
+            }
         }
     }
 
@@ -96,52 +93,30 @@ public class CapabilityAnimation
         /** should clear the ticks animations were run on */
         void clean();
 
-        /**
-         * Gets the animation currently being run.
+        /** Gets the animation about to be run.
          *
-         * @return
-         */
-        String getCurrentAnimation();
+         * @return */
+        List<Animation> getPendingAnimations();
 
-        /**
-         * Gets the animation about to be run.
-         *
-         * @return
-         */
-        String getPendingAnimation();
+        List<Animation> getPlaying();
 
-        Set<Animation> getPlaying();
-
-        /**
-         * the last tick this animation was run. Should return 0 if the
+        /** the last tick this animation was run. Should return 0 if the
          * animation hasn't been run.
          *
          * @param animation
-         * @return
-         */
+         * @return */
         int getStep(Animation animation);
 
-        /**
-         * This is the animation that is currently being run.
+        /** This is the animation about to be run.
          *
-         * @param name
-         */
-        void setCurrentAnimation(String name);
+         * @param name */
+        void setPendingAnimations(List<Animation> name);
 
-        /**
-         * This is the animation about to be run.
-         *
-         * @param name
-         */
-        void setPendingAnimation(String name);
-
-        /**
-         * Sets the last tick this animation was run. Can set to 0 to count
+        /** Sets the last tick this animation was run. Can set to 0 to count
          * this animation as cleared.
          *
          * @param animation
-         * @param step
-         */
+         * @param step */
         void setStep(Animation animation, int step);
     }
 
@@ -161,17 +136,17 @@ public class CapabilityAnimation
         }
     }
 
-    private static final Set<Class<? extends Entity>> ANIMATE = Sets.newHashSet();
-    private static final ResourceLocation             ANIM    = new ResourceLocation("thutcore:animations");
+    private static final Set<Class<? extends Entity>> ANIMATE    = Sets.newHashSet();
+    private static final ResourceLocation             ANIM       = new ResourceLocation("thutcore:animations");
 
     @CapabilityInject(IAnimationHolder.class)
-    public static final Capability<IAnimationHolder> CAPABILITY = null;
+    public static final Capability<IAnimationHolder>  CAPABILITY = null;
 
     @SubscribeEvent
     public static void attachCap(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (CapabilityAnimation.ANIMATE.contains(event.getObject().getClass())) event.addCapability(
-                CapabilityAnimation.ANIM, new DefaultImpl());
+        if (CapabilityAnimation.ANIMATE.contains(event.getObject().getClass()))
+            event.addCapability(CapabilityAnimation.ANIM, new DefaultImpl());
     }
 
     public static void registerAnimateClass(final Class<? extends Entity> clazz)

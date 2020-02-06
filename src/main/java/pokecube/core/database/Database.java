@@ -415,35 +415,26 @@ public class Database
         return mob.getPokedexEntry();
     }
 
-    public static PokedexEntry getEntry(final String name)
+    public static PokedexEntry getEntry(String name)
     {
         final PokedexEntry ret = null;
         if (name == null) return null;
         if (name.trim().isEmpty()) return null;
-        PokedexEntry var = Database.data2.get(name);
-        if (var != null) return var;
-        final String newName = Database.trim(name);
-        var = Database.data2.get(newName);
-        if (var != null)
-        {
-            Database.data2.put(name, var);
-            return var;
-        }
+        name = ThutCore.trim(name);
         final List<PokedexEntry> toProcess = Lists.newArrayList(Database.allFormes);
         toProcess.sort(Database.COMPARATOR);
         for (final PokedexEntry e : toProcess)
         {
             final String s = e.getTrimmedName();
-            if (s.equals(newName))
+            if (s.equals(name))
             {
                 Database.data2.put(name, e);
-                Database.data2.put(newName, e);
                 Database.data2.put(s, e);
                 return e;
             }
         }
-        if (name.toLowerCase(java.util.Locale.ENGLISH).contains("mega ")) return Database
-                .getEntry((name.toLowerCase(java.util.Locale.ENGLISH).replace("mega ", "") + " mega").trim());
+        if (ThutCore.trim(name).contains("mega_"))
+            return Database.getEntry((ThutCore.trim(name).replace("mega_", "") + "_mega").trim());
         return ret;
     }
 

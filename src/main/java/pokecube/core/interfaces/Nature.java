@@ -1,12 +1,11 @@
 package pokecube.core.interfaces;
 
-import java.util.Locale;
-
 import pokecube.core.items.berries.BerryManager;
+import thut.core.common.ThutCore;
 
 public enum Nature
 {
-   //@formatter:off
+    //@formatter:off
     HARDY   (new byte[]{0,0,0,0,0,0}),
     LONELY  (new byte[]{0,1,-1,0,0,0}),
     BRAVE   (new byte[]{0,1,0,0,0,-1}),
@@ -102,6 +101,6 @@ public enum Nature
 
     public static String getLocalizationKey(final Nature type)
     {
-        return "pokecube.nature." + type.toString().toLowerCase(Locale.ENGLISH);
+        return "pokecube.nature." + ThutCore.trim(type.toString());
     }
 }

@@ -1,7 +1,6 @@
 package pokecube.core.interfaces.capabilities;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Function;
 
 import com.google.common.collect.Lists;
@@ -19,6 +18,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.entity.IMobTexturable;
+import thut.core.common.ThutCore;
 
 public class TextureableCaps
 {
@@ -146,10 +146,10 @@ public class TextureableCaps
 
     {
         for (final GeneralStates state : GeneralStates.values())
-            TextureableCaps.STATES.add(state.name().toLowerCase(Locale.ENGLISH));
+            TextureableCaps.STATES.add(ThutCore.trim(state.name()));
         for (final LogicStates state : LogicStates.values())
-            TextureableCaps.STATES.add(state.name().toLowerCase(Locale.ENGLISH));
+            TextureableCaps.STATES.add(ThutCore.trim(state.name()));
         for (final CombatStates state : CombatStates.values())
-            TextureableCaps.STATES.add(state.name().toLowerCase(Locale.ENGLISH));
+            TextureableCaps.STATES.add(ThutCore.trim(state.name()));
     }
 }

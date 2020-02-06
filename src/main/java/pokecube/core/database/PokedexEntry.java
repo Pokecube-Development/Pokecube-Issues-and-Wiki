@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -70,6 +69,7 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.common.ThutCore;
 
 /** @author Manchou */
 public class PokedexEntry
@@ -995,7 +995,7 @@ public class PokedexEntry
         this.pokedexNb = nb;
         if (Database.getEntry(name) == null) Database.allFormes.add(this);
         else new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name))
-                .printStackTrace();
+        .printStackTrace();
     }
 
     public List<TimePeriod> activeTimes()
@@ -1206,7 +1206,7 @@ public class PokedexEntry
     {
         if (this.baseXP == -1) this.baseXP = this.getBaseForme() != null && this.getBaseForme() != this ? this
                 .getBaseForme().getBaseXP() : 0;
-        return this.baseXP;
+                return this.baseXP;
     }
 
     /** @return the catchRate */
@@ -1266,7 +1266,7 @@ public class PokedexEntry
             if (evoString != null) descString = descString + "\n" + evoString;
             if (entry.evolvesFrom != null) descString = descString + "\n" + I18n.format(
                     "pokemob.description.evolve.from", entry.getTranslatedName(), entry.evolvesFrom
-                            .getTranslatedName());
+                    .getTranslatedName());
             this.description = new StringTextComponent(descString);
         }
         return this.description;
@@ -1345,7 +1345,7 @@ public class PokedexEntry
         else if (this.abilitiesHidden.size() == 1) return AbilityManager.getAbility(this.abilitiesHidden.get(0));
         else if (this.abilitiesHidden.size() == 2) return pokemob.getSexe() == IPokemob.MALE ? AbilityManager
                 .getAbility(this.abilitiesHidden.get(0)) : AbilityManager.getAbility(this.abilitiesHidden.get(1));
-        return null;
+                return null;
 
     }
 
@@ -1520,7 +1520,7 @@ public class PokedexEntry
         final String suffix = textureSuffixs[0];
         String ret = original + suffix + ".png";
         if (!ret.contains(this.texturePath)) ret = this.texturePath + ret;
-        ret = ret.toLowerCase(Locale.ENGLISH);
+        ret = ThutCore.trim(ret);
         return ret;
     }
 
@@ -1580,13 +1580,13 @@ public class PokedexEntry
         for (final String s : this.food)
             foodList.add(s);
         poke:
-        for (final PokedexEntry e : Database.data.values())
-            if (e.species != null) for (final String s : e.species)
-                if (foodList.contains(s))
-                {
-                    this.prey.add(e);
-                    continue poke;
-                }
+            for (final PokedexEntry e : Database.data.values())
+                if (e.species != null) for (final String s : e.species)
+                    if (foodList.contains(s))
+                    {
+                        this.prey.add(e);
+                        continue poke;
+                    }
     }
 
     protected void initRelations()

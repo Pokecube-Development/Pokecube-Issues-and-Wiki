@@ -8,24 +8,24 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import thut.api.maths.Vector3;
+import thut.core.common.ThutCore;
 
 public class BiomeDatabase
 {
     public static HashMap<Biome, Type[]> biomeTypes = new HashMap<>();
 
-    public static boolean contains(Biome b, Type type)
+    public static boolean contains(final Biome b, final Type type)
     {
         return BiomeDictionary.hasType(b, type);
     }
 
-    public static BiomeType getBiome(Biome b)
+    public static BiomeType getBiome(final Biome b)
     {
-        if (b != null) if (BiomeDatabase.getBiomeName(b).toLowerCase(java.util.Locale.ENGLISH).contains("flower"))
-            return BiomeType.FLOWER;
+        if (b != null) if (ThutCore.trim(BiomeDatabase.getBiomeName(b)).contains("flower")) return BiomeType.FLOWER;
         return BiomeType.NONE;
     }
 
-    public static String getBiome(World world, Vector3 v, boolean checkIndandVillage)
+    public static String getBiome(final World world, final Vector3 v, final boolean checkIndandVillage)
     {
         String ret = "";
 
@@ -40,12 +40,12 @@ public class BiomeDatabase
         return ret;
     }
 
-    public static String getBiomeName(Biome biome)
+    public static String getBiomeName(final Biome biome)
     {
         return biome.getRegistryName().getNamespace();
     }
 
-    public static String getUnlocalizedNameFromType(int type)
+    public static String getUnlocalizedNameFromType(final int type)
     {
         return BiomeType.getType(type).readableName;
     }

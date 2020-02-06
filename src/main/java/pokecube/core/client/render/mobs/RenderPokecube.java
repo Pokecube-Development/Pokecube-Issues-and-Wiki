@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -16,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
 import pokecube.core.interfaces.IPokecube;
@@ -35,12 +37,14 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         }
 
         EntityPokecube cube;
+        float          ageInTicks;
 
         @Override
         public void render(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
                 final float ageInTicks, final float netHeadYaw, final float headPitch)
         {
             this.cube = entityIn;
+            this.ageInTicks = ageInTicks;
         }
 
         @Override
@@ -60,19 +64,15 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
                 if (pokemob != null)
                 {
                     // TODO exit cube effects.
-                    // RenderPokemob.renderEffect(pokemob, f2 -
-                    // cube.ticksExisted, 40,
-                    // false);
+                    // RenderPokemob.renderEffect(pokemob, 100 -
+                    // cube.ticksExisted, 40, false);
                 }
             }
 
             if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {
-                // final float rotateY = MathHelper.cos(MathHelper.abs((float)
-                // (Math.PI * ageInTicks) / 12)) * (180F
-                // / (float) Math.PI);
-                // GL11.glRotatef(rotateY, 0.0F, 0.0F, 1.0F);
-                // TODO Rotate to face speed direction.
+                final float rotateY = MathHelper.cos(MathHelper.abs((float) (Math.PI * this.ageInTicks) / 12));
+                mat.rotate(Vector3f.YP.rotation(rotateY));
             }
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
@@ -81,15 +81,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             final Minecraft mc = Minecraft.getInstance();
             final IBakedModel ibakedmodel = mc.getItemRenderer().getItemModelWithOverrides(renderStack, this.cube.world,
                     (LivingEntity) null);
-            // mc.getItemRenderer().renderModel(ibakedmodel, renderStack,
-            // packedLightIn, packedOverlayIn, mat, bufferIn);
-
-            // FIXME rendering the cube as an item.
-            // Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-            // final IBakedModel model =
-            // Minecraft.getInstance().getItemRenderer().getModelWithOverrides(renderStack);
-            // Minecraft.getInstance().getItemRenderer().renderItem(renderStack,
-            // model);
+            mc.getItemRenderer().renderModel(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat, bufferIn);
 
             mat.pop();
         }

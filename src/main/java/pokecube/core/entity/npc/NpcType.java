@@ -1,6 +1,5 @@
 package pokecube.core.entity.npc;
 
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,6 +17,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.core.common.ThutCore;
 
 public class NpcType
 {
@@ -87,7 +87,7 @@ public class NpcType
 
     public static NpcType byType(String string)
     {
-        if (NpcType.typeMap.containsKey(string = string.toLowerCase(Locale.ROOT))) return NpcType.typeMap.get(string);
+        if (NpcType.typeMap.containsKey(string = ThutCore.trim(string))) return NpcType.typeMap.get(string);
         return NpcType.NONE;
     }
 
@@ -100,7 +100,7 @@ public class NpcType
     public NpcType(String string)
     {
         this.name = string;
-        NpcType.typeMap.put(string = string.toLowerCase(Locale.ROOT), this);
+        NpcType.typeMap.put(string = ThutCore.trim(string), this);
 
         // We will set these as a default here, sub-classes can replace them
         // later, or by calling their setters.

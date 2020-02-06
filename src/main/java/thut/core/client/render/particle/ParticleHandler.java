@@ -2,8 +2,6 @@ package thut.core.client.render.particle;
 
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 

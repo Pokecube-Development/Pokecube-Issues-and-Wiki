@@ -2,7 +2,6 @@ package thut.api.terrain;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -39,7 +38,7 @@ public class BiomeType
 
     public static BiomeType getBiome(String name, final boolean generate)
     {
-        name = name.toLowerCase(Locale.ROOT).replace(" ", "_");
+        name = ThutCore.trim(name);
         for (final BiomeType b : BiomeType.values())
             if (b.name.equalsIgnoreCase(name)) return b;
         if (generate)
@@ -62,7 +61,7 @@ public class BiomeType
     {
         if (ThutCore.proxy.isClientSide()) return BiomeType.typeMapClient.containsKey(id) ? BiomeType.typeMapClient.get(
                 id) : BiomeType.NONE;
-        return BiomeType.typeMap.containsKey(id) ? BiomeType.typeMap.get(id) : BiomeType.NONE;
+                return BiomeType.typeMap.containsKey(id) ? BiomeType.typeMap.get(id) : BiomeType.NONE;
     }
 
     @OnlyIn(Dist.CLIENT)

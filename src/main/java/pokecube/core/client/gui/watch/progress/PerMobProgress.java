@@ -24,19 +24,20 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.core.common.ThutCore;
 
 public class PerMobProgress extends Progress
 {
     TextFieldWidget text;
     PokedexEntry    entry = null;
 
-    public PerMobProgress(GuiPokeWatch watch)
+    public PerMobProgress(final GuiPokeWatch watch)
     {
         super(new TranslationTextComponent("pokewatch.progress.mob.title"), watch);
     }
 
     @Override
-    public boolean charTyped(char typedChar, int keyCode)
+    public boolean charTyped(final char typedChar, final int keyCode)
     {
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
@@ -44,8 +45,8 @@ public class PerMobProgress extends Progress
             final List<String> ret = new ArrayList<>();
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
-                final String check = entry.getName().toLowerCase(java.util.Locale.ENGLISH);
-                if (check.startsWith(text.toLowerCase(java.util.Locale.ENGLISH)))
+                final String check = ThutCore.trim(entry.getName());
+                if (check.startsWith(ThutCore.trim(text)))
                 {
                     String name = entry.getName();
                     if (name.contains(" ")) name = "\'" + name + "\'";
@@ -114,16 +115,16 @@ public class PerMobProgress extends Progress
         final String hatchLine = I18n.format("pokewatch.progress.mob.hatched", this.hatched0, this.entry);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
-                .getConfig().maxSpawnRadius);
+        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5,
+                PokecubeCore.getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
                 bb, input ->
-                {
-                    IPokemob pokemob;
-                    if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
-                        return false;
-                    return pokemob.getPokedexEntry() == PerMobProgress.this.entry;
-                });
+        {
+            IPokemob pokemob;
+            if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
+                return false;
+            return pokemob.getPokedexEntry() == PerMobProgress.this.entry;
+        });
         final String nearbyLine = I18n.format("pokewatch.progress.global.nearby", otherMobs.size());
 
         for (final String line : this.font.listFormattedStringToWidth(captureLine, 120))
