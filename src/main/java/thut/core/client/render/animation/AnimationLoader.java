@@ -43,7 +43,10 @@ public class AnimationLoader
         {
             final String[] names = node.getAttributes().getNamedItem(key).getNodeValue().split(":");
             for (final String s : names)
-                toAddTo.add(ThutCore.trim(s));
+            {
+                String name = ThutCore.trim(s);
+                if (!name.isEmpty()) toAddTo.add(name);
+            }
         }
     }
 
@@ -155,6 +158,13 @@ public class AnimationLoader
             final Document doc = dBuilder.parse(stream);
             doc.getDocumentElement().normalize();
             final NodeList modelList = doc.getElementsByTagName("model");
+            int num = modelList.getLength();
+
+            if (num != 1)
+            {
+                ThutCore.LOGGER.error("Error with XML file: {}, it contains too many <model> tags!", holder.animation);
+                return;
+            }
 
             // Variables for the head rotation info
             int headDir = 2;
@@ -185,187 +195,207 @@ public class AnimationLoader
             final List<Animation> tblAnims = Lists.newArrayList();
             final HashMap<String, String> mergedAnimations = Maps.newHashMap();
             final Map<String, WornOffsets> wornOffsets = Maps.newHashMap();
-            for (int i = 0; i < modelList.getLength(); i++)
+
+            final NodeList partsList = modelList.item(0).getChildNodes();
+
+            List<Node> phaseNodes = Lists.newArrayList();
+            List<Node> subAnimsNodes = Lists.newArrayList();
+
+            final String modelName = holder.name;
+            final HashMap<String, ArrayList<Vector5>> phaseList = new HashMap<>();
+
+            for (int j = 0; j < partsList.getLength(); j++)
             {
-                final Node modelNode = modelList.item(i);
-                final String modelName = holder.name;
-                final HashMap<String, ArrayList<Vector5>> phaseList = new HashMap<>();
-                final NodeList partsList = modelNode.getChildNodes();
-                for (int j = 0; j < partsList.getLength(); j++)
+                final Node part = partsList.item(j);
+                String name = ThutCore.trim(part.getNodeName());
+                if (name.equals("metadata")) try
                 {
-                    final Node part = partsList.item(j);
-                    if (part.getNodeName().equals("metadata")) try
-                    {
-                        offset = AnimationLoader.getOffset(part, offset);
-                        scale = AnimationLoader.getScale(part, scale);
-                        rotation = AnimationLoader.getRotation(part, rotation);
-                        headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
-                        headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
-                        headAxis = AnimationLoader.getIntValue(part, "headAxis", 2);
-                        headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", 0);
-                        AnimationLoader.addStrings("head", part, headNames);
-                        AnimationLoader.addStrings("shear", part, shear);
-                        AnimationLoader.addStrings("dye", part, dye);
-                        AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
-                    }
-                    catch (final Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    else if (part.getNodeName().equals("worn"))
-                    {
-                        final Vector3 w_offset = AnimationLoader.getOffset(part, null);
-                        final Vector3 w_angles = AnimationLoader.getAngles(part, null);
-                        final Vector3 w_scale = AnimationLoader.getScale(part, null);
-                        final String w_parent = part.getAttributes().getNamedItem("parent").getNodeValue();
-                        final String w_ident = part.getAttributes().getNamedItem("id").getNodeValue();
-                        wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));
-                    }
-                    else if (part.getNodeName().equals("phase"))
-                    {
-                        final Node phase = part.getAttributes().getNamedItem("name") == null
-                                ? part.getAttributes().getNamedItem("type") : part.getAttributes().getNamedItem("name");
-                                final String phaseName = ThutCore.trim(phase.getNodeValue());
-                                for (final String s : AnimationRegistry.animations.keySet())
-                                    if (phaseName.equals(s))
-                                    {
-                                        ThutCore.LOGGER.debug("Loading " + s + " for " + holder.name);
-                                        try
-                                        {
-                                            final Animation anim = AnimationRegistry.make(s, part.getAttributes(), null);
-                                            if (anim != null) tblAnims.add(anim);
-                                        }
-                                        catch (final Exception e)
-                                        {
-                                            ThutCore.LOGGER
-                                            .debug("Error with animation for model: " + holder.name + " Anim: " + s, e);
-                                        }
-                                    }
-                                if (phaseName.equals("global")) try
-                                {
-                                    offset = AnimationLoader.getOffset(part, offset);
-                                    scale = AnimationLoader.getScale(part, scale);
-                                    rotation = AnimationLoader.getRotation(part, rotation);
-                                    headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
-                                    headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
-                                    headAxis = AnimationLoader.getIntValue(part, "headAxis", 2);
-                                    headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", 0);
-                                    AnimationLoader.addStrings("head", part, headNames);
-                                    AnimationLoader.addStrings("shear", part, shear);
-                                    AnimationLoader.addStrings("dye", part, dye);
-                                    AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
-                                }
-                                catch (final Exception e)
-                                {
-                                    e.printStackTrace();
-                                }
-                                else if (phaseName.equals("textures")) holder.handleCustomTextures(part);
-                                else
-                                {
-                                    final Animation anim = AnimationBuilder.build(part, null);
-                                    if (anim != null) tblAnims.add(anim);
-                                }
-                    }
-                    else if (part.getNodeName().equals("merges"))
-                    {
-                        final String[] merges = part.getAttributes().getNamedItem("merge").getNodeValue().split("->");
-                        mergedAnimations.put(merges[0], merges[1]);
-                    }
-                    else if (part.getNodeName().equals("customTex"))
-                    {
-                        texturer = new TextureHelper(part);
-                        if (part.getAttributes().getNamedItem("default") != null)
-                            holder.texture = new ResourceLocation(holder.texture.toString().replace(holder.name,
-                                    part.getAttributes().getNamedItem("default").getNodeValue()));
-                    }
-                    else if (part.getNodeName().equals("customModel")) holder.model = new ResourceLocation(
-                            part.getAttributes().getNamedItem("default").getNodeValue());
-                    else if (part.getNodeName().equals("subAnims")) animator.addChild(new AnimationRandomizer(part));
+                    offset = AnimationLoader.getOffset(part, offset);
+                    scale = AnimationLoader.getScale(part, scale);
+                    rotation = AnimationLoader.getRotation(part, rotation);
+                    headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
+                    headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
+                    headAxis = AnimationLoader.getIntValue(part, "headAxis", headAxis);
+                    headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", headAxis2);
+                    AnimationLoader.addStrings("head", part, headNames);
+                    AnimationLoader.addStrings("shear", part, shear);
+                    AnimationLoader.addStrings("dye", part, dye);
+                    AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
                 }
-
-                final IModelRenderer<?> loaded = renderer;
-                loaded.updateModel(phaseList, holder);
-
-                // Test for messing with tbl models
-                if (holder.extension.equals("tbl")) offset = offset.add(0, -0.5, 0);
-
-                // Set the global transforms
-                loaded.setRotationOffset(offset);
-                loaded.setScale(scale);
-                loaded.setRotations(rotation);
-
-                model.getHeadParts().addAll(headNames);
-
-                // Cleanup the animation stuff.
-                for (final Animation anim : tblAnims)
+                catch (final Exception e)
                 {
-                    List<Animation> anims = loaded.getAnimations().get(anim.name);
-                    if (anims == null) loaded.getAnimations().put(anim.name, anims = Lists.newArrayList());
-                    anims.add(anim);
+                    e.printStackTrace();
                 }
-                for (final String from : mergedAnimations.keySet())
+                else if (name.equals("worn"))
                 {
-                    if (!loaded.getAnimations().containsKey(from)) continue;
-                    final String to = mergedAnimations.get(from);
-                    if (!loaded.getAnimations().containsKey(to)) continue;
-                    final List<Animation> fromSet = Lists.newArrayList();
-                    final List<Animation> toSet = loaded.getAnimations().get(to);
-                    for (final Animation anim : loaded.getAnimations().get(from))
-                    {
-                        final Animation newAnim = new Animation();
-                        newAnim.identifier = anim.identifier;
-                        newAnim.name = to;
-                        newAnim.loops = anim.loops;
-                        newAnim.priority = 20;
-                        newAnim.length = -1;
-                        for (final String s : anim.sets.keySet())
-                            newAnim.sets.put(s, Lists.newArrayList(anim.sets.get(s)));
-                        fromSet.add(newAnim);
-                    }
-                    toSet.addAll(fromSet);
+                    final Vector3 w_offset = AnimationLoader.getOffset(part, null);
+                    final Vector3 w_angles = AnimationLoader.getAngles(part, null);
+                    final Vector3 w_scale = AnimationLoader.getScale(part, null);
+                    final String w_parent = part.getAttributes().getNamedItem("parent").getNodeValue();
+                    final String w_ident = part.getAttributes().getNamedItem("id").getNodeValue();
+                    wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));
                 }
-
-                // Process the animations
-                for (final List<Animation> anims : loaded.getAnimations().values())
-                    AnimationBuilder.processAnimations(anims);
-
-                // Process Dyeable parts.
-                animator.parseDyeables(dye);
-
-                // Deal with shearable parts.
-                animator.parseShearables(shear);
-
-                // Finalize animation initialization
-                final Set<Animation> anims = Sets.newHashSet();
-                // TODO actually initialize animations if needed.
-                animator.init(anims);
-
-                // Add the worn offsets
-                animator.parseWornOffsets(wornOffsets);
-
-                // Update these incase they were replaced.
-                loaded.setTexturer(texturer);
-                loaded.setAnimationChanger(animator);
-
-                // Process the head rotation information.
-                if (model.getHeadInfo() != null)
+                else if (name.equals("phase"))
                 {
-                    if (headDir != 2) model.getHeadInfo().yawDirection = headDir;
-                    if (headDir2 != 2) model.getHeadInfo().pitchDirection = headDir2;
-                    model.getHeadInfo().yawAxis = headAxis;
-                    model.getHeadInfo().pitchAxis = headAxis2;
-                    model.getHeadInfo().yawCapMin = headCaps[0];
-                    model.getHeadInfo().yawCapMax = headCaps[1];
-                    model.getHeadInfo().pitchCapMin = headCaps1[0];
-                    model.getHeadInfo().pitchCapMax = headCaps1[1];
+                    phaseNodes.add(part);
                 }
-
-                // Pre-process the animations via the model
-                model.preProcessAnimations(loaded.getAnimations().values());
-
-                // Add to the various maps.
-                AnimationLoader.models.put(modelName, holder);
+                else if (name.equals("merges"))
+                {
+                    final String[] merges = part.getAttributes().getNamedItem("merge").getNodeValue().split("->");
+                    mergedAnimations.put(ThutCore.trim(merges[0]), ThutCore.trim(merges[1]));
+                }
+                else if (name.equals("subanims"))
+                {
+                    subAnimsNodes.add(part);
+                }
+                else if (name.equals("customtex"))
+                {
+                    texturer = new TextureHelper(part);
+                    if (part.getAttributes().getNamedItem("default") != null)
+                        holder.texture = new ResourceLocation(holder.texture.toString().replace(holder.name,
+                                part.getAttributes().getNamedItem("default").getNodeValue()));
+                }
+                else if (name.equals("custommodel"))
+                {
+                    holder.model = new ResourceLocation(part.getAttributes().getNamedItem("default").getNodeValue());
+                }
             }
+
+            nodes:
+            for (Node part : phaseNodes)
+            {
+                String phaseName = part.getAttributes().getNamedItem("name") != null
+                        ? ThutCore.trim(part.getAttributes().getNamedItem("name").getNodeValue()) : "";
+
+                if (!phaseName.isEmpty()) for (final String s : AnimationRegistry.animations.keySet())
+                {
+                    if (phaseName.equals(s))
+                    {
+                        ThutCore.LOGGER.debug("Loading " + s + " for " + holder.name);
+                        try
+                        {
+                            final Animation anim = AnimationRegistry.make(s, part.getAttributes(), null);
+                            if (anim != null) tblAnims.add(anim);
+                        }
+                        catch (final Exception e)
+                        {
+                            ThutCore.LOGGER.debug("Error with animation for model: " + holder.name + " Anim: " + s, e);
+                        }
+                        continue nodes;
+                    }
+                }
+                if (phaseName.equals("global")) try
+                {
+                    offset = AnimationLoader.getOffset(part, offset);
+                    scale = AnimationLoader.getScale(part, scale);
+                    rotation = AnimationLoader.getRotation(part, rotation);
+                    headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
+                    headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
+                    headAxis = AnimationLoader.getIntValue(part, "headAxis", headAxis);
+                    headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", headAxis2);
+                    AnimationLoader.addStrings("head", part, headNames);
+                    AnimationLoader.addStrings("shear", part, shear);
+                    AnimationLoader.addStrings("dye", part, dye);
+                    AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
+                else if (phaseName.equals("textures")) holder.handleCustomTextures(part);
+                else
+                {
+                    final Animation anim = AnimationBuilder.build(part, null);
+                    if (anim != null) tblAnims.add(anim);
+                }
+            }
+            for (Node part : subAnimsNodes)
+            {
+                animator.addChild(new AnimationRandomizer(part));
+            }
+
+            final IModelRenderer<?> loaded = renderer;
+            loaded.updateModel(phaseList, holder);
+
+            // Test for messing with tbl models
+            if (holder.extension.equals("tbl")) offset = offset.add(0, -0.5, 0);
+
+            // Set the global transforms
+            loaded.setRotationOffset(offset);
+            loaded.setScale(scale);
+            loaded.setRotations(rotation);
+
+            model.getHeadParts().addAll(headNames);
+
+            // Cleanup the animation stuff.
+            for (final Animation anim : tblAnims)
+            {
+                List<Animation> anims = loaded.getAnimations().get(anim.name);
+                if (anims == null) loaded.getAnimations().put(anim.name, anims = Lists.newArrayList());
+                anims.add(anim);
+            }
+            for (final String from : mergedAnimations.keySet())
+            {
+                if (!loaded.getAnimations().containsKey(from)) continue;
+                final String to = mergedAnimations.get(from);
+                if (!loaded.getAnimations().containsKey(to)) continue;
+                final List<Animation> fromSet = Lists.newArrayList();
+                final List<Animation> toSet = loaded.getAnimations().get(to);
+                for (final Animation anim : loaded.getAnimations().get(from))
+                {
+                    final Animation newAnim = new Animation();
+                    newAnim.identifier = anim.identifier;
+                    newAnim.name = to;
+                    newAnim.loops = anim.loops;
+                    newAnim.priority = 20;
+                    newAnim.length = -1;
+                    for (final String s : anim.sets.keySet())
+                        newAnim.sets.put(s, Lists.newArrayList(anim.sets.get(s)));
+                    fromSet.add(newAnim);
+                }
+                toSet.addAll(fromSet);
+            }
+
+            // Process the animations
+            for (final List<Animation> anims : loaded.getAnimations().values())
+                AnimationBuilder.processAnimations(anims);
+
+            // Process Dyeable parts.
+            animator.parseDyeables(dye);
+
+            // Deal with shearable parts.
+            animator.parseShearables(shear);
+
+            // Finalize animation initialization
+            final Set<Animation> anims = Sets.newHashSet();
+            // TODO actually initialize animations if needed.
+            animator.init(anims);
+
+            // Add the worn offsets
+            animator.parseWornOffsets(wornOffsets);
+
+            // Update these incase they were replaced.
+            loaded.setTexturer(texturer);
+            loaded.setAnimationChanger(animator);
+
+            // Process the head rotation information.
+            if (model.getHeadInfo() != null)
+            {
+                if (headDir != 2) model.getHeadInfo().yawDirection = headDir;
+                if (headDir2 != 2) model.getHeadInfo().pitchDirection = headDir2;
+                model.getHeadInfo().yawAxis = headAxis;
+                model.getHeadInfo().pitchAxis = headAxis2;
+                model.getHeadInfo().yawCapMin = headCaps[0];
+                model.getHeadInfo().yawCapMax = headCaps[1];
+                model.getHeadInfo().pitchCapMin = headCaps1[0];
+                model.getHeadInfo().pitchCapMax = headCaps1[1];
+            }
+
+            // Pre-process the animations via the model
+            model.preProcessAnimations(loaded.getAnimations().values());
+
+            // Add to the various maps.
+            AnimationLoader.models.put(modelName, holder);
 
             stream.close();
         }

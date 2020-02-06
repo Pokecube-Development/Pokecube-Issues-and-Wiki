@@ -455,10 +455,10 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         Holder holder = this.holder;
         if (holder.wrapper == null || RenderPokemob.reload_models)
         {
+            RenderPokemob.reload_models = false;
             holder.init();
             PokecubeMod.LOGGER.info("Reloaded model for " + type.getEntry());
         }
-        RenderPokemob.reload_models = false;
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid()
                 || holder.entry != type.getEntry() || holder.model == null || holder.texture == null)
             holder = RenderPokemob.getMissingNo();
@@ -468,7 +468,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         {
             final IPartTexturer texer = holder.wrapper.renderer.getTexturer();
             final ResourceLocation default_ = this.getEntityTexture(entity);
-            if (texer != null && holder.wrapper.imodel != null)
+            if (texer != null)
             {
                 texer.bindObject(entity);
                 holder.wrapper.getParts().forEach((n, p) ->

@@ -5233,17 +5233,17 @@
     "subtitle": "entity.pokecube.ho-oh",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/hooh",
+        "name": "pokecube_mobs:mobs/ho-oh",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/hooh",
+        "name": "pokecube_mobs:mobs/ho-oh",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/hooh",
+        "name": "pokecube_mobs:mobs/ho-oh",
         "volume": 1.0,
         "pitch": 1.0
       }

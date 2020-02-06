@@ -247,7 +247,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void resetToInit()
     {
+        // PreRot is normal animations
         this.preRot.set(0, 0, 0, 1);
+        // Post rot is head direction
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.clear();
         this.postTrans.clear();

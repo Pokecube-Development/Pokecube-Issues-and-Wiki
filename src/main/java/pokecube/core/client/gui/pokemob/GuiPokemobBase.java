@@ -41,7 +41,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
             final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
             scale *= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
         }
-        final float f = (float) Math.atan(xRenderAngle / 40.0F);
         final float f1 = (float) Math.atan(yRenderAngle / 40.0F);
         RenderSystem.pushMatrix();
         RenderSystem.translatef(j + 55, k + 60, 50.0F);
@@ -53,16 +52,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         final Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
         quaternion.multiply(quaternion1);
         matrixstack.rotate(quaternion);
-        final float f2 = entity.renderYawOffset;
-        final float f3 = entity.rotationYaw;
-        final float f4 = entity.rotationPitch;
-        final float f5 = entity.prevRotationYawHead;
-        final float f6 = entity.rotationYawHead;
-        entity.renderYawOffset = 180.0F + f * 20.0F;
-        entity.rotationYaw = 180.0F + f * 40.0F;
-        entity.rotationPitch = -f1 * 20.0F;
-        entity.rotationYawHead = entity.rotationYaw;
-        entity.prevRotationYawHead = entity.rotationYaw;
         final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
         quaternion1.conjugate();
         entityrenderermanager.setCameraOrientation(quaternion1);
@@ -75,11 +64,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.finish();
         entityrenderermanager.setRenderShadow(true);
-        entity.renderYawOffset = f2;
-        entity.rotationYaw = f3;
-        entity.rotationPitch = f4;
-        entity.prevRotationYawHead = f5;
-        entity.rotationYawHead = f6;
         RenderSystem.popMatrix();
     }
 

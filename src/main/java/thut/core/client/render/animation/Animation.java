@@ -17,33 +17,28 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
 
-/**
- * Container for Tabula animations.
+/** Container for Tabula animations.
  *
  * @author Gegy1000
- * @since 0.1.0
- */
+ * @since 0.1.0 */
 @OnlyIn(Dist.CLIENT)
 public class Animation
 {
-    public final UUID id = UUID.randomUUID();
+    public final UUID                                     id         = UUID.randomUUID();
 
-    public String name       = "";
-    public String identifier = "";
-    public int    length     = -1;
-    /**
-     * This is used for sorting animations for determining which components
+    public String                                         name       = "";
+    public String                                         identifier = "";
+    public int                                            length     = -1;
+    /** This is used for sorting animations for determining which components
      * should take priority when multiple animations are specified for a single
-     * part.
-     */
-    public int    priority   = 10;
+     * part. */
+    public int                                            priority   = 10;
 
-    public boolean loops = true;
+    public boolean                                        loops      = true;
 
-    private final Set<String> checked = Sets.newHashSet();
+    private final Set<String>                             checked    = Sets.newHashSet();
 
-    public TreeMap<String, ArrayList<AnimationComponent>> sets = new TreeMap<>(
-            Ordering.natural());
+    public TreeMap<String, ArrayList<AnimationComponent>> sets       = new TreeMap<>(Ordering.natural());
 
     public ArrayList<AnimationComponent> getComponents(String key)
     {
@@ -79,6 +74,19 @@ public class Animation
         for (final Entry<String, ArrayList<AnimationComponent>> entry : this.sets.entrySet())
             for (final AnimationComponent component : entry.getValue())
                 this.length = Math.max(this.length, component.startKey + component.length);
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof Animation) return this.id.equals(((Animation) obj).id);
+        return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return id.hashCode();
     }
 
     @Override

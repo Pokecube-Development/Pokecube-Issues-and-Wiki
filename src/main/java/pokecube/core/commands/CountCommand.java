@@ -24,6 +24,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.mobs.CommandGenStuff;
 import thut.core.common.commands.CommandTools;
 
 public class CountCommand
@@ -34,7 +35,7 @@ public class CountCommand
         final ServerWorld world = source.getWorld();
         final Stream<Entity> mobs = world.getEntities();
         final Vec3d pos = source.getPos();
-        // CommandGenStuff.execute(source.asPlayer(), new String[] { "" });
+        CommandGenStuff.execute(source.asPlayer(), new String[] { "" });
         int count1 = 0;
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();
@@ -62,8 +63,9 @@ public class CountCommand
     {
         PermissionAPI.registerNode("command.pokecount", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokecount");
-        commandDispatcher.register(Commands.literal("pokecount").requires(cs -> CommandTools.hasPerm(cs,
-                "command.pokecount")).executes((ctx) -> CountCommand.execute(ctx.getSource())));
+        commandDispatcher
+        .register(Commands.literal("pokecount").requires(cs -> CommandTools.hasPerm(cs, "command.pokecount"))
+                .executes((ctx) -> CountCommand.execute(ctx.getSource())));
 
     }
 }

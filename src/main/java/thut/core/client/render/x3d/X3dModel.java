@@ -310,10 +310,8 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
 
         parent.resetToInit();
         final boolean anim = renderer.getAnimations().containsKey(currentPhase);
-        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent.getName(),
-                parent, partialTick, limbSwing))
-        {
-        }
+        if (anim) AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent.getName(),
+                parent, partialTick, limbSwing);
         if (info != null && this.isHead(parent.getName()))
         {
             float ang;

@@ -167,7 +167,7 @@ public class AIIdle extends AIBase
         }
         else
         {
-            final Vector3 v = AIIdle.getRandomPointNear(this.world, this.pokemob, this.v1, distance);
+            final Vector3 v = AIIdle.getRandomPointNear(this.world, this.pokemob, this.v, distance);
             if (v == null) return false;
             double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(),
                     this.pokemob.getPokedexEntry().width * this.pokemob.getSize());

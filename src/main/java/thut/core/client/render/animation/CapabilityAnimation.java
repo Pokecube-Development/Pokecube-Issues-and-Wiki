@@ -3,9 +3,7 @@ package thut.core.client.render.animation;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -28,16 +26,15 @@ public class CapabilityAnimation
     {
         private final LazyOptional<IAnimationHolder> holder   = LazyOptional.of(() -> this);
 
-        Map<UUID, Integer>                           stepsMap = Maps.newHashMap();
-        List<Animation>                              playing  = Lists.newArrayList();
-        private final List<Animation>                pending  = Lists.newArrayList();
+        Map<Animation, Float>                        stepsMap = Maps.newHashMap();
+        Set<Animation>                               playing  = Sets.newHashSet();
+        private final Set<Animation>                 pending  = Sets.newHashSet();
 
         @Override
         public void clean()
         {
             this.stepsMap.clear();
             this.pending.clear();
-            ;
             this.playing.clear();
         }
 
@@ -48,23 +45,15 @@ public class CapabilityAnimation
         }
 
         @Override
-        public List<Animation> getPendingAnimations()
+        public Set<Animation> getPendingAnimations()
         {
             return this.pending;
         }
 
         @Override
-        public List<Animation> getPlaying()
+        public Set<Animation> getPlaying()
         {
             return this.playing;
-        }
-
-        @Override
-        public int getStep(final Animation animation)
-        {
-            int step = 0;
-            if (this.stepsMap.containsKey(animation.id)) step = this.stepsMap.get(animation.id);
-            return step;
         }
 
         @Override
@@ -72,19 +61,36 @@ public class CapabilityAnimation
         {
             if (name != null) this.pending.addAll(name);
             else this.pending.clear();
-            if (this.playing.isEmpty() && !this.pending.isEmpty())
-                if (!this.pending.isEmpty()) this.playing.add(this.pending.remove(0));
+            if (this.playing.isEmpty())
+            {
+                this.playing.addAll(name);
+            }
+            else
+            {
+                this.pending.addAll(name);
+            }
         }
 
         @Override
-        public void setStep(final Animation animation, final int step)
+        public void setStep(final Animation animation, final float step)
         {
-            this.stepsMap.put(animation.id, step);
-            if (step == animation.length)
+            this.stepsMap.put(animation, step);
+            if (step >= animation.getLength())
             {
-                if (!this.pending.isEmpty()) this.playing.add(this.pending.remove(0));
                 this.playing.remove(animation);
+                if (this.playing.isEmpty())
+                {
+                    this.playing.addAll(pending);
+                    this.pending.clear();
+                }
             }
+        }
+
+        @Override
+        public String getAnimation(Entity entityIn)
+        {
+            // TODO Auto-generated method stub
+            return "idle";
         }
     }
 
@@ -96,16 +102,9 @@ public class CapabilityAnimation
         /** Gets the animation about to be run.
          *
          * @return */
-        List<Animation> getPendingAnimations();
+        Set<Animation> getPendingAnimations();
 
-        List<Animation> getPlaying();
-
-        /** the last tick this animation was run. Should return 0 if the
-         * animation hasn't been run.
-         *
-         * @param animation
-         * @return */
-        int getStep(Animation animation);
+        Set<Animation> getPlaying();
 
         /** This is the animation about to be run.
          *
@@ -117,7 +116,14 @@ public class CapabilityAnimation
          *
          * @param animation
          * @param step */
-        void setStep(Animation animation, int step);
+        void setStep(Animation animation, float step);
+
+        /** This should get whatever animation we think the entity should be
+         * doing.
+         * 
+         * @param entityIn
+         * @return */
+        String getAnimation(Entity entityIn);
     }
 
     private static class Storage implements Capability.IStorage<IAnimationHolder>

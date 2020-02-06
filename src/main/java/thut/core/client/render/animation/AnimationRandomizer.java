@@ -13,6 +13,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
+import thut.core.common.ThutCore;
 
 public class AnimationRandomizer implements IAnimationChanger
 {
@@ -49,11 +50,11 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     // TODO way to clean this up.
-    Map<Integer, AnimationSet> running = Maps.newHashMap();
+    Map<Integer, AnimationSet>         running    = Maps.newHashMap();
 
-    Map<String, List<RandomAnimation>> sets = Maps.newHashMap();
+    Map<String, List<RandomAnimation>> sets       = Maps.newHashMap();
 
-    Map<String, Set<LoadedAnimSet>> loadedSets = Maps.newHashMap();
+    Map<String, Set<LoadedAnimSet>>    loadedSets = Maps.newHashMap();
 
     public AnimationRandomizer(Node node)
     {
@@ -62,8 +63,10 @@ public class AnimationRandomizer implements IAnimationChanger
         {
             final Node part = parts.item(i);
             if (part.getAttributes() == null) continue;
-            final String parent = part.getAttributes().getNamedItem("parent").getNodeValue();
-            final String name = part.getAttributes().getNamedItem("name").getNodeValue();
+            String parent = part.getAttributes().getNamedItem("parent").getNodeValue();
+            String name = part.getAttributes().getNamedItem("name").getNodeValue();
+            name = ThutCore.trim(name);
+            parent = ThutCore.trim(parent);
             final double chance = Double.parseDouble(part.getAttributes().getNamedItem("chance").getNodeValue());
             final LoadedAnimSet set = new LoadedAnimSet();
             set.chance = chance;
