@@ -578,7 +578,7 @@ public class EventsHandler
     public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
         // Reset this.
-        PokecubeSerializer.instance = null;
+        PokecubeSerializer.clearInstance();
         // TODO See what this is breaking?
         Database.loadingThread.interrupt();
         Database.resourceManager = event.getServer().getResourceManager();
