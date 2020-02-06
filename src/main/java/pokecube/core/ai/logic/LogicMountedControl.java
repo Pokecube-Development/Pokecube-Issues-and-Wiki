@@ -39,13 +39,15 @@ public class LogicMountedControl extends LogicBase
     public boolean followOwnerLook  = false;
     public double  throttle         = 0.5;
 
-    public LogicMountedControl(IPokemob pokemob_)
+    public LogicMountedControl(final IPokemob pokemob_)
     {
         super(pokemob_);
+        if (this.entity.getPersistentData().contains("pokecube:mob_throttle")) this.throttle = this.entity
+                .getPersistentData().getDouble("pokecube:mob_throttle");
     }
 
     @Override
-    public void tick(World world)
+    public void tick(final World world)
     {
         final Entity rider = this.entity.getControllingPassenger();
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);

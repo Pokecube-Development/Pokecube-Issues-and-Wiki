@@ -19,7 +19,7 @@ public class PacketMountedControl extends Packet
     private static final byte DOWN     = 32;
     private static final byte SYNCLOOK = 64;
 
-    public static void sendControlPacket(Entity pokemob, LogicMountedControl controller)
+    public static void sendControlPacket(final Entity pokemob, final LogicMountedControl controller)
     {
         final PacketMountedControl packet = new PacketMountedControl();
         packet.entityId = pokemob.getEntityId();
@@ -44,7 +44,7 @@ public class PacketMountedControl extends Packet
         super(null);
     }
 
-    public PacketMountedControl(PacketBuffer buf)
+    public PacketMountedControl(final PacketBuffer buf)
     {
         super(buf);
         this.entityId = buf.readInt();
@@ -53,7 +53,7 @@ public class PacketMountedControl extends Packet
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final Entity mob = player.getEntityWorld().getEntityByID(this.entityId);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
@@ -69,11 +69,12 @@ public class PacketMountedControl extends Packet
             controller.downInputDown = (this.message & PacketMountedControl.DOWN) > 0;
             controller.followOwnerLook = (this.message & PacketMountedControl.SYNCLOOK) > 0;
             controller.throttle = this.throttle;
+            mob.getPersistentData().putDouble("pokecube:mob_throttle", this.throttle);
         }
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeByte(this.message);
