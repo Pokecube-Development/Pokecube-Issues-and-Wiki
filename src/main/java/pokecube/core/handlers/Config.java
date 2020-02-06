@@ -367,6 +367,8 @@ public class Config extends ConfigData
     @Configure(category = Config.world)
     public int          meteorRadius           = 64;
     @Configure(category = Config.world)
+    public double       meteorScale            = 1.0;
+    @Configure(category = Config.world)
     public boolean      doSpawnBuilding        = true;
     @Configure(category = Config.world)
     public boolean      basesLoaded            = true;
