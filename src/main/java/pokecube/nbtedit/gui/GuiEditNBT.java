@@ -29,7 +29,7 @@ public class GuiEditNBT extends Widget
 
     public static final ResourceLocation WINDOW_TEXTURE = new ResourceLocation("nbtedit", "textures/gui/window.png");
 
-    public static final int WIDTH = 178, HEIGHT = 93;
+    public static final int              WIDTH          = 178, HEIGHT = 93;
 
     private static String getValue(final INBT base)
     {
@@ -59,15 +59,15 @@ public class GuiEditNBT extends Widget
         final NamedNBT named = node.getObject();
         final INBT base = named.getNBT();
 
-        if (base instanceof ByteNBT) named.setNBT(new ByteNBT(ParseHelper.parseByte(value)));
-        if (base instanceof ShortNBT) named.setNBT(new ShortNBT(ParseHelper.parseShort(value)));
-        if (base instanceof IntNBT) named.setNBT(new IntNBT(ParseHelper.parseInt(value)));
-        if (base instanceof LongNBT) named.setNBT(new LongNBT(ParseHelper.parseLong(value)));
-        if (base instanceof FloatNBT) named.setNBT(new FloatNBT(ParseHelper.parseFloat(value)));
-        if (base instanceof DoubleNBT) named.setNBT(new DoubleNBT(ParseHelper.parseDouble(value)));
+        if (base instanceof ByteNBT) named.setNBT(ByteNBT.valueOf(ParseHelper.parseByte(value)));
+        if (base instanceof ShortNBT) named.setNBT(ShortNBT.valueOf(ParseHelper.parseShort(value)));
+        if (base instanceof IntNBT) named.setNBT(IntNBT.valueOf(ParseHelper.parseInt(value)));
+        if (base instanceof LongNBT) named.setNBT(LongNBT.valueOf(ParseHelper.parseLong(value)));
+        if (base instanceof FloatNBT) named.setNBT(FloatNBT.valueOf(ParseHelper.parseFloat(value)));
+        if (base instanceof DoubleNBT) named.setNBT(DoubleNBT.valueOf(ParseHelper.parseDouble(value)));
         if (base instanceof ByteArrayNBT) named.setNBT(new ByteArrayNBT(ParseHelper.parseByteArray(value)));
         if (base instanceof IntArrayNBT) named.setNBT(new IntArrayNBT(ParseHelper.parseIntArray(value)));
-        if (base instanceof StringNBT) named.setNBT(new StringNBT(value));
+        if (base instanceof StringNBT) named.setNBT(StringNBT.valueOf(value));
     }
 
     private static void validValue(final String value, final byte type) throws NumberFormatException
@@ -104,18 +104,18 @@ public class GuiEditNBT extends Widget
     private final Minecraft      mc = Minecraft.getInstance();
     private final Node<NamedNBT> node;
 
-    private final INBT nbt;
+    private final INBT           nbt;
 
-    private final boolean    canEditText, canEditValue;
-    private final GuiNBTTree parent;
+    private final boolean        canEditText, canEditValue;
+    private final GuiNBTTree     parent;
 
-    private TextFieldWidget2 key, value;
+    private TextFieldWidget2     key, value;
 
-    private Button save;
+    private Button               save;
 
-    private String kError, vError;
+    private String               kError, vError;
 
-    private GuiCharacterButton newLine, section;
+    private GuiCharacterButton   newLine, section;
 
     public GuiEditNBT(final GuiNBTTree parent, final Node<NamedNBT> node, final boolean editText,
             final boolean editValue)
@@ -234,10 +234,10 @@ public class GuiEditNBT extends Widget
         if (!this.canEditText) AbstractGui.fill(this.x + 42, this.y + 15, this.x + 169, this.y + 31, 0x80000000);
         if (!this.canEditValue) AbstractGui.fill(this.x + 42, this.y + 41, this.x + 169, this.y + 57, 0x80000000);
 
-        if (this.kError != null) this.drawCenteredString(this.mc.fontRenderer, this.kError, this.x + GuiEditNBT.WIDTH
-                / 2, this.y + 4, 0xFF0000);
-        if (this.vError != null) this.drawCenteredString(this.mc.fontRenderer, this.vError, this.x + GuiEditNBT.WIDTH
-                / 2, this.y + 32, 0xFF0000);
+        if (this.kError != null) this.drawCenteredString(this.mc.fontRenderer, this.kError,
+                this.x + GuiEditNBT.WIDTH / 2, this.y + 4, 0xFF0000);
+        if (this.vError != null) this.drawCenteredString(this.mc.fontRenderer, this.vError,
+                this.x + GuiEditNBT.WIDTH / 2, this.y + 32, 0xFF0000);
     }
 
     private void saveAndQuit()

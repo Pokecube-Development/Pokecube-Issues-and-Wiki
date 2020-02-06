@@ -2,11 +2,10 @@ package pokecube.legends.blocks;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -14,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.init.function.WormHoleActiveFunction;
@@ -45,7 +45,7 @@ public class UltraSpacePortal extends Rotates
     }
 
     @Override
-    public void randomTick(final BlockState state, final World worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
         final int x = pos.getX();
         final int y = pos.getY();
@@ -69,20 +69,13 @@ public class UltraSpacePortal extends Rotates
                 SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 
-    @SuppressWarnings({ "unused", "deprecation" })
-	@Override
-	public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity entity, Hand hand, BlockRayTraceResult hit) {
-		boolean retval = super.onBlockActivated(state, world, pos, entity, hand, hit);
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
-		Block block = this;
-		Direction direction = hit.getFace();
-		{
-			java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
-			$_dependencies.put("entity", entity);
-			WormHoleActiveFunction.executeProcedure($_dependencies);
-		}
-		return true;
-	}
+    @Override
+    public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
+            final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
+    {
+        final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
+        $_dependencies.put("entity", entity);
+        WormHoleActiveFunction.executeProcedure($_dependencies);
+        return ActionResultType.SUCCESS;
+    }
 }

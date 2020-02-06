@@ -46,7 +46,7 @@ public class ClientProxy extends CommonProxy
 
     public static KeyBinding NBTEditKey;
 
-    private void drawBoundingBox(final WorldRenderer r, MatrixStack mat, final float f, AxisAlignedBB aabb)
+    private void drawBoundingBox(final WorldRenderer r, final MatrixStack mat, final float f, AxisAlignedBB aabb)
     {
         if (aabb == null) return;
 
@@ -166,7 +166,8 @@ public class ClientProxy extends CommonProxy
                 final BlockPos pos = new BlockPos(x, y, z);
                 final BlockState state = world.getBlockState(pos);
                 final Block block = world.getBlockState(pos).getBlock();
-                if (block != null) this.drawBoundingBox(event.getContext(), event.getPartialTicks(), state
+                if (block != null) this.drawBoundingBox(event.getContext(), event.getMatrixStack(),
+                        event.getPartialTicks(), state
                         .getCollisionShape(world, pos).getBoundingBox());
             }
         }

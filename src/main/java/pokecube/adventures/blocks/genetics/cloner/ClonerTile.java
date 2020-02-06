@@ -5,6 +5,7 @@ import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.ResourceLocation;
@@ -53,12 +54,12 @@ public class ClonerTile extends BaseGeneticsTile
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.cloner");
         player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new ClonerContainer(id,
                 playerInventory, IWorldPosCallable.of(this.getWorld(), pos)), name));
-        return true;
+        return ActionResultType.SUCCESS;
     }
 }

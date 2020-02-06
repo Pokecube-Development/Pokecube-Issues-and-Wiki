@@ -5,6 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
+import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
@@ -55,7 +56,7 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
         boolean thin = false;
 
         // TODO find out where this comes from?
-        final int overlay = 0;
+        final int overlay = LivingRenderer.getPackedOverlay(wearer, 0);
 
         if (wearer instanceof AbstractClientPlayerEntity)
             thin = ((AbstractClientPlayerEntity) wearer).getSkinType().equals("slim");

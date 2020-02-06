@@ -3,10 +3,6 @@
  */
 package pokecube.core.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -74,10 +70,10 @@ public class GuiTeleport extends AbstractGui
         GuiDisplayPokecubeInfo.teleDims[1] = 25;
         final IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob == null) return;
-        mat.push();
+
         GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
                 GuiDisplayPokecubeInfo.teleDims, (float) PokecubeCore.getConfig().teleSize);
-        GlStateManager.enableBlend();
+
         final int h = 0;
         final int w = 0;
         int i = 0;
@@ -93,7 +89,6 @@ public class GuiTeleport extends AbstractGui
         final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getCachedUniqueIdString());
         if (location != null)
         {
-            GL11.glColor4f(0F, 0.1F, 1.0F, 1.0F);
             final String name = location.getName();
             int shift = 13 + 12 * i + yOffset + h;
             if (dir == -1) shift -= 25;
@@ -103,8 +98,7 @@ public class GuiTeleport extends AbstractGui
             this.fontRenderer.drawString(name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
         i++;
-        GlStateManager.disableBlend();
-        mat.pop();
+
     }
 
     public boolean getState()

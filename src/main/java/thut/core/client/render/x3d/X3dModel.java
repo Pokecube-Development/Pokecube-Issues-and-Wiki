@@ -107,8 +107,8 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
                 if (texName.contains("_png")) texName = texName.substring(0, texName.lastIndexOf("_png"));
             }
             else texName = null;
-            if (material == null) material = new Material(matName, texName, mat.getDiffuse(), mat.getSpecular(), mat
-                    .getEmissive(), mat.ambientIntensity, mat.shininess, mat.transparency);
+            if (material == null) material = new Material(matName, texName, mat.getDiffuse(), mat.getSpecular(),
+                    mat.getEmissive(), mat.ambientIntensity, mat.shininess, mat.transparency);
             if (isDef)
             {
                 if (material.texture == null) material.texture = texName;
@@ -176,14 +176,15 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         for (Transform t : allTransforms)
         {
             String[] offset = t.translation.split(" ");
-            final Vector3 translation = Vector3.getNewVector().set(Float.parseFloat(offset[0]), Float.parseFloat(
-                    offset[1]), Float.parseFloat(offset[2]));
+            final Vector3 translation = Vector3.getNewVector().set(Float.parseFloat(offset[0]),
+                    Float.parseFloat(offset[1]), Float.parseFloat(offset[2]));
             offset = t.scale.split(" ");
-            final Vertex scale = new Vertex(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]), Float.parseFloat(
-                    offset[2]));
+            final Vertex scale = new Vertex(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
+                    Float.parseFloat(offset[2]));
             offset = t.rotation.split(" ");
-            final Vector4 rotations = new Vector4(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]), Float
-                    .parseFloat(offset[2]), (float) Math.toDegrees(Float.parseFloat(offset[3])));
+            Vector4 rotations = new Vector4(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
+                    Float.parseFloat(offset[2]), (float) Math.toDegrees(Float.parseFloat(offset[3])));
+            rotations = rotations.toQuaternion();
             final Set<String> children = t.getChildNames();
             t = t.getIfsTransform();
             // Probably a lamp or camera in this case?
@@ -194,15 +195,15 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             for (final X3dXML.Shape shape : group.shapes)
             {
                 final IndexedTriangleSet triangleSet = shape.triangleSet;
-                final X3dMesh renderShape = new X3dMesh(triangleSet.getOrder(), triangleSet.getVertices(), triangleSet
-                        .getNormals(), triangleSet.getTexture());
+                final X3dMesh renderShape = new X3dMesh(triangleSet.getOrder(), triangleSet.getVertices(),
+                        triangleSet.getNormals(), triangleSet.getTexture());
                 shapes.add(renderShape);
                 final Appearance appearance = shape.appearance;
                 final Material material = this.getMaterial(appearance);
                 if (material != null) renderShape.setMaterial(material);
             }
             final X3dPart o = new X3dPart(name);
-            o.shapes = shapes;
+            o.setShapes(shapes);
             o.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
             o.offset.set(translation);
             o.scale = scale;
@@ -286,14 +287,12 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
-            final float partialTicks, final float headYaw, final float headPitch, final float limbSwing
-            )
+            final float partialTicks, final float headYaw, final float headPitch, final float limbSwing)
     {
         for (final String partName : this.getParts().keySet())
         {
             final IExtendedModelPart part = this.getParts().get(partName);
-            this.updateSubParts(entity, renderer, currentPhase, partialTicks, part, headYaw, headPitch, limbSwing
-                    );
+            this.updateSubParts(entity, renderer, currentPhase, partialTicks, part, headYaw, headPitch, limbSwing);
         }
     }
 
@@ -333,8 +332,8 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.yawDirection, ang2);
             else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.yawDirection, 0, ang2);
             else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
-            parent.setPostRotations(dir);
-            parent.setPostRotations2(dir2);
+            parent.setPostRotations(dir.toQuaternion());
+            parent.setPostRotations2(dir2.toQuaternion());
         }
         for (final String partName : parent.getSubParts().keySet())
         {

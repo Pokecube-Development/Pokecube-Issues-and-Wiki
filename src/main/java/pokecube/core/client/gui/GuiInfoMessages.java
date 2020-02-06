@@ -7,7 +7,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -69,7 +68,6 @@ public class GuiInfoMessages
         final int trim = PokecubeCore.getConfig().messageWidth;
         final int paddingXPos = PokecubeCore.getConfig().messagePadding.get(0);
         final int paddingXNeg = PokecubeCore.getConfig().messagePadding.get(1);
-        mat.push();
 
         // TODO possbly fix lighitng here?
         final int[] mess = GuiDisplayPokecubeInfo.applyTransform(PokecubeCore.getConfig().messageRef, PokecubeCore
@@ -92,8 +90,8 @@ public class GuiInfoMessages
 
         if (minecraft.currentScreen != null)
         {
-            i1 = (int) (mx * minecraft.currentScreen.width / minecraft.mainWindow.getScaledWidth());
-            j1 = (int) (minecraft.currentScreen.height - my * minecraft.currentScreen.height / minecraft.mainWindow
+            i1 = (int) (mx * minecraft.currentScreen.width / minecraft.getMainWindow().getScaledWidth());
+            j1 = (int) (minecraft.currentScreen.height - my * minecraft.currentScreen.height / minecraft.getMainWindow()
                     .getScaledHeight() - 1);
         }
         i1 = i1 - mess[0];
@@ -103,10 +101,8 @@ public class GuiInfoMessages
         int h = 0;
         x = w;
         y = h;
-        GL11.glNormal3f(0.0F, -1.0F, 0.0F);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mat.translate(0, -texH * 7, 0);
-        mat.translate(0, 0, 0);
+        GL11.glTranslated(0, -texH * 7, 0);
+        GL11.glTranslated(0, 0, 0);
         int num = -1;
         if (event.getType() == ElementType.CHAT)
         {
@@ -151,6 +147,5 @@ public class GuiInfoMessages
             }
             shift++;
         }
-        mat.pop();
     }
 }

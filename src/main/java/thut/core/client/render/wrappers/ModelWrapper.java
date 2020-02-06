@@ -125,13 +125,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             final float netHeadYaw, final float headPitch)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
+        this.entityIn = entityIn;
         final HeadInfo info = this.imodel.getHeadInfo();
         if (info != null)
         {
             info.headPitch = headPitch;
             info.headYaw = netHeadYaw;
         }
-        this.entityIn = entityIn;
         if (info != null) info.currentTick = entityIn.ticksExisted;
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         final Set<String> excluded = Sets.newHashSet();

@@ -537,11 +537,11 @@ public class GuiNBTTree extends Screen
         worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
         final Color color = new Color(4210752);
         worldRenderer.color(color.getRed(), color.getGreen(), color.getBlue(), par4);
-        worldRenderer.pos(0.0D, par2, 0.0D).tex(0.0D, par2 / var6);
+        worldRenderer.pos(0.0D, par2, 0.0D).tex(0.0f, par2 / var6);
         worldRenderer.pos(this.width, par2, 0.0D).tex(this.width / var6, par2 / var6);
         worldRenderer.color(color.getRed(), color.getGreen(), color.getBlue(), par3);
         worldRenderer.pos(this.width, par1, 0.0D).tex(this.width / var6, par1 / var6);
-        worldRenderer.pos(0.0D, par1, 0.0D).tex(0.0D, par1 / var6);
+        worldRenderer.pos(0.0D, par1, 0.0D).tex(0.0f, par1 / var6);
         tessellator.draw();
     }
 

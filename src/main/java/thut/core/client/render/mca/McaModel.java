@@ -92,10 +92,11 @@ public class McaModel extends X3dModel
             final String name = node.parent.name;
             final X3dPart o = new X3dPart(name);
             final List<Mesh> shapes = Lists.newArrayList();
-            final X3dMesh shape = new X3dMesh(buffers.getOrder(), buffers.getVerts(), buffers.getNormals(), buffers
-                    .getTex());
+            final X3dMesh shape = new X3dMesh(buffers.getOrder(), buffers.getVerts(), buffers.getNormals(),
+                    buffers.getTex());
             shapes.add(shape);
-            o.shapes = shapes;
+            o.setShapes(shapes);
+            ;
 
             // o.offset.set(bound.x / 16f, bound.y / 16f, bound.z / 16f);
             if (trans != null) o.offset.set(trans.x / 16f, trans.y / 16f, trans.z / 16f);

@@ -1,13 +1,27 @@
 package thut.core.client.render.model;
 
 import java.util.HashMap;
+import java.util.List;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.texturing.IPartTexturer;
 
 public interface IExtendedModelPart extends IModelCustom
 {
     void addChild(IExtendedModelPart child);
+
+    List<Material> getMaterials();
+    
+    void applyTexture(IRenderTypeBuffer bufferIn, ResourceLocation tex, IPartTexturer texer);
+
+    default void addMaterial(Material material)
+    {
+        getMaterials().add(material);
+    }
 
     Vector4 getDefaultRotations();
 

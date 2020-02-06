@@ -42,9 +42,9 @@ public class TextFieldWidget2 extends TextFieldWidget
         if (this.validator.test(s))
         {
             this.text = s;
-            this.func_212422_f(i + l);
+            this.clampCursorPosition(i + l);
             this.setSelectionPos(this.cursorPosition);
-            this.func_212951_d(this.text);
+            this.onTextChanged(this.text);
         }
     }
 }

@@ -29,8 +29,8 @@ public class Vector4
 
     public Vector4()
     {
-        this.y = this.z = this.w = 0;
-        this.x = 1;
+        this.y = this.z = this.x = 0;
+        this.w = 1;
     }
 
     public Vector4(final BlockPos pos, final DimensionType dim)
@@ -99,8 +99,8 @@ public class Vector4
             new Exception().printStackTrace();
             temp.x = 0;
             temp.y = 0;
-            temp.z = 1;
-            temp.w = 0;
+            temp.z = 0;
+            temp.w = 1;
         }
         temp.toQuaternion();
         ret.toQuaternion();

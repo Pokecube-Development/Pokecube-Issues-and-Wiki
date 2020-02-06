@@ -16,7 +16,7 @@ public class TeleportUltraSpace extends Teleporter
     }
 
     @Override
-    public boolean func_222268_a(final Entity entity, final float p_222268_2_)
+    public boolean placeInPortal(final Entity entity, final float p_222268_2_)
     {
         final BlockPos entityPos = entity.getPosition();
 

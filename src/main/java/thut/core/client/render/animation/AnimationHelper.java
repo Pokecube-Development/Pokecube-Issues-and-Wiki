@@ -135,7 +135,7 @@ public class AnimationHelper
             else angle = new Vector4(1, 0, 0, x);
             if (y != 0) if (angle != null) angle = angle.addAngles(new Vector4(0, 1, 0, y));
             else angle = new Vector4(0, 1, 0, y);
-            if (angle != null) part.setPreRotations(angle);
+            if (angle != null) part.setPreRotations(angle.toQuaternion());
         }
         return animated;
     }

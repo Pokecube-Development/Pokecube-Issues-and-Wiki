@@ -7,10 +7,13 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -24,6 +27,35 @@ import thut.wearables.EnumWearable;
 
 public class Util
 {
+    public static RenderType getType(ResourceLocation loc, boolean alpha)
+    {
+        return alpha ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true,
+                false, RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+                        .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
+                        {
+                            RenderSystem.enableBlend();
+                            RenderSystem.defaultBlendFunc();
+                        }, () ->
+                        {
+                            RenderSystem.disableBlend();
+                        })).diffuseLighting(new RenderState.DiffuseLightingState(true))
+                        .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
+                        .lightmap(new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true))
+                        .build(false))
+                : RenderType.get("thutbling:bling_b", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
+                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+                                .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
+                                {
+                                    RenderSystem.enableBlend();
+                                    RenderSystem.defaultBlendFunc();
+                                }, () ->
+                                {
+                                    RenderSystem.disableBlend();
+                                })).diffuseLighting(new RenderState.DiffuseLightingState(true))
+                                .cull(new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
+                                .overlay(new RenderState.OverlayState(true)).build(false));
+    }
+
     static Map<String, IModel>             customModels   = Maps.newHashMap();
     static Map<String, ResourceLocation[]> customTextures = Maps.newHashMap();
 
@@ -72,7 +104,12 @@ public class Util
 
     public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc)
     {
-        return buff.getBuffer(RenderType.entityTranslucent(loc));
+        return buff.getBuffer(getType(loc, false));
+    }
+
+    public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc, boolean alpha)
+    {
+        return buff.getBuffer(getType(loc, alpha));
     }
 
     public static void renderStandardModelWithGem(final MatrixStack mat, final IRenderTypeBuffer buff,
@@ -95,8 +132,7 @@ public class Util
             tex[0] = new ResourceLocation(stack.getTag().getString("gem"));
         else tex[0] = null;
         mat.push();
-        GL11.glRotated(90, 1, 0, 0);
-        GL11.glRotated(180, 0, 0, 1);
+        // TODO rotate?
         mat.translate(dr.x, dr.y, dr.z);
         mat.scale(ds.x, ds.y, ds.z);
         if (part != null)
@@ -105,7 +141,6 @@ public class Util
             final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
             renderable.renderPart(mat, buf1, colorpart);
         }
-        GL11.glColor3f(1, 1, 1);
         part = model.getParts().get(itempart);
         if (part != null && tex[0] != null)
         {

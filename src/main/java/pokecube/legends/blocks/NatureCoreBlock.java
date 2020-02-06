@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class NatureCoreBlock extends Rotates
 {
@@ -16,7 +16,7 @@ public class NatureCoreBlock extends Rotates
     }
 
     @Override
-    public void randomTick(final BlockState state, final World worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
         if (random.nextInt(100) == 0) worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                 SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);

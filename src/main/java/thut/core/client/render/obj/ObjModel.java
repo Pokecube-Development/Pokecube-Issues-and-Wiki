@@ -166,7 +166,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
                     final ObjMesh mesh = new ObjMesh(order.toArray(new Integer[0]), vertices2.toArray(new Vertex[0]),
                             normals2.toArray(new Vertex[0]), tex2.toArray(new TextureCoordinate[0]));
                     final ObjPart part = new ObjPart(currentPart);
-                    part.shapes.add(mesh);
+                    part.addShape(mesh);
                     this.parts.put(currentPart, part);
                 }
                 currentPart = data;
@@ -324,8 +324,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.yawDirection, ang2);
             else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.yawDirection, 0, ang2);
             else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
-            parent.setPostRotations(dir);
-            parent.setPostRotations2(dir2);
+            parent.setPostRotations(dir.toQuaternion());
+            parent.setPostRotations2(dir2.toQuaternion());
         }
         for (final String partName : parent.getSubParts().keySet())
         {

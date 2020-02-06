@@ -9,7 +9,6 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -27,8 +26,8 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
     TextFieldWidget textFieldBoxName;
     TextFieldWidget textFieldSearch;
 
-    private String boxName = "1";
-    boolean        release = false;
+    private String  boxName = "1";
+    boolean         release = false;
 
     public Bag(final T container, final PlayerInventory ivplay, final ITextComponent name)
     {
@@ -110,8 +109,8 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
             this.container.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
         }));
-        this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
-                - yOffset - 121, 25, 10, this.page);
+        this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70,
+                this.height / 2 - yOffset - 121, 25, 10, this.page);
 
         final String rename = I18n.format("block.pc.rename");
         this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
@@ -124,11 +123,11 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
             this.textFieldBoxName.enableBackgroundDrawing = !this.textFieldBoxName.enableBackgroundDrawing;
         }));
 
-        this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
-                + 0, 100, 10, this.boxName);
+        this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80,
+                this.height / 2 - yOffset + 0, 100, 10, this.boxName);
         this.textFieldBoxName.enableBackgroundDrawing = false;
-        this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
-                - 121, 90, 10, "");
+        this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10,
+                this.height / 2 - yOffset - 121, 90, 10, "");
 
         this.addButton(this.textFieldSelectedBox);
         this.addButton(this.textFieldBoxName);
@@ -138,10 +137,8 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
         this.textFieldBoxName.text = this.boxName;
     }
 
-    /**
-     * Called when the screen is unloaded. Used to disable keyboard repeat
-     * events
-     */
+    /** Called when the screen is unloaded. Used to disable keyboard repeat
+     * events */
     @Override
     public void onClose()
     {
@@ -162,12 +159,11 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
                 final int y = i / 9 * 18 + this.height / 2 - 96;
                 // System.out.println(this.textFieldSearch.getText() + " " + i +
                 // " " + stack);
-                RenderHelper.disableStandardItemLighting();
                 final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
-                if (name.isEmpty() || !name.toLowerCase(java.util.Locale.ENGLISH).contains(this.textFieldSearch
-                        .getText().toLowerCase(java.util.Locale.ENGLISH)))
+                if (name.isEmpty() || !name.toLowerCase(java.util.Locale.ENGLISH)
+                        .contains(this.textFieldSearch.getText().toLowerCase(java.util.Locale.ENGLISH)))
                 {
-
+                    // TODO Search bar colouring.
                     GlStateManager.disableLighting();
                     GlStateManager.disableDepthTest();
                     GlStateManager.colorMask(true, true, true, false);
@@ -188,7 +184,6 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
                     GlStateManager.enableLighting();
                     GlStateManager.enableDepthTest();
                 }
-                RenderHelper.enableGUIStandardItemLighting();
             }
         this.renderHoveredToolTip(mouseX, mouseY);
     }

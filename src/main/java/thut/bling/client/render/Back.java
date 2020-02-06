@@ -2,8 +2,6 @@ package thut.bling.client.render;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -57,7 +55,6 @@ public class Back
         mat.translate(0, -.18, -0.85);
         final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
         renderable.renderAll(mat, buf1);
-        GL11.glColor3f(1, 1, 1);
         mat.pop();
     }
 }

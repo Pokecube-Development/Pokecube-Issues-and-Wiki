@@ -71,7 +71,7 @@ public interface IModel
     default void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
-        mat.rotate(new Quaternion(90, 180, 0, true));
+        mat.rotate(new Quaternion(90, 0, 180, true));
         mat.translate(0, 0, dy - 1.5f);
     }
 

@@ -41,6 +41,7 @@ import thut.crafts.CommonProxy;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
+import thut.crafts.entity.EntityTest;
 import thut.crafts.network.PacketCraftControl;
 
 public class ClientProxy extends CommonProxy
@@ -191,7 +192,7 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(this.ROTATELEFT);
         ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
 
-        RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE,
-                (manager) -> new RenderBlockEntity<>(manager));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTest.TYPE, RenderEntity::new);
     }
 }

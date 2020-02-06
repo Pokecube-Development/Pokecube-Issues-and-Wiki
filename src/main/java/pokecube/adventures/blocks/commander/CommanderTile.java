@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -27,12 +28,12 @@ public class CommanderTile extends InteractableTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
 
-    protected boolean          addedToNetwork = false;
-    public UUID                pokeID         = null;
-    public Command             command        = null;
-    private IMobCommandHandler handler        = null;
-    public String              args           = "";
-    protected int              power          = 0;
+    protected boolean                                  addedToNetwork = false;
+    public UUID                                        pokeID         = null;
+    public Command                                     command        = null;
+    private IMobCommandHandler                         handler        = null;
+    public String                                      args           = "";
+    protected int                                      power          = 0;
 
     public CommanderTile()
     {
@@ -110,8 +111,9 @@ public class CommanderTile extends InteractableTile
             if (type == Vector3.class)
             {
                 final Vector3 arg = Vector3.getNewVector();
-                arg.set(Double.parseDouble(args[index]) + this.getPos().getX(), Double.parseDouble(args[index + 1])
-                        + this.getPos().getY(), Double.parseDouble(args[index + 2]) + this.getPos().getZ());
+                arg.set(Double.parseDouble(args[index]) + this.getPos().getX(),
+                        Double.parseDouble(args[index + 1]) + this.getPos().getY(),
+                        Double.parseDouble(args[index + 2]) + this.getPos().getZ());
                 index += 3;
                 ret[i] = arg;
             }
@@ -187,7 +189,7 @@ public class CommanderTile extends InteractableTile
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         final UUID id = PokecubeManager.getUUID(player.getHeldItem(hand));
@@ -195,12 +197,12 @@ public class CommanderTile extends InteractableTile
         {
             this.setPokeID(id);
             if (!player.getEntityWorld().isRemote) CommandTools.sendMessage(player, "UUID Set to: " + id);
-            return true;
+            return ActionResultType.SUCCESS;
         }
         else if (!player.isCrouching())
         {
             // TODO gui
         }
-        return false;
+        return ActionResultType.PASS;
     }
 }

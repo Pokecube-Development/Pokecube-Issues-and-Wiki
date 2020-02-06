@@ -12,7 +12,6 @@ import org.w3c.dom.NodeList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -51,12 +50,12 @@ public class TextureHelper implements IPartTexturer
 
     private static class TexState
     {
-        Map<String, double[]> infoStates   = Maps.newHashMap();
-        Set<RandomState>      randomStates = Sets.newHashSet();
-        SequenceState         sequence     = null;
+        Map<String, double[]>     infoStates   = Maps.newHashMap();
+        Set<RandomState>          randomStates = Sets.newHashSet();
+        SequenceState             sequence     = null;
         // TODO way to handle cheaning this up.
-        Map<Integer, RandomState> running  = Maps.newHashMap();
-        Map<Integer, Integer>     setTimes = Maps.newHashMap();
+        Map<Integer, RandomState> running      = Maps.newHashMap();
+        Map<Integer, Integer>     setTimes     = Maps.newHashMap();
 
         void addState(String trigger, String[] diffs)
         {
@@ -154,36 +153,36 @@ public class TextureHelper implements IPartTexturer
     }
 
     @CapabilityInject(IMobTexturable.class)
-    public static final Capability<IMobTexturable> CAPABILITY = null;
+    public static final Capability<IMobTexturable> CAPABILITY   = null;
 
-    IMobTexturable                   mob;
+    IMobTexturable                                 mob;
     /** Map of part/material name -> texture name */
-    Map<String, String>              texNames  = Maps.newHashMap();
+    Map<String, String>                            texNames     = Maps.newHashMap();
     /** Map of part/material name -> map of custom state -> texture name */
-    Map<String, Map<String, String>> texNames2 = Maps.newHashMap();
-    public ResourceLocation          default_tex;
-    String                           default_path;
+    Map<String, Map<String, String>>               texNames2    = Maps.newHashMap();
+    public ResourceLocation                        default_tex;
+    String                                         default_path;
 
-    Map<String, Boolean> smoothing = Maps.newHashMap();
+    Map<String, Boolean>                           smoothing    = Maps.newHashMap();
 
-    boolean default_flat = true;
+    boolean                                        default_flat = true;
 
     /** Map of part/material name -> resource location */
-    Map<String, ResourceLocation> texMap = Maps.newHashMap();
+    Map<String, ResourceLocation>                  texMap       = Maps.newHashMap();
 
-    Map<String, TexState> texStates = Maps.newHashMap();
+    Map<String, TexState>                          texStates    = Maps.newHashMap();
 
-    Map<String, String> formeMap = Maps.newHashMap();
+    Map<String, String>                            formeMap     = Maps.newHashMap();
 
     public TextureHelper(Node node)
     {
         if (node == null) return;
-        if (node.getAttributes().getNamedItem("default") != null) this.default_path = node.getAttributes().getNamedItem(
-                "default").getNodeValue();
+        if (node.getAttributes().getNamedItem("default") != null)
+            this.default_path = node.getAttributes().getNamedItem("default").getNodeValue();
         if (node.getAttributes().getNamedItem("smoothing") != null)
         {
-            final boolean flat = !node.getAttributes().getNamedItem("smoothing").getNodeValue().equalsIgnoreCase(
-                    "smooth");
+            final boolean flat = !node.getAttributes().getNamedItem("smoothing").getNodeValue()
+                    .equalsIgnoreCase("smooth");
             this.default_flat = flat;
         }
         final NodeList parts = node.getChildNodes();
@@ -246,18 +245,19 @@ public class TextureHelper implements IPartTexturer
     }
 
     @Override
-    public void applyTexture(String part)
+    public ResourceLocation getTexture(String part, ResourceLocation default_)
     {
-        if (this.mob == null) return;
-        if (this.bindPerState(part)) return;
+        if (this.mob == null) return default_;
+        ResourceLocation tex = this.bindPerState(part);
+        if (tex != null) return tex;
         final String texName = this.texNames.containsKey(part) ? this.texNames.get(part) : this.default_path;
         if (texName == null || texName.trim().isEmpty()) this.texNames.put(part, this.default_path);
-        ResourceLocation tex = this.getResource(texName);
+        tex = this.getResource(texName);
         TexState state;
         String texMod;
-        if ((state = this.texStates.get(part)) != null && (texMod = state.modifyTexture(this.mob)) != null) tex = this
-                .getResource(tex.getPath() + texMod);
-        this.bindTex(tex);
+        if ((state = this.texStates.get(part)) != null && (texMod = state.modifyTexture(this.mob)) != null)
+            tex = this.getResource(tex.getPath() + texMod);
+        return tex;
     }
 
     @Override
@@ -267,10 +267,10 @@ public class TextureHelper implements IPartTexturer
         if (this.mob != null) this.default_tex = this.getResource(this.default_path);
     }
 
-    private boolean bindPerState(String part)
+    private ResourceLocation bindPerState(String part)
     {
         final Map<String, String> partNames = this.texNames2.get(part);
-        if (partNames == null) return false;
+        if (partNames == null) return null;
         final List<String> states = this.mob.getTextureStates();
         for (final String key : partNames.keySet())
             if (states.contains(key))
@@ -289,16 +289,9 @@ public class TextureHelper implements IPartTexturer
                 String texMod;
                 if ((state = this.texStates.get(part)) != null && (texMod = state.modifyTexture(this.mob)) != null)
                     tex = tex + texMod;
-                this.bindTex(this.getResource(tex));
-                return true;
+                return this.getResource(tex);
             }
-        return false;
-    }
-
-    private void bindTex(ResourceLocation tex)
-    {
-        tex = this.mob.preApply(tex);
-        Minecraft.getInstance().textureManager.bindTexture(tex);
+        return null;
     }
 
     private ResourceLocation getResource(String tex)
