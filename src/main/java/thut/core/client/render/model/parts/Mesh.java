@@ -3,6 +3,7 @@ package thut.core.client.render.model.parts;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Matrix3f;
 import net.minecraft.client.renderer.Matrix4f;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
@@ -87,6 +88,7 @@ public abstract class Mesh
 
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
         final Matrix4f pos = matrixstack$entry.getPositionMatrix();
+        final Matrix3f norms = matrixstack$entry.getNormalMatrix();
 
         for (final Integer i : this.order)
         {
@@ -114,7 +116,7 @@ public abstract class Mesh
             .tex(u, v)
             .overlay(overlayUV)
             .lightmap(lightmapUV)
-            .normal(nx, ny, nz)
+            .normal(norms, nx, ny, nz)
             .endVertex();
             //@formatter:on
             n++;

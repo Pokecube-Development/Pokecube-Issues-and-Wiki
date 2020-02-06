@@ -59,7 +59,7 @@ public class Face
         final int overlayUV = rgbabro[5];
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
         final Matrix4f pos = matrixstack$entry.getPositionMatrix();
-        final Matrix3f norm = matrixstack$entry.getNormalMatrix();
+        final Matrix3f norms = matrixstack$entry.getNormalMatrix();
 
         for (int i = 0; i < 3; i++)
         {
@@ -81,7 +81,7 @@ public class Face
             .tex(u, v)
             .overlay(overlayUV)
             .lightmap(lightmapUV)
-            .normal(norm, nx, ny, nz)
+            .normal(norms, nx, ny, nz)
             .endVertex();
             //@formatter:on
         }
