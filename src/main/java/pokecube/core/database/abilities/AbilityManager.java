@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
+import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
 
 @SuppressWarnings("unchecked")
@@ -31,7 +32,7 @@ public class AbilityManager
     public static boolean abilityExists(String name)
     {
         if (name == null) return false;
-        name = name.trim().toLowerCase(java.util.Locale.ENGLISH).replaceAll("[^\\w\\s ]", "").replaceAll(" ", "");
+        name = ThutCore.trim(name);
         return AbilityManager.nameMap.containsKey(name);
     }
 
@@ -42,7 +43,7 @@ public class AbilityManager
 
     public static void addAbility(final Class<? extends Ability> ability, String name)
     {
-        name = name.trim().toLowerCase(java.util.Locale.ENGLISH).replaceAll("[^\\w\\s ]", "").replaceAll(" ", "");
+        name = ThutCore.trim(name);
         AbilityManager.nameMap.put(name, ability);
         AbilityManager.nameMap2.put(ability, name);
         AbilityManager.idMap.put(ability, AbilityManager.nextID);
@@ -60,8 +61,7 @@ public class AbilityManager
         if (name == null) return null;
         if (name.startsWith("ability.")) name = name.substring(7);
         if (name.endsWith(".name")) name = name.substring(0, name.length() - 5);
-        return AbilityManager.makeAbility(name.toLowerCase(java.util.Locale.ENGLISH).replaceAll("[^\\w\\s ]", "")
-                .replaceAll(" ", ""), args);
+        return AbilityManager.makeAbility(ThutCore.trim(name), args);
     }
 
     public static int getIdForAbility(final Ability ability)
@@ -78,8 +78,7 @@ public class AbilityManager
     {
         final Ability ability = pokemob.getAbility();
         if (ability == null) return false;
-        return ability.toString().equalsIgnoreCase(abilityName.trim().toLowerCase(java.util.Locale.ENGLISH).replaceAll(
-                "[^\\w\\s ]", "").replaceAll(" ", ""));
+        return ability.toString().equalsIgnoreCase(ThutCore.trim(abilityName));
     }
 
     public static void init()
@@ -129,7 +128,7 @@ public class AbilityManager
 
     public static void replaceAbility(final Class<? extends Ability> ability, String name)
     {
-        name = name.trim().toLowerCase(java.util.Locale.ENGLISH).replaceAll("[^\\w\\s ]", "").replaceAll(" ", "");
+        name = ThutCore.trim(name);
         if (AbilityManager.nameMap.containsKey(name))
         {
             final Class<? extends Ability> old = AbilityManager.nameMap.remove(name);

@@ -17,12 +17,13 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
+import thut.core.common.ThutCore;
 
 public class ItemTM extends Item
 {
     private static Map<PokeType, ItemTM> tms = Maps.newHashMap();
 
-    public static boolean applyEffect(LivingEntity mob, ItemStack stack)
+    public static boolean applyEffect(final LivingEntity mob, final ItemStack stack)
     {
         if (mob.getEntityWorld().isRemote) return stack.hasTag();
         if (stack.hasTag()) // Check if is TM or valid candy
@@ -30,7 +31,7 @@ public class ItemTM extends Item
         return false;
     }
 
-    public static boolean feedToPokemob(ItemStack stack, Entity entity)
+    public static boolean feedToPokemob(final ItemStack stack, final Entity entity)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob != null) // TODO implement a candy type thing.
@@ -51,7 +52,7 @@ public class ItemTM extends Item
         return false;
     }
 
-    public static String getMoveFromStack(ItemStack stack)
+    public static String getMoveFromStack(final ItemStack stack)
     {
         if (stack.getItem() instanceof ItemTM)
         {
@@ -63,7 +64,7 @@ public class ItemTM extends Item
         return null;
     }
 
-    public static ItemStack getTM(String move)
+    public static ItemStack getTM(final String move)
     {
         ItemStack stack = ItemStack.EMPTY;
         final Move_Base attack = MovesUtils.getMoveFromName(move.trim());
@@ -81,7 +82,7 @@ public class ItemTM extends Item
         return stack;
     }
 
-    public static boolean teachToPokemob(ItemStack tm, IPokemob mob)
+    public static boolean teachToPokemob(final ItemStack tm, final IPokemob mob)
     {
         if (tm.getItem() instanceof ItemTM)
         {
@@ -95,8 +96,7 @@ public class ItemTM extends Item
             final int index = mob.getMoveIndex();
             if (index > 3) return false;
             for (final String s : learnables)
-                if (mob.getPokedexNb() == 151 || s.toLowerCase(java.util.Locale.ENGLISH).contentEquals(name.toLowerCase(
-                        java.util.Locale.ENGLISH)) || PokecubeMod.debug)
+                if (mob.getPokedexNb() == 151 || ThutCore.trim(s).equals(ThutCore.trim(name)) || PokecubeMod.debug)
                 {
 
                     if (mob.getMove(0) == null) mob.setMove(0, name);
@@ -113,7 +113,7 @@ public class ItemTM extends Item
 
     public final PokeType type;
 
-    public ItemTM(Properties props, PokeType type)
+    public ItemTM(final Properties props, final PokeType type)
     {
         super(props);
         this.setRegistryName(PokecubeMod.ID, "tm" + type.ordinal());
@@ -121,10 +121,8 @@ public class ItemTM extends Item
         ItemTM.tms.put(type, this);
     }
 
-    /**
-     * If this function returns true (or the item is damageable), the
-     * ItemStack's NBT tag will be sent to the client.
-     */
+    /** If this function returns true (or the item is damageable), the
+     * ItemStack's NBT tag will be sent to the client. */
     @Override
     public boolean shouldSyncTag()
     {

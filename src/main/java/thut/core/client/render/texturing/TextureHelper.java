@@ -1,7 +1,6 @@
 package thut.core.client.render.texturing;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -146,7 +145,7 @@ public class TextureHelper implements IPartTexturer
 
         private boolean parseState(String trigger, double[] arr)
         {
-            if (trigger != null) trigger = trigger.trim().toLowerCase(Locale.ENGLISH);
+            if (trigger != null) trigger = ThutCore.trim(trigger);
             else return false;
             this.infoStates.put(trigger, arr);
             return true;

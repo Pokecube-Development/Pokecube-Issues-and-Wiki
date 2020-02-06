@@ -24,15 +24,16 @@ import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokeType;
+import thut.core.common.ThutCore;
 
 public class PerTypeProgress extends Progress
 {
-    private static final List<String> NAMES = Lists.newArrayList();
+    private static final List<String> NAMES         = Lists.newArrayList();
     TextFieldWidget                   text;
     PokeType                          type;
 
-    SuggestionProvider<CommandSource> TYPESUGGESTER = (ctx, sb) -> net.minecraft.command.ISuggestionProvider.suggest(
-            PerTypeProgress.NAMES, sb);
+    SuggestionProvider<CommandSource> TYPESUGGESTER = (ctx, sb) -> net.minecraft.command.ISuggestionProvider
+            .suggest(PerTypeProgress.NAMES, sb);
 
     public PerTypeProgress(final GuiPokeWatch watch)
     {
@@ -50,8 +51,8 @@ public class PerTypeProgress extends Progress
             final List<String> ret = new ArrayList<>();
             for (final PokeType type : PokeType.values())
             {
-                final String check = PokeType.getTranslatedName(type).toLowerCase(java.util.Locale.ENGLISH);
-                if (check.startsWith(text.toLowerCase(java.util.Locale.ENGLISH)))
+                final String check = ThutCore.trim(PokeType.getTranslatedName(type));
+                if (check.startsWith(ThutCore.trim(text)))
                 {
                     final String name = PokeType.getTranslatedName(type);
                     ret.add(name);
@@ -65,7 +66,7 @@ public class PerTypeProgress extends Progress
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
-            final PokeType newType = this.getType(this.text.getText());
+            final PokeType newType = PokeType.getType(this.text.getText());
             if (newType != null)
             {
                 this.text.setText(PokeType.getTranslatedName(newType));
@@ -75,18 +76,6 @@ public class PerTypeProgress extends Progress
             else this.text.setText(PokeType.getTranslatedName(this.type));
         }
         return super.charTyped(typedChar, keyCode);
-    }
-
-    private PokeType getType(String name)
-    {
-        name = name.toLowerCase(java.util.Locale.ENGLISH).trim();
-        for (final PokeType type : PokeType.values())
-        {
-            if (name.equalsIgnoreCase(type.name)) return type;
-            if (name.equalsIgnoreCase(PokeType.getTranslatedName(type).toLowerCase(java.util.Locale.ENGLISH).trim()))
-                return type;
-        }
-        return PokeType.unknown;
     }
 
     @Override
@@ -128,16 +117,16 @@ public class PerTypeProgress extends Progress
                 total_of_type);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
-                .getConfig().maxSpawnRadius);
+        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5,
+                PokecubeCore.getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
                 bb, input ->
-                {
-                    IPokemob pokemob;
-                    if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
-                        return false;
-                    return pokemob.isType(PerTypeProgress.this.type);
-                });
+        {
+            IPokemob pokemob;
+            if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
+                return false;
+            return pokemob.isType(PerTypeProgress.this.type);
+        });
         final String nearbyLine = I18n.format("pokewatch.progress.global.nearby", otherMobs.size());
 
         for (final String line : this.font.listFormattedStringToWidth(captureLine, 140))

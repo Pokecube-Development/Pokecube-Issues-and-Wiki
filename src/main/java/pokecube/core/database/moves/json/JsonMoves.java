@@ -21,6 +21,7 @@ import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.implementations.MovesAdder;
+import thut.core.common.ThutCore;
 
 public class JsonMoves
 {
@@ -184,7 +185,7 @@ public class JsonMoves
     public static String convertMoveName(final String old)
     {
         String ret = "";
-        final String name = old.trim().toLowerCase(java.util.Locale.ENGLISH).replaceAll("[^\\w\\s ]", "");
+        final String name = ThutCore.trim(old);
         final String[] args = name.split(" ");
         for (final String arg : args)
             ret += arg;
@@ -270,13 +271,13 @@ public class JsonMoves
                 final MoveJsonEntry newEntry = new MoveJsonEntry();
                 for (final Field f : MoveJsonEntry.class.getFields())
                     if (!f.getName().equals("animations")) try
-                    {
+                {
                         f.set(newEntry, f.get(entry));
-                    }
-                    catch (final Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
                 cleaned.moves.add(newEntry);
             }
         }

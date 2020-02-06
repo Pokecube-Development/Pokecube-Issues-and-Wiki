@@ -3,7 +3,6 @@ package pokecube.core.client.render.mobs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
@@ -42,6 +41,7 @@ import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.model.PartInfo;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
+import thut.core.common.ThutCore;
 
 public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<GenericPokemob>>
 {
@@ -211,7 +211,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
 
             for (final LogicStates state : LogicStates.values())
             {
-                final String anim = state.toString().toLowerCase(Locale.ENGLISH);
+                final String anim = ThutCore.trim(state.toString());
                 if (pokemob.getLogicState(state) && this.hasAnimation(anim, entity)) return anim;
             }
 
@@ -253,7 +253,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
 
             for (final CombatStates state : CombatStates.values())
             {
-                final String anim = state.toString().toLowerCase(Locale.ENGLISH);
+                final String anim = ThutCore.trim(state.toString());
                 if (pokemob.getCombatState(state) && this.hasAnimation(anim, entity)) return anim;
             }
             return phase;

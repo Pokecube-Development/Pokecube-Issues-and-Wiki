@@ -3,11 +3,9 @@ package thut.core.client.render.animation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
@@ -23,70 +21,12 @@ import thut.core.client.render.model.IExtendedModelPart;
  */
 public class AnimationHelper
 {
-    private static class Holder implements IAnimationHolder
-    {
-        Map<UUID, Integer> stepsMap = Maps.newHashMap();
-        Set<Animation>     playing  = Sets.newHashSet();
-        private String     pending  = "idle";
-        private String     current  = "idle";
-
-        @Override
-        public void clean()
-        {
-            this.stepsMap.clear();
-            this.pending = this.current = "idle";
-            this.playing.clear();
-        }
-
-        @Override
-        public String getCurrentAnimation()
-        {
-            return this.current;
-        }
-
-        @Override
-        public String getPendingAnimation()
-        {
-            return this.pending;
-        }
-
-        @Override
-        public Set<Animation> getPlaying()
-        {
-            return this.playing;
-        }
-
-        @Override
-        public int getStep(final Animation animation)
-        {
-            if (this.stepsMap.containsKey(animation.id)) return this.stepsMap.get(animation.id);
-            return 0;
-        }
-
-        @Override
-        public void setCurrentAnimation(final String name)
-        {
-            this.current = name;
-        }
-
-        @Override
-        public void setPendingAnimation(final String name)
-        {
-            this.pending = name;
-        }
-
-        @Override
-        public void setStep(final Animation animation, final int step)
-        {
-            this.stepsMap.put(animation.id, step);
-        }
-    }
-
-    private final static Map<UUID, Holder> holderMap = Maps.newHashMap();
+    private final static Map<UUID, IAnimationHolder> holderMap = Maps.newHashMap();
 
     public static boolean animate(final Animation animation, final IAnimationHolder animate, final String partName,
             final IExtendedModelPart part, final float partialTick, final float limbSwing, final int tick)
     {
+        if (!animate.getPlaying().contains(animation)) return false;
         final ArrayList<AnimationComponent> components = animation.getComponents(partName);
         boolean animated = false;
         final Vector3 temp = Vector3.getNewVector();
@@ -125,6 +65,7 @@ public class AnimationHelper
                 part.setHidden(component.hidden);
             }
         }
+        animate.setStep(animation, aniTick);
         if (animated)
         {
             part.setPreTranslations(temp);
@@ -159,7 +100,7 @@ public class AnimationHelper
                 AnimationHelper.holderMap.get(mob.getUniqueID()));
         else
         {
-            final Holder holder = new Holder();
+            final CapabilityAnimation.DefaultImpl holder = new CapabilityAnimation.DefaultImpl();
             AnimationHelper.holderMap.put(mob.getUniqueID(), holder);
             return holder;
         }
