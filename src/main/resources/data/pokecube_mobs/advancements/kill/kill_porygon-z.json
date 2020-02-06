@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon-z"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.porygon-z"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_porygon-z": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "porygon-z"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_porygon2"
+}

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_hakamo-o": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "lenient": true,
+        "entry": "hakamo-o"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_jangmo-o"
+}

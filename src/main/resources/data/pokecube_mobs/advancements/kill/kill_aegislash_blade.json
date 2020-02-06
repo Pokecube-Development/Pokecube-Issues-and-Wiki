@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash_blade"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash_blade"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_aegislash_blade": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "lenient": true,
+        "entry": "aegislash_blade"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_doublade"
+}

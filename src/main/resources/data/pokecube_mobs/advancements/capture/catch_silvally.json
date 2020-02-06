@@ -29,5 +29,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_typenull"
+  "parent": "pokecube_mobs:capture/catch_type_null"
 }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_baile"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_baile"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_oricorio_baile": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "oricorio_baile"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}
