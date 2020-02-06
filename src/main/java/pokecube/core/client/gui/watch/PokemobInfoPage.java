@@ -344,8 +344,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                         dx = -35;
                         dy = -55;
                         // Draw the actual pokemob
-                        GuiPokedex.renderMob(pokemob.getEntity(), this.minecraft, dx, dy, 0.75f, this.watch.height,
-                                this.watch.width, 160, 160, 0, 45, -45);
+                        GuiPokemobBase.renderMob(pokemob.getEntity(), 0, 0, 0, 0, 0, 0, 0.75f);
                         // Draw gender, types and lvl
                         int genderColor = 0xBBBBBB;
                         String gender = "";
