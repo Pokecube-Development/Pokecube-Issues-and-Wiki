@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -73,6 +72,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
+import thut.core.common.ThutCore;
 
 public class Database
 {
@@ -420,6 +420,8 @@ public class Database
         final PokedexEntry ret = null;
         if (name == null) return null;
         if (name.trim().isEmpty()) return null;
+        final PokedexEntry test = Database.data2.get(name);
+        if (test != null) return test;
         name = ThutCore.trim(name);
         final List<PokedexEntry> toProcess = Lists.newArrayList(Database.allFormes);
         toProcess.sort(Database.COMPARATOR);
@@ -433,8 +435,8 @@ public class Database
                 return e;
             }
         }
-        if (ThutCore.trim(name).contains("mega_"))
-            return Database.getEntry((ThutCore.trim(name).replace("mega_", "") + "_mega").trim());
+        if (ThutCore.trim(name).contains("mega_")) return Database.getEntry((ThutCore.trim(name).replace("mega_", "")
+                + "_mega").trim());
         return ret;
     }
 
@@ -1011,12 +1013,8 @@ public class Database
             }
     }
 
-    public static String trim(String name)
+    public static String trim(final String name)
     {
-        // English locale to prevent issues with turkish letters.
-        name = name.toLowerCase(Locale.ENGLISH);
-        // Replace all non word chars.
-        name = name.replaceAll("([\\W])", "");
-        return name;
+        return ThutCore.trim(name);
     }
 }
