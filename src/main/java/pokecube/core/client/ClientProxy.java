@@ -16,11 +16,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.tileentity.SkullTileEntity;
@@ -33,7 +35,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -59,13 +60,11 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderNPC;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
-import pokecube.core.client.render.util.URLSkinImageBuffer;
 import pokecube.core.client.render.util.URLSkinTexture;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
@@ -81,24 +80,24 @@ import pokecube.nbtedit.NBTEdit;
 
 public class ClientProxy extends CommonProxy
 {
-    public static KeyBinding nextMob;
-    public static KeyBinding nextMove;
-    public static KeyBinding previousMob;
-    public static KeyBinding previousMove;
-    public static KeyBinding mobBack;
-    public static KeyBinding mobAttack;
-    public static KeyBinding mobStance;
-    public static KeyBinding mobMegavolve;
-    public static KeyBinding noEvolve;
-    public static KeyBinding mobMove1;
-    public static KeyBinding mobMove2;
-    public static KeyBinding mobMove3;
-    public static KeyBinding mobMove4;
-    public static KeyBinding mobUp;
-    public static KeyBinding mobDown;
-    public static KeyBinding throttleUp;
-    public static KeyBinding throttleDown;
-    public static KeyBinding arrangeGui;
+    public static KeyBinding                     nextMob;
+    public static KeyBinding                     nextMove;
+    public static KeyBinding                     previousMob;
+    public static KeyBinding                     previousMove;
+    public static KeyBinding                     mobBack;
+    public static KeyBinding                     mobAttack;
+    public static KeyBinding                     mobStance;
+    public static KeyBinding                     mobMegavolve;
+    public static KeyBinding                     noEvolve;
+    public static KeyBinding                     mobMove1;
+    public static KeyBinding                     mobMove2;
+    public static KeyBinding                     mobMove3;
+    public static KeyBinding                     mobMove4;
+    public static KeyBinding                     mobUp;
+    public static KeyBinding                     mobDown;
+    public static KeyBinding                     throttleUp;
+    public static KeyBinding                     throttleDown;
+    public static KeyBinding                     arrangeGui;
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
@@ -109,8 +108,7 @@ public class ClientProxy extends CommonProxy
         final Block[] leaves = ItemGenerator.leaves.values().toArray(new Block[0]);
         event.getBlockColors().register((state, reader, pos, tintIndex) ->
         {
-            return reader != null && pos != null ? BiomeColors.getFoliageColor(reader, pos)
-                    : FoliageColors.getDefault();
+            return reader != null && pos != null ? BiomeColors.func_228361_b_(reader, pos) : FoliageColors.getDefault();
         }, leaves);
     }
 
@@ -169,8 +167,8 @@ public class ClientProxy extends CommonProxy
         final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager()
                 .loadSkinFromCache(profile);
         ResourceLocation resourcelocation;
-        if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) resourcelocation = minecraft.getSkinManager().loadSkin(
-                map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
+        if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) resourcelocation = minecraft.getSkinManager()
+                .loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
         else
         {
             final UUID uuid = PlayerEntity.getUUID(profile);
@@ -193,8 +191,7 @@ public class ClientProxy extends CommonProxy
                 sb.append(String.format("%02x", b & 0xff));
             final ResourceLocation resourcelocation = new ResourceLocation("skins/" + sb.toString());
             final TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
-            final ITextureObject object = new URLSkinTexture(null, urlSkin, DefaultPlayerSkin.getDefaultSkinLegacy(),
-                    new URLSkinImageBuffer());
+            final Texture object = new URLSkinTexture(null, urlSkin, DefaultPlayerSkin.getDefaultSkinLegacy());
             texturemanager.loadTexture(resourcelocation, object);
             ClientProxy.urlSkins.put(urlSkin, resourcelocation);
         }
@@ -234,27 +231,27 @@ public class ClientProxy extends CommonProxy
 
         // Register keybinds
         PokecubeCore.LOGGER.debug("Init Keybinds");
-        ClientRegistry.registerKeyBinding(ClientProxy.nextMob = new KeyBinding("key.pokemob.next", GLFW.GLFW_KEY_RIGHT,
-                "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientProxy.previousMob = new KeyBinding("key.pokemob.prev",
-                GLFW.GLFW_KEY_LEFT, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.nextMob = new KeyBinding("key.pokemob.next", GLFW.GLFW_KEY_RIGHT, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.previousMob = new KeyBinding("key.pokemob.prev", GLFW.GLFW_KEY_LEFT, "Pokecube"));
 
-        ClientRegistry.registerKeyBinding(ClientProxy.nextMove = new KeyBinding("key.pokemob.move.next",
-                GLFW.GLFW_KEY_DOWN, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientProxy.previousMove = new KeyBinding("key.pokemob.move.prev",
-                GLFW.GLFW_KEY_UP, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.nextMove = new KeyBinding("key.pokemob.move.next", GLFW.GLFW_KEY_DOWN, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.previousMove = new KeyBinding("key.pokemob.move.prev", GLFW.GLFW_KEY_UP, "Pokecube"));
 
-        ClientRegistry.registerKeyBinding(ClientProxy.mobBack = new KeyBinding("key.pokemob.recall", GLFW.GLFW_KEY_R,
-                "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientProxy.mobAttack = new KeyBinding("key.pokemob.attack", GLFW.GLFW_KEY_G,
-                "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientProxy.mobStance = new KeyBinding("key.pokemob.stance",
-                GLFW.GLFW_KEY_BACKSLASH, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.mobBack = new KeyBinding("key.pokemob.recall", GLFW.GLFW_KEY_R, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.mobAttack = new KeyBinding("key.pokemob.attack", GLFW.GLFW_KEY_G, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.mobStance = new KeyBinding("key.pokemob.stance", GLFW.GLFW_KEY_BACKSLASH, "Pokecube"));
 
-        ClientRegistry.registerKeyBinding(ClientProxy.mobMegavolve = new KeyBinding("key.pokemob.megaevolve",
-                GLFW.GLFW_KEY_M, "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientProxy.noEvolve = new KeyBinding("key.pokemob.b", GLFW.GLFW_KEY_B,
-                "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.mobMegavolve = new KeyBinding("key.pokemob.megaevolve", GLFW.GLFW_KEY_M, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.noEvolve = new KeyBinding("key.pokemob.b", GLFW.GLFW_KEY_B, "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientProxy.mobMove1 = new KeyBinding("key.pokemob.move.1",
                 InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
@@ -265,10 +262,10 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(ClientProxy.mobMove4 = new KeyBinding("key.pokemob.move.4",
                 InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
 
-        ClientRegistry.registerKeyBinding(ClientProxy.mobUp = new KeyBinding("key.pokemob.up", GLFW.GLFW_KEY_SPACE,
-                "Pokecube"));
-        ClientRegistry.registerKeyBinding(ClientProxy.mobDown = new KeyBinding("key.pokemob.down",
-                GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.mobUp = new KeyBinding("key.pokemob.up", GLFW.GLFW_KEY_SPACE, "Pokecube"));
+        ClientRegistry.registerKeyBinding(
+                ClientProxy.mobDown = new KeyBinding("key.pokemob.down", GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientProxy.throttleUp = new KeyBinding("key.pokemob.speed.up",
                 GLFW.GLFW_KEY_LEFT_BRACKET, "Pokecube"));
@@ -282,7 +279,8 @@ public class ClientProxy extends CommonProxy
         NBTEdit.setupClient(event);
 
         // Register to model loading registry
-        OBJLoader.INSTANCE.addDomain(PokecubeCore.MODID);
+        // TODO see if this was needed
+        // OBJLoader.INSTANCE.addDomain(PokecubeCore.MODID);
 
         // Register the gui side of the screens.
         PokecubeCore.LOGGER.debug("Init Screen Factories");
@@ -309,13 +307,16 @@ public class ClientProxy extends CommonProxy
 
         // Register mob rendering
         PokecubeCore.LOGGER.debug("Init Mob Renderers");
-        RenderingRegistry.registerEntityRenderingHandler(GenericPokemob.class, (manager) -> new RenderPokemob(
-                Database.missingno, manager));
-        RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.class, (manager) -> new RenderPokecube(
-                manager));
-        RenderingRegistry.registerEntityRenderingHandler(EntityMoveUse.class, (manager) -> new RenderMoves(manager));
-        RenderingRegistry.registerEntityRenderingHandler(NpcMob.class, (manager) -> new RenderNPC<>(manager));
-        RenderingRegistry.registerEntityRenderingHandler(EntityPokemobEgg.class, (manager) -> new RenderEgg(manager));
+
+        for (final PokedexEntry e : Database.getSortedFormes())
+        {
+            final EntityType<TameableEntity> t = PokecubeCore.typeMap.get(e);
+            RenderingRegistry.registerEntityRenderingHandler(t, (manager) -> new RenderPokemob(e, manager));
+        }
+        RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.TYPE, RenderPokecube::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityMoveUse.TYPE, RenderMoves::new);
+        RenderingRegistry.registerEntityRenderingHandler(NpcMob.TYPE, RenderNPC::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityPokemobEgg.TYPE, RenderEgg::new);
 
     }
 

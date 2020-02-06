@@ -2,11 +2,13 @@ package pokecube.core.client.render.mobs.overlays;
 
 import java.util.Random;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.Vec3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.interfaces.IPokemob;
@@ -16,12 +18,13 @@ import thut.api.maths.Vector3;
 
 public class ExitCube
 {
-    public static void render(final IPokemob pokemob, final Vec3d pos, final float partialTick)
+    public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,
+            final float partialTick)
     {
         if (!pokemob.getGeneralState(GeneralStates.EXITINGCUBE)) return;
         final Entity entity = pokemob.getEntity();
         final CompoundNBT sealTag = PokecubeManager.getSealTag(entity);
-        Evolution.renderEffect(pokemob, pos, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
+        Evolution.renderEffect(pokemob, mat, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
         if (sealTag != null && !sealTag.isEmpty())
         {
             final Random rand = new Random();
@@ -63,7 +66,7 @@ public class ExitCube
                 loc.y += width * rand.nextGaussian() / 2;
                 loc.z += width * rand.nextGaussian() / 2;
                 final int id = sealTag.getInt("dye");
-                final int colour = DyeColor.byId(id).field_218390_z;
+                final int colour = DyeColor.byId(id).getTextColor();
                 PokecubeCore.spawnParticle(entity.getEntityWorld(), "powder", loc, vel, colour | 0xFF000000);
             }
         }

@@ -239,7 +239,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.rotate(mat);
         this.imodel.globalFix(mat, this.rotationPointX, this.rotationPointY, this.rotationPointZ);
         this.translate(mat);
-        this.renderer.scaleEntity(entity, this, partialTick);
+        this.renderer.scaleEntity(mat, entity, this, partialTick);
     }
 
     private void translate(final MatrixStack mat)

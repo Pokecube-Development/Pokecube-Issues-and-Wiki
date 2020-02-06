@@ -1,5 +1,8 @@
 package pokecube.core.interfaces;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,7 +19,7 @@ public interface IMoveAnimation
         public final Vector3   target;
         public int             currentTick;
 
-        public MovePacketInfo(Move_Base move, Entity attacker, Entity attacked, Vector3 source, Vector3 target)
+        public MovePacketInfo(final Move_Base move, final Entity attacker, final Entity attacked, final Vector3 source, final Vector3 target)
         {
             this.move = move;
             this.attacked = attacked;
@@ -36,7 +39,8 @@ public interface IMoveAnimation
      * @param partialTick
      */
     @OnlyIn(Dist.CLIENT)
-    default public void clientAnimation(MovePacketInfo info, float partialTick)
+    default public void clientAnimation(final MatrixStack mat, final IRenderTypeBuffer buffer,
+            final MovePacketInfo info, final float partialTick)
     {
     }
 
@@ -73,7 +77,7 @@ public interface IMoveAnimation
      * @param info
      */
     @OnlyIn(Dist.CLIENT)
-    default public void spawnClientEntities(MovePacketInfo info)
+    default public void spawnClientEntities(final MovePacketInfo info)
     {
     }
 }

@@ -5,11 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.lwjgl.opengl.GL11;
-
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import pokecube.mobs.client.smd.impl.Bone;
@@ -23,6 +26,7 @@ import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.IModelRenderer;
+import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 
@@ -33,10 +37,15 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     private final Set<String>                         nullHeadSet  = Sets.newHashSet();
     private final Set<String>                         animations   = Sets.newHashSet();
     private final HeadInfo                            info         = new HeadInfo();
+    private final List<Material>                      mats         = Lists.newArrayList();
     private boolean                                   valid        = false;
     Model                                             wrapped;
     IPartTexturer                                     texturer;
     IAnimationChanger                                 changer;
+    public int                                        red          = 255, green = 255, blue = 255, alpha = 255;
+    public int                                        brightness   = 15728640;
+    public int                                        overlay      = 655360;
+    private final int[]                               rgbabro      = new int[6];
 
     public SMDModel()
     {
@@ -51,6 +60,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             this.wrapped = new Model(model);
             this.wrapped.usesMaterials = true;
             this.animations.addAll(this.wrapped.anims.keySet());
+            this.mats.addAll(this.wrapped.body.matsToFaces.keySet());
             this.valid = true;
         }
         catch (final Exception e)
@@ -121,21 +131,29 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         // TODO figure out animations for this.
     }
 
-    public void render(final IModelRenderer<?> renderer)
+    @Override
+    public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final IModelRenderer<?> renderer,
+            final String... excludedGroupNames)
+    {
+        // SMD Renders whole thing at once, so no part rendering.
+        this.render(mat, buffer, renderer);
+    }
+
+    public void render(final MatrixStack mat, final IVertexBuilder buffer, final IModelRenderer<?> renderer)
     {
         if (this.wrapped != null)
         {
             this.wrapped.body.setTexturer(this.texturer);
             this.wrapped.body.setAnimationChanger(this.changer);
             // Scaling factor for model.
-            mat.scale(0.165, 0.165, 0.165);
+            mat.scale(0.165f, 0.165f, 0.165f);
             // Makes model face correct way.
-            GL11.glRotated(180, 0, 1, 0);
+            mat.rotate(Vector3f.YP.rotationDegrees(180));
 
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)
-                this.wrapped.body.currentAnim.setCurrentFrame(this.info.currentTick % this.wrapped.body.currentAnim
-                        .frameCount());
+                this.wrapped.body.currentAnim
+                .setCurrentFrame(this.info.currentTick % this.wrapped.body.currentAnim.frameCount());
             // Check head parts for rendering rotations of them.
             for (final String s : this.getHeadParts())
             {
@@ -191,35 +209,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 }
             }
             this.wrapped.animate();
-            this.wrapped.renderAll();
+            this.wrapped.renderAll(mat, buffer, this.rgbabro);
         }
-    }
-
-    @Override
-    public void renderAll(final IModelRenderer<?> renderer)
-    {
-        this.render(renderer);
-    }
-
-    @Override
-    public void renderAllExcept(final IModelRenderer<?> renderer, final String... excludedGroupNames)
-    {
-        // SMD Renders whole thing at once, so no part rendering.
-        this.render(renderer);
-    }
-
-    @Override
-    public void renderOnly(final IModelRenderer<?> renderer, final String... groupNames)
-    {
-        // SMD Renders whole thing at once, so no part rendering.
-        this.render(renderer);
-    }
-
-    @Override
-    public void renderPart(final IModelRenderer<?> renderer, final String partName)
-    {
-        // SMD Renders whole thing at once, so no part rendering.
-        this.render(renderer);
     }
 
     @Override
@@ -232,5 +223,44 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setTexturer(final IPartTexturer texturer)
     {
         this.texturer = texturer;
+    }
+
+    @Override
+    public List<Material> getMaterials()
+    {
+        return this.mats;
+    }
+
+    @Override
+    public void applyTexture(final IRenderTypeBuffer bufferIn, final ResourceLocation tex, final IPartTexturer texer)
+    {
+        for (final Material mat : this.mats)
+        {
+            final ResourceLocation tex_1 = texer.getTexture(mat.name, tex);
+            mat.makeVertexBuilder(tex_1, bufferIn);
+        }
+    }
+
+    @Override
+    public int[] getRGBABrO()
+    {
+        this.rgbabro[0] = this.red;
+        this.rgbabro[1] = this.green;
+        this.rgbabro[2] = this.blue;
+        this.rgbabro[3] = this.alpha;
+        this.rgbabro[4] = this.brightness;
+        this.rgbabro[5] = this.overlay;
+        return this.rgbabro;
+    }
+
+    @Override
+    public void setRGBABrO(final int r, final int g, final int b, final int a, final int br, final int o)
+    {
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+        this.alpha = a;
+        this.brightness = br;
+        this.overlay = o;
     }
 }

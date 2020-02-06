@@ -2,10 +2,11 @@ package pokecube.core.moves.animations.presets;
 
 import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -28,7 +29,8 @@ public class ThrowParticle extends MoveAnimationBase
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void clientAnimation(MovePacketInfo info, float partialTick)
+    public void clientAnimation(final MatrixStack mat, final IRenderTypeBuffer buffer, final MovePacketInfo info,
+            final float partialTick)
     {
         final Vector3 source = info.source;
         final Vector3 target = info.target;
@@ -82,7 +84,7 @@ public class ThrowParticle extends MoveAnimationBase
     }
 
     @Override
-    public IMoveAnimation init(String preset)
+    public IMoveAnimation init(final String preset)
     {
         this.particle = preset;
         this.rgba = 0xFFFFFFFF;

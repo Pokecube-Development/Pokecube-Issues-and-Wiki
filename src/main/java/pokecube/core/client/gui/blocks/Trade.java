@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.gui.pokemob.GuiPokemob;
+import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -30,14 +30,14 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     @Override
     protected void drawGuiContainerBackgroundLayer(final float f, final int i, final int j)
     {
-        mat.push();
+        GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID,
                 "textures/gui/trade_machine.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
-        mat.pop();
+        GL11.glPopMatrix();
     }
 
     /**
@@ -47,14 +47,14 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     @Override
     protected void drawGuiContainerForegroundLayer(final int p_146979_1_, final int p_146979_2_)
     {
-        mat.push();
+        GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         ItemStack stack = this.container.getInv().getStackInSlot(0);
         if (PokecubeManager.isFilled(stack)) this.renderMob(0);
         stack = this.container.getInv().getStackInSlot(1);
         if (PokecubeManager.isFilled(stack)) this.renderMob(1);
         GL11.glDisable(GL11.GL_BLEND);
-        mat.pop();
+        GL11.glPopMatrix();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
             break;
         }
 
-        GuiPokemob.renderMob(mob, dx, dy, 0, 0, rotX, rotY, rotZ, size);
+        GuiPokemobBase.renderMob(mob, dx, dy, 0, 0, rotX, rotY, rotZ, size);
 
         switch (index)
         {
@@ -145,7 +145,7 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
             break;
         }
 
-        if (poke != null && poke.getOwner() instanceof PlayerEntity) GuiPokemob.renderMob(poke.getOwner(), dx, dy, 0, 0,
+        if (poke != null && poke.getOwner() instanceof PlayerEntity) GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0, 0,
                 rotX, rotY, rotZ, size);
     }
 

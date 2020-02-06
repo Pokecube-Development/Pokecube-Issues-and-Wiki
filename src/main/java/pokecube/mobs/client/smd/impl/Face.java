@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
@@ -38,14 +41,15 @@ public class Face
         this.uvs = uvs;
     }
 
-    /**
-     * Add the face for GL rendering
+    /** Add the face for GL rendering
      *
+     * @param buffer
+     * @param mat
      * @param smoothShading
      *            - if false, this will render entire face with constant
-     *            normal.
-     */
-    public void addForRender(final boolean smoothShading)
+     *            normal. */
+    public void addForRender(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro,
+            final boolean smoothShading)
     {
         if (!smoothShading) this.normal = this.calculateNormal();
         for (int i = 0; i < 3; i++)

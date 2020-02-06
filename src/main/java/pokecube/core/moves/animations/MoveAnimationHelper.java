@@ -3,17 +3,17 @@ package pokecube.core.moves.animations;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -57,7 +57,7 @@ public class MoveAnimationHelper
 
     private static MoveAnimationHelper instance;
 
-    public static IMoveAnimation getAnimationPreset(String anim)
+    public static IMoveAnimation getAnimationPreset(final String anim)
     {
         IMoveAnimation animation = null;
         if (anim == null || anim.isEmpty()) return animation;
@@ -113,7 +113,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void chunkUnload(ChunkEvent.Unload evt)
+    public void chunkUnload(final ChunkEvent.Unload evt)
     {
         if (!evt.getWorld().isRemote()) return;
         for (int i = 0; i < 16; i++)
@@ -132,7 +132,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onCapabilityAttach(AttachCapabilitiesEvent<Chunk> event)
+    public void onCapabilityAttach(final AttachCapabilitiesEvent<Chunk> event)
     {
         if (!event.getObject().getWorld().isRemote) return;
         if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP))
@@ -146,7 +146,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onRenderWorldPost(RenderFogEvent event)
+    public void onRenderWorldPost(final RenderWorldLastEvent event)
     {
         if (this.effects == 0) return;
         int num = 0;
@@ -156,6 +156,13 @@ public class MoveAnimationHelper
             final PlayerEntity player = Minecraft.getInstance().player;
             this.source.set(player);
             final int range = 4;
+
+            final Minecraft mc = Minecraft.getInstance();
+            final Vec3d projectedView = mc.gameRenderer.getActiveRenderInfo().getProjectedView();
+            final MatrixStack mat = event.getMatrixStack();
+            mat.push();
+            mat.translate(-projectedView.x, -projectedView.y, -projectedView.z);
+
             final BlockPos.Mutable pos = new BlockPos.Mutable();
             for (int i = -range; i <= range; i++)
                 for (int j = -range; j <= range; j++)
@@ -169,17 +176,14 @@ public class MoveAnimationHelper
                         if (teffect == null || !teffect.hasEffects()) continue;
                         this.target.set(segment.getCentre());
                         this.source.set(this.target.subtractFrom(this.source));
-                        // Clear out the jitteryness from rendering
-                        final double d0 = (-player.posX + player.lastTickPosX) * event.getRenderPartialTicks();
-                        final double d1 = (-player.posY + player.lastTickPosY) * event.getRenderPartialTicks();
-                        final double d2 = (-player.posZ + player.lastTickPosZ) * event.getRenderPartialTicks();
-                        this.source.addTo(d0, d1, d2);
                         mat.push();
+                        // FIXME figure out the offsets for this
                         mat.translate(this.source.x, this.source.y, this.source.z);
                         teffect.renderTerrainEffects(event);
                         mat.pop();
                         num++;
                     }
+            mat.pop();
         }
         catch (final Throwable e)
         {
@@ -190,7 +194,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void worldLoad(WorldEvent.Load evt)
+    public void worldLoad(final WorldEvent.Load evt)
     {
         if (!evt.getWorld().isRemote()) return;
         this.terrainMap.clear();

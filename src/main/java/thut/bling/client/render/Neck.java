@@ -8,7 +8,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -33,11 +32,6 @@ public class Neck
         dy = -.0f;
         dz = -0.03f;
         s = 0.525f;
-        if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS) == null) s = 0.465f;
-        if (stack.hasTag() && stack.getTag().contains("gem"))
-            tex[0] = new ResourceLocation(stack.getTag().getString("gem"));
-        else tex[0] = null;
-        mat.push();
         mat.rotate(Vector3f.XP.rotationDegrees(90));
         mat.rotate(Vector3f.ZP.rotationDegrees(180));
         mat.translate(dx, dy, dz);
@@ -60,6 +54,9 @@ public class Neck
             renderable.renderPart(mat, buf1, colorpart);
         }
         part = model.getParts().get(itempart);
+        if (stack.hasTag() && stack.getTag().contains("gem"))
+            tex[0] = new ResourceLocation(stack.getTag().getString("gem"));
+        else tex[0] = null;
         if (part != null && tex[0] != null)
         {
             final IVertexBuilder buf0 = Util.makeBuilder(buff, tex[0]);
@@ -67,7 +64,6 @@ public class Neck
             mat.translate(0, 0.01, -0.075);
             renderable.renderPart(mat, buf0, itempart);
         }
-        mat.pop();
     }
 
 }

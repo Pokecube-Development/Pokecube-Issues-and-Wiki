@@ -12,7 +12,10 @@ public interface IPartTexturer
      *            - State to be mapped, either AI state, or an integer.
      * @param tex
      *            - Texture being mapped. */
-    void addCustomMapping(String part, String state, String tex);
+    default void addCustomMapping(final String part, final String state, final String tex)
+    {
+
+    }
 
     /** Adds a mapping of part texture.
      *
@@ -20,7 +23,10 @@ public interface IPartTexturer
      *            - The part or material to be textured
      * @param tex
      *            - The name of the texture. */
-    void addMapping(String part, String tex);
+    default void addMapping(final String part, final String tex)
+    {
+
+    }
 
     /** Returns the modified texture needed for this part.
      *
@@ -30,7 +36,10 @@ public interface IPartTexturer
     /** Binds the object under consideration.
      *
      * @param thing */
-    void bindObject(Object thing);
+    default void bindObject(final Object thing)
+    {
+
+    }
 
     /** Is there a mapping already for this part - used for material specific
      * textures.

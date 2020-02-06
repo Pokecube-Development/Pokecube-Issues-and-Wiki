@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.vecmath.Vector3f;
@@ -23,10 +23,10 @@ import thut.core.client.render.texturing.TextureCoordinate;
 /** Body, Made of Bones, Faces, and Materials. */
 public class Body implements IRetexturableModel
 {
-    public final Model              parent;
-    public ArrayList<Face>          faces = Lists.newArrayList();
-    public ArrayList<MutableVertex> verts = Lists.newArrayList();
-    public ArrayList<Bone>          bones = Lists.newArrayList();
+    public final Model                        parent;
+    public ArrayList<Face>                    faces        = Lists.newArrayList();
+    public ArrayList<MutableVertex>           verts        = Lists.newArrayList();
+    public ArrayList<Bone>                    bones        = Lists.newArrayList();
     // Used to idenfify which bones are the neck.
     public HashMap<String, Bone>              namesToBones = Maps.newHashMap();
     public HashMap<String, Material>          namesToMats;
@@ -213,10 +213,8 @@ public class Body implements IRetexturableModel
         for (int i = 0; i < 3; i++)
         {
             final String[] values = params[i].split("\\s+");
-            /**
-             * The negative signs are for differences in default coordinate
-             * systems between minecraft and blender.
-             */
+            /** The negative signs are for differences in default coordinate
+             * systems between minecraft and blender. */
             final float x = Float.parseFloat(values[1]);
             final float y = -Float.parseFloat(values[2]);
             final float z = -Float.parseFloat(values[3]);
@@ -268,54 +266,30 @@ public class Body implements IRetexturableModel
         }
     }
 
-    public void render()
+    public void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro)
     {
         mat.push();
         final boolean smooth = this.texturer == null ? false : !this.texturer.isFlat(null);
-        if (!this.parent.usesMaterials)
-        {
-            GL11.glBegin(GL11.GL_TRIANGLES);
-            for (final Face f : this.faces)
-                f.addForRender(smooth);
-            GL11.glEnd();
-        }
+        if (!this.parent.usesMaterials) for (final Face f : this.faces)
+            f.addForRender(mat, buffer, rgbabro, smooth);
         else for (final Map.Entry<Material, ArrayList<Face>> entry : this.matsToFaces.entrySet())
         {
-            Material mat;
-            if ((mat = entry.getKey()) != null)
+            Material material;
+            if ((material = entry.getKey()) != null)
             {
-                final String tex = mat.name;
-                boolean textureShift = false;
-                if (this.texturer != null)
-                {
-                    this.texturer.applyTexture(tex);
-                    if (textureShift = this.texturer.shiftUVs(tex, this.uvShift))
-                    {
-                        GL11.glMatrixMode(GL11.GL_TEXTURE);
-                        mat.translate(this.uvShift[0], this.uvShift[1], 0.0F);
-                        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                    }
-                }
-                mat.preRender();
-                this.render(entry, smooth);
-                mat.postRender();
-                if (textureShift)
-                {
-                    GL11.glMatrixMode(GL11.GL_TEXTURE);
-                    GL11.glLoadIdentity();
-                    GL11.glMatrixMode(GL11.GL_MODELVIEW);
-                }
+                final String tex = material.name;
+                if (this.texturer != null) this.texturer.shiftUVs(tex, this.uvShift);
+                this.render(mat, material.preRender(mat, buffer), rgbabro, entry, smooth);
             }
         }
         mat.pop();
     }
 
-    private void render(final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)
+    private void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro,
+            final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)
     {
-        GL11.glBegin(GL11.GL_TRIANGLES);
         for (final Face face : entry.getValue())
-            face.addForRender(smooth);
-        GL11.glEnd();
+            face.addForRender(mat, buffer, rgbabro, smooth);
     }
 
     public void resetVerts()
@@ -350,10 +324,8 @@ public class Body implements IRetexturableModel
         for (int i = 1; i < 7; i++)
             locRots[i - 1] = Float.parseFloat(params[i]);
         final Bone theBone = this.bones.get(id);
-        /**
-         * The negative signs are for differences in default coordinate systems
-         * between minecraft and blender.
-         */
+        /** The negative signs are for differences in default coordinate systems
+         * between minecraft and blender. */
         theBone.setRest(Helpers.makeMatrix(locRots[0], -locRots[1], -locRots[2], locRots[3], -locRots[4], -locRots[5]));
     }
 

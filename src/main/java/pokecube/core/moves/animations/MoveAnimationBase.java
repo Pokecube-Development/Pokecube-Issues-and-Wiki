@@ -58,15 +58,15 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             this.rgba = this.getColourFromMove(move, 255);
             return;
         }
-        if (this.particle.equals("airbubble")) this.rgba = 0x78000000 + DyeColor.CYAN.func_218388_g();
+        if (this.particle.equals("airbubble")) this.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
         else if (this.particle.equals("aurora"))
         {
             final DyeColor colour = DyeColor.values()[new Random(time / 10).nextInt(DyeColor.values().length)];
-            final int rand = colour.func_218388_g();
+            final int rand = colour.getTextColor();
             this.rgba = 0x61000000 + rand;
         }
-        else if (this.particle.equals("iceshard")) this.rgba = 0x78000000 + DyeColor.CYAN.func_218388_g();
-        else if (this.particle.equals("spark")) this.rgba = 0x78000000 + DyeColor.YELLOW.func_218388_g();
+        else if (this.particle.equals("iceshard")) this.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
+        else if (this.particle.equals("spark")) this.rgba = 0x78000000 + DyeColor.YELLOW.getTextColor();
         else this.rgba = this.getColourFromMove(move, 255);
     }
 
@@ -116,7 +116,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             }
             return;
         }
-        this.rgba = colour.func_218388_g() + 0x01000000 * alpha;
+        this.rgba = colour.getTextColor() + 0x01000000 * alpha;
         this.customColour = true;
     }
 

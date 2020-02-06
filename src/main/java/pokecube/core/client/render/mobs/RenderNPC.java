@@ -1,5 +1,8 @@
 package pokecube.core.client.render.mobs;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
@@ -36,12 +39,13 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
     }
 
     @Override
-    public void doRender(final T entity, final double x, final double y, final double z, final float entityYaw,
-            final float partialTicks)
+    public void render(final T entityIn, final float entityYaw, final float partialTicks,
+            final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
-        final IMobTexturable mob = entity.getCapability(TextureableCaps.CAPABILITY).orElse(null);
-        if (mob instanceof NPCCap<?>) this.entityModel = ((NPCCap<?>) mob).slim.apply(entity) ? this.slim : this.normal;
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        final IMobTexturable mob = entityIn.getCapability(TextureableCaps.CAPABILITY).orElse(null);
+        if (mob instanceof NPCCap<?>)
+            this.entityModel = ((NPCCap<?>) mob).slim.apply(entityIn) ? this.slim : this.normal;
+        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override
@@ -49,7 +53,7 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
     {
         final IMobTexturable mob = entity.getCapability(TextureableCaps.CAPABILITY).orElse(null);
         if (mob instanceof NPCCap) return ((NPCCap<?>) mob).texGetter.apply(entity);
-        return entity.func_213346_cF();
+        return entity.getLootTableResourceLocation();
     }
 
     @Override

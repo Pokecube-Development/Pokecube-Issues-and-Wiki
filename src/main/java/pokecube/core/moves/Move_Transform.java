@@ -3,6 +3,9 @@
  */
 package pokecube.core.moves;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -22,7 +25,8 @@ public class Move_Transform extends Move_Basic
     public static class Animation implements IMoveAnimation
     {
         @Override
-        public void clientAnimation(MovePacketInfo info, float partialTick)
+        public void clientAnimation(final MatrixStack mat, final IRenderTypeBuffer buffer, final MovePacketInfo info,
+                final float partialTick)
         {
         }
 
@@ -45,13 +49,13 @@ public class Move_Transform extends Move_Basic
         }
 
         @Override
-        public void setDuration(int arg0)
+        public void setDuration(final int arg0)
         {
 
         }
 
         @Override
-        public void spawnClientEntities(MovePacketInfo info)
+        public void spawnClientEntities(final MovePacketInfo info)
         {
 
         }
@@ -66,7 +70,7 @@ public class Move_Transform extends Move_Basic
      * @param PP
      * @param attackCategory
      */
-    public Move_Transform(String name)
+    public Move_Transform(final String name)
     {
         super(name);
         this.setAnimation(new Animation());
@@ -76,7 +80,7 @@ public class Move_Transform extends Move_Basic
     }
 
     @Override
-    public void attack(IPokemob attacker, Entity attacked)
+    public void attack(final IPokemob attacker, final Entity attacked)
     {
         if (attacker.getTransformedTo() == null && attacked instanceof LivingEntity)
         {

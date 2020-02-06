@@ -3,6 +3,9 @@
  */
 package pokecube.mobs.moves.attacks.special;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -24,7 +27,8 @@ public class Move_Transform extends Move_Basic
     public static class Animation implements IMoveAnimation
     {
         @Override
-        public void clientAnimation(MovePacketInfo info, float partialTick)
+        public void clientAnimation(final MatrixStack mat, final IRenderTypeBuffer buffer, final MovePacketInfo info,
+                final float partialTick)
         {
         }
 
@@ -46,12 +50,12 @@ public class Move_Transform extends Move_Basic
         }
 
         @Override
-        public void setDuration(int arg0)
+        public void setDuration(final int arg0)
         {
         }
 
         @Override
-        public void spawnClientEntities(MovePacketInfo info)
+        public void spawnClientEntities(final MovePacketInfo info)
         {
         }
 
@@ -75,7 +79,7 @@ public class Move_Transform extends Move_Basic
     }
 
     @Override
-    public void attack(IPokemob attacker, Entity attacked)
+    public void attack(final IPokemob attacker, final Entity attacked)
     {
         final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
         if (attacker.getTransformedTo() == null && attacked instanceof LivingEntity)
@@ -84,7 +88,7 @@ public class Move_Transform extends Move_Basic
             {
                 if (attackedMob != null) if (!(attacked instanceof IBreedingMob)
                         || attacked != ((IBreedingMob) attacker).getLover()) ((CreatureEntity) attacked)
-                                .setAttackTarget(attacker.getEntity());
+                .setAttackTarget(attacker.getEntity());
                 attacker.setTransformedTo(attacked);
             }
         }

@@ -14,7 +14,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
-import net.minecraft.client.renderer.RenderState.TextureState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -76,7 +75,7 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
 
         public Holder()
         {
-            super(MODEL, TEXTURE, ANIMATION, "missingno");
+            super(RenderEntity.MODEL, RenderEntity.TEXTURE, RenderEntity.ANIMATION, "missingno");
         }
 
         @Override
@@ -239,14 +238,7 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
         }
 
         @Override
-        public void renderStatus(final EntityTest entity, final double d, final double d1, final double d2,
-                final float f, final float partialTick)
-        {
-
-        }
-
-        @Override
-        public void scaleEntity(final Entity entity, final IModel model, final float partialTick)
+        public void scaleEntity(final MatrixStack mat, final Entity entity, final IModel model, final float partialTick)
         {
             //
             // float s = 1;
@@ -309,19 +301,19 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
         }
 
         @Override
-        public void render(EntityTest entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
-                float netHeadYaw, float headPitch)
+        public void render(final EntityTest entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks,
+                final float netHeadYaw, final float headPitch)
         {
             // TODO Auto-generated method stub
 
         }
 
         @Override
-        public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn,
-                float red, float green, float blue, float alpha)
+        public void render(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final int packedLightIn, final int packedOverlayIn,
+                final float red, final float green, final float blue, final float alpha)
         {
             // System.out.println(matrixStackIn.getLast().getPositionMatrix());
-            box.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            this.box.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         }
 
     }
@@ -330,28 +322,28 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
     EntityModel<EntityTest>  vanilla;
     ModelWrapper<EntityTest> custom;
 
-    public RenderEntity(EntityRendererManager renderManagerIn)
+    public RenderEntity(final EntityRendererManager renderManagerIn)
     {
         super(renderManagerIn, null, 1);
         this.holder = new Holder();
         this.holder.init();
-        this.entityModel = custom = new ModelWrapper<>(holder, holder);
-        vanilla = new TestModel();
+        this.entityModel = this.custom = new ModelWrapper<>(this.holder, this.holder);
+        this.vanilla = new TestModel();
     }
 
     @Override
-    public void render(EntityTest entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn,
-            IRenderTypeBuffer bufferIn, int packedLightIn)
+    public void render(final EntityTest entityIn, final float entityYaw, final float partialTicks, final MatrixStack matrixStackIn,
+            final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
-        final IPartTexturer texer = custom.renderer.getTexturer();
-        ResourceLocation default_ = this.getEntityTexture(entityIn);
-        if (texer != null && custom.imodel != null)
+        final IPartTexturer texer = this.custom.renderer.getTexturer();
+        final ResourceLocation default_ = this.getEntityTexture(entityIn);
+        if (texer != null && this.custom.imodel != null)
         {
             texer.bindObject(entityIn);
-            custom.imodel.getParts().forEach((n, p) ->
+            this.custom.imodel.getParts().forEach((n, p) ->
             {
                 // Get the default texture for this part.
-                ResourceLocation tex_part = texer.getTexture(n, default_);
+                final ResourceLocation tex_part = texer.getTexture(n, default_);
                 p.applyTexture(bufferIn, tex_part, texer);
             });
         }
@@ -359,10 +351,10 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
     }
 
     @Override
-    protected RenderType func_230042_a_(EntityTest p_230042_1_, boolean p_230042_2_, boolean p_230042_3_)
+    protected RenderType func_230042_a_(final EntityTest p_230042_1_, final boolean p_230042_2_, final boolean p_230042_3_)
     {
-        RenderType.State rendertype$state = RenderType.State.builder()
-                .texture(new RenderState.TextureState(TEXTURE, true, false))
+        final RenderType.State rendertype$state = RenderType.State.builder()
+                .texture(new RenderState.TextureState(RenderEntity.TEXTURE, true, false))
                 .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
                 {
                     RenderSystem.enableBlend();
@@ -379,9 +371,9 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
     }
 
     @Override
-    public ResourceLocation getEntityTexture(EntityTest entity)
+    public ResourceLocation getEntityTexture(final EntityTest entity)
     {
-        return TEXTURE;
+        return RenderEntity.TEXTURE;
     }
 
 }

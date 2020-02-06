@@ -6,22 +6,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
 import org.w3c.dom.Node;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
@@ -43,11 +43,11 @@ import thut.core.client.render.model.PartInfo;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
 
-public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<GenericPokemob>>
+public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<TameableEntity>>
 {
-    public static class Holder extends ModelHolder implements IModelRenderer<GenericPokemob>
+    public static class Holder extends ModelHolder implements IModelRenderer<TameableEntity>
     {
-        ModelWrapper<GenericPokemob>            wrapper;
+        ModelWrapper<TameableEntity>            wrapper;
         final Vector3                           rotPoint   = Vector3.getNewVector();
         HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
@@ -90,7 +90,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         }
 
         @Override
-        public void doRender(final GenericPokemob entity, final double d, final double d1, final double d2,
+        public void doRender(final TameableEntity entity, final double d, final double d1, final double d2,
                 final float f, final float partialTick)
         {
         }
@@ -301,7 +301,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             this.initModel(new ModelWrapper<>(this, this));
         }
 
-        public void initModel(final ModelWrapper<GenericPokemob> model)
+        public void initModel(final ModelWrapper<TameableEntity> model)
         {
             this.wrapper = model;
             this.name = model.model.name;
@@ -323,33 +323,8 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                 }
         }
 
-        protected void postRenderStatus()
-        {
-            if (this.light) GL11.glEnable(GL11.GL_LIGHTING);
-            if (!this.blend) GL11.glDisable(GL11.GL_BLEND);
-            GL11.glBlendFunc(this.src, this.dst);
-        }
-
-        protected void preRenderStatus()
-        {
-            this.blend = GL11.glGetBoolean(GL11.GL_BLEND);
-            this.light = GL11.glGetBoolean(GL11.GL_LIGHTING);
-            this.src = GL11.glGetInteger(GL11.GL_BLEND_SRC);
-            this.dst = GL11.glGetInteger(GL11.GL_BLEND_DST);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        }
-
         @Override
-        public void renderStatus(final GenericPokemob entity, final double d, final double d1, final double d2,
-                final float f, final float partialTick)
-        {
-
-        }
-
-        @Override
-        public void scaleEntity(final Entity entity, final IModel model, final float partialTick)
+        public void scaleEntity(final MatrixStack mat, final Entity entity, final IModel model, final float partialTick)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             float s = 1;
@@ -457,13 +432,12 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         super(p_i50961_1_, null, 1);
         this.holder = new Holder(entry);
         this.holder.init();
-        final ModelWrapper<GenericPokemob> model = new ModelWrapper<>(this.holder, this.holder);
-        this.entityModel = model;
+        this.entityModel = new ModelWrapper<>(this.holder, this.holder);
     }
 
     @Override
-    public void doRender(final GenericPokemob entity, final double x, final double y, final double z,
-            final float entityYaw, final float partialTicks)
+    public void render(final TameableEntity entity, final float entityYaw, final float partialTicks,
+            final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = RenderPokemob.holderMap.getOrDefault(type, this.holder);
@@ -475,7 +449,19 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         this.shadowSize = entity.getWidth();
         try
         {
-            super.doRender(entity, x, y, z, entityYaw, partialTicks);
+            final IPartTexturer texer = holder.wrapper.renderer.getTexturer();
+            final ResourceLocation default_ = this.getEntityTexture(entity);
+            if (texer != null && holder.wrapper.imodel != null)
+            {
+                texer.bindObject(entity);
+                holder.wrapper.getParts().forEach((n, p) ->
+                {
+                    // Get the default texture for this part.
+                    final ResourceLocation tex_part = texer.getTexture(n, default_);
+                    p.applyTexture(bufferIn, tex_part, texer);
+                });
+            }
+            super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         }
         catch (final Exception e)
         {
@@ -484,8 +470,9 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         }
     }
 
+
     @Override
-    public ResourceLocation getEntityTexture(final GenericPokemob entity)
+    public ResourceLocation getEntityTexture(final TameableEntity entity)
     {
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         final Holder holder = RenderPokemob.holderMap.getOrDefault(type, this.holder);

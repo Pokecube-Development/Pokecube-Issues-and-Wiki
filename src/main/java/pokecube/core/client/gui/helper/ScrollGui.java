@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -84,55 +83,67 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     public void render(final int mouseX, final int mouseY, final float tick)
     {
         this.renderBackground();
-        final int i = this.getScrollbarPosition();
-        final int j = i + 6;
-        GlStateManager.disableLighting();
-        GlStateManager.disableFog();
-        final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder bufferbuilder = tessellator.getBuffer();
-        this.minecraft.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-        final int k = this.getRowLeft();
-        final int l = this.y0 - (int) this.getScrollAmount();
-        if (this.renderHeader) this.renderHeader(k, l, tessellator);
-
-        this.renderList(k, l, mouseX, mouseY, tick);
-        GlStateManager.disableDepthTest();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO,
-                GlStateManager.DestFactor.ONE);
-        GlStateManager.disableAlphaTest();
-        GlStateManager.shadeModel(7425);
-        GlStateManager.disableTexture();
-
-        final int j1 = Math.max(0, this.getMaxPosition() - (this.y1 - this.y0));
-        if (j1 > 0)
-        {
-            int k1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) / (float) this.getMaxPosition());
-            k1 = MathHelper.clamp(k1, 32, this.y1 - this.y0 - 4);
-            int l1 = (int) this.getScrollAmount() * (this.y1 - this.y0 - k1) / j1 + this.y0 + 4;
-            if (l1 < this.y0) l1 = this.y0;
-            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            bufferbuilder.pos(i, l1 + k1, 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
-            bufferbuilder.pos(j, l1 + k1, 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
-            bufferbuilder.pos(j, l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
-            bufferbuilder.pos(i, l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
-            tessellator.draw();
-            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            bufferbuilder.pos(i, l1 + k1 - 1, 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
-            bufferbuilder.pos(j - 1, l1 + k1 - 1, 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
-            bufferbuilder.pos(j - 1, l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
-            bufferbuilder.pos(i, l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
-            tessellator.draw();
-        }
-
-        this.renderDecorations(mouseX, mouseY);
-        GlStateManager.enableTexture();
-        GlStateManager.shadeModel(7424);
-        GlStateManager.enableAlphaTest();
-        GlStateManager.disableBlend();
+        // final int i = this.getScrollbarPosition();
+        // final int j = i + 6; FIXME rendering scroll guis.
+        // GlStateManager.disableLighting();
+        // GlStateManager.disableFog();
+        // final Tessellator tessellator = Tessellator.getInstance();
+        // final BufferBuilder bufferbuilder = tessellator.getBuffer();
+        // this.minecraft.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
+        // GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        //
+        // final int k = this.getRowLeft();
+        // final int l = this.y0 - (int) this.getScrollAmount();
+        // if (this.renderHeader) this.renderHeader(k, l, tessellator);
+        //
+        // this.renderList(k, l, mouseX, mouseY, tick);
+        // GlStateManager.disableDepthTest();
+        // GlStateManager.enableBlend();
+        // GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+        // GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+        // GlStateManager.SourceFactor.ZERO,
+        // GlStateManager.DestFactor.ONE);
+        // GlStateManager.disableAlphaTest();
+        // GlStateManager.shadeModel(7425);
+        // GlStateManager.disableTexture();
+        //
+        // final int j1 = Math.max(0, this.getMaxPosition() - (this.y1 -
+        // this.y0));
+        // if (j1 > 0)
+        // {
+        // int k1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) /
+        // (float) this.getMaxPosition());
+        // k1 = MathHelper.clamp(k1, 32, this.y1 - this.y0 - 4);
+        // int l1 = (int) this.getScrollAmount() * (this.y1 - this.y0 - k1) / j1
+        // + this.y0 + 4;
+        // if (l1 < this.y0) l1 = this.y0;
+        // bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+        // bufferbuilder.pos(i, l1 + k1, 0.0D).tex(0.0D, 1.0D).color(128, 128,
+        // 128, 255).endVertex();
+        // bufferbuilder.pos(j, l1 + k1, 0.0D).tex(1.0D, 1.0D).color(128, 128,
+        // 128, 255).endVertex();
+        // bufferbuilder.pos(j, l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128,
+        // 255).endVertex();
+        // bufferbuilder.pos(i, l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128,
+        // 255).endVertex();
+        // tessellator.draw();
+        // bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+        // bufferbuilder.pos(i, l1 + k1 - 1, 0.0D).tex(0.0D, 1.0D).color(192,
+        // 192, 192, 255).endVertex();
+        // bufferbuilder.pos(j - 1, l1 + k1 - 1, 0.0D).tex(1.0D,
+        // 1.0D).color(192, 192, 192, 255).endVertex();
+        // bufferbuilder.pos(j - 1, l1, 0.0D).tex(1.0D, 0.0D).color(192, 192,
+        // 192, 255).endVertex();
+        // bufferbuilder.pos(i, l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192,
+        // 255).endVertex();
+        // tessellator.draw();
+        // }
+        //
+        // this.renderDecorations(mouseX, mouseY);
+        // GlStateManager.enableTexture();
+        // GlStateManager.shadeModel(7424);
+        // GlStateManager.enableAlphaTest();
+        // GlStateManager.disableBlend();
     }
 
     @Override

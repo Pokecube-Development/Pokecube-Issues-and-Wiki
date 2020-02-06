@@ -7,9 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
@@ -122,11 +122,9 @@ public class Model
             b.invertRestMatrix();
     }
 
-    public void renderAll()
+    public void renderAll(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbbro)
     {
-        GL11.glShadeModel(GL11.GL_SMOOTH);
-        this.body.render();
-        GL11.glShadeModel(GL11.GL_FLAT);
+        this.body.render(mat, buffer, rgbbro);
     }
 
     private void resetVerts(final Body body)

@@ -2,11 +2,6 @@ package pokecube.core.client.gui;
 
 import java.awt.Rectangle;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -21,45 +16,49 @@ public class GuiArranger
     {
     }
 
-    protected void drawBox(Rectangle rect, float s, int startColor, int endColor)
+    protected void drawBox(final Rectangle rect, final float s, final int startColor, final int endColor)
     {
-        final int top = (int) rect.getMinY();
-        final int bottom = (int) rect.getMaxY();
-        final double right = rect.getMaxX();
-        final double left = rect.getMinX();
-        final double zLevel = 0;
-        final float f = (startColor >> 24 & 255) / 255.0F;
-        final float f1 = (startColor >> 16 & 255) / 255.0F;
-        final float f2 = (startColor >> 8 & 255) / 255.0F;
-        final float f3 = (startColor & 255) / 255.0F;
-        final float f4 = (endColor >> 24 & 255) / 255.0F;
-        final float f5 = (endColor >> 16 & 255) / 255.0F;
-        final float f6 = (endColor >> 8 & 255) / 255.0F;
-        final float f7 = (endColor & 255) / 255.0F;
-        GlStateManager.disableTexture();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlphaTest();
-        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO);
-        GlStateManager.shadeModel(7425);
-        final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder vertexbuffer = tessellator.getBuffer();
-        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        vertexbuffer.pos(right, top, zLevel).color(f1, f2, f3, f).endVertex();
-        vertexbuffer.pos(left, top, zLevel).color(f1, f2, f3, f).endVertex();
-        vertexbuffer.pos(left, bottom, zLevel).color(f5, f6, f7, f4).endVertex();
-        vertexbuffer.pos(right, bottom, zLevel).color(f5, f6, f7, f4).endVertex();
-        tessellator.draw();
-        GlStateManager.shadeModel(7424);
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlphaTest();
-        GlStateManager.enableTexture();
+        // final int top = (int) rect.getMinY();
+        // final int bottom = (int) rect.getMaxY();
+        // final double right = rect.getMaxX();
+        // final double left = rect.getMinX();
+        // final double zLevel = 0; FIXME arranging gui.
+        // final float f = (startColor >> 24 & 255) / 255.0F;
+        // final float f1 = (startColor >> 16 & 255) / 255.0F;
+        // final float f2 = (startColor >> 8 & 255) / 255.0F;
+        // final float f3 = (startColor & 255) / 255.0F;
+        // final float f4 = (endColor >> 24 & 255) / 255.0F;
+        // final float f5 = (endColor >> 16 & 255) / 255.0F;
+        // final float f6 = (endColor >> 8 & 255) / 255.0F;
+        // final float f7 = (endColor & 255) / 255.0F;
+        // GlStateManager.disableTexture();
+        // GlStateManager.enableBlend();
+        // GlStateManager.disableAlphaTest();
+        // GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+        // GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+        // GlStateManager.SourceFactor.ONE,
+        // GlStateManager.DestFactor.ZERO);
+        // GlStateManager.shadeModel(7425);
+        // final Tessellator tessellator = Tessellator.getInstance();
+        // final BufferBuilder vertexbuffer = tessellator.getBuffer();
+        // vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        // vertexbuffer.pos(right, top, zLevel).color(f1, f2, f3,
+        // f).endVertex();
+        // vertexbuffer.pos(left, top, zLevel).color(f1, f2, f3, f).endVertex();
+        // vertexbuffer.pos(left, bottom, zLevel).color(f5, f6, f7,
+        // f4).endVertex();
+        // vertexbuffer.pos(right, bottom, zLevel).color(f5, f6, f7,
+        // f4).endVertex();
+        // tessellator.draw();
+        // GlStateManager.shadeModel(7424);
+        // GlStateManager.disableBlend();
+        // GlStateManager.enableAlphaTest();
+        // GlStateManager.enableTexture();
     }
 
     @OnlyIn(value = Dist.CLIENT)
     @SubscribeEvent
-    public void guiEvent(GuiScreenEvent event)
+    public void guiEvent(final GuiScreenEvent event)
     {
         // TODO gui arranger
         // if (toggle && event.getGui() instanceof GuiChat)

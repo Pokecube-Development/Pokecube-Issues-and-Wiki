@@ -2,11 +2,12 @@ package pokecube.mobs.client;
 
 import java.awt.Color;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -20,6 +21,7 @@ import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
 import pokecube.mobs.CommonProxy;
 import pokecube.mobs.client.smd.SMDModel;
+import thut.bling.client.render.Util;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
@@ -43,7 +45,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel model;
+            X3dModel                       model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -53,41 +55,28 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.HAT) return;
-                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
-                        "models/worn/megatiara.x3d"));
-                final Minecraft minecraft = Minecraft.getInstance();
-                GL11.glRotatef(90, 1, 0, 0);
-                GL11.glRotatef(180, 0, 0, 1);
+                if (this.model == null)
+                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara.x3d"));
                 final float dx = -0.0f, dy = .235f, dz = 0.25f;
                 mat.translate(dx, dy, dz);
-                mat.push();
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                minecraft.getTextureManager().bindTexture(this.keystone);
-                this.model.renderOnly("stone");
-                mat.pop();
-
-                mat.push();
-                minecraft.getTextureManager().bindTexture(this.metal);
+                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                this.model.renderOnly(mat, buf0, "stone");
                 DyeColor ret = DyeColor.BLUE;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[2] = colour.getGreen();
-                col[1] = colour.getBlue();
-                this.model.getParts().get("tiara").setRGBAB(col);
-                this.model.renderOnly("tiara");
-                GL11.glColor3f(1, 1, 1);
-                mat.pop();
-
+                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                this.model.getParts().get("tiara").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255,
+                        brightness, overlay);
+                buf0 = Util.makeBuilder(buff, this.metal);
+                this.model.renderOnly(mat, buf0, "tiara");
             }
         });
 
@@ -96,7 +85,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel model;
+            X3dModel                       model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -105,46 +94,38 @@ public class ClientProxy extends CommonProxy
                     "textures/worn/megaankletzinnia_2.png");
 
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.ANKLE) return;
-
-                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
-                        "models/worn/megaankletzinnia.x3d"));
-                final Minecraft minecraft = Minecraft.getInstance();
-                mat.push();
-                GL11.glRotatef(90, 1, 0, 0);
-                GL11.glRotatef(180, 0, 0, 1);
-                final float dx = -0.0f, dy = .05f, dz = 0.f;
-                final double s = 1;
-                mat.scale(s, s, s);
+                if (this.model == null)
+                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaankletzinnia.x3d"));
+                float s, sy, sx, sz, dx, dy, dz;
+                dx = 0.f;
+                dy = .06f;
+                dz = 0.f;
+                s = 0.475f;
+                sx = 1.05f * s / 2;
+                sy = s * 1.8f / 2;
+                sz = s / 2;
+                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                minecraft.getTextureManager().bindTexture(this.keystone);
-                this.model.renderOnly("stone");
-                mat.pop();
-                mat.push();
-                GL11.glRotatef(90, 1, 0, 0);
-                GL11.glRotatef(180, 0, 0, 1);
-                mat.scale(s, s, s);
-                mat.translate(dx, dy, dz);
-                minecraft.getTextureManager().bindTexture(this.texture);
+                mat.scale(sx, sy, sz);
+                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                this.model.renderOnly(mat, buf0, "stone");
                 DyeColor ret = DyeColor.CYAN;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[2] = colour.getGreen();
-                col[1] = colour.getBlue();
-                this.model.getParts().get("anklet").setRGBAB(col);
-                this.model.renderOnly("anklet");
-                GL11.glColor3f(1, 1, 1);
-                mat.pop();
+                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                this.model.getParts().get("anklet").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(),
+                        255, brightness, overlay);
+                buf0 = Util.makeBuilder(buff, this.texture);
+                this.model.renderOnly(mat, buf0, "anklet");
             }
         });
         // a Pendant
@@ -152,7 +133,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel model;
+            X3dModel                       model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -162,40 +143,35 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.NECK) return;
-                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
-                        "models/worn/megapendant.x3d"));
-                final Minecraft minecraft = Minecraft.getInstance();
-                GL11.glRotatef(90, 1, 0, 0);
-                GL11.glRotatef(180, 0, 0, 1);
-                final float dx = -0.0f, dy = .0f, dz = 0.01f;
+                if (this.model == null)
+                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megapendant.x3d"));
+                float s, dx, dy, dz;
+                dx = 0;
+                dy = -.0f;
+                dz = -0.03f;
+                s = 0.525f;
+                mat.rotate(Vector3f.XP.rotationDegrees(90));
+                mat.rotate(Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                mat.push();
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                minecraft.getTextureManager().bindTexture(this.keystone);
-                this.model.renderOnly("keystone");
-                mat.pop();
-
-                mat.push();
-                minecraft.getTextureManager().bindTexture(this.pendant);
+                mat.scale(s, s, s);
+                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                this.model.renderOnly(mat, buf0, "keystone");
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[2] = colour.getGreen();
-                col[1] = colour.getBlue();
-                this.model.getParts().get("pendant").setRGBAB(col);
-                this.model.renderOnly("pendant");
-                GL11.glColor3f(1, 1, 1);
-                mat.pop();
+                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                this.model.getParts().get("pendant").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(),
+                        255, brightness, overlay);
+                buf0 = Util.makeBuilder(buff, this.pendant);
+                this.model.renderOnly(mat, buf0, "pendant");
 
             }
         });
@@ -204,7 +180,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel model;
+            X3dModel                       model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -214,24 +190,26 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.EAR) return;
-                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
-                        "models/worn/megaearring.x3d"));
+                if (this.model == null)
+                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaearring.x3d"));
                 final Minecraft minecraft = Minecraft.getInstance();
-                GL11.glRotatef(180, 0, 0, 1);
-                final float dx = -0.0f, dy = index == 0 ? .01f : -.01f, dz = -0.3f;
+                float s, dx, dy, dz;
+                dx = 0.0f;
+                dy = .175f;
+                dz = 0.0f;
+                s = 0.475f / 4f;
+                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                mat.push();
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                minecraft.getTextureManager().bindTexture(this.keystone);
-                this.model.renderOnly("keystone");
-                mat.pop();
+                mat.scale(s, s, s);
+                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                this.model.renderOnly(mat, buf0, "keystone");
 
-                mat.push();
                 minecraft.getTextureManager().bindTexture(this.loop);
                 DyeColor ret = DyeColor.YELLOW;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -239,14 +217,11 @@ public class ClientProxy extends CommonProxy
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[2] = colour.getGreen();
-                col[1] = colour.getBlue();
-                this.model.getParts().get("earing").setRGBAB(col);
-                this.model.renderOnly("earing");
-                GL11.glColor3f(1, 1, 1);
-                mat.pop();
+                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                this.model.getParts().get("earing").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(),
+                        255, brightness, overlay);
+                buf0 = Util.makeBuilder(buff, this.loop);
+                this.model.renderOnly(mat, buf0, "earing");
 
             }
         });
@@ -255,7 +230,7 @@ public class ClientProxy extends CommonProxy
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel model;
+            X3dModel                       model;
 
             // Textures for each hat layer.
             private final ResourceLocation keystone = new ResourceLocation(PokecubeCore.MODID,
@@ -265,41 +240,29 @@ public class ClientProxy extends CommonProxy
 
             @OnlyIn(Dist.CLIENT)
             @Override
-            public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
-                    final ItemStack stack, final float partialTicks)
+            public void renderWearable(final MatrixStack mat, final IRenderTypeBuffer buff, final EnumWearable slot,
+                    final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.EYE) return;
-                if (this.model == null) this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID,
-                        "models/worn/megaglasses.x3d"));
-                final Minecraft minecraft = Minecraft.getInstance();
-                GL11.glRotatef(90, 1, 0, 0);
-                GL11.glRotatef(180, 0, 0, 1);
-                final float dx = -0.0f, dy = .01f, dz = -0.25f;
-                mat.translate(dx, dy, dz);
-                mat.push();
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                minecraft.getTextureManager().bindTexture(this.keystone);
-                this.model.renderOnly("keystone");
-                mat.pop();
+                if (this.model == null)
+                    this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaglasses.x3d"));
 
-                mat.push();
-                minecraft.getTextureManager().bindTexture(this.loop);
+                final float dx = -0.0f, dy = .235f, dz = 0.25f;
+                mat.translate(dx, dy, dz);
+                IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
+                this.model.renderOnly(mat, buf0, "stone");
                 DyeColor ret = DyeColor.GRAY;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[2] = colour.getGreen();
-                col[1] = colour.getBlue();
-                this.model.getParts().get("glasses").setRGBAB(col);
-                this.model.renderOnly("glasses");
-                GL11.glColor3f(1, 1, 1);
-                mat.pop();
-
+                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                this.model.getParts().get("glasses").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(),
+                        255, brightness, overlay);
+                buf0 = Util.makeBuilder(buff, this.loop);
+                this.model.renderOnly(mat, buf0, "glasses");
             }
         });
     }

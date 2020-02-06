@@ -1,6 +1,5 @@
 package pokecube.mobs.client.smd;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import thut.api.maths.Vector3;
@@ -17,7 +16,7 @@ public interface IFakeExtendedPart extends IExtendedModelPart
     int[] RGAB = new int[] { 255, 255, 255, 255, 255 };
 
     @Override
-    default void addChild(IExtendedModelPart child)
+    default void addChild(final IExtendedModelPart child)
     {
     }
 
@@ -42,13 +41,6 @@ public interface IFakeExtendedPart extends IExtendedModelPart
         return null;
     }
 
-    @Override
-    default int[] getRGBAB()
-    {
-        Arrays.fill(IFakeExtendedPart.RGAB, 255);
-        return IFakeExtendedPart.RGAB;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     HashMap<String, IExtendedModelPart> getSubParts();
@@ -62,42 +54,37 @@ public interface IFakeExtendedPart extends IExtendedModelPart
     }
 
     @Override
-    default void setParent(IExtendedModelPart parent)
+    default void setParent(final IExtendedModelPart parent)
     {
     }
 
     @Override
-    default void setPostRotations(Vector4 rotations)
+    default void setPostRotations(final Vector4 rotations)
     {
     }
 
     @Override
-    default void setPostRotations2(Vector4 rotations)
+    default void setPostRotations2(final Vector4 rotations)
     {
     }
 
     @Override
-    default void setPostTranslations(Vector3 translations)
+    default void setPostTranslations(final Vector3 translations)
     {
     }
 
     @Override
-    default void setPreRotations(Vector4 rotations)
+    default void setPreRotations(final Vector4 rotations)
     {
     }
 
     @Override
-    default void setPreScale(Vector3 scale)
+    default void setPreScale(final Vector3 scale)
     {
     }
 
     @Override
-    default void setPreTranslations(Vector3 translations)
-    {
-    }
-
-    @Override
-    default void setRGBAB(int[] arrays)
+    default void setPreTranslations(final Vector3 translations)
     {
     }
 }

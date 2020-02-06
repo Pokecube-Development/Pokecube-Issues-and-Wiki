@@ -2,19 +2,17 @@ package pokecube.core.client.render.mobs;
 
 import java.util.HashMap;
 
-import org.lwjgl.opengl.GL11;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
 import pokecube.core.interfaces.IPokecube;
@@ -33,23 +31,28 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         {
         }
 
+        EntityPokecube cube;
+
         @Override
-        public void render(EntityPokecube entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
-                float netHeadYaw, float headPitch, float scale)
+        public void render(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
+                final float ageInTicks, final float netHeadYaw, final float headPitch)
         {
+            this.cube = entityIn;
+        }
+
+        @Override
+        public void render(final MatrixStack mat, final IVertexBuilder bufferIn, final int packedLightIn,
+                final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
+        {
+            // TODO Auto-generated method stub
             mat.push();
             mat.translate(-0.0, 1.4, -0.0);
-            scale = 0.25f;
+            final float scale = 0.25f;
             mat.scale(scale, scale, scale);
-            GL11.glColor4f(1, 1, 1, 1f);
-            GL11.glRotated(180, 0, 0, 1);
-            GL11.glRotated(entityIn.rotationYaw, 0, 1, 0);
 
-            final EntityPokecube cube = entityIn;
-
-            if (cube.isReleasing())
+            if (this.cube.isReleasing())
             {
-                final Entity mob = cube.getReleased();
+                final Entity mob = this.cube.getReleased();
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
                 if (pokemob != null)
                 {
@@ -60,19 +63,24 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
                 }
             }
 
-            if (PokecubeManager.getTilt(cube.getItem()) > 0)
+            if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {
-                final float rotateY = MathHelper.cos(MathHelper.abs((float) (Math.PI * ageInTicks) / 12)) * (180F
-                        / (float) Math.PI);
-                GL11.glRotatef(rotateY, 0.0F, 0.0F, 1.0F);
+                // final float rotateY = MathHelper.cos(MathHelper.abs((float)
+                // (Math.PI * ageInTicks) / 12)) * (180F
+                // / (float) Math.PI);
+                // GL11.glRotatef(rotateY, 0.0F, 0.0F, 1.0F);
+                // TODO Rotate to face speed direction.
             }
-            ItemStack renderStack = cube.getItem();
+            ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
 
-            Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-            final IBakedModel model = Minecraft.getInstance().getItemRenderer().getModelWithOverrides(renderStack);
-            Minecraft.getInstance().getItemRenderer().renderItem(renderStack, model);
+            // FIXME rendering the cube as an item.
+            // Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
+            // final IBakedModel model =
+            // Minecraft.getInstance().getItemRenderer().getModelWithOverrides(renderStack);
+            // Minecraft.getInstance().getItemRenderer().renderItem(renderStack,
+            // model);
 
             mat.pop();
         }
@@ -80,19 +88,20 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
 
     public static HashMap<ResourceLocation, EntityRenderer<EntityPokecube>> pokecubeRenderers = new HashMap<>();
 
-    public RenderPokecube(EntityRendererManager renderManager)
+    public RenderPokecube(final EntityRendererManager renderManager)
     {
         super(renderManager, new ModelPokecube(), 0);
     }
 
     @Override
-    protected boolean canRenderName(EntityPokecube entity)
+    protected boolean canRenderName(final EntityPokecube entity)
     {
         return false;
     }
 
     @Override
-    public void doRender(EntityPokecube entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void render(final EntityPokecube entity, final float entityYaw, final float partialTicks,
+            final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final long time = entity.reset;
         final long world = entity.getEntityWorld().getGameTime();
@@ -101,14 +110,15 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         final ResourceLocation num = PokecubeItems.getCubeId(entity.getItem());
         if (RenderPokecube.pokecubeRenderers.containsKey(num))
         {
-            RenderPokecube.pokecubeRenderers.get(num).doRender(entity, x, y, z, entityYaw, partialTicks);
+            RenderPokecube.pokecubeRenderers.get(num).render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn,
+                    packedLightIn);
             return;
         }
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(EntityPokecube entity)
+    public ResourceLocation getEntityTexture(final EntityPokecube entity)
     {
         return new ResourceLocation(PokecubeMod.ID, "textures/items/pokecubefront.png");
     }

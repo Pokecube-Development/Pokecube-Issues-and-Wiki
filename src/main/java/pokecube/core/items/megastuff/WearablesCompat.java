@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.util.Map;
 import java.util.Set;
 
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -28,7 +26,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.models.ModelRing;
 import pokecube.core.interfaces.PokecubeMod;
+import thut.api.maths.vecmath.Vector3f;
 import thut.bling.client.render.Hat;
+import thut.bling.client.render.Util;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
@@ -132,9 +132,9 @@ public class WearablesCompat
         }
     }
 
-    private static final ResourceLocation WEARABLESKEY = new ResourceLocation("pokecube:wearable");
+    private static final ResourceLocation        WEARABLESKEY = new ResourceLocation("pokecube:wearable");
 
-    public static Map<String, WearablesRenderer> renderers = Maps.newHashMap();
+    public static Map<String, WearablesRenderer> renderers    = Maps.newHashMap();
 
     static
     {
@@ -142,7 +142,7 @@ public class WearablesCompat
         {
             // 2 layers of belt rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            private X3dModel model;
+            private X3dModel         model;
 
             // Textures for each belt layer.
             private ResourceLocation strap;
@@ -161,40 +161,32 @@ public class WearablesCompat
                     this.strap = new ResourceLocation(PokecubeMod.ID, "textures/worn/megabelt_2.png");
                     this.watch = new ResourceLocation(PokecubeMod.ID, "textures/worn/watch.png");
                 }
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
                 float s, sy, sx, sz, dx, dy, dz;
                 dx = 0.f;
                 dy = .06f;
-                dz = -0.075f;
-                s = .65f;
-                sx = s;
-                sy = s;
-                sz = s * 1.5f;
+                dz = 0.f;
+                s = 0.475f;
+                sx = 1.05f * s / 2;
+                sy = s * 1.8f / 2;
+                sz = s / 2;
                 mat.push();
+                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                mat.scale(sx * 0.75f, sy, sz);
-                GL11.glRotatef(-90, 1, 0, 0);
-                Minecraft.getInstance().getTextureManager().bindTexture(this.strap);
+                mat.scale(sx, sy, sz);
                 DyeColor ret = DyeColor.GRAY;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[1] = colour.getGreen();
-                col[2] = colour.getBlue();
-                this.model.getParts().get("strap").setRGBAB(col);
-                this.model.renderOnly("strap");
-                mat.pop();
-                mat.push();
-                mat.translate(dx, dy, dz);
-                mat.scale(sx, sy, sz);
-                GL11.glRotatef(-90, 1, 0, 0);
-                Minecraft.getInstance().getTextureManager().bindTexture(this.watch);
-                this.model.renderOnly("watch");
+                IVertexBuilder buf = Util.makeBuilder(buff, this.strap);
+                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                this.model.getParts().get("strap").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255,
+                        brightness, overlay);
+                this.model.renderOnly(mat, buf, "strap");
+                buf = Util.makeBuilder(buff, this.watch);
+                this.model.renderOnly(mat, buf, "watch");
                 mat.pop();
 
             }
@@ -215,14 +207,14 @@ public class WearablesCompat
                 if (slot != EnumWearable.FINGER) return;
                 if (this.ring == null) this.ring = new ModelRing();
                 this.ring.stack = stack;
-                this.ring.render(wearer, 0, 0, partialTicks, 0, 0, 0.0625f);
+                this.ring.render(wearer, 0, 0, partialTicks, 0, 0);
             }
         });
         WearablesCompat.renderers.put("belt", new WearablesRenderer()
         {
             // 2 layers of belt rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            private X3dModel belt;
+            private X3dModel         belt;
 
             // Textures for each belt layer.
             private ResourceLocation keystone;
@@ -241,39 +233,33 @@ public class WearablesCompat
                     this.keystone = new ResourceLocation(PokecubeMod.ID, "textures/worn/keystone.png");
                     this.belt_2 = new ResourceLocation(PokecubeMod.ID, "textures/worn/megabelt_2.png");
                 }
-                final int brightness = wearer.getBrightnessForRender();
-                final int[] col = new int[] { 255, 255, 255, 255, brightness };
-                mat.push();
-                final float dx = 0, dy = .6f, dz = -0.f;
-                mat.translate(dx, dy, dz);
-                float s = 1.1f;
-                if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS).isEmpty()) s = 0.95f;
-                mat.scale(s, s, s);
-                GL11.glRotatef(90, 1, 0, 0);
-                GL11.glRotatef(180, 0, 1, 0);
-                Minecraft.getInstance().getTextureManager().bindTexture(this.keystone);
-                GL11.glRotatef(90, 1, 0, 0);
-                this.belt.renderOnly("stone");
-                mat.pop();
+                float s, dx, dy, dz;
+                dx = 0;
+                dy = -.0f;
+                dz = -0.6f;
+                s = 0.525f;
+                if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS) == null) s = 0.465f;
+                final Vector3f dr = new Vector3f(dx, dy, dz);
+                final Vector3f ds = new Vector3f(s, s, s);
+                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
+                mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
 
                 mat.push();
-                mat.translate(dx, dy, dz);
-                mat.scale(s, s, s);
-                GL11.glRotatef(90, 1, 0, 0);
-                GL11.glRotatef(180, 0, 1, 0);
-                Minecraft.getInstance().getTextureManager().bindTexture(this.belt_2);
+                mat.translate(dr.x, dr.y, dr.z);
+                mat.scale(ds.x, ds.y, ds.z);
+                IVertexBuilder buf = Util.makeBuilder(buff, this.keystone);
+                this.belt.renderOnly(mat, buf, "stone");
                 DyeColor ret = DyeColor.GRAY;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
-                col[0] = colour.getRed();
-                col[1] = colour.getGreen();
-                col[2] = colour.getBlue();
-                this.belt.getParts().get("belt").setRGBAB(col);
-                this.belt.renderOnly("belt");
+                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                this.belt.getParts().get("belt").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255,
+                        brightness, overlay);
+                buf = Util.makeBuilder(buff, this.belt_2);
+                this.belt.renderOnly(mat, buf, "belt");
                 mat.pop();
             }
         });
@@ -281,7 +267,7 @@ public class WearablesCompat
         {
             // 2 layers of hat rendering for the different colours.
             @OnlyIn(Dist.CLIENT)
-            X3dModel hat;
+            X3dModel                         hat;
 
             // Textures for each hat layer.
             private final ResourceLocation   hat_1 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/hat.png");
@@ -295,8 +281,8 @@ public class WearablesCompat
                     final int brightness, final int overlay)
             {
                 if (slot != EnumWearable.HAT) return;
-                if (this.hat == null) this.hat = new X3dModel(new ResourceLocation(PokecubeMod.ID,
-                        "models/worn/hat.x3d"));
+                if (this.hat == null)
+                    this.hat = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/hat.x3d"));
                 Hat.renderHat(mat, buff, wearer, stack, this.hat, this.TEX, brightness, overlay);
             }
         });
@@ -322,9 +308,9 @@ public class WearablesCompat
     public static void onItemCapabilityAttach(final AttachCapabilitiesEvent<ItemStack> event)
     {
         if (event.getCapabilities().containsKey(WearablesCompat.WEARABLESKEY)) return;
-        if (event.getObject().getItem() instanceof ItemMegawearable) event.addCapability(WearablesCompat.WEARABLESKEY,
-                new WearableMega());
-        else if (event.getObject().getItem() == PokecubeItems.POKEWATCH) event.addCapability(
-                WearablesCompat.WEARABLESKEY, new WearableWatch());
+        if (event.getObject().getItem() instanceof ItemMegawearable)
+            event.addCapability(WearablesCompat.WEARABLESKEY, new WearableMega());
+        else if (event.getObject().getItem() == PokecubeItems.POKEWATCH)
+            event.addCapability(WearablesCompat.WEARABLESKEY, new WearableWatch());
     }
 }

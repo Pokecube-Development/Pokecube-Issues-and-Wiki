@@ -6,68 +6,64 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GLX;
-import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
-import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import thut.api.maths.vecmath.Vector3f;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
     public static void renderMob(final LivingEntity entity, final int width, final int height, final int unusedA,
-            final int unusedB, final float xRenderAngle, float yRenderAngle, final float zRenderAngle,
+            final int unusedB, final float xRenderAngle, final float yRenderAngle, final float zRenderAngle,
             final float scale)
     {
-
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        float size = 1;
-        final int j = width;
-        final int k = height;
-        if (pokemob != null)
-        {
-            final float mobScale = pokemob.getSize();
-            final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-            size = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-        }
-        if (Float.isNaN(yRenderAngle)) yRenderAngle = entity.renderYawOffset - entity.ticksExisted;
-        final float zoom = 25f / size * scale;
-        mat.push();
-        mat.translate(j + 55, k + 60, 50F);
-        mat.scale(-zoom, zoom, zoom);
-        GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-        GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
-
-        GL11.glRotatef(yRenderAngle, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(xRenderAngle, 1.0F, 0.0F, 0.0F);
-        GL11.glRotatef(zRenderAngle, 0.0F, 0.0F, 1.0F);
-
-        GlStateManager.enableColorMaterial();
-        RenderHelper.enableStandardItemLighting();
-        RenderMobOverlays.enabled = false;
-        final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
-        entityrenderermanager.setPlayerViewY(180.0F);
-        entityrenderermanager.setRenderShadow(false);
-        entityrenderermanager.renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
-        entityrenderermanager.setRenderShadow(true);
-        RenderMobOverlays.enabled = true;
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.activeTexture(GLX.GL_TEXTURE1);
-        GlStateManager.disableTexture();
-        GlStateManager.activeTexture(GLX.GL_TEXTURE0);
-        mat.pop();
+        // FIXME rendering mob in pokemob gui.
+        // final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        // float size = 1;
+        // final int j = width;
+        // final int k = height;
+        // if (pokemob != null)
+        // {
+        // final float mobScale = pokemob.getSize();
+        // final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
+        // size = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x
+        // * mobScale));
+        // }
+        // if (Float.isNaN(yRenderAngle)) yRenderAngle = entity.renderYawOffset
+        // - entity.ticksExisted;
+        // final float zoom = 25f / size * scale;
+        // GL11.glPushMatrix();
+        // GL11.glTranslated(j + 55, k + 60, 50F);
+        // GL11.glScaled(-zoom, zoom, zoom);
+        // GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
+        // GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
+        //
+        // GL11.glRotatef(yRenderAngle, 0.0F, 1.0F, 0.0F);
+        // GL11.glRotatef(xRenderAngle, 1.0F, 0.0F, 0.0F);
+        // GL11.glRotatef(zRenderAngle, 0.0F, 0.0F, 1.0F);
+        //
+        // GlStateManager.enableColorMaterial();
+        // RenderHelper.enableStandardItemLighting();
+        // RenderMobOverlays.enabled = false;
+        // final EntityRendererManager entityrenderermanager =
+        // Minecraft.getInstance().getRenderManager();
+        // entityrenderermanager.setPlayerViewY(180.0F);
+        // entityrenderermanager.setRenderShadow(false);
+        // entityrenderermanager.renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F,
+        // 1.0F, false);
+        // entityrenderermanager.setRenderShadow(true);
+        // RenderMobOverlays.enabled = true;
+        // RenderHelper.disableStandardItemLighting();
+        // GlStateManager.disableRescaleNormal();
+        // GlStateManager.activeTexture(GLX.GL_TEXTURE1);
+        // GlStateManager.disableTexture();
+        // GlStateManager.activeTexture(GLX.GL_TEXTURE0);
+        // GL11.glPopMatrix();
     }
 
     public static void setPokemob(final IPokemob pokemobIn)
