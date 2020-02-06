@@ -6,7 +6,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.IRenderTypeBuffer.Impl;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -28,6 +30,8 @@ public class Material
     public float            transparency;
 
     IVertexBuilder          override_buff = null;
+    IRenderTypeBuffer       typeBuff      = null;
+    RenderType              type          = null;
 
     public Material(final String name)
     {
@@ -51,16 +55,32 @@ public class Material
 
     public void makeVertexBuilder(final ResourceLocation texture, final IRenderTypeBuffer buffer)
     {
-        final RenderType type = this.makeRenderType(texture);
-        final IVertexBuilder buff = buffer.getBuffer(type);
-        this.override_buff = buff;
+        this.type = this.makeRenderType(texture);
+        if (buffer instanceof Impl)
+        {
+            final Impl impl = (Impl) buffer;
+            IVertexBuilder buff = impl.getBuffer(this.type);
+            // This means we didn't actually make one for this texture!
+            if (buff == impl.defaultBuffer)
+            {
+                final BufferBuilder builder = new BufferBuilder(256);
+                // Add a new bufferbuilder to the maps.
+                impl.buffersByType.put(this.type, builder);
+                // This starts the buffer, and registers it to the Impl.
+                builder.begin(this.type.getGlMode(), this.type.getVertexFormat());
+                impl.startedBuffers.add(builder);
+                buff = builder;
+            }
+            this.override_buff = buff;
+            this.typeBuff = buffer;
+        }
     }
 
     private RenderType makeRenderType(final ResourceLocation tex)
     {
         this.tex = tex;
         final RenderType.State rendertype$state = RenderType.State.builder()
-                .texture(new RenderState.TextureState(tex, true, false))
+                .texture(new RenderState.TextureState(tex, false, false))
                 .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
                 {
                     RenderSystem.enableBlend();
@@ -82,5 +102,12 @@ public class Material
     public IVertexBuilder preRender(final MatrixStack mat, final IVertexBuilder buffer)
     {
         return this.override_buff == null ? buffer : this.override_buff;
+    }
+
+    public void postRender(final MatrixStack mat)
+    {
+        if (this.typeBuff instanceof Impl) ((Impl) this.typeBuff).finish(this.type);
+        this.override_buff = null;
+        this.typeBuff = null;
     }
 }

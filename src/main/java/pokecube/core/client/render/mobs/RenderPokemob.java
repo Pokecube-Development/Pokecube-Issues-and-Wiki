@@ -343,8 +343,6 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             sx *= s;
             sy *= s;
             sz *= s;
-            // TODO see if this is where things are going funny with tbl
-            // offsets?
             this.rotPoint.set(this.getRotationOffset()).scalarMultBy(s);
             model.setOffset(this.rotPoint);
             if (!this.getScale().isEmpty()) mat.scale(sx, sy, sz);
@@ -493,7 +491,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     protected RenderType func_230042_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b)
     {
         final RenderType.State rendertype$state = RenderType.State.builder()
-                .texture(new RenderState.TextureState(this.getEntityTexture(entity), bool_a, bool_b))
+                .texture(new RenderState.TextureState(this.getEntityTexture(entity), false, false))
                 .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
                 {
                     RenderSystem.enableBlend();

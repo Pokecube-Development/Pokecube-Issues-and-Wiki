@@ -3,6 +3,8 @@ package thut.core.client.render.model;
 import java.util.HashMap;
 import java.util.List;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
@@ -15,12 +17,22 @@ public interface IExtendedModelPart extends IModelCustom
     void addChild(IExtendedModelPart child);
 
     List<Material> getMaterials();
-    
+
     void applyTexture(IRenderTypeBuffer bufferIn, ResourceLocation tex, IPartTexturer texer);
 
-    default void addMaterial(Material material)
+    default void addMaterial(final Material material)
     {
-        getMaterials().add(material);
+        this.getMaterials().add(material);
+    }
+
+    default void rotateForChild(final MatrixStack mat)
+    {
+
+    }
+
+    default void unRotateForChild(final MatrixStack mat)
+    {
+
     }
 
     Vector4 getDefaultRotations();
@@ -52,8 +64,6 @@ public interface IExtendedModelPart extends IModelCustom
     void setParent(IExtendedModelPart parent);
 
     void setPostRotations(Vector4 rotations);
-
-    void setPostRotations2(Vector4 rotations);
 
     void setPostTranslations(Vector3 translations);
 

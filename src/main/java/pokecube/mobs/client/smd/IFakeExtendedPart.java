@@ -64,11 +64,6 @@ public interface IFakeExtendedPart extends IExtendedModelPart
     }
 
     @Override
-    default void setPostRotations2(final Vector4 rotations)
-    {
-    }
-
-    @Override
     default void setPostTranslations(final Vector3 translations)
     {
     }

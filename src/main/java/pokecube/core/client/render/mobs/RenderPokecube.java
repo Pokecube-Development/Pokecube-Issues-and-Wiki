@@ -5,12 +5,15 @@ import java.util.HashMap;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeItems;
@@ -74,6 +77,12 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
+
+            final Minecraft mc = Minecraft.getInstance();
+            final IBakedModel ibakedmodel = mc.getItemRenderer().getItemModelWithOverrides(renderStack, this.cube.world,
+                    (LivingEntity) null);
+            // mc.getItemRenderer().renderModel(ibakedmodel, renderStack,
+            // packedLightIn, packedOverlayIn, mat, bufferIn);
 
             // FIXME rendering the cube as an item.
             // Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);

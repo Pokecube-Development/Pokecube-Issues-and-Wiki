@@ -73,8 +73,8 @@ public class AnimationLoader
     {
         int ret = default_;
         if (node.getAttributes() == null) return ret;
-        if (node.getAttributes().getNamedItem(key) != null) ret = Integer.parseInt(node.getAttributes().getNamedItem(
-                key).getNodeValue());
+        if (node.getAttributes().getNamedItem(key) != null)
+            ret = Integer.parseInt(node.getAttributes().getNamedItem(key).getNodeValue());
         return ret;
     }
 
@@ -106,18 +106,19 @@ public class AnimationLoader
             int t = 0;
             String[] r;
             rotation = node.getAttributes().getNamedItem("rotation").getNodeValue();
-            if (node.getAttributes().getNamedItem("time") != null) time = node.getAttributes().getNamedItem("time")
-                    .getNodeValue();
+            if (node.getAttributes().getNamedItem("time") != null)
+                time = node.getAttributes().getNamedItem("time").getNodeValue();
             r = rotation.split(",");
             t = Integer.parseInt(time);
             try
             {
                 ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()),
                         Float.parseFloat(r[3].trim()));
+                ro.toQuaternion();
             }
             catch (final Exception e)
             {
-                ro.set(0, 1, 0, 0);
+                ro.set(0, 0, 0, 1);
             }
             return new Vector5(ro, t);
         }
@@ -136,8 +137,8 @@ public class AnimationLoader
             shift = node.getAttributes().getNamedItem("scale").getNodeValue();
             r = shift.split(",");
 
-            if (r.length == 3) vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(
-                    r[2].trim()));
+            if (r.length == 3)
+                vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()));
             else vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()));
             return vect;
         }
@@ -222,9 +223,9 @@ public class AnimationLoader
                     }
                     else if (part.getNodeName().equals("phase"))
                     {
-                        final Node phase = part.getAttributes().getNamedItem("name") == null ? part.getAttributes()
-                                .getNamedItem("type") : part.getAttributes().getNamedItem("name");
-                                final String phaseName = phase.getNodeValue();
+                        final Node phase = part.getAttributes().getNamedItem("name") == null
+                                ? part.getAttributes().getNamedItem("type") : part.getAttributes().getNamedItem("name");
+                                final String phaseName = ThutCore.trim(phase.getNodeValue());
                                 for (final String s : AnimationRegistry.animations.keySet())
                                     if (phaseName.equals(s))
                                     {
@@ -236,8 +237,8 @@ public class AnimationLoader
                                         }
                                         catch (final Exception e)
                                         {
-                                            ThutCore.LOGGER.debug("Error with animation for model: " + holder.name + " Anim: "
-                                                    + s, e);
+                                            ThutCore.LOGGER
+                                            .debug("Error with animation for model: " + holder.name + " Anim: " + s, e);
                                         }
                                     }
                                 if (phaseName.equals("global")) try
@@ -273,12 +274,12 @@ public class AnimationLoader
                     else if (part.getNodeName().equals("customTex"))
                     {
                         texturer = new TextureHelper(part);
-                        if (part.getAttributes().getNamedItem("default") != null) holder.texture = new ResourceLocation(
-                                holder.texture.toString().replace(holder.name, part.getAttributes().getNamedItem(
-                                        "default").getNodeValue()));
+                        if (part.getAttributes().getNamedItem("default") != null)
+                            holder.texture = new ResourceLocation(holder.texture.toString().replace(holder.name,
+                                    part.getAttributes().getNamedItem("default").getNodeValue()));
                     }
-                    else if (part.getNodeName().equals("customModel")) holder.model = new ResourceLocation(part
-                            .getAttributes().getNamedItem("default").getNodeValue());
+                    else if (part.getNodeName().equals("customModel")) holder.model = new ResourceLocation(
+                            part.getAttributes().getNamedItem("default").getNodeValue());
                     else if (part.getNodeName().equals("subAnims")) animator.addChild(new AnimationRandomizer(part));
                 }
 

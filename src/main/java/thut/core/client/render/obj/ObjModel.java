@@ -324,8 +324,9 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.yawDirection, ang2);
             else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.yawDirection, 0, ang2);
             else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
-            parent.setPostRotations(dir.toQuaternion());
-            parent.setPostRotations2(dir2.toQuaternion());
+            final Vector4 combined = new Vector4();
+            combined.mul(dir.toQuaternion(), dir2.toQuaternion());
+            parent.setPostRotations(combined);
         }
         for (final String partName : parent.getSubParts().keySet())
         {

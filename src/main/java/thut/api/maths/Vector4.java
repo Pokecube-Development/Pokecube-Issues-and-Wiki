@@ -25,12 +25,21 @@ public class Vector4
         return angle;
     }
 
-    public float x, y, z, w;
+    public float       x, y, z, w;
+    @OnlyIn(value = Dist.CLIENT)
+    private Quaternion quat;
 
     public Vector4()
     {
         this.y = this.z = this.x = 0;
         this.w = 1;
+    }
+
+    @OnlyIn(value = Dist.CLIENT)
+    public Vector4(final Quaternion quat)
+    {
+        this(quat.getX(), quat.getY(), quat.getZ(), quat.getW());
+        this.quat = quat;
     }
 
     public Vector4(final BlockPos pos, final DimensionType dim)
@@ -131,6 +140,12 @@ public class Vector4
         mat.rotate(this.toMCQ());
     }
 
+    @OnlyIn(value = Dist.CLIENT)
+    public void glUnRotate(final MatrixStack mat)
+    {
+        mat.rotate(this.toMCQInv());
+    }
+
     public boolean isEmpty()
     {
         return this.x == 0 && this.z == 0 && this.y == 0;
@@ -178,11 +193,9 @@ public class Vector4
         return this.addAngles(temp);
     }
 
-    /**
-     * The default is axis angle for use with openGL
+    /** The default is axis angle for use with openGL
      *
-     * @return
-     */
+     * @return */
     public Vector4 toAxisAngle()
     {
         final float qw = this.w;
@@ -254,7 +267,8 @@ public class Vector4
     {
         if ((int) this.w == (int) toCheck.w && toCheck.x >= this.x - distance && toCheck.z >= this.z - distance
                 && toCheck.y >= this.y - distance && toCheck.y <= this.y + distance && toCheck.x <= this.x + distance
-                && toCheck.z <= this.z + distance) return true;
+                && toCheck.z <= this.z + distance)
+            return true;
 
         return false;
     }
@@ -270,6 +284,15 @@ public class Vector4
     @OnlyIn(value = Dist.CLIENT)
     public Quaternion toMCQ()
     {
+        if (this.quat != null) return this.quat;
         return new Quaternion(this.x, this.y, this.z, this.w);
+    }
+
+    @OnlyIn(value = Dist.CLIENT)
+    public Quaternion toMCQInv()
+    {
+        final Quaternion quat = this.toMCQ();
+        quat.conjugate();
+        return quat;
     }
 }

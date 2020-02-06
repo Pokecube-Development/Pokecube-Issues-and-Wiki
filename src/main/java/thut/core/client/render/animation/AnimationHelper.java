@@ -9,18 +9,18 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.model.IExtendedModelPart;
 
-/**
- * This class applies the tabula style animations to models consisting of
+/** This class applies the tabula style animations to models consisting of
  * IExtendedModelPart parts.
  *
- * @author Thutmose
- */
+ * @author Thutmose */
 public class AnimationHelper
 {
     private static class Holder implements IAnimationHolder
@@ -114,8 +114,8 @@ public class AnimationHelper
                         component.posChange[1] / component.length * componentTimer + component.posOffset[1],
                         component.posChange[2] / component.length * componentTimer + component.posOffset[2]);
                 x += (float) (component.rotChange[0] / component.length * componentTimer + component.rotOffset[0]);
-                y += (float) (component.rotChange[1] / component.length * componentTimer + component.rotOffset[1]);
-                z += (float) (component.rotChange[2] / component.length * componentTimer + component.rotOffset[2]);
+                z += (float) (component.rotChange[1] / component.length * componentTimer + component.rotOffset[1]);
+                y += (float) (component.rotChange[2] / component.length * componentTimer + component.rotOffset[2]);
 
                 sx += (float) (component.scaleChange[0] / component.length * componentTimer + component.scaleOffset[0]);
                 sy += (float) (component.scaleChange[1] / component.length * componentTimer + component.scaleOffset[1]);
@@ -129,13 +129,11 @@ public class AnimationHelper
         {
             part.setPreTranslations(temp);
             part.setPreScale(temp.set(sx, sy, sz));
-            Vector4 angle = null;
-            if (z != 0) angle = new Vector4(0, 0, 1, z);
-            if (x != 0) if (angle != null) angle = angle.addAngles(new Vector4(1, 0, 0, x));
-            else angle = new Vector4(1, 0, 0, x);
-            if (y != 0) if (angle != null) angle = angle.addAngles(new Vector4(0, 1, 0, y));
-            else angle = new Vector4(0, 1, 0, y);
-            if (angle != null) part.setPreRotations(angle.toQuaternion());
+            final Quaternion quat = new Quaternion(0, 0, 0, 1);
+            if (z != 0) quat.multiply(Vector3f.ZP.rotationDegrees(z));
+            if (y != 0) quat.multiply(Vector3f.YN.rotationDegrees(y));
+            if (x != 0) quat.multiply(Vector3f.XP.rotationDegrees(x));
+            part.setPreRotations(new Vector4(quat));
         }
         return animated;
     }
@@ -155,8 +153,8 @@ public class AnimationHelper
     {
         final IAnimationHolder cap = mob.getCapability(CapabilityAnimation.CAPABILITY, null).orElse(null);
         if (cap != null) return cap;
-        if (AnimationHelper.holderMap.containsKey(mob.getUniqueID())) return AnimationHelper.holderMap.get(
-                AnimationHelper.holderMap.get(mob.getUniqueID()));
+        if (AnimationHelper.holderMap.containsKey(mob.getUniqueID()))
+            return AnimationHelper.holderMap.get(AnimationHelper.holderMap.get(mob.getUniqueID()));
         else
         {
             final Holder holder = new Holder();

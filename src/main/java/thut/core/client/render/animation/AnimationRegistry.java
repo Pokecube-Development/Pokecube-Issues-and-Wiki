@@ -43,17 +43,17 @@ public class AnimationRegistry
     /** Add in defaults. */
     static
     {
-        AnimationRegistry.animations.put("quadWalk", QuadWalkAnimation.class);
-        AnimationRegistry.animations.put("biWalk", BiWalkAnimation.class);
+        AnimationRegistry.animations.put("quadwalk", QuadWalkAnimation.class);
+        AnimationRegistry.animations.put("biwalk", BiWalkAnimation.class);
         AnimationRegistry.animations.put("flap", BasicFlapAnimation.class);
-        AnimationRegistry.animations.put("advFlap", AdvancedFlapAnimation.class);
-        AnimationRegistry.animations.put("snakeWalk", SnakeMovement.class);
-        AnimationRegistry.animations.put("snakeFly", SnakeMovement.class);
-        AnimationRegistry.animationPhases.put("snakeFly", "flying");
-        AnimationRegistry.animations.put("snakeIdle", SnakeMovement.class);
-        AnimationRegistry.animationPhases.put("snakeIdle", "idle");
-        AnimationRegistry.animations.put("snakeSwim", SnakeMovement.class);
-        AnimationRegistry.animationPhases.put("snakeSwim", "swimming");
+        AnimationRegistry.animations.put("advflap", AdvancedFlapAnimation.class);
+        AnimationRegistry.animations.put("snakewalk", SnakeMovement.class);
+        AnimationRegistry.animations.put("snakefly", SnakeMovement.class);
+        AnimationRegistry.animationPhases.put("snakefly", "flying");
+        AnimationRegistry.animations.put("snakidle", SnakeMovement.class);
+        AnimationRegistry.animationPhases.put("snakeidle", "idle");
+        AnimationRegistry.animations.put("snakeswim", SnakeMovement.class);
+        AnimationRegistry.animationPhases.put("snakeswim", "swimming");
     }
 
     /**
@@ -68,7 +68,7 @@ public class AnimationRegistry
      * @param renamer
      * @return
      */
-    public static Animation make(String name, NamedNodeMap map, @Nullable IPartRenamer renamer)
+    public static Animation make(final String name, final NamedNodeMap map, @Nullable final IPartRenamer renamer)
     {
         Animation ret = null;
         final Class<? extends Animation> toMake = AnimationRegistry.animations.get(name);

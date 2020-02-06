@@ -23,8 +23,8 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getCombatState(final CombatStates state)
     {
-        if (this.getEntity().getEntityWorld().isRemote) this.cachedCombatState = this.dataSync().get(
-                this.params.COMBATSTATESDW);
+        if (this.getEntity().getEntityWorld().isRemote)
+            this.cachedCombatState = this.dataSync().get(this.params.COMBATSTATESDW);
         return (this.cachedCombatState & state.getMask()) != 0;
     }
 
@@ -37,16 +37,16 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getGeneralState(final GeneralStates state)
     {
-        if (this.getEntity().getEntityWorld().isRemote) this.cachedGeneralState = this.dataSync().get(
-                this.params.GENERALSTATESDW);
+        if (this.getEntity().getEntityWorld().isRemote)
+            this.cachedGeneralState = this.dataSync().get(this.params.GENERALSTATESDW);
         return (this.cachedGeneralState & state.getMask()) != 0;
     }
 
     @Override
     public boolean getLogicState(final LogicStates state)
     {
-        if (this.getEntity().getEntityWorld().isRemote) this.cachedLogicState = this.dataSync().get(
-                this.params.LOGICSTATESDW);
+        if (this.getEntity().getEntityWorld().isRemote)
+            this.cachedLogicState = this.dataSync().get(this.params.LOGICSTATESDW);
         return (this.cachedLogicState & state.getMask()) != 0;
     }
 
@@ -96,7 +96,8 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean isGrounded()
     {
-        return this.getLogicState(LogicStates.GROUNDED) || !this.isRoutineEnabled(AIRoutine.AIRBORNE);
+        return this.getLogicState(LogicStates.GROUNDED) || this.getLogicState(LogicStates.SITTING)
+                || this.getLogicState(LogicStates.SLEEPING) || !this.isRoutineEnabled(AIRoutine.AIRBORNE);
     }
 
     @Override
@@ -125,10 +126,12 @@ public abstract class PokemobAI extends PokemobEvolves
             final Vector3 particleLoc = Vector3.getNewVector();
             for (int i = 0; i < 20; ++i)
             {
-                particleLoc.set(this.getEntity().posX + this.rand.nextFloat() * this.getEntity().getWidth() * 2.0F
-                        - this.getEntity().getWidth(), this.getEntity().posY + 0.5D + this.rand.nextFloat() * this
-                                .getEntity().getHeight(), this.getEntity().posZ + this.rand.nextFloat() * this
-                                        .getEntity().getWidth() * 2.0F - this.getEntity().getWidth());
+                particleLoc.set(
+                        this.getEntity().posX + this.rand.nextFloat() * this.getEntity().getWidth() * 2.0F
+                        - this.getEntity().getWidth(),
+                        this.getEntity().posY + 0.5D + this.rand.nextFloat() * this.getEntity().getHeight(),
+                        this.getEntity().posZ + this.rand.nextFloat() * this.getEntity().getWidth() * 2.0F
+                        - this.getEntity().getWidth());
                 this.getEntity().getEntityWorld().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x,
                         particleLoc.y, particleLoc.z, 0, 0, 0);
             }
@@ -137,8 +140,8 @@ public abstract class PokemobAI extends PokemobEvolves
         this.onGenesChanged();
 
         // Update/add cache.
-        if (this.isPlayerOwned() && this.getOwnerId() != null) PlayerDataHandler.getInstance().getPlayerData(this
-                .getOwnerId()).getData(PlayerPokemobCache.class).addPokemob(this);
+        if (this.isPlayerOwned() && this.getOwnerId() != null) PlayerDataHandler.getInstance()
+        .getPlayerData(this.getOwnerId()).getData(PlayerPokemobCache.class).addPokemob(this);
     }
 
     @Override
