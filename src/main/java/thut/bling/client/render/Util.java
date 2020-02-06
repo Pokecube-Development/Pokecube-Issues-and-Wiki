@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -29,29 +28,16 @@ public class Util
 {
     public static RenderType getType(ResourceLocation loc, boolean alpha)
     {
-        return alpha ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true,
-                false, RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
-                        .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
-                        {
-                            RenderSystem.enableBlend();
-                            RenderSystem.defaultBlendFunc();
-                        }, () ->
-                        {
-                            RenderSystem.disableBlend();
-                        })).diffuseLighting(new RenderState.DiffuseLightingState(true))
-                        .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
-                        .lightmap(new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true))
-                        .build(false))
+        return alpha
+                ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
+                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
+                                .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
+                                .lightmap(new RenderState.LightmapState(true))
+                                .overlay(new RenderState.OverlayState(true)).build(false))
                 : RenderType.get("thutbling:bling_b", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
                         RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
-                                .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
-                                {
-                                    RenderSystem.enableBlend();
-                                    RenderSystem.defaultBlendFunc();
-                                }, () ->
-                                {
-                                    RenderSystem.disableBlend();
-                                })).diffuseLighting(new RenderState.DiffuseLightingState(true))
+                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
                                 .cull(new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
                                 .overlay(new RenderState.OverlayState(true)).build(false));
     }
@@ -104,7 +90,7 @@ public class Util
 
     public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc)
     {
-        return buff.getBuffer(getType(loc, false));
+        return buff.getBuffer(getType(loc, true));
     }
 
     public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc, boolean alpha)

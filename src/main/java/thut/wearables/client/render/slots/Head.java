@@ -30,7 +30,6 @@ public class Head
         mat.push();
         if (wearer.isCrouching())
         {
-            mat.translate(0.0F, 0.2F, 0.0F);
             if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null)
                 mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
         }
