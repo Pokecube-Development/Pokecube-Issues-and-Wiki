@@ -14,19 +14,18 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.gui.watch.util.WatchPage;
-import pokecube.core.utils.ChunkCoordinate;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 
 public class SecretBaseRadarPage extends WatchPage
 {
-    public static Set<ChunkCoordinate> bases         = Sets.newHashSet();
-    public static Vector4              closestMeteor = null;
-    public static float                baseRange     = 64;
-    private static boolean             meteors       = false;
-    int                                button        = -1;
-    private final ITextComponent       meteorTitle;
-    private final ITextComponent       baseTitle;
+    public static Set<Vector4>   bases         = Sets.newHashSet();
+    public static Vector4        closestMeteor = null;
+    public static float          baseRange     = 64;
+    private static boolean       meteors       = false;
+    int                          button        = -1;
+    private final ITextComponent meteorTitle;
+    private final ITextComponent baseTitle;
 
     public SecretBaseRadarPage(final GuiPokeWatch watch)
     {
@@ -85,9 +84,9 @@ public class SecretBaseRadarPage extends WatchPage
         final Vector3 here = Vector3.getNewVector().set(this.watch.player);
         final double angle = -this.watch.player.rotationYaw % 360 + 180;
         GL11.glRotated(angle, 0, 0, 1);
-        if (!SecretBaseRadarPage.meteors) for (final ChunkCoordinate c : SecretBaseRadarPage.bases)
+        if (!SecretBaseRadarPage.meteors) for (final Vector4 c : SecretBaseRadarPage.bases)
         {
-            final Vector3 loc = Vector3.getNewVector().set(c.getX() + 0.5, c.getY() + 0.5, c.getZ() + 0.5);
+            final Vector3 loc = Vector3.getNewVector().set(c.x, c.y, c.z);
             GL11.glPushMatrix();
             final Vector3 v = here.subtract(loc);
             v.reverse();

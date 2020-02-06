@@ -24,6 +24,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
@@ -45,6 +46,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokecubeSerializer.TeleDest;
+import pokecube.core.world.dimension.SecretBaseDimension;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeDatabase;
@@ -199,14 +201,14 @@ public class PacketPokedex extends Packet
         final PacketPokedex packet = new PacketPokedex();
         final ListNBT list = new ListNBT();
         // TODO secret bases
-        // BlockPos pos = player.getPosition();
-        // Coordinate here = new Coordinate(pos.getX(), pos.getY(), pos.getZ(),
-        // player.dimension);
-        // for (Coordinate c : SecretBaseManager.getNearestBases(here,
-        // PokecubeCore.getConfig().baseRadarRange))
-        // {
-        // list.add(c.writeToNBT());
-        // }
+        final BlockPos pos = player.getPosition();
+        final Vector4 here = new Vector4(pos.getX(), pos.getY(), pos.getZ(), player.dimension.getId());
+        for (final Vector4 c : SecretBaseDimension.getNearestBases(here, PokecubeCore.getConfig().baseRadarRange))
+        {
+            final CompoundNBT tag = new CompoundNBT();
+            c.writeToNBT(tag);
+            list.add(tag);
+        }
         packet.data.put("B", list);
         packet.data.putBoolean("M", watch);
         packet.data.putInt("R", PokecubeCore.getConfig().baseRadarRange);
@@ -300,30 +302,19 @@ public class PacketPokedex extends Packet
                 PacketPokedex.values.add(this.data.getString("" + i));
             return;
         case BASERADAR:
-            // boolean mode = this.data.getBoolean("M");
-            // TODO secret base radar
-            // player.openGui(PokecubeCore.instance, !mode ?
-            // Config.GUIPOKEDEX_ID : Config.GUIPOKEWATCH_ID,
-            // player.getEntityWorld(), 0, 0, 0);
-            // if (this.data.hasKey("V"))
-            // pokecube.core.client.gui.watch.SecretBaseRadarPage.closestMeteor
-            // = new Vector4(
-            // this.data.getCompound("V"));
-            // else
-            // pokecube.core.client.gui.watch.SecretBaseRadarPage.closestMeteor
-            // = null;
-            // if (!this.data.hasKey("B") || !(this.data.getTag("B") instanceof
-            // ListNBT)) return;
-            // ListNBT list = (ListNBT) this.data.getTag("B");
-            // pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.clear();
-            // for (int i = 0; i < list.size(); i++)
-            // {
-            // CompoundNBT tag = list.getCompound(i);
-            // Coordinate c = Coordinate.readNBT(tag);
-            // pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.add(c);
-            // }
-            // pokecube.core.client.gui.watch.SecretBaseRadarPage.baseRange =
-            // this.data.getInt("R");
+            if (this.data.contains("V")) pokecube.core.client.gui.watch.SecretBaseRadarPage.closestMeteor = new Vector4(
+                    this.data.getCompound("V"));
+            else pokecube.core.client.gui.watch.SecretBaseRadarPage.closestMeteor = null;
+            if (!this.data.contains("B") || !(this.data.get("B") instanceof ListNBT)) return;
+            final ListNBT list = (ListNBT) this.data.get("B");
+            pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.clear();
+            for (int i = 0; i < list.size(); i++)
+            {
+                final CompoundNBT tag = list.getCompound(i);
+                final Vector4 c = new Vector4(tag);
+                pokecube.core.client.gui.watch.SecretBaseRadarPage.bases.add(c);
+            }
+            pokecube.core.client.gui.watch.SecretBaseRadarPage.baseRange = this.data.getInt("R");
             return;
         case REQUESTLOC:
             PacketPokedex.selectedLoc.clear();

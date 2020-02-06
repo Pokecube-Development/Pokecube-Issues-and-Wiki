@@ -48,14 +48,15 @@ import thut.api.terrain.TerrainSegment;
 /** @author Manchou */
 public class Move_Basic extends Move_Base implements IMoveConstants
 {
-    public static boolean shouldSilk(IPokemob pokemob)
+    public static boolean shouldSilk(final IPokemob pokemob)
     {
         if (pokemob.getAbility() == null) return false;
         final Ability ability = pokemob.getAbility();
         return pokemob.getLevel() > 90 && ability.toString().equalsIgnoreCase("hypercutter");
     }
 
-    public static void silkHarvest(BlockState state, BlockPos pos, World worldIn, PlayerEntity player)
+    public static void silkHarvest(final BlockState state, final BlockPos pos, final World worldIn,
+            final PlayerEntity player)
     {
         // TODO silk touch stuff? Look into world.destroyBlock ,see how to
         // properly find the loot tables and apply silk touch.
@@ -93,13 +94,13 @@ public class Move_Basic extends Move_Base implements IMoveConstants
      *            can be either {@link MovesUtils#CATEGORY_CONTACT} or
      *            {@link MovesUtils#CATEGORY_DISTANCE}
      */
-    public Move_Basic(String name)
+    public Move_Basic(final String name)
     {
         super(name);
     }
 
     @Override
-    public void applyHungerCost(IPokemob attacker)
+    public void applyHungerCost(final IPokemob attacker)
     {
         final int pp = this.getPP();
         float relative = (50 - pp) / 30;
@@ -108,7 +109,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public void attack(IPokemob attacker, Entity attacked)
+    public void attack(final IPokemob attacker, final Entity attacked)
     {
         final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
         if (attacker.getStatus() == IMoveConstants.STATUS_SLP)
@@ -156,7 +157,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public void attack(IPokemob attacker, Vector3 location)
+    public void attack(final IPokemob attacker, final Vector3 location)
     {
         final List<Entity> targets = new ArrayList<>();
 
@@ -202,7 +203,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public void doWorldAction(IPokemob attacker, Vector3 location)
+    public void doWorldAction(final IPokemob attacker, Vector3 location)
     {
         for (final String s : PokecubeCore.getConfig().damageBlocksBlacklist)
             if (s.equals(this.name)) return;
@@ -213,6 +214,10 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                 if (s.equals(this.name)) break deny;
             return;
         }
+        final Vector3 origin = Vector3.getNewVector().set(attacker.getEntity().getEyePosition(0));
+        final Vector3 direction = location.subtract(origin).norm().scalarMultBy(0.5);
+        location = location.add(direction);
+
         final MoveWorldAction.PreAction preEvent = new MoveWorldAction.PreAction(this, attacker, location);
         if (!PokecubeCore.MOVE_BUS.post(preEvent))
         {
@@ -224,13 +229,13 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public Move_Base getMove(String name)
+    public Move_Base getMove(final String name)
     {
         return MovesUtils.getMoveFromName(name);
     }
 
     @Override
-    public void handleStatsChanges(MovePacket packet)
+    public void handleStatsChanges(final MovePacket packet)
     {
         final boolean shouldEffect = packet.attackedStatModProb > 0 || packet.attackerStatModProb > 0;
         if (!shouldEffect) return;
@@ -566,7 +571,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void postAttack(final MovePacket packet)
     {
         final IPokemob attacker = packet.attacker;
         attacker.onMoveUse(packet);
@@ -576,7 +581,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public void preAttack(MovePacket packet)
+    public void preAttack(final MovePacket packet)
     {
         PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Pre(packet.attacker, this, packet.attacked));
         final IPokemob attacker = packet.attacker;
