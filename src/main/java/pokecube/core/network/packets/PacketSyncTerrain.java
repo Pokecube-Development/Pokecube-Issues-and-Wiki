@@ -22,8 +22,8 @@ public class PacketSyncTerrain extends Packet
         packet.z = z;
         for (int i = 0; i < 16; i++)
             packet.effects[i] = terrain.effects[i];
-        PokecubeCore.packets.sendToTracking(packet, player.getEntityWorld().getChunk(new BlockPos(x * 16, y * 16, z
-                * 16)));
+        PokecubeCore.packets.sendToTracking(packet,
+                player.getEntityWorld().getChunk(new BlockPos(x * 16, y * 16, z * 16)));
     }
 
     int         x;
@@ -52,8 +52,8 @@ public class PacketSyncTerrain extends Packet
     {
         PlayerEntity player;
         player = PokecubeCore.proxy.getPlayer();
-        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getEntityWorld(), this.x * 16, this.y
-                * 16, this.z * 16);
+        final TerrainSegment t = TerrainManager.getInstance().getTerrain(player.getEntityWorld(), this.x * 16,
+                this.y * 16, this.z * 16);
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
         boolean empty = true;
         for (int i = 0; i < 16; i++)
@@ -61,7 +61,11 @@ public class PacketSyncTerrain extends Packet
             effect.effects[i] = this.effects[i];
             empty = empty && this.effects[i] <= 0;
         }
-        if (!empty) MoveAnimationHelper.Instance().addEffect();
+        if (!empty)
+        {
+            MoveAnimationHelper.Instance().addEffect();
+            MoveAnimationHelper.Instance().terrainMap.put(t.getChunkCoords(), t);
+        }
         else MoveAnimationHelper.Instance().clearEffect();
     }
 

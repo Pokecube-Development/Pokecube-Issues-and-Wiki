@@ -12,8 +12,6 @@ import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.MobEntity;
@@ -25,6 +23,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
+import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -113,38 +112,38 @@ public class GuiChooseFirstPokemob extends Screen
 
         this.addButton(this.choose = new Button(this.width / 2 - xOffset - 25, this.height / 2 - yOffset + 160, 50, 20,
                 I18n.format("gui.pokemob.select"), b ->
-        {
-            this.sendMessage(this.pokedexEntry);
-            this.player.closeScreen();
-        }));
+                {
+                    this.sendMessage(this.pokedexEntry);
+                    this.player.closeScreen();
+                }));
 
         this.addButton(this.accept = new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset + 30, 50, 20,
                 I18n.format("gui.pokemob.accept"), b ->
-        {
-            this.gotSpecial = true;
+                {
+                    this.gotSpecial = true;
 
-            this.next.visible = true;
-            this.prev.visible = true;
-            this.choose.visible = true;
-            this.accept.visible = false;
-            this.deny.visible = false;
-            GuiChooseFirstPokemob.special = false;
-            if (!GuiChooseFirstPokemob.pick)
-            {
-                this.sendMessage((PokedexEntry) null);
-                this.player.closeScreen();
-            }
-        }));
+                    this.next.visible = true;
+                    this.prev.visible = true;
+                    this.choose.visible = true;
+                    this.accept.visible = false;
+                    this.deny.visible = false;
+                    GuiChooseFirstPokemob.special = false;
+                    if (!GuiChooseFirstPokemob.pick)
+                    {
+                        this.sendMessage((PokedexEntry) null);
+                        this.player.closeScreen();
+                    }
+                }));
         this.addButton(this.deny = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset + 30, 50, 20,
                 I18n.format("gui.pokemob.deny"), b ->
-        {
-            this.next.visible = true;
-            this.prev.visible = true;
-            this.choose.visible = true;
-            this.accept.visible = false;
-            this.deny.visible = false;
-            GuiChooseFirstPokemob.special = false;
-        }));
+                {
+                    this.next.visible = true;
+                    this.prev.visible = true;
+                    this.choose.visible = true;
+                    this.accept.visible = false;
+                    this.deny.visible = false;
+                    GuiChooseFirstPokemob.special = false;
+                }));
 
         if (!GuiChooseFirstPokemob.special)
         {
@@ -245,6 +244,7 @@ public class GuiChooseFirstPokemob extends Screen
         GL11.glPopMatrix();
     }
 
+    @SuppressWarnings("deprecation")
     public void renderItem(final double x, final double y, final double z)
     {
         final ItemStack item = PokecubeItems.POKECUBE_CUBES;
@@ -254,9 +254,6 @@ public class GuiChooseFirstPokemob extends Screen
                     null);
 
             RenderSystem.pushMatrix();
-            Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-            Minecraft.getInstance().textureManager.getTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE)
-            .setBlurMipmapDirect(false, false);
             RenderSystem.enableRescaleNormal();
             RenderSystem.enableAlphaTest();
             RenderSystem.defaultAlphaFunc();
@@ -275,8 +272,9 @@ public class GuiChooseFirstPokemob extends Screen
             final boolean flag = !model.func_230044_c_();
             if (flag) RenderHelper.setupGuiFlatDiffuseLighting();
 
-            Minecraft.getInstance().getItemRenderer().renderItem(item, ItemCameraTransforms.TransformType.GUI, false,
-                    matrixstack, irendertypebuffer$impl, 15728880, OverlayTexture.DEFAULT_LIGHT, model);
+            Minecraft.getInstance().getItemRenderer().renderItem(item,
+                    net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, matrixstack,
+                    irendertypebuffer$impl, 15728880, OverlayTexture.DEFAULT_LIGHT, model);
             irendertypebuffer$impl.finish();
             RenderSystem.enableDepthTest();
             if (flag) RenderHelper.setupGui3DDiffuseLighting();
@@ -330,8 +328,7 @@ public class GuiChooseFirstPokemob extends Screen
             //@formatter:on
             GL11.glPushMatrix();
             GL11.glTranslated(0, 0, 40);
-            GuiPokedex.renderMob(entity, this.getMinecraft(), dx, dy, size, this.height, this.width, this.xSize,
-                    this.ySize, hx, hy, yaw);
+            GuiPokemobBase.renderMob(entity, dx, dy, 0, yaw, hx, hy, size);
             GL11.glPopMatrix();
         }
         catch (final Throwable e)

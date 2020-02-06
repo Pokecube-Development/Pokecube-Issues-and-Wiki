@@ -69,7 +69,6 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
-import thut.core.common.ThutCore;
 
 /** @author Manchou */
 public class PokedexEntry
@@ -1520,7 +1519,7 @@ public class PokedexEntry
         final String suffix = textureSuffixs[0];
         String ret = original + suffix + ".png";
         if (!ret.contains(this.texturePath)) ret = this.texturePath + ret;
-        ret = ThutCore.trim(ret);
+        ret = ret.replaceAll("([^a-zA-Z0-9/. _-])", "");
         return ret;
     }
 

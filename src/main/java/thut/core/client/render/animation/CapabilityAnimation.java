@@ -57,9 +57,14 @@ public class CapabilityAnimation
         }
 
         @Override
-        public void setPendingAnimations(final List<Animation> name)
+        public void setPendingAnimations(final List<Animation> name, float step)
         {
-            if (name != null) this.pending.addAll(name);
+            if (name != null)
+            {
+                this.pending.addAll(name);
+                for (Animation anim : name)
+                    stepsMap.put(anim, step);
+            }
             else this.pending.clear();
             if (this.playing.isEmpty())
             {
@@ -74,8 +79,8 @@ public class CapabilityAnimation
         @Override
         public void setStep(final Animation animation, final float step)
         {
-            this.stepsMap.put(animation, step);
-            if (step >= animation.getLength())
+            float time = step - this.stepsMap.put(animation, step);
+            if (time > animation.getLength())
             {
                 this.playing.remove(animation);
                 if (this.playing.isEmpty())
@@ -109,7 +114,7 @@ public class CapabilityAnimation
         /** This is the animation about to be run.
          *
          * @param name */
-        void setPendingAnimations(List<Animation> name);
+        void setPendingAnimations(List<Animation> name, float step);
 
         /** Sets the last tick this animation was run. Can set to 0 to count
          * this animation as cleared.

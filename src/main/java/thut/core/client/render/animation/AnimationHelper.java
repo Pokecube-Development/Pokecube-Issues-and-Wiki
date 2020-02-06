@@ -89,7 +89,7 @@ public class AnimationHelper
             {
                 animate = AnimationHelper.animate(animation, holder, partName, part, partialTick, limbSwing,
                         entity.ticksExisted) || animate;
-                holder.setStep(animation, (entity.ticksExisted % animation.getLength() + partialTick));
+                holder.setStep(animation, entity.ticksExisted);
             }
         }
         return animate;
