@@ -47,8 +47,8 @@ public class GuiPokedex extends Screen
     protected int                  xSize;
 
     /** The Y size of the inventory window in pixels. */
-    protected int                  ySize;
-    int                            prevX        = 0;
+    protected int ySize;
+    int           prevX = 0;
 
     int                            prevY        = 0;
 

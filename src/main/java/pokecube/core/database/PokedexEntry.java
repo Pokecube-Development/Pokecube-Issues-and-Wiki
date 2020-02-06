@@ -69,6 +69,7 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.common.ThutCore;
 
 /** @author Manchou */
 public class PokedexEntry

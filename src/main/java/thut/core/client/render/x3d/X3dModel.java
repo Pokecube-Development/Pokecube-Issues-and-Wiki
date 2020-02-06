@@ -196,9 +196,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             // Probably a lamp or camera in this case?
             if (t == null) continue;
             final X3dXML.Group group = t.group;
-            String name = t.getGroupName();
-            name = ThutCore.trim(name);
-
+            final String name = ThutCore.trim(t.getGroupName());
             final List<Mesh> shapes = Lists.newArrayList();
             for (final X3dXML.Shape shape : group.shapes)
             {

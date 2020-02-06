@@ -25,21 +25,21 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "thundurusincarnate"
+        "entry": "thundurus_incarnate"
       }
     },
 	"catch_landorusincarnate": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "landorusincarnate"
+        "entry": "landorus_incarnate"
       }
     },
 	"catch_tornadusincarnate": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "tornadusincarnate"
+        "entry": "tornadus_incarnate"
       }
     }
   },

@@ -2545,17 +2545,17 @@
     "subtitle": "entity.pokecube.mr_mime",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/mr_mime",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/mr_mime",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/mr_mime",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -9202,17 +9202,17 @@
     "subtitle": "entity.pokecube.mime_jr",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/mime_jr",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/mime_jr",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/mime_jr",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -10315,17 +10315,17 @@
     "subtitle": "entity.pokecube.shaymin_land",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/shaymin_land",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/shaymin_land",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/shaymin_land",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -11533,17 +11533,17 @@
     "subtitle": "entity.pokecube.basculin_blue",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/basculin_blue",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/basculin_blue",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/basculin_blue",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -12415,17 +12415,17 @@
     "subtitle": "entity.pokecube.frillish",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -12436,17 +12436,17 @@
     "subtitle": "entity.pokecube.jellicent",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13444,17 +13444,17 @@
     "subtitle": "entity.pokecube.tornadus_incarnate",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/tornadus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/tornadus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/tornadus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13465,17 +13465,17 @@
     "subtitle": "entity.pokecube.tornadus_therian",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/tornadus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/tornadus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/tornadus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13486,17 +13486,17 @@
     "subtitle": "entity.pokecube.thundurus_incarnate",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/thundurus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/thundurus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/thundurus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13507,17 +13507,17 @@
     "subtitle": "entity.pokecube.thundurus_therian",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/thundurus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/thundurus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/thundurus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13570,17 +13570,17 @@
     "subtitle": "entity.pokecube.landorus_incarnate",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/landorus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/landorus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/landorus_incarnate",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13591,17 +13591,17 @@
     "subtitle": "entity.pokecube.landorus_therian",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/landorus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/landorus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/landorus_therian",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13654,17 +13654,17 @@
     "subtitle": "entity.pokecube.meloetta_aria",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/meloetta_aria",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/meloetta_aria",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/meloetta_aria",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -14347,17 +14347,17 @@
     "subtitle": "entity.pokecube.aegislash_blade",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/aegislash_blade",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/aegislash_blade",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/aegislash_blade",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15124,17 +15124,17 @@
     "subtitle": "entity.pokecube.zygarde_50",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/zygarde_50",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/zygarde_50",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/zygarde_50",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15166,17 +15166,17 @@
     "subtitle": "entity.pokecube.hoopa_confined",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/hoopa_confined",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/hoopa_confined",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/hoopa_confined",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15607,17 +15607,17 @@
     "subtitle": "entity.pokecube.oricorio_baile",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/oricorio_baile",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_baile",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_baile",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15628,17 +15628,17 @@
     "subtitle": "entity.pokecube.oricorio_pau",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/oricorio_pau",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_pau",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_pau",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15649,17 +15649,17 @@
     "subtitle": "entity.pokecube.oricorio_pom-pom",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/oricorio_pompom",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_pompom",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_pompom",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15670,17 +15670,17 @@
     "subtitle": "entity.pokecube.oricorio_sensu",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/oricorio_sensu",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_sensu",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_sensu",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16321,17 +16321,17 @@
     "subtitle": "entity.pokecube.type_null",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/type_null",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/type_null",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/type_null",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16594,17 +16594,17 @@
     "subtitle": "entity.pokecube.tapu_koko",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/tapu_koko",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_koko",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_koko",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16615,17 +16615,17 @@
     "subtitle": "entity.pokecube.tapu_lele",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/tapu_lele",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_lele",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_lele",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16636,17 +16636,17 @@
     "subtitle": "entity.pokecube.tapu_bulu",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/tapu_bulu",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_bulu",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_bulu",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16657,17 +16657,17 @@
     "subtitle": "entity.pokecube.tapu_fini",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/tapu_fini",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_fini",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/tapu_fini",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -17938,17 +17938,17 @@
     "subtitle": "entity.pokecube.toxtricity_amped",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/toxtricity_amped",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/toxtricity_amped",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/toxtricity_amped",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -18295,17 +18295,17 @@
     "subtitle": "entity.pokecube.mr_rime",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/mr_rime",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/mr_rime",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/mr_rime",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }

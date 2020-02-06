@@ -420,7 +420,7 @@ public class Database
         final PokedexEntry ret = null;
         if (name == null) return null;
         if (name.trim().isEmpty()) return null;
-        PokedexEntry test = data2.get(name);
+        final PokedexEntry test = Database.data2.get(name);
         if (test != null) return test;
         name = ThutCore.trim(name);
         final List<PokedexEntry> toProcess = Lists.newArrayList(Database.allFormes);
@@ -435,8 +435,8 @@ public class Database
                 return e;
             }
         }
-        if (ThutCore.trim(name).contains("mega_"))
-            return Database.getEntry((ThutCore.trim(name).replace("mega_", "") + "_mega").trim());
+        if (ThutCore.trim(name).contains("mega_")) return Database.getEntry((ThutCore.trim(name).replace("mega_", "")
+                + "_mega").trim());
         return ret;
     }
 
