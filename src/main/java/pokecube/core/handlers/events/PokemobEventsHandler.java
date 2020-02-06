@@ -230,6 +230,17 @@ public class PokemobEventsHandler
     {
         final String ID = "LastSuccessInteractEvent";
         final long time = evt.getEntity().getPersistentData().getLong(ID);
+
+        // if (evt.getItemStack().getItem() == Items.STICK && evt.getPlayer()
+        // instanceof ServerPlayerEntity)
+        // {
+        // final TerrainSegment seg =
+        // TerrainManager.getInstance().getTerrainForEntity(evt.getPlayer());
+        // System.out.println(seg);
+        // for (final Entry<Integer, String> entry :
+        // BiomeType.getMap().entrySet())
+        // System.out.println(entry.getValue() + " " + entry.getKey());
+        // }
         if (time == evt.getEntity().getEntityWorld().getGameTime())
         {
             evt.setCanceled(true);

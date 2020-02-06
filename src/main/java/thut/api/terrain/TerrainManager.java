@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
@@ -47,7 +48,7 @@ public class TerrainManager
     {
         final BlockPos pos = new BlockPos(x, y, z);
         final TerrainSegment ret = this.getTerrain(world, pos);
-        if (!world.isRemote()) ret.initBiomes(world);
+        if (world instanceof ServerWorld) ret.initBiomes(world);
         return ret;
     }
 
