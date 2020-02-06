@@ -183,7 +183,7 @@ public class EventsHandler
         @SubscribeEvent
         public static void tick(final WorldTickEvent evt)
         {
-            if (evt.phase == Phase.END)
+            if (evt.phase == Phase.END && evt.world instanceof ServerWorld)
             {
                 final List<BlockPos> thisTick = MeteorAreaSetter.toProcess.get(evt.world.dimension.getDimension()
                         .getType());
@@ -198,7 +198,8 @@ public class EventsHandler
                     seg.setBiome(pos, BiomeType.METEOR.getType());
                     num = i + 1;
                 }
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Processed " + num + " blocks as meteor.");
+                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Processed " + num
+                        + " blocks as meteor.");
                 for (i = 0; i < Math.min(num, thisTick.size()); i++)
                     thisTick.remove(0);
             }
@@ -408,7 +409,7 @@ public class EventsHandler
     @SubscribeEvent
     public static void explosionEvents(final ExplosionEvent.Detonate evt)
     {
-        if (evt.getExplosion() instanceof ExplosionCustom)
+        if (evt.getExplosion() instanceof ExplosionCustom && evt.getWorld() instanceof ServerWorld)
         {
             final ExplosionCustom boom = (ExplosionCustom) evt.getExplosion();
             if (!boom.meteor) return;
@@ -445,23 +446,7 @@ public class EventsHandler
     @SubscribeEvent
     public static void interactEventLeftClick(final PlayerInteractEvent.LeftClickBlock evt)
     {
-        // TODO breaking blocks like PC with sticks
-        // if (CompatWrapper.isValid(evt.getEntity().getHeldItemMainhand())
-        // && evt.getEntity().getHeldItemMainhand().getItem() == Items.STICK)
-        // {
-        // TileEntity te = evt.getWorld().getTileEntity(evt.getPos());
-        // if (te instanceof TileEntityOwnable)
-        // {
-        // BlockState state = evt.getWorld().getBlockState(evt.getPos());
-        // TileEntityOwnable tile = (TileEntityOwnable) te;
-        // if (tile.canEdit(evt.getEntity()) && tile.shouldBreak())
-        // {
-        // Block b = state.getBlock();
-        // b.dropBlockAsItem(evt.getWorld(), evt.getPos(), state, 0);
-        // evt.getWorld().setBlockToAir(evt.getPos());
-        // }
-        // }
-        // }
+
     }
 
     @SubscribeEvent
