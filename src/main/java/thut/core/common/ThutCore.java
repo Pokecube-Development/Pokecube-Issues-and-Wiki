@@ -1,5 +1,6 @@
 package thut.core.common;
 
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -175,6 +176,17 @@ public class ThutCore
             return ThutCore.THUTICON;
         }
     };
+
+    public static String trim(String name)
+    {
+        // ROOT locale to prevent issues with turkish letters.
+        name = name.toLowerCase(Locale.ROOT).trim();
+        // Replace all not-resourcelocation chars
+        name = name.replaceAll("([^a-zA-Z0-9 _-])", "");
+        // Replace these too.
+        name = name.replaceAll(" ", "_");
+        return name;
+    }
 
     public ThutCore()
     {

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import thut.api.maths.vecmath.Vector3f;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -24,7 +23,9 @@ import org.xml.sax.XMLReader;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
+import thut.core.common.ThutCore;
 
 public class X3dXML
 {
@@ -104,7 +105,7 @@ public class X3dXML
             }
         }
 
-        private static Vertex[] parseVertices(String line) throws ModelFormatException
+        private static Vertex[] parseVertices(final String line) throws ModelFormatException
         {
             final ArrayList<Vertex> ret = new ArrayList<>();
 
@@ -256,7 +257,7 @@ public class X3dXML
         {
             final Set<String> ret = Sets.newHashSet();
             for (final Transform t : this.transforms)
-                if (t.getGroupName() != null) ret.add(t.getGroupName());
+                if (t.getGroupName() != null) ret.add(ThutCore.trim(t.getGroupName()));
             return ret;
         }
 
@@ -300,7 +301,7 @@ public class X3dXML
 
     public X3D model;
 
-    public X3dXML(InputStream stream) throws JAXBException
+    public X3dXML(final InputStream stream) throws JAXBException
     {
         final JAXBContext jc = JAXBContext.newInstance(X3D.class);
         try

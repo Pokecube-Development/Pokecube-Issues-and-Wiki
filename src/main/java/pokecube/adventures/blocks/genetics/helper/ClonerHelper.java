@@ -1,7 +1,6 @@
 package pokecube.adventures.blocks.genetics.helper;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,6 +29,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.core.common.ThutCore;
 
 public class ClonerHelper
 {
@@ -67,11 +67,11 @@ public class ClonerHelper
         final String[] args = line.split(":");
         String domain = "pokecube";
         String path = "";
-        if (args.length == 1) path = args[0].toLowerCase(Locale.ENGLISH);
+        if (args.length == 1) path = ThutCore.trim(args[0]);
         else
         {
             domain = args[0];
-            path = args[1].toLowerCase(Locale.ENGLISH);
+            path = ThutCore.trim(args[1]);
         }
         path = path.split("#")[0];
         final ResourceLocation location = new ResourceLocation(domain, path);

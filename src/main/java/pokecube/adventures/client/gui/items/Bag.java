@@ -18,6 +18,7 @@ import net.minecraft.util.text.ITextComponent;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.pc.PCInventory;
+import thut.core.common.ThutCore;
 
 public class Bag<T extends BagContainer> extends ContainerScreen<T>
 {
@@ -164,8 +165,7 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
                 // " " + stack);
                 RenderHelper.disableStandardItemLighting();
                 final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
-                if (name.isEmpty() || !name.toLowerCase(java.util.Locale.ENGLISH).contains(this.textFieldSearch
-                        .getText().toLowerCase(java.util.Locale.ENGLISH)))
+                if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
 
                     GlStateManager.disableLighting();

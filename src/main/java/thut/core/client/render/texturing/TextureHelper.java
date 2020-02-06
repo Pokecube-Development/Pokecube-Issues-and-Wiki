@@ -1,7 +1,6 @@
 package thut.core.client.render.texturing;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -18,6 +17,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import thut.api.entity.IMobTexturable;
+import thut.core.common.ThutCore;
 
 public class TextureHelper implements IPartTexturer
 {
@@ -27,7 +27,7 @@ public class TextureHelper implements IPartTexturer
         double[] arr;
         int      duration = 1;
 
-        RandomState(String trigger, double[] arr)
+        RandomState(final String trigger, final double[] arr)
         {
             this.arr = arr;
             final String[] args = trigger.split(":");
@@ -41,7 +41,7 @@ public class TextureHelper implements IPartTexturer
         double[] arr;
         boolean  shift = true;
 
-        SequenceState(double[] arr)
+        SequenceState(final double[] arr)
         {
             this.arr = arr;
             for (final double d : arr)
@@ -58,7 +58,7 @@ public class TextureHelper implements IPartTexturer
         Map<Integer, RandomState> running  = Maps.newHashMap();
         Map<Integer, Integer>     setTimes = Maps.newHashMap();
 
-        void addState(String trigger, String[] diffs)
+        void addState(final String trigger, final String[] diffs)
         {
             final double[] arr = new double[diffs.length];
             for (int i = 0; i < arr.length; i++)
@@ -73,7 +73,7 @@ public class TextureHelper implements IPartTexturer
             else new NullPointerException("No Template found for " + trigger).printStackTrace();
         }
 
-        boolean applyState(double[] toFill, IMobTexturable mob)
+        boolean applyState(final double[] toFill, final IMobTexturable mob)
         {
             double dx = 0;
             double dy = 0;
@@ -133,7 +133,7 @@ public class TextureHelper implements IPartTexturer
             return false;
         }
 
-        String modifyTexture(IMobTexturable mob)
+        String modifyTexture(final IMobTexturable mob)
         {
             if (this.sequence != null && !this.sequence.shift)
             {
@@ -144,9 +144,9 @@ public class TextureHelper implements IPartTexturer
             return null;
         }
 
-        private boolean parseState(String trigger, double[] arr)
+        private boolean parseState(String trigger, final double[] arr)
         {
-            if (trigger != null) trigger = trigger.trim().toLowerCase(Locale.ENGLISH);
+            if (trigger != null) trigger = ThutCore.trim(trigger);
             else return false;
             this.infoStates.put(trigger, arr);
             return true;
@@ -175,7 +175,7 @@ public class TextureHelper implements IPartTexturer
 
     Map<String, String> formeMap = Maps.newHashMap();
 
-    public TextureHelper(Node node)
+    public TextureHelper(final Node node)
     {
         if (node == null) return;
         if (node.getAttributes().getNamedItem("default") != null) this.default_path = node.getAttributes().getNamedItem(
@@ -192,43 +192,47 @@ public class TextureHelper implements IPartTexturer
             final Node part = parts.item(i);
             if (part.getNodeName().equals("part"))
             {
-                final String partName = part.getAttributes().getNamedItem("name").getNodeValue();
+                String name = part.getAttributes().getNamedItem("name").getNodeValue();
+                name = ThutCore.trim(name);
                 final String partTex = part.getAttributes().getNamedItem("tex").getNodeValue();
-                this.addMapping(partName, partTex);
+                this.addMapping(name, partTex);
                 if (part.getAttributes().getNamedItem("smoothing") != null)
                 {
                     final boolean flat = !node.getAttributes().getNamedItem("smoothing").getNodeValue()
                             .equalsIgnoreCase("smooth");
-                    this.smoothing.put(partName, flat);
+                    this.smoothing.put(name, flat);
                 }
             }
             else if (part.getNodeName().equals("animation"))
             {
-                final String partName = part.getAttributes().getNamedItem("part").getNodeValue();
+                String name = part.getAttributes().getNamedItem("part").getNodeValue();
+                name = ThutCore.trim(name);
                 final String trigger = part.getAttributes().getNamedItem("trigger").getNodeValue();
                 final String[] diffs = part.getAttributes().getNamedItem("diffs").getNodeValue().split(",");
-                TexState states = this.texStates.get(partName);
-                if (states == null) this.texStates.put(partName, states = new TexState());
+                TexState states = this.texStates.get(name);
+                if (states == null) this.texStates.put(name, states = new TexState());
                 states.addState(trigger, diffs);
             }
             else if (part.getNodeName().equals("custom"))
             {
-                final String partName = part.getAttributes().getNamedItem("part").getNodeValue();
+                String name = part.getAttributes().getNamedItem("part").getNodeValue();
+                name = ThutCore.trim(name);
                 final String state = part.getAttributes().getNamedItem("state").getNodeValue();
                 final String partTex = part.getAttributes().getNamedItem("tex").getNodeValue();
-                this.addCustomMapping(partName, state, partTex);
+                this.addCustomMapping(name, state, partTex);
             }
             else if (part.getNodeName().equals("forme"))
             {
-                final String name = part.getAttributes().getNamedItem("name").getNodeValue();
+                String name = part.getAttributes().getNamedItem("name").getNodeValue();
+                name = ThutCore.trim(name);
                 final String tex = part.getAttributes().getNamedItem("tex").getNodeValue();
-                this.formeMap.put(name.toLowerCase(java.util.Locale.ENGLISH).replace(" ", ""), tex);
+                this.formeMap.put(name, tex);
             }
         }
     }
 
     @Override
-    public void addCustomMapping(String part, String state, String tex)
+    public void addCustomMapping(final String part, final String state, final String tex)
     {
         Map<String, String> partMap = this.texNames2.get(part);
         if (partMap == null)
@@ -240,13 +244,13 @@ public class TextureHelper implements IPartTexturer
     }
 
     @Override
-    public void addMapping(String part, String tex)
+    public void addMapping(final String part, final String tex)
     {
         this.texNames.put(part, tex);
     }
 
     @Override
-    public void applyTexture(String part)
+    public void applyTexture(final String part)
     {
         if (this.mob == null) return;
         if (this.bindPerState(part)) return;
@@ -261,13 +265,13 @@ public class TextureHelper implements IPartTexturer
     }
 
     @Override
-    public void bindObject(Object thing)
+    public void bindObject(final Object thing)
     {
         this.mob = ((ICapabilityProvider) thing).getCapability(TextureHelper.CAPABILITY).orElse(null);
         if (this.mob != null) this.default_tex = this.getResource(this.default_path);
     }
 
-    private boolean bindPerState(String part)
+    private boolean bindPerState(final String part)
     {
         final Map<String, String> partNames = this.texNames2.get(part);
         if (partNames == null) return false;
@@ -301,7 +305,7 @@ public class TextureHelper implements IPartTexturer
         Minecraft.getInstance().textureManager.bindTexture(tex);
     }
 
-    private ResourceLocation getResource(String tex)
+    private ResourceLocation getResource(final String tex)
     {
         if (tex == null) return this.mob.getTexture(null);
         else if (tex.contains(":")) return new ResourceLocation(tex);
@@ -309,20 +313,20 @@ public class TextureHelper implements IPartTexturer
     }
 
     @Override
-    public boolean hasMapping(String part)
+    public boolean hasMapping(final String part)
     {
         return this.texNames.containsKey(part);
     }
 
     @Override
-    public boolean isFlat(String part)
+    public boolean isFlat(final String part)
     {
         if (this.smoothing.containsKey(part)) return this.smoothing.get(part);
         return this.default_flat;
     }
 
     @Override
-    public boolean shiftUVs(String part, double[] toFill)
+    public boolean shiftUVs(final String part, final double[] toFill)
     {
         if (this.mob == null) return false;
         TexState state;

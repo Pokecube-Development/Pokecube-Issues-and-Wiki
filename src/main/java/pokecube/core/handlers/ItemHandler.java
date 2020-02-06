@@ -1,7 +1,5 @@
 package pokecube.core.handlers;
 
-import java.util.Locale;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -26,6 +24,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.vitamins.ItemVitamin;
 import thut.api.OwnableCaps;
+import thut.core.common.ThutCore;
 
 public class ItemHandler
 {
@@ -70,8 +69,7 @@ public class ItemHandler
         registry.register(item);
 
         for (final String s : PokecubeCore.getConfig().customHeldItems)
-            if (!ItemGenerator.variants.contains(s.toLowerCase(Locale.ENGLISH))) ItemGenerator.variants.add(s
-                    .toLowerCase(Locale.ENGLISH));
+            if (!ItemGenerator.variants.contains(ThutCore.trim(s))) ItemGenerator.variants.add(ThutCore.trim(s));
 
         ItemGenerator.registerItems(registry);
     }
@@ -155,22 +153,27 @@ public class ItemHandler
     {
         registry.register(new BlockItem(PokecubeItems.HEALER, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
                 .setRegistryName(PokecubeItems.HEALER.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.NESTBLOCK, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.NESTBLOCK.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.REPELBLOCK, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.REPELBLOCK.getRegistryName()));
+        registry.register(
+                new BlockItem(PokecubeItems.NESTBLOCK, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
+                .setRegistryName(PokecubeItems.NESTBLOCK.getRegistryName()));
+        registry.register(
+                new BlockItem(PokecubeItems.REPELBLOCK, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
+                .setRegistryName(PokecubeItems.REPELBLOCK.getRegistryName()));
         registry.register(new BlockItem(PokecubeItems.PCTOP, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
                 .setRegistryName(PokecubeItems.PCTOP.getRegistryName()));
         registry.register(new BlockItem(PokecubeItems.PCBASE, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
                 .setRegistryName(PokecubeItems.PCBASE.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.TMMACHINE, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.TMMACHINE.getRegistryName()));
+        registry.register(
+                new BlockItem(PokecubeItems.TMMACHINE, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
+                .setRegistryName(PokecubeItems.TMMACHINE.getRegistryName()));
         registry.register(new BlockItem(PokecubeItems.TRADER, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
                 .setRegistryName(PokecubeItems.TRADER.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.SECRETBASE, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.SECRETBASE.getRegistryName()));
-        registry.register(new BlockItem(PokecubeItems.FOSSILSTONE, new Item.Properties().group(
-                PokecubeItems.POKECUBEBLOCKS)).setRegistryName(PokecubeItems.FOSSILSTONE.getRegistryName()));
+        registry.register(
+                new BlockItem(PokecubeItems.SECRETBASE, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
+                .setRegistryName(PokecubeItems.SECRETBASE.getRegistryName()));
+        registry.register(
+                new BlockItem(PokecubeItems.FOSSILSTONE, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
+                .setRegistryName(PokecubeItems.FOSSILSTONE.getRegistryName()));
 
         PokecubeItems.POKECUBE_BLOCKS = new ItemStack(PokecubeItems.HEALER);
     }

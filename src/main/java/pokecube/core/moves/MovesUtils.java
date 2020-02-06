@@ -43,6 +43,7 @@ import pokecube.core.utils.PokeType;
 import thut.api.boom.ExplosionCustom;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainSegment;
+import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 
 public class MovesUtils implements IMoveConstants
@@ -613,7 +614,7 @@ public class MovesUtils implements IMoveConstants
         if (attackName == null) return false;
         final Move_Base move = MovesUtils.moves.get(attackName);
         if (move == null) for (final String s : MovesUtils.moves.keySet())
-            if (s.toLowerCase(java.util.Locale.ENGLISH).contentEquals(attackName.toLowerCase(java.util.Locale.ENGLISH)))
+            if (ThutCore.trim(s).equals(ThutCore.trim(attackName)))
             {
                 attackName = s;
                 return true;

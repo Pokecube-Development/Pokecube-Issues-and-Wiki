@@ -97,6 +97,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         final boolean isDef = matName != null;
         if (matName == null) matName = mat.USE.substring(3);
         else matName = matName.substring(3);
+        matName = ThutCore.trim(matName);
         Material material = this.mats.get(matName);
         if (material == null || isDef)
         {
@@ -189,7 +190,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             // Probably a lamp or camera in this case?
             if (t == null) continue;
             final X3dXML.Group group = t.group;
-            final String name = t.getGroupName();
+            final String name = ThutCore.trim(t.getGroupName());
             final List<Mesh> shapes = Lists.newArrayList();
             for (final X3dXML.Shape shape : group.shapes)
             {

@@ -446,8 +446,8 @@ public final class SpawnHandler
     {
         if (power > 0)
         {
-            final ExplosionCustom boom = new ExplosionCustom(world, null, location, power).setMeteor(true).setMaxRadius(
-                    PokecubeCore.getConfig().meteorRadius);
+            final ExplosionCustom boom = new ExplosionCustom(world, null, location, (float) (power * PokecubeCore
+                    .getConfig().meteorScale)).setMeteor(true).setMaxRadius(PokecubeCore.getConfig().meteorRadius);
             if (PokecubeMod.debug)
             {
                 final String message = "Meteor at " + location + " with energy of " + power;

@@ -43,7 +43,7 @@ public class AnimationLoader
         {
             final String[] names = node.getAttributes().getNamedItem(key).getNodeValue().split(":");
             for (final String s : names)
-                toAddTo.add(s);
+                toAddTo.add(ThutCore.trim(s));
         }
     }
 
@@ -193,7 +193,8 @@ public class AnimationLoader
                 for (int j = 0; j < partsList.getLength(); j++)
                 {
                     final Node part = partsList.item(j);
-                    if (part.getNodeName().equals("metadata")) try
+                    final String name = ThutCore.trim(part.getNodeName());
+                    if (name.equals("metadata")) try
                     {
                         offset = AnimationLoader.getOffset(part, offset);
                         scale = AnimationLoader.getScale(part, scale);
@@ -211,7 +212,7 @@ public class AnimationLoader
                     {
                         e.printStackTrace();
                     }
-                    else if (part.getNodeName().equals("worn"))
+                    else if (name.equals("worn"))
                     {
                         final Vector3 w_offset = AnimationLoader.getOffset(part, null);
                         final Vector3 w_angles = AnimationLoader.getAngles(part, null);
@@ -220,11 +221,11 @@ public class AnimationLoader
                         final String w_ident = part.getAttributes().getNamedItem("id").getNodeValue();
                         wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));
                     }
-                    else if (part.getNodeName().equals("phase"))
+                    else if (name.equals("phase"))
                     {
                         final Node phase = part.getAttributes().getNamedItem("name") == null ? part.getAttributes()
                                 .getNamedItem("type") : part.getAttributes().getNamedItem("name");
-                        final String phaseName = phase.getNodeValue();
+                        final String phaseName = ThutCore.trim(phase.getNodeValue());
                         for (final String s : AnimationRegistry.animations.keySet())
                             if (phaseName.equals(s))
                             {
@@ -265,21 +266,21 @@ public class AnimationLoader
                             if (anim != null) tblAnims.add(anim);
                         }
                     }
-                    else if (part.getNodeName().equals("merges"))
+                    else if (name.equals("merges"))
                     {
                         final String[] merges = part.getAttributes().getNamedItem("merge").getNodeValue().split("->");
-                        mergedAnimations.put(merges[0], merges[1]);
+                        mergedAnimations.put(ThutCore.trim(merges[0]), ThutCore.trim(merges[1]));
                     }
-                    else if (part.getNodeName().equals("customTex"))
+                    else if (name.equals("customtex"))
                     {
                         texturer = new TextureHelper(part);
                         if (part.getAttributes().getNamedItem("default") != null) holder.texture = new ResourceLocation(
                                 holder.texture.toString().replace(holder.name, part.getAttributes().getNamedItem(
                                         "default").getNodeValue()));
                     }
-                    else if (part.getNodeName().equals("customModel")) holder.model = new ResourceLocation(part
-                            .getAttributes().getNamedItem("default").getNodeValue());
-                    else if (part.getNodeName().equals("subAnims")) animator.addChild(new AnimationRandomizer(part));
+                    else if (name.equals("custommodel")) holder.model = new ResourceLocation(part.getAttributes()
+                            .getNamedItem("default").getNodeValue());
+                    else if (name.equals("subanims")) animator.addChild(new AnimationRandomizer(part));
                 }
 
                 final IModelRenderer<?> loaded = renderer;

@@ -1,7 +1,6 @@
 package pokecube.core.client.gui.pokemob;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -23,6 +22,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
 import thut.api.maths.Vector4;
+import thut.core.common.ThutCore;
 
 public class GuiPokemobStorage extends GuiPokemobBase
 {
@@ -64,7 +64,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
 
     private Direction dirFromText(String text)
     {
-        text = text.toLowerCase(Locale.ENGLISH);
+        text = ThutCore.trim(text);
         Direction dir = Direction.byName(text);
         if (dir == null)
         {
@@ -200,7 +200,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
             System.err.println("Error with pos:" + text);
         }
         else if (args.length != 0) // Send status message about not working
-                                   // here.
+            // here.
             System.err.println("Error with pos:" + text);
         return null;
     }

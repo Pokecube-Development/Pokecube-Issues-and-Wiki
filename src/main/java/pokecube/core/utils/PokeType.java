@@ -4,6 +4,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IExtensibleEnum;
+import thut.core.common.ThutCore;
 
 public enum PokeType implements IExtensibleEnum
 {
@@ -11,29 +12,29 @@ public enum PokeType implements IExtensibleEnum
 
     public static float[][] typeTable;
 
-    public static PokeType create(String dummy, int colour, String name)
+    public static PokeType create(final String dummy, final int colour, final String name)
     {
         throw new IllegalStateException("Enum not extended");
     }
 
-    public static float getAttackEfficiency(PokeType type, PokeType defenseType1, PokeType defenseType2)
+    public static float getAttackEfficiency(final PokeType type, final PokeType defenseType1, final PokeType defenseType2)
     {
         float multiplier = 1;
         if (type == null) return multiplier;
         if (defenseType1 != unknown && defenseType1 != null) multiplier *= PokeType.typeTable[type
-                .ordinal()][defenseType1.ordinal()];
+                                                                                              .ordinal()][defenseType1.ordinal()];
         if (defenseType2 != unknown && defenseType2 != null) multiplier *= PokeType.typeTable[type
-                .ordinal()][defenseType2.ordinal()];
+                                                                                              .ordinal()][defenseType2.ordinal()];
         return multiplier;
     }
 
-    public static String getName(PokeType type)
+    public static String getName(final PokeType type)
     {
         return type.name;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static String getTranslatedName(PokeType type)
+    public static String getTranslatedName(final PokeType type)
     {
         final String translated = I18n.format("type." + type.name);
 
@@ -44,7 +45,7 @@ public enum PokeType implements IExtensibleEnum
 
     public static PokeType getType(String name)
     {
-        name = name.toLowerCase(java.util.Locale.ENGLISH).trim();
+        name = ThutCore.trim(name);
         for (final PokeType type : PokeType.values())
             if (name.equalsIgnoreCase(type.name)) return type;
         return unknown;
@@ -54,7 +55,7 @@ public enum PokeType implements IExtensibleEnum
 
     public final String name;
 
-    private PokeType(int colour, String name)
+    private PokeType(final int colour, final String name)
     {
         this.colour = colour;
         this.name = name;

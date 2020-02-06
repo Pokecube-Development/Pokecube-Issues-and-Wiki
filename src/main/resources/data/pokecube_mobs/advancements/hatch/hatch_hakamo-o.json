@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.hakamo-o"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_hakamo-o": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "hakamo-o"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_jangmo-o"
+}
