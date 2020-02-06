@@ -126,7 +126,7 @@ public class PacketChoose extends Packet
             }
             new GuiOpener(starters.toArray(new PokedexEntry[0]), special, pick);
         }
-        else PokecubeSerializer.getInstance().setHasStarter(player, this.data.getBoolean("H"));
+        else PokecubeSerializer.getInstance(false).setHasStarter(player, this.data.getBoolean("H"));
     }
 
     @Override

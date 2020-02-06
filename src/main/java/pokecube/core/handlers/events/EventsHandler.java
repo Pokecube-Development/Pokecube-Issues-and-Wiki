@@ -30,6 +30,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
@@ -577,8 +578,6 @@ public class EventsHandler
     @SubscribeEvent
     public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        // Reset this.
-        PokecubeSerializer.clearInstance();
         // TODO See what this is breaking?
         Database.loadingThread.interrupt();
         Database.resourceManager = event.getServer().getResourceManager();
@@ -594,6 +593,7 @@ public class EventsHandler
     @SubscribeEvent
     public static void serverSopped(final FMLServerStoppedEvent event)
     {
+        // Reset this.
         PokecubeSerializer.clearInstance();
     }
 
@@ -616,6 +616,13 @@ public class EventsHandler
         MakeCommand.register(event.getCommandDispatcher());
         MeteorCommand.register(event.getCommandDispatcher());
         CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher(), "pokesettings");
+    }
+
+    @SubscribeEvent
+    public static void capabilityWorld(final AttachCapabilitiesEvent<World> event)
+    {
+        if (event.getObject() instanceof ServerWorld && event.getObject().getDimension()
+                .getType() == DimensionType.OVERWORLD) PokecubeSerializer.newInstance((ServerWorld) event.getObject());
     }
 
     @SubscribeEvent
