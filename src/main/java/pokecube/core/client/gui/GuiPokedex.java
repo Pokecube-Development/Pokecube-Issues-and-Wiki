@@ -160,11 +160,8 @@ public class GuiPokedex extends Screen
     protected int                  xSize;
 
     /** The Y size of the inventory window in pixels. */
-    protected int       ySize;
-    private final float xRenderAngle     = 0;
-    private final float yHeadRenderAngle = 10;
-    private final float xHeadRenderAngle = 0;
-    int                 prevX            = 0;
+    protected int ySize;
+    int           prevX = 0;
 
     int prevY = 0;
 
