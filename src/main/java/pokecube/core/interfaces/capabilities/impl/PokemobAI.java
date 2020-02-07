@@ -59,7 +59,8 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getPokemonUID()
     {
-        if (this.uid == -1 && this.isPlayerOwned()) this.uid = PokecubeSerializer.getInstance().getNextID();
+        if (this.uid == -1 && this.isPlayerOwned()) this.uid = PokecubeSerializer.getInstance(this.getEntity()
+                .isServerWorld()).getNextID();
         return this.uid;
     }
 

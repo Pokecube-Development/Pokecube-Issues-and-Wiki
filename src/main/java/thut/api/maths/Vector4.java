@@ -184,6 +184,7 @@ public class Vector4
         this.y = y;
         this.z = z;
         this.w = w;
+        this.quat = null;
         return this;
     }
 

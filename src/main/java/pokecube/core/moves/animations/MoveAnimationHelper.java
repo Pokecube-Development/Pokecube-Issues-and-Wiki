@@ -85,13 +85,13 @@ public class MoveAnimationHelper
         return MoveAnimationHelper.instance;
     }
 
-    final Vector3                 source     = Vector3.getNewVector();
-    final Vector3                 target     = Vector3.getNewVector();
-    final int                     index;
+    final Vector3                        source     = Vector3.getNewVector();
+    final Vector3                        target     = Vector3.getNewVector();
+    final int                            index;
 
-    private int                   effects    = 0;
+    private int                          effects    = 0;
 
-    Map<BlockPos, TerrainSegment> terrainMap = Maps.newHashMap();
+    public Map<BlockPos, TerrainSegment> terrainMap = Maps.newHashMap();
 
     public MoveAnimationHelper()
     {
@@ -168,18 +168,15 @@ public class MoveAnimationHelper
                 for (int j = -range; j <= range; j++)
                     for (int k = -range; k <= range; k++)
                     {
-                        this.source.set(player);
                         pos.setPos(player.chunkCoordX + i, player.chunkCoordY + j, player.chunkCoordZ + k);
                         final TerrainSegment segment = this.terrainMap.get(pos);
                         if (segment == null) continue;
                         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.effectArr[this.index];
                         if (teffect == null || !teffect.hasEffects()) continue;
                         this.target.set(segment.getCentre());
-                        this.source.set(this.target.subtractFrom(this.source));
+                        this.target.add(-8, -8, -8);
                         mat.push();
-                        // FIXME figure out the offsets for this
-                        mat.translate(this.source.x, this.source.y, this.source.z);
-                        teffect.renderTerrainEffects(event);
+                        teffect.renderTerrainEffects(event, target);
                         mat.pop();
                         num++;
                     }

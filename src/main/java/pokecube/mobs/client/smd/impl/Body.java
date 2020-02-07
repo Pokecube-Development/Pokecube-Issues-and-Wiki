@@ -270,7 +270,6 @@ public class Body implements IRetexturableModel
 
     public void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro)
     {
-        mat.push();
         final boolean smooth = this.texturer == null ? false : !this.texturer.isFlat(null);
         if (!this.parent.usesMaterials) for (final Face f : this.faces)
             f.addForRender(mat, buffer, rgbabro, smooth);
@@ -284,7 +283,6 @@ public class Body implements IRetexturableModel
                 this.render(mat, material.preRender(mat, buffer), rgbabro, entry, smooth);
             }
         }
-        mat.pop();
     }
 
     private void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro,

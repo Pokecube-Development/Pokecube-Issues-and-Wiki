@@ -496,12 +496,12 @@ public class PokedexEntryLoader
     public static final Gson                        gson;
 
     public static final Comparator<XMLPokedexEntry> ENTRYSORTER = (o1, o2) ->
-    {
-        int diff = o1.number - o2.number;
-        if (diff == 0) if (o1.base && !o2.base) diff = -1;
-        else if (o2.base && !o1.base) diff = 1;
-        return diff;
-    };
+                                                                {
+                                                                    int diff = o1.number - o2.number;
+                                                                    if (diff == 0) if (o1.base && !o2.base) diff = -1;
+                                                                    else if (o2.base && !o1.base) diff = 1;
+                                                                    return diff;
+                                                                };
 
     public static XMLPokedexEntry                   missingno   = new XMLPokedexEntry();
 
@@ -1259,7 +1259,6 @@ public class PokedexEntryLoader
         if (xmlStats.megaRules != null && !xmlStats.megaRules.isEmpty())
             for (final XMLMegaRule rule : xmlStats.megaRules)
             {
-
                 String forme = rule.name != null ? rule.name : null;
                 if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
                 {
@@ -1345,14 +1344,14 @@ public class PokedexEntryLoader
 
     public static void updateEntry(final XMLPokedexEntry xmlEntry, final boolean init)
     {
-        final String name = xmlEntry.name;
-        final PokedexEntry entry = Database.getEntry(name);
-        if (xmlEntry.sound != null) entry.customSound = xmlEntry.sound;
         final StatsNode stats = xmlEntry.stats;
         final Moves moves = xmlEntry.moves;
-        entry.modelExt = xmlEntry.modelType;
+        final String name = xmlEntry.name;
+        final PokedexEntry entry = Database.getEntry(name);
         if (stats != null) try
         {
+            if (xmlEntry.sound != null) entry.customSound = xmlEntry.sound;
+            entry.modelExt = xmlEntry.modelType;
             PokedexEntryLoader.initStats(entry, stats);
             if (!init)
             {

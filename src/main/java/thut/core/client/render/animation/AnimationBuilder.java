@@ -38,6 +38,7 @@ public class AnimationBuilder
         if (node.getAttributes().getNamedItem("type") == null) return null;
         String animName = node.getAttributes().getNamedItem("type").getNodeValue();
         animName = ThutCore.trim(animName);
+        ThutCore.LOGGER.debug("Generating animation: " + animName);
         ret = new Animation();
         ret.name = animName;
         ret.loops = true;

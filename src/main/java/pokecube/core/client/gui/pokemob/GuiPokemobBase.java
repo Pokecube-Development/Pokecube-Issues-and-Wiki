@@ -3,7 +3,6 @@ package pokecube.core.client.gui.pokemob;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -27,22 +26,19 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
-    public static void renderMob(final LivingEntity entity, final int width, final int height, final int unusedA,
-            final int unusedB, final float xRenderAngle, final float yRenderAngle, final float zRenderAngle,
-            float scale)
+    public static void renderMob(final LivingEntity entity, final int dx, final int dy, final float pitch,
+            final float yaw, final float headPitch, final float headYaw, float scale)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-        final int j = width;
-        final int k = height;
-        scale *= 40;
+        final int j = dx;
+        final int k = dy;
+        scale *= 30;
         if (pokemob != null)
         {
             final float mobScale = pokemob.getSize();
             final thut.api.maths.vecmath.Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-            scale *= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            scale /= Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
         }
-        final float f = (float) Math.atan(xRenderAngle / 40.0F);
-        final float f1 = (float) Math.atan(yRenderAngle / 40.0F);
         RenderSystem.pushMatrix();
         RenderSystem.translatef(j + 55, k + 60, 50.0F);
         RenderSystem.scalef(1.0F, 1.0F, -1.0F);
@@ -50,19 +46,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         // matrixstack.translate(0.0D, 0.0D, 1000.0D);
         matrixstack.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
-        final Quaternion quaternion1 = Vector3f.XP.rotationDegrees(f1 * 20.0F);
+        final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(yaw);
         quaternion.multiply(quaternion1);
         matrixstack.rotate(quaternion);
-        final float f2 = entity.renderYawOffset;
-        final float f3 = entity.rotationYaw;
-        final float f4 = entity.rotationPitch;
-        final float f5 = entity.prevRotationYawHead;
-        final float f6 = entity.rotationYawHead;
-        entity.renderYawOffset = 180.0F + f * 20.0F;
-        entity.rotationYaw = 180.0F + f * 40.0F;
-        entity.rotationPitch = -f1 * 20.0F;
-        entity.rotationYawHead = entity.rotationYaw;
-        entity.prevRotationYawHead = entity.rotationYaw;
         final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
         quaternion1.conjugate();
         entityrenderermanager.setCameraOrientation(quaternion1);
@@ -75,11 +61,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         RenderMobOverlays.enabled = true;
         irendertypebuffer$impl.finish();
         entityrenderermanager.setRenderShadow(true);
-        entity.renderYawOffset = f2;
-        entity.rotationYaw = f3;
-        entity.rotationPitch = f4;
-        entity.prevRotationYawHead = f5;
-        entity.rotationYawHead = f6;
         RenderSystem.popMatrix();
     }
 
@@ -92,10 +73,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
     }
 
-    private float           yRenderAngle = 10;
-    private TextFieldWidget name         = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
-
-    private float           xRenderAngle = 0;
+    private TextFieldWidget name = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
 
     public GuiPokemobBase(final ContainerPokemob container, final PlayerInventory inv)
     {
@@ -120,17 +98,14 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     @Override
     protected void drawGuiContainerBackgroundLayer(final float partialTicks, final int mouseX, final int mouseY)
     {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.getMinecraft().getTextureManager().bindTexture(Resources.GUI_POKEMOB);
         final int k = (this.width - this.xSize) / 2;
         final int l = (this.height - this.ySize) / 2;
         this.blit(k, l, 0, 0, this.xSize, this.ySize);
         this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
         this.blit(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
-        this.yRenderAngle = -45;
-        this.xRenderAngle = 0;
-        if (this.container.pokemob != null) GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l,
-                this.xSize, this.ySize, this.xRenderAngle, this.yRenderAngle, 0, 1);
+        if (this.container.pokemob != null)
+            GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
     }
 
     /** Draw the foreground layer for the ContainerScreen (everything in front

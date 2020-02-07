@@ -25,7 +25,7 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "typenull"
+        "entry": "type_null"
       }
     }
   },

@@ -4,13 +4,17 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -212,16 +216,16 @@ public class PokemobTerrainEffects implements ITerrainEffect
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void renderEffect(final IVertexBuilder builder, final Matrix4f pos, final Vector3 direction,
+    private void renderEffect(final IVertexBuilder builder, final Matrix4f pos, Vector3 origin, final Vector3 direction,
             final float tick, final float r, final float g, final float b, final float a)
     {
         final Vector3 temp = Vector3.getNewVector();
         final Vector3 temp2 = Vector3.getNewVector();
         final Random rand = new Random(Minecraft.getInstance().player.ticksExisted / 200);
 
-        final double dx = direction.x * 8;
-        final double dy = direction.y * 8;
-        final double dz = direction.z * 8;
+        final double dx = direction.x * 1;
+        final double dy = direction.y * 1;
+        final double dz = direction.z * 1;
 
         for (int i = 0; i < 1000; i++)
         {
@@ -231,19 +235,13 @@ public class PokemobTerrainEffects implements ITerrainEffect
             temp.y = temp.y % 16;
             temp.x = temp.x % 16;
             temp.z = temp.z % 16;
-            final float size = 0.02f;
+            temp.addTo(origin);
+            final float size = 0.03f;
+            float x, y, z;
 
-            float x = (float) (temp.x + dx), y = (float) (temp.y + size + dy), z = (float) (temp.z + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
-
-            x = (float) (temp.x - size + dx);
-            y = (float) (temp.y - size + dy);
-            z = (float) (temp.z - size + dz);
-            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
-
-            x = (float) (temp.x - size + dx);
-            y = (float) (temp.y + size + dy);
-            z = (float) (temp.z - size + dz);
+            x = (float) (temp.x + dx);
+            y = (float) (temp.y + dy);
+            z = (float) (temp.z + dz);
             builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
 
             x = (float) (temp.x + dx);
@@ -251,28 +249,68 @@ public class PokemobTerrainEffects implements ITerrainEffect
             z = (float) (temp.z + dz);
             builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
 
+            x = (float) (temp.x + dx);
+            y = (float) (temp.y - size + dy);
+            z = (float) (temp.z - size + dz);
+            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+
+            x = (float) (temp.x + dx);
+            y = (float) (temp.y + dy);
+            z = (float) (temp.z - size + dz);
+            builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+
+            // x = (float) (temp.x + dx);
+            // y = (float) (temp.y + dy);
+            // z = (float) (temp.z + dz);
+            // builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            //
+            // x = (float) (temp.x - size + dx);
+            // y = (float) (temp.y + dy);
+            // z = (float) (temp.z + dz);
+            // builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            //
+            // x = (float) (temp.x - size + dx);
+            // y = (float) (temp.y + dy);
+            // z = (float) (temp.z - size + dz);
+            // builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+            //
+            // x = (float) (temp.x + dx);
+            // y = (float) (temp.y + dy);
+            // z = (float) (temp.z - size + dz);
+            // builder.pos(pos, x, y, z).color(r, g, b, a).endVertex();
+
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderTerrainEffects(final RenderWorldLastEvent event)
+    public void renderTerrainEffects(final RenderWorldLastEvent event, Vector3 origin)
     {
         if (this.hasEffects())
         {
             final MatrixStack mat = event.getMatrixStack();
             final int time = Minecraft.getInstance().player.ticksExisted;
             final Vector3 direction = Vector3.getNewVector().set(0, -1, 0);
-            final float tick = (time + event.getPartialTicks()) / 2f;
+            float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
+            final float tick = (time + partialTicks) / 10f;
+
             final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-            final IVertexBuilder builder = buffer.getBuffer(RenderType.lightning());
+
+            RenderType effectType = RenderType.get("pokecube:terrain_effects", DefaultVertexFormats.POSITION_COLOR,
+                    GL11.GL_QUADS, 256,
+                    RenderType.State.builder().diffuseLighting(new RenderState.DiffuseLightingState(true))
+                            .alpha(new RenderState.AlphaState(0.003921569F)).build(false));
+            final IVertexBuilder builder = buffer.getBuffer(effectType);
             final Matrix4f pos = mat.getLast().getPositionMatrix();
+            // FIXME figure out the offsets for this
+            mat.push();
             if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_RAIN] > 0)
-                this.renderEffect(builder, pos, direction, tick, 0, 0, 1, 1);
+                this.renderEffect(builder, pos, origin, direction, tick, 0, 0, 1, 1);
             if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_HAIL] > 0)
-                this.renderEffect(builder, pos, direction, tick, 1, 1, 1, 1);
+                this.renderEffect(builder, pos, origin, direction, tick, 1, 1, 1, 1);
             direction.set(0, 0, 1);
             if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_SAND] > 0)
-                this.renderEffect(builder, pos, direction, tick, 0.86f, 0.82f, 0.75f, 1);
+                this.renderEffect(builder, pos, origin, direction, tick, 0.86f, 0.82f, 0.75f, 1);
+            mat.pop();
         }
     }
 

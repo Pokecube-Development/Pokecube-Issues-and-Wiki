@@ -26,14 +26,14 @@ public class AnimationHelper
     public static boolean animate(final Animation animation, final IAnimationHolder animate, final String partName,
             final IExtendedModelPart part, final float partialTick, final float limbSwing, final int tick)
     {
-        if (!animate.getPlaying().contains(animation)) return false;
+        if (!animate.getPlaying().contains(animation)) { return false; }
         final ArrayList<AnimationComponent> components = animation.getComponents(partName);
+        if (components == null) { return false; }
         boolean animated = false;
         final Vector3 temp = Vector3.getNewVector();
         float x = 0, y = 0, z = 0;
         float sx = 1, sy = 1, sz = 1;
-        int aniTick = animate.getStep(animation);
-        if (aniTick == 0) aniTick = tick;
+        int aniTick = tick;
         float time1 = aniTick;
         float time2 = 0;
         final int animationLength = animation.getLength();
@@ -41,7 +41,7 @@ public class AnimationHelper
         time1 = (time1 + partialTick) % animationLength;
         time2 = limbSwing * limbSpeedFactor % animationLength;
         aniTick = (int) time1;
-        if (components != null) for (final AnimationComponent component : components)
+        for (final AnimationComponent component : components)
         {
             final float time = component.limbBased ? time2 : time1;
             if (component.limbBased) aniTick = (int) time2;
@@ -65,7 +65,6 @@ public class AnimationHelper
                 part.setHidden(component.hidden);
             }
         }
-        animate.setStep(animation, aniTick);
         if (animated)
         {
             part.setPreTranslations(temp);
@@ -84,9 +83,15 @@ public class AnimationHelper
     {
         boolean animate = false;
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
-        if (holder != null) for (final Animation animation : list)
-            animate = AnimationHelper.animate(animation, holder, partName, part, partialTick, limbSwing,
-                    entity.ticksExisted) || animate;
+        if (holder != null)
+        {
+            for (final Animation animation : list)
+            {
+                animate = AnimationHelper.animate(animation, holder, partName, part, partialTick, limbSwing,
+                        entity.ticksExisted) || animate;
+                holder.setStep(animation, entity.ticksExisted);
+            }
+        }
         return animate;
     }
 

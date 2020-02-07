@@ -15,6 +15,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
@@ -184,18 +186,17 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             final Vertex scale = new Vertex(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
                     Float.parseFloat(offset[2]));
             offset = t.rotation.split(" ");
-            Vector4 rotations = new Vector4(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
-                    Float.parseFloat(offset[2]), (float) Math.toDegrees(Float.parseFloat(offset[3])));
-            rotations = rotations.toQuaternion();
+            Vector3f axis = new Vector3f(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
+                    Float.parseFloat(offset[2]));
+            Quaternion quat = new Quaternion(axis, Float.parseFloat(offset[3]), false);
+            Vector4 rotations = new Vector4(quat);
+            
             final Set<String> children = t.getChildNames();
             t = t.getIfsTransform();
             // Probably a lamp or camera in this case?
             if (t == null) continue;
             final X3dXML.Group group = t.group;
-            String name = t.getGroupName();
-            name = ThutCore.trim(name);
-            // name =
-
+            final String name = ThutCore.trim(t.getGroupName());
             final List<Mesh> shapes = Lists.newArrayList();
             for (final X3dXML.Shape shape : group.shapes)
             {
@@ -310,10 +311,8 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
 
         parent.resetToInit();
         final boolean anim = renderer.getAnimations().containsKey(currentPhase);
-        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent.getName(),
-                parent, partialTick, limbSwing))
-        {
-        }
+        if (anim) AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent.getName(),
+                parent, partialTick, limbSwing);
         if (info != null && this.isHead(parent.getName()))
         {
             float ang;

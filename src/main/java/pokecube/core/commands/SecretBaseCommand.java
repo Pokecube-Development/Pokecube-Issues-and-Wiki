@@ -75,6 +75,9 @@ public class SecretBaseCommand
                 final IOwnableTE ownable = (IOwnableTE) tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
                 ownable.setPlacer(player);
                 SecretBaseDimension.setSecretBasePoint(player, new BlockPos(input), type);
+                pos.x = pos.intX();
+                pos.y = pos.intY();
+                pos.z = pos.intZ();
                 final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirmed",
                         pos);
                 player.sendMessage(message);

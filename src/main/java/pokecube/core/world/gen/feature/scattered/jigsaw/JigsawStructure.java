@@ -58,7 +58,10 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             if (chunkGen.hasStructure(biome, this))
             {
                 if (this.struct.atSpawn)
+                {
                     PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
+                    PokecubeSerializer.getInstance().save();
+                }
                 return true;
             }
         }

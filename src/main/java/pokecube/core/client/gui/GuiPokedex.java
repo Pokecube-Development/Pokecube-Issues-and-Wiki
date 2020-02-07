@@ -15,7 +15,6 @@ import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.Util;
@@ -25,6 +24,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ScrollGui;
+import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
@@ -37,121 +37,7 @@ import pokecube.core.utils.PokeType;
 
 public class GuiPokedex extends Screen
 {
-
-    public static PokedexEntry pokedexEntry = null;
-
-    public static void renderMob(final MobEntity entity, final Minecraft mc, final int dx, final int dy,
-            final float scale, final int height, final int width, final int xSize, final int ySize,
-            final float xHeadRenderAngle, final float yHeadRenderAngle, final float yaw)
-    {
-        try
-        {
-            // float size = 0;
-            // int j = 0;
-            // int k = 0;
-            // //TODO in gui rendering of mobs
-            // final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-            // if (pokemob == null) return;
-            // final PokedexEntry pokedexEntry = pokemob.getPokedexEntry();
-            // final PokecubePlayerStats stats =
-            // PlayerDataHandler.getInstance().getPlayerData(Minecraft
-            // .getInstance().player).getData(PokecubePlayerStats.class);
-            // final IMobColourable colourable = pokemob.getEntity() instanceof
-            // IMobColourable ? (IMobColourable) pokemob
-            // .getEntity() : pokemob instanceof IMobColourable ?
-            // (IMobColourable) pokemob : null;
-            // if (colourable != null)
-            // {
-            // boolean fullColour = StatsCollector.getCaptured(pokedexEntry,
-            // Minecraft.getInstance().player) > 0
-            // || StatsCollector.getHatched(pokedexEntry,
-            // Minecraft.getInstance().player) > 0
-            // || mc.player.abilities.isCreativeMode;
-            //
-            // // Megas Inherit colouring from the base form.
-            // if (!fullColour && pokedexEntry.isMega) fullColour =
-            // StatsCollector.getCaptured(pokedexEntry
-            // .getBaseForme(), Minecraft.getInstance().player) > 0 ||
-            // StatsCollector.getHatched(pokedexEntry
-            // .getBaseForme(), Minecraft.getInstance().player) > 0;
-            //
-            // // Set colouring accordingly.
-            // if (fullColour) colourable.setRGBA(255, 255, 255, 255);
-            // else if (stats.hasInspected(pokedexEntry))
-            // colourable.setRGBA(127, 127, 127, 255);
-            // else colourable.setRGBA(15, 15, 15, 255);
-            // }
-            // // Reset some things that add special effects to rendered mobs.
-            // pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-            // pokemob.setGeneralState(GeneralStates.EVOLVING, false);
-            //
-            // final float mobScale = pokemob.getSize();
-            // final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-            // size = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale,
-            // dims.x * mobScale));
-            // j = (width - xSize) / 2 + dx;
-            // k = (height - ySize) / 2 + dy;
-            //
-            // mat.push();
-            // mat.translate(j + 60, k + 100, 50F);
-            // final float zoom = 25F / size * scale;
-            // mat.scale(zoom, zoom, zoom);
-            // GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-            // final float f5 = k + 75 - 50 - ySize;
-            // GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
-            //
-            // GL11.glRotatef(-135F, 0.0F, 1.0F, 0.0F);
-            // GL11.glRotatef(-(float) Math.atan(f5 / 40F) * 20F, 1.0F, 0.0F,
-            // 0.0F);
-            // entity.prevRenderYawOffset = yaw;
-            // entity.renderYawOffset = yaw;
-            // entity.rotationYaw = yaw;
-            // entity.prevRotationYaw = entity.rotationYaw;
-            // entity.rotationPitch = xHeadRenderAngle;
-            // entity.rotationYawHead = yHeadRenderAngle;
-            // entity.prevRotationYawHead = entity.rotationYawHead;
-            // entity.prevRotationPitch = entity.rotationPitch;
-            //
-            // entity.limbSwing = 0;
-            // entity.limbSwingAmount = 0;
-            // entity.prevLimbSwingAmount = 0;
-            // final PokeType flying = PokeType.getType("flying");
-            // entity.onGround = !pokemob.isType(flying);
-            //
-            // if (Screen.hasAltDown())
-            // {
-            // entity.onGround = true;
-            // entity.limbSwingAmount = 0.05f;
-            // entity.prevLimbSwingAmount = entity.limbSwingAmount - 0.5f;
-            // }
-            //
-            // GlStateManager.enableColorMaterial();
-            // RenderHelper.enableStandardItemLighting();
-            // RenderMobOverlays.enabled = false;
-            // final EntityRendererManager entityrenderermanager =
-            // Minecraft.getInstance().getRenderManager();
-            // entityrenderermanager.setPlayerViewY(180.0F);
-            // entityrenderermanager.setRenderShadow(false);
-            // entityrenderermanager.renderEntity(entity, 0.0D, 0.0D, 0.0D,
-            // 0.0F, 1.0F, false);
-            // entityrenderermanager.setRenderShadow(true);
-            // RenderMobOverlays.enabled = true;
-            // RenderHelper.disableStandardItemLighting();
-            // GlStateManager.disableRescaleNormal();
-            // GlStateManager.activeTexture(GLX.GL_TEXTURE1);
-            // GlStateManager.disableTexture();
-            // GlStateManager.activeTexture(GLX.GL_TEXTURE0);
-            // if (entity instanceof IMobColourable) ((IMobColourable)
-            // entity).setRGBA(255, 255, 255, 255);
-            //
-            // mat.pop();
-
-        }
-        catch (final Throwable e)
-        {
-            e.printStackTrace();
-        }
-    }
+    public static PokedexEntry     pokedexEntry = null;
 
     public IPokemob                pokemob      = null;
     protected PlayerEntity         PlayerEntity = null;
@@ -161,10 +47,10 @@ public class GuiPokedex extends Screen
     protected int                  xSize;
 
     /** The Y size of the inventory window in pixels. */
-    protected int       ySize;
-    int                 prevX            = 0;
+    protected int ySize;
+    int           prevX = 0;
 
-    int prevY = 0;
+    int                            prevY        = 0;
 
     /**
      *
@@ -264,8 +150,8 @@ public class GuiPokedex extends Screen
         this.pokemobTextField.setEnableBackgroundDrawing(false);
         this.pokemobTextField.setEnabled(true);
 
-        if (GuiPokedex.pokedexEntry != null) this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry
-                .getUnlocalizedName()));
+        if (GuiPokedex.pokedexEntry != null)
+            this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry.getUnlocalizedName()));
         this.addButton(this.pokemobTextField);
         this.initList();
     }
@@ -353,8 +239,8 @@ public class GuiPokedex extends Screen
         if (button != 0) this.minecraft.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         if (button == 14)
         {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
-                    .getCode());
+            PacketPokedex.sendInspectPacket(true,
+                    Minecraft.getInstance().getLanguageManager().getCurrentLanguage().getCode());
             return true;
         }
 
@@ -382,16 +268,16 @@ public class GuiPokedex extends Screen
         this.blit(j2, k2, 0, 0, this.xSize, this.ySize);
 
         // Draw mob
-        final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity
-                .getEntityWorld());
-        if (!renderMob.getEntity().addedToChunk) EntityTools.copyEntityTransforms(renderMob.getEntity(),
-                this.PlayerEntity);
+        final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry,
+                this.PlayerEntity.getEntityWorld());
+        if (!renderMob.getEntity().addedToChunk)
+            EntityTools.copyEntityTransforms(renderMob.getEntity(), this.PlayerEntity);
         GlStateManager.enableDepthTest();
         final float yaw = Util.milliTime() / 20;
+        final float pitch = 0;
         final float hx = 0;
         final float hy = yaw;
-        GuiPokedex.renderMob(renderMob.getEntity(), minecraft, 0, 0, 1f, this.height, this.width, this.xSize,
-                this.ySize, hx, hy, yaw);
+        GuiPokemobBase.renderMob(renderMob.getEntity(), j2, k2 + 40, pitch, yaw, hx, hy, 1);
 
         // Draw info about mob
         final int yOffset = this.height / 2 - 80;
@@ -399,29 +285,29 @@ public class GuiPokedex extends Screen
         final int nb = GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getPokedexNb() : 0;
         final PokeType type1 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry()
                 ? this.pokemob.getType1()
-                        : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType1() : PokeType.unknown;
-                        final PokeType type2 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry()
-                                ? this.pokemob.getType2()
-                                        : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType2() : PokeType.unknown;
-                                        this.drawCenteredString(this.font, "#" + nb, xOffset - 28, yOffset + 02, 0xffffff);
-                                        try
-                                        {
-                                            this.drawCenteredString(this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset + 137,
-                                                    type1.colour);
-                                            this.drawCenteredString(this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset + 137,
-                                                    type2.colour);
-                                        }
-                                        catch (final Exception e)
-                                        {
-                                        }
+                : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType1() : PokeType.unknown;
+        final PokeType type2 = this.pokemob != null && GuiPokedex.pokedexEntry == this.pokemob.getPokedexEntry()
+                ? this.pokemob.getType2()
+                : GuiPokedex.pokedexEntry != null ? GuiPokedex.pokedexEntry.getType2() : PokeType.unknown;
+        this.drawCenteredString(this.font, "#" + nb, xOffset - 28, yOffset + 02, 0xffffff);
+        try
+        {
+            this.drawCenteredString(this.font, PokeType.getTranslatedName(type1), xOffset - 88, yOffset + 137,
+                    type1.colour);
+            this.drawCenteredString(this.font, PokeType.getTranslatedName(type2), xOffset - 44, yOffset + 137,
+                    type2.colour);
+        }
+        catch (final Exception e)
+        {
+        }
 
-                                        // Draw default gui stuff.
-                                        final int length = this.font.getStringWidth(this.pokemobTextField.getText()) / 2;
-                                        xOffset = this.width / 2 - 65;
-                                        this.pokemobTextField.x = xOffset - length;
-                                        super.render(mouseX, mouseY, partialTick);
+        // Draw default gui stuff.
+        final int length = this.font.getStringWidth(this.pokemobTextField.getText()) / 2;
+        xOffset = this.width / 2 - 65;
+        this.pokemobTextField.x = xOffset - length;
+        super.render(mouseX, mouseY, partialTick);
 
-                                        // Draw description
-                                        this.list.render(mouseX, mouseY, partialTick);
+        // Draw description
+        this.list.render(mouseX, mouseY, partialTick);
     }
 }

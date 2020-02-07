@@ -13,6 +13,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
+import thut.core.common.ThutCore;
 
 public class AnimationRandomizer implements IAnimationChanger
 {
@@ -21,7 +22,7 @@ public class AnimationRandomizer implements IAnimationChanger
         final RandomAnimation anim;
         int                   set;
 
-        public AnimationSet(RandomAnimation anim)
+        public AnimationSet(final RandomAnimation anim)
         {
             this.anim = anim;
         }
@@ -40,7 +41,7 @@ public class AnimationRandomizer implements IAnimationChanger
         double       chance   = 0.005;
         int          duration = 0;
 
-        public RandomAnimation(Animation animation, double chance)
+        public RandomAnimation(final Animation animation, final double chance)
         {
             this.chance = chance;
             this.name = animation.name;
@@ -49,21 +50,23 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     // TODO way to clean this up.
-    Map<Integer, AnimationSet> running = Maps.newHashMap();
+    Map<Integer, AnimationSet>         running    = Maps.newHashMap();
 
-    Map<String, List<RandomAnimation>> sets = Maps.newHashMap();
+    Map<String, List<RandomAnimation>> sets       = Maps.newHashMap();
 
-    Map<String, Set<LoadedAnimSet>> loadedSets = Maps.newHashMap();
+    Map<String, Set<LoadedAnimSet>>    loadedSets = Maps.newHashMap();
 
-    public AnimationRandomizer(Node node)
+    public AnimationRandomizer(final Node node)
     {
         final NodeList parts = node.getChildNodes();
         for (int i = 0; i < parts.getLength(); i++)
         {
             final Node part = parts.item(i);
             if (part.getAttributes() == null) continue;
-            final String parent = part.getAttributes().getNamedItem("parent").getNodeValue();
-            final String name = part.getAttributes().getNamedItem("name").getNodeValue();
+            String parent = part.getAttributes().getNamedItem("parent").getNodeValue();
+            parent = ThutCore.trim(parent);
+            String name = part.getAttributes().getNamedItem("name").getNodeValue();
+            name = ThutCore.trim(name);
             final double chance = Double.parseDouble(part.getAttributes().getNamedItem("chance").getNodeValue());
             final LoadedAnimSet set = new LoadedAnimSet();
             set.chance = chance;
@@ -74,7 +77,7 @@ public class AnimationRandomizer implements IAnimationChanger
         }
     }
 
-    private void addAnimationSet(Animation animation, double chance, String parent)
+    private void addAnimationSet(final Animation animation, final double chance, final String parent)
     {
         List<RandomAnimation> anims = this.sets.get(parent);
         if (anims == null) this.sets.put(parent, anims = Lists.newArrayList());
@@ -82,25 +85,25 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     @Override
-    public void addChild(IAnimationChanger randomizer)
+    public void addChild(final IAnimationChanger randomizer)
     {
         // Nope
     }
 
     @Override
-    public int getColourForPart(String partIdentifier, Entity entity, int default_)
+    public int getColourForPart(final String partIdentifier, final Entity entity, final int default_)
     {
         return default_;
     }
 
     @Override
-    public WornOffsets getOffsets(String part)
+    public WornOffsets getOffsets(final String part)
     {
         return null;
     }
 
     @Override
-    public void init(Set<Animation> existingAnimations)
+    public void init(final Set<Animation> existingAnimations)
     {
         final Set<String> animations = Sets.newHashSet();
         for (final Animation existing : existingAnimations)
@@ -119,13 +122,13 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     @Override
-    public boolean isPartHidden(String part, Entity entity, boolean default_)
+    public boolean isPartHidden(final String part, final Entity entity, final boolean default_)
     {
         return default_;
     }
 
     @Override
-    public String modifyAnimation(MobEntity entity, float partialTicks, String phase)
+    public String modifyAnimation(final MobEntity entity, final float partialTicks, String phase)
     {
         if (this.running.containsKey(entity.getEntityId()))
         {
@@ -151,19 +154,19 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     @Override
-    public void parseDyeables(Set<String> set)
+    public void parseDyeables(final Set<String> set)
     {
         // Nope
     }
 
     @Override
-    public void parseShearables(Set<String> set)
+    public void parseShearables(final Set<String> set)
     {
         // Nope
     }
 
     @Override
-    public void parseWornOffsets(Map<String, WornOffsets> map)
+    public void parseWornOffsets(final Map<String, WornOffsets> map)
     {
         // Nope
     }

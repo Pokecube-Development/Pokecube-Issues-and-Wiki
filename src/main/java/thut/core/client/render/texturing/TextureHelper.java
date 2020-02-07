@@ -191,34 +191,34 @@ public class TextureHelper implements IPartTexturer
             final Node part = parts.item(i);
             if (part.getNodeName().equals("part"))
             {
-                String partName = part.getAttributes().getNamedItem("name").getNodeValue();
-                partName = ThutCore.trim(partName);
+                String name = part.getAttributes().getNamedItem("name").getNodeValue();
+                name = ThutCore.trim(name);
                 final String partTex = part.getAttributes().getNamedItem("tex").getNodeValue();
-                this.addMapping(partName, partTex);
+                this.addMapping(name, partTex);
                 if (part.getAttributes().getNamedItem("smoothing") != null)
                 {
                     final boolean flat = !node.getAttributes().getNamedItem("smoothing").getNodeValue()
                             .equalsIgnoreCase("smooth");
-                    this.smoothing.put(partName, flat);
+                    this.smoothing.put(name, flat);
                 }
             }
             else if (part.getNodeName().equals("animation"))
             {
-                String partName = part.getAttributes().getNamedItem("part").getNodeValue();
-                partName = ThutCore.trim(partName);
+                String name = part.getAttributes().getNamedItem("part").getNodeValue();
+                name = ThutCore.trim(name);
                 final String trigger = part.getAttributes().getNamedItem("trigger").getNodeValue();
                 final String[] diffs = part.getAttributes().getNamedItem("diffs").getNodeValue().split(",");
-                TexState states = this.texStates.get(partName);
-                if (states == null) this.texStates.put(partName, states = new TexState());
+                TexState states = this.texStates.get(name);
+                if (states == null) this.texStates.put(name, states = new TexState());
                 states.addState(trigger, diffs);
             }
             else if (part.getNodeName().equals("custom"))
             {
-                String partName = part.getAttributes().getNamedItem("part").getNodeValue();
-                partName = ThutCore.trim(partName);
+                String name = part.getAttributes().getNamedItem("part").getNodeValue();
+                name = ThutCore.trim(name);
                 final String state = part.getAttributes().getNamedItem("state").getNodeValue();
                 final String partTex = part.getAttributes().getNamedItem("tex").getNodeValue();
-                this.addCustomMapping(partName, state, partTex);
+                this.addCustomMapping(name, state, partTex);
             }
             else if (part.getNodeName().equals("forme"))
             {

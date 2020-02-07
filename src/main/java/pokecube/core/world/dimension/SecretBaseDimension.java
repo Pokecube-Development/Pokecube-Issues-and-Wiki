@@ -1,9 +1,11 @@
 package pokecube.core.world.dimension;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import io.netty.buffer.Unpooled;
@@ -69,7 +71,17 @@ public class SecretBaseDimension extends ModDimension
         exit.putInt("y", pos.getY());
         exit.putInt("z", pos.getZ());
         if (dim == SecretBaseDimension.TYPE) tag.put("secret_base_internal", exit);
-        else tag.put("secret_base_exit", exit);
+        else
+        {
+            if (tag.contains("secret_base_exit"))
+            {
+                final CompoundNBT exito = tag.getCompound("secret_base_exit");
+                final Vector4 old = new Vector4(exito.getInt("x"), exito.getInt("y"), exito.getInt("z"), dim.getId());
+                PokecubeSerializer.getInstance().bases.removeIf(c -> old.withinDistance(0.25f, old));
+            }
+            tag.put("secret_base_exit", exit);
+            PokecubeSerializer.getInstance().bases.add(new Vector4(pos.getX(), pos.getY(), pos.getZ(), dim.getId()));
+        }
     }
 
     public static ChunkPos getFromIndex(final int index)
@@ -95,9 +107,9 @@ public class SecretBaseDimension extends ModDimension
             int index;
             if (!tag.contains("secret_base_index"))
             {
-                index = PokecubeSerializer.instance.customData.getInt("next_base_index");
+                index = PokecubeSerializer.getInstance().customData.getInt("next_base_index");
                 tag.putInt("secret_base_index", index);
-                PokecubeSerializer.instance.customData.putInt("next_base_index", index + 1);
+                PokecubeSerializer.getInstance().customData.putInt("next_base_index", index + 1);
             }
             else index = tag.getInt("secret_base_index");
             final ChunkPos chunk = SecretBaseDimension.getFromIndex(index);
@@ -276,6 +288,14 @@ public class SecretBaseDimension extends ModDimension
     public BiFunction<World, DimensionType, ? extends Dimension> getFactory()
     {
         return (w, t) -> new SecretDimension(w, t);
+    }
+
+    public static List<Vector4> getNearestBases(final Vector4 here, final int baseRadarRange)
+    {
+        final List<Vector4> bases = Lists.newArrayList();
+        for (final Vector4 v : PokecubeSerializer.getInstance().bases)
+            if (v.withinDistance(baseRadarRange, here)) bases.add(v);
+        return bases;
     }
 
 }

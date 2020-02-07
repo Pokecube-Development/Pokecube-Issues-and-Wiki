@@ -50,7 +50,7 @@ public class AnimationRegistry
         AnimationRegistry.animations.put("snakewalk", SnakeMovement.class);
         AnimationRegistry.animations.put("snakefly", SnakeMovement.class);
         AnimationRegistry.animationPhases.put("snakefly", "flying");
-        AnimationRegistry.animations.put("snakidle", SnakeMovement.class);
+        AnimationRegistry.animations.put("snakeidle", SnakeMovement.class);
         AnimationRegistry.animationPhases.put("snakeidle", "idle");
         AnimationRegistry.animations.put("snakeswim", SnakeMovement.class);
         AnimationRegistry.animationPhases.put("snakeswim", "swimming");

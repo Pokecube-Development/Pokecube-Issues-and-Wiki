@@ -209,7 +209,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                 }
             }
             this.wrapped.animate();
-            this.wrapped.renderAll(mat, buffer, this.rgbabro);
+            this.wrapped.renderAll(mat, buffer, this.getRGBABrO());
         }
     }
 

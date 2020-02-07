@@ -32,18 +32,16 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
     {
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
-        this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID,
-                "textures/gui/trade_machine.png"));
+        this.minecraft.getTextureManager()
+                .bindTexture(new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
         GL11.glPopMatrix();
     }
 
-    /**
-     * Draw the foreground layer for the ContainerScreen (everything in front of
-     * the items)
-     */
+    /** Draw the foreground layer for the ContainerScreen (everything in front
+     * of the items) */
     @Override
     protected void drawGuiContainerForegroundLayer(final int p_146979_1_, final int p_146979_2_)
     {
@@ -127,7 +125,7 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
             break;
         }
 
-        GuiPokemobBase.renderMob(mob, dx, dy, 0, 0, rotX, rotY, rotZ, size);
+        GuiPokemobBase.renderMob(mob, dx, dy, 0, rotX, rotY, rotZ, size);
 
         switch (index)
         {
@@ -145,8 +143,8 @@ public class Trade<T extends TradeContainer> extends ContainerScreen<T>
             break;
         }
 
-        if (poke != null && poke.getOwner() instanceof PlayerEntity) GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0, 0,
-                rotX, rotY, rotZ, size);
+        if (poke != null && poke.getOwner() instanceof PlayerEntity)
+            GuiPokemobBase.renderMob(poke.getOwner(), dx, dy, 0, rotX, rotY, rotZ, size);
     }
 
 }

@@ -106,7 +106,6 @@ public class Material
 
     public void postRender(final MatrixStack mat)
     {
-        if (this.typeBuff instanceof Impl) ((Impl) this.typeBuff).finish(this.type);
         this.override_buff = null;
         this.typeBuff = null;
     }
