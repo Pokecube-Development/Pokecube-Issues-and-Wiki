@@ -98,12 +98,13 @@ public class PokecubeSerializer
     private static final String POKECUBE = "pokecube";
     private static final String DATA     = "data";
     private static final String METEORS  = "meteors";
+    private static final String BASES    = "bases";
     private static final String LASTUID  = "lastUid";
 
     public static int MeteorDistance = 3000 * 3000;
 
-    public static PokecubeSerializer  instance;
-    private static PokecubeSerializer client = new PokecubeSerializer(null);
+    private static PokecubeSerializer instance;
+    private static PokecubeSerializer client = new PokecubeSerializer((ServerWorld) null);
 
     public static double distSq(final Vector4 location, final Vector4 meteor)
     {
@@ -115,28 +116,24 @@ public class PokecubeSerializer
 
     public static PokecubeSerializer getInstance()
     {
-        final World world = PokecubeCore.proxy.getWorld();
-        if (!(world instanceof ServerWorld)) return PokecubeSerializer.client;
-        if (PokecubeSerializer.instance == null) return PokecubeSerializer.instance = new PokecubeSerializer(world
-                .getServer());
-        else if (PokecubeSerializer.instance.myWorld == world)
-        {
-            boolean toNew = false;
-            toNew = PokecubeSerializer.instance == null || PokecubeSerializer.instance.saveHandler == null;
-            if (!toNew)
-            {
-                PokecubeSerializer.instance.myWorld = PokecubeCore.proxy.getServerWorld();
-                if (PokecubeSerializer.instance.myWorld != null)
-                    PokecubeSerializer.instance.saveHandler = PokecubeSerializer.instance.myWorld.getSaveHandler();
-            }
-            if (toNew) PokecubeSerializer.instance = new PokecubeSerializer(world.getServer());
-        }
-        return PokecubeSerializer.instance;
+        return PokecubeSerializer.getInstance(true);
+    }
+
+    public static PokecubeSerializer getInstance(final boolean serverside)
+    {
+        if (serverside) return PokecubeSerializer.instance;
+        return PokecubeSerializer.client;
+    }
+
+    public static void newInstance(final ServerWorld world)
+    {
+        PokecubeSerializer.instance = new PokecubeSerializer(world);
     }
 
     SaveHandler saveHandler;
 
     public ArrayList<Vector4> meteors;
+    public ArrayList<Vector4> bases;
 
     private int lastId = 1;
 
@@ -145,12 +142,18 @@ public class PokecubeSerializer
 
     private PokecubeSerializer(final MinecraftServer server)
     {
+        this(server != null ? server.getWorld(DimensionType.OVERWORLD) : null);
+    }
+
+    private PokecubeSerializer(final ServerWorld world)
+    {
         /** This data is saved to surface world's folder. */
-        this.myWorld = server != null ? server.getWorld(DimensionType.OVERWORLD) : null;
+        this.myWorld = world;
         if (this.myWorld != null) this.saveHandler = this.myWorld.getSaveHandler();
         this.lastId = 0;
         this.meteors = new ArrayList<>();
-        this.loadData();
+        this.bases = new ArrayList<>();
+        if (this.myWorld != null) this.loadData();
     }
 
     public void addMeteorLocation(final Vector4 v)
@@ -168,7 +171,7 @@ public class PokecubeSerializer
 
     public static void clearInstance()
     {
-        PokecubeSerializer.client = new PokecubeSerializer(null);
+        PokecubeSerializer.client = new PokecubeSerializer((ServerWorld) null);
         if (PokecubeSerializer.instance == null) return;
         PokecubeSerializer.instance.save();
         PokecubeItems.times = new Vector<>();
@@ -215,9 +218,9 @@ public class PokecubeSerializer
     public void readFromNBT(final CompoundNBT tag)
     {
         this.lastId = tag.getInt(PokecubeSerializer.LASTUID);
+        this.customData = tag.getCompound("data");
         INBT temp;
         temp = tag.get(PokecubeSerializer.METEORS);
-        this.customData = tag.getCompound("data");
         if (temp instanceof ListNBT)
         {
             final ListNBT tagListMeteors = (ListNBT) temp;
@@ -225,25 +228,34 @@ public class PokecubeSerializer
             for (int i = 0; i < tagListMeteors.size(); i++)
             {
                 final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
-
                 if (pokemobData != null)
                 {
-                    Vector4 location;
-                    // TODO remove this in a few versions.
-                    if (pokemobData.contains(PokecubeSerializer.METEORS + "x"))
-                    {
-                        final int posX = pokemobData.getInt(PokecubeSerializer.METEORS + "x");
-                        final int posY = pokemobData.getInt(PokecubeSerializer.METEORS + "y");
-                        final int posZ = pokemobData.getInt(PokecubeSerializer.METEORS + "z");
-                        final int w = pokemobData.getInt(PokecubeSerializer.METEORS + "w");
-                        location = new Vector4(posX, posY, posZ, w);
-                    }
-                    else location = new Vector4(pokemobData);
+                    final Vector4 location = new Vector4(pokemobData);
                     if (location != null && !location.isEmpty())
                     {
                         for (final Vector4 v : this.meteors)
                             if (PokecubeSerializer.distSq(location, v) < 4) continue meteors;
                         this.meteors.add(location);
+                    }
+                }
+            }
+        }
+        temp = tag.get(PokecubeSerializer.BASES);
+        if (temp instanceof ListNBT)
+        {
+            final ListNBT tagListMeteors = (ListNBT) temp;
+            if (tagListMeteors.size() > 0) meteors:
+            for (int i = 0; i < tagListMeteors.size(); i++)
+            {
+                final CompoundNBT pokemobData = tagListMeteors.getCompound(i);
+                if (pokemobData != null)
+                {
+                    final Vector4 location = new Vector4(pokemobData);
+                    if (location != null && !location.isEmpty())
+                    {
+                        for (final Vector4 v : this.bases)
+                            if (PokecubeSerializer.distSq(location, v) < 1) continue meteors;
+                        this.bases.add(location);
                     }
                 }
             }
@@ -259,7 +271,7 @@ public class PokecubeSerializer
 
     private void saveData()
     {
-        if (this.saveHandler == null || ThutCore.proxy.isClientSide()) return;
+        if (this.saveHandler == null) return;
 
         try
         {
@@ -333,6 +345,7 @@ public class PokecubeSerializer
     public void writeToNBT(final CompoundNBT tag)
     {
         tag.putInt(PokecubeSerializer.LASTUID, this.lastId);
+        tag.put("data", this.customData);
         final ListNBT tagListMeteors = new ListNBT();
         for (final Vector4 v : this.meteors)
             if (v != null && !v.isEmpty())
@@ -341,8 +354,16 @@ public class PokecubeSerializer
                 v.writeToNBT(nbt);
                 tagListMeteors.add(nbt);
             }
-        tag.put("data", this.customData);
         tag.put(PokecubeSerializer.METEORS, tagListMeteors);
+        final ListNBT tagListBases = new ListNBT();
+        for (final Vector4 v : this.bases)
+            if (v != null && !v.isEmpty())
+            {
+                final CompoundNBT nbt = new CompoundNBT();
+                v.writeToNBT(nbt);
+                tagListMeteors.add(nbt);
+            }
+        tag.put(PokecubeSerializer.BASES, tagListBases);
         final CompoundNBT tms = new CompoundNBT();
         PokecubeItems.saveTime(tms);
         tag.put("tmtags", tms);

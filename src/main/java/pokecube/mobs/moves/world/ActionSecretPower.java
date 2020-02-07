@@ -32,6 +32,7 @@ public class ActionSecretPower implements IMoveAction
         final BlockState state = location.getBlockState(owner.getEntityWorld());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
         {
+            System.out.println(state);
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.wrongloc");
             owner.sendMessage(message);
             return false;

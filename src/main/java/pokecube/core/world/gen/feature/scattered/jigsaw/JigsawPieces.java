@@ -28,9 +28,14 @@ import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.JigsawReplacementStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.RandomBlockMatchRuleTest;
+import net.minecraft.world.gen.feature.template.RuleEntry;
+import net.minecraft.world.gen.feature.template.RuleStructureProcessor;
 import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
@@ -44,6 +49,17 @@ import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 public class JigsawPieces
 {
     public static final IStructurePieceType CSP = CustomJigsawPiece::new;
+
+    public static final RuleEntry              PATHTOOAK    = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_PATH),
+            new BlockMatchRuleTest(Blocks.WATER), Blocks.OAK_PLANKS.getDefaultState());
+    public static final RuleEntry              PATHTOGRASS  = new RuleEntry(new RandomBlockMatchRuleTest(
+            Blocks.GRASS_PATH, 0.05F), AlwaysTrueRuleTest.INSTANCE, Blocks.GRASS_BLOCK.getDefaultState());
+    public static final RuleEntry              GRASSTOWATER = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_BLOCK),
+            new BlockMatchRuleTest(Blocks.WATER), Blocks.WATER.getDefaultState());
+    public static final RuleEntry              DIRTTOWATER  = new RuleEntry(new BlockMatchRuleTest(Blocks.DIRT),
+            new BlockMatchRuleTest(Blocks.WATER), Blocks.WATER.getDefaultState());
+    public static final RuleStructureProcessor RULES        = new RuleStructureProcessor(ImmutableList.of(
+            JigsawPieces.PATHTOOAK, JigsawPieces.PATHTOGRASS, JigsawPieces.GRASSTOWATER, JigsawPieces.DIRTTOWATER));
 
     public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
             final BlockPos pos, final List<StructurePiece> parts, final SharedSeedRandom rand,
@@ -80,8 +96,8 @@ public class JigsawPieces
             }
             option = args[0];
             if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
-            else parts.add(Pair.of(new SingleOffsetPiece(option, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR),
-                    place, offset, ignoreAir, subbiome), second));
+            else parts.add(Pair.of(new SingleOffsetPiece(option, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR,
+                    JigsawPieces.RULES), place, offset, ignoreAir, subbiome), second));
 
         }
 
