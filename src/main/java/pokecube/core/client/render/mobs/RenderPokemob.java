@@ -1,5 +1,6 @@
 package pokecube.core.client.render.mobs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
@@ -315,6 +317,17 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             this.name = model.model.name;
             this.texture = model.model.texture;
             model.imodel = ModelFactory.create(model.model);
+
+            // Check if an animation file exists.
+            try
+            {
+                Minecraft.getInstance().getResourceManager().getResource(this.animation);
+            }
+            catch (final IOException e)
+            {
+                // No animation here, lets try to use the base one.
+            }
+
             AnimationLoader.parse(model.model, model, this);
             this.initModelParts();
         }
