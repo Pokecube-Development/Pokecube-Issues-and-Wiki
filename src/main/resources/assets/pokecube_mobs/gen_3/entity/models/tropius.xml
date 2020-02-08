@@ -24,7 +24,7 @@
     <component length="5" name="2" rotChange="5.0,0.0,0.0," startKey="5"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
  </model>
  <details>
   <RIDDENOFFSET>

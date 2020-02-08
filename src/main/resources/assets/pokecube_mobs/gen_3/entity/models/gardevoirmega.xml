@@ -214,7 +214,7 @@
    </part>
   </phase>
   <merge>
-   "idle"--&gt;"stting"
+   "idle"-->"stting"
   </merge>
  </model>
 </ModelAnimator>

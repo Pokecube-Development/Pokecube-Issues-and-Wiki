@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.common.xml.AnimationXML.Phase;
 
 public class QuadWalkAnimation extends Animation
 {
@@ -21,7 +22,7 @@ public class QuadWalkAnimation extends Animation
     }
 
     @Override
-    public Animation init(NamedNodeMap map, IPartRenamer renamer)
+    public Animation init(final NamedNodeMap map, final IPartRenamer renamer)
     {
         final HashSet<String> hl = new HashSet<>();
         final HashSet<String> hr = new HashSet<>();
@@ -60,6 +61,45 @@ public class QuadWalkAnimation extends Animation
         return this;
     }
 
+    @Override
+    public Animation init(final Phase map, final IPartRenamer renamer)
+    {
+        final HashSet<String> hl = new HashSet<>();
+        final HashSet<String> hr = new HashSet<>();
+        final HashSet<String> fl = new HashSet<>();
+        final HashSet<String> fr = new HashSet<>();
+        int quadwalkdur = 0;
+        float walkAngle1 = 20;
+        float walkAngle2 = 20;
+        final String[] lh = this.get(map, "leftHind").split(":");
+        final String[] rh = this.get(map, "rightHind").split(":");
+        final String[] lf = this.get(map, "leftFront").split(":");
+        final String[] rf = this.get(map, "rightFront").split(":");
+
+        if (renamer != null)
+        {
+            renamer.convertToIdents(lh);
+            renamer.convertToIdents(rh);
+            renamer.convertToIdents(lf);
+            renamer.convertToIdents(rf);
+        }
+        for (final String s : lh)
+            if (s != null) hl.add(s);
+        for (final String s : rh)
+            if (s != null) hr.add(s);
+        for (final String s : rf)
+            if (s != null) fr.add(s);
+        for (final String s : lf)
+            if (s != null) fl.add(s);
+        if (!this.get(map, "angle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "angle"));
+        if (!this.get(map, "frontAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "frontAngle"));
+        else walkAngle2 = walkAngle1;
+        quadwalkdur = Integer.parseInt(this.get(map, "duration"));
+
+        this.init(hl, hr, fl, fr, quadwalkdur, walkAngle1, walkAngle2);
+        return this;
+    }
+
     /**
      * Swings legs and arms in opposite directions. Only the parts directly
      * childed to the body need to be added to these sets, any parts childed to
@@ -81,8 +121,8 @@ public class QuadWalkAnimation extends Animation
      *            - half - angle covered by front legs.
      * @return
      */
-    public QuadWalkAnimation init(Set<String> hl, Set<String> hr, Set<String> fl, Set<String> fr, int duration,
-            float legAngle, float armAngle)
+    public QuadWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl,
+            final Set<String> fr, int duration, final float legAngle, final float armAngle)
     {
         duration = duration + duration % 4;
         for (final String s : hr)

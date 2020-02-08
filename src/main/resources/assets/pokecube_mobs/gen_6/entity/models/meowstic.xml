@@ -3,7 +3,7 @@
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale="0.7"/>
   <phase female="F" male="M" name="textures"/>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
   <customTex default="meowstic">
    <part name="Head" tex="meowstichead"/>
    <animation diffs="0,-0.3125" part="Head" trigger="random:0.002:4"/>

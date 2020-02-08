@@ -1,8 +1,15 @@
 package thut.core.common.xml;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -10,115 +17,222 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import thut.core.common.ThutCore;
 
 public class AnimationXML
 {
     @XmlRootElement(name = "component")
-    public static class AnimationComponent
+    public static class Component
     {
         @XmlAttribute(name = "hidden")
-        boolean hidden = false;
+        public boolean hidden = false;
         @XmlAttribute(name = "length")
-        int     length = 0;
+        public int     length = 0;
         @XmlAttribute(name = "name")
-        String  name   = "";
+        public String  name   = "";
 
         @XmlAttribute(name = "opacityChange")
-        double opacityChange = 0.0D;
+        public double opacityChange = 0.0D;
         @XmlAttribute(name = "opacityOffset")
-        double opacityOffset = 0.0D;
+        public double opacityOffset = 0.0D;
 
         @XmlAttribute(name = "posChange")
-        String posChange = "0,0,0";
+        public String posChange = "0,0,0";
         @XmlAttribute(name = "posOffset")
-        String posOffset = "0,0,0";
+        public String posOffset = "0,0,0";
 
         @XmlAttribute(name = "rotChange")
-        String rotChange = "0,0,0";
+        public String rotChange = "0,0,0";
         @XmlAttribute(name = "rotOffset")
-        String rotOffset = "0,0,0";
+        public String rotOffset = "0,0,0";
 
         @XmlAttribute(name = "scaleChange")
-        String scaleChange = "0,0,0";
+        public String scaleChange = "0,0,0";
         @XmlAttribute(name = "scaleOffset")
-        String scaleOffset = "0,0,0";
+        public String scaleOffset = "0,0,0";
 
         @XmlAttribute(name = "startKey")
-        int startKey = 0;
+        public int startKey = 0;
+    }
+
+    @XmlRootElement(name = "worn")
+    public static class Worn
+    {
+        @XmlAttribute(name = "angles")
+        public String angles = "0,0,0";
+        @XmlAttribute(name = "id")
+        public String id     = "";
+        @XmlAttribute(name = "offset")
+        public String offset = "0,0,0";
+        @XmlAttribute(name = "parent")
+        public String parent = "";
+        @XmlAttribute(name = "scale")
+        public String scale  = "1,1,1";
     }
 
     @XmlRootElement(name = "part")
-    public static class AnimationPart
+    public static class Part
     {
-        @XmlAttribute(name = "part")
-        String part;
+        @XmlAttribute(name = "name")
+        public String          name;
+        @XmlElement(name = "component")
+        public List<Component> components = Lists.newArrayList();
+    }
+
+    @XmlRootElement(name = "merges")
+    public static class Merge
+    {
+        @XmlAttribute(name = "merge")
+        public String merge;
+    }
+
+    @XmlRootElement(name = "customModel")
+    public static class CustomModel
+    {
+        @XmlAttribute(name = "model")
+        public String model;
     }
 
     @XmlRootElement(name = "customTex")
     public static class CustomTex
     {
         @XmlAttribute(name = "default")
-        String             defaults;
+        public String          defaults;
         @XmlAttribute(name = "smoothing")
-        String             smoothing;
-        @XmlAttribute(name = "animation")
-        List<TexAnimation> texAnimations = Lists.newArrayList();
+        public String          smoothing;
+        @XmlElement(name = "animation")
+        public List<TexAnim>   anims  = Lists.newArrayList();
+        @XmlElement(name = "part")
+        public List<TexPart>   parts  = Lists.newArrayList();
+        @XmlElement(name = "custom")
+        public List<TexCustom> custom = Lists.newArrayList();
+        @XmlElement(name = "forme")
+        public List<TexForm>   forme  = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "metadata")
     public static class Metadata
     {
         @XmlAttribute(name = "head")
-        String head;
+        public String head;
+        @XmlAttribute(name = "shear")
+        public String shear;
+        @XmlAttribute(name = "dye")
+        public String dye;
         @XmlAttribute(name = "headAxis")
-        int    headAxis = 1;
+        public int    headAxis  = 1;
+        @XmlAttribute(name = "headAxis2")
+        public int    headAxis2 = 0;
         @XmlAttribute(name = "headCap")
-        String headCap;
+        public String headCap   = "-100, 100 ";
         @XmlAttribute(name = "headCap1")
-        String headCap1;
+        public String headCap1  = "-30, 70";
         @XmlAttribute(name = "headDir")
-        int    headDir  = 1;
+        public int    headDir   = 1;
+        @XmlAttribute(name = "headDir")
+        public int    headDir2  = 2;
     }
 
     @XmlRootElement(name = "model")
     public static class Model
     {
         @XmlElement(name = "customTex")
-        CustomTex   customTex;
+        public CustomTex   customTex;
+        @XmlElement(name = "customModel")
+        public CustomModel customModel;
         @XmlElement(name = "metadata")
-        Metadata    metadata;
+        public Metadata    metadata;
         @XmlElement(name = "phase")
-        List<Phase> phases = Lists.newArrayList();
+        public List<Phase> phases = Lists.newArrayList();
+        @XmlElement(name = "worn")
+        public List<Worn>  worn   = Lists.newArrayList();
+        @XmlElement(name = "merges")
+        public List<Merge> merges = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "phase")
     public static class Phase
     {
-        @XmlElement(name = "name")
-        String             name;
-        @XmlElement(name = "type")
-        String             type;
+        @XmlAttribute(name = "name")
+        public String             name;
+        @XmlAttribute(name = "type")
+        public String             type;
         @XmlAnyAttribute
-        Map<QName, String> values;
+        public Map<QName, String> values = Maps.newHashMap();
+        @XmlElement(name = "part")
+        public List<Part>         parts  = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "animation")
-    public static class TexAnimation
+    public static class TexAnim
     {
         @XmlAttribute(name = "diffs")
-        String diffs;
+        public String diffs = "0,0";
         @XmlAttribute(name = "part")
-        String part;
-        @XmlAttribute(name = "tex")
-        String tex;
+        public String part;
         @XmlAttribute(name = "trigger")
-        String trigger;
+        public String trigger;
+    }
+
+    @XmlRootElement(name = "part")
+    public static class TexPart
+    {
+        @XmlAttribute(name = "name")
+        public String name;
+        @XmlAttribute(name = "tex")
+        public String tex;
+        @XmlAttribute(name = "smoothing")
+        public String smoothing;
+    }
+
+    @XmlRootElement(name = "custom")
+    public static class TexCustom
+    {
+        @XmlAttribute(name = "part")
+        public String part;
+        @XmlAttribute(name = "state")
+        public String state;
+        @XmlAttribute(name = "tex")
+        public String tex;
+    }
+
+    @XmlRootElement(name = "forme")
+    public static class TexForm
+    {
+        @XmlAttribute(name = "name")
+        public String name;
+        @XmlAttribute(name = "tex")
+        public String tex;
     }
 
     @XmlRootElement(name = "ModelAnimator")
     public static class XMLFile
     {
         @XmlElement(name = "model")
-        Model model;
+        public Model model;
+    }
+
+    public static XMLFile load(final InputStream res)
+    {
+        XMLFile database = null;
+        try
+        {
+            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLFile.class);
+            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            final Reader reader = new InputStreamReader(res);
+            database = (XMLFile) unmarshaller.unmarshal(reader);
+            reader.close();
+        }
+        catch (final JAXBException e)
+        {
+            ThutCore.LOGGER.error("Error parsing xml", e);
+        }
+        catch (final IOException e)
+        {
+            ThutCore.LOGGER.error("Error parsing xml", e);
+        }
+        return database;
     }
 }

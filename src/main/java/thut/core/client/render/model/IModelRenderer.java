@@ -77,7 +77,7 @@ public interface IModelRenderer<T extends MobEntity>
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
         if (holder != null) return holder.getAnimation(entityIn);
-        return DEFAULTPHASE;
+        return IModelRenderer.DEFAULTPHASE;
     }
 
     IAnimationChanger getAnimationChanger();
@@ -106,7 +106,7 @@ public interface IModelRenderer<T extends MobEntity>
 
     void scaleEntity(MatrixStack mat, Entity entity, IModel model, float partialTick);
 
-    default void setAnimation(final String phase, final Entity entity, float partialTick)
+    default void setAnimation(final String phase, final Entity entity, final float partialTick)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
         final List<Animation> anim = this.getAnimations().get(phase);

@@ -13,6 +13,8 @@ import thut.core.client.render.animation.prefab.BasicFlapAnimation;
 import thut.core.client.render.animation.prefab.BiWalkAnimation;
 import thut.core.client.render.animation.prefab.QuadWalkAnimation;
 import thut.core.client.render.animation.prefab.SnakeMovement;
+import thut.core.common.ThutCore;
+import thut.core.common.xml.AnimationXML.Phase;
 
 /**
  * Used for determining what animation to make when reading from XMLs
@@ -70,6 +72,43 @@ public class AnimationRegistry
      */
     public static Animation make(final String name, final NamedNodeMap map, @Nullable final IPartRenamer renamer)
     {
+        Animation ret = null;
+        final Class<? extends Animation> toMake = AnimationRegistry.animations.get(name);
+        if (toMake != null) try
+        {
+            ret = toMake.newInstance();
+            ret.init(map, renamer);
+            if (AnimationRegistry.animationPhases.containsKey(name)) ret.name = AnimationRegistry.animationPhases.get(
+                    name);
+        }
+        catch (final InstantiationException e)
+        {
+            e.printStackTrace();
+        }
+        catch (final IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    /**
+     * Generates the animation for the given name, and nodemap. Renamer is used
+     * to convert to identifiers in the cases where that is needed. <br>
+     * <br>
+     * This method will also then change the name of the animation to
+     * animationName if it is not null.
+     *
+     * @param name
+     * @param map
+     * @param renamer
+     * @return
+     */
+    public static Animation make(final Phase map, @Nullable final IPartRenamer renamer)
+    {
+        String name = map.name;
+        if (name == null) return null;
+        name = ThutCore.trim(name);
         Animation ret = null;
         final Class<? extends Animation> toMake = AnimationRegistry.animations.get(name);
         if (toMake != null) try

@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.common.xml.AnimationXML.Phase;
 
 public class BiWalkAnimation extends Animation
 {
@@ -23,7 +24,7 @@ public class BiWalkAnimation extends Animation
     }
 
     @Override
-    public Animation init(NamedNodeMap map, @Nullable IPartRenamer renamer)
+    public Animation init(final NamedNodeMap map, @Nullable final IPartRenamer renamer)
     {
         final HashSet<String> hl = new HashSet<>();
         final HashSet<String> hr = new HashSet<>();
@@ -61,6 +62,43 @@ public class BiWalkAnimation extends Animation
         return this;
     }
 
+    @Override
+    public Animation init(final Phase map, @Nullable final IPartRenamer renamer)
+    {
+        final HashSet<String> hl = new HashSet<>();
+        final HashSet<String> hr = new HashSet<>();
+        final HashSet<String> fl = new HashSet<>();
+        final HashSet<String> fr = new HashSet<>();
+        int biwalkdur = 0;
+        float walkAngle1 = 20;
+        float walkAngle2 = 20;
+        final String[] lh = this.get(map, "leftLeg").split(":");
+        final String[] rh = this.get(map, "rightLeg").split(":");
+        final String[] lf = this.get(map, "leftArm").split(":");
+        final String[] rf = this.get(map, "rightArm").split(":");
+
+        if (renamer != null)
+        {
+            renamer.convertToIdents(lh);
+            renamer.convertToIdents(rh);
+            renamer.convertToIdents(lf);
+            renamer.convertToIdents(rf);
+        }
+        for (final String s : lh)
+            if (s != null) hl.add(s);
+        for (final String s : rh)
+            if (s != null) hr.add(s);
+        for (final String s : rf)
+            if (s != null) fr.add(s);
+        for (final String s : lf)
+            if (s != null) fl.add(s);
+        biwalkdur = Integer.parseInt(this.get(map, "duration"));
+        if (!this.get(map, "legAngle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "legAngle"));
+        if (!this.get(map, "armAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "armAngle"));
+        this.init(hl, hr, fl, fr, biwalkdur, walkAngle1, walkAngle2);
+        return this;
+    }
+
     /**
      * Swings legs and arms in opposite directions. Only the parts directly
      * childed to the body need to be added to these sets, any parts childed to
@@ -82,8 +120,8 @@ public class BiWalkAnimation extends Animation
      *            - half - angle covered by arms.
      * @return
      */
-    public BiWalkAnimation init(Set<String> hl, Set<String> hr, Set<String> fl, Set<String> fr, int duration,
-            float legAngle, float armAngle)
+    public BiWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl, final Set<String> fr,
+            int duration, final float legAngle, final float armAngle)
     {
         duration = duration + duration % 4;
         for (final String s : hr)

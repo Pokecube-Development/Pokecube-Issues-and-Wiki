@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import javax.xml.namespace.QName;
 
 import org.w3c.dom.NamedNodeMap;
 
@@ -16,6 +17,7 @@ import com.google.common.collect.Sets;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.common.xml.AnimationXML.Phase;
 
 /** Container for Tabula animations.
  *
@@ -38,9 +40,9 @@ public class Animation
 
     private final Set<String>                             checked    = Sets.newHashSet();
 
-    public TreeMap<String, ArrayList<AnimationComponent>> sets       = new TreeMap<>(Ordering.natural());
+    public TreeMap<String, ArrayList<AnimationComponent>> sets = new TreeMap<>(Ordering.natural());
 
-    public ArrayList<AnimationComponent> getComponents(String key)
+    public ArrayList<AnimationComponent> getComponents(final String key)
     {
         if (!this.checked.contains(key))
         {
@@ -63,9 +65,24 @@ public class Animation
         return this.length;
     }
 
-    public Animation init(NamedNodeMap map, @Nullable IPartRenamer renamer)
+    public Animation init(final NamedNodeMap map, @Nullable final IPartRenamer renamer)
     {
         return this;
+    }
+
+    public Animation init(final Phase tag, @Nullable final IPartRenamer renamer)
+    {
+        return this;
+    }
+
+    protected String get(final Phase phase, final QName value)
+    {
+        return phase.values.getOrDefault(value, "");
+    }
+
+    protected String get(final Phase phase, final String value)
+    {
+        return phase.values.getOrDefault(new QName(value), "");
     }
 
     public void initLength()

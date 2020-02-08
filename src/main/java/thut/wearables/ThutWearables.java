@@ -1,7 +1,5 @@
 package thut.wearables;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -52,7 +50,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import thut.wearables.CompatClass.Phase;
 import thut.wearables.client.gui.GuiEvents;
 import thut.wearables.client.gui.GuiWearables;
 import thut.wearables.client.render.WearableEventHandler;
@@ -104,7 +101,6 @@ public class ThutWearables
     {
         public void finish(final FMLLoadCompleteEvent event)
         {
-            ThutWearables.doPhase(Phase.FINALIZE, event);
         }
 
         public boolean isClientSide()
@@ -119,7 +115,6 @@ public class ThutWearables
 
         public void setup(final FMLCommonSetupEvent event)
         {
-            ThutWearables.doPhase(Phase.SETUP, event);
             CapabilityManager.INSTANCE.register(IActiveWearable.class, new Capability.IStorage<IActiveWearable>()
             {
                 @Override
@@ -213,23 +208,6 @@ public class ThutWearables
     // Holder for our config options
     public static final Config config = new Config();
 
-    static Map<CompatClass.Phase, Set<java.lang.reflect.Method>> initMethods = Maps.newHashMap();
-
-    private static void doPhase(final Phase pre, final Object event)
-    {
-        for (final java.lang.reflect.Method m : ThutWearables.initMethods.get(pre))
-            try
-            {
-                final CompatClass comp = m.getAnnotation(CompatClass.class);
-                if (comp.takesEvent()) m.invoke(null, event);
-                else m.invoke(null);
-            }
-            catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
-            {
-                e.printStackTrace();
-            }
-    }
-
     public static PlayerWearables getWearables(final LivingEntity wearer)
     {
         PlayerWearables wearables = null;
@@ -269,11 +247,6 @@ public class ThutWearables
     {
         // Register Config stuff
         thut.core.common.config.Config.setupConfigs(ThutWearables.config, ThutWearables.MODID, ThutWearables.MODID);
-
-        for (final Phase phase : Phase.values())
-            ThutWearables.initMethods.put(phase, new HashSet<java.lang.reflect.Method>());
-        CompatParser.findClasses("thut.wearables.compat", ThutWearables.initMethods);
-        ThutWearables.doPhase(Phase.CONSTRUCT, null);
 
         MinecraftForge.EVENT_BUS.register(this);
 
