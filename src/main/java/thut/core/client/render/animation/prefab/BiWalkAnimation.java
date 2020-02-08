@@ -6,8 +6,6 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.w3c.dom.NamedNodeMap;
-
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
@@ -21,45 +19,6 @@ public class BiWalkAnimation extends Animation
     {
         this.loops = true;
         this.name = "walking";
-    }
-
-    @Override
-    public Animation init(final NamedNodeMap map, @Nullable final IPartRenamer renamer)
-    {
-        final HashSet<String> hl = new HashSet<>();
-        final HashSet<String> hr = new HashSet<>();
-        final HashSet<String> fl = new HashSet<>();
-        final HashSet<String> fr = new HashSet<>();
-        int biwalkdur = 0;
-        float walkAngle1 = 20;
-        float walkAngle2 = 20;
-        final String[] lh = map.getNamedItem("leftLeg").getNodeValue().split(":");
-        final String[] rh = map.getNamedItem("rightLeg").getNodeValue().split(":");
-        final String[] lf = map.getNamedItem("leftArm").getNodeValue().split(":");
-        final String[] rf = map.getNamedItem("rightArm").getNodeValue().split(":");
-
-        if (renamer != null)
-        {
-            renamer.convertToIdents(lh);
-            renamer.convertToIdents(rh);
-            renamer.convertToIdents(lf);
-            renamer.convertToIdents(rf);
-        }
-        for (final String s : lh)
-            if (s != null) hl.add(s);
-        for (final String s : rh)
-            if (s != null) hr.add(s);
-        for (final String s : rf)
-            if (s != null) fr.add(s);
-        for (final String s : lf)
-            if (s != null) fl.add(s);
-        biwalkdur = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
-        if (map.getNamedItem("legAngle") != null) walkAngle1 = Float.parseFloat(map.getNamedItem("legAngle")
-                .getNodeValue());
-        if (map.getNamedItem("armAngle") != null) walkAngle2 = Float.parseFloat(map.getNamedItem("armAngle")
-                .getNodeValue());
-        this.init(hl, hr, fl, fr, biwalkdur, walkAngle1, walkAngle2);
-        return this;
     }
 
     @Override

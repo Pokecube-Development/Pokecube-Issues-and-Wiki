@@ -32,8 +32,8 @@ public class TextureHelper implements IPartTexturer
         {
             this.arr = arr;
             final String[] args = trigger.split(":");
-            if (args.length > 1) this.chance = Double.parseDouble(args[1]);
-            if (args.length > 2) this.duration = Integer.parseInt(args[2]);
+            this.chance = Double.parseDouble(args[1]);
+            this.duration = Integer.parseInt(args[2]);
         }
     }
 
@@ -189,7 +189,7 @@ public class TextureHelper implements IPartTexturer
         {
             final String name = ThutCore.trim(anim.part);
             final String trigger = ThutCore.trim(anim.trigger);
-            final String[] diffs = ThutCore.trim(anim.diffs).split(",");
+            final String[] diffs = anim.diffs.trim().split(",");
             TexState states = this.texStates.get(name);
             if (states == null) this.texStates.put(name, states = new TexState());
             states.addState(trigger, diffs);

@@ -2,8 +2,6 @@ package thut.core.client.render.animation.prefab;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.NamedNodeMap;
-
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
@@ -65,30 +63,6 @@ public class SnakeMovement extends Animation
             set.add(component3);
             this.sets.put(s, set);
         }
-        return this;
-    }
-
-    @Override
-    public Animation init(final NamedNodeMap map, final IPartRenamer renamer)
-    {
-        final ArrayList<String> parts = new ArrayList<>();
-        int duration = 40;
-        int axis = 1;
-        float maxAngle = 10;
-
-        final String[] partsArr = map.getNamedItem("parts").getNodeValue().split(":");
-
-        if (renamer != null) renamer.convertToIdents(partsArr);
-
-        for (final String s : partsArr)
-            if (s != null) parts.add(ThutCore.trim(s));
-
-        if (map.getNamedItem("angle") != null) maxAngle = Float.parseFloat(map.getNamedItem("angle").getNodeValue());
-        if (map.getNamedItem("axis") != null) axis = Integer.parseInt(map.getNamedItem("axis").getNodeValue());
-        if (map.getNamedItem("length") != null) duration = Integer.parseInt(map.getNamedItem("length").getNodeValue());
-        if (map.getNamedItem("duration") != null)
-            duration = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
-        this.init(parts, duration, maxAngle, axis);
         return this;
     }
 
