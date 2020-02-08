@@ -1,17 +1,25 @@
 package pokecube.legends.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,6 +28,9 @@ import pokecube.legends.init.function.WormHoleActiveFunction;
 
 public class UltraSpacePortal extends Rotates
 {
+	String  infoname;
+    boolean hasTextInfo = true;
+    
     public UltraSpacePortal(final String name, final Properties props)
     {
         super(name, props.tickRandomly());
@@ -31,17 +42,29 @@ public class UltraSpacePortal extends Rotates
     {
         return 700;
     }
-
-    @Override
-    public void onBlockAdded(final BlockState state, final World worldIn, final BlockPos pos, final BlockState oldState,
-            final boolean isMoving)
+    
+    public BlockBase setInfoBlockName(final String infoname)
     {
-        // TODO Auto-generated method stub
-        // final int x = pos.getX();
-        // final int y = pos.getY();
-        // final int z = pos.getZ();
-        // worldIn.getPendingBlockTicks().scheduleUpdate(new BlockPos(x, y, z),
-        // this, this.tickRate(world));
+        this.infoname = infoname;
+        return this;
+    }
+    
+    public BlockBase noInfoBlock()
+    {
+        this.hasTextInfo = false;
+        return this;
+    }
+    
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
+            final ITooltipFlag flagIn)
+    {
+        if (!this.hasTextInfo) return;
+        String message;
+        if (Screen.hasShiftDown()) message = I18n.format("legendblock." + this.infoname + ".tooltip");
+        else message = I18n.format("pokecube.tooltip.advanced");
+        tooltip.add(new TranslationTextComponent(message));
     }
 
     @Override

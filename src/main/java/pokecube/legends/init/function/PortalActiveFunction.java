@@ -19,6 +19,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.legends.worldgen.dimension.ModDimensions;
 import thut.api.maths.Vector3;
 
 /**
@@ -89,26 +90,11 @@ public class PortalActiveFunction
 
     public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
     {
-        if (dependencies.get("x") == null)
-        {
-            System.err.println("Failed to load dependency x for PortalActive!");
+        if (dependencies.get("x") == null || dependencies.get("y") == null || dependencies.get("z") == null || dependencies.get("world") == null) {
+            System.err.println("Failed to load dependency for PortalActive!");
             return;
         }
-        if (dependencies.get("y") == null)
-        {
-            System.err.println("Failed to load dependency y for PortalActive!");
-            return;
-        }
-        if (dependencies.get("z") == null)
-        {
-            System.err.println("Failed to load dependency z for PortalActive!");
-            return;
-        }
-        if (dependencies.get("world") == null)
-        {
-            System.err.println("Failed to load dependency world for PortalActive!");
-            return;
-        }
+        
         final int x = (int) dependencies.get("x");
         final int y = (int) dependencies.get("y");
         final int z = (int) dependencies.get("z");
@@ -120,7 +106,18 @@ public class PortalActiveFunction
             final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
             final Vector3 location = Vector3.getNewVector().set(pos);
             // IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-            if (entity != null && !entityToSpawn.legendary && !entityToSpawn.isMega)
+            
+            //Normal Worlds
+            if (entity != null && !entityToSpawn.legendary && !entityToSpawn.isMega && entity.dimension.getId() != ModDimensions.DIMENSION_TYPE.getId())
+            {
+                entity.setHealth(entity.getMaxHealth());
+                location.add(0, 1, 0).moveEntity(entity);
+                entity.setPosition(x, y, z);
+                world.addEntity(entity);
+            }
+            
+            //Ultra Space
+            else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE.getId())
             {
                 entity.setHealth(entity.getMaxHealth());
                 location.add(0, 1, 0).moveEntity(entity);
