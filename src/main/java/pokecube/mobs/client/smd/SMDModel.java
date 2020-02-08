@@ -163,7 +163,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                     // Cap and convert pitch and yaw to radians.
                     float yaw = Math.max(Math.min(this.info.headYaw, this.info.yawCapMax), this.info.yawCapMin);
                     yaw = (float) Math.toRadians(yaw) * this.info.yawDirection;
-                    float pitch = Math.max(Math.min(this.info.headPitch, this.info.pitchCapMax), this.info.pitchCapMin);
+                    float pitch = -Math.max(Math.min(this.info.headPitch, this.info.pitchCapMax),
+                            this.info.pitchCapMin);
                     pitch = (float) Math.toRadians(pitch) * this.info.pitchDirection;
 
                     // Head rotation matrix
