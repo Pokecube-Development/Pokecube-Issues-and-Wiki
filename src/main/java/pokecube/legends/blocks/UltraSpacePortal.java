@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -73,7 +74,9 @@ public class UltraSpacePortal extends Rotates
     @Override
     public void randomTick(final BlockState state, final World worldIn, final BlockPos pos, final Random random)
     {
-
+        worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+        worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 
     @OnlyIn(Dist.CLIENT)
