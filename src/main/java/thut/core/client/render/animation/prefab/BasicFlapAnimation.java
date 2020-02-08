@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
-import org.w3c.dom.NamedNodeMap;
-
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
@@ -60,38 +58,6 @@ public class BasicFlapAnimation extends Animation
         if (!angle.isEmpty()) walkAngle1 = Float.parseFloat(angle);
         if (!start.isEmpty()) walkAngle2 = Float.parseFloat(start);
         if (!axis.isEmpty()) flapaxis = Integer.parseInt(axis);
-
-        this.init(hl, hr, flapdur, walkAngle1, walkAngle2, flapaxis);
-        return this;
-    }
-
-    @Override
-    public Animation init(final NamedNodeMap map, @Nullable final IPartRenamer renamer)
-    {
-        final HashSet<String> hl = new HashSet<>();
-        final HashSet<String> hr = new HashSet<>();
-        int flapdur = 0;
-        int flapaxis = 2;
-        float walkAngle1 = 20;
-        float walkAngle2 = 20;
-
-        final String[] lh = map.getNamedItem("leftWing").getNodeValue().split(":");
-        final String[] rh = map.getNamedItem("rightWing").getNodeValue().split(":");
-
-        if (renamer != null)
-        {
-            renamer.convertToIdents(lh);
-            renamer.convertToIdents(rh);
-        }
-        for (final String s : lh)
-            if (s != null) hl.add(s);
-        for (final String s : rh)
-            if (s != null) hr.add(s);
-
-        if (map.getNamedItem("angle") != null) walkAngle1 = Float.parseFloat(map.getNamedItem("angle").getNodeValue());
-        if (map.getNamedItem("start") != null) walkAngle2 = Float.parseFloat(map.getNamedItem("start").getNodeValue());
-        if (map.getNamedItem("axis") != null) flapaxis = Integer.parseInt(map.getNamedItem("axis").getNodeValue());
-        flapdur = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
 
         this.init(hl, hr, flapdur, walkAngle1, walkAngle2, flapaxis);
         return this;

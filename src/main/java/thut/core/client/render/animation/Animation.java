@@ -9,8 +9,6 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
-import org.w3c.dom.NamedNodeMap;
-
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
@@ -67,11 +65,6 @@ public class Animation
     {
         if (this.length == -1) this.initLength();
         return this.length;
-    }
-
-    public Animation init(final NamedNodeMap map, @Nullable final IPartRenamer renamer)
-    {
-        return this;
     }
 
     public Animation init(final Phase tag, @Nullable final IPartRenamer renamer)
