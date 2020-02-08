@@ -49,20 +49,13 @@ public class BlockInit
     public static Block ULTRA_METAL     = new BlockBase("ultrablock", Material.IRON, 5.0f, 10f, SoundType.STONE).noInfoBlock();
     public static Block ULTRA_SAND      = new SandUltraBlock("ultrasand", Material.SAND).noInfoBlock();
 
-    // public static Block ULTRA_MUSS1 = new MussPlant("mussplant1",
-    // Material.PLANTS);
-    // public static Block ULTRA_MUSS2 = new MussPlant1("mussplant2",
-    // Material.PLANTS);
-
     // Portal
     public static Block ULTRASPACE_PORTAL = new UltraSpacePortal("ultraspace_portal", Block.Properties.create(
             Material.GLASS).sound(SoundType.GLASS).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE)
-            .harvestLevel(3)).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1));
+            .harvestLevel(3)).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1)).setInfoBlockName("ultraportal");
     public static Block BLOCK_PORTALWARP  = new PortalWarp("portal", Block.Properties.create(Material.ROCK).sound(
             SoundType.METAL).hardnessAndResistance(1, 10).harvestTool(ToolType.PICKAXE).harvestLevel(3)).setShape(
-                    VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1));
-    // public static Block BLOCK_MAXRAID = new
-    // MaxRaidSpawnBlock("maxraidspawn", Material.ROCK);
+                    VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1)).setInfoBlockName("portalwarp");
 
     // Legendary Spawns
     public static Block LEGENDARY_SPAWN = new LegendaryBlock("legendaryspawn", Material.IRON);

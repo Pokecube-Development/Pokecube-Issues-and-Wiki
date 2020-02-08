@@ -4,6 +4,10 @@
     "": "/pokecubes",
     "item.pokecube.beastcube": "Beast Cube",
 
+	"": "/Advancements",
+	"advancements.intotespace.descr": "visit Ultra Space",
+	"advancements.intotespace.title": "Welcome to Ultra Space!",
+	
     "": "/Alert Pokemon Legendary Capture",
     "msg.infolegend.txt": "§aCapture [%1$s§a] Type Pokemob so he can Trust You. Needs: %2$s. §aOwn: %3$s.",
     "msg.infolegendduo.txt": "§aCapture [%1$s§a] Type Pokemob and Kill [%2$s§a] Type Pokemob. Needs: %3$s. §aOwn: %4$s. §aNeeds Kill: %5$s. §aOwn: %6$s.",

@@ -1,6 +1,10 @@
 package pokecube.legends.worldgen.dimension;
 
+import java.util.UUID;
+
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.registries.ObjectHolder;
@@ -15,4 +19,8 @@ public class ModDimensions {
 	
 	public static DimensionType DIMENSION_TYPE;
 
+	public static BlockPos getSecretBaseLoc(UUID baseOwner, MinecraftServer server, DimensionType targetDim) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
