@@ -200,10 +200,15 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         if (this.name.isEmpty())
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty()) this.name = "pokecube." + this.getNpcType().getName() + ".named:" + names.get(
-                    new Random().nextInt(names.size()));
+            if (!names.isEmpty()) this.setRandomName(names.get(new Random().nextInt(names.size())));
             this.setCustomName(this.getDisplayName());
         }
+    }
+
+    @Override
+    public void setRandomName(final String name)
+    {
+        this.name = "pokecube." + this.getNpcType().getName() + ".named:" + name;
     }
 
     @Override

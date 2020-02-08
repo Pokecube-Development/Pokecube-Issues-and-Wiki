@@ -22,4 +22,10 @@ public class LeaderNpc extends TrainerNpc
         this.aiStates.setAIState(IHasNPCAIStates.TRADES, false);
         this.pokemobsCap.resetTime = 0;
     }
+
+    @Override
+    public void setRandomName(final String name)
+    {
+        this.name = "pokecube.gym_leader.named:" + name;
+    }
 }

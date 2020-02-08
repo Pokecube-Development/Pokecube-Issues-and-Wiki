@@ -191,7 +191,6 @@ public class SpawnEventsHandler
             guard.getPrimaryTask().setPos(npc.getPosition());
             guard.getPrimaryTask().setRoamDistance(info.roam);
             guard.getPrimaryTask().setActiveTime(duration);
-            System.out.println(info.time + " " + info.roam);
         }
     }
 
