@@ -189,7 +189,7 @@ public class TextureHelper implements IPartTexturer
         for (final TexAnim anim : customTex.anims)
         {
             final String name = ThutCore.trim(anim.part);
-            final String trigger = ThutCore.trim(anim.trigger);
+            final String trigger = anim.trigger.trim();
             final String[] diffs = anim.diffs.trim().split(",");
             TexState states = this.texStates.get(name);
             if (states == null) this.texStates.put(name, states = new TexState());
