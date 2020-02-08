@@ -79,6 +79,8 @@
     "pokecube.merchant.named": "Merchant %s",
     "pokecube.dragon_tamer.named": "Dragon Tamer %s",
     
+    "pokecube.gym_leader.named": "Gym Leader %s",
+    
     "entity.pokecube_adventures.trainer": "Trainer",
     "entity.pokecube_adventures.leader": "Leader",
 

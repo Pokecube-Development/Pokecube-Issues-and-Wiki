@@ -177,6 +177,8 @@ public abstract class TrainerBase extends NpcMob
 
     protected abstract void addMobTrades(final PlayerEntity player, final ItemStack stack);
 
+    public abstract void setRandomName(String name);
+
     @Override
     protected void populateTradeData()
     {
