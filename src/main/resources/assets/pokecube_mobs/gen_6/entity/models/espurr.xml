@@ -3,7 +3,7 @@
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale="0.5"/>
   <metadata head="head"/>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
   <customTex default="espurr">
    <part name="head" tex="espurrhead"/>
    <animation diffs="0,0.28125" part="head" trigger="random:0.002:4"/>

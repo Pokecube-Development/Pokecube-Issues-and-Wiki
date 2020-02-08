@@ -32,8 +32,7 @@ public class AnimationHelper
         final Vector3 temp = Vector3.getNewVector();
         float x = 0, y = 0, z = 0;
         float sx = 1, sy = 1, sz = 1;
-        int aniTick = animate.getStep(animation);
-        if (aniTick == 0) aniTick = tick;
+        int aniTick = tick;
         float time1 = aniTick;
         float time2 = 0;
         final int animationLength = animation.getLength();
@@ -65,7 +64,6 @@ public class AnimationHelper
                 part.setHidden(component.hidden);
             }
         }
-        animate.setStep(animation, aniTick);
         if (animated)
         {
             part.setPreTranslations(temp);

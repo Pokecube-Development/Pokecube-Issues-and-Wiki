@@ -47,7 +47,7 @@
     <component length="1" name="1" rotOffset="10,20,0" startKey="0"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;sitting"/>
+  <merges merge="idle->sitting"/>
  </model>
  <details>
   <RIDDENOFFSET>

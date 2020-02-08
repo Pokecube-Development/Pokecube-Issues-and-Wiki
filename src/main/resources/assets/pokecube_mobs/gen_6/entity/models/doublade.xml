@@ -50,6 +50,6 @@
     <component length="10" name="2" rotChange="-15,0,0" startKey="10"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;flying"/>
+  <merges merge="idle->flying"/>
  </model>
 </ModelAnimator>

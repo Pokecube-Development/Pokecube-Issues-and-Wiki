@@ -46,8 +46,8 @@
     <component length="1" name="1" rotOffset="15.0,10,0.0," startKey="0"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;sitting"/>
-  <merges merge="idle-&gt;walking"/>
-  <merges merge="idle-&gt;flying"/>
+  <merges merge="idle->sitting"/>
+  <merges merge="idle->walking"/>
+  <merges merge="idle->flying"/>
  </model>
 </ModelAnimator>

@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale=".5"/>
-  <merges merge="sitting-&gt;sleeping"/>
+  <merges merge="sitting->sleeping"/>
   <metadata head="Head"/>
  </model>
 </ModelAnimator>

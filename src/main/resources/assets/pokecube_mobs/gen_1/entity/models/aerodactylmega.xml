@@ -73,8 +73,8 @@
     <component length="10" name="1" rotOffset="-40,0,-55" startKey="0"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;flying"/>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->flying"/>
+  <merges merge="idle->walking"/>
  </model>
  <details>
   <RIDDENOFFSET>

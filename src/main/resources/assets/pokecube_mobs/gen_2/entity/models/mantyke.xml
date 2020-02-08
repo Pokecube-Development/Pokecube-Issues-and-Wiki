@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale="1.0"/>
-  <merges merge="idle-&gt;swimming"/>
-  <merges merge="swimming-&gt;flying"/>
+  <merges merge="idle->swimming"/>
+  <merges merge="swimming->flying"/>
  </model>
 </ModelAnimator>

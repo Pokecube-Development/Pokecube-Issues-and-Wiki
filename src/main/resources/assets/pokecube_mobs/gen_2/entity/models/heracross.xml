@@ -3,6 +3,6 @@
  <model name="">
   <phase headAxis="1" headCap="-40,40" headCap1="-5, 5" name="global" scale=".7"/>
   <phase armAngle="50" duration="10" leftArm="Left_Arm" leftLeg="Left_Hip" legAngle="45" name="biWalk" rightArm="Right_Arm" rightLeg="Right_Hip"/>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>
