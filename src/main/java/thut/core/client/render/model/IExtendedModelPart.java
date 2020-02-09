@@ -11,6 +11,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.animation.AnimationXML.Mat;
 
 public interface IExtendedModelPart extends IModelCustom
 {
@@ -57,6 +58,11 @@ public interface IExtendedModelPart extends IModelCustom
     void resetToInit();
 
     default void setHidden(final boolean hidden)
+    {
+
+    }
+
+    default void updateMaterial(final Mat mat)
     {
 
     }

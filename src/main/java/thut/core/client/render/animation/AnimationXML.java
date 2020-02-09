@@ -1,4 +1,4 @@
-package thut.core.common.xml;
+package thut.core.client.render.animation;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,6 +81,21 @@ public class AnimationXML
         public List<Component> components = Lists.newArrayList();
     }
 
+    @XmlRootElement(name = "material")
+    public static class Mat
+    {
+        @XmlAttribute(name = "name")
+        public String  name;
+        @XmlAttribute(name = "meshs")
+        public String  meshs;
+        @XmlAttribute(name = "alpha")
+        public float   alpha        = 1;
+        @XmlAttribute(name = "transluscent")
+        public boolean transluscent = false;
+        @XmlAttribute(name = "light")
+        public float   light        = 0;
+    }
+
     @XmlRootElement(name = "merges")
     public static class Merge
     {
@@ -145,11 +160,13 @@ public class AnimationXML
         @XmlElement(name = "metadata")
         public Metadata    metadata;
         @XmlElement(name = "phase")
-        public List<Phase> phases = Lists.newArrayList();
+        public List<Phase> phases    = Lists.newArrayList();
         @XmlElement(name = "worn")
-        public List<Worn>  worn   = Lists.newArrayList();
+        public List<Worn>  worn      = Lists.newArrayList();
         @XmlElement(name = "merges")
-        public List<Merge> merges = Lists.newArrayList();
+        public List<Merge> merges    = Lists.newArrayList();
+        @XmlElement(name = "material")
+        public List<Mat>   materials = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "phase")

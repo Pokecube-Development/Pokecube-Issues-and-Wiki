@@ -15,7 +15,7 @@ import com.google.common.collect.Sets;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
-import thut.core.common.xml.AnimationXML.Phase;
+import thut.core.client.render.animation.AnimationXML.Phase;
 
 /** Container for Tabula animations.
  *

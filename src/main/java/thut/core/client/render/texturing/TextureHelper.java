@@ -13,12 +13,12 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import thut.api.entity.IMobTexturable;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
+import thut.core.client.render.animation.AnimationXML.TexAnim;
+import thut.core.client.render.animation.AnimationXML.TexCustom;
+import thut.core.client.render.animation.AnimationXML.TexForm;
+import thut.core.client.render.animation.AnimationXML.TexPart;
 import thut.core.common.ThutCore;
-import thut.core.common.xml.AnimationXML.CustomTex;
-import thut.core.common.xml.AnimationXML.TexAnim;
-import thut.core.common.xml.AnimationXML.TexCustom;
-import thut.core.common.xml.AnimationXML.TexForm;
-import thut.core.common.xml.AnimationXML.TexPart;
 
 public class TextureHelper implements IPartTexturer
 {

@@ -13,11 +13,14 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.api.maths.vecmath.Vector3f;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
+import thut.core.common.ThutCore;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
@@ -336,5 +339,23 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.texturer = texturer;
         for (final IExtendedModelPart part : this.childParts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(texturer);
+    }
+
+    @Override
+    public void updateMaterial(final Mat mat)
+    {
+        final String mat_name = ThutCore.trim(mat.name);
+        final String[] parts = mat.name.split(":");
+        final Material material = new Material(mat_name);
+        material.diffuseColor = new Vector3f(1, 1, 1);
+        material.emissiveColor = new Vector3f(1, 1, 1);
+        material.specularColor = new Vector3f(1, 1, 1);
+        material.transparency = mat.transluscent ? 1 : 0;
+        for (final String s : parts)
+            for (final Mesh mesh : this.shapes)
+            {
+                if (mesh.name == null) mesh.name = this.getName();
+                if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat_name)) mesh.setMaterial(material);
+            }
     }
 }
