@@ -101,8 +101,9 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
 
                 if (generator != null) for (final String key : PokecubeTerrainChecker.structureSubbiomeMap.keySet())
                 {
-                    final boolean in = worldS.getChunkProvider().getChunkGenerator().findNearestStructure(worldS, key, v
-                            .getPos(), 0, true) != null;
+                    final BlockPos near = worldS.getChunkProvider().getChunkGenerator().findNearestStructure(worldS,
+                            key, v.getPos(), 0, true);
+                    final boolean in = near != null && v.distanceTo(Vector3.getNewVector().set(near)) < 16;
                     if (in)
                     {
                         final String mapping = PokecubeTerrainChecker.structureSubbiomeMap.get(key);

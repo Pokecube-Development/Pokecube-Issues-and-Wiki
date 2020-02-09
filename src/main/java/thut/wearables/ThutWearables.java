@@ -387,8 +387,9 @@ public class ThutWearables
     @SubscribeEvent
     public void startTracking(final StartTracking event)
     {
-        if (event.getTarget() instanceof LivingEntity && event.getPlayer().isServerWorld()) ThutWearables.packets
-                .sendTo(new PacketSyncWearables((LivingEntity) event.getTarget()), (ServerPlayerEntity) event
-                        .getPlayer());
+        if (event.getTarget() instanceof LivingEntity && ThutWearables.getWearables((LivingEntity) event
+                .getTarget()) != null && event.getPlayer().isServerWorld()) ThutWearables.packets.sendTo(
+                        new PacketSyncWearables((LivingEntity) event.getTarget()), (ServerPlayerEntity) event
+                                .getPlayer());
     }
 }

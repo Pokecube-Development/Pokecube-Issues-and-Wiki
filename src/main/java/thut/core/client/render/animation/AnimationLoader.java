@@ -18,7 +18,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
-import pokecube.core.PokecubeCore;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.IAnimationChanger.WornOffsets;
@@ -291,8 +290,8 @@ public class AnimationLoader
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.error("Error in parsing animation file {} for {}, {}, {}", holder.animation,
-                    holder.name, holder.model, e.toString());
+            ThutCore.LOGGER.error("Error in parsing animation file {} for {}, {}, {}", holder.animation, holder.name,
+                    holder.model, e.toString());
         }
     }
 

@@ -91,6 +91,8 @@ public class WorldgenHandler
         public SpawnRule spawn;
         public boolean   surface   = true;
         public boolean   water     = false;
+        public boolean   whitelist = false;
+        public int[]     list      = {};
 
         public String serialize()
         {

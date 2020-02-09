@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
@@ -34,6 +35,19 @@ public class TraderTile extends InteractableTile
     public TraderTile(final TileEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag()
+    {
+        final CompoundNBT tag = new CompoundNBT();
+        return this.write(tag);
+    }
+
+    @Override
+    public void handleUpdateTag(final CompoundNBT tag)
+    {
+        this.read(tag);
     }
 
     @Override

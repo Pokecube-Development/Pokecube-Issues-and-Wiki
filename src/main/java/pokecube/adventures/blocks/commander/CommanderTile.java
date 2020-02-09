@@ -1,9 +1,11 @@
 package pokecube.adventures.blocks.commander;
 
 import java.lang.reflect.Constructor;
+import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -13,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.adventures.network.PacketCommander;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -28,12 +31,13 @@ public class CommanderTile extends InteractableTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
 
-    protected boolean                                  addedToNetwork = false;
-    public UUID                                        pokeID         = null;
-    public Command                                     command        = null;
-    private IMobCommandHandler                         handler        = null;
-    public String                                      args           = "";
-    protected int                                      power          = 0;
+    protected boolean         addedToNetwork = false;
+    public UUID               pokeID         = null;
+    public Command            command        = null;
+    public IMobCommandHandler handler        = null;
+    public String             args           = "";
+    private String            prev_args      = "";
+    protected int             power          = 0;
 
     public CommanderTile()
     {
@@ -50,6 +54,19 @@ public class CommanderTile extends InteractableTile
         this.command = command;
         this.args = args;
         if (command != null) this.initCommand();
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag()
+    {
+        final CompoundNBT tag = new CompoundNBT();
+        return this.write(tag);
+    }
+
+    @Override
+    public void handleUpdateTag(final CompoundNBT tag)
+    {
+        this.read(tag);
     }
 
     @Override
@@ -93,10 +110,12 @@ public class CommanderTile extends InteractableTile
 
     private Object[] getArgs() throws Exception
     {
-        final Class<? extends IMobCommandHandler> clazz = IHasCommands.COMMANDHANDLERS.get(this.command);
+        final Map<Command, Class<? extends IMobCommandHandler>> handlers = IHasCommands.COMMANDHANDLERS;
+        final Class<? extends IMobCommandHandler> clazz = handlers.get(this.command);
         for (final Constructor<?> c : clazz.getConstructors())
             if (c.getParameterCount() != 0) return this.getArgs(c);
-        return null;
+        // for constructorless ones
+        return this.getArgs(clazz.getConstructor());
     }
 
     private Object[] getArgs(final Constructor<?> constructor)
@@ -155,6 +174,7 @@ public class CommanderTile extends InteractableTile
     {
         this.command = command;
         final Class<? extends IMobCommandHandler> clazz = IHasCommands.COMMANDHANDLERS.get(command);
+        if (this.handler != null && clazz == this.handler.getClass() && this.prev_args.equals(this.args)) return;
         if (args == null)
         {
             this.handler = clazz.newInstance();
@@ -165,6 +185,7 @@ public class CommanderTile extends InteractableTile
             argTypes[i] = args[i].getClass();
         final Constructor<? extends IMobCommandHandler> constructor = clazz.getConstructor(argTypes);
         this.handler = constructor.newInstance(args);
+        this.prev_args = this.args;
     }
 
     public void sendCommand() throws Exception
@@ -199,10 +220,8 @@ public class CommanderTile extends InteractableTile
             if (!player.getEntityWorld().isRemote) CommandTools.sendMessage(player, "UUID Set to: " + id);
             return ActionResultType.SUCCESS;
         }
-        else if (!player.isCrouching())
-        {
-            // TODO gui
-        }
-        return ActionResultType.PASS;
+        else if (!player.isCrouching() && player instanceof ServerPlayerEntity) PacketCommander.sendOpenPacket(pos,
+                (ServerPlayerEntity) player);
+        return !player.isCrouching()? ActionResultType.SUCCESS : ActionResultType.PASS;
     }
 }

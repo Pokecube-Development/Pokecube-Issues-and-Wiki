@@ -12,8 +12,10 @@ import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
 import net.minecraft.world.gen.feature.structure.ScatteredStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
+import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
 
 public class JigsawStructure extends ScatteredStructure<JigsawConfig>
@@ -55,15 +57,16 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             rand.setSeed(i ^ j << 4 ^ chunkGen.getSeed());
             rand.nextFloat();
             if (rand.nextFloat() > this.struct.chance) return false;
-            if (chunkGen.hasStructure(biome, this))
+
+            if (this.struct.atSpawn)
             {
-                if (this.struct.atSpawn)
-                {
-                    PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
-                    PokecubeSerializer.getInstance().save();
-                }
-                return true;
+                PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
+                PokecubeSerializer.getInstance().save();
             }
+            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos((chunkPosX << 4) + 9, 0,
+                    (chunkPosZ << 4) + 9));
+            if (chunkGen.hasStructure(biome, this)) return !MinecraftForge.EVENT_BUS.post(new PickLocation(chunkGen,
+                    rand, chunkPosX, chunkPosZ, this.struct));
         }
         return false;
     }

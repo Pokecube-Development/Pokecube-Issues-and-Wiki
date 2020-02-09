@@ -34,25 +34,25 @@ public class PacketCommand extends Packet
         }
 
         @Override
-        public void handleCommand(IPokemob pokemob) throws Exception
+        public void handleCommand(final IPokemob pokemob) throws Exception
         {
         }
 
         @Override
-        public void readFromBuf(ByteBuf buf)
+        public void readFromBuf(final ByteBuf buf)
         {
             this.setFromOwner(buf.readBoolean());
         }
 
         @Override
-        public IMobCommandHandler setFromOwner(boolean owner)
+        public IMobCommandHandler setFromOwner(final boolean owner)
         {
             this.byOwner = owner;
             return this;
         }
 
         @Override
-        public void writeToBuf(ByteBuf buf)
+        public void writeToBuf(final ByteBuf buf)
         {
             buf.writeBoolean(this.fromOwner());
         }
@@ -77,7 +77,12 @@ public class PacketCommand extends Packet
         }
     }
 
-    public static void sendCommand(IPokemob pokemob, Command command, IMobCommandHandler handler)
+    public static void init()
+    {
+
+    }
+
+    public static void sendCommand(final IPokemob pokemob, final Command command, final IMobCommandHandler handler)
     {
         final PacketCommand packet = new PacketCommand();
         packet.entityId = pokemob.getEntity().getEntityId();
@@ -96,7 +101,7 @@ public class PacketCommand extends Packet
         super(null);
     }
 
-    public PacketCommand(PacketBuffer buf)
+    public PacketCommand(final PacketBuffer buf)
     {
         super(buf);
         this.entityId = buf.readInt();
@@ -114,7 +119,7 @@ public class PacketCommand extends Packet
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final Entity user = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
@@ -124,7 +129,7 @@ public class PacketCommand extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeByte(this.command.ordinal());
