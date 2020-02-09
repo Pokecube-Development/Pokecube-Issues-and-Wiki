@@ -70,7 +70,8 @@ public class JigsawPieces
                 rand);
     }
 
-    private static void registerPart(final JigSawPart part, final int offset, final String subbiome)
+    private static void registerPart(final JigSawConfig jigsaw, final JigSawPart part, final int offset,
+            final String subbiome)
     {
         final ResourceLocation key = new ResourceLocation(part.name);
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
@@ -96,8 +97,9 @@ public class JigsawPieces
             }
             option = args[0];
             if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
-            else parts.add(Pair.of(new SingleOffsetPiece(option, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR,
-                    JigsawPieces.RULES), place, offset, ignoreAir, subbiome), second));
+            else parts.add(Pair.of(new SingleOffsetPiece(jigsaw, option, ImmutableList.of(
+                    PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, offset, ignoreAir, subbiome),
+                    second));
 
         }
 
@@ -107,33 +109,38 @@ public class JigsawPieces
 
     public static void registerJigsaw(final JigSawConfig jigsaw)
     {
-        JigsawPieces.registerPart(jigsaw.root, jigsaw.offset, jigsaw.biomeType);
+        JigsawPieces.registerPart(jigsaw, jigsaw.root, jigsaw.offset, jigsaw.biomeType);
         for (final JigSawPart part : jigsaw.parts)
-            JigsawPieces.registerPart(part, jigsaw.offset, jigsaw.biomeType);
+            JigsawPieces.registerPart(jigsaw, part, jigsaw.offset, jigsaw.biomeType);
     }
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
-        private final int     offset;
-        private final String  subbiome;
-        private final boolean ignoreAir;
+        protected final JigSawConfig config;
+        private final int            offset;
+        private final String         subbiome;
+        private final boolean        ignoreAir;
 
-        public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
-                final PlacementBehaviour type, final int offset, final boolean ignoreAir, final String subbiome)
+        public SingleOffsetPiece(final JigSawConfig config, final String location,
+                final List<StructureProcessor> processors, final PlacementBehaviour type, final int offset,
+                final boolean ignoreAir, final String subbiome)
         {
             super(location, processors, type);
             this.offset = offset;
             this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
+            this.config = config;
         }
 
-        public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
-                final PlacementBehaviour type, final boolean ignoreAir, final String subbiome)
+        public SingleOffsetPiece(final JigSawConfig config, final String location,
+                final List<StructureProcessor> processors, final PlacementBehaviour type, final boolean ignoreAir,
+                final String subbiome)
         {
             super(location, processors, type);
             this.offset = 0;
             this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
+            this.config = config;
         }
 
         @Override
@@ -173,7 +180,7 @@ public class JigsawPieces
             {
                 final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, worldIn,
                         this.location.toString(), placementsettings);
-                event.seBiomeType(this.subbiome);
+                event.setBiomeType(this.subbiome);
                 MinecraftForge.EVENT_BUS.post(event);
 
                 // This section is added what is modifed in, it copies the

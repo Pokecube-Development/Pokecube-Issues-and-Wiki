@@ -2,6 +2,7 @@ package pokecube.core.handlers;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
@@ -28,6 +29,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -102,8 +104,8 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, type = Type.SERVER)
     public boolean      pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc)// TODO implement
-    public List<String> snagblacklist        = Lists.newArrayList(new String[] {
-            "net.minecraft.entity.boss.EntityDragon", "net.minecraft.entity.boss.EntityWither" });
+    public List<String> snagblacklist        = Lists.newArrayList("net.minecraft.entity.boss.EntityDragon",
+            "net.minecraft.entity.boss.EntityWither");
     @Configure(category = Config.misc)
     public boolean      defaultInteractions  = true;
     @Configure(category = Config.misc)
@@ -295,13 +297,13 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public boolean       diveEnabled           = true;
     @Configure(category = Config.mobAI)
-    public List<String>  dodgeSounds           = Lists.newArrayList(new String[] { "entity.witch.throw" });
+    public List<String>  dodgeSounds           = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String>  leapSounds            = Lists.newArrayList(new String[] { "entity.witch.throw" });
+    public List<String>  leapSounds            = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String>  guardBlacklistClass   = Lists.newArrayList(new String[] { "net.minecraft.entity.IMerchant",
+    public List<String>  guardBlacklistClass   = Lists.newArrayList("net.minecraft.entity.IMerchant",
             "net.minecraft.entity.INpc", "pokecube.core.items.pokemobeggs.EntityPokemobEgg",
-            "net.minecraft.entity.IProjectile" });
+            "net.minecraft.entity.IProjectile");
     @Configure(category = Config.mobAI)
     public List<String>  guardBlacklistId      = Lists.newArrayList();
     @Configure(category = Config.mobAI)
@@ -395,8 +397,8 @@ public class Config extends ConfigData
     @Configure(category = Config.world)
     public int          baseMaxSize            = 1;
     @Configure(category = Config.world)
-    public List<String> structureSubiomes      = Lists.newArrayList(new String[] { "Stronghold:ruin", "Mineshaft:ruin",
-            "Temple:ruin", "EndCity:ruin", "Fortress:ruin", "Mansion:ruin", "Monument:monument", "Village:village" });
+    public List<String> structureSubiomes      = Lists.newArrayList("Stronghold:ruin", "Mineshaft:ruin", "Temple:ruin",
+            "EndCity:ruin", "Fortress:ruin", "Mansion:ruin", "Monument:monument", "Village:village");
     @Configure(category = Config.world)
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)
@@ -720,7 +722,7 @@ public class Config extends ConfigData
         for (final String s : this.structureSubiomes)
         {
             final String[] args = s.split(":");
-            PokecubeTerrainChecker.structureSubbiomeMap.put(args[0], args[1]);
+            PokecubeTerrainChecker.structureSubbiomeMap.put(args[0].toLowerCase(Locale.ROOT), ThutCore.trim(args[1]));
         }
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;

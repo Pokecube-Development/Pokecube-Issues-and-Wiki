@@ -26,6 +26,8 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.network.PacketBag;
+import pokecube.adventures.network.PacketCommander;
+import pokecube.adventures.network.PacketTrainer;
 import thut.core.common.Proxy;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
@@ -80,5 +82,7 @@ public class CommonProxy implements Proxy
 
         // Register packets
         PokecubeAdv.packets.registerMessage(PacketBag.class, PacketBag::new);
+        PokecubeAdv.packets.registerMessage(PacketTrainer.class, PacketTrainer::new);
+        PokecubeAdv.packets.registerMessage(PacketCommander.class, PacketCommander::new);
     }
 }

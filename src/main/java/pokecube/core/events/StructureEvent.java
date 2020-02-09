@@ -5,12 +5,35 @@ import java.util.Random;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template.EntityInfo;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 
 public class StructureEvent extends Event
 {
+    @Cancelable
+    public static class PickLocation extends StructureEvent
+    {
+        public final ChunkGenerator<?> chunkGen;
+        public final Random            rand;
+        public final int               chunkPosX;
+        public final int               chunkPosZ;
+        public final JigSawConfig      struct;
+
+        public PickLocation(final ChunkGenerator<?> chunkGen, final Random rand, final int chunkPosX,
+                final int chunkPosZ, final JigSawConfig struct)
+        {
+            this.chunkGen = chunkGen;
+            this.rand = rand;
+            this.chunkPosX = chunkPosX;
+            this.chunkPosZ = chunkPosZ;
+            this.struct = struct;
+        }
+    }
+
     public static class BuildStructure extends StructureEvent
     {
         private final MutableBoundingBox bounds;
@@ -53,7 +76,7 @@ public class StructureEvent extends Event
             return this.world;
         }
 
-        public void seBiomeType(final String structureOverride)
+        public void setBiomeType(final String structureOverride)
         {
             this.structureOverride = structureOverride;
         }
