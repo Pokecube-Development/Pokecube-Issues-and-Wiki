@@ -94,6 +94,8 @@ public class AnimationXML
         public boolean transluscent = false;
         @XmlAttribute(name = "light")
         public float   light        = 0;
+        @XmlAttribute(name = "smooth")
+        public boolean smooth       = false;
     }
 
     @XmlRootElement(name = "merges")
