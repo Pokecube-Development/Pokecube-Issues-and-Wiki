@@ -177,8 +177,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (this.hidden) return;
         // Fill the int array
         int[] rgbabro = this.getRGBABrO();
-        String name = this.getName();
-        name.toString();
         for (final Mesh s : this.shapes)
         {
             s.rgbabro = rgbabro;
