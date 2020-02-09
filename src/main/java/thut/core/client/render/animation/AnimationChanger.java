@@ -77,17 +77,17 @@ public class AnimationChanger implements IAnimationChanger
     {
         this.checkWildCard(partIdentifier);
         dye:
-            if (this.dyeables.contains(partIdentifier))
-            {
-                int rgba = 0xFF000000;
-                final IMobColourable pokemob = entity.getCapability(AnimationChanger.CAPABILITY).orElse(null);
-                if (pokemob == null) break dye;
-                final Function<Integer, Integer> offset = this.colourOffsets.get(partIdentifier);
-                int colour = pokemob.getDyeColour() & 15;
-                if (offset != null) colour = offset.apply(colour);
-                rgba += DyeColor.byId(colour).textColor;
-                return rgba;
-            }
+        if (this.dyeables.contains(partIdentifier))
+        {
+            int rgba = 0xFF000000;
+            final IMobColourable pokemob = entity.getCapability(AnimationChanger.CAPABILITY).orElse(null);
+            if (pokemob == null) break dye;
+            final Function<Integer, Integer> offset = this.colourOffsets.get(partIdentifier);
+            int colour = pokemob.getDyeColour() & 15;
+            if (offset != null) colour = offset.apply(colour);
+            rgba += DyeColor.byId(colour).textColor;
+            return rgba;
+        }
         for (final IAnimationChanger child : this.children)
         {
             final int var = child.getColourForPart(partIdentifier, entity, default_);

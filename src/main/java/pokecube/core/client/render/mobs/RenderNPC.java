@@ -53,7 +53,7 @@ public class RenderNPC<T extends LivingEntity> extends LivingRenderer<T, PlayerM
     {
         final IMobTexturable mob = entity.getCapability(TextureableCaps.CAPABILITY).orElse(null);
         if (mob instanceof NPCCap) return ((NPCCap<?>) mob).texGetter.apply(entity);
-        return entity.getLootTableResourceLocation();
+        return new ResourceLocation("empty");
     }
 
     @Override
