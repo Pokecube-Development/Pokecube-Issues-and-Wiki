@@ -211,5 +211,7 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerMessage(PokemobPacketHandler.MessageServer.class,
                 PokemobPacketHandler.MessageServer::new);
         PokecubeCore.packets.registerMessage(PacketUpdateAI.class, PacketUpdateAI::new);
+
+        PacketCommand.init();
     }
 }

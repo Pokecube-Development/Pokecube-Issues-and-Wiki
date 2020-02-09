@@ -33,8 +33,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages.SpawnEntity;
 import net.minecraftforge.fml.network.NetworkHooks;
-import thut.api.entity.blockentity.world.WorldEntity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
+import thut.api.entity.blockentity.world.WorldEntity;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 
@@ -512,17 +512,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.ticksExisted % 20 == 0)
-        {
-            final Vec3d posVec = this.getPositionVec();
-            final Vec3d pos = this.getDataManager().get(BlockEntityBase.position);
-            if (posVec.distanceTo(pos) > 0.25)
-            {
-                System.out.println(posVec + " too far " + this.getMotion());
-                System.out.println(pos);
-                System.out.println(this.getMotion());
-            }
-        }
         this.setPosition(this.posX, this.posY, this.posZ);
 
         if (this.isServerWorld() && this.ticksExisted % 200 == 10) EntityUpdate.sendEntityUpdate(this);
