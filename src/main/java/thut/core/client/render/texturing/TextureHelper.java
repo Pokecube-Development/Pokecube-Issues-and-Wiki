@@ -14,12 +14,12 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import thut.api.entity.IMobTexturable;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
+import thut.core.client.render.animation.AnimationXML.TexAnim;
+import thut.core.client.render.animation.AnimationXML.TexCustom;
+import thut.core.client.render.animation.AnimationXML.TexForm;
+import thut.core.client.render.animation.AnimationXML.TexPart;
 import thut.core.common.ThutCore;
-import thut.core.common.xml.AnimationXML.CustomTex;
-import thut.core.common.xml.AnimationXML.TexAnim;
-import thut.core.common.xml.AnimationXML.TexCustom;
-import thut.core.common.xml.AnimationXML.TexForm;
-import thut.core.common.xml.AnimationXML.TexPart;
 
 public class TextureHelper implements IPartTexturer
 {
@@ -33,8 +33,8 @@ public class TextureHelper implements IPartTexturer
         {
             this.arr = arr;
             final String[] args = trigger.split(":");
-            this.chance = Double.parseDouble(args[1]);
-            this.duration = Integer.parseInt(args[2]);
+            if (args.length > 1) this.chance = Double.parseDouble(args[1]);
+            if (args.length > 2) this.duration = Integer.parseInt(args[2]);
         }
     }
 

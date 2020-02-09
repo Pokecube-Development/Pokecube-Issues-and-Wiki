@@ -16,15 +16,19 @@ import pokecube.mobs.client.smd.impl.Bone;
 import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
 import thut.api.maths.vecmath.Matrix4f;
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.animation.Animation;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.IModelRenderer;
+import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
+import thut.core.common.ThutCore;
 
 public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFakeExtendedPart
 {
@@ -233,5 +237,17 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setTexturer(final IPartTexturer texturer)
     {
         this.texturer = texturer;
+    }
+
+    @Override
+    public void updateMaterial(final Mat mat)
+    {
+        final String mat_name = ThutCore.trim(mat.name);
+        final Material material = new Material(mat_name);
+        material.diffuseColor = new Vector3f(1, 1, 1);
+        material.emissiveColor = new Vector3f(1, 1, 1);
+        material.specularColor = new Vector3f(1, 1, 1);
+        material.transparency = mat.transluscent ? 1 : 0;
+        this.wrapped.body.namesToMats.put(mat_name, material);
     }
 }

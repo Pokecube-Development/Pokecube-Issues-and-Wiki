@@ -15,10 +15,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.client.render.animation.AnimationXML.Component;
+import thut.core.client.render.animation.AnimationXML.Part;
+import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
-import thut.core.common.xml.AnimationXML.Component;
-import thut.core.common.xml.AnimationXML.Part;
-import thut.core.common.xml.AnimationXML.Phase;
 
 public class AnimationBuilder
 {

@@ -26,7 +26,6 @@ public class AnimationHelper
     public static boolean animate(final Animation animation, final IAnimationHolder animate, final String partName,
             final IExtendedModelPart part, final float partialTick, final float limbSwing, final int tick)
     {
-        if (!animate.getPlaying().contains(animation)) return false;
         final ArrayList<AnimationComponent> components = animation.getComponents(partName);
         boolean animated = false;
         final Vector3 temp = Vector3.getNewVector();

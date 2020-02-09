@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.core.client.render.animation.AnimationXML.Mat;
 
 public interface IExtendedModelPart extends IModelCustom
 {
@@ -23,14 +24,19 @@ public interface IExtendedModelPart extends IModelCustom
 
     String getType();
 
-    default void removeChild(String name)
+    default void removeChild(final String name)
     {
         this.getSubParts().remove(name);
     }
 
     void resetToInit();
 
-    default void setHidden(boolean hidden)
+    default void setHidden(final boolean hidden)
+    {
+
+    }
+
+    default void updateMaterial(final Mat mat)
     {
 
     }

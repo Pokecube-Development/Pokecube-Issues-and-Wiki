@@ -20,6 +20,13 @@ import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
+import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.animation.AnimationXML.Merge;
+import thut.core.client.render.animation.AnimationXML.Metadata;
+import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.client.render.animation.AnimationXML.Worn;
+import thut.core.client.render.animation.AnimationXML.XMLFile;
 import thut.core.client.render.animation.IAnimationChanger.WornOffsets;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -27,13 +34,6 @@ import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
-import thut.core.common.xml.AnimationXML;
-import thut.core.common.xml.AnimationXML.CustomTex;
-import thut.core.common.xml.AnimationXML.Merge;
-import thut.core.common.xml.AnimationXML.Metadata;
-import thut.core.common.xml.AnimationXML.Phase;
-import thut.core.common.xml.AnimationXML.Worn;
-import thut.core.common.xml.AnimationXML.XMLFile;
 
 public class AnimationLoader
 {
@@ -192,6 +192,10 @@ public class AnimationLoader
                 if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(holder.texture
                         .toString().replace(holder.name, ThutCore.trim(file.model.customTex.defaults)));
             }
+
+            // Handle materials
+            for (final Mat mat : file.model.materials)
+                model.updateMaterial(mat);
 
             final IModelRenderer<?> loaded = renderer;
             loaded.updateModel(phaseList, holder);
