@@ -2,14 +2,14 @@ package thut.core.client.render.model.parts;
 
 import java.nio.FloatBuffer;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GLX;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.util.ResourceLocation;
+import thut.api.maths.vecmath.Vector3f;
 
 public class Material
 {
@@ -31,13 +31,13 @@ public class Material
     boolean old_cull;
     float[] oldLight = { -1, -1 };
 
-    public Material(String name)
+    public Material(final String name)
     {
         this.name = name;
     }
 
-    public Material(String name, String texture, Vector3f diffuse, Vector3f specular, Vector3f emissive, float ambient,
-            float shiny, float transparent)
+    public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,
+            final Vector3f emissive, final float ambient, final float shiny, final float transparent)
     {
         this.name = name;
         this.texture = texture;
@@ -50,14 +50,14 @@ public class Material
         this.emissiveMagnitude = Math.min(1, (float) (this.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
     }
 
-    private FloatBuffer makeBuffer(float value)
+    private FloatBuffer makeBuffer(final float value)
     {
         final FloatBuffer ret = BufferUtils.createFloatBuffer(1 + 4);
         ret.put(new float[] { value });
         return ret;
     }
 
-    private FloatBuffer makeBuffer(Vector3f vector)
+    private FloatBuffer makeBuffer(final Vector3f vector)
     {
         final FloatBuffer ret = BufferUtils.createFloatBuffer(3 + 4);
         ret.put(new float[] { vector.x, vector.y, vector.z });
@@ -81,8 +81,7 @@ public class Material
         this.colour_mat = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
         this.light = GL11.glGetBoolean(GL11.GL_LIGHTING);
         this.old_cull = GL11.glGetBoolean(GL11.GL_CULL_FACE);
-        if (this.transparency > 0) GL11.glDisable(GL11.GL_DEPTH_TEST);
-        else GL11.glEnable(GL11.GL_DEPTH_TEST);
+        if (this.transparency > 0) GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);
 
         GL11.glMaterialfv(GL11.GL_FRONT, GL11.GL_AMBIENT, this.makeBuffer(this.ambientIntensity));
         GL11.glMaterialfv(GL11.GL_FRONT, GL11.GL_DIFFUSE, this.makeBuffer(this.diffuseColor));

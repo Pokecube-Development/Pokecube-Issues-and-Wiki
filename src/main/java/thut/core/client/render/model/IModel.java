@@ -11,6 +11,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 
 public interface IModel
@@ -67,7 +68,7 @@ public interface IModel
      *
      * @param dy
      */
-    default void globalFix(float dx, float dy, float dz)
+    default void globalFix(final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
         GlStateManager.rotatef(180, 0, 1, 0);
@@ -83,13 +84,19 @@ public interface IModel
 
     void preProcessAnimations(Collection<List<Animation>> collection);
 
-    default void setHeadInfo(HeadInfo in)
+    default void setHeadInfo(final HeadInfo in)
     {
 
     }
 
-    default void setOffset(Vector3 offset)
+    default void setOffset(final Vector3 offset)
     {
 
+    }
+
+    default void updateMaterial(final Mat mat)
+    {
+        for (final IExtendedModelPart part : this.getParts().values())
+            part.updateMaterial(mat);
     }
 }

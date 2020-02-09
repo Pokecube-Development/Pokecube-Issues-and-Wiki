@@ -17,6 +17,7 @@ import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
 import thut.api.maths.vecmath.Matrix4f;
 import thut.core.client.render.animation.Animation;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -233,5 +234,11 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     public void setTexturer(final IPartTexturer texturer)
     {
         this.texturer = texturer;
+    }
+
+    @Override
+    public void updateMaterial(final Mat mat)
+    {
+        // TODO forward this to our materials later.
     }
 }

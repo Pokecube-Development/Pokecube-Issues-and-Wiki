@@ -6,13 +6,13 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
+import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.prefab.AdvancedFlapAnimation;
 import thut.core.client.render.animation.prefab.BasicFlapAnimation;
 import thut.core.client.render.animation.prefab.BiWalkAnimation;
 import thut.core.client.render.animation.prefab.QuadWalkAnimation;
 import thut.core.client.render.animation.prefab.SnakeMovement;
 import thut.core.common.ThutCore;
-import thut.core.common.xml.AnimationXML.Phase;
 
 /**
  * Used for determining what animation to make when reading from XMLs
