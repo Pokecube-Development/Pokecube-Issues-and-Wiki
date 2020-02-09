@@ -79,6 +79,7 @@ public class Material
     private RenderType makeRenderType(final ResourceLocation tex)
     {
         this.tex = tex;
+        //@formatter:off
         final RenderType.State rendertype$state = RenderType.State.builder()
                 .texture(new RenderState.TextureState(tex, false, false))
                 .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
@@ -88,10 +89,15 @@ public class Material
                 }, () ->
                 {
                     RenderSystem.disableBlend();
-                })).diffuseLighting(new RenderState.DiffuseLightingState(true))
-                .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
-                .lightmap(new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true)).build(false);
-        // TODO see where we need to properly apply the material texture.
+                }))
+                .diffuseLighting(new RenderState.DiffuseLightingState(true))
+                .alpha(new RenderState.AlphaState(0.003921569F))
+                .cull(new RenderState.CullState(true))
+                .lightmap(new RenderState.LightmapState(true))
+                .overlay(new RenderState.OverlayState(true))
+                .build(false);
+        //@formatter:on
+        // TODO see where we need to properly apply the material effects.
 
         final String id = this.render_name + tex;
         final RenderType type = RenderType.get(id, DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,

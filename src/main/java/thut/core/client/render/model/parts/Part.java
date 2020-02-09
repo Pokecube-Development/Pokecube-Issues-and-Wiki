@@ -84,7 +84,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             if (texer.hasMapping(shape.material.name)) tex_1 = texer.getTexture(shape.material.name, tex);
             else if (texer.hasMapping(shape.name)) tex_1 = texer.getTexture(shape.name, tex);
             else if (texer.hasMapping(shape.name)) tex_1 = texer.getTexture(shape.name, tex);
-            if (tex_1 != tex) shape.material.makeVertexBuilder(tex_1, bufferIn);
+            shape.material.makeVertexBuilder(tex_1, bufferIn);
         }
     }
 
@@ -99,18 +99,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public List<Material> getMaterials()
     {
         return this.materials;
-    }
-
-    public void addForRender(final MatrixStack mat, final IVertexBuilder buffer)
-    {
-        // Fill the int array
-        this.getRGBABrO();
-        for (final Mesh s : this.shapes)
-        {
-            s.rgbabro = this.rgbabro;
-            // Render each Shape
-            s.renderShape(mat, buffer, this.texturer);
-        }
     }
 
     @Override
@@ -176,10 +164,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRot.glRotate(mat);
         // Translate by post-PreOffset amount.
         mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
-        // Undo pre-translate offset.
-        mat.translate(-this.offset.x, -this.offset.y, -this.offset.z);
-        // Translate to Offset.
-        mat.translate(this.offset.x, this.offset.y, this.offset.z);
 
         // Apply postRotation
         this.postRot.glRotate(mat);
@@ -191,8 +175,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void render(final MatrixStack mat, final IVertexBuilder buffer)
     {
         if (this.hidden) return;
-        // Renders the model.
-        this.addForRender(mat, buffer);
+        // Fill the int array
+        int[] rgbabro = this.getRGBABrO();
+        String name = this.getName();
+        name.toString();
+        for (final Mesh s : this.shapes)
+        {
+            s.rgbabro = rgbabro;
+            // Render each Shape
+            s.renderShape(mat, buffer, this.texturer);
+        }
     }
 
     @Override
@@ -208,9 +200,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final String s1 : excludedGroupNames)
             if (skip = s1.equalsIgnoreCase(this.name)) break;
         this.preRender(mat);
-        if (!skip) this.render(mat, buffer);
         for (final IExtendedModelPart o : this.childParts.values())
             o.renderAllExcept(mat, buffer, excludedGroupNames);
+        if (!skip) this.render(mat, buffer);
         this.postRender(mat);
     }
 

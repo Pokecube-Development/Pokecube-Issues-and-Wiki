@@ -59,10 +59,11 @@ public interface IModel
     HashMap<String, IExtendedModelPart> getParts();
 
     /** Adjusts for differences in global coordinate systems.
+     * @param mat 
      *
      * @param dy
      */
-    default void globalFix(final float dx, final float dy, final float dz)
+    default void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
         mat.rotate(new Quaternion(90, 0, 180, true));

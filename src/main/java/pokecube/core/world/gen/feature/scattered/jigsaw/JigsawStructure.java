@@ -63,8 +63,6 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                 PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
                 PokecubeSerializer.getInstance().save();
             }
-            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos((chunkPosX << 4) + 9, 0,
-                    (chunkPosZ << 4) + 9));
             if (chunkGen.hasStructure(biome, this)) return !MinecraftForge.EVENT_BUS.post(new PickLocation(chunkGen,
                     rand, chunkPosX, chunkPosZ, this.struct));
         }
