@@ -13,6 +13,7 @@ import java.util.Set;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Predicate;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -257,7 +258,6 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         {
             String displayName = pokemob.getDisplayName().getFormattedText();
             final int currentMoveIndex = pokemob.getMoveIndex();
-            // GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);
             // Render HP
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(hpOffsetX + w, hpOffsetY + h, 43, 12, 92, 7);
@@ -413,6 +413,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             // Render Mob
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            RenderSystem.enableBlend();
+            RenderSystem.enableAlphaTest();
             this.blit(mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
             GL11.glColor4f(1, 1, 1, 1);
             GuiPokemobBase.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0.75f);
@@ -508,6 +510,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
             // Render Box behind Mob
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            RenderSystem.enableBlend();
+            RenderSystem.enableAlphaTest();
             this.blit(mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
 
             // Render Mob
