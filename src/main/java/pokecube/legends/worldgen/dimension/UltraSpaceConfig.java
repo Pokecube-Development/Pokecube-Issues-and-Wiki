@@ -47,237 +47,277 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.legends.init.BlockInit;
 
-public class UltraSpaceConfig {
-	
-	private static Biome[] dimensionBiomes;
-	
-	
-	public void init(FMLCommonSetupEvent event) {
-		dimensionBiomes = new Biome[] {
-				ForgeRegistries.BIOMES.getValue(new ResourceLocation("pokecube_legends:ub001")),
-				ForgeRegistries.BIOMES.getValue(new ResourceLocation("pokecube_legends:ub002")),
-				ForgeRegistries.BIOMES.getValue(new ResourceLocation("pokecube_legends:ub003")),
-				ForgeRegistries.BIOMES.getValue(new ResourceLocation("pokecube_legends:ub004")),};
-		
-	}
+public class UltraSpaceConfig
+{
 
-	public static class UltraSpaceBiomeProvider extends BiomeProvider {
-	private final Layer genBiomes;
-	private final Layer biomeFactoryLayer;
-	private final Biome[] biomes;
-	private final SimplexNoiseGenerator generator;
-	
-	public UltraSpaceBiomeProvider(World world) {
-		Layer[] aLayer = makeTheWorld(world.getSeed());
-		this.genBiomes = aLayer[0];
-		this.biomeFactoryLayer = aLayer[1];
-		this.biomes = dimensionBiomes;
-		this.generator = new SimplexNoiseGenerator(new SharedSeedRandom(world.getSeed()));
-	}
+    private static Biome[] dimensionBiomes;
 
-	private Layer[] makeTheWorld(long seed) {
-		LongFunction<IExtendedNoiseRandom<LazyArea>> contextFactory = l -> new LazyAreaLayerContext(25, seed, l);
-		IAreaFactory<LazyArea> parentLayer = IslandLayer.INSTANCE.apply(contextFactory.apply(1));
-		IAreaFactory<LazyArea> biomeLayer = (new UltraSpaceBiomeLayer()).apply(contextFactory.apply(200), parentLayer);
-		biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1000), biomeLayer);
-		biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1001), biomeLayer);
-		biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1002), biomeLayer);
-		biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1003), biomeLayer);
-		biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1004), biomeLayer);
-		biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1005), biomeLayer);
-		IAreaFactory<LazyArea> voronoizoom = VoroniZoomLayer.INSTANCE.apply(contextFactory.apply(10), biomeLayer);
-		return new Layer[]{new Layer(biomeLayer), new Layer(voronoizoom)};
-	}
+    public void init(final FMLCommonSetupEvent event)
+    {
+        UltraSpaceConfig.dimensionBiomes = new Biome[] { ForgeRegistries.BIOMES.getValue(new ResourceLocation(
+                "pokecube_legends:ub001")), ForgeRegistries.BIOMES.getValue(new ResourceLocation(
+                        "pokecube_legends:ub002")), ForgeRegistries.BIOMES.getValue(new ResourceLocation(
+                                "pokecube_legends:ub003")), ForgeRegistries.BIOMES.getValue(new ResourceLocation(
+                                        "pokecube_legends:ub004")), };
 
-	//@Override
-	/** 
-	 * Gets the biome from the provided coordinates
-	 */
-	public Biome getBiome(int x, int y) {
-		return this.biomeFactoryLayer.func_215738_a(x, y);
-	}
+    }
 
-	@Override
-	public Biome func_222366_b(int p_222366_1_, int p_222366_2_) {
-		return this.genBiomes.func_215738_a(p_222366_1_, p_222366_2_);
-	}
+    public static class UltraSpaceBiomeProvider extends BiomeProvider
+    {
+        private final Layer                 genBiomes;
+        private final Layer                 biomeFactoryLayer;
+        private final Biome[]               biomes;
+        private final SimplexNoiseGenerator generator;
 
-	@Override
-	public Biome[] getBiomes(int x, int z, int width, int length, boolean cacheFlag) {
-		return this.biomeFactoryLayer.generateBiomes(x, z, width, length);
-	}
+        public UltraSpaceBiomeProvider(final World world)
+        {
+            final Layer[] aLayer = this.makeTheWorld(world.getSeed());
+            this.genBiomes = aLayer[0];
+            this.biomeFactoryLayer = aLayer[1];
+            this.biomes = UltraSpaceConfig.dimensionBiomes;
+            this.generator = new SimplexNoiseGenerator(new SharedSeedRandom(world.getSeed()));
+        }
 
-	@Override
-	public Set<Biome> getBiomesInSquare(int centerX, int centerZ, int sideLength) {
-		int i = centerX - sideLength >> 2;
-		int j = centerZ - sideLength >> 2;
-		int k = centerX + sideLength >> 2;
-		int l = centerZ + sideLength >> 2;
-		int i1 = k - i + 1;
-		int j1 = l - j + 1;
-		Set<Biome> set = Sets.newHashSet();
-		Collections.addAll(set, this.genBiomes.generateBiomes(i, j, i1, j1));
-		return set;
-	}
+        private Layer[] makeTheWorld(final long seed)
+        {
+            final LongFunction<IExtendedNoiseRandom<LazyArea>> contextFactory = l -> new LazyAreaLayerContext(25, seed,
+                    l);
+            final IAreaFactory<LazyArea> parentLayer = IslandLayer.INSTANCE.apply(contextFactory.apply(1));
+            IAreaFactory<LazyArea> biomeLayer = new UltraSpaceBiomeLayer().apply(contextFactory.apply(200),
+                    parentLayer);
+            biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1000), biomeLayer);
+            biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1001), biomeLayer);
+            biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1002), biomeLayer);
+            biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1003), biomeLayer);
+            biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1004), biomeLayer);
+            biomeLayer = ZoomLayer.NORMAL.apply(contextFactory.apply(1005), biomeLayer);
+            final IAreaFactory<LazyArea> voronoizoom = VoroniZoomLayer.INSTANCE.apply(contextFactory.apply(10),
+                    biomeLayer);
+            return new Layer[] { new Layer(biomeLayer), new Layer(voronoizoom) };
+        }
 
-	@Override
-	@Nullable
-	public BlockPos findBiomePosition(int x, int z, int range, List<Biome> biomes, Random random) {
-		int i = x - range >> 2;
-		int j = z - range >> 2;
-		int k = x + range >> 2;
-		int l = z + range >> 2;
-		int i1 = k - i + 1;
-		int j1 = l - j + 1;
-		Biome[] abiome = this.genBiomes.generateBiomes(i, j, i1, j1);
-		BlockPos blockpos = null;
-		int k1 = 0;
-		for (int l1 = 0; l1 < i1 * j1; ++l1) {
-			int i2 = i + l1 % i1 << 2;
-			int j2 = j + l1 / i1 << 2;
-			if (biomes.contains(abiome[l1])) {
-				if (blockpos == null || random.nextInt(k1 + 1) == 0) {
-					blockpos = new BlockPos(i2, 0, j2);
-				}
-				++k1;
-			}
-		}
-		return blockpos;
-	}
+        // @Override
+        /**
+         * Gets the biome from the provided coordinates
+         */
+        @Override
+        public Biome getBiome(final int x, final int y)
+        {
+            return this.biomeFactoryLayer.func_215738_a(x, y);
+        }
 
-	@Override
-	public boolean hasStructure(Structure<?> structureIn) {
-		return this.hasStructureCache.computeIfAbsent(structureIn, (p_205006_1_) -> {
-			for (Biome biome : this.biomes) {
-				if (biome.hasStructure(p_205006_1_)) {
-					return true;
-				}
-			}
-			return false;
-		});
-	}
+        @Override
+        public Biome getBiomeAtFactorFour(final int p_222366_1_, final int p_222366_2_)
+        {
+            return this.genBiomes.func_215738_a(p_222366_1_, p_222366_2_);
+        }
 
-	@Override
-	public Set<BlockState> getSurfaceBlocks() {
-		if (this.topBlocksCache.isEmpty()) {
-			for (Biome biome : this.biomes) {
-				this.topBlocksCache.add(biome.getSurfaceBuilderConfig().getTop());
-			}
-		}
-		return this.topBlocksCache;
-	}
+        @Override
+        public Biome[] getBiomes(final int x, final int z, final int width, final int length, final boolean cacheFlag)
+        {
+            return this.biomeFactoryLayer.generateBiomes(x, z, width, length);
+        }
 
-	@Override
-	public float func_222365_c(int p_222365_1_, int p_222365_2_) {
-		int i = p_222365_1_ / 2;
-		int j = p_222365_2_ / 2;
-		int k = p_222365_1_ % 2;
-		int l = p_222365_2_ % 2;
-		float f = 100.0F - MathHelper.sqrt((float) (p_222365_1_ * p_222365_1_ + p_222365_2_ * p_222365_2_)) * 8.0F;
-		f = MathHelper.clamp(f, -100.0F, 80.0F);
-		for (int i1 = -12; i1 <= 12; ++i1) {
-			for (int j1 = -12; j1 <= 12; ++j1) {
-				long k1 = (long) (i + i1);
-				long l1 = (long) (j + j1);
-				if (k1 * k1 + l1 * l1 > 4096L && this.generator.getValue((double) k1, (double) l1) < (double) -0.9F) {
-					float f1 = (MathHelper.abs((float) k1) * 3439.0F + MathHelper.abs((float) l1) * 147.0F) % 13.0F + 9.0F;
-					float f2 = (float) (k - i1 * 2);
-					float f3 = (float) (l - j1 * 2);
-					float f4 = 100.0F - MathHelper.sqrt(f2 * f2 + f3 * f3) * f1;
-					f4 = MathHelper.clamp(f4, -100.0F, 80.0F);
-					f = Math.max(f, f4);
-				}
-			}
-		}
-		return f;
-	}
-}
+        @Override
+        public Set<Biome> getBiomesInSquare(final int centerX, final int centerZ, final int sideLength)
+        {
+            final int i = centerX - sideLength >> 2;
+            final int j = centerZ - sideLength >> 2;
+            final int k = centerX + sideLength >> 2;
+            final int l = centerZ + sideLength >> 2;
+            final int i1 = k - i + 1;
+            final int j1 = l - j + 1;
+            final Set<Biome> set = Sets.newHashSet();
+            Collections.addAll(set, this.genBiomes.generateBiomes(i, j, i1, j1));
+            return set;
+        }
 
-	public static class UltraSpaceBiomeLayer implements IC0Transformer {
-		
-		@SuppressWarnings("deprecation")
-		@Override
-		public int apply(INoiseRandom context, int value) {
-			return Registry.BIOME.getId(dimensionBiomes[context.random(dimensionBiomes.length)]);
-		}
-	}
-	
-	public static class UltraSpaceChunkGenerator extends OverworldChunkGenerator {
-		//private static final int SEALEVEL = 63;
+        @Override
+        @Nullable
+        public BlockPos findBiomePosition(final int x, final int z, final int range, final List<Biome> biomes,
+                final Random random)
+        {
+            final int i = x - range >> 2;
+            final int j = z - range >> 2;
+            final int k = x + range >> 2;
+            final int l = z + range >> 2;
+            final int i1 = k - i + 1;
+            final int j1 = l - j + 1;
+            final Biome[] abiome = this.genBiomes.generateBiomes(i, j, i1, j1);
+            BlockPos blockpos = null;
+            int k1 = 0;
+            for (int l1 = 0; l1 < i1 * j1; ++l1)
+            {
+                final int i2 = i + l1 % i1 << 2;
+                final int j2 = j + l1 / i1 << 2;
+                if (biomes.contains(abiome[l1]))
+                {
+                    if (blockpos == null || random.nextInt(k1 + 1) == 0) blockpos = new BlockPos(i2, 0, j2);
+                    ++k1;
+                }
+            }
+            return blockpos;
+        }
 
-		public UltraSpaceChunkGenerator(IWorld world, BiomeProvider provider) {
-			super(world, provider, new OverworldGenSettings() {
-				public BlockState getDefaultBlock() {
-					return BlockInit.ULTRA_STONE.getDefaultState();
-				}
+        @Override
+        public boolean hasStructure(final Structure<?> structureIn)
+        {
+            return this.hasStructureCache.computeIfAbsent(structureIn, (p_205006_1_) ->
+            {
+                for (final Biome biome : this.biomes)
+                    if (biome.hasStructure(p_205006_1_)) return true;
+                return false;
+            });
+        }
 
-				public BlockState getDefaultFluid() {
-					return Blocks.WATER.getDefaultState();
-				}
-			});
-			this.randomSeed.skip(5349);
-		}
-	}
-	
-	public static class UltraSpaceDimension extends Dimension {
+        @Override
+        public Set<BlockState> getSurfaceBlocks()
+        {
+            if (this.topBlocksCache.isEmpty()) for (final Biome biome : this.biomes)
+                this.topBlocksCache.add(biome.getSurfaceBuilderConfig().getTop());
+            return this.topBlocksCache;
+        }
 
-		public UltraSpaceDimension(World world, DimensionType type) { 
-			super(world, type);
-			this.nether = false;
-		}
+        @Override
+        public float func_222365_c(final int p_222365_1_, final int p_222365_2_)
+        {
+            final int i = p_222365_1_ / 2;
+            final int j = p_222365_2_ / 2;
+            final int k = p_222365_1_ % 2;
+            final int l = p_222365_2_ % 2;
+            float f = 100.0F - MathHelper.sqrt(p_222365_1_ * p_222365_1_ + p_222365_2_ * p_222365_2_) * 8.0F;
+            f = MathHelper.clamp(f, -100.0F, 80.0F);
+            for (int i1 = -12; i1 <= 12; ++i1)
+                for (int j1 = -12; j1 <= 12; ++j1)
+                {
+                    final long k1 = i + i1;
+                    final long l1 = j + j1;
+                    if (k1 * k1 + l1 * l1 > 4096L && this.generator.getValue(k1, l1) < -0.9F)
+                    {
+                        final float f1 = (MathHelper.abs(k1) * 3439.0F + MathHelper.abs(l1) * 147.0F) % 13.0F + 9.0F;
+                        final float f2 = k - i1 * 2;
+                        final float f3 = l - j1 * 2;
+                        float f4 = 100.0F - MathHelper.sqrt(f2 * f2 + f3 * f3) * f1;
+                        f4 = MathHelper.clamp(f4, -100.0F, 80.0F);
+                        f = Math.max(f, f4);
+                    }
+                }
+            return f;
+        }
+    }
 
-		@Override
-		public ChunkGenerator<?> createChunkGenerator() {
-			return new UltraSpaceChunkGenerator(this.world, new UltraSpaceBiomeProvider(this.world));
-		}
+    public static class UltraSpaceBiomeLayer implements IC0Transformer
+    {
 
-		@Override
-		public BlockPos findSpawn(ChunkPos chunkPosIn, boolean checkValid) { return null; }
+        @SuppressWarnings("deprecation")
+        @Override
+        public int apply(final INoiseRandom context, final int value)
+        {
+            return Registry.BIOME.getId(UltraSpaceConfig.dimensionBiomes[context.random(
+                    UltraSpaceConfig.dimensionBiomes.length)]);
+        }
+    }
 
-		@Override
-		public BlockPos findSpawn(int posX, int posZ, boolean checkValid) { return null; }
+    public static class UltraSpaceChunkGenerator extends OverworldChunkGenerator
+    {
+        // private static final int SEALEVEL = 63;
 
-		@Override
-		public float calculateCelestialAngle(long worldTime, float partialTicks) {
-			double d0 = MathHelper.frac((double) worldTime / 24000.0D - 0.25D);
-			double d1 = 0.5D - Math.cos(d0 * Math.PI) / 2.0D;
-			return (float) (d0 * 2.0D + d1) / 3.0F;
-		}
-		
-		@Override
-		protected void generateLightBrightnessTable() {
-			float f = 0.5f;
-			for (int i = 0; i <= 15; ++i) {
-				float f1 = 1 - (float) i / 15f;
-				this.lightBrightnessTable[i] = (1 - f1) / (f1 * 3 + 1) * (1 - f) + f;
-			}
-		}
+        public UltraSpaceChunkGenerator(final IWorld world, final BiomeProvider provider)
+        {
+            super(world, provider, new OverworldGenSettings()
+            {
+                @Override
+                public BlockState getDefaultBlock()
+                {
+                    return BlockInit.ULTRA_STONE.getDefaultState();
+                }
 
-		@Override
-		public boolean isSurfaceWorld() {
-			return true;
-		}
+                @Override
+                public BlockState getDefaultFluid()
+                {
+                    return Blocks.WATER.getDefaultState();
+                }
+            });
+            this.randomSeed.skip(5349);
+        }
+    }
 
-		@Override
-		@OnlyIn(Dist.CLIENT)
-		public Vec3d getFogColor(float cangle, float ticks) {
-			return new Vec3d(0,0,0);
-		}
+    public static class UltraSpaceDimension extends Dimension
+    {
 
-		@Override
-		public boolean canRespawnHere() {
-			return true;
-		}
-		
-		@Override
-		public SleepResult canSleepAt(PlayerEntity player, BlockPos pos) {
-			return SleepResult.ALLOW;
-		}
+        public UltraSpaceDimension(final World world, final DimensionType type)
+        {
+            super(world, type);
+            this.nether = false;
+        }
 
-		@OnlyIn(Dist.CLIENT)
-		@Override
-		public boolean doesXZShowFog(int x, int z) {
-			return true;
-		}
-	}
+        @Override
+        public ChunkGenerator<?> createChunkGenerator()
+        {
+            return new UltraSpaceChunkGenerator(this.world, new UltraSpaceBiomeProvider(this.world));
+        }
+
+        @Override
+        public BlockPos findSpawn(final ChunkPos chunkPosIn, final boolean checkValid)
+        {
+            return null;
+        }
+
+        @Override
+        public BlockPos findSpawn(final int posX, final int posZ, final boolean checkValid)
+        {
+            return null;
+        }
+
+        @Override
+        public float calculateCelestialAngle(final long worldTime, final float partialTicks)
+        {
+            final double d0 = MathHelper.frac(worldTime / 24000.0D - 0.25D);
+            final double d1 = 0.5D - Math.cos(d0 * Math.PI) / 2.0D;
+            return (float) (d0 * 2.0D + d1) / 3.0F;
+        }
+
+        @Override
+        protected void generateLightBrightnessTable()
+        {
+            final float f = 0.5f;
+            for (int i = 0; i <= 15; ++i)
+            {
+                final float f1 = 1 - i / 15f;
+                this.lightBrightnessTable[i] = (1 - f1) / (f1 * 3 + 1) * (1 - f) + f;
+            }
+        }
+
+        @Override
+        public boolean isSurfaceWorld()
+        {
+            return true;
+        }
+
+        @Override
+        @OnlyIn(Dist.CLIENT)
+        public Vec3d getFogColor(final float cangle, final float ticks)
+        {
+            return new Vec3d(0, 0, 0);
+        }
+
+        @Override
+        public boolean canRespawnHere()
+        {
+            return true;
+        }
+
+        @Override
+        public SleepResult canSleepAt(final PlayerEntity player, final BlockPos pos)
+        {
+            return SleepResult.ALLOW;
+        }
+
+        @OnlyIn(Dist.CLIENT)
+        @Override
+        public boolean doesXZShowFog(final int x, final int z)
+        {
+            return true;
+        }
+    }
 }

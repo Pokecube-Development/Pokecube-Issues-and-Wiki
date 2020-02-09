@@ -3,6 +3,6 @@
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale=".3"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

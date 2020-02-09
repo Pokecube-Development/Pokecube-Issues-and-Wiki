@@ -83,7 +83,7 @@ public class ModelRing extends EntityModel<Entity>
             final int damage = this.stack.getTag().getInt("dyeColour");
             ret = DyeColor.byId(damage);
         }
-        final Color colour = new Color(ret.func_218388_g() + 0xFF000000);
+        final Color colour = new Color(ret.getTextColor() + 0xFF000000);
         GL11.glColor3f(colour.getRed() / 255f, colour.getGreen() / 255f, colour.getBlue() / 255f);
         this.Shape1.render(f5);
         this.Shape3.render(f5);

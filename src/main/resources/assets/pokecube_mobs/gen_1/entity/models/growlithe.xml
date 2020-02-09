@@ -24,6 +24,6 @@
     <component length="8" name="2" rotChange="-2,0,0" startKey="5"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

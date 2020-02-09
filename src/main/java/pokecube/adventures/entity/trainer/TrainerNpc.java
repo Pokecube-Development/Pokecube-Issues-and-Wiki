@@ -101,8 +101,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     {
         super.onTrade(recipe);
         // If this was our mob trade, we need to set our mob as it.
-        ItemStack poke1 = recipe.func_222218_a();
-        final ItemStack poke2 = recipe.func_222200_d();
+        ItemStack poke1 = recipe.getBuyingStackFirst();
+        final ItemStack poke2 = recipe.getSellingStack();
         if (!(PokecubeManager.isFilled(poke1) && PokecubeManager.isFilled(poke2))) return;
         final int num = poke2.getTag().getInt("slotnum");
         final LivingEntity player2 = this;
@@ -200,10 +200,15 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         if (this.name.isEmpty())
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty()) this.name = "pokecube." + this.getNpcType().getName() + ".named:" + names.get(
-                    new Random().nextInt(names.size()));
+            if (!names.isEmpty()) this.setRandomName(names.get(new Random().nextInt(names.size())));
             this.setCustomName(this.getDisplayName());
         }
+    }
+
+    @Override
+    public void setRandomName(final String name)
+    {
+        this.name = "pokecube." + this.getNpcType().getName() + ".named:" + name;
     }
 
     @Override

@@ -104,26 +104,19 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             else
             {
                 brain.setSchedule(Schedule.VILLAGER_DEFAULT);
-                brain.registerActivity(Activity.WORK, this.addGuard(guardai, VillagerTasks.work(
-                        villagerprofession, f)), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE,
-                                MemoryModuleStatus.VALUE_PRESENT)));
+                brain.registerActivity(Activity.WORK, this.addGuard(guardai, VillagerTasks.work(villagerprofession, f)),
+                        ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
             }
-            brain.registerActivity(Activity.CORE, this.addGuard(guardai, VillagerTasks.core(villagerprofession,
+            brain.registerActivity(Activity.CORE, this.addGuard(guardai, VillagerTasks.core(villagerprofession, f)));
+            brain.registerActivity(Activity.MEET, this.addGuard(guardai, VillagerTasks.meet(villagerprofession, f)),
+                    ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
+            brain.registerActivity(Activity.REST, this.addGuard(guardai, VillagerTasks.rest(villagerprofession, f)));
+            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, VillagerTasks.idle(villagerprofession, f)));
+            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, VillagerTasks.panic(villagerprofession, f)));
+            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, VillagerTasks.preRaid(villagerprofession,
                     f)));
-            brain.registerActivity(Activity.MEET, this.addGuard(guardai, VillagerTasks.meet(villagerprofession,
-                    f)), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
-            brain.registerActivity(Activity.REST, this.addGuard(guardai, VillagerTasks.rest(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, VillagerTasks.idle(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, VillagerTasks.panic(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, VillagerTasks.preRaid(
-                    villagerprofession, f)));
-            brain.registerActivity(Activity.RAID, this.addGuard(guardai, VillagerTasks.raid(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, VillagerTasks.hide(villagerprofession,
-                    f)));
+            brain.registerActivity(Activity.RAID, this.addGuard(guardai, VillagerTasks.raid(villagerprofession, f)));
+            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, VillagerTasks.hide(villagerprofession, f)));
             brain.setDefaultActivities(ImmutableSet.of(Activity.CORE));
             brain.setFallbackActivity(Activity.IDLE);
             brain.switchTo(Activity.IDLE);
@@ -173,10 +166,10 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void func_213750_eg()
+    protected void resetCustomer()
     {
         // Do nothing here, it prevents us trading!
-        super.func_213750_eg();
+        super.resetCustomer();
     }
 
     @Override
@@ -273,10 +266,10 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void func_213713_b(final MerchantOffer offer)
+    protected void onVillagerTrade(final MerchantOffer offer)
     {
         this.use_offer.accept(offer);
-        super.func_213713_b(offer);
+        super.onVillagerTrade(offer);
     }
 
     @Override

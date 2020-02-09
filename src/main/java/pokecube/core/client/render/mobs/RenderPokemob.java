@@ -1,16 +1,17 @@
 package pokecube.core.client.render.mobs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
 import org.w3c.dom.Node;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.entity.Entity;
@@ -307,6 +308,17 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             this.name = model.model.name;
             this.texture = model.model.texture;
             model.imodel = ModelFactory.create(model.model);
+
+            // Check if an animation file exists.
+            try
+            {
+                Minecraft.getInstance().getResourceManager().getResource(this.animation);
+            }
+            catch (final IOException e)
+            {
+                // No animation here, lets try to use the base one.
+            }
+
             AnimationLoader.parse(model.model, model, this);
             this.initModelParts();
         }
@@ -321,24 +333,6 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                     final PartInfo p = this.getPartInfo(s);
                     this.parts.put(s, p);
                 }
-        }
-
-        protected void postRenderStatus()
-        {
-            if (this.light) GL11.glEnable(GL11.GL_LIGHTING);
-            if (!this.blend) GL11.glDisable(GL11.GL_BLEND);
-            GL11.glBlendFunc(this.src, this.dst);
-        }
-
-        protected void preRenderStatus()
-        {
-            this.blend = GL11.glGetBoolean(GL11.GL_BLEND);
-            this.light = GL11.glGetBoolean(GL11.GL_LIGHTING);
-            this.src = GL11.glGetInteger(GL11.GL_BLEND_SRC);
-            this.dst = GL11.glGetInteger(GL11.GL_BLEND_DST);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         }
 
         @Override

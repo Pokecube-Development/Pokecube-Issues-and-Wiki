@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -84,33 +84,8 @@ public class MaxRaidActivationFunction
         return ret;
     }
 
-    public static void executeProcedure(final java.util.HashMap<String, Object> dependencies)
+    public static void executeProcedure(final int x, final int y, final int z, final ServerWorld world)
     {
-        if (dependencies.get("x") == null)
-        {
-            System.err.println("Failed to load dependency x for RaidActive!");
-            return;
-        }
-        if (dependencies.get("y") == null)
-        {
-            System.err.println("Failed to load dependency y for RaidActive!");
-            return;
-        }
-        if (dependencies.get("z") == null)
-        {
-            System.err.println("Failed to load dependency z for RaidActive!");
-            return;
-        }
-        if (dependencies.get("world") == null)
-        {
-            System.err.println("Failed to load dependency world for RaidActive!");
-            return;
-        }
-
-        final int x = (int) dependencies.get("x");
-        final int y = (int) dependencies.get("y");
-        final int z = (int) dependencies.get("z");
-        final World world = (World) dependencies.get("world");
         if (!world.isRemote)
         {
             final PokedexEntry entityToSpawn = MaxRaidActivationFunction.getRandomEntry();

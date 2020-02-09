@@ -111,11 +111,11 @@ public class TypeTrainer extends NpcType
 
         public MerchantOffer getRecipe(final Random rand)
         {
-            ItemStack buy1 = this.func_222218_a();
-            ItemStack buy2 = this.func_222202_c();
+            ItemStack buy1 = this.getBuyingStackFirst();
+            ItemStack buy2 = this.getBuyingStackSecond();
             if (!buy1.isEmpty()) buy1 = buy1.copy();
             if (!buy2.isEmpty()) buy2 = buy2.copy();
-            ItemStack sell = this.func_222200_d();
+            ItemStack sell = this.getSellingStack();
             if (!sell.isEmpty()) sell = sell.copy();
             else return null;
             if (this.min != -1 && this.max != -1)

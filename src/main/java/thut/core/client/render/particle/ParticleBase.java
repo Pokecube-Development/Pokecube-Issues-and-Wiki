@@ -177,7 +177,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         {
             this.rgba = 0xFF000000;
             final int num = (this.getDuration() + this.initTime) / this.animSpeed % 16;
-            this.rgba += DyeColor.byId(num).field_218390_z;
+            this.rgba += DyeColor.byId(num).textColor;
         }
     }
 

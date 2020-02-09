@@ -6,13 +6,12 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.w3c.dom.NamedNodeMap;
-
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.common.xml.AnimationXML.Phase;
 
 public class BiWalkAnimation extends Animation
 {
@@ -23,7 +22,7 @@ public class BiWalkAnimation extends Animation
     }
 
     @Override
-    public Animation init(NamedNodeMap map, @Nullable IPartRenamer renamer)
+    public Animation init(final Phase map, @Nullable final IPartRenamer renamer)
     {
         final HashSet<String> hl = new HashSet<>();
         final HashSet<String> hr = new HashSet<>();
@@ -32,10 +31,10 @@ public class BiWalkAnimation extends Animation
         int biwalkdur = 0;
         float walkAngle1 = 20;
         float walkAngle2 = 20;
-        final String[] lh = map.getNamedItem("leftLeg").getNodeValue().split(":");
-        final String[] rh = map.getNamedItem("rightLeg").getNodeValue().split(":");
-        final String[] lf = map.getNamedItem("leftArm").getNodeValue().split(":");
-        final String[] rf = map.getNamedItem("rightArm").getNodeValue().split(":");
+        final String[] lh = this.get(map, "leftLeg").split(":");
+        final String[] rh = this.get(map, "rightLeg").split(":");
+        final String[] lf = this.get(map, "leftArm").split(":");
+        final String[] rf = this.get(map, "rightArm").split(":");
 
         if (renamer != null)
         {
@@ -52,11 +51,9 @@ public class BiWalkAnimation extends Animation
             if (s != null) fr.add(s);
         for (final String s : lf)
             if (s != null) fl.add(s);
-        biwalkdur = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
-        if (map.getNamedItem("legAngle") != null) walkAngle1 = Float.parseFloat(map.getNamedItem("legAngle")
-                .getNodeValue());
-        if (map.getNamedItem("armAngle") != null) walkAngle2 = Float.parseFloat(map.getNamedItem("armAngle")
-                .getNodeValue());
+        biwalkdur = Integer.parseInt(this.get(map, "duration"));
+        if (!this.get(map, "legAngle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "legAngle"));
+        if (!this.get(map, "armAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "armAngle"));
         this.init(hl, hr, fl, fr, biwalkdur, walkAngle1, walkAngle2);
         return this;
     }
@@ -82,8 +79,8 @@ public class BiWalkAnimation extends Animation
      *            - half - angle covered by arms.
      * @return
      */
-    public BiWalkAnimation init(Set<String> hl, Set<String> hr, Set<String> fl, Set<String> fr, int duration,
-            float legAngle, float armAngle)
+    public BiWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl, final Set<String> fr,
+            int duration, final float legAngle, final float armAngle)
     {
         duration = duration + duration % 4;
         for (final String s : hr)

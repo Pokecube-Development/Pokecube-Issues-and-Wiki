@@ -7,6 +7,6 @@
    <part name="Head" tex="shelmethead"/>
    <animation diffs="0.4,0" part="Head" trigger="random:0.005:1"/>
   </customTex>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

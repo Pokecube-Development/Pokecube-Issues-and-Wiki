@@ -196,7 +196,7 @@ public class Body implements IRetexturableModel
     {
         final String[] params = line.split("\\s+");
         final int id = Integer.parseInt(params[0]);
-        final String boneName = params[1].replaceAll("\"", "");
+        final String boneName = ThutCore.trim(params[1].replaceAll("\"", ""));
         Bone theBone = body != null ? body.getBone(boneName) : null;
         if (theBone == null)
         {

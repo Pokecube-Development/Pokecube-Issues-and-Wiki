@@ -646,7 +646,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (hit.getType() == Type.ENTITY) this.onImpact(hit);
         }
 
-        final RayTraceResult raytraceresult = ProjectileHelper.func_221267_a(this, axisalignedbb, (p_213880_1_) ->
+        final RayTraceResult raytraceresult = ProjectileHelper.rayTrace(this, axisalignedbb, (p_213880_1_) ->
         {
             return !p_213880_1_.isSpectator() && p_213880_1_.canBeCollidedWith() && p_213880_1_ != this.ignoreEntity;
         }, RayTraceContext.BlockMode.OUTLINE, true);
@@ -676,7 +676,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         this.posX += vec3d.x;
         this.posY += vec3d.y;
         this.posZ += vec3d.z;
-        final float f = MathHelper.sqrt(Entity.func_213296_b(vec3d));
+        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
         this.rotationYaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
 
         for (this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI)); this.rotationPitch

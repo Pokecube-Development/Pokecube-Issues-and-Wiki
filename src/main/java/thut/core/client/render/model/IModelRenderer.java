@@ -73,8 +73,8 @@ public interface IModelRenderer<T extends MobEntity>
     default String getAnimation(final Entity entityIn)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
-        if (holder != null) return holder.getCurrentAnimation();
-        return "idle";
+        if (holder != null) return holder.getAnimation(entityIn);
+        return IModelRenderer.DEFAULTPHASE;
     }
 
     IAnimationChanger getAnimationChanger();
@@ -105,10 +105,11 @@ public interface IModelRenderer<T extends MobEntity>
 
     void scaleEntity(Entity entity, IModel model, float partialTick);
 
-    default void setAnimation(final String phase, final Entity entity)
+    default void setAnimation(final String phase, final Entity entity, final float partialTick)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
-        if (holder != null) if (!holder.getCurrentAnimation().equals(phase)) holder.setPendingAnimation(phase);
+        final List<Animation> anim = this.getAnimations().get(phase);
+        if (holder != null && anim != null) holder.setPendingAnimations(anim, entity.ticksExisted + partialTick);
     }
 
     void setAnimationChanger(IAnimationChanger changer);

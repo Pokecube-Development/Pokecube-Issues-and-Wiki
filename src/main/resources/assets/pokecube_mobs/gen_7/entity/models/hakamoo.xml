@@ -66,7 +66,7 @@
     <component length="6" name="2" rotChange="10,0,0" startKey="10"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;sitting"/>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->sitting"/>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

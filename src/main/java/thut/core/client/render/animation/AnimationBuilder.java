@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
+import javax.xml.namespace.QName;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,10 +15,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.common.ThutCore;
+import thut.core.common.xml.AnimationXML.Component;
+import thut.core.common.xml.AnimationXML.Part;
+import thut.core.common.xml.AnimationXML.Phase;
 
 public class AnimationBuilder
 {
-    private static void addTo(Animation animation, int priority, String part, ArrayList<AnimationComponent> parts)
+    private static void addTo(final Animation animation, final int priority, final String part,
+            final ArrayList<AnimationComponent> parts)
     {
         if (animation.sets.containsKey(part) && animation.priority > priority) System.err.println("Already have " + part
                 + ", Skipping.");
@@ -32,7 +38,7 @@ public class AnimationBuilder
      * @param renamer
      * @return
      */
-    public static Animation build(Node node, @Nullable IPartRenamer renamer)
+    public static Animation build(final Node node, @Nullable final IPartRenamer renamer)
     {
         Animation ret = null;
         if (node.getAttributes().getNamedItem("type") == null) return null;
@@ -129,7 +135,100 @@ public class AnimationBuilder
         return ret;
     }
 
-    private static int length(List<AnimationComponent> comps)
+    /**
+     * Constructs a new Animation, and assigns components based on the
+     * definitions in the XML node.
+     *
+     * @param node
+     * @param renamer
+     * @return
+     */
+    public static Animation build(final Phase node, @Nullable final IPartRenamer renamer)
+    {
+        Animation ret = null;
+        if (node.type == null) return null;
+        final String animName = ThutCore.trim(node.type);
+
+        ret = new Animation();
+        ret.name = animName;
+        ret.loops = true;
+        if (AnimationBuilder.get(node, "loops") != null) ret.loops = Boolean.parseBoolean(AnimationBuilder.get(node,
+                "loops"));
+
+        for (final Part part : node.parts)
+        {
+            String partName = ThutCore.trim(part.name);
+            if (renamer != null)
+            {
+                final String[] names = { partName };
+                renamer.convertToIdents(names);
+                partName = names[0];
+            }
+            final ArrayList<AnimationComponent> set = Lists.newArrayList();
+            for (final Component component : part.components)
+            {
+                final AnimationComponent comp = new AnimationComponent();
+                if (component.name != null) comp.name = component.name;
+                if (component.rotChange != null)
+                {
+                    final String[] vals = component.rotChange.split(",");
+                    comp.rotChange[0] = Double.parseDouble(vals[0]);
+                    comp.rotChange[1] = Double.parseDouble(vals[1]);
+                    comp.rotChange[2] = Double.parseDouble(vals[2]);
+                }
+                if (component.posChange != null)
+                {
+                    final String[] vals = component.posChange.split(",");
+                    comp.posChange[0] = Double.parseDouble(vals[0]);
+                    comp.posChange[1] = Double.parseDouble(vals[1]);
+                    comp.posChange[2] = Double.parseDouble(vals[2]);
+                }
+                if (component.scaleChange != null)
+                {
+                    final String[] vals = component.scaleChange.split(",");
+                    comp.scaleChange[0] = Double.parseDouble(vals[0]);
+                    comp.scaleChange[1] = Double.parseDouble(vals[1]);
+                    comp.scaleChange[2] = Double.parseDouble(vals[2]);
+                }
+                if (component.rotOffset != null)
+                {
+                    final String[] vals = component.rotOffset.split(",");
+                    comp.rotOffset[0] = Double.parseDouble(vals[0]);
+                    comp.rotOffset[1] = Double.parseDouble(vals[1]);
+                    comp.rotOffset[2] = Double.parseDouble(vals[2]);
+                }
+                if (component.posOffset != null)
+                {
+                    final String[] vals = component.posOffset.split(",");
+                    comp.posOffset[0] = Double.parseDouble(vals[0]);
+                    comp.posOffset[1] = Double.parseDouble(vals[1]);
+                    comp.posOffset[2] = Double.parseDouble(vals[2]);
+                }
+                if (component.scaleOffset != null)
+                {
+                    final String[] vals = component.scaleOffset.split(",");
+                    comp.scaleOffset[0] = Double.parseDouble(vals[0]);
+                    comp.scaleOffset[1] = Double.parseDouble(vals[1]);
+                    comp.scaleOffset[2] = Double.parseDouble(vals[2]);
+                }
+                comp.length = component.length;
+                comp.startKey = component.startKey;
+                comp.opacityChange = component.opacityChange;
+                comp.opacityOffset = component.opacityOffset;
+                comp.hidden = component.hidden;
+                set.add(comp);
+            }
+            if (!set.isEmpty()) ret.sets.put(partName, set);
+        }
+        return ret;
+    }
+
+    private static String get(final Phase node, final String string)
+    {
+        return node.values.get(new QName(string));
+    }
+
+    private static int length(final List<AnimationComponent> comps)
     {
         int length = 0;
         for (final AnimationComponent comp : comps)
@@ -137,7 +236,7 @@ public class AnimationBuilder
         return length;
     }
 
-    private static Animation mergeAnimations(List<Animation> list)
+    private static Animation mergeAnimations(final List<Animation> list)
     {
         if (list.isEmpty()) return null;
         final Animation newAnim = new Animation();
@@ -151,7 +250,7 @@ public class AnimationBuilder
         return newAnim;
     }
 
-    public static void processAnimations(List<Animation> list)
+    public static void processAnimations(final List<Animation> list)
     {
         final List<Animation> oldList = Lists.newArrayList(list);
         final Map<Integer, List<Animation>> splitAnims = Maps.newHashMap();
@@ -162,7 +261,7 @@ public class AnimationBuilder
             list.add(AnimationBuilder.mergeAnimations(split));
     }
 
-    private static void splitAnimation(Animation animIn, Map<Integer, List<Animation>> fill)
+    private static void splitAnimation(final Animation animIn, final Map<Integer, List<Animation>> fill)
     {
         for (final Entry<String, ArrayList<AnimationComponent>> entry : animIn.sets.entrySet())
         {

@@ -2,13 +2,12 @@ package thut.core.client.render.animation.prefab;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.NamedNodeMap;
-
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.common.xml.AnimationXML.Phase;
 
 public class SnakeMovement extends Animation
 {
@@ -18,7 +17,7 @@ public class SnakeMovement extends Animation
         this.name = "walking";
     }
 
-    public SnakeMovement init(ArrayList<String> parts, int duration, float maxAngle, int axis)
+    public SnakeMovement init(final ArrayList<String> parts, int duration, final float maxAngle, final int axis)
     {
         duration = duration + duration % 4;
         float angle = maxAngle;
@@ -67,25 +66,24 @@ public class SnakeMovement extends Animation
     }
 
     @Override
-    public Animation init(NamedNodeMap map, IPartRenamer renamer)
+    public Animation init(final Phase map, final IPartRenamer renamer)
     {
         final ArrayList<String> parts = new ArrayList<>();
         int duration = 40;
         int axis = 1;
         float maxAngle = 10;
 
-        final String[] partsArr = map.getNamedItem("parts").getNodeValue().split(":");
+        final String[] partsArr = this.get(map, "parts").split(":");
 
         if (renamer != null) renamer.convertToIdents(partsArr);
 
         for (final String s : partsArr)
             if (s != null) parts.add(s);
 
-        if (map.getNamedItem("angle") != null) maxAngle = Float.parseFloat(map.getNamedItem("angle").getNodeValue());
-        if (map.getNamedItem("axis") != null) axis = Integer.parseInt(map.getNamedItem("axis").getNodeValue());
-        if (map.getNamedItem("length") != null) duration = Integer.parseInt(map.getNamedItem("length").getNodeValue());
-        if (map.getNamedItem("duration") != null) duration = Integer.parseInt(map.getNamedItem("duration")
-                .getNodeValue());
+        if (!this.get(map, "angle").isEmpty()) maxAngle = Float.parseFloat(this.get(map, "angle"));
+        if (!this.get(map, "axis").isEmpty()) axis = Integer.parseInt(this.get(map, "axis"));
+        if (!this.get(map, "length").isEmpty()) duration = Integer.parseInt(this.get(map, "length"));
+        if (!this.get(map, "duration").isEmpty()) duration = Integer.parseInt(this.get(map, "duration"));
         this.init(parts, duration, maxAngle, axis);
         return this;
     }

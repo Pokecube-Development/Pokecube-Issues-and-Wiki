@@ -1,5 +1,8 @@
-package pokecube.compat;
+package pokecube.compat.cct;
 
+import net.minecraftforge.fml.common.Mod;
+
+@Mod.EventBusSubscriber
 public class Compat
 {
 
