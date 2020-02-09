@@ -85,7 +85,7 @@ dependencies {
     implementation fg.deobf("org.squiddev:cc-tweaked-${version_minecraft}:${version_cct}")
     
     //Lost Cities
-    implementation "libs:lostcities-1.14-2.0.28-alpha-deobf"
+    implementation "libs:lostcities-${version_lostcities}"
     
     //JEI
     implementation fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
