@@ -63,7 +63,7 @@ public class ExitCube
                 loc.y += width * rand.nextGaussian() / 2;
                 loc.z += width * rand.nextGaussian() / 2;
                 final int id = sealTag.getInt("dye");
-                final int colour = DyeColor.byId(id).field_218390_z;
+                final int colour = DyeColor.byId(id).textColor;
                 PokecubeCore.spawnParticle(entity.getEntityWorld(), "powder", loc, vel, colour | 0xFF000000);
             }
         }

@@ -99,7 +99,7 @@ public abstract class TrainerBase extends NpcMob
             for (final IPokemob pokemob : this.currentPokemobs)
                 pokemob.onRecall(false);
             this.pokemobsCap.friendlyCooldown = 2400;
-            this.func_213711_eb();// Celebrate, should make some fancy sounds.
+            this.playCelebrateSound();
             return true;
         }
         else if (this.pokemobsCap.friendlyCooldown >= 0 && this.aiStates.getAIState(IHasNPCAIStates.TRADES))
@@ -113,7 +113,7 @@ public abstract class TrainerBase extends NpcMob
                 // This adds in pokemobs to trade.
                 this.addMobTrades(player, stack);
             }
-            if (!this.getOffers().isEmpty()) this.func_213707_a(player, this.getDisplayName(), 0);
+            if (!this.getOffers().isEmpty()) this.openMerchantContainer(player, this.getDisplayName(), 0);
             else this.setCustomer(null);
             return true;
         }
@@ -161,10 +161,10 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    protected void func_213713_b(final MerchantOffer offer)
+    protected void onVillagerTrade(final MerchantOffer offer)
     {
         this.trades.applyTrade(offer);
-        super.func_213713_b(offer);
+        super.onVillagerTrade(offer);
     }
 
     @Override
@@ -218,7 +218,7 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
-    public void func_213707_a(final PlayerEntity player, final ITextComponent tittle, final int level)
+    public void openMerchantContainer(final PlayerEntity player, final ITextComponent tittle, final int level)
     {
         // This is the player specific get recipes and open inventory thing
         final OptionalInt optionalint = player.openContainer(new SimpleNamedContainerProvider((int_unk_2,
@@ -230,8 +230,8 @@ public abstract class TrainerBase extends NpcMob
         {
             final MerchantOffers merchantoffers = this.getOffers();
             // TODO here we add in a hook to see if we want to trade pokemobs.
-            if (!merchantoffers.isEmpty()) player.func_213818_a(optionalint.getAsInt(), merchantoffers, level, this
-                    .getXp(), this.func_213705_dZ(), this.func_223340_ej());
+            if (!merchantoffers.isEmpty()) player.openMerchantContainer(optionalint.getAsInt(), merchantoffers, level,
+                    this.getXp(), this.func_213705_dZ(), this.func_223340_ej());
         }
 
     }

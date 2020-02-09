@@ -53,7 +53,7 @@ public class NpcType
             if (validCustomer && !mob.getOffers().isEmpty())
             {
                 mob.setCustomer(player);
-                mob.func_213707_a(player, mob.getDisplayName(), 10);
+                mob.openMerchantContainer(player, mob.getDisplayName(), 10);
                 return true;
             }
             return false;

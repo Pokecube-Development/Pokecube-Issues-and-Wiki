@@ -102,8 +102,7 @@ public class JigsawPieces
         }
 
         // Register the buildings
-        JigsawManager.field_214891_a.register(new JigsawPattern(key, new ResourceLocation(part.target), parts,
-                behaviour));
+        JigsawManager.REGISTRY.register(new JigsawPattern(key, new ResourceLocation(part.target), parts, behaviour));
     }
 
     public static void registerJigsaw(final JigSawConfig jigsaw)
@@ -145,7 +144,8 @@ public class JigsawPieces
         }
 
         @Override
-        protected PlacementSettings func_214860_a(final Rotation p_214860_1_, final MutableBoundingBox p_214860_2_)
+        protected PlacementSettings createPlacementSettings(final Rotation p_214860_1_,
+                final MutableBoundingBox p_214860_2_)
         {
             final PlacementSettings placementsettings = new PlacementSettings();
             placementsettings.setBoundingBox(p_214860_2_);
@@ -156,17 +156,17 @@ public class JigsawPieces
             else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
             this.processors.forEach(placementsettings::addProcessor);
-            this.getPlacementBehaviour().func_214937_b().forEach(placementsettings::addProcessor);
+            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
             return placementsettings;
         }
 
         @Override
-        public boolean func_214848_a(final TemplateManager manager, final IWorld worldIn, final BlockPos pos,
+        public boolean place(final TemplateManager manager, final IWorld worldIn, final BlockPos pos,
                 final Rotation rotation, final MutableBoundingBox box, final Random rand)
         {
 
             final Template template = manager.getTemplateDefaulted(this.location);
-            final PlacementSettings placementsettings = this.func_214860_a(rotation, box);
+            final PlacementSettings placementsettings = this.createPlacementSettings(rotation, box);
 
             if (!template.addBlocksToWorld(worldIn, pos, placementsettings, 18)) return false;
             else

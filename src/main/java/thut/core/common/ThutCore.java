@@ -88,7 +88,7 @@ public class ThutCore
                 final Vec3d face = event.getPlayer().getEyePosition(0);
                 final Vec3d look = event.getPlayer().getLookVec();
                 final AxisAlignedBB box = event.getPlayer().getBoundingBox().grow(3, 3, 3);
-                final EntityRayTraceResult var = ProjectileHelper.func_221273_a(player, face, look, box,
+                final EntityRayTraceResult var = ProjectileHelper.rayTraceEntities(player, face, look, box,
                         e -> e instanceof IBlockEntity, 3);
                 if (var != null && var.getType() == EntityRayTraceResult.Type.ENTITY)
                 {

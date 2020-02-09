@@ -169,8 +169,8 @@ public class SecretBaseDimension extends ModDimension
             if (pos.x % 16 == 0 && pos.z % 16 == 0)
             {
                 final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-                final Heightmap heightmap = chunk.func_217303_b(Heightmap.Type.OCEAN_FLOOR_WG);
-                final Heightmap heightmap1 = chunk.func_217303_b(Heightmap.Type.WORLD_SURFACE_WG);
+                final Heightmap heightmap = chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG);
+                final Heightmap heightmap1 = chunk.getHeightmap(Heightmap.Type.WORLD_SURFACE_WG);
                 BlockState state = Blocks.STONE.getDefaultState();
                 for (int i = 58; i < 64; ++i)
                     for (int j = 4; j < 12; ++j)
