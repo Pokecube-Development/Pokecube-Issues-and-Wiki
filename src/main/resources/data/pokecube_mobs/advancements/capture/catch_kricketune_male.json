@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.lumineon"
+          "translate": "entity.pokecube.kricketune"
         }
       ]
     },
@@ -15,19 +15,19 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.lumineon"
+          "translate": "entity.pokecube.kricketune"
         }
       ]
     }
   },
   "criteria": {
-    "catch_lumineon": {
+    "catch_kricketune_male": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "lumineon"
+        "entry": "kricketune_male"
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_finneon_female"
+  "parent": "pokecube_mobs:capture/catch_kricketot"
 }

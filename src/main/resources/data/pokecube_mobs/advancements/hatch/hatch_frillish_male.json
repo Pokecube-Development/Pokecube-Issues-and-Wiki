@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.medicham"
+          "translate": "entity.pokecube.frillish"
         }
       ]
     },
@@ -15,18 +15,18 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.medicham"
+          "translate": "entity.pokecube.frillish"
         }
       ]
     }
   },
   "criteria": {
-    "hatch_medicham": {
+    "hatch_frillish_male": {
       "trigger": "pokecube:hatch",
       "conditions": {
-        "entry": "medicham"
+        "entry": "frillish_male"
       }
     }
   },
-  "parent": "pokecube_mobs:hatch/hatch_meditite"
+  "parent": "pokecube_mobs:hatch/root"
 }

@@ -1,0 +1,21 @@
+{ 
+  "replace":false,
+  "values":[ 
+    "pokecube:mega_glasses",
+    "pokecube:mega_earring",
+    "pokecube:mega_ring",
+    "pokecube:mega_belt",
+    "pokecube:mega_tiara",
+    "pokecube:mega_hat",
+    "pokecube:mega_pendant",
+    "pokecube:mega_ankletzinnia",
+    "thut_bling:bling_ankle",
+    "thut_bling:bling_ear",
+    "thut_bling:bling_eye",
+    "thut_bling:bling_hat",
+    "thut_bling:bling_neck",
+    "thut_bling:bling_ring",
+    "thut_bling:bling_waist",
+    "thut_bling:bling_wrist"
+  ]
+}
