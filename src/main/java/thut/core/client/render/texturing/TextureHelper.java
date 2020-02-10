@@ -179,7 +179,7 @@ public class TextureHelper implements IPartTexturer
     public TextureHelper(final CustomTex customTex)
     {
         if (customTex == null) return;
-        if (customTex.defaults != null) this.default_path = customTex.defaults;
+        if (customTex.defaults != null) this.default_path = ThutCore.trim(customTex.defaults);
         if (customTex.smoothing != null)
         {
             final boolean flat = !customTex.smoothing.equalsIgnoreCase("smooth");
@@ -197,7 +197,7 @@ public class TextureHelper implements IPartTexturer
         for (final TexPart anim : customTex.parts)
         {
             final String name = ThutCore.trim(anim.name);
-            final String partTex = anim.tex;
+            final String partTex = ThutCore.trim(anim.tex);
             this.addMapping(name, partTex);
             if (anim.smoothing != null)
             {
@@ -209,13 +209,13 @@ public class TextureHelper implements IPartTexturer
         {
             final String name = ThutCore.trim(anim.part);
             final String state = ThutCore.trim(anim.state);
-            final String partTex = anim.tex;
+            final String partTex = ThutCore.trim(anim.tex);
             this.addCustomMapping(name, state, partTex);
         }
         for (final TexForm anim : customTex.forme)
         {
             final String name = ThutCore.trim(anim.name);
-            final String tex = anim.tex;
+            final String tex = ThutCore.trim(anim.tex);
             this.formeMap.put(name, tex);
         }
     }
@@ -244,7 +244,8 @@ public class TextureHelper implements IPartTexturer
         if (this.mob == null) return default_;
         ResourceLocation tex = this.bindPerState(part);
         if (tex != null) return tex;
-        final String texName = this.texNames.containsKey(part) ? this.texNames.get(part) : this.default_path;
+        final String texName = ThutCore.trim(this.texNames.containsKey(part) ? this.texNames.get(part)
+                : this.default_path);
         if (texName == null || texName.trim().isEmpty()) this.texNames.put(part, this.default_path);
         tex = this.getResource(texName);
         TexState state;

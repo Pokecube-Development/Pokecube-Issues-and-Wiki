@@ -183,6 +183,7 @@ public class ThutCore
 
     public static String trim(String name)
     {
+        if (name == null) return null;
         // ROOT locale to prevent issues with turkish letters.
         name = name.toLowerCase(Locale.ROOT).trim();
         // Replace all not-resourcelocation chars

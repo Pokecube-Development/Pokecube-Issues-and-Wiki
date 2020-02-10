@@ -38,6 +38,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.GuiArranger;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.GuiTeleport;
@@ -172,8 +173,10 @@ public class EventsHandlerClient
     @SubscribeEvent
     public static void keyInput(final KeyInputEvent evt)
     {
-        if (evt.getKey() == GLFW.GLFW_KEY_F5 && Minecraft.getInstance().currentScreen != null)
-            RenderPokemob.reload_models = true;
+        if (evt.getKey() == GLFW.GLFW_KEY_F5 && Minecraft.getInstance().currentScreen instanceof AnimationGui)
+            if (AnimationGui.entry != null) RenderPokemob.reloadModel(AnimationGui.entry);
+        if (ClientProxy.animateGui.isPressed() && Minecraft.getInstance().currentScreen == null) Minecraft.getInstance()
+                .displayGuiScreen(new AnimationGui());
         if (ClientProxy.mobMegavolve.isPressed())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();

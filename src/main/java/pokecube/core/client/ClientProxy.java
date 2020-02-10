@@ -80,24 +80,25 @@ import pokecube.nbtedit.NBTEdit;
 
 public class ClientProxy extends CommonProxy
 {
-    public static KeyBinding                     nextMob;
-    public static KeyBinding                     nextMove;
-    public static KeyBinding                     previousMob;
-    public static KeyBinding                     previousMove;
-    public static KeyBinding                     mobBack;
-    public static KeyBinding                     mobAttack;
-    public static KeyBinding                     mobStance;
-    public static KeyBinding                     mobMegavolve;
-    public static KeyBinding                     noEvolve;
-    public static KeyBinding                     mobMove1;
-    public static KeyBinding                     mobMove2;
-    public static KeyBinding                     mobMove3;
-    public static KeyBinding                     mobMove4;
-    public static KeyBinding                     mobUp;
-    public static KeyBinding                     mobDown;
-    public static KeyBinding                     throttleUp;
-    public static KeyBinding                     throttleDown;
-    public static KeyBinding                     arrangeGui;
+    public static KeyBinding nextMob;
+    public static KeyBinding nextMove;
+    public static KeyBinding previousMob;
+    public static KeyBinding previousMove;
+    public static KeyBinding mobBack;
+    public static KeyBinding mobAttack;
+    public static KeyBinding mobStance;
+    public static KeyBinding mobMegavolve;
+    public static KeyBinding noEvolve;
+    public static KeyBinding mobMove1;
+    public static KeyBinding mobMove2;
+    public static KeyBinding mobMove3;
+    public static KeyBinding mobMove4;
+    public static KeyBinding mobUp;
+    public static KeyBinding mobDown;
+    public static KeyBinding throttleUp;
+    public static KeyBinding throttleDown;
+    public static KeyBinding arrangeGui;
+    public static KeyBinding animateGui;
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
@@ -273,6 +274,9 @@ public class ClientProxy extends CommonProxy
                 GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientProxy.arrangeGui = new KeyBinding("key.pokemob.arrangegui",
+                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+
+        ClientRegistry.registerKeyBinding(ClientProxy.animateGui = new KeyBinding("key.pokemob.animategui",
                 InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
 
         // Forward this to PCEdit mod:

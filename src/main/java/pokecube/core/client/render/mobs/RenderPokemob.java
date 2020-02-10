@@ -78,8 +78,9 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         private boolean                         checkedForRangedAttack    = false;
         private boolean                         hasRangedAttackAnimation  = false;
 
-        public boolean                          overrideAnim              = false;
-        public String                           anim                      = "";
+        public boolean reload       = false;
+        public boolean overrideAnim = false;
+        public String  anim         = "";
 
         public Vector5                          rotations                 = new Vector5();
 
@@ -108,6 +109,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         @Override
         public String getAnimation(final Entity entityIn)
         {
+            if (this.overrideAnim) return this.anim;
             return this.getPhase((MobEntity) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
         }
 
@@ -430,9 +432,13 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         }
     }
 
-    public static boolean                     reload_models = false;
+    public static void reloadModel(final PokedexEntry entry)
+    {
+        if (RenderPokemob.holders.containsKey(entry)) RenderPokemob.holders.get(entry).init();
+    }
 
-    public static Map<PokemobType<?>, Holder> holderMap     = Maps.newHashMap();
+    public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
+    public static Map<PokedexEntry, Holder>   holders   = Maps.newHashMap();
 
     public static void register()
     {
@@ -440,7 +446,9 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             final PokemobType<?> type = (PokemobType<?>) PokecubeCore.typeMap.get(entry);
-            RenderPokemob.holderMap.put(type, new Holder(entry));
+            final Holder holder = new Holder(entry);
+            RenderPokemob.holderMap.put(type, holder);
+            RenderPokemob.holders.put(entry, holder);
         }
     }
 
@@ -466,9 +474,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     {
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = this.holder;
-        if (holder.wrapper == null || RenderPokemob.reload_models)
+        if (holder.wrapper == null)
         {
-            RenderPokemob.reload_models = false;
             holder.init();
             PokecubeMod.LOGGER.info("Reloaded model for " + type.getEntry());
         }
