@@ -69689,6 +69689,47 @@
       }
     },
 	{
+      "name": "Hatterene Gigantamax",
+      "number": 858,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "57",
+            "atk": "90",
+            "def": "95",
+            "spatk": "136",
+            "spdef": "103",
+            "spd": "29"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "4",
+            "width": "4",
+            "height": "6"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Psychic",
+			"type2": "Fairy"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Healer, Anticipation",
+			"hidden": "Magic Bounce"
+          }
+        },
+        "mass": 5.1
+      
+    },
+	{
       "name": "Impidimp",
       "number": 859,
       "base": true,
