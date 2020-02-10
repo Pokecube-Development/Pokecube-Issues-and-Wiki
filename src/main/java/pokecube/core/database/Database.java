@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -425,10 +426,11 @@ public class Database
         name = ThutCore.trim(name);
         final List<PokedexEntry> toProcess = Lists.newArrayList(Database.allFormes);
         toProcess.sort(Database.COMPARATOR);
+        final String name2 = Database.trim_loose(name);
         for (final PokedexEntry e : toProcess)
         {
-            final String s = e.getTrimmedName();
-            if (s.equals(name))
+            final String s = Database.trim_loose(e.getTrimmedName());
+            if (s.equals(name2))
             {
                 Database.data2.put(name, e);
                 Database.data2.put(s, e);
@@ -992,6 +994,15 @@ public class Database
             {
                 PokecubeCore.LOGGER.error("Error with moves database " + s, e1);
             }
+    }
+
+    public static String trim_loose(String name)
+    {
+        // ROOT locale to prevent issues with turkish letters.
+        name = name.toLowerCase(Locale.ROOT).trim();
+        // Replace all non-alphanumeric
+        name = name.replaceAll("([^a-z0-9])", "");
+        return name;
     }
 
     public static String trim(final String name)

@@ -57,14 +57,17 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             rand.setSeed(i ^ j << 4 ^ chunkGen.getSeed());
             rand.nextFloat();
             if (rand.nextFloat() > this.struct.chance) return false;
-
-            if (this.struct.atSpawn)
+            if (chunkGen.hasStructure(biome, this))
             {
-                PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
-                PokecubeSerializer.getInstance().save();
+                final boolean valid = !MinecraftForge.EVENT_BUS.post(new PickLocation(chunkGen, rand, chunkPosX,
+                        chunkPosZ, this.struct));
+                if (valid && this.struct.atSpawn)
+                {
+                    PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
+                    PokecubeSerializer.getInstance().save();
+                }
+                return valid;
             }
-            if (chunkGen.hasStructure(biome, this)) return !MinecraftForge.EVENT_BUS.post(new PickLocation(chunkGen,
-                    rand, chunkPosX, chunkPosZ, this.struct));
         }
         return false;
     }

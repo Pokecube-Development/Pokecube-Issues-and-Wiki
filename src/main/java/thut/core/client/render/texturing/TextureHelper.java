@@ -32,8 +32,8 @@ public class TextureHelper implements IPartTexturer
         {
             this.arr = arr;
             final String[] args = trigger.split(":");
-            this.chance = Double.parseDouble(args[1]);
-            this.duration = Integer.parseInt(args[2]);
+            if (args.length > 1) this.chance = Double.parseDouble(args[1]);
+            if (args.length > 2) this.duration = Integer.parseInt(args[2]);
         }
     }
 

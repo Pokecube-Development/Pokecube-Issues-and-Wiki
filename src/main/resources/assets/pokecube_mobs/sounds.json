@@ -8420,22 +8420,22 @@
       }
     ]
   },
-  "mobs.kricketunemale": {
+  "mobs.kricketune_male": {
     "category": "hostile",
     "subtitle": "entity.pokecube.kricketune",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/kricketunemale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/kricketunemale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/kricketunemale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -12410,43 +12410,43 @@
       }
     ]
   },
-  "mobs.frillishmale": {
+  "mobs.frillish_male": {
     "category": "hostile",
     "subtitle": "entity.pokecube.frillish",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
     ]
   },
-  "mobs.jellicentmale": {
+  "mobs.jellicent_male": {
     "category": "hostile",
     "subtitle": "entity.pokecube.jellicent",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
