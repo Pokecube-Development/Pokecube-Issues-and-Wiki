@@ -3,6 +3,8 @@ package pokecube.core.interfaces.capabilities;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.xml.namespace.QName;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.LivingEntity;
@@ -12,12 +14,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.entity.IMobTexturable;
+import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
 public class TextureableCaps
@@ -136,6 +140,30 @@ public class TextureableCaps
         {
             if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
             return this.pokemob.modifyTexture(in);
+        }
+
+        @Override
+        public void applyTexturePhase(final Phase phase)
+        {
+            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            if (this.pokemob != null)
+            {
+                final PokedexEntry entry = this.pokemob.getEvolutionEntry();
+                final QName male = new QName("male");
+                final QName female = new QName("female");
+                if (phase.values.containsKey(male)) entry.textureDetails[0] = this.fromValue(phase.values.get(male));
+                if (phase.values.containsKey(female)) entry.textureDetails[1] = this.fromValue(phase.values.get(
+                        female));
+            }
+
+        }
+
+        private String[] fromValue(final String string)
+        {
+            final String[] ret = string.split(",");
+            for (int i = 0; i < ret.length; i++)
+                ret[i] = ThutCore.trim(ret[i]);
+            return ret;
         }
 
     }

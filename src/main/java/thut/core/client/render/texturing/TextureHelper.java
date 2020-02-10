@@ -15,6 +15,7 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import thut.api.entity.IMobTexturable;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
+import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.AnimationXML.TexAnim;
 import thut.core.client.render.animation.AnimationXML.TexCustom;
 import thut.core.client.render.animation.AnimationXML.TexForm;
@@ -323,6 +324,12 @@ public class TextureHelper implements IPartTexturer
         TexState state;
         if ((state = this.texStates.get(part)) != null) return state.applyState(toFill, this.mob);
         return false;
+    }
+
+    @Override
+    public void applyTexturePhase(final Phase phase)
+    {
+        if (this.mob != null) this.mob.applyTexturePhase(phase);
     }
 
 }

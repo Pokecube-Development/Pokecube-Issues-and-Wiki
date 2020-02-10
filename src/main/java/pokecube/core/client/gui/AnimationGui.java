@@ -196,10 +196,10 @@ public class AnimationGui extends Screen
             final Minecraft mc = this.getMinecraft();
             final IPokemob pokemob = this.toRender;
 
-            final float dx = 100 + this.shift[0];
-            final float dy = 00 + this.shift[1];
             final float xSize = this.width / 2;
             final float ySize = this.height / 2;
+            final float dx = xSize / 3 + this.shift[0];
+            final float dy = 00 + this.shift[1];
 
             final float yaw = 0;
 
