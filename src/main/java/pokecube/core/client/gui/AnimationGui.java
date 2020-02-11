@@ -112,6 +112,16 @@ public class AnimationGui extends Screen
         this.toRender.setSexe(this.sexe);
         this.toRender.setShiny(this.shiny);
         this.toRender.getEntity().onGround = this.ground;
+
+        try
+        {
+            final int dye = Integer.parseInt(this.dyeColour.getText());
+            this.toRender.setDyeColour(dye);
+        }
+        catch (final NumberFormatException e1)
+        {
+        }
+
         this.toRender.onGenesChanged();
         this.dyeColour.setText("" + this.toRender.getDyeColour());
         if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
@@ -297,6 +307,7 @@ public class AnimationGui extends Screen
         this.forme = new TextFieldWidget(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, "");
         this.dyeColour = new TextFieldWidget(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, "");
         this.forme.setText(AnimationGui.mob);
+        this.dyeColour.setText(AnimationGui.entry.defaultSpecial + "");
         this.anim.setText("idle");
         this.addButton(this.anim);
         this.addButton(this.state_g);

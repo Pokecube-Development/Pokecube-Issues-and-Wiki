@@ -1054,9 +1054,9 @@ public class PokedexEntryLoader
                         }
                         catch (final NumberFormatException e)
                         {
+                            defaultSpecial = ThutCore.trim(defaultSpecial);
                             for (final DyeColor dye : DyeColor.values())
-                                if (dye.name().equals(defaultSpecial) || dye.getName().equals(defaultSpecial) || dye
-                                        .getTranslationKey().equals(defaultSpecial))
+                                if (ThutCore.trim(dye.name()).equals(defaultSpecial))
                                 {
                                     entry.defaultSpecial = dye.getId();
                                     break;
@@ -1067,15 +1067,15 @@ public class PokedexEntryLoader
                             defaultSpecial = args[2];
                             try
                             {
-                                entry.defaultSpecial = Integer.parseInt(defaultSpecial);
+                                entry.defaultSpecials = Integer.parseInt(defaultSpecial);
                             }
                             catch (final NumberFormatException e)
                             {
+                                defaultSpecial = ThutCore.trim(defaultSpecial);
                                 for (final DyeColor dye : DyeColor.values())
-                                    if (dye.name().equals(defaultSpecial) || dye.getName().equals(defaultSpecial) || dye
-                                            .getTranslationKey().equals(defaultSpecial))
+                                    if (ThutCore.trim(dye.name()).equals(defaultSpecial))
                                     {
-                                        entry.defaultSpecial = dye.getId();
+                                        entry.defaultSpecials = dye.getId();
                                         break;
                                     }
                             }
