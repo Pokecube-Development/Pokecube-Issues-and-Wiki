@@ -145,6 +145,7 @@ public class AnimationLoader
                         scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
                         rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), null, rotation);
                     }
+                    else if (name.equals("textures")) texturer.applyTexturePhase(phase);
                     else if (AnimationRegistry.animations.containsKey(name))
                     {
                         ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);

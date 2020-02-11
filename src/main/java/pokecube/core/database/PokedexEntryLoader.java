@@ -808,8 +808,6 @@ public class PokedexEntryLoader
         if (xmlStats.sizes != null)
         {
             final Map<QName, String> values = xmlStats.sizes.values;
-            entry.length = -1;
-            entry.width = -1;
             for (final QName key : values.keySet())
             {
                 final String keyString = key.toString();
@@ -817,6 +815,27 @@ public class PokedexEntryLoader
                 if (keyString.equals("height")) entry.height = Float.parseFloat(value);
                 if (keyString.equals("length")) entry.length = Float.parseFloat(value);
                 if (keyString.equals("width")) entry.width = Float.parseFloat(value);
+                if (keyString.equals("ridden_offset"))
+                {
+                    // This is each passenger
+                    final String[] args = value.split(":");
+                    final List<double[]> offsets = Lists.newArrayList();
+                    for (final String s : args)
+                    {
+                        final String[] vec = s.split(",");
+                        if (vec.length == 1) offsets.add(new double[] { 0, Float.parseFloat(vec[0]), 0 });
+                        else if (vec.length == 3) offsets.add(new double[] { Float.parseFloat(vec[0]), Float.parseFloat(
+                                vec[1]), Float.parseFloat(vec[2]) });
+                        else PokecubeCore.LOGGER.warn("Wrong number of numbers for offset, must be 1 or 3: " + entry
+                                + " got: " + vec.length);
+                    }
+                    if (!offsets.isEmpty())
+                    {
+                        entry.passengerOffsets = new double[offsets.size()][];
+                        for (int i = 0; i < entry.passengerOffsets.length; i++)
+                            entry.passengerOffsets[i] = offsets.get(i);
+                    }
+                }
             }
             if (entry.width == -1) entry.width = entry.height;
             if (entry.length == -1) entry.length = entry.width;

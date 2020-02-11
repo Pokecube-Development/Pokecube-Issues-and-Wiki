@@ -184,6 +184,13 @@ public class AnimationXML
         public List<Part>         parts  = Lists.newArrayList();
     }
 
+    @XmlRootElement(name = "details")
+    public static class Details
+    {
+        @XmlAnyAttribute
+        public Map<QName, String> values = Maps.newHashMap();
+    }
+
     @XmlRootElement(name = "animation")
     public static class TexAnim
     {

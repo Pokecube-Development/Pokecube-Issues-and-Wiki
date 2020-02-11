@@ -1,6 +1,7 @@
 package thut.core.client.render.texturing;
 
 import net.minecraft.util.ResourceLocation;
+import thut.core.client.render.animation.AnimationXML.Phase;
 
 public interface IPartTexturer
 {
@@ -28,7 +29,14 @@ public interface IPartTexturer
 
     }
 
-    /** Returns the modified texture needed for this part.
+    default void applyTexturePhase(final Phase phase)
+    {
+        // Do nothing by default
+    }
+
+    /**
+     * Applies the texture for the part.<br>
+     * This method will bind the texture to render engine for the part.
      *
      * @param part */
     ResourceLocation getTexture(String part, ResourceLocation default_);

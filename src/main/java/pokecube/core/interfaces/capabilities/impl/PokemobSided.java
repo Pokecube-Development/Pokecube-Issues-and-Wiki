@@ -38,7 +38,7 @@ public abstract class PokemobSided extends PokemobBase
             this.textures[i] = new ResourceLocation(domain, this.entry.texturePath + this.entry.getTrimmedName()
                     + this.entry.textureDetails[index][i] + ".png");
             this.textures[i + effects] = new ResourceLocation(domain, this.entry.texturePath + this.entry
-                    .getTrimmedName() + this.entry.textureDetails[index][i] + "s.png");
+                    .getTrimmedName() + this.entry.textureDetails[index][i] + ".png");
         }
         return this.getTexture();
 
