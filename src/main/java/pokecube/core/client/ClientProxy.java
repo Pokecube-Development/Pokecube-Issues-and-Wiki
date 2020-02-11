@@ -99,6 +99,7 @@ public class ClientProxy extends CommonProxy
     public static KeyBinding throttleUp;
     public static KeyBinding throttleDown;
     public static KeyBinding arrangeGui;
+    public static KeyBinding animateGui;
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
@@ -276,6 +277,9 @@ public class ClientProxy extends CommonProxy
                 GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientProxy.arrangeGui = new KeyBinding("key.pokemob.arrangegui",
+                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+
+        ClientRegistry.registerKeyBinding(ClientProxy.animateGui = new KeyBinding("key.pokemob.animategui",
                 InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
 
         // Forward this to PCEdit mod:

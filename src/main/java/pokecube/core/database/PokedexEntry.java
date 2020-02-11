@@ -861,6 +861,8 @@ public class PokedexEntry
     public boolean legendary    = false;
 
     @CopyToGender
+    public float width  = -1;
+    @CopyToGender
     public float length = -1;
 
     /** Map of Level to Moves learned. */
@@ -956,9 +958,6 @@ public class PokedexEntry
 
     @CopyToGender
     protected PokeType type2;
-
-    @CopyToGender
-    public float width = -1;
 
     @CopyToGender
     protected EntityType<?> entity_type;

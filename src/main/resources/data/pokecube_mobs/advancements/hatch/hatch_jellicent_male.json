@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.medicham"
+          "translate": "entity.pokecube.jellicent"
         }
       ]
     },
@@ -15,18 +15,18 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.medicham"
+          "translate": "entity.pokecube.jellicent"
         }
       ]
     }
   },
   "criteria": {
-    "hatch_medicham": {
+    "hatch_jellicent_male": {
       "trigger": "pokecube:hatch",
       "conditions": {
-        "entry": "medicham"
+        "entry": "jellicent_male"
       }
     }
   },
-  "parent": "pokecube_mobs:hatch/hatch_meditite"
+  "parent": "pokecube_mobs:hatch/hatch_frillish_female"
 }

@@ -3,6 +3,7 @@ package pokecube.core.items.megastuff;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -11,9 +12,13 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
+import thut.wearables.ThutWearables;
+import thut.wearables.inventory.PlayerWearables;
 
 public class MegaCapability implements ICapabilityProvider, IMegaCapability
 {
+    private static final ResourceLocation MEGAWORNTAG = new ResourceLocation("pokecube", "mega_wearables");
+
     public static interface RingChecker
     {
         boolean canMegaEvolve(PlayerEntity player, PokedexEntry toEvolve);
@@ -21,29 +26,23 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
 
     public static RingChecker checker = (player, toEvolve) ->
     {
-        for (int i1 = 0; i1 < player.inventory.getSizeInventory(); i1++)
-        {
-            final ItemStack stack1 = player.inventory.getStackInSlot(i1);
-            if (stack1 != null) if (MegaCapability.matches(stack1, toEvolve)) return true;
-        }
-        for (int i2 = 0; i2 < player.inventory.armorInventory.size(); i2++)
-        {
-            final ItemStack stack2 = player.inventory.armorInventory.get(i2);
-            if (stack2 != null) if (MegaCapability.matches(stack2, toEvolve)) return true;
-        }
+        final PlayerWearables worn = ThutWearables.getWearables(player);
+        for (final ItemStack stack : worn.getWearables())
+            if (PokecubeItems.is(MegaCapability.MEGAWORNTAG, stack) && MegaCapability.matches(stack, toEvolve))
+                return true;
         return false;
     };
 
     @CapabilityInject(IMegaCapability.class)
     public static final Capability<IMegaCapability> MEGA_CAP = null;
 
-    public static boolean canMegaEvolve(PlayerEntity player, IPokemob target)
+    public static boolean canMegaEvolve(final PlayerEntity player, final IPokemob target)
     {
         final PokedexEntry entry = target.getPokedexEntry();
         return MegaCapability.checker.canMegaEvolve(player, entry);
     }
 
-    public static boolean matches(ItemStack stack, PokedexEntry entry)
+    public static boolean matches(final ItemStack stack, final PokedexEntry entry)
     {
         final IMegaCapability cap = stack.getCapability(MegaCapability.MEGA_CAP, null).orElse(null);
         if (cap != null)
@@ -62,7 +61,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
 
     private final LazyOptional<IMegaCapability> holder;
 
-    public MegaCapability(ItemStack itemStack)
+    public MegaCapability(final ItemStack itemStack)
     {
         this.stack = itemStack;
         this.holder = LazyOptional.of(() -> this.stack.getItem() instanceof IMegaCapability
@@ -70,13 +69,13 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
     }
 
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing)
+    public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
         return MegaCapability.MEGA_CAP.orEmpty(capability, this.holder);
     }
 
     @Override
-    public PokedexEntry getEntry(ItemStack stack)
+    public PokedexEntry getEntry(final ItemStack stack)
     {
         if (stack.getItem() instanceof IMegaCapability) return ((IMegaCapability) stack.getItem()).getEntry(stack);
         if (PokecubeItems.is(PokecubeItems.HELDKEY, stack)) return Database.getEntry(stack.getItem().getRegistryName()
@@ -90,7 +89,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
     }
 
     @Override
-    public boolean isStone(ItemStack stack)
+    public boolean isStone(final ItemStack stack)
     {
         if (stack.getItem() instanceof IMegaCapability) return ((IMegaCapability) stack.getItem()).isStone(stack);
         return PokecubeItems.is(PokecubeItems.HELDKEY, stack) && stack.getItem().getRegistryName().getPath().contains(
@@ -98,7 +97,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
     }
 
     @Override
-    public boolean isValid(ItemStack stack, PokedexEntry entry)
+    public boolean isValid(final ItemStack stack, final PokedexEntry entry)
     {
         if (stack.getItem() instanceof IMegaCapability) return ((IMegaCapability) stack.getItem()).isValid(stack,
                 entry);
