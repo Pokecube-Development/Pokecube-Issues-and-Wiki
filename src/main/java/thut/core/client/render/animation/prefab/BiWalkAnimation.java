@@ -12,6 +12,7 @@ import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.common.ThutCore;
 
 public class BiWalkAnimation extends Animation
 {
@@ -44,13 +45,13 @@ public class BiWalkAnimation extends Animation
             renamer.convertToIdents(rf);
         }
         for (final String s : lh)
-            if (s != null) hl.add(s);
+            if (s != null) hl.add(ThutCore.trim(s));
         for (final String s : rh)
-            if (s != null) hr.add(s);
+            if (s != null) hr.add(ThutCore.trim(s));
         for (final String s : rf)
-            if (s != null) fr.add(s);
+            if (s != null) fr.add(ThutCore.trim(s));
         for (final String s : lf)
-            if (s != null) fl.add(s);
+            if (s != null) fl.add(ThutCore.trim(s));
         biwalkdur = Integer.parseInt(this.get(map, "duration"));
         if (!this.get(map, "legAngle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "legAngle"));
         if (!this.get(map, "armAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "armAngle"));

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.w3c.dom.Node;
 
 import com.google.common.collect.Maps;
@@ -33,6 +35,7 @@ import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
+import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -41,14 +44,44 @@ import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.model.PartInfo;
 import thut.core.client.render.texturing.IPartTexturer;
+import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
 
 public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<GenericPokemob>>
 {
+    public static class PokemobTexHelper extends TextureHelper
+    {
+        final PokedexEntry entry;
+
+        public PokemobTexHelper(final PokedexEntry entry)
+        {
+            super();
+            this.entry = entry;
+        }
+
+        @Override
+        public void applyTexturePhase(final Phase phase)
+        {
+            final QName male = new QName("male");
+            final QName female = new QName("female");
+            if (phase.values.containsKey(male)) this.entry.textureDetails[0] = this.fromValue(phase.values.get(male));
+            if (phase.values.containsKey(female)) this.entry.textureDetails[1] = this.fromValue(phase.values.get(
+                    female));
+        }
+
+        private String[] fromValue(final String string)
+        {
+            final String[] ret = string.split(",");
+            for (int i = 0; i < ret.length; i++)
+                ret[i] = ThutCore.trim(ret[i]);
+            return ret;
+        }
+    }
+
     public static class Holder extends ModelHolder implements IModelRenderer<GenericPokemob>
     {
-        ModelWrapper<GenericPokemob>            wrapper;
+        public ModelWrapper<GenericPokemob>     wrapper;
         final Vector3                           rotPoint   = Vector3.getNewVector();
         HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
@@ -89,6 +122,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         {
             super(entry.model(), entry.texture(), entry.animation(), entry.getTrimmedName());
             this.entry = entry;
+            this.texturer = new PokemobTexHelper(entry);
         }
 
         @Override
@@ -478,6 +512,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         try
         {
             super.doRender(entity, x, y, z, entityYaw, partialTicks);
+            // holder.wrapper = null;
         }
         catch (final Exception e)
         {
@@ -489,8 +524,6 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
     @Override
     public ResourceLocation getEntityTexture(final GenericPokemob entity)
     {
-        final PokemobType<?> type = (PokemobType<?>) entity.getType();
-        final Holder holder = RenderPokemob.holderMap.getOrDefault(type, this.holder);
-        return holder.texture;
+        return this.holder.texture;
     }
 }

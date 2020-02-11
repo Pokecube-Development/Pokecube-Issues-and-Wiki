@@ -153,7 +153,12 @@ public class LogicMountedControl extends LogicBase
                 vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
             }
         }
-        if (this.upInputDown) if (this.entity.onGround) this.entity.getJumpController().setJumping();
+        if (this.upInputDown) if (this.entity.onGround)
+        {
+            this.entity.setMotion(0, 0, 0);
+            this.entity.jump();
+            vy += this.entity.getMotion().y * 2;
+        }
         else if (verticalControl) vy += 0.1 * this.throttle;
         else if (this.entity.isInLava() || this.entity.isInWater()) vy += 0.05 * this.throttle;
         if (this.downInputDown)
