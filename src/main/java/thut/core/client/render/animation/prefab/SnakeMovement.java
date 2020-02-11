@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
-import thut.core.common.ThutCore;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
 public class SnakeMovement extends Animation

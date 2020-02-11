@@ -694,6 +694,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
         this.rotationPitch = MathHelper.lerp(0.2F, this.prevRotationPitch, this.rotationPitch);
         this.rotationYaw = MathHelper.lerp(0.2F, this.prevRotationYaw, this.rotationYaw);
+        this.renderYawOffset = this.rotationYaw;
+        this.prevRenderYawOffset = this.prevRotationYaw;
         float f1;
         if (this.isInWater())
         {

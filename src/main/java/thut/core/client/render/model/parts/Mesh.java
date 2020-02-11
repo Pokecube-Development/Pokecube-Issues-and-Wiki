@@ -127,7 +127,15 @@ public abstract class Mesh
     {
         // Apply Texturing.
         if (texturer != null) texturer.shiftUVs(this.name, this.uvShift);
-        if (this.material != null) buffer = this.material.preRender(mat, buffer);
+        if (this.material != null)
+        {
+            buffer = this.material.preRender(mat, buffer);
+            if (this.material.emissiveMagnitude > 0)
+            {
+                int j = (int) (this.material.emissiveMagnitude * 15);
+                this.rgbabro[4] = j << 20 | j << 4;
+            }
+        }
         this.doRender(mat, buffer, texturer);
         if (this.material != null) this.material.postRender(mat);
     }

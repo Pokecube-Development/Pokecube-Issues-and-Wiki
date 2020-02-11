@@ -47,10 +47,10 @@ public class Material
         this.diffuseColor = diffuse;
         this.specularColor = specular;
         this.emissiveColor = emissive;
+        this.emissiveMagnitude = Math.min(emissive.x/0.8f, 1);
         this.ambientIntensity = ambient;
         this.shininess = shiny;
         this.transparency = transparent;
-        this.emissiveMagnitude = Math.min(1, (float) (this.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
     }
 
     public void makeVertexBuilder(final ResourceLocation texture, final IRenderTypeBuffer buffer)
@@ -79,25 +79,24 @@ public class Material
     private RenderType makeRenderType(final ResourceLocation tex)
     {
         this.tex = tex;
-        //@formatter:off
-        final RenderType.State rendertype$state = RenderType.State.builder()
-                .texture(new RenderState.TextureState(tex, false, false))
-                .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
-                {
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                }, () ->
-                {
-                    RenderSystem.disableBlend();
-                }))
-                .diffuseLighting(new RenderState.DiffuseLightingState(true))
-                .alpha(new RenderState.AlphaState(0.003921569F))
-                .cull(new RenderState.CullState(true))
-                .lightmap(new RenderState.LightmapState(true))
-                .overlay(new RenderState.OverlayState(true))
-                .build(false);
-        //@formatter:on
+        RenderType.State.Builder builder = RenderType.State.builder();
+        builder.texture(new RenderState.TextureState(tex, false, false));
+        builder.transparency(new RenderState.TransparencyState("translucent_transparency", () ->
+        {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+        }, () ->
+        {
+            RenderSystem.disableBlend();
+        }));
+        if (emissiveMagnitude == 0) builder.diffuseLighting(new RenderState.DiffuseLightingState(true));
+        builder.alpha(new RenderState.AlphaState(0.003921569F));
+        builder.cull(new RenderState.CullState(false));
+        builder.lightmap(new RenderState.LightmapState(true));
+        builder.overlay(new RenderState.OverlayState(true));
         // TODO see where we need to properly apply the material effects.
+
+        final RenderType.State rendertype$state = builder.build(false);
 
         final String id = this.render_name + tex;
         final RenderType type = RenderType.get(id, DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,

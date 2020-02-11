@@ -43,11 +43,11 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         RenderSystem.translatef(j + 55, k + 60, 50.0F);
         RenderSystem.scalef(1.0F, 1.0F, -1.0F);
         final MatrixStack matrixstack = new MatrixStack();
-        // matrixstack.translate(0.0D, 0.0D, 1000.0D);
         matrixstack.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
         final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(yaw);
         quaternion.multiply(quaternion1);
+        quaternion.multiply(Vector3f.XP.rotationDegrees(pitch));
         matrixstack.rotate(quaternion);
         final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
         quaternion1.conjugate();

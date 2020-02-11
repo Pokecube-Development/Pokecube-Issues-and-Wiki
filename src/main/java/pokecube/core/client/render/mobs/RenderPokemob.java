@@ -78,9 +78,9 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         private boolean                         checkedForRangedAttack    = false;
         private boolean                         hasRangedAttackAnimation  = false;
 
-        public boolean reload       = false;
-        public boolean overrideAnim = false;
-        public String  anim         = "";
+        public boolean                          reload                    = false;
+        public boolean                          overrideAnim              = false;
+        public String                           anim                      = "";
 
         public Vector5                          rotations                 = new Vector5();
 
@@ -465,7 +465,12 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     public RenderPokemob(final PokedexEntry entry, final EntityRendererManager p_i50961_1_)
     {
         super(p_i50961_1_, null, 1);
-        this.holder = new Holder(entry);
+        if (holders.containsKey(entry)) this.holder = holders.get(entry);
+        else
+        {
+            this.holder = new Holder(entry);
+            holders.put(entry, this.holder);
+        }
     }
 
     @Override
@@ -493,9 +498,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
                 texer.bindObject(entity);
                 holder.wrapper.getParts().forEach((n, p) ->
                 {
-                    // Get the default texture for this part.
-                    final ResourceLocation tex_part = texer.getTexture(n, default_);
-                    p.applyTexture(bufferIn, tex_part, texer);
+                    p.applyTexture(bufferIn, default_, texer);
                 });
             }
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

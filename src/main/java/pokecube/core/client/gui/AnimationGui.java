@@ -7,31 +7,24 @@ import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.platform.GLX;
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.render.mobs.RenderMobOverlays;
+import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.RenderPokemob.Holder;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.database.stats.StatsCollector;
-import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -39,9 +32,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.entity.IMobColourable;
-import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.ThutCore;
-import thut.core.common.handlers.PlayerDataHandler;
 
 public class AnimationGui extends Screen
 {
@@ -66,7 +57,7 @@ public class AnimationGui extends Screen
         return ret;
     }
 
-    static String mob = "";
+    static String              mob              = "";
 
     public static PokedexEntry entry;
     TextFieldWidget            anim;
@@ -76,25 +67,25 @@ public class AnimationGui extends Screen
     TextFieldWidget            forme;
     TextFieldWidget            dyeColour;
 
-    IPokemob toRender;
-    Holder   renderHolder;
+    IPokemob                   toRender;
+    Holder                     renderHolder;
 
-    float xRenderAngle     = 0;
-    float yRenderAngle     = 0;
-    float yHeadRenderAngle = 0;
-    float xHeadRenderAngle = 0;
-    int   mouseRotateControl;
-    int   prevX            = 0;
-    int   prevY            = 0;
-    float scale            = 1;
+    float                      xRenderAngle     = 0;
+    float                      yRenderAngle     = 0;
+    float                      yHeadRenderAngle = 0;
+    float                      xHeadRenderAngle = 0;
+    int                        mouseRotateControl;
+    int                        prevX            = 0;
+    int                        prevY            = 0;
+    float                      scale            = 1;
 
-    int[] shift = { 0, 0 };
+    int[]                      shift            = { 0, 0 };
 
-    boolean ground = true;
-    byte    sexe   = IPokemob.NOSEXE;
-    boolean shiny  = false;
+    boolean                    ground           = true;
+    byte                       sexe             = IPokemob.NOSEXE;
+    boolean                    shiny            = false;
 
-    List<String> components;
+    List<String>               components;
 
     public AnimationGui()
     {
@@ -178,7 +169,7 @@ public class AnimationGui extends Screen
     }
 
     @Override
-    public void render(final int unk1, final int unk2, final float unk3)
+    public void render(final int unk1, final int unk2, final float partialTicks)
     {
         final int yOffset = this.height / 2;
         this.font.drawString("State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
@@ -189,11 +180,9 @@ public class AnimationGui extends Screen
         this.font.drawString("              Info:", this.width - 101, yOffset + 30 - yOffset / 2, 0xFFFFFF);
         this.font.drawString("Forme", this.width - 101, yOffset + 60 - yOffset / 2, 0xFFFFFF);
 
-        super.render(unk1, unk2, unk3);
         if (this.toRender != null)
         {
             final MobEntity entity = this.toRender.getEntity();
-            final Minecraft mc = this.getMinecraft();
             final IPokemob pokemob = this.toRender;
 
             final float xSize = this.width / 2;
@@ -203,79 +192,36 @@ public class AnimationGui extends Screen
 
             final float yaw = 0;
 
-            final PokedexEntry pokedexEntry = pokemob.getPokedexEntry();
-            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
-                    .getInstance().player).getData(PokecubePlayerStats.class);
-            final IMobColourable colourable = pokemob.getEntity() instanceof IMobColourable ? (IMobColourable) pokemob
-                    .getEntity() : pokemob instanceof IMobColourable ? (IMobColourable) pokemob : null;
+            final IMobColourable colourable = pokemob.getEntity() instanceof IMobColourable
+                    ? (IMobColourable) pokemob.getEntity()
+                    : pokemob instanceof IMobColourable ? (IMobColourable) pokemob : null;
             if (colourable != null)
             {
-                boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
-                        || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
-                        || mc.player.abilities.isCreativeMode;
-
-                // Megas Inherit colouring from the base form.
-                if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry
-                        .getBaseForme(), Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry
-                                .getBaseForme(), Minecraft.getInstance().player) > 0;
-
-                // Set colouring accordingly.
-                if (fullColour) colourable.setRGBA(255, 255, 255, 255);
-                else if (stats.hasInspected(pokedexEntry)) colourable.setRGBA(127, 127, 127, 255);
-                else colourable.setRGBA(15, 15, 15, 255);
+                colourable.setRGBA(255, 255, 255, 255);
             }
             // Reset some things that add special effects to rendered mobs.
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);
-
             final float mobScale = pokemob.getSize();
-            final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-            final float size = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-            final float j = (this.width - xSize) / 2 + dx;
-            final float k = (this.height - ySize) / 2 + dy;
+            final int j = (int) ((this.width - xSize) / 2 + dx);
+            final int k = (int) ((this.height - ySize) / 2 + dy);
 
-            GL11.glPushMatrix();
-            GL11.glTranslatef(j + 60, k + 100, 50F);
-            final float zoom = 45F / size * this.scale;
-            GL11.glScalef(zoom, zoom, zoom);
-            GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-            final float f5 = k + 75 - 50 - ySize;
-            GL11.glRotatef(135F, 0.0F, 1.0F, 0.0F);
-
-            GL11.glRotatef(-135F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(-(float) Math.atan(f5 / 40F) * 20F, 1.0F, 0.0F, 0.0F);
-
-            GL11.glRotatef(this.yRenderAngle, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(-this.xRenderAngle, 0.0F, 1.0F, 0.0F);
             entity.prevRenderYawOffset = yaw;
             entity.renderYawOffset = yaw;
             entity.rotationYaw = yaw;
             entity.prevRotationYaw = entity.rotationYaw;
             entity.rotationPitch = this.yHeadRenderAngle;
-            entity.rotationYawHead = this.xHeadRenderAngle;
+            entity.rotationYawHead = -this.xHeadRenderAngle;
             entity.prevRotationYawHead = entity.rotationYawHead;
             entity.prevRotationPitch = entity.rotationPitch;
             entity.ticksExisted = Minecraft.getInstance().player.ticksExisted;
             entity.limbSwing += 0.125;
+            final float zoom =  this.scale;
 
-            GlStateManager.enableColorMaterial();
-            RenderHelper.enableStandardItemLighting();
-            RenderMobOverlays.enabled = false;
-            final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
-            entityrenderermanager.setPlayerViewY(180.0F);
-            entityrenderermanager.setRenderShadow(false);
-            entityrenderermanager.renderEntity(entity, 0.0D, 0.0D, 0.0D, yaw, unk3, false);
-            entityrenderermanager.setRenderShadow(true);
-            RenderMobOverlays.enabled = true;
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.disableRescaleNormal();
-            GlStateManager.activeTexture(GLX.GL_TEXTURE1);
-            GlStateManager.disableTexture();
-            GlStateManager.activeTexture(GLX.GL_TEXTURE0);
-            if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
-
-            GL11.glPopMatrix();
+            GuiPokemobBase.renderMob(entity, j, k + 30, yRenderAngle, xRenderAngle + 180, yHeadRenderAngle,
+                    xHeadRenderAngle, zoom);
         }
+        super.render(unk1, unk2, partialTicks);
     }
 
     @Override
