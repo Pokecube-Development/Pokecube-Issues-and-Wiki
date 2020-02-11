@@ -155,9 +155,10 @@ public class LogicMountedControl extends LogicBase
         }
         if (this.upInputDown) if (this.entity.onGround)
         {
-            this.entity.setMotion(0, 0, 0);
-            this.entity.jump();
-            vy += this.entity.getMotion().y * 2;
+            this.entity.isAirBorne = true;
+            // TODO somehow configure this jump value.
+            vy += 2;
+            net.minecraftforge.common.ForgeHooks.onLivingJump(this.entity);
         }
         else if (verticalControl) vy += 0.1 * this.throttle;
         else if (this.entity.isInLava() || this.entity.isInWater()) vy += 0.05 * this.throttle;
