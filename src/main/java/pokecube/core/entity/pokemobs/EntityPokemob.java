@@ -26,6 +26,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -43,6 +44,9 @@ import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Matrix3f;
+import thut.api.maths.vecmath.Vector3f;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -65,6 +69,50 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     {
         // TODO see thutcrafts for what to do here!
         return super.canFitPassenger(passenger);
+    }
+
+    @Override
+    public boolean canPassengerSteer()
+    {
+        if (this.getPassengers().isEmpty()) return false;
+        return this.getPassengers().get(0).getUniqueID().equals(this.pokemobCap.getOwnerId());
+    }
+
+    @Override
+    public Entity getControllingPassenger()
+    {
+        final List<Entity> passengers = this.getPassengers();
+        if (passengers.isEmpty()) return null;
+        return this.getPassengers().get(0).getUniqueID().equals(this.pokemobCap.getOwnerId()) ? this.getPassengers()
+                .get(0) : null;
+    }
+
+    @Override
+    public void updatePassenger(final Entity passenger)
+    {
+        if (!this.isPassenger(passenger)) return;
+        // TODO find passenger index.
+        final int index = 0;
+        final double[] offsets = this.pokemobCap.getPokedexEntry().passengerOffsets[index];
+        float dx = 0, dy = this.getHeight(), dz = 0;
+        final Vector3 sizes = this.pokemobCap.getMobSizes();
+        dx = (float) (offsets[0] * sizes.x);
+        dy = (float) (offsets[1] * sizes.y);
+        dz = (float) (offsets[2] * sizes.z);
+        Vector3f v = new Vector3f(dx, dy, dz);
+        final float yaw = -this.rotationYaw * 0.017453292F;
+        final float pitch = -this.rotationPitch * 0.017453292F;
+        final float sinYaw = MathHelper.sin(yaw);
+        final float cosYaw = MathHelper.cos(yaw);
+        final float sinPitch = MathHelper.sin(pitch);
+        final float cosPitch = MathHelper.cos(pitch);
+        final Matrix3f matrixYaw = new Matrix3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
+        final Matrix3f matrixPitch = new Matrix3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
+        final Matrix3f transform = new Matrix3f();
+        transform.mul(matrixYaw, matrixPitch);
+        v = (Vector3f) v.clone();
+        transform.transform(v);
+        passenger.setPosition(this.posX + v.x, this.posY + v.y, this.posZ + v.z);
     }
 
     @Override

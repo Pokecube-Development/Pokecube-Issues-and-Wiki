@@ -8,6 +8,7 @@ import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.common.ThutCore;
 
 public class SnakeMovement extends Animation
 {
@@ -78,7 +79,7 @@ public class SnakeMovement extends Animation
         if (renamer != null) renamer.convertToIdents(partsArr);
 
         for (final String s : partsArr)
-            if (s != null) parts.add(s);
+            if (s != null) parts.add(ThutCore.trim(s));
 
         if (!this.get(map, "angle").isEmpty()) maxAngle = Float.parseFloat(this.get(map, "angle"));
         if (!this.get(map, "axis").isEmpty()) axis = Integer.parseInt(this.get(map, "axis"));

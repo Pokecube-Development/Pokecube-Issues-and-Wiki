@@ -892,7 +892,7 @@ public class PokedexEntry
     public String[]        particleData;
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
-    public double[][]      passengerOffsets = { { 0, 1, 0 } };
+    public double[][]      passengerOffsets = { { 0, 0.75, 0 } };
     @CopyToGender
     protected int          pokedexNb;
 

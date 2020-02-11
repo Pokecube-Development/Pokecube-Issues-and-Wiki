@@ -1,0 +1,9 @@
+{ 
+  "hotload": true,
+  "pokemon":[ 
+    { 
+      "name":"Doduo",
+      "ridden_offsets":"0,0.25,-0.5"
+    }
+  ]
+}

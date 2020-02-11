@@ -11,6 +11,7 @@ import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.IMobColourable;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.texturing.IPartTexturer;
 
@@ -73,6 +74,12 @@ public class Status
             public boolean shiftUVs(final String part, final double[] toFill)
             {
                 return false;
+            }
+
+            @Override
+            public void init(final CustomTex tex)
+            {
+                // Nope
             }
         };
 

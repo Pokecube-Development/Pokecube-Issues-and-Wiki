@@ -57,6 +57,7 @@ import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.PokedexEntryLoader.XMLDatabase;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.moves.json.JsonMoves;
 import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
@@ -990,7 +991,10 @@ public class Database
             try
             {
                 PokecubeCore.LOGGER.debug("Loading from: {}", s);
-                PokedexEntryLoader.initDatabase(s);
+                final XMLDatabase database = PokedexEntryLoader.initDatabase(s);
+                // Hotloadable ones will be able to be re-loaded at runtime
+                // later, for things like setting ridden offsets, etc
+                if (database.hotload) PokedexEntryLoader.hotloadable.add(s);
             }
             catch (final Exception e)
             {

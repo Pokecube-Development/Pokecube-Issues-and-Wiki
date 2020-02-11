@@ -10,6 +10,7 @@ import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.common.ThutCore;
 
 public class QuadWalkAnimation extends Animation
 {
@@ -42,13 +43,13 @@ public class QuadWalkAnimation extends Animation
             renamer.convertToIdents(rf);
         }
         for (final String s : lh)
-            if (s != null) hl.add(s);
+            if (s != null) hl.add(ThutCore.trim(s));
         for (final String s : rh)
-            if (s != null) hr.add(s);
+            if (s != null) hr.add(ThutCore.trim(s));
         for (final String s : rf)
-            if (s != null) fr.add(s);
+            if (s != null) fr.add(ThutCore.trim(s));
         for (final String s : lf)
-            if (s != null) fl.add(s);
+            if (s != null) fl.add(ThutCore.trim(s));
         if (!this.get(map, "angle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "angle"));
         if (!this.get(map, "frontAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "frontAngle"));
         else walkAngle2 = walkAngle1;

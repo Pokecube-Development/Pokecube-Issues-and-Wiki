@@ -285,7 +285,7 @@ public class PokemobEventsHandler
         final float scale = pokemob.getSize();
         final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
         return dims.y * scale + dims.x * scale > rider.getWidth() && Math.max(dims.x, dims.z) * scale > rider.getWidth()
-                * 1.8;
+                * 1.4;
     }
 
     @SubscribeEvent
@@ -469,9 +469,11 @@ public class PokemobEventsHandler
             return;
         }
 
-        final boolean saddleCheck = !player.isSneaking() && held.isEmpty() && (isOwner || pokemob
-                .getEntity() instanceof EntityPokemob && ((EntityPokemob) pokemob.getEntity()).canFitPassenger(player))
-                && PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
+        final boolean fits = isOwner || pokemob.getEntity() instanceof EntityPokemob && ((EntityPokemob) pokemob
+                .getEntity()).canFitPassenger(player);
+        final boolean saddled = PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
+
+        final boolean saddleCheck = !player.isSneaking() && held.isEmpty() && fits && saddled;
 
         // Check if favourte berry and sneaking, if so, do breeding stuff.
         if (isOwner || player instanceof FakePlayer)

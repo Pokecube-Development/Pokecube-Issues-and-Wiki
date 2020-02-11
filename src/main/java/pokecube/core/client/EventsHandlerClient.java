@@ -49,6 +49,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
@@ -176,8 +177,18 @@ public class EventsHandlerClient
     @SubscribeEvent
     public static void keyInput(final KeyInputEvent evt)
     {
-        if (evt.getKey() == GLFW.GLFW_KEY_F5 && Minecraft.getInstance().currentScreen instanceof AnimationGui)
-            if (AnimationGui.entry != null) RenderPokemob.reloadModel(AnimationGui.entry);
+        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
+                .getInstance().currentScreen instanceof AnimationGui)
+        {
+            PokedexEntryLoader.updateEntry(AnimationGui.entry);
+            RenderPokemob.reloadModel(AnimationGui.entry);
+        }
+        else if (player.getRidingEntity() != null && Minecraft.getInstance().currentScreen != null)
+        {
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(player.getRidingEntity());
+            if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
+        }
         if (ClientProxy.animateGui.isPressed() && Minecraft.getInstance().currentScreen == null) Minecraft.getInstance()
                 .displayGuiScreen(new AnimationGui());
         if (ClientProxy.mobMegavolve.isPressed())

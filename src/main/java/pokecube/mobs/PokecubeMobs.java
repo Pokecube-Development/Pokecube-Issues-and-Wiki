@@ -305,6 +305,7 @@ public class PokecubeMobs
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_drops.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_interacts.json", EnumDatabase.POKEMON);
+        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_offsets.json", EnumDatabase.POKEMON);
 
         Database.addDatabase("pokecube_mobs:database/moves.json", EnumDatabase.MOVES);
 
