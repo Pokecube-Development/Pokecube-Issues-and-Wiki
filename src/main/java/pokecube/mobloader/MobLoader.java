@@ -14,10 +14,6 @@ public class MobLoader
     {
         PokecubeCore.LOGGER.debug("Registering Loadable Databases");
         Database.addDatabase("database/pokemobs/pokemobs_pokedex.json", EnumDatabase.POKEMON);
-        Database.addDatabase("database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
-        Database.addDatabase("database/pokemobs/pokemobs_drops.json", EnumDatabase.POKEMON);
-        Database.addDatabase("database/pokemobs/pokemobs_interacts.json", EnumDatabase.POKEMON);
-
         Database.addDatabase("database/moves.json", EnumDatabase.MOVES);
         Database.addDatabase("database/spawns.json", EnumDatabase.BERRIES);
     }

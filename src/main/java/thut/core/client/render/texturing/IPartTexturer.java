@@ -1,6 +1,7 @@
 package thut.core.client.render.texturing;
 
 import net.minecraft.util.ResourceLocation;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
 public interface IPartTexturer
@@ -28,6 +29,8 @@ public interface IPartTexturer
     {
 
     }
+
+    void init(CustomTex tex);
 
     default void applyTexturePhase(final Phase phase)
     {

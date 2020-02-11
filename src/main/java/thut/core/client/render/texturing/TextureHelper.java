@@ -177,7 +177,11 @@ public class TextureHelper implements IPartTexturer
 
     Map<String, String>                            formeMap     = Maps.newHashMap();
 
-    public TextureHelper(final CustomTex customTex)
+    public TextureHelper()
+    {
+    }
+
+    public void init(final CustomTex customTex)
     {
         if (customTex == null) return;
         if (customTex.defaults != null) this.default_path = ThutCore.trim(customTex.defaults);

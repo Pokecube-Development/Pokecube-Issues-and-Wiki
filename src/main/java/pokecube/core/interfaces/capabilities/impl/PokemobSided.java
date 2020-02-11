@@ -18,9 +18,9 @@ public abstract class PokemobSided extends PokemobBase
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture()
     {
+        final PokedexEntry entry = this.getPokedexEntry();
         if (this.textures != null)
         {
-            final PokedexEntry entry = this.getPokedexEntry();
             final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
             final boolean shiny = this.isShiny();
             final int effects = entry.textureDetails[index].length;
@@ -28,17 +28,17 @@ public abstract class PokemobSided extends PokemobBase
             final ResourceLocation texture = this.textures[texIndex];
             return texture;
         }
-        final String domain = this.getPokedexEntry().getModId();
-        final int index = this.getSexe() == IPokemob.FEMALE && this.entry.textureDetails[1] != null ? 1 : 0;
-        final int effects = this.entry.textureDetails[index].length;
+        final String domain = entry.getModId();
+        final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
+        final int effects = entry.textureDetails[index].length;
         final int size = 2 * effects;
         this.textures = new ResourceLocation[size];
         for (int i = 0; i < effects; i++)
         {
-            this.textures[i] = new ResourceLocation(domain, this.entry.texturePath + this.entry.getTrimmedName()
-                    + this.entry.textureDetails[index][i] + ".png");
-            this.textures[i + effects] = new ResourceLocation(domain, this.entry.texturePath + this.entry
-                    .getTrimmedName() + this.entry.textureDetails[index][i] + ".png");
+            this.textures[i] = new ResourceLocation(domain, entry.texturePath + entry.getTrimmedName()
+                    + entry.textureDetails[index][i] + ".png");
+            this.textures[i + effects] = new ResourceLocation(domain, entry.texturePath + this.entry.getTrimmedName()
+                    + entry.textureDetails[index][i] + ".png");
         }
         return this.getTexture();
 

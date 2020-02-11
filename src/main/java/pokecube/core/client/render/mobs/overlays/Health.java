@@ -79,6 +79,7 @@ public class Health
         final ActiveRenderInfo viewer = renderManager.info;
 
         if (!entity.canEntityBeSeen(viewer.getRenderViewEntity())) return;
+        if (entity.getPassengers().contains(viewer.getRenderViewEntity())) return;
 
         final UUID viewerID = viewer.getRenderViewEntity().getUniqueID();
 

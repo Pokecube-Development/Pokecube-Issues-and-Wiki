@@ -13,6 +13,7 @@ import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.common.ThutCore;
 
 public class AdvancedFlapAnimation extends Animation
 {
@@ -48,9 +49,9 @@ public class AdvancedFlapAnimation extends Animation
                 renamer.convertToIdents(rh);
             }
             for (final String s : lh)
-                if (s != null) hl.add(s);
+                if (s != null) hl.add(ThutCore.trim(s));
             for (final String s : rh)
-                if (s != null) hr.add(s);
+                if (s != null) hr.add(ThutCore.trim(s));
             if (this.get(map, "angle" + i) != null)
             {
                 final String[] args = this.get(map, "angle" + i).split(",");

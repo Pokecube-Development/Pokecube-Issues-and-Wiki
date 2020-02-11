@@ -20,7 +20,6 @@ import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
-import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.AnimationXML.Merge;
 import thut.core.client.render.animation.AnimationXML.Metadata;
@@ -105,7 +104,7 @@ public class AnimationLoader
             IPartTexturer texturer = renderer.getTexturer();
             IAnimationChanger animator = renderer.getAnimationChanger();
 
-            if (texturer == null) renderer.setTexturer(texturer = new TextureHelper((CustomTex) null));
+            if (texturer == null) renderer.setTexturer(texturer = new TextureHelper());
             if (animator == null) renderer.setAnimationChanger(animator = new AnimationChanger());
 
             // Custom tagged parts.
@@ -190,9 +189,9 @@ public class AnimationLoader
             // Handle customTextures
             if (file.model.customTex != null)
             {
-                texturer = new TextureHelper(file.model.customTex);
-                if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(
-                        holder.texture.toString().replace(holder.name, ThutCore.trim(file.model.customTex.defaults)));
+                texturer.init(file.model.customTex);
+                if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(holder.texture
+                        .toString().replace(holder.name, ThutCore.trim(file.model.customTex.defaults)));
             }
 
             // Handle materials
