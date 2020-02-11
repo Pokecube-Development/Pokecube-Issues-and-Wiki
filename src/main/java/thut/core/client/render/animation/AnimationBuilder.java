@@ -2,14 +2,13 @@ package thut.core.client.render.animation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -35,115 +34,11 @@ public class AnimationBuilder
      * definitions in the XML node.
      *
      * @param node
+     * @param set2
      * @param renamer
      * @return
      */
-    public static Animation build(final Node node, @Nullable final IPartRenamer renamer)
-    {
-        Animation ret = null;
-        if (node.getAttributes().getNamedItem("type") == null) return null;
-        final String animName = node.getAttributes().getNamedItem("type").getNodeValue();
-
-        ret = new Animation();
-        ret.name = animName;
-        ret.loops = true;
-        if (node.getAttributes().getNamedItem("loops") != null) ret.loops = Boolean.parseBoolean(node.getAttributes()
-                .getNamedItem("loops").getNodeValue());
-
-        final NodeList parts = node.getChildNodes();
-        Node temp;
-        for (int i = 0; i < parts.getLength(); i++)
-        {
-            final Node part = parts.item(i);
-            if (part.getNodeName().equals("part"))
-            {
-                final NodeList components = part.getChildNodes();
-                String partName = part.getAttributes().getNamedItem("name").getNodeValue();
-                if (renamer != null)
-                {
-                    final String[] names = { partName };
-                    renamer.convertToIdents(names);
-                    partName = names[0];
-                }
-                final ArrayList<AnimationComponent> set = Lists.newArrayList();
-                for (int j = 0; j < components.getLength(); j++)
-                {
-                    final Node component = components.item(j);
-                    if (component.getNodeName().equals("component"))
-                    {
-                        final AnimationComponent comp = new AnimationComponent();
-                        if ((temp = component.getAttributes().getNamedItem("name")) != null) comp.name = temp
-                                .getNodeValue();
-                        if ((temp = component.getAttributes().getNamedItem("rotChange")) != null)
-                        {
-                            final String[] vals = temp.getNodeValue().split(",");
-                            comp.rotChange[0] = Double.parseDouble(vals[0]);
-                            comp.rotChange[1] = Double.parseDouble(vals[1]);
-                            comp.rotChange[2] = Double.parseDouble(vals[2]);
-                        }
-                        if ((temp = component.getAttributes().getNamedItem("posChange")) != null)
-                        {
-                            final String[] vals = temp.getNodeValue().split(",");
-                            comp.posChange[0] = Double.parseDouble(vals[0]);
-                            comp.posChange[1] = Double.parseDouble(vals[1]);
-                            comp.posChange[2] = Double.parseDouble(vals[2]);
-                        }
-                        if ((temp = component.getAttributes().getNamedItem("scaleChange")) != null)
-                        {
-                            final String[] vals = temp.getNodeValue().split(",");
-                            comp.scaleChange[0] = Double.parseDouble(vals[0]);
-                            comp.scaleChange[1] = Double.parseDouble(vals[1]);
-                            comp.scaleChange[2] = Double.parseDouble(vals[2]);
-                        }
-                        if ((temp = component.getAttributes().getNamedItem("rotOffset")) != null)
-                        {
-                            final String[] vals = temp.getNodeValue().split(",");
-                            comp.rotOffset[0] = Double.parseDouble(vals[0]);
-                            comp.rotOffset[1] = Double.parseDouble(vals[1]);
-                            comp.rotOffset[2] = Double.parseDouble(vals[2]);
-                        }
-                        if ((temp = component.getAttributes().getNamedItem("posOffset")) != null)
-                        {
-                            final String[] vals = temp.getNodeValue().split(",");
-                            comp.posOffset[0] = Double.parseDouble(vals[0]);
-                            comp.posOffset[1] = Double.parseDouble(vals[1]);
-                            comp.posOffset[2] = Double.parseDouble(vals[2]);
-                        }
-                        if ((temp = component.getAttributes().getNamedItem("scaleOffset")) != null)
-                        {
-                            final String[] vals = temp.getNodeValue().split(",");
-                            comp.scaleOffset[0] = Double.parseDouble(vals[0]);
-                            comp.scaleOffset[1] = Double.parseDouble(vals[1]);
-                            comp.scaleOffset[2] = Double.parseDouble(vals[2]);
-                        }
-                        if ((temp = component.getAttributes().getNamedItem("length")) != null) comp.length = Integer
-                                .parseInt(temp.getNodeValue());
-                        if ((temp = component.getAttributes().getNamedItem("startKey")) != null) comp.startKey = Integer
-                                .parseInt(temp.getNodeValue());
-                        if ((temp = component.getAttributes().getNamedItem("opacityChange")) != null)
-                            comp.opacityChange = Double.parseDouble(temp.getNodeValue());
-                        if ((temp = component.getAttributes().getNamedItem("opacityOffset")) != null)
-                            comp.opacityOffset = Double.parseDouble(temp.getNodeValue());
-                        if ((temp = component.getAttributes().getNamedItem("hidden")) != null) comp.hidden = Boolean
-                                .parseBoolean(temp.getNodeValue());
-                        set.add(comp);
-                    }
-                }
-                if (!set.isEmpty()) ret.sets.put(partName, set);
-            }
-        }
-        return ret;
-    }
-
-    /**
-     * Constructs a new Animation, and assigns components based on the
-     * definitions in the XML node.
-     *
-     * @param node
-     * @param renamer
-     * @return
-     */
-    public static Animation build(final Phase node, @Nullable final IPartRenamer renamer)
+    public static Animation build(final Phase node, final Set<String> valid_names, @Nullable final IPartRenamer renamer)
     {
         Animation ret = null;
         if (node.type == null) return null;
@@ -157,68 +52,83 @@ public class AnimationBuilder
 
         for (final Part part : node.parts)
         {
-            String partName = ThutCore.trim(part.name);
-            if (renamer != null)
+            final boolean regex = part.name.startsWith("*");
+            final List<String> partNames = Lists.newArrayList();
+            if (regex)
             {
-                final String[] names = { partName };
-                renamer.convertToIdents(names);
-                partName = names[0];
+                final String key = part.name.substring(1).toLowerCase(Locale.ROOT).replace(" ", "_");
+                for (final String s : valid_names)
+                    if (s.matches(key)) partNames.add(s);
             }
-            final ArrayList<AnimationComponent> set = Lists.newArrayList();
-            for (final Component component : part.components)
+            else
             {
-                final AnimationComponent comp = new AnimationComponent();
-                if (component.name != null) comp.name = component.name;
-                if (component.rotChange != null)
+                String partName = ThutCore.trim(part.name);
+                if (renamer != null)
                 {
-                    final String[] vals = component.rotChange.split(",");
-                    comp.rotChange[0] = Double.parseDouble(vals[0]);
-                    comp.rotChange[1] = Double.parseDouble(vals[1]);
-                    comp.rotChange[2] = Double.parseDouble(vals[2]);
+                    final String[] names = { partName };
+                    renamer.convertToIdents(names);
+                    partName = names[0];
                 }
-                if (component.posChange != null)
-                {
-                    final String[] vals = component.posChange.split(",");
-                    comp.posChange[0] = Double.parseDouble(vals[0]);
-                    comp.posChange[1] = Double.parseDouble(vals[1]);
-                    comp.posChange[2] = Double.parseDouble(vals[2]);
-                }
-                if (component.scaleChange != null)
-                {
-                    final String[] vals = component.scaleChange.split(",");
-                    comp.scaleChange[0] = Double.parseDouble(vals[0]);
-                    comp.scaleChange[1] = Double.parseDouble(vals[1]);
-                    comp.scaleChange[2] = Double.parseDouble(vals[2]);
-                }
-                if (component.rotOffset != null)
-                {
-                    final String[] vals = component.rotOffset.split(",");
-                    comp.rotOffset[0] = Double.parseDouble(vals[0]);
-                    comp.rotOffset[1] = Double.parseDouble(vals[1]);
-                    comp.rotOffset[2] = Double.parseDouble(vals[2]);
-                }
-                if (component.posOffset != null)
-                {
-                    final String[] vals = component.posOffset.split(",");
-                    comp.posOffset[0] = Double.parseDouble(vals[0]);
-                    comp.posOffset[1] = Double.parseDouble(vals[1]);
-                    comp.posOffset[2] = Double.parseDouble(vals[2]);
-                }
-                if (component.scaleOffset != null)
-                {
-                    final String[] vals = component.scaleOffset.split(",");
-                    comp.scaleOffset[0] = Double.parseDouble(vals[0]);
-                    comp.scaleOffset[1] = Double.parseDouble(vals[1]);
-                    comp.scaleOffset[2] = Double.parseDouble(vals[2]);
-                }
-                comp.length = component.length;
-                comp.startKey = component.startKey;
-                comp.opacityChange = component.opacityChange;
-                comp.opacityOffset = component.opacityOffset;
-                comp.hidden = component.hidden;
-                set.add(comp);
+                partNames.add(partName);
             }
-            if (!set.isEmpty()) ret.sets.put(partName, set);
+            for (final String partName : partNames)
+            {
+                final ArrayList<AnimationComponent> set = Lists.newArrayList();
+                for (final Component component : part.components)
+                {
+                    final AnimationComponent comp = new AnimationComponent();
+                    if (component.name != null) comp.name = component.name;
+                    if (component.rotChange != null)
+                    {
+                        final String[] vals = component.rotChange.split(",");
+                        comp.rotChange[0] = Double.parseDouble(vals[0]);
+                        comp.rotChange[1] = Double.parseDouble(vals[1]);
+                        comp.rotChange[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.posChange != null)
+                    {
+                        final String[] vals = component.posChange.split(",");
+                        comp.posChange[0] = Double.parseDouble(vals[0]);
+                        comp.posChange[1] = Double.parseDouble(vals[1]);
+                        comp.posChange[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.scaleChange != null)
+                    {
+                        final String[] vals = component.scaleChange.split(",");
+                        comp.scaleChange[0] = Double.parseDouble(vals[0]);
+                        comp.scaleChange[1] = Double.parseDouble(vals[1]);
+                        comp.scaleChange[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.rotOffset != null)
+                    {
+                        final String[] vals = component.rotOffset.split(",");
+                        comp.rotOffset[0] = Double.parseDouble(vals[0]);
+                        comp.rotOffset[1] = Double.parseDouble(vals[1]);
+                        comp.rotOffset[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.posOffset != null)
+                    {
+                        final String[] vals = component.posOffset.split(",");
+                        comp.posOffset[0] = Double.parseDouble(vals[0]);
+                        comp.posOffset[1] = Double.parseDouble(vals[1]);
+                        comp.posOffset[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.scaleOffset != null)
+                    {
+                        final String[] vals = component.scaleOffset.split(",");
+                        comp.scaleOffset[0] = Double.parseDouble(vals[0]);
+                        comp.scaleOffset[1] = Double.parseDouble(vals[1]);
+                        comp.scaleOffset[2] = Double.parseDouble(vals[2]);
+                    }
+                    comp.length = component.length;
+                    comp.startKey = component.startKey;
+                    comp.opacityChange = component.opacityChange;
+                    comp.opacityOffset = component.opacityOffset;
+                    comp.hidden = component.hidden;
+                    set.add(comp);
+                }
+                if (!set.isEmpty()) ret.sets.put(partName, set);
+            }
         }
         return ret;
     }

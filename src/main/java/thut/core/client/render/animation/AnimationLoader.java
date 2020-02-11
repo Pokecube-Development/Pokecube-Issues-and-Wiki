@@ -163,7 +163,7 @@ public class AnimationLoader
                 else if (phase.type != null)
                 {
                     ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
-                    final Animation anim = AnimationBuilder.build(phase, null);
+                    final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
                     if (anim != null) tblAnims.add(anim);
                 }
 
