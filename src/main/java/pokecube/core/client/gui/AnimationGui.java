@@ -212,7 +212,6 @@ public class AnimationGui extends Screen
             // Reset some things that add special effects to rendered mobs.
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);
-            final float mobScale = pokemob.getSize();
             final int j = (int) ((this.width - xSize) / 2 + dx);
             final int k = (int) ((this.height - ySize) / 2 + dy);
 

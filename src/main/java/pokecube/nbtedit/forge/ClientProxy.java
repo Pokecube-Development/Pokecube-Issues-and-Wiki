@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -59,11 +60,11 @@ public class ClientProxy extends CommonProxy
         aabb = aabb.offset(-var8, -var10, -var12);
 
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.color4f(1.0F, 0.0F, 0.0F, .5F);
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.color4f(1.0F, 0.0F, 0.0F, .5F);
         GL11.glLineWidth(3.5F);
-        GlStateManager.disableTexture();
-        GlStateManager.depthMask(false);
+        RenderSystem.disableTexture();
+        RenderSystem.depthMask(false);
 
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder worldRenderer = tessellator.getBuffer();
@@ -93,9 +94,9 @@ public class ClientProxy extends CommonProxy
         worldRenderer.pos(aabb.minX, aabb.maxY, aabb.maxZ);
         tessellator.draw();
 
-        GlStateManager.depthMask(true);
-        GlStateManager.enableTexture();
-        GlStateManager.disableBlend();
+        RenderSystem.depthMask(true);
+        RenderSystem.enableTexture();
+        RenderSystem.disableBlend();
 
     }
 

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.item.DyeColor;
@@ -150,16 +149,15 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         final int u = this.tex[num][0], v = this.tex[num][1];
         final float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
         final float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
-        Minecraft.getInstance().getTextureManager().bindTexture(ParticleBase.TEXTUREMAP);
 
-        buffer.pos(avector3f[0].getX(), avector3f[0].getY(), avector3f[0].getZ()).tex(u2, v2)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
-        buffer.pos(avector3f[1].getX(), avector3f[1].getY(), avector3f[1].getZ()).tex(u1, v1)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
-        buffer.pos(avector3f[2].getX(), avector3f[2].getY(), avector3f[2].getZ()).tex(u1, v1)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
-        buffer.pos(avector3f[3].getX(), avector3f[3].getY(), avector3f[3].getZ()).tex(u2, v2)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
+        buffer.pos(avector3f[0].getX(), avector3f[0].getY(), avector3f[0].getZ())
+        .color(red, green, blue, alpha).tex(u2, v2).lightmap(j).endVertex();
+        buffer.pos(avector3f[1].getX(), avector3f[1].getY(), avector3f[1].getZ())
+        .color(red, green, blue, alpha).tex(u1, v1).lightmap(j).endVertex();
+        buffer.pos(avector3f[2].getX(), avector3f[2].getY(), avector3f[2].getZ())
+        .color(red, green, blue, alpha).tex(u1, v1).lightmap(j).endVertex();
+        buffer.pos(avector3f[3].getX(), avector3f[3].getY(), avector3f[3].getZ())
+        .color(red, green, blue, alpha).tex(u2, v2).lightmap(j).endVertex();
     }
 
     @Override

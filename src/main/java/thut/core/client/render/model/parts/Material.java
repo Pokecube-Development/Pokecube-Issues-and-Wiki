@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.IRenderTypeBuffer.Impl;
 import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderState.ShadeModelState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -28,6 +29,7 @@ public class Material
     public float            ambientIntensity;
     public float            shininess;
     public float            transparency;
+    public boolean          flat          = true;
 
     IVertexBuilder          override_buff = null;
     IRenderTypeBuffer       typeBuff      = null;
@@ -47,7 +49,7 @@ public class Material
         this.diffuseColor = diffuse;
         this.specularColor = specular;
         this.emissiveColor = emissive;
-        this.emissiveMagnitude = Math.min(emissive.x/0.8f, 1);
+        this.emissiveMagnitude = Math.min(emissive.x / 0.8f, 1);
         this.ambientIntensity = ambient;
         this.shininess = shiny;
         this.transparency = transparent;
@@ -94,7 +96,7 @@ public class Material
         builder.cull(new RenderState.CullState(false));
         builder.lightmap(new RenderState.LightmapState(true));
         builder.overlay(new RenderState.OverlayState(true));
-        // TODO see where we need to properly apply the material effects.
+        if (!this.flat) builder.shadeModel(new ShadeModelState(true));
 
         final RenderType.State rendertype$state = builder.build(false);
 

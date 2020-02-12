@@ -1,5 +1,7 @@
 package thut.core.client.render.particle;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.particle.IParticleFactory;
@@ -9,6 +11,7 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -22,19 +25,17 @@ public class ParticleFactories
 {
     public static class RenderType implements IParticleRenderType
     {
-
         @Override
         public void beginRender(final BufferBuilder builder, final TextureManager textures)
         {
-            // textures.bindTexture(ParticleBase.TEXTUREMAP);
-            // builder.begin(GL11.GL_QUADS,
-            // DefaultVertexFormats.POSITION_TEX_COLOR);
+            textures.bindTexture(ParticleBase.TEXTUREMAP);
+            builder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR_TEX_LIGHTMAP);
         }
 
         @Override
         public void finishRender(final Tessellator tes)
         {
-            // tes.draw();
+             tes.draw();
         }
 
     }
@@ -65,7 +66,7 @@ public class ParticleFactories
         @Override
         public IParticleRenderType getRenderType()
         {
-            return IParticleRenderType.CUSTOM;
+            return TYPE;
         }
 
         @Override
