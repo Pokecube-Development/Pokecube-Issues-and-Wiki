@@ -20,6 +20,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
@@ -163,5 +164,11 @@ public class PokecubeLegends
          * helper.dynamax(mob); } }.setRegistryName("pokecube_legends",
          * "dynamax"));
          */
+    }
+
+    @SubscribeEvent
+    public void serverStarting(final FMLServerStartingEvent event)
+    {
+        PokecubeLegends.config.onUpdated();
     }
 }
