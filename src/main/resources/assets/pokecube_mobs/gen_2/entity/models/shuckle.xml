@@ -2,6 +2,26 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale=".5"/>
+  <phase duration="10" leftFront="front_left_leg" leftHind="rear_left_leg" name="quadWalk" rightFront="front_right_leg" rightHind="rear_right_leg"/>
+  <phase type="sitting">
+   <part name="front_left_leg">
+    <component length="10" name="1" startKey="0" hidden="true"/>
+   </part>
+   <part name="front_right_leg">
+    <component length="10" name="1" startKey="0" hidden="true"/>
+   </part>
+   <part name="rear_left_leg">
+    <component length="10" name="1" startKey="0" hidden="true"/>
+   </part>
+   <part name="rear_right_leg">
+    <component length="10" name="1" startKey="0" hidden="true"/>
+   </part>
+  </phase>
+  <phase type="sleeping">
+   <part name="neck">
+    <component length="10" name="1" startKey="0" hidden="true"/>
+   </part>
+  </phase>
   <merges merge="sitting->sleeping"/>
   <metadata head="Head"/>
  </model>

@@ -193,14 +193,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
     {
-        boolean skip = false;
+        boolean skip = this.hidden;
         for (final String s1 : excludedGroupNames)
             if (skip = s1.equalsIgnoreCase(this.name)) break;
-        this.preRender(mat);
-        for (final IExtendedModelPart o : this.childParts.values())
-            o.renderAllExcept(mat, buffer, excludedGroupNames);
-        if (!skip) this.render(mat, buffer);
-        this.postRender(mat);
+        if (!skip)
+        {
+            this.preRender(mat);
+            for (final IExtendedModelPart o : this.childParts.values())
+                o.renderAllExcept(mat, buffer, excludedGroupNames);
+            this.render(mat, buffer);
+            this.postRender(mat);
+        }
     }
 
     @Override
@@ -217,16 +220,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             }
         if (!rendered)
         {
-            this.preRender(mat);
-            this.postRender(mat);
-        }
-        for (final IExtendedModelPart o : this.childParts.values())
-        {
-            mat.push();
-            mat.translate(this.offset.x, this.offset.y, this.offset.z);
-            mat.scale(this.scale.x, this.scale.y, this.scale.z);
-            o.renderOnly(mat, buffer, groupNames);
-            mat.pop();
+            for (final IExtendedModelPart o : this.childParts.values())
+            {
+                mat.push();
+                mat.translate(this.offset.x, this.offset.y, this.offset.z);
+                mat.scale(this.scale.x, this.scale.y, this.scale.z);
+                o.renderOnly(mat, buffer, groupNames);
+                mat.pop();
+            }
         }
     }
 
@@ -245,6 +246,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.clear();
         this.postTrans.clear();
+        this.hidden = false;
     }
 
     @Override
