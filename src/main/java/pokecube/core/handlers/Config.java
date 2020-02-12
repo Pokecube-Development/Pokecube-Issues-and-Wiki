@@ -397,8 +397,9 @@ public class Config extends ConfigData
     @Configure(category = Config.world)
     public int          baseMaxSize            = 1;
     @Configure(category = Config.world)
-    public List<String> structureSubiomes      = Lists.newArrayList("Stronghold:ruin", "Mineshaft:ruin", "Temple:ruin",
-            "EndCity:ruin", "Fortress:ruin", "Mansion:ruin", "Monument:monument", "Village:village");
+    public List<String> structureSubiomes      = Lists.newArrayList("stronghold:ruin", "mineshaft:ruin",
+            "jungle_temple:ruin", "desert_pyramid:ruin", "end_city:ruin", "end_city:ruin", "ocean_ruin:ruin",
+            "woodland_mansion:ruin", "ocean_monument:monument", "village:village");
     @Configure(category = Config.world)
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)

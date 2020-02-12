@@ -186,7 +186,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                     PokecubeManager.setTilt(this.getItem(), this.tilt);
                     final Vector3 v = Vector3.getNewVector();
                     v.set(this).addTo(0, hitten.getPokedexEntry().height / 2, 0).moveEntity(this);
-                    world.removeEntityComplete(hitten.getEntity(), false);
+                    world.removeEntityComplete(hitten.getEntity(), true);
                     this.setMotion(0, 0.1, 0);
                 }
             }
@@ -203,7 +203,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                 PokecubeManager.setTilt(this.getItem(), n);
                 final Vector3 v = Vector3.getNewVector();
                 v.set(this).addTo(0, hitten.getPokedexEntry().height / 2, 0).moveEntity(this);
-                world.removeEntityComplete(hitten.getEntity(), false);
+                world.removeEntityComplete(hitten.getEntity(), true);
                 this.setMotion(0, 0.1, 0);
             }
         }
@@ -244,7 +244,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             PokecubeManager.setTilt(this.getItem(), n);
             final Vector3 v = Vector3.getNewVector();
             v.set(this).addTo(0, mob.getHeight() / 2, 0).moveEntity(this);
-            world.removeEntityComplete(mob, false);
+            world.removeEntityComplete(mob, true);
             this.setMotion(0, 0.1, 0);
         }
     }

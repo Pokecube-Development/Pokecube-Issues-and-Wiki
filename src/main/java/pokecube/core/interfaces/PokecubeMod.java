@@ -1,5 +1,6 @@
 package pokecube.core.interfaces;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.appender.FileAppender;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -22,6 +24,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
+import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.Config;
 import thut.api.maths.Vector3;
@@ -135,9 +138,16 @@ public abstract class PokecubeMod
 
     public abstract void setEntityProvider(IEntityProvider provider);
 
-    public static void setLogger(final Logger logger)
+    public static void setLogger(final Logger logger_in)
     {
-        PokecubeMod.LOGGER = logger;
+        PokecubeMod.LOGGER = logger_in;
+        final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(PokecubeMod.ID + ".log").toFile();
+        if (logfile.exists()) logfile.delete();
+        final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) logger_in;
+        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath()).setName(
+                PokecubeMod.ID).build();
+        logger.addAppender(appender);
+        appender.start();
     }
 
     public abstract void spawnParticle(World world, String par1Str, Vector3 location, Vector3 velocity, int... args);

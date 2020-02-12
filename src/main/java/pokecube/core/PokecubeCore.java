@@ -266,7 +266,7 @@ public class PokecubeCore
     }
 
     // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger(PokecubeCore.MODID);
     public static final String MODID  = "pokecube";
 
     private static final String NETVERSION = "1.0.0";
