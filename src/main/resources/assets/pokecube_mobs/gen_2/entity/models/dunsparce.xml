@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="0.7"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata head="head,Head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase type="idle">
+   <part name="Wing1">
+    <component length="10" name="1" rotChange="0.0,10.0,0.0," rotOffset="-0.0,-0.0,7.692305310521359," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,-10.0,0.0," startKey="10"/>
+   </part>
+   <part name="Wing2">
+    <component length="10" name="1" rotChange="0.0,-10.0,0.0," rotOffset="-0.0,-0.0,-6.692000200910893," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,10.0,0.0," startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

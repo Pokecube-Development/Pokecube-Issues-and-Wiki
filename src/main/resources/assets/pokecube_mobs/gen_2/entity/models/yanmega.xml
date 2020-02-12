@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="1.0"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata dyeable="Wooly_mane,Right_legChild,HeadChild,Left_legChild" head="head,head,Head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase type="flying">
+   <part name="wingbackleft">
+    <component length="2" name="1" rotChange="0.0,-60.0,0.0," rotOffset="-0.0,-0.0,-30.0," startKey="0"/>
+    <component length="2" name="2" rotChange="0.0,60.0,0.0," startKey="2"/>
+   </part>
+   <part name="wingfrontleft">
+    <component length="2" name="1" rotChange="0.0,60.0,0.0," rotOffset="-0.0,-0.0,30.0," startKey="0"/>
+    <component length="2" name="2" rotChange="0.0,-60.0,0.0," startKey="2"/>
+   </part>
+   <part name="wingfrontright">
+    <component length="2" name="1" rotChange="0.0,60.0,0.0," rotOffset="-0.0,-0.0,30.0," startKey="0"/>
+    <component length="2" name="2" rotChange="0.0,-60.0,0.0," startKey="2"/>
+   </part>
+   <part name="wingbackright">
+    <component length="2" name="1" rotChange="0.0,-60.0,0.0," rotOffset="-0.0,-0.0,-30.0," startKey="0"/>
+    <component length="2" name="2" rotChange="0.0,60.0,0.0," startKey="2"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
