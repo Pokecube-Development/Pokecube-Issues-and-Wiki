@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="1.0"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <phase type="idle">
+   <part name="orl1">
+    <component length="10" name="1" rotChange="0.0,-2.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,2.0,0.0," startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="10" name="1" rotChange="0.0,2.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,-2.0,0.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="orl1">
+    <component length="10" name="1" rotChange="0.0,-2.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,2.0,0.0," startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="10" name="1" rotChange="0.0,2.0,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,-2.0,0.0," startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

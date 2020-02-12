@@ -36873,12 +36873,6 @@
       }
     },
     {
-      "name": "Hippowdon Female",
-      "number": 450,
-      "gender": "female",
-      "genderBase": "Hippowdon"
-    },
-    {
       "name": "Skorupi",
       "number": 451,
       "base": true,
@@ -50763,7 +50757,7 @@
             "shoulder": "FALSE"
           }
         },
-        "movementType": "floating"
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
@@ -58568,7 +58562,7 @@
           }
         },
         "mass": 610.0,
-		"movementType": "floating"
+		"movementType": "flying"
       }
     },
     {
@@ -65759,6 +65753,45 @@
           "moves": "flashcannon,rockslide,rest,toxic,headbutt,protect,substitute,facade,selfdestruct,hyperbeam,icepunch,icebeam,earthquake,solarbeam,brickbreak,superpower,thunderwave,thunderpunch,thunder,thunderbolt"
         },
 		"evolutionMoves": "thunderpunch"
+      }
+    },
+	{
+      "name": "Melmetal Gigantamax",
+      "number": 809,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "65",
+            "spatk": "80",
+            "def": "143",
+            "spd": "34",
+            "hp": "135",
+            "atk": "143"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "4",
+            "width": "4",
+            "height": "6"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Steel"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Iron Fist"
+          }
+        },
+        "mass": 800.0
       }
     },
 	{

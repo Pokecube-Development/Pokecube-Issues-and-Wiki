@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0.45,0" scale=".45"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.3"/>
+  <customTex default="drifloon">
+   <part name="Head" tex="driflooneye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
+  </customTex>
+  <phase axis="0" name="snakeFly" parts="line1:line1_1:line1_2:hand1"/>
+  <phase axis="0" name="snakeFly" parts="line2:line2_1:line2_2:hand2"/>
+  <phase axis="0" name="snakeWalk" parts="line1:line1_1:line1_2:hand1"/>
+  <phase axis="0" name="snakeWalk" parts="line2:line2_1:line2_2:hand2"/>
+  <phase type="idle">
+   <part name="line1">
+    <component length="10" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+   <part name="line1_1">
+    <component length="10" name="1" rotOffset="0,0,30" startKey="0"/>
+   </part>
+   <part name="line1_2">
+    <component length="10" name="1" rotOffset="0,0,30" startKey="0"/>
+   </part>
+   <part name="hand1">
+    <component length="10" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+   <part name="line2">
+    <component length="10" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+   <part name="line2_1">
+    <component length="10" name="1" rotOffset="0,0,-30" startKey="0"/>
+   </part>
+   <part name="line2_2">
+    <component length="10" name="1" rotOffset="0,0,-30" startKey="0"/>
+   </part>
+   <part name="hand2">
+    <component length="10" name="1" rotOffset="-90,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="10" name="1" rotOffset="10,0,0" startKey="0"/>
+   </part>
+   <part name="Bloon">
+    <component length="40" name="1" scaleChange="-0.10000000000000009,-0.10000000000000009,-0.10000000000000009," scaleOffset="0.10000000000000009,0.10000000000000009,0.10000000000000009," startKey="0"/>
+    <component length="40" name="2" scaleChange="0.10000000000000009,0.10000000000000009,0.10000000000000009," startKey="40"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

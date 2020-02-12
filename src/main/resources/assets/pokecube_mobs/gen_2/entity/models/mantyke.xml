@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="1.0"/>
-  <merges merge="idle->swimming"/>
-  <merges merge="swimming->flying"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata dyeable="Right_legChild,HeadChild,Left_legChild,Wooly_mane" head="head,Head,head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase type="swimming">
+   <part name="Wing2">
+    <component length="10" name="1" posOffset="0.0,7.629394538355427E-7,0.0," rotChange="0.0,20.0,0.0," rotOffset="-0.002306476713751948,-0.0,10.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,-20.0,0.0," startKey="10"/>
+   </part>
+   <part name="Wing1">
+    <component length="10" name="1" posOffset="0.0,7.629394538355427E-7,0.0," rotChange="0.0,-20.0,0.0," rotOffset="-0.002306476713751948,-0.0,-10.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,20.0,0.0," startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="Antenna2">
+    <component length="10" name="1" rotChange="0.003371926988592122,-2.001997398530353,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,2.0,0.0," startKey="10"/>
+   </part>
+   <part name="Antenna1">
+    <component length="10" name="1" rotChange="0.003371926988592122,2.001773709835035,0.0," startKey="0"/>
+    <component length="10" name="2" rotChange="0.0,-2.0,0.0," startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

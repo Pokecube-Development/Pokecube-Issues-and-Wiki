@@ -58,15 +58,15 @@ public class BlockInit
                     VoxelShapes.create(0.05, 0, 0.05, 1, 3, 1)).setInfoBlockName("portalwarp");
 
     // Legendary Spawns
-    public static Block LEGENDARY_SPAWN = new LegendaryBlock("legendaryspawn", Material.IRON);
+    public static Block LEGENDARY_SPAWN = new LegendaryBlock("legendaryspawn", Material.IRON).noInfoBlock();
     public static Block REGISTEEL_CORE  = new BlockBase("registeel_spawn", Block.Properties.create(Material.IRON).sound(
-            SoundType.METAL).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).setInfoBlockName("registeelblock");
+            SoundType.METAL).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).noInfoBlock();
     public static Block REGICE_CORE     = new BlockBase("regice_spawn", Block.Properties.create(Material.PACKED_ICE)
-            .sound(SoundType.GLASS).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).setInfoBlockName("regiceblock");
+            .sound(SoundType.GLASS).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).noInfoBlock();
     public static Block REGIROCK_CORE   = new BlockBase("regirock_spawn", Block.Properties.create(Material.ROCK).sound(
-            SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).setInfoBlockName("regirockblock");
+            SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).noInfoBlock();
     public static Block REGIGIGA_CORE   = new BlockBase("regigiga_spawn", Block.Properties.create(Material.IRON).sound(
-            SoundType.METAL).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).setInfoBlockName("regigigasblock");
+            SoundType.METAL).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3)).noInfoBlock();
 
     public static Block TIMESPACE_CORE = new SpaceCoreBlock("timerspawn", Block.Properties.create(Material.ORGANIC)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3).sound(SoundType.STONE)
@@ -85,10 +85,10 @@ public class BlockInit
 
     public static Block YVELTAL_CORE = new Rotates("yveltal_egg", Block.Properties.create(Material.IRON)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.AXE).harvestLevel(3).sound(SoundType.WOOD).lightValue(2)
-            .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).setInfoBlockName("yveltalblock");
+            .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock();
     public static Block XERNEAS_CORE = new Rotates("xerneas_tree", Block.Properties.create(Material.IRON)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.AXE).harvestLevel(3).sound(SoundType.WOOD).lightValue(12)
-            .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).setInfoBlockName("xerneasblock");
+            .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock();
 
     // Ores
     public static Block RUBY_ORE     = new BlockBase("ruby_ore", Block.Properties.create(Material.ROCK).sound(
