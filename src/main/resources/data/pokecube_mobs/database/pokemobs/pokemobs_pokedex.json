@@ -36873,12 +36873,6 @@
       }
     },
     {
-      "name": "Hippowdon Female",
-      "number": 450,
-      "gender": "female",
-      "genderBase": "Hippowdon"
-    },
-    {
       "name": "Skorupi",
       "number": 451,
       "base": true,
