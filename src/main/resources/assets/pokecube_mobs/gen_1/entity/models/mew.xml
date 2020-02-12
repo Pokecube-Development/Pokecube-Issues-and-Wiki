@@ -26,32 +26,35 @@
     <component length="6" name="2" rotChange="-20.0,0.0,0.0," startKey="2"/>
     <component length="2" name="3" rotChange="10.0,0.0,0.0," startKey="8"/>
    </part>
-   <part name="tail4">
-    <component length="10" name="1" rotOffset="-0.0,-2,-41.49," startKey="0"/>
-   </part>
-   <part name="tail3">
-    <component length="10" name="1" rotOffset="-0.0,13.54,-31," startKey="0"/>
+   <part name="tail7">
+    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
    </part>
    <part name="tail6">
-    <component length="10" name="1" rotOffset="-10.0,33.54,-31," startKey="0"/>
-   </part>
-   <part name="tail7">
-    <component length="10" name="1" rotOffset="-10.0,33.54,-31," startKey="0"/>
-   </part>
-   <part name="tail1">
-    <component length="10" name="1" rotOffset="-18.26,50.73,-31," startKey="0"/>
+    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
    </part>
    <part name="tail5">
-    <component length="10" name="1" rotOffset="-0.0,-0.0,-25.84," startKey="0"/>
+    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="tail4">
+    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
    </part>
    <part name="tail2">
-    <component length="10" name="1" rotOffset="-0.0,-20.36,-36.6," startKey="0"/>
+    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="tail1">
+    <component length="10" name="1" rotOffset="30.0,0.0,0.0" startKey="0"/>
+   </part>
+   <part name="tail0">
+    <component length="10" name="1" rotOffset="30.0,60.0,0.0" startKey="0"/>
    </part>
    <part name="leftLeg">
-    <component length="10" name="leg" rotOffset="68.0,-0.0,-0.0," startKey="0"/>
+    <component length="10" name="leg" rotOffset="-68.0,0.0,0.0," startKey="0"/>
    </part>
    <part name="rightLeg">
-    <component length="10" name="leg" rotOffset="68.0,-0.0,-7.0," startKey="0"/>
+    <component length="10" name="leg" rotOffset="-68.0,0.0,0.0," startKey="0"/>
    </part>
   </phase>
  </model>
