@@ -11,22 +11,22 @@ import pokecube.core.utils.PokeType;
 public class Reshiram extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("dragon"));
-        int count2 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("dragon"));
-        double captureFactor = ((double)count1 / (double)count2);
-        double roundOff = Math.round(captureFactor * 100.0) / 100.0;
-        
-        float numTotal = 0.5f;
-        String type = "Dragon";
-        
-        if (roundOff >= numTotal) { return true; }
+        if (!this.canCapture(trainer)) return false;
+        final int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("dragon"));
+        final int count2 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("dragon"));
+        final double captureFactor = (double) count1 / (double) count2;
+        final double roundOff = Math.round(captureFactor * 100.0) / 100.0;
+
+        final float numTotal = 0.5f;
+        final String type = "Dragon";
+
+        if (roundOff >= numTotal) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegend(trainer, type, numTotal, roundOff);
+            this.sendNoTrust(trainer);
+            this.sendLegend(trainer, type, (int) (count2 * numTotal), count1);
         }
         return false;
     }

@@ -9,6 +9,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
@@ -16,6 +17,7 @@ import pokecube.core.database.stats.ISpecialSpawnCondition;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
@@ -80,7 +82,7 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     }
 
     @Override
-    public boolean canSpawn(final Entity trainer, final Vector3 location)
+    public boolean canSpawn(final Entity trainer, final Vector3 location, final boolean message)
     {
         if (!this.canSpawn(trainer)) return false;
         if (SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location, trainer.getEntityWorld(), false))
@@ -88,57 +90,59 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
             final boolean here = Tools.countPokemon(location, trainer.getEntityWorld(), 32, this.getEntry()) > 0;
             return !here;
         }
-        sendNoHere(trainer);
+        if (message) this.sendNoHere(trainer);
         return false;
     }
 
     public void sendNoTrust(final Entity trainer)
     {
-        final String message = "msg.notrust.json";
+        final String message = "msg.notrust.info";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
-        		.getEntry().getUnlocalizedName()));
+                .getEntry().getUnlocalizedName()));
         trainer.sendMessage(component);
-        //trainer.sendMessage(new TranslationTextComponent(message));
     }
 
     public void sendNoHere(final Entity trainer)
     {
-        final String message = "msg.nohere.json";
+        final String message = "msg.nohere.info";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
                 .getEntry().getUnlocalizedName()));
         trainer.sendMessage(component);
-        //trainer.sendMessage(new TranslationTextComponent(message));
     }
 
-    //Basic Legend
-    @SuppressWarnings("unused")
-	public void sendLegend(final Entity trainer, final String type, final float numA, final double numB)
+    // Basic Legend
+    public void sendLegend(final Entity trainer, String type, final int numA, final int numB)
     {
         final String message = "msg.infolegend.info";
-        final ITextComponent component = new TranslationTextComponent(message, type, numA, numB);
-        //trainer.sendMessage(component);
-        trainer.sendMessage(new TranslationTextComponent(message, type, numA, numB));
+        type = PokeType.getTranslatedName(PokeType.getType(type));
+        trainer.sendMessage(new TranslationTextComponent(message, type, numA + 1, numB));
     }
 
     // Duo Type Legend
-    @SuppressWarnings("unused")
-	public void sendLegendDuo(final Entity trainer, final String type, final String kill, final float numA,
-            final double numB, final float killa, final double killb)
+    public void sendLegendDuo(final Entity trainer, String type, String kill, final int numA, final int numB,
+            final int killa, final int killb)
     {
         final String message = "msg.infolegendduo.info";
-        final ITextComponent component = new TranslationTextComponent(message, type, kill, numA, numB, killa, killb);
-        //trainer.sendMessage(component);
-        trainer.sendMessage(new TranslationTextComponent(message, type, kill, numA, numB, killa, killb));
+        type = PokeType.getTranslatedName(PokeType.getType(type));
+        kill = PokeType.getTranslatedName(PokeType.getType(kill));
+        trainer.sendMessage(new TranslationTextComponent(message, type, kill, numA + 1, numB, killa + 1, killb));
     }
 
     // Catch specific Legend
-    @SuppressWarnings("unused")
-	public void sendLegendExtra(final Entity trainer, final String names)
+    public void sendLegendExtra(final Entity trainer, final String names)
     {
         final String message = "msg.infolegendextra.info";
-        final ITextComponent component = new TranslationTextComponent(message, names);
-        //trainer.sendMessage(component);
-        trainer.sendMessage(new TranslationTextComponent(message, names));
+        final String[] split = names.split(", ");
+        ITextComponent namemes = null;
+        for (final String s : split)
+        {
+            PokedexEntry entry = Database.getEntry(s);
+            if (entry == null) entry = Database.missingno;
+            if (namemes == null) namemes = new TranslationTextComponent(entry.getUnlocalizedName());
+            else namemes = namemes.appendText(", ").appendSibling(new TranslationTextComponent(entry
+                    .getUnlocalizedName()));
+        }
+        trainer.sendMessage(new TranslationTextComponent(message, namemes));
     }
 
     public void sendAngered(final Entity trainer)
@@ -146,6 +150,6 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         final String message = "msg.angeredlegend.json";
         final ITextComponent component = new TranslationTextComponent(message, new TranslationTextComponent(this
                 .getEntry().getUnlocalizedName()));
-        trainer.sendMessage(component);        
+        trainer.sendMessage(component);
     }
 }

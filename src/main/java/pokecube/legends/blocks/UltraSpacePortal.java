@@ -91,8 +91,8 @@ public class UltraSpacePortal extends Rotates
     public void onEntityCollision(final BlockState state, final World worldIn, final BlockPos pos, final Entity entity)
     {
         if (!(entity instanceof ServerPlayerEntity)) return;
-        if (entity.dimension == DimensionType.OVERWORLD) UltraSpaceModDimension.sendToBase((ServerPlayerEntity) entity);
-        else if (entity.dimension == ModDimensions.DIMENSION_TYPE) UltraSpaceModDimension.sendToExit(
+        if (entity.dimension == DimensionType.OVERWORLD) UltraSpaceModDimension.sentToUltraspace((ServerPlayerEntity) entity);
+        else if (entity.dimension == ModDimensions.DIMENSION_TYPE) UltraSpaceModDimension.sendToOverworld(
                 (ServerPlayerEntity) entity);
     }
 
@@ -105,12 +105,12 @@ public class UltraSpacePortal extends Rotates
                 || dim == ModDimensions.DIMENSION_TYPE;
         if (dim == DimensionType.OVERWORLD)
         {
-            UltraSpaceModDimension.sendToBase((ServerPlayerEntity) entity);
+            UltraSpaceModDimension.sentToUltraspace((ServerPlayerEntity) entity);
             return true;
         }
         else if (dim == ModDimensions.DIMENSION_TYPE)
         {
-            UltraSpaceModDimension.sendToExit((ServerPlayerEntity) entity);
+            UltraSpaceModDimension.sendToOverworld((ServerPlayerEntity) entity);
             return true;
         }
         return false;
