@@ -177,17 +177,20 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void renderAllExcept(final String... excludedGroupNames)
     {
-        boolean skip = false;
+        boolean skip = this.hidden;
         for (final String s1 : excludedGroupNames)
             if (skip = s1.equalsIgnoreCase(this.name)) break;
-        if (!skip) this.render();
-        for (final IExtendedModelPart o : this.childParts.values())
+        if (!skip)
         {
-            GL11.glPushMatrix();
-            GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
-            GL11.glScalef(this.scale.x, this.scale.y, this.scale.z);
-            o.renderAllExcept(excludedGroupNames);
-            GL11.glPopMatrix();
+            this.render();
+            for (final IExtendedModelPart o : this.childParts.values())
+            {
+                GL11.glPushMatrix();
+                GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
+                GL11.glScalef(this.scale.x, this.scale.y, this.scale.z);
+                o.renderAllExcept(excludedGroupNames);
+                GL11.glPopMatrix();
+            }
         }
     }
 
@@ -198,15 +201,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final String s1 : groupNames)
             if (rendered = s1.equalsIgnoreCase(this.name))
             {
+                this.preRender();
                 this.render();
+                this.postRender();
                 break;
             }
-        if (!rendered)
-        {
-            this.preRender();
-            this.postRender();
-        }
-        for (final IExtendedModelPart o : this.childParts.values())
+        if (rendered) for (final IExtendedModelPart o : this.childParts.values())
         {
             GL11.glPushMatrix();
             GL11.glTranslated(this.offset.x, this.offset.y, this.offset.z);
@@ -230,6 +230,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.postRot1.set(0, 1, 0, 0);
         this.preTrans.clear();
         this.postTrans.clear();
+        this.hidden = false;
     }
 
     private void rotateToParent()
