@@ -235,7 +235,7 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
         {
             CompoundNBT tag = buffer.readCompoundTag();
             final ListNBT list = (ListNBT) tag.get("g");
-            final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+            final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
             GeneRegistry.GENETICS_CAP.readNBT(genes, null, list);
             this.pokemobCap.read(tag.getCompound("p"));
             this.pokemobCap.onGenesChanged();
@@ -282,7 +282,7 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
         }
         this.pokemobCap.updateHealth();
         this.pokemobCap.onGenesChanged();
-        final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
+        final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
         final PacketBuffer buffer = new PacketBuffer(data);
         final ListNBT list = (ListNBT) GeneRegistry.GENETICS_CAP.writeNBT(genes, null);
         CompoundNBT nbt = new CompoundNBT();
