@@ -9,6 +9,7 @@
    <part name="Led" tex="glow"/>
    <animation diffs="0,0.5" part="Led" trigger="random:0.004:10"/>
   </customTex>
+  <material name="beam" meshs="beam" transluscent="true"/>
   <phase type="idle">
    <part name="body">
     <component length="1" name="1" posOffset="0,-25,20," startKey="0"/>
