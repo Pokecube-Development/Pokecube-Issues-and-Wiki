@@ -24,6 +24,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -223,6 +224,9 @@ public class PokecubeAdv
                 PokecubeAdv.ID, "linker");
         PokecubeAdv.BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(
                 PokecubeAdv.ID, "bag");
+
+        // Initialize advancement triggers
+        Triggers.init();
     }
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.ID + ":textures/trainer/";

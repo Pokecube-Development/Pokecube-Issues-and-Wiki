@@ -27,11 +27,13 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.PokecubeCore;
@@ -152,12 +154,10 @@ public class CapabilityHasPokemobs
         public void checkDefeatAchievement(final PlayerEntity player)
         {
             // TODO advancements
-            // if (!(this.user instanceof EntityTrainer)) return;
-            // final boolean leader = this.user instanceof EntityLeader;
-            // if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity)
-            // player, (EntityTrainer) this.user);
-            // else Triggers.BEATTRAINER.trigger((ServerPlayerEntity) player,
-            // (EntityTrainer) this.user);
+            if (!(this.user instanceof TrainerBase)) return;
+            final boolean leader = this.user instanceof LeaderNpc;
+            if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
+            else Triggers.BEATTRAINER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
         }
 
         @Override

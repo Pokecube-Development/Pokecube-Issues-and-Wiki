@@ -400,7 +400,6 @@ public class MoveEventsHandler
     public static BlockItemUseContext getContext(final World world, final BlockState toPlace, final BlockPos location,
             final Direction placeFrom, final Direction placeTo)
     {
-        // TODO figoure out something for here.
         final ItemStack stack = new ItemStack(toPlace.getBlock());
         return new DirectionalPlaceContext(world, location, placeFrom, stack, placeTo);
     }

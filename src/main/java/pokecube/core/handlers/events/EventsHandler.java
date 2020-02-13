@@ -13,12 +13,15 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.merchant.IMerchant;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -46,6 +49,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
@@ -472,18 +476,22 @@ public class EventsHandler
         }
     }
 
-    // @SubscribeEvent
-    // /** Stops mobs spawning in nether fortresses, if this is enabled.
-    // * TODO find out how to do this again.
-    // * @param evt */
-    // public static void clearNetherBridge(InitMapGenEvent evt)
-    // {
-    // if (PokecubeCore.getConfig().deactivateMonsters && evt.getType() ==
-    // InitMapGenEvent.EventType.NETHER_BRIDGE)
-    // {
-    // ((MapGenNetherBridge) evt.getNewGen()).getSpawnList().clear();
-    // }
-    // }
+    @SubscribeEvent
+    public static void denySpawns(final LivingSpawnEvent.CheckSpawn event)
+    {
+        // Only deny vanilla spawns.
+        if (!event.getEntity().getType().getRegistryName().getNamespace().equals("minecraft")) return;
+        // Only deny them from these reasons.
+        if (!(event.getSpawnReason() == SpawnReason.NATURAL || event.getSpawnReason() == SpawnReason.CHUNK_GENERATION
+                || event.getSpawnReason() == SpawnReason.STRUCTURE)) return;
+
+        if (event.getEntity() instanceof IMob && !(event.getEntity() instanceof EnderDragonEntity))
+        {
+            if (PokecubeCore.getConfig().deactivateMonsters) event.setCanceled(true);
+        }
+        else if (event.getEntity() instanceof AnimalEntity || event.getEntity() instanceof WaterMobEntity)
+            if (PokecubeCore.getConfig().deactivateAnimals) event.setCanceled(true);
+    }
 
     @SubscribeEvent
     public static void livingUpdate(final LivingUpdateEvent evt)
