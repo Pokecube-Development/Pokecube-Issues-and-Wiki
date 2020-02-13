@@ -511,6 +511,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        if (pokemob == null) return;
         if (pokemob.getTransformedTo() != null)
         {
             this.renderManager.getRenderer(pokemob.getTransformedTo()).render(entity, entityYaw, partialTicks,

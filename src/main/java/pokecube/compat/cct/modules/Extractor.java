@@ -87,7 +87,7 @@ public class Extractor extends BasePeripheral<ExtractorTile>
             newSelector.setTag(new CompoundNBT());
             final ListNBT pages = new ListNBT();
             for (final String s : values)
-                pages.add(new StringNBT(String.format("{\"text\":\"%s\"}", s)));
+                pages.add(StringNBT.valueOf(String.format("{\"text\":\"%s\"}", s)));
             newSelector.getTag().put("pages", pages);
             value = RecipeSelector.getSelectorValue(this.tile.getStackInSlot(1));
             newSelector.getTag().put(ClonerHelper.SELECTORTAG, value.save());

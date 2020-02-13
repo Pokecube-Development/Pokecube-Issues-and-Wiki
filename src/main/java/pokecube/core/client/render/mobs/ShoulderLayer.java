@@ -4,9 +4,10 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -59,9 +60,9 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
     {
         private final LazyOptional<IShoulderHolder> holder = LazyOptional.of(() -> this);
 
-        PlayerEntity player;
-        IPokemob     left  = null;
-        IPokemob     right = null;
+        PlayerEntity                                player;
+        IPokemob                                    left   = null;
+        IPokemob                                    right  = null;
 
         // Do not call this one, it is only for capability register!
         public ShoulderHolder()
@@ -121,18 +122,19 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
     }
 
     @Override
-    public void render(final T entityIn, final float par1, final float par2, final float par3, final float par4,
-            final float par5, final float par6, final float par7)
+    public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T player,
+            float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw,
+            float headPitch)
     {
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.renderShoulder(entityIn, par1, par2, par3, par5, par6, par7, true);
-        this.renderShoulder(entityIn, par1, par2, par3, par5, par6, par7, false);
-        GlStateManager.disableRescaleNormal();
+        renderShoulder(matrixStackIn, bufferIn, packedLightIn, player, limbSwing, limbSwingAmount, partialTicks,
+                ageInTicks, netHeadYaw, headPitch, true);
+        renderShoulder(matrixStackIn, bufferIn, packedLightIn, player, limbSwing, limbSwingAmount, partialTicks,
+                ageInTicks, netHeadYaw, headPitch, false);
     }
 
-    private void renderShoulder(final T player, final float par1, final float par2, final float par3, final float par5,
-            final float par6, final float par7, final boolean leftside)
+    private void renderShoulder(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T player,
+            float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw,
+            float headPitch, final boolean leftside)
     {
         final CompoundNBT compoundnbt = leftside ? player.getLeftShoulderEntity() : player.getRightShoulderEntity();
         EntityType.byKey(compoundnbt.getString("id")).filter((type) ->
@@ -145,37 +147,31 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
             if (holder == null) return;
             final IPokemob pokemob = leftside ? holder.getLeft() : holder.getRight();
             if (pokemob == null) return;
-            final LivingRenderer<LivingEntity, ?> render = Minecraft.getInstance().getRenderManager().getRenderer(
-                    pokemob.getEntity().getClass());
+            @SuppressWarnings("unchecked")
+            final LivingRenderer<LivingEntity, ?> render = (LivingRenderer<LivingEntity, ?>) Minecraft.getInstance()
+                    .getRenderManager().getRenderer(pokemob.getEntity());
             final LivingEntity to = pokemob.getEntity();
 
             EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
 
-            GlStateManager.pushMatrix();
+            matrixStackIn.push();
 
             if (leftside)
             {
                 to.prevRenderYawOffset = 180;
                 to.renderYawOffset = 180;
 
-                GlStateManager.scaled(1, -1, 1);
+                matrixStackIn.scale(1, -1, 1);
             }
             else
             {
-
                 to.prevRenderYawOffset = 0;
                 to.renderYawOffset = 0;
-                GlStateManager.scaled(1, -1, -1);
+                matrixStackIn.scale(1, -1, -1);
             }
-            GlStateManager.translatef(leftside ? 0.4F : -0.4F, player.shouldRenderSneaking() ? -0.2F : -0.0F, 0.0F);
-            render.doRender(pokemob.getEntity(), 0, 0, 0, par3, par6);
-            GlStateManager.popMatrix();
+            matrixStackIn.translate(leftside ? 0.4F : -0.4F, player.isCrouching() ? -0.2F : -0.0F, 0.0F);
+            render.render(pokemob.getEntity(), 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+            matrixStackIn.pop();
         });
-    }
-
-    @Override
-    public boolean shouldCombineTextures()
-    {
-        return false;
     }
 }

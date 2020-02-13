@@ -94,8 +94,8 @@ public class Splicer extends BasePeripheral<SplicerTile>
             values.add(value.toString());
             return values.toArray();
         case 3:
-            if (!getSelectors.isEmpty()) throw new LuaException(
-                    "Cannot set custom selector when a valid one is in the slot.");
+            if (!getSelectors.isEmpty())
+                throw new LuaException("Cannot set custom selector when a valid one is in the slot.");
             for (int i = 0; i < arguments.length; i++)
                 values.add(ArgumentHelper.getString(arguments, i));
             if (values.isEmpty()) throw new LuaException("You need to specify some genes");
@@ -103,7 +103,7 @@ public class Splicer extends BasePeripheral<SplicerTile>
             newSelector.setTag(new CompoundNBT());
             final ListNBT pages = new ListNBT();
             for (final String s : values)
-                pages.add(new StringNBT(String.format("{\"text\":\"%s\"}", s)));
+                pages.add(StringNBT.valueOf(String.format("{\"text\":\"%s\"}", s)));
             newSelector.getTag().put("pages", pages);
             value = RecipeSelector.getSelectorValue(this.tile.getStackInSlot(1));
             newSelector.getTag().put(ClonerHelper.SELECTORTAG, value.save());

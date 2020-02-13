@@ -13,7 +13,7 @@ import com.google.common.collect.HashBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -200,7 +200,7 @@ public class PokecubeCore
                 if (entry.dummy) continue;
                 try
                 {
-                    final PokemobType<TameableEntity> type = new PokemobType<>(GenericPokemob::new, entry);
+                    final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
                     type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
                     event.getRegistry().register(type);
                     Pokedex.getInstance().registerPokemon(entry);
@@ -292,7 +292,7 @@ public class PokecubeCore
     public static SpawnHandler                                         spawner     = new SpawnHandler();
 
     // Map to store the registered mobs in.
-    public static BiMap<PokedexEntry, EntityType<TameableEntity>> typeMap     = HashBiMap.create();
+    public static BiMap<PokedexEntry, EntityType<ShoulderRidingEntity>> typeMap     = HashBiMap.create();
 
     // Provider for entities.
     public static IEntityProvider                                      provider    = new EntityProvider(null);
