@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -15,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.merchant.IMerchant;
@@ -54,7 +56,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
@@ -137,7 +138,6 @@ public class EventsHandler
             if (this.player.ticksExisted < 100) return;
             if (event.player == this.player)
             {
-                // TODO choose first stuff.
                 PacketChoose packet;
                 packet = new PacketChoose(PacketChoose.OPENGUI);
                 final boolean hasStarter = PokecubeSerializer.getInstance().hasStarter(this.player);
@@ -249,6 +249,24 @@ public class EventsHandler
     public static final Capability<IGuardAICapability> GUARDAI_CAP = null;
     static double                                      max         = 0;
 
+    /**
+     * This returns true if the given entity is ia "vanilla" animal
+     */
+    public static Predicate<Entity> ANIMALMATCHER  = e -> e instanceof AnimalEntity || e instanceof WaterMobEntity;
+    /**
+     * This returns true if the given entity is ia "vanilla" monster, but not a
+     * boss
+     */
+    public static Predicate<Entity> MONSTERMATCHER = e -> e instanceof IMob && !(e instanceof EnderDragonEntity)
+            && !(e instanceof WitherEntity);
+
+    static
+    {
+        final Predicate<Entity> VANILLA = e -> e.getType().getRegistryName().getNamespace().equals("minecraft");
+        EventsHandler.ANIMALMATCHER = VANILLA.and(EventsHandler.ANIMALMATCHER);
+        EventsHandler.MONSTERMATCHER = VANILLA.and(EventsHandler.MONSTERMATCHER);
+    }
+
     static int count = 0;
 
     static int     countAbove = 0;
@@ -260,45 +278,6 @@ public class EventsHandler
     public static double candyChance = 4.5;
 
     public static double juiceChance = 3.5;
-
-    @SubscribeEvent
-    /**
-     * Prevents some things from being broken, also possibly adds drops to mob
-     * spawners.
-     *
-     * @param evt
-     */
-    public static void BreakBlock(final BreakEvent evt)
-    {
-        // TODO decide if we still want this.
-        // // If there are any, adds extra drops to mob spawners.
-        // if (evt.getState().getBlock() == Blocks.MOB_SPAWNER)
-        // {
-        // ItemStack stack = PokecubeItems.getRandomSpawnerDrop();
-        // if (!CompatWrapper.isValid(stack)) return;
-        // ItemEntity item = new ItemEntity(evt.getWorld(), evt.getPos().getX()
-        // + 0.5, evt.getPos().getY() + 0.5,
-        // evt.getPos().getZ() + 0.5, stack);
-        // evt.getWorld().spawnEntity(item);
-        // }
-        // // Prevents breaking "Fixed" pokecenters.
-        // if (evt.getState().getBlock() == PokecubeItems.pokecenter)
-        // {
-        // if (evt.getState().getValue(BlockHealTable.FIXED) &&
-        // !evt.getPlayer().capabilities.isCreativeMode)
-        // evt.setCanceled(true);
-        // }
-        // TileEntity tile;
-        // // Prevents other players from breaking someone's secret base portal.
-        // if ((tile = evt.getWorld().getTileEntity(evt.getPos())) instanceof
-        // TileEntityBasePortal)
-        // {
-        // if (!((TileEntityBasePortal) tile).canEdit(evt.getPlayer()))
-        // {
-        // evt.setCanceled(true);
-        // }
-        // }
-    }
 
     @SubscribeEvent
     /**
@@ -479,18 +458,14 @@ public class EventsHandler
     @SubscribeEvent
     public static void denySpawns(final LivingSpawnEvent.CheckSpawn event)
     {
-        // Only deny vanilla spawns.
-        if (!event.getEntity().getType().getRegistryName().getNamespace().equals("minecraft")) return;
         // Only deny them from these reasons.
         if (!(event.getSpawnReason() == SpawnReason.NATURAL || event.getSpawnReason() == SpawnReason.CHUNK_GENERATION
                 || event.getSpawnReason() == SpawnReason.STRUCTURE)) return;
 
-        if (event.getEntity() instanceof IMob && !(event.getEntity() instanceof EnderDragonEntity))
-        {
-            if (PokecubeCore.getConfig().deactivateMonsters) event.setCanceled(true);
-        }
-        else if (event.getEntity() instanceof AnimalEntity || event.getEntity() instanceof WaterMobEntity)
-            if (PokecubeCore.getConfig().deactivateAnimals) event.setCanceled(true);
+        if (EventsHandler.MONSTERMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateMonsters) event
+                .setCanceled(true);
+        if (EventsHandler.ANIMALMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateAnimals) event
+                .setCanceled(true);
     }
 
     @SubscribeEvent
@@ -571,7 +546,6 @@ public class EventsHandler
     @SubscribeEvent
     public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        // TODO See what this is breaking?
         Database.loadingThread.interrupt();
         Database.resourceManager = event.getServer().getResourceManager();
 

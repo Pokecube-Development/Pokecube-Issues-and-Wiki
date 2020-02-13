@@ -150,7 +150,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         // // Controller is done separately for ease of locating it for
         // // controls.
         this.getTickLogic().add(this.controller = new LogicMountedControl(this));
-        // TODO re-do this ai stuff.
+
         // // Add in the various logic AIs that are needed on both client and
         // // server, so it is done here instead of in initAI.
         this.getTickLogic().add(new LogicInLiquid(this));
@@ -159,8 +159,6 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         this.getTickLogic().add(new LogicFloatFlySwim(this));
         this.getTickLogic().add(new LogicMiscUpdate(this));
 
-        // TODO init the AI tasks here.
-        // PokedexEntry entry = getPokedexEntry();
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
         if (entity.getEntityWorld() == null || ThutCore.proxy.isClientSide()) return;
@@ -188,7 +186,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 entity.setPathPriority(PathNodeType.DANGER_FIRE, -1);
             }
 
-        // TODO decide on speed scaling here?
+        // DOLATER decide on speed scaling here?
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);
         entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(1.0f);
 

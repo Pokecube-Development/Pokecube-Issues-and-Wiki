@@ -138,6 +138,7 @@ public class PokecubeAdv
                 final Item badge = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
                 final String name = type.name.equals("???") ? "unknown" : type.name;
                 PokecubeAdv.BADGES.put(type, badge);
+                PokecubeAdv.BADGEINV.put(badge, type);
                 badge.setRegistryName(PokecubeAdv.ID, "badge_" + name.toLowerCase(Locale.ROOT));
                 event.getRegistry().register(badge);
             }
@@ -199,7 +200,8 @@ public class PokecubeAdv
     public static Item LINKER;
     public static Item BAG;
 
-    public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
+    public static final Map<PokeType, Item> BADGES   = Maps.newHashMap();
+    public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
 
     static void init()
     {

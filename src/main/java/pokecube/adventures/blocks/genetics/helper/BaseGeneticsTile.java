@@ -82,7 +82,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public int receiveEnergy(int maxReceive, boolean simulate)
+    public int receiveEnergy(final int maxReceive, final boolean simulate)
     {
         if (this.getProcess() == null || !this.getProcess().valid()) return 0;
         BaseGeneticsTile.parser.setVarValue("x", maxReceive);
@@ -92,7 +92,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     }
 
     @Override
-    public int extractEnergy(int maxExtract, boolean simulate)
+    public int extractEnergy(final int maxExtract, final boolean simulate)
     {
         // We cannot extract it!
         return 0;
@@ -172,7 +172,7 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
                 {
                     done = !this.getProcess().tick();
                 }
-                catch (Exception e)
+                catch (final Exception e)
                 {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -203,7 +203,6 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     public ItemStack decrStackSize(final int arg0, final int arg1)
     {
         final ItemStack stack = this.getStackInSlot(arg0);
-        // TODO is this how it is supposed to happen?
         return stack.split(arg1);
     }
 

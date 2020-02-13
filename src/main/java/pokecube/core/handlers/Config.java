@@ -451,7 +451,8 @@ public class Config extends ConfigData
     public boolean       shouldCap              = true;
     @Configure(category = Config.spawning, type = Type.SERVER)
     @Versioned
-    public List<String>  spawnLevelFunctions    = Lists.newArrayList(new String[] { //@formatter:off
+    public List<String>  spawnLevelFunctions    = Lists.newArrayList(new String[] {
+            //@formatter:off
             "-1:abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3)):false:false",
             "0:abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3)):false:false",
             "1:1+r/200:true:true"

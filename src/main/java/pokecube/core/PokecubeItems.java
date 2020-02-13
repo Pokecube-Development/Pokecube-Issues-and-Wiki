@@ -148,12 +148,9 @@ public class PokecubeItems extends Items
 
     static
     {
-        // TODO loot functions
         LootFunctionManager.registerFunction(new MakeBerry.Serializer());
-        // LootFunctionManager.registerFunction(new MakeMegastone.Serializer());
         LootFunctionManager.registerFunction(new MakeHeldItem.Serializer());
         LootFunctionManager.registerFunction(new MakeFossil.Serializer());
-        // LootFunctionManager.registerFunction(new MakeVitamin.Serializer());
     }
 
     private static Set<ResourceLocation> errored = Sets.newHashSet();

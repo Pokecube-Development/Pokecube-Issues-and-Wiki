@@ -138,10 +138,10 @@ public class TerrainSegment
 
         String getIdenitifer();
 
-        // Does not currently work TODO make this work
+        // TODO call this
         void readFromNBT(CompoundNBT nbt);
 
-        // Does not currently work TODO make this work
+        // TODO call this
         void writeToNBT(CompoundNBT nbt);
     }
 
