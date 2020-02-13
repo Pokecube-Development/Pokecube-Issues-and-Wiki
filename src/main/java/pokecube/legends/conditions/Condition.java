@@ -6,9 +6,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
@@ -19,6 +21,7 @@ import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
+import pokecube.legends.PokecubeLegends;
 import thut.api.maths.Vector3;
 
 public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpawnCondition
@@ -76,8 +79,21 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     {
         if (trainer == null) return false;
         if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), this.getEntry()) > 0) return true;
+        // Also check if can capture, if not, no point in being able to spawn.
         if (trainer instanceof ServerPlayerEntity && PokecubePlayerDataHandler.getCustomDataTag(
-                (ServerPlayerEntity) trainer).getBoolean("spwn:" + this.getEntry().getTrimmedName())) return false;
+                (ServerPlayerEntity) trainer).getBoolean("capt:" + this.getEntry().getTrimmedName())) return false;
+        if (trainer instanceof ServerPlayerEntity)
+        {
+            final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag((ServerPlayerEntity) trainer)
+                    .getBoolean("spwn:" + this.getEntry().getTrimmedName());
+            if (!prevSpawn) return true;
+            final MinecraftServer server = trainer.getServer();
+            final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag((ServerPlayerEntity) trainer).getLong(
+                    "spwn_ded:" + this.getEntry().getTrimmedName());
+            if (spwnDied > 0) return spwnDied + PokecubeLegends.config.respawnLegendDelay < server.getWorld(
+                    DimensionType.OVERWORLD).getGameTime();
+            return false;
+        }
         return true;
     }
 

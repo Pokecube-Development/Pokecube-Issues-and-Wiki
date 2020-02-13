@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.35"/>
-  <metadata head="Head" headAxis="1" headAxis2="0" headCap="-60,60" headCap1="-10,60" headDir="1"/>
+  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-10,60" headDir="-1"/>
   <worn angles="0,180,0" id="__HAT__" offset="0,0.0,-0.225" parent="Head" scale="0.85"/>
   <worn angles="-70,0,-90" id="__EAR_left__" offset="-0.18,0.0,-.20" parent="Head" scale="0.5"/>
   <worn angles="-70,0,90" id="__EAR_right__" offset="0.18,0.0,-.20" parent="Head" scale="0.5"/>

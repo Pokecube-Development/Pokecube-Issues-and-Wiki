@@ -2,6 +2,7 @@ package pokecube.legends.spawns;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
@@ -14,7 +15,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -72,6 +75,7 @@ public class LegendarySpawn
                     return SpawnResult.NOCAPTURE;
                 }
                 PokecubePlayerDataHandler.getCustomDataTag(playerIn).putBoolean("spwn:" + entry.getTrimmedName(), true);
+                entity.getPersistentData().putUniqueId("spwnedby:", playerIn.getUniqueID());
                 entity.setHealth(entity.getMaxHealth());
                 location.add(0, 1, 0).moveEntity(entity);
                 spawnCondition.onSpawn(pokemob);
@@ -86,6 +90,24 @@ public class LegendarySpawn
             else return SpawnResult.NOSPAWN;
         }
         return SpawnResult.FAIL;
+    }
+
+    @SubscribeEvent
+    public static void livingDeath(final LivingDeathEvent evt)
+    {
+        if (!(evt.getEntity().getEntityWorld() instanceof ServerWorld)) return;
+        // // Recall if it is a pokemob.
+        final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().contains(
+                "spwnedby:"))
+        {
+            ServerWorld world = (ServerWorld) evt.getEntity().getEntityWorld();
+            world = world.getServer().getWorld(DimensionType.OVERWORLD);
+            final UUID id = evt.getEntity().getPersistentData().getUniqueId("spwnedby:");
+            PokecubePlayerDataHandler.getCustomDataTag(id).putLong("spwn_ded:" + attacked.getPokedexEntry()
+                    .getTrimmedName(), world.getGameTime());
+
+        }
     }
 
     /**

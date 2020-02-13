@@ -501,6 +501,14 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
     public void doRender(final GenericPokemob entity, final double x, final double y, final double z,
             final float entityYaw, final float partialTicks)
     {
+        final IPokemob pokemob = entity.pokemobCap;
+        if (pokemob.getTransformedTo() != null)
+        {
+            this.renderManager.getRenderer(pokemob.getTransformedTo()).doRender(pokemob.getTransformedTo(), x, y, z,
+                    entityYaw, partialTicks);
+            return;
+        }
+
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = RenderPokemob.holderMap.getOrDefault(type, this.holder);
         if (holder.wrapper == null) holder.init();

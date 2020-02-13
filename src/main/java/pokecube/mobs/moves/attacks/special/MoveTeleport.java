@@ -7,9 +7,9 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.templates.Move_Basic;
 
-public class Move_Teleport extends Move_Basic
+public class MoveTeleport extends Move_Basic
 {
-    public Move_Teleport()
+    public MoveTeleport()
     {
         super("teleport");
     }
