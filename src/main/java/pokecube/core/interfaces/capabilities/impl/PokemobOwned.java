@@ -172,18 +172,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         boolean rightSize = width < 1 && height < 1 && length < 1;
         rightSize |= this.getPokedexEntry().canSitShoulder;
         if (!rightSize) return false;
-        // TODO fix this.
-        // final CompoundNBT CompoundNBT = new CompoundNBT();
-        // CompoundNBT.putString("id",
-        // this.getEntity().getType().getRegistryName().toString());
-        // this.getEntity().writeAdditional(CompoundNBT);
-        //
-        // if (player.addShoulderEntity(CompoundNBT))
-        // {
-        // this.getEntity().remove(true);
-        // return true;
-        // }
-        // else
+        if (super.moveToShoulder(player))
+        {
+            this.returning = true;
+            return true;
+        }
         return false;
     }
 

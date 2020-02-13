@@ -1,12 +1,6 @@
 package pokecube.compat.cct;
 
-import java.util.Locale;
-
 import dan200.computercraft.api.ComputerCraftAPI;
-import dan200.computercraft.api.lua.ArgumentHelper;
-import dan200.computercraft.api.lua.ILuaContext;
-import dan200.computercraft.api.lua.LuaException;
-import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.tileentity.TileEntity;
@@ -14,8 +8,18 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import pokecube.adventures.blocks.commander.CommanderTile;
+import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
+import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
+import pokecube.adventures.blocks.siphon.SiphonTile;
+import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.compat.cct.modules.Commander;
+import pokecube.compat.cct.modules.Extractor;
+import pokecube.compat.cct.modules.Siphon;
+import pokecube.compat.cct.modules.Splicer;
+import pokecube.compat.cct.modules.TM;
+import pokecube.compat.cct.modules.Warppad;
 import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.pokemob.IHasCommands.Command;
+import pokecube.core.blocks.tms.TMTile;
 
 public class Impl
 {
@@ -32,104 +36,18 @@ public class Impl
         }
     }
 
-    public static class CommanderPeripheral implements IPeripheral
-    {
-        final CommanderTile tile;
-        final String[]      methods;
-
-        public CommanderPeripheral(final CommanderTile tile)
-        {
-            this.tile = tile;
-            this.methods = new String[3];
-            this.methods[0] = "set";
-            this.methods[1] = "execute";
-            this.methods[2] = "status";
-            this.methods[3] = "help";
-        }
-
-        @Override
-        public String getType()
-        {
-            return "poke_commander";
-        }
-
-        @Override
-        public String[] getMethodNames()
-        {
-            return this.methods;
-        }
-
-        @Override
-        public Object[] callMethod(final IComputerAccess computer, final ILuaContext context, final int method,
-                final Object[] arguments) throws LuaException, InterruptedException
-        {
-            switch (method)
-            {
-            case 0:
-                // This is setting the command, returns a boolean as to whether
-                // it set correctly.
-                final String type = ArgumentHelper.getString(arguments, 0).toUpperCase(Locale.ROOT);
-                Command command_ = null;
-                try
-                {
-                    command_ = Command.valueOf(type);
-                }
-                catch (final Exception e1)
-                {
-                    throw new LuaException("Try using help to get list of commands");
-                }
-                String args = ArgumentHelper.getString(arguments, 1);
-                for (int i = 2; i < arguments.length; i++)
-                    args = args + " " + ArgumentHelper.getString(arguments, i);
-                try
-                {
-                    this.tile.setCommand(command_, args);
-                    return new Object[] { true };
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error setting commander block command via computer", e);
-                    throw new LuaException("Error with settig command");
-                }
-            case 1:
-                if (this.tile.command == null) throw new LuaException("No Command set!");
-                if (this.tile.pokeID == null) throw new LuaException("No pokemob linked!");
-                try
-                {
-                    this.tile.sendCommand();
-                    return new Object[] { true };
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error executing commander block command via computer", e);
-                    throw new LuaException("Error with executing command");
-                }
-            case 3:
-                final String[] names = new String[Command.values().length];
-                for (int i = 0; i < names.length; i++)
-                    names[i] = Command.values()[i].name();
-                return names;
-
-            default:
-                throw new LuaException("Unimplemented Argument!");
-            }
-        }
-
-        @Override
-        public boolean equals(final IPeripheral other)
-        {
-            return other instanceof CommanderPeripheral && ((CommanderPeripheral) other).tile == this.tile;
-        }
-
-    }
-
     public static class PokecubePeripherals implements IPeripheralProvider
     {
         @Override
         public IPeripheral getPeripheral(final World world, final BlockPos pos, final Direction side)
         {
             final TileEntity tile = world.getTileEntity(pos);
-            if (tile instanceof CommanderTile) return new CommanderPeripheral((CommanderTile) tile);
+            if (tile instanceof CommanderTile) return new Commander((CommanderTile) tile);
+            if (tile instanceof TMTile) return new TM((TMTile) tile);
+            if (tile instanceof SplicerTile) return new Splicer((SplicerTile) tile);
+            if (tile instanceof ExtractorTile) return new Extractor((ExtractorTile) tile);
+            if (tile instanceof WarppadTile) return new Warppad((WarppadTile) tile);
+            if (tile instanceof SiphonTile) return new Siphon((SiphonTile) tile);
             return null;
         }
     }

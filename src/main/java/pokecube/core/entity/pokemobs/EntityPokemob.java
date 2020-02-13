@@ -17,8 +17,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.passive.IFlyingAnimal;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -50,18 +51,34 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
-public class EntityPokemob extends TameableEntity implements IEntityAdditionalSpawnData, IFlyingAnimal, IMobColourable
+public class EntityPokemob extends ShoulderRidingEntity implements IEntityAdditionalSpawnData, IFlyingAnimal,
+        IMobColourable
 {
     public final DefaultPokemob pokemobCap;
     protected final EntitySize  size;
 
-    public EntityPokemob(final EntityType<? extends TameableEntity> type, final World world)
+    public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final World world)
     {
         super(type, world);
         final DefaultPokemob cap = (DefaultPokemob) this.getCapability(CapabilityPokemob.POKEMOB_CAP, null).orElse(
                 null);
         this.pokemobCap = cap == null ? new DefaultPokemob(this) : cap;
         this.size = new EntitySize(cap.getPokedexEntry().width, cap.getPokedexEntry().height, true);
+    }
+
+    @Override
+    public boolean func_213439_d(final ServerPlayerEntity p_213439_1_)
+    {
+        final CompoundNBT compoundnbt = new CompoundNBT();
+        compoundnbt.putString("id", this.getEntityString());
+        compoundnbt.putInt("pokemob:uid", this.pokemobCap.getPokemonUID());
+        this.writeWithoutTypeId(compoundnbt);
+        if (p_213439_1_.addShoulderEntity(compoundnbt))
+        {
+            this.remove(true);
+            return true;
+        }
+        else return false;
     }
 
     @Override

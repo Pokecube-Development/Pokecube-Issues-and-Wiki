@@ -7,7 +7,9 @@ import java.util.List;
 
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -286,6 +288,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default boolean moveToShoulder(final PlayerEntity player)
     {
+        if (this.getEntity() instanceof ShoulderRidingEntity)
+        {
+            if (player instanceof ServerPlayerEntity) ((ShoulderRidingEntity) this.getEntity()).func_213439_d(
+                    (ServerPlayerEntity) player);
+            return true;
+        }
         return false;
     }
 

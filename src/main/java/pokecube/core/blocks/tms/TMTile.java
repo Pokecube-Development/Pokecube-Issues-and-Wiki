@@ -2,7 +2,6 @@ package pokecube.core.blocks.tms;
 
 import java.util.Arrays;
 import java.util.Set;
-import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
@@ -24,8 +23,6 @@ import pokecube.core.items.ItemTM;
 public class TMTile extends InteractableTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
-
-    public final Set<UUID> users = Sets.newHashSet();
 
     public TMTile()
     {
