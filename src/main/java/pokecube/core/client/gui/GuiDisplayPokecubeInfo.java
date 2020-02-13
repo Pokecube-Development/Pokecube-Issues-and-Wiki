@@ -215,16 +215,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
         if (this.fontRenderer == null) this.fontRenderer = this.minecraft.fontRenderer;
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo());
-        // TODO fix target info rendering
-        try
-        {
-            MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo());
-        }
-        catch (final Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo());
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports());
     }
 

@@ -153,7 +153,6 @@ public class CapabilityHasPokemobs
 
         public void checkDefeatAchievement(final PlayerEntity player)
         {
-            // TODO advancements
             if (!(this.user instanceof TrainerBase)) return;
             final boolean leader = this.user instanceof LeaderNpc;
             if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);

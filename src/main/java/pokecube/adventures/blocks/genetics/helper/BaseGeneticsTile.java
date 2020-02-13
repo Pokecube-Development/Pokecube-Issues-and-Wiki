@@ -21,6 +21,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
+import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.inventory.InvHelper;
 
@@ -166,16 +167,13 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
             if (valid)
             {
                 this.total.set(this.getProcess().recipe.getEnergyCost());
-                // TODO remove this when needed.
-                // this.getProcess().needed -= 230;
                 try
                 {
                     done = !this.getProcess().tick();
                 }
                 catch (final Exception e)
                 {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    PokecubeCore.LOGGER.error("Error ticking genetics process", e);
                 }
             }
             if (!valid || done)

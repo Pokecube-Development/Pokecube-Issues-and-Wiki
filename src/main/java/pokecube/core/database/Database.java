@@ -120,17 +120,11 @@ public class Database
             this.folderFinder.addPackInfosToMap(map, packInfoFactoryIn);
 
             for (final ResourcePackInfo info : map.values())
-                try
-                {
-                    final IResourcePack pack = info.getResourcePack();
-                    if (pack != null) this.allPacks.add(pack);
-                    else PokecubeCore.LOGGER.debug("No Pack found for " + info);
-                }
-                catch (final Exception e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+            {
+                final IResourcePack pack = info.getResourcePack();
+                if (pack != null) this.allPacks.add(pack);
+                else PokecubeCore.LOGGER.debug("No Pack found for " + info);
+            }
         }
 
         @Override

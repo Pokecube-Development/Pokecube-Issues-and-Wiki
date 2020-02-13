@@ -81,8 +81,7 @@ public class XMLRecipeHandler
 
     static
     {
-        // TODO re-implement the PokemobMoveRecipeParser...
-        // recipeParsers.put("move_effect", new PokemobMoveRecipeParser());
+        XMLRecipeHandler.recipeParsers.put("move_effect", new PokemobMoveRecipeParser());
     }
 
     public static void addRecipe(final XMLRecipe recipe)
