@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
@@ -25,7 +26,7 @@ public class PacketPC extends Packet
 
     public static final String OWNER = "_owner_";
 
-    public static void sendInitialSyncMessage(PlayerEntity sendTo)
+    public static void sendInitialSyncMessage(final PlayerEntity sendTo)
     {
         final PCInventory inv = PCInventory.getPC(sendTo.getUniqueID());
         final PacketPC packet = new PacketPC(PacketPC.PCINIT, sendTo.getUniqueID());
@@ -38,7 +39,7 @@ public class PacketPC extends Packet
         PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
     }
 
-    public static void sendOpenPacket(PlayerEntity sendTo, UUID owner, BlockPos pcPos)
+    public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner, final BlockPos pcPos)
     {
         final PCInventory inv = PCInventory.getPC(owner);
         for (int i = 0; i < inv.boxes.length; i++)
@@ -48,10 +49,8 @@ public class PacketPC extends Packet
             packet.data.putUniqueId(PacketPC.OWNER, owner);
             PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
         }
-        // TODO open pc
-        // sendTo.openGui(PokecubeCore, Config.GUIPC_ID,
-        // sendTo.getEntityWorld(), pcPos.getX(), pcPos.getY(),
-        // pcPos.getZ());
+        sendTo.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new PCContainer(id,
+                playerInventory, PCInventory.getPC(playerIn)), sendTo.getDisplayName()));
     }
 
     byte               message;
@@ -61,18 +60,18 @@ public class PacketPC extends Packet
     {
     }
 
-    public PacketPC(byte message)
+    public PacketPC(final byte message)
     {
         this.message = message;
     }
 
-    public PacketPC(byte message, UUID owner)
+    public PacketPC(final byte message, final UUID owner)
     {
         this(message);
         this.data.putUniqueId(PacketPC.OWNER, owner);
     }
 
-    public PacketPC(PacketBuffer buf)
+    public PacketPC(final PacketBuffer buf)
     {
         this.message = buf.readByte();
         final PacketBuffer buffer = new PacketBuffer(buf);
@@ -96,7 +95,7 @@ public class PacketPC extends Packet
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
 
         PCContainer container = null;
@@ -170,7 +169,7 @@ public class PacketPC extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeByte(this.message);
         final PacketBuffer buffer = new PacketBuffer(buf);

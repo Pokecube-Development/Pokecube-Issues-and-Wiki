@@ -451,7 +451,8 @@ public class Config extends ConfigData
     public boolean       shouldCap              = true;
     @Configure(category = Config.spawning, type = Type.SERVER)
     @Versioned
-    public List<String>  spawnLevelFunctions    = Lists.newArrayList(new String[] { //@formatter:off
+    public List<String>  spawnLevelFunctions    = Lists.newArrayList(new String[] {
+            //@formatter:off
             "-1:abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3)):false:false",
             "0:abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3)):false:false",
             "1:1+r/200:true:true"
@@ -528,7 +529,7 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced)
     boolean              reputs                 = false;
     @Configure(category = Config.advanced)
-    // TODO find more internal variables to add to this.
+    // DOLATER find more internal variables to add to this.
     public List<String>  extraVars              = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance,
             "rc:" + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:"
                     + ItemPokemobEgg.MOBDIST });
@@ -701,7 +702,7 @@ public class Config extends ConfigData
         }
 
         // Load in the extra databases from configs.
-        // TODO this is called too late!
+        // FIXME is this called too late?
         for (int i = 0; i < Math.min(this.configDatabases.size(), 3); i++)
         {
             final String[] args = this.configDatabases.get(i).split(";");

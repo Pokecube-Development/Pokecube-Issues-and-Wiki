@@ -42,7 +42,6 @@ public class CommonProxy implements Proxy
         @Override
         public EnumWearable getSlot(final ItemStack stack)
         {
-            // TODO extend this based on stack if needed.
             return EnumWearable.BACK;
         }
 

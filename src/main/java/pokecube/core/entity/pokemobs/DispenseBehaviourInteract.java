@@ -42,17 +42,14 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
                 new DefaultDispenseItemBehavior());
     }
 
-    public static void registerBehavior(ItemStack stack)
+    public static void registerBehavior(final ItemStack stack)
     {
         if (stack.isEmpty() || !DispenseBehaviourInteract.KNOWNSTACKS.add(stack.getItem().getRegistryName())) return;
-        // TODO get any default behaviors incase they are not the default...
-        // DISPENSE_BEHAVIOR_REGISTRY.putObject(stack.getItem().getRegistryName(),
-        // DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY.getObject(stack.getItem()));
         DispenserBlock.registerDispenseBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
     }
 
     @Override
-    public ItemStack dispense(IBlockSource source, ItemStack stack)
+    public ItemStack dispense(final IBlockSource source, final ItemStack stack)
     {
         Direction dir = null;
         final BlockState state = source.getBlockState();

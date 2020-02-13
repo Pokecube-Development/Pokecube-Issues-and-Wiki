@@ -177,7 +177,7 @@ public class TrainerSpawnHandler
         final Vector3 loc = Vector3.getNewVector().set(trainer);
         // Set level based on what wild pokemobs have.
         int level = SpawnHandler.getSpawnLevel(trainer.getEntityWorld(), loc, Pokedex.getInstance().getFirstEntry());
-        // TODO add leaders and handle them.
+
         if (trainer instanceof LeaderNpc)
         {
             // Gym leaders are 10 lvls higher than others.

@@ -12,30 +12,31 @@ import pokecube.core.utils.PokeType;
 public class Groudon extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("ground"));
-        int count2 = KillStats.getUniqueOfTypeKilledBy(trainer.getUniqueID(), PokeType.getType("water"));
-        int count3 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("ground"));
-        int count4 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("water"));
-        double captureFactor = (double) count1 / (double) count3;
-        double killFactor = (double) count2 / (double) count4;
-        
-        double roundCap = Math.round(captureFactor * 100.0) / 100.0;
-        double roundKill = Math.round(killFactor * 100.0) / 100.0;
-        
-        float numTotal = 0.5f;
-        float numKill = 0.5f;
-        
-        String type = "Ground";
-        String kill = "Water"; 
-        
-        if (roundKill >= numKill && roundCap >= numTotal) { return true; }
+        if (!this.canCapture(trainer)) return false;
+        final int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("ground"));
+        final int count2 = KillStats.getUniqueOfTypeKilledBy(trainer.getUniqueID(), PokeType.getType("water"));
+        final int count3 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("ground"));
+        final int count4 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("water"));
+        final double captureFactor = (double) count1 / (double) count3;
+        final double killFactor = (double) count2 / (double) count4;
+
+        final double roundCap = Math.round(captureFactor * 100.0) / 100.0;
+        final double roundKill = Math.round(killFactor * 100.0) / 100.0;
+
+        final float numTotal = 0.5f;
+        final float numKill = 0.5f;
+
+        final String type = "Ground";
+        final String kill = "Water";
+
+        if (roundKill >= numKill && roundCap >= numTotal) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendDuo(trainer, type, kill, numTotal, roundCap, numKill, roundKill);
+            this.sendNoTrust(trainer);
+            this.sendLegendDuo(trainer, type, kill, (int) (numTotal * count3), count1, (int) (numKill * count4),
+                    count2);
         }
         return false;
     }

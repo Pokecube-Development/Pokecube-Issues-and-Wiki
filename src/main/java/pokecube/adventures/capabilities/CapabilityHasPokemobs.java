@@ -26,12 +26,16 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.Config;
+import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
+import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokecube;
@@ -149,13 +153,10 @@ public class CapabilityHasPokemobs
 
         public void checkDefeatAchievement(final PlayerEntity player)
         {
-            // TODO advancements
-            // if (!(this.user instanceof EntityTrainer)) return;
-            // final boolean leader = this.user instanceof EntityLeader;
-            // if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity)
-            // player, (EntityTrainer) this.user);
-            // else Triggers.BEATTRAINER.trigger((ServerPlayerEntity) player,
-            // (EntityTrainer) this.user);
+            if (!(this.user instanceof TrainerBase)) return;
+            final boolean leader = this.user instanceof LeaderNpc;
+            if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
+            else Triggers.BEATTRAINER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
         }
 
         @Override
@@ -363,6 +364,11 @@ public class CapabilityHasPokemobs
         @Override
         public void onDefeated(final Entity defeater)
         {
+            final IHasPokemobs defeatingTrainer = CapabilityHasPokemobs.getHasPokemobs(defeater);
+            // If we were defeated by another trainer, lets forget about the
+            // battle.
+            if (defeatingTrainer != null) defeatingTrainer.setTarget(null);
+
             // Get this cleanup stuff done first.
             if (defeater instanceof PlayerEntity) this.setCooldown(this.user.getEntityWorld().getGameTime()
                     + this.battleCooldown);
@@ -395,15 +401,10 @@ public class CapabilityHasPokemobs
                         .getDisplayName());
                 if (this.notifyDefeat && defeater instanceof ServerPlayerEntity)
                 {
-                    // TODO notify defeat packet.
-                    // final PacketTrainer packet = new
-                    // PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
-                    // packet.data.putInt("I", this.user.getEntityId());
-                    // packet.data.putLong("L",
-                    // this.user.getEntityWorld().getGameTime() +
-                    // this.resetTime);
-                    // PokecubeMod.packetPipeline.sendTo(packet,
-                    // (ServerPlayerEntity) defeater);
+                    final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
+                    packet.data.putInt("I", this.user.getEntityId());
+                    packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTime);
+                    PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) defeater);
                 }
                 if (defeater instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT,
                         (LivingEntity) defeater);

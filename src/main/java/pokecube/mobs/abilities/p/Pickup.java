@@ -32,31 +32,28 @@ public class Pickup extends Ability
         if (poke.ticksExisted % 200 != 0 || Math.random() > 0.05) return;
         if (!mob.getHeldItem().isEmpty()) return;
 
-        if (Pickup.lootTable != null && Pickup.useLootTable) // Load in the loot
-                                                             // table.
-            try
-            {
-            final LootTable loottable = mob.getEntity().getEntityWorld().getServer().getLootTableManager().getLootTableFromLocation(Pickup.lootTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntity().getEntityWorld()).withRandom(poke.getRNG());
+        if (Pickup.lootTable != null && Pickup.useLootTable)
+        {
+            final LootTable loottable = mob.getEntity().getEntityWorld().getServer().getLootTableManager()
+                    .getLootTableFromLocation(Pickup.lootTable);
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerWorld) mob.getEntity()
+                    .getEntityWorld()).withRandom(poke.getRNG());
             // Generate the loot list.
             final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
             // Shuffle the list.
             if (!list.isEmpty()) Collections.shuffle(list);
             for (final ItemStack itemstack : list)
-            // Pick first valid item in it.
-            if (!itemstack.isEmpty())
-            {
-            final ItemStack stack = itemstack.copy();
-            if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy"))) PokecubeItems.makeStackValid(stack);
-            mob.setHeldItem(stack);
-            return;
-            }
-            }
-            catch (final Exception e)
-            {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            }
+                // Pick first valid item in it.
+                if (!itemstack.isEmpty())
+                {
+                    final ItemStack stack = itemstack.copy();
+                    if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
+                        PokecubeItems.makeStackValid(stack);
+                    mob.setHeldItem(stack);
+                    return;
+                }
+        }
+
     }
 
 }
