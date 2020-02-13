@@ -343,8 +343,7 @@ public final class SpawnHandler
         // {
         // variance = SpawnHandler.subBiomeLevels.get(b);
         // spawnLevel = variance.apply(baseLevel);
-        // }//TODO find out what is wrong with this...
-        // else
+        // }FIXME subbiome levels
         spawnLevel = SpawnHandler.parse(world, location);
         variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
         spawnLevel = variance.apply(spawnLevel);

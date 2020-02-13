@@ -479,11 +479,9 @@ public class ActionNaturePower implements IMoveAction
         final BlockPos pos = location.getPos();
         final ServerWorld world = (ServerWorld) attacker.getEntity().getEntityWorld();
         // Check the changers in order, and apply the first one that returns
-        // true.
+        // true. TODO hunger cost added here.
         for (final IBiomeChanger changer : this.changers)
-            if (changer.apply(pos, world)) // TODO apply a potentially massive
-                                           // hunger cost here.
-                return true;
+            if (changer.apply(pos, world)) return true;
         return false;
     }
 

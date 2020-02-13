@@ -149,8 +149,11 @@ public class StatsInfo extends PokeInfoPage
         dx = -25;
         int dy = 25;
         // Draw ability
-        if (ability != null) this.drawString(this.fontRender, I18n.format("pokewatch.ability", I18n.format(ability
-                .getName())), x + dx, y + dy, 0xFFFFFF);
+        if (ability != null)
+        {
+            final String abilityName = I18n.format(ability.getName());
+            this.drawString(this.fontRender, I18n.format("pokewatch.ability", abilityName), x + dx, y + dy, 0xFFFFFF);
+        }
         final int happiness = this.parent.pokemob.getHappiness();
         String message = "";
 

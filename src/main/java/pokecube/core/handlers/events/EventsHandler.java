@@ -59,6 +59,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -463,9 +464,9 @@ public class EventsHandler
                 || event.getSpawnReason() == SpawnReason.STRUCTURE)) return;
 
         if (EventsHandler.MONSTERMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateMonsters) event
-                .setCanceled(true);
+                .setResult(Result.DENY);
         if (EventsHandler.ANIMALMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateAnimals) event
-                .setCanceled(true);
+                .setResult(Result.DENY);
     }
 
     @SubscribeEvent
@@ -543,12 +544,10 @@ public class EventsHandler
         PCEventsHandler.recallAll(pokemobs, true);
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        Database.loadingThread.interrupt();
         Database.resourceManager = event.getServer().getResourceManager();
-
     }
 
     @SubscribeEvent
