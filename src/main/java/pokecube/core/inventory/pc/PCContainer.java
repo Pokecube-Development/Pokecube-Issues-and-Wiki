@@ -51,13 +51,13 @@ public class PCContainer extends BaseContainer
     public static boolean isItemValid(final ItemStack itemstack)
     {
         if (itemstack.isEmpty()) return false;
-        LazyOptional<IMegaCapability> mega = itemstack.getCapability(MegaCapability.MEGA_CAP);
-        LazyOptional<IActiveWearable> worn = itemstack.getCapability(ThutWearables.WEARABLE_CAP);
+        final LazyOptional<IMegaCapability> mega = itemstack.getCapability(MegaCapability.MEGA_CAP);
+        final LazyOptional<IActiveWearable> worn = itemstack.getCapability(ThutWearables.WEARABLE_CAP);
 
         final boolean eggorCube = !PokecubeCore.getConfig().pcHoldsOnlyPokecubes || PokecubeManager.isFilled(itemstack)
                 || itemstack.getItem() instanceof WritableBookItem || itemstack.getItem() instanceof ItemPokemobEgg
-                || itemstack.getItem() instanceof ItemPokedex || (mega.isPresent() && mega.orElse(null).getEntry(
-                        itemstack) != null) || worn.isPresent();
+                || itemstack.getItem() instanceof ItemPokedex || mega.isPresent() && mega.orElse(null).getEntry(
+                        itemstack) != null || worn.isPresent();
         if (!eggorCube) for (final Predicate<ItemStack> tester : PCContainer.CUSTOMPCWHILTELIST)
             if (tester.test(itemstack)) return true;
         return eggorCube;
@@ -95,7 +95,6 @@ public class PCContainer extends BaseContainer
 
     protected void bindInventories()
     {
-        // System.out.println("bind");
         this.clearSlots();
         this.bindPCInventory();
         this.bindPlayerInventory(this.invPlayer, 45);

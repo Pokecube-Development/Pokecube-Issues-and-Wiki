@@ -21,6 +21,8 @@ public class SplicerTile extends BaseGeneticsTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
 
+    public ItemStack override_selector = ItemStack.EMPTY;
+
     public SplicerTile()
     {
         this(SplicerTile.TYPE);

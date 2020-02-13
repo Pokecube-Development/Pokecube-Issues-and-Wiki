@@ -8,8 +8,10 @@ import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import pokecube.core.PokecubeCore;
+import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
 import thut.core.common.network.Packet;
@@ -106,18 +108,13 @@ public class PacketPC extends Packet
         case BIND:
             if (container != null && container.pcPos != null)
             {
-                // boolean owned = this.data.getBoolean("O");
-                // TODO handle bind packet.
-                // if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Bind PC
-                // Packet: " + owned + " " + player);
-                // if (owned)
-                // {
-                // container.pcTile.toggleBound();
-                // }
-                // else
-                // {
-                // container.pcTile.setBoundOwner(player);
-                // }
+                final TileEntity tile = player.getEntityWorld().getTileEntity(container.pcPos);
+                if (tile instanceof PCTile)
+                {
+                    final PCTile pcTile = (PCTile) tile;
+                    if (pcTile.isBound()) pcTile.bind(null);
+                    else pcTile.bind(player);
+                }
             }
             break;
         case SETPAGE:
@@ -131,7 +128,7 @@ public class PacketPC extends Packet
             }
             break;
         case PCINIT:
-            PCInventory.blank = new PCInventory(PCInventory.defaultId);
+            PCInventory.blank = new PCInventory(PCInventory.blank_box);
             pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
             pc.seenOwner = this.data.getBoolean("O");
             pc.autoToPC = this.data.getBoolean("A");

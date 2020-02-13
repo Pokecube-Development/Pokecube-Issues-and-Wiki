@@ -70,6 +70,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CountCommand;
@@ -96,6 +97,7 @@ import pokecube.core.interfaces.capabilities.TextureableCaps.NPCCap;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.inventory.pc.PCWrapper;
 import pokecube.core.inventory.tms.TMInventory;
 import pokecube.core.inventory.trade.TradeInventory;
 import pokecube.core.items.UsableItemEffects;
@@ -351,6 +353,7 @@ public class EventsHandler
         if (event.getObject() instanceof TMTile) event.addCapability(key, new TMInventory((TMTile) event.getObject()));
         if (event.getObject() instanceof TraderTile) event.addCapability(key, new TradeInventory((TraderTile) event
                 .getObject()));
+        if (event.getObject() instanceof PCTile) event.addCapability(key, new PCWrapper((PCTile) event.getObject()));
     }
 
     @SubscribeEvent
