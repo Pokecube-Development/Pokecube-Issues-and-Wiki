@@ -1,6 +1,5 @@
 package pokecube.core.inventory.tms;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -34,13 +33,6 @@ public class TMInventory extends Inventory implements ICapabilitySerializable<Co
     }
 
     @Override
-    public void closeInventory(final PlayerEntity player)
-    {
-        super.closeInventory(player);
-        if (this.tile != null) this.tile.users.remove(player.getUniqueID());
-    }
-
-    @Override
     public void deserializeNBT(final CompoundNBT nbt)
     {
         InvHelper.load(this, nbt);
@@ -63,13 +55,6 @@ public class TMInventory extends Inventory implements ICapabilitySerializable<Co
             return PokecubeManager.isFilled(stack);
         }
         return false;
-    }
-
-    @Override
-    public void openInventory(final PlayerEntity player)
-    {
-        super.openInventory(player);
-        if (this.tile != null) this.tile.users.add(player.getUniqueID());
     }
 
     @Override

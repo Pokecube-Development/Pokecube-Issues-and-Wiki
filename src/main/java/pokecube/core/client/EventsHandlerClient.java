@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -16,6 +18,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,6 +36,7 @@ import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,6 +47,8 @@ import pokecube.core.client.gui.GuiArranger;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.GuiTeleport;
 import pokecube.core.client.render.mobs.RenderPokemob;
+import pokecube.core.client.render.mobs.ShoulderLayer;
+import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntryLoader;
@@ -225,26 +231,21 @@ public class EventsHandlerClient
         if (ClientProxy.mobMove4.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(3);
     }
 
+    private static final Set<PlayerRenderer> addedLayers = Sets.newHashSet();
+
     @SubscribeEvent
     public static void onPlayerRender(final RenderPlayerEvent.Post event)
     {
-        // if (addedLayers.contains(event.getRenderer())) { return; }
-        // List<LayerRenderer<?>> layerRenderers =
-        // ReflectionHelper.getPrivateValue(RenderLivingBase.class,
-        // event.getRenderer(), "layerRenderers", "field_177097_h", "i");
-        // for (int i = 0; i < layerRenderers.size(); i++)
-        // {
-        // LayerRenderer<?> layer = layerRenderers.get(i);
-        // if (layer instanceof LayerEntityOnShoulder)
-        // {
-        // layerRenderers.add(i, new
-        // RenderPokemobOnShoulder(event.getRenderer().getRenderManager(),
-        // (LayerEntityOnShoulder) layer));
-        // layerRenderers.remove(layer);
-        // break;
-        // }
-        // }
-        // addedLayers.add(event.getRenderer());
+        if (EventsHandlerClient.addedLayers.contains(event.getRenderer())) return;
+        event.getRenderer().addLayer(new ShoulderLayer<>(event.getRenderer()));
+        EventsHandlerClient.addedLayers.add(event.getRenderer());
+    }
+
+    @SubscribeEvent
+    public static void capabilityEntities(final AttachCapabilitiesEvent<Entity> event)
+    {
+        if (event.getObject() instanceof PlayerEntity) event.addCapability(new ResourceLocation(
+                "pokecube:shouldermobs"), new ShoulderHolder((PlayerEntity) event.getObject()));
     }
 
     @OnlyIn(Dist.CLIENT)

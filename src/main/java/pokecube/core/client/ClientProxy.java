@@ -22,7 +22,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.tileentity.SkullTileEntity;
@@ -36,6 +36,7 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -60,6 +61,8 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderNPC;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
+import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
+import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.client.render.util.URLSkinTexture;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -314,13 +317,16 @@ public class ClientProxy extends CommonProxy
 
         for (final PokedexEntry e : Database.getSortedFormes())
         {
-            final EntityType<TameableEntity> t = PokecubeCore.typeMap.get(e);
+            final EntityType<ShoulderRidingEntity> t = PokecubeCore.typeMap.get(e);
             RenderingRegistry.registerEntityRenderingHandler(t, (manager) -> new RenderPokemob(e, manager));
         }
         RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.TYPE, RenderPokecube::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMoveUse.TYPE, RenderMoves::new);
         RenderingRegistry.registerEntityRenderingHandler(NpcMob.TYPE, RenderNPC::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPokemobEgg.TYPE, RenderEgg::new);
+
+        // Register shouldercap
+        CapabilityManager.INSTANCE.register(IShoulderHolder.class, IShoulderHolder.STORAGE, ShoulderHolder::new);
 
     }
 

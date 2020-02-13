@@ -39,7 +39,6 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         this.ySize = 229;
         this.page = container.getPageNb();
         this.boxName = container.getPage();
-        // if (cont.pcTile != null) this.bound = cont.pcTile.isBound();
     }
 
     @Override

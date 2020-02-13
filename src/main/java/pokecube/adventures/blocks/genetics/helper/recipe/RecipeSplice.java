@@ -14,8 +14,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
+import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
+import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
 import pokecube.core.database.PokedexEntry;
 
 public class RecipeSplice extends PoweredRecipe
@@ -24,9 +26,6 @@ public class RecipeSplice extends PoweredRecipe
     public static final IRecipeSerializer<RecipeSplice> SERIALIZER = IRecipeSerializer.register(
             "pokecube_adventures:splicing", new SpecialRecipeSerializer<>(RecipeSplice::new));
     public static Function<ItemStack, Integer>          ENERGYNEED = (s) -> RecipeSplice.ENERGYCOST;
-
-    public boolean   fixed    = false;
-    public ItemStack selector = ItemStack.EMPTY;
 
     public RecipeSplice(final ResourceLocation location)
     {
@@ -63,21 +62,26 @@ public class RecipeSplice extends PoweredRecipe
     @Override
     public ItemStack getCraftingResult(final CraftingInventory inv)
     {
+        if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
+        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
+        if (!(inv_p.inventory instanceof SplicerTile)) return ItemStack.EMPTY;
+        final SplicerTile tile = (SplicerTile) inv_p.inventory;
+
         ItemStack output = ItemStack.EMPTY;
         ItemStack dna = inv.getStackInSlot(0);
         ItemStack egg = inv.getStackInSlot(2);
-        if (!this.fixed) this.selector = inv.getStackInSlot(1);
+        ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
         if (ClonerHelper.getGenes(dna) == null) dna = ItemStack.EMPTY;
         if (ClonerHelper.getGenes(egg) == null) egg = ItemStack.EMPTY;
-        if (ClonerHelper.getGeneSelectors(this.selector).isEmpty()) this.selector = ItemStack.EMPTY;
-        if (!this.selector.isEmpty() && !dna.isEmpty() && !egg.isEmpty())
+        if (ClonerHelper.getGeneSelectors(selector).isEmpty()) selector = ItemStack.EMPTY;
+        if (!selector.isEmpty() && !dna.isEmpty() && !egg.isEmpty())
         {
             PokedexEntry entry = ClonerHelper.getFromGenes(dna);
             if (entry == null) entry = ClonerHelper.getFromGenes(egg);
 
             egg = egg.copy();
             if (egg.getTag() == null) egg.setTag(new CompoundNBT());
-            ClonerHelper.spliceGenes(ClonerHelper.getGenes(dna), egg, new ItemBasedSelector(this.selector));
+            ClonerHelper.spliceGenes(ClonerHelper.getGenes(dna), egg, new ItemBasedSelector(selector));
             egg.setCount(1);
             output = egg;
         }
@@ -94,10 +98,14 @@ public class RecipeSplice extends PoweredRecipe
     public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
     {
         final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
-
+        if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
+        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
+        if (!(inv_p.inventory instanceof SplicerTile)) return nonnulllist;
+        final SplicerTile tile = (SplicerTile) inv_p.inventory;
+        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
         boolean keepDNA = false;
         boolean keepSelector = false;
-        final SelectorValue value = ClonerHelper.getSelectorValue(this.selector);
+        final SelectorValue value = ClonerHelper.getSelectorValue(selector);
         if (value.dnaDestructChance < Math.random()) keepDNA = true;
         if (value.selectorDestructChance < Math.random()) keepSelector = true;
 
@@ -111,7 +119,7 @@ public class RecipeSplice extends PoweredRecipe
 
             if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
-
+        tile.override_selector = ItemStack.EMPTY;
         return nonnulllist;
     }
 
