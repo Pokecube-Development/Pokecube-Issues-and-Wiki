@@ -510,6 +510,14 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     public void render(final TameableEntity entity, final float entityYaw, final float partialTicks,
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
+        final IPokemob pokemob = entity.pokemobCap;
+        if (pokemob.getTransformedTo() != null)
+        {
+            this.renderManager.getRenderer(pokemob.getTransformedTo()).doRender(pokemob.getTransformedTo(), x, y, z,
+                    entityYaw, partialTicks);
+            return;
+        }
+
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = this.holder;
         if (holder.wrapper == null)
