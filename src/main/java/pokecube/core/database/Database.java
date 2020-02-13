@@ -41,7 +41,6 @@ import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.SimpleReloadableResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.ModList;
@@ -258,32 +257,10 @@ public class Database
         Database.addEntry(Database.missingno);
     }
 
-    static int                 lastCount     = -1;
-    public static final Thread loadingThread = Util.make(new Thread(
-            net.minecraftforge.fml.common.thread.SidedThreadGroups.SERVER, () ->
-                                                     {
-                                                         boolean sleep = true;
-                                                         while (sleep)
-                                                             try
-                                                             {
-                                                                 sleep = !Database.loadingThread.isInterrupted();
-                                                                 Thread.sleep(50);
-                                                             }
-                                                             catch (final InterruptedException e)
-                                                             {
-                                                                 sleep = false;
-                                                             }
-                                                     }, "Pokecube Database thread"), (p_213187_0_) ->
-                                                     {
-                                                         p_213187_0_.setUncaughtExceptionHandler((p_213206_0_,
-                                                                 p_213206_1_) ->
-                                                         {
-                                                             PokecubeCore.LOGGER.error(p_213206_1_);
-                                                         });
-                                                     });
+    static int lastCount = -1;
 
     public static IReloadableResourceManager resourceManager = new SimpleReloadableResourceManager(
-            ResourcePackType.SERVER_DATA, Database.loadingThread);
+            ResourcePackType.SERVER_DATA, Thread.currentThread());
 
     public static PokedexEntry[] starters = {};
 
