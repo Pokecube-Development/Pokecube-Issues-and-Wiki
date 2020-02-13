@@ -1508,19 +1508,13 @@ public class Vector3
     {
         final int x = this.intX();
         final int z = this.intZ();
-
         final IChunk chunk = world.getChunk(new BlockPos(x, 0, z));
         final BiomeContainer biomes = chunk.getBiomes();
-
-        final int chunkX = Math.abs(x & 15);
-        final int chunkZ = Math.abs(z & 15);
-
         int i = x & BiomeContainer.HORIZONTAL_MASK;
         int j = (int) MathHelper.clamp(y, 0, BiomeContainer.VERTICAL_MASK);
         int k = z & BiomeContainer.HORIZONTAL_MASK;
         int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
         biomes.biomes[index] = biome;
-        // TODO fix set biomes!
     }
 
     public void setBlock(final World world, final BlockState defaultState)

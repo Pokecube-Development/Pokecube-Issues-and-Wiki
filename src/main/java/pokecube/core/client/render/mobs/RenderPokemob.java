@@ -74,8 +74,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             final QName male = new QName("male");
             final QName female = new QName("female");
             if (phase.values.containsKey(male)) this.entry.textureDetails[0] = this.fromValue(phase.values.get(male));
-            if (phase.values.containsKey(female)) this.entry.textureDetails[1] = this.fromValue(phase.values.get(
-                    female));
+            if (phase.values.containsKey(female))
+                this.entry.textureDetails[1] = this.fromValue(phase.values.get(female));
         }
 
         private String[] fromValue(final String string)
@@ -90,8 +90,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     public static class Holder extends ModelHolder implements IModelRenderer<TameableEntity>
     {
         public ModelWrapper<TameableEntity>     wrapper;
-        final Vector3                           rotPoint   = Vector3.getNewVector();
-        HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
+        final Vector3                           rotPoint                  = Vector3.getNewVector();
+        HashMap<String, List<Animation>>        anims                     = Maps.newHashMap();
         private IPartTexturer                   texturer;
         private IAnimationChanger               animator;
         public String                           name;
@@ -510,11 +510,11 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     public void render(final TameableEntity entity, final float entityYaw, final float partialTicks,
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
-        final IPokemob pokemob = entity.pokemobCap;
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob.getTransformedTo() != null)
         {
-            this.renderManager.getRenderer(pokemob.getTransformedTo()).doRender(pokemob.getTransformedTo(), x, y, z,
-                    entityYaw, partialTicks);
+            this.renderManager.getRenderer(pokemob.getTransformedTo()).render(entity, entityYaw, partialTicks,
+                    matrixStackIn, bufferIn, packedLightIn);
             return;
         }
 

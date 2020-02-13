@@ -3,9 +3,6 @@
  */
 package pokecube.mobs.moves.attacks.special;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -26,10 +23,6 @@ public class MoveTransform extends Move_Basic
 
     public static class Animation implements IMoveAnimation
     {
-        @Override
-        public void clientAnimation(final MovePacketInfo info, final float partialTick)
-        {
-        }
 
         @Override
         public int getApplicationTick()
@@ -44,17 +37,7 @@ public class MoveTransform extends Move_Basic
         }
 
         @Override
-        public void reallyInitRGBA()
-        {
-        }
-
-        @Override
         public void setDuration(final int arg0)
-        {
-        }
-
-        @Override
-        public void spawnClientEntities(final MovePacketInfo info)
         {
         }
 
