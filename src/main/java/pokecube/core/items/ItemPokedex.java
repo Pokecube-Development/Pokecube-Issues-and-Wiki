@@ -42,7 +42,7 @@ public class ItemPokedex extends Item
 {
     public final boolean watch;
 
-    public ItemPokedex(Properties props, boolean watch)
+    public ItemPokedex(final Properties props, final boolean watch)
     {
         super(props);
         this.watch = watch;
@@ -50,7 +50,8 @@ public class ItemPokedex extends Item
     }
 
     @Override
-    public boolean itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand)
+    public boolean itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
+            final LivingEntity target, final Hand hand)
     {
         if (playerIn instanceof ServerPlayerEntity)
         {
@@ -70,7 +71,7 @@ public class ItemPokedex extends Item
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
+    public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity player, final Hand hand)
     {
         final ItemStack itemstack = player.getHeldItem(hand);
         if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld());
@@ -79,43 +80,20 @@ public class ItemPokedex extends Item
             this.showGui(player);
             return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
         }
-        else
-        {
-            final Vector3 hit = Tools.getPointedLocation(player, 6);
-            if (hit != null)
-            {
-                // Block block = hit.getBlockState(world).getBlock();
-                // TODO healing table setting teleports
-                // if (block instanceof BlockHealTable)
-                // {
-                // Vector4 loc = new Vector4(player);
-                // TeleportHandler.setTeleport(loc,
-                // player.getCachedUniqueIdString());
-                // if (!world.isRemote)
-                // {
-                // CommandTools.sendMessage(player, "pokedex.setteleport");
-                // PacketDataSync.sendInitPacket(player, "pokecube-data");
-                // }
-                // return new ActionResult<ItemStack>(ActionResultType.SUCCESS,
-                // itemstack);
-                // }
-            }
-        }
         return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context)
+    public ActionResultType onItemUse(final ItemUseContext context)
     {
         final World worldIn = context.getWorld();
         final PlayerEntity playerIn = context.getPlayer();
-        BlockPos pos = context.getPos();
-        Vector3 hit = Vector3.getNewVector().set(pos);
-        Block block = hit.getBlockState(worldIn).getBlock();
-        // TODO healing table setting teleports
+        final BlockPos pos = context.getPos();
+        final Vector3 hit = Vector3.getNewVector().set(pos);
+        final Block block = hit.getBlockState(worldIn).getBlock();
         if (block instanceof HealerBlock)
         {
-            Vector4 loc = new Vector4(playerIn);
+            final Vector4 loc = new Vector4(playerIn);
             TeleportHandler.setTeleport(loc, playerIn.getCachedUniqueIdString());
             if (!worldIn.isRemote)
             {
@@ -142,7 +120,7 @@ public class ItemPokedex extends Item
         return ActionResultType.FAIL;
     }
 
-    private void showGui(PlayerEntity player)
+    private void showGui(final PlayerEntity player)
     {
         if (player instanceof ServerPlayerEntity)
         {

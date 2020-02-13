@@ -249,7 +249,7 @@ public class AnimationLoader
 
             // Finalize animation initialization
             final Set<Animation> anims = Sets.newHashSet();
-            // TODO actually initialize animations if needed.
+
             animator.init(anims);
 
             // Add the worn offsets

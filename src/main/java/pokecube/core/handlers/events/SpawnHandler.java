@@ -398,9 +398,6 @@ public final class SpawnHandler
         int maxXp = 10;
         if (!SpawnHandler.expFunction) return Tools.levelToXp(pokemon.getEvolutionMode(), SpawnHandler.getSpawnLevel(
                 world, location, pokemon, variance, baseLevel));
-
-        // TODO properly implement base level and variance overriding
-
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         final int b = t.getBiome(location);
         if (SpawnHandler.subBiomeLevels.containsKey(b))

@@ -98,8 +98,6 @@ public class GuiPokedex extends Screen
         return button;
     }
 
-    // TODO mouse movement changing angle of mob.
-
     public void handleButton(final int button)
     {
         if (button == 1)

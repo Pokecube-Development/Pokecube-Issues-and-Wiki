@@ -169,8 +169,8 @@ public class EntityMoveUse extends ThrowableEntity
     @Override
     protected void onImpact(final RayTraceResult result)
     {
-        // TODO Auto-generated method stub
-
+        // We don't do anything, as we are a "fake" projectile, damage is
+        // handled by whatever threw us instead.
     }
 
     @Override

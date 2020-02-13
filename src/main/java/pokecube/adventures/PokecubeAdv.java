@@ -24,6 +24,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -137,6 +138,7 @@ public class PokecubeAdv
                 final Item badge = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
                 final String name = type.name.equals("???") ? "unknown" : type.name;
                 PokecubeAdv.BADGES.put(type, badge);
+                PokecubeAdv.BADGEINV.put(badge, type);
                 badge.setRegistryName(PokecubeAdv.ID, "badge_" + name.toLowerCase(Locale.ROOT));
                 event.getRegistry().register(badge);
             }
@@ -198,7 +200,8 @@ public class PokecubeAdv
     public static Item LINKER;
     public static Item BAG;
 
-    public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
+    public static final Map<PokeType, Item> BADGES   = Maps.newHashMap();
+    public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
 
     static void init()
     {
@@ -223,6 +226,9 @@ public class PokecubeAdv
                 PokecubeAdv.ID, "linker");
         PokecubeAdv.BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(
                 PokecubeAdv.ID, "bag");
+
+        // Initialize advancement triggers
+        Triggers.init();
     }
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.ID + ":textures/trainer/";

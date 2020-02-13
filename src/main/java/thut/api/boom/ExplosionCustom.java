@@ -111,7 +111,7 @@ public class ExplosionCustom extends Explosion
 
     List<IChunk> affected = new ArrayList<>();
 
-    // TODO figure out a good way to clear these between each set of shells.
+    // DOLATER figure out a good way to clear these between each set of shells.
     HashMap<Integer, Float> resists = new HashMap<>(100000, 1);
 
     HashSet<Integer> blockedSet = new HashSet<>(100000, 1);
