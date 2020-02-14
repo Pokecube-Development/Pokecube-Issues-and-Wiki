@@ -20,7 +20,7 @@ public class StartPage extends ListPage<PageEntry>
         super.initList();
         final int offsetX = (this.watch.width - 160) / 2 + 10;
         final int offsetY = (this.watch.height - 160) / 2 + 30;
-        final int height = 100;
+        final int height = 101;
         this.list = new ScrollGui<>(this, this.minecraft, 146, height, 20, offsetX, offsetY);
         for (final Class<? extends WatchPage> page : GuiPokeWatch.PAGELIST)
             if (page != StartPage.class) this.list.addEntry(new PageEntry(this, this.watch.createPage(
