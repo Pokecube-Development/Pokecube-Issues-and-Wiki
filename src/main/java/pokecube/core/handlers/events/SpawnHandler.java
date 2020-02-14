@@ -265,6 +265,11 @@ public final class SpawnHandler
         return null;
     }
 
+    public static ForbidReason getNoSpawnReason(final World world, final BlockPos pos)
+    {
+        return SpawnHandler.getNoSpawnReason(world, pos.getX(), pos.getY(), pos.getZ());
+    }
+
     public static ForbidReason getNoSpawnReason(final IWorld world, final int x, final int y, final int z)
     {
         final ForbiddenEntry entry = SpawnHandler.getForbiddenEntry(world, x, y, z);

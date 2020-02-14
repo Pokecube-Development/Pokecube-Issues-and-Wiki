@@ -66,6 +66,7 @@ public interface TagNames
     public static final String LOGICSTATE   = "logicState";
     public static final String GENERALSTATE = "generalState";
     public static final String COMBATSTATE  = "combatState";
+    public static final String DYNAPOWER    = "dynamaxPower";
 
     public static final String AIROUTINES = "aiRoutines";
     public static final String HUNGER     = "hunger";
