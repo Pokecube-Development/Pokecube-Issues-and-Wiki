@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -50,7 +52,8 @@ public class PortalSpawnHandler
         // No spawning near repels.
         if (SpawnHandler.getNoSpawnReason(world, v.intX(), v.intY(), v.intZ()) == ForbidReason.REPEL) return;
         // Only spawn if air.
-        if (v.isAir(world)) world.setBlockState(v.getPos(), BlockInit.BLOCK_PORTALWARP.getDefaultState());
+        if (v.isAir(world)) world.setBlockState(v.getPos(), BlockInit.BLOCK_PORTALWARP.getDefaultState().with(
+                HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(rand.nextInt())));
 
     }
 }
