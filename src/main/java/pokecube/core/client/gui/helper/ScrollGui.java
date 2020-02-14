@@ -153,12 +153,16 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         {
             final int k = this.getRowTop(j);
             final int l = this.getRowBottom(j);
+            final T e = this.getEntry(j);
+            final int i1 = y + j * this.itemHeight + this.headerHeight;
+            final int j1 = this.itemHeight;
+            final int k1 = this.getRowWidth();
+            final int j2 = this.getRowLeft();
+            if (e instanceof INotifiedEntry) ((INotifiedEntry) e).preRender(j, k, j2, k1, j1, mouseX, mouseY, this
+                    .isMouseOver(mouseX, mouseY) && Objects.equals(this.getEntryAtPosition(mouseX, mouseY), e), tick);
+
             if (l >= this.y0 && k <= this.y1)
             {
-                final int i1 = y + j * this.itemHeight + this.headerHeight;
-                final int j1 = this.itemHeight;
-                final T e = this.getEntry(j);
-                final int k1 = this.getRowWidth();
                 if (this.renderSelection && this.isSelectedItem(j))
                 {
                     final int l1 = x + this.x0 + this.width / 2 - k1 / 2;
@@ -181,8 +185,6 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
                     tessellator.draw();
                     GlStateManager.enableTexture();
                 }
-
-                final int j2 = this.getRowLeft();
                 e.render(j, k, j2, k1, j1, mouseX, mouseY, this.isMouseOver(mouseX, mouseY) && Objects.equals(this
                         .getEntryAtPosition(mouseX, mouseY), e), tick);
             }
