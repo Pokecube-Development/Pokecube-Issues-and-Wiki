@@ -24,7 +24,7 @@ public class ExitCube
         if (!pokemob.getGeneralState(GeneralStates.EXITINGCUBE)) return;
         final Entity entity = pokemob.getEntity();
         final CompoundNBT sealTag = PokecubeManager.getSealTag(entity);
-        Evolution.renderEffect(pokemob, mat, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
+        Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
         if (sealTag != null && !sealTag.isEmpty())
         {
             final Random rand = new Random();
