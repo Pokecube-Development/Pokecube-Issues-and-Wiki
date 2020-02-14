@@ -547,10 +547,10 @@ public class EventsHandler
         PCEventsHandler.recallAll(pokemobs, true);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        Database.resourceManager = event.getServer().getResourceManager();
+        Database.swapManager(event.getServer());
     }
 
     @SubscribeEvent
