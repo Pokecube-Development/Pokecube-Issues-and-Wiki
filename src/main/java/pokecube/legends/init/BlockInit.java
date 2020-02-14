@@ -92,7 +92,7 @@ public class BlockInit
             .hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3).sound(SoundType.STONE)
             .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock();;
 
-    public static Block KELDEO_CORE = new BlockBase("keldeoblock", Block.Properties.create(Material.ROCK)
+    public static Block KELDEO_CORE = new Rotates("keldeoblock", Block.Properties.create(Material.ROCK)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3).sound(SoundType.STONE)
             .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock();;
 
