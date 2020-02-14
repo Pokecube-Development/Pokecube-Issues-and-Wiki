@@ -7,6 +7,7 @@ import net.minecraft.profiler.IProfiler;
 import net.minecraft.resources.IFutureReloadListener;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.resources.IResourcePack;
+import net.minecraft.resources.SimpleReloadableResourceManager;
 import pokecube.core.database.Database;
 
 public class PackListener implements IFutureReloadListener
@@ -25,7 +26,8 @@ public class PackListener implements IFutureReloadListener
 
     public void add(final IResourceManager resourceManager)
     {
+        if (!(resourceManager instanceof SimpleReloadableResourceManager)) return;
         for (final IResourcePack pack : Database.customPacks)
-            resourceManager.addResourcePack(pack);
+            ((SimpleReloadableResourceManager) resourceManager).addResourcePack(pack);
     }
 }
