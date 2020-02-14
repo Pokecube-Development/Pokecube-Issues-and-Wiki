@@ -927,7 +927,7 @@ public class Database
                 final XMLDatabase database = PokedexEntryLoader.initDatabase(s);
                 // Hotloadable ones will be able to be re-loaded at runtime
                 // later, for things like setting ridden offsets, etc
-                if (database.hotload) PokedexEntryLoader.hotloadable.add(s);
+                if (database != null && database.hotload) PokedexEntryLoader.hotloadable.add(s);
             }
             catch (final Exception e)
             {
