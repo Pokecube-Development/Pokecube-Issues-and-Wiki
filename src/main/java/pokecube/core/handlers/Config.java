@@ -743,10 +743,16 @@ public class Config extends ConfigData
         PokecubeMod.debug = this.debug;
         for (final String loc : this.mystLocs)
             PokecubeMod.giftLocations.add(loc);
-        for (final String s : this.recipeDatabases)
+        for (String s : this.recipeDatabases)
+        {
+            if (!s.endsWith(".json")) s = s + ".json";
             XMLRecipeHandler.recipeFiles.add(PokecubeItems.toPokecubeResource(s));
-        for (final String s : this.rewardDatabases)
+        }
+        for (String s : this.rewardDatabases)
+        {
+            if (!s.endsWith(".json")) s = s + ".json";
             XMLRewardsHandler.recipeFiles.add(PokecubeItems.toPokecubeResource(s));
+        }
         if (this.extraVars.size() != Config.defaults.extraVars.size())
         {
             final List<String> old = Lists.newArrayList(this.extraVars);
