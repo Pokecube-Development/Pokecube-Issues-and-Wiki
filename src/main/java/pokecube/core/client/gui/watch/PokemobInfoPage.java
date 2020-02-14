@@ -341,10 +341,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                             EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
                         }
 
-                        dx = -35;
-                        dy = -55;
+                        dx = -110;
+                        dy = -18;
                         // Draw the actual pokemob
-                        GuiPokemobBase.renderMob(pokemob.getEntity(), 0, 0, 0, 0, 0, 0, 0.75f);
+                        GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, 0, 0, 0, 0.75f);
                         // Draw gender, types and lvl
                         int genderColor = 0xBBBBBB;
                         String gender = "";
