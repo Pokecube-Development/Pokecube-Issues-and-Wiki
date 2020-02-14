@@ -98,7 +98,7 @@ public class Material
         builder.overlay(new RenderState.OverlayState(true));
         if (!this.flat) builder.shadeModel(new ShadeModelState(true));
 
-        final RenderType.State rendertype$state = builder.build(false);
+        final RenderType.State rendertype$state = builder.build(true);
 
         final String id = this.render_name + tex;
         final RenderType type = RenderType.get(id, DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
