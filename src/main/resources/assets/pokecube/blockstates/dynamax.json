@@ -1,0 +1,15 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "#None": "pokecube:block/dynamax"
+        },
+    	"custom": {
+		  "base_model": "pokecube:block/dynamax.obj",
+	      "flip-v": true
+	    }
+     },
+	"variants": {
+		"": { "model": "pokecube:block/dynamax.obj" }
+	}
+}

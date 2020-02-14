@@ -220,6 +220,11 @@
     "pokemob.megaevolve.success": "%1$s Mega-evolved into %2$s",
     "pokemob.megaevolve.revert": "%1$s Reverted to %2$s",
     "pokemob.megaevolve.failed": "%1$s failed to Mega Evolve.",
+    
+    "pokemob.dynamax.command.evolve": "You tell %1$s to Dynamax!",
+    "pokemob.dynamax.command.revert": "You tell %1$s to revert!",
+    "pokemob.dynamax.success": "%1$s Dynamaxed!",
+    "pokemob.dynamax.revert": "%1$s Reverted!",
 
     "pokemob.rename.deny": "§cYou cannot rename a traded Pokémob.",
     "pokemob.rename.success": "§a%1$s was renamed to %2$s",
