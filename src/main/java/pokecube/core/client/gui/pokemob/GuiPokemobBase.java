@@ -23,6 +23,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.maths.vecmath.Vector3f;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
@@ -105,7 +106,12 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
         this.blit(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
         if (this.container.pokemob != null)
+        {
+            final boolean prev = this.container.pokemob.getEntity().addedToChunk;
+            this.container.pokemob.getEntity().addedToChunk = false;
             GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
+            this.container.pokemob.getEntity().addedToChunk = prev;
+        }
     }
 
     /** Draw the foreground layer for the ContainerScreen (everything in front

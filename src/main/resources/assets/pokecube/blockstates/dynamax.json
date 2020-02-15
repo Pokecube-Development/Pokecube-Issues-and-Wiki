@@ -9,7 +9,10 @@
 	      "flip-v": true
 	    }
      },
-	"variants": {
-		"": { "model": "pokecube:block/dynamax.obj" }
-	}
+    "variants": {
+        "facing=east":  { "model": "pokecube:block/dynamax.obj", "y":90 },
+        "facing=west":  { "model": "pokecube:block/dynamax.obj", "y":270 },
+        "facing=south": { "model": "pokecube:block/dynamax.obj", "y":180 },
+        "facing=north": { "model": "pokecube:block/dynamax.obj", "y":0}
+    }
 }

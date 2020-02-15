@@ -40,6 +40,7 @@ import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -136,7 +137,9 @@ public class Health
 
                 mat.push();
 
-                mat.translate(0, passedEntity.getHeight() + config.heightAbove, 0);
+                
+                final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? PokecubeCore.config.dynamax_scale : passedEntity.getHeight();
+                mat.translate(0, dy + config.heightAbove, 0);
                 // TODO billboarding here?
                 // GlStateManager.rotatef(-renderManager.playerViewY, 0.0F,
                 // 1.0F, 0.0F);

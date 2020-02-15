@@ -8,7 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -25,6 +27,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Vector3;
+import thut.core.common.commands.CommandTools;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that
@@ -48,6 +51,8 @@ public class LogicMiscUpdate extends LogicBase
     private boolean      initHome          = false;
     private boolean      checkedEvol       = false;
     private int          pathTimer         = 0;
+    private long         dynatime          = -1;
+    private boolean      de_dyna           = false;
     Vector3              v                 = Vector3.getNewVector();
 
     public LogicMiscUpdate(final IPokemob entity)
@@ -61,6 +66,32 @@ public class LogicMiscUpdate extends LogicBase
     private void checkAIStates()
     {
         final boolean angry = this.pokemob.getCombatState(CombatStates.ANGRY);
+
+        // check dynamax timer for cooldown.
+        if (this.pokemob.getCombatState(CombatStates.DYNAMAX))
+        {
+            final Long time = this.pokemob.getEntity().getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+            if (this.dynatime == -1) this.dynatime = this.pokemob.getEntity().getPersistentData().getLong(
+                    "pokecube:dynatime");
+            if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
+            {
+                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.timeout.revert", "green",
+                        this.pokemob.getDisplayName());
+                this.pokemob.displayMessageToOwner(mess);
+                this.pokemob.setCombatState(CombatStates.MEGAFORME, false);
+                mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.revert", "green", this.pokemob
+                        .getDisplayName());
+                final PokedexEntry newEntry = this.entry.getBaseForme() != null ? this.entry.getBaseForme()
+                        : this.entry;
+                ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
+                this.de_dyna = true;
+            }
+        }
+        else
+        {
+            this.dynatime = -1;
+            this.de_dyna = false;
+        }
 
         // If angry and has no target, make it not angry.
         if (angry && this.lastHadTargetTime-- <= 0) this.pokemob.setCombatState(CombatStates.ANGRY, false);

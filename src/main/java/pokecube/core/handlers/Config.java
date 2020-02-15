@@ -49,6 +49,7 @@ public class Config extends ConfigData
     public static final String healthbars = "healthbars";
     public static final String genetics   = "genetics";
     public static final String items      = "items";
+    public static final String dynamax    = "dynamax";
 
     public static int    GUICHOOSEFIRSTPOKEMOB_ID;
     public static int    GUIDISPLAYPOKECUBEINFO_ID;
@@ -623,6 +624,13 @@ public class Config extends ConfigData
     public int     scannedNameColour    = 0x88FFFF;
     @Configure(category = Config.healthbars)
     public int     unknownNameColour    = 0x888888;
+
+    @Configure(category = Config.dynamax)
+    public int    dynamax_cooldown = 6000;
+    @Configure(category = Config.dynamax)
+    public int    dynamax_duration = 100;
+    @Configure(category = Config.dynamax)
+    public double dynamax_scale    = 5.0;
 
     @Configure(category = Config.items)
     public List<String> customHeldItems = Lists.newArrayList();
