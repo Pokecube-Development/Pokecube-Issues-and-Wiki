@@ -148,7 +148,7 @@ public class AnimationXML
         public String headCap1  = "-30, 70";
         @XmlAttribute(name = "headDir")
         public int    headDir   = 1;
-        @XmlAttribute(name = "headDir")
+        @XmlAttribute(name = "headDir2")
         public int    headDir2  = 2;
     }
 

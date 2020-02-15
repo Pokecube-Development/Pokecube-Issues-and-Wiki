@@ -31,7 +31,7 @@ import pokecube.core.utils.Permissions;
 public class StatsHandler
 {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void canCapture(CaptureEvent.Pre evt)
+    public static void canCapture(final CaptureEvent.Pre evt)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(evt.filledCube);
         if (IPokecube.BEHAVIORS.containsKey(id))
@@ -101,7 +101,7 @@ public class StatsHandler
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordCapture(CaptureEvent.Post evt)
+    public static void recordCapture(final CaptureEvent.Post evt)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(evt.filledCube);
         if (IPokecube.BEHAVIORS.containsKey(id))
@@ -114,26 +114,26 @@ public class StatsHandler
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordEvolve(EvolveEvent.Post evt)
+    public static void recordEvolve(final EvolveEvent.Post evt)
     {
         if (evt.mob.isShadow()) return;
         StatsCollector.addCapture(evt.mob);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordHatch(EggEvent.Hatch evt)
+    public static void recordHatch(final EggEvent.Hatch evt)
     {
         StatsCollector.addHatched(evt.egg);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordKill(KillEvent evt)
+    public static void recordKill(final KillEvent evt)
     {
         if (!evt.killed.isShadow()) StatsCollector.addKill(evt.killed, evt.killer);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
-    public static void recordTrade(TradeEvent evt)
+    public static void recordTrade(final TradeEvent evt)
     {
         if (evt.mob == null || evt.mob.isShadow()) return;
         StatsCollector.addCapture(evt.mob);

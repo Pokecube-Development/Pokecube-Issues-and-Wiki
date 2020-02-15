@@ -205,6 +205,7 @@ public class AnimationGui extends Screen
             final MobEntity entity = this.toRender.getEntity();
             final Minecraft mc = this.getMinecraft();
             final IPokemob pokemob = this.toRender;
+            pokemob.setSize(1);
 
             final float xSize = this.width / 2;
             final float ySize = this.height / 2;

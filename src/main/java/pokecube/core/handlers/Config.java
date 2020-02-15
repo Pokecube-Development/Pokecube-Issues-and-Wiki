@@ -37,8 +37,7 @@ public class Config extends ConfigData
 {
     public static final int VERSION = 1;
 
-    public static final String spawning = "spawning";
-
+    public static final String spawning   = "spawning";
     public static final String database   = "database";
     public static final String world      = "generation";
     public static final String mobAI      = "ai";
@@ -50,8 +49,8 @@ public class Config extends ConfigData
     public static final String healthbars = "healthbars";
     public static final String genetics   = "genetics";
     public static final String items      = "items";
-    public static int          GUICHOOSEFIRSTPOKEMOB_ID;
 
+    public static int    GUICHOOSEFIRSTPOKEMOB_ID;
     public static int    GUIDISPLAYPOKECUBEINFO_ID;
     public static int    GUIDISPLAYTELEPORTINFO_ID;
     public static int    GUIPOKECENTER_ID;
@@ -521,8 +520,6 @@ public class Config extends ConfigData
     public boolean       battleLogInChat        = false;
     @Configure(category = Config.client)
     public boolean       pokeCenterMusic        = true;
-    @Configure(category = Config.client)
-    public int           pokeCenterLoopDir      = 578;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs               = Lists.newArrayList();
