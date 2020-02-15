@@ -29,12 +29,6 @@ public class PokecenterSound extends TickableSound
     }
 
     @Override
-    public AttenuationType getAttenuationType()
-    {
-        return AttenuationType.LINEAR;
-    }
-
-    @Override
     public void tick()
     {
         this.pos2.set(this.player);
@@ -44,4 +38,9 @@ public class PokecenterSound extends TickableSound
         if (!this.tile.play) this.volume = 0;
     }
 
+    @Override
+    public boolean canBeSilent()
+    {
+        return true;
+    }
 }
