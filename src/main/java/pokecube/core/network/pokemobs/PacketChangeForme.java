@@ -8,10 +8,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.interfaces.IPokemob;
@@ -107,22 +109,24 @@ public class PacketChangeForme extends Packet
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
                 return;
             }
-            else if (gigant)
-            {
-                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.evolve", "green",
-                        oldName);
-                pokemob.displayMessageToOwner(mess);
-                mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.success", "green", oldName);
-                pokemob.setCombatState(CombatStates.MEGAFORME, true);
-                ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
-                return;
-            }
             else
             {
+                final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(player.getUniqueID()).getLong(
+                        "pokecube:dynatime");
+                final long time = player.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
+                if (dynatime != 0 && time < dynaagain)
+                {
+                    player.sendMessage(CommandTools.makeTranslatedMessage("pokemob.dynamax.too_soon", "red", pokemob
+                            .getDisplayName()));
+                    return;
+                }
+
                 ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.evolve", "green",
                         oldName);
                 pokemob.displayMessageToOwner(mess);
                 mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.success", "green", oldName);
+                if (gigant) pokemob.setCombatState(CombatStates.MEGAFORME, true);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
                 return;
             }
