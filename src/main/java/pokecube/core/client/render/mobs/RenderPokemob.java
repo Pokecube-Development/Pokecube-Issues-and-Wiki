@@ -383,7 +383,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             float s = 1;
-            if (pokemob != null) s = pokemob.getEntity().getRenderScale();
+            if (pokemob != null && entity.addedToChunk) s = pokemob.getEntity().getRenderScale();
             float sx = (float) this.getScale().x;
             float sy = (float) this.getScale().y;
             float sz = (float) this.getScale().z;
