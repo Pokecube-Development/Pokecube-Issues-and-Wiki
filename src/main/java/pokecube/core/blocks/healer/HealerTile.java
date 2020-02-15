@@ -12,15 +12,11 @@ public class HealerTile extends TileEntity implements ITickableTileEntity
 
     public static SoundEvent MUSICLOOP;
 
-    long           startTick    = -1;
-    int            tickDuration = -1;
-    int            tick         = 0;
-    public boolean play         = false;
+    public boolean play = false;
 
     public HealerTile()
     {
         super(HealerTile.TYPE);
-        this.tickDuration = PokecubeCore.getConfig().pokeCenterLoopDir;
     }
 
     @Override
