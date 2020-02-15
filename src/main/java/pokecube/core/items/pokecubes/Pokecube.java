@@ -386,7 +386,7 @@ public class Pokecube extends Item implements IPokecube
         final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
         final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).scalarMultBy(1.5);
         temp.addTo(temp1).moveEntity(entity);
-        temp.set(direction.scalarMultBy(power * 10)).setVelocities(entity);
+        entity.shoot(direction.norm(), power * 10);
         entity.seeking = false;
         entity.targetEntity = null;
         entity.targetLocation.clear();

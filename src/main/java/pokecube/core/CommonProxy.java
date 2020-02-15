@@ -11,9 +11,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
@@ -31,8 +28,10 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.events.EventsHandler.MeteorAreaSetter;
 import pokecube.core.handlers.events.PCEventsHandler;
@@ -87,11 +86,6 @@ public class CommonProxy implements Proxy
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         return server.getWorld(DimensionType.OVERWORLD);
-    }
-
-    public boolean hasSound(final BlockPos pos)
-    {
-        return false;
     }
 
     @Override
@@ -167,8 +161,12 @@ public class CommonProxy implements Proxy
 
     }
 
-    public void toggleSound(final SoundEvent sound, final BlockPos pos, final boolean play, final boolean loops,
-            final SoundCategory category, final int maxDistance)
+    public void serverAboutToStart(final FMLServerAboutToStartEvent event)
+    {
+
+    }
+
+    public void pokecenterloop(final HealerTile tileIn, final boolean play)
     {
 
     }

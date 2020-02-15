@@ -1,6 +1,7 @@
 package pokecube.core.items.pokecubes;
 
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -379,16 +380,24 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     /** Called when this EntityThrowable hits a block or entity. */
     protected void onImpact(final RayTraceResult result)
     {
+        if (!this.isAlive()) return;
 
         switch (result.getType())
         {
         case BLOCK:
             // No phasing through stuff.
             this.setMotion(0, 0, 0);
+
+            // Set us to the location
+            this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
+
             // Only handle this on clients, and if not capturing something
             if (this.isServerWorld()) if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) this.sendOut(true);
             break;
         case ENTITY:
+
+            // Set us to the location
+            this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
             // Capturing or on client, break early.
             if (!this.isServerWorld() || this.tilt >= 0) break;
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
@@ -624,11 +633,14 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         final AxisAlignedBB axisalignedbb = this.getBoundingBox().expand(this.getMotion()).grow(.2D);
         if (this.shootingEntity != null) this.ignoreEntity = this.shootingEntity;
 
-        for (final Entity entity : this.world.getEntitiesInAABBexcluding(this, axisalignedbb, (mob) ->
+        final Predicate<Entity> valid = (mob) ->
         {
             return !mob.isSpectator() && mob.canBeCollidedWith() && !(mob instanceof EntityPokecubeBase)
-                    && mob instanceof LivingEntity;
-        }))
+                    && mob instanceof LivingEntity && mob != this.ignoreEntity && mob != this && this.getDistanceSq(
+                            mob) < 4;
+        };
+
+        for (final Entity entity : this.world.getEntitiesInAABBexcluding(this, axisalignedbb, valid))
         {
             if (entity == this.ignoreEntity)
             {
@@ -646,10 +658,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (hit.getType() == Type.ENTITY) this.onImpact(hit);
         }
 
-        final RayTraceResult raytraceresult = ProjectileHelper.rayTrace(this, axisalignedbb, (p_213880_1_) ->
-        {
-            return !p_213880_1_.isSpectator() && p_213880_1_.canBeCollidedWith() && p_213880_1_ != this.ignoreEntity;
-        }, RayTraceContext.BlockMode.OUTLINE, true);
+        final RayTraceResult raytraceresult = ProjectileHelper.rayTrace(this, axisalignedbb, valid,
+                RayTraceContext.BlockMode.COLLIDER, true);
         if (this.ignoreEntity != null && this.ignoreTime-- <= 0) this.ignoreEntity = null;
 
         trace:

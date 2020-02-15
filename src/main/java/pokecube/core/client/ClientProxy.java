@@ -13,8 +13,6 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -27,8 +25,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.tileentity.SkullTileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.World;
@@ -42,9 +38,11 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.CommonProxy;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -207,16 +205,6 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public boolean hasSound(final BlockPos pos)
-    {
-        final ISound old = Minecraft.getInstance().worldRenderer.mapSoundPositions.get(pos);
-        if (old == null) return false;
-        final boolean var = Minecraft.getInstance().getSoundHandler().isPlaying(old);
-        if (!var) Minecraft.getInstance().worldRenderer.mapSoundPositions.remove(pos);
-        return var;
-    }
-
-    @Override
     public void loaded(final FMLLoadCompleteEvent event)
     {
         super.loaded(event);
@@ -330,34 +318,28 @@ public class ClientProxy extends CommonProxy
 
     }
 
+    private final Map<BlockPos, PokecenterSound> sounds = Maps.newHashMap();
+
     @Override
-    public void toggleSound(final SoundEvent sound, final BlockPos pos, final boolean play, final boolean loops,
-            final SoundCategory category, final int maxDistance)
+    public void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        if (sound != null)
+        this.sounds.clear();
+    }
+
+    @Override
+    public void pokecenterloop(final HealerTile tileIn, final boolean play)
+    {
+        if (play && !this.sounds.containsKey(tileIn.getPos()))
         {
-            final ISound old = Minecraft.getInstance().worldRenderer.mapSoundPositions.get(pos);
-            if (play)
-            {
-                if (this.hasSound(pos))
-                {
-                    Minecraft.getInstance().worldRenderer.mapSoundPositions.remove(pos);
-                    Minecraft.getInstance().getSoundHandler().stop(sound.getName(), category);
-                }
-                double distance = Minecraft.getInstance().player.getPosition().distanceSq(pos);
-                distance = Math.sqrt(distance);
-                if (distance > maxDistance) return;
-                // if (volume < 0.05) return;
-                final ISound simplesound = new SimpleSound(sound.getName(), category, 1.0f, 1.0F, loops, 0,
-                        ISound.AttenuationType.LINEAR, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, false);
-                Minecraft.getInstance().worldRenderer.mapSoundPositions.put(pos, simplesound);
-                Minecraft.getInstance().getSoundHandler().play(simplesound);
-            }
-            else if (old != null)
-            {
-                Minecraft.getInstance().worldRenderer.mapSoundPositions.remove(pos);
-                Minecraft.getInstance().getSoundHandler().stop(sound.getName(), category);
-            }
+            final PokecenterSound sound = new PokecenterSound(tileIn);
+            Minecraft.getInstance().getSoundHandler().play(sound);
+            this.sounds.put(tileIn.getPos(), sound);
         }
+        else if (!play && this.sounds.containsKey(tileIn.getPos()))
+        {
+            final PokecenterSound sound = this.sounds.remove(tileIn);
+            Minecraft.getInstance().getSoundHandler().stop(sound);
+        }
+
     }
 }

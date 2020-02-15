@@ -15,6 +15,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
@@ -226,11 +228,24 @@ public class EntityPokecube extends EntityPokecubeBase
         if (!lootTable.isEmpty()) this.lootTable = new ResourceLocation(lootTable);
     }
 
+    public void shoot(final Vector3 direction, final float velocity)
+    {
+        this.shoot(direction.x, direction.y, direction.z, velocity, 0);
+    }
+
     @Override
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
-        // TODO Auto-generated method stub
-
+        final Vec3d vec3d = new Vec3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,
+                this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(
+                        velocity);
+        this.setMotion(vec3d);
+        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
+        this.rotationYaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
+        this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI));
+        this.prevRotationYaw = this.rotationYaw;
+        this.prevRotationPitch = this.rotationPitch;
+        this.ticksInGround = 0;
     }
 
     @Override
