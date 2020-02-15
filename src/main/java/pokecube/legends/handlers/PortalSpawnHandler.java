@@ -35,6 +35,7 @@ public class PortalSpawnHandler
     {
         // Only do this on surface worlds.
         if (!world.getDimension().isSurfaceWorld()) return;
+        if (!SpawnHandler.canSpawnInWorld(world)) return;
 
         final List<Object> players = new ArrayList<>(world.getPlayers());
         if (players.size() < 1) return;

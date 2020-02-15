@@ -37,6 +37,7 @@ import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
@@ -207,6 +208,7 @@ public class EntityPokemob extends ShoulderRidingEntity implements IEntityAdditi
             scale = Math.min(1, (this.ticksExisted + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
             size = Math.max(0.1f, scale);
         }
+        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX)) size *= 10;
         return size;
     }
 

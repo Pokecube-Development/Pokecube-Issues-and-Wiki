@@ -1573,6 +1573,7 @@ public class PokedexEntry
 
     protected void initPrey()
     {
+        this.prey.clear();
         if (this.food == null) return;
         final List<String> foodList = new ArrayList<>();
         for (final String s : this.food)
@@ -1589,6 +1590,7 @@ public class PokedexEntry
 
     protected void initRelations()
     {
+        this.related.clear();
         final List<EvolutionData> stale = Lists.newArrayList();
         for (final EvolutionData d : this.evolutions)
             if (!Pokedex.getInstance().isRegistered(d.evolution)) stale.add(d);

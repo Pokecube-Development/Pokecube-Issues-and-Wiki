@@ -19,7 +19,7 @@ public abstract class PokemobEvolves extends PokemobHungry
     }
 
     @Override
-    public void setEvolutionStack(ItemStack stack)
+    public void setEvolutionStack(final ItemStack stack)
     {
         this.stack = stack;
     }
@@ -29,8 +29,22 @@ public abstract class PokemobEvolves extends PokemobHungry
      *            the evolutionTicks to set
      */
     @Override
-    public void setEvolutionTicks(int evolutionTicks)
+    public void setEvolutionTicks(final int evolutionTicks)
     {
         this.dataSync().set(this.params.EVOLTICKDW, new Integer(evolutionTicks));
+    }
+
+    @Override
+    public float getDynamaxFactor()
+    {
+        return this.dataSync().get(this.params.DYNAPOWERDW);
+    }
+
+    @Override
+    public void setDynamaxFactor(float factor)
+    {
+        // Cap this so it is at least 1.
+        factor = Math.max(1, factor);
+        this.dataSync().set(this.params.DYNAPOWERDW, new Float(factor));
     }
 }

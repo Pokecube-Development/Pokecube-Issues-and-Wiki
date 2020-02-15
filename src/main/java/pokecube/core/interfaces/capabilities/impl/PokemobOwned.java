@@ -211,7 +211,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             this.setEvolutionTicks(0);
             this.setGeneralState(GeneralStates.EXITINGCUBE, false);
             this.setGeneralState(GeneralStates.EVOLVING, false);
-            if (this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega)
+            this.setCombatState(CombatStates.DYNAMAX, false);
+
+            final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega;
+
+            if (megaForm)
             {
                 this.setCombatState(CombatStates.MEGAFORME, false);
                 final float hp = this.getHealth();

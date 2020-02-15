@@ -16,6 +16,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.EventsHandlerClient;
@@ -42,9 +43,9 @@ import thut.core.common.handlers.PlayerDataHandler;
 
 public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 {
-    public static int                                 savedIndex = 0;
+    public static int savedIndex = 0;
 
-    public static List<Class<? extends PokeInfoPage>> PAGELIST   = Lists.newArrayList();
+    public static List<Class<? extends PokeInfoPage>> PAGELIST = Lists.newArrayList();
 
     static
     {
@@ -81,77 +82,77 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        if (this.search.isFocused())
-            if (keyCode == GLFW.GLFW_KEY_RIGHT && this.search.getCursorPosition() == this.search.text.length())
+        if (this.search.isFocused()) if (keyCode == GLFW.GLFW_KEY_RIGHT && this.search
+                .getCursorPosition() == this.search.text.length())
+        {
+            String text = this.search.getText();
+            text = Database.trim(text);
+            final List<String> ret = new ArrayList<>();
+            for (final PokedexEntry entry : Database.getSortedFormes())
             {
-                String text = this.search.getText();
-                text = Database.trim(text);
-                final List<String> ret = new ArrayList<>();
-                for (final PokedexEntry entry : Database.getSortedFormes())
+                final String check = entry.getTrimmedName();
+                if (check.startsWith(text))
                 {
-                    final String check = entry.getTrimmedName();
-                    if (check.startsWith(text))
-                    {
-                        String name = entry.getName();
-                        if (name.contains(" ")) name = "\'" + name + "\'";
-                        ret.add(name);
-                    }
+                    String name = entry.getName();
+                    if (name.contains(" ")) name = "\'" + name + "\'";
+                    ret.add(name);
                 }
-                Collections.sort(ret, (o1, o2) ->
+            }
+            Collections.sort(ret, (o1, o2) ->
+            {
+                if (o1.startsWith("'") && !o2.startsWith("'")) return 1;
+                else if (o2.startsWith("'") && !o1.startsWith("'")) return -1;
+                return o1.compareToIgnoreCase(o2);
+            });
+            ret.replaceAll(t ->
+            {
+                if (t.startsWith("'") && t.endsWith("'")) t = t.substring(1, t.length() - 1);
+                return t;
+            });
+            // TODO Tab completetion
+            String match = text;
+            for (final String name : ret)
+                if (ThutCore.trim(name).startsWith(ThutCore.trim(match)))
                 {
-                    if (o1.startsWith("'") && !o2.startsWith("'")) return 1;
-                    else if (o2.startsWith("'") && !o1.startsWith("'")) return -1;
-                    return o1.compareToIgnoreCase(o2);
-                });
-                ret.replaceAll(t ->
+                    match = name;
+                    break;
+                }
+            if (!ret.isEmpty()) this.search.setText(ret.get(0));
+            return true;
+        }
+        else if (keyCode == GLFW.GLFW_KEY_ENTER)
+        {
+            PokedexEntry entry = this.pokemob.getPokedexEntry();
+            final PokedexEntry newEntry = Database.getEntry(this.search.getText());
+            // Search to see if maybe it was a translated name put into the
+            // search.
+            if (newEntry == null)
+            {
+                for (final PokedexEntry e : Database.getSortedFormes())
                 {
-                    if (t.startsWith("'") && t.endsWith("'")) t = t.substring(1, t.length() - 1);
-                    return t;
-                });
-                // TODO Tab completetion
-                String match = text;
-                for (final String name : ret)
-                    if (ThutCore.trim(name).startsWith(ThutCore.trim(match)))
+                    final String translated = I18n.format(e.getUnlocalizedName());
+                    if (translated.equalsIgnoreCase(this.search.getText()))
                     {
-                        match = name;
+                        Database.data2.put(translated, e);
+                        entry = e;
                         break;
                     }
-                if (!ret.isEmpty()) this.search.setText(ret.get(0));
-                return true;
-            }
-            else if (keyCode == GLFW.GLFW_KEY_ENTER)
-            {
-                PokedexEntry entry = this.pokemob.getPokedexEntry();
-                final PokedexEntry newEntry = Database.getEntry(this.search.getText());
-                // Search to see if maybe it was a translated name put into the
-                // search.
-                if (newEntry == null)
-                {
-                    for (final PokedexEntry e : Database.getSortedFormes())
-                    {
-                        final String translated = I18n.format(e.getUnlocalizedName());
-                        if (translated.equalsIgnoreCase(this.search.getText()))
-                        {
-                            Database.data2.put(translated, e);
-                            entry = e;
-                            break;
-                        }
-                    }
-                    // If the pokedex entry is not actually registered, use
-                    // old
-                    // entry.
-                    if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
                 }
+                // If the pokedex entry is not actually registered, use
+                // old
+                // entry.
+                if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
+            }
 
-                if (newEntry != null)
-                {
-                    this.search.setText(newEntry.getName());
-                    this.pokemob = EventsHandlerClient.getRenderMob(newEntry, this.watch.player.getEntityWorld());
-                    this.initPages(this.pokemob);
-                }
-                else this.search.setText(entry.getName());
-                return true;
+            if (newEntry != null)
+            {
+                this.search.setText(newEntry.getName());
+                this.pokemob = EventsHandlerClient.getRenderMob(newEntry, this.watch.player.getEntityWorld());
+                this.initPages(this.pokemob);
             }
+            else this.search.setText(entry.getName());
+            return true;
+        }
         return super.keyPressed(keyCode, b, c);
     }
 
@@ -194,28 +195,29 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     {
         final boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
         // change gender if clicking on the gender, and shininess otherwise
-        if (!new Exception().getStackTrace()[2].getClassName()
-                .equals("pokecube.core.client.gui.watch.util.PageWithSubPages"))
-            if (!this.watch.canEdit(this.pokemob))
-            {
-                // If it is actually a real mob, swap it out for the fake one.
-                if (this.pokemob.getEntity().addedToChunk) this.pokemob = this.renderMob = EventsHandlerClient.getRenderMob(this.pokemob.getPokedexEntry(), this.watch.player.getEntityWorld());
+        if (!new Exception().getStackTrace()[2].getClassName().equals(
+                "pokecube.core.client.gui.watch.util.PageWithSubPages")) if (!this.watch.canEdit(this.pokemob))
+        {
+            // If it is actually a real mob, swap it out for the fake one.
+            if (this.pokemob.getEntity().addedToChunk) this.pokemob = this.renderMob = EventsHandlerClient.getRenderMob(
+                    this.pokemob.getPokedexEntry(), this.watch.player.getEntityWorld());
 
-                final int x = (this.watch.width - 160) / 2 + 80;
-                final int y = (this.watch.height - 160) / 2 + 8;
-                final int mx = (int) (mouseX - x);
-                final int my = (int) (mouseY - y);
-                if (mx > -43 && mx < -43 + 76 && my > 42 && my < 42 + 7) switch (this.pokemob.getSexe())
-                {
-                case IPokemob.MALE:
-                    this.pokemob.setSexe(IPokemob.FEMALE);
-                    break;
-                case IPokemob.FEMALE:
-                    this.pokemob.setSexe(IPokemob.MALE);
-                    break;
-                }
-                else if (mx > -75 && mx < -75 + 40 && my > 10 && my < 10 + 40) if (this.pokemob.getPokedexEntry().hasShiny) this.pokemob.setShiny(!this.pokemob.isShiny());
+            final int x = (this.watch.width - 160) / 2 + 80;
+            final int y = (this.watch.height - 160) / 2 + 8;
+            final int mx = (int) (mouseX - x);
+            final int my = (int) (mouseY - y);
+            if (mx > -43 && mx < -43 + 76 && my > 42 && my < 42 + 7) switch (this.pokemob.getSexe())
+            {
+            case IPokemob.MALE:
+                this.pokemob.setSexe(IPokemob.FEMALE);
+                break;
+            case IPokemob.FEMALE:
+                this.pokemob.setSexe(IPokemob.MALE);
+                break;
             }
+            else if (mx > -75 && mx < -75 + 40 && my > 10 && my < 10 + 40) if (this.pokemob.getPokedexEntry().hasShiny)
+                this.pokemob.setShiny(!this.pokemob.isShiny());
+        }
         return ret;
     }
 
@@ -239,8 +241,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             {
                 final List<String> text = Lists.newArrayList();
                 text.add(this.pokemob.getPokedexEntry().getTranslatedName());
-                if (!this.pokemob.getPokemonNickname().isEmpty())
-                    text.add("\"" + this.pokemob.getPokemonNickname() + "\"");
+                if (!this.pokemob.getPokemonNickname().isEmpty()) text.add("\"" + this.pokemob.getPokemonNickname()
+                        + "\"");
                 GlStateManager.disableDepthTest();
                 mx = -35;
                 my = 20;
@@ -304,87 +306,88 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Draw the icon indicating capture/inspect status.
             this.minecraft.getTextureManager().bindTexture(GuiPokeWatch.TEXTURE);
             final PokedexEntry pokedexEntry = this.pokemob.getPokedexEntry();
-            final PokecubePlayerStats stats = PlayerDataHandler.getInstance()
-                    .getPlayerData(Minecraft.getInstance().player).getData(PokecubePlayerStats.class);
+            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
+                    .getInstance().player).getData(PokecubePlayerStats.class);
             boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
                     || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
                     || this.minecraft.player.abilities.isCreativeMode;
 
-                    // Megas Inherit colouring from the base form.
-                    if (!fullColour && pokedexEntry.isMega)
-                        fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
-                        || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
+            // Megas Inherit colouring from the base form.
+            if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
+                    Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry.getBaseForme(),
+                            Minecraft.getInstance().player) > 0;
 
-                        // Select which box to draw via position.
-                        if (fullColour) dr = 0;
-                        else if (stats.hasInspected(pokedexEntry)) dr = 9;
-                        else dr = 18;
-                        GL11.glColor3f(1, 1, 1);
-                        dx = -75;
-                        dy = 11;
-                        // Draw the box.
-                        this.blit(x + dx, y + dy, dr, 247, 9, 9);
+            // Select which box to draw via position.
+            if (fullColour) dr = 0;
+            else if (stats.hasInspected(pokedexEntry)) dr = 9;
+            else dr = 18;
+            GL11.glColor3f(1, 1, 1);
+            dx = -75;
+            dy = 11;
+            // Draw the box.
+            this.blit(x + dx, y + dy, dr, 247, 9, 9);
 
-                        IPokemob pokemob = this.renderMob;
-                        // Copy the stuff to the render mob if this mob is in world
-                        if (pokemob.getEntity().addedToChunk)
-                        {
-                            final IPokemob newMob = EventsHandlerClient.getRenderMob(pokemob.getPokedexEntry(),
-                                    pokemob.getEntity().getEntityWorld());
-                            newMob.read(pokemob.write());
-                            pokemob = this.renderMob = newMob;
-                        }
+            IPokemob pokemob = this.renderMob;
+            // Copy the stuff to the render mob if this mob is in world
+            if (pokemob.getEntity().addedToChunk)
+            {
+                final IPokemob newMob = EventsHandlerClient.getRenderMob(pokemob.getPokedexEntry(), pokemob.getEntity()
+                        .getEntityWorld());
+                newMob.read(pokemob.write());
+                pokemob = this.renderMob = newMob;
+            }
 
-                        if (!pokemob.getEntity().addedToChunk)
-                        {
-                            final LivingEntity player = this.watch.player;
-                            EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
-                        }
+            if (!pokemob.getEntity().addedToChunk)
+            {
+                final LivingEntity player = this.watch.player;
+                EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
+            }
+            final float yaw = Util.milliTime() / 20;
 
-                        dx = -35;
-                        dy = -55;
-                        // Draw the actual pokemob
-                        GuiPokedex.renderMob(pokemob.getEntity(), this.minecraft, dx, dy, 0.75f, this.watch.height,
-                                this.watch.width, 160, 160, 0, 45, -45);
-                        // Draw gender, types and lvl
-                        int genderColor = 0xBBBBBB;
-                        String gender = "";
-                        if (pokemob.getSexe() == IPokemob.MALE)
-                        {
-                            genderColor = 0x0011CC;
-                            gender = "\u2642";
-                        }
-                        else if (pokemob.getSexe() == IPokemob.FEMALE)
-                        {
-                            genderColor = 0xCC5555;
-                            gender = "\u2640";
-                        }
-                        final String level = "L. " + pokemob.getLevel();
-                        dx = -74;
-                        dy = 42;
-                        this.drawString(this.font, level, x + dx, y + dy, 0xffffff);
-                        dx = -40;
-                        this.drawCenteredString(this.font, gender, x + dx, y + dy, genderColor);
-                        pokemob.getType1();
-                        final String type1 = PokeType.getTranslatedName(pokemob.getType1());
-                        final String type2 = PokeType.getTranslatedName(pokemob.getType2());
-                        dx = -74;
-                        dy = 52;
-                        colour = pokemob.getType1().colour;
-                        this.drawString(this.font, type1, x + dx, y + dy, colour);
-                        colour = pokemob.getType2().colour;
-                        dy = 62;
-                        if (pokemob.getType2() != PokeType.unknown) this.drawString(this.font, type2, x + dx, y + dy, colour);
+            dx = -35;
+            dy = -55;
+            // Draw the actual pokemob
+            GuiPokedex.renderMob(pokemob.getEntity(), this.minecraft, dx, dy, 0.75f, this.watch.height,
+                    this.watch.width, 160, 160, 0, yaw, yaw);
+            // Draw gender, types and lvl
+            int genderColor = 0xBBBBBB;
+            String gender = "";
+            if (pokemob.getSexe() == IPokemob.MALE)
+            {
+                genderColor = 0x0011CC;
+                gender = "\u2642";
+            }
+            else if (pokemob.getSexe() == IPokemob.FEMALE)
+            {
+                genderColor = 0xCC5555;
+                gender = "\u2640";
+            }
+            final String level = "L. " + pokemob.getLevel();
+            dx = -74;
+            dy = 42;
+            this.drawString(this.font, level, x + dx, y + dy, 0xffffff);
+            dx = -40;
+            this.drawCenteredString(this.font, gender, x + dx, y + dy, genderColor);
+            pokemob.getType1();
+            final String type1 = PokeType.getTranslatedName(pokemob.getType1());
+            final String type2 = PokeType.getTranslatedName(pokemob.getType2());
+            dx = -74;
+            dy = 52;
+            colour = pokemob.getType1().colour;
+            this.drawString(this.font, type1, x + dx, y + dy, colour);
+            colour = pokemob.getType2().colour;
+            dy = 62;
+            if (pokemob.getType2() != PokeType.unknown) this.drawString(this.font, type2, x + dx, y + dy, colour);
 
-                        // Draw box around where type displays
-                        dx = -76;
-                        dy = 50;
-                        dr = 20;
-                        colour = 0xFF78C850;
-                        this.vLine(x + dx, y + dy, y + dy + dr, colour);
-                        this.vLine(x + dx + 2 * dr, y + dy, y + dy + dr, colour);
-                        dr = 40;
-                        this.hLine(x + dx, x + dx + dr, y + dy + dr / 2, colour);
+            // Draw box around where type displays
+            dx = -76;
+            dy = 50;
+            dr = 20;
+            colour = 0xFF78C850;
+            this.vLine(x + dx, y + dy, y + dy + dr, colour);
+            this.vLine(x + dx + 2 * dr, y + dy, y + dy + dr, colour);
+            dr = 40;
+            this.hLine(x + dx, x + dx + dr, y + dy + dr / 2, colour);
 
         }
     }

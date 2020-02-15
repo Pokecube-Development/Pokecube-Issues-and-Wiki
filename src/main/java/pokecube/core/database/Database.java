@@ -1,7 +1,7 @@
 package pokecube.core.database;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -30,23 +28,16 @@ import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.resources.FolderPackFinder;
-import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.resources.IResourcePack;
 import net.minecraft.resources.ResourcePackInfo;
 import net.minecraft.resources.ResourcePackList;
 import net.minecraft.resources.ResourcePackType;
 import net.minecraft.resources.SimpleReloadableResourceManager;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
-import net.minecraftforge.fml.packs.ModFileResourcePack;
 import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -65,6 +56,8 @@ import pokecube.core.database.moves.json.JsonMoves.MovesJson;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipe;
 import pokecube.core.database.recipes.XMLRecipeHandler.XMLRecipes;
+import pokecube.core.database.resources.PackFinder;
+import pokecube.core.database.resources.PackListener;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
@@ -85,54 +78,6 @@ public class Database
     public static enum EnumDatabase
     {
         POKEMON, MOVES, BERRIES
-    }
-
-    private static class ModPackFinder implements IPackFinder
-    {
-        private Map<ModFile, IResourcePack> modResourcePacks = Maps.newHashMap();
-        private final List<IResourcePack>   allPacks         = Lists.newArrayList();
-
-        private final FolderPackFinder folderFinder;
-
-        public ModPackFinder(final ResourcePackInfo.IFactory<ResourcePackInfo> packInfoFactoryIn)
-        {
-            final File folder = new File(FMLPaths.GAMEDIR.get().toFile(), "resourcepacks");
-            PokecubeCore.LOGGER.debug("Setting resourcepacks folder as: {}", folder);
-            this.folderFinder = new FolderPackFinder(folder);
-            this.init(packInfoFactoryIn);
-        }
-
-        public void init(final ResourcePackInfo.IFactory<ResourcePackInfo> packInfoFactoryIn)
-        {
-            try
-            {
-                this.modResourcePacks = ModList.get().getModFiles().stream().map(mf -> new ModFileResourcePack(mf
-                        .getFile())).collect(Collectors.toMap(ModFileResourcePack::getModFile, Function.identity()));
-                this.allPacks.addAll(this.modResourcePacks.values());
-            }
-            catch (final Exception e)
-            {
-                throw new RuntimeException(e);
-            }
-
-            final Map<String, ResourcePackInfo> map = Maps.newHashMap();
-            this.folderFinder.addPackInfosToMap(map, packInfoFactoryIn);
-
-            for (final ResourcePackInfo info : map.values())
-            {
-                final IResourcePack pack = info.getResourcePack();
-                if (pack != null) this.allPacks.add(pack);
-                else PokecubeCore.LOGGER.debug("No Pack found for " + info);
-            }
-        }
-
-        @Override
-        public <T extends ResourcePackInfo> void addPackInfosToMap(final Map<String, T> packList,
-                final ResourcePackInfo.IFactory<T> factory)
-        {
-            throw new RuntimeException("Opps we, don't do this yet!");
-        }
-
     }
 
     @XmlRootElement(name = "Drop")
@@ -742,17 +687,27 @@ public class Database
         }
     }
 
-    public static void loadRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
+    private static boolean recipeDone = false;
+
+    public static void loadRecipes()
     {
+        // We only want to do this once.
+        if (Database.recipeDone) return;
+        Database.recipeDone = true;
+
         for (final ResourceLocation name : XMLRecipeHandler.recipeFiles)
             try
             {
-                final Reader reader = new InputStreamReader(Database.resourceManager.getResource(name)
-                        .getInputStream());
+                final IReloadableResourceManager manager = Database.resourceManager;
+                final Reader reader = new InputStreamReader(manager.getResource(name).getInputStream());
                 final XMLRecipes database = PokedexEntryLoader.gson.fromJson(reader, XMLRecipes.class);
                 reader.close();
                 for (final XMLRecipe drop : database.recipes)
                     XMLRecipeHandler.addRecipe(drop);
+            }
+            catch (final FileNotFoundException e)
+            {
+                PokecubeCore.LOGGER.debug("No Custom Recipes of name {}", name);
             }
             catch (final Exception e)
             {
@@ -923,15 +878,26 @@ public class Database
         PokedexEntryLoader.postInit();
         Database.loadSpawns();
         Database.loadStarterPack();
+        Database.loadRecipes();
 
         /** Initialize relations, prey, children. */
-
         for (final PokedexEntry p : Database.allFormes)
             p.initRelations();
         for (final PokedexEntry p : Database.allFormes)
             p.initPrey();
+        // Children last, as relies on relations.
         for (final PokedexEntry p : Database.allFormes)
             p.getChild();
+    }
+
+    public static Set<IResourcePack> customPacks = Sets.newHashSet();
+    private static PackListener      listener    = new PackListener();
+
+    public static void swapManager(final MinecraftServer server)
+    {
+        Database.resourceManager = server.getResourceManager();
+        Database.listener.add(Database.resourceManager);
+        server.getResourceManager().addReloadListener(Database.listener);
     }
 
     /**
@@ -945,12 +911,13 @@ public class Database
         @SuppressWarnings("deprecation")
         final ResourcePackList<ResourcePackInfo> resourcePacks = new ResourcePackList<>(ResourcePackInfo::new);
         @SuppressWarnings("deprecation")
-        final ModPackFinder finder = new ModPackFinder(ResourcePackInfo::new);
+        final PackFinder finder = new PackFinder(ResourcePackInfo::new);
         resourcePacks.addPackFinder(finder);
         for (final IResourcePack info : finder.allPacks)
         {
             PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
             Database.resourceManager.addResourcePack(info);
+            Database.customPacks.add(info);
         }
         resourcePacks.close();
 
@@ -965,7 +932,7 @@ public class Database
                 final XMLDatabase database = PokedexEntryLoader.initDatabase(s);
                 // Hotloadable ones will be able to be re-loaded at runtime
                 // later, for things like setting ridden offsets, etc
-                if (database.hotload) PokedexEntryLoader.hotloadable.add(s);
+                if (database != null && database.hotload) PokedexEntryLoader.hotloadable.add(s);
             }
             catch (final Exception e)
             {
