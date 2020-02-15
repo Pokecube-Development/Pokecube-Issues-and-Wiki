@@ -271,8 +271,9 @@ public class Body implements IRetexturableModel
     public void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro)
     {
         final boolean smooth = this.texturer == null ? false : !this.texturer.isFlat(null);
+        this.uvShift[0] = this.uvShift[1] = 0;
         if (!this.parent.usesMaterials) for (final Face f : this.faces)
-            f.addForRender(mat, buffer, rgbabro, smooth);
+            f.addForRender(mat, buffer, rgbabro, uvShift, smooth);
         else for (final Map.Entry<Material, ArrayList<Face>> entry : this.matsToFaces.entrySet())
         {
             Material material;
@@ -283,8 +284,10 @@ public class Body implements IRetexturableModel
                 {
                     this.texturer.shiftUVs(tex, this.uvShift);
                     material.flat = texturer.isFlat(material.name);
+                    this.texturer.shiftUVs(tex, uvShift);
                 }
                 this.render(mat, material.preRender(mat, buffer), rgbabro, entry, smooth);
+                this.uvShift[0] = this.uvShift[1] = 0;
             }
         }
     }
@@ -293,7 +296,7 @@ public class Body implements IRetexturableModel
             final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)
     {
         for (final Face face : entry.getValue())
-            face.addForRender(mat, buffer, rgbabro, smooth);
+            face.addForRender(mat, buffer, rgbabro, uvShift, smooth);
     }
 
     public void resetVerts()
