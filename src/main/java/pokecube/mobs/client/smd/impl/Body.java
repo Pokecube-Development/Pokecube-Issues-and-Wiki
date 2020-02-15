@@ -279,7 +279,11 @@ public class Body implements IRetexturableModel
             if ((material = entry.getKey()) != null)
             {
                 final String tex = material.name;
-                if (this.texturer != null) this.texturer.shiftUVs(tex, this.uvShift);
+                if (this.texturer != null)
+                {
+                    this.texturer.shiftUVs(tex, this.uvShift);
+                    material.flat = texturer.isFlat(material.name);
+                }
                 this.render(mat, material.preRender(mat, buffer), rgbabro, entry, smooth);
             }
         }

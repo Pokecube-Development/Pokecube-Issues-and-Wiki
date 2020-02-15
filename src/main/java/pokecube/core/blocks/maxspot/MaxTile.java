@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -46,7 +47,7 @@ public class MaxTile extends InteractableTile
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         final ItemStack stack = player.getHeldItem(hand);
@@ -58,15 +59,15 @@ public class MaxTile extends InteractableTile
             if (!player.isCreative() && old != this.range) stack.split(1);
             if (!this.getWorld().isRemote) player.sendMessage(new TranslationTextComponent("repel.info.setrange",
                     this.range, this.enabled));
-            return true;
+            return ActionResultType.SUCCESS;
         }
         else if (stack.getItem() instanceof ItemPokedex)
         {
             if (!this.getWorld().isRemote) player.sendMessage(new TranslationTextComponent("repel.info.getrange",
                     this.range, this.enabled));
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     /** Reads a tile entity from NBT. */
