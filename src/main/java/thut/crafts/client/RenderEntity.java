@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
-import org.w3c.dom.Node;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -178,11 +177,6 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
         public IPartTexturer getTexturer()
         {
             return this.texturer;
-        }
-
-        @Override
-        public void handleCustomTextures(final Node node)
-        {
         }
 
         @Override

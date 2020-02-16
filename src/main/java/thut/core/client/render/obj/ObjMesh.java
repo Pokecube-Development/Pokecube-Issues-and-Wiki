@@ -8,9 +8,8 @@ import thut.core.client.render.texturing.TextureCoordinate;
 
 public class ObjMesh extends Mesh
 {
-
     public ObjMesh(final Integer[] order, final Vertex[] vert, final Vertex[] norm, final TextureCoordinate[] tex)
     {
-        super(order, vert, norm, tex, GL11.GL_QUADS);
+        super(order, vert, norm, tex, GL11.GL_TRIANGLES);
     }
 }

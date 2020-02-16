@@ -19,6 +19,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
@@ -63,9 +64,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
             final float partialTicks, final float limbSwing)
     {
-        // this.updateAnimation(entity, renderer, renderer.getAnimation(entity),
-        // partialTicks, this.getHeadInfo().headYaw,
-        // this.getHeadInfo().headYaw, limbSwing);
+//        this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks, this.getHeadInfo().headYaw,
+//                this.getHeadInfo().headYaw, limbSwing, 0);
     }
 
     @Override
@@ -287,11 +287,14 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
                     brightness);
         }
     }
-    
+
     @Override
     public void globalFix(MatrixStack mat, float dx, float dy, float dz)
     {
-        //FIXME obj rotation
+        // FIXME obj rotation
+        mat.rotate(Vector3f.XP.rotationDegrees(180));
+        mat.rotate(Vector3f.YP.rotationDegrees(180));
+        mat.translate(0, -1.5, 0);
     }
 
     private void updateSubParts(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
