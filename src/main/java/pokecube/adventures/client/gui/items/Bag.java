@@ -81,7 +81,7 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
-        this.blit(x, y, 0, 0, this.xSize, this.ySize);
+        this.blit(x, y, 0, 0, this.xSize + 1, this.ySize + 1);
     }
 
     @Override

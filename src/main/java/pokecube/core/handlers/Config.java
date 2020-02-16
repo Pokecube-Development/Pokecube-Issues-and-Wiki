@@ -631,6 +631,8 @@ public class Config extends ConfigData
     public int    dynamax_duration = 250;
     @Configure(category = Config.dynamax)
     public double dynamax_scale    = 5.0;
+    @Configure(category = Config.dynamax)
+    public int    z_move_cooldown  = 2000;
 
     @Configure(category = Config.items)
     public List<String> customHeldItems = Lists.newArrayList();

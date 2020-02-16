@@ -18,9 +18,10 @@ import thut.core.common.ThutCore;
 
 public class GZMoveManager
 {
-    private static Map<String, String> zmoves_map      = Maps.newHashMap();
-    private static Map<String, String> gmoves_map      = Maps.newHashMap();
-    private static Map<String, String> g_max_moves_map = Maps.newHashMap();
+    public static Map<String, String>       zmoves_map      = Maps.newHashMap();
+    public static Map<String, List<String>> z_sig_moves_map = Maps.newHashMap();
+    private static Map<String, String>      gmoves_map      = Maps.newHashMap();
+    private static Map<String, String>      g_max_moves_map = Maps.newHashMap();
 
     public static boolean isZMove(final MoveJsonEntry entry)
     {
@@ -31,7 +32,7 @@ public class GZMoveManager
     public static void init(final MovesJson moves)
     {
         final Map<PokeType, String> g_type_map = Maps.newHashMap();
-        final Map<String, MoveJsonEntry> z_moves = Maps.newHashMap();
+        final Map<PokeType, String> z_moves = Maps.newHashMap();
         final List<String> g_max_moves = Lists.newArrayList();
         int num = 0;
         int num2 = 0;
@@ -55,7 +56,23 @@ public class GZMoveManager
                 }
                 else g_type_map.put(type, entry.name);
             }
-            if (GZMoveManager.isZMove(entry)) z_moves.put(entry.name, entry);
+            if (GZMoveManager.isZMove(entry))
+            {
+                final PokeType type = PokeType.getType(entry.type);
+                if (entry.zEntry != null)
+                {
+                    final String[] vars = entry.zEntry.split(";");
+                    for (String s : vars)
+                    {
+                        s = ThutCore.trim(s);
+                        List<String> movesList = GZMoveManager.z_sig_moves_map.get(s);
+                        if (movesList == null) GZMoveManager.z_sig_moves_map.put(s, movesList = Lists.newArrayList());
+                        movesList.add(entry.name);
+                        PokecubeCore.LOGGER.debug("Signature Z-Move {} -> {}", s, entry.name);
+                    }
+                }
+                else z_moves.put(type, entry.name);
+            }
         }
         PokecubeCore.LOGGER.debug("Found {} G or Z Moves, of which {} are G-Max moves", num, num2);
         // Second pass to map on alternates.
@@ -65,15 +82,17 @@ public class GZMoveManager
             if (g_type_map.containsKey(entry.name) || g_max_moves.contains(entry.name) || z_moves.containsKey(
                     entry.name)) continue;
             final String name = ThutCore.trim(entry.name);
-            final String z_to = ThutCore.trim(entry.zMovesTo);
+            String z_to = ThutCore.trim(entry.zMovesTo);
             String g_to = ThutCore.trim(entry.gMoveTo);
 
             // Manual mapping
-            if (z_to != null && z_moves.containsKey(z_to)) GZMoveManager.zmoves_map.put(name, z_to);
+            if (z_to != null && z_moves.containsValue(z_to)) GZMoveManager.zmoves_map.put(name, z_to);
             else
             {
-                // Auto allocate.
-                // TODO decide on z-move auto-allocation
+                final PokeType type = PokeType.getType(entry.type);
+                z_to = z_moves.get(type);
+                if (z_to != null) GZMoveManager.zmoves_map.put(name, z_to);
+                else PokecubeCore.LOGGER.warn("No Max Move For Type {}, when allocating for {}", type.name, entry.name);
             }
             // Manual mapping
             if (g_to != null && g_type_map.containsValue(z_to)) GZMoveManager.gmoves_map.put(name, g_to);
@@ -100,12 +119,21 @@ public class GZMoveManager
     public static String getZMove(final IPokemob user, final String base_move)
     {
         if (base_move == null) return null;
-        if (user.getCombatState(CombatStates.USEDZMOVE)) return null;
         final Move_Base move = MovesUtils.getMoveFromName(base_move);
         if (move == null) return null;
+        final ZPower checker = CapabilityZMove.get(user.getEntity());
+        if (!checker.canZMove(user, base_move)) return null;
 
-        // TODO do a check in here for z-crystal, etc.
+        final String name = user.getPokedexEntry().getTrimmedName();
 
+        // Check if a valid signature Z-move is available.
+        if (GZMoveManager.z_sig_moves_map.containsKey(name))
+        {
+            final List<String> moves = GZMoveManager.z_sig_moves_map.get(name);
+            for (final String zmove : moves)
+                if (checker.canZMove(user, zmove)) return zmove;
+        }
+        // Otherwise just pick the one from the map.
         return GZMoveManager.zmoves_map.get(base_move);
     }
 

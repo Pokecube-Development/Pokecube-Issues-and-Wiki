@@ -195,7 +195,7 @@ public class Pokecube extends Item implements IPokecube
             cube.shootingEntity = null;
             cube.shooter = null;
             Vector3.getNewVector().set(oldItem).moveEntity(cube);
-            cube.tilt = -2;
+            cube.setNoCollisionRelease();
             cube.targetLocation.clear();
             return cube;
         }
@@ -306,7 +306,7 @@ public class Pokecube extends Item implements IPokecube
             if (!filled && target instanceof LivingEntity && this.getCaptureModifier((LivingEntity) target,
                     PokecubeItems.getCubeId(stack)) == 0) target = null;
             boolean used = false;
-            final boolean filledOrSneak = filled || player.isCrouching() || dt > 10;
+            final boolean filledOrSneak = filled || player.isCrouching() || dt > 5;
             if (target != null && EntityPokecubeBase.SEEKING) used = this.throwPokecubeAt(worldIn, player, stack,
                     targetLocation, target);
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
@@ -427,7 +427,7 @@ public class Pokecube extends Item implements IPokecube
             if (thrower.isCrouching())
             {
                 final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
-                final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).scalarMultBy(1.5);
+                final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).norm();
                 temp.addTo(temp1).moveEntity(entity);
                 temp.clear().setVelocities(entity);
                 entity.targetEntity = null;
@@ -436,7 +436,7 @@ public class Pokecube extends Item implements IPokecube
             else
             {
                 final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
-                final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).scalarMultBy(1.5);
+                final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).norm();
                 temp.addTo(temp1).moveEntity(entity);
             }
             if (!world.isRemote)

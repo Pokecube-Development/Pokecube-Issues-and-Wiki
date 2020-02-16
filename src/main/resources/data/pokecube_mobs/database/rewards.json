@@ -5,7 +5,7 @@
       "key": "default",
       "condition": {
         "values": {
-          "file": "/assets/pokecube_books/lang/%s.lang",
+          "file": "pokecube_mobs:books/%s.json",
           "mess": "pokedex.inspect.guidebook",
           "tag": "pokecube.infobook1.json",
           "key": "inspect-guidebook"
@@ -18,7 +18,7 @@
       "key": "default",
       "condition": {
         "values": {
-          "file": "/assets/pokecube_books/lang/%s.lang",
+          "file": "pokecube_mobs:books/%s.json",
           "mess": "pokedex.inspect.carebook",
           "tag": "pokecube.infobook2.json",
           "key": "inspect-carebook"

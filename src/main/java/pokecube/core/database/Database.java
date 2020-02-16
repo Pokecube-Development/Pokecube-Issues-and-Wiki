@@ -62,6 +62,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLReward;
 import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.events.onload.InitDatabase;
+import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
@@ -715,6 +716,10 @@ public class Database
                 for (final XMLReward drop : database.recipes)
                     XMLRewardsHandler.addReward(drop);
             }
+            catch (final FileNotFoundException e)
+            {
+                PokecubeCore.LOGGER.debug("No Custom Rewards of name {}", name);
+            }
             catch (final Exception e)
             {
                 PokecubeCore.LOGGER.error("Error with " + name, e);
@@ -860,6 +865,7 @@ public class Database
         Database.loadSpawns();
         Database.loadStarterPack();
         Database.loadRecipes();
+        PokedexInspector.init();
 
         /** Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.allFormes)
@@ -899,6 +905,9 @@ public class Database
             Database.customPacks.add(info);
         }
         resourcePacks.close();
+
+        // Register the dex inspector
+        MinecraftForge.EVENT_BUS.register(PokedexInspector.class);
 
         // Load in the combat types first.
         CombatTypeLoader.loadTypes();

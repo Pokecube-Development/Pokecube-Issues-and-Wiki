@@ -13,10 +13,12 @@ import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.database.moves.MoveEntry.Category;
 import pokecube.core.events.pokemob.combat.MoveUse;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
@@ -45,7 +47,7 @@ public abstract class Move_Base
      *            can be either {@link MovesUtils#CATEGORY_CONTACT} or
      *            {@link MovesUtils#CATEGORY_DISTANCE}
      */
-    public Move_Base(String name)
+    public Move_Base(final String name)
     {
         this.name = name;
         this.move = MoveEntry.get(name);
@@ -80,18 +82,17 @@ public abstract class Move_Base
      * @param start
      * @param end
      */
-    public void ActualMoveUse(@Nonnull Entity user, @Nullable Entity target, @Nonnull Vector3 start,
-            @Nonnull Vector3 end)
+    public void ActualMoveUse(@Nonnull final Entity user, @Nullable final Entity target, @Nonnull final Vector3 start,
+            @Nonnull final Vector3 end)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
         if (pokemob == null) return;
-        if (PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) // Move
-                                                                                               // Failed
-                                                                                               // message
-                                                                                               // here?
-            return;
+        // TODO add an error message here?
+        if (PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) return;
         final EntityMoveUse moveUse = new EntityMoveUse(EntityMoveUse.TYPE, user.getEntityWorld());
         moveUse.setUser(user).setMove(this).setTarget(target).setStart(start).setEnd(end);
+        if (GZMoveManager.zmoves_map.containsValue(this.move.baseEntry.name)) pokemob.setCombatState(
+                CombatStates.USEDZMOVE, true);
         pokemob.setActiveMove(moveUse);
         MoveQueuer.queueMove(moveUse);
     }
@@ -151,7 +152,7 @@ public abstract class Move_Base
      * @param user
      * @return
      */
-    public IMoveAnimation getAnimation(IPokemob user)
+    public IMoveAnimation getAnimation(final IPokemob user)
     {
         return this.getAnimation();
     }
@@ -179,7 +180,7 @@ public abstract class Move_Base
      * @param user
      * @return
      */
-    public Category getCategory(IPokemob user)
+    public Category getCategory(final IPokemob user)
     {
         return this.getCategory();
     }
@@ -213,7 +214,7 @@ public abstract class Move_Base
      * @param attacker
      * @return
      */
-    public float getPostDelayFactor(IPokemob attacker)
+    public float getPostDelayFactor(final IPokemob attacker)
     {
         return this.move.delayAfter ? 4 : 1;
     }
@@ -244,7 +245,7 @@ public abstract class Move_Base
      *
      * @return the precision of this move
      */
-    public int getPRE(IPokemob user, Entity target)
+    public int getPRE(final IPokemob user, final Entity target)
     {
         return this.move.accuracy;
     }
@@ -264,7 +265,7 @@ public abstract class Move_Base
      *
      * @return the power of this move
      */
-    public int getPWR(IPokemob user, Entity target)
+    public int getPWR(final IPokemob user, final Entity target)
     {
         return this.move.power;
     }
@@ -275,7 +276,7 @@ public abstract class Move_Base
      * @param user
      * @return
      */
-    public float getSelfHealRatio(IPokemob user)
+    public float getSelfHealRatio(final IPokemob user)
     {
         return this.move.selfHealRatio;
     }
@@ -285,7 +286,7 @@ public abstract class Move_Base
      *
      * @return the type of this move
      */
-    public PokeType getType(IPokemob user)
+    public PokeType getType(final IPokemob user)
     {
         return this.move.type;
     }
@@ -318,7 +319,7 @@ public abstract class Move_Base
      * @param attacked
      * @param targetPos
      */
-    public void playSounds(Entity attacker, @Nullable Entity attacked, @Nullable Vector3 targetPos)
+    public void playSounds(final Entity attacker, @Nullable final Entity attacked, @Nullable final Vector3 targetPos)
     {
         if (attacker != null) if (this.soundUser != null || this.move.baseEntry.soundEffectSource != null)
         {
@@ -386,7 +387,7 @@ public abstract class Move_Base
      * @param anim
      * @return
      */
-    public Move_Base setAnimation(IMoveAnimation anim)
+    public Move_Base setAnimation(final IMoveAnimation anim)
     {
         this.animation = anim;
         return this;

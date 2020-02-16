@@ -50,6 +50,8 @@ import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.PokemobTerrainEffects;
+import pokecube.core.moves.zmoves.CapabilityZMove;
+import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -114,6 +116,7 @@ public class CommonProxy implements Proxy
         CapabilityManager.INSTANCE.register(IPokemob.class, new CapabilityPokemob.Storage(), DefaultPokemob::new);
         CapabilityManager.INSTANCE.register(IOngoingAffected.class, new CapabilityAffected.Storage(),
                 DefaultAffected::new);
+        CapabilityManager.INSTANCE.register(ZPower.class, new CapabilityZMove.Storage(), CapabilityZMove.Impl::new);
         CapabilityManager.INSTANCE.register(IMegaCapability.class, new Capability.IStorage<IMegaCapability>()
         {
             @Override

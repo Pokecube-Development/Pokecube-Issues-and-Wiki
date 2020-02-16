@@ -1,6 +1,8 @@
 package pokecube.core.database.rewards;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,9 +12,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
+import org.jline.utils.InputStreamReader;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonObject;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +28,9 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -121,14 +128,19 @@ public class XMLRewardsHandler
 
     public static class FreeBookParser implements IRewardParser
     {
+        public static class BooksHolder
+        {
+            public Map<QName, String> values = Maps.newHashMap();
+        }
 
         public static class FreeTranslatedReward implements IInspectReward
         {
-            public final String  key;
-            public final boolean watch_only;
-            final String         message;
-            final String         tagKey;
-            final String         langFile;
+            public final String           key;
+            public final boolean          watch_only;
+            final String                  message;
+            final String                  tagKey;
+            final String                  langFile;
+            public Map<String, ItemStack> langBooks = Maps.newHashMap();
 
             public FreeTranslatedReward(final String key, final String message, final String tagKey,
                     final String langFile, final boolean watch_only)
@@ -140,20 +152,11 @@ public class XMLRewardsHandler
                 this.watch_only = watch_only;
             }
 
-            public ItemStack getInfoBook(final String lang)
+            public ItemStack getInfoBook(String lang)
             {
-                final String name = "";
-                // TODO new way to define the localized books.
-                final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-                try
-                {
-                    stack.setTag(JsonToNBT.getTagFromJson(name));
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + name, e);
-                }
-                return stack;
+                lang = lang.toLowerCase(Locale.ROOT);
+                if (!this.langBooks.containsKey(lang)) this.initLangBook(lang);
+                return this.langBooks.getOrDefault(lang, ItemStack.EMPTY).copy();
             }
 
             @Override
@@ -173,6 +176,35 @@ public class XMLRewardsHandler
                     PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());
                 }
                 return true;
+            }
+
+            public void initLangBook(String lang)
+            {
+                try
+                {
+                    lang = lang.toLowerCase(Locale.ROOT);
+                    final ResourceLocation langloc = PokecubeItems.toPokecubeResource(String.format(this.langFile,
+                            lang));
+                    final InputStream stream = Database.resourceManager.getResource(langloc).getInputStream();
+                    final JsonObject holder = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
+                            JsonObject.class);
+                    final String json = holder.get(this.tagKey).getAsString();
+                    final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
+                    try
+                    {
+                        stack.setTag(JsonToNBT.getTagFromJson(json));
+                        this.langBooks.put(lang, stack);
+                    }
+                    catch (final Exception e)
+                    {
+                        PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
+                    }
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error with book for " + this.tagKey, e);
+                }
+
             }
         }
 
