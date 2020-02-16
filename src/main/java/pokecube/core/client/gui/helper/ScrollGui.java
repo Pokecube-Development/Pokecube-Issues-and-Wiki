@@ -41,7 +41,7 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
         return super.addEntry(p_addEntry_1_);
     }
 
-    private int getMaxScroll()
+    public int getMaxScroll()
     {
         return Math.max(0, this.getMaxPosition() - (this.y1 - this.y0 - 4));
     }
@@ -210,5 +210,26 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
             scroll = Math.min(scroll, this.getMaxScroll());
         }
         this.scrollAmount = MathHelper.clamp(scroll, 0.0D, this.getMaxScroll() - 4);
+    }
+
+    public void skipTo(final double scroll)
+    {
+        this.scrollAmount = MathHelper.clamp(scroll, 0.0D, this.getMaxScroll() - 4);
+    }
+
+    public int itemHeight()
+    {
+        return this.itemHeight;
+    }
+
+    @Override
+    public T getEntry(final int i)
+    {
+        return super.getEntry(i);
+    }
+
+    public int getSize()
+    {
+        return this.getItemCount();
     }
 }

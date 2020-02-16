@@ -1,6 +1,7 @@
 package pokecube.core.client.gui.watch;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
@@ -52,25 +53,24 @@ public class WikiPage extends ListPage<LineEntry>
         {
             ClickEvent clickevent = component.getStyle().getClickEvent();
             if (clickevent == null) for (final ITextComponent sib : component.getSiblings())
-                if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;// TODO
-            // wiki book components.
+                if (sib != null && (clickevent = sib.getStyle().getClickEvent()) != null) break;
             if (clickevent != null) if (clickevent.getAction() == Action.CHANGE_PAGE)
-                // stuff
-                // final int page = Integer.parseInt(clickevent.getValue());
-                // final int max = this.list.getMaxScroll();
-                // for (int i = 0; i < this.list.getSize(); i++)
-                // {
-                // final WikiLine line = (WikiLine) this.list.getEntry(i);
-                // if (line.page == page)
-                // {
-                // final int scrollTo = Math.min(max,
-                // this.list.slotHeight * (i - this.list.height /
-                // this.list.slotHeight));
-                // this.list.scrollBy(scrollTo - this.list.getAmountScrolled());
-                // return true;
-                // }
-                // }
-                return false;
+            {
+                final int page = Integer.parseInt(clickevent.getValue());
+                final int max = this.list.getMaxScroll();
+                for (int i = 0; i < this.list.getSize(); i++)
+                {
+                    final WikiLine line = (WikiLine) this.list.getEntry(i);
+                    if (line.page == page)
+                    {
+                        final double scrollTo = Math.min(max, this.list.itemHeight() * i + this.list.getScrollAmount());
+                        System.out.println(i + " " + scrollTo);
+                        this.list.skipTo(scrollTo + this.list.getScrollAmount());
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
         return super.handleComponentClicked(component);
     }
@@ -79,12 +79,6 @@ public class WikiPage extends ListPage<LineEntry>
     public void initList()
     {
         super.initList();
-        this.setList();
-    }
-
-    @Override
-    public void onPageOpened()
-    {
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
         final String next = I18n.format("block.pc.next");
@@ -99,6 +93,7 @@ public class WikiPage extends ListPage<LineEntry>
             this.index--;
             this.setList();
         }));
+        this.setList();
     }
 
     @Override
@@ -119,6 +114,9 @@ public class WikiPage extends ListPage<LineEntry>
         final int offsetX = (this.watch.width - 160) / 2 + 20;
         final int offsetY = (this.watch.height - 160) / 2 + 20;
         final int height = 120;
+
+        if (this.list != null) this.children.remove(this.list);
+
         this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.FONT_HEIGHT + 2, offsetX, offsetY);
         if (books.isEmpty()) return;
         if (this.index < 0) this.index = books.size() - 1;
@@ -139,7 +137,8 @@ public class WikiPage extends ListPage<LineEntry>
             }
         };
         final ItemStack book = books.get(this.index).getInfoBook(this.minecraft.getLanguageManager()
-                .getCurrentLanguage().getCode());
+                .getCurrentLanguage().getCode().toLowerCase(Locale.ROOT));
+        if (!book.hasTag()) return;
         final CompoundNBT tag = book.getTag();
         final ListNBT bookPages = tag.getList("pages", 8);
         ITextComponent line;
@@ -150,9 +149,11 @@ public class WikiPage extends ListPage<LineEntry>
             for (int j = 0; j < list.size(); j++)
             {
                 line = list.get(j);
-                this.list.addEntry(new WikiLine(this.list, offsetY + 4, offsetY + height + 4, this.font, line, i)
-                        .setClickListner(listener));
+                final LineEntry wikiline = new WikiLine(this.list, offsetY + 4, offsetY + height + 4, this.font, line,
+                        i).setClickListner(listener);
+                this.list.addEntry(wikiline);
             }
         }
+        this.children.add(this.list);
     }
 }
