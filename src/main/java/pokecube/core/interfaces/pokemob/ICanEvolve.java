@@ -144,6 +144,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                         this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
                         if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler.getCustomDataTag(this.pokemob
                                 .getOwnerId()).putLong("pokecube:dynatime", time);
+                        this.pokemob.setCombatState(CombatStates.USINGGZMOVE, true);
                     }
 
                 }
