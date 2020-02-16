@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.lwjgl.opengl.GL11;
-import org.w3c.dom.Node;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -131,6 +130,21 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             super(entry.model(), entry.texture(), entry.animation(), entry.getTrimmedName());
             this.entry = entry;
             this.texturer = new PokemobTexHelper(entry);
+
+            if (Database.dummyMap.containsKey(entry.getPokedexNb()))
+            {
+                final PokedexEntry dummy = Database.dummyMap.get(entry.getPokedexNb());
+                final String newRes = entry.animation().toString().replace(entry.getTrimmedName(), dummy
+                        .getTrimmedName());
+                this.backupAnimations.add(new ResourceLocation(newRes));
+            }
+            if (entry.getBaseForme() != null)
+            {
+
+                final String newRes = entry.animation().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
+                        .getTrimmedName());
+                this.backupAnimations.add(new ResourceLocation(newRes));
+            }
         }
 
         @Override
@@ -329,12 +343,6 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         }
 
         @Override
-        public void handleCustomTextures(final Node node)
-        {
-            this.setTextureDetails(node);
-        }
-
-        @Override
         public boolean hasAnimation(final String phase, final Entity entity)
         {
             return IModelRenderer.DEFAULTPHASE.equals(phase) || this.animations.containsKey(phase)
@@ -419,34 +427,6 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         public void setScale(final Vector3 scale)
         {
             this.scale = scale;
-        }
-
-        private void setTextureDetails(final Node node)
-        {
-            if (node.getAttributes() == null) return;
-            String[] male = null, female = null;
-            if (node.getAttributes().getNamedItem("male") != null)
-            {
-                String shift;
-                shift = node.getAttributes().getNamedItem("male").getNodeValue();
-                male = shift.split(",");
-                for (int i = 0; i < male.length; i++)
-                    male[i] = Database.trim(male[i]);
-            }
-            if (node.getAttributes().getNamedItem("female") != null)
-            {
-                String shift;
-                shift = node.getAttributes().getNamedItem("female").getNodeValue();
-                female = shift.split(",");
-                for (int i = 0; i < female.length; i++)
-                    female[i] = Database.trim(female[i]);
-            }
-            if (female == null && male != null || this.entry.textureDetails == null) female = male;
-            if (male != null)
-            {
-                this.entry.textureDetails[0] = male;
-                this.entry.textureDetails[1] = female;
-            }
         }
 
         @Override
