@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -174,7 +175,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             if (key.equalsIgnoreCase("v"))
             {
                 final float[] coords = this.parseFloats(splitData);
-                final Vertex pos = new Vertex(coords[0], coords[1], coords[2]);
+                final Vertex pos = new Vertex(coords[0], coords[1] + 1.5f, coords[2]);
                 vertices.add(pos);
             }
             else if (key.equalsIgnoreCase("vn"))
@@ -284,6 +285,13 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             final IExtendedModelPart part = this.getParts().get(partName);
             this.updateSubParts(entity, renderer, currentPhase, partialTicks, part, headYaw, headPitch, limbSwing);
         }
+    }
+
+    @Override
+    public void globalFix(final float dx, final float dy, final float dz)
+    {
+        GlStateManager.rotatef(180, 0, 0, 1);
+        GlStateManager.translated(0, -1.5, 0);
     }
 
     private void updateSubParts(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,

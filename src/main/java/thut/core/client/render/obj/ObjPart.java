@@ -14,5 +14,4 @@ public class ObjPart extends Part
     {
         return ".obj";
     }
-
 }
