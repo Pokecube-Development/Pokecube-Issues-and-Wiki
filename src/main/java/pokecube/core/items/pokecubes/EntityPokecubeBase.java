@@ -216,21 +216,18 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         if (this.ignoreEntity != null && this.ignoreTime-- <= 0) this.ignoreEntity = null;
 
         trace:
-            if (raytraceresult.getType() != RayTraceResult.Type.MISS)
+        if (raytraceresult.getType() != RayTraceResult.Type.MISS)
+        {
+            if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(
+                    ((BlockRayTraceResult) raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) this.setPortal(
+                            ((BlockRayTraceResult) raytraceresult).getPos());
+            if (raytraceresult instanceof BlockRayTraceResult)
             {
-                if (raytraceresult.getType() == RayTraceResult.Type.BLOCK && this.world.getBlockState(
-                        ((BlockRayTraceResult) raytraceresult).getPos()).getBlock() == Blocks.NETHER_PORTAL) this.setPortal(
-                                ((BlockRayTraceResult) raytraceresult).getPos());
-                if (raytraceresult instanceof BlockRayTraceResult)
-                {
-                    final BlockRayTraceResult result = (BlockRayTraceResult) raytraceresult;
-                    final BlockState hit = this.getEntityWorld().getBlockState(result.getPos());
-                    final VoxelShape shape = hit.getCollisionShape(this.getEntityWorld(), result.getPos());
-                    if (!shape.isEmpty() && !shape.getBoundingBox().offset(result.getPos()).intersects(axisalignedbb))
-                        break trace;
-                }
-                if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
-                        raytraceresult);
+                final BlockRayTraceResult result = (BlockRayTraceResult) raytraceresult;
+                final BlockState hit = this.getEntityWorld().getBlockState(result.getPos());
+                final VoxelShape shape = hit.getCollisionShape(this.getEntityWorld(), result.getPos());
+                if (!shape.isEmpty() && !shape.getBoundingBox().offset(result.getPos()).intersects(axisalignedbb))
+                    break trace;
             }
             if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
                     raytraceresult);

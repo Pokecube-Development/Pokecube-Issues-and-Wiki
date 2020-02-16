@@ -78,7 +78,9 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {
                 final float rotateY = MathHelper.cos(MathHelper.abs((float) (Math.PI * this.ageInTicks) / 12));
-                mat.rotate(Vector3f.YP.rotation(rotateY));
+                mat.translate(.5, 0.5, 0);
+                mat.rotate(Vector3f.ZP.rotation(rotateY));
+                mat.translate(-.5, -0.5, 0);
             }
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
