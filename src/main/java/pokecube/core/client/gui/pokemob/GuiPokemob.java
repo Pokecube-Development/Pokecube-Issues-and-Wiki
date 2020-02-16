@@ -100,15 +100,15 @@ public class GuiPokemob extends GuiPokemobBase
         this.addButton(this.sit = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 00, w, h, I18n
                 .format("pokemob.gui.sit"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
                         new StanceHandler(!this.container.pokemob.getLogicState(LogicStates.SITTING),
-                                StanceHandler.BUTTONTOGGLESIT))));
+                                StanceHandler.SIT))));
         this.addButton(this.stay = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h, I18n
                 .format("pokemob.gui.stay"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
                         new StanceHandler(!this.container.pokemob.getGeneralState(GeneralStates.STAYING),
-                                StanceHandler.BUTTONTOGGLESTAY))));
+                                StanceHandler.STAY))));
         this.addButton(this.guard = new Button(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h, I18n
                 .format("pokemob.gui.guard"), c -> PacketCommand.sendCommand(this.container.pokemob, Command.STANCE,
                         new StanceHandler(!this.container.pokemob.getCombatState(CombatStates.GUARDING),
-                                StanceHandler.BUTTONTOGGLEGUARD))));
+                                StanceHandler.GUARD))));
         // Bar width
         w = 89;
         // Bar height

@@ -59,9 +59,13 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
+import pokecube.core.interfaces.pokemob.IHasCommands.Command;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketChangeForme;
+import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -232,6 +236,13 @@ public class EventsHandlerClient
         if (ClientProxy.mobMove2.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(1);
         if (ClientProxy.mobMove3.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(2);
         if (ClientProxy.mobMove4.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(3);
+
+        if (ClientProxy.gzmove.isPressed())
+        {
+            final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
+            if (current != null) PacketCommand.sendCommand(current, Command.STANCE, new StanceHandler(!current
+                    .getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE).setFromOwner(true));
+        }
     }
 
     private static final Set<PlayerRenderer> addedLayers = Sets.newHashSet();

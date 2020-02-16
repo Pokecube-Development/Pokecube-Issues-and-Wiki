@@ -16,6 +16,7 @@ import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.interfaces.pokemob.IHasCommands.Command;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.commandhandlers.SwapMovesHandler;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -158,6 +159,16 @@ public interface IHasMoves extends IHasStats
         if (to != null && this.getTransformedTo() == null) return to.getMove(index);
 
         final String[] moves = this.getMoves();
+        if (this.getCombatState(CombatStates.USINGGZMOVE))
+        {
+            final String[] gzmoves = this.getGZMoves();
+            String move;
+            if (index >= 0 && index < 4 && (move = gzmoves[index]) != null)
+            {
+                gzmoves.toString();
+                return move;
+            }
+        }
 
         if (index >= 0 && index < 4) return moves[index];
         if (index == 4 && moves[3] != null) if (!this.getMoveStats().newMoves.isEmpty()) return this
@@ -180,6 +191,17 @@ public interface IHasMoves extends IHasStats
      * @return an array of 4 {@link String}
      */
     String[] getMoves();
+
+    /**
+     * This returns the names of any available Gmax or Z-moves for the pokemob,
+     * their indicies correspond directly to the equivalent moves in getMoves()
+     *
+     * @return an array of 4 {@link String}
+     */
+    default String[] getGZMoves()
+    {
+        return this.getMoveStats().g_z_moves;
+    }
 
     /**
      * @return PokemobMoveStats object that contains all of our info about

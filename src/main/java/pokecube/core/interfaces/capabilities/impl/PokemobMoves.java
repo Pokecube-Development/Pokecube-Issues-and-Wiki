@@ -24,6 +24,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.moves.PokemobMoveStats;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
@@ -33,7 +34,7 @@ public abstract class PokemobMoves extends PokemobSexed
 {
 
     @Override
-    public void executeMove(Entity target, Vector3 targetLocation, float f)
+    public void executeMove(final Entity target, Vector3 targetLocation, final float f)
     {
         String attack = this.getMove(this.getMoveIndex());
         // If no move selected, just return here.
@@ -85,8 +86,7 @@ public abstract class PokemobMoves extends PokemobSexed
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(this.getEntity().getAttackTarget());
             if (targetMob != null)
             {
-                mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "green", this
-                        .getDisplayName());
+                mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "green", this.getDisplayName());
                 targetMob.displayMessageToOwner(mess);
             }
             this.removeChange(IMoveConstants.CHANGE_FLINCH);
@@ -115,8 +115,7 @@ public abstract class PokemobMoves extends PokemobSexed
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(this.getEntity().getAttackTarget());
             if (targetMob != null)
             {
-                mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "green", this
-                        .getDisplayName());
+                mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "green", this.getDisplayName());
                 targetMob.displayMessageToOwner(mess);
             }
             this.displayMessageToOwner(mess);
@@ -158,7 +157,7 @@ public abstract class PokemobMoves extends PokemobSexed
     }
 
     @Override
-    public int getDisableTimer(int index)
+    public int getDisableTimer(final int index)
     {
         return this.dataSync().get(this.params.DISABLE[index]);
     }
@@ -186,6 +185,29 @@ public abstract class PokemobMoves extends PokemobSexed
             if (to != this) return to.getMoves();
         }
         return super.getMoves();
+    }
+
+    @Override
+    public String[] getGZMoves()
+    {
+        // We can do processing here to see what moves to supply.
+        final String[] g_z_moves = super.getGZMoves();
+        final String[] moves = this.getMoves();
+        boolean gigant = this.getCombatState(CombatStates.DYNAMAX) && this.getPokedexEntry().getTrimmedName().contains(
+                "_gigantamax");
+        for (int i = 0; i < 4; i++)
+        {
+            final String gmove = GZMoveManager.getGMove(this, moves[i], gigant);
+            if (gmove != null)
+            {
+                if (gmove.startsWith("gmax")) gigant = false;
+                g_z_moves[i] = gmove;
+                continue;
+            }
+            final String zmove = GZMoveManager.getZMove(this, moves[i]);
+            g_z_moves[i] = zmove;
+        }
+        return g_z_moves;
     }
 
     @Override
@@ -237,7 +259,7 @@ public abstract class PokemobMoves extends PokemobSexed
     }
 
     @Override
-    public void setActiveMove(EntityMoveUse move)
+    public void setActiveMove(final EntityMoveUse move)
     {
         this.activeMove = move;
         final int id = move == null ? -1 : move.getEntityId();
@@ -245,26 +267,26 @@ public abstract class PokemobMoves extends PokemobSexed
     }
 
     @Override
-    public void setAttackCooldown(int timer)
+    public void setAttackCooldown(final int timer)
     {
         this.dataSync().set(this.params.ATTACKCOOLDOWN, timer);
     }
 
     @Override
-    public void setDisableTimer(int index, int timer)
+    public void setDisableTimer(final int index, final int timer)
     {
         this.dataSync().set(this.params.DISABLE[index], timer);
     }
 
     @Override
-    public void setExplosionState(int i)
+    public void setExplosionState(final int i)
     {
         if (i >= 0) this.moveInfo.Exploding = true;
         this.moveInfo.boomState = i;
     }
 
     @Override
-    public void setMoveIndex(int moveIndex)
+    public void setMoveIndex(final int moveIndex)
     {
         if (!this.getEntity().isServerWorld())
         {
@@ -327,13 +349,13 @@ public abstract class PokemobMoves extends PokemobSexed
     }
 
     @Override
-    public void setStatusTimer(short timer)
+    public void setStatusTimer(final short timer)
     {
         this.dataSync().set(this.params.STATUSTIMERDW, (int) timer);
     }
 
     @Override
-    public void setTransformedTo(Entity to)
+    public void setTransformedTo(final Entity to)
     {
         final int id = to == null ? -1 : to.getEntityId();
         PokedexEntry newEntry = this.getPokedexEntry();
