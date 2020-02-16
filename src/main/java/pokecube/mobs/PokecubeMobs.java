@@ -33,6 +33,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
+import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.EggStats;
 import pokecube.core.database.stats.StatsCollector;
@@ -93,6 +94,8 @@ public class PokecubeMobs
 
         DBLoader.trainerDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trainers.json"));
         DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.xml"));
+
+        XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/rewards.json"));
 
         // Register setup for proxy
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeMobs.proxy::setup);
@@ -616,11 +619,11 @@ public class PokecubeMobs
                     final EntityPokecube cube = (EntityPokecube) evt.pokecube;
                     final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.caught
                             .getPokedexEntry(), cube.getEntityWorld()));
-                    cube.tilt = Tools.computeCatchRate(mob, 1);
-                    cube.setTime(cube.tilt * 20);
+                    cube.setTilt(Tools.computeCatchRate(mob, 1));
+                    cube.setTime(cube.getTilt() * 20);
                     if (!tameSnag) evt.caught.setPokecube(evt.filledCube);
-                    cube.setItemEntityStack(PokecubeManager.pokemobToItem(evt.caught));
-                    PokecubeManager.setTilt(cube.getItemEntity(), cube.tilt);
+                    cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
+                    PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                     Vector3.getNewVector().set(evt.pokecube).moveEntity(cube);
                     evt.caught.getEntity().remove();
                     cube.setMotion(0, 0.1, 0);
@@ -659,11 +662,11 @@ public class PokecubeMobs
                 int has = CaptureStats.getTotalNumberOfPokemobCaughtBy(thrower.getUniqueID(), mob.getPokedexEntry());
                 has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUniqueID(), mob.getPokedexEntry());
                 final double rate = has > 0 ? 3 : 1;
-                cube.tilt = Tools.computeCatchRate(mob, rate);
-                cube.setTime(cube.tilt * 20);
+                cube.setTilt(Tools.computeCatchRate(mob, rate));
+                cube.setTime(cube.getTilt() * 20);
                 evt.caught.setPokecube(evt.filledCube);
-                cube.setItemEntityStack(PokecubeManager.pokemobToItem(evt.caught));
-                PokecubeManager.setTilt(cube.getItemEntity(), cube.tilt);
+                cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
+                PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                 v.set(evt.pokecube).moveEntity(cube);
                 v.moveEntity(mob.getEntity());
                 evt.caught.getEntity().remove();

@@ -195,7 +195,7 @@ public class Pokecube extends Item implements IPokecube
             cube.shootingEntity = null;
             cube.shooter = null;
             Vector3.getNewVector().set(oldItem).moveEntity(cube);
-            cube.tilt = -2;
+            cube.setNoCollisionRelease();
             cube.targetLocation.clear();
             return cube;
         }
@@ -306,7 +306,7 @@ public class Pokecube extends Item implements IPokecube
             if (!filled && target instanceof LivingEntity && this.getCaptureModifier((LivingEntity) target,
                     PokecubeItems.getCubeId(stack)) == 0) target = null;
             boolean used = false;
-            final boolean filledOrSneak = filled || player.isSneaking() || dt > 10;
+            final boolean filledOrSneak = filled || player.isSneaking() || dt > 5;
             if (target != null && EntityPokecubeBase.SEEKING) used = this.throwPokecubeAt(worldIn, player, stack,
                     targetLocation, target);
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
