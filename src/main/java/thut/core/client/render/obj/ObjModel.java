@@ -174,7 +174,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             if (key.equalsIgnoreCase("v"))
             {
                 final float[] coords = this.parseFloats(splitData);
-                final Vertex pos = new Vertex(coords[0], coords[1], coords[2]);
+                final Vertex pos = new Vertex(coords[0], coords[1] + 1.5f, coords[2]);
                 vertices.add(pos);
             }
             else if (key.equalsIgnoreCase("vn"))
@@ -286,6 +286,12 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
             this.updateSubParts(entity, renderer, currentPhase, partialTicks, part, headYaw, headPitch, limbSwing,
                     brightness);
         }
+    }
+    
+    @Override
+    public void globalFix(MatrixStack mat, float dx, float dy, float dz)
+    {
+        //FIXME obj rotation
     }
 
     private void updateSubParts(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,

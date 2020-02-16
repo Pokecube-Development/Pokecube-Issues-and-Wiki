@@ -29,8 +29,6 @@ public class ModelFactory
         ModelFactory.registerIModel("x3d", X3dModel::new);
         ModelFactory.registerIModel("mca", McaModel::new);
         ModelFactory.registerIModel("obj", ObjModel::new);
-        // ModelFactory.registerIModel("tbl", TabulaModelParser::load);
-        // ModelFactory.registerIModel("tbl", TblModel::new);
     }
 
     public static IModel create(final ModelHolder model)
