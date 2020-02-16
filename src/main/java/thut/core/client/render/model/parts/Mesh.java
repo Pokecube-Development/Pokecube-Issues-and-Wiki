@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import pokecube.core.PokecubeCore;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -17,6 +18,7 @@ public abstract class Mesh
     public Vertex[]            normals;
     public TextureCoordinate[] textureCoordinates;
     public Integer[]           order;
+    final Vector3f[]           normalList;
     private Material           material;
     public String              name;
     private final double[]     uvShift = { 0, 0 };
@@ -31,6 +33,49 @@ public abstract class Mesh
         this.textureCoordinates = tex;
         this.hasTextures = tex != null;
         this.GL_FORMAT = GL_FORMAT;
+        this.normalList = new Vector3f[this.order.length];
+
+        Vertex vertex;
+
+        int maxN = 0;
+        for (final Integer element : order)
+            maxN = Math.max(maxN, element);
+
+        // Calculate the normals for each triangle.
+        if (this.vertices.length > maxN) for (int i = 0; i < this.order.length; i += 3)
+        {
+            if (i + 2 >= order.length)
+            {
+                final Vector3f c = new Vector3f(0, 1, 0);
+                this.normalList[i] = c;
+                this.normalList[i + 1] = c;
+                this.normalList[i + 2] = c;
+            }
+            Vector3f v1, v2, v3;
+            vertex = this.vertices[this.order[i]];
+            v1 = new Vector3f(vertex.x, vertex.y, vertex.z);
+            vertex = this.vertices[this.order[i + 1]];
+            v2 = new Vector3f(vertex.x, vertex.y, vertex.z);
+            vertex = this.vertices[this.order[i + 2]];
+            v3 = new Vector3f(vertex.x, vertex.y, vertex.z);
+            final Vector3f a = new Vector3f(v2);
+            a.sub(v1);
+            final Vector3f b = new Vector3f(v3);
+            b.sub(v1);
+            final Vector3f c = new Vector3f();
+            c.cross(a, b);
+            c.normalize();
+            this.normalList[i] = c;
+            this.normalList[i + 1] = c;
+            this.normalList[i + 2] = c;
+        }
+        // broken, lets just fill with z+
+        else
+        {
+            PokecubeCore.LOGGER.error("Error with mesh", new IllegalArgumentException());
+            for (int i = 0; i < this.order.length; i++)
+                this.normalList[i] = new Vector3f(0, 1, 0);
+        }
     }
 
     protected void doRender(final IPartTexturer texturer)
@@ -38,34 +83,9 @@ public abstract class Mesh
         Vertex vertex;
         Vertex normal;
         TextureCoordinate textureCoordinate;
-        final Vector3f[] normalList = new Vector3f[this.order.length];
         boolean flat = true;
         if (texturer != null) flat = texturer.isFlat(this.name);
-        if (flat)
-        {
-            // Calculate the normals for each triangle.
-            for (int i = 0; i < this.order.length; i += 3)
-            {
-                Vector3f v1, v2, v3;
-                vertex = this.vertices[this.order[i]];
-                v1 = new Vector3f(vertex.x, vertex.y, vertex.z);
-                vertex = this.vertices[this.order[i + 1]];
-                v2 = new Vector3f(vertex.x, vertex.y, vertex.z);
-                vertex = this.vertices[this.order[i + 2]];
-                v3 = new Vector3f(vertex.x, vertex.y, vertex.z);
-                final Vector3f a = new Vector3f(v2);
-                a.sub(v1);
-                final Vector3f b = new Vector3f(v3);
-                b.sub(v1);
-                final Vector3f c = new Vector3f();
-                c.cross(a, b);
-                c.normalize();
-                normalList[i] = c;
-                normalList[i + 1] = c;
-                normalList[i + 2] = c;
-            }
-            GL11.glShadeModel(GL11.GL_FLAT);
-        }
+        if (flat) GL11.glShadeModel(GL11.GL_FLAT);
         else GL11.glShadeModel(GL11.GL_SMOOTH);
 
         if (!this.hasTextures) GlStateManager.disableTexture();
@@ -82,7 +102,7 @@ public abstract class Mesh
             vertex = this.vertices[i];
             if (flat)
             {
-                final Vector3f norm = normalList[n];
+                final Vector3f norm = this.normalList[n];
                 GL11.glNormal3f(norm.x, norm.y, norm.z);
             }
             else

@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
 	<model name="">
         <phase name="global" scale="4.8"/>
-        <metadata head="Head" headCap="-100,100" headCap1="-80,80" headAxis="2" headAxis2="0" headDir="1" headDir2="-1"/>
+        <metadata head="Head" headCap="-100,100" headCap1="-80,80" headAxis="2" headAxis2="0" headDir="1" headDir2="1"/>
 	</model>
     <details>
         <RIDDENOFFSET>0.8</RIDDENOFFSET>
