@@ -282,20 +282,36 @@ public class AnimationLoader
         }
     }
 
-    public static void parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer)
+    public static boolean parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer,
+            final ResourceLocation animations)
     {
         try
         {
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(holder.animation);
+            final IResource res = Minecraft.getInstance().getResourceManager().getResource(animations);
             final InputStream stream = res.getInputStream();
+            ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
             AnimationLoader.parse(stream, holder, model, renderer);
             res.close();
+            return true;
         }
         catch (final Exception e)
         {
-            ThutCore.LOGGER.error("Error in parsing animation file {} for {}, {}, {}", holder.animation, holder.name,
-                    holder.model, e.toString());
+            return false;
         }
+    }
+
+    public static void parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer)
+    {
+        final ResourceLocation anims = holder.animation;
+        if (!AnimationLoader.parse(holder, model, renderer, anims))
+        {
+            for (final ResourceLocation loc : holder.backupAnimations)
+                if (AnimationLoader.parse(holder, model, renderer, loc)) return;
+        }
+        else return;
+
+        ThutCore.LOGGER.error("Error in parsing animation file {} for {}, also checked {}", holder.animation,
+                holder.name, holder.backupAnimations);
     }
 
     public static void setHeadCaps(final String toSplit, final float[] toFill)

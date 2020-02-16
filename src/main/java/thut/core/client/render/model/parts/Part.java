@@ -112,14 +112,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     private void postRender()
     {
-        // unApply second post rotation.
-        this.postRot1.glRotateMinus();
-        // unApply first postRotation
-        this.postRot.glRotateMinus();
-        // unapply the of offset for translation.
-        GL11.glTranslated(-this.offset.x, -this.offset.y, -this.offset.z);
         // Scale
         GL11.glScalef(1 / this.scale.x, 1 / this.scale.y, 1 / this.scale.z);
+        // unapply the of offset for translation.
+        GL11.glTranslated(-this.offset.x, -this.offset.y, -this.offset.z);
+        // unApply first postRotation
+        this.postRot.glRotateMinus();
+        // unApply second post rotation.
+        this.postRot1.glRotateMinus();
     }
 
     private void preRender()
