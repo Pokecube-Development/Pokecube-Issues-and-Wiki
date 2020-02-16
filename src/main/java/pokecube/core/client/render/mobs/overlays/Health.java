@@ -51,15 +51,15 @@ import thut.core.common.handlers.PlayerDataHandler;
  * modified the nametags to indicate ownership */
 public class Health
 {
-    static List<LivingEntity> renderedEntities = new ArrayList<>();
+    static List<LivingEntity>       renderedEntities = new ArrayList<>();
 
-    static boolean            blend;
-    static boolean            normalize;
-    static boolean            lighting;
-    static int                src;
-    static int                dst;
+    static boolean                  blend;
+    static boolean                  normalize;
+    static boolean                  lighting;
+    static int                      src;
+    static int                      dst;
 
-    public static boolean     enabled          = true;
+    public static boolean           enabled          = true;
 
     public static Entity getEntityLookedAt(final Entity e)
     {
@@ -137,14 +137,9 @@ public class Health
 
                 mat.push();
 
-                
-                final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? PokecubeCore.config.dynamax_scale : passedEntity.getHeight();
+                final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? config.dynamax_scale
+                        : passedEntity.getHeight();
                 mat.translate(0, dy + config.heightAbove, 0);
-                // TODO billboarding here?
-                // GlStateManager.rotatef(-renderManager.playerViewY, 0.0F,
-                // 1.0F, 0.0F);
-                // GlStateManager.rotatef(renderManager.playerViewX, 1.0F, 0.0F,
-                // 0.0F);
                 mat.scale(scale, scale, scale);
 
                 final float padding = config.backgroundPadding;

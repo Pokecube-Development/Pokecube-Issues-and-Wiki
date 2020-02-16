@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.util.Random;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
@@ -17,7 +21,22 @@ import pokecube.core.utils.PokeType;
 
 public class Evolution
 {
-    private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
+    private static final float      sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
+    private static final RenderType EFFECT  = RenderType.get("pokemob:evo_effect", DefaultVertexFormats.POSITION_COLOR,
+            7, 256, false, true, RenderType.State.builder().writeMask(new RenderState.WriteMaskState(true, false))
+                    .transparency(new RenderState.TransparencyState("lightning_transparency", () ->
+                                                            {
+                                                                RenderSystem.enableBlend();
+                                                                RenderSystem.blendFunc(
+                                                                        GlStateManager.SourceFactor.SRC_ALPHA,
+                                                                        GlStateManager.DestFactor.ONE);
+                                                            },
+                            () ->
+                            {
+                                RenderSystem.disableBlend();
+                                RenderSystem.defaultBlendFunc();
+                            }))
+                    .shadeModel(new RenderState.ShadeModelState(true)).build(false));
 
     public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,
             final float partialTick)
@@ -49,7 +68,7 @@ public class Evolution
             f7 = (f5 - 0.8F) / 0.2F;
         }
 
-        IVertexBuilder ivertexbuilder2 = bufferIn.getBuffer(RenderType.lightning());
+        IVertexBuilder ivertexbuilder2 = bufferIn.getBuffer(EFFECT);
         mat.push();
         if (scaleMob)
         {

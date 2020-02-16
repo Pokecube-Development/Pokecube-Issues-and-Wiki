@@ -23,7 +23,6 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import thut.api.maths.vecmath.Vector3f;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
