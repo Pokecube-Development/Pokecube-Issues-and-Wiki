@@ -15,9 +15,10 @@ import thut.api.maths.Vector3;
 
 public class StanceHandler extends DefaultHandler
 {
-    public static final byte BUTTONTOGGLESTAY  = 0;
-    public static final byte BUTTONTOGGLEGUARD = 1;
-    public static final byte BUTTONTOGGLESIT   = 2;
+    public static final byte STAY   = 0;
+    public static final byte GUARD  = 1;
+    public static final byte SIT    = 2;
+    public static final byte GZMOVE = 3;
 
     boolean state;
     byte    key;
@@ -26,18 +27,18 @@ public class StanceHandler extends DefaultHandler
     {
     }
 
-    public StanceHandler(Boolean state, Byte key)
+    public StanceHandler(final Boolean state, final Byte key)
     {
         this.state = state;
         this.key = key;
     }
 
     @Override
-    public void handleCommand(IPokemob pokemob) throws Exception
+    public void handleCommand(final IPokemob pokemob) throws Exception
     {
         switch (this.key)
         {
-        case BUTTONTOGGLESTAY:
+        case STAY:
             boolean stay;
             pokemob.setGeneralState(GeneralStates.STAYING, stay = !pokemob.getGeneralState(GeneralStates.STAYING));
             final IGuardAICapability guard = pokemob.getEntity().getCapability(EventsHandler.GUARDAI_CAP, null).orElse(
@@ -53,19 +54,24 @@ public class StanceHandler extends DefaultHandler
             }
             else if (guard != null) guard.getPrimaryTask().setActiveTime(TimePeriod.never);
             break;
-        case BUTTONTOGGLEGUARD:
+        case GUARD:
             if (PokecubeCore.getConfig().guardModeEnabled) pokemob.setCombatState(CombatStates.GUARDING, !pokemob
                     .getCombatState(CombatStates.GUARDING));
             else pokemob.displayMessageToOwner(new TranslationTextComponent("pokecube.config.guarddisabled"));
             break;
-        case BUTTONTOGGLESIT:
+        case SIT:
             pokemob.setLogicState(LogicStates.SITTING, !pokemob.getLogicState(LogicStates.SITTING));
+            break;
+        case GZMOVE:
+            pokemob.setCombatState(CombatStates.USINGGZMOVE, !pokemob.getCombatState(CombatStates.USINGGZMOVE));
+            pokemob.displayMessageToOwner(new TranslationTextComponent("pokecube.gzmode." + (pokemob.getCombatState(
+                    CombatStates.USINGGZMOVE) ? "set" : "unset")));
             break;
         }
     }
 
     @Override
-    public void readFromBuf(ByteBuf buf)
+    public void readFromBuf(final ByteBuf buf)
     {
         super.readFromBuf(buf);
         this.state = buf.readBoolean();
@@ -73,7 +79,7 @@ public class StanceHandler extends DefaultHandler
     }
 
     @Override
-    public void writeToBuf(ByteBuf buf)
+    public void writeToBuf(final ByteBuf buf)
     {
         super.writeToBuf(buf);
         buf.writeBoolean(this.state);

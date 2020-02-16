@@ -35,7 +35,9 @@ public enum CombatStates
     /** is the pokemob dynamaxed */
     DYNAMAX(1 << 12),
     /** can the pokemob gigantamax */
-    GIGANTAMAX(1 << 13);
+    GIGANTAMAX(1 << 13),
+    /** has the pokemob used a zmove this "battle" */
+    USINGGZMOVE(1 << 14, false);
 
     final int     mask;
     final boolean persist;

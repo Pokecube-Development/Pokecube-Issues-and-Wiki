@@ -705,7 +705,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         IPokemob pokemob;
         if ((pokemob = this.getCurrentPokemob()) != null) PacketCommand.sendCommand(pokemob, Command.STANCE,
-                new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.BUTTONTOGGLESIT)
+                new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
                         .setFromOwner(true));
         else
         {
@@ -717,7 +717,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
             if (targetMob != null && targetMob.getOwner() == player)
                 PacketCommand.sendCommand(targetMob, Command.STANCE,
-                        new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.BUTTONTOGGLESIT)
+                        new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
                                 .setFromOwner(true));
         }
     }
