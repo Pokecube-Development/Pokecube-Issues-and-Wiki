@@ -11,11 +11,21 @@ public class Z_Move_Basic extends Move_Basic
         super(name);
     }
 
+    // TODO handle status effect moves in here as well somehow.
+
     @Override
     public int getPWR(final IPokemob user, final Entity target)
     {
-        // TODO adjust accordingly!
         final int pwr = super.getPWR(user, target);
-        return pwr < 50 ? 100 : pwr;
+        if (pwr < 55) return 100;
+        if (pwr < 65) return 120;
+        if (pwr < 75) return 140;
+        if (pwr < 85) return 160;
+        if (pwr < 95) return 175;
+        if (pwr < 100) return 180;
+        if (pwr < 110) return 185;
+        if (pwr < 125) return 190;
+        if (pwr < 130) return 195;
+        return 200;
     }
 }

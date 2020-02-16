@@ -116,6 +116,7 @@ public class JsonMoves
         public String zMovePower;
         public String zEffect;
         public String zMove;
+        public String zEntry;
 
         public String gMove;
         public String gMoveTo;

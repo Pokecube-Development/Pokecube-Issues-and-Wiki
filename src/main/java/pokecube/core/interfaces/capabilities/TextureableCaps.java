@@ -153,8 +153,4 @@ public class TextureableCaps
     @CapabilityInject(IMobTexturable.class)
     public static final Capability<IMobTexturable> CAPABILITY = null;
     private static final List<String>              STATES     = Lists.newArrayList();
-
-    static
-    {
-    }
 }
