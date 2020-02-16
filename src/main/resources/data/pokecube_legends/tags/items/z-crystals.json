@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:z_unknown",
+    "pokecube_legends:z_rock",
+    "pokecube_legends:z_steel",
+    "pokecube_legends:z_psychic",
+    "pokecube_legends:z_ice",
+    "pokecube_legends:z_dark",
+    "pokecube_legends:z_bug",
+    "pokecube_legends:z_normal",
+    "pokecube_legends:z_electric",
+    "pokecube_legends:z_ghost",
+    "pokecube_legends:z_ground",
+    "pokecube_legends:z_flying",
+    "pokecube_legends:z_grass",
+    "pokecube_legends:z_fighting",
+    "pokecube_legends:z_dragon",
+    "pokecube_legends:z_fairy",
+    "pokecube_legends:z_fire",
+    "pokecube_legends:z_water",
+    "pokecube_legends:z_poison"
+  ]
+}

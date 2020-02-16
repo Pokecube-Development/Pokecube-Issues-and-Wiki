@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_legends:mint_adamant",
+    "pokecube_legends:mint_bashful",
+    "pokecube_legends:mint_bold",
+    "pokecube_legends:mint_brave",
+    "pokecube_legends:mint_calm",
+    "pokecube_legends:mint_careful",
+    "pokecube_legends:mint_docile",
+    "pokecube_legends:mint_gentle",
+    "pokecube_legends:mint_hardy",
+    "pokecube_legends:mint_hasty",
+    "pokecube_legends:mint_impish",
+    "pokecube_legends:mint_jolly",
+    "pokecube_legends:mint_lax",
+    "pokecube_legends:mint_lonely",
+    "pokecube_legends:mint_mild",
+    "pokecube_legends:mint_modest",
+    "pokecube_legends:mint_naive",
+    "pokecube_legends:mint_naughty",
+    "pokecube_legends:mint_quiet",
+    "pokecube_legends:mint_quirky",
+    "pokecube_legends:mint_rash",
+    "pokecube_legends:mint_relaxed",
+    "pokecube_legends:mint_sassy",
+    "pokecube_legends:mint_serious",
+    "pokecube_legends:mint_timid"
+  ]
+}
