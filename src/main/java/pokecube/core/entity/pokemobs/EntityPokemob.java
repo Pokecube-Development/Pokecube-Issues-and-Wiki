@@ -208,7 +208,13 @@ public class EntityPokemob extends ShoulderRidingEntity implements IEntityAdditi
             scale = Math.min(1, (this.ticksExisted + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
             size = Math.max(0.1f, scale);
         }
-        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX)) size *= 10;
+        this.ignoreFrustumCheck = false;
+        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
+        {
+            // Since we don't change hitbox, we need toset this here.
+            this.ignoreFrustumCheck = true;
+            size = (float) (PokecubeCore.getConfig().dynamax_scale / this.pokemobCap.getMobSizes().y);
+        }
         return size;
     }
 

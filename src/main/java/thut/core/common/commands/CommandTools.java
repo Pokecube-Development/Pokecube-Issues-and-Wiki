@@ -50,27 +50,23 @@ public class CommandTools
     {
         if (formatting == null) formatting = "";
         for (int i = 0; i < args.length; i++)
-        {
             if (args[i] instanceof String) args[i] = new TranslationTextComponent((String) args[i]);
-
-            if (!formatting.isEmpty() && args[i] instanceof ITextComponent)
+        final TranslationTextComponent translated = new TranslationTextComponent(key, args);
+        if (!formatting.isEmpty())
+        {
+            final String[] args2 = formatting.split(":");
+            final String colour = args2[0].toUpperCase(java.util.Locale.ROOT);
+            translated.getStyle().setColor(TextFormatting.getValueByName(colour));
+            if (args2.length > 1) for (int i1 = 1; i1 < args2.length; i1++)
             {
-                final ITextComponent component = (ITextComponent) args[i];
-                final String[] args2 = formatting.split(":");
-                final String colour = args2[0].toUpperCase(java.util.Locale.ENGLISH);
-                component.getStyle().setColor(TextFormatting.getValueByName(colour));
-                if (args2.length > 1) for (int i1 = 1; i1 < args2.length; i1++)
-                {
-                    final String arg = args2[i1];
-                    if (arg.equalsIgnoreCase("italic")) component.getStyle().setItalic(true);
-                    if (arg.equalsIgnoreCase("bold")) component.getStyle().setBold(true);
-                    if (arg.equalsIgnoreCase("underlined")) component.getStyle().setUnderlined(true);
-                    if (arg.equalsIgnoreCase("strikethrough")) component.getStyle().setStrikethrough(true);
-                    if (arg.equalsIgnoreCase("obfuscated")) component.getStyle().setObfuscated(true);
-                }
+                final String arg = args2[i1];
+                if (arg.equalsIgnoreCase("italic")) translated.getStyle().setItalic(true);
+                if (arg.equalsIgnoreCase("bold")) translated.getStyle().setBold(true);
+                if (arg.equalsIgnoreCase("underlined")) translated.getStyle().setUnderlined(true);
+                if (arg.equalsIgnoreCase("strikethrough")) translated.getStyle().setStrikethrough(true);
+                if (arg.equalsIgnoreCase("obfuscated")) translated.getStyle().setObfuscated(true);
             }
         }
-        final TranslationTextComponent translated = new TranslationTextComponent(key, args);
         return translated;
     }
 

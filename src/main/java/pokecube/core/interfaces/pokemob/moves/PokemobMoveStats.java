@@ -75,15 +75,17 @@ public class PokemobMoveStats
     public int oldLevel = 0;
 
     /** The array of moves. */
-    public String[]     moves    = new String[4];
+    public String[]     moves     = new String[4];
+    /** The array of moves. */
+    public String[]     g_z_moves = new String[4];
     /** Moves it is trying to learn. */
-    public List<String> newMoves = Lists.newArrayList();
+    public List<String> newMoves  = Lists.newArrayList();
     /** Index of new move to learn from newMoves. */
-    public int          num      = 0;
+    public int          num       = 0;
     /** The last move we used. */
     public String       lastMove;
     /** Storing exp in here as well. */
-    public int          exp      = 0;
+    public int          exp       = 0;
 
     public void reset()
     {

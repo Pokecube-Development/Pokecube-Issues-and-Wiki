@@ -21,6 +21,7 @@ import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.implementations.MovesAdder;
+import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.core.common.ThutCore;
 
 public class JsonMoves
@@ -114,6 +115,11 @@ public class JsonMoves
         public String zMovesTo;
         public String zMovePower;
         public String zEffect;
+        public String zMove;
+
+        public String gMove;
+        public String gMoveTo;
+        public String gmaxEntry;
 
         public String tmNum;
         public String speedPriority;
@@ -123,7 +129,6 @@ public class JsonMoves
         public String soundType;
         public String punchType;
         public String snatchable;
-        public String zMove;
 
         public String defrosts;
         public String wideArea;
@@ -173,6 +178,7 @@ public class JsonMoves
                 JsonMoves.movesMap.put(e.name, e);
             }
             this.moves.sort((o1, o2) -> o1.name.compareTo(o2.name));
+            GZMoveManager.init(this);
         }
     }
 
@@ -271,13 +277,13 @@ public class JsonMoves
                 final MoveJsonEntry newEntry = new MoveJsonEntry();
                 for (final Field f : MoveJsonEntry.class.getFields())
                     if (!f.getName().equals("animations")) try
-                {
+                    {
                         f.set(newEntry, f.get(entry));
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
+                    }
+                    catch (final Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 cleaned.moves.add(newEntry);
             }
         }

@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -27,6 +28,7 @@ import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.EvolveEvent;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.HappinessType;
@@ -135,7 +137,15 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     final float maxHp = this.pokemob.getMaxHealth();
                     this.pokemob.updateHealth();
                     // we need to adjust health.
-                    if (dyna) this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
+                    if (dyna)
+                    {
+                        this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
+                        final Long time = evt.world.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                        this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
+                        if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler.getCustomDataTag(this.pokemob
+                                .getOwnerId()).putLong("pokecube:dynatime", time);
+                        this.pokemob.setCombatState(CombatStates.USINGGZMOVE, true);
+                    }
 
                 }
                 this.pokemob.setEvolutionTicks(evoTicks);

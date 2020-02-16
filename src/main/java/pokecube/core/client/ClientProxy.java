@@ -95,6 +95,7 @@ public class ClientProxy extends CommonProxy
     public static KeyBinding mobMove2;
     public static KeyBinding mobMove3;
     public static KeyBinding mobMove4;
+    public static KeyBinding gzmove;
     public static KeyBinding mobUp;
     public static KeyBinding mobDown;
     public static KeyBinding throttleUp;
@@ -271,6 +272,9 @@ public class ClientProxy extends CommonProxy
                 InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
 
         ClientRegistry.registerKeyBinding(ClientProxy.animateGui = new KeyBinding("key.pokemob.animategui",
+                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+
+        ClientRegistry.registerKeyBinding(ClientProxy.gzmove = new KeyBinding("key.pokemob.gzmove",
                 InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
 
         // Forward this to PCEdit mod:

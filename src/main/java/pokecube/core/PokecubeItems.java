@@ -175,7 +175,7 @@ public class PokecubeItems extends Items
         PokecubeItems.REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
                 PokecubeCore.MODID, "repel");
         PokecubeItems.DYNABLOCK = new MaxBlock(Block.Properties.create(Material.ROCK).lightValue(15)
-                .hardnessAndResistance(100)).setRegistryName(PokecubeCore.MODID, "dynamax");
+                .hardnessAndResistance(1000)).setRegistryName(PokecubeCore.MODID, "dynamax");
         PokecubeItems.PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(
                 15), true).setRegistryName(PokecubeCore.MODID, "pc_top");
         PokecubeItems.PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(

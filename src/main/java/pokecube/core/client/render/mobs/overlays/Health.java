@@ -33,6 +33,7 @@ import pokecube.core.handlers.Config;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
@@ -126,9 +127,9 @@ public class Health
                 GlStateManager.pushMatrix();
 
                 Health.preRender();
-
-                final double x = pos.x, y = pos.y, z = pos.z;
-                GlStateManager.translated(x, y + passedEntity.getHeight() + config.heightAbove, z);
+                final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? 5 : passedEntity.getHeight();
+                final double x = pos.x, y = pos.y + dy, z = pos.z;
+                GlStateManager.translated(x, y + config.heightAbove, z);
 
                 GlStateManager.rotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 GlStateManager.rotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);

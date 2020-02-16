@@ -2,8 +2,6 @@ package pokecube.core.client.gui.pokemob;
 
 import java.util.List;
 
-import thut.api.maths.vecmath.Vector3f;
-
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -24,6 +22,7 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import thut.api.maths.vecmath.Vector3f;
 
 public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
 {
@@ -117,8 +116,11 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         this.blit(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
         this.yRenderAngle = -45;
         this.xRenderAngle = 0;
+        final boolean prev = this.container.pokemob.getEntity().addedToChunk;
+        this.container.pokemob.getEntity().addedToChunk = false;
         if (this.container.pokemob != null) GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l,
                 this.xSize, this.ySize, this.xRenderAngle, this.yRenderAngle, 0, 1);
+        this.container.pokemob.getEntity().addedToChunk = prev;
     }
 
     /**
