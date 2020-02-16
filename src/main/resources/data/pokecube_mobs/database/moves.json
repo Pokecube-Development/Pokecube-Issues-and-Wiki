@@ -13212,7 +13212,7 @@
 	{
       "name": "photongeyser",
       "readableName": "Photon Geyser",
-      "type": "Psychc",
+      "type": "Psychic",
       "category": "Special",
       "pp": "5",
       "pwr": "100",
@@ -22542,7 +22542,7 @@
 	{
       "name": "magicpowder",
       "readableName": "Magic Powder",
-      "type": "Psychc",
+      "type": "Psychic",
       "category": "Other",
       "pp": "20",
       "pwr": "0",
@@ -23955,7 +23955,7 @@
 	{
       "name": "gmaxgravitas",
       "readableName": "G-Max Gravitas",
-      "type": "Psychc",
+      "type": "Psychic",
       "category": "Physical",
       "pp": "10",
       "pwr": "1",

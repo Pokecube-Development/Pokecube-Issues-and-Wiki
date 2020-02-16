@@ -628,7 +628,7 @@ public class Config extends ConfigData
     @Configure(category = Config.dynamax)
     public int    dynamax_cooldown = 6000;
     @Configure(category = Config.dynamax)
-    public int    dynamax_duration = 100;
+    public int    dynamax_duration = 250;
     @Configure(category = Config.dynamax)
     public double dynamax_scale    = 5.0;
 
