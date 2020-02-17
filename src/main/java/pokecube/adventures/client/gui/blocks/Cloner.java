@@ -22,7 +22,7 @@ public class Cloner extends ContainerScreen<ClonerContainer>
     {
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
-        this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeAdv.ID, "textures/gui/cloner.png"));
+        this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
         this.blit(x, y, 0, 0, this.xSize, this.ySize);

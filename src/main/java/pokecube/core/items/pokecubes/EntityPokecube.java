@@ -25,6 +25,8 @@ import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.CaptureEvent;
+import pokecube.core.items.pokecubes.helper.CaptureManager;
+import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
@@ -161,7 +163,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     Tools.giveItem(player, this.getItem());
                     this.remove();
                 }
-                else this.sendOut(true);
+                else SendOutManager.sendOut(this, true);
             }
             else
             {
@@ -252,15 +254,15 @@ public class EntityPokecube extends EntityPokecubeBase
     public void tick()
     {
         final boolean filled = PokecubeManager.isFilled(this.getItem());
-        if (filled || this.isReleasing()) this.setTime(this.getTime() - 1);
+        this.setTime(this.getTime() - 1);
         if (this.isReleasing())
         {
             if (this.getTime() < 0 || this.getReleased() == null || !this.getReleased().isAlive()) this.remove();
             return;
         }
-        if (this.getTime() <= 0 && this.tilt >= 4) // Captured the pokemon
+        if (this.getTime() <= 0 && this.getTilt() >= 4) // Captured the pokemon
         {
-            if (this.captureSucceed())
+            if (CaptureManager.captureSucceed(this))
             {
                 boolean gave = false;
                 if (filled)
@@ -279,21 +281,9 @@ public class EntityPokecube extends EntityPokecubeBase
             this.remove();
             return;
         }
-        else if (this.getTime() < 0 && this.tilt >= 4)
-        {
-            if (this.shootingEntity != null)
-            {
-                final Vector3 here = Vector3.getNewVector().set(this);
-                final Vector3 dir = Vector3.getNewVector().set(this.shootingEntity);
-                final double dist = dir.distanceTo(here);
-                dir.subtractFrom(here);
-                dir.scalarMultBy(1 / dist);
-                dir.setVelocities(this);
-            }
-        }
-        else if (this.getTime() <= 0 && this.tilt >= 0) // Missed the pokemon
-        {
-            this.captureFailed();
+        else if (this.getTime() <= 0 && this.getTilt() >= 0)
+        {// Missed the pokemon
+            CaptureManager.captureFailed(this);
             this.remove();
             return;
         }

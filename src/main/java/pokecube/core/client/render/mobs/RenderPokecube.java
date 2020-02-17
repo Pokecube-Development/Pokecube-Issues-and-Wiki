@@ -34,8 +34,8 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         }
 
         @Override
-        public void render(EntityPokecube entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
-                float netHeadYaw, float headPitch, float scale)
+        public void render(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
+                final float ageInTicks, final float netHeadYaw, final float headPitch, float scale)
         {
             GL11.glPushMatrix();
             GL11.glTranslated(-0.0, 1.4, -0.0);
@@ -43,7 +43,6 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             GL11.glScalef(scale, scale, scale);
             GL11.glColor4f(1, 1, 1, 1f);
             GL11.glRotated(180, 0, 0, 1);
-            GL11.glRotated(entityIn.rotationYaw, 0, 1, 0);
 
             final EntityPokecube cube = entityIn;
 
@@ -80,19 +79,20 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
 
     public static HashMap<ResourceLocation, EntityRenderer<EntityPokecube>> pokecubeRenderers = new HashMap<>();
 
-    public RenderPokecube(EntityRendererManager renderManager)
+    public RenderPokecube(final EntityRendererManager renderManager)
     {
         super(renderManager, new ModelPokecube(), 0);
     }
 
     @Override
-    protected boolean canRenderName(EntityPokecube entity)
+    protected boolean canRenderName(final EntityPokecube entity)
     {
         return false;
     }
 
     @Override
-    public void doRender(EntityPokecube entity, double x, double y, double z, float entityYaw, float partialTicks)
+    public void doRender(final EntityPokecube entity, final double x, final double y, final double z,
+            final float entityYaw, final float partialTicks)
     {
         final long time = entity.reset;
         final long world = entity.getEntityWorld().getGameTime();
@@ -108,7 +108,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
     }
 
     @Override
-    public ResourceLocation getEntityTexture(EntityPokecube entity)
+    public ResourceLocation getEntityTexture(final EntityPokecube entity)
     {
         return new ResourceLocation(PokecubeMod.ID, "textures/items/pokecubefront.png");
     }

@@ -1,6 +1,9 @@
 package pokecube.core.database.rewards;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,9 +13,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
+import org.jline.utils.InputStreamReader;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonObject;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +29,9 @@ import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -121,14 +129,30 @@ public class XMLRewardsHandler
 
     public static class FreeBookParser implements IRewardParser
     {
+        public static class PagesFile
+        {
+            public static class Page
+            {
+                public List<String> lines = Lists.newArrayList();
+            }
+
+            public List<Page> pages  = Lists.newArrayList();
+            public String     author = "";
+            public String     title  = "";
+        }
+
+        public static String default_lang = "en_us";
 
         public static class FreeTranslatedReward implements IInspectReward
         {
-            public final String  key;
-            public final boolean watch_only;
-            final String         message;
-            final String         tagKey;
-            final String         langFile;
+            public final String           key;
+            public final boolean          watch_only;
+            public final boolean          page_file;
+            final String                  message;
+            final String                  tagKey;
+            final String                  langFile;
+            public Map<String, ItemStack> lang_stacks = Maps.newHashMap();
+            public Map<String, PagesFile> lang_books  = Maps.newHashMap();
 
             public FreeTranslatedReward(final String key, final String message, final String tagKey,
                     final String langFile, final boolean watch_only)
@@ -138,22 +162,21 @@ public class XMLRewardsHandler
                 this.tagKey = tagKey;
                 this.langFile = langFile;
                 this.watch_only = watch_only;
+                this.page_file = tagKey.equals("pages_file");
             }
 
-            public ItemStack getInfoBook(final String lang)
+            public ItemStack getInfoStack(String lang)
             {
-                final String name = "";
-                // TODO new way to define the localized books.
-                final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-                try
-                {
-                    stack.setTag(JsonToNBT.getTagFromJson(name));
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + name, e);
-                }
-                return stack;
+                lang = lang.toLowerCase(Locale.ROOT);
+                if (!this.lang_stacks.containsKey(lang)) this.initLangBook(lang);
+                return this.lang_stacks.getOrDefault(lang, ItemStack.EMPTY).copy();
+            }
+
+            public PagesFile getInfoBook(String lang)
+            {
+                lang = lang.toLowerCase(Locale.ROOT);
+                if (!this.lang_books.containsKey(lang)) this.initLangBook(lang);
+                return this.lang_books.getOrDefault(lang, null);
             }
 
             @Override
@@ -165,7 +188,7 @@ public class XMLRewardsHandler
                 if (data.tag.getBoolean(this.key)) return false;
                 if (giveReward)
                 {
-                    final ItemStack book = this.getInfoBook(lang);
+                    final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
                     entity.sendMessage(new TranslationTextComponent(this.message));
                     final PlayerEntity PlayerEntity = (PlayerEntity) entity;
@@ -173,6 +196,56 @@ public class XMLRewardsHandler
                     PokecubePlayerDataHandler.saveCustomData(entity.getCachedUniqueIdString());
                 }
                 return true;
+            }
+
+            public void initLangBook(final String lang)
+            {
+                this.initLangBook(lang, lang);
+            }
+
+            public void initLangBook(String lang, final String key)
+            {
+                try
+                {
+                    lang = lang.toLowerCase(Locale.ROOT);
+                    final ResourceLocation langloc = PokecubeItems.toPokecubeResource(String.format(this.langFile,
+                            lang));
+                    final InputStream stream = Database.resourceManager.getResource(langloc).getInputStream();
+                    if (this.page_file)
+                    {
+                        final PagesFile book = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
+                                PagesFile.class);
+                        this.lang_books.put(key, book);
+                    }
+                    else
+                    {
+                        final JsonObject holder = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream,
+                                "UTF-8"), JsonObject.class);
+                        final String json = holder.get(this.tagKey).getAsString();
+                        final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
+                        try
+                        {
+                            stack.setTag(JsonToNBT.getTagFromJson(json));
+                            this.lang_stacks.put(key, stack);
+                        }
+                        catch (final Exception e)
+                        {
+                            PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
+                        }
+                    }
+                    stream.close();
+                }
+                catch (final FileNotFoundException e)
+                {
+                    if (lang.equals(FreeBookParser.default_lang)) PokecubeCore.LOGGER.error("Error with book for "
+                            + this.tagKey, e);
+                    else this.initLangBook(FreeBookParser.default_lang, lang);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error with book for " + this.tagKey, e);
+                }
+
             }
         }
 
@@ -194,6 +267,8 @@ public class XMLRewardsHandler
                     reward.condition.values.get(FreeBookParser.WATCHONLY));
             if (key == null || mess == null || lang == null || tag == null) throw new NullPointerException(key + " "
                     + mess + " " + lang + " " + tag);
+            // This is out custom structure, so only put this in watch for now.
+            if (tag.equals("pages_file")) watch_only = true;
             PokedexInspector.rewards.add(new FreeTranslatedReward(key, mess, tag, lang, watch_only));
         }
     }

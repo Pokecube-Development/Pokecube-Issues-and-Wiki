@@ -22,7 +22,7 @@ public class Splicer extends ContainerScreen<SplicerContainer>
     {
         GL11.glPushMatrix();
         GL11.glColor4f(1f, 1f, 1f, 1f);
-        this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeAdv.ID,
+        this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeAdv.MODID,
                 "textures/gui/splicer.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;

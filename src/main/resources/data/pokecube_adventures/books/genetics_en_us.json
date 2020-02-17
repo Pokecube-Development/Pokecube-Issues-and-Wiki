@@ -1,0 +1,147 @@
+{ 
+  "title":"Pokémob Genetics",
+  "author":"Thutmose",
+  "pages":[ 
+    { 
+      "lines":[ 
+        "Pokémob Genetics Guide",
+        "\n\n\n\n\n\n\n",
+        "          V1.2"
+      ]
+    },
+    { 
+      "lines":[ 
+        "§nIndex{_ref_:_index_}",
+        "§4§n§lBasic Terms{_link_:_terms_}",
+        "§3§n§lPokémob DNA{_link_:_pokedna_}",
+        "§2§n§lExtracting DNA{_link_:_extract_}",
+        "   §2§n§lDNA Selectors{_link_:_selector_}",
+        "   §2§n§lGene Extractor{_link_:_extractor_}",
+        "§5§n§lCloning Pokémobs{_link_:_clone_}",
+        "§1§n§lSplicing DNA{_link_:_splice_}"
+      ]
+    },
+    { 
+      "lines":[ 
+        "§4§n§lBasic Terminology{_ref_:_terms_}{_link_:_index_}",
+        "",
+        "§4§nExpressed Gene (EG):",
+        "§4This is the trait which appears on the mob itself.",
+        "",
+        "§4§nParent Gene (PG):",
+        "§4These are genes available for inheritance, these are generally merged in some way to result in the expressed gene, each EG corresponds to 2 PGs.",
+        "",
+        "§4§nDominant:",
+        "§4Dominant PGs will express regardless of the other PG.",
+        "",
+        "§4§nRecessive:",
+        "§4Recessive PGs require both PGs to be the same to be expressed.",
+        "",
+        "§4§nCo-Dominant:",
+        "§4Co-dominant PGs will select a random gene for expression",
+        "",
+        "§4§nEpigenetic:",
+        "§4If the gene is epigenetic, then instead of using PGs for inheritance, it will use the EG, and that EG will change based on the history of the Pokémob."
+      ]
+    },
+    { 
+      "lines":[ 
+        "§3§n§lPokémob DNA:{_ref_:_pokedna_}{_link_:_index_}",
+        "",
+        "§3There are presently 9 known genes of Pokémobs.",
+        "",
+        "§3Of these 9 genes, 2 are strictly epigenetic, and 1 of them has a low chance of being epigenetic.",
+        "",
+        "§3These known genes are:{_ref_:_genes_}",
+        "",
+        "§3ability",
+        "§3colour",
+        "§3size",
+        "§3nature",
+        "§3shiny",
+        "§3moves*",
+        "§3ivs",
+        "§3evs*",
+        "§3species",
+        "",
+        "§3*Epigenetic",
+        "",
+        "§3Most of these genes appear to be Co-dominant, with a low rate of mutations, below are the exceptions",
+        "",
+        "§3Nature",
+        "§3Shiny",
+        "§3Species",
+        "§3Moves",
+        "",
+        "§3§nNature Gene:",
+        "",
+        "§3The Nature gene appears to occasionally exhibit a merging effect rather than dominance, the EG can end up as a merge of the 2 PGs, rather than direct inheritance.",
+        "",
+        "§3§nShiny Gene:",
+        "",
+        "§3The Shiny gene appears to be a rare, recessive gene, and the Shiny Charm is able to switch the EG for this, not affecting any of the PGs",
+        "",
+        "§3§nSpecies Gene:",
+        "",
+        "§3For the species gene, it seems dominance is dependant on whether one of the PGs is gendered, genderless PGs are recessive, this gene ocassionally has epigenetic tendencies",
+        "",
+        "§3§nMoves Gene:",
+        "",
+        "§3The Moves gene only seems to be expressed if both PGs are the same, which is generally not the case."
+      ]
+    },
+    { 
+      "lines":[ 
+        "§2§n§lExtracting DNA{_ref_:_extract_}{_link_:_index_}",
+        "",
+        "§2DNA is extracted via the Gene Extractor.",
+        "",
+        "§2This process requires power, which can be provided by an Energy Siphon, a bottle of water (for the DNA to go into), a Selector and a DNA source.",
+        "",
+        "§2§n§lDNA Selectors{_ref_:_selector_}{_link_:_index_}",
+        "",
+        "§2DNA Selectors tell the machine which gene is being targetted for extraction or splicing.",
+        "",
+        "§2There are 2 ways to make a selector, via computer interface (CC), or via a written book.",
+        "",
+        "§2A Book selector consists of placing the names of the genes on the first page of the book, each on a seperate line (or \"all\"). The book selector can then be crafted with various modifier items to adjust its chances of breaking, both themselves and the DNA, the only currently known modifier is the nether star, but others might exist.",
+        "",
+        "§2§n§lGene Extractor{_ref_:_extractor_}{_link_:_index_}",
+        "",
+        "§2The Gene Extractor is used to extract DNA from a source, it places it into a bottle, and has success chances defined based on the selector used.",
+        "",
+        "§2Known DNA Sources:",
+        "",
+        "§2Filled Pokecube",
+        "§2Pokemob Eggs",
+        "§2Fossils",
+        "§2Bottles of DNA",
+        "",
+        "§2When using a computer, no selector is explicitly needed, however a modifier item can be placed in the slot instead.",
+        "",
+        "§2The tooltip on the selector will display which genes are being selected, and it will also display the chance of DNA or selector loss.",
+        "",
+        "§2DNA sources might also display a tooltip containing their contents, this is also accessible via computer interface."
+      ]
+    },
+    { 
+      "lines":[ 
+        "§5§n§lCloning Pokémobs:{_ref_:_clone_}{_link_:_index_}",
+        "",
+        "§5Once you have extracted some Species DNA, you can place the bottle of it into the gene input slot of the cloning device.",
+        "§5An egg of some form needs to be provided in the egg slot, this can be any egg, and then power needs to be provided to the block.",
+        "",
+        "§5Once the device has enough power, it will spawn the clone directly in front of the device, this is usually at lvl 20. If you are accessing the device when it spawns, you are likely to be the owner of the clone."
+      ]
+    },
+    { 
+      "lines":[ 
+        "§1§n§lSplicing DNA:{_ref_:_splice_}{_link_:_index_}",
+        "",
+        "§1The Gene Splicer can be used to splice together DNA from different sources.",
+        "",
+        "§1The Selector used is the same as in the Gene Extractor, but now the destination and source slots can both take DNA."
+      ]
+    }
+  ]
+}

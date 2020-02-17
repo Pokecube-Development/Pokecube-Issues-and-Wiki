@@ -35,7 +35,8 @@ public class PokedexInspector
         final String    message;
         final String    tagString;
 
-        public InspectCapturesReward(ItemStack reward, Field configField, String message, String tagString)
+        public InspectCapturesReward(final ItemStack reward, final Field configField, final String message,
+                final String tagString)
         {
             this.reward = reward;
             this.configField = configField;
@@ -43,8 +44,8 @@ public class PokedexInspector
             this.tagString = tagString;
         }
 
-        private boolean check(Entity entity, String configArg, CompoundNBT tag, ItemStack reward, int num,
-                boolean giveReward)
+        private boolean check(final Entity entity, final String configArg, final CompoundNBT tag,
+                final ItemStack reward, final int num, final boolean giveReward)
         {
             if (reward == null || tag.getBoolean(this.tagString)) return false;
             if (this.matches(num, configArg))
@@ -63,7 +64,7 @@ public class PokedexInspector
         }
 
         @Override
-        public boolean inspect(PokecubePlayerCustomData data, Entity entity, boolean giveReward)
+        public boolean inspect(final PokecubePlayerCustomData data, final Entity entity, final boolean giveReward)
         {
             final int num = CaptureStats.getNumberUniqueCaughtBy(entity.getUniqueID());
             try
@@ -82,7 +83,7 @@ public class PokedexInspector
             return false;
         }
 
-        private boolean matches(int num, String arg)
+        private boolean matches(final int num, final String arg)
         {
             int required = 0;
             if (arg.contains("%")) required = (int) (Double.parseDouble(arg.replace("%", "")) * Database.spawnables
@@ -96,10 +97,11 @@ public class PokedexInspector
 
     public static void init()
     {
+        PokedexInspector.rewards.clear();
         Database.loadRewards();
     }
 
-    public static boolean inspect(PlayerEntity player, boolean reward)
+    public static boolean inspect(final PlayerEntity player, final boolean reward)
     {
         PokedexInspectEvent evt;
         MinecraftForge.EVENT_BUS.post(evt = new PokedexInspectEvent(player, reward));
@@ -111,15 +113,8 @@ public class PokedexInspector
         return evt.isCanceled();
     }
 
-    public PokedexInspector()
-    {
-        MinecraftForge.EVENT_BUS.register(this);
-        PokedexInspector.rewards.clear();
-        PokedexInspector.init();
-    }
-
     @SubscribeEvent(receiveCanceled = false, priority = EventPriority.LOWEST)
-    public void inspectEvent(PokedexInspectEvent evt)
+    public static void inspectEvent(final PokedexInspectEvent evt)
     {
         final String uuid = evt.getEntity().getCachedUniqueIdString();
         final PokecubePlayerCustomData data = PlayerDataHandler.getInstance().getPlayerData(uuid).getData(

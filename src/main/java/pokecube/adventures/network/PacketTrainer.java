@@ -6,6 +6,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.adventures.PokecubeAdv;
@@ -106,4 +108,18 @@ public class PacketTrainer extends Packet
         buffer.writeCompoundTag(this.data);
     }
 
+    @Override
+    @OnlyIn(value = Dist.CLIENT)
+    public void handleClient()
+    {
+        // TODO Auto-generated method stub
+        super.handleClient();
+    }
+
+    @Override
+    public void handleServer(final ServerPlayerEntity player)
+    {
+        // TODO Auto-generated method stub
+        super.handleServer(player);
+    }
 }

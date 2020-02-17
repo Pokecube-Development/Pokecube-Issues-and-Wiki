@@ -24,6 +24,8 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
     final FontRenderer          fontRender;
     final int                   colour;
     public final ITextComponent line;
+    public int                  x0;
+    public int                  y0;
     private IClickListener      listener = new IClickListener()
                                          {
                                          };
@@ -36,6 +38,8 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
         this.fontRender = fontRender;
         this.line = line;
         this.colour = default_colour;
+        this.x0 = x0;
+        this.y0 = y0;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class LineEntry extends AbstractList.AbstractListEntry<LineEntry>
     public void render(final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
-        this.fontRender.drawString(this.line.getFormattedText(), x, y, this.colour);
+        this.fontRender.drawString(this.line.getFormattedText(), x + this.x0, y + this.y0, this.colour);
         final int dx = this.fontRender.getStringWidth(this.line.getFormattedText());
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
