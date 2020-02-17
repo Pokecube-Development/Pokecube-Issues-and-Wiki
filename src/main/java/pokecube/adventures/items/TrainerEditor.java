@@ -4,6 +4,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 
 public class TrainerEditor extends Item
@@ -20,5 +22,12 @@ public class TrainerEditor extends Item
     {
         // TODO Auto-generated method stub
         return super.itemInteractionForEntity(stack, playerIn, target, hand);
+    }
+
+    @Override
+    public ActionResultType onItemUse(final ItemUseContext context)
+    {
+        // TODO Auto-generated method stub
+        return super.onItemUse(context);
     }
 }

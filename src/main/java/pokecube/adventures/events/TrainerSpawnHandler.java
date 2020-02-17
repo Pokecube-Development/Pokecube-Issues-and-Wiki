@@ -186,7 +186,7 @@ public class TrainerSpawnHandler
 
             final IHasRewards rewardsCap = ((LeaderNpc) trainer).rewardsCap;
             final PokeType type = PokeType.values()[new Random().nextInt(PokeType.values().length)];
-            final Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(PokecubeAdv.ID, ":badge_" + type));
+            final Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(PokecubeAdv.MODID, ":badge_" + type));
             if (item != null)
             {
                 final ItemStack badge = new ItemStack(item);

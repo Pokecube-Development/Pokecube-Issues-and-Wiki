@@ -54,7 +54,7 @@ public class EditorGui extends Screen
 
     }
 
-    public static final ResourceLocation      TEXTURE  = new ResourceLocation(PokecubeAdv.ID,
+    public static final ResourceLocation      TEXTURE  = new ResourceLocation(PokecubeAdv.MODID,
             "textures/gui/traineredit.png");
     public static List<Class<? extends Page>> PAGELIST = Lists.newArrayList();
 

@@ -165,11 +165,14 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             break;
         case ENTITY:
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
+            final boolean capturing = this.getTilt() >= 0;
+
             // Set us to the location, but not stick to players.
-            if (!(hit.getEntity() instanceof PlayerEntity)) this.setPosition(result.getHitVec().x, result.getHitVec().y,
-                    result.getHitVec().z);
+            if (!(hit.getEntity() instanceof PlayerEntity) && !capturing) this.setPosition(result.getHitVec().x, result
+                    .getHitVec().y, result.getHitVec().z);
+
             // Capturing or on client, break early.
-            if (!this.isServerWorld() || this.tilt >= 0) break;
+            if (!this.isServerWorld() || capturing) break;
             // Send out or try to capture.
             if (PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
             else CaptureManager.captureAttempt(this, this.rand, hit.getEntity());

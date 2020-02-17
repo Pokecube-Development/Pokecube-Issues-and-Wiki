@@ -128,19 +128,28 @@ public class XMLRewardsHandler
 
     public static class FreeBookParser implements IRewardParser
     {
-        public static class BooksHolder
+        public static class PagesFile
         {
-            public Map<QName, String> values = Maps.newHashMap();
+            public static class Page
+            {
+                public List<String> lines = Lists.newArrayList();
+            }
+
+            public List<Page> pages  = Lists.newArrayList();
+            public String     author = "";
+            public String     title  = "";
         }
 
         public static class FreeTranslatedReward implements IInspectReward
         {
             public final String           key;
             public final boolean          watch_only;
+            public final boolean          page_file;
             final String                  message;
             final String                  tagKey;
             final String                  langFile;
-            public Map<String, ItemStack> langBooks = Maps.newHashMap();
+            public Map<String, ItemStack> lang_stacks = Maps.newHashMap();
+            public Map<String, PagesFile> lang_books  = Maps.newHashMap();
 
             public FreeTranslatedReward(final String key, final String message, final String tagKey,
                     final String langFile, final boolean watch_only)
@@ -150,13 +159,21 @@ public class XMLRewardsHandler
                 this.tagKey = tagKey;
                 this.langFile = langFile;
                 this.watch_only = watch_only;
+                this.page_file = tagKey.equals("pages_file");
             }
 
-            public ItemStack getInfoBook(String lang)
+            public ItemStack getInfoStack(String lang)
             {
                 lang = lang.toLowerCase(Locale.ROOT);
-                if (!this.langBooks.containsKey(lang)) this.initLangBook(lang);
-                return this.langBooks.getOrDefault(lang, ItemStack.EMPTY).copy();
+                if (!this.lang_stacks.containsKey(lang)) this.initLangBook(lang);
+                return this.lang_stacks.getOrDefault(lang, ItemStack.EMPTY).copy();
+            }
+
+            public PagesFile getInfoBook(String lang)
+            {
+                lang = lang.toLowerCase(Locale.ROOT);
+                if (!this.lang_books.containsKey(lang)) this.initLangBook(lang);
+                return this.lang_books.getOrDefault(lang, null);
             }
 
             @Override
@@ -168,7 +185,7 @@ public class XMLRewardsHandler
                 if (data.tag.getBoolean(this.key)) return false;
                 if (giveReward)
                 {
-                    final ItemStack book = this.getInfoBook(lang);
+                    final ItemStack book = this.getInfoStack(lang);
                     data.tag.putBoolean(this.key, true);
                     entity.sendMessage(new TranslationTextComponent(this.message));
                     final PlayerEntity PlayerEntity = (PlayerEntity) entity;
@@ -186,19 +203,29 @@ public class XMLRewardsHandler
                     final ResourceLocation langloc = PokecubeItems.toPokecubeResource(String.format(this.langFile,
                             lang));
                     final InputStream stream = Database.resourceManager.getResource(langloc).getInputStream();
-                    final JsonObject holder = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
-                            JsonObject.class);
-                    final String json = holder.get(this.tagKey).getAsString();
-                    final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
-                    try
+                    if (this.page_file)
                     {
-                        stack.setTag(JsonToNBT.getTagFromJson(json));
-                        this.langBooks.put(lang, stack);
+                        final PagesFile book = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
+                                PagesFile.class);
+                        this.lang_books.put(lang, book);
                     }
-                    catch (final Exception e)
+                    else
                     {
-                        PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
+                        final JsonObject holder = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream,
+                                "UTF-8"), JsonObject.class);
+                        final String json = holder.get(this.tagKey).getAsString();
+                        final ItemStack stack = new ItemStack(Items.WRITTEN_BOOK);
+                        try
+                        {
+                            stack.setTag(JsonToNBT.getTagFromJson(json));
+                            this.lang_stacks.put(lang, stack);
+                        }
+                        catch (final Exception e)
+                        {
+                            PokecubeCore.LOGGER.error("Error with book for " + this.tagKey + " " + json, e);
+                        }
                     }
+                    stream.close();
                 }
                 catch (final Exception e)
                 {
@@ -226,6 +253,8 @@ public class XMLRewardsHandler
                     reward.condition.values.get(FreeBookParser.WATCHONLY));
             if (key == null || mess == null || lang == null || tag == null) throw new NullPointerException(key + " "
                     + mess + " " + lang + " " + tag);
+            // This is out custom structure, so only put this in watch for now.
+            if (tag.equals("pages_file")) watch_only = true;
             PokedexInspector.rewards.add(new FreeTranslatedReward(key, mess, tag, lang, watch_only));
         }
     }

@@ -81,9 +81,9 @@ public class BlockEventHandler
 
     }
 
-    protected static final ResourceLocation ENERGYSTORECAP  = new ResourceLocation(PokecubeAdv.ID, "energystore");
-    protected static final ResourceLocation ENERGYSIPHONCAP = new ResourceLocation(PokecubeAdv.ID, "energysiphon");
-    protected static final ResourceLocation LINKABLECAP     = new ResourceLocation(PokecubeAdv.ID, "linkable");
+    protected static final ResourceLocation ENERGYSTORECAP  = new ResourceLocation(PokecubeAdv.MODID, "energystore");
+    protected static final ResourceLocation ENERGYSIPHONCAP = new ResourceLocation(PokecubeAdv.MODID, "energysiphon");
+    protected static final ResourceLocation LINKABLECAP     = new ResourceLocation(PokecubeAdv.MODID, "linkable");
 
     @SubscribeEvent
     public static void attachCaps(final AttachCapabilitiesEvent<TileEntity> event)

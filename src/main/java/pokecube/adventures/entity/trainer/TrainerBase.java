@@ -43,7 +43,7 @@ import pokecube.core.utils.Tools;
 
 public abstract class TrainerBase extends NpcMob
 {
-    public static final ResourceLocation BRIBE           = new ResourceLocation(PokecubeAdv.ID, "trainer_bribe");
+    public static final ResourceLocation BRIBE = new ResourceLocation(PokecubeAdv.MODID, "trainer_bribe");
 
     public List<IPokemob>                currentPokemobs = new ArrayList<>();
     public DefaultPokemobs               pokemobsCap;

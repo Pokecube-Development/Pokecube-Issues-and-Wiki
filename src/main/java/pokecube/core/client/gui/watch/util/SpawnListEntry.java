@@ -159,8 +159,6 @@ public class SpawnListEntry
 
     public List<LineEntry> getLines(final ScrollGui<LineEntry> parent, final IClickListener listener)
     {
-        final int y0 = this.yMin;
-        final int y1 = this.yMin + this.height;
         final List<LineEntry> lines = Lists.newArrayList();
         int n = 0;
         for (final String s : this.output)
@@ -175,7 +173,7 @@ public class SpawnListEntry
                     comp.getStyle().setColor(TextFormatting.GREEN);
                 }
             }
-            lines.add(new LineEntry(parent, y0, y1, this.fontRender, comp, 0xFFFFFFFF).setClickListner(listener));
+            lines.add(new LineEntry(parent, 0, 0, this.fontRender, comp, 0xFFFFFFFF).setClickListner(listener));
         }
         return lines;
     }

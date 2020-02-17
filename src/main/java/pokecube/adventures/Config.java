@@ -108,7 +108,7 @@ public class Config extends ConfigData
 
     public Config()
     {
-        super(PokecubeAdv.ID);
+        super(PokecubeAdv.MODID);
     }
 
     @Override

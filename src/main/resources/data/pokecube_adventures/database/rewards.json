@@ -5,9 +5,9 @@
       "key": "default",
       "condition": {
         "values": {
-          "file": "/assets/pokecube_adventures/lang/%s.lang",
+          "file": "pokecube_adventures:books/genetics_%s.json",
           "mess": "pokedex.inspect.geneticsguide",
-          "tag": "pokeadv.infobook1.json",
+          "tag": "pages_file",
           "key": "inspect-geneticsguide"
         }
       },

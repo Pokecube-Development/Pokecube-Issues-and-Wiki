@@ -161,13 +161,13 @@ public class TrainerEventHandler
 
     }
 
-    static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.ID, "pokemobs");
-    static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.ID, "ai");
-    static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.ID, "messages");
-    static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.ID, "rewards");
-    static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.ID, "data");
-    static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.ID, "trades");
-    static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.ID, "guardai");
+    static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.MODID, "pokemobs");
+    static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.MODID, "ai");
+    static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.MODID, "messages");
+    static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.MODID, "rewards");
+    static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.MODID, "data");
+    static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.MODID, "trades");
+    static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.MODID, "guardai");
 
     private static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
     {
