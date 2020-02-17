@@ -1,17 +1,17 @@
 { 
-  "title":"Pokemob Genetics",
+  "title":"Pokémob Genetics",
   "author":"Thutmose",
   "pages":[ 
     { 
       "lines":[ 
-        "Pokemob Genetics Guide",
+        "Pokémob Genetics Guide",
         "\n\n\n\n\n\n\n",
         "          V1.2"
       ]
     },
     { 
       "lines":[ 
-        "Index{_ref_:_index_}",
+        "§nIndex{_ref_:_index_}",
         "§4§n§lBasic Terms{_link_:_terms_}",
         "§3§n§lPokémob DNA{_link_:_pokedna_}",
         "§2§n§lExtracting DNA{_link_:_extract_}",
