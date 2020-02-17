@@ -21,7 +21,7 @@ import pokecube.adventures.entity.trainer.TrainerBase;
 
 public class BeatTrainerTrigger implements ICriterionTrigger<BeatTrainerTrigger.Instance>
 {
-    public static ResourceLocation ID = new ResourceLocation(PokecubeAdv.ID, "beat_trainer");
+    public static ResourceLocation ID = new ResourceLocation(PokecubeAdv.MODID, "beat_trainer");
 
     public static class Instance extends CriterionInstance
     {

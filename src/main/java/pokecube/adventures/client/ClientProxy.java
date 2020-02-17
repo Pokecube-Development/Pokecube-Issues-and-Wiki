@@ -52,8 +52,8 @@ public class ClientProxy extends CommonProxy
         X3dModel bag;
 
         // One Texture for each layer.
-        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_1.png");
-        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.ID, "textures/worn/bag_2.png");
+        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_1.png");
+        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_2.png");
 
         private final ResourceLocation[] BAG_TEXS = { this.BAG_1, this.BAG_2 };
 
@@ -61,7 +61,7 @@ public class ClientProxy extends CommonProxy
         public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
                 final ItemStack stack, final float partialTicks)
         {
-            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.ID, "models/worn/bag.x3d"));
+            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag.x3d"));
             Back.renderBack(wearer, stack, this.bag, this.BAG_TEXS, wearer.getBrightnessForRender());
         }
     }
@@ -93,7 +93,7 @@ public class ClientProxy extends CommonProxy
         final ItemStack stack = evt.getItemStack();
         if (stack.isEmpty()) return;
         final CompoundNBT tag = stack.hasTag() ? stack.getTag() : new CompoundNBT();
-        if (tag.getBoolean("isapokebag")) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID
+        if (tag.getBoolean("isapokebag")) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID
                 + ".tooltip.bag"));
         if (tag.contains("dyeColour"))
         {
@@ -115,19 +115,19 @@ public class ClientProxy extends CommonProxy
             final int index = ClonerHelper.getIndex(stack);
             if (genes != null) for (final Alleles a : genes.getAlleles().values())
             {
-                TranslationTextComponent comp = new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expressed."
+                TranslationTextComponent comp = new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expressed."
                         + a.getExpressed().getKey().getPath(), a.getExpressed());
                 evt.getToolTip().add(comp);
                 if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                 {
-                    comp = new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.parent." + a.getExpressed()
+                    comp = new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.parent." + a.getExpressed()
                             .getKey().getPath(), a.getAlleles()[0], a.getAlleles()[1]);
                     evt.getToolTip().add(comp);
                 }
             }
             if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown())) evt.getToolTip()
-                    .add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expand"));
-            if (index != -1) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID
+                    .add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+            if (index != -1) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID
                     + ".tooltip.gene.array.index", index));
             Set<Class<? extends Gene>> genesSet;
             if (!(genesSet = ClonerHelper.getGeneSelectors(stack)).isEmpty()) if (Screen.hasControlDown())
@@ -135,13 +135,13 @@ public class ClientProxy extends CommonProxy
                 try
                 {
                 final Gene gene = geneC.newInstance();
-                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.selector.gene." + gene.getKey().getPath()));
+                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.selector.gene." + gene.getKey().getPath()));
                 }
                 catch (InstantiationException | IllegalAccessException e)
                 {
 
                 }
-            else evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.ID + ".tooltip.gene.expand"));
+            else evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
             if (RecipeSelector.isSelector(stack))
             {
                 final SelectorValue value = ClonerHelper.getSelectorValue(stack);

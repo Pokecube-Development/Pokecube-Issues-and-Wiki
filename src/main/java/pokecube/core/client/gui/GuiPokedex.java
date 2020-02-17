@@ -281,7 +281,7 @@ public class GuiPokedex extends Screen
         for (int j = 0; j < list.size(); j++)
         {
             line = list.get(j);
-            this.list.addEntry(new LineEntry(this.list, offsetX, offsetY, this.font, line, 0xFFFFFF));
+            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, line, 0xFFFFFF));
         }
         this.children.add(this.list);
     }

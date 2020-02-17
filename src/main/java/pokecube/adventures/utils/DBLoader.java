@@ -17,10 +17,10 @@ import pokecube.core.database.Database;
 
 public class DBLoader
 {
-    public static List<ResourceLocation> trainerDatabases = Lists.newArrayList(new ResourceLocation(PokecubeAdv.ID,
+    public static List<ResourceLocation> trainerDatabases = Lists.newArrayList(new ResourceLocation(PokecubeAdv.MODID,
             "database/types.json"));
     public static List<ResourceLocation> tradeDatabases   = Lists.newArrayList();
-    public static ResourceLocation       NAMESLOC         = new ResourceLocation(PokecubeAdv.ID, "database/names.csv");
+    public static ResourceLocation       NAMESLOC         = new ResourceLocation(PokecubeAdv.MODID, "database/names.csv");
 
     public static boolean loaded = false;
 

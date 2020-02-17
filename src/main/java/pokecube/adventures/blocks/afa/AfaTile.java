@@ -29,7 +29,7 @@ import thut.api.maths.Vector3;
 public class AfaTile extends InteractableTile implements ITickableTileEntity, IEnergyStorage
 {
     public static TileEntityType<? extends TileEntity> TYPE;
-    public static final ResourceLocation               SHINYTAG = new ResourceLocation(PokecubeAdv.ID, "shiny_charm");
+    public static final ResourceLocation               SHINYTAG = new ResourceLocation(PokecubeAdv.MODID, "shiny_charm");
 
     public static JEP parser;
     public static JEP parserS;

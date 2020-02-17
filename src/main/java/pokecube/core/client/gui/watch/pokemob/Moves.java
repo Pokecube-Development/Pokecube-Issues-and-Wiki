@@ -163,7 +163,7 @@ public class Moves extends ListPage<LineEntry>
                 main.getStyle().setColor(TextFormatting.GREEN);
                 main.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s));
                 main.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s)));
-                this.list.addEntry(new LineEntry(this.list, y0, y1, this.font, main, colour).setClickListner(listener));
+                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
             }
         }
         for (final String s : entry.getMoves())
@@ -177,7 +177,7 @@ public class Moves extends ListPage<LineEntry>
             main.getStyle().setColor(TextFormatting.GREEN);
             main.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s));
             main.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent(s)));
-            this.list.addEntry(new LineEntry(this.list, y0, y1, this.font, main, colour).setClickListner(listener));
+            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
         }
     }
 
