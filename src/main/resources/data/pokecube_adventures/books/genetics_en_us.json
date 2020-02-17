@@ -6,24 +6,24 @@
       "lines":[ 
         "Pokemob Genetics Guide",
         "\n\n\n\n\n\n\n",
-        "       V1.2"
+        "          V1.2"
       ]
     },
     { 
       "lines":[ 
         "Index{_ref_:_index_}",
-        "§n§l§4Basic Terms{_link_:_terms_}",
-        "§n§l§3Pokémob DNA{_link_:_pokedna_}",
-        "§n§l§2Extracting DNA{_link_:_extract_}",
-        "   §n§l§2DNA Selectors{_link_:_selector_}",
-        "   §n§l§2Gene Extractor{_link_:_extractor_}",
-        "§n§l§5Cloning Pokémobs{_link_:_clone_}",
-        "§n§l§1Splicing DNA{_link_:_splice_}"
+        "§4§n§lBasic Terms{_link_:_terms_}",
+        "§3§n§lPokémob DNA{_link_:_pokedna_}",
+        "§2§n§lExtracting DNA{_link_:_extract_}",
+        "   §2§n§lDNA Selectors{_link_:_selector_}",
+        "   §2§n§lGene Extractor{_link_:_extractor_}",
+        "§5§n§lCloning Pokémobs{_link_:_clone_}",
+        "§1§n§lSplicing DNA{_link_:_splice_}"
       ]
     },
     { 
       "lines":[ 
-        "§4§nBasic Terminology{_ref_:_terms_}{_link_:_index_}",
+        "§4§n§lBasic Terminology{_ref_:_terms_}{_link_:_index_}",
         "",
         "§4§nExpressed Gene (EG):",
         "§4This is the trait which appears on the mob itself.",
@@ -46,7 +46,7 @@
     },
     { 
       "lines":[ 
-        "§3§nPokémob DNA:{_ref_:_pokedna_}{_link_:_index_}",
+        "§3§n§lPokémob DNA:{_ref_:_pokedna_}{_link_:_index_}",
         "",
         "§3There are presently 9 known genes of Pokémobs.",
         "",
@@ -92,13 +92,13 @@
     },
     { 
       "lines":[ 
-        "§2§nExtracting DNA{_ref_:_extract_}{_link_:_index_}",
+        "§2§n§lExtracting DNA{_ref_:_extract_}{_link_:_index_}",
         "",
         "§2DNA is extracted via the Gene Extractor.",
         "",
         "§2This process requires power, which can be provided by an Energy Siphon, a bottle of water (for the DNA to go into), a Selector and a DNA source.",
         "",
-        "§2§nDNA Selectors{_ref_:_selector_}{_link_:_index_}",
+        "§2§n§lDNA Selectors{_ref_:_selector_}{_link_:_index_}",
         "",
         "§2DNA Selectors tell the machine which gene is being targetted for extraction or splicing.",
         "",
@@ -106,7 +106,7 @@
         "",
         "§2A Book selector consists of placing the names of the genes on the first page of the book, each on a seperate line (or \"all\"). The book selector can then be crafted with various modifier items to adjust its chances of breaking, both themselves and the DNA, the only currently known modifier is the nether star, but others might exist.",
         "",
-        "§2§nGene Extractor{_ref_:_extractor_}{_link_:_index_}",
+        "§2§n§lGene Extractor{_ref_:_extractor_}{_link_:_index_}",
         "",
         "§2The Gene Extractor is used to extract DNA from a source, it places it into a bottle, and has success chances defined based on the selector used.",
         "",
@@ -126,7 +126,7 @@
     },
     { 
       "lines":[ 
-        "§n§l§5Cloning Pokémobs:{_ref_:_clone_}{_link_:_index_}",
+        "§5§n§lCloning Pokémobs:{_ref_:_clone_}{_link_:_index_}",
         "",
         "§5Once you have extracted some Species DNA, you can place the bottle of it into the gene input slot of the cloning device.",
         "§5An egg of some form needs to be provided in the egg slot, this can be any egg, and then power needs to be provided to the block.",
@@ -136,7 +136,7 @@
     },
     { 
       "lines":[ 
-        "§n§l§1Splicing DNA:{_ref_:_splice_}{_link_:_index_}",
+        "§1§n§lSplicing DNA:{_ref_:_splice_}{_link_:_index_}",
         "",
         "§1The Gene Splicer can be used to splice together DNA from different sources.",
         "",
