@@ -18,9 +18,9 @@
       "key": "default",
       "condition": {
         "values": {
-          "file": "pokecube_mobs:books/%s.json",
+          "file": "pokecube_mobs:books/care_guide_%s.json",
           "mess": "pokedex.inspect.carebook",
-          "tag": "pokecube.infobook2.json",
+          "tag": "pages_file",
           "key": "inspect-carebook"
         }
       },
