@@ -30,7 +30,7 @@ public class ItemInit
     public static final Item BLUEORB      = new ItemBase("blueorb", 1);
     public static final Item GREENORB     = new ItemBase("greenorb", 1);
     public static final Item REDORB       = new ItemBase("redorb", 1);
-    public static final Item GRAYORB      = new ItemBase("grayorb", 1);
+    public static final Item GRAYORB      = new ItemBase("grayorb", 1).noTooltop();
     public static final Item LEGENDARYORB = new LegendaryOrb("legendaryorb", 1);
     public static final Item LUSTROUSORB  = new ItemBase("lustrousorb", 1);
     public static final Item ADAMANTORB   = new ItemBase("adamantorb", 1);

@@ -164,12 +164,12 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                 SendOutManager.sendOut(this, true);
             break;
         case ENTITY:
-
-            // Set us to the location
-            this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
+            final EntityRayTraceResult hit = (EntityRayTraceResult) result;
+            // Set us to the location, but not stick to players.
+            if (!(hit.getEntity() instanceof PlayerEntity)) this.setPosition(result.getHitVec().x, result.getHitVec().y,
+                    result.getHitVec().z);
             // Capturing or on client, break early.
             if (!this.isServerWorld() || this.tilt >= 0) break;
-            final EntityRayTraceResult hit = (EntityRayTraceResult) result;
             // Send out or try to capture.
             if (PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
             else CaptureManager.captureAttempt(this, this.rand, hit.getEntity());
@@ -268,32 +268,37 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         }
     }
 
+    private void validateDirection(final Vec3d vec3d)
+    {
+        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
+        if (f > 0.05)
+        {
+            this.rotationYaw = (float) (-MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
+            for (this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F
+                    / (float) Math.PI)); this.rotationPitch
+                            - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+                ;
+        }
+        else this.rotationPitch = 0;
+        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
+            this.prevRotationPitch += 360.0F;
+        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
+            this.prevRotationYaw -= 360.0F;
+        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
+            this.prevRotationYaw += 360.0F;
+        this.renderYawOffset = this.rotationYaw;
+        this.prevRenderYawOffset = this.prevRotationYaw;
+        this.rotationYawHead = this.rotationYaw;
+        this.prevRotationYawHead = this.prevRotationYaw;
+    }
+
     private void postValidateVelocity()
     {
         final Vec3d vec3d = this.getMotion();
         this.posX += vec3d.x;
         this.posY += vec3d.y;
         this.posZ += vec3d.z;
-        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
-        if (f > 0.05) this.rotationYaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
-
-        for (this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI)); this.rotationPitch
-                - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-            ;
-
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-            this.prevRotationPitch += 360.0F;
-
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
-            this.prevRotationYaw -= 360.0F;
-
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
-            this.prevRotationYaw += 360.0F;
-
-        this.rotationPitch = MathHelper.lerp(0.2F, this.prevRotationPitch, this.rotationPitch);
-        this.rotationYaw = MathHelper.lerp(0.2F, this.prevRotationYaw, this.rotationYaw);
-        this.renderYawOffset = this.rotationYaw;
-        this.prevRenderYawOffset = this.prevRotationYaw;
+        this.validateDirection(vec3d);
         float f1;
         if (this.isInWater())
         {
@@ -394,9 +399,10 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     }
 
     @Override
-    public void setMotion(final Vec3d p_213317_1_)
+    public void setMotion(final Vec3d velocity)
     {
-        super.setMotion(p_213317_1_);
+        super.setMotion(velocity);
+        this.validateDirection(velocity);
     }
 
     public void setReleased(final Entity entity)

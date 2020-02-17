@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:dawnstone",
+    "pokecube:everstone",
+    "pokecube:firestone",
+    "pokecube:leafstone",
+    "pokecube:moonstone",
+    "pokecube:ovalstone",
+    "pokecube:shinystone",
+    "pokecube:sunstone",
+    "pokecube:thunderstone",
+    "pokecube:waterstone"
+  ]
+}
