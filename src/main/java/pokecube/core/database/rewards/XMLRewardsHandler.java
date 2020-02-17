@@ -1,5 +1,6 @@
 package pokecube.core.database.rewards;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
@@ -140,6 +141,8 @@ public class XMLRewardsHandler
             public String     title  = "";
         }
 
+        public static String default_lang = "en_us";
+
         public static class FreeTranslatedReward implements IInspectReward
         {
             public final String           key;
@@ -195,7 +198,12 @@ public class XMLRewardsHandler
                 return true;
             }
 
-            public void initLangBook(String lang)
+            public void initLangBook(final String lang)
+            {
+                this.initLangBook(lang, lang);
+            }
+
+            public void initLangBook(String lang, final String key)
             {
                 try
                 {
@@ -207,7 +215,7 @@ public class XMLRewardsHandler
                     {
                         final PagesFile book = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
                                 PagesFile.class);
-                        this.lang_books.put(lang, book);
+                        this.lang_books.put(key, book);
                     }
                     else
                     {
@@ -218,7 +226,7 @@ public class XMLRewardsHandler
                         try
                         {
                             stack.setTag(JsonToNBT.getTagFromJson(json));
-                            this.lang_stacks.put(lang, stack);
+                            this.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)
                         {
@@ -226,6 +234,12 @@ public class XMLRewardsHandler
                         }
                     }
                     stream.close();
+                }
+                catch (final FileNotFoundException e)
+                {
+                    if (lang.equals(FreeBookParser.default_lang)) PokecubeCore.LOGGER.error("Error with book for "
+                            + this.tagKey, e);
+                    else this.initLangBook(FreeBookParser.default_lang, lang);
                 }
                 catch (final Exception e)
                 {
