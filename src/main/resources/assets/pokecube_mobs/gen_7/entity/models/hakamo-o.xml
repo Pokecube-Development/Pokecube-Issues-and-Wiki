@@ -8,10 +8,6 @@
    <animation diffs="0.3,0" part="Head" trigger="random:0.005:20"/>
   </customTex>
   <phase type="idle">
-   <part name="boca">
-    <component length="10" name="1" rotChange="3,0,0" rotOffset="10,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="-3,0,0" startKey="10"/>
-   </part>
    <part name="arm1">
     <component length="6" name="1" rotChange="5,0,0" rotOffset="-60,0,0" startKey="0"/>
     <component length="6" name="2" rotChange="-5,0,0" startKey="10"/>
