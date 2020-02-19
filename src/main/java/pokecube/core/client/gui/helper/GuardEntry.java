@@ -21,7 +21,7 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.utils.TimePeriod;
 
-public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry>
+public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> implements INotifiedEntry
 {
 
     final int                                index;
@@ -63,6 +63,22 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry>
         this.guiX = dx;
         this.guiY = dy;
         this.guiHeight = dh;
+
+        this.delete.visible = false;
+        this.confirm.visible = false;
+        this.moveUp.visible = false;
+        this.moveDown.visible = false;
+        this.location.visible = false;
+        this.timeperiod.visible = false;
+        this.variation.visible = false;
+
+        parent.addButton(this.delete);
+        parent.addButton(this.confirm);
+        parent.addButton(this.moveUp);
+        parent.addButton(this.moveDown);
+        parent.addButton(this.location);
+        parent.addButton(this.timeperiod);
+        parent.addButton(this.variation);
     }
 
     @Override
@@ -121,47 +137,11 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry>
     @Override
     public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseEvent)
     {
-        this.delete.mouseClicked(mouseX, mouseY, mouseEvent);
-        this.confirm.mouseClicked(mouseX, mouseY, mouseEvent);
-        this.moveUp.mouseClicked(mouseX, mouseY, mouseEvent);
-        this.moveDown.mouseClicked(mouseX, mouseY, mouseEvent);
-        return false;
-        // final int offsetY = this.parent.height / 2 - 60;
-        // final int guiHeight = 100;
-        // boolean buy1Fits = true;
-        // buy1Fits = this.location.y >= offsetY;
-        // buy1Fits = buy1Fits && mouseX - this.location.x >= 0;
-        // buy1Fits = buy1Fits && mouseX - this.location.x <=
-        // this.location.width;
-        // buy1Fits = buy1Fits && mouseY - this.location.y >= 0;
-        // buy1Fits = buy1Fits && mouseY - this.location.y <=
-        // this.location.height;
-        // buy1Fits = buy1Fits && this.location.y + this.location.height <=
-        // offsetY + guiHeight;
-        // this.location.setFocused(buy1Fits);
-        // boolean buy2Fits = true;
-        // buy2Fits = this.timeperiod.y >= offsetY;
-        // buy2Fits = buy2Fits && mouseX - this.timeperiod.x >= 0;
-        // buy2Fits = buy2Fits && mouseX - this.timeperiod.x <=
-        // this.timeperiod.width;
-        // buy2Fits = buy2Fits && mouseY - this.timeperiod.y >= 0;
-        // buy2Fits = buy2Fits && mouseY - this.timeperiod.y <=
-        // this.timeperiod.height;
-        // buy2Fits = buy2Fits && this.timeperiod.y + this.timeperiod.height <=
-        // offsetY + guiHeight;
-        // this.timeperiod.setFocused(buy2Fits);
-        // boolean sellFits = true;
-        // sellFits = this.variation.y >= offsetY;
-        // sellFits = sellFits && mouseX - this.variation.x >= 0;
-        // sellFits = sellFits && mouseX - this.variation.x <=
-        // this.variation.width;
-        // sellFits = sellFits && mouseY - this.variation.y >= 0;
-        // sellFits = sellFits && mouseY - this.variation.y <=
-        // this.variation.height;
-        // sellFits = sellFits && this.variation.y + this.variation.height <=
-        // offsetY + guiHeight;
-        // this.variation.setFocused(sellFits);
-        // return buy1Fits || buy2Fits || sellFits;
+        boolean ret = this.delete.mouseClicked(mouseX, mouseY, mouseEvent);
+        ret |= this.confirm.mouseClicked(mouseX, mouseY, mouseEvent);
+        ret |= this.moveUp.mouseClicked(mouseX, mouseY, mouseEvent);
+        ret |= this.moveDown.mouseClicked(mouseX, mouseY, mouseEvent);
+        return ret;
     }
 
     public void moveDownClicked(final Button b)
@@ -205,47 +185,61 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry>
     }
 
     @Override
-    public void render(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+    public void preRender(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
-        // final int width = 10;
-        // int dx = 4 + this.guiX;
-        // int dy = -5 + this.guiY;
-        // this.delete.y = y + dy;
-        // this.delete.x = x - dx + width;
-        // this.confirm.y = y + dy;
-        // this.confirm.x = x - dx + 10 + width;
-        // this.moveUp.y = y + dy + width;
-        // this.moveUp.x = x - dx + width;
-        // this.moveDown.y = y + dy + width;
-        // this.moveDown.x = x - dx + 10 + width;
-        // dx += 26;
-        // dy += 1;
-        // boolean fits = true;
-        // this.location.x = x - 2 + dx;
-        // this.location.y = y + dy;
-        // this.timeperiod.y = y + dy + 10;
-        // this.timeperiod.x = x - 2 + dx;
-        // this.variation.y = y + dy + 20;
-        // this.variation.x = x - 2 + dx;
-        // dy = -60;
-        // final int offsetY = this.parent.height / 2 - this.guiY + dy;
-        // fits = this.location.y >= offsetY;
-        // fits = fits && this.location.y + 2 * this.location.height <= offsetY
-        // + this.guiHeight;
-        // if (fits)
-        {
-            RenderHelper.disableStandardItemLighting();
-            this.location.render(mouseX, mouseY, partialTicks);
-            this.timeperiod.render(mouseX, mouseY, partialTicks);
-            this.variation.render(mouseX, mouseY, partialTicks);
+        this.delete.visible = false;
+        this.confirm.visible = false;
+        this.moveUp.visible = false;
+        this.moveDown.visible = false;
+        this.location.visible = false;
+        this.timeperiod.visible = false;
+        this.variation.visible = false;
+    }
 
-            this.delete.render(mouseX, mouseY, partialTicks);
-            this.confirm.render(mouseX, mouseY, partialTicks);
-            this.moveUp.render(mouseX, mouseY, partialTicks);
-            this.moveDown.render(mouseX, mouseY, partialTicks);
-            GL11.glColor3f(1, 1, 1);
-        }
+    @Override
+    public void render(final int slotIndex, int y, int x, final int listWidth, final int slotHeight, final int mouseX,
+            final int mouseY, final boolean isSelected, final float partialTicks)
+    {
+        this.delete.visible = true;
+        this.confirm.visible = true;
+        this.moveUp.visible = true;
+        this.moveDown.visible = true;
+        this.location.visible = true;
+        this.timeperiod.visible = true;
+        this.variation.visible = true;
+
+        x += this.guiX;
+        y += this.guiY;
+
+        this.location.x = x - 2;
+        this.location.y = y - 4;
+
+        this.timeperiod.x = x - 2;
+        this.timeperiod.y = y - 4 - 10;
+
+        this.variation.x = x - 2;
+        this.variation.y = y - 4 - 20;
+
+        this.delete.y = y - 5;
+        this.delete.x = x - 1 + this.location.getWidth();
+        this.confirm.y = y - 5;
+        this.confirm.x = x - 2 + 10 + this.location.getWidth();
+        this.moveUp.y = y - 5 - 10;
+        this.moveUp.x = x - 1 + this.location.getWidth();
+        this.moveDown.y = y - 5 - 10;
+        this.moveDown.x = x - 2 + 10 + this.location.getWidth();
+
+        RenderHelper.disableStandardItemLighting();
+        this.location.render(mouseX, mouseY, partialTicks);
+        this.timeperiod.render(mouseX, mouseY, partialTicks);
+        this.variation.render(mouseX, mouseY, partialTicks);
+
+        this.delete.render(mouseX, mouseY, partialTicks);
+        this.confirm.render(mouseX, mouseY, partialTicks);
+        this.moveUp.render(mouseX, mouseY, partialTicks);
+        this.moveDown.render(mouseX, mouseY, partialTicks);
+        GL11.glColor3f(1, 1, 1);
     }
 
     public void reOrder(final int dir)

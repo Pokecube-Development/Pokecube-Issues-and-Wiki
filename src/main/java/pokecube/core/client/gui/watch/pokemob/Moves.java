@@ -115,8 +115,6 @@ public class Moves extends ListPage<LineEntry>
         final int height = this.font.FONT_HEIGHT * 6;
         int width = 111;
 
-        int y0 = offsetY + 4;
-        int y1 = offsetY + height + 4;
         final int colour = 0xFFFFFFFF;
 
         if (!this.watch.canEdit(this.parent.pokemob))
@@ -124,8 +122,6 @@ public class Moves extends ListPage<LineEntry>
             width = 111;
             final int dx = 0;
             final int dy = -60;
-            y0 += dy;
-            y1 += dy;
             offsetY += dy;
             offsetX += dx;
         }

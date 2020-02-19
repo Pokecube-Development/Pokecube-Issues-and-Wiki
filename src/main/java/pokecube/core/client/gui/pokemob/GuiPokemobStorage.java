@@ -48,6 +48,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
         this.ai = new AIStoreStuff(this.pokemob);
         final CompoundNBT tag = container.data.readCompoundTag();
         this.ai.deserializeNBT(tag);
+        container.setMode(PacketPokemobGui.STORAGE);
     }
 
     @Override

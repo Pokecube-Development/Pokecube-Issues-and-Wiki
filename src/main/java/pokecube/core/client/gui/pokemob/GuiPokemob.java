@@ -84,6 +84,7 @@ public class GuiPokemob extends GuiPokemobBase
     public GuiPokemob(final ContainerPokemob container, final PlayerInventory inv)
     {
         super(container, inv);
+        container.setMode(PacketPokemobGui.MAIN);
     }
 
     @Override
