@@ -112,7 +112,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         final int k = (this.width - this.xSize) / 2;
         final int l = (this.height - this.ySize) / 2;
         this.blit(k, l, 0, 0, this.xSize, this.ySize);
-        this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
+        if (this.container.mode == 0) this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
         this.blit(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
         this.yRenderAngle = -45;
         this.xRenderAngle = 0;
@@ -140,7 +140,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 120, 10, "");
+        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 60, 10, "");
         this.name.setEnableBackgroundDrawing(false);
         if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName()
                 .getUnformattedComponentText().trim());

@@ -78,7 +78,14 @@ public class PacketPokemobGui extends Packet
         switch (this.message)
         {
         case ROUTES:
+            provider = new SimpleNamedContainerProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
+                    .getDisplayName());
             PacketSyncRoutes.sendUpdateClientPacket(entity, player, true);
+            NetworkHooks.openGui(player, provider, buf ->
+            {
+                buf.writeInt(entity.getEntityId());
+                buf.writeByte(mode);
+            });
             return;
         case STORAGE:
             AIStoreStuff ai = null;

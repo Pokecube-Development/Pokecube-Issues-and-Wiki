@@ -4,11 +4,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import pokecube.core.PokecubeCore;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.common.ThutCore;
 
 public abstract class Mesh
 {
@@ -72,7 +72,7 @@ public abstract class Mesh
         // broken, lets just fill with z+
         else
         {
-            PokecubeCore.LOGGER.error("Error with mesh", new IllegalArgumentException());
+            ThutCore.LOGGER.error("Error with mesh", new IllegalArgumentException());
             for (int i = 0; i < this.order.length; i++)
                 this.normalList[i] = new Vector3f(0, 1, 0);
         }
