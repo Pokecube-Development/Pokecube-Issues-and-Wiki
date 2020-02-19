@@ -395,6 +395,10 @@ public class BlockEntityUpdater
         final int sizeX = this.blockEntity.getTiles().length;
         final int sizeY = this.blockEntity.getTiles()[0].length;
         final int sizeZ = this.blockEntity.getTiles()[0][0].length;
+
+        final World world = this.blockEntity.getFakeWorld() instanceof World ? (World) this.blockEntity.getFakeWorld()
+                : this.theEntity.getEntityWorld();
+
         for (int i = 0; i < sizeX; i++)
             for (int j = 0; j < sizeY; j++)
                 for (int k = 0; k < sizeZ; k++)
@@ -404,7 +408,10 @@ public class BlockEntityUpdater
 
                     // TODO rotate here by entity rotation.
                     final TileEntity tile = this.blockEntity.getTiles()[i][j][k];
-                    if (tile != null) tile.setWorldAndPos((World) this.blockEntity.getFakeWorld(), pos.toImmutable());
+                    if (tile != null)
+                    {
+                        tile.setWorldAndPos(world, pos.toImmutable());
+                    }
                     if (tile instanceof ITickable)
                     {
                         if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;
