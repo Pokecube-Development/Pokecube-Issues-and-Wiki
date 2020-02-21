@@ -513,6 +513,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
                 temp = new Holder(pokemob.getPokedexEntry());
                 temp.model = model;
                 holder = temp;
+                this.customs.put(model, holder);
             }
         }
 
