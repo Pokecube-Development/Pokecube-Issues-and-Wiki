@@ -502,6 +502,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                 temp = new Holder(pokemob.getPokedexEntry());
                 temp.model = model;
                 holder = temp;
+                this.customs.put(model, holder);
             }
         }
 
