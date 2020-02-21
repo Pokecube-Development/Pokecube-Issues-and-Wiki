@@ -261,14 +261,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     short getStatusTimer();
 
-    /**
-     * Returns the texture path.
-     *
-     * @return
-     */
-    @OnlyIn(Dist.CLIENT)
-    ResourceLocation getTexture();
-
     boolean hasHomeArea();
 
     /** Removes the current status. */
@@ -279,12 +271,31 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     boolean isOnGround();
 
     /**
+     * Returns the texture path.
+     *
+     * @return
+     */
+    @OnlyIn(Dist.CLIENT)
+    ResourceLocation getTexture();
+
+    /**
      * Returns modified texture to account for shininess, animation, etc.
      *
      * @return
      */
     @OnlyIn(Dist.CLIENT)
     ResourceLocation modifyTexture(ResourceLocation texture);
+
+    void setCustomTexDetails(String male, String female);
+
+    default void setCustomTexDetails(final String tex)
+    {
+        this.setCustomTexDetails(tex, tex);
+    }
+
+    String getMaleCustomTex();
+
+    String getFemaleCustomTex();
 
     default boolean moveToShoulder(final PlayerEntity player)
     {
