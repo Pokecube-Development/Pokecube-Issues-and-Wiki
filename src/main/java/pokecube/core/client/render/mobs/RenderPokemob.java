@@ -501,8 +501,10 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             {
                 temp = new Holder(pokemob.getPokedexEntry());
                 temp.model = model;
+                if (pokemob.getCustomAnims() != null) temp.animation = pokemob.getCustomAnims();
                 holder = temp;
                 this.customs.put(model, holder);
+                holder.init();
             }
         }
 

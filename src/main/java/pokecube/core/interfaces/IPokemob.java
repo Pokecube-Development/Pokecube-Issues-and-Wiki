@@ -294,6 +294,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     ResourceLocation getCustomModel();
 
+    void setCustomAnims(final ResourceLocation customAnims);
+
+    ResourceLocation getCustomAnims();
+
     default boolean moveToShoulder(final PlayerEntity player)
     {
         if (this.getEntity() instanceof ShoulderRidingEntity)
