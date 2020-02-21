@@ -286,16 +286,13 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     @OnlyIn(Dist.CLIENT)
     ResourceLocation modifyTexture(ResourceLocation texture);
 
-    void setCustomTexDetails(String male, String female);
+    void setCustomTexDetails(String texture);
 
-    default void setCustomTexDetails(final String tex)
-    {
-        this.setCustomTexDetails(tex, tex);
-    }
+    String getCustomTex();
 
-    String getMaleCustomTex();
+    void setCustomModel(final ResourceLocation customModel);
 
-    String getFemaleCustomTex();
+    ResourceLocation getCustomModel();
 
     default boolean moveToShoulder(final PlayerEntity player)
     {

@@ -475,6 +475,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
     final Holder holder;
 
+    final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
+
     public RenderPokemob(final PokedexEntry entry, final EntityRendererManager p_i50961_1_)
     {
         super(p_i50961_1_, null, 1);
@@ -501,6 +503,19 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = this.holder;
+
+        if (pokemob.getCustomModel() != null)
+        {
+            final ResourceLocation model = pokemob.getCustomModel();
+            Holder temp = this.customs.get(model);
+            if (temp == null)
+            {
+                temp = new Holder(pokemob.getPokedexEntry());
+                temp.model = model;
+                holder = temp;
+            }
+        }
+
         if (holder.wrapper == null)
         {
             holder.init();
@@ -509,6 +524,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid()
                 || holder.entry != type.getEntry() || holder.model == null || holder.texture == null)
             holder = RenderPokemob.getMissingNo();
+
         this.entityModel = holder.wrapper;
         this.shadowSize = entity.getWidth();
         try

@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -111,7 +112,9 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
                 final CompoundNBT pokecubeTag = visualsTag.getCompound(TagNames.POKECUBE);
                 this.setPokecube(ItemStack.read(pokecubeTag));
             }
-            this.setCustomTexDetails(visualsTag.getString(TagNames.MALETEX), visualsTag.getString(TagNames.FEMALETEX));
+            this.setCustomTexDetails(visualsTag.getString(TagNames.TEX));
+            if (visualsTag.contains(TagNames.MODEL)) this.setCustomModel(new ResourceLocation(visualsTag.getString(
+                    TagNames.MODEL)));
         }
 
         // Read AI
@@ -218,8 +221,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         // This is still written for pokecubes to read from. Actual form is
         // stored in genes.
         visualsTag.putString(TagNames.FORME, this.getPokedexEntry().getTrimmedName());
-        visualsTag.putString(TagNames.MALETEX, this.getMaleCustomTex());
-        visualsTag.putString(TagNames.FEMALETEX, this.getFemaleCustomTex());
+        visualsTag.putString(TagNames.TEX, this.getCustomTex());
+        if (this.getCustomModel() != null) visualsTag.putString(TagNames.MODEL, this.getCustomModel().toString());
         visualsTag.putInt(TagNames.SPECIALTAG, this.dataSync().get(this.params.DYECOLOUR));
         final int[] flavourAmounts = new int[5];
         for (int i = 0; i < flavourAmounts.length; i++)

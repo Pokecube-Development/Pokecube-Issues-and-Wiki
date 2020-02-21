@@ -12,9 +12,9 @@ import pokecube.core.interfaces.IPokemob;
 
 public abstract class PokemobSided extends PokemobBase
 {
-    private final Map<ResourceLocation, ResourceLocation> shinyTexs    = Maps.newHashMap();
-    private String                                        maleCustom   = "";
-    private String                                        femaleCustom = "";
+    private final Map<ResourceLocation, ResourceLocation> shinyTexs   = Maps.newHashMap();
+    private String                                        customTex   = "";
+    private ResourceLocation                              customModel = null;
 
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -56,7 +56,7 @@ public abstract class PokemobSided extends PokemobBase
             String path = this.getPokedexEntry().texturePath + texture.getPath();
             if (path.endsWith(".png")) path = path.substring(0, path.length() - 4);
             final int index = this.getSexe() == IPokemob.FEMALE && this.entry.textureDetails[1] != null ? 1 : 0;
-            final String custom = this.getSexe() == IPokemob.FEMALE ? this.femaleCustom : this.maleCustom;
+            final String custom = this.customTex;
             final int effects = this.entry.textureDetails[index].length;
             final int texIndex = this.getEntity().ticksExisted % effects * 3 / effects;
             path = path + this.entry.textureDetails[index][texIndex] + custom + ".png";
@@ -76,21 +76,26 @@ public abstract class PokemobSided extends PokemobBase
     }
 
     @Override
-    public void setCustomTexDetails(final String male, final String female)
+    public void setCustomTexDetails(final String texture)
     {
-        this.maleCustom = male;
-        this.femaleCustom = female;
+        this.customTex = texture;
     }
 
     @Override
-    public String getMaleCustomTex()
+    public String getCustomTex()
     {
-        return this.maleCustom;
+        return this.customTex;
     }
 
     @Override
-    public String getFemaleCustomTex()
+    public void setCustomModel(final ResourceLocation customModel)
     {
-        return this.femaleCustom;
+        this.customModel = customModel;
+    }
+
+    @Override
+    public ResourceLocation getCustomModel()
+    {
+        return this.customModel;
     }
 }
