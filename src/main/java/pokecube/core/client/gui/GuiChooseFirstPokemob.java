@@ -238,8 +238,8 @@ public class GuiChooseFirstPokemob extends Screen
         GL11.glPopMatrix();
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.renderItem(n + 00, m + 75, 40);
         this.renderMob();
+        this.renderItem(n + 00, m + 75, 40);
 
         GL11.glPopMatrix();
     }
@@ -319,15 +319,15 @@ public class GuiChooseFirstPokemob extends Screen
 
             if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
             //@formatter:off
-            final int dx = -50;
-            final int dy = 0;
-            final float size = 2;
+            final int dx =-50 + (width - this.xSize)/2;
+            final int dy = 50+(height - this.ySize)/2;
+            final float size = 7;
             final float yaw =  Util.milliTime() / 20;
             final float hx = 0;
             final float hy = yaw;
             //@formatter:on
             GL11.glPushMatrix();
-            GL11.glTranslated(0, 0, 40);
+            GL11.glTranslated(0, 0, 100);
             GuiPokemobBase.renderMob(entity, dx, dy, 0, yaw, hx, hy, size);
             GL11.glPopMatrix();
         }

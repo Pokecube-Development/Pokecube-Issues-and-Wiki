@@ -392,6 +392,26 @@ public class AnimationGui extends Screen
     public boolean keyPressed(final int code, final int unk1, final int unk2)
     {
         if (code == GLFW.GLFW_KEY_ENTER) this.onUpdated();
+        if(code== GLFW.GLFW_KEY_RIGHT)
+        {
+            final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
+            if (num != AnimationGui.entry) AnimationGui.entry = num;
+            else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
+            AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+            this.forme.setText(AnimationGui.mob);
+            PacketPokedex.updateWatchEntry(AnimationGui.entry);
+            this.onUpdated();
+        }
+        if(code== GLFW.GLFW_KEY_LEFT)
+        {
+            final PokedexEntry num = Pokedex.getInstance().getPrevious(AnimationGui.entry, 1);
+            if (num != AnimationGui.entry) AnimationGui.entry = num;
+            else AnimationGui.entry = Pokedex.getInstance().getLastEntry();
+            AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+            PacketPokedex.updateWatchEntry(AnimationGui.entry);
+            this.forme.setText(AnimationGui.mob);
+            this.onUpdated();
+        }
         return super.keyPressed(code, unk1, unk2);
     }
 
