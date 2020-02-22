@@ -69,6 +69,7 @@ public interface TagNames
     public static final String DYNAPOWER    = "dynamaxPower";
     public static final String TEX          = "tex";
     public static final String MODEL        = "model";
+    public static final String ANIM         = "anim";
 
     public static final String AIROUTINES = "aiRoutines";
     public static final String HUNGER     = "hunger";

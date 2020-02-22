@@ -115,6 +115,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.setCustomTexDetails(visualsTag.getString(TagNames.TEX));
             if (visualsTag.contains(TagNames.MODEL)) this.setCustomModel(new ResourceLocation(visualsTag.getString(
                     TagNames.MODEL)));
+            if (visualsTag.contains(TagNames.ANIM)) this.setCustomAnims(new ResourceLocation(visualsTag.getString(
+                    TagNames.ANIM)));
         }
 
         // Read AI
@@ -223,6 +225,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         visualsTag.putString(TagNames.FORME, this.getPokedexEntry().getTrimmedName());
         visualsTag.putString(TagNames.TEX, this.getCustomTex());
         if (this.getCustomModel() != null) visualsTag.putString(TagNames.MODEL, this.getCustomModel().toString());
+        if (this.getCustomAnims() != null) visualsTag.putString(TagNames.ANIM, this.getCustomAnims().toString());
         visualsTag.putInt(TagNames.SPECIALTAG, this.dataSync().get(this.params.DYECOLOUR));
         final int[] flavourAmounts = new int[5];
         for (int i = 0; i < flavourAmounts.length; i++)

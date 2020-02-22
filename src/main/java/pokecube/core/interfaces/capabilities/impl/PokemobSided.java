@@ -15,6 +15,7 @@ public abstract class PokemobSided extends PokemobBase
     private final Map<ResourceLocation, ResourceLocation> shinyTexs   = Maps.newHashMap();
     private String                                        customTex   = "";
     private ResourceLocation                              customModel = null;
+    private ResourceLocation                              customAnims = null;
 
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -97,5 +98,17 @@ public abstract class PokemobSided extends PokemobBase
     public ResourceLocation getCustomModel()
     {
         return this.customModel;
+    }
+
+    @Override
+    public void setCustomAnims(final ResourceLocation customAnims)
+    {
+        this.customAnims = customAnims;
+    }
+
+    @Override
+    public ResourceLocation getCustomAnims()
+    {
+        return this.customAnims;
     }
 }
