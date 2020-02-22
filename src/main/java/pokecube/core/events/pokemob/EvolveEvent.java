@@ -2,6 +2,7 @@ package pokecube.core.events.pokemob;
 
 import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.interfaces.IPokemob;
 
 /**
@@ -18,7 +19,7 @@ public class EvolveEvent extends LevelUpEvent
          * @param mob
          *            - the result of the evolution.
          */
-        public Post(IPokemob mob)
+        public Post(final IPokemob mob)
         {
             super(mob);
         }
@@ -28,7 +29,8 @@ public class EvolveEvent extends LevelUpEvent
     @Cancelable
     public static class Pre extends EvolveEvent
     {
-        public PokedexEntry forme;
+        public PokedexEntry  forme;
+        public EvolutionData evol_info;
 
         /**
          * @param mob
@@ -36,14 +38,15 @@ public class EvolveEvent extends LevelUpEvent
          * @param evolvingTo
          *            - the mob to be evolved to.
          */
-        public Pre(IPokemob mob, PokedexEntry evolvingTo)
+        public Pre(final IPokemob mob, final PokedexEntry evolvingTo, final EvolutionData evolInfo)
         {
             super(mob);
             this.forme = evolvingTo;
+            this.evol_info = evolInfo;
         }
     }
 
-    public EvolveEvent(IPokemob mob)
+    public EvolveEvent(final IPokemob mob)
     {
         super(mob, mob.getLevel(), mob.getLevel());
     }

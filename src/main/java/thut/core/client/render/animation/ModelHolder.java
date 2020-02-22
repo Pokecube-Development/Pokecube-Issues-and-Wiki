@@ -12,6 +12,7 @@ public class ModelHolder
     public ResourceLocation       texture;
     public ResourceLocation       animation;
     public List<ResourceLocation> backupAnimations = Lists.newArrayList();
+    public List<ResourceLocation> backupModels     = Lists.newArrayList();
     public String                 name;
     // This is set by the model factory.
     public String extension = "";

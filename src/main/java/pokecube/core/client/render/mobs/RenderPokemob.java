@@ -125,16 +125,19 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             if (Database.dummyMap.containsKey(entry.getPokedexNb()))
             {
                 final PokedexEntry dummy = Database.dummyMap.get(entry.getPokedexNb());
-                final String newRes = entry.animation().toString().replace(entry.getTrimmedName(), dummy
-                        .getTrimmedName());
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(), dummy.getTrimmedName());
                 this.backupAnimations.add(new ResourceLocation(newRes));
+                newRes = entry.model().toString().replace(entry.getTrimmedName(), dummy.getTrimmedName());
+                this.backupModels.add(new ResourceLocation(newRes));
             }
             if (entry.getBaseForme() != null)
             {
-
-                final String newRes = entry.animation().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
                         .getTrimmedName());
                 this.backupAnimations.add(new ResourceLocation(newRes));
+                newRes = entry.model().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
+                        .getTrimmedName());
+                this.backupModels.add(new ResourceLocation(newRes));
             }
         }
 
@@ -502,10 +505,10 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                 temp = new Holder(pokemob.getPokedexEntry());
                 temp.model = model;
                 if (pokemob.getCustomAnims() != null) temp.animation = pokemob.getCustomAnims();
-                holder = temp;
                 this.customs.put(model, holder);
                 holder.init();
             }
+            holder = temp;
         }
 
         if (holder.wrapper == null) holder.init();
