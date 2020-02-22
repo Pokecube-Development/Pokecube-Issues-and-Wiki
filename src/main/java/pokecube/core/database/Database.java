@@ -338,10 +338,10 @@ public class Database
     {
         final PokedexEntry ret = null;
         if (name == null) return null;
+        name = ThutCore.trim(name);
         if (name.trim().isEmpty()) return null;
         final PokedexEntry test = Database.data2.get(name);
         if (test != null) return test;
-        name = ThutCore.trim(name);
         final List<PokedexEntry> toProcess = Lists.newArrayList(Database.allFormes);
         toProcess.sort(Database.COMPARATOR);
         final String name2 = Database.trim_loose(name);
