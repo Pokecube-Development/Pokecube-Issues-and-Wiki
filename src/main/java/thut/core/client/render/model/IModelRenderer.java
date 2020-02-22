@@ -71,7 +71,10 @@ public interface IModelRenderer<T extends MobEntity>
 
     static final Vector3       DEFAULTSCALE = Vector3.getNewVector().set(1);
 
-    void doRender(T entity, double d, double d1, double d2, float f, float partialTick);
+    default void doRender(T entity, double d, double d1, double d2, float f, float partialTick)
+    {
+
+    }
 
     default String getAnimation(final Entity entityIn)
     {

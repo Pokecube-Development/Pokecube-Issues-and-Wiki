@@ -11,6 +11,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderState.TransparencyState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -21,21 +22,23 @@ import pokecube.core.utils.PokeType;
 
 public class Evolution
 {
-    private static final float      sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    private static final RenderType EFFECT  = RenderType.get("pokemob:evo_effect", DefaultVertexFormats.POSITION_COLOR,
-            7, 256, false, true, RenderType.State.builder().writeMask(new RenderState.WriteMaskState(true, false))
-                    .transparency(new RenderState.TransparencyState("lightning_transparency", () ->
-                                                            {
-                                                                RenderSystem.enableBlend();
-                                                                RenderSystem.blendFunc(
-                                                                        GlStateManager.SourceFactor.SRC_ALPHA,
-                                                                        GlStateManager.DestFactor.ONE);
-                                                            },
-                            () ->
-                            {
-                                RenderSystem.disableBlend();
-                                RenderSystem.defaultBlendFunc();
-                            }))
+    private static final TransparencyState TRANSP  = new RenderState.TransparencyState("lightning_transparency", 
+            () ->
+            {
+                RenderSystem.enableBlend();
+                RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
+                       GlStateManager.DestFactor.ONE);
+            },
+            () ->
+            {
+                RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
+            });
+
+    private static final float             sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
+    private static final RenderType        EFFECT  = RenderType.get("pokemob:evo_effect",
+            DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true,
+            RenderType.State.builder().writeMask(new RenderState.WriteMaskState(true, false)).transparency(TRANSP)
                     .shadeModel(new RenderState.ShadeModelState(true)).build(false));
 
     public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,

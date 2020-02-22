@@ -151,12 +151,6 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         }
 
         @Override
-        public void doRender(final TameableEntity entity, final double d, final double d1, final double d2,
-                final float f, final float partialTick)
-        {
-        }
-
-        @Override
         public String getAnimation(final Entity entityIn)
         {
             if (this.overrideAnim) return this.anim;
