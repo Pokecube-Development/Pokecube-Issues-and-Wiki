@@ -382,13 +382,6 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         }
 
         @Override
-        public void renderStatus(final GenericPokemob entity, final double d, final double d1, final double d2,
-                final float f, final float partialTick)
-        {
-
-        }
-
-        @Override
         public void scaleEntity(final Entity entity, final IModel model, final float partialTick)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);

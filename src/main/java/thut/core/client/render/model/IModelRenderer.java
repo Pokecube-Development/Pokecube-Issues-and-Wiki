@@ -101,8 +101,6 @@ public interface IModelRenderer<T extends MobEntity>
 
     boolean hasAnimation(String phase, Entity entity);
 
-    void renderStatus(T entity, double d, double d1, double d2, float f, float partialTick);
-
     void scaleEntity(Entity entity, IModel model, float partialTick);
 
     default void setAnimation(final String phase, final Entity entity, final float partialTick)
