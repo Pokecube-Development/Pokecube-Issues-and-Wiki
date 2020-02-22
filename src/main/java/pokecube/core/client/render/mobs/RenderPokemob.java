@@ -134,16 +134,19 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             if (Database.dummyMap.containsKey(entry.getPokedexNb()))
             {
                 final PokedexEntry dummy = Database.dummyMap.get(entry.getPokedexNb());
-                final String newRes = entry.animation().toString().replace(entry.getTrimmedName(), dummy
-                        .getTrimmedName());
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(), dummy.getTrimmedName());
                 this.backupAnimations.add(new ResourceLocation(newRes));
+                newRes = entry.model().toString().replace(entry.getTrimmedName(), dummy.getTrimmedName());
+                this.backupModels.add(new ResourceLocation(newRes));
             }
             if (entry.getBaseForme() != null)
             {
-
-                final String newRes = entry.animation().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
                         .getTrimmedName());
                 this.backupAnimations.add(new ResourceLocation(newRes));
+                newRes = entry.model().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
+                        .getTrimmedName());
+                this.backupModels.add(new ResourceLocation(newRes));
             }
         }
 

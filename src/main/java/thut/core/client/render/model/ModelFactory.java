@@ -31,9 +31,9 @@ public class ModelFactory
         ModelFactory.registerIModel("obj", ObjModel::new);
     }
 
-    public static IModel create(final ModelHolder model)
+    public static IModel create(final ResourceLocation location, final ModelHolder model)
     {
-        final String path = model.model.getPath();
+        final String path = location.getPath();
         String ext = path.contains(".") ? path.substring(path.lastIndexOf(".") + 1, path.length()) : "";
         if (ext.isEmpty())
         {
@@ -41,17 +41,17 @@ public class ModelFactory
             for (final String ext1 : ModelFactory.knownExtension)
             {
                 final IFactory<?> factory = ModelFactory.modelFactories.get(ext1);
-                final ResourceLocation model1 = new ResourceLocation(model.model.getNamespace(), path + "." + ext1);
+                final ResourceLocation model1 = new ResourceLocation(location.getNamespace(), path + "." + ext1);
                 ThutCore.LOGGER.debug("Checking " + model1);
                 ret = factory.create(model1);
                 ext = ext1;
                 if (ret != null && ret.isValid()) break;
             }
             if (ret == null) ret = new X3dModel();
-            if (!ret.isValid()) ThutCore.LOGGER.error("No Model found for " + model.model);
+            if (!ret.isValid()) ThutCore.LOGGER.error("No Model found for " + location);
             else
             {
-                ThutCore.LOGGER.debug("Successfully loaded model for " + model.model);
+                ThutCore.LOGGER.debug("Successfully loaded model for " + location);
                 model.extension = ext;
             }
             return ret;
@@ -60,8 +60,19 @@ public class ModelFactory
         {
             final IFactory<?> factory = ModelFactory.modelFactories.get(ext);
             model.extension = ext;
-            return factory.create(model.model);
+            return factory.create(location);
         }
+    }
+
+    public static IModel create(final ModelHolder model)
+    {
+        IModel made = ModelFactory.create(model.model, model);
+        if (!made.isValid()) for (final ResourceLocation loc : model.backupModels)
+        {
+            made = ModelFactory.create(loc, model);
+            if (!made.isValid()) return made;
+        }
+        return made;
     }
 
     public static Set<String> getValidExtensions()

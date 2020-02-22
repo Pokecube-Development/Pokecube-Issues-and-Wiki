@@ -121,6 +121,38 @@ public class PokedexEntryLoader
         public String    sexe;
         public String    move;
         public Float     chance;
+
+        // These three allow specific models/textures for evos
+        public String tex   = null;
+        public String model = null;
+        public String anim  = null;
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (super.equals(obj)) return true;
+            if (obj instanceof Evolution)
+            {
+                for (final Field f : this.getClass().getFields())
+                    try
+                    {
+                        final Object ours = f.get(this);
+                        final Object theirs = f.get(obj);
+                        if (ours != null && !ours.equals(theirs)) return false;
+                        if (theirs != null && !theirs.equals(ours)) return false;
+                        if (ours == null && theirs != null) return false;
+                        if (theirs == null && ours != null) return false;
+                    }
+                    catch (final Exception e)
+                    {
+                        e.printStackTrace();
+                        return false;
+                    }
+                return true;
+            }
+
+            return super.equals(obj);
+        }
     }
 
     public static class Interact
@@ -946,32 +978,37 @@ public class PokedexEntryLoader
             }
         }
         if (xmlStats.evolutions != null && !xmlStats.evolutions.isEmpty())
+        {
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Proccessing Evos for " + entry.getName());
             for (final Evolution evol : xmlStats.evolutions)
             {
-            final String name = evol.name;
-            final PokedexEntry evolEntry = Database.getEntry(name);
-            EvolutionData data = null;
-            for (final EvolutionData d : entry.evolutions)
-            if (d.evolution == evolEntry)
-            {
-            data = d;
-            if (evol.clear != null && evol.clear)
-            {
-            entry.evolutions.remove(d);
-            PokecubeCore.LOGGER.info("Replacing evolution for " + entry + " -> " + evolEntry);
+                final String name = evol.name;
+                final PokedexEntry evolEntry = Database.getEntry(name);
+                EvolutionData data = null;
+                // check for specific clearing info for this entry.
+                for (final EvolutionData d : entry.evolutions)
+                    if (d.evolution == evolEntry)
+                    {
+                        data = d;
+                        if (evol.clear != null && evol.clear)
+                        {
+                            entry.evolutions.remove(d);
+                            PokecubeCore.LOGGER.info("Replacing evolution for " + entry + " -> " + evolEntry);
+                        }
+                        break;
+                    }
+                if (data == null || evol.clear != null && evol.clear)
+                {
+                    data = new EvolutionData(evolEntry);
+                    data.data = evol;
+                    data.preEvolution = entry;
+                    // Skip any exactly duplicated entires.
+                    for (final EvolutionData existing : entry.evolutions)
+                        if (existing.data.equals(existing)) break;
+                    entry.addEvolution(data);
+                }
             }
-            break;
-            }
-            if (data == null || evol.clear != null && evol.clear)
-            {
-            data = new EvolutionData(evolEntry);
-            data.data = evol;
-            data.preEvolution = entry;
-            for (final EvolutionData existing : entry.evolutions)
-            if (existing.evolution == evolEntry) break;
-            entry.addEvolution(data);
-            }
-            }
+        }
     }
 
     /**

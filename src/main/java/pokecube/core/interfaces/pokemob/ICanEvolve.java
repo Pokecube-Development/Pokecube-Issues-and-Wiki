@@ -277,7 +277,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (evol != null)
             {
                 // Send evolve event.
-                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol);
+                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
                 PokecubeCore.POKEMOB_BUS.post(evt);
                 if (evt.isCanceled()) return null;
                 // change to new forme.
@@ -287,6 +287,10 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Init things like moves.
                 evo.getMoveStats().oldLevel = data.level - 1;
                 evo.levelUp(evo.getLevel());
+
+                if (data.data.tex != null) evo.setCustomTexDetails(data.data.tex);
+                if (data.data.model != null) evo.setCustomModel(new ResourceLocation(data.data.model));
+                if (data.data.anim != null) evo.setCustomAnims(new ResourceLocation(data.data.anim));
 
                 // Learn evolution moves and update ability.
                 for (final String s : evo.getPokedexEntry().getEvolutionMoves())
@@ -318,7 +322,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
             if (evol != null)
             {
-                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol);
+                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
                 MinecraftForge.EVENT_BUS.post(evt);
                 if (evt.isCanceled()) return null;
                 if (delayed)
@@ -347,6 +351,10 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     if (delayed) evo.getMoveStats().oldLevel = evo.getLevel() - 1;
                     else if (data != null) evo.getMoveStats().oldLevel = data.level - 1;
                     evo.levelUp(evo.getLevel());
+
+                    if (data.data.tex != null) evo.setCustomTexDetails(data.data.tex);
+                    if (data.data.model != null) evo.setCustomModel(new ResourceLocation(data.data.model));
+                    if (data.data.anim != null) evo.setCustomAnims(new ResourceLocation(data.data.anim));
 
                     // Don't immediately try evolving again, only wild ones
                     // should do that.

@@ -90,8 +90,8 @@ public class PacketChangeForme extends Packet
         if (reason == MaxTile.MAXSPOT)
         {
             boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
-            PokedexEntry newEntry = entry.getBaseForme() != null ? entry.getBaseForme() : entry;
             final boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX) || entry.isMega;
+            PokedexEntry newEntry = entry.isMega ? entry.getBaseForme() : entry;
 
             if (gigant && !isDyna)
             {
