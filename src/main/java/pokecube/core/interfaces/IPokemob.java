@@ -23,6 +23,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.IHasCommands;
 import pokecube.core.interfaces.pokemob.IHasMobAIStates;
@@ -403,7 +404,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      * Called when the mob spawns naturally. Used to set held item for
      * example.
      */
-    IPokemob spawnInit();
+    default IPokemob spawnInit()
+    {
+        return this.spawnInit(null);
+    }
+
+    IPokemob spawnInit(SpawnRule info);
 
     default boolean swims()
     {
