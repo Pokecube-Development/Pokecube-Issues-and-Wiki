@@ -12,7 +12,10 @@ import pokecube.core.interfaces.IPokemob;
 
 public abstract class PokemobSided extends PokemobBase
 {
-    private final Map<ResourceLocation, ResourceLocation> shinyTexs = Maps.newHashMap();
+    private final Map<ResourceLocation, ResourceLocation> shinyTexs   = Maps.newHashMap();
+    private String                                        customTex   = "";
+    private ResourceLocation                              customModel = null;
+    private ResourceLocation                              customAnims = null;
 
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -54,9 +57,10 @@ public abstract class PokemobSided extends PokemobBase
             String path = this.getPokedexEntry().texturePath + texture.getPath();
             if (path.endsWith(".png")) path = path.substring(0, path.length() - 4);
             final int index = this.getSexe() == IPokemob.FEMALE && this.entry.textureDetails[1] != null ? 1 : 0;
+            final String custom = this.customTex;
             final int effects = this.entry.textureDetails[index].length;
             final int texIndex = this.getEntity().ticksExisted % effects * 3 / effects;
-            path = path + this.entry.textureDetails[index][texIndex] + ".png";
+            path = path + this.entry.textureDetails[index][texIndex] + custom + ".png";
             texture = new ResourceLocation(texture.getNamespace(), path);
         }
         if (this.isShiny()) if (!this.shinyTexs.containsKey(texture))
@@ -70,5 +74,41 @@ public abstract class PokemobSided extends PokemobBase
         }
         else texture = this.shinyTexs.get(texture);
         return texture;
+    }
+
+    @Override
+    public void setCustomTexDetails(final String texture)
+    {
+        this.customTex = texture;
+    }
+
+    @Override
+    public String getCustomTex()
+    {
+        return this.customTex;
+    }
+
+    @Override
+    public void setCustomModel(final ResourceLocation customModel)
+    {
+        this.customModel = customModel;
+    }
+
+    @Override
+    public ResourceLocation getCustomModel()
+    {
+        return this.customModel;
+    }
+
+    @Override
+    public void setCustomAnims(final ResourceLocation customAnims)
+    {
+        this.customAnims = customAnims;
+    }
+
+    @Override
+    public ResourceLocation getCustomAnims()
+    {
+        return this.customAnims;
     }
 }

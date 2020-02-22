@@ -52,15 +52,11 @@ public class Breeding extends ListPage<LineEntry>
         final int height = this.font.FONT_HEIGHT * 12;
         int width = 135;
 
-        int y0 = offsetY;
-        int y1 = offsetY + height;
         final int colour = 0xFFFFFFFF;
 
         width = 111;
         final int dx = 25;
         final int dy = -57;
-        y0 += dy;
-        y1 += dy;
         offsetY += dy;
         offsetX += dx;
 

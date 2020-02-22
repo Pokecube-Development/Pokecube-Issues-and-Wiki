@@ -27,16 +27,35 @@ public class BerryCrop extends CropsBlock
     }
 
     @Override
-    public void grow(final World worldIn, final Random rand, BlockPos pos, final BlockState state)
+    public void tick(final BlockState state, final World worldIn, final BlockPos pos, final Random random)
+    {
+        super.tick(state, worldIn, pos, random);
+        if (!worldIn.isAreaLoaded(pos, 1)) return;
+        final int age = this.getAge(state);
+        if (age >= 6)
+        {
+            worldIn.setBlockState(pos, this.withAge(7), 2);
+            final TreeGrower grower = BerryGenManager.trees.get(this.index);
+            final BlockPos up = pos.up();
+            if (grower != null) grower.growTree(worldIn, pos, this.index);
+            else if (worldIn.isAirBlock(up)) worldIn.setBlockState(up, BerryManager.berryFruits.get(this.index)
+                    .getDefaultState());
+        }
+    }
+
+    @Override
+    public void grow(final World worldIn, final Random rand, final BlockPos pos, final BlockState state)
     {
         super.grow(worldIn, rand, pos, state);
-        final int age = worldIn.getBlockState(pos).get(CropsBlock.AGE);
-        if (age > 6)
+        final int age = this.getAge(state);
+        if (age >= 6)
         {
+            worldIn.setBlockState(pos, this.withAge(7), 2);
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
+            final BlockPos up = pos.up();
             if (grower != null) grower.growTree(worldIn, pos, this.index);
-            else if (worldIn.isAirBlock(pos = pos.up())) worldIn.setBlockState(pos, BerryManager.berryFruits.get(
-                    this.index).getDefaultState());
+            else if (worldIn.isAirBlock(up)) worldIn.setBlockState(up, BerryManager.berryFruits.get(this.index)
+                    .getDefaultState());
         }
     }
 }

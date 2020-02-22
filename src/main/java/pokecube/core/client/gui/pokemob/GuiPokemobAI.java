@@ -77,6 +77,7 @@ public class GuiPokemobAI extends GuiPokemobBase
         this.playerInventory = inventory;
         this.pokeInventory = this.pokemob.getInventory();
         this.entity = this.pokemob.getEntity();
+        container.setMode(PacketPokemobGui.AI);
     }
 
     @Override
