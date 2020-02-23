@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <X3D>
 	<head>
-		<meta name="filename" content="toxtricityampedgigantamax.x3d" />
+		<meta name="filename" content="toxtricity_gigantamax.x3d" />
 		<meta name="generator" content="Blender 2.79 (sub 0)" />
 	</head>
 	<Scene>
@@ -860,7 +860,7 @@
 				<Transform DEF="arm2_TRANSFORM"
 				           translation="-0.343146 0.025270 0.637045"
 				           scale="1.000000 1.000000 1.000000"
-				           rotation="1.000000 0.000000 0.000000 0.000000"
+				           rotation="-1.000000 0.000000 0.000000 1.570796"
 				           >
 					<Transform DEF="arm2_ifs_TRANSFORM"
 					           translation="0.000000 0.000000 0.000000"
@@ -889,7 +889,7 @@
 					           rotation="1.000000 0.000000 0.000000 0.000000"
 					           >
 						<Transform DEF="arm2_1_ifs_TRANSFORM"
-						           translation="0.000000 0.000000 0.000000"
+						           translation="0.000000 0.000000 -0.000000"
 						           scale="1.000000 1.000000 1.000000"
 						           rotation="1.000000 0.000000 0.000000 0.000000"
 						           >
@@ -910,12 +910,12 @@
 							</Group>
 						</Transform>
 						<Transform DEF="arm2_2_TRANSFORM"
-						           translation="-0.438188 -0.000000 -0.000001"
+						           translation="-0.438188 0.000000 -0.000001"
 						           scale="1.000000 1.000000 1.000000"
 						           rotation="1.000000 0.000000 0.000000 0.000000"
 						           >
 							<Transform DEF="arm2_2_ifs_TRANSFORM"
-							           translation="0.000000 0.000000 0.000000"
+							           translation="0.000000 0.000000 -0.000000"
 							           scale="1.000000 1.000000 1.000000"
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
@@ -941,7 +941,7 @@
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_051_ifs_TRANSFORM"
-								           translation="0.000000 0.000000 0.000000"
+								           translation="0.000000 -0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -963,12 +963,12 @@
 								</Transform>
 							</Transform>
 							<Transform DEF="hand2_TRANSFORM"
-							           translation="-0.801545 -0.000000 -0.000857"
+							           translation="-0.801545 0.000000 -0.000857"
 							           scale="1.000000 1.000000 1.000000"
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="hand2_ifs_TRANSFORM"
-								           translation="0.000000 0.000000 0.000000"
+								           translation="0.000000 0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -994,7 +994,7 @@
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
 									<Transform DEF="Cube_049_ifs_TRANSFORM"
-									           translation="0.000000 0.000000 0.000000"
+									           translation="0.000000 0.000000 -0.000000"
 									           scale="1.000000 1.000000 1.000000"
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
@@ -1020,9 +1020,9 @@
 									           rotation="0.000000 0.000000 0.000000 0.000000"
 									           >
 										<Transform DEF="Cube_050_ifs_TRANSFORM"
-										           translation="0.000000 0.000000 0.000000"
+										           translation="0.000000 0.000000 -0.000000"
 										           scale="1.000000 1.000000 1.000000"
-										           rotation="1.000000 0.000000 0.000000 0.000000"
+										           rotation="0.000000 0.000000 0.000000 0.000000"
 										           >
 											<Group DEF="group_ME_Cube_020">
 												<Shape>
@@ -1048,7 +1048,7 @@
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
 									<Transform DEF="Cube_047_ifs_TRANSFORM"
-									           translation="0.000000 0.000000 0.000000"
+									           translation="0.000000 0.000000 -0.000000"
 									           scale="1.000000 1.000000 1.000000"
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
@@ -1074,7 +1074,7 @@
 									           rotation="0.000000 0.000000 0.000000 0.000000"
 									           >
 										<Transform DEF="Cube_048_ifs_TRANSFORM"
-										           translation="0.000000 -0.000000 0.000000"
+										           translation="0.000000 0.000000 -0.000000"
 										           scale="1.000000 1.000000 1.000000"
 										           rotation="1.000000 0.000000 0.000000 0.000000"
 										           >
@@ -1123,12 +1123,12 @@
 										</Group>
 									</Transform>
 									<Transform DEF="Cube_046_TRANSFORM"
-									           translation="-0.232557 -0.015444 -0.027241"
+									           translation="-0.232557 -0.015445 -0.027241"
 									           scale="1.000000 1.000000 1.000000"
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
 										<Transform DEF="Cube_046_ifs_TRANSFORM"
-										           translation="0.000000 0.000000 0.000000"
+										           translation="0.000000 0.000000 -0.000000"
 										           scale="1.000000 1.000000 1.000000"
 										           rotation="1.000000 0.000000 0.000000 0.000000"
 										           >
@@ -1152,12 +1152,12 @@
 								</Transform>
 							</Transform>
 							<Transform DEF="Cube_022_TRANSFORM"
-							           translation="-0.705289 0.000000 0.079790"
+							           translation="-0.705289 -0.000000 0.079790"
 							           scale="1.000000 1.000000 1.000000"
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_022_ifs_TRANSFORM"
-								           translation="0.000000 0.000000 0.000000"
+								           translation="0.000000 -0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -1184,7 +1184,7 @@
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_014_ifs_TRANSFORM"
-								           translation="0.000000 0.000000 0.000000"
+								           translation="0.000000 0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -1211,7 +1211,7 @@
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_012_ifs_TRANSFORM"
-								           translation="0.000000 0.000000 0.000000"
+								           translation="0.000000 0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -1238,7 +1238,7 @@
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_011_ifs_TRANSFORM"
-								           translation="0.000000 0.000000 0.000000"
+								           translation="0.000000 0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -1265,7 +1265,7 @@
 				<Transform DEF="arm1_TRANSFORM"
 				           translation="0.343044 0.025270 0.637045"
 				           scale="1.000000 1.000000 1.000000"
-				           rotation="1.000000 0.000000 0.000000 0.000000"
+				           rotation="-1.000000 0.000000 0.000000 1.570796"
 				           >
 					<Transform DEF="arm1_ifs_TRANSFORM"
 					           translation="0.000000 0.000000 0.000000"
@@ -1294,7 +1294,7 @@
 					           rotation="1.000000 0.000000 0.000000 0.000000"
 					           >
 						<Transform DEF="arm1_1_ifs_TRANSFORM"
-						           translation="0.000000 0.000000 0.000000"
+						           translation="0.000000 0.000000 -0.000000"
 						           scale="1.000000 1.000000 1.000000"
 						           rotation="1.000000 0.000000 0.000000 0.000000"
 						           >
@@ -1315,12 +1315,12 @@
 							</Group>
 						</Transform>
 						<Transform DEF="arm1_2_TRANSFORM"
-						           translation="0.438188 -0.000000 -0.000001"
+						           translation="0.438188 0.000000 -0.000001"
 						           scale="1.000000 1.000000 1.000000"
 						           rotation="1.000000 0.000000 0.000000 0.000000"
 						           >
 							<Transform DEF="arm1_2_ifs_TRANSFORM"
-							           translation="0.000000 0.000000 0.000000"
+							           translation="0.000000 0.000000 -0.000000"
 							           scale="1.000000 1.000000 1.000000"
 							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
@@ -1343,7 +1343,7 @@
 							<Transform DEF="Cube_044_TRANSFORM"
 							           translation="0.705289 -0.086109 -0.006318"
 							           scale="1.000000 1.000000 1.000000"
-							           rotation="0.000000 0.000000 0.000000 0.000000"
+							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_044_ifs_TRANSFORM"
 								           translation="0.000000 0.000000 0.000000"
@@ -1370,7 +1370,7 @@
 							<Transform DEF="Cube_043_TRANSFORM"
 							           translation="0.705289 0.086109 -0.006318"
 							           scale="1.000000 1.000000 1.000000"
-							           rotation="0.000000 0.000000 0.000000 0.000000"
+							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_043_ifs_TRANSFORM"
 								           translation="0.000000 0.000000 0.000000"
@@ -1397,10 +1397,10 @@
 							<Transform DEF="Cube_042_TRANSFORM"
 							           translation="0.705289 0.000000 -0.092427"
 							           scale="1.000000 1.000000 1.000000"
-							           rotation="0.000000 0.000000 0.000000 0.000000"
+							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_042_ifs_TRANSFORM"
-								           translation="0.000000 -0.000000 0.000000"
+								           translation="0.000000 0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -1422,12 +1422,12 @@
 								</Transform>
 							</Transform>
 							<Transform DEF="Cube_037_TRANSFORM"
-							           translation="0.705289 0.000000 0.079790"
+							           translation="0.705289 -0.000000 0.079790"
 							           scale="1.000000 1.000000 1.000000"
-							           rotation="0.000000 0.000000 0.000000 0.000000"
+							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_037_ifs_TRANSFORM"
-								           translation="0.000000 0.000000 0.000000"
+								           translation="0.000000 -0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -1449,12 +1449,12 @@
 								</Transform>
 							</Transform>
 							<Transform DEF="hand1_TRANSFORM"
-							           translation="0.801545 -0.000000 -0.000857"
+							           translation="0.801545 0.000000 -0.000857"
 							           scale="1.000000 1.000000 1.000000"
-							           rotation="0.000000 0.000000 0.000000 0.000000"
+							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="hand1_ifs_TRANSFORM"
-								           translation="0.000000 -0.000000 0.000000"
+								           translation="0.000000 0.000000 0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
@@ -1480,7 +1480,7 @@
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
 									<Transform DEF="Cube_035_ifs_TRANSFORM"
-									           translation="0.000000 0.000000 0.000000"
+									           translation="0.000000 0.000000 -0.000000"
 									           scale="1.000000 1.000000 1.000000"
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
@@ -1506,7 +1506,7 @@
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
 										<Transform DEF="Cube_036_ifs_TRANSFORM"
-										           translation="0.000000 0.000000 0.000000"
+										           translation="0.000000 0.000000 -0.000000"
 										           scale="1.000000 1.000000 1.000000"
 										           rotation="1.000000 0.000000 0.000000 0.000000"
 										           >
@@ -1534,7 +1534,7 @@
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
 									<Transform DEF="Cube_017_ifs_TRANSFORM"
-									           translation="0.000000 0.000000 0.000000"
+									           translation="0.000000 0.000000 -0.000000"
 									           scale="1.000000 1.000000 1.000000"
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
@@ -1560,7 +1560,7 @@
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
 										<Transform DEF="Cube_018_ifs_TRANSFORM"
-										           translation="0.000000 0.000000 0.000000"
+										           translation="0.000000 0.000000 -0.000000"
 										           scale="1.000000 1.000000 1.000000"
 										           rotation="1.000000 0.000000 0.000000 0.000000"
 										           >
@@ -1588,7 +1588,7 @@
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
 									<Transform DEF="Cube_015_ifs_TRANSFORM"
-									           translation="0.000000 0.000000 0.000000"
+									           translation="0.000000 0.000000 -0.000000"
 									           scale="1.000000 1.000000 1.000000"
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
@@ -1614,7 +1614,7 @@
 									           rotation="1.000000 0.000000 0.000000 0.000000"
 									           >
 										<Transform DEF="Cube_016_ifs_TRANSFORM"
-										           translation="0.000000 0.000000 0.000000"
+										           translation="0.000000 0.000000 -0.000000"
 										           scale="1.000000 1.000000 1.000000"
 										           rotation="1.000000 0.000000 0.000000 0.000000"
 										           >
@@ -1640,10 +1640,10 @@
 							<Transform DEF="Cube_013_TRANSFORM"
 							           translation="0.567716 -0.000000 0.001389"
 							           scale="1.000000 1.000000 1.000000"
-							           rotation="0.000000 0.000000 0.000000 0.000000"
+							           rotation="1.000000 0.000000 0.000000 0.000000"
 							           >
 								<Transform DEF="Cube_013_ifs_TRANSFORM"
-								           translation="0.000000 -0.000000 0.000000"
+								           translation="0.000000 -0.000000 -0.000000"
 								           scale="1.000000 1.000000 1.000000"
 								           rotation="1.000000 0.000000 0.000000 0.000000"
 								           >
