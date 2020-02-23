@@ -10732,14 +10732,106 @@
           }
         ],
         "species": "Artiodactyla",
-        "foodMat": "grass"
+        "foodMat": "grass",
+		"interactions": [
+          {
+            "cooldown": 800,
+            "baseHunger": 250,
+            "key": {
+              "values": {
+                "d": "32767",
+                "id": "minecraft:shears"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:wool",
+                    "n": "2"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "male": false,
+            "key": {
+              "values": {
+                "id": "minecraft:bucket"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:milk_bucket",
+                    "n": "1"
+                  }
+                }
+              ]
+            }
+          }
+        ]
       }
     },
 	{
       "name": "Dubwool",
       "stats": {
         "species": "Artiodactyla",
-		"foodMat": "grass"
+		"foodMat": "grass",
+		"interactions": [
+          {
+            "cooldown": 800,
+            "baseHunger": 250,
+            "key": {
+              "values": {
+                "d": "32767",
+                "id": "minecraft:shears"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:wool",
+                    "n": "2"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "male": false,
+            "key": {
+              "values": {
+                "id": "minecraft:bucket"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:milk_bucket",
+                    "n": "1"
+                  }
+                }
+              ]
+            }
+          }
+        ]
       }
 	},
 	{

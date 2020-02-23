@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" scale="0.2"/>
+  <phase duration="10" leftFront="LeftArm" leftHind="LeftLeg" name="quadWalk" rightFront="RightArm" rightHind="RightLeg"/>
+  <metadata dye="WoolHead:WoolBody" head="Head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" shear="wool"/>
+  <customTex default="wooloo">
+  <part name="Head" tex="woolooeye"/>
+  <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
+  <part name="Mouth" tex="wooloom"/>
+  <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:10"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="Body">
+    <component length="1" name="1" posOffset="0,7,0," startKey="0"/>
+   </part>
+   <part name="LeftEar">
+    <component length="10" name="1" rotChange="0,0,5" rotOffset="0,0,-8" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="RightEar">
+    <component length="10" name="1" rotChange="0,0,-5" rotOffset="0,0,8" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Hair1Left">
+    <component length="12" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="Hair2Left">
+    <component length="12" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="Hair3Left">
+    <component length="12" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="Hair1Right">
+    <component length="12" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Hair2Right">
+    <component length="12" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Hair3Right">
+    <component length="12" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Tail">
+    <component length="1" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+   <part name="RightLeg">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="RightArm">
+    <component length="1" name="1"  hidden="true" startKey="0"/>
+   </part>
+   <part name="LeftArm">
+    <component length="1" name="1"  hidden="true" startKey="0"/>
+   </part>
+   <part name="LeftLeg">
+    <component length="1" name="1"  hidden="true" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="Body">
+    <component length="20" name="1" rotChange="0,0,1" startKey="0"/>
+    <component length="20" name="2" rotChange="0,0,-2" startKey="20"/>
+	<component length="20" name="3" rotChange="0,0,1" startKey="30"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="0,-10,0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="0,10,0," startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" rotOffset="0,10,0," startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" rotOffset="0,-10,0," startKey="0"/>
+   </part>
+   <part name="LeftEar">
+    <component length="10" name="1" rotChange="0,0,5" rotOffset="0,0,-8" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="RightEar">
+    <component length="10" name="1" rotChange="0,0,-5" rotOffset="0,0,8" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Hair1Left">
+    <component length="12" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="Hair2Left">
+    <component length="12" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="Hair3Left">
+    <component length="12" name="1" rotChange="0,0,-5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="Hair1Right">
+    <component length="12" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Hair2Right">
+    <component length="12" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Hair3Right">
+    <component length="12" name="1" rotChange="0,0,5" startKey="0"/>
+    <component length="12" name="2" rotChange="0,0,-10" startKey="5"/>
+	<component length="12" name="3" rotChange="0,0,5" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="Body">
+    <component length="20" name="1" rotChange="1,0,0" startKey="0"/>
+    <component length="20" name="2" rotChange="-2,0,0" startKey="20"/>
+	<component length="20" name="3" rotChange="1,0,0" startKey="30"/>
+   </part>
+   <part name="LeftEar">
+    <component length="10" name="1" rotChange="0,0,5" rotOffset="0,0,-8" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-5" startKey="10"/>
+   </part>
+   <part name="RightEar">
+    <component length="10" name="1" rotChange="0,0,-5" rotOffset="0,0,8" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,5" startKey="10"/>
+   </part>
+   <part name="Hair1Left">
+    <component length="12" name="1" rotChange="-5,0,0" startKey="0"/>
+    <component length="12" name="2" rotChange="10,0,0" startKey="5"/>
+	<component length="12" name="3" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="Hair2Left">
+    <component length="12" name="1" rotChange="-5,0,0" startKey="0"/>
+    <component length="12" name="2" rotChange="10,0,0" startKey="5"/>
+	<component length="12" name="3" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="Hair3Left">
+    <component length="12" name="1" rotChange="-5,0,0" startKey="0"/>
+    <component length="12" name="2" rotChange="10,0,0" startKey="5"/>
+	<component length="12" name="3" rotChange="-5,0,0" startKey="10"/>
+   </part>
+   <part name="Hair1Right">
+    <component length="12" name="1" rotChange="5,0,0" startKey="0"/>
+    <component length="12" name="2" rotChange="-10,0,0" startKey="5"/>
+	<component length="12" name="3" rotChange="5,0,0" startKey="10"/>
+   </part>
+   <part name="Hair2Right">
+    <component length="12" name="1" rotChange="5,0,0" startKey="0"/>
+    <component length="12" name="2" rotChange="-10,0,0" startKey="5"/>
+	<component length="12" name="3" rotChange="5,0,0" startKey="10"/>
+   </part>
+   <part name="Hair3Right">
+    <component length="12" name="1" rotChange="5,0,0" startKey="0"/>
+    <component length="12" name="2" rotChange="-10,0,0" startKey="5"/>
+	<component length="12" name="3" rotChange="5,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>
