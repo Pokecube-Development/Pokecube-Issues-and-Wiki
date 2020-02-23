@@ -97,6 +97,7 @@ public class ItemPokemobEgg extends Item
     public static PokedexEntry getEntry(final ItemStack stack)
     {
         if (stack.isEmpty() || stack.getTag() == null) return null;
+        if (stack.getTag().contains("pokemob")) return Database.getEntry(stack.getTag().getString("pokemob"));
         if (stack.getTag().contains("pokemobNumber")) return Database.getEntry(stack.getTag().getInt("pokemobNumber"));
         genes:
         if (stack.getTag().contains(GeneticsManager.GENES))
@@ -107,6 +108,8 @@ public class ItemPokemobEgg extends Item
             final Alleles gene = eggs.getAlleles().get(GeneticsManager.SPECIESGENE);
             if (gene == null) break genes;
             final SpeciesInfo info = gene.getExpressed().getValue();
+            // Lets cache this for easier lookup.
+            stack.getTag().putString("pokemob", info.entry.getTrimmedName());
             return info.entry;
         }
         return Database.getEntry(stack.getTag().getString("pokemob"));
