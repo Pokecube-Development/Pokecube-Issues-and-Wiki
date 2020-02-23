@@ -22,13 +22,12 @@ import pokecube.core.utils.PokeType;
 
 public class Evolution
 {
-    private static final TransparencyState TRANSP  = new RenderState.TransparencyState("lightning_transparency", 
-            () ->
-            {
-                RenderSystem.enableBlend();
-                RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
-                       GlStateManager.DestFactor.ONE);
-            },
+    private static final TransparencyState TRANSP  = new RenderState.TransparencyState("lightning_transparency", () ->
+                                                   {
+                                                       RenderSystem.enableBlend();
+                                                       RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA,
+                                                               GlStateManager.DestFactor.ONE);
+                                                   },
             () ->
             {
                 RenderSystem.disableBlend();
@@ -96,15 +95,22 @@ public class Evolution
 
             Matrix4f matrix4f = mat.getLast().getPositionMatrix();
             int j = (int) (200 * (1.0F - f7));
-            white_points(ivertexbuilder2, matrix4f, j, col1);
-            transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
-            transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col2);
-            white_points(ivertexbuilder2, matrix4f, j, col2);
-            transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col1);
-            transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col1);
-            white_points(ivertexbuilder2, matrix4f, j, col1);
-            transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col2);
-            transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
+            try
+            {
+                white_points(ivertexbuilder2, matrix4f, j, col1);
+                transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
+                transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col2);
+                white_points(ivertexbuilder2, matrix4f, j, col2);
+                transp_point_b(ivertexbuilder2, matrix4f, f3, f4, col1);
+                transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col1);
+                white_points(ivertexbuilder2, matrix4f, j, col1);
+                transp_point_c(ivertexbuilder2, matrix4f, f3, f4, col2);
+                transp_point_a(ivertexbuilder2, matrix4f, f3, f4, col2);
+            }
+            catch (Exception e)
+            {
+                PokecubeCore.LOGGER.warn("Error drawing evo effect: {}, {}", e.toString(), i);
+            }
         }
         mat.pop();
     }
