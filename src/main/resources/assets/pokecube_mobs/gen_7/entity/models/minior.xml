@@ -13,14 +13,14 @@
     <component length="30" name="4" posChange="0,1,0" startKey="90"/>
    </part>
   </phase>
-  <customTex default="Minior">
-   <forme name="Blue Core Minior" tex="BlueCoreMinior"/>
-   <forme name="Green Core Minior" tex="GreenCoreMinior"/>
-   <forme name="Indigo Core Minior" tex="IndigoCoreMinior"/>
-   <forme name="Orange Core Minior" tex="OrangeCoreMinior"/>
-   <forme name="Red Core Minior" tex="RedCoreMinior"/>
-   <forme name="Violet Core Minior" tex="VioletCoreMinior"/>
-   <forme name="Yellow Core Minior" tex="YellowCoreMinior"/>
+  <customTex default="minior">
+   <forme name="Blue Core Minior" tex="bluecoreminior"/>
+   <forme name="Green Core Minior" tex="greencoreminior"/>
+   <forme name="Indigo Core Minior" tex="indigocoreminior"/>
+   <forme name="Orange Core Minior" tex="orangecoreminior"/>
+   <forme name="Red Core Minior" tex="redcoreminior"/>
+   <forme name="Violet Core Minior" tex="violetcoreminior"/>
+   <forme name="Yellow Core Minior" tex="yellowcoreminior"/>
   </customTex>
  </model>
 </ModelAnimator>
