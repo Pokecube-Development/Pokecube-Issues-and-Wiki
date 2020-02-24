@@ -20,6 +20,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
@@ -48,10 +49,8 @@ public class AIBattle extends AITrainerBase
         if (!this.trainer.getOutMob().getCombatState(CombatStates.ANGRY)) this.trainer.getOutMob().setCombatState(
                 CombatStates.ANGRY, true);
         // check if pokemob's target is same as trainers.
-        if (mobTarget != this.trainer.getTarget() && target == null) // If not,
-                                                                     // set it
-                                                                     // as such.
-            this.trainer.getOutMob().getEntity().setAttackTarget(this.trainer.getTarget());
+        if (mobTarget != this.trainer.getTarget() && target == null) this.trainer.getOutMob().getEntity()
+                .setAttackTarget(this.trainer.getTarget());
         // Return if trainer's pokemob's target is also a pokemob.
         return CapabilityPokemob.getPokemobFor(this.trainer.getOutMob().getEntity().getAttackTarget()) != null;
     }
@@ -110,14 +109,21 @@ public class AIBattle extends AITrainerBase
         final List<Entity> mobs = PCEventsHandler.getOutMobs(this.entity, false);
         if (!mobs.isEmpty())
         {
+            boolean found = false;
             for (final Entity mob : mobs)
                 // Ones not added to chunk are in pokecubes, so wait for them to
                 // exit.
                 if (mob.addedToChunk)
                 {
                     final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-                    if (pokemob != null) this.trainer.setOutMob(pokemob);
-                    return;
+                    if (pokemob != null && !found)
+                    {
+                        this.trainer.setOutMob(pokemob);
+                        found = true;
+                    }
+                    // Prevent players from grabbing the pokecube of the
+                    // trainer.
+                    else if (mob instanceof EntityPokecubeBase) ((EntityPokecubeBase) mob).canBePickedUp = false;
                 }
             return;
         }

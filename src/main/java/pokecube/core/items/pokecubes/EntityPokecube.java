@@ -147,7 +147,7 @@ public class EntityPokecube extends EntityPokecubeBase
     public boolean processInitialInteract(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
-        if (!player.getEntityWorld().isRemote)
+        if (player instanceof ServerPlayerEntity && this.canBePickedUp)
         {
             if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player.abilities.isCreativeMode)
                 if (!stack.isEmpty())

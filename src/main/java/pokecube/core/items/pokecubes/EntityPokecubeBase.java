@@ -81,12 +81,9 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                 .getEntityWorld().getGameTime() + PokecubeCore.getConfig().captureDelayTicks);
     }
 
-    /** Seems to be some sort of timer for animating an arrow. */
-    public int              arrowShake;
-    /** 1 if the player can pick up the arrow */
-    public int              canBePickedUp;
-    public boolean          isLoot    = false;
-    public ResourceLocation lootTable = null;
+    public boolean          canBePickedUp = true;
+    public boolean          isLoot        = false;
+    public ResourceLocation lootTable     = null;
     protected int           inData;
     protected boolean       inGround;
     public UUID             shooter;
@@ -122,7 +119,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     @Override
     public boolean attackEntityFrom(final DamageSource source, final float damage)
     {
-        if (this.isLoot || this.isReleasing()) return false;
+        if (this.isLoot || this.isReleasing() || !this.canBePickedUp) return false;
         if (source.getImmediateSource() instanceof ServerPlayerEntity && (this.tilt <= 0 || ((PlayerEntity) source
                 .getImmediateSource()).abilities.isCreativeMode))
         {
