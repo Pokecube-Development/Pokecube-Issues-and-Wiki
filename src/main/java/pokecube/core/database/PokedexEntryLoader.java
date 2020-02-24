@@ -486,7 +486,7 @@ public class PokedexEntryLoader
             {
                 out.value(value.toString());
             }
-        }).setPrettyPrinting().create();
+        }).setPrettyPrinting().disableHtmlEscaping().create();
         PokedexEntryLoader.missingno.stats = new StatsNode();
     }
 
