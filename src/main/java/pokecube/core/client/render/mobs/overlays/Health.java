@@ -220,6 +220,8 @@ public class Health
             g = 64;
             b = 255;
 
+            int br = 15 << 20 | 15 << 4;
+
             int exp = pokemob.getExp() - Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             float maxExp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1)
                     - Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
@@ -243,11 +245,19 @@ public class Health
             int colour = isOwner ? config.ownedNameColour
                     : owner == null ? nametag ? scanned ? config.scannedNameColour : config.caughtNamedColour
                             : config.unknownNameColour : config.otherOwnedNameColour;
-            mc.fontRenderer.drawString(name, 0, 0, colour);
 
             mat.push();
             float s1 = 0.75F;
             mat.scale(s1, s1, s1);
+            
+
+            mat.push();
+            s1 = 1.5F;
+            mat.scale(s1, s1, s1);
+            pos = mat.getLast().getPositionMatrix();
+            mc.fontRenderer.renderString(name, 0, 0, colour, false, pos, buf, true, 0, br);
+            s1 = 0.75F;
+            mat.pop();
 
             final int h = config.hpTextHeight;
             String maxHpStr = "" + (int) (Math.round(maxHealth * 100.0) / 100.0);
@@ -266,8 +276,6 @@ public class Health
                     (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.getLast().getPositionMatrix();
-
-            int br = 15 << 20 | 15 << 4;
 
             mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, true, 0, br);
             mc.fontRenderer.renderString(gender,
