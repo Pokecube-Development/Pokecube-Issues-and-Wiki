@@ -46,6 +46,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntryLoader.Action;
+import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.Evolution;
 import pokecube.core.database.PokedexEntryLoader.Interact;
@@ -57,6 +58,7 @@ import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
@@ -949,6 +951,11 @@ public class PokedexEntry
      */
     @CopyToGender
     public String[][] textureDetails = { { "" }, null };
+
+    @CopyToGender
+    protected DefaultFormeHolder _default_holder = null;
+
+    public FormeHolder default_holder = null;
 
     @CopyToGender
     public String texturePath = PokedexEntry.TEXTUREPATH;

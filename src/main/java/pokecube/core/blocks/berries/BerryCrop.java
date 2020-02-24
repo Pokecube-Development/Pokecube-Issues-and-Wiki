@@ -32,9 +32,8 @@ public class BerryCrop extends CropsBlock
         super.tick(state, worldIn, pos, random);
         if (!worldIn.isAreaLoaded(pos, 1)) return;
         final int age = this.getAge(worldIn.getBlockState(pos));
-        if (age >= 6)
+        if (age == this.getMaxAge())
         {
-            worldIn.setBlockState(pos, this.withAge(7), 2);
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
             final BlockPos up = pos.up();
             if (grower != null) grower.growTree(worldIn, pos, this.index);
@@ -48,9 +47,8 @@ public class BerryCrop extends CropsBlock
     {
         super.grow(worldIn, rand, pos, state);
         final int age = this.getAge(worldIn.getBlockState(pos));
-        if (age >= 6)
+        if (age == this.getMaxAge())
         {
-            worldIn.setBlockState(pos, this.withAge(7), 2);
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
             final BlockPos up = pos.up();
             if (grower != null) grower.growTree(worldIn, pos, this.index);

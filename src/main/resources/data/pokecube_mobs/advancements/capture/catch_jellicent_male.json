@@ -29,5 +29,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_frillish_female"
+  "parent": "pokecube_mobs:capture/catch_frillish_male"
 }
