@@ -1,17 +1,17 @@
-{ 
+{
   "hotload": true,
-  "pokemon":[ 
-    { 
-      "name":"Doduo",
-      "ridden_offsets":"0,0.25,-0.5"
+  "pokemon": [
+    {
+      "name": "Doduo",
+      "ridden_offsets": "0,0.25,-0.5"
     },
-	{ 
-      "name":"Golurk",
-      "ridden_offsets":"0.5"
+    {
+      "name": "Golurk",
+      "ridden_offsets": "0.5"
     },
-	{ 
-      "name":"Solgaleo",
-      "ridden_offsets":"0.75"
+    {
+      "name": "Solgaleo",
+      "ridden_offsets": "0.75"
     }
   ]
 }

@@ -4,18 +4,18 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-	    "text": "Guardian Deities",
-	    "color": "gold",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "Guardian Deities",
+      "color": "gold",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Catch Tapu Koko/Lele/Fini/Bulu"
+      "text": "Catch Tapu Koko/Lele/Fini/Bulu"
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -28,21 +28,21 @@
         "entry": "tapu_koko"
       }
     },
-	"catch_tapulele": {
+    "catch_tapulele": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
         "entry": "tapulele"
       }
     },
-	"catch_tapufini": {
+    "catch_tapufini": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
         "entry": "tapu_fini"
       }
     },
-	"catch_tapubulu": {
+    "catch_tapubulu": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
@@ -51,7 +51,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/legendscore" ]
+    "loot": [
+      "pokecube_legends:entities/legendscore"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

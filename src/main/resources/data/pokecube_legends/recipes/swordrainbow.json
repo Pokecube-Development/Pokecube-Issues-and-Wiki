@@ -1,25 +1,20 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "  M",
-        " M ",
-        "E  "
-    ],
-
-    "key": {
-        "M": {
-            "item": "pokecube_legends:rainbow_wing"
-        },
-        "E": {
-            "item": "pokecube_legends:silver_wing"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  M",
+    " M ",
+    "E  "
+  ],
+  "key": {
+    "M": {
+      "item": "pokecube_legends:rainbow_wing"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:rainbow_sword",
-        "count": 1
+    "E": {
+      "item": "pokecube_legends:silver_wing"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:rainbow_sword",
+    "count": 1
+  }
 }

@@ -1,24 +1,24 @@
 {
-    "pools": [
+  "pools": [
+    {
+      "name": "pool_0",
+      "rolls": 1,
+      "entries": [
         {
-			"name": "pool_0",
-            "rolls": 1,
-            "entries": [
-				{
-	                "type": "item",
-	                "name": "pokecube_legends:dna_splicera",
-					"weight": 1,
-					"functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 1,
-                                "max": 1
-                            }
-                        }
-                    ]
-	            }
-			]
-		}
-    ]
+          "type": "item",
+          "name": "pokecube_legends:dna_splicera",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -1,28 +1,20 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "RRR",
-        "RAR",
-        "RRR"
-    ],
-    
-    "key":
-    {
-		"A":
-        {
-            "item": "pokecube_legends:crystal_shard"
-        },
-		"R":
-        {
-            "item": "pokecube:revive"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "RAR",
+    "RRR"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:crystal_shard"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:griseousorb",
-        "count": 1
+    "R": {
+      "item": "pokecube:revive"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:griseousorb",
+    "count": 1
+  }
 }

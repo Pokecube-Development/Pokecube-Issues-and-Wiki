@@ -4,18 +4,18 @@
       "item": "pokecube_legends:darkstone"
     },
     "title": {
-	    "text": "..Yang",
-	    "color": "black",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "..Yang",
+      "color": "black",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Get a Tao Trio member(Zekrom)."
+      "text": "Get a Tao Trio member(Zekrom)."
     },
-	"frame": "goal",
+    "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -28,7 +28,7 @@
         "entry": "kyurem"
       }
     },
-	"catch_zekrom": {
+    "catch_zekrom": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
@@ -37,7 +37,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/blackcore" ]
+    "loot": [
+      "pokecube_legends:entities/blackcore"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

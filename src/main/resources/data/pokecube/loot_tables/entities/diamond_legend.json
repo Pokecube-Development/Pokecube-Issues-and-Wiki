@@ -1,26 +1,27 @@
 {
-   "type": "minecraft:entity","pools": [
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "name": "pool_0",
+      "rolls": 1,
+      "entries": [
         {
-            "name": "pool_0",
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "loot_table",
-                    "name": "pokecube:entities/generic_legend",
-                    "weight": 1
-                }
-            ]
-        },
-        {
-            "name": "pool_1",
-            "rolls": 50,
-            "entries": [
-                {
-                    "type": "loot_table",
-                    "name": "pokecube:entities/diamond",
-                    "weight": 1
-                }
-            ]
+          "type": "loot_table",
+          "name": "pokecube:entities/generic_legend",
+          "weight": 1
         }
-    ]
+      ]
+    },
+    {
+      "name": "pool_1",
+      "rolls": 50,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "pokecube:entities/diamond",
+          "weight": 1
+        }
+      ]
+    }
+  ]
 }

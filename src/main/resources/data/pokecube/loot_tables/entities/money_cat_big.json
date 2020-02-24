@@ -1,37 +1,38 @@
 {
-   "type": "minecraft:entity","pools": [
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "name": "pool_0",
+      "rolls": 1,
+      "entries": [
         {
-            "name": "pool_0",
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "loot_table",
-                    "name": "pokecube:entities/rabbit_1",
-                    "weight": 1
-                }
-            ]
-        },
-        {
-            "name": "pool_1",
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "loot_table",
-                    "name": "pokecube:entities/gold_nugget",
-                    "weight": 1
-                }
-            ]
-        },
-        {
-            "name": "pool_1",
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "loot_table",
-                    "name": "pokecube:entities/emerald_3_10",
-                    "weight": 1
-                }
-            ]
+          "type": "loot_table",
+          "name": "pokecube:entities/rabbit_1",
+          "weight": 1
         }
-    ]
+      ]
+    },
+    {
+      "name": "pool_1",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "pokecube:entities/gold_nugget",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "name": "pool_1",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "pokecube:entities/emerald_3_10",
+          "weight": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,36 +1,26 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "GRG",
-        "PAP",
-        "GRG"
-    ],
-    
-    "key":
-    {
-        "G":
-        {
-            "item": "minecraft:gold_block"
-        },
-		"A":
-        {
-            "item": "minecraft:stone_button"
-        },
-		"R":
-        {
-            "item": "pokecube_legends:crystal_shard"
-        },
-		"P":
-        {
-            "item": "pokecube_legends:ultramagnetic"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GRG",
+    "PAP",
+    "GRG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_block"
     },
-    
-    "result":
-    {
-        "item": "pokecube:beastcube",
-        "count": 2
+    "A": {
+      "item": "minecraft:stone_button"
+    },
+    "R": {
+      "item": "pokecube_legends:crystal_shard"
+    },
+    "P": {
+      "item": "pokecube_legends:ultramagnetic"
     }
+  },
+  "result": {
+    "item": "pokecube:beastcube",
+    "count": 2
+  }
 }
