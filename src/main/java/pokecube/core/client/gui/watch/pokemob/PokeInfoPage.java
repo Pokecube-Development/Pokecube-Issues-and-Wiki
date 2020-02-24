@@ -66,14 +66,14 @@ public abstract class PokeInfoPage extends WatchPage
         this.addButton(new Button(x - 65, y + 4, 20, 9, "\u2500", b ->
         { // Cycle Form.
             this.formes = Database.customModels.getOrDefault(this.entry, Collections.emptyList());
-            final List<PokedexEntry> entries = Lists.newArrayList(Database.getFormes(this.entry));
-            this.entryIndex = this.entryIndex % entries.size();
-            if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size()) this.holder = this.formes.get(
+            this.entries = Lists.newArrayList(Database.getFormes(this.entry));
+            this.entryIndex = this.entryIndex % this.entries.size();
+            if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1) this.holder = this.formes.get(
                     this.formIndex);
-            if (this.entryIndex != -1)
+            else if (this.entries.size() > 0)
             {
                 this.formIndex = -1;
-                this.entry = entries.get((this.entryIndex + 1) % entries.size());
+                this.entry = this.entries.get((this.entryIndex + 1) % this.entries.size());
                 this.holder = this.entry.default_holder;
                 this.parent.initPages(this.parent.pokemob.megaEvolve(this.entry));
             }
