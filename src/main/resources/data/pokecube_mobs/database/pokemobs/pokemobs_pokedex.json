@@ -65661,7 +65661,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
         "hatedMaterials": "water"
@@ -65841,7 +65841,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -66051,7 +66051,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -66261,7 +66261,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -66608,7 +66608,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
         "movementType": "flying"
@@ -66861,7 +66861,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -67242,7 +67242,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -67382,6 +67382,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dye": "TRUE#white#black",
             "shoulder": "FALSE"
           }
         }
@@ -68091,7 +68092,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -68153,7 +68154,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
 		"movementType": "flying"
@@ -68270,7 +68271,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -68781,7 +68782,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -69405,7 +69406,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
 		"movementType": "floating"
@@ -69481,7 +69482,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
 		"movementType": "floating"
@@ -69557,7 +69558,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -70502,7 +70503,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
 		"movementType": "floating"
@@ -70836,7 +70837,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -71295,7 +71296,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -71999,7 +72000,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
 		"movementType": "floating"

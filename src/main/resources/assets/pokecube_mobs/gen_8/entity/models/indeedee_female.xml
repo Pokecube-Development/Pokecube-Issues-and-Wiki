@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1"/>
   <customTex default="indeedee">
   <part name="Head" tex="indeedeefeye"/>
-  <animation diffs="0,0.49" part="Head" trigger="random:0.005:25"/>
+  <animation diffs="0,0.51" part="Head" trigger="random:0.005:25"/>
   </customTex>
   <phase type="sitting">
    <part name="body">
