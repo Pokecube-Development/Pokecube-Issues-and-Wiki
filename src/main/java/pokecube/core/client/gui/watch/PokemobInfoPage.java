@@ -184,6 +184,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         }
         this.pokemob = pokemob;
         this.renderMob = pokemob;
+        // Force close and open the page to update.
+        this.changePage(this.index);
         this.search.setVisible(!this.watch.canEdit(pokemob));
         this.search.setText(pokemob.getPokedexEntry().getName());
         PacketPokedex.sendSpecificSpawnsRequest(pokemob.getPokedexEntry());

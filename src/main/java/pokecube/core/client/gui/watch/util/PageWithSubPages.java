@@ -29,6 +29,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
 
     protected void closeSubPage()
     {
+        if (this.current_page == null) return;
         this.current_page.onPageClosed();
         this.children().remove(this.current_page);
     }
