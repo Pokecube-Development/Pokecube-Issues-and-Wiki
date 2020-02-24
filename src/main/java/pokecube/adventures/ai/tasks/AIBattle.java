@@ -123,7 +123,18 @@ public class AIBattle extends AITrainerBase
                     }
                     // Prevent players from grabbing the pokecube of the
                     // trainer.
-                    else if (mob instanceof EntityPokecubeBase) ((EntityPokecubeBase) mob).canBePickedUp = false;
+                    else if (mob instanceof EntityPokecubeBase)
+                    {
+                        final EntityPokecubeBase cube = (EntityPokecubeBase) mob;
+                        if (cube.canBePickedUp)
+                        {
+                            // This prevents pickup
+                            cube.canBePickedUp = false;
+                            // This makes it send out in 1s regardless of
+                            // hitting anything.
+                            cube.autoRelease = 20;
+                        }
+                    }
                 }
             return;
         }

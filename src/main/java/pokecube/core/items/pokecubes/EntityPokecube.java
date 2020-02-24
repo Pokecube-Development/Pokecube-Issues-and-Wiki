@@ -247,7 +247,6 @@ public class EntityPokecube extends EntityPokecubeBase
         this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI));
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
-        this.ticksInGround = 0;
     }
 
     @Override
