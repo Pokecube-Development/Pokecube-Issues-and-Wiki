@@ -147,7 +147,7 @@ public class EntityPokecube extends EntityPokecubeBase
     public boolean processInitialInteract(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
-        if (!player.getEntityWorld().isRemote)
+        if (player instanceof ServerPlayerEntity && this.canBePickedUp)
         {
             if (player.isSneaking() && PokecubeManager.isFilled(this.getItem()) && player.abilities.isCreativeMode)
                 if (!stack.isEmpty())
@@ -247,7 +247,6 @@ public class EntityPokecube extends EntityPokecubeBase
         this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI));
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
-        this.ticksInGround = 0;
     }
 
     @Override

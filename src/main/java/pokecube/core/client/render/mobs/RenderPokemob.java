@@ -25,6 +25,7 @@ import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -351,8 +352,6 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         public void initModel(final ModelWrapper<GenericPokemob> model)
         {
             this.wrapper = model;
-            this.name = model.model.name;
-            this.texture = model.model.texture;
             model.imodel = ModelFactory.create(model.model);
 
             // Check if an animation file exists.
@@ -365,7 +364,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                 // No animation here, lets try to use the base one.
             }
 
-            AnimationLoader.parse(model.model, model, this);
+            AnimationLoader.parse(this, model, this);
             this.initModelParts();
         }
 
@@ -489,25 +488,31 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = RenderPokemob.holderMap.getOrDefault(type, this.holder);
 
-        if (pokemob.getCustomModel() != null)
+        if (pokemob.getCustomHolder() != null)
         {
-            final ResourceLocation model = pokemob.getCustomModel();
+            final FormeHolder forme = pokemob.getCustomHolder();
+            final ResourceLocation model = forme.key;
             Holder temp = this.customs.get(model);
-            if (temp == null)
+            if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
             {
-                temp = new Holder(pokemob.getPokedexEntry());
-                temp.model = model;
-                if (pokemob.getCustomAnims() != null) temp.animation = pokemob.getCustomAnims();
-                this.customs.put(model, holder);
-                holder.init();
+                if (temp == null) temp = new Holder(pokemob.getPokedexEntry());
+                if (forme.model != null) temp.model = forme.model;
+                if (forme.animation != null) temp.animation = forme.animation;
+                if (forme.texture != null) temp.texture = forme.texture;
+                this.customs.put(model, temp);
+                temp.init();
             }
             holder = temp;
         }
 
         if (holder.wrapper == null) holder.init();
         holder.reload = false;
-        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.entry != type
-                .getEntry() || holder.model == null || holder.texture == null) holder = this.holder;
+        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
+                || holder.texture == null)
+        {
+            this.holder.toString();
+            holder = this.holder;
+        }
         this.entityModel = holder.wrapper;
         this.shadowSize = entity.getWidth();
         try
