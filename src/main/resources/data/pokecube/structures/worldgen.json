@@ -1,114 +1,114 @@
 {
-  "structures":[],
-  "jigsaws":[ 
-    { 
-      "name":"pokecube:scattered/pokecenter_start",
-      "root":{ 
-        "name":"pokecube:scattered/pokecenter_start/path",
+  "structures": [],
+  "jigsaws": [
+    {
+      "name": "pokecube:scattered/pokecenter_start",
+      "root": {
+        "name": "pokecube:scattered/pokecenter_start/path",
         "rigid": false,
-        "options":[ 
+        "options": [
           "pokecube:scattered/pokecenter_start/path"
         ]
       },
-      "chance":1,
-      "biomeType":"village",
-      "atSpawn":true,
-      "parts":[ 
-        { 
-          "name":"pokecube:scattered/pokecenter_start/building",
-          "target":"pokecube:scattered/pokecenter_start/path",
+      "chance": 1,
+      "biomeType": "village",
+      "atSpawn": true,
+      "parts": [
+        {
+          "name": "pokecube:scattered/pokecenter_start/building",
+          "target": "pokecube:scattered/pokecenter_start/path",
           "ignoreAir": false,
-          "options":[ 
+          "options": [
             "pokecube:scattered/pokecenter_start/building"
           ]
         }
       ],
-      "spawn":{ 
-        "values":{ 
-          "types":"all",
-          "typesBlacklist":"river,ocean"
+      "spawn": {
+        "values": {
+          "types": "all",
+          "typesBlacklist": "river,ocean"
         }
       }
     },
-    { 
-      "name":"pokecube:scattered/ruins",
-      "chance":0.02,
-      "biomeType":"ruin",
-      "distance":8,
-      "separation":4,
-      "offset":-3,
-      "parts":[],
-      "spawn":{ 
-        "values":{ 
-          "types":"plains"
+    {
+      "name": "pokecube:scattered/ruins",
+      "chance": 0.02,
+      "biomeType": "ruin",
+      "distance": 8,
+      "separation": 4,
+      "offset": -3,
+      "parts": [],
+      "spawn": {
+        "values": {
+          "types": "plains"
         }
       },
-      "root":{ 
-        "name":"pokecube:scattered/ruins",
+      "root": {
+        "name": "pokecube:scattered/ruins",
         "rigid": false,
-        "options":[ 
+        "options": [
           "pokecube:scattered/ruins/ruin_1"
         ]
       }
     },
-    { 
-      "name":"pokecube:village/common",
-      "root":{ 
-        "name":"pokecube:village/common/town_centers",
+    {
+      "name": "pokecube:village/common",
+      "root": {
+        "name": "pokecube:village/common/town_centers",
         "rigid": false,
-        "options":[ 
+        "options": [
           "pokecube:village/common/town_centers/plains"
         ]
       },
-      "chance":0.1,
-      "distance":16,
-      "separation":4,
-      "biomeType":"village",
-      "parts":[ 
-       { 
-          "name":"pokecube:village/common/terminators",
+      "chance": 0.1,
+      "distance": 16,
+      "separation": 4,
+      "biomeType": "village",
+      "parts": [
+        {
+          "name": "pokecube:village/common/terminators",
           "rigid": false,
-          "options":[ 
+          "options": [
             "pokecube:village/common/terminators/terminator_01"
           ]
         },
-        { 
-          "name":"pokecube:village/common/streets",
-          "target":"pokecube:village/common/terminators",
+        {
+          "name": "pokecube:village/common/streets",
+          "target": "pokecube:village/common/terminators",
           "rigid": false,
-          "options":[
+          "options": [
             "pokecube:village/common/streets/road_t_01",
             "pokecube:village/common/streets/road_02;{\"weight\":4}"
           ]
         },
-        { 
-          "name":"pokecube:village/common/pokecenter/path",
+        {
+          "name": "pokecube:village/common/pokecenter/path",
           "rigid": false,
-          "options":[
+          "options": [
             "pokecube:village/common/pokecenter/path"
           ]
         },
-        { 
-          "name":"pokecube:village/common/gym/path",
+        {
+          "name": "pokecube:village/common/gym/path",
           "rigid": false,
-          "options":[
+          "options": [
             "pokecube:village/common/gym/path"
           ]
         },
-        { 
-          "name":"pokecube:village/common/houses",
-          "target":"pokecube:village/common/terminators",
-          "options":[
+        {
+          "name": "pokecube:village/common/houses",
+          "target": "pokecube:village/common/terminators",
+          "options": [
             "pokecube:village/common/houses/house_small_1;{\"weight\":4}",
             "pokecube:village/common/pokecenter/center_01;{\"ignoreAir\":false}",
             "pokecube:village/common/gym/gym_01;{\"ignoreAir\":false}"
           ]
         }
       ],
-      "spawn":{ 
-        "values":{ 
-          "types":"all",
-          "typesBlacklist":"river,ocean"
+      "spawn": {
+        "values": {
+          "types": "all",
+          "typesBlacklist": "river,ocean"
         }
       }
     }

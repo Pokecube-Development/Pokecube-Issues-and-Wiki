@@ -1,32 +1,23 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "GRG",
-        "RAR",
-        "GRG"
-    ],
-    
-    "key":
-    {
-        "G":
-        {
-            "item": "minecraft:emerald"
-        },
-		"A":
-        {
-            "item": "pokecube_legends:grayorb"
-        },
-		"R":
-        {
-            "item": "minecraft:emerald_block"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GRG",
+    "RAR",
+    "GRG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:emerald"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:greenorb",
-        "count": 1
+    "A": {
+      "item": "pokecube_legends:grayorb"
+    },
+    "R": {
+      "item": "minecraft:emerald_block"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:greenorb",
+    "count": 1
+  }
 }

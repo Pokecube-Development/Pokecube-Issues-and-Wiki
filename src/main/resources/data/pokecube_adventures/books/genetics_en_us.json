@@ -1,16 +1,16 @@
-{ 
-  "title":"Pokémob Genetics",
-  "author":"Thutmose",
-  "pages":[ 
-    { 
-      "lines":[ 
+{
+  "title": "Pokémob Genetics",
+  "author": "Thutmose",
+  "pages": [
+    {
+      "lines": [
         "Pokémob Genetics Guide",
         "\n\n\n\n\n\n\n",
         "          V1.2"
       ]
     },
-    { 
-      "lines":[ 
+    {
+      "lines": [
         "§nIndex{_ref_:_index_}",
         "§4§n§lBasic Terms{_link_:_terms_}",
         "§3§n§lPokémob DNA{_link_:_pokedna_}",
@@ -21,8 +21,8 @@
         "§1§n§lSplicing DNA{_link_:_splice_}"
       ]
     },
-    { 
-      "lines":[ 
+    {
+      "lines": [
         "§4§n§lBasic Terminology{_ref_:_terms_}{_link_:_index_}",
         "",
         "§4§nExpressed Gene (EG):",
@@ -44,8 +44,8 @@
         "§4If the gene is epigenetic, then instead of using PGs for inheritance, it will use the EG, and that EG will change based on the history of the Pokémob."
       ]
     },
-    { 
-      "lines":[ 
+    {
+      "lines": [
         "§3§n§lPokémob DNA:{_ref_:_pokedna_}{_link_:_index_}",
         "",
         "§3There are presently 9 known genes of Pokémobs.",
@@ -90,8 +90,8 @@
         "§3The Moves gene only seems to be expressed if both PGs are the same, which is generally not the case."
       ]
     },
-    { 
-      "lines":[ 
+    {
+      "lines": [
         "§2§n§lExtracting DNA{_ref_:_extract_}{_link_:_index_}",
         "",
         "§2DNA is extracted via the Gene Extractor.",
@@ -124,8 +124,8 @@
         "§2DNA sources might also display a tooltip containing their contents, this is also accessible via computer interface."
       ]
     },
-    { 
-      "lines":[ 
+    {
+      "lines": [
         "§5§n§lCloning Pokémobs:{_ref_:_clone_}{_link_:_index_}",
         "",
         "§5Once you have extracted some Species DNA, you can place the bottle of it into the gene input slot of the cloning device.",
@@ -134,8 +134,8 @@
         "§5Once the device has enough power, it will spawn the clone directly in front of the device, this is usually at lvl 20. If you are accessing the device when it spawns, you are likely to be the owner of the clone."
       ]
     },
-    { 
-      "lines":[ 
+    {
+      "lines": [
         "§1§n§lSplicing DNA:{_ref_:_splice_}{_link_:_index_}",
         "",
         "§1The Gene Splicer can be used to splice together DNA from different sources.",

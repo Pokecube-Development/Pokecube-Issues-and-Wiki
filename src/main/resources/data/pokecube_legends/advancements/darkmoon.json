@@ -4,18 +4,18 @@
       "item": "pokecube_legends:n_moon"
     },
     "title": {
-	    "text": "Dark Moon",
-	    "color": "gold",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "Dark Moon",
+      "color": "gold",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Catch Lunala/Necrozma"
+      "text": "Catch Lunala/Necrozma"
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -28,7 +28,7 @@
         "entry": "lunala"
       }
     },
-	"catch_necrozma": {
+    "catch_necrozma": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
@@ -37,7 +37,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/nmoon" ]
+    "loot": [
+      "pokecube_legends:entities/nmoon"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

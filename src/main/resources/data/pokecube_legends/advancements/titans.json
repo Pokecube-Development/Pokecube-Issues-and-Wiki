@@ -4,18 +4,18 @@
       "item": "pokecube_legends:regisorb"
     },
     "title": {
-	    "text": "The Sleeping Golem",
-	    "color": "blue",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "The Sleeping Golem",
+      "color": "blue",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Capture the three Titans."
+      "text": "Capture the three Titans."
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -28,14 +28,14 @@
         "entry": "reice"
       }
     },
-	"catch_registeel": {
+    "catch_registeel": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
         "entry": "registeel"
       }
     },
-	"catch_regirock": {
+    "catch_regirock": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
@@ -44,7 +44,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/regisorb" ]
+    "loot": [
+      "pokecube_legends:entities/regisorb"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

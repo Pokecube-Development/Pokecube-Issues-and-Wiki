@@ -1,44 +1,32 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "ARA",
-        "TGH",
-        "AWA"
-    ],
-    
-    "key":
-    {
-        "G":
-        {
-            "item": "minecraft:ender_eye"
-        },
-		"A":
-        {
-            "item": "minecraft:end_stone"
-        },
-		"R":
-        {
-            "item": "pokecube_legends:greenorb"
-        },
-		"T":
-        {
-            "item": "pokecube_legends:blueorb"
-        },
-		"H":
-        {
-            "item": "pokecube_legends:redorb"
-        },
-		"W":
-		{
-			"item": "pokecube_legends:grayorb"
-		}
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ARA",
+    "TGH",
+    "AWA"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:ender_eye"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:legendaryorb",
-        "count": 1
+    "A": {
+      "item": "minecraft:end_stone"
+    },
+    "R": {
+      "item": "pokecube_legends:greenorb"
+    },
+    "T": {
+      "item": "pokecube_legends:blueorb"
+    },
+    "H": {
+      "item": "pokecube_legends:redorb"
+    },
+    "W": {
+      "item": "pokecube_legends:grayorb"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:legendaryorb",
+    "count": 1
+  }
 }
