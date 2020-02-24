@@ -6,11 +6,11 @@ import net.minecraft.block.BushBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -31,13 +31,7 @@ public class BerryFruit extends BushBlock
     public VoxelShape getCollisionShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
-        return state.getShape(worldIn, pos, context);
-    }
-
-    @Override
-    public ResourceLocation getLootTable()
-    {
-        return super.getLootTable();
+        return VoxelShapes.empty();
     }
 
     @Override
@@ -56,8 +50,8 @@ public class BerryFruit extends BushBlock
     @Override
     protected boolean isValidGround(final BlockState state, final IBlockReader worldIn, final BlockPos pos)
     {
-        return state.getBlock() instanceof BerryCrop || worldIn.getBlockState(pos.up(2)).getBlock() instanceof BerryLeaf
-                || true;
+        return state.getBlock() instanceof BerryCrop || worldIn.getBlockState(pos.up(2))
+                .getBlock() instanceof BerryLeaf;
     }
 
     @Override

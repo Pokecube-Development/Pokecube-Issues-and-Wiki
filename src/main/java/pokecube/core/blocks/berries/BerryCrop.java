@@ -31,7 +31,7 @@ public class BerryCrop extends CropsBlock
     {
         super.tick(state, worldIn, pos, random);
         if (!worldIn.isAreaLoaded(pos, 1)) return;
-        final int age = this.getAge(state);
+        final int age = this.getAge(worldIn.getBlockState(pos));
         if (age >= 6)
         {
             worldIn.setBlockState(pos, this.withAge(7), 2);
@@ -47,7 +47,7 @@ public class BerryCrop extends CropsBlock
     public void grow(final ServerWorld worldIn, final Random rand, final BlockPos pos, final BlockState state)
     {
         super.grow(worldIn, rand, pos, state);
-        final int age = this.getAge(state);
+        final int age = this.getAge(worldIn.getBlockState(pos));
         if (age >= 6)
         {
             worldIn.setBlockState(pos, this.withAge(7), 2);
