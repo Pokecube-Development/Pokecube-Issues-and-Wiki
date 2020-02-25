@@ -4,18 +4,18 @@
       "item": "pokecube_legends:rustedshield"
     },
     "title": {
-	    "text": "Sword and Shield",
-	    "color": "gold",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "Sword and Shield",
+      "color": "gold",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Catch Zacian/Zamazenta"
+      "text": "Catch Zacian/Zamazenta"
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -28,7 +28,7 @@
         "entry": "zacian"
       }
     },
-	"catch_raikou": {
+    "catch_raikou": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
@@ -37,7 +37,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/legendscore" ]
+    "loot": [
+      "pokecube_legends:entities/legendscore"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

@@ -288,9 +288,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 evo.getMoveStats().oldLevel = data.level - 1;
                 evo.levelUp(evo.getLevel());
 
-                if (data.data.tex != null) evo.setCustomTexDetails(data.data.tex);
-                if (data.data.model != null) evo.setCustomModel(new ResourceLocation(data.data.model));
-                if (data.data.anim != null) evo.setCustomAnims(new ResourceLocation(data.data.anim));
+                evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                 // Learn evolution moves and update ability.
                 for (final String s : evo.getPokedexEntry().getEvolutionMoves())
@@ -352,9 +350,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     else if (data != null) evo.getMoveStats().oldLevel = data.level - 1;
                     evo.levelUp(evo.getLevel());
 
-                    if (data.data.tex != null) evo.setCustomTexDetails(data.data.tex);
-                    if (data.data.model != null) evo.setCustomModel(new ResourceLocation(data.data.model));
-                    if (data.data.anim != null) evo.setCustomAnims(new ResourceLocation(data.data.anim));
+                    evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                     // Don't immediately try evolving again, only wild ones
                     // should do that.

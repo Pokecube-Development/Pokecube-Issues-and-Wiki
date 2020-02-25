@@ -5,6 +5,8 @@ package pokecube.core.interfaces;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
@@ -23,6 +25,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
+import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.IHasCommands;
@@ -38,11 +42,64 @@ import thut.api.entity.IShearable;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.client.render.animation.ModelHolder;
 
 /** @author Manchou */
 public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
         IBreedingMob, IHasCommands, IMobColourable, IShearable
 {
+    public static class FormeHolder extends ModelHolder
+    {
+        public static FormeHolder load(final CompoundNBT nbt)
+        {
+            final String name = nbt.getString("key");
+            final String anim = nbt.contains("anim") ? nbt.getString("anim") : null;
+            final String model = nbt.contains("model") ? nbt.getString("model") : null;
+            final String tex = nbt.contains("tex") ? nbt.getString("tex") : null;
+            final FormeHolder holder = FormeHolder.get(model != null ? PokecubeItems.toPokecubeResource(model) : null,
+                    tex != null ? PokecubeItems.toPokecubeResource(tex) : null, anim != null ? PokecubeItems
+                            .toPokecubeResource(anim) : null, PokecubeItems.toPokecubeResource(name));
+            return holder;
+        }
+
+        public static FormeHolder get(final ResourceLocation model, final ResourceLocation texture,
+                final ResourceLocation animation, final ResourceLocation name)
+        {
+            if (Database.formeHolders.containsKey(name)) return Database.formeHolders.get(name);
+            final FormeHolder holder = new FormeHolder(model, texture, animation, name);
+            Database.formeHolders.put(name, holder);
+            return holder;
+        }
+
+        // This key is used for unique identifier for lookup in renderer for
+        // initialization.
+        public ResourceLocation key;
+
+        private FormeHolder(final ResourceLocation model, final ResourceLocation texture,
+                final ResourceLocation animation, final ResourceLocation name)
+        {
+            super(model, texture, animation, name.toString());
+            this.key = name;
+        }
+
+        public CompoundNBT save()
+        {
+            final CompoundNBT ret = new CompoundNBT();
+            ret.putString("key", this.key.toString());
+            if (this.model != null) ret.putString("model", this.model.toString());
+            if (this.animation != null) ret.putString("anim", this.animation.toString());
+            if (this.texture != null) ret.putString("tex", this.texture.toString());
+            return ret;
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (obj instanceof FormeHolder) return this.key.equals(((FormeHolder) obj).key);
+            return false;
+        }
+    }
+
     public static enum HappinessType
     {
         TIME(2, 2, 1), LEVEL(5, 3, 2), BERRY(3, 2, 1), EVBERRY(10, 5, 2), FAINT(-1, -1, -1), TRADE(0, 0, 0);
@@ -287,17 +344,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     @OnlyIn(Dist.CLIENT)
     ResourceLocation modifyTexture(ResourceLocation texture);
 
-    void setCustomTexDetails(String texture);
+    void setCustomHolder(FormeHolder holder);
 
-    String getCustomTex();
-
-    void setCustomModel(final ResourceLocation customModel);
-
-    ResourceLocation getCustomModel();
-
-    void setCustomAnims(final ResourceLocation customAnims);
-
-    ResourceLocation getCustomAnims();
+    @Nullable
+    FormeHolder getCustomHolder();
 
     default boolean moveToShoulder(final PlayerEntity player)
     {

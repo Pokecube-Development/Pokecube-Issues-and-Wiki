@@ -4,16 +4,16 @@
       "item": "pokecube:pokecube"
     },
     "title": {
-	    "text": "The Legends",
-	    "color": "yellow",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "The Legends",
+      "color": "yellow",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": ""
+      "text": ""
     },
     "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
     "show_toast": false,

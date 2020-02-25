@@ -64,6 +64,7 @@ import pokecube.core.database.rewards.XMLRewardsHandler.XMLRewards;
 import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
@@ -142,15 +143,17 @@ public class Database
         private final List<Drop> drops = Lists.newArrayList();
     }
 
-    public static List<ItemStack>                           starterPack      = Lists.newArrayList();
-    public static Int2ObjectOpenHashMap<PokedexEntry>       data             = new Int2ObjectOpenHashMap<>();
-    public static HashMap<String, PokedexEntry>             data2            = new HashMap<>();
-    static HashSet<PokedexEntry>                            allFormes        = new HashSet<>();
-    private static List<PokedexEntry>                       sortedFormes     = Lists.newArrayList();
-    private static List<String>                             sortedFormNames  = Lists.newArrayList();
-    public static HashMap<Integer, PokedexEntry>            baseFormes       = new HashMap<>();
-    public static HashMap<Integer, PokedexEntry>            dummyMap         = new HashMap<>();
-    public static HashMap<String, ArrayList<PokedexEntry>>  mobReplacements  = new HashMap<>();
+    public static List<ItemStack>                          starterPack     = Lists.newArrayList();
+    public static Int2ObjectOpenHashMap<PokedexEntry>      data            = new Int2ObjectOpenHashMap<>();
+    public static HashMap<String, PokedexEntry>            data2           = new HashMap<>();
+    static HashSet<PokedexEntry>                           allFormes       = new HashSet<>();
+    private static List<PokedexEntry>                      sortedFormes    = Lists.newArrayList();
+    private static List<String>                            sortedFormNames = Lists.newArrayList();
+    public static HashMap<Integer, PokedexEntry>           baseFormes      = new HashMap<>();
+    public static HashMap<Integer, PokedexEntry>           dummyMap        = new HashMap<>();
+    public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
+    public static HashMap<PokedexEntry, List<FormeHolder>> customModels    = new HashMap<>();
+    public static HashMap<ResourceLocation, FormeHolder>   formeHolders    = new HashMap<>();
 
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists        = new Int2ObjectOpenHashMap<>();
 
@@ -271,6 +274,17 @@ public class Database
                     vars.setValue(entry1);
                     break;
                 }
+        }
+    }
+
+    public static void registerFormeHolder(final PokedexEntry entry, final FormeHolder holder)
+    {
+        List<FormeHolder> holders = Database.customModels.get(entry);
+        if (holders == null) Database.customModels.put(entry, holders = Lists.newArrayList());
+        if (!holders.contains(holder))
+        {
+            holders.add(holder);
+            Collections.sort(holders, (o1, o2) -> o1.key.compareTo(o2.key));
         }
     }
 
@@ -866,6 +880,23 @@ public class Database
         Database.loadStarterPack();
         Database.loadRecipes();
         PokedexInspector.init();
+
+        // Process custom forme models, etc
+        for (final PokedexEntry entry : Database.getSortedFormes())
+        {
+            if (entry._default_holder != null)
+            {
+                entry.default_holder = entry._default_holder.getForme(entry);
+                Database.registerFormeHolder(entry, entry.default_holder);
+            }
+
+            // Spawns should have been dealt with earlier, so do evolutions
+            if (!entry.evolutions.isEmpty()) for (final EvolutionData data : entry.evolutions)
+            {
+                final FormeHolder holder = data.data.getForme(entry);
+                if (holder != null) Database.registerFormeHolder(entry, holder);
+            }
+        }
 
         /** Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.allFormes)

@@ -4,18 +4,18 @@
       "item": "pokecube_legends:revealglass"
     },
     "title": {
-	    "text": "Forces of Nature",
-	    "color": "gold",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "Forces of Nature",
+      "color": "gold",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Catch Thundurus/Tornadus/Landorus"
+      "text": "Catch Thundurus/Tornadus/Landorus"
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -28,14 +28,14 @@
         "entry": "thundurus_incarnate"
       }
     },
-	"catch_landorusincarnate": {
+    "catch_landorusincarnate": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
         "entry": "landorus_incarnate"
       }
     },
-	"catch_tornadusincarnate": {
+    "catch_tornadusincarnate": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
@@ -44,7 +44,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/legendscore" ]
+    "loot": [
+      "pokecube_legends:entities/legendscore"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

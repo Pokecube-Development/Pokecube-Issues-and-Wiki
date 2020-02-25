@@ -17,8 +17,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.client.render.mobs.RenderPokemob.Holder;
@@ -26,6 +28,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -65,10 +68,12 @@ public class AnimationGui extends Screen
     TextFieldWidget            state_c;
     TextFieldWidget            state_l;
     TextFieldWidget            forme;
+    TextFieldWidget            forme_alt;
     TextFieldWidget            dyeColour;
 
-    IPokemob                   toRender;
-    Holder                     renderHolder;
+    IPokemob    toRender;
+    Holder      renderHolder;
+    FormeHolder holder = null;
 
     float                      xRenderAngle     = 0;
     float                      yRenderAngle     = 0;
@@ -98,11 +103,24 @@ public class AnimationGui extends Screen
         if (AnimationGui.entry == null) AnimationGui.entry = Database.getEntry(AnimationGui.mob);
         AnimationGui.mob = AnimationGui.entry.getName();
         this.forme.setText(AnimationGui.mob);
+        this.holder = AnimationGui.entry.default_holder;
+
+        if (!this.forme_alt.getText().isEmpty()) try
+        {
+            final ResourceLocation key = PokecubeItems.toPokecubeResource(this.forme_alt.getText());
+            this.holder = Database.formeHolders.get(key);
+        }
+        catch (final Exception e)
+        {
+            this.holder = AnimationGui.entry.default_holder;
+        }
+        this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
 
         this.toRender = AnimationGui.getRenderMob(AnimationGui.entry);
         this.toRender.setSexe(this.sexe);
         this.toRender.setShiny(this.shiny);
         this.toRender.getEntity().onGround = this.ground;
+        this.toRender.setCustomHolder(this.holder);
 
         try
         {
@@ -251,6 +269,7 @@ public class AnimationGui extends Screen
         this.state_c = new TextFieldWidget(this.font, this.width - 101, yOffset - 13 - yOffset / 2, 100, 10, "");
         this.state_l = new TextFieldWidget(this.font, this.width - 101, yOffset + 07 - yOffset / 2, 100, 10, "");
         this.forme = new TextFieldWidget(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, "");
+        this.forme_alt = new TextFieldWidget(this.font, this.width - 101, yOffset + 97 - yOffset / 2, 100, 10, "");
         this.dyeColour = new TextFieldWidget(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, "");
         this.forme.setText(AnimationGui.mob);
         this.dyeColour.setText(AnimationGui.entry.defaultSpecial + "");
@@ -260,6 +279,7 @@ public class AnimationGui extends Screen
         this.addButton(this.state_c);
         this.addButton(this.state_l);
         this.addButton(this.forme);
+        this.addButton(this.forme_alt);
         this.addButton(this.dyeColour);
 
         this.addButton(new Button(this.width / 2 - xOffset, yOffset, 40, 20, "next", b ->
@@ -269,6 +289,8 @@ public class AnimationGui extends Screen
             else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setText(AnimationGui.mob);
+            this.holder = null;
+            this.forme_alt.setText("");
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
@@ -278,8 +300,10 @@ public class AnimationGui extends Screen
             if (num != AnimationGui.entry) AnimationGui.entry = num;
             else AnimationGui.entry = Pokedex.getInstance().getLastEntry();
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
-            PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.forme.setText(AnimationGui.mob);
+            this.holder = null;
+            this.forme_alt.setText("");
+            PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset - 40, 40, 20, "ground", b ->
@@ -346,7 +370,7 @@ public class AnimationGui extends Screen
             }
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 20, 20, "\u25b6", b ->
+        this.addButton(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10, "\u25b6", b ->
         {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
@@ -359,13 +383,15 @@ public class AnimationGui extends Screen
                     {
                         AnimationGui.entry = i + 1 < formes.size() ? formes.get(i + 1) : formes.get(0);
                         AnimationGui.mob = AnimationGui.entry.getName();
+                        this.holder = null;
+                        this.forme_alt.setText("");
                         this.forme.setText(AnimationGui.mob);
                         break;
                     }
             }
             this.onUpdated();
         }));
-        this.addButton(new Button(this.width - 101, yOffset + 85 - yOffset / 2, 20, 20, "\u25c0", b ->
+        this.addButton(new Button(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10, "\u25c0", b ->
         {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
@@ -378,9 +404,66 @@ public class AnimationGui extends Screen
                     {
                         AnimationGui.entry = i - 1 >= 0 ? formes.get(i - 1) : formes.get(formes.size() - 1);
                         AnimationGui.mob = AnimationGui.entry.getName();
+                        this.holder = null;
+                        this.forme_alt.setText("");
                         this.forme.setText(AnimationGui.mob);
                         break;
                     }
+            }
+            this.onUpdated();
+        }));
+        this.addButton(new Button(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10, "\u25b6", b ->
+        {
+            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
+            if (AnimationGui.entry != null)
+            {
+                final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
+                if (holders != null) try
+                {
+                    final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
+                            : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
+                    for (int i = 0; i < holders.size(); i++)
+                        if (holders.get(i).key.equals(key))
+                        {
+                            final FormeHolder holder = i + 1 < holders.size() ? holders.get(i + 1) : holders.get(0);
+                            this.forme_alt.setText(holder.key.toString());
+                            break;
+                        }
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error cycling forme holder!");
+                    this.forme_alt.setText("");
+                }
+                else this.forme_alt.setText("");
+            }
+            this.onUpdated();
+        }));
+        this.addButton(new Button(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10, "\u25c0", b ->
+        {
+            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
+            if (AnimationGui.entry != null)
+            {
+                final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
+                if (holders != null) try
+                {
+                    final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
+                            : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
+                    for (int i = 0; i < holders.size(); i++)
+                        if (holders.get(i).key.equals(key))
+                        {
+                            final FormeHolder holder = i - 1 >= 0 ? holders.get(i - 1)
+                                    : holders.get(holders.size() - 1);
+                            this.forme_alt.setText(holder.key.toString());
+                            break;
+                        }
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error cycling forme holder!");
+                    this.forme_alt.setText("");
+                }
+                else this.forme_alt.setText("");
             }
             this.onUpdated();
         }));
@@ -392,7 +475,7 @@ public class AnimationGui extends Screen
     public boolean keyPressed(final int code, final int unk1, final int unk2)
     {
         if (code == GLFW.GLFW_KEY_ENTER) this.onUpdated();
-        if(code== GLFW.GLFW_KEY_RIGHT)
+        if (code == GLFW.GLFW_KEY_RIGHT)
         {
             final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
@@ -402,7 +485,7 @@ public class AnimationGui extends Screen
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }
-        if(code== GLFW.GLFW_KEY_LEFT)
+        if (code == GLFW.GLFW_KEY_LEFT)
         {
             final PokedexEntry num = Pokedex.getInstance().getPrevious(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;

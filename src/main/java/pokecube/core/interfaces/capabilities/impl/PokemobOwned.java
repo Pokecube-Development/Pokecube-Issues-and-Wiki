@@ -16,7 +16,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -51,9 +50,10 @@ import thut.api.maths.Vector3;
 
 public abstract class PokemobOwned extends PokemobAI implements IInventoryChangedListener
 {
-    private static final QName TEX   = new QName("tex");
-    private static final QName MODEL = new QName("model");
-    private static final QName ANIM  = new QName("anim");
+    public static final QName KEY   = new QName("forme_key");
+    public static final QName TEX   = new QName("tex");
+    public static final QName MODEL = new QName("model");
+    public static final QName ANIM  = new QName("anim");
 
     @Override
     public void displayMessageToOwner(final ITextComponent message)
@@ -469,15 +469,8 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
 
         // If we have some spawn info, lets process it.
-        if (info != null)
-        {
-            if (info.values.containsKey(PokemobOwned.TEX)) pokemob.setCustomTexDetails(info.values.get(
-                    PokemobOwned.TEX));
-            if (info.values.containsKey(PokemobOwned.MODEL)) pokemob.setCustomModel(new ResourceLocation(info.values
-                    .get(PokemobOwned.MODEL)));
-            if (info.values.containsKey(PokemobOwned.ANIM)) pokemob.setCustomModel(new ResourceLocation(info.values.get(
-                    PokemobOwned.ANIM)));
-        }
+        if (info != null && info.values.containsKey(PokemobOwned.KEY)) pokemob.setCustomHolder(info.getForme(pokemob
+                .getPokedexEntry()));
 
         // Reset love status to prevent immediate eggs
         this.resetLoveStatus();

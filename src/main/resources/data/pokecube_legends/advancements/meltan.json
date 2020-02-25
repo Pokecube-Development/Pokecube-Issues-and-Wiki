@@ -4,18 +4,18 @@
       "item": "pokecube:premiercube"
     },
     "title": {
-	    "text": "Mystic Gear",
-	    "color": "light_purple",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "Mystic Gear",
+      "color": "light_purple",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Catch Meltan"
+      "text": "Catch Meltan"
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -30,7 +30,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/legendscore" ]
+    "loot": [
+      "pokecube_legends:entities/legendscore"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

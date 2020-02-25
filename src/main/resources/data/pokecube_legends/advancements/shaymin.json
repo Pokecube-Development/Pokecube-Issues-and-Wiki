@@ -4,18 +4,18 @@
       "item": "pokecube_legends:gracidea"
     },
     "title": {
-	    "text": "Gratitude",
-	    "color": "light_purple",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "Gratitude",
+      "color": "light_purple",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Catch Shaymin"
+      "text": "Catch Shaymin"
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -30,7 +30,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/gratidon" ]
+    "loot": [
+      "pokecube_legends:entities/gratidon"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

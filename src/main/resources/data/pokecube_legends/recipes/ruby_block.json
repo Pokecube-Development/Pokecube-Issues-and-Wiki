@@ -1,24 +1,17 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "RRR",
-        "RRR",
-        "RRR"
-    ],
-    
-    "key":
-    {
-        "R":
-        {
-            "item": "pokecube_legends:ruby"
-        }
-    },
-    
-    "result":
-    {
-        "item": "pokecube_legends:ruby_block",
-        "count": 1
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "RRR",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube_legends:ruby"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:ruby_block",
+    "count": 1
+  }
 }

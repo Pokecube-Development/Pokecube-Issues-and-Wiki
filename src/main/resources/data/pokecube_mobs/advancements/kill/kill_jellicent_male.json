@@ -29,5 +29,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:kill/kill_frillish_female"
+  "parent": "pokecube_mobs:kill/kill_frillish_male"
 }

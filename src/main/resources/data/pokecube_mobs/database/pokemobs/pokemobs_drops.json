@@ -588,7 +588,7 @@
         "heldTable": "pokecube:entities/kingsrock"
       }
     },
-	{
+    {
       "name": "Slowpoke Galar",
       "stats": {
         "lootTable": "pokecube:entities/pig_1"
@@ -616,7 +616,7 @@
       }
     },
     {
-      "name": "Farfetch\u0027d",
+      "name": "Farfetch'd",
       "stats": {
         "lootTable": "pokecube:entities/chicken_1"
       }
@@ -1326,90 +1326,6 @@
       "stats": {
         "lootTable": "pokecube:entities/enderpearls_1"
       }
-    },
-    {
-      "name": "Unown_A"
-    },
-    {
-      "name": "Unown_B"
-    },
-    {
-      "name": "Unown_C"
-    },
-    {
-      "name": "Unown_D"
-    },
-    {
-      "name": "Unown_E"
-    },
-    {
-      "name": "Unown_Ex"
-    },
-    {
-      "name": "Unown_F"
-    },
-    {
-      "name": "Unown_G"
-    },
-    {
-      "name": "Unown_H"
-    },
-    {
-      "name": "Unown_I"
-    },
-    {
-      "name": "Unown_J"
-    },
-    {
-      "name": "Unown_K"
-    },
-    {
-      "name": "Unown_L"
-    },
-    {
-      "name": "Unown_M"
-    },
-    {
-      "name": "Unown_N"
-    },
-    {
-      "name": "Unown_O"
-    },
-    {
-      "name": "Unown_P"
-    },
-    {
-      "name": "Unown_Q"
-    },
-    {
-      "name": "Unown_Qu"
-    },
-    {
-      "name": "Unown_R"
-    },
-    {
-      "name": "Unown_S"
-    },
-    {
-      "name": "Unown_T"
-    },
-    {
-      "name": "Unown_U"
-    },
-    {
-      "name": "Unown_V"
-    },
-    {
-      "name": "Unown_W"
-    },
-    {
-      "name": "Unown_X"
-    },
-    {
-      "name": "Unown_Y"
-    },
-    {
-      "name": "Unown_Z"
     },
     {
       "name": "Wobbuffet",
@@ -3754,7 +3670,7 @@
         "lootTable": "pokecube:entities/fish_1"
       }
     },
-	{
+    {
       "name": "Stunfisk Galar",
       "stats": {
         "lootTable": "pokecube:entities/fish_1"
@@ -4837,274 +4753,274 @@
     {
       "name": "Zeraora"
     },
-	{
+    {
       "name": "Meltan",
       "stats": {
         "lootTable": "pokecube:entities/iron_1"
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Melmetal",
       "stats": {
         "lootTable": "pokecube:entities/iron_1"
-	  }
-	},	
-	{
+      }
+    },
+    {
       "name": "Grookey"
     },
-	{
+    {
       "name": "Thwackey"
     },
-	{
+    {
       "name": "Rillaboom"
-	},
-	{
+    },
+    {
       "name": "Scorbunny"
     },
-	{
+    {
       "name": "Raboot"
     },
-	{
+    {
       "name": "Cinderace"
-	},
-	{
+    },
+    {
       "name": "Sobble"
     },
-	{
+    {
       "name": "Drizzile"
     },
-	{
+    {
       "name": "Inteleon"
-	},
-	{
+    },
+    {
       "name": "Skwovet"
     },
-	{
+    {
       "name": "Greedent"
-	},
-	{
+    },
+    {
       "name": "Rookidee"
     },
-	{
+    {
       "name": "Corvisquire"
     },
-	{
+    {
       "name": "Corviknight"
-	},
-	{
+    },
+    {
       "name": "Blipbug"
     },
-	{
+    {
       "name": "Dottler"
     },
-	{
+    {
       "name": "Orbeetle"
-	},
-	{
+    },
+    {
       "name": "Nickit"
     },
-	{
+    {
       "name": "Thievul"
-	},
-	{
+    },
+    {
       "name": "Gossifleur"
     },
-	{
+    {
       "name": "Eldegoss"
-	},
-	{
+    },
+    {
       "name": "Wooloo"
     },
-	{
+    {
       "name": "Dubwool"
-	},
-	{
+    },
+    {
       "name": "Chewtle"
     },
-	{
+    {
       "name": "Drednaw"
-	},
-	{
+    },
+    {
       "name": "Yamper"
     },
-	{
+    {
       "name": "Boltund"
-	},
-	{
+    },
+    {
       "name": "Rolycoly"
     },
-	{
+    {
       "name": "Carkol"
     },
-	{
+    {
       "name": "Coalossal"
-	},
-	{
+    },
+    {
       "name": "Applin"
     },
-	{
+    {
       "name": "Flapple"
-	},
-	{
+    },
+    {
       "name": "Appletun"
-	},
-	{
+    },
+    {
       "name": "Silicobra"
     },
-	{
+    {
       "name": "Sandaconda"
-	},
-	{
+    },
+    {
       "name": "Cramorant"
-	},
-	{
+    },
+    {
       "name": "Cramorant Gulping"
-	},
-	{
+    },
+    {
       "name": "Arrokuda"
     },
-	{
+    {
       "name": "Barraskewda"
-	},
-	{
+    },
+    {
       "name": "Toxel"
     },
-	{
+    {
       "name": "Toxtricity Amped"
-	},
-	{
+    },
+    {
       "name": "Toxtricity Lowkey"
-	},
-	{
+    },
+    {
       "name": "Sizzlipede"
     },
-	{
+    {
       "name": "Centiskorch"
-	},
-	{
+    },
+    {
       "name": "Clobbopus"
     },
-	{
+    {
       "name": "Grapploct"
-	},
-	{
+    },
+    {
       "name": "Sinistea"
     },
-	{
+    {
       "name": "Sinistea Forgery"
     },
-	{
+    {
       "name": "Polteageist Forgery"
-	},
-	{
+    },
+    {
       "name": "Polteageist"
-	},
-	{
+    },
+    {
       "name": "Hatenna"
     },
-	{
+    {
       "name": "Hattrem"
     },
-	{
+    {
       "name": "Hatterene"
-	},
-	{
+    },
+    {
       "name": "Impidimp"
     },
-	{
+    {
       "name": "Morgrem"
     },
-	{
+    {
       "name": "Grimmsnarl"
-	},
-	{
+    },
+    {
       "name": "Obstagoon"
-	},
-	{
+    },
+    {
       "name": "Perrserker"
-	},
-	{
+    },
+    {
       "name": "Cursola"
-	},
-	{
-      "name": "Sirfetch\u0027d"
-	},
-	{
+    },
+    {
+      "name": "Sirfetch'd"
+    },
+    {
       "name": "Mr. Rime"
-	},
-	{
+    },
+    {
       "name": "Runerigus"
-	},
-	{
+    },
+    {
       "name": "Milcery"
     },
-	{
+    {
       "name": "Alcremie"
-	},
-	{
+    },
+    {
       "name": "Falinks"
-	},
-	{
+    },
+    {
       "name": "Pincurchin"
-	},
-	{
+    },
+    {
       "name": "Snom"
     },
-	{
+    {
       "name": "Frosmoth"
-	},
-	{
+    },
+    {
       "name": "Stonjourner"
-	},
-	{
+    },
+    {
       "name": "Eiscue"
-	},
-	{
+    },
+    {
       "name": "Indeedee"
-	},
-	{
+    },
+    {
       "name": "Morpeko"
-	},
-	{
+    },
+    {
       "name": "Morpeko Hangry"
-	},
-	{
+    },
+    {
       "name": "Cufant"
     },
-	{
+    {
       "name": "Copperajah"
-	},
-	{
+    },
+    {
       "name": "Dracozolt"
-	},
-	{
+    },
+    {
       "name": "Arctozolt"
-	},
-	{
+    },
+    {
       "name": "Dracovish"
-	},
-	{
+    },
+    {
       "name": "Arctovish"
-	},
-	{
+    },
+    {
       "name": "Duraludon"
-	},
-	{
+    },
+    {
       "name": "Dreepy"
     },
-	{
+    {
       "name": "Drakloak"
     },
-	{
+    {
       "name": "Dragapult"
-	},
-	{
+    },
+    {
       "name": "Zacian"
     },
-	{
+    {
       "name": "Zamazenta"
     },
-	{
+    {
       "name": "Eternatus"
     }
   ]

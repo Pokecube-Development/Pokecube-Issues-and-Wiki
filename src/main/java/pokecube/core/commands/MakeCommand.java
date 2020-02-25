@@ -19,16 +19,19 @@ import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -122,6 +125,16 @@ public class MakeCommand
             {
                 level = Integer.parseInt(val);
                 exp = Tools.levelToXp(mob.getExperienceMode(), level);
+            }
+            else if (arg.equalsIgnoreCase("f")) try
+            {
+                final ResourceLocation formetag = PokecubeItems.toPokecubeResource(val);
+                final FormeHolder holder = Database.formeHolders.get(formetag);
+                mob.setCustomHolder(holder);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error parsing forme tag: " + val);
             }
             else if (arg.equalsIgnoreCase("x"))
             {

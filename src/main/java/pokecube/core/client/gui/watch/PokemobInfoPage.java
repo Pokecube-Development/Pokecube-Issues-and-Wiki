@@ -188,6 +188,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         this.search.setText(pokemob.getPokedexEntry().getName());
         PacketPokedex.sendSpecificSpawnsRequest(pokemob.getPokedexEntry());
         PacketPokedex.updateWatchEntry(pokemob.getPokedexEntry());
+        // Force close and open the page to update.
+        this.changePage(this.index);
     }
 
     @Override

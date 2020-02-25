@@ -32,6 +32,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -141,11 +142,11 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             }
             if (entry.getBaseForme() != null)
             {
-                String newRes = entry.animation().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
-                        .getTrimmedName());
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(),
+                        entry.getBaseForme().getTrimmedName());
                 this.backupAnimations.add(new ResourceLocation(newRes));
-                newRes = entry.model().toString().replace(entry.getTrimmedName(), entry.getBaseForme()
-                        .getTrimmedName());
+                newRes = entry.model().toString().replace(entry.getTrimmedName(),
+                        entry.getBaseForme().getTrimmedName());
                 this.backupModels.add(new ResourceLocation(newRes));
             }
         }
@@ -354,8 +355,6 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         public void initModel(final ModelWrapper<TameableEntity> model)
         {
             this.wrapper = model;
-            this.name = model.model.name;
-            this.texture = model.model.texture;
             model.imodel = ModelFactory.create(model.model);
 
             // Check if an animation file exists.
@@ -368,7 +367,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
                 // No animation here, lets try to use the base one.
             }
 
-            AnimationLoader.parse(model.model, model, this);
+            AnimationLoader.parse(this, model, this);
             this.initModelParts();
         }
 
@@ -470,7 +469,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         return RenderPokemob.MISSNGNO;
     }
 
-    final Holder holder;
+    final Holder                        holder;
 
     final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
 
@@ -501,17 +500,19 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = this.holder;
 
-        if (pokemob.getCustomModel() != null)
+        if (pokemob.getCustomHolder() != null)
         {
-            final ResourceLocation model = pokemob.getCustomModel();
+            final FormeHolder forme = pokemob.getCustomHolder();
+            final ResourceLocation model = forme.key;
             Holder temp = this.customs.get(model);
-            if (temp == null)
+            if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
             {
-                temp = new Holder(pokemob.getPokedexEntry());
-                temp.model = model;
-                if (pokemob.getCustomAnims() != null) temp.animation = pokemob.getCustomAnims();
-                this.customs.put(model, holder);
-                holder.init();
+                if (temp == null) temp = new Holder(pokemob.getPokedexEntry());
+                if (forme.model != null) temp.model = forme.model;
+                if (forme.animation != null) temp.animation = forme.animation;
+                if (forme.texture != null) temp.texture = forme.texture;
+                this.customs.put(model, temp);
+                temp.init();
             }
             holder = temp;
         }
@@ -521,8 +522,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             holder.init();
             PokecubeMod.LOGGER.info("Reloaded model for " + type.getEntry());
         }
-        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid()
-                || holder.entry != type.getEntry() || holder.model == null || holder.texture == null)
+        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
+                || holder.texture == null)
             holder = RenderPokemob.getMissingNo();
 
         this.entityModel = holder.wrapper;

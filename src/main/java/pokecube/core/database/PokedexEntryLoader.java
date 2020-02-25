@@ -48,6 +48,7 @@ import pokecube.core.database.PokedexEntryLoader.StatsNode.Stats;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
@@ -104,6 +105,32 @@ public class PokedexEntryLoader
         }
     }
 
+    public static class DefaultFormeHolder
+    {
+        // These three allow specific models/textures for evos
+        protected String key   = null;
+        protected String tex   = null;
+        protected String model = null;
+        protected String anim  = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.key != null)
+            {
+                final ResourceLocation texl = this.tex != null ? PokecubeItems.toPokecubeResource(baseEntry.texturePath
+                        + this.tex) : null;
+                final ResourceLocation modell = this.model != null ? PokecubeItems.toPokecubeResource(baseEntry.model
+                        .toString().replace(baseEntry.getTrimmedName(), this.model)) : null;
+                final ResourceLocation animl = this.anim != null ? PokecubeItems.toPokecubeResource(baseEntry.animation
+                        .toString().replace(baseEntry.getTrimmedName(), this.anim)) : null;
+                final FormeHolder holder = FormeHolder.get(modell, texl, animl, PokecubeItems.toPokecubeResource(
+                        this.key));
+                return holder;
+            }
+            return null;
+        }
+    }
+
     public static class Evolution
     {
         public Boolean   clear;
@@ -122,10 +149,13 @@ public class PokedexEntryLoader
         public String    move;
         public Float     chance;
 
-        // These three allow specific models/textures for evos
-        public String tex   = null;
-        public String model = null;
-        public String anim  = null;
+        protected DefaultFormeHolder model = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.model != null) return this.model.getForme(baseEntry);
+            return null;
+        }
 
         @Override
         public boolean equals(final Object obj)
@@ -251,6 +281,14 @@ public class PokedexEntryLoader
         public String toString()
         {
             return this.values + "";
+        }
+
+        protected DefaultFormeHolder model = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.model != null) return this.model.getForme(baseEntry);
+            return null;
         }
     }
 
@@ -382,6 +420,8 @@ public class PokedexEntryLoader
         public Moves     moves;
         public BodyNode  body;
 
+        public DefaultFormeHolder model = null;
+
         void mergeMissingFrom(final XMLPokedexEntry other)
         {
             if (this.moves == null && other.moves != null) this.moves = other.moves;
@@ -392,6 +432,7 @@ public class PokedexEntryLoader
                 if (this.moves.evolutionMoves != null) this.moves.evolutionMoves = other.moves.evolutionMoves;
             }
             if (this.body == null && other.body != null) this.body = other.body;
+            if (this.model == null && other.model != null) this.model = other.model;
             if (this.stats == null && other.stats != null) this.stats = other.stats;
             else if (other.stats != null) // Copy everything which is missing
                 for (final Field f : StatsNode.class.getDeclaredFields())
@@ -445,7 +486,7 @@ public class PokedexEntryLoader
             {
                 out.value(value.toString());
             }
-        }).setPrettyPrinting().create();
+        }).setPrettyPrinting().disableHtmlEscaping().create();
         PokedexEntryLoader.missingno.stats = new StatsNode();
     }
 
@@ -1025,6 +1066,8 @@ public class PokedexEntryLoader
         if (spawnData == null || overwrite) spawnData = new SpawnData(entry);
         for (final SpawnRule rule : xmlStats.spawnRules)
         {
+            final FormeHolder holder = rule.getForme(entry);
+            if (holder != null) Database.registerFormeHolder(entry, holder);
             PokedexEntryLoader.handleAddSpawn(spawnData, rule);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for " + entry);
         }
@@ -1328,6 +1371,10 @@ public class PokedexEntryLoader
         final Moves moves = xmlEntry.moves;
         final String name = xmlEntry.name;
         final PokedexEntry entry = Database.getEntry(name);
+        entry.modelExt = xmlEntry.modelType;
+
+        if (entry._default_holder == null && xmlEntry.model != null) entry._default_holder = xmlEntry.model;
+
         if (stats != null) try
         {
             if (xmlEntry.sound != null) entry.customSound = xmlEntry.sound;
