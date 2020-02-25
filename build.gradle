@@ -91,6 +91,8 @@ dependencies {
     //JEI
     implementation fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
     
+    //WHYLA
+    implementation fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")
 
 }
 

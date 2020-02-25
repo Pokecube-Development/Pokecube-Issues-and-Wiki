@@ -441,6 +441,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -508,7 +509,13 @@
             "hidden": "Solar Power"
           }
         },
-        "mass": 90.5
+        "mass": 90.5,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -1077,6 +1084,12 @@
           }
         },
         "mass": 32.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -1306,6 +1319,12 @@
           }
         },
         "mass": 40.5,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -1505,6 +1524,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -1561,6 +1581,12 @@
           }
         },
         "mass": 50.5,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -1929,6 +1955,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -4929,6 +4956,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -5362,6 +5390,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -5436,6 +5465,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -7240,7 +7270,13 @@
             "normal": "Shell Armor"
           }
         },
-        "mass": 120.0
+        "mass": 120.0,
+        "logics": {
+          "values": {
+            "dive": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -7824,6 +7860,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -8463,6 +8500,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -13133,7 +13171,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "fly": "true",
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -17922,6 +17960,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -17980,6 +18019,12 @@
           }
         },
         "mass": 125.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -19158,6 +19203,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -20827,6 +20873,7 @@
         "logics": {
           "values": {
             "dive": "TRUE",
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -20906,6 +20953,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -23221,6 +23269,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -26464,6 +26513,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -27550,6 +27600,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -28188,6 +28239,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -29926,6 +29978,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -29999,6 +30052,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -30579,6 +30633,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31158,6 +31213,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31216,6 +31272,12 @@
           }
         },
         "mass": 52.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -31266,6 +31328,7 @@
         "genderRatio": 0,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31324,6 +31387,12 @@
           }
         },
         "mass": 70.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -31490,7 +31559,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "hatedMaterials": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -31595,6 +31665,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31652,6 +31723,12 @@
           }
         },
         "mass": 392.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -31782,6 +31859,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31850,6 +31928,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31896,6 +31975,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31941,6 +32021,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -32433,7 +32514,8 @@
           "values": {
             "shoulder": "TRUE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -32505,7 +32587,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -32580,7 +32663,8 @@
             "dive": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -32796,6 +32880,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -32941,6 +33026,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -34380,6 +34466,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -34673,6 +34760,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -34896,6 +34984,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -36305,6 +36394,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -36356,7 +36446,13 @@
             "normal": "Sand Force"
           }
         },
-        "mass": 95.0
+        "mass": 95.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -38159,6 +38255,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -38381,6 +38478,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -38784,6 +38882,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -39392,10 +39491,11 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-        "movementType": "flying"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -39468,10 +39568,11 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-        "movementType": "flying"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -39689,6 +39790,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -39752,6 +39854,12 @@
         },
         "mass": 650.0,
         "captureRate": 3,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -39802,6 +39910,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -40019,6 +40128,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -41144,7 +41254,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -41218,7 +41329,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -41293,7 +41405,8 @@
             "dive": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -43789,6 +43902,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -46173,6 +46287,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -47403,6 +47518,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -50469,6 +50585,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -50621,8 +50738,7 @@
             "fly": "TRUE",
             "shoulder": "FALSE"
           }
-        },
-        "movementType": "flying"
+        }
       },
       "moves": {
         "lvlupMoves": {
@@ -50998,6 +51114,7 @@
         "genderRatio": 0,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -51153,6 +51270,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -51526,6 +51644,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -51673,6 +51792,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52043,6 +52163,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52175,6 +52296,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52229,6 +52351,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52307,6 +52430,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52462,6 +52586,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52593,6 +52718,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52644,6 +52770,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52912,6 +53039,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -53612,6 +53740,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -53666,6 +53795,12 @@
         "abilities": {
           "values": {
             "normal": "Battle Bond"
+          }
+        },
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
           }
         }
       }
@@ -54012,6 +54147,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -55848,6 +55984,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -58107,6 +58244,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -58262,6 +58400,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -58427,7 +58566,12 @@
           }
         },
         "mass": 610.0,
-        "movementType": "flying"
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -58637,6 +58781,12 @@
         "mass": 490.0,
         "captureRate": 3,
         "genderRatio": 255,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "floating"
       },
       "moves": {
@@ -58917,10 +59067,10 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-        "formeItems": {},
         "movementType": "flying"
       },
       "moves": {
@@ -59355,6 +59505,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -59570,7 +59721,12 @@
         "captureRate": 45,
         "expMode": "Medium Fast",
         "genderRatio": 127,
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "flying"
       },
@@ -60760,7 +60916,12 @@
         "captureRate": 190,
         "expMode": "Medium Fast",
         "genderRatio": 127,
-        "logics": {},
+        "logics": {
+          "values": {
+            "dive": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "water"
       },
@@ -63574,7 +63735,12 @@
         "mass": 210.0,
         "captureRate": 25,
         "expMode": "Medium Fast",
-        "logics": {},
+        "logics": {
+          "values": {
+            "dive": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "water"
       },
@@ -64245,7 +64411,12 @@
         "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {}
       },
       "moves": {
@@ -64311,7 +64482,13 @@
             "normal": "Full Metal Body"
           }
         },
-        "mass": 230.0
+        "mass": 230.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -64357,8 +64534,12 @@
         "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
-        "formeItems": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       },
       "moves": {
@@ -64425,6 +64606,12 @@
           }
         },
         "mass": 120.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -64543,7 +64730,12 @@
         "captureRate": 25,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {}
       },
       "moves": {
@@ -64751,7 +64943,12 @@
         "captureRate": 25,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "flying"
       },
@@ -64955,7 +65152,14 @@
         "mass": 350.0,
         "captureRate": 3,
         "baseFriendship": 0,
-        "expMode": "Slow"
+        "expMode": "Slow",
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -65020,6 +65224,12 @@
           }
         },
         "mass": 230.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -65260,6 +65470,12 @@
         "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       },
       "moves": {
@@ -66128,7 +66344,8 @@
           "values": {
             "shoulder": "TRUE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -66198,7 +66415,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -66264,9 +66482,11 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -66614,6 +66834,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -66677,6 +66898,12 @@
           }
         },
         "mass": 75.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -66918,6 +67145,12 @@
           }
         },
         "mass": 40.8,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "floating"
       }
     },
@@ -69200,6 +69433,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -70764,6 +70998,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -71677,6 +71912,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -72004,6 +72240,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -72296,9 +72533,11 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
