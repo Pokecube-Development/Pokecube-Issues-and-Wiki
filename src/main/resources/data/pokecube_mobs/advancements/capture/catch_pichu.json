@@ -24,7 +24,6 @@
     "catch_pichu": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pichu"
       }
     }

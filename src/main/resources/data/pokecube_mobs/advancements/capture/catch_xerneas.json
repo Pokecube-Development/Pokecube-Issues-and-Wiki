@@ -25,7 +25,6 @@
     "catch_xerneas": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "xerneas"
       }
     }

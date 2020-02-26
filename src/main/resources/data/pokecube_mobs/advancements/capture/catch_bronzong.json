@@ -24,7 +24,6 @@
     "catch_bronzong": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bronzong"
       }
     }

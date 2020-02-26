@@ -24,7 +24,6 @@
     "catch_emboar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "emboar"
       }
     }

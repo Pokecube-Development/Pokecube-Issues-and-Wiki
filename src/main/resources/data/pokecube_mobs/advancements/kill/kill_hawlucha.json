@@ -24,7 +24,6 @@
     "kill_hawlucha": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hawlucha"
       }
     }

@@ -24,7 +24,6 @@
     "catch_hitmonchan": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hitmonchan"
       }
     }

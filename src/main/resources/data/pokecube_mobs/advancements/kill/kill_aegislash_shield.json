@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash_shield"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash_shield"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_aegislash_shield": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "aegislash_shield"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

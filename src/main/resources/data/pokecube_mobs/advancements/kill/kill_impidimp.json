@@ -24,7 +24,6 @@
     "kill_impidimp": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "impidimp"
       }
     }

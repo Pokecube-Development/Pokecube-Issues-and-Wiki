@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_bug"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_bug"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "kill_arceus_bug": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "arceus_bug"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -24,7 +24,6 @@
     "catch_cleffa": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cleffa"
       }
     }

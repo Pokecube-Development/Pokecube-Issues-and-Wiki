@@ -24,7 +24,6 @@
     "kill_sunflora": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sunflora"
       }
     }

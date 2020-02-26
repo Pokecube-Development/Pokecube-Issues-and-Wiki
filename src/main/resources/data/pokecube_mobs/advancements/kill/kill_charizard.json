@@ -24,7 +24,6 @@
     "kill_charizard": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "charizard"
       }
     }

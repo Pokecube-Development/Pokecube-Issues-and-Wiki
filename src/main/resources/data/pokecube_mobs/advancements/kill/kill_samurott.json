@@ -24,7 +24,6 @@
     "kill_samurott": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "samurott"
       }
     }

@@ -24,7 +24,6 @@
     "kill_zamazenta": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zamazenta"
       }
     }

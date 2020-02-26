@@ -24,7 +24,6 @@
     "catch_bagon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bagon"
       }
     }

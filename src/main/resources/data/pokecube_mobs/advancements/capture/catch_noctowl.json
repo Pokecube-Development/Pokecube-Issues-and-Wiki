@@ -24,7 +24,6 @@
     "catch_noctowl": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "noctowl"
       }
     }

@@ -24,7 +24,6 @@
     "kill_swampert": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "swampert"
       }
     }

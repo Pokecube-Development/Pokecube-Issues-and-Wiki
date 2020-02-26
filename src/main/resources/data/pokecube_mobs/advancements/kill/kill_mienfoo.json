@@ -24,7 +24,6 @@
     "kill_mienfoo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mienfoo"
       }
     }

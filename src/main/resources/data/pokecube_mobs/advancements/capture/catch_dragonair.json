@@ -24,7 +24,6 @@
     "catch_dragonair": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dragonair"
       }
     }

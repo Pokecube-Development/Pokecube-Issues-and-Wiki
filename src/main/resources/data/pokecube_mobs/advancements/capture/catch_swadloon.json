@@ -24,7 +24,6 @@
     "catch_swadloon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "swadloon"
       }
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo_super"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo_super"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pumpkaboo_super": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pumpkaboo_super"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

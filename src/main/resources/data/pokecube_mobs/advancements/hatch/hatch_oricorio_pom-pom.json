@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_pom-pom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_pom-pom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_oricorio_pom-pom": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "oricorio_pom-pom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

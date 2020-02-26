@@ -24,7 +24,6 @@
     "catch_clamperl": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "clamperl"
       }
     }

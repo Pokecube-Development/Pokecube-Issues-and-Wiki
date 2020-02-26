@@ -24,7 +24,6 @@
     "catch_salandit": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "salandit"
       }
     }

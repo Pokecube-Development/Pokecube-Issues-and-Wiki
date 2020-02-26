@@ -24,7 +24,6 @@
     "catch_lunatone": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lunatone"
       }
     }

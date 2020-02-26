@@ -24,7 +24,6 @@
     "kill_passimian": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "passimian"
       }
     }

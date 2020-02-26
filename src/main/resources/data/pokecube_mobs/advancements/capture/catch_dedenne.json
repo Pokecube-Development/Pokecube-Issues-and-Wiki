@@ -24,7 +24,6 @@
     "catch_dedenne": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dedenne"
       }
     }

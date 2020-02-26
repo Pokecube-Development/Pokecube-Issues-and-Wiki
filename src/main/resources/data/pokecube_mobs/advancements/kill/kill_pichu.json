@@ -24,7 +24,6 @@
     "kill_pichu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pichu"
       }
     }

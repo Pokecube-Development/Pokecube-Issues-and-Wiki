@@ -25,7 +25,6 @@
     "catch_lunala": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lunala"
       }
     }

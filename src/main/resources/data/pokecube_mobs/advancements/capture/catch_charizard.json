@@ -24,7 +24,6 @@
     "catch_charizard": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "charizard"
       }
     }

@@ -24,7 +24,6 @@
     "catch_stoutland": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "stoutland"
       }
     }

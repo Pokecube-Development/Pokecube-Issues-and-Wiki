@@ -24,7 +24,6 @@
     "kill_slakoth": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "slakoth"
       }
     }

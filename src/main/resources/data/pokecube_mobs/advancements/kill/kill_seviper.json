@@ -24,7 +24,6 @@
     "kill_seviper": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "seviper"
       }
     }

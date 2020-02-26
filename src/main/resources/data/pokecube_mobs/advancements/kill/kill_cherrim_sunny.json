@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cherrim_sunny"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cherrim_sunny"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cherrim_sunny": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cherrim_sunny"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

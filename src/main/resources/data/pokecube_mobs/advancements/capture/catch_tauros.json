@@ -24,7 +24,6 @@
     "catch_tauros": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tauros"
       }
     }

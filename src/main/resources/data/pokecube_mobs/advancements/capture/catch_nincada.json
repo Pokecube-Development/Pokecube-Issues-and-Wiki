@@ -24,7 +24,6 @@
     "catch_nincada": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "nincada"
       }
     }

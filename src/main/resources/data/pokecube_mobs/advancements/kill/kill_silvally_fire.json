@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fire"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fire"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_fire": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_fire"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

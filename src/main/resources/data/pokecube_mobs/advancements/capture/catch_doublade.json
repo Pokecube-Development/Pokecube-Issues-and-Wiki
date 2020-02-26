@@ -24,7 +24,6 @@
     "catch_doublade": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "doublade"
       }
     }

@@ -24,7 +24,6 @@
     "kill_pawniard": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pawniard"
       }
     }

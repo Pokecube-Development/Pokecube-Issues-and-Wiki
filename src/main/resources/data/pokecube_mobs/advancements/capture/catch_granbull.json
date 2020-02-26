@@ -24,7 +24,6 @@
     "catch_granbull": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "granbull"
       }
     }

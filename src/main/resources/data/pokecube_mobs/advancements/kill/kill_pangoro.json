@@ -24,7 +24,6 @@
     "kill_pangoro": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pangoro"
       }
     }

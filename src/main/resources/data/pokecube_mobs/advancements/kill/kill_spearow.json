@@ -24,7 +24,6 @@
     "kill_spearow": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "spearow"
       }
     }

@@ -24,7 +24,6 @@
     "kill_quagsire": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "quagsire"
       }
     }

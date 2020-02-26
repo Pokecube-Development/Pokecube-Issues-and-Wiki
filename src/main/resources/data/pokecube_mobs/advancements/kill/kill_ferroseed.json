@@ -24,7 +24,6 @@
     "kill_ferroseed": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ferroseed"
       }
     }

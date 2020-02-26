@@ -24,7 +24,6 @@
     "catch_pidove": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pidove"
       }
     }

@@ -24,7 +24,6 @@
     "catch_shuckle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shuckle"
       }
     }

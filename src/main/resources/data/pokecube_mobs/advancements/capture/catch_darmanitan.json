@@ -24,7 +24,6 @@
     "catch_darmanitan": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "darmanitan"
       }
     }

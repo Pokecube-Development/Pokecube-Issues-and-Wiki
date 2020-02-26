@@ -24,7 +24,6 @@
     "catch_dragapult": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dragapult"
       }
     }

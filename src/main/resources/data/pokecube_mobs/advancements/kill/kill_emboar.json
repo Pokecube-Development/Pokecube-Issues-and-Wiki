@@ -24,7 +24,6 @@
     "kill_emboar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "emboar"
       }
     }

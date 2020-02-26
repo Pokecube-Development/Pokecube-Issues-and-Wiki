@@ -25,7 +25,6 @@
     "kill_palkia": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "palkia"
       }
     }

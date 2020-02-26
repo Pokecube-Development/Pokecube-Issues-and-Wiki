@@ -24,7 +24,6 @@
     "kill_florges": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "florges"
       }
     }

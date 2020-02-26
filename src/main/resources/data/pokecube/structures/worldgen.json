@@ -96,6 +96,13 @@
           ]
         },
         {
+          "name": "pokecube:village/common/deco",
+          "rigid": false,
+          "options": [
+            "pokecube:village/common/deco/lamp_1"
+          ]
+        },
+        {
           "name": "pokecube:village/common/houses",
           "target": "pokecube:village/common/terminators",
           "options": [

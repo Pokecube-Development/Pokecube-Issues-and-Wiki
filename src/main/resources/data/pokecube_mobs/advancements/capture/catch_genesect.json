@@ -25,7 +25,6 @@
     "catch_genesect": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "genesect"
       }
     }

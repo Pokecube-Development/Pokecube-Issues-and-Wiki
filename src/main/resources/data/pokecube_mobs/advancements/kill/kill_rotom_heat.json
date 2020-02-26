@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom_heat"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom_heat"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_rotom_heat": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "rotom_heat"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

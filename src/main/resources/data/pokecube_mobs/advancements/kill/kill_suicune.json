@@ -25,7 +25,6 @@
     "kill_suicune": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "suicune"
       }
     }

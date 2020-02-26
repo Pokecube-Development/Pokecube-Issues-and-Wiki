@@ -24,7 +24,6 @@
     "catch_klang": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "klang"
       }
     }

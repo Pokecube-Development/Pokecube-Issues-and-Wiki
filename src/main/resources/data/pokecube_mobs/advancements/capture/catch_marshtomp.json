@@ -24,7 +24,6 @@
     "catch_marshtomp": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "marshtomp"
       }
     }

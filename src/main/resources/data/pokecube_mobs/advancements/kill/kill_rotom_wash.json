@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom_wash"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rotom_wash"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_rotom_wash": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "rotom_wash"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

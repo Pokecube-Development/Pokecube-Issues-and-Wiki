@@ -24,7 +24,6 @@
     "kill_baltoy": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "baltoy"
       }
     }

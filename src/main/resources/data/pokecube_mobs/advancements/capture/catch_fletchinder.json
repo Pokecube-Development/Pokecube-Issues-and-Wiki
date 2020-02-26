@@ -24,7 +24,6 @@
     "catch_fletchinder": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "fletchinder"
       }
     }

@@ -24,7 +24,6 @@
     "kill_alomomola": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "alomomola"
       }
     }

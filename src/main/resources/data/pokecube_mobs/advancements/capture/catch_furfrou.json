@@ -24,7 +24,6 @@
     "catch_furfrou": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "furfrou"
       }
     }

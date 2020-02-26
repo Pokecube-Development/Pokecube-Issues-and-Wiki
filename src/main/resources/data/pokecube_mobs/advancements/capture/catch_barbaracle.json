@@ -24,7 +24,6 @@
     "catch_barbaracle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "barbaracle"
       }
     }

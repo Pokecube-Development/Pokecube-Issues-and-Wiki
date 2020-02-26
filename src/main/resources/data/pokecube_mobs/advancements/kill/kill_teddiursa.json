@@ -24,7 +24,6 @@
     "kill_teddiursa": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "teddiursa"
       }
     }

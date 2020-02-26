@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyurem_black"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kyurem_black"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_kyurem_black": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "kyurem_black"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

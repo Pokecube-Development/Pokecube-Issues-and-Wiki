@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fighting"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fighting"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_silvally_fighting": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "silvally_fighting"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

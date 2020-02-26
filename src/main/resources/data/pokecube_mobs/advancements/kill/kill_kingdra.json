@@ -24,7 +24,6 @@
     "kill_kingdra": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kingdra"
       }
     }

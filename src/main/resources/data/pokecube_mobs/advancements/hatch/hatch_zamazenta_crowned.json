@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.zamazenta_crowned"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zamazenta_crowned"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_zamazenta_crowned": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "zamazenta_crowned"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

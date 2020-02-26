@@ -24,7 +24,6 @@
     "catch_drakloak": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "drakloak"
       }
     }

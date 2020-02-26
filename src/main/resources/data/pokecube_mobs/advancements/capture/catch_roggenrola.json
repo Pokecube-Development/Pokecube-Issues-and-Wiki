@@ -24,7 +24,6 @@
     "catch_roggenrola": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "roggenrola"
       }
     }

@@ -24,7 +24,6 @@
     "kill_wooper": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wooper"
       }
     }

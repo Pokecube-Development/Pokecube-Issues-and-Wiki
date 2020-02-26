@@ -24,7 +24,6 @@
     "catch_reuniclus": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "reuniclus"
       }
     }

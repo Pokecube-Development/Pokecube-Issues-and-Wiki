@@ -24,7 +24,6 @@
     "kill_floatzel": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "floatzel"
       }
     }

@@ -24,7 +24,6 @@
     "kill_dugtrio": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dugtrio"
       }
     }

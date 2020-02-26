@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant_gorging"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant_gorging"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_cramorant_gorging": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "cramorant_gorging"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

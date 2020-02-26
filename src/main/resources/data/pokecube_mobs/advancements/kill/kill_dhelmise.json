@@ -24,7 +24,6 @@
     "kill_dhelmise": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dhelmise"
       }
     }

@@ -24,7 +24,6 @@
     "catch_cyndaquil": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cyndaquil"
       }
     }

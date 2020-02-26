@@ -24,7 +24,6 @@
     "catch_togekiss": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "togekiss"
       }
     }

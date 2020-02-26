@@ -24,7 +24,6 @@
     "catch_gumshoos": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gumshoos"
       }
     }

@@ -24,7 +24,6 @@
     "catch_persian": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "persian"
       }
     }

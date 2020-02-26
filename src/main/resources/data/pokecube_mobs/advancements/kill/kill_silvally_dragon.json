@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_dragon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_dragon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_dragon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_dragon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

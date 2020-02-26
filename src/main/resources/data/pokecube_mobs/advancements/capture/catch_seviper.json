@@ -24,7 +24,6 @@
     "catch_seviper": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "seviper"
       }
     }

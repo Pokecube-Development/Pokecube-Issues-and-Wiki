@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_psychic"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_psychic"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_arceus_psychic": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "arceus_psychic"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

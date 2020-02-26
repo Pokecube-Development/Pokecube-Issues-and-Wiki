@@ -24,7 +24,6 @@
     "kill_zubat": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zubat"
       }
     }

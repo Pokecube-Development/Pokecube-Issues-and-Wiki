@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_sensu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_sensu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_oricorio_sensu": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "oricorio_sensu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

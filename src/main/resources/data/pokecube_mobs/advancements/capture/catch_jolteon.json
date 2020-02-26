@@ -24,7 +24,6 @@
     "catch_jolteon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "jolteon"
       }
     }

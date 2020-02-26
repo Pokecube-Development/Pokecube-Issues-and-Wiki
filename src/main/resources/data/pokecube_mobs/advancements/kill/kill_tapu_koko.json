@@ -25,7 +25,6 @@
     "kill_tapu_koko": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tapu_koko"
       }
     }

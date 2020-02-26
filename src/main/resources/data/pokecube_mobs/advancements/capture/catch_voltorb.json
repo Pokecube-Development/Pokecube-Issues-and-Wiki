@@ -24,7 +24,6 @@
     "catch_voltorb": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "voltorb"
       }
     }

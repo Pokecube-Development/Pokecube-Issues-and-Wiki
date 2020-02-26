@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_ground"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_ground"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "catch_arceus_ground": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "arceus_ground"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -24,7 +24,6 @@
     "catch_lucario": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lucario"
       }
     }

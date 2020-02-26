@@ -24,7 +24,6 @@
     "kill_dreepy": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dreepy"
       }
     }

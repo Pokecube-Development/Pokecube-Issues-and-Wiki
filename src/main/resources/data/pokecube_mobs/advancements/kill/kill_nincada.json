@@ -24,7 +24,6 @@
     "kill_nincada": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "nincada"
       }
     }

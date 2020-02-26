@@ -24,7 +24,6 @@
     "catch_carracosta": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "carracosta"
       }
     }

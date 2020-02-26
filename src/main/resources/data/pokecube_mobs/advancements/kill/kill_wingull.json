@@ -24,7 +24,6 @@
     "kill_wingull": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wingull"
       }
     }

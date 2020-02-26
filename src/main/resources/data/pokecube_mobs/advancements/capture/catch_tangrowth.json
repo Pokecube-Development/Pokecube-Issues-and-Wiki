@@ -24,7 +24,6 @@
     "catch_tangrowth": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tangrowth"
       }
     }

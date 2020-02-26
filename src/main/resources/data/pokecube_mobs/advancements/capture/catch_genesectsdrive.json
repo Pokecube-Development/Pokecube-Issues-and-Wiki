@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesectsdrive"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesectsdrive"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_genesectsdrive": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "genesectsdrive"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

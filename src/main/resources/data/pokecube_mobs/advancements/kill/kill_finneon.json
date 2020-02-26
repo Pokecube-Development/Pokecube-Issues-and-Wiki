@@ -24,7 +24,6 @@
     "kill_finneon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "finneon"
       }
     }

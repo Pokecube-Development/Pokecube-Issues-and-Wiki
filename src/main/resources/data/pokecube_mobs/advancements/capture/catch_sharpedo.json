@@ -24,7 +24,6 @@
     "catch_sharpedo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sharpedo"
       }
     }

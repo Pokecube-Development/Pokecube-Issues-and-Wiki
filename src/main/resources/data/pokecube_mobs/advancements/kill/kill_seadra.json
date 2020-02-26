@@ -24,7 +24,6 @@
     "kill_seadra": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "seadra"
       }
     }

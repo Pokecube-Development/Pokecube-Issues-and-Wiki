@@ -24,7 +24,6 @@
     "catch_ivysaur": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ivysaur"
       }
     }

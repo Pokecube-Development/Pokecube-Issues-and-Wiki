@@ -24,7 +24,6 @@
     "catch_monferno": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "monferno"
       }
     }

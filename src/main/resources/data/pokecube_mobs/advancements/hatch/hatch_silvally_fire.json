@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fire"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fire"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_silvally_fire": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "silvally_fire"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

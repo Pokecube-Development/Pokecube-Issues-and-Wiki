@@ -24,7 +24,6 @@
     "catch_pansear": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pansear"
       }
     }

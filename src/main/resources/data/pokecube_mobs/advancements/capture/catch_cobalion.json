@@ -25,7 +25,6 @@
     "catch_cobalion": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cobalion"
       }
     }

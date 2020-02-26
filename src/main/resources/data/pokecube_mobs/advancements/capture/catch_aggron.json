@@ -24,7 +24,6 @@
     "catch_aggron": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "aggron"
       }
     }

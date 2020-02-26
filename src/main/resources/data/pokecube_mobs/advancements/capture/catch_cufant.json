@@ -24,7 +24,6 @@
     "catch_cufant": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cufant"
       }
     }

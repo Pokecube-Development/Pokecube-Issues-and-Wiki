@@ -24,7 +24,6 @@
     "catch_barraskewda": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "barraskewda"
       }
     }

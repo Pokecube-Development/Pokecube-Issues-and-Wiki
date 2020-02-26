@@ -24,7 +24,6 @@
     "kill_mimikyu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mimikyu"
       }
     }

@@ -24,7 +24,6 @@
     "kill_hoppip": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hoppip"
       }
     }

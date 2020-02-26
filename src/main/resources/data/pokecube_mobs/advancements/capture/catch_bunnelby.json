@@ -24,7 +24,6 @@
     "catch_bunnelby": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bunnelby"
       }
     }

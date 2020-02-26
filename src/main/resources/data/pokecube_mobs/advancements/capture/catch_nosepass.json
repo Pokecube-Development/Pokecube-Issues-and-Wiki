@@ -24,7 +24,6 @@
     "catch_nosepass": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "nosepass"
       }
     }

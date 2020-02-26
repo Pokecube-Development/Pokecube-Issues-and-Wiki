@@ -24,7 +24,6 @@
     "kill_gurdurr": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gurdurr"
       }
     }

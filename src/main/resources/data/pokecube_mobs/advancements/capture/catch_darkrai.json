@@ -25,7 +25,6 @@
     "catch_darkrai": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "darkrai"
       }
     }

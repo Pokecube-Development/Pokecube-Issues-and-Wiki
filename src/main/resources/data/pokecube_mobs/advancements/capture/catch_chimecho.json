@@ -24,7 +24,6 @@
     "catch_chimecho": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "chimecho"
       }
     }

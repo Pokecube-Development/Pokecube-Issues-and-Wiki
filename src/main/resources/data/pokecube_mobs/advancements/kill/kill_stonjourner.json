@@ -24,7 +24,6 @@
     "kill_stonjourner": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "stonjourner"
       }
     }

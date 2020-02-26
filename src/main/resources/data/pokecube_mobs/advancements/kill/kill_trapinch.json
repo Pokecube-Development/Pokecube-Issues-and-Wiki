@@ -24,7 +24,6 @@
     "kill_trapinch": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "trapinch"
       }
     }

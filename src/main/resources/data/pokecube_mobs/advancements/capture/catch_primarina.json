@@ -24,7 +24,6 @@
     "catch_primarina": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "primarina"
       }
     }

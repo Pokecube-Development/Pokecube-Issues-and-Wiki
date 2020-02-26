@@ -24,7 +24,6 @@
     "kill_tentacool": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tentacool"
       }
     }

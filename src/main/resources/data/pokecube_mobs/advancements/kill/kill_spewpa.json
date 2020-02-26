@@ -24,7 +24,6 @@
     "kill_spewpa": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "spewpa"
       }
     }

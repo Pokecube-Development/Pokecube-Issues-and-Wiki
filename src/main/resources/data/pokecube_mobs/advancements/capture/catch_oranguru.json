@@ -24,7 +24,6 @@
     "catch_oranguru": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "oranguru"
       }
     }

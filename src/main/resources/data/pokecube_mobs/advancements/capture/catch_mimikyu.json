@@ -24,7 +24,6 @@
     "catch_mimikyu": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mimikyu"
       }
     }

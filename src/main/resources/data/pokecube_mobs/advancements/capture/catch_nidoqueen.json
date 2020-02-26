@@ -24,7 +24,6 @@
     "catch_nidoqueen": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "nidoqueen"
       }
     }

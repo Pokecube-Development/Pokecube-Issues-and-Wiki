@@ -24,7 +24,6 @@
     "catch_binacle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "binacle"
       }
     }

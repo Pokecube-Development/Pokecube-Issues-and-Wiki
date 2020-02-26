@@ -24,7 +24,6 @@
     "kill_morgrem": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "morgrem"
       }
     }

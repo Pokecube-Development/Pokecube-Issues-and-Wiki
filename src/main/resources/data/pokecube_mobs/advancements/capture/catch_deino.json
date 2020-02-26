@@ -24,7 +24,6 @@
     "catch_deino": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "deino"
       }
     }

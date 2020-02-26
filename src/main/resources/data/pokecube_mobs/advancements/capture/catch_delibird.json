@@ -24,7 +24,6 @@
     "catch_delibird": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "delibird"
       }
     }

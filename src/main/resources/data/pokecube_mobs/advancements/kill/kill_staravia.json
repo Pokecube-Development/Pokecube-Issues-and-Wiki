@@ -24,7 +24,6 @@
     "kill_staravia": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "staravia"
       }
     }

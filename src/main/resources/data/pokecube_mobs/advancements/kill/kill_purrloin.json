@@ -24,7 +24,6 @@
     "kill_purrloin": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "purrloin"
       }
     }

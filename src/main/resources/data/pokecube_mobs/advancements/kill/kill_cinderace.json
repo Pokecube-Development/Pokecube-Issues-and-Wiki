@@ -24,7 +24,6 @@
     "kill_cinderace": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cinderace"
       }
     }

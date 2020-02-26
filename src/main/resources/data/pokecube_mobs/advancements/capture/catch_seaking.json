@@ -24,7 +24,6 @@
     "catch_seaking": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "seaking"
       }
     }

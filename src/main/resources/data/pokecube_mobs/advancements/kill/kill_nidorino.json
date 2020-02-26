@@ -24,7 +24,6 @@
     "kill_nidorino": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "nidorino"
       }
     }

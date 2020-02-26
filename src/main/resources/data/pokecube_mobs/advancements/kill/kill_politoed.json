@@ -24,7 +24,6 @@
     "kill_politoed": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "politoed"
       }
     }

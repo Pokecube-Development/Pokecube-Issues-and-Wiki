@@ -24,7 +24,6 @@
     "kill_beedrill": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "beedrill"
       }
     }

@@ -24,7 +24,6 @@
     "catch_dusclops": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dusclops"
       }
     }

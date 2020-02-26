@@ -24,7 +24,6 @@
     "kill_meditite": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "meditite"
       }
     }

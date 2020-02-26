@@ -24,7 +24,6 @@
     "kill_dusknoir": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dusknoir"
       }
     }

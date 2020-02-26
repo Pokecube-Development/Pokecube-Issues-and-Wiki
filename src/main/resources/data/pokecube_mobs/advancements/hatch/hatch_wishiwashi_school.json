@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi_school"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wishiwashi_school"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_wishiwashi_school": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "wishiwashi_school"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

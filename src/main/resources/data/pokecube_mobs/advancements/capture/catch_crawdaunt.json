@@ -24,7 +24,6 @@
     "catch_crawdaunt": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "crawdaunt"
       }
     }

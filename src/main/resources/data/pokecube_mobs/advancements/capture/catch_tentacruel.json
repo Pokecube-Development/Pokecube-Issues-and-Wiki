@@ -24,7 +24,6 @@
     "catch_tentacruel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tentacruel"
       }
     }

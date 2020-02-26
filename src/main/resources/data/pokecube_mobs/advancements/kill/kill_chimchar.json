@@ -24,7 +24,6 @@
     "kill_chimchar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "chimchar"
       }
     }

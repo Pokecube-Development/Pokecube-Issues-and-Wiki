@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_flying"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_flying"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_arceus_flying": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "arceus_flying"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

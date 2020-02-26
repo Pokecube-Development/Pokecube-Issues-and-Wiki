@@ -24,7 +24,6 @@
     "catch_drilbur": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "drilbur"
       }
     }

@@ -24,7 +24,6 @@
     "catch_coalossal": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "coalossal"
       }
     }

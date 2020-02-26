@@ -24,7 +24,6 @@
     "kill_sentret": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sentret"
       }
     }

@@ -24,7 +24,6 @@
     "catch_mandibuzz": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mandibuzz"
       }
     }

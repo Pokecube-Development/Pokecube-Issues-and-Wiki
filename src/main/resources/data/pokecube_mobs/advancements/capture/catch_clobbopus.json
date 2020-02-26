@@ -24,7 +24,6 @@
     "catch_clobbopus": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "clobbopus"
       }
     }

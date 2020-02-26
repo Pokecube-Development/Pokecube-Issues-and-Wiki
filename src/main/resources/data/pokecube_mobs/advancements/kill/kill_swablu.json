@@ -24,7 +24,6 @@
     "kill_swablu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "swablu"
       }
     }

@@ -25,7 +25,6 @@
     "catch_regirock": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "regirock"
       }
     }

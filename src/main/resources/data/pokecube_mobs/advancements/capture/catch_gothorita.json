@@ -24,7 +24,6 @@
     "catch_gothorita": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gothorita"
       }
     }

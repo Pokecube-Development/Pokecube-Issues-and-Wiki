@@ -24,7 +24,6 @@
     "kill_boltund": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "boltund"
       }
     }

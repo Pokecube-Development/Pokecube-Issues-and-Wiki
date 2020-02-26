@@ -24,7 +24,6 @@
     "kill_carnivine": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "carnivine"
       }
     }

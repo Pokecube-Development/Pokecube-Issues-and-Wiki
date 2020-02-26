@@ -24,7 +24,6 @@
     "catch_electrode": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "electrode"
       }
     }

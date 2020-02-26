@@ -24,7 +24,6 @@
     "catch_petilil": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "petilil"
       }
     }

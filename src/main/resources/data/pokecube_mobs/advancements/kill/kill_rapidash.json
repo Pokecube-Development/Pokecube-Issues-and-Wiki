@@ -24,7 +24,6 @@
     "kill_rapidash": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "rapidash"
       }
     }

@@ -24,7 +24,6 @@
     "catch_wormadam": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wormadam"
       }
     }

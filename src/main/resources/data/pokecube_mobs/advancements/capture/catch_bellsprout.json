@@ -24,7 +24,6 @@
     "catch_bellsprout": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bellsprout"
       }
     }

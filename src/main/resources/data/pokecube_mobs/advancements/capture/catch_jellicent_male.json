@@ -24,10 +24,9 @@
     "catch_jellicent_male": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "jellicent_male"
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_frillish_male"
+  "parent": "pokecube_mobs:capture/catch_frillish_female"
 }

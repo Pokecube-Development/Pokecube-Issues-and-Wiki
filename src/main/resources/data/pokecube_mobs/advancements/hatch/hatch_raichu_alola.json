@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.raichu_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raichu_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_raichu_alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "raichu_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_pikachu"
+}

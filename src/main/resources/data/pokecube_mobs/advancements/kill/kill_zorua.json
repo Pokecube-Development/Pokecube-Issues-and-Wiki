@@ -24,7 +24,6 @@
     "kill_zorua": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zorua"
       }
     }

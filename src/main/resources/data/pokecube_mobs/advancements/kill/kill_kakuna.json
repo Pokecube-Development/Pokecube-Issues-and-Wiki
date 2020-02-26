@@ -24,7 +24,6 @@
     "kill_kakuna": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kakuna"
       }
     }

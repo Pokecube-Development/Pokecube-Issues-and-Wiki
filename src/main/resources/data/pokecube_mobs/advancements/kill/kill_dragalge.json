@@ -24,7 +24,6 @@
     "kill_dragalge": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dragalge"
       }
     }

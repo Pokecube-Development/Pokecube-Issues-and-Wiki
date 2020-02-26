@@ -24,7 +24,6 @@
     "catch_medicham": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "medicham"
       }
     }

@@ -24,7 +24,6 @@
     "kill_seedot": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "seedot"
       }
     }

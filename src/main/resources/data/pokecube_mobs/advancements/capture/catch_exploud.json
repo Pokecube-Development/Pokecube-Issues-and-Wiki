@@ -24,7 +24,6 @@
     "catch_exploud": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "exploud"
       }
     }

@@ -24,7 +24,6 @@
     "kill_lickitung": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lickitung"
       }
     }

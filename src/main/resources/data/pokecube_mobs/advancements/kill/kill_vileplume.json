@@ -24,7 +24,6 @@
     "kill_vileplume": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "vileplume"
       }
     }

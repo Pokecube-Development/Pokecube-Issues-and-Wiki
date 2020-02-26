@@ -24,7 +24,6 @@
     "catch_arctozolt": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "arctozolt"
       }
     }

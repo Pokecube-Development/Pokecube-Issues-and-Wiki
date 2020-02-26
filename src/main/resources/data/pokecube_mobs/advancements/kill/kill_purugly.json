@@ -24,7 +24,6 @@
     "kill_purugly": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "purugly"
       }
     }

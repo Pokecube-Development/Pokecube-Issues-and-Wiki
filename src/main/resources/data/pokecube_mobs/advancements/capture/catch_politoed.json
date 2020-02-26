@@ -24,7 +24,6 @@
     "catch_politoed": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "politoed"
       }
     }

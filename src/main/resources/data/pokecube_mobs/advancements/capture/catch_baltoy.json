@@ -24,7 +24,6 @@
     "catch_baltoy": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "baltoy"
       }
     }

@@ -24,7 +24,6 @@
     "kill_chewtle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "chewtle"
       }
     }

@@ -24,7 +24,6 @@
     "catch_dhelmise": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dhelmise"
       }
     }

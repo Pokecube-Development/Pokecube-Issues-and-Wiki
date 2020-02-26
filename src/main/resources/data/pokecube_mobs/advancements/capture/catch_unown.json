@@ -24,7 +24,6 @@
     "catch_unown": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "unown"
       }
     }

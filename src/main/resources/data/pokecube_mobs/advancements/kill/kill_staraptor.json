@@ -24,7 +24,6 @@
     "kill_staraptor": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "staraptor"
       }
     }

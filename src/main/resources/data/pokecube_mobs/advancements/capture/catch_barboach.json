@@ -24,7 +24,6 @@
     "catch_barboach": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "barboach"
       }
     }

@@ -24,7 +24,6 @@
     "catch_scizor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "scizor"
       }
     }

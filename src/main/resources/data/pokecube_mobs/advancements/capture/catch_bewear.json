@@ -24,7 +24,6 @@
     "catch_bewear": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bewear"
       }
     }

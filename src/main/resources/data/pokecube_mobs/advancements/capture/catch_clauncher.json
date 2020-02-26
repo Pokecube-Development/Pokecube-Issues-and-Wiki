@@ -24,7 +24,6 @@
     "catch_clauncher": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "clauncher"
       }
     }

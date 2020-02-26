@@ -24,7 +24,6 @@
     "kill_phantump": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "phantump"
       }
     }

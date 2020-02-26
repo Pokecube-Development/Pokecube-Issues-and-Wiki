@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.geodude_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.geodude_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_geodude_alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "geodude_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

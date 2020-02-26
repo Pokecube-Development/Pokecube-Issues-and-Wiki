@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowpoke_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.slowpoke_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_slowpoke_galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "slowpoke_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

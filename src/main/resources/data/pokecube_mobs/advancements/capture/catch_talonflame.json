@@ -24,7 +24,6 @@
     "catch_talonflame": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "talonflame"
       }
     }

@@ -24,7 +24,6 @@
     "kill_scatterbug": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "scatterbug"
       }
     }

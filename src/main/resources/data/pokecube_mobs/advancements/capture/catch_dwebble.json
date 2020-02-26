@@ -24,7 +24,6 @@
     "catch_dwebble": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dwebble"
       }
     }

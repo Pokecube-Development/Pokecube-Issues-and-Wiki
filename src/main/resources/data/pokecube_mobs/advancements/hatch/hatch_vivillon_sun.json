@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_sun"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_sun"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_vivillon_sun": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "vivillon_sun"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_spewpa"
+}

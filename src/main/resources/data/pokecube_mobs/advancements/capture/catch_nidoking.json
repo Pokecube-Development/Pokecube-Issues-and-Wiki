@@ -24,7 +24,6 @@
     "catch_nidoking": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "nidoking"
       }
     }

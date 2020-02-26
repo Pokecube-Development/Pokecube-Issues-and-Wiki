@@ -24,7 +24,6 @@
     "catch_indeedee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "indeedee"
       }
     }

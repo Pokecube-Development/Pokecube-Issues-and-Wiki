@@ -24,7 +24,6 @@
     "catch_decidueye": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "decidueye"
       }
     }

@@ -24,7 +24,6 @@
     "catch_flygon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "flygon"
       }
     }

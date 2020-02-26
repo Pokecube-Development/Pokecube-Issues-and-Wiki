@@ -24,7 +24,6 @@
     "kill_hitmonchan": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hitmonchan"
       }
     }

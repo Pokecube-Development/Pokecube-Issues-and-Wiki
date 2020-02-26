@@ -24,7 +24,6 @@
     "catch_slakoth": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "slakoth"
       }
     }

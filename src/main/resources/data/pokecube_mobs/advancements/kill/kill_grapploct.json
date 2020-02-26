@@ -24,7 +24,6 @@
     "kill_grapploct": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "grapploct"
       }
     }

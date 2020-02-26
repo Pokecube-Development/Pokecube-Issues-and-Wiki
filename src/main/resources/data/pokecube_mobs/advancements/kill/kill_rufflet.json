@@ -24,7 +24,6 @@
     "kill_rufflet": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "rufflet"
       }
     }

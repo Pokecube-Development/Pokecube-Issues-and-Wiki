@@ -24,7 +24,6 @@
     "catch_mothim": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mothim"
       }
     }

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin_sky"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin_sky"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "catch_shaymin_sky": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "shaymin_sky"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

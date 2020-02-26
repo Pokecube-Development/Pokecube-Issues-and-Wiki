@@ -24,7 +24,6 @@
     "kill_fletchling": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "fletchling"
       }
     }

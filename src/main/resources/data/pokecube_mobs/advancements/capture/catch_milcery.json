@@ -24,7 +24,6 @@
     "catch_milcery": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "milcery"
       }
     }

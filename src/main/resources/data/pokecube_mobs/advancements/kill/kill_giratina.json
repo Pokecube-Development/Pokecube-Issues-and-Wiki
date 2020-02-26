@@ -25,7 +25,6 @@
     "kill_giratina": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "giratina"
       }
     }

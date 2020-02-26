@@ -24,7 +24,6 @@
     "kill_sawsbuck": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sawsbuck"
       }
     }

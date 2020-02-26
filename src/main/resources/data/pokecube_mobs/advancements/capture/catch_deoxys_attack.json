@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys_attack"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys_attack"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "catch_deoxys_attack": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "deoxys_attack"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

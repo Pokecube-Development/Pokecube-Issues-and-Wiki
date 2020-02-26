@@ -24,7 +24,6 @@
     "kill_kirlia": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kirlia"
       }
     }

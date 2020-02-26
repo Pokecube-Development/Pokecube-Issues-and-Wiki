@@ -24,7 +24,6 @@
     "catch_butterfree": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "butterfree"
       }
     }

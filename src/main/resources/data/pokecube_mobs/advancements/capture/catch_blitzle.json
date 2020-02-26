@@ -24,7 +24,6 @@
     "catch_blitzle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "blitzle"
       }
     }

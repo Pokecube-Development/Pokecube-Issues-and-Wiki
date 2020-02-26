@@ -24,7 +24,6 @@
     "catch_hitmontop": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hitmontop"
       }
     }

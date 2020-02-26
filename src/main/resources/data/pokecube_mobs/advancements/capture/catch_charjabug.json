@@ -24,7 +24,6 @@
     "catch_charjabug": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "charjabug"
       }
     }

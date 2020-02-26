@@ -24,7 +24,6 @@
     "kill_jigglypuff": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "jigglypuff"
       }
     }

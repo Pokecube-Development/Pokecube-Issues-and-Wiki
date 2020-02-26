@@ -24,7 +24,6 @@
     "kill_shuckle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "shuckle"
       }
     }

@@ -24,7 +24,6 @@
     "catch_phanpy": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "phanpy"
       }
     }

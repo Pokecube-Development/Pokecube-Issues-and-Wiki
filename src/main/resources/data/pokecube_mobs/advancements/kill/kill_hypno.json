@@ -24,7 +24,6 @@
     "kill_hypno": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hypno"
       }
     }

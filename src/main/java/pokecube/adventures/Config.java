@@ -56,6 +56,8 @@ public class Config extends ConfigData
     @Configure(category = Config.TRAINER)
     public boolean trainersTradeMobs       = true;
     @Configure(category = Config.TRAINER)
+    public boolean cullNoMobs              = false;
+    @Configure(category = Config.TRAINER)
     public String  defaultReward           = "minecraft:emerald";
 
     // Energy Sihpon related options

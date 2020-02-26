@@ -24,7 +24,6 @@
     "catch_gyarados": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gyarados"
       }
     }

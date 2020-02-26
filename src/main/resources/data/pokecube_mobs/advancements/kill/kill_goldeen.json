@@ -24,7 +24,6 @@
     "kill_goldeen": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "goldeen"
       }
     }

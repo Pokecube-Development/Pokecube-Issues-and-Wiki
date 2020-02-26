@@ -24,7 +24,6 @@
     "catch_impidimp": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "impidimp"
       }
     }

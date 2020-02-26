@@ -24,7 +24,6 @@
     "kill_mareep": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mareep"
       }
     }

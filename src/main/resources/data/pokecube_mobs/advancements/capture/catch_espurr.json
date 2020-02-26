@@ -24,7 +24,6 @@
     "catch_espurr": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "espurr"
       }
     }

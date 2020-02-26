@@ -25,7 +25,6 @@
     "catch_manaphy": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "manaphy"
       }
     }

@@ -24,7 +24,6 @@
     "kill_yanma": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "yanma"
       }
     }

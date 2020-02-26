@@ -24,7 +24,6 @@
     "catch_fennekin": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "fennekin"
       }
     }

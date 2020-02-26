@@ -24,7 +24,6 @@
     "catch_metang": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "metang"
       }
     }

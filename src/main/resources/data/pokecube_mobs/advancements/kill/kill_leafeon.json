@@ -24,7 +24,6 @@
     "kill_leafeon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "leafeon"
       }
     }

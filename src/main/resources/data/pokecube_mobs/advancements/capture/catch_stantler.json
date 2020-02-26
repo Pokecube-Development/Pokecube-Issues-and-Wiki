@@ -24,7 +24,6 @@
     "catch_stantler": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "stantler"
       }
     }

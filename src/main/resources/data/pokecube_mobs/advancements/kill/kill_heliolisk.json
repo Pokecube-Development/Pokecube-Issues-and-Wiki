@@ -24,7 +24,6 @@
     "kill_heliolisk": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "heliolisk"
       }
     }

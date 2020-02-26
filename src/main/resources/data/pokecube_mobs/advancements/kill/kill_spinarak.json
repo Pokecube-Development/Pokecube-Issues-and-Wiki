@@ -24,7 +24,6 @@
     "kill_spinarak": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "spinarak"
       }
     }

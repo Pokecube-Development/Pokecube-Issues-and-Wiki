@@ -24,7 +24,6 @@
     "catch_roserade": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "roserade"
       }
     }

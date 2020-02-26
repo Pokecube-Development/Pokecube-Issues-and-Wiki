@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.red_core_minior"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.red_core_minior"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_red_core_minior": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "red_core_minior"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

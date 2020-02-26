@@ -24,7 +24,6 @@
     "kill_bergmite": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bergmite"
       }
     }

@@ -24,7 +24,6 @@
     "kill_kingler": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kingler"
       }
     }

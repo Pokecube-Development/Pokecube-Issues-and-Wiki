@@ -24,7 +24,6 @@
     "catch_minior": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "minior"
       }
     }

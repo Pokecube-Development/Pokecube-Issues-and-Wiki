@@ -24,7 +24,6 @@
     "catch_poipole": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "poipole"
       }
     }

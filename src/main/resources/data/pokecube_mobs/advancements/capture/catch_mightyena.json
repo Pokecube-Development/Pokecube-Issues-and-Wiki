@@ -24,7 +24,6 @@
     "catch_mightyena": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mightyena"
       }
     }

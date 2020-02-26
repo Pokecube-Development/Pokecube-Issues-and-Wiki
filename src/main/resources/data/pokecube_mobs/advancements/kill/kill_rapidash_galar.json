@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_rapidash_galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "rapidash_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_ponyta_galar"
+}

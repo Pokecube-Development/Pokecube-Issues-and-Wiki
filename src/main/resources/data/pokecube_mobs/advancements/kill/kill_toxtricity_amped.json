@@ -24,7 +24,6 @@
     "kill_toxtricity_amped": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "toxtricity_amped"
       }
     }

@@ -24,7 +24,6 @@
     "kill_sinistea": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sinistea"
       }
     }

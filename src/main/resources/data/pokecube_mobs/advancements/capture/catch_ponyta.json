@@ -24,7 +24,6 @@
     "catch_ponyta": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ponyta"
       }
     }

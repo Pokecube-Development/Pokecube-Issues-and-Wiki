@@ -24,7 +24,6 @@
     "kill_dewpider": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dewpider"
       }
     }

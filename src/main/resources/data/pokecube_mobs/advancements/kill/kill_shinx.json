@@ -24,7 +24,6 @@
     "kill_shinx": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "shinx"
       }
     }

@@ -24,7 +24,6 @@
     "catch_blaziken": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "blaziken"
       }
     }

@@ -24,7 +24,6 @@
     "catch_eevee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "eevee"
       }
     }

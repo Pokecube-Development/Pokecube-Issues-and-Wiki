@@ -24,7 +24,6 @@
     "catch_rolycoly": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rolycoly"
       }
     }

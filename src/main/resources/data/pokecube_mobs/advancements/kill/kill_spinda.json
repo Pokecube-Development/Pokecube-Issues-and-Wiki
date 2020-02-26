@@ -24,7 +24,6 @@
     "kill_spinda": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "spinda"
       }
     }

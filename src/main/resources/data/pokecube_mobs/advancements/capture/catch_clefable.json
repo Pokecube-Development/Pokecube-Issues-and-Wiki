@@ -24,7 +24,6 @@
     "catch_clefable": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "clefable"
       }
     }

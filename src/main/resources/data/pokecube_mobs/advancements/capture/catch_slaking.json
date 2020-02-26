@@ -24,7 +24,6 @@
     "catch_slaking": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "slaking"
       }
     }

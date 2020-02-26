@@ -24,7 +24,6 @@
     "catch_venonat": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "venonat"
       }
     }

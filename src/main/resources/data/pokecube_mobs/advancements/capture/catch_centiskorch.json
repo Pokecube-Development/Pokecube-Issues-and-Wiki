@@ -24,7 +24,6 @@
     "catch_centiskorch": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "centiskorch"
       }
     }

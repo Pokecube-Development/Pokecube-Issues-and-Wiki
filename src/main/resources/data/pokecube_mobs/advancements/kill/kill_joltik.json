@@ -24,7 +24,6 @@
     "kill_joltik": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "joltik"
       }
     }

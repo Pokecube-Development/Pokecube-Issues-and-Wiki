@@ -24,7 +24,6 @@
     "kill_charmeleon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "charmeleon"
       }
     }

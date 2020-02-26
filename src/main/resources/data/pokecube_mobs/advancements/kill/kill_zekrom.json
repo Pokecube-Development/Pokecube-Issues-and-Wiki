@@ -25,7 +25,6 @@
     "kill_zekrom": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zekrom"
       }
     }

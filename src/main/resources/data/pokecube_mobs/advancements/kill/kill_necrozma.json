@@ -24,7 +24,6 @@
     "kill_necrozma": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "necrozma"
       }
     }

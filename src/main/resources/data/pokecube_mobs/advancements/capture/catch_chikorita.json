@@ -24,7 +24,6 @@
     "catch_chikorita": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "chikorita"
       }
     }

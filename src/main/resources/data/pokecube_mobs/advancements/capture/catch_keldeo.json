@@ -25,7 +25,6 @@
     "catch_keldeo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "keldeo"
       }
     }

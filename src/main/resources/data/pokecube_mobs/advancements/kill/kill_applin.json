@@ -24,7 +24,6 @@
     "kill_applin": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "applin"
       }
     }

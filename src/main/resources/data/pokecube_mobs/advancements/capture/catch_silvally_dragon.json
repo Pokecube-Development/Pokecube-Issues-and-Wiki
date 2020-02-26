@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_dragon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_dragon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_silvally_dragon": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "silvally_dragon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

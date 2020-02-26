@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.yamask_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.yamask_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_yamask_galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "yamask_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

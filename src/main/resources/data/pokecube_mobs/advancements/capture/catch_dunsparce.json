@@ -24,7 +24,6 @@
     "catch_dunsparce": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dunsparce"
       }
     }

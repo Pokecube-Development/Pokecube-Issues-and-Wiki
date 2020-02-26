@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rapidash_galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rapidash_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_ponyta_galar"
+}

@@ -24,7 +24,6 @@
     "kill_starmie": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "starmie"
       }
     }

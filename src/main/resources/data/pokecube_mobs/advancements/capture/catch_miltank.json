@@ -24,7 +24,6 @@
     "catch_miltank": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "miltank"
       }
     }

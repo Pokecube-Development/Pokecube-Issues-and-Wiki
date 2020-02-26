@@ -24,7 +24,6 @@
     "kill_hoopa_confined": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hoopa_confined"
       }
     }

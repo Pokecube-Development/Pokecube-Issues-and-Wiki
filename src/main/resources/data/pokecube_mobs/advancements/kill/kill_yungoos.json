@@ -24,7 +24,6 @@
     "kill_yungoos": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "yungoos"
       }
     }

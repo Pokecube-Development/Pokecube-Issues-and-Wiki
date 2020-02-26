@@ -24,7 +24,6 @@
     "catch_breloom": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "breloom"
       }
     }

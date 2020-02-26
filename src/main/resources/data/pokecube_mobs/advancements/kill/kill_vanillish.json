@@ -24,7 +24,6 @@
     "kill_vanillish": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "vanillish"
       }
     }

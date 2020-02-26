@@ -24,7 +24,6 @@
     "kill_corsola": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "corsola"
       }
     }

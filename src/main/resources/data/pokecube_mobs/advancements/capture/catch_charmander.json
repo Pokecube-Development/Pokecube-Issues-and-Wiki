@@ -24,7 +24,6 @@
     "catch_charmander": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "charmander"
       }
     }

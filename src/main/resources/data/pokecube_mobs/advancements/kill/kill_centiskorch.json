@@ -24,7 +24,6 @@
     "kill_centiskorch": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "centiskorch"
       }
     }

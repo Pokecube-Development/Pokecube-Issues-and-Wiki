@@ -24,7 +24,6 @@
     "catch_caterpie": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "caterpie"
       }
     }

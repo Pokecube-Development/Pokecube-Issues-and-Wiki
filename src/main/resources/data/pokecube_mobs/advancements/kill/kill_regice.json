@@ -25,7 +25,6 @@
     "kill_regice": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "regice"
       }
     }

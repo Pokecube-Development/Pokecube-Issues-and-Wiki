@@ -24,7 +24,6 @@
     "kill_poliwhirl": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "poliwhirl"
       }
     }

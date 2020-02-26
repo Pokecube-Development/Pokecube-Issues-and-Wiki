@@ -24,7 +24,6 @@
     "catch_incineroar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "incineroar"
       }
     }

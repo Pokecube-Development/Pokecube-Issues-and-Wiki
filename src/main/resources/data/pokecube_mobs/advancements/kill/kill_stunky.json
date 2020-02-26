@@ -24,7 +24,6 @@
     "kill_stunky": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "stunky"
       }
     }

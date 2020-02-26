@@ -24,7 +24,6 @@
     "catch_meganium": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "meganium"
       }
     }

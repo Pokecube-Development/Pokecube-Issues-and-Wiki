@@ -24,7 +24,6 @@
     "catch_corphish": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "corphish"
       }
     }

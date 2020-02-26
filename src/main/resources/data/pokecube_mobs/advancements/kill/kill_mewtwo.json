@@ -25,7 +25,6 @@
     "kill_mewtwo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mewtwo"
       }
     }

@@ -24,7 +24,6 @@
     "catch_mareanie": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mareanie"
       }
     }

@@ -24,7 +24,6 @@
     "catch_gligar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gligar"
       }
     }

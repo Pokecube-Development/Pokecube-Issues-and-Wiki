@@ -24,7 +24,6 @@
     "kill_gliscor": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gliscor"
       }
     }

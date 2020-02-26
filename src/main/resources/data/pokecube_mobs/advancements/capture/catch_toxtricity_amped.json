@@ -24,7 +24,6 @@
     "catch_toxtricity_amped": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "toxtricity_amped"
       }
     }

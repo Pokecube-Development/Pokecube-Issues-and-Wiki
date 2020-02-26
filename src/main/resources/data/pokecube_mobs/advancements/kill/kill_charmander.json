@@ -24,7 +24,6 @@
     "kill_charmander": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "charmander"
       }
     }

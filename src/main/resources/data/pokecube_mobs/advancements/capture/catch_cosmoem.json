@@ -24,7 +24,6 @@
     "catch_cosmoem": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cosmoem"
       }
     }

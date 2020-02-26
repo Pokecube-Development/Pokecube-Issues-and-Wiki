@@ -24,7 +24,6 @@
     "catch_sunflora": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sunflora"
       }
     }

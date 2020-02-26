@@ -24,7 +24,6 @@
     "kill_pinsir": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pinsir"
       }
     }

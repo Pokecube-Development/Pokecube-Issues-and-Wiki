@@ -24,7 +24,6 @@
     "kill_weavile": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "weavile"
       }
     }

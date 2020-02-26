@@ -24,7 +24,6 @@
     "kill_magneton": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "magneton"
       }
     }

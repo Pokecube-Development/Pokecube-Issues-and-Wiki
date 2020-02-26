@@ -24,7 +24,6 @@
     "kill_meganium": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "meganium"
       }
     }

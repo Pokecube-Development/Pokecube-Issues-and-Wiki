@@ -24,7 +24,6 @@
     "kill_tranquill": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tranquill"
       }
     }
