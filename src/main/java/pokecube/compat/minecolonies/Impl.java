@@ -7,11 +7,13 @@ import com.google.common.collect.Sets;
 import com.minecolonies.api.IMinecoloniesAPI;
 import com.minecolonies.api.colony.IColony;
 import com.minecolonies.api.colony.buildings.IBuilding;
+import com.minecolonies.api.entity.citizen.AbstractEntityCitizen;
 
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.server.ServerChunkProvider;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
@@ -32,6 +34,7 @@ public class Impl
         Impl.reged = true;
         TerrainSegment.defaultChecker = new TerrainChecker(TerrainSegment.defaultChecker);
         Impl.instance = IMinecoloniesAPI.getInstance();
+        PokecubeAdv.config.customTrainers.add(AbstractEntityCitizen.class);
     }
 
     public static class TerrainChecker extends PokecubeTerrainChecker
