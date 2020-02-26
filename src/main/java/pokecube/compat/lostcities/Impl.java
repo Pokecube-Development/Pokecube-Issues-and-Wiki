@@ -107,7 +107,7 @@ public class Impl
                     type = PokecubeTerrainChecker.structureSubbiomeMap.get(type);
                 return BiomeType.getBiome(type, true).getType();
             }
-            return super.getSubBiome(world_in, v, segment, caveAdjusted);
+            return this.parent.getSubBiome(world_in, v, segment, caveAdjusted);
         }
 
     }
