@@ -23,6 +23,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.tileentity.SkullTileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.World;
@@ -79,6 +80,7 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokeType;
 import pokecube.nbtedit.NBTEdit;
+import thut.api.maths.Vector3;
 
 public class ClientProxy extends CommonProxy
 {
@@ -327,6 +329,12 @@ public class ClientProxy extends CommonProxy
     public void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
         this.sounds.clear();
+    }
+
+    @Override
+    public void moveSound(final Vector3 pos, final SoundEvent event)
+    {
+        Minecraft.getInstance().getSoundHandler().play(new MoveSound(event, pos));
     }
 
     @Override

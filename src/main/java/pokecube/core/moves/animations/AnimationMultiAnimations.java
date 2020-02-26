@@ -5,9 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
@@ -15,6 +13,7 @@ import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.animations.presets.Thunder;
+import thut.api.maths.Vector3;
 
 public class AnimationMultiAnimations extends MoveAnimationBase
 {
@@ -30,7 +29,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         int              start;
     }
 
-    public static boolean isThunderAnimation(IMoveAnimation input)
+    public static boolean isThunderAnimation(final IMoveAnimation input)
     {
         if (input == null) return false;
         if (!(input instanceof AnimationMultiAnimations)) return input instanceof Thunder;
@@ -44,7 +43,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
 
     private int applicationTick = 0;
 
-    public AnimationMultiAnimations(MoveEntry move)
+    public AnimationMultiAnimations(final MoveEntry move)
     {
         final List<AnimationJson> animations = move.baseEntry.animations;
         this.duration = 0;
@@ -76,7 +75,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void clientAnimation(MovePacketInfo info, float partialTick)
+    public void clientAnimation(final MovePacketInfo info, final float partialTick)
     {
         final int tick = info.currentTick;
         for (int i = 0; i < this.components.size(); i++)
@@ -97,13 +96,13 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     }
 
     @Override
-    public void initColour(long time, float partialTicks, Move_Base move)
+    public void initColour(final long time, final float partialTicks, final Move_Base move)
     {
         // We don't do this.
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info)
+    public void spawnClientEntities(final MovePacketInfo info)
     {
         final int tick = info.currentTick;
         for (int i = 0; i < this.components.size(); i++)
@@ -117,7 +116,6 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             sound:
             if (info.currentTick == 0 && toRun.sound != null)
             {
-                final World world = PokecubeCore.proxy.getWorld();
                 if (toRun.soundEvent == null)
                 {
                     toRun.soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(toRun.sound);
@@ -128,14 +126,17 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                         break sound;
                     }
                 }
-                if (toRun.soundSource) if (info.source != null) world.playSound(info.source.x, info.source.y,
-                        info.source.z, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
-                else if (info.attacker != null) world.playSound(info.attacker.posX, info.attacker.posY,
-                        info.attacker.posZ, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
-                if (toRun.soundTarget) if (info.target != null) world.playSound(info.target.x, info.target.y,
-                        info.target.z, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
-                else if (info.attacked != null) world.playSound(info.attacked.posX, info.attacked.posY,
-                        info.attacked.posZ, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
+                boolean valid = toRun.soundSource;
+                final Vector3 pos = Vector3.getNewVector();
+                // Check source sounds.
+                if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
+                        : info.attacker);
+                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent);
+                // Check target sounds.
+                valid = toRun.soundTarget;
+                if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
+                        : info.attacked);
+                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent);
             }
         }
     }
