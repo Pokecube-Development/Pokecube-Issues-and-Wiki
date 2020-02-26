@@ -28,8 +28,8 @@ public class MoveSound extends TickableSound
     public void tick()
     {
         this.pos2.set(this.player);
-        final double distSq = this.pos2.distToSq(this.pos1);
-        this.volume = (float) (10.0f / distSq);
+        final double dist = this.pos2.distanceTo(this.pos1);
+        this.volume = (float) (5.0f / dist);
         this.volume = Math.min(1, this.volume);
     }
 
