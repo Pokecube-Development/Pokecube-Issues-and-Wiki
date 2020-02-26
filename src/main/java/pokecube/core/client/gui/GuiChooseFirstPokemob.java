@@ -320,7 +320,7 @@ public class GuiChooseFirstPokemob extends Screen
             if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
             //@formatter:off
             final int dx =-50 + (width - this.xSize)/2;
-            final int dy = 50+(height - this.ySize)/2;
+            final int dy = 50 + (height - this.ySize)/2;
             final float size = 7;
             final float yaw =  Util.milliTime() / 20;
             final float hx = 0;
