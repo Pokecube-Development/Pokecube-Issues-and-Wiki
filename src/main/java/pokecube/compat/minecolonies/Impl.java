@@ -13,7 +13,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.server.ServerChunkProvider;
-import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
@@ -23,22 +23,22 @@ import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
 
 public class Impl
 {
-    private static boolean reged = false;
-
     private static IMinecoloniesAPI instance;
     private static Set<String>      logged = Sets.newHashSet();
 
     public static void register()
     {
-        if (Impl.reged) return;
-        Impl.reged = true;
         TerrainSegment.defaultChecker = new TerrainChecker(TerrainSegment.defaultChecker);
         Impl.instance = IMinecoloniesAPI.getInstance();
-        PokecubeAdv.config.customTrainers.add(AbstractEntityCitizen.class);
+
+        // Register the type mapper for minecolonies citizens
+        TypeTrainer.registerTypeMapper((mob, spawn) ->
+        {
+            return mob instanceof AbstractEntityCitizen ? TypeTrainer.merchant : null;
+        });
 
         // TODO check here for mine related stuff:
         // https://github.com/ldtteam/minecolonies/blob/34a42edeeddcb4c078ad25032a3a87d0015dc960/src/main/java/com/minecolonies/coremod/colony/buildings/workerbuildings/BuildingMiner.java
-
     }
 
     public static class TerrainChecker extends PokecubeTerrainChecker

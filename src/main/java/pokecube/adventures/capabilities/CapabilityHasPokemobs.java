@@ -2,7 +2,6 @@ package pokecube.adventures.capabilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,7 +16,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -125,7 +123,6 @@ public class CapabilityHasPokemobs
         private UUID                      outID;
         private boolean                   canMegaEvolve = false;
         private IPokemob                  outMob;
-        private List<ItemStack>           pokecubes;
         private LevelMode                 levelmode     = LevelMode.CONFIG;
         private final Set<ITargetWatcher> watchers      = Sets.newHashSet();
 
@@ -263,7 +260,6 @@ public class CapabilityHasPokemobs
         @Override
         public ItemStack getPokemob(final int slot)
         {
-            if (this.pokecubes != null) return this.pokecubes.get(slot);
             return this.datasync.get(this.holder.POKEMOBS[slot]);
         }
 
@@ -316,8 +312,6 @@ public class CapabilityHasPokemobs
             this.rewards = rewards;
             this.battleCooldown = Config.instance.trainerCooldown;
             this.resetTime = this.battleCooldown;
-            if (!TypeTrainer.mobTypeMapper.shouldSync(user)) this.pokecubes = NonNullList.<ItemStack> withSize(6,
-                    ItemStack.EMPTY);
         }
 
         @Override
@@ -527,11 +521,6 @@ public class CapabilityHasPokemobs
         @Override
         public void setPokemob(final int slot, final ItemStack cube)
         {
-            if (this.pokecubes != null)
-            {
-                this.pokecubes.set(slot, cube);
-                return;
-            }
             this.datasync.set(this.holder.POKEMOBS[slot], cube);
         }
 

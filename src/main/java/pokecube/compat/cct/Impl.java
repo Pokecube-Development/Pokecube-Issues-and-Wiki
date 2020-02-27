@@ -24,16 +24,10 @@ import pokecube.core.blocks.tms.TMTile;
 public class Impl
 {
 
-    private static boolean reged = false;
-
     public static void register()
     {
-        if (!Impl.reged)
-        {
-            Impl.reged = true;
-            PokecubeCore.LOGGER.info("Registering Pokecube CC Peripherals.");
-            ComputerCraftAPI.registerPeripheralProvider(new PokecubePeripherals());
-        }
+        PokecubeCore.LOGGER.info("Registering Pokecube CC Peripherals.");
+        ComputerCraftAPI.registerPeripheralProvider(new PokecubePeripherals());
     }
 
     public static class PokecubePeripherals implements IPeripheralProvider
