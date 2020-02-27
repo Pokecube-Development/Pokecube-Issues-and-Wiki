@@ -24,7 +24,6 @@
     "kill_dewott": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dewott"
       }
     }

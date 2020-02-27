@@ -24,7 +24,6 @@
     "kill_wailord": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wailord"
       }
     }

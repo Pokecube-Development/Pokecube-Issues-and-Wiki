@@ -24,7 +24,6 @@
     "kill_leavanny": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "leavanny"
       }
     }

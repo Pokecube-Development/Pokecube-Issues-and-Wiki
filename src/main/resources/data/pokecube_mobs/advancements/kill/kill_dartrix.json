@@ -24,7 +24,6 @@
     "kill_dartrix": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dartrix"
       }
     }

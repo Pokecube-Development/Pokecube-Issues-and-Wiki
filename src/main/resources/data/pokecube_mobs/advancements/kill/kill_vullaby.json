@@ -24,7 +24,6 @@
     "kill_vullaby": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "vullaby"
       }
     }

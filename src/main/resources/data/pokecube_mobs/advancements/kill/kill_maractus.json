@@ -24,7 +24,6 @@
     "kill_maractus": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "maractus"
       }
     }

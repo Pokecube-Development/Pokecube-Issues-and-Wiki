@@ -24,7 +24,6 @@
     "catch_wooper": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wooper"
       }
     }

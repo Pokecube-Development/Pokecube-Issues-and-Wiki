@@ -24,7 +24,6 @@
     "catch_ledyba": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ledyba"
       }
     }

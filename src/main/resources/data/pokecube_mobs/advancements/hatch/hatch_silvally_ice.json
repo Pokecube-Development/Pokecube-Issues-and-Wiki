@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ice"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ice"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_silvally_ice": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "silvally_ice"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

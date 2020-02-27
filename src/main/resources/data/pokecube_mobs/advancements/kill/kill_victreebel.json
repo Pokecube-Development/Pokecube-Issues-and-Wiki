@@ -24,7 +24,6 @@
     "kill_victreebel": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "victreebel"
       }
     }

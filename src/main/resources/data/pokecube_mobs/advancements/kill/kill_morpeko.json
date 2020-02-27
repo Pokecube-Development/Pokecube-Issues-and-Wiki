@@ -24,7 +24,6 @@
     "kill_morpeko": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "morpeko"
       }
     }

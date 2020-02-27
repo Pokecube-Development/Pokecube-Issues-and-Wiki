@@ -24,7 +24,6 @@
     "catch_honchkrow": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "honchkrow"
       }
     }

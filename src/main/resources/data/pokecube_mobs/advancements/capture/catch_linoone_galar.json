@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.linoone_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_linoone_galar": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "linoone_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_zigzagoon_galar"
+}

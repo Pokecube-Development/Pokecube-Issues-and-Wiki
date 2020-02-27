@@ -25,7 +25,6 @@
     "kill_regigigas": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "regigigas"
       }
     }

@@ -24,7 +24,6 @@
     "catch_pidgeot": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pidgeot"
       }
     }

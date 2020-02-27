@@ -24,7 +24,6 @@
     "catch_flabebe": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "flabebe"
       }
     }

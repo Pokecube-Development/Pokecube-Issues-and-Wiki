@@ -24,7 +24,6 @@
     "kill_hitmonlee": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hitmonlee"
       }
     }

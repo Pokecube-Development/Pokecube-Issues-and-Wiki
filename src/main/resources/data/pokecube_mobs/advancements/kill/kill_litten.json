@@ -24,7 +24,6 @@
     "kill_litten": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "litten"
       }
     }

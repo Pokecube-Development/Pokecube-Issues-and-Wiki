@@ -24,7 +24,6 @@
     "catch_drednaw": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "drednaw"
       }
     }

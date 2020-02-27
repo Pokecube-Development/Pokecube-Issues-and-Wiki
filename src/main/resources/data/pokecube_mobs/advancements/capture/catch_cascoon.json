@@ -24,7 +24,6 @@
     "catch_cascoon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cascoon"
       }
     }

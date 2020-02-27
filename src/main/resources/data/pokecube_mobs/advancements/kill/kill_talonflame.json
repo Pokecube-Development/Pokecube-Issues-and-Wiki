@@ -24,7 +24,6 @@
     "kill_talonflame": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "talonflame"
       }
     }

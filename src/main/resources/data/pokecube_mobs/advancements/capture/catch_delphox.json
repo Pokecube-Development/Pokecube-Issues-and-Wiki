@@ -24,7 +24,6 @@
     "catch_delphox": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "delphox"
       }
     }

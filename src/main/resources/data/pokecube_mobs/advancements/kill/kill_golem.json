@@ -24,7 +24,6 @@
     "kill_golem": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "golem"
       }
     }

@@ -24,7 +24,6 @@
     "kill_wimpod": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wimpod"
       }
     }

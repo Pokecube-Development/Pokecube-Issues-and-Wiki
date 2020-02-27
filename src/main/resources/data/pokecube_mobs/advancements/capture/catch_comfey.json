@@ -24,7 +24,6 @@
     "catch_comfey": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "comfey"
       }
     }

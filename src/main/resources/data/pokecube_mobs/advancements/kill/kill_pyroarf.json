@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pyroar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pyroarf": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pyroarf"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

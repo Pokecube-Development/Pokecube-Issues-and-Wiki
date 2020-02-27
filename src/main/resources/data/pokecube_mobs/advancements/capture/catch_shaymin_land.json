@@ -25,7 +25,6 @@
     "catch_shaymin_land": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shaymin_land"
       }
     }

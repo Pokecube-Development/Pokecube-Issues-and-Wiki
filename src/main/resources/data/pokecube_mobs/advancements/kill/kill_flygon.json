@@ -24,7 +24,6 @@
     "kill_flygon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "flygon"
       }
     }

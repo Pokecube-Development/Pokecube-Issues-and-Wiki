@@ -24,7 +24,6 @@
     "catch_whimsicott": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "whimsicott"
       }
     }

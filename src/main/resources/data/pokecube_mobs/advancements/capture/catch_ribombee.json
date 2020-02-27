@@ -24,7 +24,6 @@
     "catch_ribombee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ribombee"
       }
     }

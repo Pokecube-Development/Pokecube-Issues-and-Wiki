@@ -24,7 +24,6 @@
     "catch_cofagrigus": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cofagrigus"
       }
     }

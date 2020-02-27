@@ -24,7 +24,6 @@
     "catch_tirtouga": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tirtouga"
       }
     }

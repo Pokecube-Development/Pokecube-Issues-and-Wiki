@@ -24,7 +24,6 @@
     "catch_fearow": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "fearow"
       }
     }

@@ -24,7 +24,6 @@
     "kill_exeggutor": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "exeggutor"
       }
     }

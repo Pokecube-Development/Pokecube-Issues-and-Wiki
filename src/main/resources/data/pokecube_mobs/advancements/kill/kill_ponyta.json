@@ -24,7 +24,6 @@
     "kill_ponyta": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ponyta"
       }
     }

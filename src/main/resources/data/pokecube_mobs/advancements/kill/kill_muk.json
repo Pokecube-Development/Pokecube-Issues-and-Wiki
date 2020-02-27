@@ -24,7 +24,6 @@
     "kill_muk": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "muk"
       }
     }

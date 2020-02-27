@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan_zen"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan_zen"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_darmanitan_zen": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "darmanitan_zen"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

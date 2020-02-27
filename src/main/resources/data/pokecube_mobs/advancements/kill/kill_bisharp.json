@@ -24,7 +24,6 @@
     "kill_bisharp": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bisharp"
       }
     }

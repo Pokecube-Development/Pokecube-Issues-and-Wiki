@@ -374,6 +374,7 @@ public class PokecubeCore
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::loaded);
 
         FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeCore.proxy);
+        MinecraftForge.EVENT_BUS.register(PokecubeCore.proxy);
 
         // Register the player data we use with thutcore
         PlayerDataHandler.register(PokecubePlayerData.class);

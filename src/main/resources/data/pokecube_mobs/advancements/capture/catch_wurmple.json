@@ -24,7 +24,6 @@
     "catch_wurmple": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wurmple"
       }
     }

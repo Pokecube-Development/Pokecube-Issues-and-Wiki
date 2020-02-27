@@ -24,7 +24,6 @@
     "catch_sylveon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sylveon"
       }
     }

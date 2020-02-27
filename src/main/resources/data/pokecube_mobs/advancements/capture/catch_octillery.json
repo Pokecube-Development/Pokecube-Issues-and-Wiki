@@ -24,7 +24,6 @@
     "catch_octillery": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "octillery"
       }
     }

@@ -24,7 +24,6 @@
     "catch_bouffalant": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bouffalant"
       }
     }

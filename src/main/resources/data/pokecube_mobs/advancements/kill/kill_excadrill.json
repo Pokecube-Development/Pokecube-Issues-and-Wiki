@@ -24,7 +24,6 @@
     "kill_excadrill": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "excadrill"
       }
     }

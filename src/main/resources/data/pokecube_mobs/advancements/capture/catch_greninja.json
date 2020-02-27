@@ -24,7 +24,6 @@
     "catch_greninja": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "greninja"
       }
     }

@@ -24,7 +24,6 @@
     "catch_hoothoot": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hoothoot"
       }
     }

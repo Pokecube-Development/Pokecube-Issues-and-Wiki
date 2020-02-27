@@ -24,7 +24,6 @@
     "catch_shinx": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shinx"
       }
     }

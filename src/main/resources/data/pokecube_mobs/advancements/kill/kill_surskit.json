@@ -24,7 +24,6 @@
     "kill_surskit": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "surskit"
       }
     }

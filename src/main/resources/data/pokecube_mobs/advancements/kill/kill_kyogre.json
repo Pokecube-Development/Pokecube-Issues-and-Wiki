@@ -25,7 +25,6 @@
     "kill_kyogre": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kyogre"
       }
     }

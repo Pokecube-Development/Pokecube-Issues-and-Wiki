@@ -25,7 +25,6 @@
     "kill_uxie": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "uxie"
       }
     }

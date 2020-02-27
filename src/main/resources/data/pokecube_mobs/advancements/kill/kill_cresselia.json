@@ -25,7 +25,6 @@
     "kill_cresselia": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cresselia"
       }
     }

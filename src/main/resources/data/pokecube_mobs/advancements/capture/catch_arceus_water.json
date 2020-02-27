@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_water"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_water"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "catch_arceus_water": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "arceus_water"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

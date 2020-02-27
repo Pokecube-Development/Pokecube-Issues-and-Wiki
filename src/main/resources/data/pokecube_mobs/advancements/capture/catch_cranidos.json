@@ -24,7 +24,6 @@
     "catch_cranidos": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cranidos"
       }
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cherrim_sunny"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cherrim_sunny"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_cherrim_sunny": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "cherrim_sunny"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

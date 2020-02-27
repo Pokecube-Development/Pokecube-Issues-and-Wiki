@@ -161,22 +161,22 @@ public class TrainerEventHandler
 
     }
 
-    static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.MODID, "pokemobs");
-    static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.MODID, "ai");
-    static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.MODID, "messages");
-    static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.MODID, "rewards");
-    static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.MODID, "data");
-    static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.MODID, "trades");
-    static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.MODID, "guardai");
+    public static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.MODID, "pokemobs");
+    public static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.MODID, "ai");
+    public static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.MODID, "messages");
+    public static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.MODID, "rewards");
+    public static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.MODID, "data");
+    public static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.MODID, "trades");
+    public static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.MODID, "guardai");
 
-    private static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
+    public static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getCapabilities().containsKey(TrainerEventHandler.GUARDCAP)) return;
         if (event.getObject() instanceof VillagerEntity || event.getObject() instanceof TrainerNpc) event.addCapability(
                 TrainerEventHandler.GUARDCAP, new Provider());
     }
 
-    private static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
+    public static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!(event.getObject() instanceof MobEntity)) return;
         if (TypeTrainer.mobTypeMapper.getType((LivingEntity) event.getObject(), false) == null) return;

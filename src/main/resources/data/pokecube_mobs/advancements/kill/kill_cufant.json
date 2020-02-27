@@ -24,7 +24,6 @@
     "kill_cufant": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cufant"
       }
     }

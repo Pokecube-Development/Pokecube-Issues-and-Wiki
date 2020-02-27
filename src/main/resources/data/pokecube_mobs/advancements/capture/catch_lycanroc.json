@@ -24,7 +24,6 @@
     "catch_lycanroc": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lycanroc"
       }
     }

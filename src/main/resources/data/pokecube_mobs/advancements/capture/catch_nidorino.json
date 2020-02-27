@@ -24,7 +24,6 @@
     "catch_nidorino": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "nidorino"
       }
     }

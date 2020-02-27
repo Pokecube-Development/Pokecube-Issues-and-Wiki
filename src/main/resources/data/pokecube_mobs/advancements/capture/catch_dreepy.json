@@ -24,7 +24,6 @@
     "catch_dreepy": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dreepy"
       }
     }

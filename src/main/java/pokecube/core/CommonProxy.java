@@ -11,6 +11,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
@@ -56,6 +57,7 @@ import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import pokecube.nbtedit.NBTEdit;
+import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.Proxy;
 
@@ -170,6 +172,11 @@ public class CommonProxy implements Proxy
     }
 
     public void pokecenterloop(final HealerTile tileIn, final boolean play)
+    {
+
+    }
+
+    public void moveSound(final Vector3 pos, final SoundEvent event)
     {
 
     }

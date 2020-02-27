@@ -24,7 +24,6 @@
     "catch_dodrio": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dodrio"
       }
     }

@@ -24,7 +24,6 @@
     "kill_togetic": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "togetic"
       }
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_dark"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_dark"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_dark": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_dark"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

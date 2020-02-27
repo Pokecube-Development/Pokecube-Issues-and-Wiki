@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fighting"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fighting"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_fighting": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_fighting"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

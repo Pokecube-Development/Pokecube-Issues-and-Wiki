@@ -24,7 +24,6 @@
     "kill_ekans": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ekans"
       }
     }

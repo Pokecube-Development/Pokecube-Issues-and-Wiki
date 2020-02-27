@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_water"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_water"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_water": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_water"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

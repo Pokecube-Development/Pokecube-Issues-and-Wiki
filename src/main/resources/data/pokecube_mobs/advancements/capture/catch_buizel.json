@@ -24,7 +24,6 @@
     "catch_buizel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "buizel"
       }
     }

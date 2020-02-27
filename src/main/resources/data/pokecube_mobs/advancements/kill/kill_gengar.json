@@ -24,7 +24,6 @@
     "kill_gengar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gengar"
       }
     }

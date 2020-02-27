@@ -24,7 +24,6 @@
     "catch_garbodor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "garbodor"
       }
     }

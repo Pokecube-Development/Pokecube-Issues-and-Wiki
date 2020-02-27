@@ -24,7 +24,6 @@
     "catch_manectric": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "manectric"
       }
     }

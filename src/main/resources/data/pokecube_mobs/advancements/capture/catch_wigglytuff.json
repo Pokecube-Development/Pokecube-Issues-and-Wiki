@@ -24,7 +24,6 @@
     "catch_wigglytuff": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wigglytuff"
       }
     }

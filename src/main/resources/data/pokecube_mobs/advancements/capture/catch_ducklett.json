@@ -24,7 +24,6 @@
     "catch_ducklett": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ducklett"
       }
     }

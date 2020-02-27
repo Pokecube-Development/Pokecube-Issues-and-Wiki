@@ -24,7 +24,6 @@
     "catch_ditto": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ditto"
       }
     }

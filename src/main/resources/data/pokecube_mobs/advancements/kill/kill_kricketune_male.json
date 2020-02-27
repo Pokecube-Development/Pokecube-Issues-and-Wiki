@@ -24,7 +24,6 @@
     "kill_kricketune_male": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kricketune_male"
       }
     }

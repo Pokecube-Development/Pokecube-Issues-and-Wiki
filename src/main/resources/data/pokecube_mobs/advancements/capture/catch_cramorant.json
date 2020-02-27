@@ -24,7 +24,6 @@
     "catch_cramorant": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cramorant"
       }
     }

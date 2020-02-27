@@ -24,7 +24,6 @@
     "kill_sylveon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sylveon"
       }
     }

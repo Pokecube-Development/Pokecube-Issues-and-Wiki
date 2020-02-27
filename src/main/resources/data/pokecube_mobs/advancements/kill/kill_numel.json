@@ -24,7 +24,6 @@
     "kill_numel": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "numel"
       }
     }

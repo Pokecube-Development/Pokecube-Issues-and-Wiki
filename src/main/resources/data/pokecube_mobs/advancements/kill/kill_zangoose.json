@@ -24,7 +24,6 @@
     "kill_zangoose": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zangoose"
       }
     }

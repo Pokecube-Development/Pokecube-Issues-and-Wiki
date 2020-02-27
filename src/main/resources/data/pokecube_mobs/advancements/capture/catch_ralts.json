@@ -24,7 +24,6 @@
     "catch_ralts": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ralts"
       }
     }

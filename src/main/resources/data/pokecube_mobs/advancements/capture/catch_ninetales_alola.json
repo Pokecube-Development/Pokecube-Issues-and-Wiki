@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_ninetales_alola": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "ninetales_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_vulpix_alola"
+}

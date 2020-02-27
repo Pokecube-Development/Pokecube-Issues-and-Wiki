@@ -24,7 +24,6 @@
     "kill_oddish": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "oddish"
       }
     }

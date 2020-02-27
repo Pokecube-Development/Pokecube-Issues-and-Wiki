@@ -24,7 +24,6 @@
     "catch_altaria": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "altaria"
       }
     }

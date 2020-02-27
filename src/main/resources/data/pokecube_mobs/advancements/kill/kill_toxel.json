@@ -24,7 +24,6 @@
     "kill_toxel": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "toxel"
       }
     }

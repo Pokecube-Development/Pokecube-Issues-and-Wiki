@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fighting"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_fighting"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_silvally_fighting": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "silvally_fighting"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

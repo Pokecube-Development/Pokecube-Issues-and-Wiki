@@ -24,7 +24,6 @@
     "kill_tyrantrum": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tyrantrum"
       }
     }

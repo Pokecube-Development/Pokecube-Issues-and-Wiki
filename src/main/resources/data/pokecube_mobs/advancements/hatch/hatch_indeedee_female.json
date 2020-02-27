@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.indeedee_female"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.indeedee_female"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_indeedee_female": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "indeedee_female"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

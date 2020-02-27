@@ -24,7 +24,6 @@
     "kill_typhlosion": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "typhlosion"
       }
     }

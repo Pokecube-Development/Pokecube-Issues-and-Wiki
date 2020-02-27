@@ -24,7 +24,6 @@
     "catch_azurill": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "azurill"
       }
     }

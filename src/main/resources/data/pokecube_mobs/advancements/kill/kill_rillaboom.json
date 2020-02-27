@@ -24,7 +24,6 @@
     "kill_rillaboom": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "rillaboom"
       }
     }

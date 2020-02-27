@@ -24,7 +24,6 @@
     "kill_indeedee": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "indeedee"
       }
     }

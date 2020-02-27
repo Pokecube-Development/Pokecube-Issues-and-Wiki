@@ -24,7 +24,6 @@
     "catch_nuzleaf": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "nuzleaf"
       }
     }

@@ -24,7 +24,6 @@
     "kill_pachirisu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pachirisu"
       }
     }

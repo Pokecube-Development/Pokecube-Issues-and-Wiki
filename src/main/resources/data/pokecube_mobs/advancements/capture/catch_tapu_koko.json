@@ -25,7 +25,6 @@
     "catch_tapu_koko": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tapu_koko"
       }
     }

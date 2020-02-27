@@ -24,7 +24,6 @@
     "catch_mime_jr": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mime_jr"
       }
     }

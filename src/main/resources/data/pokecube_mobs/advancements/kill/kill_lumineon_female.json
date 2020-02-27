@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lumineon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lumineon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lumineon_female": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lumineon_female"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

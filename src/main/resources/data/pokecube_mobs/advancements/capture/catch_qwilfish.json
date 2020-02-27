@@ -24,7 +24,6 @@
     "catch_qwilfish": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "qwilfish"
       }
     }

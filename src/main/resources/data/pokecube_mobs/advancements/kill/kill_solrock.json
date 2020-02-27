@@ -24,7 +24,6 @@
     "kill_solrock": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "solrock"
       }
     }

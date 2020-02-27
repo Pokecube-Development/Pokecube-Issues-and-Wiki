@@ -24,7 +24,6 @@
     "catch_cradily": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cradily"
       }
     }

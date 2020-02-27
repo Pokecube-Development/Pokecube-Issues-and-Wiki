@@ -24,7 +24,6 @@
     "kill_obstagoon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "obstagoon"
       }
     }

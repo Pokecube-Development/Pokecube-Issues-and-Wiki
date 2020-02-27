@@ -24,7 +24,6 @@
     "kill_bonsly": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bonsly"
       }
     }

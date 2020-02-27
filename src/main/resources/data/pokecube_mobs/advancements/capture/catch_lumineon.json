@@ -24,7 +24,6 @@
     "catch_lumineon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lumineon"
       }
     }

@@ -24,7 +24,6 @@
     "catch_gurdurr": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gurdurr"
       }
     }

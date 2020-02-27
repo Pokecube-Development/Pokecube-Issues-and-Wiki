@@ -24,7 +24,6 @@
     "catch_golisopod": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "golisopod"
       }
     }

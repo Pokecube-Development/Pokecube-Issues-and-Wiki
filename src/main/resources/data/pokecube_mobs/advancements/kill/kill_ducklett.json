@@ -24,7 +24,6 @@
     "kill_ducklett": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ducklett"
       }
     }

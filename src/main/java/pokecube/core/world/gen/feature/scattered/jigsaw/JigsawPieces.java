@@ -21,7 +21,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
@@ -71,7 +70,7 @@ public class JigsawPieces
     }
 
     private static void registerPart(final JigSawConfig jigsaw, final JigSawPart part, final int offset,
-            final String subbiome)
+            String subbiome)
     {
         final ResourceLocation key = new ResourceLocation(part.name);
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
@@ -88,6 +87,7 @@ public class JigsawPieces
                 final JsonObject thing = PokedexEntryLoader.gson.fromJson(args[1], JsonObject.class);
                 if (thing.has("weight")) second = thing.get("weight").getAsInt();
                 if (thing.has("ignoreAir")) ignoreAir = thing.get("ignoreAir").getAsBoolean();
+                if (thing.has("subbiome")) subbiome = thing.get("subbiome").getAsString();
                 if (thing.has("rigid")) place = thing.get("rigid").getAsBoolean() ? PlacementBehaviour.RIGID
                         : PlacementBehaviour.TERRAIN_MATCHING;
             }
@@ -104,7 +104,8 @@ public class JigsawPieces
         }
 
         // Register the buildings
-        JigsawManager.REGISTRY.register(new JigsawPattern(key, new ResourceLocation(part.target), parts, behaviour));
+        JigsawManager.REGISTRY.register(new JigsawPatternCustom(key, new ResourceLocation(part.target), parts,
+                behaviour));
     }
 
     public static void registerJigsaw(final JigSawConfig jigsaw)

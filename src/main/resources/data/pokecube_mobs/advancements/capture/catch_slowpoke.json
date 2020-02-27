@@ -24,7 +24,6 @@
     "catch_slowpoke": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "slowpoke"
       }
     }

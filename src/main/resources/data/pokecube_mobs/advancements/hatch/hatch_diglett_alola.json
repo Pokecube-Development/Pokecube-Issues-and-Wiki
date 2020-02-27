@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.diglett_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.diglett_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_diglett_alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "diglett_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

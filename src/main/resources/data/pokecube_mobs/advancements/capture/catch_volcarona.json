@@ -24,7 +24,6 @@
     "catch_volcarona": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "volcarona"
       }
     }

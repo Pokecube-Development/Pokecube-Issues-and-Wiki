@@ -24,7 +24,6 @@
     "kill_weezing": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "weezing"
       }
     }

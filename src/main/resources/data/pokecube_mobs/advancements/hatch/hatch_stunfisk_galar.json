@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunfisk_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.stunfisk_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_stunfisk_galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "stunfisk_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

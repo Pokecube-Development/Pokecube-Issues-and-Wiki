@@ -24,7 +24,6 @@
     "catch_leavanny": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "leavanny"
       }
     }

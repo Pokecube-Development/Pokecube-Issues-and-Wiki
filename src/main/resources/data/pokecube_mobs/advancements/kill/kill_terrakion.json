@@ -25,7 +25,6 @@
     "kill_terrakion": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "terrakion"
       }
     }

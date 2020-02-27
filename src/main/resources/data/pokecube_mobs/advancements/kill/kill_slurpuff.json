@@ -24,7 +24,6 @@
     "kill_slurpuff": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "slurpuff"
       }
     }

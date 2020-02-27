@@ -24,7 +24,6 @@
     "kill_golurk": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "golurk"
       }
     }

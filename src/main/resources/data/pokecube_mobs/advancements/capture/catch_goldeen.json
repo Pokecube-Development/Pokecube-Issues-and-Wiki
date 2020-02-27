@@ -24,7 +24,6 @@
     "catch_goldeen": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "goldeen"
       }
     }

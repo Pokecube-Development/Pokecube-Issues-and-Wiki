@@ -24,7 +24,6 @@
     "kill_magby": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "magby"
       }
     }

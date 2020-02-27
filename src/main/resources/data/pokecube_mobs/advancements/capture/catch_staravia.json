@@ -24,7 +24,6 @@
     "catch_staravia": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "staravia"
       }
     }

@@ -24,7 +24,6 @@
     "kill_illumise": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "illumise"
       }
     }

@@ -25,7 +25,6 @@
     "kill_diancie": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "diancie"
       }
     }

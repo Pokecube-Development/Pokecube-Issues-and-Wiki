@@ -24,7 +24,6 @@
     "kill_skarmory": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "skarmory"
       }
     }

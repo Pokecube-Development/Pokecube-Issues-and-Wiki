@@ -24,7 +24,6 @@
     "catch_magneton": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "magneton"
       }
     }

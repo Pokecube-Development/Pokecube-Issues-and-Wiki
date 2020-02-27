@@ -24,7 +24,6 @@
     "catch_chandelure": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "chandelure"
       }
     }

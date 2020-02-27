@@ -24,7 +24,6 @@
     "kill_duskull": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "duskull"
       }
     }

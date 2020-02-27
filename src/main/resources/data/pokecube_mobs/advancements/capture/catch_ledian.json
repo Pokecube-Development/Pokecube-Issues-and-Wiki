@@ -24,7 +24,6 @@
     "catch_ledian": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ledian"
       }
     }

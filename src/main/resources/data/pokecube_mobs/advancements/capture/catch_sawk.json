@@ -24,7 +24,6 @@
     "catch_sawk": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sawk"
       }
     }

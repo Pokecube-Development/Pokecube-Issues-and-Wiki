@@ -24,7 +24,6 @@
     "kill_spiritomb": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "spiritomb"
       }
     }

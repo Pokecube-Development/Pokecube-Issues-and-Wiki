@@ -24,7 +24,6 @@
     "catch_silicobra": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "silicobra"
       }
     }

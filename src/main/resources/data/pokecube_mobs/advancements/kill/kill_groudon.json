@@ -25,7 +25,6 @@
     "kill_groudon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "groudon"
       }
     }

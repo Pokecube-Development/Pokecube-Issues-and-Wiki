@@ -24,7 +24,6 @@
     "kill_milotic": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "milotic"
       }
     }

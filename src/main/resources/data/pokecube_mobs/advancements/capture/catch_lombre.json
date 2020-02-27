@@ -24,7 +24,6 @@
     "catch_lombre": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lombre"
       }
     }

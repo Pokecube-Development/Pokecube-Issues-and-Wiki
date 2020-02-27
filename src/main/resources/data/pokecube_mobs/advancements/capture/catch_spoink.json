@@ -24,7 +24,6 @@
     "catch_spoink": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "spoink"
       }
     }

@@ -24,7 +24,6 @@
     "catch_shroomish": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shroomish"
       }
     }

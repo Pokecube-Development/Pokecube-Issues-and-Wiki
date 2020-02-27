@@ -24,7 +24,6 @@
     "kill_mantine": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mantine"
       }
     }

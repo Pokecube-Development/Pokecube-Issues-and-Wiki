@@ -24,7 +24,6 @@
     "kill_tyrogue": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tyrogue"
       }
     }

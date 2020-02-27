@@ -24,7 +24,6 @@
     "catch_basculin_blue": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "basculin_blue"
       }
     }

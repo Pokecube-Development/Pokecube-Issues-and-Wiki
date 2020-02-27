@@ -24,7 +24,6 @@
     "catch_slurpuff": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "slurpuff"
       }
     }

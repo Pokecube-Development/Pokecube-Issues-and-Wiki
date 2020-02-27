@@ -24,7 +24,6 @@
     "catch_raichu": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "raichu"
       }
     }

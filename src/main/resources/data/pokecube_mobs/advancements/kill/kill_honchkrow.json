@@ -24,7 +24,6 @@
     "kill_honchkrow": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "honchkrow"
       }
     }

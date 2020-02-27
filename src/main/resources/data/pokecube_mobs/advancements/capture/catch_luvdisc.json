@@ -24,7 +24,6 @@
     "catch_luvdisc": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "luvdisc"
       }
     }

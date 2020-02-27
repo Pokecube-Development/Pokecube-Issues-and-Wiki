@@ -24,7 +24,6 @@
     "catch_hawlucha": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hawlucha"
       }
     }

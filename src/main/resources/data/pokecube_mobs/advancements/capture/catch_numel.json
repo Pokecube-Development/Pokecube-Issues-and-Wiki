@@ -24,7 +24,6 @@
     "catch_numel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "numel"
       }
     }

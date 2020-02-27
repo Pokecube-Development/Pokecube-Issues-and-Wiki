@@ -25,7 +25,6 @@
     "kill_genesect": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "genesect"
       }
     }

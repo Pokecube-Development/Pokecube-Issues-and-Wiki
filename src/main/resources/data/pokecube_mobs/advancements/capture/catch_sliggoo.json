@@ -24,7 +24,6 @@
     "catch_sliggoo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sliggoo"
       }
     }

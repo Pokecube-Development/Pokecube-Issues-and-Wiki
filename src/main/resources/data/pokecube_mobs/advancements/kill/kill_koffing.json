@@ -24,7 +24,6 @@
     "kill_koffing": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "koffing"
       }
     }

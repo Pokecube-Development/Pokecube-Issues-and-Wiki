@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma_ultra"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.necrozma_ultra"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_necrozma_ultra": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "necrozma_ultra"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

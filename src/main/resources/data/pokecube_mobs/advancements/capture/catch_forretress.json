@@ -24,7 +24,6 @@
     "catch_forretress": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "forretress"
       }
     }

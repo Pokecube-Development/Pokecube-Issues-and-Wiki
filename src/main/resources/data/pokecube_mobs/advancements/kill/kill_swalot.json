@@ -24,7 +24,6 @@
     "kill_swalot": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "swalot"
       }
     }

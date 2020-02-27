@@ -24,7 +24,6 @@
     "kill_medicham": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "medicham"
       }
     }

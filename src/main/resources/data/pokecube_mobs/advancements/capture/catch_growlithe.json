@@ -24,7 +24,6 @@
     "catch_growlithe": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "growlithe"
       }
     }

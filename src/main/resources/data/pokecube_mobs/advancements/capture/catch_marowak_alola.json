@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.marowak_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.marowak_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_marowak_alola": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "marowak_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_cubone"
+}

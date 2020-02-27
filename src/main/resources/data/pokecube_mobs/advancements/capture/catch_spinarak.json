@@ -24,7 +24,6 @@
     "catch_spinarak": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "spinarak"
       }
     }

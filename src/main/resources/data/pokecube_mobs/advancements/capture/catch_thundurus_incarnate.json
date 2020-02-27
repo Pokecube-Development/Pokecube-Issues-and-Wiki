@@ -25,7 +25,6 @@
     "catch_thundurus_incarnate": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "thundurus_incarnate"
       }
     }

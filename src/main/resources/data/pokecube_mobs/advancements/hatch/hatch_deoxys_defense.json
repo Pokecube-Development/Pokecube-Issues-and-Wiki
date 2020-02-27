@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys_defense"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys_defense"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_deoxys_defense": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "deoxys_defense"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

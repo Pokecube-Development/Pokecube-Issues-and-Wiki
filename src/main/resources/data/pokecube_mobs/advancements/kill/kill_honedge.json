@@ -24,7 +24,6 @@
     "kill_honedge": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "honedge"
       }
     }

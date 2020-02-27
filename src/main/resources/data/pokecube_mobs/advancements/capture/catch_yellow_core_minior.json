@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.yellow_core_minior"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.yellow_core_minior"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_yellow_core_minior": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "yellow_core_minior"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -24,7 +24,6 @@
     "catch_krookodile": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "krookodile"
       }
     }

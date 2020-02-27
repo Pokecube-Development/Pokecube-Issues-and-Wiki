@@ -24,7 +24,6 @@
     "kill_klefki": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "klefki"
       }
     }

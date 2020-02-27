@@ -24,7 +24,6 @@
     "kill_decidueye": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "decidueye"
       }
     }

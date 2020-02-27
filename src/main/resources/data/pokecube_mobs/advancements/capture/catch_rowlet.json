@@ -24,7 +24,6 @@
     "catch_rowlet": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rowlet"
       }
     }

@@ -24,7 +24,6 @@
     "kill_cacturne": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cacturne"
       }
     }

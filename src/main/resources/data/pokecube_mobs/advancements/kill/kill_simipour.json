@@ -24,7 +24,6 @@
     "kill_simipour": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "simipour"
       }
     }

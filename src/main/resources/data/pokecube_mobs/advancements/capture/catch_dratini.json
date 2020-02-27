@@ -24,7 +24,6 @@
     "catch_dratini": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dratini"
       }
     }

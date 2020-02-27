@@ -24,7 +24,6 @@
     "catch_frillish_male": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "frillish_male"
       }
     }

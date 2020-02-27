@@ -24,7 +24,6 @@
     "kill_nidoqueen": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "nidoqueen"
       }
     }

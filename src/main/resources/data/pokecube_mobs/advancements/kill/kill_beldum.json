@@ -24,7 +24,6 @@
     "kill_beldum": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "beldum"
       }
     }

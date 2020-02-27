@@ -24,7 +24,6 @@
     "catch_swinub": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "swinub"
       }
     }

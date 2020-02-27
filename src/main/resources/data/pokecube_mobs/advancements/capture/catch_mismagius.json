@@ -24,7 +24,6 @@
     "catch_mismagius": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mismagius"
       }
     }

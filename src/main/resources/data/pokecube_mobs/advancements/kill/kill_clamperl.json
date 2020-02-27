@@ -24,7 +24,6 @@
     "kill_clamperl": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "clamperl"
       }
     }

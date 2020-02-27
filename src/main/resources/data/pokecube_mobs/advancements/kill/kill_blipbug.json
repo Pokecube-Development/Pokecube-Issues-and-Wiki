@@ -24,7 +24,6 @@
     "kill_blipbug": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "blipbug"
       }
     }

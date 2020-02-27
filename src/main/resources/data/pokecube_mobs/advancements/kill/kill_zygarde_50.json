@@ -25,7 +25,6 @@
     "kill_zygarde_50": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zygarde_50"
       }
     }

@@ -24,7 +24,6 @@
     "kill_watchog": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "watchog"
       }
     }

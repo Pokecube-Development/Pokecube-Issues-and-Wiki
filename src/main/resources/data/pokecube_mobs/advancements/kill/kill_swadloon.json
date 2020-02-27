@@ -24,7 +24,6 @@
     "kill_swadloon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "swadloon"
       }
     }

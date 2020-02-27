@@ -24,7 +24,6 @@
     "kill_reuniclus": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "reuniclus"
       }
     }

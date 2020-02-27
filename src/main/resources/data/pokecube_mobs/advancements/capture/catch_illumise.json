@@ -24,7 +24,6 @@
     "catch_illumise": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "illumise"
       }
     }

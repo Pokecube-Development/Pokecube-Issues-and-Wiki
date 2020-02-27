@@ -24,7 +24,6 @@
     "catch_sinistea": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sinistea"
       }
     }

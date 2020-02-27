@@ -24,7 +24,6 @@
     "catch_noibat": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "noibat"
       }
     }

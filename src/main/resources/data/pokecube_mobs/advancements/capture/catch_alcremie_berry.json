@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_berry"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.alcremie_berry"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_alcremie_berry": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "alcremie_berry"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -24,7 +24,6 @@
     "catch_salamence": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "salamence"
       }
     }

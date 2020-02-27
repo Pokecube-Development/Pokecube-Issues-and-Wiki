@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_monsoon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_monsoon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_vivillon_monsoon": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "vivillon_monsoon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_spewpa"
+}

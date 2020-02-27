@@ -24,7 +24,6 @@
     "catch_salazzle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "salazzle"
       }
     }

@@ -24,7 +24,6 @@
     "catch_kingdra": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "kingdra"
       }
     }

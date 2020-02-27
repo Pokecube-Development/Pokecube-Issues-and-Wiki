@@ -24,7 +24,6 @@
     "catch_silcoon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "silcoon"
       }
     }

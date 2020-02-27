@@ -24,7 +24,6 @@
     "catch_whirlipede": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "whirlipede"
       }
     }

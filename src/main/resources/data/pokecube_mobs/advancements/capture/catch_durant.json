@@ -24,7 +24,6 @@
     "catch_durant": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "durant"
       }
     }

@@ -24,7 +24,6 @@
     "catch_luxray": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "luxray"
       }
     }

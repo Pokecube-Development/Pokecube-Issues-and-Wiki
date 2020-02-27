@@ -25,7 +25,6 @@
     "kill_reshiram": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "reshiram"
       }
     }

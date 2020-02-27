@@ -24,7 +24,6 @@
     "catch_scrafty": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "scrafty"
       }
     }

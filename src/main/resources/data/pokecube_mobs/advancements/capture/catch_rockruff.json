@@ -24,7 +24,6 @@
     "catch_rockruff": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rockruff"
       }
     }

@@ -24,7 +24,6 @@
     "kill_salandit": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "salandit"
       }
     }

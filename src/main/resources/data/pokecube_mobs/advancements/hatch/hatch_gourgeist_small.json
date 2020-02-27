@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist_small"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist_small"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gourgeist_small": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gourgeist_small"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_pumpkaboo_small"
+}

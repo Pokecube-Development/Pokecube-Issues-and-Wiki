@@ -24,7 +24,6 @@
     "catch_weavile": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "weavile"
       }
     }

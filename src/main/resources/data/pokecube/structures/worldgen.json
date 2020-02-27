@@ -77,8 +77,9 @@
           "target": "pokecube:village/common/terminators",
           "rigid": false,
           "options": [
-            "pokecube:village/common/streets/road_t_01",
-            "pokecube:village/common/streets/road_02;{\"weight\":4}"
+            "pokecube:village/common/streets/road_t_01;{\"weight\":4}",
+            "pokecube:village/common/streets/road_plus_01;{\"weight\":2}",
+            "pokecube:village/common/streets/road_01;{\"weight\":6}"
           ]
         },
         {
@@ -96,12 +97,28 @@
           ]
         },
         {
+          "name": "pokecube:village/common/deco",
+          "options": [
+            "pokecube:village/common/deco/lamp_1"
+          ]
+        },
+        {
+          "name": "pokecube:village/common/trainers",
+          "rigid": false,
+          "options": [
+            "pokecube:village/common/trainers/trainer_1"
+          ]
+        },
+        {
           "name": "pokecube:village/common/houses",
           "target": "pokecube:village/common/terminators",
+          "ignoreAir": false,
           "options": [
-            "pokecube:village/common/houses/house_small_1;{\"weight\":4}",
-            "pokecube:village/common/pokecenter/center_01;{\"ignoreAir\":false}",
-            "pokecube:village/common/gym/gym_01;{\"ignoreAir\":false}"
+            "pokecube:village/common/houses/house_small_1;{\"weight\":8}",
+            "pokecube:village/common/houses/house_big_1;{\"weight\":5}",
+            "pokecube:village/common/pokecenter/center_01;{\"weight\":-1}",
+            "pokecube:village/common/gym/gym_01;{\"weight\":-1}",
+            "empty;{\"weight\":4}"
           ]
         }
       ],

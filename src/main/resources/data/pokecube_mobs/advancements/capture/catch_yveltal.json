@@ -25,7 +25,6 @@
     "catch_yveltal": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "yveltal"
       }
     }

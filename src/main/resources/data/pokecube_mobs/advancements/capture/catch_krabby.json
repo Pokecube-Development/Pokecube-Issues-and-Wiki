@@ -24,7 +24,6 @@
     "catch_krabby": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "krabby"
       }
     }

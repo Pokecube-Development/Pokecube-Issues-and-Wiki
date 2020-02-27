@@ -24,7 +24,6 @@
     "catch_wynaut": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wynaut"
       }
     }

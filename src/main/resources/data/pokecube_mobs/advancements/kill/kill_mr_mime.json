@@ -24,7 +24,6 @@
     "kill_mr_mime": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mr_mime"
       }
     }

@@ -24,7 +24,6 @@
     "kill_raichu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "raichu"
       }
     }

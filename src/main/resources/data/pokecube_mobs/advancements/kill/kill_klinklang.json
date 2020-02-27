@@ -24,7 +24,6 @@
     "kill_klinklang": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "klinklang"
       }
     }

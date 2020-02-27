@@ -24,7 +24,6 @@
     "kill_oricorio_baile": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "oricorio_baile"
       }
     }

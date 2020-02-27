@@ -24,7 +24,6 @@
     "catch_vullaby": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "vullaby"
       }
     }

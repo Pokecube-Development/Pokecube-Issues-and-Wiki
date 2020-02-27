@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_meowth_alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "meowth_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

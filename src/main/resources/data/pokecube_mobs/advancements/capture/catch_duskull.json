@@ -24,7 +24,6 @@
     "catch_duskull": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "duskull"
       }
     }

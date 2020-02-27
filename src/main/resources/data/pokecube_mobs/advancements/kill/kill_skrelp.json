@@ -24,7 +24,6 @@
     "kill_skrelp": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "skrelp"
       }
     }

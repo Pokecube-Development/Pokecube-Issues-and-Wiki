@@ -24,7 +24,6 @@
     "catch_mantine": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mantine"
       }
     }

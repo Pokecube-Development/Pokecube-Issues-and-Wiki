@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist_super"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist_super"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gourgeist_super": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gourgeist_super"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_pumpkaboo_super"
+}

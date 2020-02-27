@@ -24,7 +24,6 @@
     "catch_drowzee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "drowzee"
       }
     }

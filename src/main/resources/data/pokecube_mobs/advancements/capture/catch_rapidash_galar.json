@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rapidash_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_rapidash_galar": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "rapidash_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_ponyta_galar"
+}

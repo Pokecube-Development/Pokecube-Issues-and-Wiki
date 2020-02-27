@@ -24,7 +24,6 @@
     "catch_parasect": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "parasect"
       }
     }

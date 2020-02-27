@@ -24,7 +24,6 @@
     "catch_magearna": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "magearna"
       }
     }

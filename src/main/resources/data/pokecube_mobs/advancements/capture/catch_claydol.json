@@ -24,7 +24,6 @@
     "catch_claydol": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "claydol"
       }
     }

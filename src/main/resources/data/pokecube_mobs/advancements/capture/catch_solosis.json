@@ -24,7 +24,6 @@
     "catch_solosis": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "solosis"
       }
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist_small"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gourgeist_small"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_gourgeist_small": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "gourgeist_small"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_pumpkaboo_small"
+}

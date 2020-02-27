@@ -135,7 +135,7 @@ public abstract class TrainerBase extends NpcMob
             if (this.pokemobsCap.getOutMob() == null) this.pokemobsCap.setOutID(null);
         }
         if (this.pokemobsCap.countPokemon() == 0 && !this.aiStates.getAIState(IHasNPCAIStates.STATIONARY)
-                && !this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY))
+                && !this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY) && PokecubeAdv.config.cullNoMobs)
         {
             // Do not despawn if there is a player nearby.
             if (Tools.isAnyPlayerInRange(10, this)) return;

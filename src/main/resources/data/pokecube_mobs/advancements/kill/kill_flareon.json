@@ -24,7 +24,6 @@
     "kill_flareon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "flareon"
       }
     }

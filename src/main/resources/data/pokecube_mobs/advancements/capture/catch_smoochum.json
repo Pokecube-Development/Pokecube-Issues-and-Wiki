@@ -24,7 +24,6 @@
     "catch_smoochum": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "smoochum"
       }
     }

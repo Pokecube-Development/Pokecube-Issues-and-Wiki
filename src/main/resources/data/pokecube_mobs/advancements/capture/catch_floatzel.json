@@ -24,7 +24,6 @@
     "catch_floatzel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "floatzel"
       }
     }

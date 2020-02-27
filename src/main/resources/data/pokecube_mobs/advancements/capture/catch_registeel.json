@@ -25,7 +25,6 @@
     "catch_registeel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "registeel"
       }
     }

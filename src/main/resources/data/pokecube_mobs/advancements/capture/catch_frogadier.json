@@ -24,7 +24,6 @@
     "catch_frogadier": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "frogadier"
       }
     }

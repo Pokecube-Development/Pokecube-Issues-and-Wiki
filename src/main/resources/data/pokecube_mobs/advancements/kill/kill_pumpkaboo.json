@@ -24,7 +24,6 @@
     "kill_pumpkaboo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pumpkaboo"
       }
     }

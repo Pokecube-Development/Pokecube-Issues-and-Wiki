@@ -24,7 +24,6 @@
     "catch_gorebyss": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gorebyss"
       }
     }

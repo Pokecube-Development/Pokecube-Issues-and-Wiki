@@ -24,7 +24,6 @@
     "catch_alomomola": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "alomomola"
       }
     }

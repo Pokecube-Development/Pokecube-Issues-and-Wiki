@@ -24,7 +24,6 @@
     "catch_boltund": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "boltund"
       }
     }

@@ -24,7 +24,6 @@
     "kill_scyther": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "scyther"
       }
     }

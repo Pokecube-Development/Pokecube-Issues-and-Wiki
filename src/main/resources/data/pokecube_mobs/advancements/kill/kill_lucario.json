@@ -24,7 +24,6 @@
     "kill_lucario": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lucario"
       }
     }

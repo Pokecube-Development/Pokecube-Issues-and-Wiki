@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_rock"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_rock"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_silvally_rock": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "silvally_rock"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

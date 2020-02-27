@@ -24,7 +24,6 @@
     "catch_skorupi": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "skorupi"
       }
     }

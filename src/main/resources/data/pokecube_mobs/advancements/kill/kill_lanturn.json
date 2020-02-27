@@ -24,7 +24,6 @@
     "kill_lanturn": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lanturn"
       }
     }

@@ -24,7 +24,6 @@
     "catch_happiny": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "happiny"
       }
     }

@@ -25,7 +25,6 @@
     "catch_terrakion": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "terrakion"
       }
     }

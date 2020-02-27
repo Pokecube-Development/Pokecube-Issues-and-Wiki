@@ -24,7 +24,6 @@
     "kill_drednaw": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "drednaw"
       }
     }

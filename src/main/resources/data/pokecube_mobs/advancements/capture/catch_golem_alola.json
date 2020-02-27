@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.golem_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.golem_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_golem_alola": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "golem_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_graveler_alola"
+}

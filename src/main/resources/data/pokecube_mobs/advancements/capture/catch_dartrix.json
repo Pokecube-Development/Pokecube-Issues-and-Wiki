@@ -24,7 +24,6 @@
     "catch_dartrix": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dartrix"
       }
     }

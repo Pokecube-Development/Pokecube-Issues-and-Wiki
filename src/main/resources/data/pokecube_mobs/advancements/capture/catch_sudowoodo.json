@@ -24,7 +24,6 @@
     "catch_sudowoodo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sudowoodo"
       }
     }

@@ -24,7 +24,6 @@
     "kill_seismitoad": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "seismitoad"
       }
     }

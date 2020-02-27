@@ -24,7 +24,6 @@
     "kill_carbink": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "carbink"
       }
     }

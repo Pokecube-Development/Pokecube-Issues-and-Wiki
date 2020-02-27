@@ -24,7 +24,6 @@
     "kill_charjabug": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "charjabug"
       }
     }

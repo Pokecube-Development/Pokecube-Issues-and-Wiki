@@ -24,7 +24,6 @@
     "catch_zeraora": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "zeraora"
       }
     }

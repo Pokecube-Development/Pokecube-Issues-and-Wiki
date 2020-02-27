@@ -24,7 +24,6 @@
     "kill_heracross": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "heracross"
       }
     }

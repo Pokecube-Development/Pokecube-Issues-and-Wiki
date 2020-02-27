@@ -24,7 +24,6 @@
     "catch_lurantis": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lurantis"
       }
     }

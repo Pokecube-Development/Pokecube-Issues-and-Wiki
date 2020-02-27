@@ -38,7 +38,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     @Override
     public int getSize()
     {
-        return 3;
+        return 4;
     }
 
     @Override

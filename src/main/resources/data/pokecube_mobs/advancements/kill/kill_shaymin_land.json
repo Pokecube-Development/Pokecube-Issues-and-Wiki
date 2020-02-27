@@ -25,7 +25,6 @@
     "kill_shaymin_land": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "shaymin_land"
       }
     }

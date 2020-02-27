@@ -24,7 +24,6 @@
     "kill_lotad": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lotad"
       }
     }

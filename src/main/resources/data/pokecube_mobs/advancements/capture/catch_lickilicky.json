@@ -24,7 +24,6 @@
     "catch_lickilicky": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lickilicky"
       }
     }

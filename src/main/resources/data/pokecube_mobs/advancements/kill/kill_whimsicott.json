@@ -24,7 +24,6 @@
     "kill_whimsicott": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "whimsicott"
       }
     }

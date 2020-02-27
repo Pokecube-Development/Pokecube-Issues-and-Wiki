@@ -24,7 +24,6 @@
     "catch_gallade": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gallade"
       }
     }

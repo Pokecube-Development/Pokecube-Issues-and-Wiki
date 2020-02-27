@@ -24,7 +24,6 @@
     "kill_conkeldurr": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "conkeldurr"
       }
     }

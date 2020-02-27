@@ -24,7 +24,6 @@
     "kill_buneary": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "buneary"
       }
     }

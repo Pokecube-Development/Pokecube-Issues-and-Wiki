@@ -24,7 +24,6 @@
     "kill_doduo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "doduo"
       }
     }

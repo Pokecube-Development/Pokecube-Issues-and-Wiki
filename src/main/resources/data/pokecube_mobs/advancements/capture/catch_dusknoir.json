@@ -24,7 +24,6 @@
     "catch_dusknoir": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dusknoir"
       }
     }

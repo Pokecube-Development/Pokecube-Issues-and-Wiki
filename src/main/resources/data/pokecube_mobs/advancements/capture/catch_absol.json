@@ -24,7 +24,6 @@
     "catch_absol": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "absol"
       }
     }

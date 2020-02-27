@@ -24,7 +24,6 @@
     "catch_starly": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "starly"
       }
     }

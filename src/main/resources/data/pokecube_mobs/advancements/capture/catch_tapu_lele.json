@@ -25,7 +25,6 @@
     "catch_tapu_lele": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tapu_lele"
       }
     }

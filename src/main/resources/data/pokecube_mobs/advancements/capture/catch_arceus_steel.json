@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_steel"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_steel"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "catch_arceus_steel": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "arceus_steel"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -24,7 +24,6 @@
     "catch_metapod": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "metapod"
       }
     }

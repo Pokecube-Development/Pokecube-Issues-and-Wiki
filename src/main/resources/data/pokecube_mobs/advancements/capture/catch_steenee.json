@@ -24,7 +24,6 @@
     "catch_steenee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "steenee"
       }
     }

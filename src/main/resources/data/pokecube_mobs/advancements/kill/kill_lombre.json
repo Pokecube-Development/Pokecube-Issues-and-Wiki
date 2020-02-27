@@ -24,7 +24,6 @@
     "kill_lombre": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lombre"
       }
     }

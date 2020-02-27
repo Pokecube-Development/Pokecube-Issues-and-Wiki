@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_poison"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_poison"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_poison": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_poison"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

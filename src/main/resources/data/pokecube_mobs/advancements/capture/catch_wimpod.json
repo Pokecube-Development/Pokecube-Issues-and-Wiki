@@ -24,7 +24,6 @@
     "catch_wimpod": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wimpod"
       }
     }

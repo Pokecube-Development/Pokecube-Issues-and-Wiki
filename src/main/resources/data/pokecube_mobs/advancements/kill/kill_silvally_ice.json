@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ice"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ice"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_ice": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_ice"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

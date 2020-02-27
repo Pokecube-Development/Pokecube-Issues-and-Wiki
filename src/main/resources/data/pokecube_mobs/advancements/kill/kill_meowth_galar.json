@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.meowth_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_meowth_galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "meowth_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

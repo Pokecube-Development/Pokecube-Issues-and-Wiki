@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_flying"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_flying"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_flying": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_flying"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

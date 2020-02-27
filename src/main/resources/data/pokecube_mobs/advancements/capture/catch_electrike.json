@@ -24,7 +24,6 @@
     "catch_electrike": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "electrike"
       }
     }

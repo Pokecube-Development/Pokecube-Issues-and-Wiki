@@ -24,7 +24,6 @@
     "kill_ninetales": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ninetales"
       }
     }

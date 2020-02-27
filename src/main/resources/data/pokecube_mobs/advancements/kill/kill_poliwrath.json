@@ -24,7 +24,6 @@
     "kill_poliwrath": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "poliwrath"
       }
     }

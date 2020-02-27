@@ -24,7 +24,6 @@
     "kill_cradily": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cradily"
       }
     }

@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_water"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_water"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "kill_arceus_water": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "arceus_water"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

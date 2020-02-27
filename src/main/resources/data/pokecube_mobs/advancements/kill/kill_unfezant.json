@@ -24,7 +24,6 @@
     "kill_unfezant": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "unfezant"
       }
     }

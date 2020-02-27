@@ -25,7 +25,6 @@
     "kill_solgaleo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "solgaleo"
       }
     }

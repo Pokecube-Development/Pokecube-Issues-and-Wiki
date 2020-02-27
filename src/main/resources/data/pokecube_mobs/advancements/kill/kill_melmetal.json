@@ -24,7 +24,6 @@
     "kill_melmetal": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "melmetal"
       }
     }

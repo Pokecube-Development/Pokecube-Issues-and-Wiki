@@ -24,7 +24,6 @@
     "kill_dustox": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dustox"
       }
     }

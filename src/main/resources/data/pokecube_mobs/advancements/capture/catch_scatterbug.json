@@ -24,7 +24,6 @@
     "catch_scatterbug": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "scatterbug"
       }
     }

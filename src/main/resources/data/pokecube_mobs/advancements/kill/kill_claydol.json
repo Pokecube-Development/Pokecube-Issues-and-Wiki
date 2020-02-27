@@ -24,7 +24,6 @@
     "kill_claydol": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "claydol"
       }
     }

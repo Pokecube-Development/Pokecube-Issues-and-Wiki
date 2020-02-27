@@ -24,7 +24,6 @@
     "catch_bergmite": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bergmite"
       }
     }

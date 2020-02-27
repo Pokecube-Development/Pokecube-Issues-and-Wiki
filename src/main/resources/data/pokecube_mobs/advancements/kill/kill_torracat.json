@@ -24,7 +24,6 @@
     "kill_torracat": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "torracat"
       }
     }

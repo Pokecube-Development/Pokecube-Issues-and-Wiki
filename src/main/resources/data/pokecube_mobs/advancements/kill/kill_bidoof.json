@@ -24,7 +24,6 @@
     "kill_bidoof": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bidoof"
       }
     }

@@ -25,7 +25,6 @@
     "catch_victini": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "victini"
       }
     }

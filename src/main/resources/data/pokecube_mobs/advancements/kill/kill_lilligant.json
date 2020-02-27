@@ -24,7 +24,6 @@
     "kill_lilligant": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lilligant"
       }
     }

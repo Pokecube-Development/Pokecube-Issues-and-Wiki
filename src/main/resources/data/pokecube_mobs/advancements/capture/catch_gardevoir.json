@@ -24,7 +24,6 @@
     "catch_gardevoir": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gardevoir"
       }
     }

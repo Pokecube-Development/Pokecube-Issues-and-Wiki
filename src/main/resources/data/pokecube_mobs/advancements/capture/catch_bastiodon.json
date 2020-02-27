@@ -24,7 +24,6 @@
     "catch_bastiodon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bastiodon"
       }
     }

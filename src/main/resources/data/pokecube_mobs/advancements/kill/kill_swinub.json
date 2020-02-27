@@ -24,7 +24,6 @@
     "kill_swinub": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "swinub"
       }
     }

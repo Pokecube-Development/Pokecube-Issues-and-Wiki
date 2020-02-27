@@ -24,7 +24,6 @@
     "catch_drapion": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "drapion"
       }
     }

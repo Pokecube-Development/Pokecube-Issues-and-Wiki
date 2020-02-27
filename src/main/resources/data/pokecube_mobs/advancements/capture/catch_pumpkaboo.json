@@ -24,7 +24,6 @@
     "catch_pumpkaboo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pumpkaboo"
       }
     }

@@ -24,7 +24,6 @@
     "catch_kabutops": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "kabutops"
       }
     }

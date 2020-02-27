@@ -24,7 +24,6 @@
     "kill_minccino": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "minccino"
       }
     }

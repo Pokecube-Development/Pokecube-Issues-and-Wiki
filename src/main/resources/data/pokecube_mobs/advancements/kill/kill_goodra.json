@@ -24,7 +24,6 @@
     "kill_goodra": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "goodra"
       }
     }

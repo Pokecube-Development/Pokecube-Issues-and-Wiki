@@ -24,7 +24,6 @@
     "catch_jangmo-o": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "jangmo-o"
       }
     }

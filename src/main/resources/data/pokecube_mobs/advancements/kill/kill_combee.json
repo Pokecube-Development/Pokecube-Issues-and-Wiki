@@ -24,7 +24,6 @@
     "kill_combee": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "combee"
       }
     }

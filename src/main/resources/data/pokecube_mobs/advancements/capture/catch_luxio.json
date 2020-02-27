@@ -24,7 +24,6 @@
     "catch_luxio": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "luxio"
       }
     }

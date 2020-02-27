@@ -24,7 +24,6 @@
     "catch_electabuzz": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "electabuzz"
       }
     }

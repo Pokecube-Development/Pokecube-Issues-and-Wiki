@@ -24,7 +24,6 @@
     "kill_venomoth": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "venomoth"
       }
     }

@@ -24,7 +24,6 @@
     "catch_quagsire": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "quagsire"
       }
     }

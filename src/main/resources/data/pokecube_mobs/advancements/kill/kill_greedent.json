@@ -24,7 +24,6 @@
     "kill_greedent": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "greedent"
       }
     }

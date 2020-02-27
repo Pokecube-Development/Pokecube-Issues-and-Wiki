@@ -24,7 +24,6 @@
     "kill_bayleef": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bayleef"
       }
     }

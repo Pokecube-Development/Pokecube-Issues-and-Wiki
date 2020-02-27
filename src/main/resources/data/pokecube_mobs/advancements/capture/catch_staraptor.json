@@ -24,7 +24,6 @@
     "catch_staraptor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "staraptor"
       }
     }

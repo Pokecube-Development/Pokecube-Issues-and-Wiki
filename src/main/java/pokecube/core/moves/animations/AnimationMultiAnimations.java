@@ -7,9 +7,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MoveEntry;
@@ -17,6 +15,7 @@ import pokecube.core.database.moves.json.JsonMoves.AnimationJson;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.animations.presets.Thunder;
+import thut.api.maths.Vector3;
 
 public class AnimationMultiAnimations extends MoveAnimationBase
 {
@@ -118,28 +117,30 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             info.currentTick = tick - toRun.start;
             toRun.wrapped.spawnClientEntities(info);
             sound:
-                if (info.currentTick == 0 && toRun.sound != null)
+            if (info.currentTick == 0 && toRun.sound != null)
+            {
+                if (toRun.soundEvent == null)
                 {
-                    final World world = PokecubeCore.proxy.getWorld();
+                    toRun.soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(toRun.sound);
                     if (toRun.soundEvent == null)
                     {
-                        toRun.soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(toRun.sound);
-                        if (toRun.soundEvent == null)
-                        {
-                            PokecubeCore.LOGGER.error("No Registered Sound for " + toRun.sound);
-                            toRun.sound = null;
-                            break sound;
-                        }
+                        PokecubeCore.LOGGER.error("No Registered Sound for " + toRun.sound);
+                        toRun.sound = null;
+                        break sound;
                     }
-                    if (toRun.soundSource) if (info.source != null) world.playSound(info.source.x, info.source.y,
-                            info.source.z, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
-                    else if (info.attacker != null) world.playSound(info.attacker.posX, info.attacker.posY,
-                            info.attacker.posZ, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
-                    if (toRun.soundTarget) if (info.target != null) world.playSound(info.target.x, info.target.y,
-                            info.target.z, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
-                    else if (info.attacked != null) world.playSound(info.attacked.posX, info.attacked.posY,
-                            info.attacked.posZ, toRun.soundEvent, SoundCategory.HOSTILE, toRun.volume, toRun.pitch, false);
                 }
+                boolean valid = toRun.soundSource;
+                final Vector3 pos = Vector3.getNewVector();
+                // Check source sounds.
+                if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
+                        : info.attacker);
+                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent);
+                // Check target sounds.
+                valid = toRun.soundTarget;
+                if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
+                        : info.attacked);
+                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent);
+            }
         }
     }
 

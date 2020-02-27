@@ -24,7 +24,6 @@
     "catch_simisear": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "simisear"
       }
     }

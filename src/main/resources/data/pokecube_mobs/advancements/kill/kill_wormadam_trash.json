@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam_trash"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam_trash"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_wormadam_trash": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "wormadam_trash"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

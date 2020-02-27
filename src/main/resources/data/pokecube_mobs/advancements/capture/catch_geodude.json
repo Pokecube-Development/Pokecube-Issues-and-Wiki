@@ -24,7 +24,6 @@
     "catch_geodude": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "geodude"
       }
     }

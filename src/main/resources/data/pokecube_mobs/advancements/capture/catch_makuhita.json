@@ -24,7 +24,6 @@
     "catch_makuhita": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "makuhita"
       }
     }

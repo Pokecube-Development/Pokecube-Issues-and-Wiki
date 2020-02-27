@@ -24,7 +24,6 @@
     "kill_rolycoly": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "rolycoly"
       }
     }

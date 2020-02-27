@@ -24,7 +24,6 @@
     "catch_dubwool": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dubwool"
       }
     }

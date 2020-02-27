@@ -24,7 +24,6 @@
     "kill_sliggoo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sliggoo"
       }
     }

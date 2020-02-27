@@ -24,7 +24,6 @@
     "kill_unown": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "unown"
       }
     }

@@ -24,7 +24,6 @@
     "catch_glalie": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "glalie"
       }
     }

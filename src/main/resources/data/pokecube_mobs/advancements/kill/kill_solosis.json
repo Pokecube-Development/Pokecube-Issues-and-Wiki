@@ -24,7 +24,6 @@
     "kill_solosis": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "solosis"
       }
     }

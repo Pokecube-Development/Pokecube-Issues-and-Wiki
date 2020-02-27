@@ -24,7 +24,6 @@
     "kill_blastoise": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "blastoise"
       }
     }
