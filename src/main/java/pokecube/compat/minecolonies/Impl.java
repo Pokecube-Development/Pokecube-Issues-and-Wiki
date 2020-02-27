@@ -35,6 +35,10 @@ public class Impl
         TerrainSegment.defaultChecker = new TerrainChecker(TerrainSegment.defaultChecker);
         Impl.instance = IMinecoloniesAPI.getInstance();
         PokecubeAdv.config.customTrainers.add(AbstractEntityCitizen.class);
+
+        // TODO check here for mine related stuff:
+        // https://github.com/ldtteam/minecolonies/blob/34a42edeeddcb4c078ad25032a3a87d0015dc960/src/main/java/com/minecolonies/coremod/colony/buildings/workerbuildings/BuildingMiner.java
+
     }
 
     public static class TerrainChecker extends PokecubeTerrainChecker
