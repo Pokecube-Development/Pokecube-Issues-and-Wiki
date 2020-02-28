@@ -4,7 +4,7 @@
       "item": "pokecube:pokecube"
     },
     "title": {
-      "translate": "achievement.pokecube.kill",
+      "translate": "achievement.pokecube.hatch",
       "with": [
         {
           "translate": "entity.pokecube.pyroar"
@@ -12,7 +12,7 @@
       ]
     },
     "description": {
-      "translate": "achievement.pokecube.kill.desc",
+      "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
           "translate": "entity.pokecube.pyroar"
@@ -21,12 +21,12 @@
     }
   },
   "criteria": {
-    "kill_pyroarf": {
-      "trigger": "pokecube:kill",
+    "hatch_pyroar": {
+      "trigger": "pokecube:hatch",
       "conditions": {
-        "entry": "pyroarf"
+        "entry": "pyroar"
       }
     }
   },
-  "parent": "pokecube_mobs:kill/root"
+  "parent": "pokecube_mobs:hatch/root"
 }
