@@ -106,6 +106,8 @@ public abstract class TrainerBase extends NpcMob
         }
         else if (this.pokemobsCap.friendlyCooldown >= 0 && this.aiStates.getAIState(IHasNPCAIStates.TRADES))
         {
+            final boolean customer = player == this.getCustomer();
+            if (customer) return true;
             this.setCustomer(player);
             if (!this.fixedTrades)
             {

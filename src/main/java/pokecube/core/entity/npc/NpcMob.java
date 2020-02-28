@@ -166,13 +166,6 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void resetCustomer()
-    {
-        // Do nothing here, it prevents us trading!
-        super.resetCustomer();
-    }
-
-    @Override
     public void readAdditional(final CompoundNBT nbt)
     {
         super.readAdditional(nbt);
