@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="1.2"/>
-  <merges merge="idle->sitting"/>
- </model>
+    <model name="">
+        <phase name="global" scale="1.2"/>
+        <metadata headCap="-60,60" headAxis="1" headAxis2="0" headDir="1" head="head"/>
+        <merges merge="idle->sitting"/>
+        <phase type="idle">
+            <part name="tail">
+                <component name="1" startKey="0" length="20" rotOffset="-0.0,6.0,-0.0," rotChange="0.0,0.0,12.0,"/>
+                <component name="2" startKey="20" length="20" rotChange="0.0,0.0,-12.0,"/>
+            </part>
+            <part name="tail">
+                <component name="1" startKey="0" length="20" rotOffset="-0.0,-6.0,-0.0," rotChange="0.0,0.0,-12.0,"/>
+                <component name="2" startKey="20" length="20" rotChange="0.0,0.0,12.0,"/>
+            </part>
+            <part name="tail">
+                <component name="1" startKey="0" length="20" rotOffset="-0.0,3.0,-0.0," rotChange="0.0,0.0,6.0,"/>
+                <component name="2" startKey="20" length="20" rotChange="0.0,0.0,-6.0,"/>
+            </part>
+            <part name="tail">
+                <component name="1" startKey="0" length="20" rotOffset="-0.0,-3.0,-0.0," rotChange="0.0,0.0,-6.0,"/>
+                <component name="2" startKey="20" length="20" rotChange="0.0,0.0,6.0,"/>
+            </part>
+            <part name="rightArm">
+                <component name="1" startKey="0" length="20" rotOffset="-3.167210849142066E-6,-10.0,6.704249244648963E-7," rotChange="0.0,0.0,-20.0,"/>
+                <component name="2" startKey="20" length="20" rotChange="0.0,0.0,20.0,"/>
+            </part>
+            <part name="leftArm">
+                <component name="1" startKey="0" length="20" rotOffset="-3.167210849142066E-6,10.0,-6.704249244648963E-7," rotChange="0.0,0.0,20.0,"/>
+                <component name="2" startKey="20" length="20" rotChange="0.0,0.0,-20.0,"/>
+            </part>
+        </phase>
+    </model>
 </ModelAnimator>
