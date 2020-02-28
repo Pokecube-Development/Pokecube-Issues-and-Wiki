@@ -74,7 +74,7 @@ public class ItemInit
     public static final Item CRPOT          = new ItemBase("crackedpot", 1).noTooltop();
 
     // Tools
-    public static final SwordItem RAINBOW_SWORD = new RainbowSword("rainbow_sword", 4, -4, ItemInit.MATERIAL_RAINBOW);
+    public static final SwordItem RAINBOW_SWORD = new RainbowSword("rainbow_sword", 4, -3, ItemInit.MATERIAL_RAINBOW);
 
     // Nature Item
     public static void addMint(final RegistryEvent.Register<Item> event)
