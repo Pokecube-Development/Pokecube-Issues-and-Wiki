@@ -54498,7 +54498,16 @@
       "name": "Pyroar",
       "number": 668,
       "base": true,
-      "dummy": true,
+      "male_model": {
+        "key": "pyroar_m",
+        "model": "pyroar_m",
+        "anim": "pyroar_m"
+      },
+      "female_model": {
+        "key": "pyroar_f",
+        "model": "pyroar_f",
+        "anim": "pyroar_f"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -54568,18 +54577,6 @@
           "moves": "attract, bounce, bulldoze, confide, crunch, darkpulse, dig, doubleteam, echoedvoice, ember, endeavor, facade, fireblast, firefang, flamecharge, flamethrower, frustration, gigaimpact, headbutt, heatwave, helpinghand, hiddenpower, hyperbeam, hypervoice, incinerate, irontail, leer, nobleroar, overheat, payback, protect, raindance, rest, retaliate, return, roar, rocksmash, round, secretpower, sleeptalk, snarl, snatch, snore, solarbeam, strength, substitute, sunnyday, swagger, tackle, takedown, taunt, thief, toxic, wildcharge, willowisp, workup"
         }
       }
-    },
-    {
-      "name": "PyroarF",
-      "number": 668,
-      "gender": "female",
-      "genderBase": "Pyroar"
-    },
-    {
-      "name": "PyroarM",
-      "number": 668,
-      "gender": "male",
-      "genderBase": "Pyroar"
     },
     {
       "name": "Flabebe",
