@@ -17,9 +17,9 @@ import pokecube.legends.items.tools.ToolSword;
 public class RainbowSword extends ToolSword
 {
 
-    public RainbowSword(final String name, final int maxDamage, final int attackDamage, final IItemTier material)
+    public RainbowSword(final String name, final int bonusDamage, final int attackSpeed, final IItemTier material)
     {
-        super(name, maxDamage, attackDamage, material);
+        super(name, bonusDamage, attackSpeed, material);
     }
 
     @Override
