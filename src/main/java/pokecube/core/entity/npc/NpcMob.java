@@ -129,7 +129,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public boolean attackEntityFrom(final DamageSource source, final float i)
     {
         final Entity e = source.getTrueSource();
-        if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.isCreativeMode && e.isSneaking())
+        if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.isCreativeMode && e.isCrouching())
         {
             final PlayerEntity player = (PlayerEntity) e;
             if (player.getHeldItemMainhand().isEmpty()) this.remove();
