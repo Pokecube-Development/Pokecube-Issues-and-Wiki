@@ -24,7 +24,6 @@
     "catch_vikavolt": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "vikavolt"
       }
     }

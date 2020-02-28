@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_pau"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_pau"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_oricorio_pau": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "oricorio_pau"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

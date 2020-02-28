@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.farfetchd_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.farfetchd_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_farfetchd_galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "farfetchd_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

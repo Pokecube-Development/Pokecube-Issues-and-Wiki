@@ -24,7 +24,6 @@
     "kill_bibarel": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bibarel"
       }
     }

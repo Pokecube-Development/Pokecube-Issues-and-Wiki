@@ -24,7 +24,6 @@
     "catch_gothitelle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gothitelle"
       }
     }

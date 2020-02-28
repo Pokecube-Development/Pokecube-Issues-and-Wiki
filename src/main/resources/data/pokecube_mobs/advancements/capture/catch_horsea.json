@@ -24,7 +24,6 @@
     "catch_horsea": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "horsea"
       }
     }

@@ -24,7 +24,6 @@
     "kill_hatenna": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hatenna"
       }
     }

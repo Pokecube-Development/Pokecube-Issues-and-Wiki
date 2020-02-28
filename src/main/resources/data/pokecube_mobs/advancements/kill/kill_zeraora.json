@@ -24,7 +24,6 @@
     "kill_zeraora": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zeraora"
       }
     }

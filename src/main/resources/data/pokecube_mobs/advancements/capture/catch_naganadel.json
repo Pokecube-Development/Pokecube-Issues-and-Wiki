@@ -24,7 +24,6 @@
     "catch_naganadel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "naganadel"
       }
     }

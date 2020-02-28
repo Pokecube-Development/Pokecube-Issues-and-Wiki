@@ -24,7 +24,6 @@
     "kill_staryu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "staryu"
       }
     }

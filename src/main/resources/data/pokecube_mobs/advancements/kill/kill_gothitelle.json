@@ -24,7 +24,6 @@
     "kill_gothitelle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gothitelle"
       }
     }

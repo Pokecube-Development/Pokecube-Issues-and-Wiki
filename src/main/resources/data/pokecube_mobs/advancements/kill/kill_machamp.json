@@ -24,7 +24,6 @@
     "kill_machamp": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "machamp"
       }
     }

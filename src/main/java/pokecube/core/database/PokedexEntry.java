@@ -952,10 +952,13 @@ public class PokedexEntry
     @CopyToGender
     public String[][] textureDetails = { { "" }, null };
 
-    @CopyToGender
     protected DefaultFormeHolder _default_holder = null;
+    protected DefaultFormeHolder _male_holder    = null;
+    protected DefaultFormeHolder _female_holder  = null;
 
-    public FormeHolder default_holder = null;
+    protected FormeHolder default_holder = null;
+    protected FormeHolder male_holder    = null;
+    protected FormeHolder female_holder  = null;
 
     @CopyToGender
     public String texturePath = PokedexEntry.TEXTUREPATH;
@@ -1836,5 +1839,14 @@ public class PokedexEntry
         }
         for (final int i : toRemove)
             this.lvlUpMoves.remove(i);
+    }
+
+    public FormeHolder getModel(final byte sexe)
+    {
+        final boolean hasFemale = this.female_holder != null;
+        final boolean hasMale = this.male_holder != null;
+        if (hasFemale && sexe == IPokemob.FEMALE) return this.female_holder;
+        if (hasMale && sexe == IPokemob.MALE) return this.male_holder;
+        return this.default_holder;
     }
 }

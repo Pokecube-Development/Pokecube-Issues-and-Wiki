@@ -24,7 +24,6 @@
     "kill_pidgey": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pidgey"
       }
     }

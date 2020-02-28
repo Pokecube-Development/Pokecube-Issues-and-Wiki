@@ -24,7 +24,6 @@
     "kill_noctowl": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "noctowl"
       }
     }

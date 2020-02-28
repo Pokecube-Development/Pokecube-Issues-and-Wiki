@@ -24,7 +24,6 @@
     "catch_kommo-o": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "kommo-o"
       }
     }

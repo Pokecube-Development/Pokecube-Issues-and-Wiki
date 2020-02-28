@@ -24,7 +24,6 @@
     "kill_archeops": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "archeops"
       }
     }

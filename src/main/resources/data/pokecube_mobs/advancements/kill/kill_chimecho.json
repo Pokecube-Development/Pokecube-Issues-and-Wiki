@@ -24,7 +24,6 @@
     "kill_chimecho": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "chimecho"
       }
     }

@@ -24,7 +24,6 @@
     "kill_bunnelby": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bunnelby"
       }
     }

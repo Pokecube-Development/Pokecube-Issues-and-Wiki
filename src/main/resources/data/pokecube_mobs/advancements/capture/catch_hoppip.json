@@ -24,7 +24,6 @@
     "catch_hoppip": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hoppip"
       }
     }

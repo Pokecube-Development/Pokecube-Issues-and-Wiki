@@ -24,7 +24,6 @@
     "kill_larvesta": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "larvesta"
       }
     }

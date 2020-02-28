@@ -24,7 +24,6 @@
     "kill_mudkip": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mudkip"
       }
     }

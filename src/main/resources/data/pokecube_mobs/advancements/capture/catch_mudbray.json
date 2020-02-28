@@ -24,7 +24,6 @@
     "catch_mudbray": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mudbray"
       }
     }

@@ -24,7 +24,6 @@
     "catch_skwovet": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "skwovet"
       }
     }

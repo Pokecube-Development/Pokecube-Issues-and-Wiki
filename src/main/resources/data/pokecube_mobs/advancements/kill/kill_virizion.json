@@ -25,7 +25,6 @@
     "kill_virizion": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "virizion"
       }
     }

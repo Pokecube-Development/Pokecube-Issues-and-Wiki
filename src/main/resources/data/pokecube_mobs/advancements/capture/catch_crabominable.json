@@ -24,7 +24,6 @@
     "catch_crabominable": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "crabominable"
       }
     }

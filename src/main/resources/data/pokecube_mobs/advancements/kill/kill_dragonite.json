@@ -24,7 +24,6 @@
     "kill_dragonite": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dragonite"
       }
     }

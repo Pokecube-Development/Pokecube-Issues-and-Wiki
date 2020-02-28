@@ -24,7 +24,6 @@
     "kill_empoleon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "empoleon"
       }
     }

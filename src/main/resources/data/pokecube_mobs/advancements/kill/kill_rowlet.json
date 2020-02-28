@@ -24,7 +24,6 @@
     "kill_rowlet": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "rowlet"
       }
     }

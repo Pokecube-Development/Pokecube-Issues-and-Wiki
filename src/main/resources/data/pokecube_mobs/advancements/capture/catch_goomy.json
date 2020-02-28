@@ -24,7 +24,6 @@
     "catch_goomy": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "goomy"
       }
     }

@@ -24,7 +24,6 @@
     "catch_squirtle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "squirtle"
       }
     }

@@ -24,7 +24,6 @@
     "catch_gossifleur": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gossifleur"
       }
     }

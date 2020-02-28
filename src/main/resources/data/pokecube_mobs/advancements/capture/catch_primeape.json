@@ -24,7 +24,6 @@
     "catch_primeape": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "primeape"
       }
     }

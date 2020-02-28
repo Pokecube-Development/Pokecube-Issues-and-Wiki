@@ -24,7 +24,6 @@
     "catch_cottonee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cottonee"
       }
     }

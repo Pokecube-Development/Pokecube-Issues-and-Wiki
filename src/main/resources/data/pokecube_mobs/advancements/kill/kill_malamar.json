@@ -24,7 +24,6 @@
     "kill_malamar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "malamar"
       }
     }

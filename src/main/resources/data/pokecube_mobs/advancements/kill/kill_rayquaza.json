@@ -25,7 +25,6 @@
     "kill_rayquaza": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "rayquaza"
       }
     }

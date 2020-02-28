@@ -24,7 +24,6 @@
     "kill_stantler": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "stantler"
       }
     }

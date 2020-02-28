@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ground"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ground"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_ground": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_ground"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

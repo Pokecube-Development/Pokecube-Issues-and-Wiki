@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_monsoon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_monsoon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_vivillon_monsoon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "vivillon_monsoon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_spewpa"
+}

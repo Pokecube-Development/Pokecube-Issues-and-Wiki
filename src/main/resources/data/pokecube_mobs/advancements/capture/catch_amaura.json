@@ -24,7 +24,6 @@
     "catch_amaura": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "amaura"
       }
     }

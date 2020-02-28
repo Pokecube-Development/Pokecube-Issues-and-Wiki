@@ -24,7 +24,6 @@
     "catch_swirlix": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "swirlix"
       }
     }

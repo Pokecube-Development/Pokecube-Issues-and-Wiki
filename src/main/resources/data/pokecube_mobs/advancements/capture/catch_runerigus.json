@@ -24,7 +24,6 @@
     "catch_runerigus": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "runerigus"
       }
     }

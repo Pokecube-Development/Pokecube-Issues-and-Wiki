@@ -24,7 +24,6 @@
     "kill_frosmoth": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "frosmoth"
       }
     }

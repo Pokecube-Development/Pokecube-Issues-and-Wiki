@@ -24,6 +24,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.mobs.CommandGenStuff;
 import thut.core.common.commands.CommandTools;
 
 public class CountCommand
@@ -34,7 +35,7 @@ public class CountCommand
         final ServerWorld world = source.getWorld();
         final Stream<Entity> mobs = world.getEntities();
         final Vec3d pos = source.getPos();
-        // CommandGenStuff.execute(source.asPlayer(), new String[] { "" });
+        CommandGenStuff.execute(source.asPlayer(), new String[] { "" });
         int count1 = 0;
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();

@@ -24,7 +24,6 @@
     "catch_turtwig": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "turtwig"
       }
     }

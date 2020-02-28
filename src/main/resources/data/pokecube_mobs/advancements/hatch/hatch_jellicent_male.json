@@ -28,5 +28,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:hatch/hatch_frillish_male"
+  "parent": "pokecube_mobs:hatch/hatch_frillish_female"
 }

@@ -24,7 +24,6 @@
     "catch_deerling": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "deerling"
       }
     }

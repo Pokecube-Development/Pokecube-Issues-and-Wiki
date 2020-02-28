@@ -24,7 +24,6 @@
     "kill_zebstrika": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zebstrika"
       }
     }

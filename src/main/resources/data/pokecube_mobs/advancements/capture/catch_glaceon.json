@@ -24,7 +24,6 @@
     "catch_glaceon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "glaceon"
       }
     }

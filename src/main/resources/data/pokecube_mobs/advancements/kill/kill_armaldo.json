@@ -24,7 +24,6 @@
     "kill_armaldo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "armaldo"
       }
     }

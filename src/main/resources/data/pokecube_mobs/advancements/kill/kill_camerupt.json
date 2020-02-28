@@ -24,7 +24,6 @@
     "kill_camerupt": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "camerupt"
       }
     }

@@ -24,7 +24,6 @@
     "catch_burmy": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "burmy"
       }
     }

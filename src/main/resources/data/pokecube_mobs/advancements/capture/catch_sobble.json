@@ -24,7 +24,6 @@
     "catch_sobble": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sobble"
       }
     }

@@ -24,7 +24,6 @@
     "catch_archen": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "archen"
       }
     }

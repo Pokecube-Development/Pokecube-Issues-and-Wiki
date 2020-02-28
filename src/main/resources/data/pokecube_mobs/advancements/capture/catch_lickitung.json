@@ -24,7 +24,6 @@
     "catch_lickitung": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lickitung"
       }
     }

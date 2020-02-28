@@ -24,7 +24,6 @@
     "catch_sigilyph": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sigilyph"
       }
     }

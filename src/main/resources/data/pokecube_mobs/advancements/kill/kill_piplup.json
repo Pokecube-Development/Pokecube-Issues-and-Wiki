@@ -24,7 +24,6 @@
     "kill_piplup": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "piplup"
       }
     }

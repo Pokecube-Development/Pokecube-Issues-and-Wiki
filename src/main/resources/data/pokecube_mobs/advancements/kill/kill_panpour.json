@@ -24,7 +24,6 @@
     "kill_panpour": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "panpour"
       }
     }

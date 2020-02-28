@@ -25,7 +25,6 @@
     "kill_tapu_fini": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tapu_fini"
       }
     }

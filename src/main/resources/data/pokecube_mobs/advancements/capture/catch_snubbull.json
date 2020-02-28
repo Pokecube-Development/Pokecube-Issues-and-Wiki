@@ -24,7 +24,6 @@
     "catch_snubbull": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "snubbull"
       }
     }

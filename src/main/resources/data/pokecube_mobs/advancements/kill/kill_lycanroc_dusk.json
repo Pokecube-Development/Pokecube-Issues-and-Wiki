@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc_dusk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc_dusk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lycanroc_dusk": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lycanroc_dusk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_rockruff"
+}

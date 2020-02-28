@@ -24,7 +24,6 @@
     "catch_mienshao": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mienshao"
       }
     }

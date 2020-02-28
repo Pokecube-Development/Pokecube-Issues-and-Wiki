@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.shellos_west"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shellos_west"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_shellos_west": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "shellos_west"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

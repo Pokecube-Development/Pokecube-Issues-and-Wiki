@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc_dusk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc_dusk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_lycanroc_dusk": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "lycanroc_dusk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_rockruff"
+}

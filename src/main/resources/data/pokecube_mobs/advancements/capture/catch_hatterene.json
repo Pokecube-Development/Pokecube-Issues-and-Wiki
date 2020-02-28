@@ -24,7 +24,6 @@
     "catch_hatterene": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hatterene"
       }
     }

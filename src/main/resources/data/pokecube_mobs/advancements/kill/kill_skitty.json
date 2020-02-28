@@ -24,7 +24,6 @@
     "kill_skitty": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "skitty"
       }
     }

@@ -24,7 +24,6 @@
     "catch_froslass": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "froslass"
       }
     }

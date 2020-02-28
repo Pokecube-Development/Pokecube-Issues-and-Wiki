@@ -24,7 +24,6 @@
     "kill_cutiefly": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cutiefly"
       }
     }

@@ -24,7 +24,6 @@
     "catch_corviknight": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "corviknight"
       }
     }

@@ -24,7 +24,6 @@
     "catch_ekans": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ekans"
       }
     }

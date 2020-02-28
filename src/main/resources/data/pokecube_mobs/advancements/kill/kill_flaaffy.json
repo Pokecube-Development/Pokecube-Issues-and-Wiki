@@ -24,7 +24,6 @@
     "kill_flaaffy": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "flaaffy"
       }
     }

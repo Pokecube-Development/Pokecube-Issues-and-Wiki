@@ -24,7 +24,6 @@
     "kill_tauros": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tauros"
       }
     }

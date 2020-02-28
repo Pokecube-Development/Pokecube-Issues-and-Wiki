@@ -24,7 +24,6 @@
     "catch_wishiwashi": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wishiwashi"
       }
     }

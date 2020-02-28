@@ -24,7 +24,6 @@
     "catch_hypno": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hypno"
       }
     }

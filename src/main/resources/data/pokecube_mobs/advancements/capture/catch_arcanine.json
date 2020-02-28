@@ -24,7 +24,6 @@
     "catch_arcanine": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "arcanine"
       }
     }

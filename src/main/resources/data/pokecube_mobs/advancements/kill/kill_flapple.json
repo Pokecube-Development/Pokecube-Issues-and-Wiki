@@ -24,7 +24,6 @@
     "kill_flapple": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "flapple"
       }
     }

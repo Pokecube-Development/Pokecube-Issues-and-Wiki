@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc_midnight"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lycanroc_midnight"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lycanroc_midnight": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lycanroc_midnight"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_rockruff"
+}

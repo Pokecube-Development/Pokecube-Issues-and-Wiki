@@ -24,7 +24,6 @@
     "catch_finneon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "finneon"
       }
     }

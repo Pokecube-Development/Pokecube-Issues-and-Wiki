@@ -24,7 +24,6 @@
     "kill_whiscash": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "whiscash"
       }
     }

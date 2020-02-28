@@ -24,7 +24,6 @@
     "catch_hoopa_confined": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hoopa_confined"
       }
     }

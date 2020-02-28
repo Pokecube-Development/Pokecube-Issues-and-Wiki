@@ -24,7 +24,6 @@
     "catch_torracat": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "torracat"
       }
     }

@@ -24,7 +24,6 @@
     "catch_snorlax": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "snorlax"
       }
     }

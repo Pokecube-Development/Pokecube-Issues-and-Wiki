@@ -24,7 +24,6 @@
     "catch_purrloin": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "purrloin"
       }
     }

@@ -24,7 +24,6 @@
     "kill_copperajah": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "copperajah"
       }
     }

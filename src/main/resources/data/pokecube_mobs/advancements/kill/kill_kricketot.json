@@ -24,7 +24,6 @@
     "kill_kricketot": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kricketot"
       }
     }

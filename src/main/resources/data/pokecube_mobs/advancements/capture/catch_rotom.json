@@ -24,7 +24,6 @@
     "catch_rotom": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rotom"
       }
     }

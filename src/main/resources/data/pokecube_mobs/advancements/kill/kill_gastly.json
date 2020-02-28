@@ -24,7 +24,6 @@
     "kill_gastly": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gastly"
       }
     }

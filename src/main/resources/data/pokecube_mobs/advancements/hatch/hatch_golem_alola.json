@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.golem_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.golem_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_golem_alola": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "golem_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_graveler_alola"
+}

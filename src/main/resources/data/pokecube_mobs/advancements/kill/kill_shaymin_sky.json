@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin_sky"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.shaymin_sky"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "kill_shaymin_sky": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "shaymin_sky"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

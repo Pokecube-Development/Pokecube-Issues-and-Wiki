@@ -24,7 +24,6 @@
     "catch_accelgor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "accelgor"
       }
     }

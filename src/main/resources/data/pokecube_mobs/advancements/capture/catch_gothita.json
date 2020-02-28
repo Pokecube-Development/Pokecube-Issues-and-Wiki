@@ -24,7 +24,6 @@
     "catch_gothita": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gothita"
       }
     }

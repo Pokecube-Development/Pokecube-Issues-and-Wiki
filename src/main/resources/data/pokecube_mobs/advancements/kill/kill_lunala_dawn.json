@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lunala_dawn"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lunala_dawn"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "kill_lunala_dawn": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lunala_dawn"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

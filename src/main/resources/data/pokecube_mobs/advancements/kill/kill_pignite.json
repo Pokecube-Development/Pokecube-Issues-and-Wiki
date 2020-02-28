@@ -24,7 +24,6 @@
     "kill_pignite": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pignite"
       }
     }

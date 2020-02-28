@@ -24,7 +24,6 @@
     "catch_spewpa": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "spewpa"
       }
     }

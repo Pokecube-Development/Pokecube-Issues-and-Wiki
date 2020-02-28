@@ -24,7 +24,6 @@
     "catch_zoroark": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "zoroark"
       }
     }

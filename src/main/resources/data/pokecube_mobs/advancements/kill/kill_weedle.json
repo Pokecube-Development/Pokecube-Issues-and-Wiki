@@ -24,7 +24,6 @@
     "kill_weedle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "weedle"
       }
     }

@@ -24,7 +24,6 @@
     "kill_chinchou": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "chinchou"
       }
     }

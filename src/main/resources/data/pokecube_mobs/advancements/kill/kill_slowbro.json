@@ -24,7 +24,6 @@
     "kill_slowbro": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "slowbro"
       }
     }

@@ -24,7 +24,6 @@
     "catch_sandile": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sandile"
       }
     }

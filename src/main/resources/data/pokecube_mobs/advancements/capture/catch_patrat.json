@@ -24,7 +24,6 @@
     "catch_patrat": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "patrat"
       }
     }

@@ -24,7 +24,6 @@
     "kill_volcarona": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "volcarona"
       }
     }

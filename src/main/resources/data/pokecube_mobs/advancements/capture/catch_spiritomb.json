@@ -24,7 +24,6 @@
     "catch_spiritomb": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "spiritomb"
       }
     }

@@ -24,7 +24,6 @@
     "kill_luxio": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "luxio"
       }
     }

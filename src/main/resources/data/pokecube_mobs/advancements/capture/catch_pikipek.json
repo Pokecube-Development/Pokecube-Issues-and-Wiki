@@ -24,7 +24,6 @@
     "catch_pikipek": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pikipek"
       }
     }

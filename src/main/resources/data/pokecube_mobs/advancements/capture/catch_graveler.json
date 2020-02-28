@@ -24,7 +24,6 @@
     "catch_graveler": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "graveler"
       }
     }

@@ -24,7 +24,6 @@
     "catch_thwackey": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "thwackey"
       }
     }

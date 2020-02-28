@@ -24,7 +24,6 @@
     "catch_hitmonlee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hitmonlee"
       }
     }

@@ -24,7 +24,6 @@
     "kill_type_null": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "type_null"
       }
     }

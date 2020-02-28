@@ -24,7 +24,6 @@
     "catch_necrozma": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "necrozma"
       }
     }

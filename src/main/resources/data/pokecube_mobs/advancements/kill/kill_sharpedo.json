@@ -24,7 +24,6 @@
     "kill_sharpedo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sharpedo"
       }
     }

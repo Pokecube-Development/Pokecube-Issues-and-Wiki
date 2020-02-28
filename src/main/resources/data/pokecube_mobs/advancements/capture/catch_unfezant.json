@@ -24,7 +24,6 @@
     "catch_unfezant": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "unfezant"
       }
     }

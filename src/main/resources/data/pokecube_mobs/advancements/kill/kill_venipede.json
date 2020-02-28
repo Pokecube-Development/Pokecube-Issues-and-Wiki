@@ -24,7 +24,6 @@
     "kill_venipede": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "venipede"
       }
     }

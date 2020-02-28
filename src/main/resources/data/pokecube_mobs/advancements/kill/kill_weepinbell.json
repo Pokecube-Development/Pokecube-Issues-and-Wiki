@@ -24,7 +24,6 @@
     "kill_weepinbell": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "weepinbell"
       }
     }

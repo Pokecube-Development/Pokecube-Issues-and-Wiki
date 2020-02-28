@@ -24,7 +24,6 @@
     "catch_stufful": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "stufful"
       }
     }

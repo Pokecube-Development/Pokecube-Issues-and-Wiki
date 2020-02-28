@@ -24,7 +24,6 @@
     "kill_grimmsnarl": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "grimmsnarl"
       }
     }

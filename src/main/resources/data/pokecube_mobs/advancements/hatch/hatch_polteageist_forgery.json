@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist_forgery"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist_forgery"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_polteageist_forgery": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "polteageist_forgery"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_sinistea_forgery"
+}

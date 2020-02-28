@@ -24,7 +24,6 @@
     "catch_wingull": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "wingull"
       }
     }

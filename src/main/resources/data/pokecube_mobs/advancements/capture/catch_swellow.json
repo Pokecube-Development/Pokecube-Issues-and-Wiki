@@ -24,7 +24,6 @@
     "catch_swellow": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "swellow"
       }
     }

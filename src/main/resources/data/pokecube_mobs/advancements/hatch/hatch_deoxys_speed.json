@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys_speed"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.deoxys_speed"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_deoxys_speed": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "deoxys_speed"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

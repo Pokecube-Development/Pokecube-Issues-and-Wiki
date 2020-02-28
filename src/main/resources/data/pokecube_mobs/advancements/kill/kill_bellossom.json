@@ -24,7 +24,6 @@
     "kill_bellossom": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bellossom"
       }
     }

@@ -24,7 +24,6 @@
     "catch_drifblim": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "drifblim"
       }
     }

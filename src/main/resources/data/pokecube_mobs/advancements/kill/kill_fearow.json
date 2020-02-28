@@ -24,7 +24,6 @@
     "kill_fearow": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "fearow"
       }
     }

@@ -24,7 +24,6 @@
     "kill_togekiss": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "togekiss"
       }
     }

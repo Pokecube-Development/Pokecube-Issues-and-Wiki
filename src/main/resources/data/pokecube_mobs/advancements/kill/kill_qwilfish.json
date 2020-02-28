@@ -24,7 +24,6 @@
     "kill_qwilfish": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "qwilfish"
       }
     }

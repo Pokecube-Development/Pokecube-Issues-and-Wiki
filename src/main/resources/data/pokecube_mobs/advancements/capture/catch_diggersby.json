@@ -24,7 +24,6 @@
     "catch_diggersby": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "diggersby"
       }
     }

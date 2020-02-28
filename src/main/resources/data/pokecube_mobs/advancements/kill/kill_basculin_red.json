@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin_red"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.basculin_red"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_basculin_red": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "basculin_red"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

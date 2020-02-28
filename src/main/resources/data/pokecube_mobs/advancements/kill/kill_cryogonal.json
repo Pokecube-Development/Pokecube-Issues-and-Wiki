@@ -24,7 +24,6 @@
     "kill_cryogonal": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cryogonal"
       }
     }

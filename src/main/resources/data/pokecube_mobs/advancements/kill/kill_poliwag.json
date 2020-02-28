@@ -24,7 +24,6 @@
     "kill_poliwag": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "poliwag"
       }
     }

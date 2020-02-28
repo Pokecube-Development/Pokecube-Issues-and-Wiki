@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_darmanitan_galar": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "darmanitan_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_darumaka_galar"
+}

@@ -24,7 +24,6 @@
     "catch_kricketot": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "kricketot"
       }
     }

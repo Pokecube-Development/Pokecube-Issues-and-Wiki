@@ -24,7 +24,6 @@
     "catch_gigalith": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gigalith"
       }
     }

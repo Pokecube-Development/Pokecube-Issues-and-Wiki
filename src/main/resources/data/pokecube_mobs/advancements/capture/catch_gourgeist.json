@@ -24,7 +24,6 @@
     "catch_gourgeist": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gourgeist"
       }
     }

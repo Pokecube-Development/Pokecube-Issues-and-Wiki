@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesectbdrive"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesectbdrive"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_genesectbdrive": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "genesectbdrive"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

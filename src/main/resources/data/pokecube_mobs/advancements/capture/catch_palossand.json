@@ -24,7 +24,6 @@
     "catch_palossand": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "palossand"
       }
     }

@@ -24,7 +24,6 @@
     "catch_clawitzer": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "clawitzer"
       }
     }

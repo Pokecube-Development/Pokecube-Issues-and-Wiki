@@ -24,7 +24,6 @@
     "kill_turtonator": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "turtonator"
       }
     }

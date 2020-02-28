@@ -24,7 +24,6 @@
     "catch_bonsly": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bonsly"
       }
     }

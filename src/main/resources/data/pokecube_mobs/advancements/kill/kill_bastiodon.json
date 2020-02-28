@@ -24,7 +24,6 @@
     "kill_bastiodon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bastiodon"
       }
     }

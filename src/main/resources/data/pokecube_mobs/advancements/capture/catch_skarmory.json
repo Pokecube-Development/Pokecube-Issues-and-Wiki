@@ -24,7 +24,6 @@
     "catch_skarmory": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "skarmory"
       }
     }

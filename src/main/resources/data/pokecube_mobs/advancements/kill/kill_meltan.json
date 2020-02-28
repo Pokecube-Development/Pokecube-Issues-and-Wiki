@@ -24,7 +24,6 @@
     "kill_meltan": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "meltan"
       }
     }

@@ -25,7 +25,6 @@
     "kill_tornadus_incarnate": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tornadus_incarnate"
       }
     }

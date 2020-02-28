@@ -24,7 +24,6 @@
     "catch_rillaboom": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rillaboom"
       }
     }

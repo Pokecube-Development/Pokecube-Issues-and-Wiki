@@ -24,7 +24,6 @@
     "catch_beheeyem": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "beheeyem"
       }
     }

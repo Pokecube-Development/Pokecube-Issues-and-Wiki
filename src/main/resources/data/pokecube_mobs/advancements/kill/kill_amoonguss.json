@@ -24,7 +24,6 @@
     "kill_amoonguss": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "amoonguss"
       }
     }

@@ -24,7 +24,6 @@
     "kill_forretress": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "forretress"
       }
     }

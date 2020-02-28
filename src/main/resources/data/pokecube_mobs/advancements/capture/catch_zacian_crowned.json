@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.zacian_crowned"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.zacian_crowned"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_zacian_crowned": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "zacian_crowned"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

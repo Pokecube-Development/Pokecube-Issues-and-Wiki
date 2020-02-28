@@ -24,7 +24,6 @@
     "kill_blitzle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "blitzle"
       }
     }

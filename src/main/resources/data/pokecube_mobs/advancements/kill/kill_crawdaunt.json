@@ -24,7 +24,6 @@
     "kill_crawdaunt": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "crawdaunt"
       }
     }

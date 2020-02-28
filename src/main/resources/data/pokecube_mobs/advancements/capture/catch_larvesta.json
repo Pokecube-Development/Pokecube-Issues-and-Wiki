@@ -24,7 +24,6 @@
     "catch_larvesta": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "larvesta"
       }
     }

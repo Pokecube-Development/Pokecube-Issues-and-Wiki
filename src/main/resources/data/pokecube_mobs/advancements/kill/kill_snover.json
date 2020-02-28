@@ -24,7 +24,6 @@
     "kill_snover": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "snover"
       }
     }

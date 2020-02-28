@@ -24,7 +24,6 @@
     "catch_beedrill": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "beedrill"
       }
     }

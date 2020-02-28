@@ -77,6 +77,10 @@ repositories {
         name 'tterrag maven'
         url "https://maven.tterrag.com/"
     }
+    maven { // Minecolonies
+        name 'LDTTeam - Modding'
+        url 'https://ldtteam.jfrog.io/ldtteam/modding/'
+    }
 }
 
 dependencies {
@@ -91,6 +95,11 @@ dependencies {
     //JEI
     implementation fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
     
+    //WHYLA
+    implementation fg.deobf("mcp.mobius.waila:Hwyla:${version_hwyla}")
+    
+    //Minecolonies
+    implementation fg.deobf("libs:minecolonies-${version_minecolonies}")
 
 }
 
@@ -108,8 +117,8 @@ jar {
 }
 
 task sourcesJar(type: Jar) {
-	classifier = "sources"
-	from sourceSets.main.allJava
+    classifier = "sources"
+    from sourceSets.main.allJava
 }
 
 task deobfJar(type: Jar) {
@@ -118,6 +127,6 @@ task deobfJar(type: Jar) {
 }
 
 artifacts {
-	archives sourcesJar
+    archives sourcesJar
     archives deobfJar
 }

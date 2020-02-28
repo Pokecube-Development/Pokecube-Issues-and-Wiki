@@ -24,7 +24,6 @@
     "catch_treecko": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "treecko"
       }
     }

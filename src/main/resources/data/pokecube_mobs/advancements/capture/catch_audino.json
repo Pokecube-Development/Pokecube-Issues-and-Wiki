@@ -24,7 +24,6 @@
     "catch_audino": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "audino"
       }
     }

@@ -24,7 +24,6 @@
     "kill_tyrunt": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tyrunt"
       }
     }

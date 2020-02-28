@@ -24,7 +24,6 @@
     "catch_duraludon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "duraludon"
       }
     }

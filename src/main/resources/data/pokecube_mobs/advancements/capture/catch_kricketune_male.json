@@ -24,7 +24,6 @@
     "catch_kricketune_male": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "kricketune_male"
       }
     }

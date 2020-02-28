@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo_super"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo_super"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pumpkaboo_super": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pumpkaboo_super"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

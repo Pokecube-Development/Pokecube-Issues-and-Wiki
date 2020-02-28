@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorus_therian"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorus_therian"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "kill_landorus_therian": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "landorus_therian"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

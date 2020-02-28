@@ -24,7 +24,6 @@
     "catch_combee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "combee"
       }
     }

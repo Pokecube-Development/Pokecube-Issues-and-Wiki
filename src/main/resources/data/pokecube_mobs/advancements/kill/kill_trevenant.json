@@ -24,7 +24,6 @@
     "kill_trevenant": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "trevenant"
       }
     }

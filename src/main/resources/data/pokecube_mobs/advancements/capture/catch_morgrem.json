@@ -24,7 +24,6 @@
     "catch_morgrem": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "morgrem"
       }
     }

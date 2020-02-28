@@ -24,7 +24,6 @@
     "catch_lillipup": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lillipup"
       }
     }

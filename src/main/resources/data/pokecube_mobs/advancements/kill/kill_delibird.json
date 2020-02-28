@@ -24,7 +24,6 @@
     "kill_delibird": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "delibird"
       }
     }

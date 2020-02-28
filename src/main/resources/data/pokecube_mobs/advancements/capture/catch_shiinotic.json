@@ -24,7 +24,6 @@
     "catch_shiinotic": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shiinotic"
       }
     }

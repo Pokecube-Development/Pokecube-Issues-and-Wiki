@@ -24,7 +24,6 @@
     "catch_vileplume": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "vileplume"
       }
     }

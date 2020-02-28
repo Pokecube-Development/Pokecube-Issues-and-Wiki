@@ -24,7 +24,6 @@
     "catch_crustle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "crustle"
       }
     }

@@ -24,7 +24,6 @@
     "catch_glameow": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "glameow"
       }
     }

@@ -24,7 +24,6 @@
     "catch_elgyem": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "elgyem"
       }
     }

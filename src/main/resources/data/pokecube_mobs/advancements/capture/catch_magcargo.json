@@ -24,7 +24,6 @@
     "catch_magcargo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "magcargo"
       }
     }

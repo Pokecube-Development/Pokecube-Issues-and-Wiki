@@ -24,7 +24,6 @@
     "catch_hakamo-o": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hakamo-o"
       }
     }

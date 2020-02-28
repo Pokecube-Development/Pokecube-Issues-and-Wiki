@@ -24,7 +24,6 @@
     "kill_shuppet": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "shuppet"
       }
     }

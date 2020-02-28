@@ -24,7 +24,6 @@
     "kill_arbok": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "arbok"
       }
     }

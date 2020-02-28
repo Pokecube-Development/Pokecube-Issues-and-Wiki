@@ -24,7 +24,6 @@
     "kill_poipole": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "poipole"
       }
     }

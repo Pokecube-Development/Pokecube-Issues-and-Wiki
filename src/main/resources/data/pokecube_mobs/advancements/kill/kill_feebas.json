@@ -24,7 +24,6 @@
     "kill_feebas": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "feebas"
       }
     }

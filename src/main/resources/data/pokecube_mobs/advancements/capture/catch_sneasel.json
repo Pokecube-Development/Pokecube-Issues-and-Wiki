@@ -24,7 +24,6 @@
     "catch_sneasel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sneasel"
       }
     }

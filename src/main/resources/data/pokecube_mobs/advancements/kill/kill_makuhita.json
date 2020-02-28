@@ -24,7 +24,6 @@
     "kill_makuhita": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "makuhita"
       }
     }

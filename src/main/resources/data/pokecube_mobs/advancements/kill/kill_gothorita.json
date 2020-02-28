@@ -24,7 +24,6 @@
     "kill_gothorita": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gothorita"
       }
     }

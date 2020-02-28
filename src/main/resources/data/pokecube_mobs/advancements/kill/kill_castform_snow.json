@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform_snow"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.castform_snow"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_castform_snow": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "castform_snow"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

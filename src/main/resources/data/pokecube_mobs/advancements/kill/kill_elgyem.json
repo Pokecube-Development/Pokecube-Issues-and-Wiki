@@ -24,7 +24,6 @@
     "kill_elgyem": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "elgyem"
       }
     }

@@ -24,7 +24,6 @@
     "catch_raboot": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "raboot"
       }
     }

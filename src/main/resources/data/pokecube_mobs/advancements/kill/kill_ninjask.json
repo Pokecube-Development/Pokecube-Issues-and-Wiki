@@ -24,7 +24,6 @@
     "kill_ninjask": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ninjask"
       }
     }

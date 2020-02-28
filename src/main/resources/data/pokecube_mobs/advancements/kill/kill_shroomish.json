@@ -24,7 +24,6 @@
     "kill_shroomish": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "shroomish"
       }
     }

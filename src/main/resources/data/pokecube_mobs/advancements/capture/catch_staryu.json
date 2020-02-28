@@ -24,7 +24,6 @@
     "catch_staryu": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "staryu"
       }
     }

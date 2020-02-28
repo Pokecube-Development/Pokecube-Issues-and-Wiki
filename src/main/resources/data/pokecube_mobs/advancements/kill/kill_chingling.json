@@ -24,7 +24,6 @@
     "kill_chingling": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "chingling"
       }
     }

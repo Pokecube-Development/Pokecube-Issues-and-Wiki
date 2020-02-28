@@ -24,7 +24,6 @@
     "catch_corvisquire": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "corvisquire"
       }
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.grimer_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.grimer_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_grimer_alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "grimer_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

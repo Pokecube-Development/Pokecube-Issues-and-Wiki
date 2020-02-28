@@ -24,7 +24,6 @@
     "kill_quilava": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "quilava"
       }
     }

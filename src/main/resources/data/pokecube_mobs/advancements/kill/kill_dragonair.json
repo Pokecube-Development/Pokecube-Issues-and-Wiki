@@ -24,7 +24,6 @@
     "kill_dragonair": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dragonair"
       }
     }

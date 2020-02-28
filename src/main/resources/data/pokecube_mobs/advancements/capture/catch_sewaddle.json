@@ -24,7 +24,6 @@
     "catch_sewaddle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sewaddle"
       }
     }

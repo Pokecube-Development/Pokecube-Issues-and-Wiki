@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_pau"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oricorio_pau"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_oricorio_pau": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "oricorio_pau"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

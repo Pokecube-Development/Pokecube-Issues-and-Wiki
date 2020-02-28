@@ -24,7 +24,6 @@
     "catch_klinklang": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "klinklang"
       }
     }

@@ -24,7 +24,6 @@
     "kill_pikipek": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pikipek"
       }
     }

@@ -24,7 +24,6 @@
     "kill_ampharos": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ampharos"
       }
     }

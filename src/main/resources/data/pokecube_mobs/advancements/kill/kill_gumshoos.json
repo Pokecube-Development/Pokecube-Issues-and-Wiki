@@ -24,7 +24,6 @@
     "kill_gumshoos": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gumshoos"
       }
     }

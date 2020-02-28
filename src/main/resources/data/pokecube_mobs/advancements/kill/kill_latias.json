@@ -25,7 +25,6 @@
     "kill_latias": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "latias"
       }
     }

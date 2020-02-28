@@ -24,7 +24,6 @@
     "catch_snorunt": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "snorunt"
       }
     }

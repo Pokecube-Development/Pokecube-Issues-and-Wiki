@@ -287,7 +287,7 @@ public class GuiChooseFirstPokemob extends Screen
             //@formatter:off
             final int dx = -50;
             final int dy = 0;
-            final float size = 2;
+            final float size = 7;
             final float yaw =  Util.milliTime() / 20;
             final float hx = 0;
             final float hy = yaw;

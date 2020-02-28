@@ -24,7 +24,6 @@
     "catch_machop": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "machop"
       }
     }

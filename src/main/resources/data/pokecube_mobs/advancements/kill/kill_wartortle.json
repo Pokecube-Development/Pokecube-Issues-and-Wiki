@@ -24,7 +24,6 @@
     "kill_wartortle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wartortle"
       }
     }

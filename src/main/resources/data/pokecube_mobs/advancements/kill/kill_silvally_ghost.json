@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ghost"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_ghost"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_silvally_ghost": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "silvally_ghost"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

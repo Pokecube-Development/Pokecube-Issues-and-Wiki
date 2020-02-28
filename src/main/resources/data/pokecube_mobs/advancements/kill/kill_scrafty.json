@@ -24,7 +24,6 @@
     "kill_scrafty": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "scrafty"
       }
     }

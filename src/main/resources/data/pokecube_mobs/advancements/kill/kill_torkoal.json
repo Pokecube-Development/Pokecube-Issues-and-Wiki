@@ -24,7 +24,6 @@
     "kill_torkoal": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "torkoal"
       }
     }

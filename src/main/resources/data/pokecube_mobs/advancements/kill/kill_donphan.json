@@ -24,7 +24,6 @@
     "kill_donphan": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "donphan"
       }
     }

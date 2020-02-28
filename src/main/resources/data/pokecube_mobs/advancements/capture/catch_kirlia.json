@@ -24,7 +24,6 @@
     "catch_kirlia": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "kirlia"
       }
     }

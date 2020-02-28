@@ -24,7 +24,6 @@
     "catch_polteageist": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "polteageist"
       }
     }

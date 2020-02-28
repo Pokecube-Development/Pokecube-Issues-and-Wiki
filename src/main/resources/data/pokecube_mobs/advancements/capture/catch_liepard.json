@@ -24,7 +24,6 @@
     "catch_liepard": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "liepard"
       }
     }

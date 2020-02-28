@@ -24,7 +24,6 @@
     "catch_amoonguss": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "amoonguss"
       }
     }

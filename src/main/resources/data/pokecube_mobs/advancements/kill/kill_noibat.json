@@ -24,7 +24,6 @@
     "kill_noibat": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "noibat"
       }
     }

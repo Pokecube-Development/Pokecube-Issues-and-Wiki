@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dugtrio_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_dugtrio_alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "dugtrio_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_diglett_alola"
+}

@@ -24,7 +24,6 @@
     "kill_dunsparce": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dunsparce"
       }
     }

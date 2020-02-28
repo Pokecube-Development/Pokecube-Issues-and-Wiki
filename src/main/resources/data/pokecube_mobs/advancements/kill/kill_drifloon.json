@@ -24,7 +24,6 @@
     "kill_drifloon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "drifloon"
       }
     }

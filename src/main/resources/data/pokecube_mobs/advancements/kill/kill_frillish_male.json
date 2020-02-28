@@ -24,7 +24,6 @@
     "kill_frillish_male": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "frillish_male"
       }
     }

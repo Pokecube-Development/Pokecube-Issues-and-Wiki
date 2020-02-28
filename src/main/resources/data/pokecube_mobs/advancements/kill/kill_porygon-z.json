@@ -24,7 +24,6 @@
     "kill_porygon-z": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "porygon-z"
       }
     }

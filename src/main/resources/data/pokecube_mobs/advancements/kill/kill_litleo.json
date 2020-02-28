@@ -24,7 +24,6 @@
     "kill_litleo": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "litleo"
       }
     }

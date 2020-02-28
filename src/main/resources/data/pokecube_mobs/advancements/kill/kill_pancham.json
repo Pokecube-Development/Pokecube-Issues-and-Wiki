@@ -24,7 +24,6 @@
     "kill_pancham": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pancham"
       }
     }

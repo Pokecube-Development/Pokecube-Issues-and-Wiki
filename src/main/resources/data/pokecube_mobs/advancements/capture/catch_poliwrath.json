@@ -24,7 +24,6 @@
     "catch_poliwrath": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "poliwrath"
       }
     }

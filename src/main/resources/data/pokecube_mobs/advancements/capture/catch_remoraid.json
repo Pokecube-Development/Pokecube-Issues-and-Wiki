@@ -24,7 +24,6 @@
     "catch_remoraid": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "remoraid"
       }
     }

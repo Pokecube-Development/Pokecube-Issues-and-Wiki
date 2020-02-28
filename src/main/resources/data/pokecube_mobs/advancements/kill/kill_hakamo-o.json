@@ -24,7 +24,6 @@
     "kill_hakamo-o": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "hakamo-o"
       }
     }

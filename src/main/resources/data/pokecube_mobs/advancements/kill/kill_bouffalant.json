@@ -24,7 +24,6 @@
     "kill_bouffalant": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bouffalant"
       }
     }

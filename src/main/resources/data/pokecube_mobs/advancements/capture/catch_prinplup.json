@@ -24,7 +24,6 @@
     "catch_prinplup": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "prinplup"
       }
     }

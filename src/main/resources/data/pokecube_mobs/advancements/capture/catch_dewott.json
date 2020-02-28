@@ -24,7 +24,6 @@
     "catch_dewott": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dewott"
       }
     }

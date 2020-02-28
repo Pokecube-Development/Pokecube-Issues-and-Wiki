@@ -2,8 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
-  <metadata head="head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Left_Shroom,Right_Shroom"/>
-  <customTex default="persianalola">
-  </customTex>
+  <metadata head="head1" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase duration="10" leftFront="fl" leftHind="hl" name="quadWalk" rightFront="fr" rightHind="hr"/>
  </model>
 </ModelAnimator>

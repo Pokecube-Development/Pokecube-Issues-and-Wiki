@@ -24,7 +24,6 @@
     "catch_tepig": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tepig"
       }
     }

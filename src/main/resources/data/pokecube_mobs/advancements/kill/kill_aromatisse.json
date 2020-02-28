@@ -24,7 +24,6 @@
     "kill_aromatisse": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "aromatisse"
       }
     }

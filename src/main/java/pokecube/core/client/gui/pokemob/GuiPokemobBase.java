@@ -88,7 +88,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     {
         super(container, inv, container.pokemob.getDisplayName());
         this.name.setText(container.pokemob.getDisplayName().getUnformattedComponentText().trim());
-        this.name.setEnableBackgroundDrawing(false);
         this.name.enabledColor = 4210752;
     }
 
@@ -140,11 +139,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 60, 10, "");
-        this.name.setEnableBackgroundDrawing(false);
+        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, "");
         if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName()
                 .getUnformattedComponentText().trim());
-        this.name.setEnableBackgroundDrawing(false);
         this.name.setTextColor(0xFFFFFFFF);
         this.addButton(this.name);
     }

@@ -24,7 +24,6 @@
     "kill_wurmple": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wurmple"
       }
     }

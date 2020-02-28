@@ -25,7 +25,6 @@
     "kill_meloetta_aria": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "meloetta_aria"
       }
     }

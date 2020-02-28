@@ -24,7 +24,6 @@
     "catch_magnezone": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "magnezone"
       }
     }

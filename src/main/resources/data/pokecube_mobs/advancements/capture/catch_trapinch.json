@@ -24,7 +24,6 @@
     "catch_trapinch": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "trapinch"
       }
     }

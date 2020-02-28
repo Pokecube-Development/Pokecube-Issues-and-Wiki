@@ -24,7 +24,6 @@
     "kill_duosion": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "duosion"
       }
     }

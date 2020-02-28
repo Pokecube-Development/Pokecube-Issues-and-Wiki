@@ -24,7 +24,6 @@
     "kill_gyarados": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gyarados"
       }
     }

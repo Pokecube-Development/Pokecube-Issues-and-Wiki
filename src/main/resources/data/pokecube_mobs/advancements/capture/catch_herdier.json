@@ -24,7 +24,6 @@
     "catch_herdier": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "herdier"
       }
     }

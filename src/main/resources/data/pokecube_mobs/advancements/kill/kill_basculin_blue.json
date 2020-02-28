@@ -24,7 +24,6 @@
     "kill_basculin_blue": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "basculin_blue"
       }
     }

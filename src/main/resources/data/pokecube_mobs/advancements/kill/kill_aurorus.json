@@ -24,7 +24,6 @@
     "kill_aurorus": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "aurorus"
       }
     }

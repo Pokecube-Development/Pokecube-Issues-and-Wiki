@@ -24,7 +24,6 @@
     "kill_machop": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "machop"
       }
     }

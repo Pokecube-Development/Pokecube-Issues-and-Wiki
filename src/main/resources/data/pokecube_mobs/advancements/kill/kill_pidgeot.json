@@ -24,7 +24,6 @@
     "kill_pidgeot": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pidgeot"
       }
     }

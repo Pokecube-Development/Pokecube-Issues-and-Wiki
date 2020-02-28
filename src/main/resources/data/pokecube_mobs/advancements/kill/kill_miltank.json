@@ -24,7 +24,6 @@
     "kill_miltank": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "miltank"
       }
     }

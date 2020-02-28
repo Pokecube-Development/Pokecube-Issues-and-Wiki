@@ -25,7 +25,6 @@
     "catch_zekrom": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "zekrom"
       }
     }

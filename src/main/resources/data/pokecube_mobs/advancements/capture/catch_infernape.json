@@ -24,7 +24,6 @@
     "catch_infernape": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "infernape"
       }
     }

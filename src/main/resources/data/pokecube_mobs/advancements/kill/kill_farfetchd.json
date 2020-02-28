@@ -24,7 +24,6 @@
     "kill_farfetchd": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "farfetchd"
       }
     }

@@ -24,7 +24,6 @@
     "catch_abomasnow": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "abomasnow"
       }
     }

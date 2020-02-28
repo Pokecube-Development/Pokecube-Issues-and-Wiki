@@ -24,7 +24,6 @@
     "catch_carvanha": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "carvanha"
       }
     }

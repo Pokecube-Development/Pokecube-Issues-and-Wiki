@@ -24,7 +24,6 @@
     "catch_walrein": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "walrein"
       }
     }

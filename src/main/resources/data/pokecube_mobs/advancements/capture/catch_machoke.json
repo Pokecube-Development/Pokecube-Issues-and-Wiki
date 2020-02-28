@@ -24,7 +24,6 @@
     "catch_machoke": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "machoke"
       }
     }

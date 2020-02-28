@@ -24,7 +24,6 @@
     "catch_houndour": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "houndour"
       }
     }

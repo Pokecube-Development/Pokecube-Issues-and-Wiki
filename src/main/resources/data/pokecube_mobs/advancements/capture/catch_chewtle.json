@@ -24,7 +24,6 @@
     "catch_chewtle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "chewtle"
       }
     }

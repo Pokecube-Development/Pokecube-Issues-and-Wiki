@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesectsdrive"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.genesectsdrive"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_genesectsdrive": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "genesectsdrive"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

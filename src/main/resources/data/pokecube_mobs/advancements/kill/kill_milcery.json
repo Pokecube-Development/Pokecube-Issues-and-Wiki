@@ -24,7 +24,6 @@
     "kill_milcery": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "milcery"
       }
     }

@@ -24,7 +24,6 @@
     "kill_emolga": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "emolga"
       }
     }

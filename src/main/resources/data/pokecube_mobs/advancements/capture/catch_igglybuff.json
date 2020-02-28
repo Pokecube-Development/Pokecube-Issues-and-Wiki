@@ -24,7 +24,6 @@
     "catch_igglybuff": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "igglybuff"
       }
     }

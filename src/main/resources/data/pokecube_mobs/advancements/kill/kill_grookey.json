@@ -24,7 +24,6 @@
     "kill_grookey": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "grookey"
       }
     }

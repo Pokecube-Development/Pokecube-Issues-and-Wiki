@@ -24,7 +24,6 @@
     "catch_magnemite": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "magnemite"
       }
     }

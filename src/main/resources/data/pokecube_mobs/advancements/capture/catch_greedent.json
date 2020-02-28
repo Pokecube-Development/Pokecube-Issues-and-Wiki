@@ -24,7 +24,6 @@
     "catch_greedent": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "greedent"
       }
     }

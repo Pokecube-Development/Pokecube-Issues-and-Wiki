@@ -24,7 +24,6 @@
     "catch_donphan": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "donphan"
       }
     }

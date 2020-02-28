@@ -24,7 +24,6 @@
     "catch_gliscor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gliscor"
       }
     }

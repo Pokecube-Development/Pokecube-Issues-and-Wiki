@@ -24,7 +24,6 @@
     "kill_mismagius": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "mismagius"
       }
     }

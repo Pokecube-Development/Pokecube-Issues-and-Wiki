@@ -25,7 +25,6 @@
     "catch_uxie": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "uxie"
       }
     }

@@ -24,7 +24,6 @@
     "kill_flabebe": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "flabebe"
       }
     }

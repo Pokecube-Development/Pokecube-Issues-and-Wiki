@@ -24,7 +24,6 @@
     "catch_whiscash": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "whiscash"
       }
     }

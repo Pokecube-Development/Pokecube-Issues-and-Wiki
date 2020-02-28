@@ -24,7 +24,6 @@
     "catch_kakuna": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "kakuna"
       }
     }

@@ -1,6 +1,9 @@
 package pokecube.compat.lostcities;
 
 import java.util.Locale;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 import mcjty.lostcities.setup.Registration;
 import mcjty.lostcities.worldgen.IDimensionInfo;
@@ -26,12 +29,10 @@ import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
 
 public class Impl
 {
-    private static boolean reged = false;
+    private static Set<String> logged = Sets.newHashSet();
 
     public static void register()
     {
-        if (Impl.reged) return;
-        Impl.reged = true;
         PokecubeCore.LOGGER.info("Registering Lost Cities Compat.");
         TerrainSegment.defaultChecker = new LostCityTerrainChecker(TerrainSegment.defaultChecker);
         MinecraftForge.EVENT_BUS.register(Impl.class);
@@ -103,11 +104,12 @@ public class Impl
                 else if (type == null && diff < 8 && diff > 0) type = "street";
                 if (type == null) break check;
                 type = type.toLowerCase(Locale.ROOT);
+                if (Impl.logged.add(type)) PokecubeCore.LOGGER.info("Lost Cities Structure: " + type);
                 if (PokecubeTerrainChecker.structureSubbiomeMap.containsKey(type))
                     type = PokecubeTerrainChecker.structureSubbiomeMap.get(type);
                 return BiomeType.getBiome(type, true).getType();
             }
-            return super.getSubBiome(world_in, v, segment, caveAdjusted);
+            return this.parent.getSubBiome(world_in, v, segment, caveAdjusted);
         }
 
     }
