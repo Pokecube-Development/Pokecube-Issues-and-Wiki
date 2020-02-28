@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
 
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 
 import net.minecraft.block.Blocks;
@@ -29,7 +27,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
@@ -272,8 +269,6 @@ public class TrainerSpawnHandler
         }
     }
 
-    private static final Set<BlockPos> placedMobs = Sets.newHashSet();
-
     @SubscribeEvent
     /**
      * This takes care of randomization for trainer teams when spawned in
@@ -284,7 +279,6 @@ public class TrainerSpawnHandler
     public static void StructureSpawn(final StructureEvent.ReadTag event)
     {
         if (!event.function.startsWith("pokecube_adventures:")) return;
-        if (TrainerSpawnHandler.placedMobs.contains(event.pos.toImmutable())) return;
         String function = event.function.replaceFirst("pokecube_adventures:", "");
         boolean leader = false;
         // Here we process custom options for trainers or leaders in structures.
@@ -311,7 +305,6 @@ public class TrainerSpawnHandler
             }
             // We apply it regardless, as this initializes defaults.
             TrainerSpawnHandler.applyFunction(mob, thing, leader);
-            TrainerSpawnHandler.placedMobs.add(event.pos.toImmutable());
             PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
                 event.world.addEntity(mob);
