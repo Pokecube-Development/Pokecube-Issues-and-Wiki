@@ -263,7 +263,7 @@ public class PokecubeCore
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().getBasePath().equals("textures")) return;
+            if (!event.getMap().getBasePath().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));

@@ -184,7 +184,7 @@ public class ThutWearables
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().getBasePath().equals("textures")) return;
+            if (!event.getMap().getBasePath().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             System.out.println("Texture Stitch " + event.getMap().getBasePath());
             for (int i = 0; i < EnumWearable.BYINDEX.length; i++)
                 event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));

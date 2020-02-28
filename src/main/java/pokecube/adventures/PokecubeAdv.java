@@ -180,7 +180,7 @@ public class PokecubeAdv
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().getBasePath().equals("textures")) return;
+            if (!event.getMap().getBasePath().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             System.out.println("registering sprites");
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_dna"));
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_bottle"));
