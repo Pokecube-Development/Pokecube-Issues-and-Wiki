@@ -21,12 +21,12 @@
     }
   },
   "criteria": {
-    "catch_pyroarm": {
+    "catch_pyroar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "entry": "pyroarm"
+        "entry": "pyroar"
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_litleo"
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
 }

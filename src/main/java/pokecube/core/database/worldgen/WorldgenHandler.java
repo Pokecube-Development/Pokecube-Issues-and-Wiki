@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,7 +23,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -111,10 +114,12 @@ public class WorldgenHandler
         public static class JigSawPart
         {
             public String       name;
-            public String       target    = "empty";
+            public String       target     = "empty";
             public List<String> options;
-            public boolean      rigid     = true;
-            public boolean      ignoreAir = true;
+            public boolean      rigid      = true;
+            public boolean      ignoreAir  = true;
+            public boolean      filler     = false;
+            public boolean      base_under = false;
         }
 
         public String           name;
@@ -217,6 +222,7 @@ public class WorldgenHandler
             final JigsawConfig config = new JigsawConfig(struct);
             final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                     : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
+            if (struct.biomeType.equals("village")) this.forceVillageFeature(toAdd);
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!matcher.checkBiome(b)) continue;
@@ -226,5 +232,23 @@ public class WorldgenHandler
 
         }
         PokecubeMod.LOGGER.debug("Loaded configurable worldgen");
+    }
+
+    private Field illagers = null;
+
+    private void forceVillageFeature(final Structure<?> feature)
+    {
+        if (this.illagers == null) this.illagers = ObfuscationReflectionHelper.findField(Feature.class,
+                "field_214488_aQ");
+        final List<Structure<?>> list = Lists.newArrayList(Feature.ILLAGER_STRUCTURES);
+        list.add(feature);
+        try
+        {
+            this.illagers.set(null, list);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

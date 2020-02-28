@@ -90,7 +90,7 @@ public abstract class PokemobSided extends PokemobBase
     @Override
     public FormeHolder getCustomHolder()
     {
-        if (this.forme_holder == null) return this.getPokedexEntry().default_holder;
+        if (this.forme_holder == null) return this.getPokedexEntry().getModel(this.getSexe());
         return this.forme_holder;
     }
 }

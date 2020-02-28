@@ -103,7 +103,7 @@ public class AnimationGui extends Screen
         if (AnimationGui.entry == null) AnimationGui.entry = Database.getEntry(AnimationGui.mob);
         AnimationGui.mob = AnimationGui.entry.getName();
         this.forme.setText(AnimationGui.mob);
-        this.holder = AnimationGui.entry.default_holder;
+        this.holder = AnimationGui.entry.getModel(this.sexe);
 
         if (!this.forme_alt.getText().isEmpty()) try
         {
@@ -112,7 +112,7 @@ public class AnimationGui extends Screen
         }
         catch (final Exception e)
         {
-            this.holder = AnimationGui.entry.default_holder;
+            this.holder = AnimationGui.entry.getModel(this.sexe);
         }
         this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
 

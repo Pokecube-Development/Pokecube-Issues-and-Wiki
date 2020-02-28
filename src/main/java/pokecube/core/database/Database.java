@@ -889,6 +889,16 @@ public class Database
                 entry.default_holder = entry._default_holder.getForme(entry);
                 Database.registerFormeHolder(entry, entry.default_holder);
             }
+            if (entry._male_holder != null)
+            {
+                entry.male_holder = entry._male_holder.getForme(entry);
+                Database.registerFormeHolder(entry, entry.male_holder);
+            }
+            if (entry._female_holder != null)
+            {
+                entry.female_holder = entry._female_holder.getForme(entry);
+                Database.registerFormeHolder(entry, entry.female_holder);
+            }
 
             // Spawns should have been dealt with earlier, so do evolutions
             if (!entry.evolutions.isEmpty()) for (final EvolutionData data : entry.evolutions)

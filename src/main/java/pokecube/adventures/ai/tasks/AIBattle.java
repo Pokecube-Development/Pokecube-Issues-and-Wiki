@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -232,9 +231,6 @@ public class AIBattle extends AITrainerBase
     public void tick()
     {
         super.tick();
-        ItemStack cube = this.trainer.getNextPokemob();
-        if (this.trainer.getCooldown() > 0) cube = ItemStack.EMPTY;
-        this.entity.setHeldItem(Hand.MAIN_HAND, cube);
         if (this.trainer.getTarget() != null) this.updateTask();
         else if (this.trainer.getOutID() != null) this.resetTask();
         this.trainer.lowerCooldowns();
@@ -258,6 +254,8 @@ public class AIBattle extends AITrainerBase
             if (this.battleLoc == null) this.battleLoc = this.entity.getPosition();
             ((MobEntity) this.entity).getNavigator().setPath(((MobEntity) this.entity).getNavigator().getPathToPos(
                     this.battleLoc, 0), 0.75);
+            if (this.entity.getPosition().distanceSq(this.battleLoc) < 4) ((MobEntity) this.entity).getNavigator()
+                    .clearPath();
         }
 
         this.entity.lookAt(Type.EYES, this.trainer.getTarget().getEyePosition(0));

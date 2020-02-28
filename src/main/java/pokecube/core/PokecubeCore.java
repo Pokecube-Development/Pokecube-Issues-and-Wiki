@@ -87,6 +87,7 @@ import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.feature.scattered.testa.ConfigStructurePiece;
+import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
@@ -132,9 +133,11 @@ public class PokecubeCore
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:jigsaw_piece", JigsawPieces.CSP);
 
-            // Register structure processor type
+            // Register structure processor types
             PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",
                     PokecubeStructureProcessor::new);
+            FillerProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process_filler",
+                    FillerProcessor::new);
 
             // Register the configurable worldgen things from datapack
             new WorldgenHandler().processStructures(event);

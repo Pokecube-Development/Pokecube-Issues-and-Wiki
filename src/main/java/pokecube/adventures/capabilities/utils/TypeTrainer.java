@@ -37,7 +37,6 @@ import pokecube.adventures.ai.tasks.AIMate;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.entity.trainer.TrainerBase;
-import pokecube.adventures.entity.trainer.TrainerNpc;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -140,15 +139,15 @@ public class TypeTrainer extends NpcType
         {
             final List<IAIRunnable> ais = Lists.newArrayList();
             // All can battle, but only trainers will path during battle.
-            ais.add(new AIBattle(npc, !(npc instanceof TrainerNpc)).setPriority(0));
+            ais.add(new AIBattle(npc, !(npc instanceof TrainerBase)).setPriority(0));
 
             // All attack zombies.
             ais.add(new AIFindTarget(npc, ZombieEntity.class).setPriority(20));
             // Only trainers specifically target players.
-            if (npc instanceof TrainerNpc)
+            if (npc instanceof TrainerBase)
             {
                 ais.add(new AIFindTarget(npc, PlayerEntity.class).setPriority(10));
-                ais.add(new AIMate(npc, ((TrainerNpc) npc).getClass()));
+                ais.add(new AIMate(npc, ((TrainerBase) npc).getClass()));
             }
 
             // 5% chance of battling a random nearby pokemob if they see it.
@@ -226,22 +225,15 @@ public class TypeTrainer extends NpcType
         TypeTrainer.typeMap.put(name, type);
     }
 
-    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level, final World world)
+    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level, final World world,
+            final List<PokedexEntry> values)
     {
-        final TypeTrainer type = trainer.getType();
-
         for (int i = 0; i < 6; i++)
             trainer.setPokemob(i, ItemStack.EMPTY);
-
         if (level == 0) level = 5;
         final Variance variance = SpawnHandler.DEFAULT_VARIANCE;
         int number = 1 + new Random().nextInt(6);
         number = Math.min(number, trainer.getMaxPokemobCount());
-
-        final List<PokedexEntry> values = Lists.newArrayList();
-        if (type.pokemon != null) values.addAll(type.pokemon);
-        else PokecubeCore.LOGGER.warn("No mobs for " + type);
-
         for (int i = 0; i < number; i++)
         {
             Collections.shuffle(values);
@@ -253,6 +245,16 @@ public class TypeTrainer extends NpcType
             }
             trainer.setPokemob(i, item);
         }
+    }
+
+    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, final int level,
+            final World world)
+    {
+        final TypeTrainer type = trainer.getType();
+        final List<PokedexEntry> values = Lists.newArrayList();
+        if (type.pokemon != null) values.addAll(type.pokemon);
+        else PokecubeCore.LOGGER.warn("No mobs for " + type);
+        TypeTrainer.getRandomTeam(trainer, owner, level, world, values);
     }
 
     public static TypeTrainer getTrainer(final String name)

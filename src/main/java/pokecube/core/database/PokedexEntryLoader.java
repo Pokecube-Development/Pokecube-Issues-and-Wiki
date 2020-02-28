@@ -420,7 +420,9 @@ public class PokedexEntryLoader
         public Moves     moves;
         public BodyNode  body;
 
-        public DefaultFormeHolder model = null;
+        public DefaultFormeHolder model        = null;
+        public DefaultFormeHolder male_model   = null;
+        public DefaultFormeHolder female_model = null;
 
         void mergeMissingFrom(final XMLPokedexEntry other)
         {
@@ -1374,6 +1376,8 @@ public class PokedexEntryLoader
         entry.modelExt = xmlEntry.modelType;
 
         if (entry._default_holder == null && xmlEntry.model != null) entry._default_holder = xmlEntry.model;
+        if (entry._male_holder == null && xmlEntry.male_model != null) entry._male_holder = xmlEntry.male_model;
+        if (entry._female_holder == null && xmlEntry.female_model != null) entry._female_holder = xmlEntry.female_model;
 
         if (stats != null) try
         {

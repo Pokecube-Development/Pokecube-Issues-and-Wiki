@@ -375,7 +375,8 @@ public class TrainerEventHandler
         mobs.setType(newType);
         final int level = SpawnHandler.getSpawnLevel(npc.getEntityWorld(), Vector3.getNewVector().set(npc), Database
                 .getEntry(1));
-        TypeTrainer.getRandomTeam(mobs, npc, level, npc.getEntityWorld());
+        if (npc instanceof TrainerBase) ((TrainerBase) npc).initTeam(level);
+        else TypeTrainer.getRandomTeam(mobs, npc, level, npc.getEntityWorld());
         EntityUpdate.sendEntityUpdate(npc);
     }
 

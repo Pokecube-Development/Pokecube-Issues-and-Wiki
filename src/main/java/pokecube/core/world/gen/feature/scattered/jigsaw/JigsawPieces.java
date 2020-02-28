@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.StructureMode;
@@ -43,21 +44,24 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig.JigSawPart;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
+import thut.api.maths.Vector3;
 
 public class JigsawPieces
 {
     public static final IStructurePieceType CSP = CustomJigsawPiece::new;
 
-    public static final RuleEntry              PATHTOOAK    = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_PATH),
+    public static final RuleEntry PATHTOOAK    = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_PATH),
             new BlockMatchRuleTest(Blocks.WATER), Blocks.OAK_PLANKS.getDefaultState());
-    public static final RuleEntry              PATHTOGRASS  = new RuleEntry(new RandomBlockMatchRuleTest(
-            Blocks.GRASS_PATH, 0.05F), AlwaysTrueRuleTest.INSTANCE, Blocks.GRASS_BLOCK.getDefaultState());
-    public static final RuleEntry              GRASSTOWATER = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_BLOCK),
+    public static final RuleEntry PATHTOGRASS  = new RuleEntry(new RandomBlockMatchRuleTest(Blocks.GRASS_PATH, 0.05F),
+            AlwaysTrueRuleTest.INSTANCE, Blocks.GRASS_BLOCK.getDefaultState());
+    public static final RuleEntry GRASSTOWATER = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_BLOCK),
             new BlockMatchRuleTest(Blocks.WATER), Blocks.WATER.getDefaultState());
-    public static final RuleEntry              DIRTTOWATER  = new RuleEntry(new BlockMatchRuleTest(Blocks.DIRT),
+    public static final RuleEntry DIRTTOWATER  = new RuleEntry(new BlockMatchRuleTest(Blocks.DIRT),
             new BlockMatchRuleTest(Blocks.WATER), Blocks.WATER.getDefaultState());
-    public static final RuleStructureProcessor RULES        = new RuleStructureProcessor(ImmutableList.of(
+
+    public static final RuleStructureProcessor RULES = new RuleStructureProcessor(ImmutableList.of(
             JigsawPieces.PATHTOOAK, JigsawPieces.PATHTOGRASS, JigsawPieces.GRASSTOWATER, JigsawPieces.DIRTTOWATER));
 
     public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
@@ -97,7 +101,7 @@ public class JigsawPieces
             }
             option = args[0];
             if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
-            else parts.add(Pair.of(new SingleOffsetPiece(jigsaw, option, ImmutableList.of(
+            else parts.add(Pair.of(new SingleOffsetPiece(part, option, ImmutableList.of(
                     PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, offset, ignoreAir, subbiome),
                     second));
 
@@ -117,12 +121,12 @@ public class JigsawPieces
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
-        protected final JigSawConfig config;
-        private final int            offset;
-        private final String         subbiome;
-        private final boolean        ignoreAir;
+        protected final JigSawPart part;
+        private final int          offset;
+        private final String       subbiome;
+        private final boolean      ignoreAir;
 
-        public SingleOffsetPiece(final JigSawConfig config, final String location,
+        public SingleOffsetPiece(final JigSawPart part, final String location,
                 final List<StructureProcessor> processors, final PlacementBehaviour type, final int offset,
                 final boolean ignoreAir, final String subbiome)
         {
@@ -130,10 +134,10 @@ public class JigsawPieces
             this.offset = offset;
             this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
-            this.config = config;
+            this.part = part;
         }
 
-        public SingleOffsetPiece(final JigSawConfig config, final String location,
+        public SingleOffsetPiece(final JigSawPart part, final String location,
                 final List<StructureProcessor> processors, final PlacementBehaviour type, final boolean ignoreAir,
                 final String subbiome)
         {
@@ -141,7 +145,7 @@ public class JigsawPieces
             this.offset = 0;
             this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
-            this.config = config;
+            this.part = part;
         }
 
         @Override
@@ -160,6 +164,7 @@ public class JigsawPieces
             placementsettings.setRotation(p_214860_1_);
             placementsettings.func_215223_c(true);
             placementsettings.setIgnoreEntities(false);
+            if (this.part.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
             if (this.ignoreAir) placementsettings.addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
             else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
@@ -202,6 +207,25 @@ public class JigsawPieces
                 for (final Template.BlockInfo template$blockinfo : Template.processBlockInfos(template, worldIn, pos,
                         placementsettings, this.func_214857_a(manager, pos, rotation, false)))
                     this.func_214846_a(worldIn, template$blockinfo, pos, rotation, rand, box);
+                if (this.part.base_under)
+                {
+                    final MutableBoundingBox box2 = template.getMutableBoundingBox(placementsettings, pos);
+                    final Vector3 v = Vector3.getNewVector();
+                    for (int x = box2.minX; x <= box2.maxX; x++)
+                        for (int z = box2.minZ; z <= box2.maxZ; z++)
+                        {
+                            v.set(x, box2.minY, z);
+                            final BlockState toFill = v.getBlockState(worldIn);
+                            for (int y = box2.minY - 1; y > box2.minY - 32; y--)
+                            {
+                                v.set(x, y, z);
+                                if (!box.isVecInside(v.getPos())) continue;
+                                final BlockState check = v.getBlockState(worldIn);
+                                if (check.isAir(worldIn, v.getPos())) worldIn.setBlockState(v.getPos(), toFill, 2);
+                                else break;
+                            }
+                        }
+                }
                 return true;
             }
         }

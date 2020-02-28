@@ -163,7 +163,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
 
     public TrainerNpc setLevel(final int level)
     {
-        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.getEntityWorld());
+        this.initTeam(level);
         return this;
     }
 
@@ -190,12 +190,18 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         return this;
     }
 
+    @Override
+    public void initTeam(final int level)
+    {
+        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.world);
+    }
+
     public void setTypes()
     {
         if (this.pokemobsCap.getType() == null)
         {
             this.setType(TypeTrainer.get(this, false));
-            TypeTrainer.getRandomTeam(this.pokemobsCap, this, 5, this.world);
+            this.initTeam(5);
         }
         if (this.name.isEmpty())
         {
