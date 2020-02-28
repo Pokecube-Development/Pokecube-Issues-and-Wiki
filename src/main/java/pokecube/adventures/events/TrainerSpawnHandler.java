@@ -248,6 +248,7 @@ public class TrainerSpawnHandler
                     (int) t.posZ))
             {
                 w.addEntity(t);
+                TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
                 PokecubeCore.LOGGER.debug("Spawned Trainer: " + t + " " + count);
                 TrainerSpawnHandler.addTrainerCoord(t);
             }
@@ -338,6 +339,6 @@ public class TrainerSpawnHandler
                 break;
             }
         }
-        TypeTrainer.getRandomTeam(npc.pokemobsCap, npc, level, npc.getEntityWorld());
+        npc.initTeam(level);
     }
 }

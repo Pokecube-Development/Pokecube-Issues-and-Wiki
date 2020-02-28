@@ -136,6 +136,17 @@ public abstract class TrainerBase extends NpcMob
             if (this.pokemobsCap.getOutMob() == null) this.pokemobsCap.setOutID(null);
         }
 
+        ItemStack cube = this.pokemobsCap.getNextPokemob();
+        ItemStack reward = this.rewardsCap.getRewards().isEmpty() ? ItemStack.EMPTY
+                : this.rewardsCap.getRewards().get(0).stack;
+        if (this.pokemobsCap.getCooldown() > 0)
+        {
+            cube = ItemStack.EMPTY;
+            reward = ItemStack.EMPTY;
+        }
+        this.setHeldItem(Hand.MAIN_HAND, cube);
+        this.setHeldItem(Hand.OFF_HAND, reward);
+
         if (this.pokemobsCap.countPokemon() == 0 && !this.aiStates.getAIState(IHasNPCAIStates.STATIONARY)
                 && !this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY))
         {
@@ -145,7 +156,7 @@ public abstract class TrainerBase extends NpcMob
 
                 final int level = SpawnHandler.getSpawnLevel(this.getEntityWorld(), Vector3.getNewVector().set(this),
                         type.pokemon.get(0));
-                TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.getEntityWorld());
+                this.initTeam(level);
                 type.initTrainerItems(this);
             }
             if (PokecubeAdv.config.cullNoMobs)
@@ -188,6 +199,8 @@ public abstract class TrainerBase extends NpcMob
         this.trades.setCustomer(player);
         super.setCustomer(player);
     }
+
+    public abstract void initTeam(int level);
 
     protected abstract void addMobTrades(final PlayerEntity player, final ItemStack stack);
 

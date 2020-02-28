@@ -539,9 +539,13 @@ public class CapabilityHasPokemobs
                     }
                 if (!valid) target = null;
             }
+            // No next pokemob, so we shouldn't have a target in this case.
             if (this.getPokemob(0).isEmpty())
             {
                 target = null;
+                // Notify the watchers that a target was actually set.
+                for (final ITargetWatcher watcher : watchers)
+                    watcher.onSet(null);
                 this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
                 return;
@@ -566,6 +570,9 @@ public class CapabilityHasPokemobs
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
             }
             this.target = target;
+            // Notify the watchers that a target was actually set.
+            for (final ITargetWatcher watcher : watchers)
+                watcher.onSet(target);
         }
 
         @Override
@@ -836,6 +843,11 @@ public class CapabilityHasPokemobs
         }
 
         boolean validTargetSet(LivingEntity target);
+
+        default void onSet(final LivingEntity target)
+        {
+
+        }
     }
 
     public static class Storage implements Capability.IStorage<IHasPokemobs>
