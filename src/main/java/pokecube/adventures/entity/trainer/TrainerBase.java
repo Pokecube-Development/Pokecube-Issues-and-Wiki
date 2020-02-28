@@ -37,9 +37,11 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
+import thut.api.maths.Vector3;
 
 public abstract class TrainerBase extends NpcMob
 {
@@ -134,14 +136,27 @@ public abstract class TrainerBase extends NpcMob
             this.pokemobsCap.setOutMob(pokemob);
             if (this.pokemobsCap.getOutMob() == null) this.pokemobsCap.setOutID(null);
         }
+
         if (this.pokemobsCap.countPokemon() == 0 && !this.aiStates.getAIState(IHasNPCAIStates.STATIONARY)
-                && !this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY) && PokecubeAdv.config.cullNoMobs)
+                && !this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY))
         {
-            // Do not despawn if there is a player nearby.
-            if (Tools.isAnyPlayerInRange(10, this)) return;
-            this.despawncounter++;
-            if (this.despawncounter > 200) this.remove();
-            return;
+            final TypeTrainer type = this.pokemobsCap.getType();
+            if (type != null && !type.pokemon.isEmpty())
+            {
+
+                final int level = SpawnHandler.getSpawnLevel(this.getEntityWorld(), Vector3.getNewVector().set(this),
+                        type.pokemon.get(0));
+                TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.getEntityWorld());
+                type.initTrainerItems(this);
+            }
+            if (PokecubeAdv.config.cullNoMobs)
+            {
+                // Do not despawn if there is a player nearby.
+                if (Tools.isAnyPlayerInRange(10, this)) return;
+                this.despawncounter++;
+                if (this.despawncounter > 200) this.remove();
+                return;
+            }
         }
         if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0)
             this.setHealth(Math.min(this.getHealth() + 1, this.getMaxHealth()));

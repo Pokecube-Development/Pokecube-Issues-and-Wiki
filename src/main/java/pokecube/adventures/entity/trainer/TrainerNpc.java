@@ -54,7 +54,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     public TrainerNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.pokemobsCap.setType(TypeTrainer.mobTypeMapper.getType(this, true));
+        this.pokemobsCap.setType(TypeTrainer.get(this, true));
         this.enablePersistence();
     }
 
@@ -194,7 +194,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     {
         if (this.pokemobsCap.getType() == null)
         {
-            this.setType(TypeTrainer.mobTypeMapper.getType(this, false));
+            this.setType(TypeTrainer.get(this, false));
             TypeTrainer.getRandomTeam(this.pokemobsCap, this, 5, this.world);
         }
         if (this.name.isEmpty())

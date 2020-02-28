@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
-  <metadata head="head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <metadata head="headtop" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
   <phase type="flying">
    <part name="wingsleft">
     <component length="5" name="1" rotChange="0.0,0.0,-70.0," rotOffset="-0.0,-48.99999799898155,-0.0," startKey="0"/>

@@ -29,13 +29,10 @@ import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
 
 public class Impl
 {
-    private static boolean     reged  = false;
     private static Set<String> logged = Sets.newHashSet();
 
     public static void register()
     {
-        if (Impl.reged) return;
-        Impl.reged = true;
         PokecubeCore.LOGGER.info("Registering Lost Cities Compat.");
         TerrainSegment.defaultChecker = new LostCityTerrainChecker(TerrainSegment.defaultChecker);
         MinecraftForge.EVENT_BUS.register(Impl.class);

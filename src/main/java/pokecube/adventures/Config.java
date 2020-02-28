@@ -1,10 +1,5 @@
 package pokecube.adventures;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
-import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
@@ -20,8 +15,6 @@ public class Config extends ConfigData
 
     private static final String MACHINE = "machine";
     private static final String TRAINER = "trainers";
-
-    public List<Class<? extends LivingEntity>> customTrainers = Lists.newArrayList();
 
     @Configure(category = Config.TRAINER)
     public boolean npcsAreTrainers         = true;

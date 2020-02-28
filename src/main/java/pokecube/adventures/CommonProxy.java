@@ -9,6 +9,7 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -25,9 +26,11 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.events.CompatEvent;
 import pokecube.adventures.network.PacketBag;
 import pokecube.adventures.network.PacketCommander;
 import pokecube.adventures.network.PacketTrainer;
+import pokecube.compat.Compat;
 import thut.core.common.Proxy;
 import thut.wearables.EnumWearable;
 import thut.wearables.IActiveWearable;
@@ -83,5 +86,11 @@ public class CommonProxy implements Proxy
         PokecubeAdv.packets.registerMessage(PacketBag.class, PacketBag::new);
         PokecubeAdv.packets.registerMessage(PacketTrainer.class, PacketTrainer::new);
         PokecubeAdv.packets.registerMessage(PacketCommander.class, PacketCommander::new);
+    }
+
+    @Override
+    public void loaded(final FMLLoadCompleteEvent event)
+    {
+        Compat.BUS.post(new CompatEvent());
     }
 }
