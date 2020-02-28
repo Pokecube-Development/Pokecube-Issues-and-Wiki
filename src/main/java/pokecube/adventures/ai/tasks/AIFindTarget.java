@@ -132,6 +132,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             look.scalarMultBy(sight);
             look.addTo(here);
             final List<LivingEntity> targets = MovesUtils.targetsHit(this.entity, look);
+
             if (!targets.isEmpty()) for (final Object o : targets)
             {
                 final LivingEntity e = (LivingEntity) o;
