@@ -24,7 +24,6 @@
     "kill_cramorant": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cramorant"
       }
     }

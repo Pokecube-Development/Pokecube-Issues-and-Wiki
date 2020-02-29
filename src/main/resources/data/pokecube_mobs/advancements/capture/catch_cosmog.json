@@ -24,7 +24,6 @@
     "catch_cosmog": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cosmog"
       }
     }

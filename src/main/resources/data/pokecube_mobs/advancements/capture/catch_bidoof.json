@@ -24,7 +24,6 @@
     "catch_bidoof": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bidoof"
       }
     }

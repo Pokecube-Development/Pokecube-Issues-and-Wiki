@@ -24,10 +24,9 @@
     "kill_medicham": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "medicham"
       }
     }
   },
-  "parent": "pokecube_mobs:kill/kill_meditite_female"
+  "parent": "pokecube_mobs:kill/kill_meditite"
 }

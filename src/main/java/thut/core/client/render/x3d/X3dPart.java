@@ -4,7 +4,6 @@ import thut.core.client.render.model.parts.Part;
 
 public class X3dPart extends Part
 {
-
     public X3dPart(final String name)
     {
         super(name);

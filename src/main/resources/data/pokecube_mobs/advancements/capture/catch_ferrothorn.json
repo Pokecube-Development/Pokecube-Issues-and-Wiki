@@ -24,7 +24,6 @@
     "catch_ferrothorn": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "ferrothorn"
       }
     }

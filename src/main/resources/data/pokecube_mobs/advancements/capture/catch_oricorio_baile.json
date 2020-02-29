@@ -24,7 +24,6 @@
     "catch_oricorio_baile": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "oricorio_baile"
       }
     }

@@ -24,7 +24,6 @@
     "catch_grumpig": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "grumpig"
       }
     }

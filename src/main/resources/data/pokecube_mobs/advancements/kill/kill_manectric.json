@@ -24,7 +24,6 @@
     "kill_manectric": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "manectric"
       }
     }

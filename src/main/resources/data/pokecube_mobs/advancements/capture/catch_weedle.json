@@ -24,7 +24,6 @@
     "catch_weedle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "weedle"
       }
     }

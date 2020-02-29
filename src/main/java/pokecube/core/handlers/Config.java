@@ -2,6 +2,7 @@ package pokecube.core.handlers;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
@@ -28,6 +29,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -35,8 +37,7 @@ public class Config extends ConfigData
 {
     public static final int VERSION = 1;
 
-    public static final String spawning = "spawning";
-
+    public static final String spawning   = "spawning";
     public static final String database   = "database";
     public static final String world      = "generation";
     public static final String mobAI      = "ai";
@@ -48,8 +49,9 @@ public class Config extends ConfigData
     public static final String healthbars = "healthbars";
     public static final String genetics   = "genetics";
     public static final String items      = "items";
-    public static int          GUICHOOSEFIRSTPOKEMOB_ID;
+    public static final String dynamax    = "dynamax";
 
+    public static int    GUICHOOSEFIRSTPOKEMOB_ID;
     public static int    GUIDISPLAYPOKECUBEINFO_ID;
     public static int    GUIDISPLAYTELEPORTINFO_ID;
     public static int    GUIPOKECENTER_ID;
@@ -102,8 +104,8 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, type = Type.SERVER)
     public boolean      pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc)// TODO implement
-    public List<String> snagblacklist        = Lists.newArrayList(new String[] {
-            "net.minecraft.entity.boss.EntityDragon", "net.minecraft.entity.boss.EntityWither" });
+    public List<String> snagblacklist        = Lists.newArrayList("net.minecraft.entity.boss.EntityDragon",
+            "net.minecraft.entity.boss.EntityWither");
     @Configure(category = Config.misc)
     public boolean      defaultInteractions  = true;
     @Configure(category = Config.misc)
@@ -295,13 +297,13 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public boolean       diveEnabled           = true;
     @Configure(category = Config.mobAI)
-    public List<String>  dodgeSounds           = Lists.newArrayList(new String[] { "entity.witch.throw" });
+    public List<String>  dodgeSounds           = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String>  leapSounds            = Lists.newArrayList(new String[] { "entity.witch.throw" });
+    public List<String>  leapSounds            = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String>  guardBlacklistClass   = Lists.newArrayList(new String[] { "net.minecraft.entity.IMerchant",
+    public List<String>  guardBlacklistClass   = Lists.newArrayList("net.minecraft.entity.IMerchant",
             "net.minecraft.entity.INpc", "pokecube.core.items.pokemobeggs.EntityPokemobEgg",
-            "net.minecraft.entity.IProjectile" });
+            "net.minecraft.entity.IProjectile");
     @Configure(category = Config.mobAI)
     public List<String>  guardBlacklistId      = Lists.newArrayList();
     @Configure(category = Config.mobAI)
@@ -395,12 +397,15 @@ public class Config extends ConfigData
     @Configure(category = Config.world)
     public int          baseMaxSize            = 1;
     @Configure(category = Config.world)
-    public List<String> structureSubiomes      = Lists.newArrayList(new String[] { "Stronghold:ruin", "Mineshaft:ruin",
-            "Temple:ruin", "EndCity:ruin", "Fortress:ruin", "Mansion:ruin", "Monument:monument", "Village:village" });
+    public List<String> structureSubiomes      = Lists.newArrayList("stronghold:ruin", "mineshaft:ruin",
+            "jungle_temple:ruin", "desert_pyramid:ruin", "end_city:ruin", "end_city:ruin", "ocean_ruin:ruin",
+            "woodland_mansion:ruin", "ocean_monument:monument", "village:village");
     @Configure(category = Config.world)
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)
     public int          spawnDimension         = 0;
+    @Configure(category = Config.world)
+    public String       professor_override     = "pokecube:mob:professor{\"name\":\"pokecube.professor.named:Cedar\",\"guard\":{\"time\":\"allday\",\"roam\":0}}";
 
     // Mob Spawning settings
     @Configure(category = Config.spawning)
@@ -448,7 +453,8 @@ public class Config extends ConfigData
     public boolean       shouldCap              = true;
     @Configure(category = Config.spawning, type = Type.SERVER)
     @Versioned
-    public List<String>  spawnLevelFunctions    = Lists.newArrayList(new String[] { //@formatter:off
+    public List<String>  spawnLevelFunctions    = Lists.newArrayList(new String[] {
+            //@formatter:off
             "-1:abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3)):false:false",
             "0:abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3)):false:false",
             "1:1+r/200:true:true"
@@ -517,15 +523,13 @@ public class Config extends ConfigData
     public boolean       battleLogInChat        = false;
     @Configure(category = Config.client)
     public boolean       pokeCenterMusic        = true;
-    @Configure(category = Config.client)
-    public int           pokeCenterLoopDir      = 578;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs               = Lists.newArrayList();
     @Configure(category = Config.advanced)
     boolean              reputs                 = false;
     @Configure(category = Config.advanced)
-    // TODO find more internal variables to add to this.
+    // DOLATER find more internal variables to add to this.
     public List<String>  extraVars              = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance,
             "rc:" + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:"
                     + ItemPokemobEgg.MOBDIST });
@@ -623,6 +627,15 @@ public class Config extends ConfigData
     @Configure(category = Config.healthbars)
     public int     unknownNameColour    = 0x888888;
 
+    @Configure(category = Config.dynamax)
+    public int    dynamax_cooldown = 6000;
+    @Configure(category = Config.dynamax)
+    public int    dynamax_duration = 250;
+    @Configure(category = Config.dynamax)
+    public double dynamax_scale    = 5.0;
+    @Configure(category = Config.dynamax)
+    public int    z_move_cooldown  = 2000;
+
     @Configure(category = Config.items)
     public List<String> customHeldItems = Lists.newArrayList();
     @Configure(category = Config.items)
@@ -698,7 +711,7 @@ public class Config extends ConfigData
         }
 
         // Load in the extra databases from configs.
-        // TODO this is called too late!
+        // FIXME is this called too late?
         for (int i = 0; i < Math.min(this.configDatabases.size(), 3); i++)
         {
             final String[] args = this.configDatabases.get(i).split(";");
@@ -720,7 +733,7 @@ public class Config extends ConfigData
         for (final String s : this.structureSubiomes)
         {
             final String[] args = s.split(":");
-            PokecubeTerrainChecker.structureSubbiomeMap.put(args[0], args[1]);
+            PokecubeTerrainChecker.structureSubbiomeMap.put(args[0].toLowerCase(Locale.ROOT), ThutCore.trim(args[1]));
         }
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
@@ -739,10 +752,16 @@ public class Config extends ConfigData
         PokecubeMod.debug = this.debug;
         for (final String loc : this.mystLocs)
             PokecubeMod.giftLocations.add(loc);
-        for (final String s : this.recipeDatabases)
+        for (String s : this.recipeDatabases)
+        {
+            if (!s.endsWith(".json")) s = s + ".json";
             XMLRecipeHandler.recipeFiles.add(PokecubeItems.toPokecubeResource(s));
-        for (final String s : this.rewardDatabases)
+        }
+        for (String s : this.rewardDatabases)
+        {
+            if (!s.endsWith(".json")) s = s + ".json";
             XMLRewardsHandler.recipeFiles.add(PokecubeItems.toPokecubeResource(s));
+        }
         if (this.extraVars.size() != Config.defaults.extraVars.size())
         {
             final List<String> old = Lists.newArrayList(this.extraVars);

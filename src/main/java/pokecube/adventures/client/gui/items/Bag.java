@@ -3,8 +3,6 @@ package pokecube.adventures.client.gui.items;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -83,7 +81,7 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
         this.minecraft.getTextureManager().bindTexture(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
         final int x = (this.width - this.xSize) / 2;
         final int y = (this.height - this.ySize) / 2;
-        this.blit(x, y, 0, 0, this.xSize, this.ySize);
+        this.blit(x, y, 0, 0, this.xSize + 1, this.ySize + 1);
     }
 
     @Override
@@ -158,31 +156,16 @@ public class Bag<T extends BagContainer> extends ContainerScreen<T>
                 if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
                 final int y = i / 9 * 18 + this.height / 2 - 96;
-                // System.out.println(this.textFieldSearch.getText() + " " + i +
-                // " " + stack);
                 final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
-                    // TODO Search bar colouring.
-                    GlStateManager.disableLighting();
-                    GlStateManager.disableDepthTest();
-                    GlStateManager.colorMask(true, true, true, false);
                     final int slotColor = 0x55FF0000;
                     AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
-                    GlStateManager.colorMask(true, true, true, true);
-                    GlStateManager.enableLighting();
-                    GlStateManager.enableDepthTest();
                 }
                 else
                 {
-                    GlStateManager.disableLighting();
-                    GlStateManager.disableDepthTest();
-                    GlStateManager.colorMask(true, true, true, false);
                     final int slotColor = 0x5500FF00;
                     AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
-                    GlStateManager.colorMask(true, true, true, true);
-                    GlStateManager.enableLighting();
-                    GlStateManager.enableDepthTest();
                 }
             }
         this.renderHoveredToolTip(mouseX, mouseY);

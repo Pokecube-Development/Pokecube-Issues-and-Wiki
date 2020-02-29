@@ -12,8 +12,10 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
+import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -30,10 +32,6 @@ public class RecipeExtract extends PoweredRecipe
     public static final IRecipeSerializer<RecipeExtract> SERIALIZER = IRecipeSerializer.register(
             "pokecube_adventures:extracting", new SpecialRecipeSerializer<>(RecipeExtract::new));
     public static Function<ItemStack, Integer>           ENERGYNEED = (s) -> RecipeExtract.ENERGYCOST;
-
-    ItemStack selector = ItemStack.EMPTY;
-
-    public boolean fixed = false;
 
     public RecipeExtract(final ResourceLocation location)
     {
@@ -75,10 +73,15 @@ public class RecipeExtract extends PoweredRecipe
     @Override
     public ItemStack getCraftingResult(final CraftingInventory inv)
     {
+        if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
+        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
+        if (!(inv_p.inventory instanceof ExtractorTile)) return ItemStack.EMPTY;
+        final ExtractorTile tile = (ExtractorTile) inv_p.inventory;
+
         IMobGenetics genes;
         final ItemStack destination = inv.getStackInSlot(0);
         ItemStack source = inv.getStackInSlot(2);
-        if (!this.fixed) this.selector = inv.getStackInSlot(1);
+        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
         source:
         if ((genes = ClonerHelper.getGenes(source)) == null)
         {
@@ -99,7 +102,7 @@ public class RecipeExtract extends PoweredRecipe
         output.setCount(1);
         if (source.isEmpty() || genes == null) return ItemStack.EMPTY;
         if (output.getTag() == null) output.setTag(new CompoundNBT());
-        ClonerHelper.mergeGenes(genes, output, new ItemBasedSelector(this.selector));
+        ClonerHelper.mergeGenes(genes, output, new ItemBasedSelector(selector));
         output.setCount(1);
         return output;
     }
@@ -116,20 +119,24 @@ public class RecipeExtract extends PoweredRecipe
         return RecipeExtract.SERIALIZER;
     }
 
-    public void setSelector(final ItemStack selector)
-    {
-        this.selector = selector;
-    }
-
     public ItemStack toKeep(final int slot, final ItemStack stackIn, final CraftingInventory inv)
     {
+        if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
+        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
+        if (!(inv_p.inventory instanceof ExtractorTile)) return ItemStack.EMPTY;
+        final ExtractorTile tile = (ExtractorTile) inv_p.inventory;
+        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
         boolean keepDNA = false;
         boolean keepSelector = false;
-        final SelectorValue value = ClonerHelper.getSelectorValue(this.selector);
+        final SelectorValue value = ClonerHelper.getSelectorValue(selector);
         if (value.dnaDestructChance < Math.random()) keepDNA = true;
         if (value.selectorDestructChance < Math.random()) keepSelector = true;
         if (slot == 2 && keepDNA) return stackIn;
-        if (slot == 1 && keepSelector) return stackIn;
+        if (slot == 1 && keepSelector)
+        {
+            tile.override_selector = ItemStack.EMPTY;
+            return stackIn;
+        }
         return ItemStack.EMPTY;
     }
 }

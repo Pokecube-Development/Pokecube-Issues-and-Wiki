@@ -24,7 +24,6 @@
     "catch_gloom": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gloom"
       }
     }

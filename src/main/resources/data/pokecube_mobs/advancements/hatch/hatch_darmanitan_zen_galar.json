@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan_zen_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darmanitan_zen_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_darmanitan_zen_galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "darmanitan_zen_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

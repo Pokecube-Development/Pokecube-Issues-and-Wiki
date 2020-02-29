@@ -24,7 +24,6 @@
     "catch_lapras": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lapras"
       }
     }

@@ -24,7 +24,6 @@
     "kill_infernape": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "infernape"
       }
     }

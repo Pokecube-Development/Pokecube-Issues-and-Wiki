@@ -46,6 +46,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntryLoader.Action;
+import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.Evolution;
 import pokecube.core.database.PokedexEntryLoader.Interact;
@@ -57,6 +58,7 @@ import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
@@ -861,6 +863,8 @@ public class PokedexEntry
     public boolean legendary    = false;
 
     @CopyToGender
+    public float width  = -1;
+    @CopyToGender
     public float length = -1;
 
     /** Map of Level to Moves learned. */
@@ -890,7 +894,7 @@ public class PokedexEntry
     public String[]        particleData;
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
-    public double[][]      passengerOffsets = { { 0, 1, 0 } };
+    public double[][]      passengerOffsets = { { 0, 0.75, 0 } };
     @CopyToGender
     protected int          pokedexNb;
 
@@ -948,6 +952,14 @@ public class PokedexEntry
     @CopyToGender
     public String[][] textureDetails = { { "" }, null };
 
+    protected DefaultFormeHolder _default_holder = null;
+    protected DefaultFormeHolder _male_holder    = null;
+    protected DefaultFormeHolder _female_holder  = null;
+
+    protected FormeHolder default_holder = null;
+    protected FormeHolder male_holder    = null;
+    protected FormeHolder female_holder  = null;
+
     @CopyToGender
     public String texturePath = PokedexEntry.TEXTUREPATH;
 
@@ -956,9 +968,6 @@ public class PokedexEntry
 
     @CopyToGender
     protected PokeType type2;
-
-    @CopyToGender
-    public float width = -1;
 
     @CopyToGender
     protected EntityType<?> entity_type;
@@ -1574,6 +1583,7 @@ public class PokedexEntry
 
     protected void initPrey()
     {
+        this.prey.clear();
         if (this.food == null) return;
         final List<String> foodList = new ArrayList<>();
         for (final String s : this.food)
@@ -1590,6 +1600,7 @@ public class PokedexEntry
 
     protected void initRelations()
     {
+        this.related.clear();
         final List<EvolutionData> stale = Lists.newArrayList();
         for (final EvolutionData d : this.evolutions)
             if (!Pokedex.getInstance().isRegistered(d.evolution)) stale.add(d);
@@ -1828,5 +1839,14 @@ public class PokedexEntry
         }
         for (final int i : toRemove)
             this.lvlUpMoves.remove(i);
+    }
+
+    public FormeHolder getModel(final byte sexe)
+    {
+        final boolean hasFemale = this.female_holder != null;
+        final boolean hasMale = this.male_holder != null;
+        if (hasFemale && sexe == IPokemob.FEMALE) return this.female_holder;
+        if (hasMale && sexe == IPokemob.MALE) return this.male_holder;
+        return this.default_holder;
     }
 }

@@ -2,6 +2,8 @@ package pokecube.core.interfaces.capabilities.impl;
 
 import java.util.UUID;
 
+import javax.xml.namespace.QName;
+
 import com.google.common.collect.Lists;
 
 import net.minecraft.advancements.CriteriaTriggers;
@@ -23,6 +25,7 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.GuiInfoMessages;
+import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.entity.pokemobs.AnimalChest;
@@ -47,6 +50,11 @@ import thut.api.maths.Vector3;
 
 public abstract class PokemobOwned extends PokemobAI implements IInventoryChangedListener
 {
+    public static final QName KEY   = new QName("forme_key");
+    public static final QName TEX   = new QName("tex");
+    public static final QName MODEL = new QName("model");
+    public static final QName ANIM  = new QName("anim");
+
     @Override
     public void displayMessageToOwner(final ITextComponent message)
     {
@@ -172,18 +180,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         boolean rightSize = width < 1 && height < 1 && length < 1;
         rightSize |= this.getPokedexEntry().canSitShoulder;
         if (!rightSize) return false;
-        // TODO fix this.
-        // final CompoundNBT CompoundNBT = new CompoundNBT();
-        // CompoundNBT.putString("id",
-        // this.getEntity().getType().getRegistryName().toString());
-        // this.getEntity().writeAdditional(CompoundNBT);
-        //
-        // if (player.addShoulderEntity(CompoundNBT))
-        // {
-        // this.getEntity().remove(true);
-        // return true;
-        // }
-        // else
+        if (super.moveToShoulder(player))
+        {
+            this.returning = true;
+            return true;
+        }
         return false;
     }
 
@@ -218,7 +219,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             this.setEvolutionTicks(0);
             this.setGeneralState(GeneralStates.EXITINGCUBE, false);
             this.setGeneralState(GeneralStates.EVOLVING, false);
-            if (this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega)
+            this.setCombatState(CombatStates.DYNAMAX, false);
+
+            final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega;
+
+            if (megaForm)
             {
                 this.setCombatState(CombatStates.MEGAFORME, false);
                 final float hp = this.getHealth();
@@ -425,11 +430,10 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     }
 
     @Override
-    public IPokemob spawnInit()
+    public IPokemob spawnInit(final SpawnRule info)
     {
         IPokemob pokemob = this;
         int maxXP = this.getEntity().getPersistentData().getInt("spawnExp");
-
         /*
          * Check to see if the mob has spawnExp defined in its data. If not, it
          * will choose how much exp it spawns with based on the position that it
@@ -463,6 +467,10 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         // Make sure heath is valid numbers.
         if (pokemob instanceof PokemobOwned) ((PokemobOwned) pokemob).updateHealth();
         pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
+
+        // If we have some spawn info, lets process it.
+        if (info != null && info.values.containsKey(PokemobOwned.KEY)) pokemob.setCustomHolder(info.getForme(pokemob
+                .getPokedexEntry()));
 
         // Reset love status to prevent immediate eggs
         this.resetLoveStatus();

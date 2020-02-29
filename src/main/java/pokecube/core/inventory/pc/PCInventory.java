@@ -29,7 +29,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     // blank PC for client use.
     public static PCInventory blank;
 
-    public static UUID defaultId = new UUID(1234, 4321);
+    public static UUID blank_box = new UUID(1234, 1234);
     public static int  PAGECOUNT = 32;
 
     public static void addPokecubeToPC(final ItemStack mob, final World world)
@@ -85,7 +85,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     public static PCInventory getPC(final Entity player)
     {// TODO Sync box names/numbers to blank
         if (player == null || player.getEntityWorld().isRemote) return PCInventory.blank == null
-                ? PCInventory.blank = new PCInventory(PCInventory.defaultId) : PCInventory.blank;
+                ? PCInventory.blank = new PCInventory(PCInventory.blank_box) : PCInventory.blank;
         return PCInventory.getPC(player.getUniqueID());
     }
 

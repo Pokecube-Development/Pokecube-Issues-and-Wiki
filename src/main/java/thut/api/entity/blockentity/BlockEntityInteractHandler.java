@@ -15,6 +15,7 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
 public abstract class BlockEntityInteractHandler
@@ -43,9 +44,10 @@ public abstract class BlockEntityInteractHandler
         if (trace == null) pos = this.theEntity.getPosition();
         else pos = trace.getPos();
         BlockState state = this.blockEntity.getFakeWorld().getBlock(pos);
-        //TODO see if this actually works
-        boolean activate = state != null && state.onBlockActivated(player.getEntityWorld(), player,
-                hand, trace).isSuccessOrConsume();
+        final World world = this.blockEntity.getFakeWorld() instanceof World ? (World) this.blockEntity.getFakeWorld()
+                : this.theEntity.getEntityWorld();
+        // FIXME interacting with blocks on the block entity?
+        boolean activate = state != null && state.onBlockActivated(world, player, hand, trace) == ActionResultType.SUCCESS;
         if (activate) return ActionResultType.SUCCESS;
         else if (trace == null || trace.getType() == Type.MISS || state != null && !state.getMaterial().isSolid())
         {
@@ -67,8 +69,7 @@ public abstract class BlockEntityInteractHandler
                     final ActionResultType itemUse = ForgeHooks.onPlaceItemIntoWorld(context2);
                     if (itemUse != ActionResultType.PASS) return itemUse;
                 }
-                activate = state.onBlockActivated(this.theEntity.getEntityWorld(), player, hand, trace)
-                        .isSuccessOrConsume();
+                activate = state.onBlockActivated(world, player, hand, trace) == ActionResultType.SUCCESS;
                 if (activate) return ActionResultType.SUCCESS;
                 else if (!player.isCrouching() && !stack.isEmpty())
                 {

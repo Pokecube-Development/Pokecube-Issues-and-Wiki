@@ -87,6 +87,7 @@ public class TextureableCaps
         private final LazyOptional<IMobTexturable> holder = LazyOptional.of(() -> this);
         EntityPokemob                              mob;
         IPokemob                                   pokemob;
+        List<String>                               states = Lists.newArrayList();
 
         public PokemobCap()
         {
@@ -128,7 +129,17 @@ public class TextureableCaps
         @Override
         public List<String> getTextureStates()
         {
-            return TextureableCaps.STATES;
+            if (this.pokemob != null)
+            {
+                this.states.clear();
+                for (final GeneralStates state : GeneralStates.values())
+                    if (this.pokemob.getGeneralState(state)) this.states.add(ThutCore.trim(state.name()));
+                for (final LogicStates state : LogicStates.values())
+                    if (this.pokemob.getLogicState(state)) this.states.add(ThutCore.trim(state.name()));
+                for (final CombatStates state : CombatStates.values())
+                    if (this.pokemob.getCombatState(state)) this.states.add(ThutCore.trim(state.name()));
+            }
+            return this.states;
         }
 
         @Override
@@ -137,19 +148,9 @@ public class TextureableCaps
             if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
             return this.pokemob.modifyTexture(in);
         }
-
     }
 
     @CapabilityInject(IMobTexturable.class)
     public static final Capability<IMobTexturable> CAPABILITY = null;
     private static final List<String>              STATES     = Lists.newArrayList();
-
-    {
-        for (final GeneralStates state : GeneralStates.values())
-            TextureableCaps.STATES.add(ThutCore.trim(state.name()));
-        for (final LogicStates state : LogicStates.values())
-            TextureableCaps.STATES.add(ThutCore.trim(state.name()));
-        for (final CombatStates state : CombatStates.values())
-            TextureableCaps.STATES.add(ThutCore.trim(state.name()));
-    }
 }

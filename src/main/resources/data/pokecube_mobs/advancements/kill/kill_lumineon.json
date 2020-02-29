@@ -24,10 +24,9 @@
     "kill_lumineon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lumineon"
       }
     }
   },
-  "parent": "pokecube_mobs:kill/kill_finneon"
+  "parent": "pokecube_mobs:kill/kill_finneon_female"
 }

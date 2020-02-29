@@ -66,11 +66,6 @@ public class WearableEventHandler
         if (this.addedLayers.contains(event.getRenderer())) return;
 
         // Add the layer.
-        // final List<LayerRenderer<?, ?>> layerRenderers =
-        // event.getRenderer().layerRenderers;
-        // final int index = Math.min(1, layerRenderers.size());
-        // layerRenderers.add(index, new
-        // WearablesRenderer(event.getRenderer()));
         event.getRenderer().addLayer(new WearablesRenderer(event.getRenderer()));
         this.addedLayers.add(event.getRenderer());
     }
@@ -98,8 +93,8 @@ public class WearableEventHandler
     @SubscribeEvent
     public void onToolTip(final ItemTooltipEvent evt)
     {
-        if (evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).isPresent() || evt.getItemStack()
-                .getItem() instanceof IWearable)
+        if (evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).isPresent()
+                || evt.getItemStack().getItem() instanceof IWearable)
         {
             IWearable wear = evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null) wear = (IWearable) evt.getItemStack().getItem();

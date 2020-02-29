@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.weezing_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_weezing_galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "weezing_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/hatch_koffing"
+}

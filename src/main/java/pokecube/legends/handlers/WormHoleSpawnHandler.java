@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -13,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
@@ -28,6 +31,7 @@ public class WormHoleSpawnHandler
 
     public void portalSpawnTick(final World world)
     {
+        if (!SpawnHandler.canSpawnInWorld(world)) return;
         final List<Object> players = new ArrayList<>(world.getPlayers());
         if (players.size() < 1) return;
         final Random rand = new Random();
@@ -39,7 +43,8 @@ public class WormHoleSpawnHandler
         v.x += dx;
         v.z += dz;
         v.y = world.getHeight(Heightmap.Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 10;
-        if (v.isAir(world)) world.setBlockState(v.getPos(), BlockInit.ULTRASPACE_PORTAL.getDefaultState());
+        if (v.isAir(world)) world.setBlockState(v.getPos(), BlockInit.ULTRASPACE_PORTAL.getDefaultState().with(
+                HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(rand.nextInt())));
 
     }
 }

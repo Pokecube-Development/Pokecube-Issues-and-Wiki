@@ -24,7 +24,7 @@ public class ExitCube
         if (!pokemob.getGeneralState(GeneralStates.EXITINGCUBE)) return;
         final Entity entity = pokemob.getEntity();
         final CompoundNBT sealTag = PokecubeManager.getSealTag(entity);
-        Evolution.renderEffect(pokemob, mat, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
+        Evolution.renderEffect(pokemob, mat, iRenderTypeBuffer, partialTick, LogicMiscUpdate.EXITCUBEDURATION, true);
         if (sealTag != null && !sealTag.isEmpty())
         {
             final Random rand = new Random();
@@ -66,7 +66,7 @@ public class ExitCube
                 loc.y += width * rand.nextGaussian() / 2;
                 loc.z += width * rand.nextGaussian() / 2;
                 final int id = sealTag.getInt("dye");
-                final int colour = DyeColor.byId(id).getTextColor();
+                final int colour = DyeColor.byId(id).textColor;
                 PokecubeCore.spawnParticle(entity.getEntityWorld(), "powder", loc, vel, colour | 0xFF000000);
             }
         }

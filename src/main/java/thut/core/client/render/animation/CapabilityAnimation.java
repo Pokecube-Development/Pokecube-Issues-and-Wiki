@@ -26,9 +26,9 @@ public class CapabilityAnimation
     {
         private final LazyOptional<IAnimationHolder> holder   = LazyOptional.of(() -> this);
 
-        Map<Animation, Float>                        stepsMap = Maps.newHashMap();
-        Set<Animation>                               playing  = Sets.newHashSet();
-        private final Set<Animation>                 pending  = Sets.newHashSet();
+        Map<Animation, Float>        stepsMap = Maps.newHashMap();
+        Set<Animation>               playing  = Sets.newHashSet();
+        private final Set<Animation> pending  = Sets.newHashSet();
 
         @Override
         public void clean()
@@ -57,42 +57,36 @@ public class CapabilityAnimation
         }
 
         @Override
-        public void setPendingAnimations(final List<Animation> name, float step)
+        public void setPendingAnimations(final List<Animation> name, final float step)
         {
             if (name != null)
             {
                 this.pending.addAll(name);
-                for (Animation anim : name)
-                    stepsMap.put(anim, step);
+                for (final Animation anim : name)
+                    this.stepsMap.put(anim, step);
             }
             else this.pending.clear();
-            if (this.playing.isEmpty())
-            {
-                this.playing.addAll(name);
-            }
-            else
-            {
-                this.pending.addAll(name);
-            }
+            if (this.playing.isEmpty()) this.playing.addAll(name);
+            else this.pending.addAll(name);
         }
 
         @Override
         public void setStep(final Animation animation, final float step)
         {
-            float time = step - this.stepsMap.put(animation, step);
+            final float time = step - this.stepsMap.put(animation, step);
             if (time > animation.getLength())
             {
                 this.playing.remove(animation);
                 if (this.playing.isEmpty())
                 {
-                    this.playing.addAll(pending);
+                    this.playing.addAll(this.pending);
                     this.pending.clear();
                 }
             }
         }
 
         @Override
-        public String getAnimation(Entity entityIn)
+        public String getAnimation(final Entity entityIn)
         {
             // TODO Auto-generated method stub
             return "idle";
@@ -104,16 +98,20 @@ public class CapabilityAnimation
         /** should clear the ticks animations were run on */
         void clean();
 
-        /** Gets the animation about to be run.
+        /**
+         * Gets the animation about to be run.
          *
-         * @return */
+         * @return
+         */
         Set<Animation> getPendingAnimations();
 
         Set<Animation> getPlaying();
 
-        /** This is the animation about to be run.
+        /**
+         * This is the animation about to be run.
          *
-         * @param name */
+         * @param name
+         */
         void setPendingAnimations(List<Animation> name, float step);
 
         /** Sets the last tick this animation was run. Can set to 0 to count
@@ -123,11 +121,13 @@ public class CapabilityAnimation
          * @param step */
         void setStep(Animation animation, float step);
 
-        /** This should get whatever animation we think the entity should be
+        /**
+         * This should get whatever animation we think the entity should be
          * doing.
-         * 
+         *
          * @param entityIn
-         * @return */
+         * @return
+         */
         String getAnimation(Entity entityIn);
     }
 

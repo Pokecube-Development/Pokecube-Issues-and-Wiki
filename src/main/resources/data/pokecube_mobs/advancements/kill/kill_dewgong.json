@@ -24,7 +24,6 @@
     "kill_dewgong": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dewgong"
       }
     }

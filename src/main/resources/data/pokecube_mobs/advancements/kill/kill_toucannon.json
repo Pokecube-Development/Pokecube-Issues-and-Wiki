@@ -24,7 +24,6 @@
     "kill_toucannon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "toucannon"
       }
     }

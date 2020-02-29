@@ -24,7 +24,6 @@
     "kill_banette": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "banette"
       }
     }

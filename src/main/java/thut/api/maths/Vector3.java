@@ -106,14 +106,14 @@ public class Vector3
     public static final Vector3 thirdAxis     = Vector3.getNewVector().set(0, 0, 1);
     public static final Vector3 thirdAxisNeg  = Vector3.getNewVector().set(0, 0, -1);
 
-    public static final Vector3 empty   = Vector3.getNewVector();
-    public static final int     length  = 3;
-    public static Vector3       vecMult = Vector3.getNewVector();
-    public static double[][]    rotBox  = new double[3][3];
+    public static final Vector3 empty         = Vector3.getNewVector();
+    public static final int     length        = 3;
+    public static Vector3       vecMult       = Vector3.getNewVector();
+    public static double[][]    rotBox        = new double[3][3];
 
-    static Vector3 move1 = Vector3.getNewVector();
+    static Vector3              move1         = Vector3.getNewVector();
 
-    static Vector3 move2 = Vector3.getNewVector();
+    static Vector3              move2         = Vector3.getNewVector();
 
     public static Vector3 entity(final Entity e)
     {
@@ -130,8 +130,7 @@ public class Vector3
         return mid;
     }
 
-    /**
-     * Locates the first solid block in the line indicated by the direction
+    /** Locates the first solid block in the line indicated by the direction
      * vector, starting from the source if range is given as 0, it will check
      * out to 320 blocks.
      *
@@ -139,8 +138,7 @@ public class Vector3
      * @param source
      * @param direction
      * @param range
-     * @return
-     */
+     * @return */
     public static Vector3 findNextSolidBlock(final IBlockReader world, final Vector3 source, Vector3 direction,
             final double range)
     {
@@ -158,14 +156,14 @@ public class Vector3
 
             if (ytest > 255) return null;
 
-            if (!(Vector3.Int(xtest) == Vector3.Int(xprev) && Vector3.Int(ytest) == Vector3.Int(yprev) && Vector3.Int(
-                    ztest) == Vector3.Int(zprev)))
+            if (!(Vector3.Int(xtest) == Vector3.Int(xprev) && Vector3.Int(ytest) == Vector3.Int(yprev)
+                    && Vector3.Int(ztest) == Vector3.Int(zprev)))
             {
                 test.set(xtest, ytest, ztest);
                 final boolean clear = test.clearOfBlocks(world);
 
-                if (!clear) return Vector3.getNewVector().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(
-                        ztest));
+                if (!clear)
+                    return Vector3.getNewVector().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(ztest));
             }
 
             yprev = ytest;
@@ -180,16 +178,14 @@ public class Vector3
         return new Vector3();
     }
 
-    /**
-     * determines whether the source can see out as far as range in the given
+    /** determines whether the source can see out as far as range in the given
      * direction.
      *
      * @param world
      * @param source
      * @param direction
      * @param range
-     * @return
-     */
+     * @return */
     public static Vector3 getNextSurfacePoint(final IBlockReader world, final Vector3 source, Vector3 direction,
             final double range)
     {
@@ -252,16 +248,14 @@ public class Vector3
         return false;
     }
 
-    /**
-     * determines whether the source can see out as far as range in the given
+    /** determines whether the source can see out as far as range in the given
      * direction.
      *
      * @param world
      * @param source
      * @param direction
      * @param range
-     * @return
-     */
+     * @return */
     public static boolean isVisibleRange(final IBlockReader world, final Vector3 source, Vector3 direction,
             final double range)
     {
@@ -295,64 +289,64 @@ public class Vector3
             int n = 0;
 
             clear:
-                while (!v.clearOfBlocks(world))
+            while (!v.clearOfBlocks(world))
+            {
+                for (final Direction side : Direction.values())
                 {
-                    for (final Direction side : Direction.values())
-                    {
-                        v2.set(v);
-                        if (v.offsetBy(side).clearOfBlocks(world)) break clear;
-                        v.set(v2);
-                    }
-                    boolean step = true;
-                    if (n < 2) v.offset(Direction.UP);
-                    else if (n < 4)
-                    {
-                        if (step)
-                        {
-                            step = false;
-                            v.set(v1);
-                        }
-                        v.offsetBy(Direction.NORTH);
-                    }
-                    else if (n < 6)
-                    {
-                        if (!step)
-                        {
-                            step = true;
-                            v.set(v1);
-                        }
-                        v.offsetBy(Direction.SOUTH);
-                    }
-                    else if (n < 8)
-                    {
-                        if (step)
-                        {
-                            step = false;
-                            v.set(v1);
-                        }
-                        v.offsetBy(Direction.EAST);
-                    }
-                    else if (n < 10)
-                    {
-                        if (!step)
-                        {
-                            step = true;
-                            v.set(v1);
-                        }
-                        v.offsetBy(Direction.WEST);
-                    }
-                    else if (n < 12)
-                    {
-                        if (step)
-                        {
-                            step = false;
-                            v.set(v1);
-                        }
-                        v.offsetBy(Direction.DOWN);
-                    }
-                    n++;
-                    if (n >= 12) break;
+                    v2.set(v);
+                    if (v.offsetBy(side).clearOfBlocks(world)) break clear;
+                    v.set(v2);
                 }
+                boolean step = true;
+                if (n < 2) v.offset(Direction.UP);
+                else if (n < 4)
+                {
+                    if (step)
+                    {
+                        step = false;
+                        v.set(v1);
+                    }
+                    v.offsetBy(Direction.NORTH);
+                }
+                else if (n < 6)
+                {
+                    if (!step)
+                    {
+                        step = true;
+                        v.set(v1);
+                    }
+                    v.offsetBy(Direction.SOUTH);
+                }
+                else if (n < 8)
+                {
+                    if (step)
+                    {
+                        step = false;
+                        v.set(v1);
+                    }
+                    v.offsetBy(Direction.EAST);
+                }
+                else if (n < 10)
+                {
+                    if (!step)
+                    {
+                        step = true;
+                        v.set(v1);
+                    }
+                    v.offsetBy(Direction.WEST);
+                }
+                else if (n < 12)
+                {
+                    if (step)
+                    {
+                        step = false;
+                        v.set(v1);
+                    }
+                    v.offsetBy(Direction.DOWN);
+                }
+                n++;
+                if (n >= 12) break;
+            }
 
             final long end = System.nanoTime() - start;
 
@@ -392,13 +386,11 @@ public class Vector3
             points[i] = points[i].rotateAboutAngles(pitch, yaw, temp, temp1);
     }
 
-    /**
-     * Returns the dot (scalar) product of the two vectors
+    /** Returns the dot (scalar) product of the two vectors
      *
      * @param vector1
      * @param vector2
-     * @return
-     */
+     * @return */
     public static double vectorDot(final Vector3 vector1, final Vector3 vector2)
     {
         double dot = 0;
@@ -407,11 +399,11 @@ public class Vector3
         return dot;
     }
 
-    public double x;
+    public double   x;
 
-    public double y;
+    public double   y;
 
-    public double z;
+    public double   z;
 
     MutableBlockPos pos;
 
@@ -420,13 +412,11 @@ public class Vector3
         this.x = this.y = this.z = 0;
     }
 
-    /**
-     * This takes degrees then converts to radians, as it seems most people
+    /** This takes degrees then converts to radians, as it seems most people
      * like to work with degrees.
      *
      * @param pitch
-     * @param yaw
-     */
+     * @param yaw */
     private Vector3(final double pitch, final double yaw)
     {
         this.x = 1;
@@ -491,13 +481,11 @@ public class Vector3
         else if (i == 2) this.z += j;
     }
 
-    /**
-     * Adds vectorA to vectorB
+    /** Adds vectorA to vectorB
      *
      * @param vectorA
      * @param vectorB
-     * @return
-     */
+     * @return */
     public Vector3 add(final Vector3 vectorB)
     {
         final Vector3 vectorC = Vector3.getNewVector();
@@ -514,13 +502,11 @@ public class Vector3
         return this;
     }
 
-    /**
-     * Adds vectorA to vectorB
+    /** Adds vectorA to vectorB
      *
      * @param vectorA
      * @param vectorB
-     * @return
-     */
+     * @return */
     public Vector3 addTo(final Vector3 b)
     {
         if (b == null) return this;
@@ -556,8 +542,8 @@ public class Vector3
             if (!check) break;
 
             final double x0 = xtest, y0 = ytest, z0 = ztest;
-            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded, new AxisAlignedBB(x0
-                    - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
+            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded,
+                    new AxisAlignedBB(x0 - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
             if (targets != null && targets.size() > 0) for (final Entity e : targets)
                 if (e instanceof LivingEntity && !ret.contains(e) && !e.isRidingOrBeingRiddenBy(excluded)) ret.add(e);
         }
@@ -632,8 +618,9 @@ public class Vector3
 
         if (state.isOpaqueCube(world, this.getPos())) return false;
 
-        if (block == null || block.isAir(state, world, this.pos) || !state.getMaterial().blocksMovement() || !state
-                .isSolid()) return true;
+        if (block == null || block.isAir(state, world, this.pos) || !state.getMaterial().blocksMovement()
+                || !state.isSolid())
+            return true;
 
         final List<AxisAlignedBB> aabbs = new ArrayList<>();
         final VoxelShape shape = state.getCollisionShape(world, this.pos);
@@ -677,13 +664,11 @@ public class Vector3
         return world.isAreaLoaded(this.getPos(), distance);
     }
 
-    /**
-     * Returns the dot (scalar) product of the two vectors
+    /** Returns the dot (scalar) product of the two vectors
      *
      * @param vector1
      * @param vector2
-     * @return
-     */
+     * @return */
     public double dot(final Vector3 vector2)
     {
         double dot = 0;
@@ -738,87 +723,87 @@ public class Vector3
         double rMag;
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector();
         Vector3 rTest = Vector3.getNewVector();
-        final Vector3 rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector(), ret = Vector3
-                .getNewVector();
+        final Vector3 rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector(),
+                ret = Vector3.getNewVector();
 
         final HashMap<Class<?>, List<Object>> interfaces = new HashMap<>();
 
         loop:
-            for (int i = 0; i < size * size * size; i++)
+        for (int i = 0; i < size * size * size; i++)
+        {
+
+            Cruncher.indexToVals(i, r);
+            rAbs.set(r).addTo(this);
+            rHat.set(temp.set(r).norm());
+            double rm;
+            if ((rm = r.mag()) > size || rm > sightDistance) continue;
+
+            if (rAbs.isAir(world) && !r.isEmpty()) continue;
+
+            rTest.clear();
+            rTestPrev.clear();
+            rMag = r.mag();
+            final float dj = 1;
+            for (float j = 0F; j <= rMag; j += dj)
             {
-
-                Cruncher.indexToVals(i, r);
-                rAbs.set(r).addTo(this);
-                rHat.set(temp.set(r).norm());
-                double rm;
-                if ((rm = r.mag()) > size || rm > sightDistance) continue;
-
-                if (rAbs.isAir(world) && !r.isEmpty()) continue;
-
-                rTest.clear();
-                rTestPrev.clear();
-                rMag = r.mag();
-                final float dj = 1;
-                for (float j = 0F; j <= rMag; j += dj)
+                rTest = temp.set(rHat).scalarMultBy(j);
+                if (!rTest.sameBlock(rTestPrev))
                 {
-                    rTest = temp.set(rHat).scalarMultBy(j);
-                    if (!rTest.sameBlock(rTestPrev))
+                    rTestAbs.set(rTest).addTo(this);
+                    final BlockState state = rTestAbs.getBlockState(world);
+                    if (state == null) continue loop;
+                    final Block b = state.getBlock();
+                    if (predicateList) for (final Object o : list)
+                        if (((Predicate<BlockState>) o).apply(state))
+                        {
+                            ret.set(rTestAbs);
+                            return ret;
+                        }
+                    if (isInterface)
                     {
-                        rTestAbs.set(rTest).addTo(this);
-                        final BlockState state = rTestAbs.getBlockState(world);
-                        if (state == null) continue loop;
-                        final Block b = state.getBlock();
-                        if (predicateList) for (final Object o : list)
-                            if (((Predicate<BlockState>) o).apply(state))
-                            {
-                                ret.set(rTestAbs);
-                                return ret;
-                            }
-                        if (isInterface)
+                        List<Object> tempList;
+                        if ((tempList = interfaces.get(b.getClass())) != null)
                         {
-                            List<Object> tempList;
-                            if ((tempList = interfaces.get(b.getClass())) != null)
-                            {
-                            }
-                            else
-                            {
-                                tempList = new ArrayList<>();
-                                interfaces.put(b.getClass(), tempList);
-                                for (final Object o : b.getClass().getInterfaces())
-                                    tempList.add(o);
-                            }
-                            list = tempList;
                         }
-                        if (matcher != null && matcher.apply(state))
+                        else
                         {
-                            ret.set(rTestAbs);
-                            return ret;
+                            tempList = new ArrayList<>();
+                            interfaces.put(b.getClass(), tempList);
+                            for (final Object o : b.getClass().getInterfaces())
+                                tempList.add(o);
                         }
-                        else if (seekingBlock != null && b == seekingBlock)
-                        {
-                            ret.set(rTestAbs);
-                            return ret;
-                        }
-                        else if (!isInterface && seekingClass != null && b.getClass().isAssignableFrom(seekingClass))
-                        {
-                            ret.set(rTestAbs);
-                            return ret;
-                        }
-                        else if (seekingClass != null && list.contains(seekingClass))
-                        {
-                            ret.set(rTestAbs);
-                            return ret;
-                        }
-                        else if (blockList && list.contains(b))
-                        {
-                            ret.set(rTestAbs);
-                            return ret;
-                        }
-                        else if (!rTestAbs.isClearOfBlocks(world)) continue loop;
-                        else if (!water && state.getMaterial() == Material.WATER) continue loop;
+                        list = tempList;
                     }
+                    if (matcher != null && matcher.apply(state))
+                    {
+                        ret.set(rTestAbs);
+                        return ret;
+                    }
+                    else if (seekingBlock != null && b == seekingBlock)
+                    {
+                        ret.set(rTestAbs);
+                        return ret;
+                    }
+                    else if (!isInterface && seekingClass != null && b.getClass().isAssignableFrom(seekingClass))
+                    {
+                        ret.set(rTestAbs);
+                        return ret;
+                    }
+                    else if (seekingClass != null && list.contains(seekingClass))
+                    {
+                        ret.set(rTestAbs);
+                        return ret;
+                    }
+                    else if (blockList && list.contains(b))
+                    {
+                        ret.set(rTestAbs);
+                        return ret;
+                    }
+                    else if (!rTestAbs.isClearOfBlocks(world)) continue loop;
+                    else if (!water && state.getMaterial() == Material.WATER) continue loop;
                 }
             }
+        }
         return null;
     }
 
@@ -862,17 +847,17 @@ public class Vector3
 
             if (!((int) xtest == (int) xprev && (int) ytest == (int) yprev && (int) ztest == (int) zprev))
             {
-                final int x0 = xtest > 0 ? (int) xtest : (int) xtest - 1, y0 = ytest > 0 ? (int) ytest
-                        : (int) ytest - 1, z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-                        final List<LivingEntity> targets = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(x0
-                                - 0.5, y0 - 0.5, z0 - 0.5, x0 + 0.5, y0 + 0.5, z0 + 0.5));
-                        if (targets != null && targets.size() > 0)
-                        {
-                            final List<Entity> ret = new ArrayList<>();
-                            for (final Entity e : targets)
-                                if (e instanceof LivingEntity && !excluded.contains(e)) ret.add(e);
-                            if (ret.size() > 0) return ret.get(0);
-                        }
+                final int x0 = xtest > 0 ? (int) xtest : (int) xtest - 1,
+                        y0 = ytest > 0 ? (int) ytest : (int) ytest - 1, z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
+                final List<LivingEntity> targets = world.getEntitiesWithinAABB(LivingEntity.class,
+                        new AxisAlignedBB(x0 - 0.5, y0 - 0.5, z0 - 0.5, x0 + 0.5, y0 + 0.5, z0 + 0.5));
+                if (targets != null && targets.size() > 0)
+                {
+                    final List<Entity> ret = new ArrayList<>();
+                    for (final Entity e : targets)
+                        if (e instanceof LivingEntity && !excluded.contains(e)) ret.add(e);
+                    if (ret.size() > 0) return ret.get(0);
+                }
             }
             yprev = ytest;
             xprev = xtest;
@@ -902,15 +887,15 @@ public class Vector3
 
             final double x0 = xtest > 0 ? (int) xtest : (int) xtest - 1, y0 = ytest > 0 ? (int) ytest : (int) ytest - 1,
                     z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-                    final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded, new AxisAlignedBB(x0
-                            - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
-                    if (targets != null && targets.size() > 0)
-                    {
-                        final List<Entity> ret = new ArrayList<>();
-                        for (final Entity e : targets)
-                            if (e instanceof MobEntity) ret.add(e);
-                        if (ret.size() > 0) return ret;
-                    }
+            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded,
+                    new AxisAlignedBB(x0 - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
+            if (targets != null && targets.size() > 0)
+            {
+                final List<Entity> ret = new ArrayList<>();
+                for (final Entity e : targets)
+                    if (e instanceof MobEntity) ret.add(e);
+                if (ret.size() > 0) return ret;
+            }
 
         }
 
@@ -992,10 +977,10 @@ public class Vector3
         for (int i = 0; i < range; i++)
             for (int j = 0; j < range; j++)
             {
-                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) < minY) minY = this.getMaxY(world, this.intX()
-                        + i, this.intZ() + j);
-                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) > maxY) maxY = this.getMaxY(world, this.intX()
-                        + i, this.intZ() + j);
+                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) < minY)
+                    minY = this.getMaxY(world, this.intX() + i, this.intZ() + j);
+                if (this.getMaxY(world, this.intX() + i, this.intZ() + j) > maxY)
+                    maxY = this.getMaxY(world, this.intX() + i, this.intZ() + j);
             }
 
         ret[0] = minY;
@@ -1098,8 +1083,8 @@ public class Vector3
         if (world instanceof World)
         {
             final BlockState state = world.getBlockState(this.getPos());
-            return state.getBlock() == null || (m = this.getBlockMaterial(world)) == null || m == Material.AIR || state
-                    .getBlock().isAir(state, world, this.getPos());
+            return state.getBlock() == null || (m = this.getBlockMaterial(world)) == null || m == Material.AIR
+                    || state.getBlock().isAir(state, world, this.getPos());
         }
         return (m = this.getBlockMaterial(world)) == null || m == Material.AIR;
     }
@@ -1148,23 +1133,21 @@ public class Vector3
 
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
-                ret = ret && v.set(this).addTo(v1.set(i * size.width / 2, 0, j * size.width / 2)).isClearOfBlocks(
-                        world);
+                ret = ret
+                        && v.set(this).addTo(v1.set(i * size.width / 2, 0, j * size.width / 2)).isClearOfBlocks(world);
         if (!ret) return ret;
 
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
                 ret = ret && v.set(this).addTo(v1.set(i * size.width / 2, size.height, j * size.width / 2))
-                .isClearOfBlocks(world);
+                        .isClearOfBlocks(world);
 
         return ret;
     }
 
-    /**
-     * @param world
+    /** @param world
      *            - world the block is in
-     * @return if the block is a liquid
-     */
+     * @return if the block is a liquid */
     public boolean isFluid(final World world)
     {
         return !world.getFluidState(this.getPos()).isEmpty();
@@ -1219,8 +1202,8 @@ public class Vector3
     {
         final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
         final List<Entity> ret = new ArrayList<>();
-        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
-                + 1, y0 + 1, z0 + 1));
+        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class,
+                new AxisAlignedBB(x0, y0, z0, x0 + 1, y0 + 1, z0 + 1));
         for (final Entity e : targets)
             if (!this.isPointClearOfEntity(this.x, this.y, this.z, e)) ret.add(e);
         return ret;
@@ -1230,31 +1213,27 @@ public class Vector3
     {
         final int x0 = this.intX(), y0 = this.intY(), z0 = this.intZ();
         final List<Entity> ret = new ArrayList<>();
-        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class, new AxisAlignedBB(x0, y0, z0, x0
-                + 1, y0 + 1, z0 + 1));
+        final List<MobEntity> targets = world.getEntitiesWithinAABB(MobEntity.class,
+                new AxisAlignedBB(x0, y0, z0, x0 + 1, y0 + 1, z0 + 1));
         for (final Entity e : targets)
             if (!this.isPointClearOfEntity(this.x, this.y, this.z, e) && e != entity) ret.add(e);
         return ret;
     }
 
-    /**
-     * Returns the magnitude of vector
+    /** Returns the magnitude of vector
      *
      * @param vector
-     * @return
-     */
+     * @return */
     public double mag()
     {
         final double vmag = Math.sqrt(this.magSq());
         return vmag;
     }
 
-    /**
-     * Returns the magnitude of vector squared
+    /** Returns the magnitude of vector squared
      *
      * @param vector
-     * @return
-     */
+     * @return */
     public double magSq()
     {
         double vmag = 0;
@@ -1263,13 +1242,11 @@ public class Vector3
         return vmag;
     }
 
-    /**
-     * Left multiplies the Matrix by the Vector
+    /** Left multiplies the Matrix by the Vector
      *
      * @param Matrix
      * @param vector
-     * @return
-     */
+     * @return */
     public Vector3 matrixMult(final Matrix3 Matrix)
     {
         final Vector3 newVect = Vector3.vecMult.clear();
@@ -1284,12 +1261,10 @@ public class Vector3
         e.setPosition(this.x, this.y, this.z);
     }
 
-    /**
-     * Normalizes this vector.
+    /** Normalizes this vector.
      *
      * @param vector
-     * @return unit vector in direction of vector.
-     */
+     * @return unit vector in direction of vector. */
     public Vector3 norm()
     {
         final double vmag = this.mag();
@@ -1298,12 +1273,10 @@ public class Vector3
         return this;
     }
 
-    /**
-     * Returns the unit vector in with the same direction as vector.
+    /** Returns the unit vector in with the same direction as vector.
      *
      * @param vector
-     * @return unit vector in direction of vector.
-     */
+     * @return unit vector in direction of vector. */
     public Vector3 normalize()
     {
         final double vmag = this.mag();
@@ -1331,14 +1304,12 @@ public class Vector3
         return this;
     }
 
-    /**
-     * Rotates the given vector by the given amounts of pitch and yaw.
+    /** Rotates the given vector by the given amounts of pitch and yaw.
      *
      * @param vector
      * @param pitch
      * @param yaw
-     * @return
-     */
+     * @return */
     public Vector3 rotateAboutAngles(final double pitch, final double yaw, final Vector3 temp, final Vector3 temp1)
     {
         if (this.isEmpty() || pitch == 0 && yaw == 0) return this;
@@ -1351,15 +1322,13 @@ public class Vector3
         return temp;
     }
 
-    /**
-     * Rotates the given vector around the given line by the given angle. This
+    /** Rotates the given vector around the given line by the given angle. This
      * internally normalizes the line incase it is not already normalized
      *
      * @param vectorH
      * @param line
      * @param angle
-     * @return
-     */
+     * @return */
     public Vector3 rotateAboutLine(Vector3 line, final double angle, Vector3 ret)
     {
         if (line.magSq() != 1) line = line.normalize();
@@ -1368,21 +1337,21 @@ public class Vector3
         final double[][] mat = Vector3.rotBox;
 
         mat[0][0] = line.get(0) * line.get(0) * (1 - MathHelper.cos((float) angle)) + MathHelper.cos((float) angle);
-        mat[0][1] = line.get(0) * line.get(1) * (1 - MathHelper.cos((float) angle)) - line.get(2) * MathHelper.sin(
-                (float) angle);
-        mat[0][2] = line.get(0) * line.get(2) * (1 - MathHelper.cos((float) angle)) + line.get(1) * MathHelper.sin(
-                (float) angle);
+        mat[0][1] = line.get(0) * line.get(1) * (1 - MathHelper.cos((float) angle))
+                - line.get(2) * MathHelper.sin((float) angle);
+        mat[0][2] = line.get(0) * line.get(2) * (1 - MathHelper.cos((float) angle))
+                + line.get(1) * MathHelper.sin((float) angle);
 
-        mat[1][0] = line.get(1) * line.get(0) * (1 - MathHelper.cos((float) angle)) + line.get(2) * MathHelper.sin(
-                (float) angle);
+        mat[1][0] = line.get(1) * line.get(0) * (1 - MathHelper.cos((float) angle))
+                + line.get(2) * MathHelper.sin((float) angle);
         mat[1][1] = line.get(1) * line.get(1) * (1 - MathHelper.cos((float) angle)) + MathHelper.cos((float) angle);
-        mat[1][2] = line.get(1) * line.get(2) * (1 - MathHelper.cos((float) angle)) - line.get(0) * MathHelper.sin(
-                (float) angle);
+        mat[1][2] = line.get(1) * line.get(2) * (1 - MathHelper.cos((float) angle))
+                - line.get(0) * MathHelper.sin((float) angle);
 
-        mat[2][0] = line.get(2) * line.get(0) * (1 - MathHelper.cos((float) angle)) - line.get(1) * MathHelper.sin(
-                (float) angle);
-        mat[2][1] = line.get(2) * line.get(1) * (1 - MathHelper.cos((float) angle)) + line.get(0) * MathHelper.sin(
-                (float) angle);
+        mat[2][0] = line.get(2) * line.get(0) * (1 - MathHelper.cos((float) angle))
+                - line.get(1) * MathHelper.sin((float) angle);
+        mat[2][1] = line.get(2) * line.get(1) * (1 - MathHelper.cos((float) angle))
+                + line.get(0) * MathHelper.sin((float) angle);
         mat[2][2] = line.get(2) * line.get(2) * (1 - MathHelper.cos((float) angle)) + MathHelper.cos((float) angle);
 
         ret.x = mat[0][0] * this.x + mat[0][1] * this.y + mat[0][2] * this.z;
@@ -1397,13 +1366,11 @@ public class Vector3
         return this.intX() == vec.intX() && this.intY() == vec.intY() && this.intZ() == vec.intZ();
     }
 
-    /**
-     * Multiplies the vector by the constant.
+    /** Multiplies the vector by the constant.
      *
      * @param vector
      * @param constant
-     * @return
-     */
+     * @return */
     public Vector3 scalarMult(final double constant)
     {
         final Vector3 newVector = Vector3.getNewVector();
@@ -1541,16 +1508,13 @@ public class Vector3
     {
         final int x = this.intX();
         final int z = this.intZ();
-
         final IChunk chunk = world.getChunk(new BlockPos(x, 0, z));
         final BiomeContainer biomes = chunk.getBiomes();
-
-        final int chunkX = Math.abs(x & 15);
-        final int chunkZ = Math.abs(z & 15);
-
-        final int point = chunkX + 16 * chunkZ;
-
-        // TODO fix set biomes!
+        int i = x & BiomeContainer.HORIZONTAL_MASK;
+        int j = (int) MathHelper.clamp(y, 0, BiomeContainer.VERTICAL_MASK);
+        int k = z & BiomeContainer.HORIZONTAL_MASK;
+        int index = j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i;
+        biomes.biomes[index] = biome;
     }
 
     public void setBlock(final World world, final BlockState defaultState)
@@ -1569,13 +1533,11 @@ public class Vector3
         e.setMotion(this.x, this.y, this.z);
     }
 
-    /**
-     * Subtracts vectorB from vectorA
+    /** Subtracts vectorB from vectorA
      *
      * @param vectorA
      * @param vectorB
-     * @return
-     */
+     * @return */
     public Vector3 subtract(final Vector3 vectorB)
     {
         final Vector3 vectorC = Vector3.getNewVector();
@@ -1584,13 +1546,11 @@ public class Vector3
         return vectorC;
     }
 
-    /**
-     * Subtracts vectorB from vectorA
+    /** Subtracts vectorB from vectorA
      *
      * @param vectorA
      * @param vectorB
-     * @return
-     */
+     * @return */
     public Vector3 subtractFrom(final Vector3 b)
     {
         if (b == null) return this;
@@ -1600,12 +1560,10 @@ public class Vector3
         return this;
     }
 
-    /**
-     * Returns the unit vector in with the same direction as vector.
+    /** Returns the unit vector in with the same direction as vector.
      *
      * @param vector
-     * @return unit vector in direction of vector.
-     */
+     * @return unit vector in direction of vector. */
     public Vector3 toSpherical()
     {
         final Vector3 vectorSpher = Vector3.getNewVector();

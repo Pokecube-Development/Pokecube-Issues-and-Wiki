@@ -24,7 +24,6 @@
     "catch_alakazam": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "alakazam"
       }
     }

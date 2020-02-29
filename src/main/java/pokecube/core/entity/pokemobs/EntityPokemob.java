@@ -14,18 +14,23 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.passive.IFlyingAnimal;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -35,6 +40,7 @@ import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
@@ -43,15 +49,19 @@ import pokecube.core.utils.Tools;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Matrix3f;
+import thut.api.maths.vecmath.Vector3f;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
-public class EntityPokemob extends TameableEntity implements IEntityAdditionalSpawnData, IFlyingAnimal, IMobColourable
+public class EntityPokemob extends ShoulderRidingEntity implements IEntityAdditionalSpawnData, IFlyingAnimal,
+        IMobColourable
 {
     public final DefaultPokemob pokemobCap;
     protected final EntitySize  size;
 
-    public EntityPokemob(final EntityType<? extends TameableEntity> type, final World world)
+    public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final World world)
     {
         super(type, world);
         final DefaultPokemob cap = (DefaultPokemob) this.getCapability(CapabilityPokemob.POKEMOB_CAP, null)
@@ -61,10 +71,69 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     }
 
     @Override
+    public boolean func_213439_d(final ServerPlayerEntity p_213439_1_)
+    {
+        final CompoundNBT compoundnbt = new CompoundNBT();
+        compoundnbt.putString("id", this.getEntityString());
+        compoundnbt.putInt("pokemob:uid", this.pokemobCap.getPokemonUID());
+        this.writeWithoutTypeId(compoundnbt);
+        if (p_213439_1_.addShoulderEntity(compoundnbt))
+        {
+            this.remove(true);
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
     public boolean canFitPassenger(final Entity passenger)
     {
         // TODO see thutcrafts for what to do here!
         return super.canFitPassenger(passenger);
+    }
+
+    @Override
+    public boolean canPassengerSteer()
+    {
+        if (this.getPassengers().isEmpty()) return false;
+        return this.getPassengers().get(0).getUniqueID().equals(this.pokemobCap.getOwnerId());
+    }
+
+    @Override
+    public Entity getControllingPassenger()
+    {
+        final List<Entity> passengers = this.getPassengers();
+        if (passengers.isEmpty()) return null;
+        return this.getPassengers().get(0).getUniqueID().equals(this.pokemobCap.getOwnerId()) ? this.getPassengers()
+                .get(0) : null;
+    }
+
+    @Override
+    public void updatePassenger(final Entity passenger)
+    {
+        if (!this.isPassenger(passenger)) return;
+        // TODO find passenger index.
+        final int index = 0;
+        final double[] offsets = this.pokemobCap.getPokedexEntry().passengerOffsets[index];
+        float dx = 0, dy = this.getHeight(), dz = 0;
+        final Vector3 sizes = this.pokemobCap.getMobSizes();
+        dx = (float) (offsets[0] * sizes.x);
+        dy = (float) (offsets[1] * sizes.y);
+        dz = (float) (offsets[2] * sizes.z);
+        Vector3f v = new Vector3f(dx, dy, dz);
+        final float yaw = -this.rotationYaw * 0.017453292F;
+        final float pitch = -this.rotationPitch * 0.017453292F;
+        final float sinYaw = MathHelper.sin(yaw);
+        final float cosYaw = MathHelper.cos(yaw);
+        final float sinPitch = MathHelper.sin(pitch);
+        final float cosPitch = MathHelper.cos(pitch);
+        final Matrix3f matrixYaw = new Matrix3f(cosYaw, 0, sinYaw, 0, 1, 0, -sinYaw, 0, cosYaw);
+        final Matrix3f matrixPitch = new Matrix3f(cosPitch, -sinPitch, 0, sinPitch, cosPitch, 0, 0, 0, 1);
+        final Matrix3f transform = new Matrix3f();
+        transform.mul(matrixYaw, matrixPitch);
+        v = (Vector3f) v.clone();
+        transform.transform(v);
+        passenger.setPosition(this.posX + v.x, this.posY + v.y, this.posZ + v.z);
     }
 
     @Override
@@ -146,6 +215,13 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
             scale = Math.min(1, (this.ticksExisted + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
             size = Math.max(0.1f, scale);
         }
+        this.ignoreFrustumCheck = false;
+        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
+        {
+            // Since we don't change hitbox, we need toset this here.
+            this.ignoreFrustumCheck = true;
+            size = (float) (PokecubeCore.getConfig().dynamax_scale / this.pokemobCap.getMobSizes().y);
+        }
         return size;
     }
 
@@ -191,7 +267,7 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
         {
             CompoundNBT tag = buffer.readCompoundTag();
             final ListNBT list = (ListNBT) tag.get("g");
-            final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP, null).orElse(null);
+            final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
             GeneRegistry.GENETICS_CAP.readNBT(genes, null, list);
             this.pokemobCap.read(tag.getCompound("p"));
             this.pokemobCap.onGenesChanged();
@@ -217,6 +293,12 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
     }
 
     @Override
+    protected void handleFluidJump(final Tag<Fluid> fluidTag)
+    {
+        this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(LivingEntity.SWIM_SPEED).getValue(), 0.0D));
+    }
+
+    @Override
     public void remove(final boolean keepData)
     {
         if (!keepData && this.addedToChunk) this.pokemobCap.onRecall();
@@ -238,7 +320,7 @@ public class EntityPokemob extends TameableEntity implements IEntityAdditionalSp
         }
         this.pokemobCap.updateHealth();
         this.pokemobCap.onGenesChanged();
-        final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
+        final IMobGenetics genes = this.getCapability(GeneRegistry.GENETICS_CAP).orElse(this.pokemobCap.genes);
         final PacketBuffer buffer = new PacketBuffer(data);
         final ListNBT list = (ListNBT) GeneRegistry.GENETICS_CAP.writeNBT(genes, null);
         CompoundNBT nbt = new CompoundNBT();

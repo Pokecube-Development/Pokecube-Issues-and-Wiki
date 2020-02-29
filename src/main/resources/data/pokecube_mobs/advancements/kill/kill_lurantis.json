@@ -24,7 +24,6 @@
     "kill_lurantis": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lurantis"
       }
     }

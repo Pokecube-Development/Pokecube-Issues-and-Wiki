@@ -1,26 +1,27 @@
 {
-   "type": "minecraft:entity","pools": [
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "name": "pool_0",
+      "rolls": 1,
+      "entries": [
         {
-            "name": "pool_0",
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "loot_table",
-                    "name": "pokecube:entities/fish_1",
-                    "weight": 1
-                }
-            ]
-        },
-        {
-            "name": "pool_1",
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "loot_table",
-                    "name": "minecraft:entities/squid",
-                    "weight": 1
-                }
-            ]
+          "type": "loot_table",
+          "name": "pokecube:entities/fish_1",
+          "weight": 1
         }
-    ]
+      ]
+    },
+    {
+      "name": "pool_1",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "minecraft:entities/squid",
+          "weight": 1
+        }
+      ]
+    }
+  ]
 }

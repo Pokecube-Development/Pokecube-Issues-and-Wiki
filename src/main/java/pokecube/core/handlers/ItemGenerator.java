@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.LogBlock;
 import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -23,7 +24,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
-import pokecube.core.blocks.berries.BerryLog;
 import pokecube.core.database.Database;
 import pokecube.core.events.onload.RegisterMiscItems;
 import pokecube.core.interfaces.IPokemob;
@@ -114,7 +114,7 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
 
             // Log
-            Block block = new BerryLog(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
+            Block block = new LogBlock(ItemGenerator.berryWoods.get(name), Block.Properties.create(Material.WOOD,
                     MaterialColor.BROWN).hardnessAndResistance(2.0F).sound(SoundType.WOOD));
             block.setRegistryName(PokecubeCore.MODID, "log_" + name);
             ItemGenerator.logs.put(name, block);

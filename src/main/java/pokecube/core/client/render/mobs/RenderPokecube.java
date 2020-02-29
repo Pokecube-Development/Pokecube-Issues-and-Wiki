@@ -1,12 +1,17 @@
 package pokecube.core.client.render.mobs;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -53,9 +58,10 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         {
             // TODO Auto-generated method stub
             mat.push();
-            mat.translate(-0.0, 1.4, -0.0);
+            mat.translate(0.125, 1.5, -0.125);
             final float scale = 0.25f;
             mat.scale(scale, scale, scale);
+            mat.rotate(Vector3f.ZP.rotationDegrees(180));
 
             if (this.cube.isReleasing())
             {
@@ -72,16 +78,34 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {
                 final float rotateY = MathHelper.cos(MathHelper.abs((float) (Math.PI * this.ageInTicks) / 12));
-                mat.rotate(Vector3f.YP.rotation(rotateY));
+                mat.translate(.5, 0.5, 0);
+                mat.rotate(Vector3f.ZP.rotation(rotateY));
+                mat.translate(-.5, -0.5, 0);
             }
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
 
+            RenderType rendertype = RenderTypeLookup.getRenderType(renderStack);
+            RenderType rendertype1;
+            if (Objects.equals(rendertype, Atlases.getTranslucentBlockType()))
+            {
+                rendertype1 = Atlases.getTranslucentCullBlockType();
+            }
+            else
+            {
+                rendertype1 = rendertype;
+            }
+            final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
+                    .getBufferSource();
+            IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(irendertypebuffer$impl, rendertype1, true,
+                    renderStack.hasEffect());
+
             final Minecraft mc = Minecraft.getInstance();
             final IBakedModel ibakedmodel = mc.getItemRenderer().getItemModelWithOverrides(renderStack, this.cube.world,
                     (LivingEntity) null);
-            mc.getItemRenderer().renderModel(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat, bufferIn);
+            mc.getItemRenderer().renderModel(ibakedmodel, renderStack, packedLightIn, packedOverlayIn, mat,
+                    ivertexbuilder);
 
             mat.pop();
         }

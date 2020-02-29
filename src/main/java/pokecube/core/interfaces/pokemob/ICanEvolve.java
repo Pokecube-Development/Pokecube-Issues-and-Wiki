@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -27,6 +28,7 @@ import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.events.pokemob.EvolveEvent;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.HappinessType;
@@ -82,9 +84,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         final PokedexEntry   mega;
         final ITextComponent message;
         final long           evoTime;
-        boolean              set = false;
+        boolean              dynamaxing = false;
+        boolean              set        = false;
 
-        MegaEvoTicker(final PokedexEntry mega, final long evoTime, final IPokemob evolver, final ITextComponent message)
+        MegaEvoTicker(final PokedexEntry mega, final long evoTime, final IPokemob evolver, final ITextComponent message,
+                final boolean dynamaxing)
         {
             this.mob = evolver.getEntity();
             this.world = this.mob.getEntityWorld();
@@ -92,6 +96,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             this.message = message;
             this.mega = mega;
             this.pokemob = evolver;
+            this.dynamaxing = dynamaxing;
 
             // Flag as evolving
             this.pokemob.setGeneralState(GeneralStates.EVOLVING, true);
@@ -125,6 +130,24 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                  */
                 this.pokemob.setGeneralState(GeneralStates.EVOLVING, true);
                 this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                if (this.dynamaxing)
+                {
+                    final boolean dyna = !this.pokemob.getCombatState(CombatStates.DYNAMAX);
+                    this.pokemob.setCombatState(CombatStates.DYNAMAX, dyna);
+                    final float maxHp = this.pokemob.getMaxHealth();
+                    this.pokemob.updateHealth();
+                    // we need to adjust health.
+                    if (dyna)
+                    {
+                        this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
+                        final Long time = evt.world.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                        this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
+                        if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler.getCustomDataTag(this.pokemob
+                                .getOwnerId()).putLong("pokecube:dynatime", time);
+                        this.pokemob.setCombatState(CombatStates.USINGGZMOVE, true);
+                    }
+
+                }
                 this.pokemob.setEvolutionTicks(evoTicks);
 
                 if (this.message != null) this.pokemob.displayMessageToOwner(this.message);
@@ -148,7 +171,25 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm,
             final ITextComponent message)
     {
-        new MegaEvoTicker(newForm, PokecubeCore.getConfig().evolutionTicks / 2, evolver, message);
+        ICanEvolve.setDelayedMegaEvolve(evolver, newForm, message, false);
+    }
+
+    /**
+     * Shedules mega evolution for a few ticks later
+     *
+     * @param evolver
+     *            the mob to schedule to evolve
+     * @param newForm
+     *            the form to evolve to
+     * @param message
+     *            the message to send on completion
+     * @param dynamaxing
+     *            tif true, will set dynamax flag when completed.
+     */
+    public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm,
+            final ITextComponent message, final boolean dynamaxing)
+    {
+        new MegaEvoTicker(newForm, PokecubeCore.getConfig().evolutionTicks / 2, evolver, message, dynamaxing);
     }
 
     /**
@@ -236,7 +277,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (evol != null)
             {
                 // Send evolve event.
-                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol);
+                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
                 PokecubeCore.POKEMOB_BUS.post(evt);
                 if (evt.isCanceled()) return null;
                 // change to new forme.
@@ -246,6 +287,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Init things like moves.
                 evo.getMoveStats().oldLevel = data.level - 1;
                 evo.levelUp(evo.getLevel());
+
+                evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                 // Learn evolution moves and update ability.
                 for (final String s : evo.getPokedexEntry().getEvolutionMoves())
@@ -277,7 +320,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
             if (evol != null)
             {
-                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol);
+                EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
                 MinecraftForge.EVENT_BUS.post(evt);
                 if (evt.isCanceled()) return null;
                 if (delayed)
@@ -306,6 +349,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     if (delayed) evo.getMoveStats().oldLevel = evo.getLevel() - 1;
                     else if (data != null) evo.getMoveStats().oldLevel = data.level - 1;
                     evo.levelUp(evo.getLevel());
+
+                    evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                     // Don't immediately try evolving again, only wild ones
                     // should do that.
@@ -450,7 +495,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             evoMob.setPokedexEntry(newEntry);
 
             // Sync ability back, or store old ability.
-            if (this.getCombatState(CombatStates.MEGAFORME))
+            if (this.getCombatState(CombatStates.MEGAFORME) || this.getCombatState(CombatStates.DYNAMAX))
             {
                 if (thisMob.getAbility() != null) evolution.getPersistentData().putString("Ability", thisMob
                         .getAbility().toString());
@@ -515,4 +560,25 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
 
     }
+
+    /**
+     * This scales the max health of the pokemob when it is dynamaxed or
+     * gigantamaxed
+     *
+     * @return
+     */
+    float getDynamaxFactor();
+
+    /**
+     * This scales the max health of the pokemob when it is dynamaxed or
+     * gigantamaxed
+     *
+     * @return
+     */
+    void setDynamaxFactor(float factor);
+
+    /**
+     * This gets called to notifiy of a dynamax that requires an HP update.
+     */
+    void updateHealth();
 }

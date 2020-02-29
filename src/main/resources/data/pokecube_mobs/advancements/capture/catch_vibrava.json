@@ -24,7 +24,6 @@
     "catch_vibrava": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "vibrava"
       }
     }

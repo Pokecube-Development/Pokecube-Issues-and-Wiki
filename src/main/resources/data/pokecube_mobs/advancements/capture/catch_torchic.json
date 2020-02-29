@@ -24,7 +24,6 @@
     "catch_torchic": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "torchic"
       }
     }

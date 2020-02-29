@@ -24,7 +24,6 @@
     "kill_huntail": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "huntail"
       }
     }

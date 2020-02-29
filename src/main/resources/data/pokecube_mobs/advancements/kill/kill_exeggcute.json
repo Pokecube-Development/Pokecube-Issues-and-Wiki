@@ -24,7 +24,6 @@
     "kill_exeggcute": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "exeggcute"
       }
     }

@@ -24,7 +24,6 @@
     "catch_houndoom": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "houndoom"
       }
     }

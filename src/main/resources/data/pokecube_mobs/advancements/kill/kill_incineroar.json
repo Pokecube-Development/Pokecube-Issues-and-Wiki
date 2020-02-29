@@ -24,7 +24,6 @@
     "kill_incineroar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "incineroar"
       }
     }

@@ -24,7 +24,6 @@
     "kill_electrike": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "electrike"
       }
     }

@@ -24,7 +24,6 @@
     "catch_exeggutor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "exeggutor"
       }
     }

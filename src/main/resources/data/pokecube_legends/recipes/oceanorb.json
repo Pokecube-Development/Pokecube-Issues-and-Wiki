@@ -1,28 +1,20 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "RRR",
-        "RAR",
-        "RRR"
-    ],
-    
-    "key":
-    {
-        "A":
-        {
-            "item": "pokecube_legends:legendaryorb"
-        },
-		"R":
-        {
-            "item": "pokecube_legends:sapphire"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "RAR",
+    "RRR"
+  ],
+  "key": {
+    "A": {
+      "item": "pokecube_legends:legendaryorb"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:oceanorb",
-        "count": 1
+    "R": {
+      "item": "pokecube_legends:sapphire"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:oceanorb",
+    "count": 1
+  }
 }

@@ -24,7 +24,6 @@
     "catch_typhlosion": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "typhlosion"
       }
     }

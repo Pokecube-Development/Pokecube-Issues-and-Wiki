@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.giratina_origin"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.giratina_origin"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "kill_giratina_origin": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "giratina_origin"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

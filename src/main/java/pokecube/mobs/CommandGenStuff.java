@@ -46,7 +46,6 @@ public class CommandGenStuff
             final JsonObject sub = new JsonObject();
             sub.addProperty("trigger", "pokecube:" + id);
             final JsonObject conditions = new JsonObject();
-            if (id.equals("catch") || id.equals("kill")) conditions.addProperty("lenient", true);
             conditions.addProperty("entry", entry.getTrimmedName());
             sub.add("conditions", conditions);
             critmap.add(id + "_" + entry.getTrimmedName(), sub);
@@ -162,7 +161,7 @@ public class CommandGenStuff
         sender.sendMessage(new StringTextComponent("Starting File Output"));
         for (final PokedexEntry e : Database.getSortedFormes())
         {
-            if (e == Database.missingno) continue;
+            if (e == Database.missingno || e.dummy || e.isMega) continue;
             CommandGenStuff.registerAchievements(e);
         }
         sender.sendMessage(new StringTextComponent("Advancements Done"));
@@ -230,7 +229,6 @@ public class CommandGenStuff
             }
             catch (final Exception e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -577,7 +575,6 @@ public class CommandGenStuff
     /** Comment these out to re-generate advancements. */
     public static void registerAchievements(final PokedexEntry entry)
     {
-        if (!entry.base) return;
         CommandGenStuff.make(entry, "catch", "pokecube_mobs:capture/get_first_pokemob", "capture");
         CommandGenStuff.make(entry, "kill", "pokecube_mobs:kill/root", "kill");
         CommandGenStuff.make(entry, "hatch", "pokecube_mobs:hatch/root", "hatch");

@@ -25,7 +25,6 @@
     "catch_moltres": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "moltres"
       }
     }

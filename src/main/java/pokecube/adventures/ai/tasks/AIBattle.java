@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -20,6 +20,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.PokeType;
@@ -48,10 +49,8 @@ public class AIBattle extends AITrainerBase
         if (!this.trainer.getOutMob().getCombatState(CombatStates.ANGRY)) this.trainer.getOutMob().setCombatState(
                 CombatStates.ANGRY, true);
         // check if pokemob's target is same as trainers.
-        if (mobTarget != this.trainer.getTarget() && target == null) // If not,
-                                                                     // set it
-                                                                     // as such.
-            this.trainer.getOutMob().getEntity().setAttackTarget(this.trainer.getTarget());
+        if (mobTarget != this.trainer.getTarget() && target == null) this.trainer.getOutMob().getEntity()
+                .setAttackTarget(this.trainer.getTarget());
         // Return if trainer's pokemob's target is also a pokemob.
         return CapabilityPokemob.getPokemobFor(this.trainer.getOutMob().getEntity().getAttackTarget()) != null;
     }
@@ -110,14 +109,32 @@ public class AIBattle extends AITrainerBase
         final List<Entity> mobs = PCEventsHandler.getOutMobs(this.entity, false);
         if (!mobs.isEmpty())
         {
+            boolean found = false;
             for (final Entity mob : mobs)
                 // Ones not added to chunk are in pokecubes, so wait for them to
                 // exit.
                 if (mob.addedToChunk)
                 {
                     final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-                    if (pokemob != null) this.trainer.setOutMob(pokemob);
-                    return;
+                    if (pokemob != null && !found)
+                    {
+                        this.trainer.setOutMob(pokemob);
+                        found = true;
+                    }
+                    // Prevent players from grabbing the pokecube of the
+                    // trainer.
+                    else if (mob instanceof EntityPokecubeBase)
+                    {
+                        final EntityPokecubeBase cube = (EntityPokecubeBase) mob;
+                        if (cube.canBePickedUp)
+                        {
+                            // This prevents pickup
+                            cube.canBePickedUp = false;
+                            // This makes it send out in 1s regardless of
+                            // hitting anything.
+                            cube.autoRelease = 20;
+                        }
+                    }
                 }
             return;
         }
@@ -215,9 +232,6 @@ public class AIBattle extends AITrainerBase
     public void tick()
     {
         super.tick();
-        ItemStack cube = this.trainer.getNextPokemob();
-        if (this.trainer.getCooldown() > 0) cube = ItemStack.EMPTY;
-        this.entity.setHeldItem(Hand.MAIN_HAND, cube);
         if (this.trainer.getTarget() != null) this.updateTask();
         else if (this.trainer.getOutID() != null) this.resetTask();
         this.trainer.lowerCooldowns();
@@ -239,8 +253,11 @@ public class AIBattle extends AITrainerBase
         if (!this.canPath && this.entity instanceof MobEntity)
         {
             if (this.battleLoc == null) this.battleLoc = this.entity.getPosition();
-            ((MobEntity) this.entity).getNavigator().setPath(((MobEntity) this.entity).getNavigator().getPathToPos(
-                    this.battleLoc, 0), 0.75);
+            final PathNavigator navi = ((MobEntity) this.entity).getNavigator();
+            if (!navi.noPath() && navi.getPath().getFinalPathPoint().func_224758_c(this.battleLoc) > 1) navi
+                    .clearPath();
+            if (this.entity.getPosition().distanceSq(this.battleLoc) > 4) navi.setPath(navi.getPathToPos(this.battleLoc,
+                    0), 0.75);
         }
 
         this.entity.lookAt(Type.EYES, this.trainer.getTarget().getEyePosition(0));

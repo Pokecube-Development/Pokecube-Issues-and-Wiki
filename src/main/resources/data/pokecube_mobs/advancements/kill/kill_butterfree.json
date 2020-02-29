@@ -24,7 +24,6 @@
     "kill_butterfree": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "butterfree"
       }
     }

@@ -24,7 +24,6 @@
     "kill_gothita": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gothita"
       }
     }

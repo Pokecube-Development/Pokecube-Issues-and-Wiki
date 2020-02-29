@@ -24,7 +24,6 @@
     "catch_aerodactyl": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "aerodactyl"
       }
     }

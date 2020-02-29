@@ -24,7 +24,6 @@
     "kill_tsareena": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tsareena"
       }
     }

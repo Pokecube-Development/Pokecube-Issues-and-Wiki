@@ -24,7 +24,6 @@
     "kill_lampent": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lampent"
       }
     }

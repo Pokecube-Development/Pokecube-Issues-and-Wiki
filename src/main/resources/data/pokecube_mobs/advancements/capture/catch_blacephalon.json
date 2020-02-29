@@ -24,7 +24,6 @@
     "catch_blacephalon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "blacephalon"
       }
     }

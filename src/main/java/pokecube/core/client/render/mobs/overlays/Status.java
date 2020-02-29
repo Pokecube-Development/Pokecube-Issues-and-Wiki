@@ -10,6 +10,7 @@ import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.IMobColourable;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.texturing.IPartTexturer;
 
@@ -53,6 +54,12 @@ public class Status
             toFill[0] += this.time;
             toFill[1] += this.time;
             return true;
+        }
+
+        @Override
+        public void init(final CustomTex tex)
+        {
+            // Nope
         }
 
     }

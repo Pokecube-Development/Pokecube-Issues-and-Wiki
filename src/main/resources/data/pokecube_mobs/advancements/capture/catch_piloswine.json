@@ -24,7 +24,6 @@
     "catch_piloswine": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "piloswine"
       }
     }

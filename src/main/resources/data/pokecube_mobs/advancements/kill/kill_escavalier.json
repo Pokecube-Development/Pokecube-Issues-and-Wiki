@@ -24,7 +24,6 @@
     "kill_escavalier": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "escavalier"
       }
     }

@@ -24,7 +24,6 @@
     "catch_fletchling": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "fletchling"
       }
     }

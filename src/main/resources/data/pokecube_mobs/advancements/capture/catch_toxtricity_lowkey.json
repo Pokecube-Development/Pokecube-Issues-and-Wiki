@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity_lowkey"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity_lowkey"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_toxtricity_lowkey": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "toxtricity_lowkey"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_toxel"
+}

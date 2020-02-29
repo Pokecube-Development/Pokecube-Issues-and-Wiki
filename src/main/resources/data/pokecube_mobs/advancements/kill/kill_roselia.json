@@ -24,7 +24,6 @@
     "kill_roselia": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "roselia"
       }
     }

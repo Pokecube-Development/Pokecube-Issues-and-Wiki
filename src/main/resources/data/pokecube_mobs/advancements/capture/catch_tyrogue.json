@@ -24,7 +24,6 @@
     "catch_tyrogue": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tyrogue"
       }
     }

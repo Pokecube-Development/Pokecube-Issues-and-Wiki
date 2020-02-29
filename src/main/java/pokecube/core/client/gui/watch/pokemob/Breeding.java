@@ -52,15 +52,11 @@ public class Breeding extends ListPage<LineEntry>
         final int height = this.font.FONT_HEIGHT * 12;
         int width = 135;
 
-        int y0 = offsetY;
-        int y1 = offsetY + height;
         final int colour = 0xFFFFFFFF;
 
         width = 111;
         final int dx = 25;
         final int dy = -57;
-        y0 += dy;
-        y1 += dy;
         offsetY += dy;
         offsetX += dx;
 
@@ -88,14 +84,14 @@ public class Breeding extends ListPage<LineEntry>
                 .getName()));
         if (this.parent.pokemob.getPokedexEntry().breeds)
         {
-            this.list.addEntry(new LineEntry(this.list, y0, y1, this.font, main, colour).setClickListner(listener));
+            this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
             for (final PokedexEntry entry : this.parent.pokemob.getPokedexEntry().getRelated())
             {
                 main = new TranslationTextComponent(entry.getUnlocalizedName());
                 main.setStyle(new Style());
                 main.getStyle().setColor(TextFormatting.GREEN);
                 main.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName()));
-                this.list.addEntry(new LineEntry(this.list, y0, y1, this.font, main, colour).setClickListner(listener));
+                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
             }
         }
     }

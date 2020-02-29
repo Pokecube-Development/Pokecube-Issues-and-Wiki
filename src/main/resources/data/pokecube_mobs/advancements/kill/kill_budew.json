@@ -24,7 +24,6 @@
     "kill_budew": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "budew"
       }
     }

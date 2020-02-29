@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam_sandy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wormadam_sandy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_wormadam_sandy": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "wormadam_sandy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

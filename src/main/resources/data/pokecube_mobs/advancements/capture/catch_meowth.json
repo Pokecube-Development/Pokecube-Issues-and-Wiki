@@ -24,7 +24,6 @@
     "catch_meowth": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "meowth"
       }
     }

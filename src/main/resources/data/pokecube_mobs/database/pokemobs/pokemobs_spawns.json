@@ -498,7 +498,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Meowth Galar",
       "stats": {
         "spawnRules": [
@@ -506,7 +506,7 @@
             "values": {
               "types": "village",
               "rate": "0.25",
-			  "day": "false"
+              "day": "false"
             }
           }
         ]
@@ -710,9 +710,9 @@
         ]
       }
     },
-	{
+    {
       "name": "Ponyta Galar",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -772,7 +772,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Slowpoke Galar",
       "stats": {
         "spawnRules": [
@@ -833,7 +833,7 @@
       }
     },
     {
-      "name": "Farfetch\u0027d",
+      "name": "Farfetch'd",
       "stats": {
         "spawnRules": [
           {
@@ -857,8 +857,8 @@
         ]
       }
     },
-	{
-      "name": "Farfetch\u0027d Galar",
+    {
+      "name": "Farfetch'd Galar",
       "stats": {
         "spawnRules": [
           {
@@ -1301,7 +1301,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Mr. Mime Galar",
       "stats": {
         "spawnRules": [
@@ -1900,361 +1900,341 @@
       }
     },
     {
-      "name": "Unown_A",
+      "name": "Unown",
       "stats": {
         "spawnRules": [
           {
+            "model": {
+              "key": "unown_a",
+              "tex": "unown_a",
+              "model": "unown_a",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_B",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_b",
+              "tex": "unown_b",
+              "model": "unown_b",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_C",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_c",
+              "tex": "unown_c",
+              "model": "unown_c",
+              "anim": "unown"
+            },
+            "values": {
+              "anim": "unown",
+              "types": "ruin",
+              "rate": "0.03"
+            }
+          },
+          {
+            "model": {
+              "key": "unown_d",
+              "tex": "unown_d",
+              "model": "unown_d",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_D",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_e",
+              "tex": "unown_e",
+              "model": "unown_e",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_E",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_f",
+              "tex": "unown_f",
+              "model": "unown_f",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_Ex",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_g",
+              "tex": "unown_g",
+              "model": "unown_g",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_F",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_h",
+              "tex": "unown_h",
+              "model": "unown_h",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_G",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_i",
+              "tex": "unown_i",
+              "model": "unown_i",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_H",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_j",
+              "tex": "unown_j",
+              "model": "unown_j",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_I",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_k",
+              "tex": "unown_k",
+              "model": "unown_k",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_J",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_l",
+              "tex": "unown_l",
+              "model": "unown_l",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_K",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_m",
+              "tex": "unown_m",
+              "model": "unown_m",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_L",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_n",
+              "tex": "unown_n",
+              "model": "unown_n",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_M",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_o",
+              "tex": "unown_o",
+              "model": "unown_o",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_N",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_p",
+              "tex": "unown_p",
+              "model": "unown_p",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_O",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_q",
+              "tex": "unown_q",
+              "model": "unown_q",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_P",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_r",
+              "tex": "unown_r",
+              "model": "unown_r",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_Q",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_s",
+              "tex": "unown_s",
+              "model": "unown_s",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_Qu",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_t",
+              "tex": "unown_t",
+              "model": "unown_t",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_R",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_u",
+              "tex": "unown_u",
+              "model": "unown_u",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_S",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_v",
+              "tex": "unown_v",
+              "model": "unown_v",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_T",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_w",
+              "tex": "unown_w",
+              "model": "unown_w",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_U",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_x",
+              "tex": "unown_x",
+              "model": "unown_x",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_V",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_y",
+              "tex": "unown_y",
+              "model": "unown_y",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_W",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_z",
+              "tex": "unown_z",
+              "model": "unown_z",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_X",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "unown_qu",
+              "tex": "unown_qu",
+              "model": "unown_qu",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_Y",
-      "stats": {
-        "spawnRules": [
+          },
           {
-            "values": {
-              "types": "ruin",
-              "rate": "0.03"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Unown_Z",
-      "stats": {
-        "spawnRules": [
-          {
+            "model": {
+              "key": "unown_ex",
+              "tex": "unown_ex",
+              "model": "unown_ex",
+              "anim": "unown"
+            },
             "values": {
               "types": "ruin",
               "rate": "0.03"
@@ -2552,7 +2532,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Corsola Galar",
       "stats": {
         "spawnRules": [
@@ -2560,7 +2540,7 @@
             "values": {
               "types": "spooky",
               "rate": "0.08",
-			  "day": "false"
+              "day": "false"
             }
           },
           {
@@ -2940,7 +2920,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Zigzagoon Galar",
       "stats": {
         "spawnRules": [
@@ -2949,7 +2929,7 @@
               "typesBlacklist": "cold",
               "types": "forest",
               "rate": "0.3",
-			  "day": "false"
+              "day": "false"
             }
           },
           {
@@ -2957,7 +2937,7 @@
               "typesBlacklist": "cold",
               "types": "plains",
               "rate": "0.3",
-			  "day": "false"
+              "day": "false"
             }
           }
         ]
@@ -4935,7 +4915,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Shaymin Land",
       "stats": {
         "spawnRules": [
@@ -5575,7 +5555,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Darumaka Galar",
       "stats": {
         "spawnRules": [
@@ -5677,7 +5657,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Yamask Galar",
       "stats": {
         "spawnRules": [
@@ -5685,7 +5665,7 @@
             "values": {
               "types": "cave",
               "rate": "0.5",
-			  "day": "false"
+              "day": "false"
             }
           },
           {
@@ -6118,7 +6098,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Stunfisk Galar",
       "stats": {
         "spawnRules": [
@@ -6282,7 +6262,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Dialga",
       "stats": {
         "spawnRules": [
@@ -6297,7 +6277,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Palkia",
       "stats": {
         "spawnRules": [
@@ -6312,7 +6292,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Giratina",
       "stats": {
         "spawnRules": [
@@ -6327,7 +6307,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Arceus",
       "stats": {
         "spawnRules": [
@@ -6342,7 +6322,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Victini",
       "stats": {
         "spawnRules": [
@@ -6357,7 +6337,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Heatran",
       "stats": {
         "spawnRules": [
@@ -6372,7 +6352,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Regigigas",
       "stats": {
         "spawnRules": [
@@ -6387,7 +6367,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Cobalion",
       "stats": {
         "spawnRules": [
@@ -6402,7 +6382,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Terrakion",
       "stats": {
         "spawnRules": [
@@ -6417,7 +6397,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Virizion",
       "stats": {
         "spawnRules": [
@@ -6432,7 +6412,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Tornadus Incarnate",
       "stats": {
         "spawnRules": [
@@ -6447,7 +6427,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Thundurus Incarnate",
       "stats": {
         "spawnRules": [
@@ -6462,7 +6442,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Landorus Incarnate",
       "stats": {
         "spawnRules": [
@@ -6477,7 +6457,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Keldeo",
       "stats": {
         "spawnRules": [
@@ -6492,7 +6472,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Meloetta Aria",
       "stats": {
         "spawnRules": [
@@ -6507,7 +6487,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Zekrom",
       "stats": {
         "spawnRules": [
@@ -6522,7 +6502,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Reshiram",
       "stats": {
         "spawnRules": [
@@ -6537,7 +6517,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Kyurem",
       "stats": {
         "spawnRules": [
@@ -7046,7 +7026,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Zygarde 10%",
       "stats": {
         "spawnRules": [
@@ -7076,7 +7056,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Hoopa Confined",
       "stats": {
         "spawnRules": [
@@ -7091,7 +7071,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Volcanion",
       "stats": {
         "spawnRules": [
@@ -7106,7 +7086,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Magearna",
       "stats": {
         "spawnRules": [
@@ -7840,7 +7820,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Marshadow",
       "stats": {
         "spawnRules": [
@@ -7855,7 +7835,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Zeraora",
       "stats": {
         "spawnRules": [
@@ -7870,7 +7850,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Tapu Koko",
       "stats": {
         "spawnRules": [
@@ -7885,7 +7865,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Tapu Lele",
       "stats": {
         "spawnRules": [
@@ -7900,7 +7880,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Tapu Fini",
       "stats": {
         "spawnRules": [
@@ -7915,7 +7895,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Tapu Bulu",
       "stats": {
         "spawnRules": [
@@ -7943,7 +7923,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Buzzwole",
       "stats": {
         "spawnRules": [
@@ -7956,7 +7936,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Pheromosa",
       "stats": {
         "spawnRules": [
@@ -7969,7 +7949,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Xurkitree",
       "stats": {
         "spawnRules": [
@@ -7982,7 +7962,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Celesteela",
       "stats": {
         "spawnRules": [
@@ -7995,7 +7975,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Kartana",
       "stats": {
         "spawnRules": [
@@ -8008,7 +7988,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Guzzlord",
       "stats": {
         "spawnRules": [
@@ -8021,7 +8001,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Necrozma",
       "stats": {
         "spawnRules": [
@@ -8036,7 +8016,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Poipole",
       "stats": {
         "spawnRules": [
@@ -8049,7 +8029,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Stakataka",
       "stats": {
         "spawnRules": [
@@ -8062,7 +8042,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Blacephalon",
       "stats": {
         "spawnRules": [
@@ -8075,7 +8055,7 @@
         ]
       }
     },
-	{
+    {
       "name": "Meltan",
       "stats": {
         "spawnRules": [
@@ -8086,11 +8066,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Grookey",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8099,11 +8079,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Scorbunny",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8112,11 +8092,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Sobble",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8125,11 +8105,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Skwovet",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8138,11 +8118,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Rookidee",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8151,11 +8131,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Blipbug",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8164,11 +8144,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Nickit",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8177,11 +8157,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Gossifleur",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8189,18 +8169,18 @@
               "rate": "0.4"
             }
           },
-		  {
-			"values": {
-			  "type": "flower",
-			  "rate": "0.7"
-			}
-		  }
+          {
+            "values": {
+              "type": "flower",
+              "rate": "0.7"
+            }
+          }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Wooloo",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8209,11 +8189,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Chewtle",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8222,11 +8202,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Yamper",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8235,11 +8215,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Rolycoly",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8247,25 +8227,25 @@
               "rate": "0.4"
             }
           },
-		  {
+          {
             "values": {
               "types": "hills",
               "rate": "0.18",
-			  "day": "false"
+              "day": "false"
             }
           },
-		  {
+          {
             "values": {
               "types": "nether",
               "rate": "0.12"
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Applin",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8273,18 +8253,18 @@
               "rate": "0.13"
             }
           },
-		  {
+          {
             "values": {
               "types": "village",
               "rate": "0.2"
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Silicobra",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8293,11 +8273,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Cramorant",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8306,11 +8286,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Arrokuda",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8319,11 +8299,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Toxel",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8332,11 +8312,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Sizzlipede",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8344,18 +8324,18 @@
               "rate": "0.1"
             }
           },
-		  {
+          {
             "values": {
               "types": "sandy",
               "rate": "0.19"
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Clobbopus",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8364,11 +8344,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Sinistea",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8383,11 +8363,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Hatenna",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8396,11 +8376,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Impidimp",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8409,11 +8389,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Milcery",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8422,11 +8402,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Falinks",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8435,11 +8415,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Pincurchin",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8448,11 +8428,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Snom",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8461,11 +8441,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Stonjourner",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8474,11 +8454,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Eiscue",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8487,11 +8467,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Indeedee",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8500,11 +8480,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Morpeko",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8513,11 +8493,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Cufant",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8526,23 +8506,23 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Dracozolt"
-	},
-	{
+    },
+    {
       "name": "Arctozolt"
-	},
-	{
+    },
+    {
       "name": "Dracovish"
-	},
-	{
+    },
+    {
       "name": "Arctovish"
-	},
-	{
+    },
+    {
       "name": "Duraludon",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8551,11 +8531,11 @@
             }
           }
         ]
-	  }
-	},
-	{
+      }
+    },
+    {
       "name": "Dreepy",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8564,11 +8544,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Zacian",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8577,11 +8557,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Zamazenta",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8590,11 +8570,11 @@
             }
           }
         ]
-	  }
+      }
     },
-	{
+    {
       "name": "Eternatus",
-	  "stats": {
+      "stats": {
         "spawnRules": [
           {
             "values": {
@@ -8603,7 +8583,7 @@
             }
           }
         ]
-	  }
+      }
     }
   ]
 }

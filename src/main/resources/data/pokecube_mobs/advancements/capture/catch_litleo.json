@@ -24,7 +24,6 @@
     "catch_litleo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "litleo"
       }
     }

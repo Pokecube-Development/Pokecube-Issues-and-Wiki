@@ -24,7 +24,6 @@
     "catch_zacian": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "zacian"
       }
     }

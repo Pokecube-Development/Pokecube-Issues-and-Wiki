@@ -24,7 +24,6 @@
     "catch_zubat": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "zubat"
       }
     }

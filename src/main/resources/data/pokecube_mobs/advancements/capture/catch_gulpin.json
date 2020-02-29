@@ -24,7 +24,6 @@
     "catch_gulpin": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "gulpin"
       }
     }

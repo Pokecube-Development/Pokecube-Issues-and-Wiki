@@ -24,7 +24,6 @@
     "catch_rhyperior": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rhyperior"
       }
     }

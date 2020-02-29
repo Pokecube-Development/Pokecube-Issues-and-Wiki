@@ -24,7 +24,6 @@
     "kill_electabuzz": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "electabuzz"
       }
     }

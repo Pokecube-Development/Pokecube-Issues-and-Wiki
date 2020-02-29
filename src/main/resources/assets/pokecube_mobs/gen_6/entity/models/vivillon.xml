@@ -4,17 +4,17 @@
   <phase name="global" scale="0.3"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
   <customTex default="vivillonhighplains">
-   <forme name="Vivillon Sun" tex="vivillonsun"/>
-   <forme name="Vivillon Ocean" tex="vivillonocean"/>
-   <forme name="Vivillon Elegant" tex="vivillonelegant"/>
-   <forme name="Vivillon Hell" tex="vivillonhell"/>
-   <forme name="Vivillon End" tex="vivillonend"/>
-   <forme name="Vivillon Highplains" tex="vivillonhighplains"/>
-   <forme name="Vivillon IcySnow" tex="vivillonicysnow"/>
-   <forme name="Vivillon Modern" tex="vivillonmodern"/>
-   <forme name="Vivillon Monsoon" tex="vivillonmonsoon"/>
-   <forme name="Vivillon Polar" tex="vivillonpolar"/>
-   <forme name="Vivillon Sandstorm" tex="vivillonsandstorm"/>
+   <forme name="Vivillon_Sun" tex="vivillonsun"/>
+   <forme name="Vivillon_Ocean" tex="vivillonocean"/>
+   <forme name="Vivillon_Elegant" tex="vivillonelegant"/>
+   <forme name="Vivillon_Hell" tex="vivillonhell"/>
+   <forme name="Vivillon_End" tex="vivillonend"/>
+   <forme name="Vivillon_Highplains" tex="vivillonhighplains"/>
+   <forme name="Vivillon_IcySnow" tex="vivillonicysnow"/>
+   <forme name="Vivillon_Modern" tex="vivillonmodern"/>
+   <forme name="Vivillon_Monsoon" tex="vivillonmonsoon"/>
+   <forme name="Vivillon_Polar" tex="vivillonpolar"/>
+   <forme name="Vivillon_Sandstorm" tex="vivillonsandstorm"/>
   </customTex>
   
   <phase type="idle">

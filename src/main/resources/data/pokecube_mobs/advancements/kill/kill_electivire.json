@@ -24,7 +24,6 @@
     "kill_electivire": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "electivire"
       }
     }

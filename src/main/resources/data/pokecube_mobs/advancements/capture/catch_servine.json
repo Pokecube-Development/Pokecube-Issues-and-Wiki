@@ -24,7 +24,6 @@
     "catch_servine": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "servine"
       }
     }

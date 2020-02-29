@@ -24,7 +24,6 @@
     "kill_roserade": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "roserade"
       }
     }

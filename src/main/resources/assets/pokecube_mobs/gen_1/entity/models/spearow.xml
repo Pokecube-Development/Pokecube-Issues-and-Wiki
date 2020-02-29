@@ -2,6 +2,6 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale="0.35"/>
-  <merges merge="idle-&gt;walking"/>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

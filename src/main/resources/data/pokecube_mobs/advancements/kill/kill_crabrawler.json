@@ -24,7 +24,6 @@
     "kill_crabrawler": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "crabrawler"
       }
     }

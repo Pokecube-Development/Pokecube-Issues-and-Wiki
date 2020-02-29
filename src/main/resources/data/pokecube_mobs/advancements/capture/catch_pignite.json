@@ -24,7 +24,6 @@
     "catch_pignite": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pignite"
       }
     }

@@ -24,7 +24,6 @@
     "catch_shiftry": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shiftry"
       }
     }

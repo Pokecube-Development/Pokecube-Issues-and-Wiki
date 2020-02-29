@@ -24,7 +24,6 @@
     "kill_venusaur": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "venusaur"
       }
     }

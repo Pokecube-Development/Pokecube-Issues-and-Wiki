@@ -24,7 +24,6 @@
     "catch_cryogonal": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cryogonal"
       }
     }

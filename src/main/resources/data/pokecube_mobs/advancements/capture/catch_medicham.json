@@ -24,10 +24,9 @@
     "catch_medicham": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "medicham"
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_meditite_female"
+  "parent": "pokecube_mobs:capture/catch_meditite"
 }

@@ -61,6 +61,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.setExp(statsTag.getInt(TagNames.EXP), false);
             this.setStatus(statsTag.getByte(TagNames.STATUS));
             this.addHappiness(statsTag.getInt(TagNames.HAPPY));
+            this.setDynamaxFactor(statsTag.getFloat(TagNames.DYNAPOWER));
         }
         // Read moves tag
         if (!movesTag.isEmpty())
@@ -110,6 +111,8 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
                 final CompoundNBT pokecubeTag = visualsTag.getCompound(TagNames.POKECUBE);
                 this.setPokecube(ItemStack.read(pokecubeTag));
             }
+            if (visualsTag.contains(TagNames.MODELHOLDER)) this.setCustomHolder(FormeHolder.load(visualsTag.getCompound(
+                    TagNames.MODELHOLDER)));
         }
 
         // Read AI
@@ -167,6 +170,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         statsTag.putInt(TagNames.EXP, this.getExp());
         statsTag.putByte(TagNames.STATUS, this.getStatus());
         statsTag.putInt(TagNames.HAPPY, this.bonusHappiness);
+        statsTag.putFloat(TagNames.DYNAPOWER, this.getDynamaxFactor());
 
         // Write moves tag
         final CompoundNBT movesTag = new CompoundNBT();
@@ -215,6 +219,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         // This is still written for pokecubes to read from. Actual form is
         // stored in genes.
         visualsTag.putString(TagNames.FORME, this.getPokedexEntry().getTrimmedName());
+        if (this.getCustomHolder() != null) visualsTag.put(TagNames.MODELHOLDER, this.getCustomHolder().save());
         visualsTag.putInt(TagNames.SPECIALTAG, this.dataSync().get(this.params.DYECOLOUR));
         final int[] flavourAmounts = new int[5];
         for (int i = 0; i < flavourAmounts.length; i++)

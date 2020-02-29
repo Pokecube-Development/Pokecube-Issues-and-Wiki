@@ -119,9 +119,9 @@ public abstract class PokemobStats extends PokemobGenes
                         if (evo != null) ret = evo;
                     }
                     ret.levelUp(newLvl);
-                    if (this.getEntity().addedToChunk && ret.getOwner() instanceof PlayerEntity && this
-                            .getEntity().getEntityWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT) && !this
-                                    .getEntity().getEntityWorld().isRemote) this.getEntity().getEntityWorld().addEntity(
+                    if (this.getEntity().addedToChunk && ret.getOwner() instanceof PlayerEntity && this.getEntity()
+                            .getEntityWorld().getGameRules().getBoolean(GameRules.DO_MOB_LOOT) && !this.getEntity()
+                                    .getEntityWorld().isRemote) this.getEntity().getEntityWorld().addEntity(
                                             new ExperienceOrbEntity(this.getEntity().getEntityWorld(), this
                                                     .getEntity().posX, this.getEntity().posY, this.getEntity().posZ,
                                                     1));
@@ -168,49 +168,6 @@ public abstract class PokemobStats extends PokemobGenes
     public void setRNGValue(final int value)
     {
         this.personalityValue = value;
-    }
-
-    @Override
-    public void setSize(final float size)
-    {
-        super.setSize(size);
-        // this.getEntity().getSize(this.getEntity().getPose()).scale(size);
-        // float a = 1, b = 1, c = 1;
-        // PokedexEntry entry = getPokedexEntry();
-        // if (entry != null)
-        // {
-        // a = entry.width * getSize();
-        // b = entry.height * getSize();
-        // c = entry.length * getSize();
-        // }
-        //
-        // getEntity().width = a;
-        // getEntity().height = b;
-        // this.length = c;
-        //
-        // if (a > 3 || b > 3 || c > 3)
-        // {
-        // getEntity().ignoreFrustumCheck = true;
-        // }
-        // try
-        // {
-        // SETSIZE.invoke(getEntity(), getEntity().getWidth(),
-        // getEntity().getHeight());
-        // }
-        // catch (Exception e)
-        // {
-        // e.printStackTrace();
-        // }
-        // getEntity().setEntityBoundingBox(
-        // new AxisAlignedBB(getEntity().getBoundingBox().minX,
-        // getEntity().getBoundingBox().minY,
-        // getEntity().getBoundingBox().minZ, getEntity().getBoundingBox().minX
-        // + getEntity().width,
-        // getEntity().getBoundingBox().minY + getEntity().height,
-        // getEntity().getBoundingBox().minZ + getEntity().width));
-        // double max = Math.max(Math.max(a, b), c);
-        // World.MAX_ENTITY_RADIUS = Math.max(World.MAX_ENTITY_RADIUS, max);
-        // mainBox = new Matrix3(a, b, c);
     }
 
     @Override

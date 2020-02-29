@@ -24,7 +24,6 @@
     "catch_cursola": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cursola"
       }
     }

@@ -24,7 +24,6 @@
     "catch_araquanid": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "araquanid"
       }
     }

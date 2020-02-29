@@ -24,7 +24,6 @@
     "catch_watchog": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "watchog"
       }
     }

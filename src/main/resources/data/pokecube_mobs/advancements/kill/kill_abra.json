@@ -24,7 +24,6 @@
     "kill_abra": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "abra"
       }
     }

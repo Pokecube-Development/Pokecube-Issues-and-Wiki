@@ -24,7 +24,6 @@
     "catch_jigglypuff": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "jigglypuff"
       }
     }

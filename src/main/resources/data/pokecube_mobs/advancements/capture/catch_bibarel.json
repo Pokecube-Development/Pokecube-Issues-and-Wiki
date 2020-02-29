@@ -24,7 +24,6 @@
     "catch_bibarel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bibarel"
       }
     }

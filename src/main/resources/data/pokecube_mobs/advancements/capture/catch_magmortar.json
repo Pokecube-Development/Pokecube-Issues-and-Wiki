@@ -24,7 +24,6 @@
     "catch_magmortar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "magmortar"
       }
     }

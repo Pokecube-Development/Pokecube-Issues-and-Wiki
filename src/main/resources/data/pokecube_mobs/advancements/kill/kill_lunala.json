@@ -25,7 +25,6 @@
     "kill_lunala": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lunala"
       }
     }

@@ -25,7 +25,6 @@
     "kill_thundurus_incarnate": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "thundurus_incarnate"
       }
     }

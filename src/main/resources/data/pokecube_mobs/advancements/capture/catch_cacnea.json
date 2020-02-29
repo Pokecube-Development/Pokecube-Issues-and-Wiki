@@ -24,7 +24,6 @@
     "catch_cacnea": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cacnea"
       }
     }

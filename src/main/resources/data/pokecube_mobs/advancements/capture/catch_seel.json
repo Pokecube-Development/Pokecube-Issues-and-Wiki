@@ -24,7 +24,6 @@
     "catch_seel": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "seel"
       }
     }

@@ -24,7 +24,6 @@
     "catch_machamp": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "machamp"
       }
     }

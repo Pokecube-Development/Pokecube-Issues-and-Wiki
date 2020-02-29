@@ -24,7 +24,6 @@
     "catch_muk": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "muk"
       }
     }

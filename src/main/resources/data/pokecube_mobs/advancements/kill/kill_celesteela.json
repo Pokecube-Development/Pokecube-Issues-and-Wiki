@@ -24,7 +24,6 @@
     "kill_celesteela": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "celesteela"
       }
     }

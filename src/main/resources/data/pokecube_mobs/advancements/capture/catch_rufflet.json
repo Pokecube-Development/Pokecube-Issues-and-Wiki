@@ -24,7 +24,6 @@
     "catch_rufflet": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rufflet"
       }
     }

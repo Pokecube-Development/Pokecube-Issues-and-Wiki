@@ -54,7 +54,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     public TrainerNpc(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.pokemobsCap.setType(TypeTrainer.mobTypeMapper.getType(this, true));
+        this.pokemobsCap.setType(TypeTrainer.get(this, true));
         this.enablePersistence();
     }
 
@@ -163,7 +163,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
 
     public TrainerNpc setLevel(final int level)
     {
-        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.getEntityWorld());
+        this.initTeam(level);
         return this;
     }
 
@@ -190,20 +190,31 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         return this;
     }
 
+    @Override
+    public void initTeam(final int level)
+    {
+        TypeTrainer.getRandomTeam(this.pokemobsCap, this, level, this.world);
+    }
+
     public void setTypes()
     {
         if (this.pokemobsCap.getType() == null)
         {
-            this.setType(TypeTrainer.mobTypeMapper.getType(this, false));
-            TypeTrainer.getRandomTeam(this.pokemobsCap, this, 5, this.world);
+            this.setType(TypeTrainer.get(this, false));
+            this.initTeam(5);
         }
         if (this.name.isEmpty())
         {
             final List<String> names = this.isMale() ? TypeTrainer.maleNames : TypeTrainer.femaleNames;
-            if (!names.isEmpty()) this.name = "pokecube." + this.getNpcType().getName() + ".named:"
-                    + names.get(new Random().nextInt(names.size()));
+            if (!names.isEmpty()) this.setRandomName(names.get(new Random().nextInt(names.size())));
             this.setCustomName(this.getDisplayName());
         }
+    }
+
+    @Override
+    public void setRandomName(final String name)
+    {
+        this.name = "pokecube." + this.getNpcType().getName() + ".named:" + name;
     }
 
     @Override

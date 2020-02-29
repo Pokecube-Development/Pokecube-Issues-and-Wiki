@@ -2,19 +2,20 @@ package pokecube.core.client;
 
 import java.security.MessageDigest;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.SimpleSound;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -22,12 +23,11 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.tileentity.SkullTileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.FoliageColors;
@@ -36,14 +36,18 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.CommonProxy;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -60,6 +64,8 @@ import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.client.render.mobs.RenderNPC;
 import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
+import pokecube.core.client.render.mobs.ShoulderLayer.IShoulderHolder;
+import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.client.render.util.URLSkinTexture;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -77,27 +83,30 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokeType;
 import pokecube.nbtedit.NBTEdit;
+import thut.api.maths.Vector3;
 
 public class ClientProxy extends CommonProxy
 {
-    public static KeyBinding                     nextMob;
-    public static KeyBinding                     nextMove;
-    public static KeyBinding                     previousMob;
-    public static KeyBinding                     previousMove;
-    public static KeyBinding                     mobBack;
-    public static KeyBinding                     mobAttack;
-    public static KeyBinding                     mobStance;
-    public static KeyBinding                     mobMegavolve;
-    public static KeyBinding                     noEvolve;
-    public static KeyBinding                     mobMove1;
-    public static KeyBinding                     mobMove2;
-    public static KeyBinding                     mobMove3;
-    public static KeyBinding                     mobMove4;
-    public static KeyBinding                     mobUp;
-    public static KeyBinding                     mobDown;
-    public static KeyBinding                     throttleUp;
-    public static KeyBinding                     throttleDown;
-    public static KeyBinding                     arrangeGui;
+    public static KeyBinding nextMob;
+    public static KeyBinding nextMove;
+    public static KeyBinding previousMob;
+    public static KeyBinding previousMove;
+    public static KeyBinding mobBack;
+    public static KeyBinding mobAttack;
+    public static KeyBinding mobStance;
+    public static KeyBinding mobMegavolve;
+    public static KeyBinding noEvolve;
+    public static KeyBinding mobMove1;
+    public static KeyBinding mobMove2;
+    public static KeyBinding mobMove3;
+    public static KeyBinding mobMove4;
+    public static KeyBinding gzmove;
+    public static KeyBinding mobUp;
+    public static KeyBinding mobDown;
+    public static KeyBinding throttleUp;
+    public static KeyBinding throttleDown;
+    public static KeyBinding arrangeGui;
+    public static KeyBinding animateGui;
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
@@ -203,16 +212,6 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public boolean hasSound(final BlockPos pos)
-    {
-        final ISound old = Minecraft.getInstance().worldRenderer.mapSoundPositions.get(pos);
-        if (old == null) return false;
-        final boolean var = Minecraft.getInstance().getSoundHandler().isPlaying(old);
-        if (!var) Minecraft.getInstance().worldRenderer.mapSoundPositions.remove(pos);
-        return var;
-    }
-
-    @Override
     public void loaded(final FMLLoadCompleteEvent event)
     {
         super.loaded(event);
@@ -275,6 +274,12 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(ClientProxy.arrangeGui = new KeyBinding("key.pokemob.arrangegui",
                 InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
 
+        ClientRegistry.registerKeyBinding(ClientProxy.animateGui = new KeyBinding("key.pokemob.animategui",
+                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+
+        ClientRegistry.registerKeyBinding(ClientProxy.gzmove = new KeyBinding("key.pokemob.gzmove",
+                InputMappings.INPUT_INVALID.getKeyCode(), "Pokecube"));
+
         // Forward this to PCEdit mod:
         NBTEdit.setupClient(event);
 
@@ -310,7 +315,7 @@ public class ClientProxy extends CommonProxy
 
         for (final PokedexEntry e : Database.getSortedFormes())
         {
-            final EntityType<TameableEntity> t = PokecubeCore.typeMap.get(e);
+            final EntityType<ShoulderRidingEntity> t = PokecubeCore.typeMap.get(e);
             RenderingRegistry.registerEntityRenderingHandler(t, (manager) -> new RenderPokemob(e, manager));
         }
         RenderingRegistry.registerEntityRenderingHandler(EntityPokecube.TYPE, RenderPokecube::new);
@@ -318,36 +323,67 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(NpcMob.TYPE, RenderNPC::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPokemobEgg.TYPE, RenderEgg::new);
 
+        // Register shouldercap
+        CapabilityManager.INSTANCE.register(IShoulderHolder.class, IShoulderHolder.STORAGE, ShoulderHolder::new);
+
+    }
+
+    private final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
+    private final Map<SoundEvent, Integer>       move_sounds       = Maps.newHashMap();
+    private final Map<SoundEvent, Vector3>       move_positions    = Maps.newHashMap();
+
+    @SubscribeEvent
+    public void worldTick(final ClientTickEvent event)
+    {
+        final Set<SoundEvent> stale = Sets.newHashSet();
+        for (final Map.Entry<SoundEvent, Integer> entry : this.move_sounds.entrySet())
+        {
+            final Integer tick = entry.getValue() - 1;
+            if (tick < 0) stale.add(entry.getKey());
+            entry.setValue(tick);
+        }
+        for (final SoundEvent e : stale)
+        {
+            final Vector3 pos = this.move_positions.remove(e);
+            this.move_sounds.remove(e);
+            Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos));
+        }
     }
 
     @Override
-    public void toggleSound(final SoundEvent sound, final BlockPos pos, final boolean play, final boolean loops,
-            final SoundCategory category, final int maxDistance)
+    public void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
-        if (sound != null)
+        this.move_positions.clear();
+        this.move_sounds.clear();
+        this.pokecenter_sounds.clear();
+    }
+
+    @Override
+    public void moveSound(final Vector3 pos, final SoundEvent event)
+    {
+        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        final Vector3 pos1 = Vector3.getNewVector().set(player);
+        final double dist = pos1.distanceTo(pos);
+        // Implement a speed of sound delay to this.
+        final int delay = (int) (dist * 20.0 / 340.0);
+        this.move_sounds.put(event, delay);
+        this.move_positions.put(event, pos.copy());
+    }
+
+    @Override
+    public void pokecenterloop(final HealerTile tileIn, final boolean play)
+    {
+        if (play && !this.pokecenter_sounds.containsKey(tileIn.getPos()))
         {
-            final ISound old = Minecraft.getInstance().worldRenderer.mapSoundPositions.get(pos);
-            if (play)
-            {
-                if (this.hasSound(pos))
-                {
-                    Minecraft.getInstance().worldRenderer.mapSoundPositions.remove(pos);
-                    Minecraft.getInstance().getSoundHandler().stop(sound.getName(), category);
-                }
-                double distance = Minecraft.getInstance().player.getPosition().distanceSq(pos);
-                distance = Math.sqrt(distance);
-                if (distance > maxDistance) return;
-                // if (volume < 0.05) return;
-                final ISound simplesound = new SimpleSound(sound.getName(), category, 1.0f, 1.0F, loops, 0,
-                        ISound.AttenuationType.LINEAR, pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f, false);
-                Minecraft.getInstance().worldRenderer.mapSoundPositions.put(pos, simplesound);
-                Minecraft.getInstance().getSoundHandler().play(simplesound);
-            }
-            else if (old != null)
-            {
-                Minecraft.getInstance().worldRenderer.mapSoundPositions.remove(pos);
-                Minecraft.getInstance().getSoundHandler().stop(sound.getName(), category);
-            }
+            final PokecenterSound sound = new PokecenterSound(tileIn);
+            Minecraft.getInstance().getSoundHandler().play(sound);
+            this.pokecenter_sounds.put(tileIn.getPos(), sound);
         }
+        else if (!play && this.pokecenter_sounds.containsKey(tileIn.getPos()))
+        {
+            final PokecenterSound sound = this.pokecenter_sounds.remove(tileIn);
+            Minecraft.getInstance().getSoundHandler().stop(sound);
+        }
+
     }
 }

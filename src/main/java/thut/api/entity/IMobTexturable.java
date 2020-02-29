@@ -9,6 +9,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
+import thut.core.client.render.animation.AnimationXML.Phase;
 
 public interface IMobTexturable
 {
@@ -22,12 +23,14 @@ public interface IMobTexturable
     {
 
         @Override
-        public void readNBT(Capability<IMobTexturable> capability, IMobTexturable instance, Direction side, INBT nbt)
+        public void readNBT(final Capability<IMobTexturable> capability, final IMobTexturable instance,
+                final Direction side, final INBT nbt)
         {
         }
 
         @Override
-        public INBT writeNBT(Capability<IMobTexturable> capability, IMobTexturable instance, Direction side)
+        public INBT writeNBT(final Capability<IMobTexturable> capability, final IMobTexturable instance,
+                final Direction side)
         {
             return null;
         }
@@ -44,7 +47,7 @@ public interface IMobTexturable
         return null;
     }
 
-    default ResourceLocation getTexture(@Nullable String part)
+    default ResourceLocation getTexture(@Nullable final String part)
     {
         return new ResourceLocation(this.getModId(), part);
     }
@@ -54,9 +57,14 @@ public interface IMobTexturable
         return null;
     }
 
-    default ResourceLocation preApply(ResourceLocation in)
+    default ResourceLocation preApply(final ResourceLocation in)
     {
         return in;
+    }
+
+    default void applyTexturePhase(final Phase phase)
+    {
+        // Most things don't care about this, pokemobs do, they use it.
     }
 
 }

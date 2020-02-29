@@ -24,7 +24,6 @@
     "catch_sandslash": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sandslash"
       }
     }

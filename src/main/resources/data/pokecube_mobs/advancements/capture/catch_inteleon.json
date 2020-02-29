@@ -24,7 +24,6 @@
     "catch_inteleon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "inteleon"
       }
     }

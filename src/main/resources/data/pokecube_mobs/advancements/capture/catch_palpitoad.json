@@ -24,7 +24,6 @@
     "catch_palpitoad": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "palpitoad"
       }
     }

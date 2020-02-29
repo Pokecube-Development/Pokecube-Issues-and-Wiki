@@ -24,7 +24,6 @@
     "catch_poliwhirl": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "poliwhirl"
       }
     }

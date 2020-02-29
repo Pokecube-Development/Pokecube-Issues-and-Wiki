@@ -24,7 +24,6 @@
     "kill_snorunt": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "snorunt"
       }
     }

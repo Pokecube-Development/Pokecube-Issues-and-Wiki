@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_water"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.silvally_water"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_silvally_water": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "silvally_water"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

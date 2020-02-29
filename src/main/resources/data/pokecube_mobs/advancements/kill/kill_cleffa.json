@@ -24,7 +24,6 @@
     "kill_cleffa": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cleffa"
       }
     }

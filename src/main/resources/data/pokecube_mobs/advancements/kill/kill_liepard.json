@@ -24,7 +24,6 @@
     "kill_liepard": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "liepard"
       }
     }

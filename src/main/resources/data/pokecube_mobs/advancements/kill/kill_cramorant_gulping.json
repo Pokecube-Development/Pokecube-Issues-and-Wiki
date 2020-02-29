@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant_gulping"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cramorant_gulping"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cramorant_gulping": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cramorant_gulping"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

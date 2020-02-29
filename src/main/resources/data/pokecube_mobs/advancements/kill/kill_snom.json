@@ -24,7 +24,6 @@
     "kill_snom": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "snom"
       }
     }

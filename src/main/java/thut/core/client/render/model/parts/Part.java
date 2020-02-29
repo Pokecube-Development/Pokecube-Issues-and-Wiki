@@ -13,11 +13,14 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.api.maths.vecmath.Vector3f;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
+import thut.core.common.ThutCore;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
@@ -78,10 +81,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final Mesh shape : this.shapes)
         {
             ResourceLocation tex_1 = tex;
+            // Apply material only, we make these if defined anyay.
             if (texer.hasMapping(shape.material.name)) tex_1 = texer.getTexture(shape.material.name, tex);
-            else if (texer.hasMapping(shape.name)) tex_1 = texer.getTexture(shape.name, tex);
-            else if (texer.hasMapping(shape.name)) tex_1 = texer.getTexture(shape.name, tex);
-            if (tex_1 != tex) shape.material.makeVertexBuilder(tex_1, bufferIn);
+            shape.material.flat = texer.isFlat(shape.material.name);
+            shape.material.makeVertexBuilder(tex_1, bufferIn);
         }
     }
 
@@ -96,18 +99,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public List<Material> getMaterials()
     {
         return this.materials;
-    }
-
-    public void addForRender(final MatrixStack mat, final IVertexBuilder buffer)
-    {
-        // Fill the int array
-        this.getRGBABrO();
-        for (final Mesh s : this.shapes)
-        {
-            s.rgbabro = this.rgbabro;
-            // Render each Shape
-            s.renderShape(mat, buffer, this.texturer);
-        }
     }
 
     @Override
@@ -173,10 +164,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRot.glRotate(mat);
         // Translate by post-PreOffset amount.
         mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
-        // Undo pre-translate offset.
-        mat.translate(-this.offset.x, -this.offset.y, -this.offset.z);
-        // Translate to Offset.
-        mat.translate(this.offset.x, this.offset.y, this.offset.z);
 
         // Apply postRotation
         this.postRot.glRotate(mat);
@@ -188,8 +175,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void render(final MatrixStack mat, final IVertexBuilder buffer)
     {
         if (this.hidden) return;
-        // Renders the model.
-        this.addForRender(mat, buffer);
+        // Fill the int array
+        int[] rgbabro = this.getRGBABrO();
+        for (final Mesh s : this.shapes)
+        {
+            s.rgbabro = rgbabro;
+            // Render each Shape
+            s.renderShape(mat, buffer, this.texturer);
+        }
     }
 
     @Override
@@ -201,14 +194,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
     {
-        boolean skip = false;
+        boolean skip = this.hidden;
         for (final String s1 : excludedGroupNames)
             if (skip = s1.equalsIgnoreCase(this.name)) break;
-        this.preRender(mat);
-        if (!skip) this.render(mat, buffer);
-        for (final IExtendedModelPart o : this.childParts.values())
-            o.renderAllExcept(mat, buffer, excludedGroupNames);
-        this.postRender(mat);
+        if (!skip)
+        {
+            this.preRender(mat);
+            for (final IExtendedModelPart o : this.childParts.values())
+                o.renderAllExcept(mat, buffer, excludedGroupNames);
+            this.render(mat, buffer);
+            this.postRender(mat);
+        }
     }
 
     @Override
@@ -226,15 +222,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (!rendered)
         {
             this.preRender(mat);
+            for (final IExtendedModelPart o : this.childParts.values())
+                o.renderOnly(mat, buffer, groupNames);
             this.postRender(mat);
-        }
-        for (final IExtendedModelPart o : this.childParts.values())
-        {
-            mat.push();
-            mat.translate(this.offset.x, this.offset.y, this.offset.z);
-            mat.scale(this.scale.x, this.scale.y, this.scale.z);
-            o.renderOnly(mat, buffer, groupNames);
-            mat.pop();
         }
     }
 
@@ -253,6 +243,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.clear();
         this.postTrans.clear();
+        this.hidden = false;
     }
 
     @Override
@@ -336,5 +327,23 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.texturer = texturer;
         for (final IExtendedModelPart part : this.childParts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(texturer);
+    }
+
+    @Override
+    public void updateMaterial(final Mat mat)
+    {
+        final String mat_name = ThutCore.trim(mat.name);
+        final String[] parts = mat.name.split(":");
+        final Material material = new Material(mat_name);
+        material.diffuseColor = new Vector3f(1, 1, 1);
+        material.emissiveColor = new Vector3f(1, 1, 1);
+        material.specularColor = new Vector3f(1, 1, 1);
+        material.transparency = mat.transluscent ? 1 : 0;
+        for (final String s : parts)
+            for (final Mesh mesh : this.shapes)
+            {
+                if (mesh.name == null) mesh.name = this.getName();
+                if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat_name)) mesh.setMaterial(material);
+            }
     }
 }

@@ -24,7 +24,6 @@
     "catch_weezing": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "weezing"
       }
     }

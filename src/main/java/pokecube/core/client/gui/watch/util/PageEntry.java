@@ -2,8 +2,9 @@ package pokecube.core.client.gui.watch.util;
 
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.AbstractList;
+import pokecube.core.client.gui.helper.INotifiedEntry;
 
-public class PageEntry extends AbstractList.AbstractListEntry<PageEntry>
+public class PageEntry extends AbstractList.AbstractListEntry<PageEntry> implements INotifiedEntry
 {
     public final Button button;
     final int           top;
@@ -20,24 +21,21 @@ public class PageEntry extends AbstractList.AbstractListEntry<PageEntry>
     }
 
     @Override
-    public void render(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+    public void preRender(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
         this.button.visible = false;
         this.button.active = false;
-        // Note that x and y are reversed for this method...
-        if (x > this.top && x < this.top + 90)
-        {
-            this.button.x = y;
-            this.button.y = x;
-            this.button.visible = true;
-            this.button.active = true;
+    }
 
-        }
-        else
-        {
-            this.button.visible = false;
-            this.button.active = false;
-        }
+    @Override
+    public void render(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight,
+            final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
+    {
+        // Note that this seems to send these backwards.
+        this.button.x = y;
+        this.button.y = x;
+        this.button.visible = true;
+        this.button.active = true;
     }
 }

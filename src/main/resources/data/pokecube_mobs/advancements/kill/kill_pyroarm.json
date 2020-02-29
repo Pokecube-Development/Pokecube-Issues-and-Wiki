@@ -21,11 +21,10 @@
     }
   },
   "criteria": {
-    "kill_pyroarm": {
+    "kill_pyroar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
-        "entry": "pyroarm"
+        "entry": "pyroar"
       }
     }
   },

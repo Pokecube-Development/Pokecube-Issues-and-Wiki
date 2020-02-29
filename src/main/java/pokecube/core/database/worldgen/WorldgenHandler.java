@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,7 +24,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -91,6 +95,8 @@ public class WorldgenHandler
         public SpawnRule spawn;
         public boolean   surface   = true;
         public boolean   water     = false;
+        public boolean   whitelist = false;
+        public int[]     list      = {};
 
         public String serialize()
         {
@@ -109,25 +115,28 @@ public class WorldgenHandler
         public static class JigSawPart
         {
             public String       name;
-            public String       target    = "empty";
+            public String       target     = "empty";
             public List<String> options;
-            public boolean      rigid     = true;
-            public boolean      ignoreAir = true;
+            public boolean      rigid      = true;
+            public boolean      ignoreAir  = true;
+            public boolean      filler     = false;
+            public boolean      base_under = false;
         }
 
         public String           name;
+        public String           name_override = "";
         public JigSawPart       root;
-        public float            chance     = 1;
-        public int              offset     = 0;
-        public int              size       = 4;
-        public int              distance   = 8;
-        public int              separation = 4;
-        public String           biomeType  = "ruin";
+        public float            chance        = 1;
+        public int              offset        = 0;
+        public int              size          = 4;
+        public int              distance      = 8;
+        public int              separation    = 4;
+        public String           biomeType     = "ruin";
         public SpawnRule        spawn;
-        public boolean          surface    = true;
-        public boolean          water      = false;
-        public boolean          atSpawn    = false;
-        public List<JigSawPart> parts      = Lists.newArrayList();
+        public boolean          surface       = true;
+        public boolean          water         = false;
+        public boolean          atSpawn       = false;
+        public List<JigSawPart> parts         = Lists.newArrayList();
 
         public String serialize()
         {
@@ -215,6 +224,7 @@ public class WorldgenHandler
             final JigsawConfig config = new JigsawConfig(struct);
             final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                     : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
+            if (struct.biomeType.equals("village")) this.forceVillageFeature(toAdd);
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!matcher.checkBiome(b)) continue;
@@ -224,5 +234,26 @@ public class WorldgenHandler
 
         }
         PokecubeMod.LOGGER.debug("Loaded configurable worldgen");
+    }
+
+    private Field illagers = null;
+
+    private void forceVillageFeature(final Structure<?> feature)
+    {
+        if (this.illagers == null) this.illagers = ObfuscationReflectionHelper.findField(Feature.class,
+                "field_214488_aQ");
+        final List<Structure<?>> list = Lists.newArrayList(Feature.ILLAGER_STRUCTURES);
+        list.add(feature);
+        try
+        {
+            final Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(this.illagers, this.illagers.getModifiers() & ~Modifier.FINAL);
+            this.illagers.set(null, list);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -24,7 +24,6 @@
     "catch_golduck": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "golduck"
       }
     }

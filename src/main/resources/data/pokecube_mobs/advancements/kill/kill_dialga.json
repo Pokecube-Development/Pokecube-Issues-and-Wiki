@@ -25,7 +25,6 @@
     "kill_dialga": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dialga"
       }
     }

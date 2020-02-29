@@ -24,7 +24,6 @@
     "catch_arctovish": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "arctovish"
       }
     }

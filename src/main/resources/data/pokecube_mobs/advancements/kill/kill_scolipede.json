@@ -24,7 +24,6 @@
     "kill_scolipede": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "scolipede"
       }
     }

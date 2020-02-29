@@ -24,7 +24,6 @@
     "catch_frosmoth": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "frosmoth"
       }
     }

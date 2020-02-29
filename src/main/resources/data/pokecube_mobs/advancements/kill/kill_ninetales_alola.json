@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ninetales_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ninetales_alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ninetales_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_vulpix_alola"
+}

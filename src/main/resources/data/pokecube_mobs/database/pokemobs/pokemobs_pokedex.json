@@ -441,6 +441,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -470,7 +471,7 @@
         "evolutionMoves": "wingattack"
       }
     },
-	{
+    {
       "name": "Charizard Gigantamax",
       "number": 6,
       "stats": {
@@ -508,7 +509,13 @@
             "hidden": "Solar Power"
           }
         },
-        "mass": 90.5
+        "mass": 90.5,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -1037,7 +1044,7 @@
         "evolutionMoves": "gust"
       }
     },
-	{
+    {
       "name": "Butterfree Gigantamax",
       "number": 12,
       "stats": {
@@ -1077,6 +1084,12 @@
           }
         },
         "mass": 32.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -1306,6 +1319,12 @@
           }
         },
         "mass": 40.5,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -1505,6 +1524,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -1561,6 +1581,12 @@
           }
         },
         "mass": 50.5,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -1929,6 +1955,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -2179,7 +2206,7 @@
         }
       }
     },
-	{
+    {
       "name": "Pikachu Gigantamax",
       "number": 25,
       "stats": {
@@ -4513,7 +4540,7 @@
         "evolutionMoves": "sandtomb"
       }
     },
-	{
+    {
       "name": "Meowth Gigantamax",
       "number": 52,
       "stats": {
@@ -4605,7 +4632,7 @@
         }
       }
     },
-	{
+    {
       "name": "Meowth Galar",
       "number": 52,
       "stats": {
@@ -4639,7 +4666,7 @@
         "abilities": {
           "values": {
             "normal": "Pickup, Tough Claws",
-			"hidden": "Unnerve"
+            "hidden": "Unnerve"
           }
         },
         "mass": 7.5,
@@ -4658,17 +4685,17 @@
         "lvlupMoves": {
           "values": {
             "1": "fakeout,growl",
-			"4": "honeclaws",
-			"8": "scratch",
-			"12": "payday",
-			"16": "metalclaw",
-			"20": "taunt",
-			"24": "swagger",
-			"29": "furyswipes",
-			"32": "screech",
-			"36": "slash",
-			"40": "metalsound",
-			"44": "thrash"
+            "4": "honeclaws",
+            "8": "scratch",
+            "12": "payday",
+            "16": "metalclaw",
+            "20": "taunt",
+            "24": "swagger",
+            "29": "furyswipes",
+            "32": "screech",
+            "36": "slash",
+            "40": "metalsound",
+            "44": "thrash"
           }
         },
         "misc": {
@@ -4929,6 +4956,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -5362,6 +5390,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -5436,6 +5465,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -5920,7 +5950,7 @@
         "evolutionMoves": "strength"
       }
     },
-	{
+    {
       "name": "Machamp Gigantamax",
       "number": 68,
       "stats": {
@@ -6781,7 +6811,7 @@
         }
       }
     },
-	{
+    {
       "name": "Ponyta Galar",
       "number": 77,
       "stats": {
@@ -6815,7 +6845,7 @@
         "abilities": {
           "values": {
             "normal": "Run Away,Pastel Veil",
-			"hidden": "Anticipation"
+            "hidden": "Anticipation"
           }
         },
         "mass": 24.0,
@@ -6834,17 +6864,17 @@
         "lvlupMoves": {
           "values": {
             "1": "growl,tackle",
-			"5": "tailwhip",
-			"10": "confusion",
-			"15": "fairywind",
-			"20": "agility",
-			"25": "psybeam",
-			"30": "stomp",
-			"35": "healpulse",
-			"41": "takedown",
-			"45": "dazzlinggleam",
-			"50": "psychic",
-			"55": "healingwish"
+            "5": "tailwhip",
+            "10": "confusion",
+            "15": "fairywind",
+            "20": "agility",
+            "25": "psybeam",
+            "30": "stomp",
+            "35": "healpulse",
+            "41": "takedown",
+            "45": "dazzlinggleam",
+            "50": "psychic",
+            "55": "healingwish"
           }
         },
         "misc": {
@@ -6925,7 +6955,7 @@
         "evolutionMoves": "furyattack"
       }
     },
-	{
+    {
       "name": "Rapidash Galar",
       "number": 78,
       "stats": {
@@ -6954,13 +6984,13 @@
         "types": {
           "values": {
             "type1": "Psychic",
-			"type2": "Fairy"
+            "type2": "Fairy"
           }
         },
         "abilities": {
           "values": {
             "normal": "Run Away,Pastel Veil",
-			"hidden": "Anticipation"
+            "hidden": "Anticipation"
           }
         },
         "mass": 80.0,
@@ -6979,15 +7009,15 @@
         "lvlupMoves": {
           "values": {
             "1": "growl,tackle,psychocut,megahorn,quickattack,tailwhip,confusion",
-			"15": "fairywind",
-			"20": "agility",
-			"25": "psybeam",
-			"30": "stomp",
-			"35": "healpulse",
-			"43": "takedown",
-			"49": "dazzlinggleam",
-			"56": "psychic",
-			"63": "healingwish"
+            "15": "fairywind",
+            "20": "agility",
+            "25": "psybeam",
+            "30": "stomp",
+            "35": "healpulse",
+            "43": "takedown",
+            "49": "dazzlinggleam",
+            "56": "psychic",
+            "63": "healingwish"
           }
         },
         "misc": {
@@ -7069,7 +7099,7 @@
         }
       }
     },
-	{
+    {
       "name": "Slowpoke Galar",
       "number": 79,
       "stats": {
@@ -7134,8 +7164,8 @@
             "33": "slackoff",
             "36": "psychic",
             "39": "psychup",
-			"42": "raindance",
-			"45": "healpulse"
+            "42": "raindance",
+            "45": "healpulse"
           }
         },
         "misc": {
@@ -7240,7 +7270,13 @@
             "normal": "Shell Armor"
           }
         },
-        "mass": 120.0
+        "mass": 120.0,
+        "logics": {
+          "values": {
+            "dive": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -7401,7 +7437,7 @@
       }
     },
     {
-      "name": "Farfetch\u0027d",
+      "name": "Farfetch'd",
       "number": 83,
       "base": true,
       "stats": {
@@ -7475,8 +7511,8 @@
         }
       }
     },
-	{
-      "name": "Farfetch\u0027d Galar",
+    {
+      "name": "Farfetch'd Galar",
       "number": 83,
       "stats": {
         "stats": {
@@ -7509,7 +7545,7 @@
         "abilities": {
           "values": {
             "normal": "Steadfast",
-			"hidden": "Scrappy"
+            "hidden": "Scrappy"
           }
         },
         "mass": 42.0,
@@ -7528,19 +7564,19 @@
         "lvlupMoves": {
           "values": {
             "1": "peck,sandattack",
-			"5": "leer",
-			"10": "furycutter",
-			"15": "rocksmash",
-			"20": "brutalswing",
-			"25": "detect",
-			"30": "knockoff",
-			"35": "defog",
-			"40": "brickbreak",
-			"45": "swordsdance",
-			"50": "slam",
-			"55": "leafblade",
-			"60": "finalgambit",
-			"65": "bravebird"
+            "5": "leer",
+            "10": "furycutter",
+            "15": "rocksmash",
+            "20": "brutalswing",
+            "25": "detect",
+            "30": "knockoff",
+            "35": "defog",
+            "40": "brickbreak",
+            "45": "swordsdance",
+            "50": "slam",
+            "55": "leafblade",
+            "60": "finalgambit",
+            "65": "bravebird"
           }
         },
         "misc": {
@@ -7824,6 +7860,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -8463,6 +8500,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -8492,7 +8530,7 @@
         "evolutionMoves": "shadowpunch"
       }
     },
-	    {
+    {
       "name": "Gengar Gigantamax",
       "number": 94,
       "stats": {
@@ -8644,22 +8682,22 @@
           {
             "name": "-1",
             "offset": "0,0,-2",
-            "dimensions": "-0.5,-0.5,-0.5-\u003e0.5,0.5,0.5"
+            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
           },
           {
             "name": "0",
             "offset": "0,0,-1",
-            "dimensions": "-0.5,-0.5,-0.5-\u003e0.5,0.5,0.5"
+            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
           },
           {
             "name": "1",
             "offset": "0,0,0",
-            "dimensions": "-0.5,-0.5,-0.5-\u003e0.5,0.5,0.5"
+            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
           },
           {
             "name": "2",
             "offset": "0,0,1",
-            "dimensions": "-0.5,-0.5,-0.5-\u003e0.5,0.5,0.5"
+            "dimensions": "-0.5,-0.5,-0.5->0.5,0.5,0.5"
           }
         ]
       }
@@ -8962,7 +9000,7 @@
         }
       }
     },
-	{
+    {
       "name": "Kingler Gigantamax",
       "number": 99,
       "stats": {
@@ -9865,7 +9903,6 @@
         },
         "types": {
           "values": {
-            "type2": "Rock",
             "type1": "Poison"
           }
         },
@@ -9911,7 +9948,7 @@
         "evolutionMoves": "doublehit"
       }
     },
-	{
+    {
       "name": "Weezing Galar",
       "number": 110,
       "stats": {
@@ -9940,13 +9977,13 @@
         "types": {
           "values": {
             "type1": "Poison",
-			"type2": "Fairy"
+            "type2": "Fairy"
           }
         },
         "abilities": {
           "values": {
             "normal": "Levitate, Neutralizing Gas",
-			"hidden": "Misty Surge"
+            "hidden": "Misty Surge"
           }
         },
         "mass": 16.0,
@@ -9965,24 +10002,24 @@
         "lvlupMoves": {
           "values": {
             "1": "aromaticmist,defog,doublehit,fairywind,haze,heatwave,poisongas,smog,smokescreen,strangesteam,tackle",
-			"12": "clearsmog",
-			"16": "assurance",
-			"20": "sludge",
-			"24": "aromatherapy",
-			"28": "selfdestruct",
-			"32": "sludgebomb",
-			"38": "toxic",
-			"44": "belch",
-			"50": "explosion",
-			"56": "memento",
-			"62": "destinybond",
-			"68": "mistyterrain"
+            "12": "clearsmog",
+            "16": "assurance",
+            "20": "sludge",
+            "24": "aromatherapy",
+            "28": "selfdestruct",
+            "32": "sludgebomb",
+            "38": "toxic",
+            "44": "belch",
+            "50": "explosion",
+            "56": "memento",
+            "62": "destinybond",
+            "68": "mistyterrain"
           }
         },
         "misc": {
           "moves": "flamethrower,thunderbolt,thunder,fireblast,substitute,sludgebomb,endure,sleeptalk,shadowball,uproar,heatwave,taunt,overheat,gyroball,toxicspikes,darkpulse,sludgewave,playrough,venomdrench,dazzlinggleam,hyperbeam,gigaimpact,screech,selfdestruct,rest,thief,snore,protect,attract,raindance,sunnyday,willowisp,facade,payback,assurance,wonderroom,venoshock,round,mistyterrain,brutalswing"
         },
-		"evolutionMoves": "doublehit"
+        "evolutionMoves": "doublehit"
       }
     },
     {
@@ -10894,7 +10931,7 @@
         }
       }
     },
-	{
+    {
       "name": "Mr. Mime Galar",
       "number": 122,
       "stats": {
@@ -11693,7 +11730,7 @@
         }
       }
     },
-	{
+    {
       "name": "Lapras Gigantamax",
       "number": 131,
       "stats": {
@@ -11792,7 +11829,7 @@
         }
       }
     },
-	{
+    {
       "name": "Eevee",
       "number": 133,
       "base": true,
@@ -11863,7 +11900,7 @@
         }
       }
     },
-	{
+    {
       "name": "Eevee Gigantamax",
       "number": 133,
       "stats": {
@@ -11901,7 +11938,7 @@
           }
         },
         "mass": 6.5
-	  }
+      }
     },
     {
       "name": "Vaporeon",
@@ -12662,7 +12699,7 @@
         }
       }
     },
-	{
+    {
       "name": "Snorlax Gigantamax",
       "number": 143,
       "stats": {
@@ -12700,7 +12737,7 @@
           }
         },
         "mass": 460.0
-	  }
+      }
     },
     {
       "name": "Articuno",
@@ -13134,11 +13171,11 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "fly": "true",
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-		"movementType": "flying"
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
@@ -17059,7 +17096,12 @@
       "name": "Unown",
       "number": 201,
       "base": true,
-      "dummy": true,
+      "model": {
+        "key": "unown_a",
+        "tex": "unown_a",
+        "model": "unown_a",
+        "anim": "unown"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -17113,146 +17155,6 @@
           }
         }
       }
-    },
-    {
-      "name": "Unown_A",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_B",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_C",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_D",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_E",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_Ex",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_F",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_G",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_H",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_I",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_J",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_K",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_L",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_M",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_N",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_O",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_P",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_Q",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_Qu",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_R",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_S",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_T",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_U",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_V",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_W",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_X",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_Y",
-      "number": 201,
-      "stats": {}
-    },
-    {
-      "name": "Unown_Z",
-      "number": 201,
-      "stats": {}
     },
     {
       "name": "Wobbuffet",
@@ -18058,6 +17960,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -18116,6 +18019,12 @@
           }
         },
         "mass": 125.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -18890,7 +18799,7 @@
         }
       }
     },
-	{
+    {
       "name": "Corsola Galar",
       "number": 222,
       "stats": {
@@ -19294,6 +19203,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -20963,6 +20873,7 @@
         "logics": {
           "values": {
             "dive": "TRUE",
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -21042,6 +20953,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -22132,7 +22044,7 @@
         }
       }
     },
-	{
+    {
       "name": "Zigzagoon Galar",
       "number": 263,
       "stats": {
@@ -22161,13 +22073,13 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Normal"
+            "type2": "Normal"
           }
         },
         "abilities": {
           "values": {
             "normal": "Pickup, Gluttony",
-			"hidden": "Quick Feet"
+            "hidden": "Quick Feet"
           }
         },
         "mass": 17.5,
@@ -22186,18 +22098,18 @@
         "lvlupMoves": {
           "values": {
             "1": "leer,tackle",
-			"3": "sandattack",
-			"6": "lick",
-			"9": "snarl",
-			"12": "headbutt",
-			"15": "babydolleyes",
-			"18": "pinmissile",
-			"21": "rest",
-			"24": "takedown",
-			"27": "scaryface",
-			"30": "counter",
-			"33": "taunt",
-			"36": "doubleedge"
+            "3": "sandattack",
+            "6": "lick",
+            "9": "snarl",
+            "12": "headbutt",
+            "15": "babydolleyes",
+            "18": "pinmissile",
+            "21": "rest",
+            "24": "takedown",
+            "27": "scaryface",
+            "30": "counter",
+            "33": "taunt",
+            "36": "doubleedge"
           }
         },
         "misc": {
@@ -22278,7 +22190,7 @@
         }
       }
     },
-	{
+    {
       "name": "Linoone Galar",
       "number": 264,
       "stats": {
@@ -22307,13 +22219,13 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Normal"
+            "type2": "Normal"
           }
         },
         "abilities": {
           "values": {
             "normal": "Pickup,Gluttony",
-			"hidden": "Quick Feet"
+            "hidden": "Quick Feet"
           }
         },
         "mass": 32.5,
@@ -22332,22 +22244,22 @@
         "lvlupMoves": {
           "values": {
             "1": "leer,sandattack,lick,nightslash,switcheroo,pinmissile,babydolleyes,tackle",
-			"9": "snarl",
-			"12": "headbutt",
-			"15": "honeclaws",
-			"18": "furyswipes",
-			"23": "rest",
-			"28": "takedown",
-			"33": "scaryface",
-			"38": "counter",
-			"43": "taunt",
-			"48": "doubleedge"
+            "9": "snarl",
+            "12": "headbutt",
+            "15": "honeclaws",
+            "18": "furyswipes",
+            "23": "rest",
+            "28": "takedown",
+            "33": "scaryface",
+            "38": "counter",
+            "43": "taunt",
+            "48": "doubleedge"
           }
         },
         "misc": {
           "moves": "bodyslam,surf,icebeam,blizzard,thunderbolt,thunder,substitute,endure,sleeptalk,irontail,shadowball,taunt,trick,hypervoice,seedbomb,gunkshot,grassknot,workup,throatchop,bodypress,pinmissile,hyperbeam,gigaimpact,thunderwave,dig,screech,rest,thief,snore,protect,scaryface,icywind,attract,raindance,sunnyday,whirlpool,facade,swift,helpinghand,faketears,mudshot,payback,assurance,fling,shadowclaw,round,retaliate,snarl,stompingtantrum"
         },
-		"evolutionMoves": "slash"
+        "evolutionMoves": "slash"
       }
     },
     {
@@ -23357,6 +23269,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -26600,6 +26513,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -27686,6 +27600,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -28324,6 +28239,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -30062,6 +29978,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -30135,6 +30052,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -30715,6 +30633,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31294,6 +31213,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31352,6 +31272,12 @@
           }
         },
         "mass": 52.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -31402,6 +31328,7 @@
         "genderRatio": 0,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31460,6 +31387,12 @@
           }
         },
         "mass": 70.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -31626,7 +31559,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "hatedMaterials": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -31731,6 +31665,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31788,6 +31723,12 @@
           }
         },
         "mass": 392.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -31918,6 +31859,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -31986,6 +31928,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -32032,6 +31975,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -32077,6 +32021,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -32569,7 +32514,8 @@
           "values": {
             "shoulder": "TRUE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -32641,7 +32587,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -32716,7 +32663,8 @@
             "dive": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -32932,6 +32880,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -33077,6 +33026,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -34516,6 +34466,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -34809,6 +34760,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -35032,6 +34984,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -36441,6 +36394,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -36492,7 +36446,13 @@
             "normal": "Sand Force"
           }
         },
-        "mass": 95.0
+        "mass": 95.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -36871,12 +36831,6 @@
           "moves": "attract, bite, bulldoze, captivate, confide, crunch, dig, doubleedge, doubleteam, earthpower, earthquake, endure, facade, firefang, fissure, frustration, gigaimpact, headbutt, hiddenpower, hyperbeam, icefang, ironhead, irontail, mudslap, naturalgift, protect, rest, return, roar, rockslide, rocksmash, rocktomb, round, sandattack, sandstorm, sandtomb, secretpower, sleeptalk, snore, stealthrock, stompingtantrum, stoneedge, strength, substitute, sunnyday, superpower, swagger, tackle, takedown, thunderfang, toxic, waterpulse, yawn"
         }
       }
-    },
-    {
-      "name": "Hippowdon Female",
-      "number": 450,
-      "gender": "female",
-      "genderBase": "Hippowdon"
     },
     {
       "name": "Skorupi",
@@ -38301,6 +38255,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -38523,6 +38478,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -38926,6 +38882,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -39534,10 +39491,11 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-        "movementType": "flying"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -39610,10 +39568,11 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-        "movementType": "flying"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -39831,6 +39790,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -39894,6 +39854,12 @@
         },
         "mass": 650.0,
         "captureRate": 3,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
@@ -39944,6 +39910,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -40161,6 +40128,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -41286,7 +41254,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -41360,7 +41329,8 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -41435,7 +41405,8 @@
             "dive": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
@@ -43931,6 +43902,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -45198,7 +45170,7 @@
         }
       }
     },
-	{
+    {
       "name": "Darumaka Galar",
       "number": 554,
       "stats": {
@@ -45232,7 +45204,7 @@
         "abilities": {
           "values": {
             "normal": "Hustle",
-			"hidden": "Inner Focus"
+            "hidden": "Inner Focus"
           }
         },
         "mass": 40.0,
@@ -45251,18 +45223,18 @@
         "lvlupMoves": {
           "values": {
             "1": "powdersnow,tackle",
-			"4": "taunt",
-			"8": "bite",
-			"12": "avalanche",
-			"16": "workup",
-			"20": "icefang",
-			"24": "headbutt",
-			"28": "icepunch",
-			"32": "uproar",
-			"36": "bellydrum",
-			"40": "blizzard",
-			"44": "thrash",
-			"48": "superpower"
+            "4": "taunt",
+            "8": "bite",
+            "12": "avalanche",
+            "16": "workup",
+            "20": "icefang",
+            "24": "headbutt",
+            "28": "icepunch",
+            "32": "uproar",
+            "36": "bellydrum",
+            "40": "blizzard",
+            "44": "thrash",
+            "48": "superpower"
           }
         },
         "misc": {
@@ -45347,7 +45319,7 @@
         "evolutionMoves": "hammerarm"
       }
     },
-	{
+    {
       "name": "Darmanitan Galar",
       "number": 555,
       "stats": {
@@ -45381,7 +45353,7 @@
         "abilities": {
           "values": {
             "normal": "Gorilla Tactics",
-			"hidden": "Zen Mode"
+            "hidden": "Zen Mode"
           }
         },
         "mass": 120.0,
@@ -45400,22 +45372,22 @@
         "lvlupMoves": {
           "values": {
             "1": "iciclecrash,powdersnow,tackle,taunt,bite",
-			"12": "avalanche",
-			"16": "workup",
-			"20": "icefang",
-			"24": "headbutt",
-			"28": "icepunch",
-			"32": "uproar",
-			"38": "bellydrum",
-			"44": "blizzard",
-			"50": "thrash",
-			"56": "superpower"
+            "12": "avalanche",
+            "16": "workup",
+            "20": "icefang",
+            "24": "headbutt",
+            "28": "icepunch",
+            "32": "uproar",
+            "38": "bellydrum",
+            "44": "blizzard",
+            "50": "thrash",
+            "56": "superpower"
           }
         },
         "misc": {
           "moves": "bodyslam,flamethrower,icebeam,blizzard,earthquake,psychic,focusenergy,fireblast,substitute,reversal,endure,sleeptalk,encore,uproar,heatwave,taunt,superpower,overheat,irondefense,bulkup,gyroball,flaeblitz,focusblast,zenheadbutt,ironhead,stoneedge,grassknot,workup,bodypress,megapunch,megakick,firepunch,icepunch,hyperbeam,gigaimpact,solarbeam,firespin,dig,rest,rockslide,thief,snore,protect,attract,sunnyday,willowisp,facade,brickbreak,rocktomb,uturn,payback,fling,avalanche,icefang,firefang,round,bulldoze"
         },
-		"evolutionMoves": "iciclecrash"
+        "evolutionMoves": "iciclecrash"
       }
     },
     {
@@ -45467,7 +45439,7 @@
         }
       }
     },
-	{
+    {
       "name": "Darmanitan Zen Galar",
       "number": 555,
       "stats": {
@@ -45496,13 +45468,13 @@
         "types": {
           "values": {
             "type1": "Ice",
-			"type2": "Fire"
+            "type2": "Fire"
           }
         },
         "abilities": {
           "values": {
             "normal": "Gorilla Tatics",
-			"hidden": "Zen Mode"
+            "hidden": "Zen Mode"
           }
         },
         "mass": 120.0,
@@ -46046,7 +46018,7 @@
         }
       }
     },
-	{
+    {
       "name": "Yamask Galar",
       "number": 562,
       "stats": {
@@ -46075,13 +46047,13 @@
         "types": {
           "values": {
             "type1": "Ground",
-			"type2": "Ghost"
+            "type2": "Ghost"
           }
         },
         "abilities": {
           "values": {
             "normal": "Wandering Spirit",
-			"hidden": "Wandering Spirit"
+            "hidden": "Wandering Spirit"
           }
         },
         "mass": 1.5,
@@ -46095,25 +46067,25 @@
             "shoulder": "FALSE"
           }
         },
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "astonish,protect",
-			"4": "haze",
-			"8": "nightshade",
-			"12": "disable",
-			"16": "brutalswing",
-			"20": "craftyshield",
-			"24": "hex",
-			"28": "meanlook",
-			"32": "slam",
-			"36": "curse",
-			"40": "shadowball",
-			"44": "earthquake",
-			"48": "powersplit,guardsplit",
-			"52": "destinybond"
+            "4": "haze",
+            "8": "nightshade",
+            "12": "disable",
+            "16": "brutalswing",
+            "20": "craftyshield",
+            "24": "hex",
+            "28": "meanlook",
+            "32": "slam",
+            "36": "curse",
+            "40": "shadowball",
+            "44": "earthquake",
+            "48": "powersplit,guardsplit",
+            "52": "destinybond"
           }
         },
         "misc": {
@@ -46315,6 +46287,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -46645,7 +46618,7 @@
         }
       }
     },
-	{
+    {
       "name": "Garbodor Gigantamax",
       "number": 569,
       "stats": {
@@ -47545,6 +47518,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -47877,7 +47851,7 @@
     {
       "name": "Sawsbuck",
       "number": 586,
-	  "base": true,
+      "base": true,
       "stats": {
         "stats": {
           "values": {
@@ -50345,7 +50319,7 @@
         }
       }
     },
-	{
+    {
       "name": "Stunfisk Galar",
       "number": 618,
       "stats": {
@@ -50611,6 +50585,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         }
@@ -50760,10 +50735,10 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
-        },
-        "movementType": "floating"
+        }
       },
       "moves": {
         "lvlupMoves": {
@@ -51139,6 +51114,7 @@
         "genderRatio": 0,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -51294,6 +51270,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -51667,6 +51644,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -51814,6 +51792,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52184,6 +52163,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52316,6 +52296,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52370,6 +52351,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52448,6 +52430,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52603,6 +52586,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52734,6 +52718,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -52785,6 +52770,7 @@
         "expMode": "Slow",
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -53053,6 +53039,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -53753,6 +53740,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -53807,6 +53795,12 @@
         "abilities": {
           "values": {
             "normal": "Battle Bond"
+          }
+        },
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
           }
         }
       }
@@ -54153,6 +54147,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -54503,7 +54498,16 @@
       "name": "Pyroar",
       "number": 668,
       "base": true,
-      "dummy": true,
+      "male_model": {
+        "key": "pyroar_m",
+        "model": "pyroar_m",
+        "anim": "pyroar_m"
+      },
+      "female_model": {
+        "key": "pyroar_f",
+        "model": "pyroar_f",
+        "anim": "pyroar_f"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -54573,18 +54577,6 @@
           "moves": "attract, bounce, bulldoze, confide, crunch, darkpulse, dig, doubleteam, echoedvoice, ember, endeavor, facade, fireblast, firefang, flamecharge, flamethrower, frustration, gigaimpact, headbutt, heatwave, helpinghand, hiddenpower, hyperbeam, hypervoice, incinerate, irontail, leer, nobleroar, overheat, payback, protect, raindance, rest, retaliate, return, roar, rocksmash, round, secretpower, sleeptalk, snarl, snatch, snore, solarbeam, strength, substitute, sunnyday, swagger, tackle, takedown, taunt, thief, toxic, wildcharge, willowisp, workup"
         }
       }
-    },
-    {
-      "name": "PyroarF",
-      "number": 668,
-      "gender": "female",
-      "genderBase": "Pyroar"
-    },
-    {
-      "name": "PyroarM",
-      "number": 668,
-      "gender": "male",
-      "genderBase": "Pyroar"
     },
     {
       "name": "Flabebe",
@@ -55989,6 +55981,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -58248,6 +58241,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -58403,6 +58397,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -58568,7 +58563,12 @@
           }
         },
         "mass": 610.0,
-		"movementType": "floating"
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -58717,7 +58717,7 @@
         "captureRate": 3,
         "baseFriendship": 100,
         "expMode": "Slow",
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -58778,6 +58778,12 @@
         "mass": 490.0,
         "captureRate": 3,
         "genderRatio": 255,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "floating"
       },
       "moves": {
@@ -59058,10 +59064,10 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-        "formeItems": {},
         "movementType": "flying"
       },
       "moves": {
@@ -59496,6 +59502,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -59711,7 +59718,12 @@
         "captureRate": 45,
         "expMode": "Medium Fast",
         "genderRatio": 127,
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "flying"
       },
@@ -60901,7 +60913,12 @@
         "captureRate": 190,
         "expMode": "Medium Fast",
         "genderRatio": 127,
-        "logics": {},
+        "logics": {
+          "values": {
+            "dive": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "water"
       },
@@ -62720,10 +62737,10 @@
         "evolutionMoves": "multiattack"
       }
     },
-	{
+    {
       "name": "Silvally Bug",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62740,7 +62757,7 @@
     {
       "name": "Silvally Dark",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62757,7 +62774,7 @@
     {
       "name": "Silvally Dragon",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62774,7 +62791,7 @@
     {
       "name": "Silvally Electric",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62791,7 +62808,7 @@
     {
       "name": "Silvally Fairy",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62808,7 +62825,7 @@
     {
       "name": "Silvally Fighting",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62825,7 +62842,7 @@
     {
       "name": "Silvally Fire",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62842,7 +62859,7 @@
     {
       "name": "Silvally Flying",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62859,7 +62876,7 @@
     {
       "name": "Silvally Ghost",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62876,7 +62893,7 @@
     {
       "name": "Silvally Grass",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62893,7 +62910,7 @@
     {
       "name": "Silvally Ground",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62910,7 +62927,7 @@
     {
       "name": "Silvally Ice",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62927,7 +62944,7 @@
     {
       "name": "Silvally Poison",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62944,7 +62961,7 @@
     {
       "name": "Silvally Psychic",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62961,7 +62978,7 @@
     {
       "name": "Silvally Rock",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62978,7 +62995,7 @@
     {
       "name": "Silvally Steel",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -62992,10 +63009,10 @@
         }
       }
     },
-	{
+    {
       "name": "Silvally Fighting",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -63009,10 +63026,10 @@
         }
       }
     },
-	{
+    {
       "name": "Silvally Water",
       "number": 773,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "types": {
           "values": {
@@ -63715,7 +63732,12 @@
         "mass": 210.0,
         "captureRate": 25,
         "expMode": "Medium Fast",
-        "logics": {},
+        "logics": {
+          "values": {
+            "dive": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "water"
       },
@@ -64386,7 +64408,12 @@
         "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {}
       },
       "moves": {
@@ -64413,10 +64440,10 @@
         "evolutionMoves": "sunsteelstrike"
       }
     },
-	{
+    {
       "name": "Solgaleo Dusk",
       "number": 791,
-	  "legend": true,
+      "legend": true,
       "breed": false,
       "stats": {
         "stats": {
@@ -64452,7 +64479,13 @@
             "normal": "Full Metal Body"
           }
         },
-        "mass": 230.0
+        "mass": 230.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        }
       }
     },
     {
@@ -64498,8 +64531,12 @@
         "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
-        "formeItems": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       },
       "moves": {
@@ -64526,7 +64563,7 @@
         "evolutionMoves": "moongeistbeam"
       }
     },
-	{
+    {
       "name": "Lunala Dawn",
       "number": 792,
       "legend": true,
@@ -64566,7 +64603,13 @@
           }
         },
         "mass": 120.0,
-		"movementType": "flying"
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "flying"
       }
     },
     {
@@ -64684,7 +64727,12 @@
         "captureRate": 25,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {}
       },
       "moves": {
@@ -64892,7 +64940,12 @@
         "captureRate": 25,
         "baseFriendship": 0,
         "expMode": "Slow",
-        "logics": {},
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "formeItems": {},
         "movementType": "flying"
       },
@@ -65096,7 +65149,14 @@
         "mass": 350.0,
         "captureRate": 3,
         "baseFriendship": 0,
-        "expMode": "Slow"
+        "expMode": "Slow",
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -65122,7 +65182,7 @@
         }
       }
     },
-	{
+    {
       "name": "Necrozma Ultra",
       "number": 800,
       "stats": {
@@ -65152,7 +65212,7 @@
         "types": {
           "values": {
             "type1": "Psychic",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
@@ -65161,7 +65221,13 @@
           }
         },
         "mass": 230.0,
-		"movementType": "flying"
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "flying"
       }
     },
     {
@@ -65203,7 +65269,7 @@
           }
         },
         "mass": 80.5,
-		"captureRate": 3,
+        "captureRate": 3,
         "baseFriendship": 0,
         "expMode": "Slow"
       },
@@ -65338,7 +65404,7 @@
         "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
-		"movementType": "flying"
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
@@ -65401,7 +65467,13 @@
         "captureRate": 45,
         "baseFriendship": 0,
         "expMode": "Slow",
-		"movementType": "flying"
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
@@ -65621,11 +65693,11 @@
         }
       }
     },
-	{
+    {
       "name": "Meltan",
       "number": 808,
       "base": true,
-	  "breed": false,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65667,7 +65739,7 @@
         "genderRatio": 255,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
         "hatedMaterials": "water"
@@ -65688,10 +65760,10 @@
         }
       }
     },
-	{
+    {
       "name": "Melmetal",
       "number": 809,
-	  "breed": false,
+      "breed": false,
       "base": true,
       "stats": {
         "stats": {
@@ -65758,14 +65830,53 @@
         "misc": {
           "moves": "flashcannon,rockslide,rest,toxic,headbutt,protect,substitute,facade,selfdestruct,hyperbeam,icepunch,icebeam,earthquake,solarbeam,brickbreak,superpower,thunderwave,thunderpunch,thunder,thunderbolt"
         },
-		"evolutionMoves": "thunderpunch"
+        "evolutionMoves": "thunderpunch"
       }
     },
-	{
+    {
+      "name": "Melmetal Gigantamax",
+      "number": 809,
+      "stats": {
+        "stats": {
+          "values": {
+            "spdef": "65",
+            "spatk": "80",
+            "def": "143",
+            "spd": "34",
+            "hp": "135",
+            "atk": "143"
+          }
+        },
+        "evs": {
+          "values": {
+            "atk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "4",
+            "width": "4",
+            "height": "6"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Steel"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Iron Fist"
+          }
+        },
+        "mass": 800.0
+      }
+    },
+    {
       "name": "Grookey",
       "number": 810,
       "base": true,
-	  "starter": true,
+      "starter": true,
       "stats": {
         "stats": {
           "values": {
@@ -65797,7 +65908,7 @@
         "abilities": {
           "values": {
             "normal": "Overgrow",
-			"hidden": "Grassy Surge"
+            "hidden": "Grassy Surge"
           }
         },
         "mass": 5.0,
@@ -65808,7 +65919,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -65816,15 +65927,15 @@
         "lvlupMoves": {
           "values": {
             "1": "growl,scratch",
-			"6": "branchpoke",
-			"8": "taunt",
-			"12": "razorleaf",
-			"17": "screech",
-			"20": "knockoff",
-			"24": "slam",
-			"28": "uproar",
-			"32": "woodhammer",
-			"36": "endeavor"
+            "6": "branchpoke",
+            "8": "taunt",
+            "12": "razorleaf",
+            "17": "screech",
+            "20": "knockoff",
+            "24": "slam",
+            "28": "uproar",
+            "32": "woodhammer",
+            "36": "endeavor"
           }
         },
         "misc": {
@@ -65832,7 +65943,7 @@
         }
       }
     },
-	{
+    {
       "name": "Thwackey",
       "number": 811,
       "base": true,
@@ -65867,7 +65978,7 @@
         "abilities": {
           "values": {
             "normal": "Overgrow",
-			"hidden": "Grassy Surge"
+            "hidden": "Grassy Surge"
           }
         },
         "mass": 14.0,
@@ -65886,22 +65997,22 @@
         "lvlupMoves": {
           "values": {
             "1": "doublehit,growl,scratch,taunt,branchpoke",
-			"12": "razorleaf",
-			"19": "screech",
-			"24": "knockoff",
-			"30": "slam",
-			"36": "uproar",
-			"42": "woodhammer",
-			"48": "endeavor"
+            "12": "razorleaf",
+            "19": "screech",
+            "24": "knockoff",
+            "30": "slam",
+            "36": "uproar",
+            "42": "woodhammer",
+            "48": "endeavor"
           }
         },
         "misc": {
-            "moves": "swordsdance,lowkick,focusenergy,substitute,endure,sleeptalk,uproar,taunt,energyball,grassknot,workup,growl,scratch,megapunch,megakick,magicalleaf,solarbeam,solarblade,screech,rest,snore,protect,gigadrain,attract,sunnyday,facade,swift,uturn,assurance,fling,drainpunch,round,acrobatics,falseswipe"
+          "moves": "swordsdance,lowkick,focusenergy,substitute,endure,sleeptalk,uproar,taunt,energyball,grassknot,workup,growl,scratch,megapunch,megakick,magicalleaf,solarbeam,solarblade,screech,rest,snore,protect,gigadrain,attract,sunnyday,facade,swift,uturn,assurance,fling,drainpunch,round,acrobatics,falseswipe"
         },
-		"evolutionMoves": "doublehit"
+        "evolutionMoves": "doublehit"
       }
     },
-	{
+    {
       "name": "Rillaboom",
       "number": 812,
       "base": true,
@@ -65936,7 +66047,7 @@
         "abilities": {
           "values": {
             "normal": "Overgrow",
-			"hidden": "Grassy Surge"
+            "hidden": "Grassy Surge"
           }
         },
         "mass": 90.0,
@@ -65955,27 +66066,27 @@
         "lvlupMoves": {
           "values": {
             "1": "nobleroar,grassyterrain,drumbeating,doublehit,growl,scratch,taunt,branchpoke",
-			"12": "razorleaf",
-			"19": "screech",
-			"24": "knockoff",
-			"30": "slam",
-			"38": "uproar",
-			"46": "woodhammer",
-			"54": "endeavor",
-			"62": "boomburst"
+            "12": "razorleaf",
+            "19": "screech",
+            "24": "knockoff",
+            "30": "slam",
+            "38": "uproar",
+            "46": "woodhammer",
+            "54": "endeavor",
+            "62": "boomburst"
           }
         },
         "misc": {
-            "moves": "hyperbeam,earthpower,leafstorm,darkestlariat,highhorsepower,bodypress,gigaimpact,scaryface,brickbreak,bulletseed,mudshot,snarl,bulldoze,grassyterrain,brutalswing,stompingtantrum,bodyslam,earthquake,superpower,hypervoice,bulkup,focusblast,swordsdance,lowkick,focusenergy,substitute,endure,sleeptalk,uproar,taunt,energyball,grassknot,workup,growl,scratch,megapunch,megakick,magicalleaf,solarbeam,solarblade,screech,rest,snore,protect,gigadrain,attract,sunnyday,facade,swift,uturn,assurance,fling,drainpunch,round,acrobatics,falseswipe"
+          "moves": "hyperbeam,earthpower,leafstorm,darkestlariat,highhorsepower,bodypress,gigaimpact,scaryface,brickbreak,bulletseed,mudshot,snarl,bulldoze,grassyterrain,brutalswing,stompingtantrum,bodyslam,earthquake,superpower,hypervoice,bulkup,focusblast,swordsdance,lowkick,focusenergy,substitute,endure,sleeptalk,uproar,taunt,energyball,grassknot,workup,growl,scratch,megapunch,megakick,magicalleaf,solarbeam,solarblade,screech,rest,snore,protect,gigadrain,attract,sunnyday,facade,swift,uturn,assurance,fling,drainpunch,round,acrobatics,falseswipe"
         },
-		"evolutionMoves": "drumbeating"
+        "evolutionMoves": "drumbeating"
       }
     },
-	{
+    {
       "name": "Scorbunny",
       "number": 813,
       "base": true,
-	  "starter": true,
+      "starter": true,
       "stats": {
         "stats": {
           "values": {
@@ -66007,7 +66118,7 @@
         "abilities": {
           "values": {
             "normal": "Blaze",
-			"hidden": "Libero"
+            "hidden": "Libero"
           }
         },
         "mass": 4.5,
@@ -66018,7 +66129,7 @@
         "genderRatio": 30,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -66026,15 +66137,15 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,growl",
-			"6": "ember",
-			"8": "quickattack",
-			"12": "doublekick",
-			"17": "flamecharge",
-			"20": "agility",
-			"24": "headbutt",
-			"28": "counter",
-			"32": "bounce",
-			"36": "doubleedge"
+            "6": "ember",
+            "8": "quickattack",
+            "12": "doublekick",
+            "17": "flamecharge",
+            "20": "agility",
+            "24": "headbutt",
+            "28": "counter",
+            "32": "bounce",
+            "36": "doubleedge"
           }
         },
         "misc": {
@@ -66042,7 +66153,7 @@
         }
       }
     },
-	{
+    {
       "name": "Raboot",
       "number": 814,
       "base": true,
@@ -66077,7 +66188,7 @@
         "abilities": {
           "values": {
             "normal": "Blaze",
-			"hidden": "Libero"
+            "hidden": "Libero"
           }
         },
         "mass": 9.0,
@@ -66096,13 +66207,13 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,growl,quickattack,ember",
-			"12": "doublekick",
-			"19": "flamecharge",
-			"24": "agility",
-			"30": "headbutt",
-			"36": "counter",
-			"42": "bounce",
-			"48": "doubleedge"
+            "12": "doublekick",
+            "19": "flamecharge",
+            "24": "agility",
+            "30": "headbutt",
+            "36": "counter",
+            "42": "bounce",
+            "48": "doubleedge"
           }
         },
         "misc": {
@@ -66110,7 +66221,7 @@
         }
       }
     },
-	{
+    {
       "name": "Cinderace",
       "number": 815,
       "base": true,
@@ -66145,7 +66256,7 @@
         "abilities": {
           "values": {
             "normal": "Blaze",
-			"hidden": "Libero"
+            "hidden": "Libero"
           }
         },
         "mass": 33.0,
@@ -66164,27 +66275,27 @@
         "lvlupMoves": {
           "values": {
             "1": "pyroball,feint,tackle,growl,quickattack,ember",
-			"12": "doublekick",
-			"19": "flamecharge",
-			"24": "agility",
-			"30": "headbutt",
-			"38": "counter",
-			"46": "bounce",
-			"54": "doubleedge",
-			"62": "courtchange"
+            "12": "doublekick",
+            "19": "flamecharge",
+            "24": "agility",
+            "30": "headbutt",
+            "38": "counter",
+            "46": "bounce",
+            "54": "doubleedge",
+            "62": "courtchange"
           }
         },
         "misc": {
           "moves": "lowkick,bulkup,focusblast,shadowball,flareblitz,zenheadbutt,gunkshot,ironhead,firepunch,hyperbeam,gigaimpact,firespin,helpinghand,revenge,snarl,flamethrower,agility,focusenergy,fireblast,substitute,reversal,endure,sleeptalk,batonpass,heatwave,taunt,blazekick,overheat,gunkshot,electroball,allyswitch,workup,growl,tackle,megakick,rest,snore,protect,attract,sunnyday,facade,swift,bounce,mudshot,uturn,assurance,firefang,lowsweep,round,acrobatics"
         },
-		"evolutionMoves": "pyroball"
+        "evolutionMoves": "pyroball"
       }
     },
-	{
+    {
       "name": "Sobble",
       "number": 816,
       "base": true,
-	  "starter": true,
+      "starter": true,
       "stats": {
         "stats": {
           "values": {
@@ -66199,7 +66310,7 @@
         "evs": {
           "values": {
             "spd": "1",
-			"spdef": "1"
+            "spdef": "1"
           }
         },
         "sizes": {
@@ -66217,7 +66328,7 @@
         "abilities": {
           "values": {
             "normal": "Torrent",
-			"hidden": "Sniper"
+            "hidden": "Sniper"
           }
         },
         "mass": 4.0,
@@ -66228,23 +66339,24 @@
         "genderRatio": 30,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "pound,growl",
-			"6": "watergun",
-			"8": "bind",
-			"12": "waterpulse",
-			"17": "tearfullook",
-			"20": "suckerpunch",
-			"24": "uturn",
-			"28": "liquidation",
-			"32": "soak",
-			"36": "raindance"
+            "6": "watergun",
+            "8": "bind",
+            "12": "waterpulse",
+            "17": "tearfullook",
+            "20": "suckerpunch",
+            "24": "uturn",
+            "28": "liquidation",
+            "32": "soak",
+            "36": "raindance"
           }
         },
         "misc": {
@@ -66252,7 +66364,7 @@
         }
       }
     },
-	{
+    {
       "name": "Drizzile",
       "number": 817,
       "base": true,
@@ -66287,7 +66399,7 @@
         "abilities": {
           "values": {
             "normal": "Torrent",
-			"hidden": "Sniper"
+            "hidden": "Sniper"
           }
         },
         "mass": 11.5,
@@ -66300,19 +66412,20 @@
           "values": {
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "pound,growl,watergun,bind",
-			"12": "waterpulse",
-			"19": "tearfullook",
-			"24": "suckerpunch",
-			"30": "uturn",
-			"36": "liquidation",
-			"42": "soak",
-			"48": "raindance"
+            "12": "waterpulse",
+            "19": "tearfullook",
+            "24": "suckerpunch",
+            "30": "uturn",
+            "36": "liquidation",
+            "42": "soak",
+            "48": "raindance"
           }
         },
         "misc": {
@@ -66320,7 +66433,7 @@
         }
       }
     },
-	{
+    {
       "name": "Inteleon",
       "number": 818,
       "base": true,
@@ -66355,7 +66468,7 @@
         "abilities": {
           "values": {
             "normal": "Torrent",
-			"hidden": "Sniper"
+            "hidden": "Sniper"
           }
         },
         "mass": 45.2,
@@ -66366,31 +66479,33 @@
         "genderRatio": 30,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "snipeshot,acrobatics,pound,growl,watergun,bind",
-			"12": "waterpulse",
-			"19": "tearfullook",
-			"24": "suckerpunch",
-			"30": "uturn",
-			"38": "liquidation",
-			"46": "soak",
-			"54": "raindance",
-			"62": "hydropump"
+            "12": "waterpulse",
+            "19": "tearfullook",
+            "24": "suckerpunch",
+            "30": "uturn",
+            "38": "liquidation",
+            "46": "soak",
+            "54": "raindance",
+            "62": "hydropump"
           }
         },
         "misc": {
           "moves": "fling,agility,focusenergy,shadowball,scald,swordsdance,hydropump,icebeam,blizzard,waterfall,darkpulse,metronome,focusblast,hyperbeam,gigaimpact,icywind,iciclespear,airslash,breakingswipe,surf,substitute,endure,sleeptalk,batonpass,muddywater,workup,liquidation,growl,pound,lightscreen,reflect,safeguard,rest,snore,protect,attract,raindance,whirlpool,facade,swift,dive,weatherball,bounce,mudshot,uturn,round"
         },
-		"evolutionMoves": "snipeshot"
+        "evolutionMoves": "snipeshot"
       }
     },
-	{
+    {
       "name": "Skwovet",
       "number": 819,
       "base": true,
@@ -66425,7 +66540,7 @@
         "abilities": {
           "values": {
             "normal": "Cheek Pouch",
-			"hidden": "Gluttony"
+            "hidden": "Gluttony"
           }
         },
         "mass": 2.5,
@@ -66444,15 +66559,15 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,tailwhip",
-			"5": "bite",
-			"10": "stuffcheeks",
-			"15": "stockpile,swallow,spitup",
-			"20": "bodyslam",
-			"25": "rest",
-			"30": "counter",
-			"35": "bulletseed",
-			"40": "superfang",
-			"45": "belch"
+            "5": "bite",
+            "10": "stuffcheeks",
+            "15": "stockpile,swallow,spitup",
+            "20": "bodyslam",
+            "25": "rest",
+            "30": "counter",
+            "35": "bulletseed",
+            "40": "superfang",
+            "45": "belch"
           }
         },
         "misc": {
@@ -66460,7 +66575,7 @@
         }
       }
     },
-	{
+    {
       "name": "Greedent",
       "number": 820,
       "base": true,
@@ -66495,7 +66610,7 @@
         "abilities": {
           "values": {
             "normal": "Cheek Pouch",
-			"hidden": "Gluttony"
+            "hidden": "Gluttony"
           }
         },
         "mass": 6.0,
@@ -66514,22 +66629,22 @@
         "lvlupMoves": {
           "values": {
             "1": "covet,tackle,tailwhip,bite,stuffcheeks",
-			"15": "stockpile,swallow,spitup",
-			"20": "bodyslam",
-			"27": "rest",
-			"34": "counter",
-			"41": "bulletseed",
-			"48": "superfang",
-			"55": "belch"
+            "15": "stockpile,swallow,spitup",
+            "20": "bodyslam",
+            "27": "rest",
+            "34": "counter",
+            "41": "bulletseed",
+            "48": "superfang",
+            "55": "belch"
           }
         },
         "misc": {
           "moves": "hyperbeam,gigaimpact,dig,rest,thief,snore,protect,attract,facade,bulletseed,mudshot,payback,assurance,fling,thunderfang,icefang,firefang,round,tailslap,brutalswing,stompingtantrum,swordsdance,bodyslam,earthquake,amnesia,substitute,endure,sleeptalk,irontail,crunch,uproar,superpower,hypervoice,gyroball,seedbomb,wildcharge,psychicfangs,bodypress"
         },
-		"evolutionMoves": "covet"
+        "evolutionMoves": "covet"
       }
     },
-	{
+    {
       "name": "Rookidee",
       "number": 821,
       "base": true,
@@ -66564,7 +66679,7 @@
         "abilities": {
           "values": {
             "normal": "Unnerve, Keen Eye",
-			"hidden": "Big Pecks"
+            "hidden": "Big Pecks"
           }
         },
         "mass": 1.8,
@@ -66575,7 +66690,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
         "movementType": "flying"
@@ -66584,15 +66699,15 @@
         "lvlupMoves": {
           "values": {
             "1": "peck,leer",
-			"4": "powertrip",
-			"8": "honeclaws",
-			"12": "furyattack",
-			"16": "pluck",
-			"20": "taunt",
-			"24": "scaryface",
-			"28": "drillpeck",
-			"32": "swagger",
-			"36": "bravebird"
+            "4": "powertrip",
+            "8": "honeclaws",
+            "12": "furyattack",
+            "16": "pluck",
+            "20": "taunt",
+            "24": "scaryface",
+            "28": "drillpeck",
+            "32": "swagger",
+            "36": "bravebird"
           }
         },
         "misc": {
@@ -66600,7 +66715,7 @@
         }
       }
     },
-	{
+    {
       "name": "Corvisquire",
       "number": 822,
       "base": true,
@@ -66635,7 +66750,7 @@
         "abilities": {
           "values": {
             "normal": "Unnerve, Keen Eye",
-			"hidden": "Big Pecks"
+            "hidden": "Big Pecks"
           }
         },
         "mass": 16.0,
@@ -66655,13 +66770,13 @@
         "lvlupMoves": {
           "values": {
             "1": "peck,leer,powertrip,honeclaws",
-			"12": "furyattack",
-			"16": "pluck",
-			"22": "taunt",
-			"28": "scaryface",
-			"34": "drillpeck",
-			"40": "swagger",
-			"46": "bravebird"
+            "12": "furyattack",
+            "16": "pluck",
+            "22": "taunt",
+            "28": "scaryface",
+            "34": "drillpeck",
+            "40": "swagger",
+            "46": "bravebird"
           }
         },
         "misc": {
@@ -66669,7 +66784,7 @@
         }
       }
     },
-	{
+    {
       "name": "Corviknight",
       "number": 823,
       "base": true,
@@ -66699,13 +66814,13 @@
         "types": {
           "values": {
             "type1": "Flying",
-			"type2": "Steel"
+            "type2": "Steel"
           }
         },
         "abilities": {
           "values": {
             "normal": "Unnerve, Pressure",
-			"hidden": "Mirror Armor"
+            "hidden": "Mirror Armor"
           }
         },
         "mass": 75.0,
@@ -66716,6 +66831,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
@@ -66725,22 +66841,22 @@
         "lvlupMoves": {
           "values": {
             "1": "steelwing,irondefense,metalsound,peck,leer,powertrip,honeclaws",
-			"12": "furyattack",
-			"16": "pluck",
-			"22": "taunt",
-			"28": "scaryface",
-			"34": "drillpeck",
-			"42": "swagger",
-			"50": "bravebird"
+            "12": "furyattack",
+            "16": "pluck",
+            "22": "taunt",
+            "28": "scaryface",
+            "34": "drillpeck",
+            "42": "swagger",
+            "50": "bravebird"
           }
         },
         "misc": {
           "moves": "fly,hyperbeam,gigaimpact,screech,lightscreen,reflect,rest,thief,snore,protect,scaryface,steelwing,attract,facade,swift,revenge,faketears,uturn,payback,assurance,round,retaliate,airslash,bodyslam,agility,focusenergy,substitute,reversal,endure,sleeptalk,taunt,irondefense,bulkup,bravebird,nastyplot,flashcannon,ironhead,heavyslam,workup,hurricane,bodypress"
         },
-		"evolutionMoves": "steelwing"
+        "evolutionMoves": "steelwing"
       }
     },
-	{
+    {
       "name": "Corviknight Gigantamax",
       "number": 823,
       "stats": {
@@ -66769,20 +66885,26 @@
         "types": {
           "values": {
             "type1": "Flying",
-			"type2": "Steel"
+            "type2": "Steel"
           }
         },
         "abilities": {
           "values": {
             "normal": "Unnerve, Pressure",
-			"hidden": "Mirror Armor"
+            "hidden": "Mirror Armor"
           }
         },
         "mass": 75.0,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "flying"
       }
     },
-	{
+    {
       "name": "Blipbug",
       "number": 824,
       "base": true,
@@ -66817,7 +66939,7 @@
         "abilities": {
           "values": {
             "normal": "Swarm, Compound Eyes",
-			"hidden": "Telepathy"
+            "hidden": "Telepathy"
           }
         },
         "mass": 8.0,
@@ -66828,7 +66950,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -66843,7 +66965,7 @@
         }
       }
     },
-	{
+    {
       "name": "Dottler",
       "number": 825,
       "base": true,
@@ -66873,13 +66995,13 @@
         "types": {
           "values": {
             "type1": "Bug",
-			"type2": "Psychic"
+            "type2": "Psychic"
           }
         },
         "abilities": {
           "values": {
             "normal": "Swarm, Compound Eyes",
-			"hidden": "Telepathy"
+            "hidden": "Telepathy"
           }
         },
         "mass": 19.5,
@@ -66903,10 +67025,10 @@
         "misc": {
           "moves": "solarbeam,lightscreen,reflect,safeguard,rest,snore,protect,attract,facade,helpinghand,imprison,payback,powerswap,guardswap,trickroom,wonderroom,magicroom,round,psychicterrain,psychic,leechlife,substitute,psyshock,endure,sleeptalk,shadowball,futuresight,trick,skillswap,irondefense,calmmind,bugbuzz,energyball,zenheadbutt,storedpower,allyswitch,bodypress"
         },
-		"evolutionMoves": "reflect,lightscreen,confusion"
+        "evolutionMoves": "reflect,lightscreen,confusion"
       }
     },
-	{
+    {
       "name": "Orbeetle",
       "number": 826,
       "base": true,
@@ -66936,13 +67058,13 @@
         "types": {
           "values": {
             "type1": "Bug",
-			"type2": "Psychic"
+            "type2": "Psychic"
           }
         },
         "abilities": {
           "values": {
             "normal": "Swarm, Frisk",
-			"hidden": "Telepathy"
+            "hidden": "Telepathy"
           }
         },
         "mass": 40.8,
@@ -66963,17 +67085,17 @@
           "values": {
             "1": "reflect,lightscreen,confusion,strugglebug",
             "4": "confuseray",
-			"8": "magiccoat",
-			"12": "agility",
-			"16": "psybeam",
-			"20": "hypnosis",
-			"24": "allyswitch",
-			"28": "bugbuzz",
-			"32": "mirrorcoat",
-			"36": "psychic",
-			"40": "afteryou",
-			"44": "calmmind",
-			"48": "psychicterrain"
+            "8": "magiccoat",
+            "12": "agility",
+            "16": "psybeam",
+            "20": "hypnosis",
+            "24": "allyswitch",
+            "28": "bugbuzz",
+            "32": "mirrorcoat",
+            "36": "psychic",
+            "40": "afteryou",
+            "44": "calmmind",
+            "48": "psychicterrain"
           }
         },
         "misc": {
@@ -66981,7 +67103,7 @@
         }
       }
     },
-	{
+    {
       "name": "Orbeetle Gigantamax",
       "number": 826,
       "stats": {
@@ -67010,20 +67132,26 @@
         "types": {
           "values": {
             "type1": "Bug",
-			"type2": "Psychic"
+            "type2": "Psychic"
           }
         },
         "abilities": {
           "values": {
             "normal": "Swarm, Frisk",
-			"hidden": "Telepathy"
+            "hidden": "Telepathy"
           }
         },
         "mass": 40.8,
+        "logics": {
+          "values": {
+            "fly": "TRUE",
+            "shoulder": "FALSE"
+          }
+        },
         "movementType": "floating"
       }
     },
-	{
+    {
       "name": "Nickit",
       "number": 827,
       "base": true,
@@ -67058,7 +67186,7 @@
         "abilities": {
           "values": {
             "normal": "Run Away, Unburden",
-			"hidden": "Stakeout"
+            "hidden": "Stakeout"
           }
         },
         "mass": 8.9,
@@ -67078,14 +67206,14 @@
           "values": {
             "1": "quickattack,tailwhip",
             "4": "beatup",
-			"8": "honeclaws",
-			"12": "snarl",
-			"16": "assurance",
-			"20": "nastyplot",
-			"24": "suckerpunch",
-			"28": "nightslash",
-			"32": "tailslap",
-			"36": "foulplay"
+            "8": "honeclaws",
+            "12": "snarl",
+            "16": "assurance",
+            "20": "nastyplot",
+            "24": "suckerpunch",
+            "28": "nightslash",
+            "32": "tailslap",
+            "36": "foulplay"
           }
         },
         "misc": {
@@ -67093,7 +67221,7 @@
         }
       }
     },
-	{
+    {
       "name": "Thievul",
       "number": 828,
       "base": true,
@@ -67128,7 +67256,7 @@
         "abilities": {
           "values": {
             "normal": "Run Away, Unburden",
-			"hidden": "Stakeout"
+            "hidden": "Stakeout"
           }
         },
         "mass": 19.9,
@@ -67147,23 +67275,23 @@
         "lvlupMoves": {
           "values": {
             "1": "quickattack,tailwhip,thief,beatup,honeclaws",
-			"12": "snarl",
-			"16": "assurance",
-			"20": "nastyplot",
-			"24": "suckerpunch",
-			"38": "nightslash",
-			"40": "tailslap",
-			"46": "foulplay",
-			"52": "partingshot"
+            "12": "snarl",
+            "16": "assurance",
+            "20": "nastyplot",
+            "24": "suckerpunch",
+            "38": "nightslash",
+            "40": "tailslap",
+            "46": "foulplay",
+            "52": "partingshot"
           }
         },
         "misc": {
           "moves": "hyperbeam,gigaimpact,dig,screech,rest,thief,snore,protect,attract,beatup,facade,swift,faketears,mudshot,uturn,assurance,shadowclaw,thunderfang,icefang,firefang,round,acrobatics,tailslap,snarl,psychic,agility,substitute,endure,sleeptalk,batonpass,crunch,shadowball,taunt,darkpulse,nastyplot,grassknot,foulplay,playrough"
         },
-		"evolutionMoves": "thief"
+        "evolutionMoves": "thief"
       }
     },
-	{
+    {
       "name": "Gossifleur",
       "number": 829,
       "base": true,
@@ -67198,7 +67326,7 @@
         "abilities": {
           "values": {
             "normal": "Cotton Down, Regenerator",
-			"hidden": "Effect Spore"
+            "hidden": "Effect Spore"
           }
         },
         "mass": 2.2,
@@ -67209,7 +67337,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -67218,14 +67346,14 @@
           "values": {
             "1": "leafage,sing",
             "4": "rapidspin",
-			"8": "sweetscent",
-			"12": "razorleaf",
-			"16": "round",
-			"20": "leaftornado",
-			"24": "synthesis",
-			"28": "hypervoice",
-			"32": "aromatherapy",
-			"36": "leafstorm"
+            "8": "sweetscent",
+            "12": "razorleaf",
+            "16": "round",
+            "20": "leaftornado",
+            "24": "synthesis",
+            "28": "hypervoice",
+            "32": "aromatherapy",
+            "36": "leafstorm"
           }
         },
         "misc": {
@@ -67233,7 +67361,7 @@
         }
       }
     },
-	{
+    {
       "name": "Eldegoss",
       "number": 830,
       "base": true,
@@ -67268,7 +67396,7 @@
         "abilities": {
           "values": {
             "normal": "Cotton Down, Regenerator",
-			"hidden": "Effect Spore"
+            "hidden": "Effect Spore"
           }
         },
         "mass": 2.5,
@@ -67287,23 +67415,23 @@
         "lvlupMoves": {
           "values": {
             "1": "cottonspore,leafage,sing,rapidspin,sweetscent",
-			"12": "razorleaf",
-			"16": "round",
-			"23": "leaftornado",
-			"28": "synthesis",
-			"34": "hypervoice",
-			"40": "aromatherapy",
-			"46": "leafstorm",
-			"52": "cottonguard"
+            "12": "razorleaf",
+            "16": "round",
+            "23": "leaftornado",
+            "28": "synthesis",
+            "34": "hypervoice",
+            "40": "aromatherapy",
+            "46": "leafstorm",
+            "52": "cottonguard"
           }
         },
         "misc": {
           "moves": "hyperbeam,gigaimpact,magicalleaf,solarbeam,lightscreen,rest,snore,protect,gigadrain,charm,attract,sunnyday,facade,helpinghand,weatherball,bulletseed,round,grassyterrain,substitute,endure,sleeptalk,hypervoice,seedbomb,energyball,leafstorm,grassknot,pollenpuff"
         },
-		"evolutionMoves": "cottonspore"
+        "evolutionMoves": "cottonspore"
       }
     },
-	{
+    {
       "name": "Wooloo",
       "number": 831,
       "base": true,
@@ -67338,7 +67466,7 @@
         "abilities": {
           "values": {
             "normal": "Fluffy, Run Away",
-			"hidden": "Bulletproof"
+            "hidden": "Bulletproof"
           }
         },
         "mass": 6.0,
@@ -67349,6 +67477,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dye": "TRUE#white#black",
             "shoulder": "FALSE"
           }
         }
@@ -67357,16 +67486,16 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,growl",
-			"4": "defensecurl",
-			"8": "copycat",
-			"12": "guardsplit",
-			"16": "doublekick",
-			"21": "headbutt",
-			"25": "takedown",
-			"28": "guardswap",
-			"32": "reversal",
-			"36": "cottonguard",
-			"40": "doubleedge"
+            "4": "defensecurl",
+            "8": "copycat",
+            "12": "guardsplit",
+            "16": "doublekick",
+            "21": "headbutt",
+            "25": "takedown",
+            "28": "guardswap",
+            "32": "reversal",
+            "36": "cottonguard",
+            "40": "doubleedge"
           }
         },
         "misc": {
@@ -67374,7 +67503,7 @@
         }
       }
     },
-	{
+    {
       "name": "Dubwool",
       "number": 832,
       "base": true,
@@ -67409,7 +67538,7 @@
         "abilities": {
           "values": {
             "normal": "Fluffy, Steadfast",
-			"hidden": "Bulletproof"
+            "hidden": "Bulletproof"
           }
         },
         "mass": 43.0,
@@ -67428,15 +67557,15 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,growl,defensecurl,copycat",
-			"12": "guardsplit",
-			"16": "doublekick",
-			"21": "headbutt",
-			"27": "takedown",
-			"32": "guardswap",
-			"38": "reversal",
-			"44": "cottonguard",
-			"50": "doubleedge",
-			"56": "lastresort"
+            "12": "guardsplit",
+            "16": "doublekick",
+            "21": "headbutt",
+            "27": "takedown",
+            "32": "guardswap",
+            "38": "reversal",
+            "44": "cottonguard",
+            "50": "doubleedge",
+            "56": "lastresort"
           }
         },
         "misc": {
@@ -67444,7 +67573,7 @@
         }
       }
     },
-	{
+    {
       "name": "Chewtle",
       "number": 833,
       "base": true,
@@ -67479,7 +67608,7 @@
         "abilities": {
           "values": {
             "normal": "Strong Jaw, Shell Armor",
-			"hidden": "Swift Swim"
+            "hidden": "Swift Swim"
           }
         },
         "mass": 8.5,
@@ -67497,14 +67626,14 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-			"1": "watergun,tackle",
-			"7": "bite",
-			"14": "protect",
-			"21": "headbutt",
-			"28": "counter",
-			"35": "jawlock",
-			"42": "liquidation",
-			"49": "Body Slam"
+            "1": "watergun,tackle",
+            "7": "bite",
+            "14": "protect",
+            "21": "headbutt",
+            "28": "counter",
+            "35": "jawlock",
+            "42": "liquidation",
+            "49": "Body Slam"
           }
         },
         "misc": {
@@ -67512,7 +67641,7 @@
         }
       }
     },
-	{
+    {
       "name": "Drednaw",
       "number": 834,
       "base": true,
@@ -67542,13 +67671,13 @@
         "types": {
           "values": {
             "type1": "Water",
-			"type2": "Rock"
+            "type2": "Rock"
           }
         },
         "abilities": {
           "values": {
             "normal": "Strong Jaw, Shell Armor",
-			"hidden": "Swift Swim"
+            "hidden": "Swift Swim"
           }
         },
         "mass": 115.5,
@@ -67567,21 +67696,21 @@
         "lvlupMoves": {
           "values": {
             "1": "rocktomb,razorshell,crunch,rockpolish,tackle,watergun,bite,protect",
-			"21": "headbutt",
-			"30": "counter",
-			"39": "jawlock",
-			"48": "liquidation",
-			"57": "bodyslam",
-			"66": "headsmash"
+            "21": "headbutt",
+            "30": "counter",
+            "39": "jawlock",
+            "48": "liquidation",
+            "57": "bodyslam",
+            "66": "headsmash"
           }
         },
         "misc": {
           "moves": "hyperbeam,gigaimpact,dig,rest,rockslide,snore,protect,scaryface,attract,sandstorm,raindance,whirlpool,facade,revenge,dive,rocktomb,sandtomb,mudshot,rockblast,payback,assurance,icefang,round,bulldoze,razorshell,falseswipe,smartstrike,stompingtantrum,swordsdance,bodyslam,hydropump,surf,icebeam,blizzard,earthquake,waterfall,substitute,endure,sleeptalk,megahorn,irontail,crunch,superpower,muddywater,irondefense,poisonjab,earthpower,stoneedge,stealthrock,scald,highhorsepower,throatchop,liquidation,bodypress"
         },
-		"evolutionMoves": "rocktomb"
+        "evolutionMoves": "rocktomb"
       }
     },
-	{
+    {
       "name": "Drednaw Gigantamax",
       "number": 834,
       "stats": {
@@ -67610,19 +67739,19 @@
         "types": {
           "values": {
             "type1": "Water",
-			"type2": "Rock"
+            "type2": "Rock"
           }
         },
         "abilities": {
           "values": {
             "normal": "Strong Jaw, Shell Armor",
-			"hidden": "Swift Swim"
+            "hidden": "Swift Swim"
           }
         },
         "mass": 115.5
       }
     },
-	{
+    {
       "name": "Yamper",
       "number": 835,
       "base": true,
@@ -67657,7 +67786,7 @@
         "abilities": {
           "values": {
             "normal": "Ball Fetch",
-			"hidden": "Rattled"
+            "hidden": "Rattled"
           }
         },
         "mass": 13.5,
@@ -67676,15 +67805,15 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,tailwhip",
-			"5": "nuzzle",
-			"10": "bite",
-			"15": "roar",
-			"20": "spark",
-			"26": "charm",
-			"30": "crunch",
-			"35": "charge",
-			"40": "wildcharge",
-			"45": "playrough"
+            "5": "nuzzle",
+            "10": "bite",
+            "15": "roar",
+            "20": "spark",
+            "26": "charm",
+            "30": "crunch",
+            "35": "charge",
+            "40": "wildcharge",
+            "45": "playrough"
           }
         },
         "misc": {
@@ -67692,7 +67821,7 @@
         }
       }
     },
-	{
+    {
       "name": "Boltund",
       "number": 836,
       "base": true,
@@ -67727,7 +67856,7 @@
         "abilities": {
           "values": {
             "normal": "Strong Jaw",
-			"hidden": "Competitive"
+            "hidden": "Competitive"
           }
         },
         "mass": 34.0,
@@ -67746,14 +67875,14 @@
         "lvlupMoves": {
           "values": {
             "1": "electrify,tackle,tailwhip,nuzzle,bite",
-			"15": "roar",
-			"20": "spark",
-			"28": "charm",
-			"34": "crunch",
-			"41": "charge",
-			"48": "wildcharge",
-			"55": "playrough",
-			"62": "electricterrain"
+            "15": "roar",
+            "20": "spark",
+            "28": "charm",
+            "34": "crunch",
+            "41": "charge",
+            "48": "wildcharge",
+            "55": "playrough",
+            "62": "electricterrain"
           }
         },
         "misc": {
@@ -67761,7 +67890,7 @@
         }
       }
     },
-	{
+    {
       "name": "Rolycoly",
       "number": 837,
       "base": true,
@@ -67796,7 +67925,7 @@
         "abilities": {
           "values": {
             "normal": "Steam Engine, Heatproof",
-			"hidden": "Flash Fire"
+            "hidden": "Flash Fire"
           }
         },
         "mass": 12.0,
@@ -67815,14 +67944,14 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,smokescreen",
-			"5": "rapidspin",
-			"10": "smackdown",
-			"15": "rockpolish",
-			"20": "ancientpower",
-			"26": "incinerate",
-			"30": "stealthrock",
-			"35": "heatcrash",
-			"40": "rockblast"
+            "5": "rapidspin",
+            "10": "smackdown",
+            "15": "rockpolish",
+            "20": "ancientpower",
+            "26": "incinerate",
+            "30": "stealthrock",
+            "35": "heatcrash",
+            "40": "rockblast"
           }
         },
         "misc": {
@@ -67830,7 +67959,7 @@
         }
       }
     },
-	{
+    {
       "name": "Carkol",
       "number": 838,
       "base": true,
@@ -67860,13 +67989,13 @@
         "types": {
           "values": {
             "type1": "Rock",
-			"type2": "Fire"
+            "type2": "Fire"
           }
         },
         "abilities": {
           "values": {
             "normal": "Steam Engine, Flame Body",
-			"hidden": "Flash Fire"
+            "hidden": "Flash Fire"
           }
         },
         "mass": 78.0,
@@ -67885,22 +68014,22 @@
         "lvlupMoves": {
           "values": {
             "1": "flamecharge,tackle,smokescreen,rapidspin,smackdown",
-			"15": "rockpolish",
-			"20": "ancientpower",
-			"27": "incinerate",
-			"35": "stealthrock",
-			"41": "heatcrash",
-			"48": "rockblast",
-			"55": "burnup"
+            "15": "rockpolish",
+            "20": "ancientpower",
+            "27": "incinerate",
+            "35": "stealthrock",
+            "41": "heatcrash",
+            "48": "rockblast",
+            "55": "burnup"
           }
         },
         "misc": {
           "moves": "gyroball,flareblitz,ironhead,stoneedge,stealthrock,heavyslam,scald,heatcrash,highhorsepower,bodypress,flamethrower,fireblast,substitute,spikes,endure,sleeptalk,heatwave,overheat,irondefense,firespin,dig,reflect,selfdestruct,rest,rockslide,snore,protect,attract,sandstorm,willowisp,facade,rocktomb,sandtomb,rockblast,round"
         },
-		"evolutionMoves": "flamecharge"
+        "evolutionMoves": "flamecharge"
       }
     },
-	{
+    {
       "name": "Coalossal",
       "number": 839,
       "base": true,
@@ -67930,13 +68059,13 @@
         "types": {
           "values": {
             "type1": "Rock",
-			"type2": "Fire"
+            "type2": "Fire"
           }
         },
         "abilities": {
           "values": {
             "normal": "Steam Engine, Flame Body",
-			"hidden": "Flash Fire"
+            "hidden": "Flash Fire"
           }
         },
         "mass": 310.5,
@@ -67955,22 +68084,22 @@
         "lvlupMoves": {
           "values": {
             "1": "tarshot,flamecharge,tackle,smokescreen,rapidspin,smackdown",
-			"15": "rockpolish",
-			"20": "ancientpower",
-			"27": "incinerate",
-			"37": "stealthrock",
-			"45": "heatcrash",
-			"54": "rockblast",
-			"63": "burnup"
+            "15": "rockpolish",
+            "20": "ancientpower",
+            "27": "incinerate",
+            "37": "stealthrock",
+            "45": "heatcrash",
+            "54": "rockblast",
+            "63": "burnup"
           }
         },
         "misc": {
           "moves": "megapunch,megakick,firepunch,hyperbeam,gigaimpact,solarbeam,firespin,dig,reflect,selfdestruct,rest,rockslide,snore,protect,attract,sandstorm,willowisp,facade,rocktomb,sandtomb,rockblast,round,bulldoze,bodyslam,flamethrower,earthquake,fireblast,substitute,spikes,endure,sleeptalk,heatwave,overheat,irondefense,gyroball,flareblitz,earthpower,ironhead,stoneedge,stealthrock,heavyslam,scald,heatcrash,highhorsepower,bodypress"
         },
-		"evolutionMoves": "tarshot"
+        "evolutionMoves": "tarshot"
       }
     },
-	{
+    {
       "name": "Coalossal Gigantamax",
       "number": 839,
       "stats": {
@@ -67999,19 +68128,19 @@
         "types": {
           "values": {
             "type1": "Rock",
-			"type2": "Fire"
+            "type2": "Fire"
           }
         },
         "abilities": {
           "values": {
             "normal": "Steam Engine, Flame Body",
-			"hidden": "Flash Fire"
+            "hidden": "Flash Fire"
           }
         },
         "mass": 310.5
       }
     },
-	{
+    {
       "name": "Applin",
       "number": 840,
       "base": true,
@@ -68041,13 +68170,13 @@
         "types": {
           "values": {
             "type1": "Grass",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Ripen, Gluttony",
-			"hidden": "Bulletproof"
+            "hidden": "Bulletproof"
           }
         },
         "mass": 0.5,
@@ -68058,7 +68187,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -68073,7 +68202,7 @@
         }
       }
     },
-	{
+    {
       "name": "Flapple",
       "number": 841,
       "base": true,
@@ -68103,13 +68232,13 @@
         "types": {
           "values": {
             "type1": "Grass",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Ripen, Gluttony",
-			"hidden": "Hustle"
+            "hidden": "Hustle"
           }
         },
         "mass": 1.0,
@@ -68120,35 +68249,35 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
-		"movementType": "flying"
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "wingattack,recycle,withdraw,astonish,growth,twister",
-			"4": "acidspray",
-			"8": "acrobatics",
-			"12": "leechseed",
-			"16": "protect",
-			"20": "dragonbreath",
-			"24": "dragondance",
-			"28": "dragonpulse",
-			"32": "gravapple",
-			"36": "irondefense",
-			"40": "fly",
-			"44": "dragonrush"
+            "4": "acidspray",
+            "8": "acrobatics",
+            "12": "leechseed",
+            "16": "protect",
+            "20": "dragonbreath",
+            "24": "dragondance",
+            "28": "dragonpulse",
+            "32": "gravapple",
+            "36": "irondefense",
+            "40": "fly",
+            "44": "dragonrush"
           }
         },
         "misc": {
           "moves": "focusenergy,substitute,outrage,endure,sleeptalk,irondefense,dragondance,seedbomb,dragonpulse,energyball,grassknot,heavyslam,fly,hyperbeam,gigaimpact,solarbeam,rest,snore,protect,scaryface,gigadrain,attract,sunnyday,facade,bulletseed,uturn,round,acrobatics,airslash"
         },
-		"evolutionMoves": "wingattack"
+        "evolutionMoves": "wingattack"
       }
     },
-	{
+    {
       "name": "Flapple Gigantamax",
       "number": 841,
       "stats": {
@@ -68177,20 +68306,20 @@
         "types": {
           "values": {
             "type1": "Grass",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Ripen, Gluttony",
-			"hidden": "Hustle"
+            "hidden": "Hustle"
           }
         },
         "mass": 1.0,
-		"movementType": "flying"
+        "movementType": "flying"
       }
     },
-	{
+    {
       "name": "Appletun",
       "number": 842,
       "base": true,
@@ -68220,13 +68349,13 @@
         "types": {
           "values": {
             "type1": "Grass",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Ripen, Gluttony",
-			"hidden": "Thick Fat"
+            "hidden": "Thick Fat"
           }
         },
         "mass": 13.0,
@@ -68237,7 +68366,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -68245,26 +68374,26 @@
         "lvlupMoves": {
           "values": {
             "1": "headbutt,recycle,withdraw,astonish,growth,sweetscent",
-			"4": "curse",
-			"8": "stomp",
-			"12": "leechseed",
-			"16": "protect",
-			"20": "bulletseed",
-			"24": "recover",
-			"28": "appleacid",
-			"32": "bodyslam",
-			"36": "irondefense",
-			"40": "dragonpulse",
-			"44": "energyball"
+            "4": "curse",
+            "8": "stomp",
+            "12": "leechseed",
+            "16": "protect",
+            "20": "bulletseed",
+            "24": "recover",
+            "28": "appleacid",
+            "32": "bodyslam",
+            "36": "irondefense",
+            "40": "dragonpulse",
+            "44": "energyball"
           }
         },
         "misc": {
           "moves": "bodyslam,earthquake,amnesia,substitute,outrage,endure,sleeptalk,superpower,irondefense,gyroball,seedbomb,dragonpulse,energyball,grassknot,heavyslam,highhorsepower,bodypress,hyperbeam,gigaimpact,solarbeam,lightscreen,reflect,safeguard,rest,snore,protect,gigadrain,attract,sunnyday,facade,bulletseed,payback,round,bulldoze"
         },
-		"evolutionMoves": "headbutt"
+        "evolutionMoves": "headbutt"
       }
     },
-	{
+    {
       "name": "Appletun Gigantamax",
       "number": 842,
       "stats": {
@@ -68293,19 +68422,19 @@
         "types": {
           "values": {
             "type1": "Grass",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Ripen, Gluttony",
-			"hidden": "Hustle"
+            "hidden": "Hustle"
           }
         },
         "mass": 13.0
       }
     },
-	{
+    {
       "name": "Silicobra",
       "number": 843,
       "base": true,
@@ -68340,7 +68469,7 @@
         "abilities": {
           "values": {
             "normal": "Sand Spit, Shed Skin",
-			"hidden": "Sand veil"
+            "hidden": "Sand veil"
           }
         },
         "mass": 7.6,
@@ -68359,16 +68488,16 @@
         "lvlupMoves": {
           "values": {
             "1": "wrap,sandattack",
-			"5": "minimize",
-			"10": "brutalswing",
-			"15": "bulldoze",
-			"20": "headbutt",
-			"25": "glare",
-			"30": "dig",
-			"35": "sandstorm",
-			"40": "slam",
-			"45": "coil",
-			"50": "sandtomb"
+            "5": "minimize",
+            "10": "brutalswing",
+            "15": "bulldoze",
+            "20": "headbutt",
+            "25": "glare",
+            "30": "dig",
+            "35": "sandstorm",
+            "40": "slam",
+            "45": "coil",
+            "50": "sandtomb"
           }
         },
         "misc": {
@@ -68376,7 +68505,7 @@
         }
       }
     },
-	{
+    {
       "name": "Sandaconda",
       "number": 844,
       "base": true,
@@ -68411,7 +68540,7 @@
         "abilities": {
           "values": {
             "normal": "Sand Spit, Shed Skin",
-			"hidden": "Sand veil"
+            "hidden": "Sand veil"
           }
         },
         "mass": 65.5,
@@ -68430,14 +68559,14 @@
         "lvlupMoves": {
           "values": {
             "1": "skullbash,wrap,sandattack,minimize,brutalswing",
-			"15": "bulldoze",
-			"20": "headbutt",
-			"25": "glare",
-			"30": "dig",
-			"35": "sandstorm",
-			"42": "slam",
-			"49": "coil",
-			"51": "sandtomb"
+            "15": "bulldoze",
+            "20": "headbutt",
+            "25": "glare",
+            "30": "dig",
+            "35": "sandstorm",
+            "42": "slam",
+            "49": "coil",
+            "51": "sandtomb"
           }
         },
         "misc": {
@@ -68445,7 +68574,7 @@
         }
       }
     },
-	{
+    {
       "name": "Sandaconda Gigantamax",
       "number": 844,
       "stats": {
@@ -68479,13 +68608,13 @@
         "abilities": {
           "values": {
             "normal": "Sand Spit, Shed Skin",
-			"hidden": "Sand veil"
+            "hidden": "Sand veil"
           }
         },
         "mass": 65.5
       }
     },
-	{
+    {
       "name": "Cramorant",
       "number": 845,
       "base": true,
@@ -68515,7 +68644,7 @@
         "types": {
           "values": {
             "type1": "Flying",
-			"type2": "Water"
+            "type2": "Water"
           }
         },
         "abilities": {
@@ -68534,20 +68663,20 @@
             "shoulder": "FALSE"
           }
         },
-		"movementType": "flying"
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "belch,peck,stockpile,swallow,spitup",
-			"7": "watergun",
-			"14": "furyattack",
-			"21": "pluck",
-			"28": "dive",
-			"35": "drillpeck",
-			"42": "amnesia",
-			"49": "thrash",
-			"56": "hydropump"
+            "7": "watergun",
+            "14": "furyattack",
+            "21": "pluck",
+            "28": "dive",
+            "35": "drillpeck",
+            "42": "amnesia",
+            "49": "thrash",
+            "56": "hydropump"
           }
         },
         "misc": {
@@ -68555,15 +68684,15 @@
         }
       }
     },
-	{
+    {
       "name": "Cramorant Gorging",
       "number": 845
     },
-	{
+    {
       "name": "Cramorant Gulping",
       "number": 845
     },
-	{
+    {
       "name": "Arrokuda",
       "number": 846,
       "base": true,
@@ -68598,7 +68727,7 @@
         "abilities": {
           "values": {
             "normal": "Swift Swim",
-			"hidden": "Propeller Tail"
+            "hidden": "Propeller Tail"
           }
         },
         "mass": 1.0,
@@ -68612,20 +68741,20 @@
             "shoulder": "FALSE"
           }
         },
-		"movementType": "water"
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "peck,aquajet",
-			"6": "furyattack",
-			"12": "bite",
-			"18": "agility",
-			"24": "dive",
-			"30": "laserfocus",
-			"36": "crunch",
-			"42": "liquidation",
-			"48": "doubleedge"
+            "6": "furyattack",
+            "12": "bite",
+            "18": "agility",
+            "24": "dive",
+            "30": "laserfocus",
+            "36": "crunch",
+            "42": "liquidation",
+            "48": "doubleedge"
           }
         },
         "misc": {
@@ -68633,7 +68762,7 @@
         }
       }
     },
-	{
+    {
       "name": "Barraskewda",
       "number": 847,
       "base": true,
@@ -68668,7 +68797,7 @@
         "abilities": {
           "values": {
             "normal": "Swift Swim",
-			"hidden": "Propeller Tail"
+            "hidden": "Propeller Tail"
           }
         },
         "mass": 30.0,
@@ -68682,18 +68811,18 @@
             "shoulder": "FALSE"
           }
         },
-		"movementType": "water"
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "throatchop,peck,aquajet,furyattack,bite",
-			"18": "agility",
-			"24": "dive",
-			"32": "laserfocus",
-			"40": "crunch",
-			"48": "liquidation",
-			"56": "doubleedge"
+            "18": "agility",
+            "24": "dive",
+            "32": "laserfocus",
+            "40": "crunch",
+            "48": "liquidation",
+            "56": "doubleedge"
           }
         },
         "misc": {
@@ -68701,7 +68830,7 @@
         }
       }
     },
-	{
+    {
       "name": "Toxel",
       "number": 848,
       "base": true,
@@ -68731,13 +68860,13 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Poison"
+            "type2": "Poison"
           }
         },
         "abilities": {
           "values": {
             "normal": "Rattled, Static",
-			"hidden": "Klutz"
+            "hidden": "Klutz"
           }
         },
         "mass": 11.0,
@@ -68748,7 +68877,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -68763,7 +68892,7 @@
         }
       }
     },
-	{
+    {
       "name": "Toxtricity Amped",
       "number": 849,
       "base": true,
@@ -68793,13 +68922,13 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Poison"
+            "type2": "Poison"
           }
         },
         "abilities": {
           "values": {
             "normal": "Punk Rock, Plus",
-			"hidden": "Techinician"
+            "hidden": "Techinician"
           }
         },
         "mass": 40.0,
@@ -68818,28 +68947,28 @@
         "lvlupMoves": {
           "values": {
             "1": "spark,eerieimpulse,belch,tearfullook,nuzzle,growl,flail,acid,thundershock,acidspray,leer,nobleroar",
-			"4": "charge",
-			"8": "shockwave",
-			"12": "scaryface",
-			"16": "taunt",
-			"20": "venoshock",
-			"24": "screech",
-			"28": "swagger",
-			"32": "toxic",
-			"36": "discharge",
-			"40": "poisonjab",
-			"44": "overdrive",
-			"48": "boomburst",
-			"52": "shiftgear"
+            "4": "charge",
+            "8": "shockwave",
+            "12": "scaryface",
+            "16": "taunt",
+            "20": "venoshock",
+            "24": "screech",
+            "28": "swagger",
+            "32": "toxic",
+            "36": "discharge",
+            "40": "poisonjab",
+            "44": "overdrive",
+            "48": "boomburst",
+            "52": "shiftgear"
           }
         },
         "misc": {
           "moves": "thunderbolt,thunder,substitute,sludgebomb,endure,sleeptalk,encore,uproar,taunt,hypervoice,poisonjab,gunkshot,sludgewave,electroball,storedpower,wildcharge,throatchop,megapunch,megakick,firepunch,thunderpunch,hyperbeam,gigaimpact,thunderwave,screech,rest,snore,protect,scaryface,attract,facade,swift,payback,fling,drainpunch,venoshock,round,hex,voltswitch,snarl,eerieimpulse"
         },
-		"evolutionMoves": "spark"
+        "evolutionMoves": "spark"
       }
     },
-	{
+    {
       "name": "Toxtricity Amped Gigantamax",
       "number": 849,
       "stats": {
@@ -68868,19 +68997,19 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Poison"
+            "type2": "Poison"
           }
         },
         "abilities": {
           "values": {
             "normal": "Punk Rock, Plus",
-			"hidden": "Techinician"
+            "hidden": "Techinician"
           }
         },
         "mass": 40.0
       }
     },
-	{
+    {
       "name": "Toxtricity Lowkey",
       "number": 849,
       "stats": {
@@ -68909,13 +69038,13 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Poison"
+            "type2": "Poison"
           }
         },
         "abilities": {
           "values": {
             "normal": "Punk Rock, Minus",
-			"hidden": "Techinician"
+            "hidden": "Techinician"
           }
         },
         "mass": 40.0,
@@ -68934,28 +69063,28 @@
         "lvlupMoves": {
           "values": {
             "1": "spark,eerieimpulse,belch,tearfullook,nuzzle,growl,flail,acid,thundershock,acidspray,leer,nobleroar",
-			"4": "charge",
-			"8": "shockwave",
-			"12": "scaryface",
-			"16": "taunt",
-			"20": "venomdrench",
-			"24": "screech",
-			"28": "swagger",
-			"32": "toxic",
-			"36": "discharge",
-			"40": "poisonjab",
-			"44": "overdrive",
-			"48": "boomburst",
-			"52": "magneticflux"
+            "4": "charge",
+            "8": "shockwave",
+            "12": "scaryface",
+            "16": "taunt",
+            "20": "venomdrench",
+            "24": "screech",
+            "28": "swagger",
+            "32": "toxic",
+            "36": "discharge",
+            "40": "poisonjab",
+            "44": "overdrive",
+            "48": "boomburst",
+            "52": "magneticflux"
           }
         },
         "misc": {
           "moves": "thunderbolt,thunder,substitute,sludgebomb,endure,sleeptalk,encore,uproar,taunt,hypervoice,poisonjab,gunkshot,sludgewave,electroball,storedpower,wildcharge,venomdrench,throatchop,megapunch,megakick,firepunch,thunderpunch,hyperbeam,gigaimpact,thunderwave,screech,rest,snore,protect,scaryface,attract,facade,swift,payback,fling,drainpunch,round,hex,voltswitch,snarl,eerieimpulse"
         },
-		"evolutionMoves": "spark"
+        "evolutionMoves": "spark"
       }
     },
-	{
+    {
       "name": "Toxtricity Lowkey Gigantamax",
       "number": 849,
       "stats": {
@@ -68984,19 +69113,19 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Poison"
+            "type2": "Poison"
           }
         },
         "abilities": {
           "values": {
             "normal": "Punk Rock, Minus",
-			"hidden": "Techinician"
+            "hidden": "Techinician"
           }
         },
         "mass": 40.0
       }
     },
-	{
+    {
       "name": "Sizzlipede",
       "number": 850,
       "base": true,
@@ -69026,13 +69155,13 @@
         "types": {
           "values": {
             "type1": "Fire",
-			"type2": "Bug"
+            "type2": "Bug"
           }
         },
         "abilities": {
           "values": {
             "normal": "Flash Fire, White Smoke",
-			"hidden": "Flame Body"
+            "hidden": "Flame Body"
           }
         },
         "mass": 1.0,
@@ -69046,23 +69175,23 @@
             "shoulder": "FALSE"
           }
         },
-		"hatedMaterials": "water"
+        "hatedMaterials": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "ember,smokescreen",
-			"5": "wrap",
-			"10": "bite",
-			"15": "flamewheel",
-			"20": "bugbite",
-			"25": "coil",
-			"30": "slam",
-			"35": "firespin",
-			"40": "crunch",
-			"45": "firelash",
-			"50": "lunge",
-			"55": "burnup"
+            "5": "wrap",
+            "10": "bite",
+            "15": "flamewheel",
+            "20": "bugbite",
+            "25": "coil",
+            "30": "slam",
+            "35": "firespin",
+            "40": "crunch",
+            "45": "firelash",
+            "50": "lunge",
+            "55": "burnup"
           }
         },
         "misc": {
@@ -69070,7 +69199,7 @@
         }
       }
     },
-	{
+    {
       "name": "Centiskorch",
       "number": 851,
       "base": true,
@@ -69100,13 +69229,13 @@
         "types": {
           "values": {
             "type1": "Fire",
-			"type2": "Bug"
+            "type2": "Bug"
           }
         },
         "abilities": {
           "values": {
             "normal": "Flash Fire, White Smoke",
-			"hidden": "Flame Body"
+            "hidden": "Flame Body"
           }
         },
         "mass": 120.0,
@@ -69120,21 +69249,21 @@
             "shoulder": "FALSE"
           }
         },
-		"hatedMaterials": "water"
+        "hatedMaterials": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "inferno,ember,smokescreen,wrap,bite",
-			"15": "flamewheel",
-			"20": "bugbite",
-			"25": "coil",
-			"32": "slam",
-			"39": "firespin",
-			"46": "crunch",
-			"53": "firelash",
-			"60": "lunge",
-			"67": "burnup"
+            "15": "flamewheel",
+            "20": "bugbite",
+            "25": "coil",
+            "32": "slam",
+            "39": "firespin",
+            "46": "crunch",
+            "53": "firelash",
+            "60": "lunge",
+            "67": "burnup"
           }
         },
         "misc": {
@@ -69142,7 +69271,7 @@
         }
       }
     },
-	{
+    {
       "name": "Centiskorch Gigantamax",
       "number": 851,
       "stats": {
@@ -69171,20 +69300,20 @@
         "types": {
           "values": {
             "type1": "Fire",
-			"type2": "Bug"
+            "type2": "Bug"
           }
         },
         "abilities": {
           "values": {
             "normal": "Flash Fire, White Smoke",
-			"hidden": "Flame Body"
+            "hidden": "Flame Body"
           }
         },
         "mass": 120.0,
-		"hatedMaterials": "water"
+        "hatedMaterials": "water"
       }
     },
-	{
+    {
       "name": "Clobbopus",
       "number": 852,
       "base": true,
@@ -69219,7 +69348,7 @@
         "abilities": {
           "values": {
             "normal": "Limber",
-			"hidden": "Techinician"
+            "hidden": "Techinician"
           }
         },
         "mass": 4.0,
@@ -69233,21 +69362,21 @@
             "shoulder": "FALSE"
           }
         },
-		"movementType": "water"
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "rocksmash,leer",
-			"5": "feint",
-			"10": "bind",
-			"15": "detect",
-			"20": "brickbreak",
-			"25": "bulkup",
-			"30": "submission",
-			"35": "taunt",
-			"40": "reversal",
-			"45": "superpower"
+            "5": "feint",
+            "10": "bind",
+            "15": "detect",
+            "20": "brickbreak",
+            "25": "bulkup",
+            "30": "submission",
+            "35": "taunt",
+            "40": "reversal",
+            "45": "superpower"
           }
         },
         "misc": {
@@ -69255,7 +69384,7 @@
         }
       }
     },
-	{
+    {
       "name": "Grapploct",
       "number": 853,
       "base": true,
@@ -69290,7 +69419,7 @@
         "abilities": {
           "values": {
             "normal": "Limber",
-			"hidden": "Techinician"
+            "hidden": "Techinician"
           }
         },
         "mass": 39.0,
@@ -69301,32 +69430,33 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
-		"movementType": "water"
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "octolock,octazooka,rocksmash,leer,feint,bind",
-			"15": "detect",
-			"20": "brickbreak",
-			"25": "bulkup",
-			"30": "submission",
-			"35": "taunt",
-			"40": "reversal",
-			"45": "superpower",
-			"50": "topsyturvy"
+            "15": "detect",
+            "20": "brickbreak",
+            "25": "bulkup",
+            "30": "submission",
+            "35": "taunt",
+            "40": "reversal",
+            "45": "superpower",
+            "50": "topsyturvy"
           }
         },
         "misc": {
           "moves": "bodyslam,hydropump,surf,waterfall,substitute,reversal,endure,sleeptalk,taunt,superpower,muddywater,bulkup,closecombat,focusblast,workup,liquidation,megapunch,icepunch,hyperbeam,gigaimpact,dig,rest,snore,protect,scaryface,attract,whirlpool,facade,revenge,brickbreak,dive,mudshot,brine,payback,drainpunch,round,retaliate,brutalswing,stompingtantrum"
         },
-		"evolutionMoves": "octolock"
+        "evolutionMoves": "octolock"
       }
     },
-	{
+    {
       "name": "Sinistea",
       "number": 854,
       "base": true,
@@ -69361,7 +69491,7 @@
         "abilities": {
           "values": {
             "normal": "Weak Armor",
-			"hidden": "Cursed Body"
+            "hidden": "Cursed Body"
           }
         },
         "mass": 0.2,
@@ -69372,25 +69502,25 @@
         "genderRatio": 255,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "astonish,withdraw",
-			"6": "aromaticmist",
-			"12": "megadrain",
-			"18": "protect",
-			"24": "suckerpunch",
-			"30": "aromatherapy",
-			"36": "gigadrain",
-			"42": "nastyplot",
-			"48": "shadowball",
-			"54": "memento",
-			"60": "shellsmash"
+            "6": "aromaticmist",
+            "12": "megadrain",
+            "18": "protect",
+            "24": "suckerpunch",
+            "30": "aromatherapy",
+            "36": "gigadrain",
+            "42": "nastyplot",
+            "48": "shadowball",
+            "54": "memento",
+            "60": "shellsmash"
           }
         },
         "misc": {
@@ -69398,11 +69528,11 @@
         }
       }
     },
-	{
+    {
       "name": "Sinistea Forgery",
       "number": 854
     },
-	{
+    {
       "name": "Polteageist",
       "number": 855,
       "base": true,
@@ -69437,7 +69567,7 @@
         "abilities": {
           "values": {
             "normal": "Weak Armor",
-			"hidden": "Cursed Body"
+            "hidden": "Cursed Body"
           }
         },
         "mass": 0.4,
@@ -69448,37 +69578,37 @@
         "genderRatio": 255,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "teatime,strengthsap,astonish,withdraw,aromaticmist,megadrain",
-			"18": "protect",
-			"24": "suckerpunch",
-			"30": "aromatherapy",
-			"36": "gigadrain",
-			"42": "nastyplot",
-			"48": "shadowball",
-			"54": "memento",
-			"60": "shellsmash",
-			"66": "curse"
+            "18": "protect",
+            "24": "suckerpunch",
+            "30": "aromatherapy",
+            "36": "gigadrain",
+            "42": "nastyplot",
+            "48": "shadowball",
+            "54": "memento",
+            "60": "shellsmash",
+            "66": "curse"
           }
         },
         "misc": {
           "moves": "psychic,metronome,substitute,psyshock,endure,sleeptalk,batonpass,shadowball,trick,darkpulse,nastyplot,foulplay,storedpower,allyswitch,hyperbeam,gigaimpact,lightscreen,reflect,selfdestruct,rest,snore,protect,gigadrain,willowisp,facade,imprison,payback,wonderroom,round,hex,phantomforce"
         },
-		"evolutionMoves": "teatime"
+        "evolutionMoves": "teatime"
       }
     },
-	{
+    {
       "name": "Polteageist Forgery",
       "number": 855
     },
-	{
+    {
       "name": "Hatenna",
       "number": 856,
       "base": true,
@@ -69513,7 +69643,7 @@
         "abilities": {
           "values": {
             "normal": "Healer, Anticipation",
-			"hidden": "Magic Bounce"
+            "hidden": "Magic Bounce"
           }
         },
         "mass": 3.4,
@@ -69524,7 +69654,7 @@
         "genderRatio": 254,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -69532,15 +69662,15 @@
         "lvlupMoves": {
           "values": {
             "1": "confusion,playnice",
-			"5": "lifedew",
-			"10": "disarmingvoice",
-			"15": "aromatherapy",
-			"20": "psybeam",
-			"25": "healpulse",
-			"30": "dazzlinggleam",
-			"35": "calmmind",
-			"40": "psychic",
-			"45": "healingwish"
+            "5": "lifedew",
+            "10": "disarmingvoice",
+            "15": "aromatherapy",
+            "20": "psybeam",
+            "25": "healpulse",
+            "30": "dazzlinggleam",
+            "35": "calmmind",
+            "40": "psychic",
+            "45": "healingwish"
           }
         },
         "misc": {
@@ -69548,7 +69678,7 @@
         }
       }
     },
-	{
+    {
       "name": "Hattrem",
       "number": 857,
       "base": true,
@@ -69583,7 +69713,7 @@
         "abilities": {
           "values": {
             "normal": "Healer, Anticipation",
-			"hidden": "Magic Bounce"
+            "hidden": "Magic Bounce"
           }
         },
         "mass": 4.8,
@@ -69602,22 +69732,22 @@
         "lvlupMoves": {
           "values": {
             "1": "brutalswing,confusion,lifedew,playnice,disarmingvoice",
-			"15": "aromatherapy",
-			"20": "psybeam",
-			"25": "healpulse",
-			"30": "dazzlinggleam",
-			"37": "calmmind",
-			"44": "psychic",
-			"51": "healingwish"
+            "15": "aromatherapy",
+            "20": "psybeam",
+            "25": "healpulse",
+            "30": "dazzlinggleam",
+            "37": "calmmind",
+            "44": "psychic",
+            "51": "healingwish"
           }
         },
         "misc": {
           "moves": "psychic,substitute,psyshock,endure,sleeptalk,batonpass,skillswap,calmmind,darkpulse,storedpower,playrough,dazzlinggleam,magicalleaf,thunderwave,lightscreen,safeguard,rest,snore,protect,gigadrain,charm,attract,facade,helpinghand,imprison,round,drainingkiss,mysticalfire,brutalswing"
         },
-		"evolutionMoves": "brutalswing"
+        "evolutionMoves": "brutalswing"
       }
     },
-	{
+    {
       "name": "Hatterene",
       "number": 858,
       "base": true,
@@ -69647,13 +69777,13 @@
         "types": {
           "values": {
             "type1": "Psychic",
-			"type2": "Fairy"
+            "type2": "Fairy"
           }
         },
         "abilities": {
           "values": {
             "normal": "Healer, Anticipation",
-			"hidden": "Magic Bounce"
+            "hidden": "Magic Bounce"
           }
         },
         "mass": 5.1,
@@ -69672,23 +69802,64 @@
         "lvlupMoves": {
           "values": {
             "1": "psychocut,brutalswing,confusion,playnice,lifedew,disarmingvoice",
-			"15": "aromatherapy",
-			"20": "psybeam",
-			"25": "healpulse",
-			"30": "dazzlinggleam",
-			"37": "calmmind",
-			"46": "psychic",
-			"55": "healingwish",
-			"64": "magicpowder"
+            "15": "aromatherapy",
+            "20": "psybeam",
+            "25": "healpulse",
+            "30": "dazzlinggleam",
+            "37": "calmmind",
+            "46": "psychic",
+            "55": "healingwish",
+            "64": "magicpowder"
           }
         },
         "misc": {
           "moves": "swordsdance,psychic,substitute,psyshock,endure,sleeptalk,batonpass,shadowball,futuresight,skillswap,calmmind,darkpulse,powerwhip,storedpower,playrough,dazzlinggleam,hyperbeam,gigaimpact,magicalleaf,thunderwave,lightscreen,safeguard,rest,snore,protect,gigadrain,charm,attract,facade,helpinghand,imprison,powerswap,guardswap,shadowclaw,psychocut,trickroom,wonderroom,magicroom,round,drainingkiss,mysticalfire,brutalswing"
         },
-		"evolutionMoves": "psychocut"
+        "evolutionMoves": "psychocut"
       }
     },
-	{
+    {
+      "name": "Hatterene Gigantamax",
+      "number": 858,
+      "stats": {
+        "stats": {
+          "values": {
+            "hp": "57",
+            "atk": "90",
+            "def": "95",
+            "spatk": "136",
+            "spdef": "103",
+            "spd": "29"
+          }
+        },
+        "evs": {
+          "values": {
+            "spatk": "3"
+          }
+        },
+        "sizes": {
+          "values": {
+            "length": "4",
+            "width": "4",
+            "height": "6"
+          }
+        },
+        "types": {
+          "values": {
+            "type1": "Psychic",
+            "type2": "Fairy"
+          }
+        },
+        "abilities": {
+          "values": {
+            "normal": "Healer, Anticipation",
+            "hidden": "Magic Bounce"
+          }
+        },
+        "mass": 5.1
+      }
+    },
+    {
       "name": "Impidimp",
       "number": 859,
       "base": true,
@@ -69718,13 +69889,13 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Fairy"
+            "type2": "Fairy"
           }
         },
         "abilities": {
           "values": {
             "normal": "Prankster, Frisk",
-			"hidden": "Pickpocket"
+            "hidden": "Pickpocket"
           }
         },
         "mass": 5.5,
@@ -69743,17 +69914,17 @@
         "lvlupMoves": {
           "values": {
             "1": "fakeout,confide",
-			"4": "bite",
-			"8": "flatter",
-			"12": "faketears",
-			"16": "assurance",
-			"20": "swagger",
-			"24": "suckerpunch",
-			"28": "torment",
-			"33": "darkpulse",
-			"36": "nastyplot",
-			"40": "playrough",
-			"44": "foulplay"
+            "4": "bite",
+            "8": "flatter",
+            "12": "faketears",
+            "16": "assurance",
+            "20": "swagger",
+            "24": "suckerpunch",
+            "28": "torment",
+            "33": "darkpulse",
+            "36": "nastyplot",
+            "40": "playrough",
+            "44": "foulplay"
           }
         },
         "misc": {
@@ -69761,7 +69932,7 @@
         }
       }
     },
-	{
+    {
       "name": "Morgrem",
       "number": 860,
       "base": true,
@@ -69791,13 +69962,13 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Fairy"
+            "type2": "Fairy"
           }
         },
         "abilities": {
           "values": {
             "normal": "Prankster, Frisk",
-			"hidden": "Pickpocket"
+            "hidden": "Pickpocket"
           }
         },
         "mass": 12.5,
@@ -69816,24 +69987,24 @@
         "lvlupMoves": {
           "values": {
             "1": "fakeout,confide,falsesurrender,bite,flatter",
-			"12": "faketears",
-			"16": "assurance",
-			"20": "swagger",
-			"24": "suckerpunch",
-			"28": "torment",
-			"35": "darkpulse",
-			"40": "nastyplot",
-			"46": "playrough",
-			"52": "foulplay"
+            "12": "faketears",
+            "16": "assurance",
+            "20": "swagger",
+            "24": "suckerpunch",
+            "28": "torment",
+            "35": "darkpulse",
+            "40": "nastyplot",
+            "46": "playrough",
+            "52": "foulplay"
           }
         },
         "misc": {
           "moves": "lowkick,metronome,leechlife,substitute,endure,sleeptalk,uproar,taunt,trick,darkpulse,nastyplot,foulplay,playrough,dazzlinggleam,throatchop,megapunch,megakick,thunderwave,lightscreen,reflect,rest,thief,snore,protect,attract,facade,revenge,faketears,assurance,drainpunch,shadowclaw,round,retaliate,drainingkiss"
         },
-		"evolutionMoves": "falsesurrender"
+        "evolutionMoves": "falsesurrender"
       }
     },
-	{
+    {
       "name": "Grimmsnarl",
       "number": 861,
       "base": true,
@@ -69863,13 +70034,13 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Fairy"
+            "type2": "Fairy"
           }
         },
         "abilities": {
           "values": {
             "normal": "Prankster, Frisk",
-			"hidden": "Pickpocket"
+            "hidden": "Pickpocket"
           }
         },
         "mass": 61.0,
@@ -69888,25 +70059,25 @@
         "lvlupMoves": {
           "values": {
             "1": "spiritbreak,falsesurrender,bulkup,poweruppunch,fakeout,confide,bite,flatter",
-			"12": "faketears",
-			"16": "assurance",
-			"20": "swagger",
-			"24": "suckerpunch",
-			"28": "torment",
-			"35": "darkpulse",
-			"40": "nastyplot",
-			"48": "playrough",
-			"56": "foulplay",
-			"64": "hammerarm"
+            "12": "faketears",
+            "16": "assurance",
+            "20": "swagger",
+            "24": "suckerpunch",
+            "28": "torment",
+            "35": "darkpulse",
+            "40": "nastyplot",
+            "48": "playrough",
+            "56": "foulplay",
+            "64": "hammerarm"
           }
         },
         "misc": {
           "moves": "bodyslam,lowkick,focusenergy,metronome,leechlife,substitute,endure,sleeptalk,crunch,uproar,taunt,trick,superpower,bulkup,darkpulse,focusblast,nastyplot,powerwhip,foulplay,playrough,dazzlinggleam,darkestlariat,throatchop,bodypress,megapunch,megakick,firepunch,icepunch,thunderpunch,hyperbeam,gigaimpact,thunderwave,lightscreen,reflect,rest,thief,snore,protect,scaryface,attract,facade,revenge,brickbreak,faketears,assurance,powerswap,drainpunch,shadowclaw,wonderroom,lowsweep,round,retaliate,drainingkiss,stompingtantrum"
         },
-		"evolutionMoves": "spiritbreak"
+        "evolutionMoves": "spiritbreak"
       }
     },
-	{
+    {
       "name": "Grimmsnarl Gigantamax",
       "number": 861,
       "stats": {
@@ -69935,19 +70106,19 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Fairy"
+            "type2": "Fairy"
           }
         },
         "abilities": {
           "values": {
             "normal": "Prankster, Frisk",
-			"hidden": "Pickpocket"
+            "hidden": "Pickpocket"
           }
         },
         "mass": 61.0
       }
     },
-	{
+    {
       "name": "Obstagoon",
       "number": 862,
       "base": true,
@@ -69977,13 +70148,13 @@
         "types": {
           "values": {
             "type1": "Dark",
-			"type2": "Normal"
+            "type2": "Normal"
           }
         },
         "abilities": {
           "values": {
             "normal": "Reckless, Guts",
-			"hidden": "Defiant"
+            "hidden": "Defiant"
           }
         },
         "mass": 46.0,
@@ -70002,25 +70173,25 @@
         "lvlupMoves": {
           "values": {
             "1": "obstruct,crosschop,submission,nightslash,switcheroo,pinmissile,babydolleyes,tackle,leer,sandattack,lick",
-			"9": "snarl",
-			"12": "headbutt",
-			"15": "honeclaws",
-			"18": "furyswipes",
-			"23": "rest",
-			"28": "takedown",
-			"35": "scaryface",
-			"42": "counter",
-			"49": "taunt",
-			"56": "doubleedge"
+            "9": "snarl",
+            "12": "headbutt",
+            "15": "honeclaws",
+            "18": "furyswipes",
+            "23": "rest",
+            "28": "takedown",
+            "35": "scaryface",
+            "42": "counter",
+            "49": "taunt",
+            "56": "doubleedge"
           }
         },
         "misc": {
           "moves": "bodyslam,surf,icebeam,blizzard,lowkick,thunderbolt,thunder,focusenergy,substitute,reversal,endure,sleeptalk,irontail,shadowball,taunt,trick,hypervoice,bulkup,closecombat,seedbomb,xscissor,gunkshot,grassknot,workup,throatchop,bodypress,megapunch,megakick,firepunch,icepunch,thunderpunch,pinmissile,hyperbeam,gigaimpact,thunderwave,dig,screech,rest,thief,snore,protect,scaryface,icywind,attract,raindance,sunnyday,whirlpool,facade,swift,helpinghand,revenge,brickbreak,faketears,mudshot,payback,assurance,fling,shadowclaw,crosspoison,round,retaliate,snarl,stompingtantrum"
         },
-		"evolutionMoves": "obstruct"
+        "evolutionMoves": "obstruct"
       }
     },
-	{
+    {
       "name": "Perrserker",
       "number": 863,
       "base": true,
@@ -70055,7 +70226,7 @@
         "abilities": {
           "values": {
             "normal": "Battle Armor, Tough Claws",
-			"hidden": "Steely Spirit"
+            "hidden": "Steely Spirit"
           }
         },
         "mass": 28.0,
@@ -70074,24 +70245,24 @@
         "lvlupMoves": {
           "values": {
             "1": "ironhead,metalburst,irondefense,fakeout,growl,honeclaws,scratch",
-			"12": "payday",
-			"16": "metalclaw",
-			"20": "taunt",
-			"24": "swagger",
-			"31": "furyswipes",
-			"36": "screech",
-			"42": "slash",
-			"48": "metalsound",
-			"54": "thrash"
+            "12": "payday",
+            "16": "metalclaw",
+            "20": "taunt",
+            "24": "swagger",
+            "31": "furyswipes",
+            "36": "screech",
+            "42": "slash",
+            "48": "metalsound",
+            "54": "thrash"
           }
         },
         "misc": {
           "moves": "swordsdance,bodyslam,thunderbolt,thunder,amnesia,substitute,endure,sleeptalk,batonpass,irontail,crunch,shadowball,uproar,taunt,hypervoice,irondefense,gyroball,closecombat,darkpulse,seedbomb,nastyplot,gunkshot,ironhead,foulplay,workup,playrough,throatchop,payday,hyperbeam,gigaimpact,dig,screech,rest,thief,snore,protect,attract,raindance,sunnyday,facade,uturn,payback,assurance,fling,shadowclaw,round,retaliate"
         },
-		"evolutionMoves": "ironhead"
+        "evolutionMoves": "ironhead"
       }
     },
-	{
+    {
       "name": "Cursola",
       "number": 864,
       "base": true,
@@ -70126,7 +70297,7 @@
         "abilities": {
           "values": {
             "normal": "Weak Armor",
-			"hidden": "Perish Body"
+            "hidden": "Perish Body"
           }
         },
         "mass": 0.4,
@@ -70145,15 +70316,15 @@
         "lvlupMoves": {
           "values": {
             "1": "perishsong,tackle,harden,astonish,disable",
-			"15": "spite",
-			"20": "ancientpower",
-			"25": "hex",
-			"30": "curse",
-			"35": "strengthsap",
-			"40": "powergem",
-			"45": "nightshade",
-			"50": "grudge",
-			"55": "mirrorcoat"
+            "15": "spite",
+            "20": "ancientpower",
+            "25": "hex",
+            "30": "curse",
+            "35": "strengthsap",
+            "40": "powergem",
+            "45": "nightshade",
+            "50": "grudge",
+            "55": "mirrorcoat"
           }
         },
         "misc": {
@@ -70161,8 +70332,8 @@
         }
       }
     },
-	{
-      "name": "Sirfetch\u0027d",
+    {
+      "name": "Sirfetch'd",
       "number": 865,
       "base": true,
       "stats": {
@@ -70196,7 +70367,7 @@
         "abilities": {
           "values": {
             "normal": "Steadfast",
-			"hidden": "Scrappy"
+            "hidden": "Scrappy"
           }
         },
         "mass": 117.0,
@@ -70215,27 +70386,27 @@
         "lvlupMoves": {
           "values": {
             "1": "irondefense,firstimpression,peck,sandattack,leer,furycutter",
-			"15": "rocksmash",
-			"20": "brutalswing",
-			"25": "detect",
-			"30": "knockoff",
-			"35": "defog",
-			"40": "brickbreak",
-			"45": "swordsdance",
-			"50": "slam",
-			"55": "leafblade",
-			"60": "finalgambit",
-			"65": "bravebird",
-			"70": "meteorassault"
+            "15": "rocksmash",
+            "20": "brutalswing",
+            "25": "detect",
+            "30": "knockoff",
+            "35": "defog",
+            "40": "brickbreak",
+            "45": "swordsdance",
+            "50": "slam",
+            "55": "leafblade",
+            "60": "finalgambit",
+            "65": "bravebird",
+            "70": "meteorassault"
           }
         },
         "misc": {
           "moves": "swordsdance,bodyslam,focusenergy,substitute,endure,sleeptalk,superpower,irondefense,leafblade,closecombat,poisonjab,bravebird,workup,throatchop,solarblade,rest,snore,protect,steelwing,attract,sunnyday,facade,helpinghand,revenge,brickbreak,assurance,round,retaliate,brutalswing"
         },
-		"evolutionMoves": "irondefense"
+        "evolutionMoves": "irondefense"
       }
     },
-	{
+    {
       "name": "Mr. Rime",
       "number": 866,
       "base": true,
@@ -70265,13 +70436,13 @@
         "types": {
           "values": {
             "type1": "Ice",
-			"type2": "Psychic"
+            "type2": "Psychic"
           }
         },
         "abilities": {
           "values": {
             "normal": "Tangled Feet, Screen Cleaner",
-			"hidden": "Ice Body"
+            "hidden": "Ice Body"
           }
         },
         "mass": 58.2,
@@ -70290,17 +70461,17 @@
         "lvlupMoves": {
           "values": {
             "1": "faketears,slackoff,afteryou,block,copycat,encore,roleplay,protect,recycle,mimic,lightscreen,reflect,safeguard,dazzlinggleam,mistyterrain,pound,rapidspin,batonpass,iceshard",
-			"12": "confusion",
-			"16": "allyswitch",
-			"20": "icewind",
-			"24": "doublekick",
-			"28": "psybeam",
-			"32": "hypnosis",
-			"36": "mirrorcoat",
-			"40": "suckerpunch",
-			"44": "freezedry",
-			"48": "psychic",
-			"52": "teeterdance"
+            "12": "confusion",
+            "16": "allyswitch",
+            "20": "icewind",
+            "24": "doublekick",
+            "28": "psybeam",
+            "32": "hypnosis",
+            "36": "mirrorcoat",
+            "40": "suckerpunch",
+            "44": "freezedry",
+            "48": "psychic",
+            "52": "teeterdance"
           }
         },
         "misc": {
@@ -70308,7 +70479,7 @@
         }
       }
     },
-	{
+    {
       "name": "Runerigus",
       "number": 867,
       "base": true,
@@ -70338,7 +70509,7 @@
         "types": {
           "values": {
             "type1": "Ground",
-			"type2": "Ghost"
+            "type2": "Ghost"
           }
         },
         "abilities": {
@@ -70357,32 +70528,32 @@
             "shoulder": "FALSE"
           }
         },
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "shadowclaw,scaryface,astonish,project,haze,nightshade",
-			"12": "disable",
-			"16": "brutalswing",
-			"20": "craftyshield",
-			"24": "hex",
-			"28": "meanlook",
-			"32": "slam",
-			"38": "curse",
-			"44": "shadowball",
-			"50": "earthquake",
-			"56": "powersplit,guardsplit",
-			"62": "destinybond"
+            "12": "disable",
+            "16": "brutalswing",
+            "20": "craftyshield",
+            "24": "hex",
+            "28": "meanlook",
+            "32": "slam",
+            "38": "curse",
+            "44": "shadowball",
+            "50": "earthquake",
+            "56": "powersplit,guardsplit",
+            "62": "destinybond"
           }
         },
         "misc": {
           "moves": "earthquake,psychic,amnesia,substitute,sleeptalk,shadowball,taunt,trick,skillswap,irondefense,calmmind,toxicspikes,darkpulse,dragonpulse,energyball,earthpower,nastyplot,zenheadbutt,stoneedge,stealthrock,grassknot,allyswitch,bodypress,hyperbeam,gigaimpact,safeguard,rest,rockslide,thief,snore,protect,scaryface,attract,sandstorm,raindance,willowisp,facade,revenge,imprison,faketears,rocktomb,sandtomb,rockblast,payback,powerswap,guardswap,shadowclaw,trickroom,wonderroom,round,hex,bulldoze,phantomforce,brutalswing"
         },
-		"evolutionMoves": "shadowclaw"
+        "evolutionMoves": "shadowclaw"
       }
     },
-	{
+    {
       "name": "Milcery",
       "number": 868,
       "base": true,
@@ -70417,7 +70588,7 @@
         "abilities": {
           "values": {
             "normal": "Sweet Veil",
-			"hidden": "Aroma Veil"
+            "hidden": "Aroma Veil"
           }
         },
         "mass": 0.3,
@@ -70428,25 +70599,25 @@
         "genderRatio": 254,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "tackle,aromaticmist",
-			"5": "sweetkiss",
-			"10": "sweetscent",
-			"15": "drainingkiss",
-			"20": "aromatherapy",
-			"25": "attract",
-			"30": "acidarmor",
-			"35": "dazzlinggleam",
-			"40": "recover",
-			"45": "mistyterrain",
-			"50": "entrainment"
+            "5": "sweetkiss",
+            "10": "sweetscent",
+            "15": "drainingkiss",
+            "20": "aromatherapy",
+            "25": "attract",
+            "30": "acidarmor",
+            "35": "dazzlinggleam",
+            "40": "recover",
+            "45": "mistyterrain",
+            "50": "entrainment"
           }
         },
         "misc": {
@@ -70454,7 +70625,7 @@
         }
       }
     },
-	{
+    {
       "name": "Alcremie",
       "number": 869,
       "base": true,
@@ -70489,7 +70660,7 @@
         "abilities": {
           "values": {
             "normal": "Sweet Veil",
-			"hidden": "Aroma Veil"
+            "hidden": "Aroma Veil"
           }
         },
         "mass": 0.5,
@@ -70508,23 +70679,23 @@
         "lvlupMoves": {
           "values": {
             "1": "decorate,tackle,aromaticmist,sweetkiss,sweetscent",
-			"15": "drainingkiss",
-			"20": "aromatherapy",
-			"25": "attract",
-			"30": "acidarmor",
-			"35": "dazzlinggleam",
-			"40": "recover",
-			"45": "mistyterrain",
-			"50": "entrainment"
+            "15": "drainingkiss",
+            "20": "aromatherapy",
+            "25": "attract",
+            "30": "acidarmor",
+            "35": "dazzlinggleam",
+            "40": "recover",
+            "45": "mistyterrain",
+            "50": "entrainment"
           }
         },
         "misc": {
           "moves": "psychic,metronome,triattack,substitute,psyshock,endure,sleeptalk,encore,calmmind,energyball,storedpower,playrough,dazzlinggleam,hyperbeam,gigaimpact,magicalleaf,solarbeam,lightscreen,safeguard,rest,snore,protect,gigadrain,charm,attract,facade,helpinghand,imprison,faketears,fling,drainpunch,wonderroom,magicroom,round,drainingkiss,mistyterrain,mysticalfire"
         },
-		"evolutionMoves": "decorate"
+        "evolutionMoves": "decorate"
       }
     },
-	{
+    {
       "name": "Alcremie Gigantamax",
       "number": 869,
       "stats": {
@@ -70558,17 +70729,17 @@
         "abilities": {
           "values": {
             "normal": "Sweet Veil",
-			"hidden": "Aroma Veil"
+            "hidden": "Aroma Veil"
           }
         },
         "mass": 0.5
       }
     },
-	{
+    {
       "name": "Alcremie Berry",
       "number": 869
-	},
-	{
+    },
+    {
       "name": "Falinks",
       "number": 870,
       "base": true,
@@ -70586,7 +70757,7 @@
         "evs": {
           "values": {
             "atk": "2",
-			"spdef": "1"
+            "spdef": "1"
           }
         },
         "sizes": {
@@ -70604,7 +70775,7 @@
         "abilities": {
           "values": {
             "normal": "Battle Armor",
-			"hidden": "Defiant"
+            "hidden": "Defiant"
           }
         },
         "mass": 62.0,
@@ -70623,18 +70794,18 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,protect",
-			"5": "rocksmash",
-			"10": "focusenergy",
-			"15": "headbutt",
-			"20": "bulkup",
-			"25": "endure",
-			"30": "reversal",
-			"35": "firstimpression",
-			"40": "noretreat",
-			"45": "irondefense",
-			"50": "closecombat",
-			"55": "megahorn",
-			"60": "counter"
+            "5": "rocksmash",
+            "10": "focusenergy",
+            "15": "headbutt",
+            "20": "bulkup",
+            "25": "endure",
+            "30": "reversal",
+            "35": "firstimpression",
+            "40": "noretreat",
+            "45": "irondefense",
+            "50": "closecombat",
+            "55": "megahorn",
+            "60": "counter"
           }
         },
         "misc": {
@@ -70642,7 +70813,7 @@
         }
       }
     },
-	{
+    {
       "name": "Pincurchin",
       "number": 871,
       "base": true,
@@ -70677,7 +70848,7 @@
         "abilities": {
           "values": {
             "normal": "Lightning Rod",
-			"hidden": "Electric Surge"
+            "hidden": "Electric Surge"
           }
         },
         "mass": 1.0,
@@ -70696,18 +70867,18 @@
         "lvlupMoves": {
           "values": {
             "1": "peck,thundershock",
-			"5": "watergun",
-			"10": "charge",
-			"15": "furyattack",
-			"20": "spark",
-			"25": "bubblebeam",
-			"30": "recover",
-			"35": "curse",
-			"40": "electricterrain",
-			"45": "poisonjab",
-			"50": "zingzap",
-			"55": "acupressure",
-			"60": "discharge"
+            "5": "watergun",
+            "10": "charge",
+            "15": "furyattack",
+            "20": "spark",
+            "25": "bubblebeam",
+            "30": "recover",
+            "35": "curse",
+            "40": "electricterrain",
+            "45": "poisonjab",
+            "50": "zingzap",
+            "55": "acupressure",
+            "60": "discharge"
           }
         },
         "misc": {
@@ -70715,7 +70886,7 @@
         }
       }
     },
-	{
+    {
       "name": "Snom",
       "number": 872,
       "base": true,
@@ -70745,13 +70916,13 @@
         "types": {
           "values": {
             "type1": "Ice",
-			"type2": "Bug"
+            "type2": "Bug"
           }
         },
         "abilities": {
           "values": {
             "normal": "Shield Dust",
-			"hidden": "Ice Scales"
+            "hidden": "Ice Scales"
           }
         },
         "mass": 3.8,
@@ -70762,7 +70933,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -70777,7 +70948,7 @@
         }
       }
     },
-	{
+    {
       "name": "Frosmoth",
       "number": 873,
       "base": true,
@@ -70807,13 +70978,13 @@
         "types": {
           "values": {
             "type1": "Ice",
-			"type2": "Bug"
+            "type2": "Bug"
           }
         },
         "abilities": {
           "values": {
             "normal": "Shield Dust",
-			"hidden": "Ice Scales"
+            "hidden": "Ice Scales"
           }
         },
         "mass": 42.0,
@@ -70824,37 +70995,38 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-		"movementType": "flying"
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "icywind,powdersnow,strugglebug,attract",
-			"4": "stunspore",
-			"8": "infestation",
-			"12": "mist",
-			"16": "defog",
-			"21": "featherdance",
-			"24": "aurorabeam",
-			"28": "hail",
-			"32": "bugbuzz",
-			"36": "auroraveil",
-			"40": "blizzard",
-			"44": "tailwind",
-			"48": "wideguard",
-			"52": "quiverdance"
+            "4": "stunspore",
+            "8": "infestation",
+            "12": "mist",
+            "16": "defog",
+            "21": "featherdance",
+            "24": "aurorabeam",
+            "28": "hail",
+            "32": "bugbuzz",
+            "36": "auroraveil",
+            "40": "blizzard",
+            "44": "tailwind",
+            "48": "wideguard",
+            "52": "quiverdance"
           }
         },
         "misc": {
           "moves": "icebeam,blizzard,leechlife,substitute,endure,sleeptalk,calmmind,bugbuzz,hurricane,playrough,dazzlinggleam,hyperbeam,gigaimpact,lightscreen,reflect,safeguard,rest,snore,protect,icywind,gigadrain,attract,hail,facade,helpinghand,imprison,weatherball,iciclespear,uturn,avalanche,round,acrobatics,airslash"
         },
-		"evolutionMoves": "icywind"
+        "evolutionMoves": "icywind"
       }
     },
-	{
+    {
       "name": "Stonjourner",
       "number": 874,
       "base": true,
@@ -70902,23 +71074,23 @@
             "shoulder": "FALSE"
           }
         },
-		"hatedMaterials": "water"
+        "hatedMaterials": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "rockthrow,block",
-			"6": "rockpolish",
-			"12": "rocktomb",
-			"18": "gravity",
-			"24": "stomp",
-			"30": "stealthrock",
-			"36": "rockslide",
-			"42": "bodyslam",
-			"48": "wideguard",
-			"54": "heavyslam",
-			"60": "stoneedge",
-			"66": "megakick"
+            "6": "rockpolish",
+            "12": "rocktomb",
+            "18": "gravity",
+            "24": "stomp",
+            "30": "stealthrock",
+            "36": "rockslide",
+            "42": "bodyslam",
+            "48": "wideguard",
+            "54": "heavyslam",
+            "60": "stoneedge",
+            "66": "megakick"
           }
         },
         "misc": {
@@ -70926,7 +71098,7 @@
         }
       }
     },
-	{
+    {
       "name": "Eiscue",
       "number": 875,
       "base": true,
@@ -70979,16 +71151,16 @@
         "lvlupMoves": {
           "values": {
             "1": "powdersnow,tackle",
-			"6": "mist",
-			"12": "weatherball",
-			"18": "icywind",
-			"24": "headbutt",
-			"30": "amnesia",
-			"36": "freezedry",
-			"42": "hail",
-			"48": "auroraveil",
-			"54": "surf",
-			"60": "blizzard"
+            "6": "mist",
+            "12": "weatherball",
+            "18": "icywind",
+            "24": "headbutt",
+            "30": "amnesia",
+            "36": "freezedry",
+            "42": "hail",
+            "48": "auroraveil",
+            "54": "surf",
+            "60": "blizzard"
           }
         },
         "misc": {
@@ -70996,7 +71168,7 @@
         }
       }
     },
-	{
+    {
       "name": "Eiscue Noice",
       "number": 875,
       "stats": {
@@ -71035,7 +71207,7 @@
         "mass": 89.0
       }
     },
-	{
+    {
       "name": "Indeedee",
       "number": 876,
       "base": true,
@@ -71065,13 +71237,13 @@
         "types": {
           "values": {
             "type1": "Psychic",
-			"type2": "Normal"
+            "type2": "Normal"
           }
         },
         "abilities": {
           "values": {
             "normal": "Inner Focus, Synchronize",
-			"hidden": "Psychic Surge"
+            "hidden": "Psychic Surge"
           }
         },
         "mass": 28.0,
@@ -71090,17 +71262,17 @@
         "lvlupMoves": {
           "values": {
             "1": "storedpower,playnice",
-			"5": "encore",
-			"10": "disarmingvoice",
-			"15": "psybeam",
-			"20": "helpinghand",
-			"25": "afteryou",
-			"30": "aromatherapy",
-			"35": "psychic",
-			"40": "calmmind",
-			"45": "powersplit",
-			"50": "psychicterrain",
-			"55": "lastresort"
+            "5": "encore",
+            "10": "disarmingvoice",
+            "15": "psybeam",
+            "20": "helpinghand",
+            "25": "afteryou",
+            "30": "aromatherapy",
+            "35": "psychic",
+            "40": "calmmind",
+            "45": "powersplit",
+            "50": "psychicterrain",
+            "55": "lastresort"
           }
         },
         "misc": {
@@ -71108,7 +71280,7 @@
         }
       }
     },
-	{
+    {
       "name": "Indeedee Female",
       "number": 876,
       "stats": {
@@ -71137,45 +71309,45 @@
         "types": {
           "values": {
             "type1": "Psychic",
-			"type2": "Normal"
+            "type2": "Normal"
           }
         },
         "abilities": {
           "values": {
             "normal": "Own Tempo, Synchronize",
-			"hidden": "Psychic Surge"
+            "hidden": "Psychic Surge"
           }
         },
         "mass": 28.0,
-		"captureRate": 30,
+        "captureRate": 30,
         "baseExp": 166,
         "baseFriendship": 50,
         "expMode": "Fast",
         "genderRatio": 0
-		},		
+      },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "storedpower,playnice",
-			"5": "batonpass",
-			"10": "disarmingvoice",
-			"15": "psybeam",
-			"20": "helpinghand",
-			"25": "followme",
-			"30": "aromatherapy",
-			"35": "psychic",
-			"40": "calmmind",
-			"45": "guardsplit",
-			"50": "psychicterrain",
-			"55": "healingwish"
+            "5": "batonpass",
+            "10": "disarmingvoice",
+            "15": "psybeam",
+            "20": "helpinghand",
+            "25": "followme",
+            "30": "aromatherapy",
+            "35": "psychic",
+            "40": "calmmind",
+            "45": "guardsplit",
+            "50": "psychicterrain",
+            "55": "healingwish"
           }
         },
-       "misc": {
+        "misc": {
           "moves": "payday,magicalleaf,lightscreen,reflect,safeguard,rest,snore,protect,attract,facade,swift,helpinghand,imprison,guardswap,drainpunch,round,drainingkiss,psychicterrain,mysticalfire,psychic,metronome,substitute,psyshock,endure,sleeptalk,batonpass,shadowball,shadowball,futuresight,trick,hypervoice,calmmind,energyball,zenheadbutt,storedpower,allyswitch,playrough,dazzlinggleam"
         }
       }
     },
-	{
+    {
       "name": "Morpeko",
       "number": 877,
       "base": true,
@@ -71205,7 +71377,7 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Dark"
+            "type2": "Dark"
           }
         },
         "abilities": {
@@ -71221,7 +71393,7 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         }
       },
@@ -71229,18 +71401,18 @@
         "lvlupMoves": {
           "values": {
             "1": "thundershock,tailwhip",
-			"5": "leer",
-			"10": "powertrip",
-			"15": "quickattack",
-			"20": "flatter",
-			"25": "bite",
-			"30": "spark",
-			"35": "torment",
-			"40": "agility",
-			"45": "bulletseed",
-			"50": "crunch",
-			"55": "aurawheel",
-			"60": "thrash"
+            "5": "leer",
+            "10": "powertrip",
+            "15": "quickattack",
+            "20": "flatter",
+            "25": "bite",
+            "30": "spark",
+            "35": "torment",
+            "40": "agility",
+            "45": "bulletseed",
+            "50": "crunch",
+            "55": "aurawheel",
+            "60": "thrash"
           }
         },
         "misc": {
@@ -71248,7 +71420,7 @@
         }
       }
     },
-	{
+    {
       "name": "Morpeko Hangry",
       "number": 877,
       "stats": {
@@ -71277,7 +71449,7 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Dark"
+            "type2": "Dark"
           }
         },
         "abilities": {
@@ -71288,7 +71460,7 @@
         "mass": 3.0
       }
     },
-	{
+    {
       "name": "Cufant",
       "number": 878,
       "base": true,
@@ -71323,7 +71495,7 @@
         "abilities": {
           "values": {
             "normal": "Sheer Force",
-			"hidden": "Heavy Metal"
+            "hidden": "Heavy Metal"
           }
         },
         "mass": 100.0,
@@ -71342,17 +71514,17 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,growl",
-			"5": "rollout",
-			"10": "rocksmash",
-			"15": "bulldoze",
-			"20": "stomp",
-			"25": "irondefense",
-			"30": "dig",
-			"35": "strength",
-			"40": "ironhead",
-			"45": "playrough",
-			"50": "highhorsepower",
-			"55": "superpower"
+            "5": "rollout",
+            "10": "rocksmash",
+            "15": "bulldoze",
+            "20": "stomp",
+            "25": "irondefense",
+            "30": "dig",
+            "35": "strength",
+            "40": "ironhead",
+            "45": "playrough",
+            "50": "highhorsepower",
+            "55": "superpower"
           }
         },
         "misc": {
@@ -71360,7 +71532,7 @@
         }
       }
     },
-	{
+    {
       "name": "Copperajah",
       "number": 879,
       "base": true,
@@ -71395,7 +71567,7 @@
         "abilities": {
           "values": {
             "normal": "Sheer Force",
-			"hidden": "Heavy Metal"
+            "hidden": "Heavy Metal"
           }
         },
         "mass": 650.0,
@@ -71414,24 +71586,24 @@
         "lvlupMoves": {
           "values": {
             "1": "heavyslam,tackle,growl,rollout,rocksmash",
-			"15": "bulldoze",
-			"20": "stomp",
-			"25": "irondefense",
-			"30": "dig",
-			"37": "strength",
-			"44": "ironhead",
-			"51": "playrough",
-			"58": "highhorsepower",
-			"65": "superpower"
+            "15": "bulldoze",
+            "20": "stomp",
+            "25": "irondefense",
+            "30": "dig",
+            "37": "strength",
+            "44": "ironhead",
+            "51": "playrough",
+            "58": "highhorsepower",
+            "65": "superpower"
           }
         },
         "misc": {
           "moves": "bodyslam,earthquake,substitute,outrage,endure,sleeptalk,taunt,superpower,irondefense,earthpower,zenheadbutt,flashcannon,powerwhip,ironhead,stoneedge,stealthrock,heavyslam,workup,heatcrash,playrough,highhorsepower,bodypress,megakick,hyperbeam,gigaimpact,dig,screech,rest,rockslide,snore,protect,scaryface,attract,facade,revenge,brickbreak,rocktomb,mudshot,rockblast,payback,fling,round,bulldoze,snarl,brutalswing,stompingtantrum"
         },
-		"evolutionMoves": "heavyslam"
+        "evolutionMoves": "heavyslam"
       }
     },
-	{
+    {
       "name": "Copperajah Gigantamax",
       "number": 879,
       "stats": {
@@ -71465,13 +71637,13 @@
         "abilities": {
           "values": {
             "normal": "Sheer Force",
-			"hidden": "Heavy Metal"
+            "hidden": "Heavy Metal"
           }
         },
         "mass": 650.0
       }
     },
-	{
+    {
       "name": "Dracozolt",
       "number": 880,
       "base": true,
@@ -71501,13 +71673,13 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Volt Absorb, Hustle",
-			"hidden": "Sand Rush"
+            "hidden": "Sand Rush"
           }
         },
         "mass": 190.0,
@@ -71526,17 +71698,17 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,thundershock",
-			"7": "charge",
-			"14": "aerialace",
-			"21": "ancientpower",
-			"28": "pluck",
-			"35": "dragontail",
-			"42": "stomp",
-			"49": "slam",
-			"56": "discharge",
-			"63": "boltbeak",
-			"70": "dragonpulse",
-			"77": "dragonrush"
+            "7": "charge",
+            "14": "aerialace",
+            "21": "ancientpower",
+            "28": "pluck",
+            "35": "dragontail",
+            "42": "stomp",
+            "49": "slam",
+            "56": "discharge",
+            "63": "boltbeak",
+            "70": "dragonpulse",
+            "77": "dragonrush"
           }
         },
         "misc": {
@@ -71544,7 +71716,7 @@
         }
       }
     },
-	{
+    {
       "name": "Arctozolt",
       "number": 881,
       "base": true,
@@ -71574,13 +71746,13 @@
         "types": {
           "values": {
             "type1": "Electric",
-			"type2": "Ice"
+            "type2": "Ice"
           }
         },
         "abilities": {
           "values": {
             "normal": "Volt Absorb, Static",
-			"hidden": "Slush Rush"
+            "hidden": "Slush Rush"
           }
         },
         "mass": 150.0,
@@ -71599,17 +71771,17 @@
         "lvlupMoves": {
           "values": {
             "1": "powdersnow,thundershock",
-			"7": "charge",
-			"14": "echoedvoice",
-			"21": "ancientpower",
-			"28": "pluck",
-			"35": "avalanche",
-			"42": "freezedry",
-			"49": "slam",
-			"56": "discharge",
-			"63": "boltbeak",
-			"70": "iciclecrash",
-			"77": "blizzard"
+            "7": "charge",
+            "14": "echoedvoice",
+            "21": "ancientpower",
+            "28": "pluck",
+            "35": "avalanche",
+            "42": "freezedry",
+            "49": "slam",
+            "56": "discharge",
+            "63": "boltbeak",
+            "70": "iciclecrash",
+            "77": "blizzard"
           }
         },
         "misc": {
@@ -71617,7 +71789,7 @@
         }
       }
     },
-	{
+    {
       "name": "Dracovish",
       "number": 882,
       "base": true,
@@ -71647,13 +71819,13 @@
         "types": {
           "values": {
             "type1": "Water",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Water Absorb, Strong Jaw",
-			"hidden": "Sand Rush"
+            "hidden": "Sand Rush"
           }
         },
         "mass": 215.0,
@@ -71672,17 +71844,17 @@
         "lvlupMoves": {
           "values": {
             "1": "tackle,watergun",
-			"7": "protect",
-			"14": "brutalswing",
-			"21": "ancientpower",
-			"28": "bite",
-			"35": "dragonbreath",
-			"42": "stomp",
-			"49": "superfang",
-			"56": "crunch",
-			"63": "fishiousrend",
-			"70": "dragonpulse",
-			"77": "dragonrush"
+            "7": "protect",
+            "14": "brutalswing",
+            "21": "ancientpower",
+            "28": "bite",
+            "35": "dragonbreath",
+            "42": "stomp",
+            "49": "superfang",
+            "56": "crunch",
+            "63": "fishiousrend",
+            "70": "dragonpulse",
+            "77": "dragonrush"
           }
         },
         "misc": {
@@ -71690,7 +71862,7 @@
         }
       }
     },
-	{
+    {
       "name": "Arctovish",
       "number": 883,
       "base": true,
@@ -71720,13 +71892,13 @@
         "types": {
           "values": {
             "type1": "Water",
-			"type2": "Ice"
+            "type2": "Ice"
           }
         },
         "abilities": {
           "values": {
             "normal": "Water Absorb, Ice Body",
-			"hidden": "Slush Rush"
+            "hidden": "Slush Rush"
           }
         },
         "mass": 175.0,
@@ -71737,26 +71909,27 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "dive": "TRUE",
             "shoulder": "FALSE"
           }
         },
-		"movementType": "water"
+        "movementType": "water"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "powdersnow,watergun",
-			"7": "protect",
-			"14": "icywind",
-			"21": "ancientpower",
-			"27": "bite",
-			"35": "auroraveil",
-			"42": "freezedry",
-			"49": "superfang",
-			"56": "crunch",
-			"63": "fishiousrend",
-			"70": "iciclecrash",
-			"77": "blizzard"
+            "7": "protect",
+            "14": "icywind",
+            "21": "ancientpower",
+            "27": "bite",
+            "35": "auroraveil",
+            "42": "freezedry",
+            "49": "superfang",
+            "56": "crunch",
+            "63": "fishiousrend",
+            "70": "iciclecrash",
+            "77": "blizzard"
           }
         },
         "misc": {
@@ -71764,7 +71937,7 @@
         }
       }
     },
-	{
+    {
       "name": "Duraludon",
       "number": 884,
       "base": true,
@@ -71794,13 +71967,13 @@
         "types": {
           "values": {
             "type1": "Steel",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Light Metal, Heavy Metal",
-			"hidden": "Stalwart"
+            "hidden": "Stalwart"
           }
         },
         "mass": 40.0,
@@ -71819,17 +71992,17 @@
         "lvlupMoves": {
           "values": {
             "1": "metalclaw,leer",
-			"6": "rocksmash",
-			"12": "honeclaws",
-			"18": "metalsound",
-			"24": "breakingswipe",
-			"30": "dragontail",
-			"36": "irondefense",
-			"42": "laserfocus",
-			"48": "dragonclaw",
-			"54": "flashcannon",
-			"60": "metalburst",
-			"66": "hyperbeam"
+            "6": "rocksmash",
+            "12": "honeclaws",
+            "18": "metalsound",
+            "24": "breakingswipe",
+            "30": "dragontail",
+            "36": "irondefense",
+            "42": "laserfocus",
+            "48": "dragonclaw",
+            "54": "flashcannon",
+            "60": "metalburst",
+            "66": "hyperbeam"
           }
         },
         "misc": {
@@ -71837,7 +72010,7 @@
         }
       }
     },
-	{
+    {
       "name": "Duraludon Gigantamax",
       "number": 884,
       "stats": {
@@ -71866,19 +72039,19 @@
         "types": {
           "values": {
             "type1": "Steel",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Light Metal, Heavy Metal",
-			"hidden": "Stalwart"
+            "hidden": "Stalwart"
           }
         },
         "mass": 40.0
       }
     },
-	{
+    {
       "name": "Dreepy",
       "number": 885,
       "base": true,
@@ -71908,13 +72081,13 @@
         "types": {
           "values": {
             "type1": "Dragon",
-			"type2": "Ghost"
+            "type2": "Ghost"
           }
         },
         "abilities": {
           "values": {
             "normal": "Clear Body, Infiltrator",
-			"hidden": "Cursed Body"
+            "hidden": "Cursed Body"
           }
         },
         "mass": 2.0,
@@ -71925,10 +72098,10 @@
         "genderRatio": 127,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "TRUE"
           }
         },
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
@@ -71941,7 +72114,7 @@
         }
       }
     },
-	{
+    {
       "name": "Drakloak",
       "number": 886,
       "base": true,
@@ -71971,13 +72144,13 @@
         "types": {
           "values": {
             "type1": "Dragon",
-			"type2": "Ghost"
+            "type2": "Ghost"
           }
         },
         "abilities": {
           "values": {
             "normal": "Clear Body, Infiltrator",
-			"hidden": "Cursed Body"
+            "hidden": "Cursed Body"
           }
         },
         "mass": 11.0,
@@ -71991,33 +72164,33 @@
             "shoulder": "FALSE"
           }
         },
-		"movementType": "floating"
+        "movementType": "floating"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "dragonpulse,astonish,infestation,quickattack,bite",
-			"6": "lockon",
-			"12": "assurance",
-			"18": "hex",
-			"24": "agility",
-			"30": "doublehit",
-			"36": "uturn",
-			"42": "dragondance",
-			"48": "phantomforce",
-			"54": "takedown",
-			"60": "dragonrush",
-			"66": "doubleedge",
-			"72": "lastresort"
+            "6": "lockon",
+            "12": "assurance",
+            "18": "hex",
+            "24": "agility",
+            "30": "doublehit",
+            "36": "uturn",
+            "42": "dragondance",
+            "48": "phantomforce",
+            "54": "takedown",
+            "60": "dragonrush",
+            "66": "doubleedge",
+            "72": "lastresort"
           }
         },
         "misc": {
           "moves": "flamethrower,hydropump,surf,thunderbolt,thunder,agility,fireblast,substitute,outrage,endure,sleeptalk,batonpass,shadowball,dragondance,dragonpulse,allyswitch,scald,psychicfangs,thunderwave,rest,thief,snore,protect,steelwing,attract,beatup,willowisp,facade,swift,helpinghand,dive,brine,uturn,assurance,round,hex,acrobatics,phantomforce,breakingswipe"
         },
-		"evolutionMoves": "dragonpulse"
+        "evolutionMoves": "dragonpulse"
       }
     },
-	{
+    {
       "name": "Dragapult",
       "number": 887,
       "base": true,
@@ -72047,13 +72220,13 @@
         "types": {
           "values": {
             "type1": "Ghost",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
           "values": {
             "normal": "Clear Body, Infiltrator",
-			"hidden": "Cursed Body"
+            "hidden": "Cursed Body"
           }
         },
         "mass": 50.0,
@@ -72064,36 +72237,37 @@
         "genderRatio": 127,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
         },
-		"movementType": "flying"
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "dragondarts,dragonbreath,suckerpunch,astonish,infestation,quickattack,bite",
-			"6": "lockon",
-			"12": "assurance",
-			"18": "hex",
-			"24": "agility",
-			"30": "doublehit",
-			"36": "uturn",
-			"42": "dragondance",
-			"48": "phantomforce",
-			"54": "takedown",
-			"63": "dragonrush",
-			"70": "doubleedge",
-			"78": "lastresort"
+            "6": "lockon",
+            "12": "assurance",
+            "18": "hex",
+            "24": "agility",
+            "30": "doublehit",
+            "36": "uturn",
+            "42": "dragondance",
+            "48": "phantomforce",
+            "54": "takedown",
+            "63": "dragonrush",
+            "70": "doubleedge",
+            "78": "lastresort"
           }
         },
         "misc": {
           "moves": "bodyslam,flamethrower,hydropump,surf,thunderbolt,thunder,agility,fireblast,triattack,substitute,outrage,endure,sleeptalk,batonpass,shadowball,dragonclaw,dragondance,dragonpulse,allyswitch,scald,psychicfangs,fly,hyperbeam,gigaimpact,solarbeam,thunderwave,lightscreen,reflect,rest,thief,snore,protect,steelwing,attract,beatup,willowisp,facade,swift,helpinghand,dive,brine,uturn,assurance,round,hex,acrobatics,phantomforce,breakingswipe"
         },
-		"evolutionMoves": "dragondarts"
+        "evolutionMoves": "dragondarts"
       }
     },
-	{
+    {
       "name": "Zacian",
       "number": 888,
       "base": true,
@@ -72128,7 +72302,7 @@
         "abilities": {
           "values": {
             "normal": "Intrepid Sword",
-			"hidden": "Intrepid Sword"
+            "hidden": "Intrepid Sword"
           }
         },
         "mass": 110.0,
@@ -72147,14 +72321,14 @@
         "lvlupMoves": {
           "values": {
             "1": "sacredsword,quickguard,metalclaw,howl,quickattack,bite",
-			"11": "slash",
-			"22": "swordsdance",
-			"33": "ironhead",
-			"44": "laserfocus",
-			"55": "crunch",
-			"66": "moonblast",
-			"77": "closecombat",
-			"88": "gigaimpact"
+            "11": "slash",
+            "22": "swordsdance",
+            "33": "ironhead",
+            "44": "laserfocus",
+            "55": "crunch",
+            "66": "moonblast",
+            "77": "closecombat",
+            "88": "gigaimpact"
           }
         },
         "misc": {
@@ -72162,7 +72336,7 @@
         }
       }
     },
-	{
+    {
       "name": "Zacian Crowned",
       "number": 888,
       "stats": {
@@ -72191,7 +72365,7 @@
         "types": {
           "values": {
             "type1": "Fairy",
-			"type2": "Steel"
+            "type2": "Steel"
           }
         },
         "abilities": {
@@ -72202,7 +72376,7 @@
         "mass": 355.0
       }
     },
-	{
+    {
       "name": "Zamazenta",
       "number": 889,
       "base": true,
@@ -72255,14 +72429,14 @@
         "lvlupMoves": {
           "values": {
             "1": "metalburst,wideguard,metalclaw,howl,quickattack,bite",
-			"11": "slash",
-			"22": "irondefense",
-			"33": "ironhead",
-			"44": "laserfocus",
-			"55": "crunch",
-			"66": "moonblast",
-			"77": "closecombat",
-			"88": "gigaimpact"
+            "11": "slash",
+            "22": "irondefense",
+            "33": "ironhead",
+            "44": "laserfocus",
+            "55": "crunch",
+            "66": "moonblast",
+            "77": "closecombat",
+            "88": "gigaimpact"
           }
         },
         "misc": {
@@ -72270,7 +72444,7 @@
         }
       }
     },
-	{
+    {
       "name": "Zamazenta Crowned",
       "number": 889,
       "stats": {
@@ -72299,7 +72473,7 @@
         "types": {
           "values": {
             "type1": "Fighting",
-			"type2": "Steel"
+            "type2": "Steel"
           }
         },
         "abilities": {
@@ -72310,7 +72484,7 @@
         "mass": 785.0
       }
     },
-	{
+    {
       "name": "Eternatus",
       "number": 890,
       "base": true,
@@ -72340,7 +72514,7 @@
         "types": {
           "values": {
             "type1": "Poison",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {
@@ -72356,25 +72530,27 @@
         "genderRatio": 255,
         "logics": {
           "values": {
+            "fly": "TRUE",
             "shoulder": "FALSE"
           }
-        }
+        },
+        "movementType": "flying"
       },
       "moves": {
         "lvlupMoves": {
           "values": {
             "1": "poisontail,confuseray,dragontail,agility",
-			"8": "toxic",
-			"16": "venoshock",
-			"24": "dragondance",
-			"32": "crosspoison",
-			"40": "dragonpulse",
-			"48": "flamethrower",
-			"56": "dynamaxcannon",
-			"64": "cosmicpower",
-			"72": "recover",
-			"80": "hyperbeam",
-			"88": "eternabeam"
+            "8": "toxic",
+            "16": "venoshock",
+            "24": "dragondance",
+            "32": "crosspoison",
+            "40": "dragonpulse",
+            "48": "flamethrower",
+            "56": "dynamaxcannon",
+            "64": "cosmicpower",
+            "72": "recover",
+            "80": "hyperbeam",
+            "88": "eternabeam"
           }
         },
         "misc": {
@@ -72382,7 +72558,7 @@
         }
       }
     },
-	{
+    {
       "name": "Eternatus Eternamax",
       "number": 890,
       "stats": {
@@ -72411,7 +72587,7 @@
         "types": {
           "values": {
             "type1": "Poison",
-			"type2": "Dragon"
+            "type2": "Dragon"
           }
         },
         "abilities": {

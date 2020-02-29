@@ -24,7 +24,6 @@
     "kill_gogoat": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gogoat"
       }
     }

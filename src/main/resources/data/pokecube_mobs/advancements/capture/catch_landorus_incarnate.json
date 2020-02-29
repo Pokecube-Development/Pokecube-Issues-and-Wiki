@@ -25,7 +25,6 @@
     "catch_landorus_incarnate": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "landorus_incarnate"
       }
     }

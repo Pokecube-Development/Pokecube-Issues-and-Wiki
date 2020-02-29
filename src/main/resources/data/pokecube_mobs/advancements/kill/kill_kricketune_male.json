@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kricketune"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kricketune"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kricketune_male": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kricketune_male"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_kricketot"
+}

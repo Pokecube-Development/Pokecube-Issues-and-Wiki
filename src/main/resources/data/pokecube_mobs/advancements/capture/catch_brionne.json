@@ -24,7 +24,6 @@
     "catch_brionne": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "brionne"
       }
     }

@@ -24,7 +24,6 @@
     "kill_haxorus": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "haxorus"
       }
     }

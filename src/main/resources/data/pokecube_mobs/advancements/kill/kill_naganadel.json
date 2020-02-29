@@ -24,7 +24,6 @@
     "kill_naganadel": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "naganadel"
       }
     }

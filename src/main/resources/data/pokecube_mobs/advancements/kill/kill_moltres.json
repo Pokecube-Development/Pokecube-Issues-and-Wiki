@@ -25,7 +25,6 @@
     "kill_moltres": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "moltres"
       }
     }

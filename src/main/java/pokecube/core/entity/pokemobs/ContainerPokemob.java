@@ -24,8 +24,9 @@ public class ContainerPokemob extends BaseContainer
 
     public IInventory   pokemobInv;
     public IPokemob     pokemob;
-    public final byte   mode;
+    public byte         mode;
     public PacketBuffer data;
+    PlayerInventory     playerInv;
 
     public ContainerPokemob(final int id, final PlayerInventory playerInv, final PacketBuffer data)
     {
@@ -39,8 +40,19 @@ public class ContainerPokemob extends BaseContainer
         this.mode = data.readByte();
         this.data = data;
         this.pokemobInv.openInventory(playerInv.player);
+        this.playerInv = playerInv;
+        this.setMode(this.mode);
+    }
+
+    public void setMode(final int mode)
+    {
+        this.mode = (byte) mode;
         int j;
         int k;
+
+        this.inventorySlots.clear();
+        this.inventoryItemStacks.clear();
+
         if (this.mode == 0)
         {
             this.addSlot(new Slot(this.pokemobInv, 0, 8, 18)
@@ -111,7 +123,7 @@ public class ContainerPokemob extends BaseContainer
                         }
                     });
         }
-        this.bindPlayerInventory(playerInv, -19);
+        this.bindPlayerInventory(this.playerInv, -19);
     }
 
     @Override

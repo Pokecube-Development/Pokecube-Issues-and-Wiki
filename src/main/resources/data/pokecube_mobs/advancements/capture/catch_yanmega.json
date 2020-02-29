@@ -24,7 +24,6 @@
     "catch_yanmega": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "yanmega"
       }
     }

@@ -24,7 +24,6 @@
     "kill_houndour": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "houndour"
       }
     }

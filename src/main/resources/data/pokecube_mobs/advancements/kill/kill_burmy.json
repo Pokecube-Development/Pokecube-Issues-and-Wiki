@@ -24,7 +24,6 @@
     "kill_burmy": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "burmy"
       }
     }

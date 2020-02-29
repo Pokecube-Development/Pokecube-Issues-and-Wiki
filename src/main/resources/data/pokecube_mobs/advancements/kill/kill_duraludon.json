@@ -24,7 +24,6 @@
     "kill_duraludon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "duraludon"
       }
     }

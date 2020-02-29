@@ -24,7 +24,6 @@
     "kill_misdreavus": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "misdreavus"
       }
     }

@@ -24,7 +24,6 @@
     "catch_phantump": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "phantump"
       }
     }

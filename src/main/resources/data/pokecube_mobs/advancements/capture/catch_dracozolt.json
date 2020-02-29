@@ -24,7 +24,6 @@
     "catch_dracozolt": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dracozolt"
       }
     }

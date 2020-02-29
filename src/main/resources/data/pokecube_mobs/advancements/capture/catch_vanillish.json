@@ -24,7 +24,6 @@
     "catch_vanillish": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "vanillish"
       }
     }

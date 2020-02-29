@@ -24,7 +24,6 @@
     "kill_tangela": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tangela"
       }
     }

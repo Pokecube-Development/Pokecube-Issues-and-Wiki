@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo_small"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pumpkaboo_small"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_pumpkaboo_small": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "pumpkaboo_small"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

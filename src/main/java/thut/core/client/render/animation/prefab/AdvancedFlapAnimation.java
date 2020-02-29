@@ -5,17 +5,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-
-import org.w3c.dom.NamedNodeMap;
+import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.common.ThutCore;
 
 public class AdvancedFlapAnimation extends Animation
 {
+    private static final QName duration = new QName("duration");
+
     public AdvancedFlapAnimation()
     {
         this.loops = true;
@@ -23,42 +26,40 @@ public class AdvancedFlapAnimation extends Animation
     }
 
     @Override
-    public Animation init(NamedNodeMap map, @Nullable IPartRenamer renamer)
+    public Animation init(final Phase map, @Nullable final IPartRenamer renamer)
     {
         int flapdur = 0;
         float walkAngle2 = 20;
 
-        flapdur = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
+        flapdur = Integer.parseInt(this.get(map, AdvancedFlapAnimation.duration));
         // Can have up to 255 wing segments, more than this would be silly.
         for (int i = 1; i <= 255; i++)
         {
-            if (map.getNamedItem("leftWing" + i) == null) break;
+            if (this.get(map, "leftWing" + i).isEmpty()) break;
 
             int flapaxis = 2;
             final float[] walkAngle1 = { 20, 20 };
             final HashSet<String> hl = new HashSet<>();
             final HashSet<String> hr = new HashSet<>();
-            final String[] lh = map.getNamedItem("leftWing" + i).getNodeValue().split(":");
-            final String[] rh = map.getNamedItem("rightWing" + i).getNodeValue().split(":");
+            final String[] lh = this.get(map, "leftWing" + i).split(":");
+            final String[] rh = this.get(map, "rightWing" + i).split(":");
             if (renamer != null)
             {
                 renamer.convertToIdents(lh);
                 renamer.convertToIdents(rh);
             }
             for (final String s : lh)
-                if (s != null) hl.add(s);
+                if (s != null) hl.add(ThutCore.trim(s));
             for (final String s : rh)
-                if (s != null) hr.add(s);
-            if (map.getNamedItem("angle" + i) != null)
+                if (s != null) hr.add(ThutCore.trim(s));
+            if (this.get(map, "angle" + i) != null)
             {
-                final String[] args = map.getNamedItem("angle" + i).getNodeValue().split(",");
+                final String[] args = this.get(map, "angle" + i).split(",");
                 walkAngle1[0] = Float.parseFloat(args[0]);
                 walkAngle1[1] = Float.parseFloat(args[1]);
             }
-            if (map.getNamedItem("start" + i) != null) walkAngle2 = Float.parseFloat(map.getNamedItem("start" + i)
-                    .getNodeValue());
-            if (map.getNamedItem("axis" + i) != null) flapaxis = Integer.parseInt(map.getNamedItem("axis" + i)
-                    .getNodeValue());
+            if (!this.get(map, "start" + i).isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "start" + i));
+            if (!this.get(map, "axis" + i).isEmpty()) flapaxis = Integer.parseInt(this.get(map, "axis" + i));
             this.init(hl, hr, flapdur, walkAngle1, walkAngle2, flapaxis, i > 1);
         }
         return this;
@@ -87,8 +88,8 @@ public class AdvancedFlapAnimation extends Animation
      *            - should only be false for the first section of the wing.
      * @return
      */
-    public AdvancedFlapAnimation init(Set<String> lw, Set<String> rw, int duration, float[] angle, float start,
-            int axis, boolean reverse)
+    public AdvancedFlapAnimation init(final Set<String> lw, final Set<String> rw, int duration, final float[] angle,
+            final float start, final int axis, final boolean reverse)
     {
         duration = duration + duration % 4;
         final int dir = reverse ? -1 : 1;

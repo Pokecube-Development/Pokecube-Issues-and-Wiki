@@ -24,7 +24,6 @@
     "kill_delphox": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "delphox"
       }
     }

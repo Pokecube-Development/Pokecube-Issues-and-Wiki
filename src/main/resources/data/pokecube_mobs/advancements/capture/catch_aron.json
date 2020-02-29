@@ -24,7 +24,6 @@
     "catch_aron": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "aron"
       }
     }

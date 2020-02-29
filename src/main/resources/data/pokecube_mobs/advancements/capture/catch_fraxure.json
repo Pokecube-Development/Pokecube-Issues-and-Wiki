@@ -24,7 +24,6 @@
     "catch_fraxure": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "fraxure"
       }
     }

@@ -24,7 +24,6 @@
     "catch_porygon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "porygon"
       }
     }

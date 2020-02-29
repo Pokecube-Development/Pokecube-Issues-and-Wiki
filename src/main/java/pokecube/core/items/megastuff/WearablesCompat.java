@@ -26,7 +26,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.models.ModelRing;
 import pokecube.core.interfaces.PokecubeMod;
-import thut.api.maths.vecmath.Vector3f;
 import thut.bling.client.render.Hat;
 import thut.bling.client.render.Util;
 import thut.core.client.render.x3d.X3dModel;
@@ -165,13 +164,14 @@ public class WearablesCompat
                 dx = 0.f;
                 dy = .06f;
                 dz = 0.f;
-                s = 0.475f;
+                s = 0.475f * 2;
                 sx = 1.05f * s / 2;
                 sy = s * 1.8f / 2;
                 sz = s / 2;
-                mat.push();
                 mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
                 mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+
+                mat.push();
                 mat.translate(dx, dy, dz);
                 mat.scale(sx, sy, sz);
                 DyeColor ret = DyeColor.GRAY;
@@ -180,13 +180,17 @@ public class WearablesCompat
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                IVertexBuilder buf = Util.makeBuilder(buff, this.strap);
-                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                IVertexBuilder buf;
+                final Color colour = new Color(ret.getTextColor());
                 this.model.getParts().get("strap").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255,
                         brightness, overlay);
-                this.model.renderOnly(mat, buf, "strap");
+                this.model.getParts().get("watch").setRGBABrO(255, 255, 255, 255, brightness, overlay);
+
+                buf = Util.makeBuilder(buff, this.strap);
+                this.model.renderPart(mat, buf, "strap");
                 buf = Util.makeBuilder(buff, this.watch);
-                this.model.renderOnly(mat, buf, "watch");
+                this.model.renderPart(mat, buf, "watch");
+
                 mat.pop();
 
             }
@@ -207,7 +211,21 @@ public class WearablesCompat
                 if (slot != EnumWearable.FINGER) return;
                 if (this.ring == null) this.ring = new ModelRing();
                 this.ring.stack = stack;
-                this.ring.render(wearer, 0, 0, partialTicks, 0, 0);
+                IVertexBuilder buf;
+                float s, dx, dy, dz;
+                dx = 0;
+                dy = -.10f;
+                dz = -0.08f;
+                s = .2f;
+                mat.translate(dx, dy, dz);
+                mat.scale(s, s, s);
+                mat.rotate(net.minecraft.client.renderer.Vector3f.YP.rotationDegrees(90));
+                buf = ModelRing.makeBuilder(buff, ModelRing.texture_1);
+                ring.pass = 1;
+                this.ring.render(mat, buf, brightness, overlay, 1, 1, 1, 1);
+                buf = ModelRing.makeBuilder(buff, ModelRing.texture_2);
+                ring.pass = 2;
+                this.ring.render(mat, buf, brightness, overlay, 1, 1, 1, 1);
             }
         });
         WearablesCompat.renderers.put("belt", new WearablesRenderer()
@@ -237,16 +255,13 @@ public class WearablesCompat
                 dx = 0;
                 dy = -.0f;
                 dz = -0.6f;
-                s = 0.525f;
-                if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS) == null) s = 0.465f;
-                final Vector3f dr = new Vector3f(dx, dy, dz);
-                final Vector3f ds = new Vector3f(s, s, s);
+                s = 1.1f;
+                if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS).isEmpty()) s = .95f;
                 mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
                 mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
-
                 mat.push();
-                mat.translate(dr.x, dr.y, dr.z);
-                mat.scale(ds.x, ds.y, ds.z);
+                mat.translate(dx, dy, dz);
+                mat.scale(s, s, s);
                 IVertexBuilder buf = Util.makeBuilder(buff, this.keystone);
                 this.belt.renderOnly(mat, buf, "stone");
                 DyeColor ret = DyeColor.GRAY;

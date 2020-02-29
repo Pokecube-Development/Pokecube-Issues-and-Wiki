@@ -24,7 +24,6 @@
     "kill_skorupi": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "skorupi"
       }
     }

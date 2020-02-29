@@ -17,7 +17,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntryLoader.Drop;
-import pokecube.core.interfaces.PokecubeMod;
 
 public class XMLRecipeHandler
 {
@@ -81,8 +80,7 @@ public class XMLRecipeHandler
 
     static
     {
-        // TODO re-implement the PokemobMoveRecipeParser...
-        // recipeParsers.put("move_effect", new PokemobMoveRecipeParser());
+        XMLRecipeHandler.recipeParsers.put("move_effect", new PokemobMoveRecipeParser());
     }
 
     public static void addRecipe(final XMLRecipe recipe)
@@ -90,9 +88,8 @@ public class XMLRecipeHandler
         final IRecipeParser parser = XMLRecipeHandler.recipeParsers.get(recipe.handler);
         try
         {
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Recipe Handler: " + recipe.handler + " Parser: " + parser);
+            PokecubeCore.LOGGER.debug("Recipe Handler: " + recipe.handler + " Parser: " + parser);
             parser.manageRecipe(recipe);
-
         }
         catch (final NullPointerException e)
         {

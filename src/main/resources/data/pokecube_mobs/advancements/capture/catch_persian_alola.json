@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.persian_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.persian_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_persian_alola": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "persian_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_meowth_alola"
+}

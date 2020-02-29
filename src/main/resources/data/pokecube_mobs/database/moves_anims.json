@@ -286,7 +286,7 @@
       "name": "amnesia",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:d0.8:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~amnesia",
+          "preset": "cartFunc:pwitch:d0.8:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~amnesia",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.charm",
@@ -1517,7 +1517,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pwitchMagic:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~confuseray",
+          "preset": "cartFunc:pwitch:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~confuseray",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -1674,7 +1674,7 @@
       "name": "curse",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:d0.7:w1:rtrue:l60:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~curse",
+          "preset": "cartFunc:pwitch:d0.7:w1:rtrue:l60:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~curse",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.unknown",
@@ -1860,7 +1860,7 @@
       "name": "disable",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~disable",
+          "preset": "cartFunc:pwitch:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~disable",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -2351,7 +2351,7 @@
       "name": "dreameater",
       "animations": [
         {
-          "preset": "pons:pwitchMagic:~dreameater",
+          "preset": "pons:pwitch:~dreameater",
           "duration": "2",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -2362,7 +2362,7 @@
           "applyAfter": false
         },
         {
-          "preset": "pont:pwitchMagic:~dreameater",
+          "preset": "pont:pwitch:~dreameater",
           "duration": "3",
           "starttick": "2",
           "applyAfter": false
@@ -2648,7 +2648,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pwitchMagic:rtrue:l10:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~extrasensory",
+          "preset": "cartFunc:pwitch:rtrue:l10:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~extrasensory",
           "duration": "10",
           "starttick": "0",
           "applyAfter": false
@@ -3542,7 +3542,7 @@
           "applyAfter": true
         },
         {
-          "preset": "powder:pwitchMagic:d0.05:w1:rtrue:l10:~futuresight",
+          "preset": "powder:pwitch:d0.05:w1:rtrue:l10:~futuresight",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -3778,7 +3778,7 @@
       "name": "gravity",
       "animations": [
         {
-          "preset": "pons:pwitchMagic:d1:w1:l5:~gravity",
+          "preset": "pons:pwitch:d1:w1:l5:~gravity",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -4237,7 +4237,7 @@
       "name": "hypnosis",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:cred:d1:l60:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~hypnosis",
+          "preset": "cartFunc:pwitch:cred:d1:l60:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2):~hypnosis",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.zombie_villager.converted",
@@ -4944,7 +4944,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pwitchMagic:cmagenta:d1:w1:rtrue:l100:f(0.5-rand())*(3.2),3*rand(),(0.5-rand())*(3.2):~lightscreen",
+          "preset": "cartFunc:pwitch:cmagenta:d1:w1:rtrue:l100:f(0.5-rand())*(3.2),3*rand(),(0.5-rand())*(3.2):~lightscreen",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5121,7 +5121,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pwitchMagic:cmagenta:d0.9:rtrue:l100:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
+          "preset": "cartFunc:pwitch:cmagenta:d0.9:rtrue:l100:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2):~magiccoat",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -5288,7 +5288,7 @@
       "name": "meditate",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:cwhite:d1:w0.7:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~meditate",
+          "preset": "cartFunc:pwitch:cwhite:d1:w0.7:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~meditate",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -5473,7 +5473,7 @@
       "name": "miracleeye",
       "animations": [
         {
-          "preset": "pons:pwitchMagic:d1:w1.5:l5:~miracleeye",
+          "preset": "pons:pwitch:d1:w1.5:l5:~miracleeye",
           "duration": "3",
           "starttick": "0",
           "applyAfter": false
@@ -5763,7 +5763,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pwitchMagic:d0.1:l10:~mysticalfire",
+          "preset": "flow:pwitch:d0.1:l10:~mysticalfire",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",
@@ -6194,7 +6194,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pwitchMagic:d2:w1:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~perishsong",
+          "preset": "cartFunc:pwitch:d2:w1:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~perishsong",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -6470,7 +6470,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pwitchMagic:d2:w1:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~powertrick",
+          "preset": "cartFunc:pwitch:d2:w1:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~powertrick",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -6565,7 +6565,7 @@
       "name": "psychic",
       "animations": [
         {
-          "preset": "sphFunc:pwitchMagic:d2:w5:l15:atrue:frand()*0.5,(0.5-rand()),(0.5-rand())*(2):~psychic",
+          "preset": "sphFunc:pwitch:d2:w5:l15:atrue:frand()*0.5,(0.5-rand()),(0.5-rand())*(2):~psychic",
           "duration": "5",
           "starttick": "2",
           "applyAfter": false
@@ -6681,7 +6681,7 @@
       "name": "psyshock",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:atrue:w2.5:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psyshock",
+          "preset": "cartFunc:pwitch:atrue:w2.5:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psyshock",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.zombie_villager.converted",
@@ -6708,7 +6708,7 @@
       "name": "psystrike",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:atrue:w3:d0.66:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psyshock:~psystrike",
+          "preset": "cartFunc:pwitch:atrue:w3:d0.66:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~psyshock:~psystrike",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.zombie_villager.converted",
@@ -6752,7 +6752,7 @@
           "applyAfter": false
         },
         {
-          "preset": "flow:pwitchMagic:d0.33:w0.5:l7:~psywave",
+          "preset": "flow:pwitch:d0.33:w0.5:l7:~psywave",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.zombie_villager.converted",
@@ -6819,7 +6819,7 @@
         }
       ]
     },
-	{
+    {
       "name": "pyroball",
       "animations": [
         {
@@ -7677,7 +7677,7 @@
           "applyAfter": false
         },
         {
-          "preset": "pons:pwitchMagic:d1:l5:~roleplay",
+          "preset": "pons:pwitch:d1:l5:~roleplay",
           "duration": "5",
           "starttick": "4",
           "applyAfter": false
@@ -9203,7 +9203,7 @@
       "name": "spacialrend",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:d0.66:atrue:rtrue:w3.5:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spacialrend",
+          "preset": "cartFunc:pwitch:d0.66:atrue:rtrue:w3.5:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spacialrend",
           "duration": "5",
           "starttick": "0",
           "sound": "minecraft:entity.illusioner.mirror_move",
@@ -9247,7 +9247,7 @@
           "applyAfter": false
         },
         {
-          "preset": "powder:pwitchMagic:d0.1:atrue:w0.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spacialrend",
+          "preset": "powder:pwitch:d0.1:atrue:w0.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spacialrend",
           "duration": "5",
           "starttick": "5",
           "applyAfter": false
@@ -9454,7 +9454,7 @@
       "name": "spite",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:d0.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spite",
+          "preset": "cartFunc:pwitch:d0.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~spite",
           "duration": "5",
           "starttick": "0",
           "applyAfter": false
@@ -10167,7 +10167,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pwitchMagic:d2:w2.5:atrue:rfalse:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~telekinesis",
+          "preset": "cartFunc:pwitch:d2:w2.5:atrue:rfalse:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~telekinesis",
           "duration": "5",
           "starttick": "4",
           "applyAfter": false
@@ -10445,7 +10445,7 @@
       "name": "toxic",
       "animations": [
         {
-          "preset": "cartFunc:pwitchMagic:d1:atrue:w1.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~toxic",
+          "preset": "cartFunc:pwitch:d1:atrue:w1.5:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~toxic",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.poisontoxic",
@@ -10483,7 +10483,7 @@
           "applyAfter": false
         },
         {
-          "preset": "beam:pwitchMagic:cmagenta:d4:w1.5:l3:~toxicthread",
+          "preset": "beam:pwitch:cmagenta:d4:w1.5:l3:~toxicthread",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.poisontoxic",
@@ -10494,7 +10494,7 @@
           "applyAfter": false
         },
         {
-          "preset": "powder:pwitchMagic:d0.05:w1:atrue:l4:~toxicthread",
+          "preset": "powder:pwitch:d0.05:w1:atrue:l4:~toxicthread",
           "duration": "5",
           "starttick": "3",
           "applyAfter": false
@@ -10644,7 +10644,7 @@
           "applyAfter": false
         },
         {
-          "preset": "cartFunc:pwitchMagic:d3.5:atrue:~twineedle",
+          "preset": "cartFunc:pwitch:d3.5:atrue:~twineedle",
           "duration": "5",
           "starttick": "4",
           "sound": "pokecube:moves.scratch",
@@ -10747,7 +10747,7 @@
       "name": "venoshock",
       "animations": [
         {
-          "preset": "flow:pwitchMagic:atrue:d0.5:w0.4:l3:~venoshock",
+          "preset": "flow:pwitch:atrue:d0.5:w0.4:l3:~venoshock",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.acidarmor",
@@ -10758,7 +10758,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pwitchMagic:w2:atrue:d1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~venoshock",
+          "preset": "cartFunc:pwitch:w2:atrue:d1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~venoshock",
           "duration": "5",
           "starttick": "4",
           "applyAfter": false
@@ -10781,7 +10781,7 @@
         }
       ]
     },
-	{
+    {
       "name": "drumbeating",
       "animations": [
         {
@@ -10894,7 +10894,7 @@
         }
       ]
     },
-	{
+    {
       "name": "snipeshot",
       "animations": [
         {
@@ -11168,7 +11168,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pwitchMagic:d1:l40:~worryseed",
+          "preset": "cartFunc:pwitch:d1:l40:~worryseed",
           "duration": "5",
           "starttick": "4",
           "applyAfter": false
@@ -11338,7 +11338,7 @@
           "applyAfter": true
         },
         {
-          "preset": "cartFunc:pwitchMagic:d0.5:w1:atrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~zenheadbutt",
+          "preset": "cartFunc:pwitch:d0.5:w1:atrue:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1):~zenheadbutt",
           "duration": "5",
           "starttick": "0",
           "sound": "pokecube:moves.aurorabeam",

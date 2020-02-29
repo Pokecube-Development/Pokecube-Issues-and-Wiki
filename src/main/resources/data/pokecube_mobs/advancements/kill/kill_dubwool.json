@@ -24,7 +24,6 @@
     "kill_dubwool": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dubwool"
       }
     }

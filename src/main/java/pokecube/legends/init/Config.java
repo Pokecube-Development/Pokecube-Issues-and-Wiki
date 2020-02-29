@@ -12,7 +12,9 @@ public class Config extends ConfigData
 {
     // Enabla Condition
     @Configure(category = "general")
-    public boolean enabledcondition = true;
+    public boolean enabledcondition   = true;
+    @Configure(category = "general")
+    public int     respawnLegendDelay = 36000;
 
     // mirage spot
     @Configure(category = "mirage")

@@ -25,7 +25,6 @@
     "kill_volcanion": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "volcanion"
       }
     }

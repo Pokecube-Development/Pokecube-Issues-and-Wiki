@@ -12,15 +12,16 @@ import pokecube.core.interfaces.IPokemob;
 
 public abstract class PokemobSided extends PokemobBase
 {
-    private final Map<ResourceLocation, ResourceLocation> shinyTexs = Maps.newHashMap();
+    private final Map<ResourceLocation, ResourceLocation> shinyTexs    = Maps.newHashMap();
+    private FormeHolder                                   forme_holder = null;
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture()
     {
+        final PokedexEntry entry = this.getPokedexEntry();
         if (this.textures != null)
         {
-            final PokedexEntry entry = this.getPokedexEntry();
             final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
             final boolean shiny = this.isShiny();
             final int effects = entry.textureDetails[index].length;
@@ -28,17 +29,25 @@ public abstract class PokemobSided extends PokemobBase
             final ResourceLocation texture = this.textures[texIndex];
             return texture;
         }
-        final String domain = this.getPokedexEntry().getModId();
-        final int index = this.getSexe() == IPokemob.FEMALE && this.entry.textureDetails[1] != null ? 1 : 0;
-        final int effects = this.entry.textureDetails[index].length;
+        final String domain = entry.getModId();
+        final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
+        final int effects = entry.textureDetails[index].length;
         final int size = 2 * effects;
         this.textures = new ResourceLocation[size];
+
+        String texName = entry.texturePath + entry.getTrimmedName();
+
+        if (this.getCustomHolder() != null && this.getCustomHolder().texture != null) texName = this
+                .getCustomHolder().texture.getPath();
+        texName = texName.replace(".png", "");
+
+        final String baseName = texName;
+
         for (int i = 0; i < effects; i++)
         {
-            this.textures[i] = new ResourceLocation(domain, this.entry.texturePath + this.entry.getTrimmedName()
-                    + this.entry.textureDetails[index][i] + ".png");
-            this.textures[i + effects] = new ResourceLocation(domain, this.entry.texturePath + this.entry
-                    .getTrimmedName() + this.entry.textureDetails[index][i] + "s.png");
+            texName = baseName + entry.textureDetails[index][i];
+            this.textures[i] = new ResourceLocation(domain, texName + ".png");
+            this.textures[i + effects] = this.textures[i];
         }
         return this.getTexture();
 
@@ -70,5 +79,18 @@ public abstract class PokemobSided extends PokemobBase
         }
         else texture = this.shinyTexs.get(texture);
         return texture;
+    }
+
+    @Override
+    public void setCustomHolder(final FormeHolder holder)
+    {
+        this.forme_holder = holder;
+    }
+
+    @Override
+    public FormeHolder getCustomHolder()
+    {
+        if (this.forme_holder == null) return this.getPokedexEntry().getModel(this.getSexe());
+        return this.forme_holder;
     }
 }

@@ -24,7 +24,6 @@
     "catch_aegislash_blade": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "aegislash_blade"
       }
     }

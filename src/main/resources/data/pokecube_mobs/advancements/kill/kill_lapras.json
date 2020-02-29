@@ -24,7 +24,6 @@
     "kill_lapras": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lapras"
       }
     }

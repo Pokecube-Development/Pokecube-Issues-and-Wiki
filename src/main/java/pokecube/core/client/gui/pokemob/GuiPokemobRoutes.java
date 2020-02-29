@@ -1,9 +1,6 @@
 package pokecube.core.client.gui.pokemob;
 
-import java.util.List;
 import java.util.function.Function;
-
-import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
@@ -39,12 +36,13 @@ public class GuiPokemobRoutes extends GuiPokemobBase
         this.pokeInventory = this.pokemob.getInventory();
         this.entity = this.pokemob.getEntity();
         this.guard = this.entity.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
+        container.setMode(PacketPokemobGui.ROUTES);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(final float partialTicks, final int mouseX, final int mouseY)
     {
-        super.renderBackground();
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
         final int k = (this.width - this.xSize) / 2;
         final int l = (this.height - this.ySize) / 2;
         final String number = this.num + "";
@@ -64,16 +62,16 @@ public class GuiPokemobRoutes extends GuiPokemobBase
                 b -> PacketPokemobGui.sendPagePacket(PacketPokemobGui.STORAGE, this.entity.getEntityId())));
         this.addButton(new Button(xOffset + 00, yOffset, 30, 10, I18n.format("pokemob.gui.ai"), b -> PacketPokemobGui
                 .sendPagePacket(PacketPokemobGui.AI, this.entity.getEntityId())));
-        this.list = new ScrollGui<>(this, this.minecraft, 100, 50, 50, xOffset - 5, yOffset);
+
+        this.list = new ScrollGui<>(this, this.minecraft, 92, 50, 50, xOffset, yOffset + 10);
         final Function<CompoundNBT, CompoundNBT> function = t ->
         {
             PacketSyncRoutes.sendServerPacket(GuiPokemobRoutes.this.entity, t);
             return t;
         };
-        final List<GuardEntry> entries = Lists.newArrayList();
-        final int dx = 0;
-        final int dy = 14;
-        RouteEditHelper.getGuiList(entries, this.guard, function, this.entity, this, 60, dx, dy, 50);
+        final int dx = 3;
+        final int dy = 25;
+        RouteEditHelper.getGuiList(this.list, this.guard, function, this.entity, this, 60, dx, dy, 50);
 
         this.list.smoothScroll = false;
         this.addButton(new Button(xOffset + 45, yOffset + 54, 30, 10, "\u21e7", b ->

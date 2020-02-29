@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.solgaleo_dusk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.solgaleo_dusk"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_solgaleo_dusk": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "solgaleo_dusk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

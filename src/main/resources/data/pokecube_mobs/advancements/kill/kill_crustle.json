@@ -24,7 +24,6 @@
     "kill_crustle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "crustle"
       }
     }

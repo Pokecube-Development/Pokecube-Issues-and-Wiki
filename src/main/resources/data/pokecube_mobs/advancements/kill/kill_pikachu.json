@@ -24,7 +24,6 @@
     "kill_pikachu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pikachu"
       }
     }

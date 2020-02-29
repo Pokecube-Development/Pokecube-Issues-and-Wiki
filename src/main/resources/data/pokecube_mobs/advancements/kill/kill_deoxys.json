@@ -25,7 +25,6 @@
     "kill_deoxys": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "deoxys"
       }
     }

@@ -24,7 +24,6 @@
     "kill_petilil": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "petilil"
       }
     }

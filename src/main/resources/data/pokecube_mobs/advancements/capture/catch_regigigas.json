@@ -25,7 +25,6 @@
     "catch_regigigas": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "regigigas"
       }
     }

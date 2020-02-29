@@ -71,9 +71,9 @@ public class Registeel extends Condition
     }
 
     @Override
-    public boolean canSpawn(final Entity trainer, final Vector3 location)
+    public boolean canSpawn(final Entity trainer, final Vector3 location, final boolean message)
     {
-        if (!super.canSpawn(trainer, location)) return false;
+        if (!super.canSpawn(trainer, location, message)) return false;
         final ArrayList<Vector3> locations = new ArrayList<>();
         boolean check = false;
         final World world = trainer.getEntityWorld();
@@ -94,8 +94,7 @@ public class Registeel extends Condition
         }
         if (!check)
         {
-            final String message = "msg.reginotlookright.txt";
-            trainer.sendMessage(new TranslationTextComponent(message));
+            if (message) trainer.sendMessage(new TranslationTextComponent("msg.reginotlookright.txt"));
             return false;
         }
         return true;

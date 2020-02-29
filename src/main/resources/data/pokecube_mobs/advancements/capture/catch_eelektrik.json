@@ -24,7 +24,6 @@
     "catch_eelektrik": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "eelektrik"
       }
     }

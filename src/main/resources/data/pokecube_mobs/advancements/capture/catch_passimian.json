@@ -24,7 +24,6 @@
     "catch_passimian": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "passimian"
       }
     }

@@ -154,6 +154,15 @@ public class Config
                     final String[] vars = update instanceof String ? ((String) update).split("``") : (String[]) update;
                     field.set(this, vars);
                 }
+                else if (o instanceof List<?> && !((List<?>) o).isEmpty() && ((List<?>) o).get(0) instanceof String)
+                {
+                    @SuppressWarnings("unchecked")
+                    final List<String> list = (List<String>) o;
+                    final String[] vars = update instanceof String ? ((String) update).split("``") : (String[]) update;
+                    list.clear();
+                    for (final String s : vars)
+                        list.add(s);
+                }
                 else if (o instanceof int[])
                 {
                     final String[] vars = update instanceof String ? ((String) update).split("``")

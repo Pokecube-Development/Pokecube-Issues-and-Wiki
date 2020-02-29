@@ -1,10 +1,12 @@
 package thut.core.common;
 
+import java.io.File;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.appender.FileAppender;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -38,6 +40,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
 import thut.api.boom.ExplosionCustom;
@@ -55,6 +58,7 @@ import thut.api.terrain.TerrainManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.client.ClientProxy;
 import thut.core.client.render.animation.CapabilityAnimation;
+import thut.core.client.render.particle.ThutParticles;
 import thut.core.common.config.Config;
 import thut.core.common.genetics.DefaultGeneStorage;
 import thut.core.common.genetics.DefaultGenetics;
@@ -87,8 +91,8 @@ public class ThutCore
                 final Vec3d face = event.getPlayer().getEyePosition(0);
                 final Vec3d look = event.getPlayer().getLookVec();
                 final AxisAlignedBB box = event.getPlayer().getBoundingBox().grow(3, 3, 3);
-                final EntityRayTraceResult var = ProjectileHelper.rayTraceEntities(player, face, look, box,
-                        e -> e instanceof IBlockEntity, 3);
+                final EntityRayTraceResult var = ProjectileHelper.rayTraceEntities(player.getEntityWorld(), player,
+                        face, look, box, e -> e instanceof IBlockEntity, 3);
                 if (var != null && var.getType() == EntityRayTraceResult.Type.ENTITY)
                 {
                     final IBlockEntity entity = (IBlockEntity) var.getEntity();
@@ -141,21 +145,16 @@ public class ThutCore
         public static void registerParticles(final RegistryEvent.Register<ParticleType<?>> event)
         {
             ThutCore.LOGGER.debug("Registering Particle Types");
-            // event.getRegistry().register(ThutParticles.AURORA.setRegistryName(ThutCore.MODID,
-            // "aurora"));
-            // event.getRegistry().register(ThutParticles.LEAF.setRegistryName(ThutCore.MODID,
-            // "leaf"));
-            // event.getRegistry().register(ThutParticles.MISC.setRegistryName(ThutCore.MODID,
-            // "misc"));
-            // event.getRegistry().register(ThutParticles.STRING.setRegistryName(ThutCore.MODID,
-            // "string"));
-            // event.getRegistry().register(ThutParticles.POWDER.setRegistryName(ThutCore.MODID,
-            // "powder"));
+            event.getRegistry().register(ThutParticles.AURORA.setRegistryName(ThutCore.MODID, "aurora"));
+            event.getRegistry().register(ThutParticles.LEAF.setRegistryName(ThutCore.MODID, "leaf"));
+            event.getRegistry().register(ThutParticles.MISC.setRegistryName(ThutCore.MODID, "misc"));
+            event.getRegistry().register(ThutParticles.STRING.setRegistryName(ThutCore.MODID, "string"));
+            event.getRegistry().register(ThutParticles.POWDER.setRegistryName(ThutCore.MODID, "powder"));
         }
     }
 
     // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger(ThutCore.MODID);
     public static final String MODID  = "thutcore";
 
     private static final String NETVERSION = "1.0.0";
@@ -183,6 +182,7 @@ public class ThutCore
 
     public static String trim(String name)
     {
+        if (name == null) return null;
         // ROOT locale to prevent issues with turkish letters.
         name = name.toLowerCase(Locale.ROOT).trim();
         // Replace all not-resourcelocation chars
@@ -195,6 +195,14 @@ public class ThutCore
     public ThutCore()
     {
         ThutCore.instance = this;
+
+        final File logfile = FMLPaths.GAMEDIR.get().resolve("logs").resolve(ThutCore.MODID + ".log").toFile();
+        if (logfile.exists()) logfile.delete();
+        final org.apache.logging.log4j.core.Logger logger = (org.apache.logging.log4j.core.Logger) ThutCore.LOGGER;
+        final FileAppender appender = FileAppender.newBuilder().withFileName(logfile.getAbsolutePath()).setName(
+                ThutCore.MODID).build();
+        logger.addAppender(appender);
+        appender.start();
 
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

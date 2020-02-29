@@ -24,7 +24,6 @@
     "catch_aurorus": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "aurorus"
       }
     }

@@ -24,7 +24,6 @@
     "catch_rookidee": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rookidee"
       }
     }

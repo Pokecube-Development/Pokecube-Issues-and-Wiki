@@ -24,7 +24,6 @@
     "kill_jangmo-o": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "jangmo-o"
       }
     }

@@ -24,7 +24,6 @@
     "catch_popplio": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "popplio"
       }
     }

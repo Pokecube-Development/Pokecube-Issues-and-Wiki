@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.w3c.dom.NamedNodeMap;
-
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.common.ThutCore;
 
 public class QuadWalkAnimation extends Animation
 {
@@ -21,7 +21,7 @@ public class QuadWalkAnimation extends Animation
     }
 
     @Override
-    public Animation init(NamedNodeMap map, IPartRenamer renamer)
+    public Animation init(final Phase map, final IPartRenamer renamer)
     {
         final HashSet<String> hl = new HashSet<>();
         final HashSet<String> hr = new HashSet<>();
@@ -30,10 +30,10 @@ public class QuadWalkAnimation extends Animation
         int quadwalkdur = 0;
         float walkAngle1 = 20;
         float walkAngle2 = 20;
-        final String[] lh = map.getNamedItem("leftHind").getNodeValue().split(":");
-        final String[] rh = map.getNamedItem("rightHind").getNodeValue().split(":");
-        final String[] lf = map.getNamedItem("leftFront").getNodeValue().split(":");
-        final String[] rf = map.getNamedItem("rightFront").getNodeValue().split(":");
+        final String[] lh = this.get(map, "leftHind").split(":");
+        final String[] rh = this.get(map, "rightHind").split(":");
+        final String[] lf = this.get(map, "leftFront").split(":");
+        final String[] rf = this.get(map, "rightFront").split(":");
 
         if (renamer != null)
         {
@@ -43,18 +43,17 @@ public class QuadWalkAnimation extends Animation
             renamer.convertToIdents(rf);
         }
         for (final String s : lh)
-            if (s != null) hl.add(s);
+            if (s != null) hl.add(ThutCore.trim(s));
         for (final String s : rh)
-            if (s != null) hr.add(s);
+            if (s != null) hr.add(ThutCore.trim(s));
         for (final String s : rf)
-            if (s != null) fr.add(s);
+            if (s != null) fr.add(ThutCore.trim(s));
         for (final String s : lf)
-            if (s != null) fl.add(s);
-        if (map.getNamedItem("angle") != null) walkAngle1 = Float.parseFloat(map.getNamedItem("angle").getNodeValue());
-        if (map.getNamedItem("frontAngle") != null) walkAngle2 = Float.parseFloat(map.getNamedItem("frontAngle")
-                .getNodeValue());
+            if (s != null) fl.add(ThutCore.trim(s));
+        if (!this.get(map, "angle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "angle"));
+        if (!this.get(map, "frontAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "frontAngle"));
         else walkAngle2 = walkAngle1;
-        quadwalkdur = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
+        quadwalkdur = Integer.parseInt(this.get(map, "duration"));
 
         this.init(hl, hr, fl, fr, quadwalkdur, walkAngle1, walkAngle2);
         return this;
@@ -81,8 +80,8 @@ public class QuadWalkAnimation extends Animation
      *            - half - angle covered by front legs.
      * @return
      */
-    public QuadWalkAnimation init(Set<String> hl, Set<String> hr, Set<String> fl, Set<String> fr, int duration,
-            float legAngle, float armAngle)
+    public QuadWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl,
+            final Set<String> fr, int duration, final float legAngle, final float armAngle)
     {
         duration = duration + duration % 4;
         for (final String s : hr)

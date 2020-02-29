@@ -24,7 +24,6 @@
     "kill_raticate": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "raticate"
       }
     }

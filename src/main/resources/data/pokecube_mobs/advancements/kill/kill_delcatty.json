@@ -24,7 +24,6 @@
     "kill_delcatty": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "delcatty"
       }
     }

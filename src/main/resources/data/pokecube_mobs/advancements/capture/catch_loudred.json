@@ -24,7 +24,6 @@
     "catch_loudred": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "loudred"
       }
     }

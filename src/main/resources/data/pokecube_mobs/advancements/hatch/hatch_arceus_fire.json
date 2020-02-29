@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_fire"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arceus_fire"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_arceus_fire": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "arceus_fire"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

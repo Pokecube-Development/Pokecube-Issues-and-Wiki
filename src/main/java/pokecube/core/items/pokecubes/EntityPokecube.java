@@ -15,6 +15,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
@@ -23,6 +25,8 @@ import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.pokemob.CaptureEvent;
+import pokecube.core.items.pokecubes.helper.CaptureManager;
+import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
@@ -143,7 +147,7 @@ public class EntityPokecube extends EntityPokecubeBase
     public boolean processInitialInteract(final PlayerEntity player, final Hand hand)
     {
         final ItemStack stack = player.getHeldItem(hand);
-        if (!player.getEntityWorld().isRemote)
+        if (player instanceof ServerPlayerEntity && this.canBePickedUp)
         {
             if (player.isCrouching() && PokecubeManager.isFilled(this.getItem()) && player.abilities.isCreativeMode)
                 if (!stack.isEmpty())
@@ -159,7 +163,7 @@ public class EntityPokecube extends EntityPokecubeBase
                     Tools.giveItem(player, this.getItem());
                     this.remove();
                 }
-                else this.sendOut(true);
+                else SendOutManager.sendOut(this, true);
             }
             else
             {
@@ -226,26 +230,38 @@ public class EntityPokecube extends EntityPokecubeBase
         if (!lootTable.isEmpty()) this.lootTable = new ResourceLocation(lootTable);
     }
 
+    public void shoot(final Vector3 direction, final float velocity)
+    {
+        this.shoot(direction.x, direction.y, direction.z, velocity, 0);
+    }
+
     @Override
     public void shoot(final double x, final double y, final double z, final float velocity, final float inaccuracy)
     {
-        // TODO Auto-generated method stub
-
+        final Vec3d vec3d = new Vec3d(x, y, z).normalize().add(this.rand.nextGaussian() * 0.0075F * inaccuracy,
+                this.rand.nextGaussian() * 0.0075F * inaccuracy, this.rand.nextGaussian() * 0.0075F * inaccuracy).scale(
+                        velocity);
+        this.setMotion(vec3d);
+        final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
+        this.rotationYaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
+        this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F / (float) Math.PI));
+        this.prevRotationYaw = this.rotationYaw;
+        this.prevRotationPitch = this.rotationPitch;
     }
 
     @Override
     public void tick()
     {
         final boolean filled = PokecubeManager.isFilled(this.getItem());
-        if (filled || this.isReleasing()) this.setTime(this.getTime() - 1);
+        this.setTime(this.getTime() - 1);
         if (this.isReleasing())
         {
             if (this.getTime() < 0 || this.getReleased() == null || !this.getReleased().isAlive()) this.remove();
             return;
         }
-        if (this.getTime() <= 0 && this.tilt >= 4) // Captured the pokemon
+        if (this.getTime() <= 0 && this.getTilt() >= 4) // Captured the pokemon
         {
-            if (this.captureSucceed())
+            if (CaptureManager.captureSucceed(this))
             {
                 boolean gave = false;
                 if (filled)
@@ -264,21 +280,9 @@ public class EntityPokecube extends EntityPokecubeBase
             this.remove();
             return;
         }
-        else if (this.getTime() < 0 && this.tilt >= 4)
-        {
-            if (this.shootingEntity != null)
-            {
-                final Vector3 here = Vector3.getNewVector().set(this);
-                final Vector3 dir = Vector3.getNewVector().set(this.shootingEntity);
-                final double dist = dir.distanceTo(here);
-                dir.subtractFrom(here);
-                dir.scalarMultBy(1 / dist);
-                dir.setVelocities(this);
-            }
-        }
-        else if (this.getTime() <= 0 && this.tilt >= 0) // Missed the pokemon
-        {
-            this.captureFailed();
+        else if (this.getTime() <= 0 && this.getTilt() >= 0)
+        {// Missed the pokemon
+            CaptureManager.captureFailed(this);
             this.remove();
             return;
         }

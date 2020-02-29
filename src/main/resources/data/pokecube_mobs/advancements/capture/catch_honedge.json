@@ -24,7 +24,6 @@
     "catch_honedge": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "honedge"
       }
     }

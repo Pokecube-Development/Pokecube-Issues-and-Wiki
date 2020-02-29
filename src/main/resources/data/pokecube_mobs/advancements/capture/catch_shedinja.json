@@ -24,7 +24,6 @@
     "catch_shedinja": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shedinja"
       }
     }

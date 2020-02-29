@@ -24,7 +24,6 @@
     "kill_sigilyph": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sigilyph"
       }
     }

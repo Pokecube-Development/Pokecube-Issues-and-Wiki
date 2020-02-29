@@ -24,7 +24,6 @@
     "catch_archeops": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "archeops"
       }
     }

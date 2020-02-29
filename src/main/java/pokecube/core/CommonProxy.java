@@ -11,9 +11,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
@@ -31,8 +29,10 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.events.EventsHandler.MeteorAreaSetter;
 import pokecube.core.handlers.events.PCEventsHandler;
@@ -51,9 +51,13 @@ import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.PokemobTerrainEffects;
+import pokecube.core.moves.zmoves.CapabilityZMove;
+import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.world.dimension.SecretBaseDimension;
+import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import pokecube.nbtedit.NBTEdit;
+import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.Proxy;
 
@@ -88,11 +92,6 @@ public class CommonProxy implements Proxy
         return server.getWorld(DimensionType.OVERWORLD);
     }
 
-    public boolean hasSound(final BlockPos pos)
-    {
-        return false;
-    }
-
     @Override
     public void setup(final FMLCommonSetupEvent event)
     {
@@ -119,6 +118,7 @@ public class CommonProxy implements Proxy
         CapabilityManager.INSTANCE.register(IPokemob.class, new CapabilityPokemob.Storage(), DefaultPokemob::new);
         CapabilityManager.INSTANCE.register(IOngoingAffected.class, new CapabilityAffected.Storage(),
                 DefaultAffected::new);
+        CapabilityManager.INSTANCE.register(ZPower.class, new CapabilityZMove.Storage(), CapabilityZMove.Impl::new);
         CapabilityManager.INSTANCE.register(IMegaCapability.class, new Capability.IStorage<IMegaCapability>()
         {
             @Override
@@ -143,6 +143,8 @@ public class CommonProxy implements Proxy
         // Registers the packets.
         PokecubePacketHandler.init();
 
+        PokecubeTerrainChecker.init();
+
         // Forward this to PCEdit mod:
         NBTEdit.setup(event);
 
@@ -157,16 +159,24 @@ public class CommonProxy implements Proxy
                     "village/common/pokecenter").toString(), replacementRules,
                     JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING);
 
-            JigsawManager.REGISTRY
-                    .register(new JigsawPattern(new ResourceLocation(PokecubeCore.MODID,
+            JigsawManager.REGISTRY.register(new JigsawPattern(new ResourceLocation(PokecubeCore.MODID,
                     "village/common/pokecenter"), new ResourceLocation("village/plains/terminators"), ImmutableList.of(
                             new Pair<>(part, 100)), JigsawPattern.PlacementBehaviour.TERRAIN_MATCHING));
         }
 
     }
 
-    public void toggleSound(final SoundEvent sound, final BlockPos pos, final boolean play, final boolean loops,
-            final SoundCategory category, final int maxDistance)
+    public void serverAboutToStart(final FMLServerAboutToStartEvent event)
+    {
+
+    }
+
+    public void pokecenterloop(final HealerTile tileIn, final boolean play)
+    {
+
+    }
+
+    public void moveSound(final Vector3 pos, final SoundEvent event)
     {
 
     }

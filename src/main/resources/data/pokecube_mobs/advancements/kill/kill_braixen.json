@@ -24,7 +24,6 @@
     "kill_braixen": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "braixen"
       }
     }

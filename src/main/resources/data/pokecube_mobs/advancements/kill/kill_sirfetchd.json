@@ -24,7 +24,6 @@
     "kill_sirfetchd": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "sirfetchd"
       }
     }

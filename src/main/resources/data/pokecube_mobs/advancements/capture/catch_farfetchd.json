@@ -24,7 +24,6 @@
     "catch_farfetchd": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "farfetchd"
       }
     }

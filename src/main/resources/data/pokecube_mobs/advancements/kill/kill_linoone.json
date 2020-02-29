@@ -24,7 +24,6 @@
     "kill_linoone": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "linoone"
       }
     }

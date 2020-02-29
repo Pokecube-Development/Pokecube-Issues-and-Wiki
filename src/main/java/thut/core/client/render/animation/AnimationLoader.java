@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.namespace.QName;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -23,6 +20,12 @@ import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.animation.AnimationXML.Merge;
+import thut.core.client.render.animation.AnimationXML.Metadata;
+import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.client.render.animation.AnimationXML.Worn;
+import thut.core.client.render.animation.AnimationXML.XMLFile;
 import thut.core.client.render.animation.IAnimationChanger.WornOffsets;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -34,118 +37,47 @@ import thut.core.common.ThutCore;
 public class AnimationLoader
 {
 
-    public static HashMap<String, ModelHolder> models = new HashMap<>();
-
-    public static void addStrings(final String key, final Node node, final Set<String> toAddTo)
+    public static void addStrings(final String key, final Set<String> toAddTo)
     {
-        if (node.getAttributes() == null) return;
-        if (node.getAttributes().getNamedItem(key) != null)
-        {
-            final String[] names = node.getAttributes().getNamedItem(key).getNodeValue().split(":");
-            for (final String s : names)
-            {
-                String name = ThutCore.trim(s);
-                if (!name.isEmpty()) toAddTo.add(name);
-            }
-        }
+        if (key == null) return;
+        final String[] names = key.split(":");
+        for (final String s : names)
+            toAddTo.add(ThutCore.trim(s));
     }
 
-    public static void clear()
+    public static Vector3 getVector3(final String shift, final Vector3 default_)
     {
-        AnimationLoader.models.clear();
-    }
-
-    public static Vector3 getAngles(final Node node, final Vector3 default_)
-    {
-        if (node.getAttributes() == null) return default_;
-        Vector3 vect = null;
-        if (node.getAttributes().getNamedItem("angles") != null)
-        {
-            vect = Vector3.getNewVector();
-            String shift;
-            String[] r;
-            shift = node.getAttributes().getNamedItem("angles").getNodeValue();
-            r = shift.split(",");
+        if (shift == null || shift.isEmpty()) return default_;
+        final Vector3 vect = Vector3.getNewVector().set(default_);
+        String[] r;
+        r = shift.split(",");
+        if (r.length == 1)
+            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()));
+        else if (r.length == 3)
             vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()));
-            return vect;
-        }
-        return default_;
+        return vect;
     }
 
-    public static int getIntValue(final Node node, final String key, final int default_)
+    public static Vector5 getRotation(final String rotation, String time, final Vector5 default_)
     {
-        int ret = default_;
-        if (node.getAttributes() == null) return ret;
-        if (node.getAttributes().getNamedItem(key) != null)
-            ret = Integer.parseInt(node.getAttributes().getNamedItem(key).getNodeValue());
-        return ret;
-    }
-
-    public static Vector3 getOffset(final Node node, final Vector3 default_)
-    {
-        if (node.getAttributes() == null) return default_;
-        Vector3 vect = null;
-        if (node.getAttributes().getNamedItem("offset") != null)
+        if (rotation == null || rotation.isEmpty()) return default_;
+        time = time == null ? "0" : time;
+        final Vector4 ro = new Vector4();
+        int t = 0;
+        String[] r;
+        r = rotation.split(",");
+        t = Integer.parseInt(time);
+        try
         {
-            vect = Vector3.getNewVector();
-            String shift;
-            String[] r;
-            shift = node.getAttributes().getNamedItem("offset").getNodeValue();
-            r = shift.split(",");
-            vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()));
-            return vect;
+            ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()),
+                    Float.parseFloat(r[3].trim()));
+            ro.toQuaternion();
         }
-        return default_;
-    }
-
-    public static Vector5 getRotation(final Node node, final Vector5 default_)
-    {
-        if (node.getAttributes() == null) return default_;
-        if (node.getAttributes().getNamedItem("rotation") != null)
+        catch (final Exception e)
         {
-            String rotation;
-            String time = "0";
-            final Vector4 ro = new Vector4();
-            int t = 0;
-            String[] r;
-            rotation = node.getAttributes().getNamedItem("rotation").getNodeValue();
-            if (node.getAttributes().getNamedItem("time") != null)
-                time = node.getAttributes().getNamedItem("time").getNodeValue();
-            r = rotation.split(",");
-            t = Integer.parseInt(time);
-            try
-            {
-                ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()),
-                        Float.parseFloat(r[3].trim()));
-                ro.toQuaternion();
-            }
-            catch (final Exception e)
-            {
-                ro.set(0, 0, 0, 1);
-            }
-            return new Vector5(ro, t);
+            ro.set(0, 0, 0, 1);
         }
-        return default_;
-    }
-
-    public static Vector3 getScale(final Node node, final Vector3 default_)
-    {
-        if (node.getAttributes() == null) return default_;
-        if (node.getAttributes().getNamedItem("scale") != null)
-        {
-            Vector3 vect = null;
-            vect = Vector3.getNewVector();
-            String shift;
-            String[] r;
-            shift = node.getAttributes().getNamedItem("scale").getNodeValue();
-            r = shift.split(",");
-
-            if (r.length == 3)
-                vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()));
-            else vect.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()), Float.parseFloat(r[0].trim()));
-            return vect;
-        }
-        return default_;
+        return new Vector5(ro, t);
     }
 
     public static void parse(final InputStream stream, final ModelHolder holder, final IModel model,
@@ -153,25 +85,14 @@ public class AnimationLoader
     {
         try
         {
-            final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            final Document doc = dBuilder.parse(stream);
-            doc.getDocumentElement().normalize();
-            final NodeList modelList = doc.getElementsByTagName("model");
-            int num = modelList.getLength();
-
-            if (num != 1)
-            {
-                ThutCore.LOGGER.error("Error with XML file: {}, it contains too many <model> tags!", holder.animation);
-                return;
-            }
+            final XMLFile file = AnimationXML.load(stream);
 
             // Variables for the head rotation info
             int headDir = 2;
             int headDir2 = 2;
             int headAxis = 2;
             int headAxis2 = 1;
-            final float[] headCaps = { -180, 180 };
+            final float[] headCaps = { -100, 100 };
             final float[] headCaps1 = { -30, 70 };
 
             // Global model transforms
@@ -183,7 +104,7 @@ public class AnimationLoader
             IPartTexturer texturer = renderer.getTexturer();
             IAnimationChanger animator = renderer.getAnimationChanger();
 
-            if (texturer == null) renderer.setTexturer(texturer = new TextureHelper(null));
+            if (texturer == null) renderer.setTexturer(texturer = new TextureHelper());
             if (animator == null) renderer.setAnimationChanger(animator = new AnimationChanger());
 
             // Custom tagged parts.
@@ -195,130 +116,90 @@ public class AnimationLoader
             final List<Animation> tblAnims = Lists.newArrayList();
             final HashMap<String, String> mergedAnimations = Maps.newHashMap();
             final Map<String, WornOffsets> wornOffsets = Maps.newHashMap();
-
-            final NodeList partsList = modelList.item(0).getChildNodes();
-
-            List<Node> phaseNodes = Lists.newArrayList();
-            List<Node> subAnimsNodes = Lists.newArrayList();
-
-            final String modelName = holder.name;
             final HashMap<String, ArrayList<Vector5>> phaseList = new HashMap<>();
 
-            for (int j = 0; j < partsList.getLength(); j++)
+            final Metadata meta = file.model.metadata;
+            if (meta != null)
             {
-                final Node part = partsList.item(j);
-                String name = ThutCore.trim(part.getNodeName());
-                if (name.equals("metadata")) try
-                {
-                    offset = AnimationLoader.getOffset(part, offset);
-                    scale = AnimationLoader.getScale(part, scale);
-                    rotation = AnimationLoader.getRotation(part, rotation);
-                    headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
-                    headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
-                    headAxis = AnimationLoader.getIntValue(part, "headAxis", headAxis);
-                    headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", headAxis2);
-                    AnimationLoader.addStrings("head", part, headNames);
-                    AnimationLoader.addStrings("shear", part, shear);
-                    AnimationLoader.addStrings("dye", part, dye);
-                    AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
-                else if (name.equals("worn"))
-                {
-                    final Vector3 w_offset = AnimationLoader.getOffset(part, null);
-                    final Vector3 w_angles = AnimationLoader.getAngles(part, null);
-                    final Vector3 w_scale = AnimationLoader.getScale(part, null);
-                    final String w_parent = part.getAttributes().getNamedItem("parent").getNodeValue();
-                    final String w_ident = part.getAttributes().getNamedItem("id").getNodeValue();
-                    wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));
-                }
-                else if (name.equals("phase"))
-                {
-                    phaseNodes.add(part);
-                }
-                else if (name.equals("merges"))
-                {
-                    final String[] merges = part.getAttributes().getNamedItem("merge").getNodeValue().split("->");
-                    mergedAnimations.put(ThutCore.trim(merges[0]), ThutCore.trim(merges[1]));
-                }
-                else if (name.equals("subanims"))
-                {
-                    subAnimsNodes.add(part);
-                }
-                else if (name.equals("customtex"))
-                {
-                    texturer = new TextureHelper(part);
-                    if (part.getAttributes().getNamedItem("default") != null)
-                        holder.texture = new ResourceLocation(holder.texture.toString().replace(holder.name,
-                                part.getAttributes().getNamedItem("default").getNodeValue()));
-                }
-                else if (name.equals("custommodel"))
-                {
-                    holder.model = new ResourceLocation(part.getAttributes().getNamedItem("default").getNodeValue());
-                }
+                AnimationLoader.addStrings(meta.head, headNames);
+                AnimationLoader.addStrings(meta.shear, shear);
+                AnimationLoader.addStrings(meta.dye, dye);
+
+                headDir = meta.headDir;
+                headDir2 = meta.headDir2;
+                headAxis = meta.headAxis;
+                headAxis2 = meta.headAxis2;
+
+                AnimationLoader.setHeadCaps(meta.headCap, headCaps);
+                AnimationLoader.setHeadCaps(meta.headCap1, headCaps1);
             }
-
-            nodes:
-            for (Node part : phaseNodes)
-            {
-                String phaseName = part.getAttributes().getNamedItem("name") != null
-                        ? ThutCore.trim(part.getAttributes().getNamedItem("name").getNodeValue()) : "";
-
-                if (!phaseName.isEmpty()) for (final String s : AnimationRegistry.animations.keySet())
+            for (final Phase phase : file.model.phases)
+                // Handle global, merges and presets
+                if (phase.name != null)
                 {
-                    if (phaseName.equals(s))
+                    final String name = ThutCore.trim(phase.name);
+                    if (name.equals("global"))
                     {
-                        ThutCore.LOGGER.debug("Loading " + s + " for " + holder.name);
+                        offset = AnimationLoader.getVector3(phase.values.get(new QName("offset")), offset);
+                        scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
+                        rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), null, rotation);
+                    }
+                    else if (name.equals("textures")) texturer.applyTexturePhase(phase);
+                    else if (AnimationRegistry.animations.containsKey(name))
+                    {
+                        ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
                         try
                         {
-                            final Animation anim = AnimationRegistry.make(s, part.getAttributes(), null);
+                            final Animation anim = AnimationRegistry.make(phase, null);
                             if (anim != null) tblAnims.add(anim);
                         }
                         catch (final Exception e)
                         {
-                            ThutCore.LOGGER.debug("Error with animation for model: " + holder.name + " Anim: " + s, e);
+                            ThutCore.LOGGER.error("Error with animation for model: " + holder.name + " Anim: " + name,
+                                    e);
                         }
-                        continue nodes;
                     }
                 }
-                if (phaseName.equals("global")) try
+                // Handle manual animations
+                else if (phase.type != null)
                 {
-                    offset = AnimationLoader.getOffset(part, offset);
-                    scale = AnimationLoader.getScale(part, scale);
-                    rotation = AnimationLoader.getRotation(part, rotation);
-                    headDir = AnimationLoader.getIntValue(part, "headDir", headDir);
-                    headDir2 = AnimationLoader.getIntValue(part, "headDir2", headDir2);
-                    headAxis = AnimationLoader.getIntValue(part, "headAxis", headAxis);
-                    headAxis2 = AnimationLoader.getIntValue(part, "headAxis2", headAxis2);
-                    AnimationLoader.addStrings("head", part, headNames);
-                    AnimationLoader.addStrings("shear", part, shear);
-                    AnimationLoader.addStrings("dye", part, dye);
-                    AnimationLoader.setHeadCaps(part, headCaps, headCaps1);
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
-                else if (phaseName.equals("textures")) holder.handleCustomTextures(part);
-                else
-                {
-                    final Animation anim = AnimationBuilder.build(part, null);
+                    ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
+                    final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
                     if (anim != null) tblAnims.add(anim);
                 }
-            }
-            for (Node part : subAnimsNodes)
+
+            // Handle merges
+            for (final Merge merge : file.model.merges)
             {
-                animator.addChild(new AnimationRandomizer(part));
+                final String[] merges = merge.merge.split("->");
+                mergedAnimations.put(ThutCore.trim(merges[0]), ThutCore.trim(merges[1]));
             }
+
+            // Handle worn offsets.
+            for (final Worn worn : file.model.worn)
+            {
+                final Vector3 w_offset = AnimationLoader.getVector3(worn.offset, null);
+                final Vector3 w_angles = AnimationLoader.getVector3(worn.angles, null);
+                final Vector3 w_scale = AnimationLoader.getVector3(worn.scale, null);
+                final String w_parent = worn.parent;
+                final String w_ident = worn.id;
+                wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));
+            }
+
+            // Handle customTextures
+            if (file.model.customTex != null)
+            {
+                texturer.init(file.model.customTex);
+                if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(holder.texture
+                        .toString().replace(holder.name, ThutCore.trim(file.model.customTex.defaults)));
+            }
+
+            // Handle materials
+            for (final Mat mat : file.model.materials)
+                model.updateMaterial(mat);
 
             final IModelRenderer<?> loaded = renderer;
             loaded.updateModel(phaseList, holder);
-
-            // Test for messing with tbl models
-            if (holder.extension.equals("tbl")) offset = offset.add(0, -0.5, 0);
 
             // Set the global transforms
             loaded.setRotationOffset(offset);
@@ -368,7 +249,7 @@ public class AnimationLoader
 
             // Finalize animation initialization
             final Set<Animation> anims = Sets.newHashSet();
-            // TODO actually initialize animations if needed.
+
             animator.init(anims);
 
             // Add the worn offsets
@@ -394,54 +275,59 @@ public class AnimationLoader
             // Pre-process the animations via the model
             model.preProcessAnimations(loaded.getAnimations().values());
 
-            // Add to the various maps.
-            AnimationLoader.models.put(modelName, holder);
-
             stream.close();
         }
         catch (final Exception e)
         {
-            AnimationLoader.models.put(holder.name, holder);
             ThutCore.LOGGER.debug("No Animation found for " + holder.name + " " + holder.model, e);
+        }
+    }
+
+    public static boolean parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer,
+            final ResourceLocation animations)
+    {
+        try
+        {
+            final IResource res = Minecraft.getInstance().getResourceManager().getResource(animations);
+            final InputStream stream = res.getInputStream();
+            ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
+            AnimationLoader.parse(stream, holder, model, renderer);
+            res.close();
+            return true;
+        }
+        catch (final Exception e)
+        {
+            return false;
         }
     }
 
     public static void parse(final ModelHolder holder, final IModel model, final IModelRenderer<?> renderer)
     {
-        try
+        final ResourceLocation anims = holder.animation;
+        if (!AnimationLoader.parse(holder, model, renderer, anims))
         {
-            final IResource res = Minecraft.getInstance().getResourceManager().getResource(holder.animation);
-            final InputStream stream = res.getInputStream();
-            AnimationLoader.parse(stream, holder, model, renderer);
-            res.close();
+            for (final ResourceLocation loc : holder.backupAnimations)
+                if (AnimationLoader.parse(holder, model, renderer, loc)) return;
         }
-        catch (final Exception e)
-        {
-            System.err.println("No Animation found for " + holder.name + " " + holder.model);
-            e.printStackTrace();
-        }
+        else return;
+
+        ThutCore.LOGGER.error("Error in parsing animation file {} for {}, also checked {}", holder.animation,
+                holder.name, holder.backupAnimations);
+    }
+
+    public static void setHeadCaps(final String toSplit, final float[] toFill)
+    {
+        final String[] r = toSplit.split(",");
+        toFill[0] = Float.parseFloat(r[0]);
+        toFill[1] = Float.parseFloat(r[1]);
     }
 
     public static void setHeadCaps(final Node node, final float[] toFill, final float[] toFill1)
     {
         if (node.getAttributes() == null) return;
         if (node.getAttributes().getNamedItem("headCap") != null)
-        {
-            String shift;
-            String[] r;
-            shift = node.getAttributes().getNamedItem("headCap").getNodeValue();
-            r = shift.split(",");
-            toFill[0] = Float.parseFloat(r[0]);
-            toFill[1] = Float.parseFloat(r[1]);
-        }
+            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap").getNodeValue(), toFill);
         if (node.getAttributes().getNamedItem("headCap1") != null)
-        {
-            String shift;
-            String[] r;
-            shift = node.getAttributes().getNamedItem("headCap1").getNodeValue();
-            r = shift.split(",");
-            toFill1[0] = Float.parseFloat(r[0]);
-            toFill1[1] = Float.parseFloat(r[1]);
-        }
+            AnimationLoader.setHeadCaps(node.getAttributes().getNamedItem("headCap1").getNodeValue(), toFill1);
     }
 }

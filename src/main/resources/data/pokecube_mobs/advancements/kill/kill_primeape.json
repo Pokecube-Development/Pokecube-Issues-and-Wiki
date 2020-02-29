@@ -24,7 +24,6 @@
     "kill_primeape": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "primeape"
       }
     }

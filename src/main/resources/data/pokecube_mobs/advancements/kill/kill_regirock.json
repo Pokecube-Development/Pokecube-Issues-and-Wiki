@@ -25,7 +25,6 @@
     "kill_regirock": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "regirock"
       }
     }

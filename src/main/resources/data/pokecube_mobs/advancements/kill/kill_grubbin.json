@@ -24,7 +24,6 @@
     "kill_grubbin": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "grubbin"
       }
     }

@@ -24,7 +24,6 @@
     "kill_furfrou": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "furfrou"
       }
     }

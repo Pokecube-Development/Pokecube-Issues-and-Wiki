@@ -43,11 +43,11 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         RenderSystem.translatef(j + 55, k + 60, 50.0F);
         RenderSystem.scalef(1.0F, 1.0F, -1.0F);
         final MatrixStack matrixstack = new MatrixStack();
-        // matrixstack.translate(0.0D, 0.0D, 1000.0D);
         matrixstack.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
         final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(yaw);
         quaternion.multiply(quaternion1);
+        quaternion.multiply(Vector3f.XP.rotationDegrees(pitch));
         matrixstack.rotate(quaternion);
         final EntityRendererManager entityrenderermanager = Minecraft.getInstance().getRenderManager();
         quaternion1.conjugate();
@@ -79,7 +79,6 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     {
         super(container, inv, container.pokemob.getDisplayName());
         this.name.setText(container.pokemob.getDisplayName().getUnformattedComponentText().trim());
-        this.name.setEnableBackgroundDrawing(false);
         this.name.enabledColor = 4210752;
     }
 
@@ -102,10 +101,15 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         final int k = (this.width - this.xSize) / 2;
         final int l = (this.height - this.ySize) / 2;
         this.blit(k, l, 0, 0, this.xSize, this.ySize);
-        this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
+        if (this.container.mode == 0) this.blit(k + 79, l + 17, 0, this.ySize, 90, 18);
         this.blit(k + 7, l + 35, 0, this.ySize + 54, 18, 18);
         if (this.container.pokemob != null)
+        {
+            final boolean prev = this.container.pokemob.getEntity().addedToChunk;
+            this.container.pokemob.getEntity().addedToChunk = false;
             GuiPokemobBase.renderMob(this.container.pokemob.getEntity(), k, l, 0, 0, 0, 0, 1);
+            this.container.pokemob.getEntity().addedToChunk = prev;
+        }
     }
 
     /** Draw the foreground layer for the ContainerScreen (everything in front
@@ -123,11 +127,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         super.init();
         final int xOffset = 80;
         final int yOffset = 77;
-        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 120, 10, "");
-        this.name.setEnableBackgroundDrawing(false);
-        if (this.container.pokemob != null)
-            this.name.setText(this.container.pokemob.getDisplayName().getUnformattedComponentText().trim());
-        this.name.setEnableBackgroundDrawing(false);
+        this.name = new TextFieldWidget(this.font, this.width / 2 - xOffset, this.height / 2 - yOffset, 69, 10, "");
+        if (this.container.pokemob != null) this.name.setText(this.container.pokemob.getDisplayName()
+                .getUnformattedComponentText().trim());
         this.name.setTextColor(0xFFFFFFFF);
         this.addButton(this.name);
     }

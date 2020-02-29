@@ -24,7 +24,6 @@
     "kill_minior": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "minior"
       }
     }

@@ -24,7 +24,6 @@
     "catch_cherrim": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cherrim"
       }
     }

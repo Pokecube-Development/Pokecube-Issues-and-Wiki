@@ -4,18 +4,18 @@
       "item": "pokecube_legends:rockcore"
     },
     "title": {
-	    "text": "The beginning of the Golems",
-	    "color": "blue",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "The beginning of the Golems",
+      "color": "blue",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Get the basics for the Titans."
+      "text": "Get the basics for the Titans."
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -28,7 +28,7 @@
         "entry": "relicanth"
       }
     },
-	"catch_wailord": {
+    "catch_wailord": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
@@ -37,7 +37,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/regicores" ]
+    "loot": [
+      "pokecube_legends:entities/regicores"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

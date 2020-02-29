@@ -24,7 +24,6 @@
     "kill_pelipper": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pelipper"
       }
     }

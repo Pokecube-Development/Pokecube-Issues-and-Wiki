@@ -39,23 +39,23 @@ public class MovesParser
     static final Pattern SLPA = Pattern.compile("(induce).*(sleep)");
     static final Pattern SLPB = Pattern.compile("(may).*(sleep)");
 
-    private static void addCategory(byte mask, MoveEntry move)
+    private static void addCategory(final byte mask, final MoveEntry move)
     {
         if ((move.attackCategory & mask) == 0) move.attackCategory += mask;
     }
 
-    private static void addChange(byte mask, MoveEntry move)
+    private static void addChange(final byte mask, final MoveEntry move)
     {
         if ((move.change & mask) == 0) move.change += mask;
     }
 
-    private static void addStatus(byte mask, MoveEntry move)
+    private static void addStatus(final byte mask, final MoveEntry move)
     {
         if ((move.statusChange & mask) == 0) move.statusChange += mask;
     }
 
     @Nullable
-    static String getMatch(String input, Pattern pattern)
+    static String getMatch(final String input, final Pattern pattern)
     {
         final Matcher match = pattern.matcher(input);
         if (match.find()) return match.group();
@@ -77,7 +77,7 @@ public class MovesParser
         return rate;
     }
 
-    public static void initMoveEntry(MoveJsonEntry entry, int index)
+    public static void initMoveEntry(final MoveJsonEntry entry, final int index)
     {
         final String name = Database.convertMoveName(entry.name);
         int power;
@@ -110,8 +110,8 @@ public class MovesParser
         final boolean defrosts = yes.equals(entry.defrosts);
         final boolean protect = yes.equals(entry.protect);
         final boolean mirror = yes.equals(entry.mirrormove);
-        // boolean wideArea = yes.equals(entry.wideArea);//TODO decide what to
-        // do with these.
+        // TODO decide what to do with these.
+        // boolean wideArea = yes.equals(entry.wideArea);
         // boolean zMove = yes.equals(entry.zMove);
         move.defrosts = defrosts;
         move.mirrorcoated = mirror;
@@ -135,7 +135,7 @@ public class MovesParser
         MovesParser.parsePreset(entry);
     }
 
-    public static void load(MovesJson moves) throws IOException
+    public static void load(final MovesJson moves) throws IOException
     {
         for (int i = 0; i < moves.moves.size(); i++)
         {
@@ -151,7 +151,7 @@ public class MovesParser
         }
     }
 
-    static boolean matches(String input, Pattern... patterns)
+    static boolean matches(final String input, final Pattern... patterns)
     {
         for (final Pattern pattern : patterns)
         {
@@ -161,7 +161,7 @@ public class MovesParser
         return false;
     }
 
-    static void parseCategory(String category, MoveEntry move)
+    static void parseCategory(final String category, final MoveEntry move)
     {
         final String other = "Other";
         final String special = "Special";
@@ -172,7 +172,7 @@ public class MovesParser
         if (physical.equals(category)) move.category = (byte) Category.PHYSICAL.ordinal();
     }
 
-    private static void parseCrit(String details, MoveEntry move)
+    private static void parseCrit(final String details, final MoveEntry move)
     {
         final boolean crit = details != null && (details.contains("has an increased critical hit ratio") || details
                 .contains("has high critical hit ratio"));
@@ -191,7 +191,7 @@ public class MovesParser
         else move.crit = 1;
     }
 
-    private static void parseFixedDamage(MoveJsonEntry entry, MoveEntry move)
+    private static void parseFixedDamage(final MoveJsonEntry entry, final MoveEntry move)
     {
         if (entry.secondaryEffect == null) return;
         if (entry.secondaryEffect.toLowerCase(Locale.ENGLISH).equalsIgnoreCase("may cause one-hit ko."))
@@ -215,7 +215,7 @@ public class MovesParser
         }
     }
 
-    private static void parseHealing(MoveJsonEntry entry, MoveEntry move)
+    private static void parseHealing(final MoveJsonEntry entry, final MoveEntry move)
     {
         if (entry.secondaryEffect == null) return;
         final String var = entry.secondaryEffect.toLowerCase(Locale.ENGLISH).trim();
@@ -251,7 +251,7 @@ public class MovesParser
         // TODO heal other moves as well.
     }
 
-    static void parseNoMove(String secondaryEffect, MoveEntry move)
+    static void parseNoMove(final String secondaryEffect, final MoveEntry move)
     {
         if (secondaryEffect.equals("User cannot Attack on the next turn."))
         {
@@ -260,12 +260,12 @@ public class MovesParser
         }
     }
 
-    private static void parsePreset(MoveJsonEntry entry)
+    private static void parsePreset(final MoveJsonEntry entry)
     {
         if (entry.secondaryEffect != null && entry.secondaryEffect.startsWith("Traps")) entry.preset = "ongoing";
     }
 
-    static void parseSecondaryEffects(MoveJsonEntry entry, MoveEntry move)
+    static void parseSecondaryEffects(final MoveJsonEntry entry, final MoveEntry move)
     {
         MovesParser.parseNoMove(entry.secondaryEffect, move);
         MovesParser.parseCrit(entry.secondaryEffect.toLowerCase(Locale.ENGLISH), move);
@@ -273,7 +273,7 @@ public class MovesParser
                 "never misses")) entry.interceptable = false;
     }
 
-    private static void parseSelfDamage(MoveJsonEntry entry, MoveEntry move)
+    private static void parseSelfDamage(final MoveJsonEntry entry, final MoveEntry move)
     {
         if (entry.secondaryEffect == null) return;
         final String var = entry.secondaryEffect.toLowerCase(Locale.ENGLISH).trim();
@@ -302,7 +302,7 @@ public class MovesParser
         }
     }
 
-    private static void parseStatModifiers(MoveJsonEntry entry, MoveEntry move)
+    private static void parseStatModifiers(final MoveJsonEntry entry, final MoveEntry move)
     {
         if (entry.secondaryEffect == null) return;
         final String[] effects = entry.secondaryEffect.split("\\.");
@@ -354,7 +354,7 @@ public class MovesParser
 
     }
 
-    private static void parseStatusEffects(MoveJsonEntry entry, MoveEntry move)
+    private static void parseStatusEffects(final MoveJsonEntry entry, final MoveEntry move)
     {
         if (entry.secondaryEffect == null) return;
         final String effect = entry.secondaryEffect.toLowerCase(Locale.ENGLISH);
@@ -380,7 +380,7 @@ public class MovesParser
                 + " Has Status Effects: " + move.statusChange + " " + move.statusChance);
     }
 
-    private static void parseTarget(MoveJsonEntry entry, MoveEntry move)
+    private static void parseTarget(final MoveJsonEntry entry, final MoveEntry move)
     {
         final String target = entry.target;
         final String self = "Self";
@@ -394,7 +394,7 @@ public class MovesParser
         }
     }
 
-    private static PokeType parseType(String type)
+    private static PokeType parseType(final String type)
     {
         return PokeType.getType(type);
     }

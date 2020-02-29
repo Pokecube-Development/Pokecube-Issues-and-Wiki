@@ -24,7 +24,6 @@
     "catch_cutiefly": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cutiefly"
       }
     }

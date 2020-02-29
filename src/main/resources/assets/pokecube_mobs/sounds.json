@@ -5233,17 +5233,17 @@
     "subtitle": "entity.pokecube.ho-oh",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/hooh",
+        "name": "pokecube_mobs:mobs/ho-oh",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/hooh",
+        "name": "pokecube_mobs:mobs/ho-oh",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/hooh",
+        "name": "pokecube_mobs:mobs/ho-oh",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -8420,22 +8420,22 @@
       }
     ]
   },
-  "mobs.kricketunemale": {
+  "mobs.kricketune_male": {
     "category": "hostile",
     "subtitle": "entity.pokecube.kricketune",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/kricketunemale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/kricketunemale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/kricketunemale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -9937,17 +9937,17 @@
     "subtitle": "entity.pokecube.porygon-z",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/porygonz",
+        "name": "pokecube_mobs:mobs/porygon-z",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/porygonz",
+        "name": "pokecube_mobs:mobs/porygon-z",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/porygonz",
+        "name": "pokecube_mobs:mobs/porygon-z",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -12410,43 +12410,43 @@
       }
     ]
   },
-  "mobs.frillishmale": {
+  "mobs.frillish_male": {
     "category": "hostile",
     "subtitle": "entity.pokecube.frillish",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/frillishmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
     ]
   },
-  "mobs.jellicentmale": {
+  "mobs.jellicent_male": {
     "category": "hostile",
     "subtitle": "entity.pokecube.jellicent",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/jellicentmale",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15649,17 +15649,17 @@
     "subtitle": "entity.pokecube.oricorio_pom-pom",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/oricorio_pompom",
+        "name": "pokecube_mobs:mobs/oricorio_pom-pom",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_pompom",
+        "name": "pokecube_mobs:mobs/oricorio_pom-pom",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/oricorio_pompom",
+        "name": "pokecube_mobs:mobs/oricorio_pom-pom",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16531,17 +16531,17 @@
     "subtitle": "entity.pokecube.jangmo-o",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/jangmoo",
+        "name": "pokecube_mobs:mobs/jangmo-o",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/jangmoo",
+        "name": "pokecube_mobs:mobs/jangmo-o",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/jangmoo",
+        "name": "pokecube_mobs:mobs/jangmo-o",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16552,17 +16552,17 @@
     "subtitle": "entity.pokecube.hakamo-o",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/hakamoo",
+        "name": "pokecube_mobs:mobs/hakamo-o",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/hakamoo",
+        "name": "pokecube_mobs:mobs/hakamo-o",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/hakamoo",
+        "name": "pokecube_mobs:mobs/hakamo-o",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16573,17 +16573,17 @@
     "subtitle": "entity.pokecube.kommo-o",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/kommoo",
+        "name": "pokecube_mobs:mobs/kommo-o",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/kommoo",
+        "name": "pokecube_mobs:mobs/kommo-o",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/kommoo",
+        "name": "pokecube_mobs:mobs/kommo-o",
         "volume": 1.0,
         "pitch": 1.0
       }

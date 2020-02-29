@@ -24,7 +24,6 @@
     "catch_pyukumuku": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pyukumuku"
       }
     }

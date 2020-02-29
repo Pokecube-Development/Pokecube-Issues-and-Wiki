@@ -25,7 +25,6 @@
     "catch_jirachi": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "jirachi"
       }
     }

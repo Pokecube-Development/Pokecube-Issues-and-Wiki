@@ -4,11 +4,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
+import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
@@ -20,7 +27,7 @@ import thut.core.common.network.Packet;
 
 public class PacketChangeForme extends Packet
 {
-    public static void sendPacketToServer(Entity mob, PokedexEntry forme)
+    public static void sendPacketToServer(final Entity mob, final PokedexEntry forme)
     {
         final PacketChangeForme packet = new PacketChangeForme();
         packet.entityId = mob.getEntityId();
@@ -28,7 +35,7 @@ public class PacketChangeForme extends Packet
         PokecubeCore.packets.sendToServer(packet);
     }
 
-    public static void sendPacketToTracking(Entity mob, PokedexEntry forme)
+    public static void sendPacketToTracking(final Entity mob, final PokedexEntry forme)
     {
         final PacketChangeForme packet = new PacketChangeForme();
         packet.entityId = mob.getEntityId();
@@ -43,7 +50,7 @@ public class PacketChangeForme extends Packet
     {
     }
 
-    public PacketChangeForme(PacketBuffer buffer)
+    public PacketChangeForme(final PacketBuffer buffer)
     {
         this.entityId = buffer.readInt();
         this.forme = Database.getEntry(buffer.readString(20));
@@ -60,9 +67,11 @@ public class PacketChangeForme extends Packet
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
-        final Entity mob = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), this.entityId, true);
+        final World world = player.getEntityWorld();
+        final BlockPos pos = player.getPosition();
+        final Entity mob = PokecubeCore.getEntityProvider().getEntity(world, this.entityId, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob == null) return;
         if (pokemob.getGeneralState(GeneralStates.EVOLVING)) return;
@@ -72,26 +81,76 @@ public class PacketChangeForme extends Packet
             player.sendMessage(new TranslationTextComponent("pokecube.mega.noring", pokemob.getDisplayName()));
             return;
         }
+        final PokedexEntry entry = pokemob.getPokedexEntry();
+        final ITextComponent oldName = pokemob.getDisplayName();
+
+        // Check dynamax/gigantamax first.
+        final ForbidReason reason = SpawnHandler.getNoSpawnReason(world, pos);
+
+        if (reason == MaxTile.MAXSPOT)
+        {
+            boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
+            final boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX) || entry.isMega;
+            PokedexEntry newEntry = entry.isMega ? entry.getBaseForme() : entry;
+
+            if (gigant && !isDyna)
+            {
+                newEntry = Database.getEntry(newEntry.getTrimmedName() + "_gigantamax");
+                if (newEntry == null) gigant = false;
+            }
+
+            if (isDyna)
+            {
+                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.revert", "green",
+                        oldName);
+                pokemob.displayMessageToOwner(mess);
+                pokemob.setCombatState(CombatStates.MEGAFORME, false);
+                mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.revert", "green", oldName);
+                ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
+                return;
+            }
+            else
+            {
+                final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(player.getUniqueID()).getLong(
+                        "pokecube:dynatime");
+                final long time = player.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
+                if (dynatime != 0 && time < dynaagain)
+                {
+                    player.sendMessage(CommandTools.makeTranslatedMessage("pokemob.dynamax.too_soon", "red", pokemob
+                            .getDisplayName()));
+                    return;
+                }
+
+                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.evolve", "green",
+                        oldName);
+                pokemob.displayMessageToOwner(mess);
+                mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.success", "green", oldName);
+                if (gigant) pokemob.setCombatState(CombatStates.MEGAFORME, true);
+                ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
+                return;
+            }
+        }
+
         PokedexEntry newEntry = pokemob.getPokedexEntry().getEvo(pokemob);
         if (newEntry != null && newEntry.getPokedexNb() == pokemob.getPokedexEntry().getPokedexNb())
         {
-            final String old = pokemob.getDisplayName().getFormattedText();
             if (pokemob.getPokedexEntry() == newEntry)
             {
                 ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.revert", "green",
-                        old);
+                        oldName);
                 pokemob.displayMessageToOwner(mess);
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.revert", "green", old, newEntry
+                mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.revert", "green", oldName, newEntry
                         .getUnlocalizedName());
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
             }
             else
             {
                 ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.evolve", "green",
-                        old);
+                        oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.success", "green", old, newEntry
+                mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.success", "green", oldName, newEntry
                         .getUnlocalizedName());
                 pokemob.setCombatState(CombatStates.MEGAFORME, true);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
@@ -99,12 +158,12 @@ public class PacketChangeForme extends Packet
         }
         else if (pokemob.getCombatState(CombatStates.MEGAFORME))
         {
-            final String old = pokemob.getDisplayName().getFormattedText();
-            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.revert", "green", old);
+            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.revert", "green",
+                    oldName);
             pokemob.displayMessageToOwner(mess);
             newEntry = pokemob.getPokedexEntry().getBaseForme();
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
-            mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.revert", "green", old, newEntry
+            mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.revert", "green", oldName, newEntry
                     .getUnlocalizedName());
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
         }
@@ -113,7 +172,7 @@ public class PacketChangeForme extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         final PacketBuffer buffer = new PacketBuffer(buf);
         buffer.writeInt(this.entityId);

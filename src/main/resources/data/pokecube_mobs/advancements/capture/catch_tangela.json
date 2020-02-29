@@ -24,7 +24,6 @@
     "catch_tangela": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "tangela"
       }
     }

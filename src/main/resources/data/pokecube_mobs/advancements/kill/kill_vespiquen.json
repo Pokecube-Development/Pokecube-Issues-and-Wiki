@@ -24,7 +24,6 @@
     "kill_vespiquen": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "vespiquen"
       }
     }

@@ -24,7 +24,6 @@
     "catch_volbeat": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "volbeat"
       }
     }

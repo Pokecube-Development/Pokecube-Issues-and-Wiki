@@ -24,7 +24,6 @@
     "kill_voltorb": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "voltorb"
       }
     }

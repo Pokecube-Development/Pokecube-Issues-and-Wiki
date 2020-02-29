@@ -24,7 +24,6 @@
     "kill_pidove": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pidove"
       }
     }

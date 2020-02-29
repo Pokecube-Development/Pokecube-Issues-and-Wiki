@@ -24,7 +24,6 @@
     "kill_magmar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "magmar"
       }
     }

@@ -24,7 +24,6 @@
     "catch_zorua": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "zorua"
       }
     }

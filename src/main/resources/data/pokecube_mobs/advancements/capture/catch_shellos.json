@@ -24,7 +24,6 @@
     "catch_shellos": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "shellos"
       }
     }

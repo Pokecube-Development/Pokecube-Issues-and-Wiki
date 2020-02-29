@@ -51,6 +51,7 @@
     
     "pokecube.bug_catcher.named": "Bug Catcher %s",
     "pokecube.youngster.named": "Youngster %s",
+    "pokecube.burglar.named": "Burglar %s",
     "pokecube.lass.named": "Lass %s",
     "pokecube.hiker.named": "Hiker %s",
     "pokecube.fisherman_trainer.named": "Fisherman %s",
@@ -65,6 +66,7 @@
     "pokecube.roughneck.named": "RoughNeck %s",
     "pokecube.engineer.named": "Engineer %s",
     "pokecube.pi.named": "PI %s",
+    "pokecube.psychic.named": "Psychic %s",
     "pokecube.gentleman.named": "Gentleman %s",
     "pokecube.camper.named": "Camper %s",
     "pokecube.picknicker.named": "Picknicker %s",
@@ -78,6 +80,8 @@
     "pokecube.red.named": "Red",
     "pokecube.merchant.named": "Merchant %s",
     "pokecube.dragon_tamer.named": "Dragon Tamer %s",
+    
+    "pokecube.gym_leader.named": "Gym Leader %s",
     
     "entity.pokecube_adventures.trainer": "Trainer",
     "entity.pokecube_adventures.leader": "Leader",

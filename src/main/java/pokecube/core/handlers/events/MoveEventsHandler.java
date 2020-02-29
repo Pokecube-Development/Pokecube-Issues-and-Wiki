@@ -43,6 +43,7 @@ import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.events.pokemob.combat.MoveUse;
 import pokecube.core.events.pokemob.combat.MoveUse.MoveWorldAction;
 import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveNames;
@@ -213,8 +214,8 @@ public class MoveEventsHandler
     public static boolean canEffectBlock(final IPokemob user, final Vector3 location)
     {
         LivingEntity owner = user.getOwner();
-        final boolean repel = SpawnHandler.checkNoSpawnerInArea(user.getEntity().getEntityWorld(), location.intX(),
-                location.intY(), location.intZ());
+        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getEntityWorld(), location.intX(), location
+                .intY(), location.intZ()) == ForbidReason.REPEL;
         if (!(owner instanceof PlayerEntity)) owner = PokecubeMod.getFakePlayer(user.getEntity().getEntityWorld());
         if (!repel)
         {
@@ -400,7 +401,6 @@ public class MoveEventsHandler
     public static BlockItemUseContext getContext(final World world, final BlockState toPlace, final BlockPos location,
             final Direction placeFrom, final Direction placeTo)
     {
-        // TODO figoure out something for here.
         final ItemStack stack = new ItemStack(toPlace.getBlock());
         return new DirectionalPlaceContext(world, location, placeFrom, stack, placeTo);
     }

@@ -24,7 +24,6 @@
     "catch_mudkip": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "mudkip"
       }
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist_forgery"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.polteageist_forgery"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_polteageist_forgery": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "polteageist_forgery"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_sinistea_forgery"
+}

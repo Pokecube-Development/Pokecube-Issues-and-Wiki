@@ -101,7 +101,12 @@ public class GuiPokeWatch extends Screen
 
     public void changePage(final int newIndex)
     {
-        if (newIndex == this.index) return;
+        this.changePage(newIndex, false);
+    }
+
+    public void changePage(final int newIndex, final boolean force)
+    {
+        if (!force && newIndex == this.index) return;
         if (this.current_page != null) this.current_page.onPageClosed();
         this.index = newIndex;
         this.current_page = this.createPage(this.index);
@@ -133,6 +138,7 @@ public class GuiPokeWatch extends Screen
     public void init()
     {
         super.init();
+        this.current_page = this.createPage(GuiPokeWatch.lastPage);
         this.current_page.init();
         final int x = this.width / 2;
         final int y = this.height / 2 - 5;
@@ -156,7 +162,7 @@ public class GuiPokeWatch extends Screen
         this.addButton(new Button(x - 25, y + 69, 50, 12, home, b ->
         {
             final int index = 0;
-            this.changePage(index);
+            this.changePage(index, true);
         }));
         this.current_page.onPageOpened();
     }

@@ -24,7 +24,6 @@
     "kill_cottonee": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cottonee"
       }
     }

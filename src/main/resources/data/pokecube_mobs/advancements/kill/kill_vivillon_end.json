@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_end"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.vivillon_end"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_vivillon_end": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "vivillon_end"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_spewpa"
+}

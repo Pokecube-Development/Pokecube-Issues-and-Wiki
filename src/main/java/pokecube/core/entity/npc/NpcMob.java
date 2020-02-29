@@ -35,6 +35,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
@@ -104,26 +105,19 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             else
             {
                 brain.setSchedule(Schedule.VILLAGER_DEFAULT);
-                brain.registerActivity(Activity.WORK, this.addGuard(guardai, VillagerTasks.work(
-                        villagerprofession, f)), ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE,
-                                MemoryModuleStatus.VALUE_PRESENT)));
+                brain.registerActivity(Activity.WORK, this.addGuard(guardai, VillagerTasks.work(villagerprofession, f)),
+                        ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
             }
-            brain.registerActivity(Activity.CORE, this.addGuard(guardai, VillagerTasks.core(villagerprofession,
+            brain.registerActivity(Activity.CORE, this.addGuard(guardai, VillagerTasks.core(villagerprofession, f)));
+            brain.registerActivity(Activity.MEET, this.addGuard(guardai, VillagerTasks.meet(villagerprofession, f)),
+                    ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
+            brain.registerActivity(Activity.REST, this.addGuard(guardai, VillagerTasks.rest(villagerprofession, f)));
+            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, VillagerTasks.idle(villagerprofession, f)));
+            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, VillagerTasks.panic(villagerprofession, f)));
+            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, VillagerTasks.preRaid(villagerprofession,
                     f)));
-            brain.registerActivity(Activity.MEET, this.addGuard(guardai, VillagerTasks.meet(villagerprofession,
-                    f)), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
-            brain.registerActivity(Activity.REST, this.addGuard(guardai, VillagerTasks.rest(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, VillagerTasks.idle(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, VillagerTasks.panic(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, VillagerTasks.preRaid(
-                    villagerprofession, f)));
-            brain.registerActivity(Activity.RAID, this.addGuard(guardai, VillagerTasks.raid(villagerprofession,
-                    f)));
-            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, VillagerTasks.hide(villagerprofession,
-                    f)));
+            brain.registerActivity(Activity.RAID, this.addGuard(guardai, VillagerTasks.raid(villagerprofession, f)));
+            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, VillagerTasks.hide(villagerprofession, f)));
             brain.setDefaultActivities(ImmutableSet.of(Activity.CORE));
             brain.setFallbackActivity(Activity.IDLE);
             brain.switchTo(Activity.IDLE);
@@ -136,7 +130,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public boolean attackEntityFrom(final DamageSource source, final float i)
     {
         final Entity e = source.getTrueSource();
-        if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.isCreativeMode)
+        if (e instanceof PlayerEntity && ((PlayerEntity) e).abilities.isCreativeMode && e.isCrouching())
         {
             final PlayerEntity player = (PlayerEntity) e;
             if (player.getHeldItemMainhand().isEmpty()) this.remove();
@@ -173,9 +167,17 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
+    public void livingTick()
+    {
+        super.livingTick();
+        if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0) this
+                .setHealth(Math.min(this.getHealth() + 2, this.getMaxHealth()));
+    }
+
+    @Override
     public void readAdditional(final CompoundNBT nbt)
     {
-        super.readAdditional(nbt);
+        if (this.world instanceof ServerWorld) super.readAdditional(nbt);
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
         this.name = nbt.getString("name");

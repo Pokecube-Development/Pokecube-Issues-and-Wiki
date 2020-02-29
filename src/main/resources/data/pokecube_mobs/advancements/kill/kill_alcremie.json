@@ -24,7 +24,6 @@
     "kill_alcremie": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "alcremie"
       }
     }

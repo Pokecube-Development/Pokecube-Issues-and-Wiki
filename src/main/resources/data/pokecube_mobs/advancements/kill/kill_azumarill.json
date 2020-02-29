@@ -24,7 +24,6 @@
     "kill_azumarill": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "azumarill"
       }
     }

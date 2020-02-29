@@ -24,7 +24,6 @@
     "catch_scolipede": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "scolipede"
       }
     }

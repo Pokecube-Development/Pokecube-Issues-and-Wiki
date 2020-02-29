@@ -5,17 +5,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-
-import org.w3c.dom.NamedNodeMap;
+import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
+import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.common.ThutCore;
 
 public class BasicFlapAnimation extends Animation
 {
+    private static final QName leftWing  = new QName("leftWing");
+    private static final QName rightWing = new QName("rightWing");
+    private static final QName angle     = new QName("angle");
+    private static final QName start     = new QName("start");
+    private static final QName axis      = new QName("axis");
+    private static final QName duration  = new QName("duration");
+
     public BasicFlapAnimation()
     {
         this.loops = true;
@@ -23,7 +31,7 @@ public class BasicFlapAnimation extends Animation
     }
 
     @Override
-    public Animation init(NamedNodeMap map, @Nullable IPartRenamer renamer)
+    public Animation init(final Phase map, @Nullable final IPartRenamer renamer)
     {
         final HashSet<String> hl = new HashSet<>();
         final HashSet<String> hr = new HashSet<>();
@@ -31,9 +39,10 @@ public class BasicFlapAnimation extends Animation
         int flapaxis = 2;
         float walkAngle1 = 20;
         float walkAngle2 = 20;
+        flapdur = Integer.parseInt(this.get(map, BasicFlapAnimation.duration));
 
-        final String[] lh = map.getNamedItem("leftWing").getNodeValue().split(":");
-        final String[] rh = map.getNamedItem("rightWing").getNodeValue().split(":");
+        final String[] lh = this.get(map, BasicFlapAnimation.leftWing).split(":");
+        final String[] rh = this.get(map, BasicFlapAnimation.rightWing).split(":");
 
         if (renamer != null)
         {
@@ -41,14 +50,15 @@ public class BasicFlapAnimation extends Animation
             renamer.convertToIdents(rh);
         }
         for (final String s : lh)
-            if (s != null) hl.add(s);
+            if (s != null) hl.add(ThutCore.trim(s));
         for (final String s : rh)
-            if (s != null) hr.add(s);
-
-        if (map.getNamedItem("angle") != null) walkAngle1 = Float.parseFloat(map.getNamedItem("angle").getNodeValue());
-        if (map.getNamedItem("start") != null) walkAngle2 = Float.parseFloat(map.getNamedItem("start").getNodeValue());
-        if (map.getNamedItem("axis") != null) flapaxis = Integer.parseInt(map.getNamedItem("axis").getNodeValue());
-        flapdur = Integer.parseInt(map.getNamedItem("duration").getNodeValue());
+            if (s != null) hr.add(ThutCore.trim(s));
+        final String angle = this.get(map, BasicFlapAnimation.angle);
+        final String start = this.get(map, BasicFlapAnimation.start);
+        final String axis = this.get(map, BasicFlapAnimation.axis);
+        if (!angle.isEmpty()) walkAngle1 = Float.parseFloat(angle);
+        if (!start.isEmpty()) walkAngle2 = Float.parseFloat(start);
+        if (!axis.isEmpty()) flapaxis = Integer.parseInt(axis);
 
         this.init(hl, hr, flapdur, walkAngle1, walkAngle2, flapaxis);
         return this;
@@ -74,7 +84,8 @@ public class BasicFlapAnimation extends Animation
      *            - axis used for flapping around.
      * @return
      */
-    public BasicFlapAnimation init(Set<String> lw, Set<String> rw, int duration, float angle, float start, int axis)
+    public BasicFlapAnimation init(final Set<String> lw, final Set<String> rw, int duration, final float angle,
+            final float start, final int axis)
     {
         duration = duration + duration % 4;
         for (final String s : rw)

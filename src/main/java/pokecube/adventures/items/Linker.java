@@ -16,7 +16,7 @@ import thut.api.maths.Vector4;
 
 public class Linker extends Item
 {
-    private static final ResourceLocation LINKSTOREKEY = new ResourceLocation(PokecubeAdv.ID, "linker");
+    private static final ResourceLocation LINKSTOREKEY = new ResourceLocation(PokecubeAdv.MODID, "linker");
 
     private static class LinkStore extends LinkStorage
     {

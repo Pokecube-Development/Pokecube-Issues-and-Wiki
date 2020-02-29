@@ -24,7 +24,6 @@
     "catch_grovyle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "grovyle"
       }
     }

@@ -24,7 +24,6 @@
     "kill_gardevoir": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gardevoir"
       }
     }

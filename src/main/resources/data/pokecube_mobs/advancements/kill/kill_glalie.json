@@ -24,7 +24,6 @@
     "kill_glalie": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "glalie"
       }
     }

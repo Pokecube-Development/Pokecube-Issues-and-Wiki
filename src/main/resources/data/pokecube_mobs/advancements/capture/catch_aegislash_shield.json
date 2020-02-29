@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash_shield"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.aegislash_shield"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_aegislash_shield": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "aegislash_shield"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

@@ -24,7 +24,6 @@
     "catch_malamar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "malamar"
       }
     }

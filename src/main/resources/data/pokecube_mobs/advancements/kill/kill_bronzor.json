@@ -24,7 +24,6 @@
     "kill_bronzor": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "bronzor"
       }
     }

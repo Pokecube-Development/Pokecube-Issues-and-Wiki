@@ -24,7 +24,6 @@
     "kill_machoke": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "machoke"
       }
     }

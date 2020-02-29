@@ -24,7 +24,6 @@
     "kill_zweilous": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "zweilous"
       }
     }

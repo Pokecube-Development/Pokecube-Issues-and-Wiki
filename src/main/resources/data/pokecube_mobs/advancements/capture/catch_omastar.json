@@ -24,7 +24,6 @@
     "catch_omastar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "omastar"
       }
     }

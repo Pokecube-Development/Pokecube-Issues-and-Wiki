@@ -24,7 +24,6 @@
     "kill_tyranitar": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tyranitar"
       }
     }

@@ -24,7 +24,6 @@
     "catch_dracovish": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "dracovish"
       }
     }

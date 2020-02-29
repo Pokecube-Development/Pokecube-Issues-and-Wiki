@@ -24,7 +24,6 @@
     "catch_venomoth": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "venomoth"
       }
     }

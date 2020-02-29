@@ -24,7 +24,6 @@
     "catch_chimchar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "chimchar"
       }
     }

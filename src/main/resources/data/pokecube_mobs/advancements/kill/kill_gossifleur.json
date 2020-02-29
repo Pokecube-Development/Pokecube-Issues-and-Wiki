@@ -24,7 +24,6 @@
     "kill_gossifleur": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "gossifleur"
       }
     }

@@ -31,18 +31,24 @@ public enum CombatStates
     /** Pokemon is forbidden from swapping move */
     NOMOVESWAP(1 << 10, false),
     /** is the pokemob megaevolved */
-    MEGAFORME(1 << 11);
+    MEGAFORME(1 << 11),
+    /** is the pokemob dynamaxed */
+    DYNAMAX(1 << 12),
+    /** can the pokemob gigantamax */
+    GIGANTAMAX(1 << 13),
+    /** has the pokemob used a zmove this "battle" */
+    USINGGZMOVE(1 << 14, false);
 
     final int     mask;
     final boolean persist;
 
-    private CombatStates(int mask)
+    private CombatStates(final int mask)
     {
         this.mask = mask;
         this.persist = true;
     }
 
-    private CombatStates(int mask, boolean persist)
+    private CombatStates(final int mask, final boolean persist)
     {
         this.mask = mask;
         this.persist = persist;

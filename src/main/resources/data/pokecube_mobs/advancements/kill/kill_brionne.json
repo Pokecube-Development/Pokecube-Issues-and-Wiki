@@ -24,7 +24,6 @@
     "kill_brionne": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "brionne"
       }
     }

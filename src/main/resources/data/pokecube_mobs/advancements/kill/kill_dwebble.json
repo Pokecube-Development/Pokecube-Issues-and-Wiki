@@ -24,7 +24,6 @@
     "kill_dwebble": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dwebble"
       }
     }

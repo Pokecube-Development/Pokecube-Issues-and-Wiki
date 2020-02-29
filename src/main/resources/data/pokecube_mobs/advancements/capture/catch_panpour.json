@@ -24,7 +24,6 @@
     "catch_panpour": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "panpour"
       }
     }

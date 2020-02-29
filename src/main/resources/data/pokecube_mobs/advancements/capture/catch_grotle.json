@@ -24,7 +24,6 @@
     "catch_grotle": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "grotle"
       }
     }

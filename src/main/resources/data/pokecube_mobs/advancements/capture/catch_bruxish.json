@@ -24,7 +24,6 @@
     "catch_bruxish": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bruxish"
       }
     }

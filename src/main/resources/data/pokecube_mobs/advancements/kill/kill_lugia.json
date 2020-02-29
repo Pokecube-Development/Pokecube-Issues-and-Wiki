@@ -25,7 +25,6 @@
     "kill_lugia": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "lugia"
       }
     }

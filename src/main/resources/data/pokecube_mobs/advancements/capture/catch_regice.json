@@ -25,7 +25,6 @@
     "catch_regice": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "regice"
       }
     }

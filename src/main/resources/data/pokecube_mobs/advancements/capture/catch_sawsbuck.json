@@ -24,7 +24,6 @@
     "catch_sawsbuck": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "sawsbuck"
       }
     }

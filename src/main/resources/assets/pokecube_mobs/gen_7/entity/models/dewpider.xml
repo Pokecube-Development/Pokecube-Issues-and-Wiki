@@ -2,7 +2,8 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.15"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
   <phase duration="10" leftFront="" leftHind="arm1" name="quadWalk" rightFront="arm3" rightHind="arm2"/>
+  <material name="water" meshs="water" transluscent="true"/>
  </model>
 </ModelAnimator>

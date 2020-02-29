@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity_lowkey"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toxtricity_lowkey"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_toxtricity_lowkey": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "toxtricity_lowkey"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_toxel"
+}

@@ -24,7 +24,6 @@
     "catch_florges": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "florges"
       }
     }

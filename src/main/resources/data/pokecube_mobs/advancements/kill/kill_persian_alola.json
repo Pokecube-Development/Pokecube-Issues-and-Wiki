@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.persian_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.persian_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_persian_alola": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "persian_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_meowth_alola"
+}

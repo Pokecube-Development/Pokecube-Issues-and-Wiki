@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.unown"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.unown"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_unown": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "unown"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

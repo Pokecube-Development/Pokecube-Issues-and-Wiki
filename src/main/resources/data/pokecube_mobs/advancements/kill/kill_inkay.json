@@ -24,7 +24,6 @@
     "kill_inkay": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "inkay"
       }
     }

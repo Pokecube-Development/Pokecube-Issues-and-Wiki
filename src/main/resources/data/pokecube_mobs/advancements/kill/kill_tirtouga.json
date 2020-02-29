@@ -24,7 +24,6 @@
     "kill_tirtouga": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "tirtouga"
       }
     }

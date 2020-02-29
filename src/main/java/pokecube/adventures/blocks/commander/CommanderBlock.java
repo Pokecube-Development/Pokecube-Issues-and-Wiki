@@ -1,11 +1,11 @@
 package pokecube.adventures.blocks.commander;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.core.interfaces.PokecubeMod;
 
@@ -29,16 +29,11 @@ public class CommanderBlock extends InteractableHorizontalBlock
         return true;
     }
 
-    private Direction getDir(final BlockPos pos, final BlockPos neighbor)
-    {
-        return Direction.UP;
-    }
-
     @Override
-    public void onNeighborChange(final BlockState state, final IWorldReader world, final BlockPos pos,
-            final BlockPos neighbor)
+    public void neighborChanged(final BlockState state, final World world, final BlockPos pos, final Block blockIn,
+            final BlockPos neighbor, final boolean isMoving)
     {
-        final int power = world.getStrongPower(pos, this.getDir(pos, neighbor));
+        final int power = world.getRedstonePowerFromNeighbors(pos);
         final TileEntity tile = world.getTileEntity(pos);
         if (!(tile instanceof CommanderTile)) return;
         final CommanderTile commander = (CommanderTile) tile;
@@ -50,8 +45,7 @@ public class CommanderBlock extends InteractableHorizontalBlock
         }
         catch (final Exception e)
         {
-            if (PokecubeMod.debug) PokecubeMod.LOGGER.warn("Invalid Commander Block use at " + pos, e);
-            // TODO play some effects here to show it is broken.
+            PokecubeMod.LOGGER.warn("Invalid Commander Block use at " + pos, e);
         }
         commander.power = power;
     }

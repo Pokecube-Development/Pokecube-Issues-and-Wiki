@@ -24,7 +24,6 @@
     "kill_grovyle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "grovyle"
       }
     }

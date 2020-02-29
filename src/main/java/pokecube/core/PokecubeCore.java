@@ -13,7 +13,7 @@ import com.google.common.collect.HashBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -87,6 +87,7 @@ import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.feature.scattered.testa.ConfigStructurePiece;
+import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
@@ -132,9 +133,11 @@ public class PokecubeCore
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:jigsaw_piece", JigsawPieces.CSP);
 
-            // Register structure processor type
+            // Register structure processor types
             PokecubeStructureProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process",
                     PokecubeStructureProcessor::new);
+            FillerProcessor.TYPE = IStructureProcessorType.register("pokecube:struct_process_filler",
+                    FillerProcessor::new);
 
             // Register the configurable worldgen things from datapack
             new WorldgenHandler().processStructures(event);
@@ -200,7 +203,7 @@ public class PokecubeCore
                 if (entry.dummy) continue;
                 try
                 {
-                    final PokemobType<TameableEntity> type = new PokemobType<>(GenericPokemob::new, entry);
+                    final PokemobType<ShoulderRidingEntity> type = new PokemobType<>(GenericPokemob::new, entry);
                     type.setRegistryName(PokecubeCore.MODID, entry.getTrimmedName());
                     event.getRegistry().register(type);
                     Pokedex.getInstance().registerPokemon(entry);
@@ -260,7 +263,7 @@ public class PokecubeCore
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().getBasePath().equals("textures")) return;
+            if (!event.getMap().getBasePath().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));
@@ -268,8 +271,8 @@ public class PokecubeCore
     }
 
     // Directly reference a log4j logger.
-    public static final Logger                                         LOGGER      = LogManager.getLogger();
-    public static final String                                         MODID       = "pokecube";
+    public static final Logger LOGGER = LogManager.getLogger(PokecubeCore.MODID);
+    public static final String MODID  = "pokecube";
 
     private static final String                                        NETVERSION  = "1.0.0";
     // Handler for network stuff.
@@ -292,7 +295,7 @@ public class PokecubeCore
     public static SpawnHandler                                         spawner     = new SpawnHandler();
 
     // Map to store the registered mobs in.
-    public static BiMap<PokedexEntry, EntityType<TameableEntity>> typeMap     = HashBiMap.create();
+    public static BiMap<PokedexEntry, EntityType<ShoulderRidingEntity>> typeMap     = HashBiMap.create();
 
     // Provider for entities.
     public static IEntityProvider                                      provider    = new EntityProvider(null);
@@ -374,6 +377,7 @@ public class PokecubeCore
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::loaded);
 
         FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeCore.proxy);
+        MinecraftForge.EVENT_BUS.register(PokecubeCore.proxy);
 
         // Register the player data we use with thutcore
         PlayerDataHandler.register(PokecubePlayerData.class);

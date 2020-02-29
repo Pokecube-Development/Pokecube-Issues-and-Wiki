@@ -25,7 +25,6 @@
     "catch_lugia": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lugia"
       }
     }

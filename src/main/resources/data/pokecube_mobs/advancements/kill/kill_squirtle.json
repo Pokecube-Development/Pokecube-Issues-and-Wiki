@@ -24,7 +24,6 @@
     "kill_squirtle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "squirtle"
       }
     }

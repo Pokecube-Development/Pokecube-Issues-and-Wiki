@@ -1,25 +1,40 @@
 package pokecube.legends.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.legends.init.function.WormHoleActiveFunction;
+import pokecube.legends.worldgen.dimension.ModDimensions;
+import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
 
 public class UltraSpacePortal extends Rotates
 {
+    String  infoname;
+    boolean hasTextInfo = true;
+
     public UltraSpacePortal(final String name, final Properties props)
     {
         super(name, props.tickRandomly());
@@ -33,49 +48,74 @@ public class UltraSpacePortal extends Rotates
     }
 
     @Override
-    public void onBlockAdded(final BlockState state, final World worldIn, final BlockPos pos, final BlockState oldState,
-            final boolean isMoving)
+    public BlockBase setInfoBlockName(final String infoname)
     {
-        // TODO Auto-generated method stub
-        // final int x = pos.getX();
-        // final int y = pos.getY();
-        // final int z = pos.getZ();
-        // worldIn.getPendingBlockTicks().scheduleUpdate(new BlockPos(x, y, z),
-        // this, this.tickRate(world));
+        this.infoname = infoname;
+        return this;
+    }
+
+    @Override
+    public BlockBase noInfoBlock()
+    {
+        this.hasTextInfo = false;
+        return this;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(final ItemStack stack, final IBlockReader worldIn, final List<ITextComponent> tooltip,
+            final ITooltipFlag flagIn)
+    {
+        if (!this.hasTextInfo) return;
+        String message;
+        if (Screen.hasShiftDown()) message = I18n.format("legendblock." + this.infoname + ".tooltip");
+        else message = I18n.format("pokecube.tooltip.advanced");
+        tooltip.add(new TranslationTextComponent(message));
     }
 
     @Override
     public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
-        final int x = pos.getX();
-        final int y = pos.getY();
-        final int z = pos.getZ();
-
-        final java.util.HashMap<String, Object> dependencies = new java.util.HashMap<>();
-        dependencies.put("x", x);
-        dependencies.put("y", y);
-        dependencies.put("z", z);
-        dependencies.put("world", worldIn);
-        WormHoleActiveFunction.executeProcedure(dependencies);
-
+        worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+        worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void animateTick(final BlockState stateIn, final World world, final BlockPos pos, final Random random)
     {
-        Minecraft.getInstance();
         if (random.nextInt(100) == 0) world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                 SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
+    }
+
+    @Override
+    public void onEntityCollision(final BlockState state, final World worldIn, final BlockPos pos, final Entity entity)
+    {
+        if (!(entity instanceof ServerPlayerEntity)) return;
+        if (entity.dimension == DimensionType.OVERWORLD) UltraSpaceModDimension.sentToUltraspace((ServerPlayerEntity) entity);
+        else if (entity.dimension == ModDimensions.DIMENSION_TYPE)
+            UltraSpaceModDimension.sendToOverworld((ServerPlayerEntity) entity);
     }
 
     @Override
     public ActionResultType onBlockActivated(final BlockState state, final World world, final BlockPos pos,
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
-        final java.util.HashMap<String, Object> $_dependencies = new java.util.HashMap<>();
-        $_dependencies.put("entity", entity);
-        WormHoleActiveFunction.executeProcedure($_dependencies);
-        return ActionResultType.SUCCESS;
+        final DimensionType dim = entity.dimension;
+        if (!(entity instanceof ServerPlayerEntity))
+            return dim == DimensionType.OVERWORLD || dim == ModDimensions.DIMENSION_TYPE ? ActionResultType.SUCCESS
+                    : ActionResultType.PASS;
+        if (dim == DimensionType.OVERWORLD)
+        {
+            UltraSpaceModDimension.sentToUltraspace((ServerPlayerEntity) entity);
+            return ActionResultType.SUCCESS;
+        }
+        else if (dim == ModDimensions.DIMENSION_TYPE)
+        {
+            UltraSpaceModDimension.sendToOverworld((ServerPlayerEntity) entity);
+            return ActionResultType.SUCCESS;
+        }
+        return ActionResultType.PASS;
     }
 }

@@ -4,11 +4,14 @@ import java.util.UUID;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import pokecube.core.PokecubeCore;
+import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
 import thut.core.common.network.Packet;
@@ -25,7 +28,7 @@ public class PacketPC extends Packet
 
     public static final String OWNER = "_owner_";
 
-    public static void sendInitialSyncMessage(PlayerEntity sendTo)
+    public static void sendInitialSyncMessage(final PlayerEntity sendTo)
     {
         final PCInventory inv = PCInventory.getPC(sendTo.getUniqueID());
         final PacketPC packet = new PacketPC(PacketPC.PCINIT, sendTo.getUniqueID());
@@ -38,7 +41,7 @@ public class PacketPC extends Packet
         PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
     }
 
-    public static void sendOpenPacket(PlayerEntity sendTo, UUID owner, BlockPos pcPos)
+    public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner, final BlockPos pcPos)
     {
         final PCInventory inv = PCInventory.getPC(owner);
         for (int i = 0; i < inv.boxes.length; i++)
@@ -48,10 +51,8 @@ public class PacketPC extends Packet
             packet.data.putUniqueId(PacketPC.OWNER, owner);
             PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
         }
-        // TODO open pc
-        // sendTo.openGui(PokecubeCore, Config.GUIPC_ID,
-        // sendTo.getEntityWorld(), pcPos.getX(), pcPos.getY(),
-        // pcPos.getZ());
+        sendTo.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new PCContainer(id,
+                playerInventory, PCInventory.getPC(playerIn)), sendTo.getDisplayName()));
     }
 
     byte               message;
@@ -61,18 +62,18 @@ public class PacketPC extends Packet
     {
     }
 
-    public PacketPC(byte message)
+    public PacketPC(final byte message)
     {
         this.message = message;
     }
 
-    public PacketPC(byte message, UUID owner)
+    public PacketPC(final byte message, final UUID owner)
     {
         this(message);
         this.data.putUniqueId(PacketPC.OWNER, owner);
     }
 
-    public PacketPC(PacketBuffer buf)
+    public PacketPC(final PacketBuffer buf)
     {
         this.message = buf.readByte();
         final PacketBuffer buffer = new PacketBuffer(buf);
@@ -96,7 +97,7 @@ public class PacketPC extends Packet
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
 
         PCContainer container = null;
@@ -107,18 +108,13 @@ public class PacketPC extends Packet
         case BIND:
             if (container != null && container.pcPos != null)
             {
-                // boolean owned = this.data.getBoolean("O");
-                // TODO handle bind packet.
-                // if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Bind PC
-                // Packet: " + owned + " " + player);
-                // if (owned)
-                // {
-                // container.pcTile.toggleBound();
-                // }
-                // else
-                // {
-                // container.pcTile.setBoundOwner(player);
-                // }
+                final TileEntity tile = player.getEntityWorld().getTileEntity(container.pcPos);
+                if (tile instanceof PCTile)
+                {
+                    final PCTile pcTile = (PCTile) tile;
+                    if (pcTile.isBound()) pcTile.bind(null);
+                    else pcTile.bind(player);
+                }
             }
             break;
         case SETPAGE:
@@ -132,7 +128,7 @@ public class PacketPC extends Packet
             }
             break;
         case PCINIT:
-            PCInventory.blank = new PCInventory(PCInventory.defaultId);
+            PCInventory.blank = new PCInventory(PCInventory.blank_box);
             pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
             pc.seenOwner = this.data.getBoolean("O");
             pc.autoToPC = this.data.getBoolean("A");
@@ -170,7 +166,7 @@ public class PacketPC extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeByte(this.message);
         final PacketBuffer buffer = new PacketBuffer(buf);

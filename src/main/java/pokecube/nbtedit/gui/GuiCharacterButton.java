@@ -1,6 +1,6 @@
 package pokecube.nbtedit.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -30,8 +30,8 @@ public class GuiCharacterButton extends Button
         if (this.isHovered()) AbstractGui.fill(this.x, this.y, this.x + GuiCharacterButton.WIDTH, this.y
                 + GuiCharacterButton.HEIGHT, 0x80ffffff);
 
-        if (this.active) GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        else GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1.0F);
+        if (this.active) RenderSystem.color4f(1, 1, 1, 1);
+        else RenderSystem.color4f(0.5F, 0.5F, 0.5F, 1.0F);
 
         this.blit(this.x, this.y, this.id * GuiCharacterButton.WIDTH, 27, GuiCharacterButton.WIDTH,
                 GuiCharacterButton.HEIGHT);

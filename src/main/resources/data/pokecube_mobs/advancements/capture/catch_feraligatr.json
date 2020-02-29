@@ -24,7 +24,6 @@
     "catch_feraligatr": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "feraligatr"
       }
     }

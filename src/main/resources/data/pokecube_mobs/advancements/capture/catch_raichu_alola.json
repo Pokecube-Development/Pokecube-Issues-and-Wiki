@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.raichu_alola"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.raichu_alola"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_raichu_alola": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "raichu_alola"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_pikachu"
+}

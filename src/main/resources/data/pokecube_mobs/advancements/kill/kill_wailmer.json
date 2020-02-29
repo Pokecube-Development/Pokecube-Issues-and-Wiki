@@ -24,7 +24,6 @@
     "kill_wailmer": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wailmer"
       }
     }

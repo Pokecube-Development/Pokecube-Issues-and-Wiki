@@ -25,7 +25,6 @@
     "kill_ho-oh": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ho-oh"
       }
     }

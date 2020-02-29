@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -14,18 +15,18 @@ import thut.core.common.network.Packet;
 
 public class PacketSyncGene extends Packet
 {
-    public static void syncGene(Entity mob, Alleles gene, ServerPlayerEntity entityPlayer)
+    public static void syncGene(final Entity mob, final Alleles gene, final ServerPlayerEntity entityPlayer)
     {
-        if (mob.getEntityWorld() == null || mob.getEntityWorld().isRemote || gene == null) return;
+        if (!(mob.getEntityWorld() instanceof ServerWorld) || gene == null) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getEntityId();
         PokecubeCore.packets.sendTo(packet, entityPlayer);
     }
 
-    public static void syncGeneToTracking(Entity mob, Alleles gene)
+    public static void syncGeneToTracking(final Entity mob, final Alleles gene)
     {
-        if (mob.getEntityWorld() == null || mob.getEntityWorld().isRemote || gene == null) return;
+        if (!(mob.getEntityWorld() instanceof ServerWorld) || gene == null) return;
         final PacketSyncGene packet = new PacketSyncGene();
         packet.genes = gene;
         packet.entityId = mob.getEntityId();
@@ -41,7 +42,7 @@ public class PacketSyncGene extends Packet
         super(null);
     }
 
-    public PacketSyncGene(PacketBuffer buffer)
+    public PacketSyncGene(final PacketBuffer buffer)
     {
         super(buffer);
         this.entityId = buffer.readInt();
@@ -71,7 +72,7 @@ public class PacketSyncGene extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buffer)
+    public void write(final PacketBuffer buffer)
     {
         buffer.writeInt(this.entityId);
         buffer.writeCompoundTag(this.genes.save());

@@ -24,7 +24,6 @@
     "kill_herdier": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "herdier"
       }
     }

@@ -24,7 +24,6 @@
     "kill_omanyte": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "omanyte"
       }
     }

@@ -24,7 +24,6 @@
     "catch_hippopotas": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "hippopotas"
       }
     }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.cherrim_sunny"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cherrim_sunny"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_cherrim_sunny": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "cherrim_sunny"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

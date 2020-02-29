@@ -24,7 +24,6 @@
     "catch_koffing": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "koffing"
       }
     }

@@ -17,7 +17,7 @@ public interface ISpecialSpawnCondition
     /**
      * Whether or not the pokemon can spawn, given the trainer is nearby, or is
      * causing the spawn to occur
-     * 
+     *
      * @param trainer
      * @return
      */
@@ -25,16 +25,16 @@ public interface ISpecialSpawnCondition
 
     /**
      * Location specfic canSpawn
-     * 
+     *
      * @param trainer
      * @param location
      * @return
      */
-    public boolean canSpawn(Entity trainer, Vector3 location);
+    public boolean canSpawn(Entity trainer, Vector3 location, boolean message);
 
     /**
      * Called right before the mob is actually spawned into the world
-     * 
+     *
      * @param mob
      */
     public void onSpawn(IPokemob mob);

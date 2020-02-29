@@ -23,9 +23,13 @@ public class PacketSyncWearables extends Packet
     public PacketSyncWearables(final LivingEntity player)
     {
         this();
-        this.data.putInt("I", player.getEntityId());
         final PlayerWearables cap = ThutWearables.getWearables(player);
-        cap.writeToNBT(this.data);
+        if (cap != null)
+        {
+            this.data.putInt("I", player.getEntityId());
+            cap.writeToNBT(this.data);
+        }
+        else this.data.putInt("I", -1);
     }
 
     public PacketSyncWearables(final PacketBuffer buffer)

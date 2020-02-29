@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.StructureMode;
@@ -21,7 +22,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
@@ -44,21 +44,24 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig.JigSawPart;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
+import thut.api.maths.Vector3;
 
 public class JigsawPieces
 {
     public static final IStructurePieceType CSP = CustomJigsawPiece::new;
 
-    public static final RuleEntry              PATHTOOAK    = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_PATH),
+    public static final RuleEntry PATHTOOAK    = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_PATH),
             new BlockMatchRuleTest(Blocks.WATER), Blocks.OAK_PLANKS.getDefaultState());
-    public static final RuleEntry              PATHTOGRASS  = new RuleEntry(new RandomBlockMatchRuleTest(
-            Blocks.GRASS_PATH, 0.05F), AlwaysTrueRuleTest.INSTANCE, Blocks.GRASS_BLOCK.getDefaultState());
-    public static final RuleEntry              GRASSTOWATER = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_BLOCK),
+    public static final RuleEntry PATHTOGRASS  = new RuleEntry(new RandomBlockMatchRuleTest(Blocks.GRASS_PATH, 0.05F),
+            AlwaysTrueRuleTest.INSTANCE, Blocks.GRASS_BLOCK.getDefaultState());
+    public static final RuleEntry GRASSTOWATER = new RuleEntry(new BlockMatchRuleTest(Blocks.GRASS_BLOCK),
             new BlockMatchRuleTest(Blocks.WATER), Blocks.WATER.getDefaultState());
-    public static final RuleEntry              DIRTTOWATER  = new RuleEntry(new BlockMatchRuleTest(Blocks.DIRT),
+    public static final RuleEntry DIRTTOWATER  = new RuleEntry(new BlockMatchRuleTest(Blocks.DIRT),
             new BlockMatchRuleTest(Blocks.WATER), Blocks.WATER.getDefaultState());
-    public static final RuleStructureProcessor RULES        = new RuleStructureProcessor(ImmutableList.of(
+
+    public static final RuleStructureProcessor RULES = new RuleStructureProcessor(ImmutableList.of(
             JigsawPieces.PATHTOOAK, JigsawPieces.PATHTOGRASS, JigsawPieces.GRASSTOWATER, JigsawPieces.DIRTTOWATER));
 
     public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
@@ -70,7 +73,8 @@ public class JigsawPieces
                 rand);
     }
 
-    private static void registerPart(final JigSawPart part, final int offset, final String subbiome)
+    private static void registerPart(final JigSawConfig jigsaw, final JigSawPart part, final int offset,
+            String subbiome)
     {
         final ResourceLocation key = new ResourceLocation(part.name);
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
@@ -87,6 +91,7 @@ public class JigsawPieces
                 final JsonObject thing = PokedexEntryLoader.gson.fromJson(args[1], JsonObject.class);
                 if (thing.has("weight")) second = thing.get("weight").getAsInt();
                 if (thing.has("ignoreAir")) ignoreAir = thing.get("ignoreAir").getAsBoolean();
+                if (thing.has("subbiome")) subbiome = thing.get("subbiome").getAsString();
                 if (thing.has("rigid")) place = thing.get("rigid").getAsBoolean() ? PlacementBehaviour.RIGID
                         : PlacementBehaviour.TERRAIN_MATCHING;
             }
@@ -96,44 +101,51 @@ public class JigsawPieces
             }
             option = args[0];
             if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
-            else parts.add(Pair.of(new SingleOffsetPiece(option, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR,
-                    JigsawPieces.RULES), place, offset, ignoreAir, subbiome), second));
+            else parts.add(Pair.of(new SingleOffsetPiece(part, option, ImmutableList.of(
+                    PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, offset, ignoreAir, subbiome),
+                    second));
 
         }
 
         // Register the buildings
-        JigsawManager.REGISTRY.register(new JigsawPattern(key, new ResourceLocation(part.target), parts, behaviour));
+        JigsawManager.REGISTRY.register(new JigsawPatternCustom(key, new ResourceLocation(part.target), parts,
+                behaviour));
     }
 
     public static void registerJigsaw(final JigSawConfig jigsaw)
     {
-        JigsawPieces.registerPart(jigsaw.root, jigsaw.offset, jigsaw.biomeType);
+        JigsawPieces.registerPart(jigsaw, jigsaw.root, jigsaw.offset, jigsaw.biomeType);
         for (final JigSawPart part : jigsaw.parts)
-            JigsawPieces.registerPart(part, jigsaw.offset, jigsaw.biomeType);
+            JigsawPieces.registerPart(jigsaw, part, jigsaw.offset, jigsaw.biomeType);
     }
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
-        private final int     offset;
-        private final String  subbiome;
-        private final boolean ignoreAir;
+        protected final JigSawPart part;
+        private final int          offset;
+        private final String       subbiome;
+        private final boolean      ignoreAir;
 
-        public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
-                final PlacementBehaviour type, final int offset, final boolean ignoreAir, final String subbiome)
+        public SingleOffsetPiece(final JigSawPart part, final String location,
+                final List<StructureProcessor> processors, final PlacementBehaviour type, final int offset,
+                final boolean ignoreAir, final String subbiome)
         {
             super(location, processors, type);
             this.offset = offset;
             this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
+            this.part = part;
         }
 
-        public SingleOffsetPiece(final String location, final List<StructureProcessor> processors,
-                final PlacementBehaviour type, final boolean ignoreAir, final String subbiome)
+        public SingleOffsetPiece(final JigSawPart part, final String location,
+                final List<StructureProcessor> processors, final PlacementBehaviour type, final boolean ignoreAir,
+                final String subbiome)
         {
             super(location, processors, type);
             this.offset = 0;
             this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
+            this.part = part;
         }
 
         @Override
@@ -152,6 +164,7 @@ public class JigsawPieces
             placementsettings.setRotation(p_214860_1_);
             placementsettings.func_215223_c(true);
             placementsettings.setIgnoreEntities(false);
+            if (this.part.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
             if (this.ignoreAir) placementsettings.addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
             else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
@@ -160,13 +173,18 @@ public class JigsawPieces
             return placementsettings;
         }
 
+        public Template getTemplate(final TemplateManager manager)
+        {
+            return manager.getTemplateDefaulted(this.location);
+        }
+
         @Override
         public boolean func_225575_a_(final TemplateManager manager, final IWorld worldIn,
                 final ChunkGenerator<?> p_225575_3_, final BlockPos pos, final Rotation rotation,
                 final MutableBoundingBox box, final Random rand)
         {
 
-            final Template template = manager.getTemplateDefaulted(this.location);
+            final Template template = this.getTemplate(manager);
             final PlacementSettings placementsettings = this.createPlacementSettings(rotation, box);
 
             if (!template.addBlocksToWorld(worldIn, pos, placementsettings, 18)) return false;
@@ -174,7 +192,7 @@ public class JigsawPieces
             {
                 final StructureEvent.BuildStructure event = new StructureEvent.BuildStructure(box, worldIn,
                         this.location.toString(), placementsettings);
-                event.seBiomeType(this.subbiome);
+                event.setBiomeType(this.subbiome);
                 MinecraftForge.EVENT_BUS.post(event);
 
                 // This section is added what is modifed in, it copies the
@@ -194,6 +212,25 @@ public class JigsawPieces
                 for (final Template.BlockInfo template$blockinfo : Template.processBlockInfos(template, worldIn, pos,
                         placementsettings, this.func_214857_a(manager, pos, rotation, false)))
                     this.func_214846_a(worldIn, template$blockinfo, pos, rotation, rand, box);
+                if (this.part.base_under)
+                {
+                    final MutableBoundingBox box2 = template.getMutableBoundingBox(placementsettings, pos);
+                    final Vector3 v = Vector3.getNewVector();
+                    for (int x = box2.minX; x <= box2.maxX; x++)
+                        for (int z = box2.minZ; z <= box2.maxZ; z++)
+                        {
+                            v.set(x, box2.minY, z);
+                            final BlockState toFill = v.getBlockState(worldIn);
+                            for (int y = box2.minY - 1; y > box2.minY - 32; y--)
+                            {
+                                v.set(x, y, z);
+                                if (!box.isVecInside(v.getPos())) continue;
+                                final BlockState check = v.getBlockState(worldIn);
+                                if (check.isAir(worldIn, v.getPos())) worldIn.setBlockState(v.getPos(), toFill, 2);
+                                else break;
+                            }
+                        }
+                }
                 return true;
             }
         }

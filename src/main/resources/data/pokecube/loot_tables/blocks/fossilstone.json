@@ -1,219 +1,219 @@
-{ 
-  "type":"minecraft:block",
-  "pools":[ 
-    { 
-      "name":"pool_0",
-      "rolls":1,
-      "entries":[ 
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "pool_0",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_omanyte"
+          "name": "pokecube:fossil_omanyte"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_kabuto"
+          "name": "pokecube:fossil_kabuto"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_aerodactyl"
+          "name": "pokecube:fossil_aerodactyl"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_lileep"
+          "name": "pokecube:fossil_lileep"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_anorith"
+          "name": "pokecube:fossil_anorith"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_cranidos"
+          "name": "pokecube:fossil_cranidos"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_shieldon"
+          "name": "pokecube:fossil_shieldon"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_archen"
+          "name": "pokecube:fossil_archen"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_tirtouga"
+          "name": "pokecube:fossil_tirtouga"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_tyrunt"
+          "name": "pokecube:fossil_tyrunt"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_amaura"
+          "name": "pokecube:fossil_amaura"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_dracozolt"
+          "name": "pokecube:fossil_dracozolt"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_arctozolt"
+          "name": "pokecube:fossil_arctozolt"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_dracovish"
+          "name": "pokecube:fossil_dracovish"
         },
-        { 
-          "type":"minecraft:item",
-          "functions":[ 
-            { 
-              "function":"minecraft:apply_bonus",
-              "enchantment":"minecraft:fortune",
-              "formula":"minecraft:ore_drops"
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:apply_bonus",
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:ore_drops"
             },
-            { 
-              "function":"minecraft:explosion_decay"
+            {
+              "function": "minecraft:explosion_decay"
             }
           ],
-          "name":"pokecube:fossil_arctovish"
+          "name": "pokecube:fossil_arctovish"
         }
       ]
     }

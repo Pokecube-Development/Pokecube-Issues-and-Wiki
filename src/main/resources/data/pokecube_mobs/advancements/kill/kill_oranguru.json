@@ -24,7 +24,6 @@
     "kill_oranguru": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "oranguru"
       }
     }

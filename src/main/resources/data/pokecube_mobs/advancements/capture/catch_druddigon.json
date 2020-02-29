@@ -24,7 +24,6 @@
     "catch_druddigon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "druddigon"
       }
     }

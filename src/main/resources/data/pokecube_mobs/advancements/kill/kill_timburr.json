@@ -24,7 +24,6 @@
     "kill_timburr": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "timburr"
       }
     }

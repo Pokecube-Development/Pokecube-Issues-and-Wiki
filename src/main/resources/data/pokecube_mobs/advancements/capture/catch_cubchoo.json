@@ -24,7 +24,6 @@
     "catch_cubchoo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cubchoo"
       }
     }

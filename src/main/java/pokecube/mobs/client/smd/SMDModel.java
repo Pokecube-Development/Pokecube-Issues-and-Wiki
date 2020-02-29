@@ -20,6 +20,7 @@ import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
 import thut.api.maths.vecmath.Matrix4f;
 import thut.core.client.render.animation.Animation;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -29,6 +30,7 @@ import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
+import thut.core.common.ThutCore;
 
 public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFakeExtendedPart
 {
@@ -163,7 +165,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
                     // Cap and convert pitch and yaw to radians.
                     float yaw = Math.max(Math.min(this.info.headYaw, this.info.yawCapMax), this.info.yawCapMin);
                     yaw = (float) Math.toRadians(yaw) * this.info.yawDirection;
-                    float pitch = Math.max(Math.min(this.info.headPitch, this.info.pitchCapMax), this.info.pitchCapMin);
+                    float pitch = -Math.max(Math.min(this.info.headPitch, this.info.pitchCapMax),
+                            this.info.pitchCapMin);
                     pitch = (float) Math.toRadians(pitch) * this.info.pitchDirection;
 
                     // Head rotation matrix
@@ -262,5 +265,17 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         this.alpha = a;
         this.brightness = br;
         this.overlay = o;
+    }
+
+    @Override
+    public void updateMaterial(final Mat mat)
+    {
+        final String mat_name = ThutCore.trim(mat.name);
+        final Material material = new Material(mat_name);
+        material.diffuseColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
+        material.emissiveColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
+        material.specularColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
+        material.transparency = mat.transluscent ? 1 : 0;
+        this.wrapped.body.namesToMats.put(mat_name, material);
     }
 }

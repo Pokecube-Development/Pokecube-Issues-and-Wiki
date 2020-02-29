@@ -46,7 +46,7 @@ public class Face
      * @param smoothShading
      *            - if false, this will render entire face with constant
      *            normal. */
-    public void addForRender(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro,
+    public void addForRender(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro, double[] uvShift,
             final boolean smoothShading)
     {
         if (!smoothShading) this.normal = this.calculateNormal();
@@ -68,8 +68,8 @@ public class Face
             final float y = vert.y;
             final float z = vert.z;
 
-            final float u = this.uvs[i].u;// + (float) this.uvShift[0];
-            final float v = this.uvs[i].v;// + (float) this.uvShift[1];
+            final float u = this.uvs[i].u + (float) uvShift[0];
+            final float v = this.uvs[i].v + (float) uvShift[1];
 
             final float nx = smoothShading ? vert.xn : this.normal.x;
             final float ny = smoothShading ? vert.yn : this.normal.y;

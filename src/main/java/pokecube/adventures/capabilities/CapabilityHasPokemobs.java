@@ -2,7 +2,6 @@ package pokecube.adventures.capabilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,7 +16,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -26,12 +24,16 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.Config;
+import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerBase;
+import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokecube;
@@ -121,7 +123,6 @@ public class CapabilityHasPokemobs
         private UUID                      outID;
         private boolean                   canMegaEvolve = false;
         private IPokemob                  outMob;
-        private List<ItemStack>           pokecubes;
         private LevelMode                 levelmode     = LevelMode.CONFIG;
         private final Set<ITargetWatcher> watchers      = Sets.newHashSet();
 
@@ -149,13 +150,10 @@ public class CapabilityHasPokemobs
 
         public void checkDefeatAchievement(final PlayerEntity player)
         {
-            // TODO advancements
-            // if (!(this.user instanceof EntityTrainer)) return;
-            // final boolean leader = this.user instanceof EntityLeader;
-            // if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity)
-            // player, (EntityTrainer) this.user);
-            // else Triggers.BEATTRAINER.trigger((ServerPlayerEntity) player,
-            // (EntityTrainer) this.user);
+            if (!(this.user instanceof TrainerBase)) return;
+            final boolean leader = this.user instanceof LeaderNpc;
+            if (leader) Triggers.BEATLEADER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
+            else Triggers.BEATTRAINER.trigger((ServerPlayerEntity) player, (TrainerBase) this.user);
         }
 
         @Override
@@ -262,7 +260,6 @@ public class CapabilityHasPokemobs
         @Override
         public ItemStack getPokemob(final int slot)
         {
-            if (this.pokecubes != null) return this.pokecubes.get(slot);
             return this.datasync.get(this.holder.POKEMOBS[slot]);
         }
 
@@ -315,8 +312,6 @@ public class CapabilityHasPokemobs
             this.rewards = rewards;
             this.battleCooldown = Config.instance.trainerCooldown;
             this.resetTime = this.battleCooldown;
-            if (!TypeTrainer.mobTypeMapper.shouldSync(user)) this.pokecubes = NonNullList.<ItemStack> withSize(6,
-                    ItemStack.EMPTY);
         }
 
         @Override
@@ -328,7 +323,9 @@ public class CapabilityHasPokemobs
         @Override
         public void lowerCooldowns()
         {
-            if (this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY))
+            // If someone punches us, we will retaliate, so no permafriendly
+            // then.
+            if (this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY) && this.user.getAttackingEntity() == null)
             {
                 this.friendlyCooldown = 10;
                 return;
@@ -363,6 +360,11 @@ public class CapabilityHasPokemobs
         @Override
         public void onDefeated(final Entity defeater)
         {
+            final IHasPokemobs defeatingTrainer = CapabilityHasPokemobs.getHasPokemobs(defeater);
+            // If we were defeated by another trainer, lets forget about the
+            // battle.
+            if (defeatingTrainer != null) defeatingTrainer.setTarget(null);
+
             // Get this cleanup stuff done first.
             if (defeater instanceof PlayerEntity) this.setCooldown(this.user.getEntityWorld().getGameTime()
                     + this.battleCooldown);
@@ -395,15 +397,10 @@ public class CapabilityHasPokemobs
                         .getDisplayName());
                 if (this.notifyDefeat && defeater instanceof ServerPlayerEntity)
                 {
-                    // TODO notify defeat packet.
-                    // final PacketTrainer packet = new
-                    // PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
-                    // packet.data.putInt("I", this.user.getEntityId());
-                    // packet.data.putLong("L",
-                    // this.user.getEntityWorld().getGameTime() +
-                    // this.resetTime);
-                    // PokecubeMod.packetPipeline.sendTo(packet,
-                    // (ServerPlayerEntity) defeater);
+                    final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
+                    packet.data.putInt("I", this.user.getEntityId());
+                    packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTime);
+                    PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) defeater);
                 }
                 if (defeater instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT,
                         (LivingEntity) defeater);
@@ -526,11 +523,6 @@ public class CapabilityHasPokemobs
         @Override
         public void setPokemob(final int slot, final ItemStack cube)
         {
-            if (this.pokecubes != null)
-            {
-                this.pokecubes.set(slot, cube);
-                return;
-            }
             this.datasync.set(this.holder.POKEMOBS[slot], cube);
         }
 
@@ -549,9 +541,13 @@ public class CapabilityHasPokemobs
                     }
                 if (!valid) target = null;
             }
+            // No next pokemob, so we shouldn't have a target in this case.
             if (this.getPokemob(0).isEmpty())
             {
                 target = null;
+                // Notify the watchers that a target was actually set.
+                for (final ITargetWatcher watcher : watchers)
+                    watcher.onSet(null);
                 this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
                 return;
@@ -559,6 +555,8 @@ public class CapabilityHasPokemobs
             if (target != null && target != this.target && this.attackCooldown <= 0)
             {
                 this.attackCooldown = Config.instance.trainerBattleDelay;
+                // No cooldown if someone was punching is!
+                if (target == this.user.getAttackingEntity()) this.attackCooldown = 0;
                 this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(), target
                         .getDisplayName());
                 this.messages.doAction(MessageState.AGRESS, target);
@@ -576,6 +574,9 @@ public class CapabilityHasPokemobs
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
             }
             this.target = target;
+            // Notify the watchers that a target was actually set.
+            for (final ITargetWatcher watcher : watchers)
+                watcher.onSet(target);
         }
 
         @Override
@@ -846,6 +847,11 @@ public class CapabilityHasPokemobs
         }
 
         boolean validTargetSet(LivingEntity target);
+
+        default void onSet(final LivingEntity target)
+        {
+
+        }
     }
 
     public static class Storage implements Capability.IStorage<IHasPokemobs>

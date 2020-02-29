@@ -24,7 +24,6 @@
     "catch_pupitar": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pupitar"
       }
     }

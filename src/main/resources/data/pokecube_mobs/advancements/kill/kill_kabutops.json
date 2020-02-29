@@ -24,7 +24,6 @@
     "kill_kabutops": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "kabutops"
       }
     }

@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 
 public interface IModel
@@ -58,8 +59,10 @@ public interface IModel
     HashMap<String, IExtendedModelPart> getParts();
 
     /** Adjusts for differences in global coordinate systems.
+     * @param mat 
      *
-     * @param dy */
+     * @param dy
+     */
     default void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
@@ -81,5 +84,11 @@ public interface IModel
     default void setOffset(final Vector3 offset)
     {
 
+    }
+
+    default void updateMaterial(final Mat mat)
+    {
+        for (final IExtendedModelPart part : this.getParts().values())
+            part.updateMaterial(mat);
     }
 }

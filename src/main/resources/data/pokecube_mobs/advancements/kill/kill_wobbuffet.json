@@ -24,7 +24,6 @@
     "kill_wobbuffet": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "wobbuffet"
       }
     }

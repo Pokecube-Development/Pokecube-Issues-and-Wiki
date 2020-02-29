@@ -24,7 +24,6 @@
     "catch_bulbasaur": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "bulbasaur"
       }
     }

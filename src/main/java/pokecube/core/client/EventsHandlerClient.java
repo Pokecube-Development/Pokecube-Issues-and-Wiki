@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -16,6 +18,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,23 +36,32 @@ import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.GuiArranger;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.GuiTeleport;
 import pokecube.core.client.render.mobs.RenderPokemob;
+import pokecube.core.client.render.mobs.ShoulderLayer;
+import pokecube.core.client.render.mobs.ShoulderLayer.ShoulderHolder;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
+import pokecube.core.interfaces.pokemob.IHasCommands.Command;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketChangeForme;
+import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -172,8 +184,20 @@ public class EventsHandlerClient
     @SubscribeEvent
     public static void keyInput(final KeyInputEvent evt)
     {
-        if (evt.getKey() == GLFW.GLFW_KEY_F5 && Minecraft.getInstance().currentScreen != null)
-            RenderPokemob.reload_models = true;
+        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
+                .getInstance().currentScreen instanceof AnimationGui)
+        {
+            PokedexEntryLoader.updateEntry(AnimationGui.entry);
+            RenderPokemob.reloadModel(AnimationGui.entry);
+        }
+        else if (player.getRidingEntity() != null && Minecraft.getInstance().currentScreen != null)
+        {
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(player.getRidingEntity());
+            if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
+        }
+        if (ClientProxy.animateGui.isPressed() && Minecraft.getInstance().currentScreen == null) Minecraft.getInstance()
+                .displayGuiScreen(new AnimationGui());
         if (ClientProxy.mobMegavolve.isPressed())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
@@ -209,28 +233,30 @@ public class EventsHandlerClient
         if (ClientProxy.mobMove2.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(1);
         if (ClientProxy.mobMove3.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(2);
         if (ClientProxy.mobMove4.isPressed()) GuiDisplayPokecubeInfo.instance().setMove(3);
+
+        if (ClientProxy.gzmove.isPressed())
+        {
+            final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
+            if (current != null) PacketCommand.sendCommand(current, Command.STANCE, new StanceHandler(!current
+                    .getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE).setFromOwner(true));
+        }
     }
+
+    private static final Set<PlayerRenderer> addedLayers = Sets.newHashSet();
 
     @SubscribeEvent
     public static void onPlayerRender(final RenderPlayerEvent.Post event)
     {
-        // if (addedLayers.contains(event.getRenderer())) { return; }
-        // List<LayerRenderer<?>> layerRenderers =
-        // ReflectionHelper.getPrivateValue(RenderLivingBase.class,
-        // event.getRenderer(), "layerRenderers", "field_177097_h", "i");
-        // for (int i = 0; i < layerRenderers.size(); i++)
-        // {
-        // LayerRenderer<?> layer = layerRenderers.get(i);
-        // if (layer instanceof LayerEntityOnShoulder)
-        // {
-        // layerRenderers.add(i, new
-        // RenderPokemobOnShoulder(event.getRenderer().getRenderManager(),
-        // (LayerEntityOnShoulder) layer));
-        // layerRenderers.remove(layer);
-        // break;
-        // }
-        // }
-        // addedLayers.add(event.getRenderer());
+        if (EventsHandlerClient.addedLayers.contains(event.getRenderer())) return;
+        event.getRenderer().addLayer(new ShoulderLayer<>(event.getRenderer()));
+        EventsHandlerClient.addedLayers.add(event.getRenderer());
+    }
+
+    @SubscribeEvent
+    public static void capabilityEntities(final AttachCapabilitiesEvent<Entity> event)
+    {
+        if (event.getObject() instanceof PlayerEntity) event.addCapability(new ResourceLocation(
+                "pokecube:shouldermobs"), new ShoulderHolder((PlayerEntity) event.getObject()));
     }
 
     @OnlyIn(Dist.CLIENT)

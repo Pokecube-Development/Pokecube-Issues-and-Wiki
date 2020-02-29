@@ -24,7 +24,6 @@
     "kill_pyukumuku": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "pyukumuku"
       }
     }

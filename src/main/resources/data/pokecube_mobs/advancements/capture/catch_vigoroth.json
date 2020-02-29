@@ -24,7 +24,6 @@
     "catch_vigoroth": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "vigoroth"
       }
     }

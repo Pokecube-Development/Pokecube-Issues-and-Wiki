@@ -24,7 +24,6 @@
     "kill_druddigon": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "druddigon"
       }
     }

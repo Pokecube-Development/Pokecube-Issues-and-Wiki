@@ -24,7 +24,6 @@
     "catch_omanyte": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "omanyte"
       }
     }

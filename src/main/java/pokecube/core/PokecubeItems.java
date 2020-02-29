@@ -46,6 +46,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.healer.HealerBlock;
+import pokecube.core.blocks.maxspot.MaxBlock;
 import pokecube.core.blocks.nests.NestBlock;
 import pokecube.core.blocks.pc.PCBlock;
 import pokecube.core.blocks.repel.RepelBlock;
@@ -124,6 +125,7 @@ public class PokecubeItems extends Items
     public static Block HEALER;
     public static Block NESTBLOCK;
     public static Block REPELBLOCK;
+    public static Block DYNABLOCK;
     public static Block PCTOP;
     public static Block PCBASE;
     public static Block TRADER;
@@ -148,12 +150,9 @@ public class PokecubeItems extends Items
 
     static
     {
-        // TODO loot functions
         LootFunctionManager.registerFunction(new MakeBerry.Serializer());
-        // LootFunctionManager.registerFunction(new MakeMegastone.Serializer());
         LootFunctionManager.registerFunction(new MakeHeldItem.Serializer());
         LootFunctionManager.registerFunction(new MakeFossil.Serializer());
-        // LootFunctionManager.registerFunction(new MakeVitamin.Serializer());
     }
 
     private static Set<ResourceLocation> errored = Sets.newHashSet();
@@ -175,6 +174,8 @@ public class PokecubeItems extends Items
                 PokecubeCore.MODID, "nest");
         PokecubeItems.REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
                 PokecubeCore.MODID, "repel");
+        PokecubeItems.DYNABLOCK = new MaxBlock(Block.Properties.create(Material.ROCK).lightValue(15)
+                .hardnessAndResistance(1000)).setRegistryName(PokecubeCore.MODID, "dynamax");
         PokecubeItems.PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(
                 15), true).setRegistryName(PokecubeCore.MODID, "pc_top");
         PokecubeItems.PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(

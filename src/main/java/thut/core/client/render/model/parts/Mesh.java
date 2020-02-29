@@ -76,8 +76,7 @@ public abstract class Mesh
         Vertex normal;
 
         TextureCoordinate textureCoordinate = new TextureCoordinate(0, 0);
-        boolean flat = true;
-        if (texturer != null) flat = texturer.isFlat(this.name);
+        boolean flat = this.material.flat;
         final int red = this.rgbabro[0];
         final int green = this.rgbabro[1];
         final int blue = this.rgbabro[2];
@@ -85,7 +84,6 @@ public abstract class Mesh
         final int lightmapUV = this.rgbabro[4];
         final int overlayUV = this.rgbabro[5];
         int n = 0;
-
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
         final Matrix4f pos = matrixstack$entry.getPositionMatrix();
         final Matrix3f norms = matrixstack$entry.getNormalMatrix();
@@ -127,9 +125,14 @@ public abstract class Mesh
     {
         // Apply Texturing.
         if (texturer != null) texturer.shiftUVs(this.name, this.uvShift);
-        if (this.material != null) buffer = this.material.preRender(mat, buffer);
+        buffer = this.material.preRender(mat, buffer);
+        if (this.material.emissiveMagnitude > 0)
+        {
+            int j = (int) (this.material.emissiveMagnitude * 15);
+            this.rgbabro[4] = j << 20 | j << 4;
+        }
         this.doRender(mat, buffer, texturer);
-        if (this.material != null) this.material.postRender(mat);
+        this.material.postRender(mat);
     }
 
     public void setMaterial(final Material material)

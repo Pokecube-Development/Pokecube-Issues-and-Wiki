@@ -24,7 +24,6 @@
     "catch_rhyhorn": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rhyhorn"
       }
     }

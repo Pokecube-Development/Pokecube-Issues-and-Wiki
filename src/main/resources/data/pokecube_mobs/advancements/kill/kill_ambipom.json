@@ -24,7 +24,6 @@
     "kill_ambipom": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ambipom"
       }
     }

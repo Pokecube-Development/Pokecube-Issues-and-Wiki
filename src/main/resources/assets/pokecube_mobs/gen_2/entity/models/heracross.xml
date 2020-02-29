@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-40,40" headCap1="-5, 5" name="global" scale=".7"/>
-  <phase armAngle="50" duration="10" leftArm="Left_Arm" leftLeg="Left_Hip" legAngle="45" name="biWalk" rightArm="Right_Arm" rightLeg="Right_Hip"/>
-  <merges merge="idle-&gt;walking"/>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
+  <metadata dyeable="Right_legChild,HeadChild,Left_legChild,Wooly_mane" head="head,Head,head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase type="idle">
+   <part name="Right_Wingcase">
+    <component length="10" name="1" rotOffset="45.00000125223908,-0.0,45.00000125223908," startKey="0"/>
+   </part>
+   <part name="Right_Wing">
+    <component length="10" name="1" rotOffset="-10.0,-0.0,-10.0," startKey="0"/>
+   </part>
+   <part name="Left_Wing">
+    <component length="10" name="1" rotOffset="-10.0,-0.0,-10.0," startKey="0"/>
+   </part>
+   <part name="Left_Wingcase">
+    <component length="10" name="1" rotOffset="45.00000125223908,-0.0,-45.00000125223908," startKey="0"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

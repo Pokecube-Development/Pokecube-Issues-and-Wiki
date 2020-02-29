@@ -12,7 +12,6 @@ public class ObjPart extends Part
     @Override
     public String getType()
     {
-        return ".obj";
+        return "obj";
     }
-
 }

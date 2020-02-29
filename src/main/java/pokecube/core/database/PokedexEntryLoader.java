@@ -20,7 +20,6 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAnyAttribute;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
@@ -49,6 +48,7 @@ import pokecube.core.database.PokedexEntryLoader.StatsNode.Stats;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
@@ -57,34 +57,24 @@ import thut.core.common.ThutCore;
 public class PokedexEntryLoader
 {
 
-    @XmlRootElement(name = "Action")
     public static class Action
     {
-        @XmlAnyAttribute
         public Map<QName, String> values = Maps.newHashMap();
-        @XmlElement(name = "tag")
         public String             tag;
-        @XmlAttribute
         public String             lootTable;
-        @XmlElement(name = "Drop")
         public List<Drop>         drops  = Lists.newArrayList();
     }
 
-    @XmlRootElement(name = "BODY")
     public static class BodyNode
     {
-        @XmlElement(name = "PART")
         public List<BodyPart> parts = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "PART")
     public static class BodyPart
     {
-        @XmlAttribute(name = "name")
         public String name;
-        @XmlAttribute(name = "offset")
         public String offset;
-        @XmlAttribute(name = "dimensions")
         public String dimensions;
     }
 
@@ -115,60 +105,97 @@ public class PokedexEntryLoader
         }
     }
 
-    public static class Evolution
+    public static class DefaultFormeHolder
     {
-        @XmlAttribute(name = "clear")
-        public Boolean   clear;
-        @XmlAttribute(name = "Name")
-        public String    name;
-        @XmlAttribute(name = "Level")
-        public Integer   level;
-        @XmlAttribute(name = "Priority")
-        public Integer   priority;
-        @XmlElement(name = "Location")
-        public SpawnRule location;
-        @XmlAttribute(name = "Animation")
-        public String    animation;
-        @XmlElement(name = "Key")
-        public Key       item;
-        @XmlElement(name = "PresetItem")
-        public String    item_preset;
-        @XmlAttribute(name = "Time")
-        public String    time;
-        @XmlAttribute(name = "Trade")
-        public Boolean   trade;
-        @XmlAttribute(name = "Rain")
-        public Boolean   rain;
-        @XmlAttribute(name = "Happy")
-        public Boolean   happy;
-        @XmlAttribute(name = "Sexe")
-        public String    sexe;
-        @XmlAttribute(name = "Move")
-        public String    move;
-        @XmlAttribute(name = "Chance")
-        public Float     chance;
+        // These three allow specific models/textures for evos
+        protected String key   = null;
+        protected String tex   = null;
+        protected String model = null;
+        protected String anim  = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.key != null)
+            {
+                final ResourceLocation texl = this.tex != null ? PokecubeItems.toPokecubeResource(baseEntry.texturePath
+                        + this.tex) : null;
+                final ResourceLocation modell = this.model != null ? PokecubeItems.toPokecubeResource(baseEntry.model
+                        .toString().replace(baseEntry.getTrimmedName(), this.model)) : null;
+                final ResourceLocation animl = this.anim != null ? PokecubeItems.toPokecubeResource(baseEntry.animation
+                        .toString().replace(baseEntry.getTrimmedName(), this.anim)) : null;
+                final FormeHolder holder = FormeHolder.get(modell, texl, animl, PokecubeItems.toPokecubeResource(
+                        this.key));
+                return holder;
+            }
+            return null;
+        }
     }
 
-    @XmlRootElement(name = "Interact")
+    public static class Evolution
+    {
+        public Boolean   clear;
+        public String    name;
+        public Integer   level;
+        public Integer   priority;
+        public SpawnRule location;
+        public String    animation;
+        public Key       item;
+        public String    item_preset;
+        public String    time;
+        public Boolean   trade;
+        public Boolean   rain;
+        public Boolean   happy;
+        public String    sexe;
+        public String    move;
+        public Float     chance;
+
+        protected DefaultFormeHolder model = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.model != null) return this.model.getForme(baseEntry);
+            return null;
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (super.equals(obj)) return true;
+            if (obj instanceof Evolution)
+            {
+                for (final Field f : this.getClass().getFields())
+                    try
+                    {
+                        final Object ours = f.get(this);
+                        final Object theirs = f.get(obj);
+                        if (ours != null && !ours.equals(theirs)) return false;
+                        if (theirs != null && !theirs.equals(ours)) return false;
+                        if (ours == null && theirs != null) return false;
+                        if (theirs == null && ours != null) return false;
+                    }
+                    catch (final Exception e)
+                    {
+                        e.printStackTrace();
+                        return false;
+                    }
+                return true;
+            }
+
+            return super.equals(obj);
+        }
+    }
+
     public static class Interact
     {
-        @XmlAttribute
         public Boolean male       = true;
-        @XmlAttribute
         public Boolean female     = true;
-        @XmlAttribute
         public Integer cooldown   = 50;
-        @XmlAttribute
         public Integer variance   = 100;
-        @XmlAttribute
         public Integer baseHunger = 100;
-        @XmlElement(name = "Key")
         public Key     key;
-        @XmlElement(name = "Action")
         public Action  action;
     }
 
-    @XmlRootElement(name = "Key")
     public static class Key extends Drop
     {
     }
@@ -221,20 +248,15 @@ public class PokedexEntryLoader
         }
     }
 
-    @XmlRootElement(name = "MOVES")
     public static class Moves
     {
-        @XmlRootElement(name = "LVLUP")
         public static class LvlUp
         {
-            @XmlAnyAttribute
             public Map<QName, String> values = Maps.newHashMap();
         }
 
-        @XmlRootElement(name = "MISC")
         public static class Misc
         {
-            @XmlAttribute(name = "moves")
             public String moves;
 
             @Override
@@ -244,13 +266,8 @@ public class PokedexEntryLoader
             }
         }
 
-        @XmlElement(name = "LVLUP")
         public LvlUp  lvlupMoves;
-
-        @XmlElement(name = "MISC")
         public Misc   misc;
-
-        @XmlElement(name = "EVOMOVES")
         public String evolutionMoves;
     }
 
@@ -265,93 +282,64 @@ public class PokedexEntryLoader
         {
             return this.values + "";
         }
+
+        protected DefaultFormeHolder model = null;
+
+        public FormeHolder getForme(final PokedexEntry baseEntry)
+        {
+            if (this.model != null) return this.model.getForme(baseEntry);
+            return null;
+        }
     }
 
-    @XmlRootElement(name = "STATS")
     public static class StatsNode
     {
         public static class Stats
         {
-            @XmlAnyAttribute
             public Map<QName, String> values = Maps.newHashMap();
         }
 
         // Evolution stuff
-        @XmlElement(name = "Evolution")
-        public List<Evolution>   evolutions     = Lists.newArrayList();
+        public List<Evolution> evolutions = Lists.newArrayList();
 
         // Species and food
-        @XmlElement(name = "SPECIES")
-        public String            species;
-        @XmlElement(name = "PREY")
-        public String            prey;
-        @XmlElement(name = "FOODMATERIAL")
-        public String            foodMat;
-
-        @XmlElement(name = "SPECIALEGGSPECIESRULES")
-        public String            specialEggRules;
+        public String species;
+        public String prey;
+        public String foodMat;
+        public String specialEggRules;
         // Drops and items
-        @XmlElement(name = "Drop")
-        public List<Drop>        drops          = Lists.newArrayList();
-        @XmlElement(name = "Held")
-        public List<Drop>        held           = Lists.newArrayList();
-        @XmlElement(name = "lootTable")
-        public String            lootTable;
-        @XmlElement(name = "heldTable")
-        public String            heldTable;
+        public List<Drop> drops = Lists.newArrayList();
+        public List<Drop> held  = Lists.newArrayList();
+        public String     lootTable;
+        public String     heldTable;
         // Spawn Rules
-        @XmlAttribute
-        public Boolean           overwrite;
-        @XmlElement(name = "Spawn")
-        public List<SpawnRule>   spawnRules     = Lists.newArrayList();
+        public Boolean         overwrite;
+        public List<SpawnRule> spawnRules = Lists.newArrayList();
         // STATS
-        @XmlElement(name = "BASESTATS")
-        public Stats             stats;
-        @XmlElement(name = "EVYIELD")
-        public Stats             evs;
-        @XmlElement(name = "SIZES")
-        public Stats             sizes;
-        @XmlElement(name = "TYPE")
-        public Stats             types;
-        @XmlElement(name = "ABILITY")
-        public Stats             abilities;
-        @XmlElement(name = "MASSKG")
-        public Float             mass           = -1f;
-        @XmlElement(name = "CAPTURERATE")
-        public Integer           captureRate    = -1;
-        @XmlElement(name = "EXPYIELD")
-        public Integer           baseExp        = -1;
-        @XmlElement(name = "BASEFRIENDSHIP")
-        public Integer           baseFriendship = 70;
-        @XmlElement(name = "EXPERIENCEMODE")
-        public String            expMode;
+        public Stats   stats;
+        public Stats   evs;
+        public Stats   sizes;
+        public Stats   types;
+        public Stats   abilities;
+        public Float   mass           = -1f;
+        public Integer captureRate    = -1;
+        public Integer baseExp        = -1;
+        public Integer baseFriendship = 70;
+        public String  expMode;
 
-        @XmlElement(name = "GENDERRATIO")
-        public Integer           genderRatio    = -1;
+        public Integer genderRatio = -1;
         // MISC
-        @XmlElement(name = "LOGIC")
-        public Stats             logics;
-        @XmlElement(name = "FORMEITEMS")
-        public Stats             formeItems;
-
-        // Old mega rules
-        @XmlElement(name = "MEGARULES")
-        public Stats             megaRules_old;
+        public Stats logics;
+        public Stats formeItems;
         // New Mega rules
-        @XmlElement(name = "MegaRules")
-        public List<XMLMegaRule> megaRules      = Lists.newArrayList();
+        public List<XMLMegaRule> megaRules    = Lists.newArrayList();
+        public List<Interact>    interactions = Lists.newArrayList();
 
-        @XmlElement(name = "MOVEMENTTYPE")
-        public String            movementType;
-        @XmlElement(name = "Interact")
-        public List<Interact>    interactions   = Lists.newArrayList();
-        @XmlElement(name = "SHADOWREPLACEMENTS")
-        public String            shadowReplacements;
-        @XmlElement(name = "HATEDMATERIALRULES")
-        public String            hatedMaterials;
+        public String movementType;
+        public String shadowReplacements;
+        public String hatedMaterials;
 
-        @XmlElement(name = "ACTIVETIMES")
-        public String            activeTimes;
+        public String activeTimes;
 
         @Override
         public String toString()
@@ -360,17 +348,16 @@ public class PokedexEntryLoader
         }
     }
 
-    @XmlRootElement(name = "Document")
     public static class XMLDatabase
     {
-        @XmlElement(name = "Pokemon")
-        public List<XMLPokedexEntry>        pokemon = Lists.newArrayList();
+        public boolean               hotload = false;
+        public List<XMLPokedexEntry> pokemon = Lists.newArrayList();
 
-        public Map<String, XMLPokedexEntry> map     = Maps.newHashMap();
+        public Map<String, XMLPokedexEntry> __map__ = Maps.newHashMap();
 
         public void addEntry(final XMLPokedexEntry toAdd)
         {
-            if (this.map.containsKey(toAdd.name)) this.pokemon.remove(this.map.remove(toAdd.name));
+            if (this.__map__.containsKey(toAdd.name)) this.pokemon.remove(this.__map__.remove(toAdd.name));
             this.pokemon.add(toAdd);
             Collections.sort(this.pokemon, PokedexEntryLoader.ENTRYSORTER);
         }
@@ -383,7 +370,7 @@ public class PokedexEntryLoader
                     if (overwrite)
                     {
                         this.pokemon.remove(e);
-                        this.map.put(entry.name, entry);
+                        this.__map__.put(entry.name, entry);
                         this.pokemon.add(entry);
                         entry.mergeMissingFrom(e);
                         return;
@@ -392,70 +379,50 @@ public class PokedexEntryLoader
                     return;
                 }
             this.pokemon.add(entry);
-            this.map.put(entry.name, entry);
+            this.__map__.put(entry.name, entry);
         }
 
         public void init()
         {
             for (final XMLPokedexEntry e : this.pokemon)
-                this.map.put(e.name, e);
+                this.__map__.put(e.name, e);
         }
     }
 
-    @XmlRootElement(name = "MegaRule")
     public static class XMLMegaRule
     {
-        @XmlAttribute(name = "Name")
         public String name;
-        @XmlAttribute(name = "Preset")
         public String preset;
-        @XmlAttribute(name = "Move")
         public String move;
-        @XmlAttribute(name = "Ability")
         public String ability;
-        @XmlElement(name = "Key")
         public Key    item;
-        @XmlElement(name = "Key_Template")
         public String item_preset;
     }
 
-    @XmlRootElement(name = "Pokemon")
     public static class XMLPokedexEntry
     {
-        @XmlAttribute
         public String    name;
-        @XmlAttribute
         public Integer   number;
-        @XmlAttribute
         public String    special;
-        @XmlAttribute
-        public Boolean   base       = false;
-        @XmlAttribute
-        public Boolean   breed      = true;
-        @XmlAttribute
-        public Boolean   dummy      = false;
-        @XmlAttribute
-        public Boolean   starter    = false;
-        @XmlAttribute
-        public Boolean   ridable    = true;
-        @XmlAttribute
-        public Boolean   legend     = false;
-        @XmlAttribute
-        public Boolean   hasShiny   = true;
-        @XmlAttribute
-        public String    gender     = "";
-        @XmlAttribute
-        public String    genderBase = "";
-        @XmlAttribute
-        public String    modelType  = "";
-        @XmlAttribute
-        public String    sound      = null;
-        @XmlElement(name = "STATS")
+        public Boolean   base           = false;
+        public Boolean   breed          = true;
+        public Boolean   dummy          = false;
+        public Boolean   starter        = false;
+        public Boolean   ridable        = true;
+        public Boolean   legend         = false;
+        public Boolean   hasShiny       = true;
+        public String    gender         = "";
+        public String    genderBase     = "";
+        public String    modelType      = "";
+        public String    sound          = null;
+        public String    ridden_offsets = "0.75";
         public StatsNode stats;
-        @XmlElement(name = "MOVES")
         public Moves     moves;
-        @XmlElement(name = "BODY")
         public BodyNode  body;
+
+        public DefaultFormeHolder model        = null;
+        public DefaultFormeHolder male_model   = null;
+        public DefaultFormeHolder female_model = null;
 
         void mergeMissingFrom(final XMLPokedexEntry other)
         {
@@ -467,23 +434,24 @@ public class PokedexEntryLoader
                 if (this.moves.evolutionMoves != null) this.moves.evolutionMoves = other.moves.evolutionMoves;
             }
             if (this.body == null && other.body != null) this.body = other.body;
+            if (this.model == null && other.model != null) this.model = other.model;
             if (this.stats == null && other.stats != null) this.stats = other.stats;
             else if (other.stats != null) // Copy everything which is missing
                 for (final Field f : StatsNode.class.getDeclaredFields())
-                    try
-            {
-                        final Object ours = f.get(this.stats);
-                        final Object theirs = f.get(other.stats);
-                        boolean isNumber = !(ours instanceof String || ours instanceof Stats);
-                        if (isNumber) if (ours instanceof Float) isNumber = (float) ours == -1;
-                        else if (ours instanceof Integer) isNumber = (int) ours == -1;
-                        if (ours == null) f.set(this.stats, theirs);
-                        else if (isNumber) f.set(this.stats, theirs);
-            }
-            catch (final Exception e)
-            {
+                try
+                {
+                final Object ours = f.get(this.stats);
+                final Object theirs = f.get(other.stats);
+                boolean isNumber = !(ours instanceof String || ours instanceof Stats);
+                if (isNumber) if (ours instanceof Float) isNumber = (float) ours == -1;
+                else if (ours instanceof Integer) isNumber = (int) ours == -1;
+                if (ours == null) f.set(this.stats, theirs);
+                else if (isNumber) f.set(this.stats, theirs);
+                }
+                catch (final Exception e)
+                {
                 e.printStackTrace();
-            }
+                }
         }
 
         @Override
@@ -493,7 +461,7 @@ public class PokedexEntryLoader
         }
     }
 
-    public static final Gson                        gson;
+    public static final Gson gson;
 
     public static final Comparator<XMLPokedexEntry> ENTRYSORTER = (o1, o2) ->
                                                                 {
@@ -503,7 +471,7 @@ public class PokedexEntryLoader
                                                                     return diff;
                                                                 };
 
-    public static XMLPokedexEntry                   missingno   = new XMLPokedexEntry();
+    public static XMLPokedexEntry missingno = new XMLPokedexEntry();
 
     static
     {
@@ -520,15 +488,16 @@ public class PokedexEntryLoader
             {
                 out.value(value.toString());
             }
-        }).setPrettyPrinting().create();
+        }).setPrettyPrinting().disableHtmlEscaping().create();
         PokedexEntryLoader.missingno.stats = new StatsNode();
     }
 
-    public static XMLDatabase database;
+    public static XMLDatabase            database;
+    public static List<ResourceLocation> hotloadable = Lists.newArrayList();
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static Object getSerializableCopy(final Class<?> type, final Object original)
-            throws InstantiationException, IllegalAccessException
+    public static Object getSerializableCopy(final Class<?> type, final Object original) throws InstantiationException,
+            IllegalAccessException
     {
         Field fields[] = new Field[] {};
         try
@@ -554,7 +523,7 @@ public class PokedexEntryLoader
         Object defaultvalue;
         for (final Field field : fields)
             try
-        {
+            {
                 if (Modifier.isFinal(field.getModifiers())) continue;
                 if (Modifier.isStatic(field.getModifiers())) continue;
                 if (Modifier.isTransient(field.getModifiers())) continue;
@@ -598,27 +567,31 @@ public class PokedexEntryLoader
                     }
                 }
                 else field.set(copy, PokedexEntryLoader.getSerializableCopy(value.getClass(), value));
-        }
-        catch (final IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
+            }
+            catch (final IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
         return copy;
     }
 
-    /** This must be called after tags are loaded server side.
+    /**
+     * This must be called after tags are loaded server side.
      *
      * @param d
-     * @return */
+     * @return
+     */
     public static ItemStack getStackFromDrop(final Drop drop)
     {
         return Tools.getStack(drop.getValues());
     }
 
-    /** This is safe to run before tags are loaded.
+    /**
+     * This is safe to run before tags are loaded.
      *
      * @param spawnData
-     * @param rule */
+     * @param rule
+     */
     public static void handleAddSpawn(final SpawnData spawnData, final SpawnRule rule)
     {
         final SpawnEntry spawnEntry = new SpawnEntry();
@@ -647,7 +620,7 @@ public class PokedexEntryLoader
             newDatabase = PokedexEntryLoader.loadDatabase(stream, json);
             if (newDatabase != null) for (final XMLPokedexEntry e : newDatabase.pokemon)
             {
-                final XMLPokedexEntry old = PokedexEntryLoader.database.map.get(e.name);
+                final XMLPokedexEntry old = PokedexEntryLoader.database.__map__.get(e.name);
                 if (old != null) PokedexEntryLoader.mergeNonDefaults(PokedexEntryLoader.missingno, e, old);
                 else try
                 {
@@ -686,7 +659,9 @@ public class PokedexEntryLoader
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Initializing Database: " + file);
         try
         {
-            return PokedexEntryLoader.initDatabase(Database.resourceManager.getResource(file).getInputStream(), true);
+            final XMLDatabase database = PokedexEntryLoader.initDatabase(Database.resourceManager.getResource(file)
+                    .getInputStream(), true);
+            return database;
         }
         catch (final FileNotFoundException e)
         {
@@ -700,10 +675,12 @@ public class PokedexEntryLoader
         }
     }
 
-    /** This can be called before tags are added.
+    /**
+     * This can be called before tags are added.
      *
      * @param entry
-     * @param xmlMoves */
+     * @param xmlMoves
+     */
     private static void initMoves(final PokedexEntry entry, final Moves xmlMoves)
     {
         Map<Integer, ArrayList<String>> lvlUpMoves = new HashMap<>();
@@ -721,14 +698,14 @@ public class PokedexEntryLoader
             ArrayList<String> moves;
             lvlUpMoves.put(Integer.parseInt(keyName.replace("lvl_", "")), moves = new ArrayList<>());
             moves:
-                for (String s : values)
-                {
-                    s = Database.convertMoveName(s);
-                    moves.add(s);
-                    for (final String s1 : allMoves)
-                        if (s1.equalsIgnoreCase(s)) continue moves;
-                    allMoves.add(Database.convertMoveName(s));
-                }
+            for (String s : values)
+            {
+                s = Database.convertMoveName(s);
+                moves.add(s);
+                for (final String s1 : allMoves)
+                    if (s1.equalsIgnoreCase(s)) continue moves;
+                allMoves.add(Database.convertMoveName(s));
+            }
         }
 
         if (allMoves.isEmpty()) allMoves = null;
@@ -743,10 +720,12 @@ public class PokedexEntryLoader
         }
     }
 
-    /** This can be run at any early loading stage.
+    /**
+     * This can be run at any early loading stage.
      *
      * @param entry
-     * @param xmlStats */
+     * @param xmlStats
+     */
     private static void initStats(final PokedexEntry entry, final StatsNode xmlStats)
     {
         final int[] stats = new int[6];
@@ -800,8 +779,6 @@ public class PokedexEntryLoader
         if (xmlStats.sizes != null)
         {
             final Map<QName, String> values = xmlStats.sizes.values;
-            entry.length = -1;
-            entry.width = -1;
             for (final QName key : values.keySet())
             {
                 final String keyString = key.toString();
@@ -869,6 +846,30 @@ public class PokedexEntryLoader
         return database;
     }
 
+    public static void updateEntry(final PokedexEntry entry)
+    {
+        for (final ResourceLocation s : PokedexEntryLoader.hotloadable)
+            try
+            {
+                PokecubeCore.LOGGER.debug("Loading from: {}", s);
+                PokedexEntryLoader.initDatabase(s);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error with pokemobs database " + s, e);
+            }
+
+        final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
+
+        for (final XMLPokedexEntry xmlEntry : entries)
+        {
+            final String name = xmlEntry.name;
+            if (!name.equals(entry.getName())) continue;
+            PokedexEntryLoader.updateEntry(xmlEntry, false);
+            return;
+        }
+    }
+
     public static void makeEntries(final boolean create)
     {
         final List<XMLPokedexEntry> entries = Lists.newArrayList(PokedexEntryLoader.database.pokemon);
@@ -911,8 +912,8 @@ public class PokedexEntryLoader
 
     public static void mergeNonDefaults(final Object defaults, final Object outOf, final Object inTo)
     {
-        if (outOf.getClass() != inTo.getClass())
-            throw new IllegalArgumentException("To and From must be of the same class!");
+        if (outOf.getClass() != inTo.getClass()) throw new IllegalArgumentException(
+                "To and From must be of the same class!");
         Field fields[] = new Field[] {};
         try
         {
@@ -927,7 +928,7 @@ public class PokedexEntryLoader
         Object valueDefault;
         for (final Field field : fields)
             try
-        {
+            {
                 if (Modifier.isFinal(field.getModifiers())) continue;
                 if (Modifier.isStatic(field.getModifiers())) continue;
                 if (Modifier.isTransient(field.getModifiers())) continue;
@@ -942,8 +943,8 @@ public class PokedexEntryLoader
                     continue;
                 }
 
-                final boolean outIsDefault = valueOut == valueDefault
-                        || valueDefault != null && valueDefault.equals(valueOut);
+                final boolean outIsDefault = valueOut == valueDefault || valueDefault != null && valueDefault.equals(
+                        valueOut);
                 if (!outIsDefault) if (valueOut instanceof String) field.set(inTo, valueOut);
                 else if (valueOut instanceof Object[]) field.set(inTo, ((Object[]) valueOut).clone());
                 else if (valueOut instanceof Map) field.set(inTo, valueOut);
@@ -958,71 +959,76 @@ public class PokedexEntryLoader
                 {
                     field.set(inTo, valueOut);
                 }
-        }
-        catch (final IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
+            }
+            catch (final IllegalAccessException e)
+            {
+                e.printStackTrace();
+            }
     }
 
-    /** This can be run at any point after the main entries are all known.
+    /**
+     * This can be run at any point after the main entries are all known.
      *
      * @param entry
      * @param xmlStats
-     * @param error */
+     * @param error
+     */
     private static void parseEvols(final PokedexEntry entry, final StatsNode xmlStats, final boolean error)
     {
         if (xmlStats.specialEggRules != null)
         {
             final String[] matedata = xmlStats.specialEggRules.split(";");
             mates:
-                for (final String s1 : matedata)
+            for (final String s1 : matedata)
+            {
+                final String[] args = s1.split(":");
+                PokedexEntry father;
+                int num = -1;
+                final String name = "";
+                try
                 {
-                    final String[] args = s1.split(":");
-                    PokedexEntry father;
-                    int num = -1;
-                    final String name = "";
+                    father = Database.getEntry(num = Integer.parseInt(args[0]));
+                }
+                catch (final NumberFormatException e)
+                {
+                    father = Database.getEntry(args[0]);
+                }
+                if (father == null && (num == 0 || name.equalsIgnoreCase("missingno"))) father = Database.missingno;
+                if (father == null)
+                {
+                    PokecubeCore.LOGGER.error("Error with Father for Children for " + entry);
+                    break mates;
+                }
+                final String[] args1 = args[1].split("`");
+                final PokedexEntry[] childNbs = new PokedexEntry[args1.length];
+                for (int i = 0; i < args1.length; i++)
+                {
                     try
                     {
-                        father = Database.getEntry(num = Integer.parseInt(args[0]));
+                        childNbs[i] = Database.getEntry(Integer.parseInt(args1[i]));
                     }
                     catch (final NumberFormatException e)
                     {
-                        father = Database.getEntry(args[0]);
+                        childNbs[i] = Database.getEntry(args1[i]);
                     }
-                    if (father == null && (num == 0 || name.equalsIgnoreCase("missingno"))) father = Database.missingno;
-                    if (father == null)
+                    if (childNbs[i] == null)
                     {
-                        PokecubeCore.LOGGER.error("Error with Father for Children for " + entry);
+                        PokecubeCore.LOGGER.error("Error with Children for " + entry + " " + args1[i]);
                         break mates;
                     }
-                    final String[] args1 = args[1].split("`");
-                    final PokedexEntry[] childNbs = new PokedexEntry[args1.length];
-                    for (int i = 0; i < args1.length; i++)
-                    {
-                        try
-                        {
-                            childNbs[i] = Database.getEntry(Integer.parseInt(args1[i]));
-                        }
-                        catch (final NumberFormatException e)
-                        {
-                            childNbs[i] = Database.getEntry(args1[i]);
-                        }
-                        if (childNbs[i] == null)
-                        {
-                            PokecubeCore.LOGGER.error("Error with Children for " + entry + " " + args1[i]);
-                            break mates;
-                        }
-                    }
-                    entry.childNumbers.put(father, childNbs);
                 }
+                entry.childNumbers.put(father, childNbs);
+            }
         }
         if (xmlStats.evolutions != null && !xmlStats.evolutions.isEmpty())
+        {
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Proccessing Evos for " + entry.getName());
             for (final Evolution evol : xmlStats.evolutions)
             {
                 final String name = evol.name;
                 final PokedexEntry evolEntry = Database.getEntry(name);
                 EvolutionData data = null;
+                // check for specific clearing info for this entry.
                 for (final EvolutionData d : entry.evolutions)
                     if (d.evolution == evolEntry)
                     {
@@ -1039,17 +1045,21 @@ public class PokedexEntryLoader
                     data = new EvolutionData(evolEntry);
                     data.data = evol;
                     data.preEvolution = entry;
+                    // Skip any exactly duplicated entires.
                     for (final EvolutionData existing : entry.evolutions)
-                        if (existing.evolution == evolEntry) break;
+                        if (existing.data.equals(existing)) break;
                     entry.addEvolution(data);
                 }
             }
+        }
     }
 
-    /** This can be called before tags load.
+    /**
+     * This can be called before tags load.
      *
      * @param entry
-     * @param xmlStats */
+     * @param xmlStats
+     */
     private static void parseSpawns(final PokedexEntry entry, final StatsNode xmlStats)
     {
         if (xmlStats.spawnRules.isEmpty()) return;
@@ -1058,6 +1068,8 @@ public class PokedexEntryLoader
         if (spawnData == null || overwrite) spawnData = new SpawnData(entry);
         for (final SpawnRule rule : xmlStats.spawnRules)
         {
+            final FormeHolder holder = rule.getForme(entry);
+            if (holder != null) Database.registerFormeHolder(entry, holder);
             PokedexEntryLoader.handleAddSpawn(spawnData, rule);
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Handling Spawns for " + entry);
         }
@@ -1066,10 +1078,12 @@ public class PokedexEntryLoader
 
     }
 
-    /** This can be called whenever.
+    /**
+     * This can be called whenever.
      *
      * @param special
-     * @param entry */
+     * @param entry
+     */
     private static void parseSpecial(final String special, final PokedexEntry entry)
     {
         if (special.equals("shadow"))
@@ -1079,20 +1093,22 @@ public class PokedexEntryLoader
         }
     }
 
-    /** This must be called AFTER tags are loaded.
+    /**
+     * This must be called AFTER tags are loaded.
      *
      * @param entry
-     * @param xmlStats */
+     * @param xmlStats
+     */
     private static void postIniStats(final PokedexEntry entry, final StatsNode xmlStats)
     {
 
         // Items
         // Drops Loot table
-        if (xmlStats.lootTable != null && !xmlStats.lootTable.isEmpty())
-            entry.lootTable = new ResourceLocation(xmlStats.lootTable);
+        if (xmlStats.lootTable != null && !xmlStats.lootTable.isEmpty()) entry.lootTable = new ResourceLocation(
+                xmlStats.lootTable);
         // Held
-        if (xmlStats.heldTable != null && !xmlStats.heldTable.isEmpty())
-            entry.heldTable = new ResourceLocation(xmlStats.heldTable);
+        if (xmlStats.heldTable != null && !xmlStats.heldTable.isEmpty()) entry.heldTable = new ResourceLocation(
+                xmlStats.heldTable);
         // Logics
         if (xmlStats.logics != null)
         {
@@ -1120,9 +1136,9 @@ public class PokedexEntryLoader
                         }
                         catch (final NumberFormatException e)
                         {
+                            defaultSpecial = ThutCore.trim(defaultSpecial);
                             for (final DyeColor dye : DyeColor.values())
-                                if (dye.name().equals(defaultSpecial) || dye.getName().equals(defaultSpecial)
-                                        || dye.getTranslationKey().equals(defaultSpecial))
+                                if (ThutCore.trim(dye.name()).equals(defaultSpecial))
                                 {
                                     entry.defaultSpecial = dye.getId();
                                     break;
@@ -1133,15 +1149,15 @@ public class PokedexEntryLoader
                             defaultSpecial = args[2];
                             try
                             {
-                                entry.defaultSpecial = Integer.parseInt(defaultSpecial);
+                                entry.defaultSpecials = Integer.parseInt(defaultSpecial);
                             }
                             catch (final NumberFormatException e)
                             {
+                                defaultSpecial = ThutCore.trim(defaultSpecial);
                                 for (final DyeColor dye : DyeColor.values())
-                                    if (dye.name().equals(defaultSpecial) || dye.getName().equals(defaultSpecial)
-                                            || dye.getTranslationKey().equals(defaultSpecial))
+                                    if (ThutCore.trim(dye.name()).equals(defaultSpecial))
                                     {
-                                        entry.defaultSpecial = dye.getId();
+                                        entry.defaultSpecials = dye.getId();
                                         break;
                                     }
                             }
@@ -1151,8 +1167,8 @@ public class PokedexEntryLoader
                                 args = defaultSpecial.split(",");
                                 for (final String s : args)
                                     for (final DyeColor dye : DyeColor.values())
-                                        if (dye.name().equals(s) || dye.getName().equals(s)
-                                                || dye.getTranslationKey().equals(s))
+                                        if (dye.name().equals(s) || dye.getName().equals(s) || dye.getTranslationKey()
+                                                .equals(s))
                                         {
                                             entry.validDyes.add(dye);
                                             break;
@@ -1256,55 +1272,62 @@ public class PokedexEntryLoader
             }
         }
 
-        if (xmlStats.megaRules != null && !xmlStats.megaRules.isEmpty())
-            for (final XMLMegaRule rule : xmlStats.megaRules)
-            {
-                String forme = rule.name != null ? rule.name : null;
-                if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
-                {
-                    forme = entry.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
-                    if (rule.item_preset == null) rule.item_preset = entry.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
-                }
-                final String move = rule.move;
-                final String ability = rule.ability;
-                final String item_preset = rule.item_preset;
+        if (xmlStats.megaRules != null) for (final XMLMegaRule rule : xmlStats.megaRules)
+        {
 
-                if (forme == null)
+            String forme = rule.name != null ? rule.name : null;
+            if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
+            {
+                forme = entry.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
+                if (rule.item_preset == null) rule.item_preset = entry.getTrimmedName() + "" + ThutCore.trim(
+                        rule.preset);
+            }
+            final String move = rule.move;
+            final String ability = rule.ability;
+            final String item_preset = rule.item_preset;
+
+            if (forme == null)
+            {
+                PokecubeCore.LOGGER.info("Error with mega evolution for " + entry + " rule: preset=" + rule.preset
+                        + " name=" + rule.name);
+                continue;
+            }
+
+            final PokedexEntry formeEntry = Database.getEntry(forme);
+            if (!forme.isEmpty() && formeEntry != null)
+            {
+                ItemStack stack = ItemStack.EMPTY;
+                if (item_preset != null && !item_preset.isEmpty())
                 {
-                    PokecubeCore.LOGGER.info("Error with mega evolution for " + entry + " rule: preset=" + rule.name + " name=" + rule.name);
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(forme + " " + item_preset);
+                    stack = PokecubeItems.getStack(item_preset, false);
+                    if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
+                }
+                else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
+                if (rule.item != null) if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item
+                        .getValues());
+                if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
+                {
+                    PokecubeCore.LOGGER.info("Skipping Mega: " + entry + " -> " + formeEntry
+                            + " as it has no conditions, or conditions cannot be met.");
+                    PokecubeCore.LOGGER.info(" rule: preset=" + rule.preset + " name=" + rule.name + " item="
+                            + rule.item_preset);
                     continue;
                 }
-
-                final PokedexEntry formeEntry = Database.getEntry(forme);
-                if (!forme.isEmpty() && formeEntry != null)
+                final MegaEvoRule mrule = new MegaEvoRule(entry);
+                if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
+                if (ability != null) mrule.ability = ability;
+                if (move != null) mrule.moveName = move;
+                if (!stack.isEmpty())
                 {
-                    ItemStack stack = ItemStack.EMPTY;
-                    if (item_preset != null && !item_preset.isEmpty())
-                    {
-                        if (PokecubeMod.debug) PokecubeCore.LOGGER.info(forme + " " + item_preset);
-                        stack = item_preset.isEmpty() ? ItemStack.EMPTY : PokecubeItems.getStack(item_preset, false);
-                    }
-                    else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
-                    if (rule.item != null) if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item.getValues());
-                    if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
-                    {
-                        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Skipping Mega: " + entry + " -> " + formeEntry + " as it has no conditions, or conditions cannot be met.");
-                        continue;
-                    }
-                    final MegaEvoRule mrule = new MegaEvoRule(entry);
-                    if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
-                    if (ability != null) mrule.ability = ability;
-                    if (move != null) mrule.moveName = move;
-                    if (!stack.isEmpty())
-                    {
-                        mrule.stack = stack;
-                        if (!PokecubeItems.isValidHeldItem(stack)) PokecubeItems.addToHoldables(stack);
-                    }
-                    formeEntry.isMega = true;
-                    entry.megaRules.put(formeEntry, mrule);
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + entry + " -> " + formeEntry);
+                    mrule.stack = stack;
+                    if (!PokecubeItems.isValidHeldItem(stack)) PokecubeItems.addToHoldables(stack);
                 }
+                formeEntry.isMega = true;
+                entry.megaRules.put(formeEntry, mrule);
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + entry + " -> " + formeEntry);
             }
+        }
 
         // Add gigantamax things as "megas"
         if (entry.getName().contains("Gigantamax")) entry.isMega = true;
@@ -1324,9 +1347,11 @@ public class PokedexEntryLoader
         }
     }
 
-    /** Safe to call whenever.
+    /**
+     * Safe to call whenever.
      *
-     * @param xmlEntry */
+     * @param xmlEntry
+     */
     public static void preCheckEvolutions(final XMLPokedexEntry xmlEntry)
     {
         final PokedexEntry entry = Database.getEntry(xmlEntry.name);
@@ -1348,6 +1373,12 @@ public class PokedexEntryLoader
         final Moves moves = xmlEntry.moves;
         final String name = xmlEntry.name;
         final PokedexEntry entry = Database.getEntry(name);
+        entry.modelExt = xmlEntry.modelType;
+
+        if (entry._default_holder == null && xmlEntry.model != null) entry._default_holder = xmlEntry.model;
+        if (entry._male_holder == null && xmlEntry.male_model != null) entry._male_holder = xmlEntry.male_model;
+        if (entry._female_holder == null && xmlEntry.female_model != null) entry._female_holder = xmlEntry.female_model;
+
         if (stats != null) try
         {
             if (xmlEntry.sound != null) entry.customSound = xmlEntry.sound;
@@ -1360,6 +1391,29 @@ public class PokedexEntryLoader
                 entry.ridable = xmlEntry.ridable;
                 entry.legendary = xmlEntry.legend;
                 entry.hasShiny = xmlEntry.hasShiny;
+
+                if (xmlEntry.ridden_offsets != null)
+                {
+                    // This is each passenger
+                    final String[] args = xmlEntry.ridden_offsets.split(":");
+                    final List<double[]> offsets = Lists.newArrayList();
+                    for (final String s : args)
+                    {
+                        final String[] vec = s.split(",");
+                        if (vec.length == 1) offsets.add(new double[] { 0, Float.parseFloat(vec[0]), 0 });
+                        else if (vec.length == 3) offsets.add(new double[] { Float.parseFloat(vec[0]), Float.parseFloat(
+                                vec[1]), Float.parseFloat(vec[2]) });
+                        else PokecubeCore.LOGGER.warn("Wrong number of numbers for offset, must be 1 or 3: " + entry
+                                + " got: " + vec.length);
+                    }
+                    if (!offsets.isEmpty())
+                    {
+                        entry.passengerOffsets = new double[offsets.size()][];
+                        for (int i = 0; i < entry.passengerOffsets.length; i++)
+                            entry.passengerOffsets[i] = offsets.get(i);
+                    }
+                }
+
                 try
                 {
                     PokedexEntryLoader.postIniStats(entry, stats);
@@ -1420,10 +1474,10 @@ public class PokedexEntryLoader
                     return t;
                 }
             });
-            final Map<String, XMLPokedexEntry> back = database.map;
-            database.map = null;
+            final Map<String, XMLPokedexEntry> back = database.__map__;
+            database.__map__ = null;
             final String json = PokedexEntryLoader.gson.toJson(database);
-            database.map = back;
+            database.__map__ = back;
             final FileWriter writer = new FileWriter(new File(FMLPaths.CONFIGDIR.get().toFile(), "pokemobs.json"));
             writer.append(json);
             writer.close();

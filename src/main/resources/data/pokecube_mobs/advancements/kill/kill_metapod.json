@@ -24,7 +24,6 @@
     "kill_metapod": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "metapod"
       }
     }

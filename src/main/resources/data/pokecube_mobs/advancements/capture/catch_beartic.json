@@ -24,7 +24,6 @@
     "catch_beartic": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "beartic"
       }
     }

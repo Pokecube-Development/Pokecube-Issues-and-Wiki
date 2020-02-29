@@ -24,7 +24,6 @@
     "kill_natu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "natu"
       }
     }

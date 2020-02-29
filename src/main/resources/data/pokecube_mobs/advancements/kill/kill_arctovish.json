@@ -24,7 +24,6 @@
     "kill_arctovish": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "arctovish"
       }
     }

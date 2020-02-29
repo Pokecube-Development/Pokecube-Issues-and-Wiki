@@ -24,7 +24,6 @@
     "kill_cofagrigus": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cofagrigus"
       }
     }

@@ -24,7 +24,6 @@
     "kill_scraggy": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "scraggy"
       }
     }

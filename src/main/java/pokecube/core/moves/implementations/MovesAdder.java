@@ -27,6 +27,8 @@ import pokecube.core.moves.templates.Move_Explode;
 import pokecube.core.moves.templates.Move_MultiHit;
 import pokecube.core.moves.templates.Move_Ongoing;
 import pokecube.core.moves.templates.Move_Terrain;
+import pokecube.core.moves.templates.Z_Move_Basic;
+import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.CompatParser.ClassFinder;
 
 public class MovesAdder implements IMoveConstants
@@ -172,6 +174,7 @@ public class MovesAdder implements IMoveConstants
                     Class<? extends Move_Base> moveClass = e.baseEntry.preset != null ? MovesAdder.presetMap.get(
                             e.baseEntry.preset) : Move_Basic.class;
                     if (moveClass == null) moveClass = Move_Basic.class;
+                    if (GZMoveManager.isZMove(e.baseEntry)) moveClass = Z_Move_Basic.class;
 
                     Move_Base toAdd;
                     try

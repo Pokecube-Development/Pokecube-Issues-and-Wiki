@@ -30,7 +30,8 @@ public class CompatParser
 
         private static final String BAD_PACKAGE_ERROR = "Unable to get resources from path '%s'. Are you sure the package '%s' exists?";
 
-        public static List<Class<?>> find(String scannedPackage) throws UnsupportedEncodingException, URISyntaxException
+        public static List<Class<?>> find(final String scannedPackage) throws UnsupportedEncodingException,
+                URISyntaxException
         {
             final String scannedPath = scannedPackage.replace(ClassFinder.DOT, ClassFinder.SLASH);
             final URL scannedUrl = Thread.currentThread().getContextClassLoader().getResource(scannedPath);
@@ -51,12 +52,10 @@ public class CompatParser
             return Lists.newArrayList(classes);
         }
 
-        private static List<Class<?>> findInFolder(File file, String scannedPackage)
+        private static List<Class<?>> findInFolder(File file, final String scannedPackage)
         {
             final List<Class<?>> classes = new ArrayList<>();
-
-            // TODO cache these to speed up searching if the jar hasn't actually
-            // changed.
+            // DOLATER maybe cache?
             if (file.toString().endsWith(".jar")) try
             {
                 String name = file.toString();
@@ -110,8 +109,8 @@ public class CompatParser
 
     }
 
-    public static void findClasses(String classPackage,
-            Map<CompatClass.Phase, Set<java.lang.reflect.Method>> initMethods)
+    public static void findClasses(final String classPackage,
+            final Map<CompatClass.Phase, Set<java.lang.reflect.Method>> initMethods)
     {
         List<Class<?>> foundClasses;
         try

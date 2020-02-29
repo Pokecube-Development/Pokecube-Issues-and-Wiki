@@ -24,7 +24,6 @@
     "kill_cranidos": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "cranidos"
       }
     }

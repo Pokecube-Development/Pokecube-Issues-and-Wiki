@@ -24,10 +24,9 @@
     "catch_lumineon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lumineon"
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_finneon"
+  "parent": "pokecube_mobs:capture/catch_finneon_female"
 }

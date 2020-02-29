@@ -25,7 +25,6 @@
     "kill_azelf": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "azelf"
       }
     }

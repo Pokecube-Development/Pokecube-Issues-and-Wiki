@@ -24,7 +24,6 @@
     "kill_scizor": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "scizor"
       }
     }

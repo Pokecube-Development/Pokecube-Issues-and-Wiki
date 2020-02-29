@@ -24,7 +24,6 @@
     "kill_salazzle": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "salazzle"
       }
     }

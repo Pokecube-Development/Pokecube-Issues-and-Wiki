@@ -24,7 +24,6 @@
     "catch_abra": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "abra"
       }
     }

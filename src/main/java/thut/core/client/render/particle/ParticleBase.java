@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.item.DyeColor;
@@ -22,26 +21,26 @@ import thut.core.common.ThutCore;
 public class ParticleBase extends ParticleType<ParticleBase> implements IParticle, IAnimatedParticle, IParticleData
 {
     private static final IParticleData.IDeserializer<ParticleBase> DESERIALIZER = new IParticleData.IDeserializer<ParticleBase>()
-    {
-        @Override
-        public ParticleBase deserialize(
-                final ParticleType<ParticleBase> particleTypeIn,
-                final StringReader reader)
-                        throws CommandSyntaxException
-        {
-            return ((ParticleBase) particleTypeIn)
-                    .read(reader);
-        }
+                                                                                {
+                                                                                    @Override
+                                                                                    public ParticleBase deserialize(
+                                                                                            final ParticleType<ParticleBase> particleTypeIn,
+                                                                                            final StringReader reader)
+                                                                                            throws CommandSyntaxException
+                                                                                    {
+                                                                                        return ((ParticleBase) particleTypeIn)
+                                                                                                .read(reader);
+                                                                                    }
 
-        @Override
-        public ParticleBase read(
-                final ParticleType<ParticleBase> particleTypeIn,
-                final PacketBuffer buffer)
-        {
-            return ((ParticleBase) particleTypeIn)
-                    .read(buffer);
-        }
-    };
+                                                                                    @Override
+                                                                                    public ParticleBase read(
+                                                                                            final ParticleType<ParticleBase> particleTypeIn,
+                                                                                            final PacketBuffer buffer)
+                                                                                    {
+                                                                                        return ((ParticleBase) particleTypeIn)
+                                                                                                .read(buffer);
+                                                                                    }
+                                                                                };
     public static ResourceLocation                                 TEXTUREMAP   = new ResourceLocation(ThutCore.MODID,
             "textures/particles.png");
 
@@ -123,7 +122,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     {
         final net.minecraft.client.renderer.Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F).toMC();
         vector3f1.transform(quaternion);
-        final net.minecraft.client.renderer.Vector3f[] avector3f = new net.minecraft.client.renderer.Vector3f[] {
+        final net.minecraft.client.renderer.Vector3f[] verts = new net.minecraft.client.renderer.Vector3f[] {
                 new net.minecraft.client.renderer.Vector3f(-1.0F, -1.0F, 0.0F),
                 new net.minecraft.client.renderer.Vector3f(-1.0F, 1.0F, 0.0F),
                 new net.minecraft.client.renderer.Vector3f(1.0F, 1.0F, 0.0F),
@@ -132,34 +131,33 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
         for (int i = 0; i < 4; ++i)
         {
-            final net.minecraft.client.renderer.Vector3f vector3f = avector3f[i];
+            final net.minecraft.client.renderer.Vector3f vector3f = verts[i];
             vector3f.transform(quaternion);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);
         }
         this.setColour();
 
-        final float alpha = (this.rgba >> 24 & 255) / 255f;
-        final float red = (this.rgba >> 16 & 255) / 255f;
-        final float green = (this.rgba >> 8 & 255) / 255f;
-        final float blue = (this.rgba & 255) / 255f;
-
-        final int j = 0;// TODO include way to get this!
+        final float a = (this.rgba >> 24 & 255) / 255f;
+        final float r = (this.rgba >> 16 & 255) / 255f;
+        final float g = (this.rgba >> 8 & 255) / 255f;
+        final float b = (this.rgba & 255) / 255f;
+        // DOLATER add a configuration for the particle lightmap
+        final int j = 15 << 20 | 15 << 4;
 
         final int num = this.getDuration() / this.animSpeed % this.tex.length;
         final int u = this.tex[num][0], v = this.tex[num][1];
-        final float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
-        final float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
-        Minecraft.getInstance().getTextureManager().bindTexture(ParticleBase.TEXTUREMAP);
+        float u1 = u * 1f / 16f, v1 = v * 1f / 16f;
+        float u2 = (u + 1) * 1f / 16f, v2 = (v + 1) * 1f / 16f;
 
-        buffer.pos(avector3f[0].getX(), avector3f[0].getY(), avector3f[0].getZ()).tex(u2, v2)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
-        buffer.pos(avector3f[1].getX(), avector3f[1].getY(), avector3f[1].getZ()).tex(u1, v1)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
-        buffer.pos(avector3f[2].getX(), avector3f[2].getY(), avector3f[2].getZ()).tex(u1, v1)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
-        buffer.pos(avector3f[3].getX(), avector3f[3].getY(), avector3f[3].getZ()).tex(u2, v2)
-        .color(red, green, blue, alpha).lightmap(j).endVertex();
+        buffer.pos(verts[0].getX(), verts[0].getY(), verts[0].getZ()).color(r, g, b, a).tex(u1, v2).lightmap(j)
+                .endVertex();
+        buffer.pos(verts[1].getX(), verts[1].getY(), verts[1].getZ()).color(r, g, b, a).tex(u2, v2).lightmap(j)
+                .endVertex();
+        buffer.pos(verts[2].getX(), verts[2].getY(), verts[2].getZ()).color(r, g, b, a).tex(u2, v1).lightmap(j)
+                .endVertex();
+        buffer.pos(verts[3].getX(), verts[3].getY(), verts[3].getZ()).color(r, g, b, a).tex(u1, v1).lightmap(j)
+                .endVertex();
     }
 
     @Override

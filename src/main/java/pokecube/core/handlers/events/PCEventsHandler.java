@@ -37,6 +37,7 @@ import pokecube.core.inventory.pc.PCInventory;
 import pokecube.core.inventory.pc.PCSaveHandler;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPC;
 import thut.core.common.ThutCore;
 
@@ -174,7 +175,7 @@ public class PCEventsHandler
                 if (cubesToPC) PCInventory.addPokecubeToPC(mob.getItem(), mob.getEntityWorld());
                 else
                 {
-                    final LivingEntity out = mob.sendOut(true);
+                    final LivingEntity out = SendOutManager.sendOut(mob, true);
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(out);
                     if (poke != null) poke.onRecall();
                 }

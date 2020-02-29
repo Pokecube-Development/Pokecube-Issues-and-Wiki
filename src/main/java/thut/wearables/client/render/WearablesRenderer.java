@@ -55,7 +55,6 @@ public class WearablesRenderer<T extends LivingEntity, M extends BipedModel<T>> 
         if (worn == null) return;
         boolean thin = false;
 
-        // TODO find out where this comes from?
         final int overlay = LivingRenderer.getPackedOverlay(wearer, 0);
 
         if (wearer instanceof AbstractClientPlayerEntity)

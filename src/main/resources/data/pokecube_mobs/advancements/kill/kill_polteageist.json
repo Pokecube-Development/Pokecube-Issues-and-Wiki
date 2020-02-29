@@ -24,7 +24,6 @@
     "kill_polteageist": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "polteageist"
       }
     }

@@ -24,7 +24,6 @@
     "kill_ledian": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ledian"
       }
     }

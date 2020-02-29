@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorus_therian"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.landorus_therian"
+        }
+      ]
+    },
+    "frame": "challenge"
+  },
+  "criteria": {
+    "hatch_landorus_therian": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "landorus_therian"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

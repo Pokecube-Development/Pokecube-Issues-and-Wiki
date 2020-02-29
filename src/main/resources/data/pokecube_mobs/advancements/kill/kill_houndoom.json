@@ -24,7 +24,6 @@
     "kill_houndoom": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "houndoom"
       }
     }

@@ -34,7 +34,6 @@ public class AI extends Page
     public AI(final ITextComponent title, final EditorGui parent)
     {
         super(title, parent);
-        // TODO Auto-generated constructor stub
     }
 
     protected void actionPerformed(final int id) throws IOException
@@ -151,7 +150,6 @@ public class AI extends Page
 
     private boolean updateField(final int i)
     {
-        // TODO differentiate whether the field is the same as it was before.
         TextFieldWidget field = null;
 
         switch (i)

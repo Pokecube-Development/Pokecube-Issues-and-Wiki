@@ -265,6 +265,11 @@ public final class SpawnHandler
         return null;
     }
 
+    public static ForbidReason getNoSpawnReason(final World world, final BlockPos pos)
+    {
+        return SpawnHandler.getNoSpawnReason(world, pos.getX(), pos.getY(), pos.getZ());
+    }
+
     public static ForbidReason getNoSpawnReason(final IWorld world, final int x, final int y, final int z)
     {
         final ForbiddenEntry entry = SpawnHandler.getForbiddenEntry(world, x, y, z);
@@ -343,8 +348,7 @@ public final class SpawnHandler
         // {
         // variance = SpawnHandler.subBiomeLevels.get(b);
         // spawnLevel = variance.apply(baseLevel);
-        // }//TODO find out what is wrong with this...
-        // else
+        // }FIXME subbiome levels
         spawnLevel = SpawnHandler.parse(world, location);
         variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
         spawnLevel = variance.apply(spawnLevel);
@@ -398,9 +402,6 @@ public final class SpawnHandler
         int maxXp = 10;
         if (!SpawnHandler.expFunction) return Tools.levelToXp(pokemon.getEvolutionMode(), SpawnHandler.getSpawnLevel(
                 world, location, pokemon, variance, baseLevel));
-
-        // TODO properly implement base level and variance overriding
-
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         final int b = t.getBiome(location);
         if (SpawnHandler.subBiomeLevels.containsKey(b))
@@ -594,9 +595,9 @@ public final class SpawnHandler
         if (world.dimension.isNether()) return;
         final List<ServerPlayerEntity> players = world.getPlayers();
         if (players.size() < 1) return;
-        if (new Random().nextInt(100) == 0)
+        final Random rand = new Random(world.getSeed() + world.getGameTime());
+        if (rand.nextInt(100) == 0)
         {
-            final Random rand = new Random();
             final Entity player = players.get(rand.nextInt(players.size()));
             final int dx = rand.nextInt(200) - 100;
             final int dz = rand.nextInt(200) - 100;
@@ -605,7 +606,7 @@ public final class SpawnHandler
             loc.x += dx;
             loc.z += dz;
             loc.y = world.getHeight(Type.WORLD_SURFACE, (int) loc.x, (int) loc.z);
-            if (PokecubeSerializer.getInstance().canMeteorLand(loc))
+            if (PokecubeSerializer.getInstance().canMeteorLand(loc, world))
             {
                 final Vector3 direction = this.v1.set(rand.nextGaussian() / 2, -1, rand.nextGaussian() / 2);
                 v.set(loc.x, loc.y, loc.z);

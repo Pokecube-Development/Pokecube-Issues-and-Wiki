@@ -24,7 +24,6 @@
     "catch_yungoos": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "yungoos"
       }
     }

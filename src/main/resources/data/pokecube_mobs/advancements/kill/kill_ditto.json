@@ -24,7 +24,6 @@
     "kill_ditto": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "ditto"
       }
     }

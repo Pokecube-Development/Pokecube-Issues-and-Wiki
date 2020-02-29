@@ -24,7 +24,6 @@
     "catch_piplup": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "piplup"
       }
     }

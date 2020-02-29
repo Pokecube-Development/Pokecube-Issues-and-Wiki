@@ -24,7 +24,6 @@
     "kill_nickit": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "nickit"
       }
     }

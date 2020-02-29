@@ -4,18 +4,18 @@
       "item": "pokecube_legends:prisonbottle"
     },
     "title": {
-	    "text": "Confined",
-	    "color": "light_purple",
-	    "bold": false,
-	    "italic": false,
-	    "underlined": false,
-	    "strikethrough": false,
-	    "obfuscated": false
+      "text": "Confined",
+      "color": "light_purple",
+      "bold": false,
+      "italic": false,
+      "underlined": false,
+      "strikethrough": false,
+      "obfuscated": false
     },
     "description": {
-        "text": "Catch Hoopa"
+      "text": "Catch Hoopa"
     },
-	"frame": "challenge",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
@@ -30,7 +30,9 @@
     }
   },
   "rewards": {
-        "loot": [ "pokecube_legends:entities/confined" ]
+    "loot": [
+      "pokecube_legends:entities/confined"
+    ]
   },
   "parent": "pokecube_legends:root"
 }

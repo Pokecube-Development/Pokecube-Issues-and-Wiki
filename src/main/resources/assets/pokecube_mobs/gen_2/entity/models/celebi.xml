@@ -46,7 +46,7 @@
     <component length="8" name="1" rotChange="-18.0,0.0,0.0," startKey="0"/>
    </part>
   </phase>
-  <merges merge="idle-&gt;flying"/>
+  <merges merge="idle->flying"/>
   <phase angle="5" axis="2" length="100" name="snakeWalk" parts="Tail_base:Tail_pt1:Tail_pt2"/>
   <phase type="flying">
    <part name="body">

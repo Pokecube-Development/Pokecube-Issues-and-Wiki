@@ -1,17 +1,20 @@
 package pokecube.core.client.render.mobs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.lwjgl.opengl.GL11;
-import org.w3c.dom.Node;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
@@ -29,6 +32,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -39,6 +43,7 @@ import thut.api.entity.IMobTexturable;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
+import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -53,9 +58,38 @@ import thut.core.common.ThutCore;
 
 public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<TameableEntity>>
 {
+    public static class PokemobTexHelper extends TextureHelper
+    {
+        final PokedexEntry entry;
+
+        public PokemobTexHelper(final PokedexEntry entry)
+        {
+            super();
+            this.entry = entry;
+        }
+
+        @Override
+        public void applyTexturePhase(final Phase phase)
+        {
+            final QName male = new QName("male");
+            final QName female = new QName("female");
+            if (phase.values.containsKey(male)) this.entry.textureDetails[0] = this.fromValue(phase.values.get(male));
+            if (phase.values.containsKey(female))
+                this.entry.textureDetails[1] = this.fromValue(phase.values.get(female));
+        }
+
+        private String[] fromValue(final String string)
+        {
+            final String[] ret = string.split(",");
+            for (int i = 0; i < ret.length; i++)
+                ret[i] = ThutCore.trim(ret[i]);
+            return ret;
+        }
+    }
+
     public static class Holder extends ModelHolder implements IModelRenderer<TameableEntity>
     {
-        ModelWrapper<TameableEntity>            wrapper;
+        public ModelWrapper<TameableEntity>     wrapper;
         final Vector3                           rotPoint                  = Vector3.getNewVector();
         HashMap<String, List<Animation>>        anims                     = Maps.newHashMap();
         private IPartTexturer                   texturer;
@@ -76,6 +110,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         private boolean                         checkedForRangedAttack    = false;
         private boolean                         hasRangedAttackAnimation  = false;
 
+        public boolean                          reload                    = false;
         public boolean                          overrideAnim              = false;
         public String                           anim                      = "";
 
@@ -95,17 +130,31 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         {
             super(entry.model(), entry.texture(), entry.animation(), entry.getTrimmedName());
             this.entry = entry;
-        }
+            this.texturer = new PokemobTexHelper(entry);
 
-        @Override
-        public void doRender(final TameableEntity entity, final double d, final double d1, final double d2,
-                final float f, final float partialTick)
-        {
+            if (Database.dummyMap.containsKey(entry.getPokedexNb()))
+            {
+                final PokedexEntry dummy = Database.dummyMap.get(entry.getPokedexNb());
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(), dummy.getTrimmedName());
+                this.backupAnimations.add(new ResourceLocation(newRes));
+                newRes = entry.model().toString().replace(entry.getTrimmedName(), dummy.getTrimmedName());
+                this.backupModels.add(new ResourceLocation(newRes));
+            }
+            if (entry.getBaseForme() != null)
+            {
+                String newRes = entry.animation().toString().replace(entry.getTrimmedName(),
+                        entry.getBaseForme().getTrimmedName());
+                this.backupAnimations.add(new ResourceLocation(newRes));
+                newRes = entry.model().toString().replace(entry.getTrimmedName(),
+                        entry.getBaseForme().getTrimmedName());
+                this.backupModels.add(new ResourceLocation(newRes));
+            }
         }
 
         @Override
         public String getAnimation(final Entity entityIn)
         {
+            if (this.overrideAnim) return this.anim;
             return this.getPhase((MobEntity) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
         }
 
@@ -292,12 +341,6 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         }
 
         @Override
-        public void handleCustomTextures(final Node node)
-        {
-            this.setTextureDetails(node);
-        }
-
-        @Override
         public boolean hasAnimation(final String phase, final Entity entity)
         {
             return IModelRenderer.DEFAULTPHASE.equals(phase) || this.animations.containsKey(phase)
@@ -312,10 +355,19 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         public void initModel(final ModelWrapper<TameableEntity> model)
         {
             this.wrapper = model;
-            this.name = model.model.name;
-            this.texture = model.model.texture;
             model.imodel = ModelFactory.create(model.model);
-            AnimationLoader.parse(model.model, model, this);
+
+            // Check if an animation file exists.
+            try
+            {
+                Minecraft.getInstance().getResourceManager().getResource(this.animation);
+            }
+            catch (final IOException e)
+            {
+                // No animation here, lets try to use the base one.
+            }
+
+            AnimationLoader.parse(this, model, this);
             this.initModelParts();
         }
 
@@ -336,7 +388,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
             float s = 1;
-            if (pokemob != null) s = pokemob.getEntity().getRenderScale();
+            if (pokemob != null && entity.addedToChunk) s = pokemob.getEntity().getRenderScale();
             float sx = (float) this.getScale().x;
             float sy = (float) this.getScale().y;
             float sz = (float) this.getScale().z;
@@ -373,34 +425,6 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             this.scale = scale;
         }
 
-        private void setTextureDetails(final Node node)
-        {
-            if (node.getAttributes() == null) return;
-            String[] male = null, female = null;
-            if (node.getAttributes().getNamedItem("male") != null)
-            {
-                String shift;
-                shift = node.getAttributes().getNamedItem("male").getNodeValue();
-                male = shift.split(",");
-                for (int i = 0; i < male.length; i++)
-                    male[i] = Database.trim(male[i]);
-            }
-            if (node.getAttributes().getNamedItem("female") != null)
-            {
-                String shift;
-                shift = node.getAttributes().getNamedItem("female").getNodeValue();
-                female = shift.split(",");
-                for (int i = 0; i < female.length; i++)
-                    female[i] = Database.trim(female[i]);
-            }
-            if (female == null && male != null || this.entry.textureDetails == null) female = male;
-            if (male != null)
-            {
-                this.entry.textureDetails[0] = male;
-                this.entry.textureDetails[1] = female;
-            }
-        }
-
         @Override
         public void setTexturer(final IPartTexturer texturer)
         {
@@ -417,9 +441,13 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         }
     }
 
-    public static boolean                     reload_models = false;
+    public static void reloadModel(final PokedexEntry entry)
+    {
+        if (RenderPokemob.holders.containsKey(entry)) RenderPokemob.holders.get(entry).init();
+    }
 
-    public static Map<PokemobType<?>, Holder> holderMap     = Maps.newHashMap();
+    public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
+    public static Map<PokedexEntry, Holder>   holders   = Maps.newHashMap();
 
     public static void register()
     {
@@ -427,7 +455,9 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             final PokemobType<?> type = (PokemobType<?>) PokecubeCore.typeMap.get(entry);
-            RenderPokemob.holderMap.put(type, new Holder(entry));
+            final Holder holder = new Holder(entry);
+            RenderPokemob.holderMap.put(type, holder);
+            RenderPokemob.holders.put(entry, holder);
         }
     }
 
@@ -439,29 +469,63 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         return RenderPokemob.MISSNGNO;
     }
 
-    final Holder holder;
+    final Holder                        holder;
+
+    final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
 
     public RenderPokemob(final PokedexEntry entry, final EntityRendererManager p_i50961_1_)
     {
         super(p_i50961_1_, null, 1);
-        this.holder = new Holder(entry);
+        if (holders.containsKey(entry)) this.holder = holders.get(entry);
+        else
+        {
+            this.holder = new Holder(entry);
+            holders.put(entry, this.holder);
+        }
     }
 
     @Override
     public void render(final TameableEntity entity, final float entityYaw, final float partialTicks,
             final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        if (pokemob == null) return;
+        if (pokemob.getTransformedTo() != null)
+        {
+            this.renderManager.getRenderer(pokemob.getTransformedTo()).render(entity, entityYaw, partialTicks,
+                    matrixStackIn, bufferIn, packedLightIn);
+            return;
+        }
+
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = this.holder;
-        if (holder.wrapper == null || RenderPokemob.reload_models)
+
+        if (pokemob.getCustomHolder() != null)
         {
-            RenderPokemob.reload_models = false;
+            final FormeHolder forme = pokemob.getCustomHolder();
+            final ResourceLocation model = forme.key;
+            Holder temp = this.customs.get(model);
+            if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
+            {
+                if (temp == null) temp = new Holder(pokemob.getPokedexEntry());
+                if (forme.model != null) temp.model = forme.model;
+                if (forme.animation != null) temp.animation = forme.animation;
+                if (forme.texture != null) temp.texture = forme.texture;
+                this.customs.put(model, temp);
+                temp.init();
+            }
+            holder = temp;
+        }
+
+        if (holder.wrapper == null)
+        {
             holder.init();
             PokecubeMod.LOGGER.info("Reloaded model for " + type.getEntry());
         }
-        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid()
-                || holder.entry != type.getEntry() || holder.model == null || holder.texture == null)
+        if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
+                || holder.texture == null)
             holder = RenderPokemob.getMissingNo();
+
         this.entityModel = holder.wrapper;
         this.shadowSize = entity.getWidth();
         try
@@ -473,9 +537,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
                 texer.bindObject(entity);
                 holder.wrapper.getParts().forEach((n, p) ->
                 {
-                    // Get the default texture for this part.
-                    final ResourceLocation tex_part = texer.getTexture(n, default_);
-                    p.applyTexture(bufferIn, tex_part, texer);
+                    p.applyTexture(bufferIn, default_, texer);
                 });
             }
             super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

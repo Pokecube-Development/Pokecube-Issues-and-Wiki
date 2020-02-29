@@ -1,10 +1,5 @@
 package pokecube.adventures;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
-import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
@@ -20,8 +15,6 @@ public class Config extends ConfigData
 
     private static final String MACHINE = "machine";
     private static final String TRAINER = "trainers";
-
-    public List<Class<? extends LivingEntity>> customTrainers = Lists.newArrayList();
 
     @Configure(category = Config.TRAINER)
     public boolean npcsAreTrainers         = true;
@@ -55,6 +48,8 @@ public class Config extends ConfigData
     public boolean trainersTradeItems      = true;
     @Configure(category = Config.TRAINER)
     public boolean trainersTradeMobs       = true;
+    @Configure(category = Config.TRAINER)
+    public boolean cullNoMobs              = false;
     @Configure(category = Config.TRAINER)
     public String  defaultReward           = "minecraft:emerald";
 
@@ -108,7 +103,7 @@ public class Config extends ConfigData
 
     public Config()
     {
-        super(PokecubeAdv.ID);
+        super(PokecubeAdv.MODID);
     }
 
     @Override

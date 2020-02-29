@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko_hangry"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.morpeko_hangry"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_morpeko_hangry": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "morpeko_hangry"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

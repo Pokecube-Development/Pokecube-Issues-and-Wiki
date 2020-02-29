@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.Entity;
@@ -14,7 +12,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -41,9 +38,6 @@ import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.ai.tasks.AIBattle;
-import pokecube.adventures.ai.tasks.AIFindTarget;
-import pokecube.adventures.ai.tasks.AIMate;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -70,7 +64,6 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.PCEvent;
 import pokecube.core.events.pokemob.InteractEvent;
@@ -82,8 +75,6 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.PokemobDamageSource;
 import pokecube.core.moves.TerrainDamageSource;
-import thut.api.entity.ai.GoalsWrapper;
-import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.network.EntityUpdate;
@@ -161,25 +152,25 @@ public class TrainerEventHandler
 
     }
 
-    static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.ID, "pokemobs");
-    static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.ID, "ai");
-    static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.ID, "messages");
-    static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.ID, "rewards");
-    static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.ID, "data");
-    static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.ID, "trades");
-    static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.ID, "guardai");
+    public static final ResourceLocation POKEMOBSCAP = new ResourceLocation(PokecubeAdv.MODID, "pokemobs");
+    public static final ResourceLocation AICAP       = new ResourceLocation(PokecubeAdv.MODID, "ai");
+    public static final ResourceLocation MESSAGECAP  = new ResourceLocation(PokecubeAdv.MODID, "messages");
+    public static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.MODID, "rewards");
+    public static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.MODID, "data");
+    public static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.MODID, "trades");
+    public static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.MODID, "guardai");
 
-    private static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
+    public static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
     {
         if (event.getCapabilities().containsKey(TrainerEventHandler.GUARDCAP)) return;
         if (event.getObject() instanceof VillagerEntity || event.getObject() instanceof TrainerNpc) event.addCapability(
                 TrainerEventHandler.GUARDCAP, new Provider());
     }
 
-    private static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
+    public static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!(event.getObject() instanceof MobEntity)) return;
-        if (TypeTrainer.mobTypeMapper.getType((LivingEntity) event.getObject(), false) == null) return;
+        if (TypeTrainer.get((LivingEntity) event.getObject(), false) == null) return;
         if (TrainerEventHandler.hasCap(event)) return;
 
         final DefaultPokemobs mobs = new DefaultPokemobs();
@@ -373,42 +364,20 @@ public class TrainerEventHandler
 
         final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(npc);
         if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld)) return;
-        if (npc.getPersistentData().getLong("pokeadv_join") == npc.getEntityWorld().getGameTime()) return;
+        if (npc.getPersistentData().contains("pokeadv_join") && npc.getPersistentData().getLong("pokeadv_join") == npc
+                .getEntityWorld().getGameTime()) return;
         npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
 
         // Wrap it as a fake vanilla AI
-        if (npc instanceof MobEntity)
-        {
-            final List<IAIRunnable> ais = Lists.newArrayList();
-            // All can battle, but only trainers will path during battle.
-            ais.add(new AIBattle(npc, !(npc instanceof TrainerNpc)).setPriority(0));
+        if (npc instanceof MobEntity) TypeTrainer.addAI((MobEntity) npc);
 
-            // All attack zombies.
-            ais.add(new AIFindTarget(npc, ZombieEntity.class).setPriority(20));
-            // Only trainers specifically target players.
-            if (npc instanceof TrainerNpc)
-            {
-                ais.add(new AIFindTarget(npc, PlayerEntity.class).setPriority(10));
-                ais.add(new AIMate(npc, ((TrainerNpc) npc).getClass()));
-            }
-
-            // 5% chance of battling a random nearby pokemob if they see it.
-            if (Config.instance.trainersBattlePokemobs) ais.add(new AIFindTarget(npc, 0.05f, EntityPokemob.class)
-                    .setPriority(20));
-
-            // 1% chance of battling another of same class if seen
-            if (Config.instance.trainersBattleEachOther) ais.add(new AIFindTarget(npc, 0.01f, npc.getClass())
-                    .setPriority(20));
-            final MobEntity living = (MobEntity) npc;
-            living.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));
-        }
-
-        final TypeTrainer newType = TypeTrainer.mobTypeMapper.getType(npc, true);
+        final TypeTrainer newType = TypeTrainer.get(npc, true);
         if (newType == null) return;
         mobs.setType(newType);
         final int level = SpawnHandler.getSpawnLevel(npc.getEntityWorld(), Vector3.getNewVector().set(npc), Database
                 .getEntry(1));
-        TypeTrainer.getRandomTeam(mobs, npc, level, npc.getEntityWorld());
+        if (npc instanceof TrainerBase) ((TrainerBase) npc).initTeam(level);
+        else TypeTrainer.getRandomTeam(mobs, npc, level, npc.getEntityWorld());
         EntityUpdate.sendEntityUpdate(npc);
     }
 

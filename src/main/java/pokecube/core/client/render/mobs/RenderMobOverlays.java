@@ -37,6 +37,10 @@ public class RenderMobOverlays
             final MatrixStack mat = event.getMatrixStack();
             Evolution.render(pokemob, mat, event.getBuffers(), partialTicks);
             ExitCube.render(pokemob, mat, event.getBuffers(), partialTicks);
+
+            final IRenderTypeBuffer buf = event.getBuffers();
+            if (PokecubeCore.getConfig().doHealthBars)
+                Health.renderHealthBar(event.getEntity(), mat, buf, partialTicks, cameraEntity);
         }
     }
 
@@ -53,9 +57,6 @@ public class RenderMobOverlays
         final MatrixStack mat = event.getMatrixStack();
         final IRenderTypeBuffer buf = event.getBuffers();
         if (cameraEntity == null || !event.getEntity().isAlive()) return;
-
-        if (PokecubeCore.getConfig().doHealthBars)
-            Health.renderHealthBar(event.getEntity(), mat, buf, partialTicks, cameraEntity);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
         if (pokemob != null) if (event.getRenderer().getEntityModel() instanceof ModelWrapper)

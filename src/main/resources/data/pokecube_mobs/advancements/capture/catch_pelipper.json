@@ -24,7 +24,6 @@
     "catch_pelipper": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pelipper"
       }
     }

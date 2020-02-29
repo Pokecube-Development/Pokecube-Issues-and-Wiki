@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mr_mime_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mr_mime_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mr_mime_galar": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mr_mime_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_mime_jr"
+}

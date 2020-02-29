@@ -24,7 +24,6 @@
     "catch_lairon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "lairon"
       }
     }

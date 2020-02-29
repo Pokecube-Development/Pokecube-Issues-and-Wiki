@@ -24,7 +24,6 @@
     "catch_pangoro": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "pangoro"
       }
     }

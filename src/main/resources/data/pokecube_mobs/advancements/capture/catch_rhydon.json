@@ -24,7 +24,6 @@
     "catch_rhydon": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "rhydon"
       }
     }

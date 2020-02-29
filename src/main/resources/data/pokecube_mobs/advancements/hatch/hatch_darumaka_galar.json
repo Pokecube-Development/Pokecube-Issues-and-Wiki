@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.darumaka_galar"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.darumaka_galar"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_darumaka_galar": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "darumaka_galar"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

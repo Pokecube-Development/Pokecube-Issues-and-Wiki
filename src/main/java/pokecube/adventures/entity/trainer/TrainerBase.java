@@ -37,13 +37,15 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
+import thut.api.maths.Vector3;
 
 public abstract class TrainerBase extends NpcMob
 {
-    public static final ResourceLocation BRIBE           = new ResourceLocation(PokecubeAdv.ID, "trainer_bribe");
+    public static final ResourceLocation BRIBE = new ResourceLocation(PokecubeAdv.MODID, "trainer_bribe");
 
     public List<IPokemob>                currentPokemobs = new ArrayList<>();
     public DefaultPokemobs               pokemobsCap;
@@ -105,6 +107,8 @@ public abstract class TrainerBase extends NpcMob
         }
         else if (this.pokemobsCap.friendlyCooldown >= 0 && this.aiStates.getAIState(IHasNPCAIStates.TRADES))
         {
+            final boolean customer = player == this.getCustomer();
+            if (customer) return true;
             this.setCustomer(player);
             if (!this.fixedTrades)
             {
@@ -134,17 +138,39 @@ public abstract class TrainerBase extends NpcMob
             this.pokemobsCap.setOutMob(pokemob);
             if (this.pokemobsCap.getOutMob() == null) this.pokemobsCap.setOutID(null);
         }
+
+        ItemStack cube = this.pokemobsCap.getNextPokemob();
+        ItemStack reward = this.rewardsCap.getRewards().isEmpty() ? ItemStack.EMPTY
+                : this.rewardsCap.getRewards().get(0).stack;
+        if (this.pokemobsCap.getCooldown() > 0)
+        {
+            cube = ItemStack.EMPTY;
+            reward = ItemStack.EMPTY;
+        }
+        this.setHeldItem(Hand.MAIN_HAND, cube);
+        this.setHeldItem(Hand.OFF_HAND, reward);
+
         if (this.pokemobsCap.countPokemon() == 0 && !this.aiStates.getAIState(IHasNPCAIStates.STATIONARY)
                 && !this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY))
         {
-            // Do not despawn if there is a player nearby.
-            if (Tools.isAnyPlayerInRange(10, this)) return;
-            this.despawncounter++;
-            if (this.despawncounter > 200) this.remove();
-            return;
+            final TypeTrainer type = this.pokemobsCap.getType();
+            if (type != null && !type.pokemon.isEmpty())
+            {
+
+                final int level = SpawnHandler.getSpawnLevel(this.getEntityWorld(), Vector3.getNewVector().set(this),
+                        type.pokemon.get(0));
+                this.initTeam(level);
+                type.initTrainerItems(this);
+            }
+            if (PokecubeAdv.config.cullNoMobs)
+            {
+                // Do not despawn if there is a player nearby.
+                if (Tools.isAnyPlayerInRange(10, this)) return;
+                this.despawncounter++;
+                if (this.despawncounter > 200) this.remove();
+                return;
+            }
         }
-        if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0)
-            this.setHealth(Math.min(this.getHealth() + 1, this.getMaxHealth()));
         this.despawncounter = 0;
     }
 
@@ -175,7 +201,11 @@ public abstract class TrainerBase extends NpcMob
         super.setCustomer(player);
     }
 
+    public abstract void initTeam(int level);
+
     protected abstract void addMobTrades(final PlayerEntity player, final ItemStack stack);
+
+    public abstract void setRandomName(String name);
 
     @Override
     protected void populateTradeData()

@@ -24,7 +24,6 @@
     "kill_aerodactyl": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "aerodactyl"
       }
     }

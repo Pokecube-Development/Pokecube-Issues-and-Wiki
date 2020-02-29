@@ -1,32 +1,23 @@
 {
-    "type": "minecraft:crafting_shaped",
-    
-    "pattern":
-    [
-        "GRG",
-        "RAR",
-        "GRG"
-    ],
-    
-    "key":
-    {
-        "G":
-        {
-            "item": "pokecube_legends:sapphire"
-        },
-		"A":
-        {
-            "item": "pokecube_legends:grayorb"
-        },
-		"R":
-        {
-            "item": "pokecube_legends:sapphire_block"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GRG",
+    "RAR",
+    "GRG"
+  ],
+  "key": {
+    "G": {
+      "item": "pokecube_legends:sapphire"
     },
-    
-    "result":
-    {
-        "item": "pokecube_legends:blueorb",
-        "count": 1
+    "A": {
+      "item": "pokecube_legends:grayorb"
+    },
+    "R": {
+      "item": "pokecube_legends:sapphire_block"
     }
+  },
+  "result": {
+    "item": "pokecube_legends:blueorb",
+    "count": 1
+  }
 }

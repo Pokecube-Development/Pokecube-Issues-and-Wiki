@@ -24,7 +24,6 @@
     "catch_heatmor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "heatmor"
       }
     }

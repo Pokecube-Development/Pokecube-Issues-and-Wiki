@@ -24,7 +24,6 @@
     "catch_beautifly": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "beautifly"
       }
     }

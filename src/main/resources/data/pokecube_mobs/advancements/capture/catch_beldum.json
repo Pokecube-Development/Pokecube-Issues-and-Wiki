@@ -24,7 +24,6 @@
     "catch_beldum": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "beldum"
       }
     }

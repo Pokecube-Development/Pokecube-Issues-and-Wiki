@@ -46,7 +46,7 @@ public class Leg
         final boolean render = !ThutWearables.config.renderBlacklist.contains(4 + index);
         // System.out.println(slot + " " + index + " " + render);
         // Mirror left leg.
-        if (index == 1) mat.scale(-1, 1, 1);
+        if (index == 1) Utils.mirror(1, 0, 0, mat);
         if (render) wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
         mat.pop();
     }

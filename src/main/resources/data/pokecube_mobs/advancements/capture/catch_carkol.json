@@ -24,7 +24,6 @@
     "catch_carkol": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "carkol"
       }
     }

@@ -1,12 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="1.0"/>
-  <phase armAngle="50" duration="10" leftArm="Left_arm" leftLeg="" legAngle="45" name="biWalk" rightArm="Right_arm" rightLeg=""/>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.4"/>
+  <material name="Body" meshs="Cube_004" transluscent="true"/>
+  <customTex default="lampent">
+   <part name="Head" tex="lampenteye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-3" rotOffset="0,40,-10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="40" name="1" rotOffset="0,-50,0," startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="40" name="1" rotOffset="0,-50,0," startKey="0"/>
+   </part>
+   <part name="arm1_3">
+    <component length="40" name="1" rotOffset="0,-50,0," startKey="0"/>
+   </part>
+   <part name="arm1_4">
+    <component length="40" name="1" rotOffset="0,-50,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,3" rotOffset="0,-40,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="40" name="1" rotOffset="0,50,0," startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="40" name="1" rotOffset="0,50,0," startKey="0"/>
+   </part>
+   <part name="arm2_3">
+    <component length="40" name="1" rotOffset="0,50,0," startKey="0"/>
+   </part>
+   <part name="arm2_4">
+    <component length="40" name="1" rotOffset="0,50,0," startKey="0"/>
+   </part>
+   <part name="flame">
+    <component length="40" name="1" rotChange="0,360,0," startKey="1"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="bofy">
+    <component length="10" name="1" rotOffset="20,0,0," startKey="0"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotChange="0,0,-3" rotOffset="0,-20,-30" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,3" startKey="10"/>
+   </part>
+   <part name="arm1_1">
+    <component length="40" name="1" rotOffset="0,20,0," startKey="0"/>
+   </part>
+   <part name="arm1_2">
+    <component length="40" name="1" rotOffset="0,30,0," startKey="0"/>
+   </part>
+   <part name="arm1_3">
+    <component length="40" name="1" rotOffset="0,30,0," startKey="0"/>
+   </part>
+   <part name="arm1_4">
+    <component length="40" name="1" rotOffset="0,30,0," startKey="0"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="0,0,3" rotOffset="0,20,30" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-3" startKey="10"/>
+   </part>
+   <part name="arm2_1">
+    <component length="40" name="1" rotOffset="0,-20,0," startKey="0"/>
+   </part>
+   <part name="arm2_2">
+    <component length="40" name="1" rotOffset="0,-30,0," startKey="0"/>
+   </part>
+   <part name="arm2_3">
+    <component length="40" name="1" rotOffset="0,-30,0," startKey="0"/>
+   </part>
+   <part name="arm2_4">
+    <component length="40" name="1" rotOffset="0,-30,0," startKey="0"/>
+   </part>
+   <part name="flame">
+    <component length="40" name="1" rotChange="0,360,0," startKey="1"/>
+   </part>
+  </phase>
  </model>
- <details>
-  <PARTICLEEFFECTS>
-   flame:0.65:95
-  </PARTICLEEFFECTS>
- </details>
 </ModelAnimator>

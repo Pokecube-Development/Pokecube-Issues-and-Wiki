@@ -24,7 +24,6 @@
     "kill_dedenne": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "lenient": true,
         "entry": "dedenne"
       }
     }

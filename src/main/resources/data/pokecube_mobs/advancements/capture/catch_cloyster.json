@@ -24,7 +24,6 @@
     "catch_cloyster": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "cloyster"
       }
     }

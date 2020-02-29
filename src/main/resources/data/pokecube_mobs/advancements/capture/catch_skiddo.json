@@ -24,7 +24,6 @@
     "catch_skiddo": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "lenient": true,
         "entry": "skiddo"
       }
     }

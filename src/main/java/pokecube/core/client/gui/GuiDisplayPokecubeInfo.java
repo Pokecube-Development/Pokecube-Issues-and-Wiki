@@ -13,6 +13,7 @@ import java.util.Set;
 import org.lwjgl.opengl.GL11;
 
 import com.google.common.base.Predicate;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -214,16 +215,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         if (this.indexPokemob >= this.getPokemobsToDisplay().length) this.indexPokemob = 0;
         if (this.fontRenderer == null) this.fontRenderer = this.minecraft.fontRenderer;
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderSelectedInfo());
-        // TODO fix target info rendering
-        try
-        {
-            MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo());
-        }
-        catch (final Exception e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTargetInfo());
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderTeleports());
     }
 
@@ -257,7 +249,6 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         {
             String displayName = pokemob.getDisplayName().getFormattedText();
             final int currentMoveIndex = pokemob.getMoveIndex();
-            // GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);
             // Render HP
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
             this.blit(hpOffsetX + w, hpOffsetY + h, 43, 12, 92, 7);
@@ -413,9 +404,13 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             // Render Mob
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            RenderSystem.enableBlend();
+            RenderSystem.enableAlphaTest();
             this.blit(mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
             GL11.glColor4f(1, 1, 1, 1);
+            pokemob.getEntity().addedToChunk = false;
             GuiPokemobBase.renderMob(pokemob.getEntity(), -30, -25, 0, 0, 0, 0, 0.75f);
+            pokemob.getEntity().addedToChunk = true;
         }
         GL11.glPopMatrix();
     }
@@ -508,6 +503,8 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
             // Render Box behind Mob
             this.minecraft.getTextureManager().bindTexture(Resources.GUI_BATTLE);
+            RenderSystem.enableBlend();
+            RenderSystem.enableAlphaTest();
             this.blit(mobOffsetX + w, mobOffsetY + h, 0, 0, 42, 42);
 
             // Render Mob
@@ -708,7 +705,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         IPokemob pokemob;
         if ((pokemob = this.getCurrentPokemob()) != null) PacketCommand.sendCommand(pokemob, Command.STANCE,
-                new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.BUTTONTOGGLESIT)
+                new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
                         .setFromOwner(true));
         else
         {
@@ -720,7 +717,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
             if (targetMob != null && targetMob.getOwner() == player)
                 PacketCommand.sendCommand(targetMob, Command.STANCE,
-                        new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.BUTTONTOGGLESIT)
+                        new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
                                 .setFromOwner(true));
         }
     }
