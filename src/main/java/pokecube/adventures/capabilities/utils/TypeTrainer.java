@@ -34,6 +34,7 @@ import pokecube.adventures.ai.tasks.AIBattle;
 import pokecube.adventures.ai.tasks.AICapture;
 import pokecube.adventures.ai.tasks.AIFindTarget;
 import pokecube.adventures.ai.tasks.AIMate;
+import pokecube.adventures.ai.tasks.AIRetaliate;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -143,6 +144,10 @@ public class TypeTrainer extends NpcType
 
             // All attack zombies.
             ais.add(new AIFindTarget(npc, ZombieEntity.class).setPriority(20));
+
+            // All retaliate
+            ais.add(new AIRetaliate(npc));
+
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
