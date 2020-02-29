@@ -173,12 +173,17 @@ public class JigsawPieces
             return placementsettings;
         }
 
+        public Template getTemplate(final TemplateManager manager)
+        {
+            return manager.getTemplateDefaulted(this.location);
+        }
+
         @Override
         public boolean place(final TemplateManager manager, final IWorld worldIn, final BlockPos pos,
                 final Rotation rotation, final MutableBoundingBox box, final Random rand)
         {
 
-            final Template template = manager.getTemplateDefaulted(this.location);
+            final Template template = this.getTemplate(manager);
             final PlacementSettings placementsettings = this.createPlacementSettings(rotation, box);
 
             if (!template.addBlocksToWorld(worldIn, pos, placementsettings, 18)) return false;

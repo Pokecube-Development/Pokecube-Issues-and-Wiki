@@ -404,6 +404,8 @@ public class Config extends ConfigData
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)
     public int          spawnDimension         = 0;
+    @Configure(category = Config.world)
+    public String       professor_override     = "pokecube:mob:professor{\"name\":\"pokecube.professor.named:Cedar\",\"guard\":{\"time\":\"allday\",\"roam\":0}}";
 
     // Mob Spawning settings
     @Configure(category = Config.spawning)
