@@ -163,7 +163,7 @@ public class TypeTrainer extends NpcType
             }
             // 1% chance of battling another of same class if seen
             // Also this will stop the battle after 1200 ticks.
-            if (Config.instance.trainersBattleEachOther) ais.add(new AIFindTarget(npc, 0.01f, 1200, npc.getClass())
+            if (Config.instance.trainersBattleEachOther) ais.add(new AIFindTarget(npc, 0.001f, 1200, npc.getClass())
                     .setPriority(20));
 
             npc.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));
