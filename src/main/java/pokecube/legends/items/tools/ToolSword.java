@@ -8,9 +8,9 @@ import pokecube.legends.init.ItemInit;
 
 public class ToolSword extends SwordItem
 {
-    public ToolSword(final String name, final int maxDamage, final int attackDamage, final IItemTier material)
+    public ToolSword(final String name, final int maxDamage, final int attackSpeed, final IItemTier material)
     {
-        super(material, maxDamage, attackDamage, new Properties().group(PokecubeItems.POKECUBEITEMS));
+        super(material, maxDamage, attackSpeed, new Properties().group(PokecubeItems.POKECUBEITEMS));
         this.setRegistryName(Reference.ID, name);
         ItemInit.ITEMS.add(this);
     }

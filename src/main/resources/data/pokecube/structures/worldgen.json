@@ -56,7 +56,6 @@
       "name": "pokecube:village/common",
       "root": {
         "name": "pokecube:village/common/town_centers",
-        "rigid": false,
         "options": [
           "pokecube:village/common/town_centers/plains"
         ]
@@ -64,6 +63,8 @@
       "chance": 0.1,
       "distance": 16,
       "separation": 4,
+      "size": 8,
+      "offset": 1,
       "biomeType": "village",
       "parts": [
         {
@@ -113,7 +114,6 @@
           "name": "pokecube:village/common/houses",
           "target": "pokecube:village/common/terminators",
           "ignoreAir": false,
-          "base_under": true,
           "options": [
             "pokecube:village/common/houses/house_small_1;{\"weight\":8}",
             "pokecube:village/common/houses/house_big_1;{\"weight\":8}",

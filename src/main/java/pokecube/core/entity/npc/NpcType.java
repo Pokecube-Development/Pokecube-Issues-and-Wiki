@@ -49,9 +49,10 @@ public class NpcType
     {
         final IInteract trade = (player, hand, mob) ->
         {
-            final boolean validCustomer = mob.getCustomer() == null || mob.getCustomer() == player;
+            final boolean validCustomer = mob.getCustomer() == null;
             if (validCustomer && !mob.getOffers().isEmpty())
             {
+                if (mob.getCustomer() == player) return true;
                 mob.setCustomer(player);
                 mob.openMerchantContainer(player, mob.getDisplayName(), 10);
                 return true;

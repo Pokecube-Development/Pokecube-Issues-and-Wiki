@@ -34,6 +34,7 @@ import pokecube.adventures.ai.tasks.AIBattle;
 import pokecube.adventures.ai.tasks.AICapture;
 import pokecube.adventures.ai.tasks.AIFindTarget;
 import pokecube.adventures.ai.tasks.AIMate;
+import pokecube.adventures.ai.tasks.AIRetaliate;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -143,6 +144,10 @@ public class TypeTrainer extends NpcType
 
             // All attack zombies.
             ais.add(new AIFindTarget(npc, ZombieEntity.class).setPriority(20));
+
+            // All retaliate
+            ais.add(new AIRetaliate(npc));
+
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
@@ -247,13 +252,13 @@ public class TypeTrainer extends NpcType
         }
     }
 
-    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, final int level,
-            final World world)
+    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level, final World world)
     {
         final TypeTrainer type = trainer.getType();
         final List<PokedexEntry> values = Lists.newArrayList();
         if (type.pokemon != null) values.addAll(type.pokemon);
         else PokecubeCore.LOGGER.warn("No mobs for " + type);
+        if (type.overrideLevel != -1) level = type.overrideLevel;
         TypeTrainer.getRandomTeam(trainer, owner, level, world, values);
     }
 
@@ -363,6 +368,7 @@ public class TypeTrainer extends NpcType
     public List<PokedexEntry> pokemon       = Lists.newArrayList();
     public TrainerTrades      trades;
     private boolean           checkedTex    = false;
+    public int                overrideLevel = -1;
 
     private final ItemStack[] loot = NonNullList.<ItemStack> withSize(4, ItemStack.EMPTY).toArray(new ItemStack[4]);
 

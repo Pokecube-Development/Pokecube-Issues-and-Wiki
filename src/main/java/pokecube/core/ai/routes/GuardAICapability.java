@@ -10,7 +10,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.math.BlockPos;
@@ -31,7 +30,8 @@ public class GuardAICapability implements IGuardAICapability
     {
         private AttributeModifier executingGuardTask = null;
         private BlockPos          lastPos;
-        private int               lastPosCounter     = 10;
+        private int               lastPosCounter     = -1;
+        private int               lastPathedCounter  = -1;
         private BlockPos          pos;
         private float             roamDistance       = 2;
         private TimePeriod        activeTime         = new TimePeriod(0, 0);
@@ -43,12 +43,13 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void continueTask(MobEntity entity)
+        public void continueTask(final MobEntity entity)
         {
             boolean hasPath = !entity.getNavigator().noPath();
             final BlockPos newPos = entity.getPosition();
-            double maxDist = this.getRoamDistance() * this.getRoamDistance();
-            maxDist = Math.max(maxDist, entity.getWidth());
+
+            this.lastPathedCounter--;
+            if (this.lastPathedCounter > 0) return;
 
             if (hasPath) if (this.lastPos != null && this.lastPos.equals(newPos))
             {
@@ -67,31 +68,26 @@ public class GuardAICapability implements IGuardAICapability
             if (!hasPath)
             {
                 final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-                final boolean pathed = entity.getNavigator().tryMoveToXYZ(this.getPos().getX() + 0.5, this.getPos()
-                        .getY(), this.getPos().getZ() + 0.5, speed);
-                final IAttributeInstance attri = entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
-                if (!pathed)
-                {
-                    if (!attri.hasModifier(this.executingGuardTask)) attri.applyModifier(this.executingGuardTask);
-                }
-                else if (attri.hasModifier(this.executingGuardTask)) attri.removeModifier(this.executingGuardTask);
+                this.path(entity, speed);
             }
             else
             {
                 final PathPoint end = entity.getNavigator().getPath().getFinalPathPoint();
                 final BlockPos endPos = new BlockPos(end.x, end.y, end.z);
+                double maxDist = this.getRoamDistance() * this.getRoamDistance();
+                maxDist = Math.max(maxDist, 0.75);
+                maxDist = Math.max(maxDist, entity.getWidth());
                 if (endPos.distanceSq(this.getPos()) > maxDist)
                 {
                     final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-                    entity.getNavigator().tryMoveToXYZ(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos()
-                            .getZ() + 0.5, speed);
+                    this.path(entity, speed);
                 }
             }
             this.lastPos = newPos;
         }
 
         @Override
-        public void endTask(MobEntity entity)
+        public void endTask(final MobEntity entity)
         {
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
         }
@@ -115,32 +111,43 @@ public class GuardAICapability implements IGuardAICapability
         }
 
         @Override
-        public void setActiveTime(TimePeriod active)
+        public void setActiveTime(final TimePeriod active)
         {
             this.activeTime = active;
             if (active == null) this.activeTime = new TimePeriod(0, 0);
         }
 
         @Override
-        public void setPos(BlockPos pos)
+        public void setPos(final BlockPos pos)
         {
             this.pos = pos;
         }
 
         @Override
-        public void setRoamDistance(float roam)
+        public void setRoamDistance(final float roam)
         {
             this.roamDistance = roam;
         }
 
         @Override
-        public void startTask(MobEntity entity)
+        public void startTask(final MobEntity entity)
         {
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(this.executingGuardTask);
             final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-            entity.getNavigator().tryMoveToXYZ(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ()
-                    + 0.5, speed);
+            this.path(entity, speed);
+        }
+
+        private boolean path(final MobEntity entity, final double speed)
+        {
+            if (this.lastPathedCounter < 0)
+            {
+                // Limit how often this can path.
+                this.lastPathedCounter = 10;
+                return entity.getNavigator().tryMoveToXYZ(this.getPos().getX() + 0.5, this.getPos().getY(), this
+                        .getPos().getZ() + 0.5, speed);
+            }
+            return false;
         }
 
     }
@@ -175,7 +182,7 @@ public class GuardAICapability implements IGuardAICapability
     }
 
     @Override
-    public boolean hasActiveTask(long time, long daylength)
+    public boolean hasActiveTask(final long time, final long daylength)
     {
         if (this.activeTask != null && this.activeTask.getActiveTime().contains(time, daylength)) return true;
         for (final IGuardTask task : this.getTasks())
@@ -188,7 +195,7 @@ public class GuardAICapability implements IGuardAICapability
     }
 
     @Override
-    public void loadTasks(ListNBT list)
+    public void loadTasks(final ListNBT list)
     {
         this.tasks.clear();
         for (int i = 0; i < list.size(); i++)
@@ -210,7 +217,7 @@ public class GuardAICapability implements IGuardAICapability
     }
 
     @Override
-    public void setState(GuardState state)
+    public void setState(final GuardState state)
     {
         this.state = state;
     }

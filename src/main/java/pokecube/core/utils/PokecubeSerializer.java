@@ -162,7 +162,27 @@ public class PokecubeSerializer
         this.save();
     }
 
-    public boolean canMeteorLand(final Vector4 location)
+    public void setPlacedCenter()
+    {
+        PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
+    }
+
+    public void setPlacedSpawn()
+    {
+        PokecubeSerializer.getInstance().customData.putBoolean("set_world_spawn", true);
+    }
+
+    public boolean hasPlacedSpawn()
+    {
+        return PokecubeSerializer.getInstance().customData.contains("set_world_spawn");
+    }
+
+    public boolean hasPlacedSpawnOrCenter()
+    {
+        return this.hasPlacedSpawn() || PokecubeSerializer.getInstance().customData.contains("start_pokecentre");
+    }
+
+    public boolean canMeteorLand(final Vector4 location, final ServerWorld world)
     {
         for (final Vector4 v : this.meteors)
             if (this.tooClose(location, v)) return false;

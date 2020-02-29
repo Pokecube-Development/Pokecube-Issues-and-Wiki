@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
@@ -116,6 +117,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public EntityPokecubeBase(final EntityType<? extends EntityPokecubeBase> type, final World worldIn)
     {
         super(type, worldIn);
+        this.noClip = false;
     }
 
     /** Called when the entity is attacked. */
@@ -166,10 +168,13 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         case ENTITY:
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
             final boolean capturing = this.getTilt() >= 0;
+            final IPokemob hitMob = CapabilityPokemob.getPokemobFor(hit.getEntity());
+
+            final boolean invalidStick = hit.getEntity() instanceof PlayerEntity || !capturing || hitMob == null
+                    || hitMob.getOwnerId() != null;
 
             // Set us to the location, but not stick to players.
-            if (!(hit.getEntity() instanceof PlayerEntity) && !capturing) this.setPosition(result.getHitVec().x, result
-                    .getHitVec().y, result.getHitVec().z);
+            if (!invalidStick) this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
 
             // Capturing or on client, break early.
             if (!this.isServerWorld() || capturing) break;
@@ -274,7 +279,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     private void validateDirection(final Vec3d vec3d)
     {
         final float f = MathHelper.sqrt(Entity.horizontalMag(vec3d));
-        if (f > 0.05)
+        if (f > 0.5)
         {
             this.rotationYaw = (float) (-MathHelper.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
             for (this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (180F
@@ -298,9 +303,6 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     private void postValidateVelocity()
     {
         final Vec3d vec3d = this.getMotion();
-        this.posX += vec3d.x;
-        this.posY += vec3d.y;
-        this.posZ += vec3d.z;
         this.validateDirection(vec3d);
         float f1;
         if (this.isInWater())
@@ -313,13 +315,16 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         else f1 = 0.99F;
 
         this.setMotion(vec3d.scale(f1));
+        final Vec3d motion = this.getMotion();
+        if (motion.y == 0) this.setMotion(motion.x * 0.8, motion.y, motion.z * 0.8);
         if (!this.hasNoGravity())
         {
             final Vec3d vec3d1 = this.getMotion();
             this.setMotion(vec3d1.x, vec3d1.y - this.getGravityVelocity(), vec3d1.z);
         }
 
-        this.setPosition(this.posX, this.posY, this.posZ);
+        this.move(MoverType.SELF, this.getMotion());
+
     }
 
     /** Called to update the entity's position/logic. */

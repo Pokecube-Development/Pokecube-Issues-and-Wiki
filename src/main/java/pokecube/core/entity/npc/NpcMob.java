@@ -35,6 +35,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
@@ -166,16 +167,17 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void resetCustomer()
+    public void livingTick()
     {
-        // Do nothing here, it prevents us trading!
-        super.resetCustomer();
+        super.livingTick();
+        if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0) this
+                .setHealth(Math.min(this.getHealth() + 2, this.getMaxHealth()));
     }
 
     @Override
     public void readAdditional(final CompoundNBT nbt)
     {
-        super.readAdditional(nbt);
+        if (this.world instanceof ServerWorld) super.readAdditional(nbt);
         this.stationary = nbt.getBoolean("stationary");
         this.setMale(nbt.getBoolean("gender"));
         this.name = nbt.getString("name");
