@@ -252,13 +252,13 @@ public class TypeTrainer extends NpcType
         }
     }
 
-    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, final int level,
-            final World world)
+    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level, final World world)
     {
         final TypeTrainer type = trainer.getType();
         final List<PokedexEntry> values = Lists.newArrayList();
         if (type.pokemon != null) values.addAll(type.pokemon);
         else PokecubeCore.LOGGER.warn("No mobs for " + type);
+        if (type.overrideLevel != -1) level = type.overrideLevel;
         TypeTrainer.getRandomTeam(trainer, owner, level, world, values);
     }
 
@@ -368,6 +368,7 @@ public class TypeTrainer extends NpcType
     public List<PokedexEntry> pokemon       = Lists.newArrayList();
     public TrainerTrades      trades;
     private boolean           checkedTex    = false;
+    public int                overrideLevel = -1;
 
     private final ItemStack[] loot = NonNullList.<ItemStack> withSize(4, ItemStack.EMPTY).toArray(new ItemStack[4]);
 

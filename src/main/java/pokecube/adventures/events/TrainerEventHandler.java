@@ -364,7 +364,8 @@ public class TrainerEventHandler
 
         final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(npc);
         if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld)) return;
-        if (npc.getPersistentData().getLong("pokeadv_join") == npc.getEntityWorld().getGameTime()) return;
+        if (npc.getPersistentData().contains("pokeadv_join") && npc.getPersistentData().getLong("pokeadv_join") == npc
+                .getEntityWorld().getGameTime()) return;
         npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
 
         // Wrap it as a fake vanilla AI

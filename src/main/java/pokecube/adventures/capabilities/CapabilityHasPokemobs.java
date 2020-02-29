@@ -323,7 +323,9 @@ public class CapabilityHasPokemobs
         @Override
         public void lowerCooldowns()
         {
-            if (this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY))
+            // If someone punches us, we will retaliate, so no permafriendly
+            // then.
+            if (this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY) && this.user.getAttackingEntity() == null)
             {
                 this.friendlyCooldown = 10;
                 return;
@@ -553,6 +555,8 @@ public class CapabilityHasPokemobs
             if (target != null && target != this.target && this.attackCooldown <= 0)
             {
                 this.attackCooldown = Config.instance.trainerBattleDelay;
+                // No cooldown if someone was punching is!
+                if (target == this.user.getAttackingEntity()) this.attackCooldown = 0;
                 this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(), target
                         .getDisplayName());
                 this.messages.doAction(MessageState.AGRESS, target);
