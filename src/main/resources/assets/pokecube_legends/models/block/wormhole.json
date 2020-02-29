@@ -1,0 +1,10 @@
+{
+  "parent": "forge:item/default",
+  "loader": "forge:obj",
+  "model": "pokecube_legends:models/block/wormhole.obj",
+  "ambientToFullbright": true,
+  "textures": {
+    "None": "pokecube_legends:blocks/wormhole",
+    "particle": "pokecube_legends:blocks/wormhole"
+  }
+}
