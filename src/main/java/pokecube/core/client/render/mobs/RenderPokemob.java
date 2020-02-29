@@ -443,7 +443,11 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
     public static void reloadModel(final PokedexEntry entry)
     {
         if (RenderPokemob.holders.containsKey(entry)) RenderPokemob.holders.get(entry).init();
+        for (final Holder custom : RenderPokemob.customs.values())
+            if (custom.entry == entry) custom.init();
     }
+
+    static final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
 
     public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
     public static Map<PokedexEntry, Holder>   holders   = Maps.newHashMap();
@@ -461,8 +465,6 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
     }
 
     final Holder holder;
-
-    final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
 
     public RenderPokemob(final PokedexEntry entry, final EntityRendererManager p_i50961_1_)
     {
@@ -492,14 +494,14 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         {
             final FormeHolder forme = pokemob.getCustomHolder();
             final ResourceLocation model = forme.key;
-            Holder temp = this.customs.get(model);
+            Holder temp = RenderPokemob.customs.get(model);
             if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
             {
                 if (temp == null) temp = new Holder(pokemob.getPokedexEntry());
                 if (forme.model != null) temp.model = forme.model;
                 if (forme.animation != null) temp.animation = forme.animation;
                 if (forme.texture != null) temp.texture = forme.texture;
-                this.customs.put(model, temp);
+                RenderPokemob.customs.put(model, temp);
                 temp.init();
             }
             holder = temp;
