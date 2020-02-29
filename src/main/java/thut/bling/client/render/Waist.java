@@ -17,7 +17,7 @@ public class Waist
         dy = -.0f;
         dz = -0.6f;
         s = 0.525f;
-        if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS) == null) s = 0.465f;
+        if (wearer.getItemStackFromSlot(EquipmentSlotType.LEGS).isEmpty()) s = 0.465f;
         final Vector3f dr = new Vector3f(dx, dy, dz);
         final Vector3f ds = new Vector3f(s, s, s);
         Util.renderStandardModelWithGem(stack, "main", "gem", model, textures, brightness, dr, ds);
