@@ -1,19 +1,8 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "#None": "pokecube_legends:blocks/victiniblock"
-        },
-        "model": "minecraft:block/cube",
-    	"custom": {
-		  "base_model": "pokecube_legends:block/victiniblock.obj",
-	      "flip-v": true
-	    }
-     },
     "variants": {
-        "facing=east":  { "model": "pokecube_legends:item/victiniblock.obj", "y":90 },
-        "facing=west":  { "model": "pokecube_legends:item/victiniblock.obj", "y":270 },
-        "facing=south": { "model": "pokecube_legends:item/victiniblock.obj", "y":180 },
-        "facing=north": { "model": "pokecube_legends:item/victiniblock.obj", "y":0}
+        "facing=east":  { "model": "pokecube_legends:block/victiniblock", "y":90 },
+        "facing=west":  { "model": "pokecube_legends:block/victiniblock", "y":270 },
+        "facing=south": { "model": "pokecube_legends:block/victiniblock", "y":180 },
+        "facing=north": { "model": "pokecube_legends:block/victiniblock", "y":0}
     }
 }

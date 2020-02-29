@@ -1,0 +1,11 @@
+{
+  "parent": "forge:item/default",
+  "loader": "forge:obj",
+  "model": "pokecube_legends:models/block/spaceblock.obj",
+  "ambientToFullbright": true,
+  "textures": {
+    "None": "pokecube_legends:blocks/spaceblock",
+	"None_spaceportal.png": "pokecube_legends:blocks/spaceportal",
+    "particle": "pokecube_legends:blocks/spaceblock"
+  }
+}
