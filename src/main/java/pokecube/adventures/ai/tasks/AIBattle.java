@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import pokecube.adventures.Config;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -252,10 +253,11 @@ public class AIBattle extends AITrainerBase
         if (!this.canPath && this.entity instanceof MobEntity)
         {
             if (this.battleLoc == null) this.battleLoc = this.entity.getPosition();
-            ((MobEntity) this.entity).getNavigator().setPath(((MobEntity) this.entity).getNavigator().getPathToPos(
-                    this.battleLoc, 0), 0.75);
-            if (this.entity.getPosition().distanceSq(this.battleLoc) < 4) ((MobEntity) this.entity).getNavigator()
+            final PathNavigator navi = ((MobEntity) this.entity).getNavigator();
+            if (!navi.noPath() && navi.getPath().getFinalPathPoint().func_224758_c(this.battleLoc) > 1) navi
                     .clearPath();
+            if (this.entity.getPosition().distanceSq(this.battleLoc) > 4) navi.setPath(navi.getPathToPos(this.battleLoc,
+                    0), 0.75);
         }
 
         this.entity.lookAt(Type.EYES, this.trainer.getTarget().getEyePosition(0));

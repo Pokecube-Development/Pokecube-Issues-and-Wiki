@@ -2,7 +2,6 @@ package pokecube.adventures.ai.tasks;
 
 import net.minecraft.entity.LivingEntity;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.core.PokecubeCore;
 
 public class AIRetaliate extends AITrainerBase implements ITargetWatcher
@@ -35,8 +34,6 @@ public class AIRetaliate extends AITrainerBase implements ITargetWatcher
         }
         // Dead trainers can't fight.
         if (!this.entity.isAlive()) return false;
-        // Permfriendly trainers shouldn't fight.
-        if (this.aiTracker != null && this.aiTracker.getAIState(IHasNPCAIStates.PERMFRIENDLY)) return false;
         // Trainers on cooldown shouldn't fight, neither should friendly ones
         if (this.trainer.getCooldown() > this.entity.getEntityWorld().getGameTime() || !this.trainer.isAgressive())
             return false;
@@ -58,8 +55,12 @@ public class AIRetaliate extends AITrainerBase implements ITargetWatcher
         final LivingEntity target = this.entity.getAttackingEntity();
 
         if (target != null)
+        {
             // Set trainers target
             this.trainer.setTarget(target);
+            // Ensure no cooldown
+            this.trainer.setAttackCooldown(-1);
+        }
     }
 
     @Override
