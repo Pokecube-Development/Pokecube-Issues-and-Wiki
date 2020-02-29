@@ -221,14 +221,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             }
         if (!rendered)
         {
+            this.preRender(mat);
             for (final IExtendedModelPart o : this.childParts.values())
-            {
-                mat.push();
-                mat.translate(this.offset.x, this.offset.y, this.offset.z);
-                mat.scale(this.scale.x, this.scale.y, this.scale.z);
                 o.renderOnly(mat, buffer, groupNames);
-                mat.pop();
-            }
+            this.postRender(mat);
         }
     }
 

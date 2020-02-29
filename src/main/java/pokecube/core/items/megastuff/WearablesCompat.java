@@ -165,13 +165,14 @@ public class WearablesCompat
                 dx = 0.f;
                 dy = .06f;
                 dz = 0.f;
-                s = 0.475f;
+                s = 0.475f * 2;
                 sx = 1.05f * s / 2;
                 sy = s * 1.8f / 2;
                 sz = s / 2;
-                mat.push();
                 mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
                 mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
+
+                mat.push();
                 mat.translate(dx, dy, dz);
                 mat.scale(sx, sy, sz);
                 DyeColor ret = DyeColor.GRAY;
@@ -180,13 +181,17 @@ public class WearablesCompat
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                IVertexBuilder buf = Util.makeBuilder(buff, this.strap);
-                final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+                IVertexBuilder buf;
+                final Color colour = new Color(ret.getTextColor());
                 this.model.getParts().get("strap").setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255,
                         brightness, overlay);
-                this.model.renderOnly(mat, buf, "strap");
+                this.model.getParts().get("watch").setRGBABrO(255, 255, 255, 255, brightness, overlay);
+
+                buf = Util.makeBuilder(buff, this.strap);
+                this.model.renderPart(mat, buf, "strap");
                 buf = Util.makeBuilder(buff, this.watch);
-                this.model.renderOnly(mat, buf, "watch");
+                this.model.renderPart(mat, buf, "watch");
+
                 mat.pop();
 
             }

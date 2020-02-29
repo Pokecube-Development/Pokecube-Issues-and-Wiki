@@ -103,7 +103,8 @@ public class Util
             ResourceLocation[] tex, final Vector3f dr, final Vector3f ds, final int brightness, final int overlay)
     {
         if (!(model instanceof IModelCustom)) return;
-        tex = tex.clone();
+        ResourceLocation tex0 = tex[0];
+        ResourceLocation tex1 = tex[1];
         final IModelCustom renderable = (IModelCustom) model;
         DyeColor ret = DyeColor.YELLOW;
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -115,22 +116,21 @@ public class Util
         IExtendedModelPart part = model.getParts().get(colorpart);
 
         if (stack.hasTag() && stack.getTag().contains("gem"))
-            tex[0] = new ResourceLocation(stack.getTag().getString("gem"));
-        else tex[0] = null;
+            tex0 = new ResourceLocation(stack.getTag().getString("gem"));
+        else tex0 = null;
         mat.push();
-        // TODO rotate?
         mat.translate(dr.x, dr.y, dr.z);
         mat.scale(ds.x, ds.y, ds.z);
         if (part != null)
         {
             part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-            final IVertexBuilder buf1 = Util.makeBuilder(buff, tex[1]);
+            final IVertexBuilder buf1 = Util.makeBuilder(buff, tex1);
             renderable.renderPart(mat, buf1, colorpart);
         }
         part = model.getParts().get(itempart);
-        if (part != null && tex[0] != null)
+        if (part != null && tex0 != null)
         {
-            final IVertexBuilder buf0 = Util.makeBuilder(buff, tex[0]);
+            final IVertexBuilder buf0 = Util.makeBuilder(buff, tex0);
             renderable.renderPart(mat, buf0, itempart);
         }
         mat.pop();

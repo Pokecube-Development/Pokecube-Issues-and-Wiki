@@ -68,7 +68,7 @@ public class Head
                 mat.rotate(Vector3f.XP.rotationDegrees(90));
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(10)) != null)
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-                mat.scale(-1, 1, 1); // This mirrors it.
+                Utils.mirror(1, 0, 0, mat);
                 render = true;
             }
             break;
