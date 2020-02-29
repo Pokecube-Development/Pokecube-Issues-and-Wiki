@@ -25407,6 +25407,11 @@
       "name": "Meditite",
       "number": 307,
       "base": true,
+      "female_model": {
+        "key": "meditite_female",
+        "model": "meditite_female",
+        "anim": "meditite_female"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -25479,13 +25484,6 @@
           "moves": "acupressure, attract, bide, bodyslam, brickbreak, bulkup, calmmind, captivate, confide, confusion, counter, detect, doubleedge, doubleteam, drainpunch, dreameater, endure, facade, feint, firepunch, flash, fling, focusblast, focuspunch, forcepalm, frustration, grassknot, gravity, headbutt, helpinghand, hiddenpower, highjumpkick, icepunch, lightscreen, lowkick, lowsweep, magiccoat, meditate, megakick, megapunch, metronome, mimic, mindreader, mudslap, naturalgift, painsplit, poisonjab, powertrick, poweruppunch, protect, psychic, psychup, psyshock, raindance, recover, recycle, reflect, rest, retaliate, return, reversal, rockslide, rocksmash, rocktomb, roleplay, round, secretpower, seismictoss, shadowball, signalbeam, sleeptalk, snore, strength, substitute, sunnyday, swagger, swift, telekinesis, thunderpunch, toxic, trick, vacuumwave, workup, zenheadbutt"
         }
       }
-    },
-    {
-      "name": "Meditite Female",
-      "number": 307,
-      "gender": "female",
-      "genderBase": "Meditite",
-      "stats": {}
     },
     {
       "name": "Medicham",
@@ -33121,7 +33119,18 @@
       "name": "Kricketune",
       "number": 402,
       "base": true,
-      "dummy": true,
+      "female_model": {
+        "key": "kricketune_female",
+        "tex": "kricketune_female",
+        "model": "kricketune_female",
+        "anim": "kricketune_female"
+      },
+      "male_model": {
+        "key": "kricketune_male",
+        "tex": "kricketune_male",
+        "model": "kricketune_male",
+        "anim": "kricketune_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -33190,18 +33199,6 @@
         },
         "evolutionMoves": "furycutter"
       }
-    },
-    {
-      "name": "Kricketune Female",
-      "number": 402,
-      "gender": "female",
-      "genderBase": "Kricketune"
-    },
-    {
-      "name": "Kricketune Male",
-      "number": 402,
-      "gender": "Male",
-      "genderBase": "Kricketune"
     },
     {
       "name": "Shinx",
@@ -34643,6 +34640,12 @@
       "name": "Shellos",
       "number": 422,
       "base": true,
+      "model": {
+        "key": "shellos_east",
+        "tex": "shellos_east",
+        "model": "shellos_east",
+        "anim": "shellos_east"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -34710,14 +34713,15 @@
       }
     },
     {
-      "name": "Shellos West",
-      "number": 422,
-      "stats": {}
-    },
-    {
       "name": "Gastrodon",
       "number": 423,
       "base": true,
+      "model": {
+        "key": "gastrodon_east",
+        "tex": "gastrodon_east",
+        "model": "gastrodon_east",
+        "anim": "gastrodon_east"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -34785,11 +34789,6 @@
           "moves": "ancientpower, attract, blizzard, block, bodyslam, bulldoze, captivate, confide, dig, dive, doubleteam, earthpower, earthquake, endure, facade, flash, frustration, gigaimpact, hail, harden, headbutt, hiddenpower, hyperbeam, icebeam, icywind, infestation, mudbomb, muddywater, mudslap, mudsport, naturalgift, painsplit, protect, raindance, recover, rest, return, rockslide, rocksmash, rocktomb, round, sandstorm, scald, secretpower, sleeptalk, sludgebomb, sludgewave, snore, stompingtantrum, stoneedge, strength, stringshot, substitute, surf, swagger, toxic, waterfall, waterpulse, whirlpool"
         }
       }
-    },
-    {
-      "name": "Gastrodon West",
-      "number": 423,
-      "stats": {}
     },
     {
       "name": "Ambipom",
@@ -37208,6 +37207,12 @@
       "name": "Finneon",
       "number": 456,
       "base": true,
+      "female_model": {
+        "key": "finneon_female",
+        "tex": "finneon_female",
+        "model": "finneon_female",
+        "anim": "finneon_female"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -37279,16 +37284,15 @@
       }
     },
     {
-      "name": "Finneon Female",
-      "number": 456,
-      "gender": "female",
-      "genderBase": "Finneon",
-      "stats": {}
-    },
-    {
       "name": "Lumineon",
       "number": 457,
       "base": true,
+      "female_model": {
+        "key": "lumineon_female",
+        "tex": "lumineon_female",
+        "model": "lumineon_female",
+        "anim": "lumineon_female"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -37358,13 +37362,6 @@
           "moves": "aircutter, aquaring, aquatail, attract, blizzard, bounce, captivate, confide, defog, dive, doubleteam, endure, facade, flash, frustration, gigaimpact, gust, hail, hiddenpower, hyperbeam, icebeam, icywind, naturalgift, ominouswind, payback, pound, protect, psychup, raindance, rest, return, round, safeguard, scald, secretpower, signalbeam, silverwind, sleeptalk, snore, soak, substitute, surf, swagger, swift, tailwind, toxic, twister, uturn, waterfall, watergun, waterpulse, whirlpool"
         }
       }
-    },
-    {
-      "name": "Lumineon Female",
-      "number": 457,
-      "gender": "female",
-      "genderBase": "Lumineon",
-      "stats": {}
     },
     {
       "name": "Mantyke",
@@ -44786,7 +44783,12 @@
       "name": "Basculin",
       "number": 550,
       "base": true,
-      "dummy": true,
+      "model": {
+        "key": "basculin_red",
+        "tex": "basculin_red",
+        "model": "basculin_red",
+        "anim": "basculin_red"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -44858,14 +44860,6 @@
           "moves": "aquajet, aquatail, attract, bite, bounce, chipaway, confide, crunch, cut, dive, doubleedge, doubleteam, endeavor, facade, finalgambit, flail, frustration, hail, headbutt, headsmash, hiddenpower, icebeam, icywind, liquidation, protect, raindance, rest, return, round, scald, scaryface, secretpower, sleeptalk, snore, soak, substitute, superpower, surf, swagger, tackle, tailwhip, takedown, taunt, thrash, toxic, uproar, waterfall, watergun, zenheadbutt"
         }
       }
-    },
-    {
-      "name": "Basculin Red",
-      "number": 550
-    },
-    {
-      "name": "Basculin Blue",
-      "number": 550
     },
     {
       "name": "Sandile",
@@ -48305,6 +48299,18 @@
       "name": "Frillish",
       "number": 592,
       "base": true,
+      "female_model": {
+        "key": "frillish_female",
+        "tex": "frillish_female",
+        "model": "frillish_female",
+        "anim": "frillish_female"
+      },
+      "male_model": {
+        "key": "frillish_male",
+        "tex": "frillish_male",
+        "model": "frillish_male",
+        "anim": "frillish_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -48376,23 +48382,21 @@
       }
     },
     {
-      "name": "Frillish Female",
-      "number": 592,
-      "gender": "female",
-      "genderBase": "Frillish",
-      "stats": {}
-    },
-    {
-      "name": "Frillish Male",
-      "number": 592,
-      "gender": "male",
-      "genderBase": "Frillish",
-      "stats": {}
-    },
-    {
       "name": "Jellicent",
       "number": 593,
       "base": true,
+      "female_model": {
+        "key": "jellicent_female",
+        "tex": "jellicent_female",
+        "model": "jellicent_female",
+        "anim": "jellicent_female"
+      },
+      "male_model": {
+        "key": "jellicent_male",
+        "tex": "jellicent_male",
+        "model": "jellicent_male",
+        "anim": "jellicent_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -48463,20 +48467,6 @@
           "moves": "absorb, attract, bind, blizzard, brine, bubble, bubblebeam, confide, darkpulse, dazzlinggleam, dive, doubleteam, dreameater, energyball, facade, flash, frustration, gigadrain, gigaimpact, hail, hex, hiddenpower, hydropump, hyperbeam, icebeam, icywind, magiccoat, nightshade, ominouswind, painsplit, protect, psychic, psychup, raindance, recover, rest, return, round, safeguard, scald, secretpower, shadowball, shockwave, sleeptalk, sludgebomb, sludgewave, snore, spite, substitute, surf, swagger, taunt, toxic, trick, trickroom, waterfall, waterpulse, watersport, waterspout, willowisp, wringout"
         }
       }
-    },
-    {
-      "name": "Jellicent Female",
-      "number": 593,
-      "gender": "female",
-      "genderBase": "Jellicent",
-      "stats": {}
-    },
-    {
-      "name": "Jellicent Male",
-      "number": 593,
-      "gender": "male",
-      "genderBase": "Jellicent",
-      "stats": {}
     },
     {
       "name": "Alomomola",
@@ -71283,6 +71273,8 @@
     {
       "name": "Indeedee Female",
       "number": 876,
+      "gender": "female",
+      "genderBase": "Indeedee",
       "stats": {
         "stats": {
           "values": {

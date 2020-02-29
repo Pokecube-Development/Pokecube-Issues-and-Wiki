@@ -71,6 +71,7 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
+import thut.core.common.ThutCore;
 
 /** @author Manchou */
 public class PokedexEntry
@@ -1761,7 +1762,7 @@ public class PokedexEntry
         boolean mobs = false;
         if (mobs = sound.startsWith("mobs.")) sound = sound.replaceFirst("mobs.", "");
         // Replace all non word chars.
-        sound = sound.replaceAll("([\\W])", "");
+        sound = ThutCore.trim(sound);
         if (mobs) sound = "mobs." + sound;
         this.sound = new ResourceLocation(ModLoadingContext.get().getActiveNamespace(), sound);
     }
