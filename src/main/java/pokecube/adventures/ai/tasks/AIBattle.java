@@ -33,7 +33,7 @@ public class AIBattle extends AITrainerBase
 
     public AIBattle(final LivingEntity trainer)
     {
-        super(trainer);
+        this(trainer, true);
     }
 
     public AIBattle(final LivingEntity trainer, final boolean canPath)

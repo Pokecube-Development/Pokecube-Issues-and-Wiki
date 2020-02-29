@@ -1934,9 +1934,6 @@
       "name": "Meditite"
     },
     {
-      "name": "Meditite Female"
-    },
-    {
       "name": "Medicham"
     },
     {
@@ -2483,12 +2480,6 @@
       "name": "Kricketune"
     },
     {
-      "name": "Kricketune Female"
-    },
-    {
-      "name": "Kricketune Male"
-    },
-    {
       "name": "Shinx",
       "stats": {
         "lootTable": "pokecube:entities/redstone_rabbit_1"
@@ -2591,19 +2582,7 @@
       }
     },
     {
-      "name": "Shellos West",
-      "stats": {
-        "lootTable": "pokecube:entities/slimeballs_1"
-      }
-    },
-    {
       "name": "Gastrodon",
-      "stats": {
-        "lootTable": "pokecube:entities/slimeballs_2"
-      }
-    },
-    {
-      "name": "Gastrodon West",
       "stats": {
         "lootTable": "pokecube:entities/slimeballs_2"
       }
@@ -2777,19 +2756,7 @@
       }
     },
     {
-      "name": "Finneon Female",
-      "stats": {
-        "lootTable": "pokecube:entities/fish_1"
-      }
-    },
-    {
       "name": "Lumineon",
-      "stats": {
-        "lootTable": "pokecube:entities/fish_1"
-      }
-    },
-    {
-      "name": "Lumineon Female",
       "stats": {
         "lootTable": "pokecube:entities/fish_1"
       }

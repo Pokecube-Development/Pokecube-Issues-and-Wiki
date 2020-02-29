@@ -368,6 +368,8 @@ public class AnimationGui extends Screen
                 this.sexe = IPokemob.FEMALE;
                 b.setMessage("sexe:F");
             }
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            this.forme_alt.setText("");
             this.onUpdated();
         }));
         this.addButton(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10, "\u25b6", b ->

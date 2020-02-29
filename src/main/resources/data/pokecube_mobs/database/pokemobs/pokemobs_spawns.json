@@ -4560,15 +4560,14 @@
               "rate": "0.2",
               "water": "true"
             }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Shellos West",
-      "stats": {
-        "spawnRules": [
+          },
           {
+            "model": {
+              "key": "shellos_west",
+              "tex": "shellos_west",
+              "model": "shellos_west",
+              "anim": "shellos_west"
+            },
             "values": {
               "typesBlacklist": "cold",
               "types": "ocean,cave",
@@ -4577,6 +4576,12 @@
             }
           },
           {
+            "model": {
+              "key": "shellos_west",
+              "tex": "shellos_west",
+              "model": "shellos_west",
+              "anim": "shellos_west"
+            },
             "values": {
               "typesBlacklist": "cold",
               "types": "beach,cave",
@@ -4585,6 +4590,12 @@
             }
           },
           {
+            "model": {
+              "key": "shellos_west",
+              "tex": "shellos_west",
+              "model": "shellos_west",
+              "anim": "shellos_west"
+            },
             "values": {
               "typesBlacklist": "cold",
               "types": "ocean",
@@ -4593,6 +4604,12 @@
             }
           },
           {
+            "model": {
+              "key": "shellos_west",
+              "tex": "shellos_west",
+              "model": "shellos_west",
+              "anim": "shellos_west"
+            },
             "values": {
               "typesBlacklist": "cold",
               "types": "beach",
@@ -5494,23 +5511,80 @@
       "stats": {
         "spawnRules": [
           {
+            "model": {
+              "key": "basculin_red",
+              "tex": "basculin_red",
+              "model": "basculin_red",
+              "anim": "basculin_red"
+            },
             "values": {
               "types": "beach",
-              "rate": "0.3",
+              "rate": "0.15",
               "air": "false"
             }
           },
           {
+            "model": {
+              "key": "basculin_red",
+              "tex": "basculin_red",
+              "model": "basculin_red",
+              "anim": "basculin_red"
+            },
             "values": {
               "types": "river",
-              "rate": "0.3",
+              "rate": "0.15",
               "air": "false"
             }
           },
           {
+            "model": {
+              "key": "basculin_red",
+              "tex": "basculin_red",
+              "model": "basculin_red",
+              "anim": "basculin_red"
+            },
             "values": {
               "types": "lake",
-              "rate": "0.3",
+              "rate": "0.15",
+              "air": "false"
+            }
+          },
+          {
+            "model": {
+              "key": "basculin_blue",
+              "tex": "basculin_blue",
+              "model": "basculin_blue",
+              "anim": "basculin_blue"
+            },
+            "values": {
+              "types": "beach",
+              "rate": "0.15",
+              "air": "false"
+            }
+          },
+          {
+            "model": {
+              "key": "basculin_blue",
+              "tex": "basculin_blue",
+              "model": "basculin_blue",
+              "anim": "basculin_blue"
+            },
+            "values": {
+              "types": "river",
+              "rate": "0.15",
+              "air": "false"
+            }
+          },
+          {
+            "model": {
+              "key": "basculin_blue",
+              "tex": "basculin_blue",
+              "model": "basculin_blue",
+              "anim": "basculin_blue"
+            },
+            "values": {
+              "types": "lake",
+              "rate": "0.15",
               "air": "false"
             }
           }
