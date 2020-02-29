@@ -1,19 +1,8 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "#None": "pokecube_legends:blocks/yveltal_egg"
-        },
-        "model": "minecraft:block/cube",
-    	"custom": {
-		  "base_model": "pokecube_legends:block/yveltal_egg.obj",
-	      "flip-v": true
-	    }
-     },
     "variants": {
-        "facing=east":  { "model": "pokecube_legends:item/yveltal_egg.obj", "y":90 },
-        "facing=west":  { "model": "pokecube_legends:item/yveltal_egg.obj", "y":270 },
-        "facing=south": { "model": "pokecube_legends:item/yveltal_egg.obj", "y":180 },
-        "facing=north": { "model": "pokecube_legends:item/yveltal_egg.obj", "y":0}
+        "facing=east":  { "model": "pokecube_legends:block/yveltal_egg", "y":90 },
+        "facing=west":  { "model": "pokecube_legends:block/yveltal_egg", "y":270 },
+        "facing=south": { "model": "pokecube_legends:block/yveltal_egg", "y":180 },
+        "facing=north": { "model": "pokecube_legends:block/yveltal_egg", "y":0}
     }
 }
