@@ -4199,22 +4199,22 @@
       }
     ]
   },
-  "mobs.unown_a": {
+  "mobs.unown": {
     "category": "hostile",
-    "subtitle": "entity.pokecube.unown_a",
+    "subtitle": "entity.pokecube.unown",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/unown_a",
+        "name": "pokecube_mobs:mobs/unown",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/unown_a",
+        "name": "pokecube_mobs:mobs/unown",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/unown_a",
+        "name": "pokecube_mobs:mobs/unown",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -8420,22 +8420,22 @@
       }
     ]
   },
-  "mobs.kricketune_male": {
+  "mobs.kricketune": {
     "category": "hostile",
     "subtitle": "entity.pokecube.kricketune",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/kricketune",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/kricketune",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/kricketune",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -11528,22 +11528,22 @@
       }
     ]
   },
-  "mobs.basculin_blue": {
+  "mobs.basculin": {
     "category": "hostile",
-    "subtitle": "entity.pokecube.basculin_blue",
+    "subtitle": "entity.pokecube.basculin",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/basculin_blue",
+        "name": "pokecube_mobs:mobs/basculin",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/basculin_blue",
+        "name": "pokecube_mobs:mobs/basculin",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/basculin_blue",
+        "name": "pokecube_mobs:mobs/basculin",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -12410,43 +12410,43 @@
       }
     ]
   },
-  "mobs.frillish_male": {
+  "mobs.frillish": {
     "category": "hostile",
     "subtitle": "entity.pokecube.frillish",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/frillish",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/frillish",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/frillish",
         "volume": 1.0,
         "pitch": 1.0
       }
     ]
   },
-  "mobs.jellicent_male": {
+  "mobs.jellicent": {
     "category": "hostile",
     "subtitle": "entity.pokecube.jellicent",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/jellicent",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/jellicent",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/jellicent",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -14069,22 +14069,22 @@
       }
     ]
   },
-  "mobs.pyroarm": {
+  "mobs.pyroar": {
     "category": "hostile",
     "subtitle": "entity.pokecube.pyroar",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/pyroarm",
+        "name": "pokecube_mobs:mobs/pyroar",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/pyroarm",
+        "name": "pokecube_mobs:mobs/pyroar",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/pyroarm",
+        "name": "pokecube_mobs:mobs/pyroar",
         "volume": 1.0,
         "pitch": 1.0
       }

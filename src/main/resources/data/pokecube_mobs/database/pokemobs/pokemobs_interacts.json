@@ -4439,17 +4439,6 @@
       }
     },
     {
-      "name": "Meditite Female",
-      "stats": {
-        "evolutions": [
-          {
-            "name": "Medicham",
-            "level": 37
-          }
-        ]
-      }
-    },
-    {
       "name": "Medicham",
       "stats": {
         "species": "Fighter",
@@ -5953,17 +5942,6 @@
         ],
         "species": "Gastropoda",
         "foodMat": "water"
-      }
-    },
-    {
-      "name": "Shellos West",
-      "stats": {
-        "evolutions": [
-          {
-            "name": "Gastrodon West",
-            "level": 30
-          }
-        ]
       }
     },
     {
