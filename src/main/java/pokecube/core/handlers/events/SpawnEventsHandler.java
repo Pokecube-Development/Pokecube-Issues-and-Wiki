@@ -32,6 +32,7 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
@@ -153,8 +154,12 @@ public class SpawnEventsHandler
         {
             // Set it to air so player can spawn here.
             event.world.setBlockState(event.pos, Blocks.AIR.getDefaultState(), 2);
-            event.world.getWorld().setSpawnPoint(event.pos);
-            PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
+            if (!PokecubeSerializer.getInstance().hasPlacedSpawn())
+            {
+                event.world.getWorld().setSpawnPoint(event.pos);
+                PokecubeSerializer.getInstance().setPlacedSpawn();
+                PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
+            }
         }
     }
 

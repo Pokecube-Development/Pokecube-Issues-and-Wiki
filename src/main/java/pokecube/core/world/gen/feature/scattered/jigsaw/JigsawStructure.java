@@ -1,7 +1,11 @@
 package pokecube.core.world.gen.feature.scattered.jigsaw;
 
+import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.StructureMode;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -11,12 +15,17 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
 import net.minecraft.world.gen.feature.structure.ScatteredStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.CustomJigsawPiece;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.SingleOffsetPiece;
 
 public class JigsawStructure extends ScatteredStructure<JigsawConfig>
 {
@@ -38,16 +47,17 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     @Override
     public int getSize()
     {
-        return 4;
+        return this.struct.size;
     }
 
     @Override
     public boolean func_225558_a_(final BiomeManager biomeManager, final ChunkGenerator<?> chunkGen, final Random rand,
             final int chunkPosX, final int chunkPosZ, final Biome biome)
     {
-        if (this.struct.atSpawn && (PokecubeSerializer.getInstance().customData.contains("start_pokecentre")
-                || !PokecubeCore.getConfig().doSpawnBuilding))
-            return false;
+        // Check if spawn building and should build.
+        if (this.struct.atSpawn && (PokecubeSerializer.getInstance().hasPlacedSpawnOrCenter() || !PokecubeCore
+                .getConfig().doSpawnBuilding)) return false;
+
         final ChunkPos chunkpos = this.getStartPositionForPosition(chunkGen, rand, chunkPosX, chunkPosZ, 0, 0);
 
         if (chunkPosX == chunkpos.x && chunkPosZ == chunkpos.z)
@@ -63,7 +73,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                         chunkPosZ, this.struct));
                 if (valid && this.struct.atSpawn)
                 {
-                    PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
+                    PokecubeSerializer.getInstance().setPlacedCenter();
                     PokecubeSerializer.getInstance().save();
                 }
                 return valid;
@@ -114,8 +124,42 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                 JigsawPieces.initStructure(generator, templateManagerIn, blockpos, this.components, this.rand,
                         ((JigsawStructure) this.getStructure()).struct);
                 PokecubeCore.LOGGER.debug("Placing structure {} at {} {} {} composed of {} parts ",
-                        ((JigsawStructure) this.getStructure()).struct.name, blockpos.getX(), blockpos.getY(),
-                        blockpos.getZ(), this.components.size());
+                        ((JigsawStructure) this.getStructure()).struct.name, blockpos.getX(), blockpos.getY(), blockpos
+                                .getZ(), this.components.size());
+                // Check if any components are valid spawn spots, if so, set the
+                // spawned flag
+                for (final StructurePiece part : this.components)
+                    if (part instanceof CustomJigsawPiece)
+                    {
+                        final CustomJigsawPiece p = (CustomJigsawPiece) part;
+                        if (p.getJigsawPiece() instanceof SingleOffsetPiece)
+                        {
+                            final SingleOffsetPiece piece = (SingleOffsetPiece) p.getJigsawPiece();
+                            final Template t = piece.getTemplate(templateManagerIn);
+                            for (final List<BlockInfo> list : t.blocks)
+                            {
+                                boolean foundWorldspawn = false;
+                                CompoundNBT trader = null;
+                                for (final BlockInfo i : list)
+                                    if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
+                                    {
+                                        final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString(
+                                                "mode"));
+                                        if (structuremode == StructureMode.DATA)
+                                        {
+                                            final String meta = i.nbt.getString("metadata");
+                                            foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
+                                            if (meta.startsWith("pokecube:mob:trader")) trader = i.nbt;
+                                        }
+                                    }
+                                if (trader != null && foundWorldspawn)
+                                {
+                                    PokecubeSerializer.getInstance().setPlacedCenter();
+                                    trader.putString("metadata", PokecubeCore.getConfig().professor_override);
+                                }
+                            }
+                        }
+                    }
                 this.recalculateStructureSize();
             }
         }

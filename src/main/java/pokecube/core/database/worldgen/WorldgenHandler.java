@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Locale;
 
@@ -123,18 +124,19 @@ public class WorldgenHandler
         }
 
         public String           name;
+        public String           name_override = "";
         public JigSawPart       root;
-        public float            chance     = 1;
-        public int              offset     = 0;
-        public int              size       = 4;
-        public int              distance   = 8;
-        public int              separation = 4;
-        public String           biomeType  = "ruin";
+        public float            chance        = 1;
+        public int              offset        = 0;
+        public int              size          = 4;
+        public int              distance      = 8;
+        public int              separation    = 4;
+        public String           biomeType     = "ruin";
         public SpawnRule        spawn;
-        public boolean          surface    = true;
-        public boolean          water      = false;
-        public boolean          atSpawn    = false;
-        public List<JigSawPart> parts      = Lists.newArrayList();
+        public boolean          surface       = true;
+        public boolean          water         = false;
+        public boolean          atSpawn       = false;
+        public List<JigSawPart> parts         = Lists.newArrayList();
 
         public String serialize()
         {
@@ -244,6 +246,9 @@ public class WorldgenHandler
         list.add(feature);
         try
         {
+            final Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(this.illagers, this.illagers.getModifiers() & ~Modifier.FINAL);
             this.illagers.set(null, list);
         }
         catch (final Exception e)
