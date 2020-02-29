@@ -62,7 +62,8 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.HAT) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara.x3d"));
-                final float dx = -0.0f, dy = .235f, dz = 0.25f;
+                final float dx = -0.0f, dy = 0.25f, dz = -0.25f;
+                mat.rotate(Vector3f.XP.rotationDegrees(-90));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");
@@ -101,18 +102,15 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.ANKLE) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaankletzinnia.x3d"));
-                float s, sy, sx, sz, dx, dy, dz;
+                float s, dx, dy, dz;
                 dx = 0.f;
                 dy = .06f;
                 dz = 0.f;
-                s = 0.475f;
-                sx = 1.05f * s / 2;
-                sy = s * 1.8f / 2;
-                sz = s / 2;
+                s = 1.f;
                 mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
                 mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                mat.scale(sx, sy, sz);
+                mat.scale(s, s, s);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");
                 DyeColor ret = DyeColor.CYAN;
@@ -150,15 +148,13 @@ public class ClientProxy extends CommonProxy
                 if (slot != EnumWearable.NECK) return;
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megapendant.x3d"));
-                float s, dx, dy, dz;
+                float  dx, dy, dz;
                 dx = 0;
                 dy = -.0f;
-                dz = -0.03f;
-                s = 0.525f;
+                dz = 0.01f;
                 mat.rotate(Vector3f.XP.rotationDegrees(90));
                 mat.rotate(Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                mat.scale(s, s, s);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
                 DyeColor ret = DyeColor.YELLOW;
@@ -198,15 +194,12 @@ public class ClientProxy extends CommonProxy
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaearring.x3d"));
                 final Minecraft minecraft = Minecraft.getInstance();
-                float s, dx, dy, dz;
+                float dx, dy, dz;
                 dx = 0.0f;
-                dy = .175f;
-                dz = 0.0f;
-                s = 0.475f / 4f;
-                mat.rotate(net.minecraft.client.renderer.Vector3f.XP.rotationDegrees(90));
+                dy = index == 0 ? 0.01f : -0.01f;
+                dz = -0.25f;
                 mat.rotate(net.minecraft.client.renderer.Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
-                mat.scale(s, s, s);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "keystone");
 
@@ -248,7 +241,9 @@ public class ClientProxy extends CommonProxy
                 if (this.model == null)
                     this.model = new X3dModel(new ResourceLocation(PokecubeMod.ID, "models/worn/megaglasses.x3d"));
 
-                final float dx = -0.0f, dy = .235f, dz = 0.25f;
+                final float dx = -0.0f, dy = 0.0f, dz = -0.25f;
+                mat.rotate(Vector3f.XP.rotationDegrees(90));
+                mat.rotate(Vector3f.ZP.rotationDegrees(180));
                 mat.translate(dx, dy, dz);
                 IVertexBuilder buf0 = Util.makeBuilder(buff, this.keystone);
                 this.model.renderOnly(mat, buf0, "stone");

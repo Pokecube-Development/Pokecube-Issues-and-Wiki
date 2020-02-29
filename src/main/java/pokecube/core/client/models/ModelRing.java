@@ -2,11 +2,17 @@ package pokecube.core.client.models;
 
 import java.awt.Color;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -15,16 +21,41 @@ import pokecube.core.PokecubeCore;
 
 public class ModelRing extends EntityModel<Entity>
 {
-    ResourceLocation texture_1 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/megaring_1.png");
-    ResourceLocation texture_2 = new ResourceLocation(PokecubeCore.MODID, "textures/worn/megaring_2.png");
-    // fields
-    ModelRenderer    Shape2;
-    ModelRenderer    Shape1;
-    ModelRenderer    Shape3;
-    ModelRenderer    Shape4;
-    ModelRenderer    Shape5;
+    public static RenderType getType(ResourceLocation loc, boolean alpha)
+    {
+        return alpha
+                ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_QUADS, 256, true, false,
+                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
+                                .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
+                                .lightmap(new RenderState.LightmapState(true))
+                                .overlay(new RenderState.OverlayState(true)).build(false))
+                : RenderType.get("thutbling:bling_b", DefaultVertexFormats.ITEM, GL11.GL_QUADS, 256, true, false,
+                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
+                                .cull(new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
+                                .overlay(new RenderState.OverlayState(true)).build(false));
+    }
 
-    public ItemStack stack;
+    public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc)
+    {
+        return buff.getBuffer(getType(loc, true));
+    }
+
+    public static final ResourceLocation texture_1 = new ResourceLocation(PokecubeCore.MODID,
+            "textures/worn/megaring_1.png");
+    public static final ResourceLocation texture_2 = new ResourceLocation(PokecubeCore.MODID,
+            "textures/worn/megaring_2.png");
+    // fields
+    ModelRenderer                        Shape2;
+    ModelRenderer                        Shape1;
+    ModelRenderer                        Shape3;
+    ModelRenderer                        Shape4;
+    ModelRenderer                        Shape5;
+
+    public ItemStack                     stack;
+
+    public int                           pass      = 1;
 
     public ModelRing()
     {
@@ -75,22 +106,34 @@ public class ModelRing extends EntityModel<Entity>
     public void render(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final int packedLightIn,
             final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
     {
-        this.Shape2.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn, 1, 1, 1, 1);
-        DyeColor ret = DyeColor.GRAY;
-        if (this.stack.hasTag() && this.stack.getTag().contains("dyeColour"))
+        if (pass == 1)
         {
-            final int damage = this.stack.getTag().getInt("dyeColour");
-            ret = DyeColor.byId(damage);
+            matrixStackIn.push();
+            matrixStackIn.scale(1f, 0.99f, 1.0f);
+            matrixStackIn.translate(0, 0.005, 0);
+            this.Shape2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, 1, 1, 1, 1);
+            matrixStackIn.pop();
         }
-        final Color colour = new Color(ret.getTextColor() + 0xFF000000);
-        this.Shape1.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn, colour.getRed() / 255f,
-                colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
-        this.Shape3.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn, colour.getRed() / 255f,
-                colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
-        this.Shape4.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn, colour.getRed() / 255f,
-                colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
-        this.Shape5.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn, colour.getRed() / 255f,
-                colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+        else
+        {
+            matrixStackIn.push();
+            DyeColor ret = DyeColor.GRAY;
+            if (this.stack.hasTag() && this.stack.getTag().contains("dyeColour"))
+            {
+                final int damage = this.stack.getTag().getInt("dyeColour");
+                ret = DyeColor.byId(damage);
+            }
+            final Color colour = new Color(ret.getTextColor() + 0xFF000000);
+            this.Shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
+                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            matrixStackIn.pop();
+        }
     }
 
     private void setRotation(final ModelRenderer model, final float x, final float y, final float z)
