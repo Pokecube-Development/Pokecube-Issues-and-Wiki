@@ -7943,7 +7943,31 @@
         "evolutions": [
           {
             "name": "Sawsbuck",
-            "level": 34
+            "level": 34,
+			"model": {
+              "key": "sawsbuck_sp",
+              "tex": "sawsbuck_sp",
+              "model": "sawsbuck_sp",
+              "anim": "sawsbuck_sp"
+            },
+			"model": {
+              "key": "sawsbuck_su",
+              "tex": "sawsbuck_su",
+              "model": "sawsbuck_su",
+              "anim": "sawsbuck_su"
+            },
+			"model": {
+              "key": "sawsbuck_wi",
+              "tex": "sawsbuck_wi",
+              "model": "sawsbuck_wi",
+              "anim": "sawsbuck_wi"
+            },
+			"model": {
+              "key": "sawsbuck_au",
+              "tex": "sawsbuck_au",
+              "model": "sawsbuck_au",
+              "anim": "sawsbuck_au"
+            }
           }
         ],
         "species": "Artiodactyla",

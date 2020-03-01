@@ -47772,6 +47772,12 @@
       "name": "Deerling",
       "number": 585,
       "base": true,
+	  "model": {
+        "key": "deerling_sp",
+        "tex": "deerling_sp",
+        "model": "deerling_sp",
+        "anim": "deerling_sp"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -47846,6 +47852,12 @@
       "name": "Sawsbuck",
       "number": 586,
       "base": true,
+	  "model": {
+        "key": "sawsbuck_sp",
+        "tex": "sawsbuck_sp",
+        "model": "sawsbuck_sp",
+        "anim": "sawsbuck_sp"
+      },
       "stats": {
         "stats": {
           "values": {
