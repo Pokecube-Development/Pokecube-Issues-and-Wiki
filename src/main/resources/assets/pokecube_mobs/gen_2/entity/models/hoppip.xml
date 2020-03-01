@@ -2,6 +2,17 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.2"/>
-  <metadata dyeable="Right_legChild,HeadChild,Left_legChild,Wooly_mane" head="head,Head,head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <metadata head="body" headAxis="1" headAxis2="0" headCap1="-1,1" headDir="1"/>
+  <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
+  <phase type="flying">
+   <part name="pivot">
+    <component length="10" name="1" rotChange="0,0,360" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="pivot">
+    <component length="30" name="1" rotChange="0,0,360" startKey="0"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
