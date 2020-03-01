@@ -182,6 +182,7 @@ public class TextureHelper implements IPartTexturer
     {
     }
 
+    @Override
     public void init(final CustomTex customTex)
     {
         if (customTex == null) return;
@@ -191,6 +192,7 @@ public class TextureHelper implements IPartTexturer
             final boolean flat = !customTex.smoothing.equalsIgnoreCase("smooth");
             this.default_flat = flat;
         }
+        this.clear();
         for (final TexAnim anim : customTex.anims)
         {
             final String name = ThutCore.trim(anim.part);
@@ -224,6 +226,16 @@ public class TextureHelper implements IPartTexturer
             final String tex = ThutCore.trim(anim.tex);
             this.formeMap.put(name, tex);
         }
+    }
+
+    private void clear()
+    {
+        this.texMap.clear();
+        this.texStates.clear();
+        this.formeMap.clear();
+        this.smoothing.clear();
+        this.texNames.clear();
+        this.texNames2.clear();
     }
 
     @Override
