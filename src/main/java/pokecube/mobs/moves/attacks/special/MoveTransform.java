@@ -78,7 +78,7 @@ public class MoveTransform extends Move_Basic
     public void attack(final IPokemob attacker, final Entity attacked)
     {
         final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
-        if (attacker.getTransformedTo() == null && attacked instanceof LivingEntity)
+        if (attacked instanceof LivingEntity)
         {
             if (attackedMob != null) if (!(attacked instanceof IBreedingMob) || attacked != ((IBreedingMob) attacker)
                     .getLover()) ((CreatureEntity) attacked).setAttackTarget(attacker.getEntity());
