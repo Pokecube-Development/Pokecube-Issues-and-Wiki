@@ -148,6 +148,7 @@ public class PokedexEntryLoader
         public String    sexe;
         public String    move;
         public Float     chance;
+        public String    form_from;
 
         protected DefaultFormeHolder model = null;
 
