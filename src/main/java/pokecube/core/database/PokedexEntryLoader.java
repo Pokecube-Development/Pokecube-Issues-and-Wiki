@@ -148,7 +148,8 @@ public class PokedexEntryLoader
         public String    sexe;
         public String    move;
         public Float     chance;
-        public String    form_from;
+
+        public String form_from = null;
 
         protected DefaultFormeHolder model = null;
 
@@ -1029,27 +1030,31 @@ public class PokedexEntryLoader
                 final String name = evol.name;
                 final PokedexEntry evolEntry = Database.getEntry(name);
                 EvolutionData data = null;
+                final boolean clear = evol.clear != null && evol.clear;
                 // check for specific clearing info for this entry.
                 for (final EvolutionData d : entry.evolutions)
-                    if (d.evolution == evolEntry)
+                    if (d.data.equals(evol))
                     {
                         data = d;
-                        if (evol.clear != null && evol.clear)
+                        if (clear)
                         {
                             entry.evolutions.remove(d);
                             PokecubeCore.LOGGER.info("Replacing evolution for " + entry + " -> " + evolEntry);
                         }
                         break;
                     }
-                if (data == null || evol.clear != null && evol.clear)
+                if (data == null || clear)
                 {
                     data = new EvolutionData(evolEntry);
                     data.data = evol;
                     data.preEvolution = entry;
                     // Skip any exactly duplicated entires.
-                    for (final EvolutionData existing : entry.evolutions)
-                        if (existing.data.equals(existing)) break;
-                    entry.addEvolution(data);
+                    check:
+                    {
+                        if (!clear) for (final EvolutionData existing : entry.evolutions)
+                            if (existing.data.equals(existing)) break check;
+                        entry.addEvolution(data);
+                    }
                 }
             }
         }
