@@ -28,5 +28,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:hatch/root"
+  "parent": "pokecube_mobs:hatch/hatch_litleo"
 }

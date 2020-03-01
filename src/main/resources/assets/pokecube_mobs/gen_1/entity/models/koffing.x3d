@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN" "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+	<head>
+		<meta name="filename" content="koffing.x3d" />
+		<meta name="generator" content="Blender 2.81 (sub 16)" />
+	</head>
+	<Scene>
+		<NavigationInfo headlight="true"
+		                visibilityLimit="0.0"
+		                type='"EXAMINE", "ANY"'
+		                avatarSize="0.25, 1.75, 0.75"
+		                />
+		<Background DEF="WO_World"
+		            groundColor="0.051 0.051 0.051"
+		            skyColor="0.051 0.051 0.051"
+		            />
+		<Transform DEF="head_TRANSFORM"
+		           translation="0.000000 0.000000 0.338269"
+		           scale="1.000000 1.000000 1.000000"
+		           rotation="1.000000 0.000000 0.000000 1.570796"
+		           >
+			<Transform DEF="head_ifs_TRANSFORM"
+			           translation="0.000000 -0.000000 0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 1.000000 0.000000 0.000000"
+			           >
+				<Group DEF="group_ME_head">
+					<Shape>
+						<Appearance>
+							<Material DEF="MA_Default_OBJ"
+							          diffuseColor="0.800 0.800 0.800"
+							          specularColor="0.401 0.401 0.401"
+							          emissiveColor="0.000 0.000 0.000"
+							          ambientIntensity="0.000"
+							          shininess="0.500"
+							          transparency="0.0"
+							          />
+						</Appearance>
+						<IndexedTriangleSet solid="false"
+						                    normalPerVertex="true"
+						                    index="0 1 2 0 2 3 4 5 6 4 6 7 3 2 8 3 8 9 10 11 12 10 12 13 14 0 3 14 3 15 1 4 7 1 7 2 "
+						                    >
+							<Coordinate point="0.312500 -0.312500 -0.312500 -0.312500 -0.312500 -0.312500 -0.312500 0.312500 -0.312500 0.312500 0.312500 -0.312500 -0.312500 -0.312500 0.312500 0.312500 -0.312500 0.312500 0.312500 0.312500 0.312500 -0.312500 0.312500 0.312500 -0.312500 0.312500 0.312500 0.312500 0.312500 0.312500 0.312500 -0.312500 0.312500 -0.312500 -0.312500 0.312500 -0.312500 -0.312500 -0.312500 0.312500 -0.312500 -0.312500 0.312500 -0.312500 0.312500 0.312500 0.312500 0.312500 " />
+							<Normal vector="0.577349 -0.577349 -0.577349 -0.577349 -0.577349 -0.577349 -0.577349 0.577349 -0.577349 0.577349 0.577349 -0.577349 -0.577349 -0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 0.577349 0.577349 -0.577349 0.577349 -0.577349 -0.577349 0.577349 -0.577349 -0.577349 -0.577349 0.577349 -0.577349 -0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 " />
+							<TextureCoordinate point="0.1562 0.3750 0.3125 0.3750 0.3125 0.6875 0.1562 0.6875 0.4688 0.3750 0.6250 0.3750 0.6250 0.6875 0.4688 0.6875 0.3125 1.0000 0.1562 1.0000 0.3125 0.6875 0.4688 0.6875 0.4688 1.0000 0.3125 1.0000 0.0000 0.3750 0.0000 0.6875 " />
+						</IndexedTriangleSet>
+					</Shape>
+				</Group>
+			</Transform>
+		</Transform>
+	</Scene>
+</X3D>

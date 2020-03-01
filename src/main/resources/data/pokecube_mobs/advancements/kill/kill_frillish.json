@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.frillish"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.frillish"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_frillish": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "frillish"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

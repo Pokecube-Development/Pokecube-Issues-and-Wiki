@@ -28,5 +28,5 @@
       }
     }
   },
-  "parent": "pokecube_mobs:capture/catch_finneon_female"
+  "parent": "pokecube_mobs:capture/catch_finneon"
 }

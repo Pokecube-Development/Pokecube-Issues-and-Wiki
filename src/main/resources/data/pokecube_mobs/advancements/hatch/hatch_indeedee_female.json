@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.indeedee_female"
+          "translate": "entity.pokecube.indeedee"
         }
       ]
     },
@@ -15,7 +15,7 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.indeedee_female"
+          "translate": "entity.pokecube.indeedee"
         }
       ]
     }
