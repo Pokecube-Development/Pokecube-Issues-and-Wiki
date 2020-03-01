@@ -37,8 +37,9 @@ public abstract class Mesh
 
         Vertex vertex;
         Vertex normal;
+        final int iter = GL_FORMAT == GL11.GL_TRIANGLES ? 3 : 4;
         // Calculate the normals for each triangle.
-        for (int i = 0; i < this.order.length; i += 3)
+        for (int i = 0; i < this.order.length; i += iter)
         {
             Vector3f v1, v2, v3;
             vertex = this.vertices[this.order[i]];
