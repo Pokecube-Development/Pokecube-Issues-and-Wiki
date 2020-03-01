@@ -2,6 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="Sliggoo">
   <phase name="global" offset="0,0,0.1" scale="0.325"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
   <phase armAngle="50" duration="10" leftArm="Left_arm" leftLeg="" legAngle="45" name="biWalk" rightArm="Right_arm" rightLeg=""/>
  </model>
 </ModelAnimator>

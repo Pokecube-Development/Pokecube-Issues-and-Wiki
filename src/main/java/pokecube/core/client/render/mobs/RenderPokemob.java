@@ -447,7 +447,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             if (custom.entry == entry) custom.init();
     }
 
-    static final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
+    public static final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
 
     public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
     public static Map<PokedexEntry, Holder>   holders   = Maps.newHashMap();

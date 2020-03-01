@@ -70,6 +70,7 @@ public abstract class Mesh
             this.normalList[i] = c;
             this.normalList[i + 1] = c;
             this.normalList[i + 2] = c;
+            if (iter == 4) this.normalList[i + 3] = c;
         }
         // broken, lets just fill with z+
         else
