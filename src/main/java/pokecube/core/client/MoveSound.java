@@ -12,6 +12,7 @@ public class MoveSound extends TickableSound
     private final ClientPlayerEntity player;
     private final Vector3            pos1 = Vector3.getNewVector();
     private final Vector3            pos2 = Vector3.getNewVector();
+    private int                      time = 0;
 
     public MoveSound(final SoundEvent sound, final Vector3 pos)
     {
@@ -31,6 +32,7 @@ public class MoveSound extends TickableSound
         final double dist = this.pos2.distanceTo(this.pos1);
         this.volume = (float) (5.0f / dist);
         this.volume = Math.min(1, this.volume);
+        if (this.time++ > 100 || dist > 20) this.donePlaying = true;
     }
 
     @Override

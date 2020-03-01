@@ -1,11 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="0.5"/>
- </model>
- <details>
-  <RIDDENOFFSET>
-   0,0.5,-0.5
-  </RIDDENOFFSET>
- </details>
+<?xml version="1.0" encoding="UTF-8"?>
+<ModelAnimator>
+    <model>
+        <phase name="global" rotation="1,0,0,0" offset="0,0,0" scale="0.5"/>
+        <metadata headCap="-60,60" headAxis="1" headAxis2="0" headDir="1" head="Head"/>
+        <phase duration="6" rightWing="Right_wing_base" leftWing="Left_wing_base" angle="25" name="flap"/>
+        <phase type="idle">
+            <part name="Right_wing_base">
+                <component name="1" startKey="0" length="10" rotOffset="0,-50,-50.0"/>
+            </part>
+            <part name="Left_wing_base">
+                <component name="1" startKey="0" length="10" rotOffset="0,50,50.0"/>
+            </part>
+            <part name="Right_wing_tip">
+                <component name="1" startKey="0" length="10" rotOffset="-0.0,0.0,-50.0,"/>
+            </part>
+            <part name="Left_wing_tip">
+                <component name="1" startKey="0" length="10" rotOffset="-0.0,-0.0,50.0,"/>
+            </part>
+        </phase>
+    </model>
 </ModelAnimator>

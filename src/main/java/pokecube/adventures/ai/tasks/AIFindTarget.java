@@ -5,7 +5,10 @@ import java.util.List;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.core.PokecubeCore;
@@ -21,21 +24,31 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     // Predicated to return true for invalid targets
     final Predicate<LivingEntity> validTargets;
 
-    private float agroChance = 1f;
+    private float     agroChance = 1f;
+    private int       timer      = 0;
+    private final int maxTimer;
 
     @SafeVarargs
     public AIFindTarget(final LivingEntity entityIn, final Class<? extends LivingEntity>... targetClass)
     {
-        this(entityIn, 1, targetClass);
+        this(entityIn, 1, -1, targetClass);
     }
 
     @SafeVarargs
     public AIFindTarget(final LivingEntity entityIn, final float agressionProbability,
             final Class<? extends LivingEntity>... targetClass)
     {
+        this(entityIn, agressionProbability, -1, targetClass);
+    }
+
+    @SafeVarargs
+    public AIFindTarget(final LivingEntity entityIn, final float agressionProbability, final int battleTime,
+            final Class<? extends LivingEntity>... targetClass)
+    {
         super(entityIn);
         this.trainer.addTargetWatcher(this);
         this.targetClass = targetClass;
+        this.maxTimer = battleTime;
         this.validTargets = new Predicate<LivingEntity>()
         {
             @Override
@@ -70,15 +83,37 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     public boolean shouldExecute()
     {
         if (this.trainer.getTarget() != null)
-        { // Check if target is invalid.
-            if (this.trainer.getTarget() != null && !this.trainer.getTarget().isAlive())
+        {
+            final LivingEntity target = this.trainer.getTarget();
+            // Check if timer has run out.
+            if (this.maxTimer > 0 && this.timer++ >= this.maxTimer)
+            {
+                final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
+                // this is an ended battle, so we cancel both side.
+                if (other != null) other.setTarget(null);
+
+                // Lets reset revenge/battle targets as well.
+                if (target.getRevengeTarget() == this.entity) target.setRevengeTarget(null);
+                if (this.entity.getRevengeTarget() == target) this.entity.setRevengeTarget(null);
+                // Reset attack targets as well.
+                if (target instanceof MobEntity && ((MobEntity) target).getAttackTarget() == this.entity)
+                    ((MobEntity) target).setAttackTarget(null);
+                if (this.entity instanceof MobEntity && ((MobEntity) this.entity).getAttackTarget() == target)
+                    ((MobEntity) this.entity).setAttackTarget(null);
+
+                this.trainer.setTarget(null);
+                this.trainer.resetPokemob();
+                return false;
+            }
+            // Check if target is invalid.
+            if (!target.isAlive())
             {
                 this.trainer.setTarget(null);
                 this.trainer.resetPokemob();
                 return false;
             }
             // check if too far away
-            if (this.entity.getDistance(this.trainer.getTarget()) > PokecubeCore.getConfig().chaseDistance)
+            if (this.entity.getDistance(target) > PokecubeCore.getConfig().chaseDistance)
             {
                 this.trainer.setTarget(null);
                 this.trainer.resetPokemob();

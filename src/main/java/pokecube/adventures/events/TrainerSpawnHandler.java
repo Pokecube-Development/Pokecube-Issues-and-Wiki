@@ -132,8 +132,9 @@ public class TrainerSpawnHandler
             if (temp1.y > (y_Test = world.getHeight(Type.MOTION_BLOCKING_NO_LEAVES, temp1.intX(), temp1.intY())))
                 temp1.y = y_Test;
             temp1.y++;
-            // Check for headroom
-            if (!temp1.addTo(0, 1, 0).isClearOfBlocks(world)) return null;
+
+            if (temp1.getBlockMaterial(world).blocksMovement()) return null;
+            if (temp1.addTo(0, 1, 0).getBlockMaterial(world).blocksMovement()) return null;
             temp1.y--;
             return temp1;
         }

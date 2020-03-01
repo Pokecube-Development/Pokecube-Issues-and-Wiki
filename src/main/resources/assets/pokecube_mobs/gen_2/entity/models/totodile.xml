@@ -2,6 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.25"/>
-  <metadata dyeable="Wooly_mane,Right_legChild,HeadChild,Left_legChild" head="head,head,Head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase duration="6" leftArm="left_arm" leftLeg="left_hip" legAngle="25" name="biWalk" rightArm="right_arm" rightLeg="right_hip"/>
  </model>
 </ModelAnimator>
