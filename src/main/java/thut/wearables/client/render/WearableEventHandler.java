@@ -39,7 +39,7 @@ public class WearableEventHandler
 
         final Map<Integer, Integer> defaults = Maps.newHashMap();
         // Back
-        // defaults.put(7, GLFW.GLFW_KEY_E);
+        defaults.put(7, GLFW.GLFW_KEY_E);
         // Left and right wrists
         defaults.put(2, GLFW.GLFW_KEY_Z);
         defaults.put(3, GLFW.GLFW_KEY_X);
