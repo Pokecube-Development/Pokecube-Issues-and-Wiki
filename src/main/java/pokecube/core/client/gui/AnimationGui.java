@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -86,9 +87,10 @@ public class AnimationGui extends Screen
 
     int[]                      shift            = { 0, 0 };
 
-    boolean                    ground           = true;
-    byte                       sexe             = IPokemob.NOSEXE;
-    boolean                    shiny            = false;
+    boolean ground = true;
+    boolean bg     = false;
+    byte    sexe   = IPokemob.NOSEXE;
+    boolean shiny  = false;
 
     List<String>               components;
 
@@ -199,6 +201,8 @@ public class AnimationGui extends Screen
     @Override
     public void render(final int unk1, final int unk2, final float partialTicks)
     {
+        if (this.bg) AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
+
         final int yOffset = this.height / 2;
         this.font.drawString("State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
         this.font.drawString("State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
@@ -314,6 +318,10 @@ public class AnimationGui extends Screen
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 80, 40, 20, "F5", b ->
         {
             RenderPokemob.reloadModel(AnimationGui.entry);
+        }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20, "BG", b ->
+        {
+            this.bg = !this.bg;
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 20, 40, 20, "Reset", b ->
         {
@@ -485,6 +493,8 @@ public class AnimationGui extends Screen
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setText(AnimationGui.mob);
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
+            this.holder = null;
+            this.forme_alt.setText("");
             this.onUpdated();
         }
         if (code == GLFW.GLFW_KEY_LEFT)
@@ -495,6 +505,8 @@ public class AnimationGui extends Screen
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.forme.setText(AnimationGui.mob);
+            this.holder = null;
+            this.forme_alt.setText("");
             this.onUpdated();
         }
         return super.keyPressed(code, unk1, unk2);

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.jellicent"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jellicent"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_jellicent": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "jellicent"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/kill_frillish"
+}

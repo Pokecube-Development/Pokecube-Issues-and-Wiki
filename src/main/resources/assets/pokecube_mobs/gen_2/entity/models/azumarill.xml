@@ -2,6 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
-  <metadata head="head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <metadata head="bodymiddle" headAxis="1" headAxis2="0" headCap1="-1,1" headDir="1"/>
+  <phase duration="6" leftArm="armleft" leftLeg="footleft" legAngle="25" name="biWalk" rightArm="armright" rightLeg="footright"/>
  </model>
 </ModelAnimator>

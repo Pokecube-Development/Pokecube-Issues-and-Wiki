@@ -1,9 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ModelAnimator>
- <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.5"/>
-  <metadata head="head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
-  <customTex default="raticate">
-  </customTex>
- </model>
+    <model>
+        <phase name="global" rotation="1,0,0,0" offset="0,0,0" scale="1.0"/>
+        <metadata headCap="-60,60" headAxis="1" headAxis2="0" headDir="1" head="head"/>
+        <phase duration="10" leftArm="leftarm" leftLeg="leftfoot" name="biWalk" rightArm="right_arm" rightLeg="rightfoot"/>
+        <phase type="walking">
+            <part name="leftfoot">
+                <component name="1" startKey="0" length="10" rotChange="-25.0,0.0,0.0,"/>
+                <component name="2" startKey="10" length="10" rotChange="25.0,0.0,0.0,"/>
+            </part>
+            <part name="rightfoot">
+                <component name="1" startKey="0" length="10" rotOffset="25.0,-0.0,-0.0," rotChange="25.0,0.0,0.0,"/>
+                <component name="2" startKey="10" length="10" rotChange="-25.0,0.0,0.0,"/>
+            </part>
+        </phase>
+    </model>
 </ModelAnimator>

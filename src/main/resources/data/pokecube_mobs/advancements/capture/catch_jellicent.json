@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.jellicent"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.jellicent"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_jellicent": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "jellicent"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/catch_frillish"
+}

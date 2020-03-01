@@ -1,7 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale="0.25"/>
-  <merges merge="sitting->sleeping"/>
- </model>
+<?xml version="1.0" encoding="UTF-8"?>
+<ModelAnimator>
+    <model>
+        <phase name="global" rotation="1,0,0,0" offset="0,0,0" scale="0.25"/>
+        <phase type="idle">
+            <part name="Right_main_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="-6.999998752889077,9.00073690957015E-6,-0.0," rotChange="-5.0,0.0,0.0,"/>
+                <component name="2" startKey="10" length="10" rotChange="5.0,0.0,0.0,"/>
+            </part>
+            <part name="Right_front_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="2.728286149888959E-6,1.9999973767081274,-0.0," rotChange="0.0,0.0,4.0,"/>
+                <component name="2" startKey="10" length="10" rotChange="0.0,0.0,-4.0,"/>
+            </part>
+            <part name="Left_main_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="-6.999998752889077,-9.00073690957015E-6,-0.0," rotChange="-5.0,0.0,0.0,"/>
+                <component name="2" startKey="10" length="10" rotChange="5.0,0.0,0.0,"/>
+            </part>
+            <part name="Left_front_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="2.728286149888959E-6,-1.9999973767081274,-0.0," rotChange="0.0,0.0,-4.0,"/>
+                <component name="2" startKey="10" length="10" rotChange="0.0,0.0,4.0,"/>
+            </part>
+        </phase>
+        <phase type="sitting">
+            <part name="Shell_base">
+                <component name="1" startKey="0" length="10" rotOffset="-24.0,-0.0,-0.0," posOffset="0.0,3.0,-1.4,"/>
+            </part>
+            <part name="Flesh_core">
+                <component name="1" startKey="0" length="10" rotOffset="4.000001676561825,-0.0,-0.0," posOffset="0.0,-0.10000000000000142,0.8,"/>
+            </part>
+            <part name="Right_main_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="-29.999998752889077,9.00073690957015E-6,-0.0,"/>
+            </part>
+            <part name="Right_front_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="2.728286149888959E-6,-12.000002623291874,-0.0,"/>
+            </part>
+            <part name="Left_main_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="-29.999998752889077,-9.00073690957015E-6,-0.0,"/>
+            </part>
+            <part name="Left_front_tentacle">
+                <component name="1" startKey="0" length="10" rotOffset="2.728286149888959E-6,12.000002623291874,-0.0,"/>
+            </part>
+        </phase>
+        <merges merge="sitting->sleeping"/>
+    </model>
 </ModelAnimator>

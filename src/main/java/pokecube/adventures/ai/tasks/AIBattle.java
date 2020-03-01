@@ -6,6 +6,7 @@ import net.minecraft.command.arguments.EntityAnchorArgument.Type;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
@@ -138,12 +139,15 @@ public class AIBattle extends AITrainerBase
                 }
             return;
         }
+
+        final int cooldown = this.trainer.getTarget() instanceof PlayerEntity ? this.trainer.getAttackCooldown() : 0;
+
         // If no mob was found, then it means trainer was not throwing cubes, as
         // those are counted along with active pokemobs.
         this.aiTracker.setAIState(IHasNPCAIStates.THROWING, false);
         // If the trainer is on attack cooldown, then check if to send message
         // about next pokemob, or to return early.
-        if (this.trainer.getAttackCooldown() > 0)
+        if (cooldown > 0)
         {
             // If no next pokemob, reset trainer and return early.
             if (this.trainer.getNextPokemob().isEmpty())
@@ -155,7 +159,7 @@ public class AIBattle extends AITrainerBase
             }
             // If cooldown is at specific number, send the message for sending
             // out next pokemob.
-            if (this.trainer.getAttackCooldown() == Config.instance.trainerSendOutDelay / 2)
+            if (cooldown == Config.instance.trainerSendOutDelay / 2)
             {
                 final ItemStack nextStack = this.trainer.getNextPokemob();
                 if (!nextStack.isEmpty())

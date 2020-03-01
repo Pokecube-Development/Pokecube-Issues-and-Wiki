@@ -114,7 +114,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
         catch (final Exception e)
         {
             this.valid = false;
-            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading " + model, e);
+            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading " + model, e.getMessage());
         }
     }
 
