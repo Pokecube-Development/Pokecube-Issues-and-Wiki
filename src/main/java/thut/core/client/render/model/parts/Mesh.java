@@ -1,5 +1,7 @@
 package thut.core.client.render.model.parts;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
@@ -65,7 +67,7 @@ public abstract class Mesh
             this.normalList[i] = normal;
             this.normalList[i + 1] = normal;
             this.normalList[i + 2] = normal;
-            if (iter == 4) this.normalList[i + 3] = c;
+            if (iter == 4) this.normalList[i + 3] = normal;
         }
 
         // Initialize a "default" material for us
