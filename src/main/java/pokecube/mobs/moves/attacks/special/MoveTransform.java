@@ -6,7 +6,6 @@ package pokecube.mobs.moves.attacks.special;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveNames;
@@ -90,7 +89,7 @@ public class MoveTransform extends Move_Basic
             if (move != null && !IMoveNames.MOVE_TRANSFORM.equals(move)) MovesUtils.doAttack(move, attacker, attacked);
             else if (MovesUtils.canUseMove(attacker)) MovesUtils.displayEfficiencyMessages(attacker, attacked, 0F, 1F);
         }
-        else if (attacked instanceof PlayerEntity)
+        if (attackedMob == null)
         {
             final MovePacket packet = new MovePacket(attacker, attacked, this.name, this.move.type, 25, 1,
                     IMoveConstants.STATUS_NON, IMoveConstants.CHANGE_NONE);
