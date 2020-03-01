@@ -38,13 +38,14 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 
 public class CapabilityHasPokemobs
 {
-    public static class DefaultPokemobs implements IHasPokemobs, ICapabilitySerializable<CompoundNBT>
+    public static class DefaultPokemobs implements IHasPokemobs
     {
         public static class DataParamHolder
         {
@@ -127,7 +128,7 @@ public class CapabilityHasPokemobs
         private final Set<ITargetWatcher> watchers      = Sets.newHashSet();
 
         public final DataParamHolder holder = new DataParamHolder();
-        public DataSync              datasync;
+        private DataSync             datasync;
 
         @Override
         public void addTargetWatcher(final ITargetWatcher watcher)
@@ -139,6 +140,8 @@ public class CapabilityHasPokemobs
         @Override
         public boolean canBattle(final LivingEntity target)
         {
+            final IHasPokemobs trainer = CapabilityHasPokemobs.getHasPokemobs(target);
+            if (trainer != null && trainer.getTarget() != null && trainer.getTarget() != this.user) return false;
             return !this.hasDefeated(target);
         }
 
@@ -172,7 +175,7 @@ public class CapabilityHasPokemobs
             this.setNextSlot(nbt.getInt("nextSlot"));
             this.setCanMegaEvolve(nbt.getBoolean("megaevolves"));
             if (nbt.contains("gender")) this.setGender(nbt.getByte("gender"));
-            if (this.getNextSlot() >= 6) this.setNextSlot(0);
+            if (this.getNextSlot() >= this.getMaxPokemobCount()) this.setNextSlot(0);
             this.sight = nbt.contains("sight") ? nbt.getInt("sight") : -1;
             if (nbt.contains("battleCD")) this.battleCooldown = nbt.getInt("battleCD");
             if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
@@ -248,12 +251,20 @@ public class CapabilityHasPokemobs
         @Override
         public UUID getOutID()
         {
+            if (this.outID != null && this.outMob == null && this.user.getEntityWorld() instanceof ServerWorld)
+            {
+                this.outMob = CapabilityPokemob.getPokemobFor(((ServerWorld) this.user.getEntityWorld())
+                        .getEntityByUuid(this.outID));
+                if (this.outMob == null) this.outID = null;
+            }
+            if (this.outMob != null && this.outMob.getEntity().getHealth() <= 0) this.setOutMob(null);
             return this.outID;
         }
 
         @Override
         public IPokemob getOutMob()
         {
+            if (this.outMob != null && this.outMob.getEntity().getHealth() <= 0) this.setOutMob(null);
             return this.outMob;
         }
 
@@ -424,10 +435,13 @@ public class CapabilityHasPokemobs
         public void resetPokemob()
         {
             this.setNextSlot(0);
-            EventsHandler.recallAllPokemobs(this.user);
             this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
             this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
-            this.setOutMob(null);
+            if (this.getOutID() != null)
+            {
+                EventsHandler.recallAllPokemobs(this.user);
+                this.setOutMob(null);
+            }
         }
 
         @Override
@@ -613,9 +627,15 @@ public class CapabilityHasPokemobs
             }
             this.nextSlot = -1;
         }
+
+        @Override
+        public void setDataSync(final DataSync sync)
+        {
+            this.datasync = sync;
+        }
     }
 
-    public static interface IHasPokemobs
+    public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>
     {
         public static enum LevelMode
         {
@@ -834,6 +854,8 @@ public class CapabilityHasPokemobs
         void setType(TypeTrainer type);
 
         void throwCubeAt(Entity target);
+
+        void setDataSync(DataSync sync);
     }
 
     public static interface ITargetWatcher

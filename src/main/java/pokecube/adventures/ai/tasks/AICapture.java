@@ -20,20 +20,23 @@ public class AICapture extends AITrainerBase
     }
 
     @Override
+    public boolean shouldRun()
+    {
+        return this.trainer.getTarget() != null && this.trainer.countPokemon() < this.trainer.getMaxPokemobCount() / 2;
+    }
+
+    @Override
     public void run()
     {
         this.cooldown--;
-        if (this.trainer.getTarget() != null && this.trainer.countPokemon() < this.trainer.getMaxPokemobCount() / 2)
+        final IPokemob targ = CapabilityPokemob.getPokemobFor(this.trainer.getTarget());
+        if (targ != null && targ.getOwnerId() == null && targ.getHealth() < targ.getMaxHealth() / 4
+                && this.cooldown < 0)
         {
-            final IPokemob targ = CapabilityPokemob.getPokemobFor(this.trainer.getTarget());
-            if (targ != null && targ.getOwnerId() == null && targ.getHealth() < targ.getMaxHealth() / 4
-                    && this.cooldown < 0)
-            {
-                this.cooldown = AICapture.COOLDOWN;
-                final ItemStack itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE), 1);
-                ((IPokecube) itemStack.getItem()).throwPokecubeAt(this.world, this.entity, itemStack, null, this.trainer
-                        .getTarget());
-            }
+            this.cooldown = AICapture.COOLDOWN;
+            final ItemStack itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE), 1);
+            ((IPokecube) itemStack.getItem()).throwPokecubeAt(this.world, this.entity, itemStack, null, this.trainer
+                    .getTarget());
         }
     }
 

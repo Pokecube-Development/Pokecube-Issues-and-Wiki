@@ -80,7 +80,8 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         this.agroChance = agressionProbability;
     }
 
-    public boolean shouldExecute()
+    @Override
+    public boolean shouldRun()
     {
         if (this.trainer.getTarget() != null)
         {
@@ -134,7 +135,6 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     @Override
     public void tick()
     {
-        super.tick();
         if (this.aiTracker != null && this.aiTracker.getAIState(IHasNPCAIStates.FIXEDDIRECTION) && this.trainer
                 .getTarget() == null)
         {
@@ -144,7 +144,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             this.entity.rotationYaw = this.aiTracker.getDirection();
             this.entity.prevRotationYaw = this.aiTracker.getDirection();
         }
-        if (this.shouldExecute()) this.updateTask();
+        this.updateTask();
     }
 
     public void updateTask()
