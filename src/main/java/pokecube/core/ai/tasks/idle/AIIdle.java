@@ -172,7 +172,7 @@ public class AIIdle extends AIBase
             double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(),
                     this.pokemob.getPokedexEntry().width * this.pokemob.getSize());
             diff = Math.max(2, diff);
-            if (this.v.distToSq(v) < diff) return false;
+            if (this.v1.distToSq(v) < diff) return false;
             this.x = v.x;
             this.y = Math.round(v.y);
             this.z = v.z;
