@@ -1,5 +1,5 @@
 {
-   "parent": "pokecube_legends:block/timerspawn",
+   "parent": "pokecube_legends:block/spaceblock",
   "display": {
     "gui": {
       "rotation": [ 30, 225, 0 ],
