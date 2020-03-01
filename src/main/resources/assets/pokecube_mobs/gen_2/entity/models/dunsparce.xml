@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
-  <metadata head="head,Head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase name="global" scale="0.2"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
+  <customTex default="dunsparce">
+   <part name="Head" tex="dunsparceeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
   <phase type="idle">
-   <part name="Wing1">
-    <component length="10" name="1" rotChange="0.0,10.0,0.0," rotOffset="-0.0,-0.0,7.692305310521359," startKey="0"/>
-    <component length="10" name="2" rotChange="0.0,-10.0,0.0," startKey="10"/>
+   <part name="tail">
+    <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
    </part>
-   <part name="Wing2">
-    <component length="10" name="1" rotChange="0.0,-10.0,0.0," rotOffset="-0.0,-0.0,-6.692000200910893," startKey="0"/>
-    <component length="10" name="2" rotChange="0.0,10.0,0.0," startKey="10"/>
+   <part name="wing1">
+    <component length="1" name="1" rotOffset="0,0,-10," startKey="0"/>
+   </part>
+   <part name="wing2">
+    <component length="1" name="1" rotOffset="0,0,10," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="tail">
+    <component length="10" name="1" rotOffset="5,0,0," rotChange="0,10,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-20,0" startKey="5"/>
+	<component length="10" name="3" rotChange="0,10,0" startKey="10"/>
+   </part>
+   <part name="wing1">
+    <component length="10" name="1" rotChange="0,35,0" rotOffset="0,-20,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-75,0" startKey="5"/>
+    <component length="10" name="3" rotChange="0,35,0" startKey="10"/>
+   </part>
+   <part name="wing2">
+    <component length="10" name="1" rotChange="0,-35,0" rotOffset="0,20,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,75,0" startKey="5"/>
+    <component length="10" name="3" rotChange="0,-35,0" startKey="10"/>
    </part>
   </phase>
  </model>

@@ -109,6 +109,9 @@ public class PokedexEntry
         public float        randomFactor = 1.0f;
         public boolean      traded       = false;
 
+        // This is if it needs a specific formeHolder to evolve into this.
+        public ResourceLocation neededForme = null;
+
         public EvolutionData(final PokedexEntry evol)
         {
             this.evolution = evol;
@@ -160,6 +163,9 @@ public class PokedexEntry
             if (this.dayOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.day");
             if (this.nightOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.night");
             if (this.rainOnly) subEvo = subEvo + "\n" + I18n.format("pokemob.description.evolve.rain");
+
+            // TODO add in info related to needed formes.
+
             if (this.randomFactor != 1)
             {
                 final String var = (int) (100 * this.randomFactor) + "%";
@@ -232,6 +238,7 @@ public class PokedexEntry
             if (data.chance != null) this.randomFactor = data.chance;
             if (this.level == -1) this.level = 0;
             if (!this.item.isEmpty()) PokecubeItems.addToEvos(this.item);
+            if (data.form_from != null) this.neededForme = PokecubeItems.toPokecubeResource(data.form_from);
         }
 
         protected void postInit()
@@ -257,6 +264,11 @@ public class PokedexEntry
             boolean ret = mob.traded() == this.traded || !this.traded;
             final Random rand = new Random(mob.getRNGValue());
             if (rand.nextFloat() > this.randomFactor) return false;
+            if (this.neededForme != null)
+            {
+                if (mob.getCustomHolder() == null) return false;
+                if (!mob.getCustomHolder().key.equals(this.neededForme)) return false;
+            }
             if (this.rainOnly)
             {
                 final World world = mob.getEntity().getEntityWorld();

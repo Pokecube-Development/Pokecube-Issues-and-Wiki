@@ -65,6 +65,7 @@ public abstract class Mesh
             this.normalList[i] = normal;
             this.normalList[i + 1] = normal;
             this.normalList[i + 2] = normal;
+            if (iter == 4) this.normalList[i + 3] = c;
         }
 
         // Initialize a "default" material for us

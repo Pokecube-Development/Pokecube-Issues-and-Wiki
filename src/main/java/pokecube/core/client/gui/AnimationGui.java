@@ -136,7 +136,11 @@ public class AnimationGui extends Screen
         this.toRender.onGenesChanged();
         this.dyeColour.setText("" + this.toRender.getDyeColour());
         if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
+
         this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
+        if (this.holder != null) this.renderHolder = RenderPokemob.customs.getOrDefault(this.holder.key,
+                this.renderHolder);
+
         this.renderHolder.overrideAnim = true;
         this.renderHolder.anim = ThutCore.trim(this.anim.getText());
         PacketPokedex.updateWatchEntry(AnimationGui.entry);
@@ -262,7 +266,7 @@ public class AnimationGui extends Screen
         super.init();
         final int yOffset = this.height / 2;
         final int xOffset = this.width / 2;
-
+        this.sexe = IPokemob.MALE;
         if (GuiPokedex.pokedexEntry != null) AnimationGui.mob = GuiPokedex.pokedexEntry.getName();
         AnimationGui.entry = Database.getEntry(AnimationGui.mob);
         if (AnimationGui.entry == null) AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
@@ -293,8 +297,9 @@ public class AnimationGui extends Screen
             else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setText(AnimationGui.mob);
-            this.holder = null;
-            this.forme_alt.setText("");
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+            System.out.println(AnimationGui.entry + " " + this.holder + " " + this.sexe);
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
@@ -305,8 +310,8 @@ public class AnimationGui extends Screen
             else AnimationGui.entry = Pokedex.getInstance().getLastEntry();
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setText(AnimationGui.mob);
-            this.holder = null;
-            this.forme_alt.setText("");
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
@@ -393,8 +398,8 @@ public class AnimationGui extends Screen
                     {
                         AnimationGui.entry = i + 1 < formes.size() ? formes.get(i + 1) : formes.get(0);
                         AnimationGui.mob = AnimationGui.entry.getName();
-                        this.holder = null;
-                        this.forme_alt.setText("");
+                        this.holder = AnimationGui.entry.getModel(this.sexe);
+                        this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
                         this.forme.setText(AnimationGui.mob);
                         break;
                     }
@@ -414,8 +419,8 @@ public class AnimationGui extends Screen
                     {
                         AnimationGui.entry = i - 1 >= 0 ? formes.get(i - 1) : formes.get(formes.size() - 1);
                         AnimationGui.mob = AnimationGui.entry.getName();
-                        this.holder = null;
-                        this.forme_alt.setText("");
+                        this.holder = AnimationGui.entry.getModel(this.sexe);
+                        this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
                         this.forme.setText(AnimationGui.mob);
                         break;
                     }
@@ -493,8 +498,8 @@ public class AnimationGui extends Screen
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setText(AnimationGui.mob);
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
-            this.holder = null;
-            this.forme_alt.setText("");
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
             this.onUpdated();
         }
         if (code == GLFW.GLFW_KEY_LEFT)
@@ -505,8 +510,8 @@ public class AnimationGui extends Screen
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.forme.setText(AnimationGui.mob);
-            this.holder = null;
-            this.forme_alt.setText("");
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
             this.onUpdated();
         }
         return super.keyPressed(code, unk1, unk2);

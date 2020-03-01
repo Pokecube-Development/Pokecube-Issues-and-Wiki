@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.05"/>
-  <metadata head="head" headCap="-60,60" headDir="-1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
   <phase type="idle">
    <part name="tail1">
     <component length="4" name="1" rotChange="0.0,-50.0,0.0," rotOffset="0.0,35.0,0.0" startKey="0"/>

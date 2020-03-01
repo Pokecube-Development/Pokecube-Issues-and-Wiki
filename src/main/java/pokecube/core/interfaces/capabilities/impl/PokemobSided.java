@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 
@@ -82,8 +83,9 @@ public abstract class PokemobSided extends PokemobBase
     }
 
     @Override
-    public void setCustomHolder(final FormeHolder holder)
+    public void setCustomHolder(FormeHolder holder)
     {
+        if (holder != null) holder = Database.formeHolders.getOrDefault(holder.key, holder);
         this.forme_holder = holder;
     }
 
