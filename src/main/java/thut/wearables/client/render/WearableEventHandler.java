@@ -17,6 +17,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -37,7 +38,9 @@ public class WearableEventHandler
         ClientRegistry.registerKeyBinding(this.toggleGui);
 
         final Map<Integer, Integer> defaults = Maps.newHashMap();
-        defaults.put(7, GLFW.GLFW_KEY_E);
+        // Back
+        // defaults.put(7, GLFW.GLFW_KEY_E);
+        // Left and right wrists
         defaults.put(2, GLFW.GLFW_KEY_Z);
         defaults.put(3, GLFW.GLFW_KEY_X);
 
@@ -48,10 +51,12 @@ public class WearableEventHandler
             String name = "Activate ";
             if (slot.slots == 1) name = name + " " + slot;
             else name = name + " " + slot + " " + subIndex;
-            final int key = defaults.containsKey(slot) ? defaults.get(slot) : InputMappings.INPUT_INVALID.getKeyCode();
-            this.keys[i] = defaults.containsKey(slot) ? new KeyBinding(name, key, "Wearables")
-                    : new KeyBinding(name, key, "Wearables");
-            this.keys[i].setKeyConflictContext(KeyConflictContext.IN_GAME);
+
+            final boolean defaulted = defaults.containsKey(i);
+            final int key = defaulted ? defaults.get(i) : InputMappings.INPUT_INVALID.getKeyCode();
+            if (defaulted) this.keys[i] = new KeyBinding(name, KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
+                    InputMappings.Type.KEYSYM.getOrMakeInput(key), "Wearables");
+            else this.keys[i] = new KeyBinding(name, key, "Wearables");
             ClientRegistry.registerKeyBinding(this.keys[i]);
         }
     }

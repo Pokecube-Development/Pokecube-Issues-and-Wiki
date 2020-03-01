@@ -247,7 +247,8 @@ public class AIBattle extends AITrainerBase
         final LivingEntity target = this.trainer.getTarget();
         if (target == null) return false;
         final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
-        if (other != null && other.getNextPokemob().isEmpty() && other.getOutID() == null)
+        final boolean hitUs = target.getLastAttackedEntity() == this.entity;
+        if (!hitUs && other != null && other.getNextPokemob().isEmpty() && other.getOutID() == null)
         {
             if (other.getOutID() == null)
             {
@@ -256,13 +257,14 @@ public class AIBattle extends AITrainerBase
                 {
                     boolean found = false;
                     for (final Entity mob : mobs)
-                        if (mob.getDistanceSq(target) < 32 * 32)
+                        if (mob.addedToChunk && mob.getDistanceSq(target) < 32 * 32)
                         {
                             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
                             if (pokemob != null && !found)
                             {
                                 other.setOutMob(pokemob);
                                 found = true;
+                                break;
                             }
                         }
                     this.deagrotimer = 20;
