@@ -5869,9 +5869,51 @@
       "name": "Deerling",
       "stats": {
         "spawnRules": [
-          {
+		  {
+            "model": {
+              "key": "deerling_sp",
+              "tex": "deerling_sp",
+              "model": "deerling_sp",
+              "anim": "deerling_sp"
+            },
+            "values": {
+              "types": "flower",
+              "rate": "0.11"
+            }
+          },
+		  {
+            "model": {
+              "key": "deerling_au",
+              "tex": "deerling_au",
+              "model": "deerling_au",
+              "anim": "deerling_au"
+            },
+            "values": {
+              "types": "plains",
+              "rate": "0.11"
+            }
+          },
+		  {
+            "model": {
+              "key": "deerling_su",
+              "tex": "deerling_su",
+              "model": "deerling_su",
+              "anim": "deerling_su"
+            },
             "values": {
               "types": "forest",
+              "rate": "0.11"
+            }
+          },
+		  {
+            "model": {
+              "key": "deerling_wi",
+              "tex": "deerling_wi",
+              "model": "deerling_wi",
+              "anim": "deerling_wi"
+            },
+            "values": {
+              "types": "snowy",
               "rate": "0.1"
             }
           }
