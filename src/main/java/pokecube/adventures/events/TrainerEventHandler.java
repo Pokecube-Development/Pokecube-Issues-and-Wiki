@@ -50,6 +50,7 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.player.PlayerPokemobs;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
@@ -170,8 +171,14 @@ public class TrainerEventHandler
     public static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!(event.getObject() instanceof MobEntity)) return;
-        if (TypeTrainer.get((LivingEntity) event.getObject(), false) == null) return;
         if (TrainerEventHandler.hasCap(event)) return;
+        if (event.getObject() instanceof PlayerEntity)
+        {
+            PlayerPokemobs.register(event);
+            return;
+        }
+
+        if (TypeTrainer.get((LivingEntity) event.getObject(), false) == null) return;
 
         final DefaultPokemobs mobs = new DefaultPokemobs();
         final DefaultRewards rewards = new DefaultRewards();
