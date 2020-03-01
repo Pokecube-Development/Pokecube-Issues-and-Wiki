@@ -70,7 +70,7 @@ public class Evolution
             f7 = (f5 - 0.8F) / 0.2F;
         }
 
-        IVertexBuilder ivertexbuilder2 = bufferIn.getBuffer(EFFECT);
+        IVertexBuilder ivertexbuilder2 = Utils.makeBuilder(EFFECT, bufferIn);
         mat.push();
         if (scaleMob)
         {
@@ -109,7 +109,7 @@ public class Evolution
             }
             catch (Exception e)
             {
-                PokecubeCore.LOGGER.warn("Error drawing evo effect: {}, {}", e.toString(), i);
+                PokecubeCore.LOGGER.debug("Error drawing evo effect: {}, {}", e.toString(), i);
             }
         }
         mat.pop();

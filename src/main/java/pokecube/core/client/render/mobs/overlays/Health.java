@@ -54,15 +54,37 @@ import thut.core.common.handlers.PlayerDataHandler;
  * modified the nametags to indicate ownership */
 public class Health
 {
-    static List<LivingEntity> renderedEntities = new ArrayList<>();
+    static List<LivingEntity>       renderedEntities = new ArrayList<>();
 
-    static boolean            blend;
-    static boolean            normalize;
-    static boolean            lighting;
-    static int                src;
-    static int                dst;
+    private static final RenderType TYPE;
+    static
+    {
+        RenderType.State.Builder builder = RenderType.State.builder();
+        builder.transparency(new RenderState.TransparencyState("translucent_transparency", () ->
+        {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+        }, () ->
+        {
+            RenderSystem.disableBlend();
+        }));
+        builder.diffuseLighting(new RenderState.DiffuseLightingState(false));
+        builder.alpha(new RenderState.AlphaState(0.003921569F));
+        builder.cull(new RenderState.CullState(false));
+        builder.depthTest(new RenderState.DepthTestState(515));
+        
+        final RenderType.State rendertype$state = builder.build(false);
+        TYPE = RenderType.get("pokecube:mob_health_tag", DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, true,
+                false, rendertype$state);
+    }
+    
+    static boolean        blend;
+    static boolean        normalize;
+    static boolean        lighting;
+    static int            src;
+    static int            dst;
 
-    public static boolean     enabled          = true;
+    public static boolean enabled = true;
 
     public static Entity getEntityLookedAt(final Entity e)
     {
@@ -81,7 +103,7 @@ public class Health
         }
         catch (Exception e)
         {
-            PokecubeCore.LOGGER.warn("Error drawing a box for healthbar! {}", e.toString());
+            PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {}", e.toString());
         }
     }
 
@@ -116,34 +138,10 @@ public class Health
             ridingStack.push(entity);
         }
 
-        RenderType.State.Builder builder = RenderType.State.builder();
-        builder.transparency(new RenderState.TransparencyState("translucent_transparency", () ->
-        {
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-        }, () ->
-        {
-            RenderSystem.disableBlend();
-        }));
-        builder.diffuseLighting(new RenderState.DiffuseLightingState(false));
-        builder.alpha(new RenderState.AlphaState(0.003921569F));
-        builder.cull(new RenderState.CullState(false));
-        builder.depthTest(new RenderState.DepthTestState(515));
-        // TODO see where we need to properly apply the material effects.
-
-        final RenderType.State rendertype$state = builder.build(false);
-
-        final RenderType TYPE = RenderType.get("pokecube:mob_health_tag", DefaultVertexFormats.POSITION_COLOR,
-                GL11.GL_QUADS, 256, true, false, rendertype$state);
-
-        IVertexBuilder buffer = buf.getBuffer(TYPE);
+        IVertexBuilder buffer = Utils.makeBuilder(TYPE, buf);
         Matrix4f pos;
 
         mat.push();
-        Quaternion quaternion;
-        quaternion = viewer.getRotation();
-        mat.rotate(quaternion);
-
         processing:
         {
 
@@ -156,6 +154,10 @@ public class Health
             final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? config.dynamax_scale
                     : passedEntity.getHeight();
             mat.translate(0, dy + config.heightAbove, 0);
+            Quaternion quaternion;
+            quaternion = viewer.getRotation();
+            mat.rotate(quaternion);
+
             mat.scale(scale, scale, scale);
 
             final float padding = config.backgroundPadding;
@@ -249,7 +251,6 @@ public class Health
             mat.push();
             float s1 = 0.75F;
             mat.scale(s1, s1, s1);
-            
 
             mat.push();
             s1 = 1.5F;
