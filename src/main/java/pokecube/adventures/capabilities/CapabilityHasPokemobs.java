@@ -257,7 +257,8 @@ public class CapabilityHasPokemobs
                         .getEntityByUuid(this.outID));
                 if (this.outMob == null) this.outID = null;
             }
-            if (this.outMob != null && this.outMob.getEntity().getHealth() <= 0) this.setOutMob(null);
+            if (this.outMob != null && (this.outMob.getEntity().getHealth() <= 0 || !this.outMob
+                    .getEntity().addedToChunk)) this.setOutMob(null);
             return this.outID;
         }
 
