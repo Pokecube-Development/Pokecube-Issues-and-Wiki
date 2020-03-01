@@ -38,6 +38,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
@@ -127,7 +128,7 @@ public class CapabilityHasPokemobs
         private final Set<ITargetWatcher> watchers      = Sets.newHashSet();
 
         public final DataParamHolder holder = new DataParamHolder();
-        public DataSync              datasync;
+        private DataSync             datasync;
 
         @Override
         public void addTargetWatcher(final ITargetWatcher watcher)
@@ -250,12 +251,20 @@ public class CapabilityHasPokemobs
         @Override
         public UUID getOutID()
         {
+            if (this.outID != null && this.outMob == null && this.user.getEntityWorld() instanceof ServerWorld)
+            {
+                this.outMob = CapabilityPokemob.getPokemobFor(((ServerWorld) this.user.getEntityWorld())
+                        .getEntityByUuid(this.outID));
+                if (this.outMob == null) this.outID = null;
+            }
+            if (this.outMob != null && this.outMob.getEntity().getHealth() <= 0) this.setOutMob(null);
             return this.outID;
         }
 
         @Override
         public IPokemob getOutMob()
         {
+            if (this.outMob != null && this.outMob.getEntity().getHealth() <= 0) this.setOutMob(null);
             return this.outMob;
         }
 
@@ -426,10 +435,13 @@ public class CapabilityHasPokemobs
         public void resetPokemob()
         {
             this.setNextSlot(0);
-            EventsHandler.recallAllPokemobs(this.user);
             this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
             this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
-            this.setOutMob(null);
+            if (this.getOutID() != null)
+            {
+                EventsHandler.recallAllPokemobs(this.user);
+                this.setOutMob(null);
+            }
         }
 
         @Override
@@ -614,6 +626,12 @@ public class CapabilityHasPokemobs
                 return;
             }
             this.nextSlot = -1;
+        }
+
+        @Override
+        public void setDataSync(final DataSync sync)
+        {
+            this.datasync = sync;
         }
     }
 
@@ -836,6 +854,8 @@ public class CapabilityHasPokemobs
         void setType(TypeTrainer type);
 
         void throwCubeAt(Entity target);
+
+        void setDataSync(DataSync sync);
     }
 
     public static interface ITargetWatcher

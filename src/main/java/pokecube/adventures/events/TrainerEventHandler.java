@@ -170,13 +170,13 @@ public class TrainerEventHandler
 
     public static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!(event.getObject() instanceof MobEntity)) return;
-        if (TrainerEventHandler.hasCap(event)) return;
         if (event.getObject() instanceof PlayerEntity)
         {
             PlayerPokemobs.register(event);
             return;
         }
+        if (!(event.getObject() instanceof MobEntity)) return;
+        if (TrainerEventHandler.hasCap(event)) return;
 
         if (TypeTrainer.get((LivingEntity) event.getObject(), false) == null) return;
 
@@ -209,7 +209,7 @@ public class TrainerEventHandler
             data = new DataSync_Impl();
             event.addCapability(TrainerEventHandler.DATASCAP, (DataSync_Impl) data);
         }
-        mobs.datasync = data;
+        mobs.setDataSync(data);
         mobs.holder.TYPE = data.register(new Data_String(), "");
 
         for (int i = 0; i < 6; i++)
@@ -231,7 +231,7 @@ public class TrainerEventHandler
         return new ItemStack(Items.EMERALD);
     }
 
-    private static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
+    public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
     {
         for (final ICapabilityProvider provider : event.getCapabilities().values())
             if (provider.getCapability(SyncHandler.CAP).isPresent()) return provider.getCapability(SyncHandler.CAP)
@@ -448,7 +448,7 @@ public class TrainerEventHandler
      */
     public static void TrainerRecallEvent(final pokecube.core.events.pokemob.RecallEvent evt)
     {
-        if (evt instanceof RecallEvent.Pre) return;
+        if (evt instanceof RecallEvent.Pre || evt.recalled.getOwner() instanceof PlayerEntity) return;
 
         final IPokemob recalled = evt.recalled;
         final LivingEntity owner = recalled.getOwner();

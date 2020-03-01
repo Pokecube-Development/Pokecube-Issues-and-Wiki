@@ -18,6 +18,9 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TagNames;
+import thut.api.world.mobs.data.DataSync;
+import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.core.common.world.mobs.data.types.Data_String;
 
 public class PlayerPokemobs extends DefaultPokemobs
 {
@@ -29,6 +32,14 @@ public class PlayerPokemobs extends DefaultPokemobs
         if (event.getCapabilities().containsKey(TrainerEventHandler.POKEMOBSCAP)) return;
         final IHasPokemobs mobs = PlayerPokemobs.PLAYERPOKEMOBS.apply((PlayerEntity) event.getObject());
         event.addCapability(TrainerEventHandler.POKEMOBSCAP, mobs);
+        DataSync data = TrainerEventHandler.getData(event);
+        if (data == null)
+        {
+            data = new DataSync_Impl();
+            event.addCapability(TrainerEventHandler.DATASCAP, (DataSync_Impl) data);
+        }
+        mobs.setDataSync(data);
+        if (mobs instanceof PlayerPokemobs) ((PlayerPokemobs) mobs).holder.TYPE = data.register(new Data_String(), "");
     }
 
     PlayerEntity player;
@@ -37,6 +48,19 @@ public class PlayerPokemobs extends DefaultPokemobs
     {
         this.player = player;
         this.init(player, new DefaultAIStates(), new DefaultMessager(), new DefaultRewards());
+    }
+
+    @Override
+    public void setPokemob(final int slot, final ItemStack cube)
+    {
+        // We do nothing here.
+    }
+
+    @Override
+    public boolean addPokemob(final ItemStack mob)
+    {
+        // We also do not add pokemobs.
+        return false;
     }
 
     @Override
@@ -89,5 +113,11 @@ public class PlayerPokemobs extends DefaultPokemobs
     {
         this.setType(TypeTrainer.getTrainer(nbt.getString("type")));
         if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
+    }
+
+    @Override
+    public void resetPokemob()
+    {
+        // We do nothing here either.
     }
 }
