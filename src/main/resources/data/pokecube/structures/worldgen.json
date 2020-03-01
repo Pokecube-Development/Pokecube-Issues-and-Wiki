@@ -118,6 +118,8 @@
             "empty;{\"weight\":4}",
             "pokecube:village/common/houses/house_small_1;{\"weight\":4}",
             "pokecube:village/common/houses/house_big_1;{\"weight\":8}",
+            "pokecube:village/common/houses/house_medium_1;{\"weight\":8}",
+            "pokecube:village/common/houses/house_medium_2;{\"weight\":8}",
             "pokecube:village/common/pokecenter/center_01;{\"weight\":-1}",
             "pokecube:village/common/gym/gym_01;{\"weight\":-1}"
           ]
