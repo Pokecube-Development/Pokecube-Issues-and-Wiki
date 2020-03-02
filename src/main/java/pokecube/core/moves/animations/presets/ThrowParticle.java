@@ -7,6 +7,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -41,7 +42,7 @@ public class ThrowParticle extends MoveAnimationBase
 
         double factor = (info.currentTick + partialTick) / (double) this.getDuration();
         factor = Math.min(1, factor);
-        temp.set(temp.normalize());
+        temp.norm();
         temp.scalarMultBy(-dist * factor);
         final Vector3 temp2 = temp.copy();
         final Tessellator tessellator = Tessellator.getInstance();
@@ -59,6 +60,9 @@ public class ThrowParticle extends MoveAnimationBase
         final Random rand = new Random(hash);
         factor = this.width * 0.2;
         tez.begin(6, DefaultVertexFormats.POSITION_COLOR);
+        Matrix4f pos = mat.getLast().getPositionMatrix();
+
+        float x1, x2, y1, y2, z1, z2;
 
         for (int i = 0; i < 500; i++)
         {
@@ -66,11 +70,17 @@ public class ThrowParticle extends MoveAnimationBase
             temp.scalarMult(0.010);
             temp.addTo(temp2);
             final double size = 0.01;
+            x1 = (float) (temp.x - size);
+            y1 = (float) (temp.y - size);
+            z1 = (float) (temp.z - size);
+            x2 = (float) temp.x;
+            y2 = (float) (temp.y + size);
+            z2 = (float) temp.z;
 
-            tez.pos(temp.x, temp.y + size, temp.z).color(red, green, blue, alpha).endVertex();
-            tez.pos(temp.x - size, temp.y - size, temp.z - size).color(red, green, blue, alpha).endVertex();
-            tez.pos(temp.x - size, temp.y + size, temp.z - size).color(red, green, blue, alpha).endVertex();
-            tez.pos(temp.x, temp.y - size, temp.z).color(red, green, blue, alpha).endVertex();
+            tez.pos(pos, x2, y2, z2).color(red, green, blue, alpha).endVertex();
+            tez.pos(pos, x1, y1, z1).color(red, green, blue, alpha).endVertex();
+            tez.pos(pos, x1, y2, z1).color(red, green, blue, alpha).endVertex();
+            tez.pos(pos, x2, y1, z2).color(red, green, blue, alpha).endVertex();
         }
         tessellator.draw();
 
