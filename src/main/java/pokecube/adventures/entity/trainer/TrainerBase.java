@@ -122,6 +122,9 @@ public abstract class TrainerBase extends NpcMob
             else this.setCustomer(null);
             return true;
         }
+        else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.setTarget(
+                player);
+
         return false;
     }
 
