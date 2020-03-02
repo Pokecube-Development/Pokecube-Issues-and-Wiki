@@ -261,8 +261,8 @@ public class TextureHelper implements IPartTexturer
         if (this.mob == null) return default_;
         ResourceLocation tex = this.bindPerState(part);
         if (tex != null) return tex;
-        final String texName = ThutCore.trim(this.texNames.containsKey(part) ? this.texNames.get(part)
-                : this.default_path);
+        final String texName = ThutCore
+                .trim(this.texNames.containsKey(part) ? this.texNames.get(part) : this.default_path);
         if (texName == null || texName.trim().isEmpty()) this.texNames.put(part, this.default_path);
         tex = this.getResource(texName);
         TexState state;
@@ -317,7 +317,7 @@ public class TextureHelper implements IPartTexturer
     @Override
     public boolean hasMapping(final String part)
     {
-        return this.texNames.containsKey(part);
+        return this.texNames.containsKey(part) || this.default_tex != null;
     }
 
     @Override

@@ -39,7 +39,6 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.moves.MovesUtils;
-import thut.api.entity.IMobTexturable;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
@@ -448,10 +447,10 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             if (custom.entry == entry) custom.init();
     }
 
-    public static final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
+    public static final Map<ResourceLocation, Holder> customs   = Maps.newHashMap();
 
-    public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
-    public static Map<PokedexEntry, Holder>   holders   = Maps.newHashMap();
+    public static Map<PokemobType<?>, Holder>         holderMap = Maps.newHashMap();
+    public static Map<PokedexEntry, Holder>           holders   = Maps.newHashMap();
 
     public static void register()
     {
@@ -473,7 +472,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         return RenderPokemob.MISSNGNO;
     }
 
-    final Holder                        holder;
+    final Holder holder;
 
     public RenderPokemob(final PokedexEntry entry, final EntityRendererManager p_i50961_1_)
     {
@@ -573,9 +572,28 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     @Override
     public ResourceLocation getEntityTexture(final TameableEntity entity)
     {
-        final IMobTexturable mob = entity.getCapability(TextureHelper.CAPABILITY).orElse(null);
         final ResourceLocation texture = RenderPokemob.getMissingNo().texture;
-        if (mob != null) return mob.getTexture(null);
-        return texture;
+        Holder holder = this.holder;
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        if (pokemob == null) return texture;
+
+        if (pokemob.getCustomHolder() != null)
+        {
+            final FormeHolder forme = pokemob.getCustomHolder();
+            final ResourceLocation model = forme.key;
+            Holder temp = RenderPokemob.customs.get(model);
+            if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
+            {
+                if (temp == null) temp = new Holder(pokemob.getPokedexEntry());
+                if (forme.model != null) temp.model = forme.model;
+                if (forme.animation != null) temp.animation = forme.animation;
+                if (forme.texture != null) temp.texture = forme.texture;
+                RenderPokemob.customs.put(model, temp);
+                temp.init();
+            }
+            holder = temp;
+        }
+        if (holder.getTexturer() == null) return texture;
+        return holder.getTexturer().getTexture("", texture);
     }
 }
