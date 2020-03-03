@@ -30,7 +30,7 @@ public class MoveSound extends TickableSound
     {
         this.pos2.set(this.player);
         final double dist = this.pos2.distanceTo(this.pos1);
-        this.volume = (float) (5.0f / dist);
+        this.volume = (float) (15.0f / dist);
         this.volume = Math.min(1, this.volume);
         if (this.time++ > 100 || dist > 20) this.donePlaying = true;
     }
