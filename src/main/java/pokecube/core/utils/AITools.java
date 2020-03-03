@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.Difficulty;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
@@ -47,7 +48,8 @@ public class AITools
             if (input instanceof ServerPlayerEntity)
             {
                 final ServerPlayerEntity player = (ServerPlayerEntity) input;
-                if (player.isSpectator()) return false;
+                if (player.isSpectator() || player.getServerWorld().getDifficulty().getId() <= Difficulty.EASY.getId())
+                    return false;
             }
             return true;
         }

@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.Difficulty;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -45,18 +46,6 @@ public class AIFindTarget extends AIBase implements IAICombat
     }
 
     public static int DEAGROTIMER = 50;
-
-    /**
-     * Checks the blacklists set via configs, to see whether the target is a
-     * valid choice.
-     */
-    public static final Predicate<Entity> validTargets = AITools.validTargets;
-
-    /**
-     * Checks to see if the wild pokemob should try to agro the nearest visible
-     * player.
-     */
-    public static Predicate<IPokemob> shouldAgroNearestPlayer = AITools.shouldAgroNearestPlayer;
 
     @SubscribeEvent
     public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
@@ -202,7 +191,7 @@ public class AIFindTarget extends AIBase implements IAICombat
                                              {
                                                  if (TeamManager.sameTeam(AIFindTarget.this.entity, input))
                                                      return false;
-                                                 if (!AIFindTarget.validTargets.test(input)) return false;
+                                                 if (!AITools.validTargets.test(input)) return false;
                                                  return input instanceof LivingEntity;
                                              };
     private int             agroTimer        = -1;
@@ -635,12 +624,13 @@ public class AIFindTarget extends AIBase implements IAICombat
         }
 
         // If wild, randomly decided to agro a nearby player instead.
-        if (ret && AIFindTarget.shouldAgroNearestPlayer.test(this.pokemob))
+        if (ret && AITools.shouldAgroNearestPlayer.test(this.pokemob))
         {
             final PlayerEntity player = this.getClosestVulnerablePlayerToEntity(this.entity, PokecubeCore
                     .getConfig().mobAggroRadius);
 
-            if (player != null && Vector3.isVisibleEntityFromEntity(this.entity, player))
+            if (player != null && Vector3.isVisibleEntityFromEntity(this.entity, player) && this.entity.getEntityWorld()
+                    .getDifficulty().getId() > Difficulty.EASY.getId() && AITools.validTargets.test(player))
             {
                 this.setCombatState(this.pokemob, CombatStates.ANGRY, true);
                 this.setAttackTarget(this.entity, player);
