@@ -612,7 +612,7 @@ public class Vector3
 
     public boolean canSeeSky(final IWorld world)
     {
-        if (world.isSkyLightMax(this.pos)) return true;
+        if (world.isSkyLightMax(this.getPos())) return true;
         return world.getHeight(Type.OCEAN_FLOOR, this.intX(), this.intZ()) <= this.y;
     }
 

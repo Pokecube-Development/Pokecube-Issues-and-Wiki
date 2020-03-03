@@ -70,7 +70,6 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public double getSpeed()
         {
-            // TODO Auto-generated method stub
             return super.getSpeed();
         }
 
@@ -95,9 +94,10 @@ public class LogicFloatFlySwim extends LogicBase
                 final float f = (float) (MathHelper.atan2(d2, d0) * (180F / (float) Math.PI)) - 90.0F;
                 this.mob.rotationYaw = this.limitAngle(this.mob.rotationYaw, f, 10.0F);
                 float f1;
-                if (this.mob.onGround) f1 = (float) (this.speed * this.mob.getAttribute(
+                if (this.mob.onGround) f1 = (float) (this.getSpeed() * this.mob.getAttribute(
                         SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-                else f1 = (float) (this.speed * this.mob.getAttribute(SharedMonsterAttributes.FLYING_SPEED).getValue());
+                else f1 = (float) (this.getSpeed() * this.mob.getAttribute(SharedMonsterAttributes.FLYING_SPEED)
+                        .getValue());
 
                 this.mob.setAIMoveSpeed(f1);
                 final double d4 = MathHelper.sqrt(d0 * d0 + d2 * d2);
@@ -159,10 +159,9 @@ public class LogicFloatFlySwim extends LogicBase
     public void tick(final World world)
     {
         super.tick(world);
-        if (!this.shouldRun()) return;
-
         if (this.pokemob.floats() || this.pokemob.flys())
         {
+            this.entity.setNoGravity(!this.pokemob.isGrounded());
             this.pokemob.getEntity().navigator = this.flyPather;
             this.pokemob.getEntity().moveController = this.flyController;
         }
@@ -173,6 +172,7 @@ public class LogicFloatFlySwim extends LogicBase
         }
         else
         {
+            this.entity.setNoGravity(false);
             this.pokemob.getEntity().navigator = this.walkPather;
             this.pokemob.getEntity().moveController = this.walkController;
         }
