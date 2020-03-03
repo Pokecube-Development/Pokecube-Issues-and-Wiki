@@ -31,7 +31,7 @@ public class Config extends ConfigData
     @Configure(category = Config.TRAINER)
     public boolean trainerSpawn            = true;
     @Configure(category = Config.TRAINER)
-    public int     trainerBox              = 64;
+    public int     trainerBox              = 128;
     @Configure(category = Config.TRAINER)
     public double  trainerDensity          = 2;
     @Configure(category = Config.TRAINER)
