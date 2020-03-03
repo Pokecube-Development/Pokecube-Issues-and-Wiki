@@ -15,7 +15,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
@@ -54,9 +53,7 @@ public class SpawnBiomeMatcher
             this.dawn = PokedexEntry.dawn.contains(time);
             this.night = PokedexEntry.night.contains(time);
             this.material = location.getBlockMaterial(world);
-            int lightBlock = world.getLightFor(LightType.BLOCK, location.getPos());
-            final int lightDay = world.getLightFor(LightType.SKY, location.getPos());
-            if (lightBlock == 0 && world.getWorld().isDaytime()) lightBlock = lightDay;
+            final int lightBlock = world.getLight(location.getPos());
             this.light = lightBlock / 15f;
             this.biome = location.getBiome(world).getRegistryName();
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);

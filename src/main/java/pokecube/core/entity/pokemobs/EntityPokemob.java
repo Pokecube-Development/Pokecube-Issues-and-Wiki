@@ -16,6 +16,7 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
@@ -32,6 +33,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -350,6 +353,18 @@ public class EntityPokemob extends ShoulderRidingEntity implements IEntityAdditi
     public void setRGBA(final int... colours)
     {
         this.pokemobCap.setRGBA(colours);
+    }
+
+    @Override
+    public float getBlockPathWeight(final BlockPos pos, final IWorldReader worldIn)
+    {
+        return super.getBlockPathWeight(pos, worldIn);
+    }
+
+    @Override
+    public boolean canSpawn(final IWorld worldIn, final SpawnReason spawnReasonIn)
+    {
+        return true;
     }
 
     private int despawntimer = 0;
