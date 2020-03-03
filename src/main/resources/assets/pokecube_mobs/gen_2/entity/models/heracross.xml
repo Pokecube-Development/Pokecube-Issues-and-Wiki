@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
-  <metadata dyeable="Right_legChild,HeadChild,Left_legChild,Wooly_mane" head="head,Head,head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase name="global" scale="1.0"/>
+  <phase duration="10" leftArm="left_arm" leftLeg="left_hip" legAngle="25" name="biWalk" rightArm="right_arm" rightLeg="right_hip"/>
+  <metadata headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
   <phase type="idle">
    <part name="Right_Wingcase">
-    <component length="10" name="1" rotOffset="45.00000125223908,-0.0,45.00000125223908," startKey="0"/>
+    <component length="10" name="1" rotOffset="45,-45,0.0," startKey="0"/>
    </part>
    <part name="Right_Wing">
-    <component length="10" name="1" rotOffset="-10.0,-0.0,-10.0," startKey="0"/>
+    <component length="10" name="1" rotOffset="0.0,20.0,20.0," startKey="0"/>
    </part>
    <part name="Left_Wing">
-    <component length="10" name="1" rotOffset="-10.0,-0.0,-10.0," startKey="0"/>
+    <component length="10" name="1" rotOffset="0.0,0.0,-20.0," startKey="0"/>
    </part>
    <part name="Left_Wingcase">
-    <component length="10" name="1" rotOffset="45.00000125223908,-0.0,-45.00000125223908," startKey="0"/>
+    <component length="10" name="1" rotOffset="45,45,0.0," startKey="0"/>
    </part>
   </phase>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

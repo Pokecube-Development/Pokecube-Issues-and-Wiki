@@ -44,6 +44,7 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig.JigSawPart;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.world.gen.template.ExtendedRuleProcessor;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import thut.api.maths.Vector3;
@@ -61,8 +62,8 @@ public class JigsawPieces
     public static final RuleEntry DIRTTOWATER  = new RuleEntry(new BlockMatchRuleTest(Blocks.DIRT),
             new BlockMatchRuleTest(Blocks.WATER), Blocks.WATER.getDefaultState());
 
-    public static final RuleStructureProcessor RULES = new RuleStructureProcessor(ImmutableList.of(
-            JigsawPieces.PATHTOOAK, JigsawPieces.PATHTOGRASS, JigsawPieces.GRASSTOWATER, JigsawPieces.DIRTTOWATER));
+    public static final RuleStructureProcessor RULES = new ExtendedRuleProcessor(ImmutableList.of(
+            JigsawPieces.PATHTOOAK, JigsawPieces.GRASSTOWATER, JigsawPieces.DIRTTOWATER, JigsawPieces.PATHTOGRASS));
 
     public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
             final BlockPos pos, final List<StructurePiece> parts, final SharedSeedRandom rand,
