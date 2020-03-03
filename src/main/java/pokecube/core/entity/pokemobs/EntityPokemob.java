@@ -36,6 +36,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
@@ -300,7 +301,13 @@ public class EntityPokemob extends ShoulderRidingEntity implements IEntityAdditi
     @Override
     public void remove(final boolean keepData)
     {
-        if (!keepData && this.addedToChunk) this.pokemobCap.onRecall();
+        boolean shouldRecall = this.addedToChunk;
+        final boolean remote = !(this.getEntityWorld() instanceof ServerWorld);
+        boolean remoteRecall = remote && PokecubeCore.getConfig().autoRecallPokemobs;
+        remoteRecall = remoteRecall && PokecubeCore.proxy.getPlayer().getUniqueID().equals(this.pokemobCap.getOwnerId())
+                && !this.pokemobCap.getGeneralState(GeneralStates.STAYING);
+        shouldRecall = shouldRecall && (!remote || remoteRecall);
+        if (!keepData && shouldRecall) this.pokemobCap.onRecall();
         super.remove(keepData);
     }
 
