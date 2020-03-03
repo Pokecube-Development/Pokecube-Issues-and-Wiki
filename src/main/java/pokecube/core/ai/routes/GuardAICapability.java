@@ -35,6 +35,7 @@ public class GuardAICapability implements IGuardAICapability
         private BlockPos          pos;
         private float             roamDistance       = 2;
         private TimePeriod        activeTime         = new TimePeriod(0, 0);
+        int                       path_fails         = 0;
 
         public GuardTask()
         {
@@ -68,7 +69,7 @@ public class GuardAICapability implements IGuardAICapability
             if (!hasPath)
             {
                 final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-                this.path(entity, speed);
+                if (!this.path(entity, speed)) this.pathFail(entity);
             }
             else
             {
@@ -80,7 +81,7 @@ public class GuardAICapability implements IGuardAICapability
                 if (endPos.distanceSq(this.getPos()) > maxDist)
                 {
                     final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-                    this.path(entity, speed);
+                    if (!this.path(entity, speed)) this.pathFail(entity);
                 }
             }
             this.lastPos = newPos;
@@ -135,7 +136,16 @@ public class GuardAICapability implements IGuardAICapability
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(this.executingGuardTask);
             final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-            this.path(entity, speed);
+            if (!this.path(entity, speed)) this.pathFail(entity);
+        }
+
+        private void pathFail(final MobEntity entity)
+        {
+            if (this.path_fails++ > 100)
+            {
+                entity.moveToBlockPosAndAngles(this.getPos(), 0, 0);
+                this.path_fails = 0;
+            }
         }
 
         private boolean path(final MobEntity entity, final double speed)
