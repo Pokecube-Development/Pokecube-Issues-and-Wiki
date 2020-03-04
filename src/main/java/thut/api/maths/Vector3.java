@@ -30,7 +30,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
@@ -613,8 +612,8 @@ public class Vector3
 
     public boolean canSeeSky(final IWorld world)
     {
-        // TODO confirm that this works at night
-        return world.getLightFor(LightType.SKY, this.getPos()) >= 15;
+        if (world.isSkyLightMax(this.getPos())) return true;
+        return world.getHeight(Type.OCEAN_FLOOR, this.intX(), this.intZ()) <= this.y;
     }
 
     public Vector3 clear()

@@ -56,6 +56,7 @@ public abstract class TrainerBase extends NpcMob
     int                    despawncounter  = 0;
     public String          customTrades    = "";
     boolean                fixedTrades     = false;
+    boolean                fixedMobs       = false;
 
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
@@ -121,6 +122,9 @@ public abstract class TrainerBase extends NpcMob
             else this.setCustomer(null);
             return true;
         }
+        else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.setTarget(
+                player);
+
         return false;
     }
 
@@ -149,8 +153,7 @@ public abstract class TrainerBase extends NpcMob
         this.setHeldItem(Hand.MAIN_HAND, cube);
         this.setHeldItem(Hand.OFF_HAND, reward);
 
-        if (this.pokemobsCap.countPokemon() == 0 && !this.aiStates.getAIState(IHasNPCAIStates.STATIONARY)
-                && !this.aiStates.getAIState(IHasNPCAIStates.PERMFRIENDLY))
+        if (this.pokemobsCap.countPokemon() == 0 && !this.fixedMobs)
         {
             final TypeTrainer type = this.pokemobsCap.getType();
             if (type != null && !type.pokemon.isEmpty())

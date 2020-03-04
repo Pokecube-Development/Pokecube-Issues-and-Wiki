@@ -145,6 +145,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         super.readAdditional(nbt);
         if (nbt.contains("trades")) this.aiStates.setAIState(IHasNPCAIStates.TRADES, nbt.getBoolean("trades"));
         this.fixedTrades = nbt.getBoolean("fixedTrades");
+        this.fixedMobs = nbt.getBoolean("fixedMobs");
         this.setTypes();
         if (nbt.contains("DefeatList"))
         {
@@ -231,5 +232,6 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         this.setTypes(); // Ensure types are valid before saving.
         super.writeAdditional(compound);
         compound.putBoolean("fixedTrades", this.fixedTrades);
+        compound.putBoolean("fixedMobs", this.fixedMobs);
     }
 }

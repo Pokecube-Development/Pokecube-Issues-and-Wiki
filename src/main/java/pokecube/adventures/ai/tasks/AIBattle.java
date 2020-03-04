@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import pokecube.adventures.Config;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.PokecubeCore;
@@ -29,8 +31,10 @@ import thut.api.maths.Vector3;
 
 public class AIBattle extends AITrainerBase
 {
-    private boolean  canPath   = true;
-    private BlockPos battleLoc = null;
+    private boolean  canPath     = true;
+    private BlockPos battleLoc   = null;
+    private long     checkedTick = 0;
+    private int      deagrotimer = 0;
 
     public AIBattle(final LivingEntity trainer)
     {
@@ -199,7 +203,8 @@ public class AIBattle extends AITrainerBase
     }
 
     /** Resets the task */
-    public void resetTask()
+    @Override
+    public void reset()
     {
         this.trainer.resetPokemob();
         this.battleLoc = null;
@@ -233,18 +238,56 @@ public class AIBattle extends AITrainerBase
     }
 
     @Override
-    public void tick()
+    public boolean shouldRun()
     {
-        super.tick();
-        if (this.trainer.getTarget() != null) this.updateTask();
-        else if (this.trainer.getOutID() != null) this.resetTask();
-        this.trainer.lowerCooldowns();
+        // Ensure cooldowns are ticked once a tick.
+        if (this.checkedTick != this.entity.getEntityWorld().getGameTime()) this.trainer.lowerCooldowns();
+        this.checkedTick = this.entity.getEntityWorld().getGameTime();
+
+        final LivingEntity target = this.trainer.getTarget();
+        if (target == null) return false;
+        final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
+        final boolean hitUs = target.getLastAttackedEntity() == this.entity;
+        if (!hitUs && other != null && other.getNextPokemob().isEmpty() && other.getOutID() == null)
+        {
+            if (other.getOutID() == null)
+            {
+                final List<Entity> mobs = PCEventsHandler.getOutMobs(target, false);
+                if (!mobs.isEmpty())
+                {
+                    boolean found = false;
+                    for (final Entity mob : mobs)
+                        if (mob.addedToChunk && mob.getDistanceSq(target) < 32 * 32)
+                        {
+                            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                            if (pokemob != null && !found)
+                            {
+                                other.setOutMob(pokemob);
+                                found = true;
+                                break;
+                            }
+                        }
+                    this.deagrotimer = 20;
+                }
+            }
+            if (this.deagrotimer-- < 0)
+            {
+                this.trainer.setTarget(null);
+                this.trainer.resetPokemob();
+                if (other.getTarget() == this.entity)
+                {
+                    other.setTarget(null);
+                    other.resetPokemob();
+                }
+                return false;
+            }
+        }
+        return true;
     }
 
-    /** Updates the task */
-    public void updateTask()
+    @Override
+    public void tick()
     {
-        if (this.trainer.getTarget() == null) return;
         // Check if trainer has any pokemobs, if not, cancel agression, no
         // reward.
         if (this.trainer.getPokemob(0).isEmpty())

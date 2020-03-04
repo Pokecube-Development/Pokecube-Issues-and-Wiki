@@ -2,7 +2,6 @@ package pokecube.adventures.ai.tasks;
 
 import net.minecraft.entity.LivingEntity;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
-import pokecube.core.PokecubeCore;
 
 public class AIRetaliate extends AITrainerBase implements ITargetWatcher
 {
@@ -13,25 +12,10 @@ public class AIRetaliate extends AITrainerBase implements ITargetWatcher
         this.trainer.addTargetWatcher(this);
     }
 
-    public boolean shouldExecute()
+    @Override
+    public boolean shouldRun()
     {
-        if (this.trainer.getTarget() != null)
-        { // Check if target is invalid.
-            if (this.trainer.getTarget() != null && !this.trainer.getTarget().isAlive())
-            {
-                this.trainer.setTarget(null);
-                this.trainer.resetPokemob();
-                return false;
-            }
-            // check if too far away
-            if (this.entity.getDistance(this.trainer.getTarget()) > PokecubeCore.getConfig().chaseDistance)
-            {
-                this.trainer.setTarget(null);
-                this.trainer.resetPokemob();
-                return false;
-            }
-            return false;
-        }
+        if (this.trainer.getTarget() != null) return false;
         // Dead trainers can't fight.
         if (!this.entity.isAlive()) return false;
         // Trainers on cooldown shouldn't fight, neither should friendly ones
@@ -44,8 +28,7 @@ public class AIRetaliate extends AITrainerBase implements ITargetWatcher
     @Override
     public void tick()
     {
-        super.tick();
-        if (this.shouldExecute()) this.updateTask();
+        this.updateTask();
     }
 
     public void updateTask()

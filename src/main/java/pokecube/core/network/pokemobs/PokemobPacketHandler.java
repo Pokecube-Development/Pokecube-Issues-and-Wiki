@@ -30,14 +30,14 @@ public class PokemobPacketHandler
         {
         }
 
-        public MessageServer(byte messageid, int entityId)
+        public MessageServer(final byte messageid, final int entityId)
         {
             this.buffer = new PacketBuffer(Unpooled.buffer(9));
             this.buffer.writeByte(messageid);
             this.buffer.writeInt(entityId);
         }
 
-        public MessageServer(byte channel, int id, CompoundNBT nbt)
+        public MessageServer(final byte channel, final int id, final CompoundNBT nbt)
         {
             this.buffer = new PacketBuffer(Unpooled.buffer(9));
             this.buffer.writeByte(channel);
@@ -45,38 +45,38 @@ public class PokemobPacketHandler
             this.buffer.writeCompoundTag(nbt);
         }
 
-        public MessageServer(byte[] data)
+        public MessageServer(final byte[] data)
         {
             this.buffer = new PacketBuffer(Unpooled.copiedBuffer(data));
         }
 
-        public MessageServer(PacketBuffer buffer)
+        public MessageServer(final PacketBuffer buffer)
         {
             this.buffer = buffer;
         }
 
         @Override
-        public void handleServer(ServerPlayerEntity player)
+        public void handleServer(final ServerPlayerEntity player)
         {
             final byte channel = this.buffer.readByte();
             final int id = this.buffer.readInt();
             final ServerWorld world = player.getServerWorld();
             final Entity entity = PokecubeCore.getEntityProvider().getEntity(world, id, true);
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-            if (pokemob == null) return;
+            if (pokemob == null || !player.getUniqueID().equals(pokemob.getOwnerId())) return;
             if (channel == MessageServer.RETURN) pokemob.onRecall();
             else if (channel == MessageServer.CANCELEVOLVE) pokemob.cancelEvolve();
         }
 
         @Override
-        public void write(PacketBuffer buf)
+        public void write(final PacketBuffer buf)
         {
             if (this.buffer == null) this.buffer = new PacketBuffer(Unpooled.buffer());
             buf.writeBytes(this.buffer);
         }
     }
 
-    public static MessageServer makeServerPacket(byte channel, byte[] data)
+    public static MessageServer makeServerPacket(final byte channel, final byte[] data)
     {
         final byte[] packetData = new byte[data.length + 1];
         packetData[0] = channel;

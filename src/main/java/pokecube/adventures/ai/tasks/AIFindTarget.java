@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +13,9 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.core.PokecubeCore;
+import pokecube.core.handlers.events.PCEventsHandler;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -59,7 +63,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                 if (input.getLastAttackedEntity() == AIFindTarget.this.entity && input.ticksExisted - input
                         .getLastAttackedEntityTime() < 50) return true;
                 // Only target valid classes.
-                if (!this.validClass(input) || !input.attackable()) return false;
+                if (!this.validClass(input) || !input.attackable() || !this.canBattle(input)) return false;
                 final IOwnable ownable = OwnableCaps.getOwnable(input);
                 // Don't target pets
                 if (ownable != null && ownable.getOwner() == entityIn) return false;
@@ -76,11 +80,39 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                     if (s.isInstance(input)) return true;
                 return false;
             }
+
+            private boolean canBattle(final LivingEntity input)
+            {
+                if (AIFindTarget.this.entity.getAttackingEntity() == input) return true;
+                final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(input);
+                if (other != null && other.getNextPokemob().isEmpty() && other.getOutID() == null)
+                {
+                    boolean found = false;
+                    if (other.getOutID() == null)
+                    {
+                        final List<Entity> mobs = PCEventsHandler.getOutMobs(input, false);
+                        if (!mobs.isEmpty()) for (final Entity mob : mobs)
+                            if (mob.getDistanceSq(input) < 32 * 32)
+                            {
+                                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                                if (pokemob != null && !found)
+                                {
+                                    other.setOutMob(pokemob);
+                                    found = true;
+                                    break;
+                                }
+                            }
+                    }
+                    return found;
+                }
+                return true;
+            }
         };
         this.agroChance = agressionProbability;
     }
 
-    public boolean shouldExecute()
+    @Override
+    public boolean shouldRun()
     {
         if (this.trainer.getTarget() != null)
         {
@@ -134,7 +166,6 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     @Override
     public void tick()
     {
-        super.tick();
         if (this.aiTracker != null && this.aiTracker.getAIState(IHasNPCAIStates.FIXEDDIRECTION) && this.trainer
                 .getTarget() == null)
         {
@@ -144,7 +175,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             this.entity.rotationYaw = this.aiTracker.getDirection();
             this.entity.prevRotationYaw = this.aiTracker.getDirection();
         }
-        if (this.shouldExecute()) this.updateTask();
+        this.updateTask();
     }
 
     public void updateTask()

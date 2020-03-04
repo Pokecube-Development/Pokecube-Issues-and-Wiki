@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN" "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+	<head>
+		<meta name="filename" content="glalie.x3d" />
+		<meta name="generator" content="Blender 2.81 (sub 16)" />
+	</head>
+	<Scene>
+		<NavigationInfo headlight="true"
+		                visibilityLimit="0.0"
+		                type='"EXAMINE", "ANY"'
+		                avatarSize="0.25, 1.75, 0.75"
+		                />
+		<Background DEF="WO_World"
+		            groundColor="0.051 0.051 0.051"
+		            skyColor="0.051 0.051 0.051"
+		            />
+		<Transform DEF="head_TRANSFORM"
+		           translation="0.000000 0.000000 0.274405"
+		           scale="1.000000 1.000000 1.000000"
+		           rotation="1.000000 0.000000 0.000000 1.570796"
+		           >
+			<Transform DEF="head_ifs_TRANSFORM"
+			           translation="0.000000 -0.000000 0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 1.000000 0.000000 0.000000"
+			           >
+				<Group DEF="group_ME_head">
+					<Shape>
+						<Appearance>
+							<Material DEF="MA_Default_OBJ"
+							          diffuseColor="0.800 0.800 0.800"
+							          specularColor="0.401 0.401 0.401"
+							          emissiveColor="0.000 0.000 0.000"
+							          ambientIntensity="0.000"
+							          shininess="0.500"
+							          transparency="0.0"
+							          />
+						</Appearance>
+						<IndexedTriangleSet solid="false"
+						                    normalPerVertex="true"
+						                    index="0 1 2 0 2 3 4 5 6 4 6 7 3 2 8 3 8 9 10 11 12 10 12 13 14 0 3 14 3 15 1 4 7 1 7 2 "
+						                    >
+							<Coordinate point="0.250000 -0.250000 -0.250000 -0.250000 -0.250000 -0.250000 -0.250000 0.250000 -0.250000 0.250000 0.250000 -0.250000 -0.250000 -0.250000 0.250000 0.250000 -0.250000 0.250000 0.250000 0.250000 0.250000 -0.250000 0.250000 0.250000 -0.250000 0.250000 0.250000 0.250000 0.250000 0.250000 0.250000 -0.250000 0.250000 -0.250000 -0.250000 0.250000 -0.250000 -0.250000 -0.250000 0.250000 -0.250000 -0.250000 0.250000 -0.250000 0.250000 0.250000 0.250000 0.250000 " />
+							<Normal vector="0.577349 -0.577349 -0.577349 -0.577349 -0.577349 -0.577349 -0.577349 0.577349 -0.577349 0.577349 0.577349 -0.577349 -0.577349 -0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 0.577349 0.577349 -0.577349 0.577349 -0.577349 -0.577349 0.577349 -0.577349 -0.577349 -0.577349 0.577349 -0.577349 -0.577349 0.577349 -0.577349 0.577349 0.577349 0.577349 0.577349 " />
+							<TextureCoordinate point="0.0533 0.8933 0.1067 0.8933 0.1067 0.9467 0.0533 0.9467 0.1600 0.8933 0.2133 0.8933 0.2133 0.9467 0.1600 0.9467 0.1067 1.0000 0.0533 1.0000 0.1067 0.9467 0.1600 0.9467 0.1600 1.0000 0.1067 1.0000 0.0000 0.8933 0.0000 0.9467 " />
+						</IndexedTriangleSet>
+					</Shape>
+				</Group>
+			</Transform>
+			<Transform DEF="hornright_TRANSFORM"
+			           translation="0.236823 0.268758 0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 1.000000 0.000000 0.000000"
+			           >
+				<Transform DEF="hornright_ifs_TRANSFORM"
+				           translation="0.000000 -0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 1.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_hornright">
+						<Shape>
+							<Appearance>
+								<Material USE="MA_Default_OBJ" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 "
+							                    >
+								<Coordinate point="-0.234386 -0.068071 0.000000 0.024689 -0.242819 0.000000 0.234385 0.068071 0.000000 -0.024688 0.242818 0.000000 " />
+								<Normal vector="0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 " />
+								<TextureCoordinate point="0.2800 0.9600 0.3133 0.9600 0.3133 1.0000 0.2800 1.0000 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+			</Transform>
+			<Transform DEF="hornleft_TRANSFORM"
+			           translation="-0.236824 0.268758 0.000000"
+			           scale="1.000000 1.000000 1.000000"
+			           rotation="0.000000 1.000000 0.000000 0.000000"
+			           >
+				<Transform DEF="hornleft_ifs_TRANSFORM"
+				           translation="0.000000 -0.000000 0.000000"
+				           scale="1.000000 1.000000 1.000000"
+				           rotation="0.000000 1.000000 0.000000 0.000000"
+				           >
+					<Group DEF="group_ME_hornleft">
+						<Shape>
+							<Appearance>
+								<Material USE="MA_Default_OBJ" />
+							</Appearance>
+							<IndexedTriangleSet solid="false"
+							                    normalPerVertex="true"
+							                    index="0 1 2 0 2 3 "
+							                    >
+								<Coordinate point="-0.024688 -0.242819 0.000000 0.234386 -0.068071 0.000000 0.024689 0.242818 0.000000 -0.234386 0.068071 0.000000 " />
+								<Normal vector="0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 0.999969 " />
+								<TextureCoordinate point="0.2800 0.9600 0.3133 0.9600 0.3133 1.0000 0.2800 1.0000 " />
+							</IndexedTriangleSet>
+						</Shape>
+					</Group>
+				</Transform>
+			</Transform>
+		</Transform>
+	</Scene>
+</X3D>

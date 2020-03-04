@@ -37,7 +37,7 @@ public class KillCommand
             if (e != null)
             {
                 if (cull && ((Entity) o).getDistanceSq(pos.x, pos.y, pos.z) < threshold) continue;
-                if (tame && e.getOwnerId() != null) continue;
+                if (!tame && e.getOwnerId() != null) continue;
                 e.onRecall();
                 count1++;
 

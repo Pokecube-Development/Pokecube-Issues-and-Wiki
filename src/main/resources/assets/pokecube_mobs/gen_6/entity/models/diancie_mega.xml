@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" offset="0,0,0" scale="0.7"/>
+  <metadata head="Head" headAxis="1" headCap="-50,50"/>
+  <customTex default="diancie_mega">
+   <part name="Head" tex="diancie_mega_eye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  </customTex>
+  <phase armAngle="20" duration="10" leftArm="RArm1" leftLeg="" legAngle="45" name="biWalk" rightArm="LArm1" rightLeg=""/>
+ </model>
+</ModelAnimator>
