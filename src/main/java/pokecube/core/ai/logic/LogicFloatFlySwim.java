@@ -24,36 +24,19 @@ public class LogicFloatFlySwim extends LogicBase
     private static class SwimController extends MovementController
     {
         private final MobEntity entity;
-        private final IPokemob  pokemob;
 
         public SwimController(final IPokemob mob)
         {
             super(mob.getEntity());
-            this.pokemob = mob;
             this.entity = mob.getEntity();
-        }
-
-        private void updateSpeed()
-        {
-            if (this.entity.isInWater())
-            {
-                this.entity.setMotion(this.entity.getMotion().add(0.0D, 0.005D, 0.0D));
-                if (this.pokemob.getHome() != null
-                        && !this.pokemob.getHome().withinDistance(this.entity.getPositionVec(), 16.0D))
-                    this.entity.setAIMoveSpeed(Math.max(this.entity.getAIMoveSpeed() / 2.0F, 0.08F));
-
-                if (this.entity.isChild())
-                    this.entity.setAIMoveSpeed(Math.max(this.entity.getAIMoveSpeed() / 3.0F, 0.06F));
-            }
-            else if (this.entity.onGround)
-                this.entity.setAIMoveSpeed(Math.max(this.entity.getAIMoveSpeed() / 2.0F, 0.06F));
-
         }
 
         @Override
         public void tick()
         {
-            this.updateSpeed();
+            this.entity.setNoGravity(this.entity.isInWater());
+            this.speed = 1;
+
             if (this.action == MovementController.Action.MOVE_TO && !this.entity.getNavigator().noPath())
             {
                 final double d0 = this.posX - this.entity.posX;
@@ -64,11 +47,11 @@ public class LogicFloatFlySwim extends LogicBase
                 final float f = (float) (MathHelper.atan2(d2, d0) * (180F / (float) Math.PI)) - 90.0F;
                 this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, f, 90.0F);
                 this.entity.renderYawOffset = this.entity.rotationYaw;
-                final float f1 = (float) (this.speed
-                        * this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+                final float f1 = (float) (this.speed * this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
+                        .getValue());
                 this.entity.setAIMoveSpeed(MathHelper.lerp(0.125F, this.entity.getAIMoveSpeed(), f1));
-                this.entity
-                .setMotion(this.entity.getMotion().add(0.0D, this.entity.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
+                this.entity.setMotion(this.entity.getMotion().add(0.0D, this.entity.getAIMoveSpeed() * d1 * 0.1D,
+                        0.0D));
             }
             else this.entity.setAIMoveSpeed(0.0F);
         }
@@ -86,7 +69,6 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public double getSpeed()
         {
-            // TODO Auto-generated method stub
             return super.getSpeed();
         }
 
@@ -111,9 +93,10 @@ public class LogicFloatFlySwim extends LogicBase
                 final float f = (float) (MathHelper.atan2(d2, d0) * (180F / (float) Math.PI)) - 90.0F;
                 this.mob.rotationYaw = this.limitAngle(this.mob.rotationYaw, f, 10.0F);
                 float f1;
-                if (this.mob.onGround) f1 = (float) (this.speed
-                        * this.mob.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-                else f1 = (float) (this.speed * this.mob.getAttribute(SharedMonsterAttributes.FLYING_SPEED).getValue());
+                if (this.mob.onGround) f1 = (float) (this.getSpeed() * this.mob.getAttribute(
+                        SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+                else f1 = (float) (this.getSpeed() * this.mob.getAttribute(SharedMonsterAttributes.FLYING_SPEED)
+                        .getValue());
 
                 this.mob.setAIMoveSpeed(f1);
                 final double d4 = MathHelper.sqrt(d0 * d0 + d2 * d2);
@@ -129,12 +112,7 @@ public class LogicFloatFlySwim extends LogicBase
         }
     }
 
-    private static enum State
-    {
-        GROUND, AIR, WATER;
-    }
-
-    Vector3                            here  = Vector3.getNewVector();
+    Vector3 here = Vector3.getNewVector();
 
     // Navigators
     private final FlyingPathNavigator  flyPather;
@@ -143,11 +121,9 @@ public class LogicFloatFlySwim extends LogicBase
     private final SwimmerPathNavigator swimPather;
 
     // Movement controllers
-    private final MovementController   flyController;
-    private final MovementController   walkController;
-    private final MovementController   swimController;
-
-    private State                      state = null;
+    private final MovementController flyController;
+    private final MovementController walkController;
+    private final MovementController swimController;
 
     public LogicFloatFlySwim(final IPokemob entity)
     {
@@ -180,30 +156,19 @@ public class LogicFloatFlySwim extends LogicBase
     public void tick(final World world)
     {
         super.tick(world);
-        if (!this.shouldRun()) return;
-
         if (this.pokemob.floats() || this.pokemob.flys())
         {
-            if (this.state != State.AIR)
-            {
-                this.state = State.AIR;
-                this.pokemob.getEntity().navigator = this.flyPather;
-                this.pokemob.getEntity().moveController = this.flyController;
-            }
+            this.entity.setNoGravity(!this.pokemob.isGrounded());
+            this.pokemob.getEntity().navigator = this.flyPather;
+            this.pokemob.getEntity().moveController = this.flyController;
         }
         else if (this.pokemob.getEntity().isInWater())
         {
-            if (this.state != State.WATER)
-            {
-                this.state = State.WATER;
-                this.entity.setNoGravity(false);
-                this.pokemob.getEntity().navigator = this.swimPather;
-                this.pokemob.getEntity().moveController = this.swimController;
-            }
+            this.pokemob.getEntity().navigator = this.swimPather;
+            this.pokemob.getEntity().moveController = this.swimController;
         }
-        else if (this.state != State.GROUND)
+        else
         {
-            this.state = State.GROUND;
             this.entity.setNoGravity(false);
             this.pokemob.getEntity().navigator = this.walkPather;
             this.pokemob.getEntity().moveController = this.walkController;

@@ -25,6 +25,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -271,39 +272,31 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
                 if (pokemob.getLogicState(state) && this.hasAnimation(anim, entity)) return anim;
             }
 
+            BlockPos pos;
+            final boolean flying = !entity.onGround && !(entity.posY - (int) entity.posY < 0.01f && entity
+                    .getEntityWorld().getBlockState(pos = entity.getPosition().down()).isTopSolid(entity
+                            .getEntityWorld(), pos, entity));
+            final boolean walking = entity.onGround && walkspeed > stationary;
+            final boolean swimming = entity.isInWater();
+
             if (asleep && this.hasAnimation("sleeping", entity))
             {
                 phase = "sleeping";
                 return phase;
             }
-            if (asleep && this.hasAnimation("asleep", entity))
-            {
-                phase = "asleep";
-                return phase;
-            }
-            if (!entity.onGround && this.hasAnimation("flight", entity))
-            {
-                phase = "flight";
-                return phase;
-            }
-            if (!entity.onGround && this.hasAnimation("flying", entity))
+            if (flying && this.hasAnimation("flying", entity))
             {
                 phase = "flying";
                 return phase;
             }
-            if (entity.isInWater() && this.hasAnimation("swimming", entity))
+            if (swimming && this.hasAnimation("swimming", entity))
             {
                 phase = "swimming";
                 return phase;
             }
-            if (entity.onGround && walkspeed > stationary && this.hasAnimation("walking", entity))
+            if (walking && this.hasAnimation("walking", entity))
             {
                 phase = "walking";
-                return phase;
-            }
-            if (entity.onGround && walkspeed > stationary && this.hasAnimation("walk", entity))
-            {
-                phase = "walk";
                 return phase;
             }
 

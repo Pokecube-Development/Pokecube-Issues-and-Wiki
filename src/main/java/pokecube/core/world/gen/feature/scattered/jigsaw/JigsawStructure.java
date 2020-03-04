@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.StructureMode;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -128,38 +127,45 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                                 .getZ(), this.components.size());
                 // Check if any components are valid spawn spots, if so, set the
                 // spawned flag
-                for (final StructurePiece part : this.components)
-                    if (part instanceof CustomJigsawPiece)
-                    {
-                        final CustomJigsawPiece p = (CustomJigsawPiece) part;
-                        if (p.getJigsawPiece() instanceof SingleOffsetPiece)
+                if (!PokecubeSerializer.getInstance().hasPlacedCenter()) components:
+                {
+                    for (final StructurePiece part : this.components)
+                        if (part instanceof CustomJigsawPiece)
                         {
-                            final SingleOffsetPiece piece = (SingleOffsetPiece) p.getJigsawPiece();
-                            final Template t = piece.getTemplate(templateManagerIn);
-                            for (final List<BlockInfo> list : t.blocks)
+                            final CustomJigsawPiece p = (CustomJigsawPiece) part;
+                            if (p.getJigsawPiece() instanceof SingleOffsetPiece)
                             {
-                                boolean foundWorldspawn = false;
-                                CompoundNBT trader = null;
-                                for (final BlockInfo i : list)
-                                    if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
-                                    {
-                                        final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString(
-                                                "mode"));
-                                        if (structuremode == StructureMode.DATA)
-                                        {
-                                            final String meta = i.nbt.getString("metadata");
-                                            foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
-                                            if (meta.startsWith("pokecube:mob:trader")) trader = i.nbt;
-                                        }
-                                    }
-                                if (trader != null && foundWorldspawn)
+                                final SingleOffsetPiece piece = (SingleOffsetPiece) p.getJigsawPiece();
+                                final Template t = piece.getTemplate(templateManagerIn);
+                                for (final List<BlockInfo> list : t.blocks)
                                 {
-                                    PokecubeSerializer.getInstance().setPlacedCenter();
-                                    trader.putString("metadata", PokecubeCore.getConfig().professor_override);
+                                    boolean foundWorldspawn = false;
+                                    String tradeString = "";
+                                    for (final BlockInfo i : list)
+                                        if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
+                                        {
+                                            final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString(
+                                                    "mode"));
+                                            if (structuremode == StructureMode.DATA)
+                                            {
+                                                final String meta = i.nbt.getString("metadata");
+                                                foundWorldspawn = foundWorldspawn || meta.startsWith(
+                                                        "pokecube:worldspawn");
+                                                if (meta.startsWith("pokecube:mob:trader")) tradeString = meta;
+                                            }
+                                        }
+                                    if (!tradeString.isEmpty() && foundWorldspawn)
+                                    {
+                                        PokecubeSerializer.getInstance().setPlacedCenter();
+                                        piece.isSpawn = true;
+                                        piece.spawnReplace = tradeString;
+                                        piece.mask = new MutableBoundingBox(part.getBoundingBox());
+                                        break components;
+                                    }
                                 }
                             }
                         }
-                    }
+                }
                 this.recalculateStructureSize();
             }
         }

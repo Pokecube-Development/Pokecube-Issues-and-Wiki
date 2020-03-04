@@ -6,9 +6,7 @@ package pokecube.core.client.gui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,7 +21,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -40,6 +37,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
@@ -533,28 +531,14 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
         if (player == null || player.getEntityWorld() == null) return new IPokemob[0];
 
-        final ClientWorld world = this.minecraft.world;
-        final List<Entity> pokemobs = world.getEntitiesInAABBexcluding(player, player.getBoundingBox().grow(96, 96, 96),
-                c -> CapabilityPokemob.getPokemobFor(c) != null);
+        final List<IPokemob> pokemobs = EventsHandler.getPokemobs(player, 96);
         final List<IPokemob> ret = new ArrayList<>();
-        final Set<Integer> added = new HashSet<>();
-        for (final Entity object : pokemobs)
+        for (final IPokemob pokemob : pokemobs)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(object);
-            if (pokemob == null) continue;
-
             boolean owner = pokemob.getOwnerId() != null;
-
             if (owner) owner = player.getUniqueID().equals(pokemob.getOwnerId());
-            final int id = pokemob.getPokemonUID();
-
-            if (owner && !pokemob.getLogicState(LogicStates.SITTING) && !pokemob.getGeneralState(GeneralStates.STAYING)
-                    && !added.contains(id))
-            {
+            if (owner && !pokemob.getLogicState(LogicStates.SITTING) && !pokemob.getGeneralState(GeneralStates.STAYING))
                 ret.add(pokemob);
-                added.add(id);
-            }
-
         }
         this.arrayRet = ret.toArray(new IPokemob[ret.size()]);
         Arrays.sort(this.arrayRet, (o1, o2) ->
@@ -705,8 +689,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     {
         IPokemob pokemob;
         if ((pokemob = this.getCurrentPokemob()) != null) PacketCommand.sendCommand(pokemob, Command.STANCE,
-                new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
-                        .setFromOwner(true));
+                new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT).setFromOwner(true));
         else
         {
             final PlayerEntity player = this.minecraft.player;
@@ -715,10 +698,9 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             final Vector3 temp = Vector3.getNewVector().set(player).addTo(0, player.getEyeHeight(), 0);
             target = temp.firstEntityExcluding(32, look, player.getEntityWorld(), player.isCrouching(), player);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
-            if (targetMob != null && targetMob.getOwner() == player)
-                PacketCommand.sendCommand(targetMob, Command.STANCE,
-                        new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
-                                .setFromOwner(true));
+            if (targetMob != null && targetMob.getOwner() == player) PacketCommand.sendCommand(targetMob,
+                    Command.STANCE, new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
+                            .setFromOwner(true));
         }
     }
 

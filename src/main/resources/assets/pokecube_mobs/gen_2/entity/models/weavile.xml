@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
-  <metadata dyeable="Wooly_mane,Right_legChild,HeadChild,Left_legChild" head="head,head,Head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase name="global" scale="1.2"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="1"/>
+  <phase duration="10" leftArm="armleft" leftLeg="legleft" legAngle="25" name="biWalk" rightArm="armright" rightLeg="legright"/>
  </model>
 </ModelAnimator>

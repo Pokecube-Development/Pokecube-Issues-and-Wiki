@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.45"/>
-  <metadata dyeable="Right_legChild,HeadChild,Left_legChild,Wooly_mane" head="head,Head,head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
+  <phase name="global" scale="0.45"/>
+  <metadata dye="Left_arm_stemChild:Top_puff:Right_arm_stemChild"/>
+  <phase duration="10" leftArm="left_arm" leftLeg="left_foot" legAngle="25" name="biWalk" rightArm="right_arm" rightLeg="right_foot"/>
+    <phase type="idle">
+        <part name="Head_stem">
+            <component name="1" startKey="0" length="10" rotOffset="-2.0,-0.0,-0.0," rotChange="-4.0,0.0,0.0,"/>
+            <component name="2" startKey="10" length="10" rotChange="4.0,0.0,0.0,"/>
+        </part>
+        <part name="Left_arm">
+            <component name="1" startKey="0" length="10" rotOffset="-0.0,-0.0,-2.0," rotChange="0.0,-4.0,0.0,"/>
+            <component name="2" startKey="10" length="10" rotChange="0.0,4.0,0.0,"/>
+        </part>
+        <part name="Right_arm">
+            <component name="1" startKey="0" length="10" rotOffset="-0.0,-0.0,2.0," rotChange="0.0,4.0,0.0,"/>
+            <component name="2" startKey="10" length="10" rotChange="0.0,-4.0,0.0,"/>
+        </part>
+    </phase>
  </model>
 </ModelAnimator>

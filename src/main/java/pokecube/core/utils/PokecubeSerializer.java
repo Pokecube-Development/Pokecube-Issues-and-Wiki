@@ -177,9 +177,14 @@ public class PokecubeSerializer
         return PokecubeSerializer.getInstance().customData.contains("set_world_spawn");
     }
 
+    public boolean hasPlacedCenter()
+    {
+        return PokecubeSerializer.getInstance().customData.contains("start_pokecentre");
+    }
+
     public boolean hasPlacedSpawnOrCenter()
     {
-        return this.hasPlacedSpawn() || PokecubeSerializer.getInstance().customData.contains("start_pokecentre");
+        return this.hasPlacedSpawn() || this.hasPlacedCenter();
     }
 
     public boolean canMeteorLand(final Vector4 location, final ServerWorld world)
