@@ -98,7 +98,7 @@ public abstract class PokemobAI extends PokemobEvolves
     public boolean isGrounded()
     {
         return this.getLogicState(LogicStates.GROUNDED) || !this.isRoutineEnabled(AIRoutine.AIRBORNE) || this
-                .getLogicState(LogicStates.SITTING);
+                .getLogicState(LogicStates.SITTING) || this.getLogicState(LogicStates.SLEEPING);
     }
 
     @Override
