@@ -277,6 +277,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     @Override
     protected void populateTradeData()
     {
+        if (this.offers != null) this.offers.clear();
         this.init_offers.accept(this.offers);
     }
 

@@ -2,5 +2,8 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.8"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase duration="10" leftArm="" leftLeg="legleft" legAngle="25" name="biWalk" rightArm="" rightLeg="legright"/>
+  <phase angle="90" axis="1" duration="10" leftWing="wingleftbottom" name="flap" rightWing="wingrightbottom"/>
  </model>
 </ModelAnimator>

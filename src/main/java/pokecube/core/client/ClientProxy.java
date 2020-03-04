@@ -341,11 +341,14 @@ public class ClientProxy extends CommonProxy
             if (tick < 0) stale.add(entry.getKey());
             entry.setValue(tick);
         }
+        final PlayerEntity player = Minecraft.getInstance().player;
+        final Vector3 pos2 = Vector3.getNewVector().set(player);
         for (final SoundEvent e : stale)
         {
             final Vector3 pos = this.move_positions.remove(e);
             this.move_sounds.remove(e);
-            Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos));
+            final double dist = pos2.distanceTo(pos);
+            if ((float) (15.0f / dist) > 0.1) Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos));
         }
     }
 

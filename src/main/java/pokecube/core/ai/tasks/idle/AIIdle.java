@@ -3,13 +3,13 @@ package pokecube.core.ai.tasks.idle;
 import java.util.Random;
 import java.util.UUID;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.IBlockReader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.AIBase;
@@ -128,7 +128,7 @@ public class AIIdle extends AIBase
     public void doWaterIdle()
     {
         this.v.set(this.x, this.y, this.z);
-        if (this.world.getBlockState(this.v.getPos()).getMaterial() != Material.WATER)
+        if (this.world.getFluidState(this.v.getPos()).isTagged(FluidTags.WATER))
         {
             this.x = this.entity.posX;
             this.y = this.entity.posY;
@@ -170,12 +170,12 @@ public class AIIdle extends AIBase
         }
         else
         {
-            final Vector3 v = AIIdle.getRandomPointNear(this.world, this.pokemob, this.v1, distance);
+            final Vector3 v = AIIdle.getRandomPointNear(this.world, this.pokemob, this.v, distance);
             if (v == null) return false;
             double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(), this.pokemob
                     .getPokedexEntry().width * this.pokemob.getSize());
             diff = Math.max(2, diff);
-            if (this.v.distToSq(v) < diff) return false;
+            if (this.v1.distToSq(v) < diff) return false;
             this.x = v.x;
             this.y = Math.round(v.y);
             this.z = v.z;

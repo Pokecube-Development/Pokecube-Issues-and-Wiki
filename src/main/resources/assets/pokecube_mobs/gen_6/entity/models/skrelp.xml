@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.6"/>
+  <phase name="global" scale="0.4"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
  </model>
 </ModelAnimator>

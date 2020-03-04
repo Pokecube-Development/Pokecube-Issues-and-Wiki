@@ -11,14 +11,20 @@ public abstract class LogicBase implements Logic
     protected final MobEntity entity;
     protected IBlockReader    world;
 
-    public LogicBase(IPokemob pokemob_)
+    public LogicBase(final IPokemob pokemob_)
     {
         this.pokemob = pokemob_;
         this.entity = this.pokemob.getEntity();
     }
 
     @Override
-    public void tick(World world)
+    public boolean shouldRun()
+    {
+        return this.entity.getHealth() > 0;
+    }
+
+    @Override
+    public void tick(final World world)
     {
         this.world = world;
     }
