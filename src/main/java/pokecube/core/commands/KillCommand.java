@@ -2,7 +2,7 @@ package pokecube.core.commands;
 
 import java.util.stream.Stream;
 
-import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.command.CommandSource;
@@ -47,24 +47,22 @@ public class KillCommand
         return 0;
     }
 
-    public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
+    public static void register(final LiteralArgumentBuilder<CommandSource> command)
     {
-        PermissionAPI.registerNode("command.pokecull", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokecull");
-        PermissionAPI.registerNode("command.pokekill", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokekill");
-        PermissionAPI.registerNode("command.pokekill_all", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokekill_all");
-        // Wild only version
-        commandDispatcher.register(Commands.literal("pokekill").requires(cs -> CommandTools.hasPerm(cs,
-                "command.pokekill")).executes((ctx) -> KillCommand.execute(ctx.getSource(), false, false)));
-        // Also tamed ones
-        commandDispatcher.register(Commands.literal("pokekill_all").requires(cs -> CommandTools.hasPerm(cs,
-                "command.pokekill_all")).executes((ctx) -> KillCommand.execute(ctx.getSource(), true, false)));
+        final String killPerm = "command.pokecube.kill";
+        final String killAllPerm = "command.pokecube.kill_all";
+        final String cullPerm = "command.pokecube.cull";
 
-        // cull command
-        commandDispatcher.register(Commands.literal("pokecull").requires(cs -> CommandTools.hasPerm(cs,
-                "command.pokecull")).executes((ctx) -> KillCommand.execute(ctx.getSource(), false, true)));
+        PermissionAPI.registerNode(cullPerm, DefaultPermissionLevel.OP, "Is the player allowed to cull pokemobs");
+        PermissionAPI.registerNode(killPerm, DefaultPermissionLevel.OP, "Is the player allowed to kill wild pokemobs");
+        PermissionAPI.registerNode(killAllPerm, DefaultPermissionLevel.OP,
+                "Is the player allowed to force all pokemobs to recall");
 
+        command.then(Commands.literal("kill").requires(cs -> CommandTools.hasPerm(cs, killPerm)).executes((
+                ctx) -> KillCommand.execute(ctx.getSource(), false, false)));
+        command.then(Commands.literal("kill_all").requires(cs -> CommandTools.hasPerm(cs, killAllPerm)).executes((
+                ctx) -> KillCommand.execute(ctx.getSource(), true, false)));
+        command.then(Commands.literal("cull").requires(cs -> CommandTools.hasPerm(cs, cullPerm)).executes((
+                ctx) -> KillCommand.execute(ctx.getSource(), false, true)));
     }
 }
