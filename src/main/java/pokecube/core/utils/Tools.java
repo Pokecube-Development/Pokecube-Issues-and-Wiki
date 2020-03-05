@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -41,12 +42,15 @@ import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.core.common.commands.CommandTools;
 
 public class Tools
 {
-    /** This is an array of what lvl has what exp for the varying exp modes.
+    /**
+     * This is an array of what lvl has what exp for the varying exp modes.
      * This array came from:
-     * http://bulbapedia.bulbagarden.net/wiki/Experience */
+     * http://bulbapedia.bulbagarden.net/wiki/Experience
+     */
     private static final int[][] expMap = {
             //@formatter:off
             { 0, 0, 0, 0, 0, 0, 1 },
@@ -151,7 +155,7 @@ public class Tools
             { 600000, 800000, 1000000, 1059860, 1250000, 1640000, 100 } };
     //@formatter:on
     // cache these in tables, for easier lookup.
-    public static int[]          maxXPs = { 800000, 1000000, 1059860, 1250000, 600000, 1640000 };
+    public static int[] maxXPs = { 800000, 1000000, 1059860, 1250000, 600000, 1640000 };
 
     public static int computeCatchRate(final IPokemob pokemob, final double cubeBonus)
     {
@@ -192,8 +196,8 @@ public class Tools
         int additionalBonus = 0;
         final Item cube = PokecubeItems.getFilledCube(pokecubeId);
         if (cube instanceof IPokecube) cubeBonus = ((IPokecube) cube).getCaptureModifier(pokemob, pokecubeId);
-        if (IPokecube.BEHAVIORS.containsKey(pokecubeId))
-            additionalBonus = IPokecube.BEHAVIORS.getValue(pokecubeId).getAdditionalBonus(pokemob);
+        if (IPokecube.BEHAVIORS.containsKey(pokecubeId)) additionalBonus = IPokecube.BEHAVIORS.getValue(pokecubeId)
+                .getAdditionalBonus(pokemob);
         return Tools.computeCatchRate(pokemob, cubeBonus, additionalBonus);
     }
 
@@ -201,8 +205,8 @@ public class Tools
             final PokedexEntry entry)
     {
         int ret = 0;
-        final List<MobEntity> list = world.getEntitiesWithinAABB(MobEntity.class,
-                location.getAABB().grow(distance, distance, distance));
+        final List<MobEntity> list = world.getEntitiesWithinAABB(MobEntity.class, location.getAABB().grow(distance,
+                distance, distance));
         for (final MobEntity o : list)
         {
             final IPokemob mob = CapabilityPokemob.getPokemobFor(o);
@@ -216,8 +220,8 @@ public class Tools
             final PokeType type)
     {
         int ret = 0;
-        final List<MobEntity> list = world.getEntitiesWithinAABB(MobEntity.class,
-                location.getAABB().grow(distance, distance, distance));
+        final List<MobEntity> list = world.getEntitiesWithinAABB(MobEntity.class, location.getAABB().grow(distance,
+                distance, distance));
         for (final MobEntity o : list)
         {
             final IPokemob mob = CapabilityPokemob.getPokemobFor(o);
@@ -229,8 +233,8 @@ public class Tools
     public static int countPokemon(final World world, final Vector3 location, final double radius)
     {
         final AxisAlignedBB box = location.getAABB();
-        final List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class,
-                box.grow(radius, radius, radius));
+        final List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, box.grow(radius, radius,
+                radius));
         int num = 0;
         for (final LivingEntity o : list)
         {
@@ -280,8 +284,8 @@ public class Tools
 
         Predicate<Entity> predicate = EntityPredicates.NOT_SPECTATING.and(c -> entity.canBeCollidedWith());
         if (selector != null) predicate = predicate.and(selector);
-        predicate = predicate.and(
-                c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !c.isRidingOrBeingRiddenBy(entity));
+        predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !c
+                .isRidingOrBeingRiddenBy(entity));
         final float f = 0.5F;
         final World world = entity.getEntityWorld();
         final AxisAlignedBB aabb = entity.getBoundingBox().expand(vec31.x * d0, vec31.y * d0, vec31.z * d0).grow(f, f,
@@ -327,8 +331,8 @@ public class Tools
         if (mob != null)
         {
             pwr *= PokeType.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
-            if (mob.getAbility() != null)
-                pwr = mob.getAbility().beforeDamage(mob, new MovePacket(user, target, attack), pwr);
+            if (mob.getAbility() != null) pwr = mob.getAbility().beforeDamage(mob, new MovePacket(user, target, attack),
+                    pwr);
         }
         return pwr;
     }
@@ -338,14 +342,16 @@ public class Tools
         return (byte) random.nextInt(32);
     }
 
-    /** Can be {@link IPokemob#MALE}, {@link IPokemob#FEMALE} or
+    /**
+     * Can be {@link IPokemob#MALE}, {@link IPokemob#FEMALE} or
      * {@link IPokemob#NOSEXE}
      *
      * @param baseValue
      *            the sexe ratio of the Pokemon, 254=Only female, 255=no sexe,
      *            0=Only male
      * @param random
-     * @return the int gender */
+     * @return the int gender
+     */
     public static byte getSexe(final int baseValue, final Random random)
     {
         if (baseValue == 255) return IPokemob.NOSEXE;
@@ -403,8 +409,8 @@ public class Tools
         if (flag)
         {
             PlayerEntity.getEntityWorld().playSound((PlayerEntity) null, PlayerEntity.posX, PlayerEntity.posY,
-                    PlayerEntity.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F,
-                    ((PlayerEntity.getRNG().nextFloat() - PlayerEntity.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                    PlayerEntity.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((PlayerEntity
+                            .getRNG().nextFloat() - PlayerEntity.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
             PlayerEntity.container.detectAndSendChanges();
         }
         if (!flag)
@@ -428,8 +434,8 @@ public class Tools
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
             final Entity entity)
     {
-        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getEntityWorld(),
-                Vector3.getNewVector().set(entity));
+        return Tools.isAnyPlayerInRange(rangeHorizontal, rangeVertical, entity.getEntityWorld(), Vector3.getNewVector()
+                .set(entity));
     }
 
     public static boolean isAnyPlayerInRange(final double rangeHorizontal, final double rangeVertical,
@@ -507,7 +513,8 @@ public class Tools
         return Tools.getLevelFromTable(index, exp);
     }
 
-    public Tools()
+    public static Predicate<CommandSource> hasPerm(final String perm)
     {
+        return cs -> CommandTools.hasPerm(cs, perm);
     }
 }

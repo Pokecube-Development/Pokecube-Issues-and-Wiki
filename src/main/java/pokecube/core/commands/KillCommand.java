@@ -17,7 +17,7 @@ import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import thut.core.common.commands.CommandTools;
+import pokecube.core.utils.Tools;
 
 public class KillCommand
 {
@@ -58,11 +58,11 @@ public class KillCommand
         PermissionAPI.registerNode(killAllPerm, DefaultPermissionLevel.OP,
                 "Is the player allowed to force all pokemobs to recall");
 
-        command.then(Commands.literal("kill").requires(cs -> CommandTools.hasPerm(cs, killPerm)).executes((
-                ctx) -> KillCommand.execute(ctx.getSource(), false, false)));
-        command.then(Commands.literal("kill_all").requires(cs -> CommandTools.hasPerm(cs, killAllPerm)).executes((
-                ctx) -> KillCommand.execute(ctx.getSource(), true, false)));
-        command.then(Commands.literal("cull").requires(cs -> CommandTools.hasPerm(cs, cullPerm)).executes((
-                ctx) -> KillCommand.execute(ctx.getSource(), false, true)));
+        command.then(Commands.literal("kill").requires(Tools.hasPerm(killPerm)).executes((ctx) -> KillCommand.execute(
+                ctx.getSource(), false, false)));
+        command.then(Commands.literal("kill_all").requires(Tools.hasPerm(killAllPerm)).executes((ctx) -> KillCommand
+                .execute(ctx.getSource(), true, false)));
+        command.then(Commands.literal("cull").requires(Tools.hasPerm(cullPerm)).executes((ctx) -> KillCommand.execute(
+                ctx.getSource(), false, true)));
     }
 }
