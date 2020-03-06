@@ -72,6 +72,8 @@ public class RestoreCommand
         root.then(give_pc);
         root.then(give_deleted);
         root.then(restore);
+
+        command.then(root);
     }
 
     private static int execute_give(final CommandSource source, final String uuid, final int id)
@@ -111,11 +113,8 @@ public class RestoreCommand
             final boolean inPC = pokemobCache.inPC.contains(id);
             final boolean wasDeleted = pokemobCache.genesDeleted.contains(id);
             // If it is in the PC, but we dont care, continue
-            if (!pc && inPC) continue;
-            else if (pc && !inPC) continue;
-            // Same for deleted status.
-            if (!deleted && wasDeleted) continue;
-            else if (deleted && !wasDeleted) continue;
+            if (pc != inPC) continue;
+            if (deleted != wasDeleted) continue;
 
             final ItemStack stack = entry.getValue();
             final ListNBT nbttaglist = stack.getTag().getCompound(TagNames.POKEMOB).getList("Pos", 6);
@@ -124,7 +123,7 @@ public class RestoreCommand
             final double posZ = nbttaglist.getDouble(2);
             String command;
             if (!give) command = "/tp " + posX + " " + posY + " " + posZ;
-            else command = "/pokecube restore " + profile.getId() + " " + id;
+            else command = "/pokecube restore restore " + profile.getId() + " " + id;
 
             CompoundNBT tag = stack.getTag().copy();
             tag.remove(TagNames.POKEMOB);

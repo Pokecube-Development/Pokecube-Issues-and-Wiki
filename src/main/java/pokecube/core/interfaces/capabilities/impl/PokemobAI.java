@@ -11,7 +11,6 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.PokecubeSerializer;
 import thut.api.maths.Vector3;
-import thut.core.common.handlers.PlayerDataHandler;
 
 public abstract class PokemobAI extends PokemobEvolves
 {
@@ -59,7 +58,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getPokemonUID()
     {
-        if (this.uid == -1 && this.isPlayerOwned()) this.uid = PokecubeSerializer.getInstance(this.getEntity()
+        if (this.uid == -1 && this.getOwnerId() != null) this.uid = PokecubeSerializer.getInstance(this.getEntity()
                 .isServerWorld()).getNextID();
         return this.uid;
     }
@@ -139,8 +138,7 @@ public abstract class PokemobAI extends PokemobEvolves
         this.onGenesChanged();
 
         // Update/add cache.
-        if (this.isPlayerOwned() && this.getOwnerId() != null) PlayerDataHandler.getInstance().getPlayerData(this
-                .getOwnerId()).getData(PlayerPokemobCache.class).addPokemob(this);
+        if (this.isPlayerOwned() && this.getOwnerId() != null) PlayerPokemobCache.UpdateCache(this);
     }
 
     @Override

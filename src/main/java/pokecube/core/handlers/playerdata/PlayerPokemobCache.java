@@ -20,7 +20,7 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 /** This is a backup cache of the pokemobs owned by the player. */
 public class PlayerPokemobCache extends PlayerData
 {
-    public static void UpdateCache(IPokemob mob)
+    public static void UpdateCache(final IPokemob mob)
     {
         if (!mob.isPlayerOwned() || mob.getOwnerId() == null) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(mob);
@@ -29,14 +29,16 @@ public class PlayerPokemobCache extends PlayerData
         server.execute(() -> PlayerPokemobCache.UpdateCache(stack, false, false));
     }
 
-    public static void UpdateCache(ItemStack stack, boolean pc, boolean deleted)
+    public static void UpdateCache(final ItemStack stack, final boolean pc, final boolean deleted)
     {
         final String owner = PokecubeManager.getOwner(stack);
         if (owner.isEmpty()) return;
         final Integer uid = PokecubeManager.getUID(stack);
         if (uid == null || uid == -1) return;
-        PlayerDataHandler.getInstance().getPlayerData(owner).getData(PlayerPokemobCache.class).addPokemob(stack, pc,
-                deleted);
+        final PlayerPokemobCache cache = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
+                PlayerPokemobCache.class);
+
+        if (cache != null) cache.addPokemob(owner, stack, pc, deleted);
     }
 
     public Map<Integer, ItemStack> cache        = Maps.newHashMap();
@@ -48,20 +50,20 @@ public class PlayerPokemobCache extends PlayerData
         super();
     }
 
-    public void addPokemob(IPokemob mob)
+    public void addPokemob(final IPokemob mob)
     {
         if (!mob.isPlayerOwned() || mob.getOwnerId() == null) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(mob);
         this.addPokemob(stack, false, false);
     }
 
-    public void addPokemob(ItemStack stack, boolean pc, boolean deleted)
+    public void addPokemob(final ItemStack stack, final boolean pc, final boolean deleted)
     {
         final String owner = PokecubeManager.getOwner(stack);
         this.addPokemob(owner, stack, pc, deleted);
     }
 
-    public void addPokemob(String owner, ItemStack stack, boolean pc, boolean deleted)
+    public void addPokemob(final String owner, final ItemStack stack, boolean pc, final boolean deleted)
     {
         final Integer uid = PokecubeManager.getUID(stack);
         if (uid == null || uid == -1) return;
@@ -84,7 +86,7 @@ public class PlayerPokemobCache extends PlayerData
     }
 
     @Override
-    public void readFromNBT(CompoundNBT tag)
+    public void readFromNBT(final CompoundNBT tag)
     {
         this.cache.clear();
         this.inPC.clear();
@@ -116,7 +118,7 @@ public class PlayerPokemobCache extends PlayerData
     }
 
     @Override
-    public void writeToNBT(CompoundNBT tag)
+    public void writeToNBT(final CompoundNBT tag)
     {
         final ListNBT list = new ListNBT();
         for (final Integer id : this.cache.keySet())
