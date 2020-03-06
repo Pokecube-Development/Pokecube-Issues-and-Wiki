@@ -262,6 +262,7 @@ public class AnimationLoader
             // Process the head rotation information.
             if (model.getHeadInfo() != null)
             {
+                if (headDir2 == 2) headDir2 = headDir;
                 if (headDir != 2) model.getHeadInfo().yawDirection = headDir;
                 if (headDir2 != 2) model.getHeadInfo().pitchDirection = headDir2;
                 model.getHeadInfo().yawAxis = headAxis;

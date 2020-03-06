@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" headDir="-1" name="global" scale="0.1"/>
-  <metadata head="Head" headCap="-60,60" headDir="-1"/>
+  <phase name="global" scale="0.1"/>
+  <metadata head="Head" headCap="-180,180" headDir="1" headAxis="2" headCap1="-1,1"/>
   <customTex default="diglettalola">
    <part name="Head" tex="diglettalolahead"/>
    <animation diffs="0,0.33" part="Head" trigger="random:0.005:20"/>

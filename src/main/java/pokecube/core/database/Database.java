@@ -903,8 +903,8 @@ public class Database
             // Spawns should have been dealt with earlier, so do evolutions
             if (!entry.evolutions.isEmpty()) for (final EvolutionData data : entry.evolutions)
             {
-                final FormeHolder holder = data.data.getForme(entry);
-                if (holder != null) Database.registerFormeHolder(entry, holder);
+                final FormeHolder holder = data.data.getForme(data.evolution);
+                if (holder != null) Database.registerFormeHolder(data.evolution, holder);
             }
         }
 
