@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.Matrix3f;
 import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.Vector4f;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -74,6 +75,9 @@ public abstract class Mesh
         this.material = new Material("auto:" + this.name);
     }
 
+    private final net.minecraft.client.renderer.Vector3f dummy3 = new net.minecraft.client.renderer.Vector3f();
+    private final Vector4f                               dummy4 = new Vector4f();
+
     protected void doRender(final MatrixStack mat, final IVertexBuilder buffer, final IPartTexturer texturer)
     {
         Vertex vertex;
@@ -91,6 +95,8 @@ public abstract class Mesh
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
         final Matrix4f pos = matrixstack$entry.getPositionMatrix();
         final Matrix3f norms = matrixstack$entry.getNormalMatrix();
+        Vector4f dp = dummy4;
+        net.minecraft.client.renderer.Vector3f dn = dummy3;
 
         for (final Integer i : this.order)
         {
@@ -110,15 +116,20 @@ public abstract class Mesh
             final float u = textureCoordinate.u + (float) this.uvShift[0];
             final float v = textureCoordinate.v + (float) this.uvShift[1];
 
+            dp.set(x, y, z, 1);
+            dp.transform(pos);
+            dn.set(nx, ny, nz);
+            dn.transform(norms);
+
             // We use the default Item format, since that is what mobs use.
             // This means we need these in this order!
             buffer//@formatter:off
-            .pos(pos, x, y, z)
+            .pos(dp.getX(), dp.getY(), dp.getZ())
             .color(red, green, blue, alpha)
             .tex(u, v)
             .overlay(overlayUV)
             .lightmap(lightmapUV)
-            .normal(norms, nx, ny, nz)
+            .normal(dn.getX(), dn.getY(), dn.getZ())
             .endVertex();
             //@formatter:on
             n++;

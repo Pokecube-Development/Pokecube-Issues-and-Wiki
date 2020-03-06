@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.Matrix3f;
 import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.Vector4f;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
@@ -39,6 +40,9 @@ public class Face
         this.uvs = uvs;
     }
 
+    private final net.minecraft.client.renderer.Vector3f dummy3 = new net.minecraft.client.renderer.Vector3f();
+    private final Vector4f                               dummy4 = new Vector4f();
+
     /** Add the face for GL rendering
      *
      * @param buffer
@@ -60,6 +64,8 @@ public class Face
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
         final Matrix4f pos = matrixstack$entry.getPositionMatrix();
         final Matrix3f norms = matrixstack$entry.getNormalMatrix();
+        Vector4f dp = dummy4;
+        net.minecraft.client.renderer.Vector3f dn = dummy3;
 
         for (int i = 0; i < 3; i++)
         {
@@ -74,14 +80,19 @@ public class Face
             final float nx = smoothShading ? vert.xn : this.normal.x;
             final float ny = smoothShading ? vert.yn : this.normal.y;
             final float nz = smoothShading ? vert.zn : this.normal.z;
+            
+            dp.set(x, y, z, 1);
+            dp.transform(pos);
+            dn.set(nx, ny, nz);
+            dn.transform(norms);
 
             buffer//@formatter:off
-            .pos(pos, x, y, z)
+            .pos(dp.getX(), dp.getY(), dp.getZ())
             .color(red, green, blue, alpha)
             .tex(u, v)
             .overlay(overlayUV)
             .lightmap(lightmapUV)
-            .normal(norms, nx, ny, nz)
+            .normal(dn.getX(), dn.getY(), dn.getZ())
             .endVertex();
             //@formatter:on
         }
