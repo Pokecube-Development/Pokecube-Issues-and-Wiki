@@ -15,13 +15,15 @@ public class MutableVertex extends Vertex
      */
     private static final long serialVersionUID = 7245933158127493865L;
     private final Vector4f    defPos;
-    public Vector4f           mutPos           = new Vector4f();
+    private Vector4f          mutPos           = new Vector4f();
     private final Vector4f    defNorm;
-    public Vector4f           mutNorm          = new Vector4f();
+    private Vector4f          mutNorm          = new Vector4f();
 
     // Temproary vectors used in transforms.
-    final Vector4f posTemp  = new Vector4f();
-    final Vector4f normTemp = new Vector4f();
+    private final Vector4f posTemp  = new Vector4f();
+    private final Vector4f normTemp = new Vector4f();
+
+    private boolean reset = true;
 
     // Normals
     public float xn;
@@ -61,7 +63,7 @@ public class MutableVertex extends Vertex
      */
     public void apply()
     {
-        if (this.mutPos == null)
+        if (this.reset)
         {
             this.x = this.defPos.x;
             this.y = this.defPos.y;
@@ -73,7 +75,7 @@ public class MutableVertex extends Vertex
             this.y = this.mutPos.y;
             this.z = this.mutPos.z;
         }
-        if (this.mutNorm == null)
+        if (this.reset)
         {
             this.xn = this.defNorm.x;
             this.yn = this.defNorm.y;
@@ -94,8 +96,13 @@ public class MutableVertex extends Vertex
 
     protected void init()
     {
-        if (this.mutPos == null) this.mutPos = new Vector4f();
-        if (this.mutNorm == null) this.mutNorm = new Vector4f();
+        if (this.reset)
+        {
+            this.mutPos.set(0, 0, 0, 0);
+            this.mutNorm.set(0, 0, 0, 0);
+            this.reset = false;
+            return;
+        }
     }
 
     /**
@@ -111,18 +118,19 @@ public class MutableVertex extends Vertex
         if (transform != null)
         {
             this.init();
-            final Vector4f posTemp = Matrix4f.transform(transform, this.defPos, null);
-            final Vector4f normTemp = Matrix4f.transform(transform, this.defNorm, null);
-            posTemp.scale(weight);
-            normTemp.scale(weight);
-            Vector4f.add(posTemp, this.mutPos, this.mutPos);
-            Vector4f.add(normTemp, this.mutNorm, this.mutNorm);
+            Matrix4f.transform(transform, this.defPos, this.posTemp);
+            Matrix4f.transform(transform, this.defNorm, this.normTemp);
+            this.posTemp.scale(weight);
+            this.normTemp.scale(weight);
+            Vector4f.add(this.posTemp, this.mutPos, this.mutPos);
+            Vector4f.add(this.normTemp, this.mutNorm, this.mutNorm);
         }
     }
 
     public void reset()
     {
-        this.mutPos = null;
-        this.mutNorm = null;
+        this.mutPos.set(0, 0, 0, 0);
+        this.mutNorm.set(0, 0, 0, 0);
+        this.reset = true;
     }
 }
