@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.50"/>
-  <metadata head="Head" headCap="-60,60" headDir="-1"/>
+  <metadata head="Head" headCap="-60,60" headCap1="-1,1" headAxis="2" headDir="-1"/>
   <customTex default="ludicolo">
    <part name="Face" tex="ludicolohead"/>
    <animation diffs="0,0.35" part="Face" trigger="random:0.005:20"/>

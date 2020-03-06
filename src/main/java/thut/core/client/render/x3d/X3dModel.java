@@ -329,9 +329,9 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             else if (info.yawAxis == 2) dir = new Vector4(0, 0, info.yawDirection, ang);
             else dir = new Vector4(0, info.yawDirection, 0, ang);
             Vector4 dir2;
-            if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.yawDirection, ang2);
-            else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.yawDirection, 0, ang2);
-            else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
+            if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.pitchDirection, ang2);
+            else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.pitchDirection, 0, ang2);
+            else dir2 = new Vector4(info.pitchDirection, 0, 0, ang2);
             parent.setPostRotations(dir);
             parent.setPostRotations2(dir2);
         }

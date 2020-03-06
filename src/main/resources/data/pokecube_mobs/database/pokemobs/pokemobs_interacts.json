@@ -5937,7 +5937,25 @@
         "evolutions": [
           {
             "name": "Gastrodon",
-            "level": 30
+            "level": 30,
+            "form_from": "shellos_east",
+			"model": {
+              "key": "gastrodon_east",
+              "tex": "gastrodon_east",
+              "model": "gastrodon_east",
+              "anim": "gastrodon_east"
+            }
+          },
+          {
+            "name": "Gastrodon",
+            "level": 30,
+            "form_from": "shellos_west",
+			"model": {
+              "key": "gastrodon_west",
+              "tex": "gastrodon_west",
+              "model": "gastrodon_west",
+              "anim": "gastrodon_west"
+            }
           }
         ],
         "species": "Gastropoda",
