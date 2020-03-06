@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator>
- <model>
-  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1.0"/>
-  <metadata head="head,Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1" shearable="Right_Shroom,Left_Shroom"/>
- </model>
-</ModelAnimator>

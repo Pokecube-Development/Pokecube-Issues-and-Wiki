@@ -73,8 +73,7 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
-import pokecube.core.commands.CountCommand;
-import pokecube.core.commands.KillCommand;
+import pokecube.core.commands.CommandManager;
 import pokecube.core.commands.MakeCommand;
 import pokecube.core.commands.MeteorCommand;
 import pokecube.core.commands.SecretBaseCommand;
@@ -581,11 +580,10 @@ public class EventsHandler
         PokecubeItems.init(event.getServer());
         TMCommand.register(event.getCommandDispatcher());
         SecretBaseCommand.register(event.getCommandDispatcher());
-        CountCommand.register(event.getCommandDispatcher());
-        KillCommand.register(event.getCommandDispatcher());
         MakeCommand.register(event.getCommandDispatcher());
         MeteorCommand.register(event.getCommandDispatcher());
         CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher(), "pokesettings");
+        CommandManager.register(event.getCommandDispatcher());
     }
 
     @SubscribeEvent

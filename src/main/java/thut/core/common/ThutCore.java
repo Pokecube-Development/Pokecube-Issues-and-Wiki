@@ -2,11 +2,14 @@ package thut.core.common;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -180,16 +183,21 @@ public class ThutCore
         }
     };
 
-    public static String trim(String name)
+    private static Map<String, String> trimmed = Maps.newConcurrentMap();
+
+    public static String trim(final String name)
     {
         if (name == null) return null;
+        if (ThutCore.trimmed.containsKey(name)) return ThutCore.trimmed.get(name);
+        String trim = name;
         // ROOT locale to prevent issues with turkish letters.
-        name = name.toLowerCase(Locale.ROOT).trim();
+        trim = trim.toLowerCase(Locale.ROOT).trim();
         // Replace all not-resourcelocation chars
-        name = name.replaceAll("([^a-zA-Z0-9 _-])", "");
+        trim = trim.replaceAll("([^a-zA-Z0-9 _-])", "");
         // Replace these too.
-        name = name.replaceAll(" ", "_");
-        return name;
+        trim = trim.replaceAll(" ", "_");
+        ThutCore.trimmed.put(name, trim);
+        return trim;
     }
 
     public ThutCore()
