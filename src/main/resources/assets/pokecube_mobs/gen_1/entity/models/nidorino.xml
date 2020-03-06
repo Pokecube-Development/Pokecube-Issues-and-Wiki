@@ -3,5 +3,6 @@
  <model>
   <phase name="global" scale="0.6"/>
   <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <phase duration="10" leftFront="lfl" leftHind="lrl" name="quadWalk" rightFront="rfl" rightHind="rrl"/>
  </model>
 </ModelAnimator>
