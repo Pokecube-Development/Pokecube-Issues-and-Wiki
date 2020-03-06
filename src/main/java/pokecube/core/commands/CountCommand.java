@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.command.CommandSource;
@@ -58,13 +58,12 @@ public class CountCommand
         return 0;
     }
 
-    public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
+    public static void register(final LiteralArgumentBuilder<CommandSource> command)
     {
-        PermissionAPI.registerNode("command.pokecount", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokecount");
-        commandDispatcher
-        .register(Commands.literal("pokecount").requires(cs -> CommandTools.hasPerm(cs, "command.pokecount"))
-                .executes((ctx) -> CountCommand.execute(ctx.getSource())));
-
+        final String perm = "command.pokecube.count";
+        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,
+                "Is the player allowed to check the number of pokemobs in the world");
+        command.then(Commands.literal("count").requires(cs -> CommandTools.hasPerm(cs, perm)).executes((
+                ctx) -> CountCommand.execute(ctx.getSource())));
     }
 }
