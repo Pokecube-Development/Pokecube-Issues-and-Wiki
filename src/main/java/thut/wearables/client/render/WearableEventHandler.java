@@ -71,11 +71,6 @@ public class WearableEventHandler
         if (this.addedLayers.contains(event.getRenderer())) return;
 
         // Add the layer.
-        // final List<LayerRenderer<?, ?>> layerRenderers =
-        // event.getRenderer().layerRenderers;
-        // final int index = Math.min(1, layerRenderers.size());
-        // layerRenderers.add(index, new
-        // WearablesRenderer(event.getRenderer()));
         event.getRenderer().addLayer(new WearablesRenderer(event.getRenderer()));
         this.addedLayers.add(event.getRenderer());
     }

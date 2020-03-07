@@ -328,7 +328,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         final String[] parts = mat.name.split(":");
         final Material material = new Material(mat_name);
         material.diffuseColor = new Vector3f(1, 1, 1);
-        material.emissiveColor = new Vector3f(1, 1, 1);
+        material.emissiveColor = new Vector3f(mat.light, mat.light, mat.light);
+        material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
         material.specularColor = new Vector3f(1, 1, 1);
         material.transparency = mat.transluscent ? 1 : 0;
         for (final String s : parts)
