@@ -1,10 +1,12 @@
 package pokecube.core.world.gen.feature.scattered.jigsaw;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 
@@ -28,6 +30,7 @@ import net.minecraft.world.gen.feature.jigsaw.SingleJigsawPiece;
 import net.minecraft.world.gen.feature.structure.AbstractVillagePiece;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.structure.Structures;
 import net.minecraft.world.gen.feature.template.AlwaysTrueRuleTest;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
@@ -43,7 +46,7 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
-import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig.JigSawPart;
+import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.world.gen.template.ExtendedRuleProcessor;
 import pokecube.core.world.gen.template.FillerProcessor;
@@ -66,11 +69,21 @@ public class JigsawPieces
     public static final RuleStructureProcessor RULES = new ExtendedRuleProcessor(ImmutableList.of(
             JigsawPieces.PATHTOOAK, JigsawPieces.GRASSTOWATER, JigsawPieces.DIRTTOWATER, JigsawPieces.PATHTOGRASS));
 
+    public static final Map<String, JigSawPool>          pools    = Maps.newHashMap();
+    public static final Map<String, JigsawPatternCustom> patterns = Maps.newHashMap();
+
+    public static void initPool(final JigSawPool pool)
+    {
+        JigsawPieces.pools.put(pool.name, pool);
+        JigsawPieces.patterns.put(pool.name, JigsawPieces.registerPart(pool));
+    }
+
     public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
             final BlockPos pos, final List<StructurePiece> parts, final SharedSeedRandom rand,
             final JigSawConfig struct)
     {
-        final ResourceLocation key = new ResourceLocation(struct.root.name);
+        Structures.init();
+        final ResourceLocation key = new ResourceLocation(struct.root);
         final JigsawAssmbler assembler = new JigsawAssmbler();
         boolean built = assembler.build(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos,
                 parts, rand);
@@ -85,23 +98,24 @@ public class JigsawPieces
 
     }
 
-    private static JigsawPatternCustom registerPart(final JigsawPatternCustom parent, final JigSawConfig jigsaw,
-            final JigSawPart part, final int offset, String subbiome)
+    private static JigsawPatternCustom registerPart(final JigSawPool part)
     {
-        final ResourceLocation key = new ResourceLocation(part.name);
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
                 : PlacementBehaviour.TERRAIN_MATCHING;
         final List<Pair<JigsawPiece, Integer>> parts = Lists.newArrayList();
+        String subbiome = part.biomeType;
         for (String option : part.options)
         {
             final String[] args = option.split(";");
             boolean ignoreAir = part.ignoreAir;
             Integer second = 1;
+            String flag = "";
             PlacementBehaviour place = behaviour;
             if (args.length > 1) try
             {
                 final JsonObject thing = PokedexEntryLoader.gson.fromJson(args[1], JsonObject.class);
                 if (thing.has("weight")) second = thing.get("weight").getAsInt();
+                if (thing.has("flag")) flag = thing.get("flag").getAsString();
                 if (thing.has("ignoreAir")) ignoreAir = thing.get("ignoreAir").getAsBoolean();
                 if (thing.has("subbiome")) subbiome = thing.get("subbiome").getAsString();
                 if (thing.has("rigid")) place = thing.get("rigid").getAsBoolean() ? PlacementBehaviour.RIGID
@@ -115,33 +129,41 @@ public class JigsawPieces
             JigsawPiece piece;
             if (option.equals("empty")) parts.add(Pair.of(piece = EmptyJigsawPiece.INSTANCE, second));
             else parts.add(Pair.of(piece = new SingleOffsetPiece(part, option, ImmutableList.of(
-                    PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, offset, ignoreAir, subbiome),
-                    second));
-            if (second == -1 && parent != null) parent.neededChildren.add(piece);
+                    PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, ignoreAir, subbiome), second));
+            if (piece instanceof SingleOffsetPiece) ((SingleOffsetPiece) piece).flag = flag;
 
         }
-        final JigsawPatternCustom pattern = new JigsawPatternCustom(key, new ResourceLocation(part.target), parts,
-                behaviour);
+        final JigsawPatternCustom pattern = new JigsawPatternCustom(part, parts, behaviour);
         // Register the buildings
         JigsawManager.REGISTRY.register(pattern);
         return pattern;
     }
 
-    public static void registerJigsaw(final JigSawConfig jigsaw)
+    public static boolean registerJigsaw(final JigSawConfig jigsaw)
     {
-        final JigsawPatternCustom parent = JigsawPieces.registerPart(null, jigsaw, jigsaw.root, jigsaw.offset,
-                jigsaw.biomeType);
-        for (final JigSawPart part : jigsaw.parts)
-            JigsawPieces.registerPart(parent, jigsaw, part, jigsaw.offset, jigsaw.biomeType);
+        final JigsawPatternCustom pattern = JigsawPieces.patterns.get(jigsaw.root);
+        if (pattern != null)
+        {
+            pattern.neededChildren.addAll(jigsaw.needed_once);
+            pattern.jigsaw = jigsaw;
+            return true;
+        }
+        else
+        {
+            PokecubeCore.LOGGER.error("Attempting to register a jigsaw with an un-known root: {}", jigsaw.root);
+            return false;
+        }
     }
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
-        protected final JigSawPart part;
-        private final int          offset;
-        private final String       subbiome;
+        protected final JigSawPool part;
+        public int                 offset = 0;
         private final boolean      ignoreAir;
 
+        public String flag = "";
+
+        public String  subbiome;
         public String  spawnReplace = "";
         public boolean isSpawn;
 
@@ -149,18 +171,7 @@ public class JigsawPieces
 
         private boolean maskCheck = false;
 
-        public SingleOffsetPiece(final JigSawPart part, final String location,
-                final List<StructureProcessor> processors, final PlacementBehaviour type, final int offset,
-                final boolean ignoreAir, final String subbiome)
-        {
-            super(location, processors, type);
-            this.offset = offset;
-            this.ignoreAir = ignoreAir;
-            this.subbiome = subbiome;
-            this.part = part;
-        }
-
-        public SingleOffsetPiece(final JigSawPart part, final String location,
+        public SingleOffsetPiece(final JigSawPool part, final String location,
                 final List<StructureProcessor> processors, final PlacementBehaviour type, final boolean ignoreAir,
                 final String subbiome)
         {

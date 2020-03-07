@@ -1,12 +1,15 @@
 package pokecube.core.world.gen.feature.scattered.jigsaw;
 
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
+import com.google.common.collect.Sets;
 
 import net.minecraft.block.DirectionalBlock;
 import net.minecraft.block.JigsawBlock;
@@ -31,6 +34,7 @@ import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import pokecube.core.PokecubeCore;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.SingleOffsetPiece;
 
 public class JigsawAssmbler
 {
@@ -58,6 +62,8 @@ public class JigsawAssmbler
     private List<StructurePiece>              structurePieces;
     private Random                            rand;
     private final Deque<JigsawAssmbler.Entry> availablePieces = Queues.newArrayDeque();
+    private final Set<String>                 once_added      = Sets.newHashSet();
+    private JigsawPatternCustom               root            = null;
 
     public JigsawAssmbler()
     {
@@ -68,14 +74,17 @@ public class JigsawAssmbler
             final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
             final Random rand)
     {
+        PokecubeCore.LOGGER.debug("Jigsaw starting build");
         this.depth = depth;
         this.pieceFactory = pieceFactory;
         this.chunkGenerator = chunkGenerator;
         this.templateManager = templateManagerIn;
         this.structurePieces = parts;
         this.rand = rand;
+        this.once_added.clear();
         final Rotation rotation = Rotation.randomRotation(rand);
         final JigsawPattern jigsawpattern = JigsawManager.REGISTRY.get(resourceLocationIn);
+        if (jigsawpattern instanceof JigsawPatternCustom) this.root = (JigsawPatternCustom) jigsawpattern;
         final JigsawPiece jigsawpiece = jigsawpattern.getRandomPiece(rand);
         final AbstractVillagePiece abstractvillagepiece = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
                 jigsawpiece.func_214850_d(), rotation, jigsawpiece.getBoundingBox(templateManagerIn, pos, rotation));
@@ -103,20 +112,37 @@ public class JigsawAssmbler
         }
         if (jigsawpattern instanceof JigsawPatternCustom)
         {
-            final List<JigsawPiece> guarenteed = ((JigsawPatternCustom) jigsawpattern).neededChildren;
-            boolean hasAll = true;
-            outer:
-            for (final JigsawPiece p : guarenteed)
-            {
-                for (final StructurePiece part : parts)
-                    if (part instanceof AbstractVillagePiece && ((AbstractVillagePiece) part).getJigsawPiece() == p)
-                        continue outer;
-                hasAll = false;
-                break;
-            }
-            return hasAll;
+            final List<String> guarenteed = Lists.newArrayList(((JigsawPatternCustom) jigsawpattern).neededChildren);
+            for (final StructurePiece part : parts)
+                if (part instanceof AbstractVillagePiece && ((AbstractVillagePiece) part)
+                        .getJigsawPiece() instanceof SingleOffsetPiece)
+                {
+                    final SingleOffsetPiece p = (SingleOffsetPiece) ((AbstractVillagePiece) part).getJigsawPiece();
+                    guarenteed.remove(p.flag);
+                }
+            return guarenteed.isEmpty();
         }
         return true;
+    }
+
+    private void sort(final List<JigsawPiece> list)
+    {
+        final List<JigsawPiece> needed = Lists.newArrayList();
+        list.removeIf(p -> this.once_added.contains(p));
+        for (final JigsawPiece p : list)
+            if (p instanceof SingleOffsetPiece && !((SingleOffsetPiece) p).flag.isEmpty()) needed.add(p);
+        list.removeIf(p -> needed.contains(p));
+        Collections.shuffle(needed, this.rand);
+        for (final JigsawPiece p : needed)
+            list.add(0, p);
+        if (this.root != null) list.forEach(p ->
+        {
+            if (p instanceof SingleOffsetPiece)
+            {
+                ((SingleOffsetPiece) p).offset = this.root.jigsaw.offset;
+                ((SingleOffsetPiece) p).subbiome = this.root.jigsaw.biomeType;
+            }
+        });
     }
 
     private void addPiece(final AbstractVillagePiece villagePieceIn, final AtomicReference<VoxelShape> atomicVoxelShape,
@@ -167,9 +193,14 @@ public class JigsawAssmbler
 
                 list.addAll(jigsawpattern1.getShuffledPieces(this.rand));
 
+                this.sort(list);
+
                 for (final JigsawPiece jigsawpiece1 : list)
                 {
                     if (jigsawpiece1 == EmptyJigsawPiece.INSTANCE) break;
+                    String once = "";
+                    if (jigsawpiece1 instanceof SingleOffsetPiece && !(once = ((SingleOffsetPiece) jigsawpiece1).flag)
+                            .isEmpty() && this.once_added.contains(once)) continue;
 
                     for (final Rotation rotation1 : Rotation.shuffledRotations(this.rand))
                     {
@@ -262,6 +293,11 @@ public class JigsawAssmbler
                                     abstractvillagepiece.addJunction(new JigsawJunction(blockpos1.getX(), i3 - k1 + l2,
                                             blockpos1.getZ(), -l1, jigsawpattern$placementbehaviour));
                                     this.structurePieces.add(abstractvillagepiece);
+                                    if (!once.isEmpty())
+                                    {
+                                        this.once_added.add(once);
+                                        PokecubeCore.LOGGER.debug("added core part");
+                                    }
                                     if (current_depth + 1 <= this.depth) this.availablePieces.addLast(new Entry(
                                             abstractvillagepiece, atomicreference1, l, current_depth + 1));
                                     continue label123;

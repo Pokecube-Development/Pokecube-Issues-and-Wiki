@@ -114,33 +114,36 @@ public class WorldgenHandler
 
     }
 
+    public static class JigSawPool
+    {
+        public String       name;
+        public String       target     = "empty";
+        public String       biomeType  = "ruin";
+        public List<String> options;
+        public boolean      rigid      = true;
+        public boolean      ignoreAir  = true;
+        public boolean      filler     = false;
+        public boolean      base_under = false;
+        public List<String> includes   = Lists.newArrayList();
+    }
+
     public static class JigSawConfig
     {
-        public static class JigSawPart
-        {
-            public String       name;
-            public String       target     = "empty";
-            public List<String> options;
-            public boolean      rigid      = true;
-            public boolean      ignoreAir  = true;
-            public boolean      filler     = false;
-            public boolean      base_under = false;
-        }
 
-        public String           name;
-        public String           name_override = "";
-        public JigSawPart       root;
-        public float            chance        = 1;
-        public int              offset        = 0;
-        public int              size          = 4;
-        public int              distance      = 8;
-        public int              separation    = 4;
-        public String           biomeType     = "ruin";
-        public SpawnRule        spawn;
-        public boolean          surface       = true;
-        public boolean          water         = false;
-        public boolean          atSpawn       = false;
-        public List<JigSawPart> parts         = Lists.newArrayList();
+        public String       name;
+        public String       name_override = "";
+        public String       root;
+        public float        chance        = 1;
+        public int          offset        = 0;
+        public int          size          = 4;
+        public int          distance      = 8;
+        public int          separation    = 4;
+        public String       biomeType     = "ruin";
+        public SpawnRule    spawn;
+        public boolean      surface       = true;
+        public boolean      water         = false;
+        public boolean      atSpawn       = false;
+        public List<String> needed_once   = Lists.newArrayList();
 
         public String serialize()
         {
@@ -156,6 +159,7 @@ public class WorldgenHandler
     public static class Structures
     {
         public List<JsonStructure> structures = Lists.newArrayList();
+        public List<JigSawPool>    pools      = Lists.newArrayList();
         public List<JigSawConfig>  jigsaws    = Lists.newArrayList();
     }
 
@@ -183,7 +187,9 @@ public class WorldgenHandler
         final InputStream res = Database.resourceManager.getResource(json).getInputStream();
         final Reader reader = new InputStreamReader(res);
         final Structures database = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
+
         this.defaults.structures.addAll(database.structures);
+        this.defaults.pools.addAll(database.pools);
         this.defaults.jigsaws.addAll(database.jigsaws);
     }
 
@@ -197,6 +203,9 @@ public class WorldgenHandler
         {
             PokecubeMod.LOGGER.catching(e);
         }
+
+        for (final JigSawPool pool : this.defaults.pools)
+            JigsawPieces.initPool(pool);
 
         for (final JsonStructure struct : this.defaults.structures)
         {
