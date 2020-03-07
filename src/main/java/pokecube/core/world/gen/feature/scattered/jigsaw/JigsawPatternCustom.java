@@ -13,6 +13,7 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 public class JigsawPatternCustom extends JigsawPattern
 {
     private final List<JigsawPiece> guarenteed;
+    public final List<JigsawPiece>  neededChildren = Lists.newArrayList();
 
     public JigsawPatternCustom(final ResourceLocation nameIn, final ResourceLocation target,
             final List<Pair<JigsawPiece, Integer>> pieces, final PlacementBehaviour placementBehaviourIn)
@@ -30,6 +31,11 @@ public class JigsawPatternCustom extends JigsawPattern
         for (final JigsawPiece part : this.guarenteed)
             ret.add(0, part);
         return ret;
+    }
+
+    public List<JigsawPiece> getGuarenteedParts()
+    {
+        return this.guarenteed;
     }
 
     @Override

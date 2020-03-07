@@ -71,12 +71,22 @@ public class JigsawPieces
             final JigSawConfig struct)
     {
         final ResourceLocation key = new ResourceLocation(struct.root.name);
-        JigsawManager.func_214889_a(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos, parts,
-                rand);
+        final JigsawAssmbler assembler = new JigsawAssmbler();
+        boolean built = assembler.build(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos,
+                parts, rand);
+        int n = 0;
+        while (!built && n++ < 20)
+        {
+            parts.clear();
+            built = assembler.build(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos, parts,
+                    rand);
+        }
+        if (!built) PokecubeCore.LOGGER.warn("Failed to complete a structure at " + pos);
+
     }
 
-    private static void registerPart(final JigSawConfig jigsaw, final JigSawPart part, final int offset,
-            String subbiome)
+    private static JigsawPatternCustom registerPart(final JigsawPatternCustom parent, final JigSawConfig jigsaw,
+            final JigSawPart part, final int offset, String subbiome)
     {
         final ResourceLocation key = new ResourceLocation(part.name);
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
@@ -102,23 +112,27 @@ public class JigsawPieces
                 e.printStackTrace();
             }
             option = args[0];
-            if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
-            else parts.add(Pair.of(new SingleOffsetPiece(part, option, ImmutableList.of(
+            JigsawPiece piece;
+            if (option.equals("empty")) parts.add(Pair.of(piece = EmptyJigsawPiece.INSTANCE, second));
+            else parts.add(Pair.of(piece = new SingleOffsetPiece(part, option, ImmutableList.of(
                     PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, offset, ignoreAir, subbiome),
                     second));
+            if (second == -1 && parent != null) parent.neededChildren.add(piece);
 
         }
-
+        final JigsawPatternCustom pattern = new JigsawPatternCustom(key, new ResourceLocation(part.target), parts,
+                behaviour);
         // Register the buildings
-        JigsawManager.REGISTRY.register(new JigsawPatternCustom(key, new ResourceLocation(part.target), parts,
-                behaviour));
+        JigsawManager.REGISTRY.register(pattern);
+        return pattern;
     }
 
     public static void registerJigsaw(final JigSawConfig jigsaw)
     {
-        JigsawPieces.registerPart(jigsaw, jigsaw.root, jigsaw.offset, jigsaw.biomeType);
+        final JigsawPatternCustom parent = JigsawPieces.registerPart(null, jigsaw, jigsaw.root, jigsaw.offset,
+                jigsaw.biomeType);
         for (final JigSawPart part : jigsaw.parts)
-            JigsawPieces.registerPart(jigsaw, part, jigsaw.offset, jigsaw.biomeType);
+            JigsawPieces.registerPart(parent, jigsaw, part, jigsaw.offset, jigsaw.biomeType);
     }
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
