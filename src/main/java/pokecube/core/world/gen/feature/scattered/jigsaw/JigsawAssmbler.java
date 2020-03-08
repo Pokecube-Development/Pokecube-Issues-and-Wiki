@@ -100,7 +100,7 @@ public class JigsawAssmbler
             final AxisAlignedBB axisalignedbb = new AxisAlignedBB(i - l, k - l, j - l, i + l + 1, k + l + 1, j + l + 1);
             this.availablePieces.addLast(new Entry(abstractvillagepiece, new AtomicReference<>(VoxelShapes
                     .combineAndSimplify(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB
-                            .func_216363_a(mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + l, 0));
+                            .toImmutable(mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + l, 0));
 
             while (!this.availablePieces.isEmpty())
             {
@@ -180,7 +180,7 @@ public class JigsawAssmbler
                     atomicreference1 = atomicreference;
                     l = i;
                     if (atomicreference.get() == null) atomicreference.set(VoxelShapes.create(AxisAlignedBB
-                            .func_216363_a(mutableboundingbox)));
+                            .toImmutable(mutableboundingbox)));
                 }
                 else
                 {
@@ -263,11 +263,11 @@ public class JigsawAssmbler
                                 }
 
                                 if (!VoxelShapes.compare(atomicreference1.get(), VoxelShapes.create(AxisAlignedBB
-                                        .func_216363_a(mutableboundingbox3).shrink(0.25D)),
+                                        .toImmutable(mutableboundingbox3).shrink(0.25D)),
                                         IBooleanFunction.ONLY_SECOND))
                                 {
                                     atomicreference1.set(VoxelShapes.combine(atomicreference1.get(), VoxelShapes.create(
-                                            AxisAlignedBB.func_216363_a(mutableboundingbox3)),
+                                            AxisAlignedBB.toImmutable(mutableboundingbox3)),
                                             IBooleanFunction.ONLY_FIRST));
                                     final int j3 = villagePieceIn.getGroundLevelDelta();
                                     int l2;

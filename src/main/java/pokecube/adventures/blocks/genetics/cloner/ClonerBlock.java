@@ -17,7 +17,6 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -155,11 +154,5 @@ public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLo
     public boolean hasTileEntity(final BlockState state)
     {
         return true;
-    }
-
-    @Override
-    public boolean canRenderInLayer(final BlockState state, final BlockRenderLayer layer)
-    {
-        return layer == BlockRenderLayer.CUTOUT || layer == BlockRenderLayer.TRANSLUCENT;
     }
 }

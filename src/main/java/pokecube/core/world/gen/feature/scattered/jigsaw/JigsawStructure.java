@@ -134,8 +134,6 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             final int i = chunkPosX >> 4;
             final int j = chunkPosZ >> 4;
             rand.setSeed(i ^ j << 4 ^ chunkGen.getSeed());
-            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos((chunkPosX << 4) + 9, 0,
-                    (chunkPosZ << 4) + 9));
             JigSawConfig matched = this.getStruct();
             if (!matched._matcher.checkBiome(biome)) for (final JigSawConfig m : this.structs)
                 if (m._matcher.checkBiome(biome))
