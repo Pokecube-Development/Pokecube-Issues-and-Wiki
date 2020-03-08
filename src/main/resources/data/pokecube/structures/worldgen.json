@@ -9,16 +9,21 @@
     },
     {
       "name":"pokecube:scattered/pokecenter_start/building",
-      "target":"pokecube:scattered/pokecenter_start/path",
       "ignoreAir":false,
-      "base_under":true,
       "options":[
         "pokecube:scattered/pokecenter_start/building"
       ]
     },
     {
-      "name":"pokecube:scattered/ruins",
+      "name":"pokecube:scattered/ruins_start",
       "rigid":false,
+      "options":[
+        "pokecube:scattered/ruins/start"
+      ]
+    },
+    {
+      "name":"pokecube:scattered/ruins",
+      "rigid":true,
       "options":[
         "pokecube:scattered/ruins/ruin_1"
       ]
@@ -164,15 +169,14 @@
     },
     {
       "name":"pokecube:scattered/ruins",
-      "root":"pokecube:scattered/ruins",
+      "root":"pokecube:scattered/ruins_start",
       "chance": 1,
       "biomeType":"ruin",
       "distance":16,
       "separation":4,
-      "offset":-3,
       "spawn":{
         "values":{
-          "types":"plains"
+          "types":"all"
         }
       }
     },
@@ -184,7 +188,6 @@
       "distance":24,
       "separation":8,
       "size":6,
-      "offset":1,
       "biomeType":"village",
       "needed_once":[
         "pokecenter",
@@ -205,7 +208,6 @@
       "distance":24,
       "separation":8,
       "size":6,
-      "offset":1,
       "biomeType":"village",
       "needed_once":[
         "pokecenter",
