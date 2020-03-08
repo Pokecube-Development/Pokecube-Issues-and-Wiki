@@ -104,6 +104,10 @@ public class StructureEvent extends Event
         }
     }
 
+    @HasResult
+    /**
+     * This event should be given result of ALLOW if something is done.
+     */
     public static class ReadTag extends StructureEvent
     {
         public String             function;

@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
@@ -143,7 +144,10 @@ public class SpawnEventsHandler
                 }
 
                 if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
+                {
                     event.world.addEntity(mob);
+                    event.setResult(Result.ALLOW);
+                }
             }
             else if (function.startsWith("pokemob"))
             {
@@ -159,6 +163,7 @@ public class SpawnEventsHandler
                 event.world.getWorld().setSpawnPoint(event.pos);
                 PokecubeSerializer.getInstance().setPlacedSpawn();
                 PokecubeCore.LOGGER.debug("Setting World Spawn to {}", event.pos);
+                event.setResult(Result.ALLOW);
             }
         }
     }

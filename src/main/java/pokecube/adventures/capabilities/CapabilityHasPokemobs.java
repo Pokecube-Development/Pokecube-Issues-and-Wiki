@@ -175,7 +175,7 @@ public class CapabilityHasPokemobs
                 if (ListNBT.size() != 0) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
                     this.setPokemob(i, ItemStack.read(ListNBT.getCompound(i)));
             }
-            this.setType(TypeTrainer.getTrainer(nbt.getString("type")));
+            this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
             this.setCooldown(nbt.getLong("nextBattle"));
             if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
             this.setNextSlot(nbt.getInt("nextSlot"));
@@ -296,10 +296,12 @@ public class CapabilityHasPokemobs
         @Override
         public TypeTrainer getType()
         {
-            if (this.user.getEntityWorld().isRemote)
+            if (!(this.user.getEntityWorld() instanceof ServerWorld))
             {
                 final String t = this.datasync.get(this.holder.TYPE);
-                return t.isEmpty() ? this.type : TypeTrainer.getTrainer(t);
+                return t.isEmpty() ? this.type
+                        : this.type.getName().equalsIgnoreCase(t) ? this.type
+                                : (this.type = TypeTrainer.getTrainer(t, true));
             }
             return this.type;
         }

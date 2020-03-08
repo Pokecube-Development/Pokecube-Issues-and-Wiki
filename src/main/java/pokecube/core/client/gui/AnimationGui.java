@@ -512,11 +512,7 @@ public class AnimationGui extends Screen
                 final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
                 if (num != AnimationGui.entry) AnimationGui.entry = num;
                 else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
-                AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
-                this.forme.setText(AnimationGui.mob);
-                PacketPokedex.updateWatchEntry(AnimationGui.entry);
                 this.holder = AnimationGui.entry.getModel(this.sexe);
-                this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
             }
             else if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1) this.holder = this.formes.get(
                     this.formIndex);
@@ -525,10 +521,10 @@ public class AnimationGui extends Screen
                 this.formIndex = -1;
                 AnimationGui.entry = this.entries.get(this.entryIndex++ % this.entries.size());
                 this.holder = AnimationGui.entry.getModel(this.sexe);
-                this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
-                AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
-                this.forme.setText(AnimationGui.mob);
             }
+            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+            AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+            this.forme.setText(AnimationGui.mob);
             this.onUpdated();
         }
         else

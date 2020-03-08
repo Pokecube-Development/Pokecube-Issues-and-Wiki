@@ -3,10 +3,12 @@ package pokecube.core.world.gen.feature.scattered.jigsaw;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 
@@ -21,6 +23,7 @@ import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
@@ -43,6 +46,8 @@ import net.minecraft.world.gen.feature.template.StructureProcessor;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
@@ -71,6 +76,22 @@ public class JigsawPieces
 
     public static final Map<String, JigSawPool>          pools    = Maps.newHashMap();
     public static final Map<String, JigsawPatternCustom> patterns = Maps.newHashMap();
+
+    private static final Map<DimensionType, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
+
+    private static boolean shouldApply(final BlockPos pos, final IWorld worldIn)
+    {
+        Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimension().getType());
+        if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimension().getType(), poses = Sets.newHashSet());
+        return !poses.contains(pos.toImmutable());
+    }
+
+    private static void apply(final BlockPos pos, final IWorld worldIn)
+    {
+        Set<BlockPos> poses = JigsawPieces.sent_events.get(worldIn.getDimension().getType());
+        if (poses == null) JigsawPieces.sent_events.put(worldIn.getDimension().getType(), poses = Sets.newHashSet());
+        poses.add(pos.toImmutable());
+    }
 
     public static void initPool(final JigSawPool pool)
     {
@@ -158,7 +179,7 @@ public class JigsawPieces
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
         protected final JigSawPool part;
-        public int                 offset = 0;
+        public int                 offset = 1;
         private final boolean      ignoreAir;
 
         public String flag = "";
@@ -176,7 +197,6 @@ public class JigsawPieces
                 final String subbiome)
         {
             super(location, processors, type);
-            this.offset = 0;
             this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
             this.part = part;
@@ -290,7 +310,12 @@ public class JigsawPieces
                 final ResourceLocation key = new ResourceLocation(function.replaceFirst("Chest ", ""));
                 if (sbb.isVecInside(blockpos)) LockableLootTileEntity.setLootTable(worldIn, rand, blockpos, key);
             }
-            else MinecraftForge.EVENT_BUS.post(new StructureEvent.ReadTag(function.trim(), pos, worldIn, rand, sbb));
+            else if (JigsawPieces.shouldApply(pos, worldIn))
+            {
+                final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, rand, sbb);
+                MinecraftForge.EVENT_BUS.post(event);
+                if (event.getResult() == Result.ALLOW) JigsawPieces.apply(pos, worldIn);
+            }
         }
     }
 
