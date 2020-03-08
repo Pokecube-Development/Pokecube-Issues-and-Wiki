@@ -3,6 +3,7 @@ package pokecube.adventures.blocks;
 import java.util.UUID;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -10,8 +11,11 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.warppad.WarppadTile;
+import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.Linkable;
+import thut.api.OwnableCaps;
+import thut.api.block.IOwnableTE;
 import thut.api.maths.Vector4;
 
 public class BlockEventHandler
@@ -46,8 +50,9 @@ public class BlockEventHandler
         @Override
         public boolean setLinkedPos(final Vector4 pos, final Entity user)
         {
-            // TODO confirm owner of tile.
-
+            final IOwnable own = OwnableCaps.getOwnable(this.tile);
+            if (user instanceof LivingEntity && own instanceof IOwnableTE && !((IOwnableTE) own).canEdit(
+                    (LivingEntity) user)) return false;
             // Assume that we right clicked the top of the block.
             pos.y += 1;
             this.tile.getDest().loc = pos;

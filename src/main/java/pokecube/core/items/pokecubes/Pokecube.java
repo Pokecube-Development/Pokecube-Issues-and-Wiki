@@ -81,8 +81,7 @@ public class Pokecube extends Item implements IPokecube
 
         final boolean flag5 = nbt.contains("dye");
 
-        if (flag5) // TODO better tooltip for dyes?
-            list.add(new TranslationTextComponent(DyeColor.byId(nbt.getInt("dye")).getTranslationKey()));
+        if (flag5) list.add(new TranslationTextComponent(DyeColor.byId(nbt.getInt("dye")).getTranslationKey()));
     }
 
     public Pokecube(final Properties properties)
