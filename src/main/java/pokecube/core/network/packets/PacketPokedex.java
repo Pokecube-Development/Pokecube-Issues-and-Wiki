@@ -243,7 +243,6 @@ public class PacketPokedex extends Packet
     @OnlyIn(value = Dist.CLIENT)
     public static void sendSpecificSpawnsRequest(final PokedexEntry entry)
     {
-        PacketPokedex.selectedMob.clear();
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
         packet.data.putString("V", entry.getName());
         PokecubeCore.packets.sendToServer(packet);
@@ -285,6 +284,7 @@ public class PacketPokedex extends Packet
     {
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         int n = 0;
+        CompoundNBT data;
         switch (this.message)
         {
         case OPEN:
@@ -318,13 +318,22 @@ public class PacketPokedex extends Packet
             return;
         case REQUESTLOC:
             PacketPokedex.selectedLoc.clear();
-            final CompoundNBT data = this.data.getCompound("V");
+            data = this.data.getCompound("V");
             n = data.keySet().size() / 2;
             for (int i = 0; i < n; i++)
                 PacketPokedex.selectedLoc.put(Database.getEntry(data.getString("e" + i)), PacketPokedex.gson.fromJson(
                         data.getString("" + i), SpawnBiomeMatcher.class));
             if (this.data.contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry",
                     this.data.getString("E"));
+            return;
+        case REQUESTMOB:
+            PacketPokedex.selectedMob.clear();
+            data = this.data.getCompound("V");
+            final int num = data.getInt("n");
+            for (int i = 0; i < num; i++)
+                PacketPokedex.selectedMob.add(PacketPokedex.gson.fromJson(data.getString("" + i),
+                        SpawnBiomeMatcher.class));
+            return;
         }
     }
 
@@ -340,9 +349,11 @@ public class PacketPokedex extends Packet
         SpawnCheck checker;
         ArrayList<PokedexEntry> names = new ArrayList<>();
         float total = 0;
+        int n = 0;
         List<String> biomes;
         PokedexEntry entry;
         SpawnData data;
+        final CompoundNBT spawns = new CompoundNBT();
         switch (this.message)
         {
         case INSPECTMOB:
@@ -350,6 +361,21 @@ public class PacketPokedex extends Packet
             pokemob = CapabilityPokemob.getPokemobFor(mob);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player).getData(
                     PokecubePlayerStats.class).inspect(player, pokemob);
+            return;
+        case REQUESTMOB:
+            pos = Vector3.getNewVector().set(player);
+            checker = new SpawnCheck(pos, player.getEntityWorld());
+            entry = Database.getEntry(this.data.getString("V"));
+            packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
+            if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers
+                    .keySet())
+            {
+                spawns.putString("" + n, PacketPokedex.gson.toJson(matcher));
+                n++;
+            }
+            spawns.putInt("n", n);
+            packet.data.put("V", spawns);
+            PokecubeCore.packets.sendTo(packet, player);
             return;
         case REQUESTLOC:
             rates = Maps.newHashMap();
@@ -377,8 +403,6 @@ public class PacketPokedex extends Packet
                 rates.put(e, val);
             }
             packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
-            int n = 0;
-            final CompoundNBT spawns = new CompoundNBT();
             for (final PokedexEntry e : names)
             {
                 final SpawnBiomeMatcher matcher = matchers.get(e);

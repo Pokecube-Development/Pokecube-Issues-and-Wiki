@@ -1,8 +1,13 @@
 {
     "variants": {
-        "facing=east":  { "model": "pokecube_adventures:block/cloner", "y":270 },
-        "facing=west":  { "model": "pokecube_adventures:block/cloner", "y":90 },
-        "facing=north": { "model": "pokecube_adventures:block/cloner", "y":180},
-        "facing=south": { "model": "pokecube_adventures:block/cloner", "y":0 }
+        "facing=east,half=bottom":  { "model": "pokecube_adventures:block/cloner_bottom", "y":270 },
+        "facing=west,half=bottom":  { "model": "pokecube_adventures:block/cloner_bottom", "y":90 },
+        "facing=north,half=bottom": { "model": "pokecube_adventures:block/cloner_bottom", "y":180},
+        "facing=south,half=bottom": { "model": "pokecube_adventures:block/cloner_bottom", "y":0 },
+
+        "facing=east,half=top":  { "model": "pokecube_adventures:block/cloner_top", "y":270 },
+        "facing=west,half=top":  { "model": "pokecube_adventures:block/cloner_top", "y":90 },
+        "facing=north,half=top": { "model": "pokecube_adventures:block/cloner_top", "y":180},
+        "facing=south,half=top": { "model": "pokecube_adventures:block/cloner_top", "y":0 }
     }
 }

@@ -2,6 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase headAxis="1" headCap="-50,50" name="global" scale="1.0"/>
+  <metadata head="head" headAxis="1" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir2="1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
  </model>
  <details>

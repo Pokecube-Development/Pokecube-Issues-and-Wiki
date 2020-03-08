@@ -10,7 +10,7 @@ import net.minecraft.world.dimension.DimensionType;
 
 public class Vector4
 {
-    public static Vector4 fromAngles(float x, float y, float z)
+    public static Vector4 fromAngles(final float x, final float y, final float z)
     {
         Vector4 angle = null;
         if (z != 0) angle = new Vector4(0, 0, 1, z);
@@ -30,7 +30,7 @@ public class Vector4
         this.x = 1;
     }
 
-    public Vector4(BlockPos pos, DimensionType dim)
+    public Vector4(final BlockPos pos, final DimensionType dim)
     {
         this();
         this.x = pos.getX();
@@ -39,7 +39,7 @@ public class Vector4
         this.w = dim.getId();
     }
 
-    public Vector4(CompoundNBT nbt)
+    public Vector4(final CompoundNBT nbt)
     {
         this();
         this.x = nbt.getFloat("x");
@@ -48,7 +48,7 @@ public class Vector4
         this.w = nbt.getFloat("w");
     }
 
-    public Vector4(double posX, double posY, double posZ, float w)
+    public Vector4(final double posX, final double posY, final double posZ, final float w)
     {
         this.x = (float) posX;
         this.y = (float) posY;
@@ -56,12 +56,12 @@ public class Vector4
         this.w = w;
     }
 
-    public Vector4(Entity e)
+    public Vector4(final Entity e)
     {
         this(e.posX, e.posY, e.posZ, e.dimension.getId());
     }
 
-    public Vector4(String toParse)
+    public Vector4(final String toParse)
     {
         final String[] vals = toParse.split(" ");
         if (vals.length == 4)
@@ -73,7 +73,7 @@ public class Vector4
         }
     }
 
-    public Vector4 add(Vector4 b)
+    public Vector4 add(final Vector4 b)
     {
         final Vector4 quat = new Vector4();
 
@@ -85,7 +85,7 @@ public class Vector4
         return quat;
     }
 
-    public Vector4 addAngles(Vector4 toAdd)
+    public Vector4 addAngles(final Vector4 toAdd)
     {
         final Vector4 ret = this.copy();
         final Vector4 temp = toAdd.copy();
@@ -111,7 +111,7 @@ public class Vector4
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (o instanceof Vector4)
         {
@@ -137,7 +137,7 @@ public class Vector4
         return this.x == 0 && this.z == 0 && this.y == 0;
     }
 
-    public final void mul(Vector4 q1, Vector4 q2)
+    public final void mul(final Vector4 q1, final Vector4 q2)
     {
         this.x = q1.x * q2.w + q1.y * q2.z - q1.z * q2.y + q1.w * q2.x;
         this.y = -q1.x * q2.z + q1.y * q2.w + q1.z * q2.x + q1.w * q2.y;
@@ -157,14 +157,14 @@ public class Vector4
         return this;
     }
 
-    public Vector4 scalarMult(float scalar)
+    public Vector4 scalarMult(final float scalar)
     {
         final Vector4 ret = new Vector4(this.x, this.y, this.z, this.w);
         ret.w = this.w * scalar;
         return ret;
     }
 
-    public Vector4 set(float x, float y, float z, float w)
+    public Vector4 set(final float x, final float y, final float z, final float w)
     {
         this.x = x;
         this.y = y;
@@ -173,7 +173,7 @@ public class Vector4
         return this;
     }
 
-    public Vector4 subtractAngles(Vector4 toAdd)
+    public Vector4 subtractAngles(final Vector4 toAdd)
     {
         final Vector4 temp = new Vector4(toAdd.x, toAdd.y, toAdd.z, -toAdd.w);
         return this.addAngles(temp);
@@ -251,16 +251,18 @@ public class Vector4
         return "x:" + this.x + " y:" + this.y + " z:" + this.z + " w:" + this.w;
     }
 
-    public boolean withinDistance(float distance, Vector4 toCheck)
+    public boolean withinDistance(final float distance, final Vector4 toCheck)
     {
-        if ((int) this.w == (int) toCheck.w && toCheck.x >= this.x - distance && toCheck.z >= this.z - distance
-                && toCheck.y >= this.y - distance && toCheck.y <= this.y + distance && toCheck.x <= this.x + distance
-                && toCheck.z <= this.z + distance) return true;
-
+        if ((int) this.w == (int) toCheck.w)
+        {
+            final double dss = (this.x - toCheck.x) * (this.x - toCheck.x) + (this.y - toCheck.y) * (this.y - toCheck.y)
+                    + (this.z - toCheck.z) * (this.z - toCheck.z);
+            return dss < distance * distance;
+        }
         return false;
     }
 
-    public void writeToNBT(CompoundNBT nbt)
+    public void writeToNBT(final CompoundNBT nbt)
     {
         nbt.putFloat("x", this.x);
         nbt.putFloat("y", this.y);

@@ -376,6 +376,13 @@
     "pokecube.tooltip.ability": "A: %s",
     "pokecube.tooltip.advanced": "<Shift for more info>",
     
+    "pokecube.tooltip.hpup": "Increases HP of a Pokémob",
+    "pokecube.tooltip.protein": "Increases ATT of a Pokémob",
+    "pokecube.tooltip.iron": "Increases DEF of a Pokémob",
+    "pokecube.tooltip.calcium": "Increases ATTSP of a Pokémob",
+    "pokecube.tooltip.zinc": "Increases DEFSP of a Pokémob",
+    "pokecube.tooltip.carbos": "Increases VIT of a Pokémob",
+    
     "_comment": "Mob Internal Names",
 
     "entity.pokecube.egg": "Pokémob Egg",

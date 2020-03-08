@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.1"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="-5,5" headDir="1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="-5,5" headDir="1" headDir2="-1"/>
   <phase duration="10" leftArm="" leftLeg="foot" legAngle="50" name="biWalk" rightArm="" rightLeg="foot1"/>
   <customTex default="rowlet">
    <part name="Head" tex="rowlethead"/>

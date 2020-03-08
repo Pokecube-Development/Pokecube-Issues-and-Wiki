@@ -3,8 +3,6 @@
  <model name="">
   <phase name="global" scale="0.25"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
-  <metadata head="neck1" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-5,5" headDir="-1"/>
-  <metadata head="neck2" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-5,5" headDir="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <customTex default="furfrou">
    <part name="Head" tex="furfrouhead"/>

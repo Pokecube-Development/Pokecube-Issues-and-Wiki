@@ -32,6 +32,16 @@ public abstract class PokeInfoPage extends WatchPage
         this.formIndex = -1;
     }
 
+    @Override
+    public void onPageOpened()
+    {
+    }
+
+    @Override
+    public void onPageClosed()
+    {
+    }
+
     abstract void drawInfo(int mouseX, int mouseY, float partialTicks);
 
     @Override

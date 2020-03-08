@@ -52,41 +52,39 @@ public class MiscItemHelper
 
     static ItemStack CHARCOALSTACK;
 
-    public static ActionResult<ItemStack> feedToPokemob(final ItemStack stack, final Entity entity)
+    private static ActionResult<ItemStack> applyEVs(final byte[] evs, final ItemStack stack, final IPokemob pokemob)
+    {
+        boolean fed = false;
+        for (int i = 0; i < evs.length; i++)
+        {
+            final byte toAdd = evs[i];
+            final byte ev = pokemob.getEVs()[i];
+            if (toAdd > 0 && ev < Byte.MAX_VALUE)
+            {
+                fed = true;
+                break;
+            }
+        }
+        return new ActionResult<>(fed ? ActionResultType.SUCCESS : ActionResultType.FAIL, stack);
+    }
+
+    private static ActionResult<ItemStack> feedVitamin(final ItemStack stack, final Entity entity)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob != null)
         {
-            if (PokecubeItems.is(new ResourceLocation("pokecube:hpup"), stack))
-            {
-                pokemob.addEVs(new byte[] { 10, 0, 0, 0, 0, 0 });
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
-            }
-            if (PokecubeItems.is(new ResourceLocation("pokecube:protein"), stack))
-            {
-                pokemob.addEVs(new byte[] { 0, 10, 0, 0, 0, 0 });
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
-            }
-            if (PokecubeItems.is(new ResourceLocation("pokecube:iron"), stack))
-            {
-                pokemob.addEVs(new byte[] { 0, 0, 10, 0, 0, 0 });
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
-            }
-            if (PokecubeItems.is(new ResourceLocation("pokecube:calcium"), stack))
-            {
-                pokemob.addEVs(new byte[] { 0, 0, 0, 10, 0, 0 });
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
-            }
-            if (PokecubeItems.is(new ResourceLocation("pokecube:zinc"), stack))
-            {
-                pokemob.addEVs(new byte[] { 0, 0, 0, 0, 10, 0 });
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
-            }
-            if (PokecubeItems.is(new ResourceLocation("pokecube:carbos"), stack))
-            {
-                pokemob.addEVs(new byte[] { 0, 0, 0, 0, 0, 10 });
-                return new ActionResult<>(ActionResultType.SUCCESS, stack);
-            }
+            if (PokecubeItems.is(new ResourceLocation("pokecube:hpup"), stack)) return MiscItemHelper.applyEVs(
+                    new byte[] { 10, 0, 0, 0, 0, 0 }, stack, pokemob);
+            if (PokecubeItems.is(new ResourceLocation("pokecube:protein"), stack)) return MiscItemHelper.applyEVs(
+                    new byte[] { 0, 10, 0, 0, 0, 0 }, stack, pokemob);
+            if (PokecubeItems.is(new ResourceLocation("pokecube:iron"), stack)) return MiscItemHelper.applyEVs(
+                    new byte[] { 0, 0, 10, 0, 0, 0 }, stack, pokemob);
+            if (PokecubeItems.is(new ResourceLocation("pokecube:calcium"), stack)) return MiscItemHelper.applyEVs(
+                    new byte[] { 0, 0, 0, 10, 0, 0 }, stack, pokemob);
+            if (PokecubeItems.is(new ResourceLocation("pokecube:zinc"), stack)) return MiscItemHelper.applyEVs(
+                    new byte[] { 0, 10, 0, 0, 10, 0 }, stack, pokemob);
+            if (PokecubeItems.is(new ResourceLocation("pokecube:carbos"), stack)) return MiscItemHelper.applyEVs(
+                    new byte[] { 0, 0, 0, 0, 0, 10 }, stack, pokemob);
         }
         return new ActionResult<>(ActionResultType.FAIL, stack);
     }
@@ -105,7 +103,9 @@ public class MiscItemHelper
             @Override
             public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
             {
-                return MiscItemHelper.feedToPokemob(stack, pokemob.getEntity());
+                final ActionResult<ItemStack> result = MiscItemHelper.feedVitamin(stack, pokemob.getEntity());
+                // TODO decide on whether to send a message if it fails?
+                return result;
             }
         };
 
