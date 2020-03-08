@@ -85,6 +85,12 @@ public class AnimationGui extends Screen
     Holder      renderHolder;
     FormeHolder holder = null;
 
+    List<PokedexEntry> entries = Lists.newArrayList();
+    List<FormeHolder>  formes  = Lists.newArrayList();
+
+    int entryIndex = 0;
+    int formIndex  = 0;
+
     float xRenderAngle     = 0;
     float yRenderAngle     = 0;
     float yHeadRenderAngle = 0;
@@ -546,7 +552,42 @@ public class AnimationGui extends Screen
     public boolean keyPressed(final int code, final int unk1, final int unk2)
     {
         if (code == GLFW.GLFW_KEY_ENTER) this.onUpdated();
-        if (code == GLFW.GLFW_KEY_RIGHT)
+        if (code == GLFW.GLFW_KEY_RIGHT) if (!Screen.hasShiftDown())
+        {
+            this.formes = Database.customModels.getOrDefault(AnimationGui.entry, Collections.emptyList());
+            this.entries = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
+            if (AnimationGui.entry.getBaseForme() != null && !this.entries.contains(AnimationGui.entry.getBaseForme()))
+            {
+                this.entries.add(AnimationGui.entry.getBaseForme());
+                Collections.sort(this.entries, Database.COMPARATOR);
+            }
+            if (this.entryIndex >= this.entries.size())
+            {
+                this.entryIndex = 0;
+                this.formIndex = -1;
+                final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
+                if (num != AnimationGui.entry) AnimationGui.entry = num;
+                else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
+                AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+                this.forme.setText(AnimationGui.mob);
+                PacketPokedex.updateWatchEntry(AnimationGui.entry);
+                this.holder = AnimationGui.entry.getModel(this.sexe);
+                this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+            }
+            else if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1) this.holder = this.formes.get(
+                    this.formIndex);
+            else if (this.entries.size() > 0)
+            {
+                this.formIndex = -1;
+                AnimationGui.entry = this.entries.get(this.entryIndex++ % this.entries.size());
+                this.holder = AnimationGui.entry.getModel(this.sexe);
+                this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+                AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+                this.forme.setText(AnimationGui.mob);
+            }
+            this.onUpdated();
+        }
+        else
         {
             final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
