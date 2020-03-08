@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.4"/>
-  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headCap1="-10,10" headDir="1"/>
-  <phase duration="10" leftArm="" leftLeg="Left_Hip" legAngle="25" name="biWalk" rightArm="" rightLeg="Right_Hip"/>
+  <phase name="global" scale="0.2"/>
+  <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg1_001"/>
+  <customTex default="bonsly">
+   <part name="Head" tex="bonslyeye"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="top">
+    <component length="10" name="0" rotChange="4,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="-4,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="top">
+    <component length="10" name="0" rotChange="-6,0,0" startKey="0"/>
+    <component length="10" name="1" rotChange="6,0,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="10" name="0" rotOffset="-6,0,0" startKey="0"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
