@@ -40,14 +40,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     public void onPageClosed()
     {
         this.preSubClosed();
-        try
-        {
-            if (this.current_page != null) this.current_page.onPageClosed();
-        }
-        catch (final Exception e)
-        {
-            PokecubeCore.LOGGER.warn("Error with page " + this.current_page.getTitle(), e);
-        }
+        this.closeSubPage();
         super.onPageClosed();
     }
 
@@ -61,6 +54,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
 
     protected void openSubPage()
     {
+        this.closeSubPage();
         this.current_page = this.createPage(this.index);
         try
         {

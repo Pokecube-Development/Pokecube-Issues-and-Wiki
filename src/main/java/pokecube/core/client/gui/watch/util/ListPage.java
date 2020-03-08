@@ -28,6 +28,8 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     @Override
     public void init()
     {
+        this.children().clear();
+        this.setFocused(null);
         super.init();
         this.initList();
     }
@@ -40,6 +42,8 @@ public abstract class ListPage<T extends AbstractList.AbstractListEntry<T>> exte
     @Override
     public void onPageOpened()
     {
+        this.children().clear();
+        this.setFocused(null);
         this.initList();
         super.onPageOpened();
     }
