@@ -3,6 +3,7 @@ package pokecube.core.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -14,15 +15,18 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 public abstract class InteractableHorizontalBlock extends HorizontalBlock
 {
 
     public InteractableHorizontalBlock(final Properties properties)
     {
-        super(properties);
-        this.setDefaultState(
-                this.stateContainer.getBaseState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
+        super(Properties.create(Material.IRON)
+                .hardnessAndResistance(3.0f, 5.0f)
+                .harvestTool(ToolType.PICKAXE));
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
@@ -53,5 +57,4 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
         final TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
     }
-
 }

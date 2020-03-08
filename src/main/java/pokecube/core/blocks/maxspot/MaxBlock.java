@@ -9,13 +9,12 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import pokecube.core.blocks.tms.TMBlock;
 
 public class MaxBlock extends InteractableHorizontalBlock
 {
     public static final VoxelShape PARTIAL_BASE  = Block.makeCuboidShape(0.05D, 0.0D, 0.05D, 15.95D, 2.0D, 15.95D);
     public static final VoxelShape CENTRALCOLUMN = Block.makeCuboidShape(4.0D, 2.0D, 4.0D, 12.0D, 6.0D, 12.0D);
-    public static final VoxelShape RENDERSHAPE   = VoxelShapes.or(TMBlock.PARTIAL_BASE, TMBlock.CENTRALCOLUMN);
+    public static final VoxelShape RENDERSHAPE   = VoxelShapes.or(MaxBlock.PARTIAL_BASE, MaxBlock.CENTRALCOLUMN);
 
     public MaxBlock(final Properties properties)
     {

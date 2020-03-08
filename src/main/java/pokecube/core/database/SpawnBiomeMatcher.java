@@ -16,6 +16,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.Category;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -75,6 +76,8 @@ public class SpawnBiomeMatcher
     public static final QName AIR             = new QName("air");
     public static final QName WATER           = new QName("water");
     public static final QName MINLIGHT        = new QName("minLight");
+    public static final QName BIOMECAT        = new QName("category");
+    public static final QName NOBIOMECAT      = new QName("categoryBlacklist");
 
     public static final QName MAXLIGHT = new QName("maxLight");
 
@@ -190,12 +193,12 @@ public class SpawnBiomeMatcher
     {
         this.parse();
         if (!this.valid) return false;
-        if (this.validSubBiomes.contains(BiomeType.ALL)) return true;
         if (this.validSubBiomes.contains(BiomeType.NONE) || this.validBiomes.isEmpty() && this.validSubBiomes.isEmpty()
                 && this.blackListSubBiomes.isEmpty() && this.blackListBiomes.isEmpty()) return false;
-        final boolean rightBiome = this.validBiomes.contains(checker.biome) || this.validBiomes.isEmpty();
+        final boolean rightBiome = this.validSubBiomes.contains(BiomeType.ALL) || this.validBiomes.contains(
+                checker.biome) || this.validBiomes.isEmpty();
         boolean rightSubBiome = this.validSubBiomes.isEmpty() && checker.type == null || this.validSubBiomes.contains(
-                checker.type);
+                BiomeType.ALL) || this.validSubBiomes.contains(checker.type);
         if (this.validBiomes.isEmpty() && this.validSubBiomes.isEmpty()) rightSubBiome = true;
         BiomeType type = checker.type;
         if (checker.type == null) type = BiomeType.ALL;
@@ -259,8 +262,8 @@ public class SpawnBiomeMatcher
         final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPES);
         final String biomeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMESBLACKLIST);
         final String typeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPESBLACKLIST);
-        final Set<BiomeDictionary.Type> blackListTypes = Sets.newHashSet();
-        final Set<BiomeDictionary.Type> validTypes = Sets.newHashSet();
+        final String biomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
+        final String noBiomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAY)) this.day = Boolean.parseBoolean(
                 this.spawnRule.values.get(SpawnBiomeMatcher.DAY));
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.NIGHT)) this.night = Boolean.parseBoolean(
@@ -280,6 +283,37 @@ public class SpawnBiomeMatcher
                 this.spawnRule.values.get(SpawnBiomeMatcher.MINLIGHT));
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.MAXLIGHT)) this.maxLight = Float.parseFloat(
                 this.spawnRule.values.get(SpawnBiomeMatcher.MAXLIGHT));
+
+        final List<Category> biomeCats = Lists.newArrayList();
+        final List<Category> noBiomeCats = Lists.newArrayList();
+        final Set<BiomeDictionary.Type> blackListTypes = Sets.newHashSet();
+        final Set<BiomeDictionary.Type> validTypes = Sets.newHashSet();
+
+        if (biomeCat != null)
+        {
+            final String[] args = biomeCat.split(",");
+            for (final String s : args)
+                cats:
+                for (final Category c : Category.values())
+                    if (c.getName().equalsIgnoreCase(s))
+                    {
+                        biomeCats.add(c);
+                        break cats;
+                    }
+        }
+        if (noBiomeCat != null)
+        {
+            final String[] args = noBiomeCat.split(",");
+            for (final String s : args)
+                cats:
+                for (final Category c : Category.values())
+                    if (c.getName().equalsIgnoreCase(s))
+                    {
+                        noBiomeCats.add(c);
+                        break cats;
+                    }
+        }
+
         if (biomeString != null)
         {
             final String[] args = biomeString.split(",");
@@ -378,23 +412,25 @@ public class SpawnBiomeMatcher
                 if (subBiome != BiomeType.NONE) this.blackListSubBiomes.add(subBiome);
             }
         }
-        if (!validTypes.isEmpty()) for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+        if (!validTypes.isEmpty() || !biomeCats.isEmpty()) for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             if (b != null && !this.blackListBiomes.contains(b))
             {
-                boolean matches = true;
-                for (final BiomeDictionary.Type type : validTypes)
+                boolean matches = biomeCats.contains(b.getCategory());
+                if (!matches) for (final BiomeDictionary.Type type : validTypes)
                 {
                     matches = matches && SpawnBiomeMatcher.contains(b, type);
                     if (!matches) break;
                 }
+
                 if (matches) this.validBiomes.add(b.getRegistryName());
             }
+
         final Set<ResourceLocation> toRemove = Sets.newHashSet();
-        if (!blackListTypes.isEmpty()) for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+        for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
             if (b != null && !this.blackListBiomes.contains(b))
             {
-                boolean matches = false;
-                for (final BiomeDictionary.Type type : blackListTypes)
+                boolean matches = noBiomeCats.contains(b.getCategory());
+                if (!matches) for (final BiomeDictionary.Type type : blackListTypes)
                 {
                     matches = matches || SpawnBiomeMatcher.contains(b, type);
                     if (matches) break;

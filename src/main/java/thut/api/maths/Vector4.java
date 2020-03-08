@@ -266,11 +266,12 @@ public class Vector4
 
     public boolean withinDistance(final float distance, final Vector4 toCheck)
     {
-        if ((int) this.w == (int) toCheck.w && toCheck.x >= this.x - distance && toCheck.z >= this.z - distance
-                && toCheck.y >= this.y - distance && toCheck.y <= this.y + distance && toCheck.x <= this.x + distance
-                && toCheck.z <= this.z + distance)
-            return true;
-
+        if ((int) this.w == (int) toCheck.w)
+        {
+            final double dss = (this.x - toCheck.x) * (this.x - toCheck.x) + (this.y - toCheck.y) * (this.y - toCheck.y)
+                    + (this.z - toCheck.z) * (this.z - toCheck.z);
+            return dss < distance * distance;
+        }
         return false;
     }
 
