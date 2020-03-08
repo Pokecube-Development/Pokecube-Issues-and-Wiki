@@ -5869,7 +5869,7 @@
       "name": "Deerling",
       "stats": {
         "spawnRules": [
-		  {
+          {
             "model": {
               "key": "deerling_sp",
               "tex": "deerling_sp",
@@ -5881,7 +5881,7 @@
               "rate": "0.11"
             }
           },
-		  {
+          {
             "model": {
               "key": "deerling_au",
               "tex": "deerling_au",
@@ -5893,7 +5893,7 @@
               "rate": "0.11"
             }
           },
-		  {
+          {
             "model": {
               "key": "deerling_su",
               "tex": "deerling_su",
@@ -5905,7 +5905,7 @@
               "rate": "0.11"
             }
           },
-		  {
+          {
             "model": {
               "key": "deerling_wi",
               "tex": "deerling_wi",

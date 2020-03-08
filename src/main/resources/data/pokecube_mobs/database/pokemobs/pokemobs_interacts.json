@@ -458,11 +458,7 @@
         "evolutions": [
           {
             "name": "Sandslash Alola",
-            "item": {
-              "values": {
-                "id": "minecraft:packed_ice"
-              }
-            }
+            "item_preset": "pokecube_mobs:ice_stone"
           }
         ],
         "species": "Rodent"
@@ -657,11 +653,7 @@
         "evolutions": [
           {
             "name": "Ninetales Alola",
-            "item": {
-              "values": {
-                "id": "minecraft:packed_ice"
-              }
-            }
+            "item_preset": "pokecube_mobs:ice_stone"
           }
         ],
         "species": "Fox"
@@ -2242,11 +2234,7 @@
           },
           {
             "name": "Glaceon",
-            "item": {
-              "values": {
-                "id": "minecraft:packed_ice"
-              }
-            }
+            "item_preset": "pokecube_mobs:ice_stone"
           },
           {
             "name": "Sylveon",
@@ -5935,7 +5923,7 @@
             "name": "Gastrodon",
             "level": 30,
             "form_from": "shellos_east",
-			"model": {
+            "model": {
               "key": "gastrodon_east",
               "tex": "gastrodon_east",
               "model": "gastrodon_east",
@@ -5946,7 +5934,7 @@
             "name": "Gastrodon",
             "level": 30,
             "form_from": "shellos_west",
-			"model": {
+            "model": {
               "key": "gastrodon_west",
               "tex": "gastrodon_west",
               "model": "gastrodon_west",
@@ -7602,11 +7590,7 @@
         "evolutions": [
           {
             "name": "Darmanitan Galar",
-            "item": {
-              "values": {
-                "id": "minecraft:packed_ice"
-              }
-            }
+            "item_preset": "pokecube_mobs:ice_stone"
           }
         ],
         "species": "ZenCharm",
@@ -7959,7 +7943,7 @@
             "name": "Sawsbuck",
             "level": 34,
             "form_from": "deerling_sp",
-			"model": {
+            "model": {
               "key": "sawsbuck_sp",
               "tex": "sawsbuck_sp",
               "model": "sawsbuck_sp",
@@ -7970,7 +7954,7 @@
             "name": "Sawsbuck",
             "level": 34,
             "form_from": "deerling_su",
-			"model": {
+            "model": {
               "key": "sawsbuck_su",
               "tex": "sawsbuck_su",
               "model": "sawsbuck_su",
@@ -7981,7 +7965,7 @@
             "name": "Sawsbuck",
             "level": 34,
             "form_from": "deerling_wi",
-			"model": {
+            "model": {
               "key": "sawsbuck_wi",
               "tex": "sawsbuck_wi",
               "model": "sawsbuck_wi",
@@ -7992,7 +7976,7 @@
             "name": "Sawsbuck",
             "level": 34,
             "form_from": "deerling_au",
-			"model": {
+            "model": {
               "key": "sawsbuck_au",
               "tex": "sawsbuck_au",
               "model": "sawsbuck_au",

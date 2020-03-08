@@ -47772,7 +47772,7 @@
       "name": "Deerling",
       "number": 585,
       "base": true,
-	  "model": {
+      "model": {
         "key": "deerling_sp",
         "tex": "deerling_sp",
         "model": "deerling_sp",
@@ -47852,7 +47852,7 @@
       "name": "Sawsbuck",
       "number": 586,
       "base": true,
-	  "model": {
+      "model": {
         "key": "sawsbuck_sp",
         "tex": "sawsbuck_sp",
         "model": "sawsbuck_sp",
