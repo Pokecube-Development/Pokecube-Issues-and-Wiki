@@ -149,14 +149,9 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
 
             if (chunkGen.hasStructure(biome, this))
             {
-
                 final boolean valid = !MinecraftForge.EVENT_BUS.post(new PickLocation(chunkGen, rand, chunkPosX,
                         chunkPosZ, matched));
-                if (valid && matched.atSpawn)
-                {
-                    PokecubeSerializer.getInstance().setPlacedCenter();
-                    PokecubeSerializer.getInstance().save();
-                }
+                if (valid && matched.atSpawn) PokecubeSerializer.getInstance().setPlacedCenter();
                 if (valid) PokecubeSerializer.getInstance().place(this.name, pos, chunkGen.world.getDimension()
                         .getType());
                 return valid;
@@ -217,7 +212,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                         blockpos.getX(), blockpos.getY(), blockpos.getZ(), this.components.size());
                 // Check if any components are valid spawn spots, if so, set the
                 // spawned flag
-                if (!PokecubeSerializer.getInstance().hasPlacedCenter()) components:
+                if (!PokecubeSerializer.getInstance().hasPlacedProf()) components:
                 {
                     for (final StructurePiece part : this.components)
                         if (part instanceof CustomJigsawPiece)
@@ -246,7 +241,6 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                                         }
                                     if (!tradeString.isEmpty() && foundWorldspawn)
                                     {
-                                        PokecubeSerializer.getInstance().setPlacedCenter();
                                         piece.isSpawn = true;
                                         piece.spawnReplace = tradeString;
                                         piece.mask = new MutableBoundingBox(part.getBoundingBox());

@@ -245,8 +245,7 @@ public class WorldgenHandler
             final JigsawConfig config = new JigsawConfig(struct);
             final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                     : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-            // if (struct.biomeType.equals("village"))
-            this.forceVillageFeature(toAdd);
+            if (struct.surface) this.forceVillageFeature(toAdd);
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!struct._matcher.checkBiome(b)) continue;

@@ -53,6 +53,7 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
 import pokecube.core.events.StructureEvent;
+import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.template.ExtendedRuleProcessor;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
@@ -294,8 +295,13 @@ public class JigsawPieces
         protected void handleDataMarker(String function, final BlockPos pos, final IWorld worldIn, final Random rand,
                 final MutableBoundingBox sbb)
         {
-            if (this.isSpawn && this.maskCheck && this.spawnReplace.equals(function)) function = PokecubeCore
-                    .getConfig().professor_override;
+            this.isSpawn = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
+            if (this.isSpawn && this.maskCheck && this.spawnReplace.equals(function))
+            {
+                PokecubeCore.LOGGER.info("Overriding an entry as a professor at " + pos);
+                function = PokecubeCore.getConfig().professor_override;
+                PokecubeSerializer.getInstance().setPlacedProf();
+            }
             if (function.startsWith("pokecube:chest:"))
             {
                 final BlockPos blockpos = pos.down();
