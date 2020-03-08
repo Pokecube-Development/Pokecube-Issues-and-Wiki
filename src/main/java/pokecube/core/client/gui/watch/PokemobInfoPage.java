@@ -197,8 +197,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     {
         final boolean ret = super.mouseClicked(mouseX, mouseY, mouseButton);
         // change gender if clicking on the gender, and shininess otherwise
-        if (!new Exception().getStackTrace()[2].getClassName().equals(
-                "pokecube.core.client.gui.watch.util.PageWithSubPages")) if (!this.watch.canEdit(this.pokemob))
+        if (!this.watch.canEdit(this.pokemob))
         {
             // If it is actually a real mob, swap it out for the fake one.
             if (this.pokemob.getEntity().addedToChunk) this.pokemob = this.renderMob = EventsHandlerClient.getRenderMob(
@@ -208,7 +207,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final int y = (this.watch.height - 160) / 2 + 8;
             final int mx = (int) (mouseX - x);
             final int my = (int) (mouseY - y);
-            if (mx > -43 && mx < -43 + 76 && my > 42 && my < 42 + 7) switch (this.pokemob.getSexe())
+            if (mx > -43 && mx < -43 + 7 && my > 42 && my < 42 + 7) switch (this.pokemob.getSexe())
             {
             case IPokemob.MALE:
                 this.pokemob.setSexe(IPokemob.FEMALE);
@@ -396,6 +395,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     @Override
     public void preSubOpened()
     {
+        this.children().clear();
+        this.setFocused(null);
         this.initPages(this.pokemob);
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;

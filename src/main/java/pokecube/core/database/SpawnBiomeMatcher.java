@@ -195,9 +195,10 @@ public class SpawnBiomeMatcher
         if (!this.valid) return false;
         if (this.validSubBiomes.contains(BiomeType.NONE) || this.validBiomes.isEmpty() && this.validSubBiomes.isEmpty()
                 && this.blackListSubBiomes.isEmpty() && this.blackListBiomes.isEmpty()) return false;
+        final boolean noSubbiome = checker.type == null || checker.type == BiomeType.NONE;
         final boolean rightBiome = this.validSubBiomes.contains(BiomeType.ALL) || this.validBiomes.contains(
                 checker.biome) || this.validBiomes.isEmpty();
-        boolean rightSubBiome = this.validSubBiomes.isEmpty() && checker.type == null || this.validSubBiomes.contains(
+        boolean rightSubBiome = this.validSubBiomes.isEmpty() && noSubbiome || this.validSubBiomes.contains(
                 BiomeType.ALL) || this.validSubBiomes.contains(checker.type);
         if (this.validBiomes.isEmpty() && this.validSubBiomes.isEmpty()) rightSubBiome = true;
         BiomeType type = checker.type;
@@ -239,6 +240,13 @@ public class SpawnBiomeMatcher
         for (final Predicate<SpawnCheck> c : this.additionalConditions)
             subCondition &= c.apply(checker);
         return subCondition && !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
+    }
+
+    private Category getCat(final String name)
+    {
+        for (final Category c : Category.values())
+            if (c.getName().equalsIgnoreCase(name)) return c;
+        return null;
     }
 
     public void parse()
@@ -293,25 +301,20 @@ public class SpawnBiomeMatcher
         {
             final String[] args = biomeCat.split(",");
             for (final String s : args)
-                cats:
-                for (final Category c : Category.values())
-                    if (c.getName().equalsIgnoreCase(s))
-                    {
-                        biomeCats.add(c);
-                        break cats;
-                    }
+            {
+                final Category c = this.getCat(s);
+                if (c != null) biomeCats.add(c);
+            }
+
         }
         if (noBiomeCat != null)
         {
             final String[] args = noBiomeCat.split(",");
             for (final String s : args)
-                cats:
-                for (final Category c : Category.values())
-                    if (c.getName().equalsIgnoreCase(s))
-                    {
-                        noBiomeCats.add(c);
-                        break cats;
-                    }
+            {
+                final Category c = this.getCat(s);
+                if (c != null) noBiomeCats.add(c);
+            }
         }
 
         if (biomeString != null)
@@ -412,22 +415,21 @@ public class SpawnBiomeMatcher
                 if (subBiome != BiomeType.NONE) this.blackListSubBiomes.add(subBiome);
             }
         }
-        if (!validTypes.isEmpty() || !biomeCats.isEmpty()) for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
-            if (b != null && !this.blackListBiomes.contains(b))
+        for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
+            if (b != null && !this.blackListBiomes.contains(b.getRegistryName()))
             {
                 boolean matches = biomeCats.contains(b.getCategory());
                 if (!matches) for (final BiomeDictionary.Type type : validTypes)
                 {
-                    matches = matches && SpawnBiomeMatcher.contains(b, type);
-                    if (!matches) break;
+                    matches = SpawnBiomeMatcher.contains(b, type);
+                    if (matches) break;
                 }
-
                 if (matches) this.validBiomes.add(b.getRegistryName());
             }
 
         final Set<ResourceLocation> toRemove = Sets.newHashSet();
         for (final Biome b : SpawnBiomeMatcher.getAllBiomes())
-            if (b != null && !this.blackListBiomes.contains(b))
+            if (b != null && !this.blackListBiomes.contains(b.getRegistryName()))
             {
                 boolean matches = noBiomeCats.contains(b.getCategory());
                 if (!matches) for (final BiomeDictionary.Type type : blackListTypes)
@@ -442,6 +444,7 @@ public class SpawnBiomeMatcher
                 }
             }
         this.validBiomes.removeAll(toRemove);
+
         if (hasForgeTypes && this.validBiomes.isEmpty()) this.valid = false;
         if (this.validSubBiomes.isEmpty() && this.validBiomes.isEmpty() && this.blackListBiomes.isEmpty()
                 && this.blackListSubBiomes.isEmpty()) this.valid = false;

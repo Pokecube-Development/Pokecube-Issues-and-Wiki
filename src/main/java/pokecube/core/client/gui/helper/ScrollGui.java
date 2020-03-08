@@ -17,6 +17,7 @@ import net.minecraft.util.math.MathHelper;
 public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends AbstractList<T>
 {
     public boolean      smoothScroll    = false;
+    private boolean     checkedSmooth   = false;
     private double      scrollAmount;
     public final Screen parent;
     public int          scrollBarOffset = -10;
@@ -69,7 +70,11 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     @Override
     public double getScrollAmount()
     {
-        if (!this.smoothScroll) this.setScrollAmount(this.itemHeight * ((int) this.scrollAmount / this.itemHeight));
+        if (!this.smoothScroll && !this.checkedSmooth)
+        {
+            this.setScrollAmount(this.itemHeight * ((int) this.scrollAmount / this.itemHeight));
+            this.checkedSmooth = true;
+        }
         return this.scrollAmount;
     }
 
@@ -212,10 +217,19 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     }
 
     @Override
+    public boolean mouseScrolled(final double p_mouseScrolled_1_, final double p_mouseScrolled_3_,
+            final double p_mouseScrolled_5_)
+    {
+        // TODO Auto-generated method stub
+        return super.mouseScrolled(p_mouseScrolled_1_, p_mouseScrolled_3_, p_mouseScrolled_5_);
+    }
+
+    @Override
     public void setScrollAmount(double scroll)
     {
         if (!this.smoothScroll)
         {
+            this.checkedSmooth = false;
             final double old = this.scrollAmount;
             double ds = scroll - old;
             ds = ds == 0 ? 0 : ds > 0 ? this.itemHeight : -this.itemHeight;

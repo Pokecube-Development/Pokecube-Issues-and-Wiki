@@ -25,6 +25,7 @@ public class Spawns extends ListPage<LineEntry>
         {
             this.initList();
             this.last = PacketPokedex.selectedMob.size();
+            this.children.add(this.list);
         }
     }
 
@@ -42,6 +43,7 @@ public class Spawns extends ListPage<LineEntry>
             final SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 100, height, offsetY);
             entry.getLines(this.list, null).forEach(c -> this.list.addEntry(c));
         }
+
     }
 
 }

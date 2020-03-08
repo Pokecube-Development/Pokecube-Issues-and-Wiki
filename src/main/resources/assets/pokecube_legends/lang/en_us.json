@@ -1,14 +1,14 @@
 {
     "_comment": "Pokecube Legends translation",
 
-    "": "/pokecubes",
+    "_comment": "/pokecubes",
     "item.pokecube.beastcube": "Beast Cube",
 
-    "": "/Advancements",
+    "_comment": "/Advancements",
     "advancements.intotespace.descr": "visit Ultra Space",
     "advancements.intotespace.title": "Welcome to Ultra Space!",
     
-    "": "/Alert Pokemon Legendary Capture",
+    "_comment": "/Alert Pokemon Legendary Capture",
     "msg.infolegend.info": "§aCapture [%1$s§a] Type Pokemob so he can Trust You. Needs: %2$s, §aOwn: %3$s.",
     "msg.infolegendduo.info": "§aCapture [%1$s§a] Type Pokemob and Kill [%2$s§a] Type Pokemob. Needs: %3$s, §aOwn: %4$s. §aNeeds Kill: %5$s, §aOwn: %6$s.",
     "msg.infolegendextra.info": "§a Get [%1$s§a] to Catch this Pokemob.",
@@ -18,11 +18,17 @@
     "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering.",
     "msg.noheremultiple.info": "§cNothing relevant seems to spawn in this location.",
 
-    "": "/Biomes",
+    "_comment": "/Biome Names",
+    "biome.pokecube_legends.ub001": "Ultra Deep Caves",
+    "biome.pokecube_legends.ub002": "Ultra Jungle",
+    "biome.pokecube_legends.ub003": "Ultra Desert",
+    "biome.pokecube_legends.ub004": "Ultra Dark Valley",
+
+    "_comment": "/Biomes",
     "block.pokecube_legends.mush_plant1": "Mushroom U_01",
     "block.pokecube_legends.mush_plant2": "Mushroom U_02",
     
-    "": "/Items",
+    "_comment": "/Items",
     "item.pokecube_legends.lightstone": "Light Stone",
     "item.pokecube_legends.darkstone": "Dark Stone",
     "item.pokecube_legends.sapphire": "Sapphire",

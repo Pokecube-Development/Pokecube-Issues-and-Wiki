@@ -23,10 +23,10 @@ public class BiomeInit
         // New Biomes
         BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_UB1, "pokecube_legends:ub001", BiomeType.ICY,
                 Type.MUSHROOM, Type.SWAMP, Type.SPOOKY, Type.DRY);
-        BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_UB2, "pokecube_legends:ub002", BiomeType.DESERT,
-                Type.DEAD, Type.SANDY, Type.WASTELAND, Type.HOT);
-        BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_UB3, "pokecube_legends:ub003", BiomeType.WARM,
+        BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_UB2, "pokecube_legends:ub002", BiomeType.WARM,
                 Type.DENSE, Type.JUNGLE, Type.FOREST, Type.WATER, Type.MOUNTAIN);
+        BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_UB3, "pokecube_legends:ub003", BiomeType.DESERT,
+                Type.DEAD, Type.SANDY, Type.WASTELAND, Type.HOT);
         BiomeInit.initBiome(event.getRegistry(), BiomeInit.BIOME_UB4, "pokecube_legends:ub004", BiomeType.COOL,
                 Type.CONIFEROUS, Type.MESA, Type.SNOWY);
     }

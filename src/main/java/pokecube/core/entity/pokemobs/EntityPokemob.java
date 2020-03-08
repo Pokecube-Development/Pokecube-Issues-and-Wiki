@@ -178,6 +178,26 @@ public class EntityPokemob extends ShoulderRidingEntity implements IEntityAdditi
     }
 
     @Override
+    public void tick()
+    {
+        if (this.getEntityWorld() instanceof ServerWorld)
+        {
+            final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
+            if (near != null && this.getOwnerId() == null)
+            {
+                final float dist = near.getDistance(this);
+                if (PokecubeCore.getConfig().cull && dist > PokecubeCore.getConfig().cullDistance)
+                {
+                    this.pokemobCap.onRecall();
+                    return;
+                }
+                if (dist > PokecubeCore.getConfig().aiDisableDistance) return;
+            }
+        }
+        super.tick();
+    }
+
+    @Override
     public SitGoal getAISit()
     {
         // TODO custom sitting ai?

@@ -33,6 +33,7 @@ import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
@@ -111,6 +112,7 @@ public class PokecubeCore
             PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
             SecretBaseDimension.BIOME = new SecretBiome();
             event.getRegistry().register(SecretBaseDimension.BIOME);
+            BiomeDictionary.addTypes(SecretBaseDimension.BIOME, BiomeDictionary.Type.VOID);
         }
 
         @SubscribeEvent
