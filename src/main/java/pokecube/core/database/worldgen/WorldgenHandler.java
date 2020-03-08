@@ -96,7 +96,7 @@ public class WorldgenHandler
          * pick is what is generated for that position.
          */
         public float     chance    = 1;
-        public int       offset    = 0;
+        public int       offset    = 1;
         public String    biomeType = "none";
         public SpawnRule spawn;
         public boolean   surface   = true;
@@ -135,7 +135,7 @@ public class WorldgenHandler
         public String       name;
         public String       root;
         public float        chance      = 1;
-        public int          offset      = 0;
+        public int          offset      = 1;
         public int          size        = 4;
         public int          distance    = 8;
         public int          separation  = 4;

@@ -33,6 +33,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.Config;
@@ -309,7 +310,10 @@ public class TrainerSpawnHandler
             TrainerSpawnHandler.applyFunction(mob, thing, leader);
             PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
+            {
                 event.world.addEntity(mob);
+                event.setResult(Result.ALLOW);
+            }
         }
     }
 

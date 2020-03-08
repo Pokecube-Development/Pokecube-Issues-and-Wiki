@@ -24,7 +24,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import thut.core.common.commands.CommandTools;
+import pokecube.core.utils.Tools;
 
 public class CountCommand
 {
@@ -63,7 +63,7 @@ public class CountCommand
         final String perm = "command.pokecube.count";
         PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to check the number of pokemobs in the world");
-        command.then(Commands.literal("count").requires(cs -> CommandTools.hasPerm(cs, perm)).executes((
-                ctx) -> CountCommand.execute(ctx.getSource())));
+        command.then(Commands.literal("count").requires(Tools.hasPerm(perm)).executes((ctx) -> CountCommand.execute(ctx
+                .getSource())));
     }
 }
