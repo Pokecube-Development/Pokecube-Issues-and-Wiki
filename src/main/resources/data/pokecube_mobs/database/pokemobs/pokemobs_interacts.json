@@ -2250,11 +2250,7 @@
           },
           {
             "name": "Sylveon",
-            "item": {
-              "values": {
-                "id": "pokecube_mobs:berry_enigma"
-              }
-            }
+            "item_preset": "pokecube_mobs:sylveon"
           }
         ],
         "species": "Fox"
