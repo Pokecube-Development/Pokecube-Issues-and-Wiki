@@ -197,11 +197,24 @@ public class PokecubeSerializer
     public void setPlacedCenter()
     {
         PokecubeSerializer.getInstance().customData.putBoolean("start_pokecentre", true);
+        PokecubeSerializer.getInstance().save();
     }
 
     public void setPlacedSpawn()
     {
         PokecubeSerializer.getInstance().customData.putBoolean("set_world_spawn", true);
+        PokecubeSerializer.getInstance().save();
+    }
+
+    public void setPlacedProf()
+    {
+        PokecubeSerializer.getInstance().customData.putBoolean("set_professor", true);
+        PokecubeSerializer.getInstance().save();
+    }
+
+    public boolean hasPlacedProf()
+    {
+        return PokecubeSerializer.getInstance().customData.contains("set_professor");
     }
 
     public boolean hasPlacedSpawn()
