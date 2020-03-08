@@ -9,10 +9,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -119,7 +121,7 @@ public class WorldgenHandler
         public String       name;
         public String       target     = "empty";
         public String       biomeType  = "ruin";
-        public List<String> options;
+        public List<String> options    = Lists.newArrayList();
         public boolean      rigid      = true;
         public boolean      ignoreAir  = true;
         public boolean      filler     = false;
@@ -131,19 +133,21 @@ public class WorldgenHandler
     {
 
         public String       name;
-        public String       name_override = "";
         public String       root;
-        public float        chance        = 1;
-        public int          offset        = 0;
-        public int          size          = 4;
-        public int          distance      = 8;
-        public int          separation    = 4;
-        public String       biomeType     = "ruin";
+        public float        chance      = 1;
+        public int          offset      = 0;
+        public int          size        = 4;
+        public int          distance    = 8;
+        public int          separation  = 4;
+        public String       type        = "";
+        public String       biomeType   = "ruin";
         public SpawnRule    spawn;
-        public boolean      surface       = true;
-        public boolean      water         = false;
-        public boolean      atSpawn       = false;
-        public List<String> needed_once   = Lists.newArrayList();
+        public boolean      surface     = true;
+        public boolean      water       = false;
+        public boolean      atSpawn     = false;
+        public List<String> needed_once = Lists.newArrayList();
+
+        public SpawnBiomeMatcher _matcher;
 
         public String serialize()
         {
@@ -162,6 +166,8 @@ public class WorldgenHandler
         public List<JigSawPool>    pools      = Lists.newArrayList();
         public List<JigSawConfig>  jigsaws    = Lists.newArrayList();
     }
+
+    public static Map<String, JigsawStructure> structs = Maps.newHashMap();
 
     public File DEFAULT;
 
@@ -230,17 +236,24 @@ public class WorldgenHandler
         for (final JigSawConfig struct : this.defaults.jigsaws)
         {
             JigsawPieces.registerJigsaw(struct);
-            final JigsawStructure toAdd = new JigsawStructure(struct);
-            toAdd.setRegistryName(new ResourceLocation(struct.name));
-            event.getRegistry().register(toAdd);
-            final SpawnBiomeMatcher matcher = new SpawnBiomeMatcher(struct.spawn);
+            final String key = struct.type.isEmpty() ? struct.name : struct.type;
+            final JigsawStructure toAdd = WorldgenHandler.structs.getOrDefault(key, new JigsawStructure(key)).addStruct(
+                    struct);
+            if (!WorldgenHandler.structs.containsKey(key))
+            {
+                WorldgenHandler.structs.put(key, toAdd);
+                toAdd.setRegistryName(new ResourceLocation(struct.name));
+                event.getRegistry().register(toAdd);
+            }
+            struct._matcher = new SpawnBiomeMatcher(struct.spawn);
             final JigsawConfig config = new JigsawConfig(struct);
             final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                     : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-            if (struct.biomeType.equals("village")) this.forceVillageFeature(toAdd);
+            // if (struct.biomeType.equals("village"))
+            this.forceVillageFeature(toAdd);
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
-                if (!matcher.checkBiome(b)) continue;
+                if (!struct._matcher.checkBiome(b)) continue;
                 b.addFeature(stage, Biome.createDecoratedFeature(toAdd, config, Placement.NOPE,
                         IPlacementConfig.NO_PLACEMENT_CONFIG));
                 b.addStructure(toAdd, config);

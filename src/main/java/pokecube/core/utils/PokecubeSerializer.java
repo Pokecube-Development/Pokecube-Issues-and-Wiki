@@ -7,7 +7,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -16,6 +21,7 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
@@ -98,6 +104,7 @@ public class PokecubeSerializer
     private static final String POKECUBE = "pokecube";
     private static final String DATA     = "data";
     private static final String METEORS  = "meteors";
+    private static final String STRUCTS  = "structs";
     private static final String BASES    = "bases";
     private static final String LASTUID  = "lastUid";
 
@@ -135,6 +142,8 @@ public class PokecubeSerializer
     public ArrayList<Vector4> meteors;
     public ArrayList<Vector4> bases;
 
+    public Map<String, List<Vector4>> structs;
+
     private int lastId = 1;
 
     public ServerWorld myWorld;
@@ -153,12 +162,35 @@ public class PokecubeSerializer
         this.lastId = 0;
         this.meteors = new ArrayList<>();
         this.bases = new ArrayList<>();
+        this.structs = Maps.newConcurrentMap();
         if (this.myWorld != null) this.loadData();
     }
 
     public void addMeteorLocation(final Vector4 v)
     {
         this.meteors.add(v);
+        this.save();
+    }
+
+    public boolean shouldPlace(final String struct, final BlockPos pos, final DimensionType dim, final int seperation)
+    {
+        final List<Vector4> locs = this.structs.get(struct);
+        if (locs == null) return true;
+        final Vector4 check = new Vector4(pos, dim);
+        for (final Vector4 v : locs)
+        {
+            if (v.w != dim.getId()) continue;
+            if (check.withinDistance(seperation, v)) return false;
+        }
+        return true;
+    }
+
+    public void place(final String struct, final BlockPos pos, final DimensionType dim)
+    {
+        final Vector4 check = new Vector4(pos, dim);
+        final List<Vector4> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
+        locs.add(check);
+        this.structs.put(struct, locs);
         this.save();
     }
 
@@ -285,6 +317,28 @@ public class PokecubeSerializer
                 }
             }
         }
+
+        temp = tag.get(PokecubeSerializer.STRUCTS);
+        if (temp instanceof ListNBT)
+        {
+            final ListNBT tagListStructs = (ListNBT) temp;
+            if (tagListStructs.size() > 0) for (int i = 0; i < tagListStructs.size(); i++)
+            {
+                final CompoundNBT pokemobData = tagListStructs.getCompound(i);
+                if (pokemobData != null)
+                {
+                    final Vector4 location = new Vector4(pokemobData);
+                    final String struct = pokemobData.getString("type");
+                    if (location != null && !location.isEmpty())
+                    {
+                        final List<Vector4> locs = this.structs.getOrDefault(struct, Lists.newArrayList());
+                        locs.add(location);
+                        this.structs.put(struct, locs);
+                    }
+                }
+            }
+        }
+
         temp = tag.get("tmtags");
         if (temp instanceof CompoundNBT) PokecubeItems.loadTime((CompoundNBT) temp);
     }
@@ -380,6 +434,20 @@ public class PokecubeSerializer
                 tagListMeteors.add(nbt);
             }
         tag.put(PokecubeSerializer.METEORS, tagListMeteors);
+        final ListNBT tagListStructs = new ListNBT();
+        for (final String s : this.structs.keySet())
+        {
+            final List<Vector4> list = this.structs.get(s);
+            for (final Vector4 v : list)
+                if (v != null && !v.isEmpty())
+                {
+                    final CompoundNBT nbt = new CompoundNBT();
+                    nbt.putString("type", s);
+                    v.writeToNBT(nbt);
+                    tagListStructs.add(nbt);
+                }
+        }
+        tag.put(PokecubeSerializer.STRUCTS, tagListStructs);
         final ListNBT tagListBases = new ListNBT();
         for (final Vector4 v : this.bases)
             if (v != null && !v.isEmpty())

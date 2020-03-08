@@ -1,82 +1,82 @@
 {
   "pools":[
     {
-      "name": "pokecube:scattered/pokecenter_start/path",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:scattered/pokecenter_start/path",
+      "rigid":false,
+      "options":[
         "pokecube:scattered/pokecenter_start/path"
       ]
     },
     {
-      "name": "pokecube:scattered/pokecenter_start/building",
-      "target": "pokecube:scattered/pokecenter_start/path",
-      "ignoreAir": false,
-      "base_under": true,
-      "options": [
+      "name":"pokecube:scattered/pokecenter_start/building",
+      "target":"pokecube:scattered/pokecenter_start/path",
+      "ignoreAir":false,
+      "base_under":true,
+      "options":[
         "pokecube:scattered/pokecenter_start/building"
       ]
     },
     {
-      "name": "pokecube:scattered/ruins",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:scattered/ruins",
+      "rigid":false,
+      "options":[
         "pokecube:scattered/ruins/ruin_1"
       ]
     },
     {
-      "name": "pokecube:village/common/trainers",
-      "options": [
+      "name":"pokecube:village/common/trainers",
+      "options":[
         "pokecube:village/common/trainers/trainer_1"
       ]
     },
     {
-      "name": "pokecube:village/plains/town_centers",
-      "options": [
+      "name":"pokecube:village/plains/town_centers",
+      "options":[
         "pokecube:village/plains/town_centers/center_1"
       ]
     },
     {
-      "name": "pokecube:village/plains/terminators",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/plains/terminators",
+      "rigid":false,
+      "options":[
         "pokecube:village/plains/terminators/terminator_01"
       ]
     },
     {
-      "name": "pokecube:village/plains/streets",
-      "target": "pokecube:village/plains/terminators",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/plains/streets",
+      "target":"pokecube:village/plains/terminators",
+      "rigid":false,
+      "options":[
         "pokecube:village/plains/streets/road_t_01;{\"weight\":5}",
         "pokecube:village/plains/streets/road_plus_01;{\"weight\":3}",
         "pokecube:village/plains/streets/road_01;{\"weight\":6}"
       ]
     },
     {
-      "name": "pokecube:village/plains/pokecenter/path",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/plains/pokecenter/path",
+      "rigid":false,
+      "options":[
         "pokecube:village/plains/pokecenter/path"
       ]
     },
     {
-      "name": "pokecube:village/plains/gym/path",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/plains/gym/path",
+      "rigid":false,
+      "options":[
         "pokecube:village/plains/gym/path"
       ]
     },
     {
-      "name": "pokecube:village/plains/deco",
-      "options": [
+      "name":"pokecube:village/plains/deco",
+      "options":[
         "pokecube:village/common/deco/lamp_1"
       ]
     },
     {
-      "name": "pokecube:village/plains/houses",
-      "target": "pokecube:village/plains/terminators",
-      "ignoreAir": false,
-      "options": [
+      "name":"pokecube:village/plains/houses",
+      "target":"pokecube:village/plains/terminators",
+      "ignoreAir":false,
+      "options":[
         "empty;{\"weight\":4}",
         "pokecube:village/plains/houses/house_small_1;{\"weight\":4}",
         "pokecube:village/plains/houses/house_big_1;{\"weight\":8}",
@@ -92,127 +92,128 @@
       ]
     },
     {
-      "name": "pokecube:village/desert/town_centers",
-      "options": [
+      "name":"pokecube:village/desert/town_centers",
+      "options":[
         "pokecube:village/desert/town_centers/center_1"
       ]
     },
     {
-      "name": "pokecube:village/desert/terminators",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/desert/terminators",
+      "rigid":false,
+      "options":[
         "pokecube:village/desert/terminators/terminator_01"
       ]
     },
     {
-      "name": "pokecube:village/desert/streets",
-      "target": "pokecube:village/desert/terminators",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/desert/streets",
+      "target":"pokecube:village/desert/terminators",
+      "rigid":false,
+      "options":[
         "pokecube:village/desert/streets/road_t_01;{\"weight\":5}",
         "pokecube:village/desert/streets/road_plus_01;{\"weight\":3}",
         "pokecube:village/desert/streets/road_01;{\"weight\":6}"
       ]
     },
     {
-      "name": "pokecube:village/desert/pokecenter/path",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/desert/pokecenter/path",
+      "rigid":false,
+      "options":[
         "pokecube:village/desert/pokecenter/path"
       ]
     },
     {
-      "name": "pokecube:village/desert/gym/path",
-      "rigid": false,
-      "options": [
+      "name":"pokecube:village/desert/gym/path",
+      "rigid":false,
+      "options":[
         "pokecube:village/desert/gym/path"
       ]
     },
     {
-      "name": "pokecube:village/desert/deco",
-      "options": [
+      "name":"pokecube:village/desert/deco",
+      "options":[
         "pokecube:village/common/deco/lamp_1"
       ]
     },
     {
-      "name": "pokecube:village/desert/houses",
-      "target": "pokecube:village/desert/terminators",
-      "ignoreAir": false,
-      "options": [
+      "name":"pokecube:village/desert/houses",
+      "target":"pokecube:village/desert/terminators",
+      "ignoreAir":false,
+      "options":[
         "empty;{\"weight\":4}",
         "pokecube:village/common/pokecenter/center_01;{\"flag\":\"pokecenter\"}",
         "pokecube:village/common/pokecenter/center_02;{\"flag\":\"pokecenter\"}",
-        "pokecube:village/desert/gym/gym_01;{\"flag\":\"gym\"}",
+        "pokecube:village/desert/gym/gym_01;{\"flag\":\"gym\"}"
       ],
       "includes":[
         "minecraft:village/desert/houses"
       ]
     }
   ],
-  "jigsaws": [
+  "jigsaws":[
     {
-      "name": "pokecube:scattered/pokecenter_start",
-      "root": "pokecube:scattered/pokecenter_start/path",
-      "chance": 1,
-      "biomeType": "village",
-      "atSpawn": true,
-      "spawn": {
-        "values": {
-          "types": "all"
+      "name":"pokecube:scattered/pokecenter_start",
+      "root":"pokecube:scattered/pokecenter_start/path",
+      "chance":1,
+      "biomeType":"village",
+      "atSpawn":true,
+      "spawn":{
+        "values":{
+          "types":"all"
         }
       }
     },
     {
-      "name": "pokecube:scattered/ruins",
+      "name":"pokecube:scattered/ruins",
       "root":"pokecube:scattered/ruins",
-      "chance": 0.02,
-      "biomeType": "ruin",
-      "distance": 8,
-      "separation": 4,
-      "offset": -3,
-      "parts": [],
-      "spawn": {
-        "values": {
-          "types": "plains"
+      "chance": 1,
+      "biomeType":"ruin",
+      "distance":16,
+      "separation":4,
+      "offset":-3,
+      "spawn":{
+        "values":{
+          "types":"plains"
         }
       }
     },
     {
-      "name": "pokecube:village/plains",
-      "root": "pokecube:village/plains/town_centers",
-      "chance": 0.1,
-      "distance": 16,
-      "separation": 4,
-      "size": 6,
-      "offset": 1,
-      "biomeType": "village",
-      "needed_once": [
+      "type":"pokecube:village",
+      "name":"pokecube:village/plains",
+      "root":"pokecube:village/plains/town_centers",
+      "chance":1,
+      "distance":24,
+      "separation":8,
+      "size":6,
+      "offset":1,
+      "biomeType":"village",
+      "needed_once":[
         "pokecenter",
         "gym"
       ],
-      "spawn": {
-        "values": {
-          "types": "all",
-          "categoryBlacklist": "desert"
+      "spawn":{
+        "values":{
+          "types":"all",
+          "categoryBlacklist":"desert"
         }
       }
     },
     {
-      "name": "pokecube:village/desert",
-      "root": "pokecube:village/desert/town_centers",
-      "chance": 0.1,
-      "distance": 16,
-      "separation": 4,
-      "size": 6,
-      "offset": 1,
-      "biomeType": "village",
-      "needed_once": [
+      "type":"pokecube:village",
+      "name":"pokecube:village/desert",
+      "root":"pokecube:village/desert/town_centers",
+      "chance":1,
+      "distance":24,
+      "separation":8,
+      "size":6,
+      "offset":1,
+      "biomeType":"village",
+      "needed_once":[
         "pokecenter",
         "gym"
       ],
-      "spawn": {
-        "values": {
-          "category": "desert"
+      "spawn":{
+        "values":{
+          "category":"desert"
         }
       }
     }
