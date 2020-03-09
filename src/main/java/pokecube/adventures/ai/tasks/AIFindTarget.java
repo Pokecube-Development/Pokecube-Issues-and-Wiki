@@ -7,7 +7,7 @@ import com.google.common.base.Predicate;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.EntityPredicates;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
@@ -23,55 +23,40 @@ import thut.api.maths.Vector3;
 
 public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 {
-    // The entity (normally a player) that is the target of this trainer.
-    final Class<? extends LivingEntity>[] targetClass;
-    // Predicated to return true for invalid targets
-    final Predicate<LivingEntity> validTargets;
-
-    private float     agroChance = 1f;
-    private int       timer      = 0;
-    private final int maxTimer;
-
     @SafeVarargs
-    public AIFindTarget(final LivingEntity entityIn, final Class<? extends LivingEntity>... targetClass)
-    {
-        this(entityIn, 1, -1, targetClass);
-    }
-
-    @SafeVarargs
-    public AIFindTarget(final LivingEntity entityIn, final float agressionProbability,
+    public static Predicate<LivingEntity> match(final LivingEntity entityIn, final boolean allowTamed,
             final Class<? extends LivingEntity>... targetClass)
     {
-        this(entityIn, agressionProbability, -1, targetClass);
-    }
-
-    @SafeVarargs
-    public AIFindTarget(final LivingEntity entityIn, final float agressionProbability, final int battleTime,
-            final Class<? extends LivingEntity>... targetClass)
-    {
-        super(entityIn);
-        this.trainer.addTargetWatcher(this);
-        this.targetClass = targetClass;
-        this.maxTimer = battleTime;
-        this.validTargets = new Predicate<LivingEntity>()
+        return new Predicate<LivingEntity>()
         {
+            IHasPokemobs trainer = CapabilityHasPokemobs.getHasPokemobs(entityIn);
+
             @Override
             public boolean apply(final LivingEntity input)
             {
                 // If the input has attacked us recently, then return true
                 // regardless of following checks.
-                if (input.getLastAttackedEntity() == AIFindTarget.this.entity && input.ticksExisted - input
+                if (input.getLastAttackedEntity() == entityIn && input.ticksExisted - input
                         .getLastAttackedEntityTime() < 50) return true;
                 // Only target valid classes.
                 if (!this.validClass(input) || !input.attackable() || !this.canBattle(input)) return false;
                 final IOwnable ownable = OwnableCaps.getOwnable(input);
                 // Don't target pets
                 if (ownable != null && ownable.getOwner() == entityIn) return false;
+                // Maybe not target other's pets as well
+                if (!this.tameCheck(input)) return false;
                 // Don't target invulnerable players (spectator/creative)
-                if (input instanceof PlayerEntity && (((PlayerEntity) input).abilities.isCreativeMode
-                        || ((PlayerEntity) input).isSpectator())) return false;
+                if (!EntityPredicates.CAN_AI_TARGET.test(input)) return false;
                 // Return true if player can battle the input.
-                return AIFindTarget.this.trainer.canBattle(input);
+                return this.trainer.canBattle(input);
+            }
+
+            private boolean tameCheck(final LivingEntity input)
+            {
+                if (allowTamed) return true;
+                final IOwnable mob = OwnableCaps.getOwnable(input);
+                if (mob == null) return true;
+                return mob.getOwnerId() == null;
             }
 
             private boolean validClass(final LivingEntity input)
@@ -83,7 +68,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 
             private boolean canBattle(final LivingEntity input)
             {
-                if (AIFindTarget.this.entity.getAttackingEntity() == input) return true;
+                if (entityIn.getAttackingEntity() == input) return true;
                 final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(input);
                 if (other != null && other.getNextPokemob().isEmpty() && other.getOutID() == null)
                 {
@@ -108,7 +93,50 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                 return true;
             }
         };
+    }
+
+    @SafeVarargs
+    public static Predicate<LivingEntity> match(final LivingEntity entityIn,
+            final Class<? extends LivingEntity>... targetClass)
+    {
+        return AIFindTarget.match(entityIn, false, targetClass);
+    }
+
+    // Predicated to return true for invalid targets
+    final Predicate<LivingEntity> validTargets;
+
+    private float     agroChance = 1f;
+    private int       timer      = 0;
+    private final int maxTimer;
+
+    public AIFindTarget(final LivingEntity entityIn, final float agressionProbability, final int battleTime,
+            final Predicate<LivingEntity> validTargets)
+    {
+        super(entityIn);
+        this.trainer.addTargetWatcher(this);
+        this.maxTimer = battleTime;
         this.agroChance = agressionProbability;
+        this.validTargets = validTargets;
+    }
+
+    @SafeVarargs
+    public AIFindTarget(final LivingEntity entityIn, final Class<? extends LivingEntity>... targetClass)
+    {
+        this(entityIn, 1, -1, targetClass);
+    }
+
+    @SafeVarargs
+    public AIFindTarget(final LivingEntity entityIn, final float agressionProbability,
+            final Class<? extends LivingEntity>... targetClass)
+    {
+        this(entityIn, agressionProbability, -1, targetClass);
+    }
+
+    @SafeVarargs
+    public AIFindTarget(final LivingEntity entityIn, final float agressionProbability, final int battleTime,
+            final Class<? extends LivingEntity>... targetClass)
+    {
+        this(entityIn, agressionProbability, battleTime, AIFindTarget.match(entityIn, targetClass));
     }
 
     @Override
