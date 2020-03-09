@@ -84,7 +84,7 @@ public class TMs<T extends TMContainer> extends ContainerScreen<T>
         this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         final String[] moves = this.container.moves;
-        final String s = moves.length > 0 ? moves[this.index] : "";
+        final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
         final Move_Base move = MovesUtils.getMoveFromName(s);
         if (move != null)
         {
