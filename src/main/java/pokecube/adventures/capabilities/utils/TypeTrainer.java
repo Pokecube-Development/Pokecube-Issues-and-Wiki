@@ -131,7 +131,7 @@ public class TypeTrainer extends NpcType
             {
                 final VillagerEntity villager = (VillagerEntity) mob;
                 final String type = villager.getVillagerData().getProfession().toString();
-                return TypeTrainer.getTrainer(type);
+                return TypeTrainer.getTrainer(type, true);
             }
             return null;
         });
@@ -265,11 +265,21 @@ public class TypeTrainer extends NpcType
 
     public static TypeTrainer getTrainer(final String name)
     {
+        return TypeTrainer.getTrainer(name, false);
+    }
+
+    public static TypeTrainer getTrainer(final String name, final boolean create)
+    {
         final TypeTrainer ret = TypeTrainer.typeMap.get(name);
         if (ret == null)
         {
             for (final TypeTrainer t : TypeTrainer.typeMap.values())
                 if (t != null && t.getName().equalsIgnoreCase(name)) return t;
+            if (create && !name.isEmpty())
+            {
+                final TypeTrainer t = new TypeTrainer(name);
+                return t;
+            }
             for (final TypeTrainer t : TypeTrainer.typeMap.values())
                 if (t != null) return t;
         }

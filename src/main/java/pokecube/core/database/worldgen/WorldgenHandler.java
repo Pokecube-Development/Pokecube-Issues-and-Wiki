@@ -96,7 +96,7 @@ public class WorldgenHandler
          * pick is what is generated for that position.
          */
         public float     chance    = 1;
-        public int       offset    = 0;
+        public int       offset    = 1;
         public String    biomeType = "none";
         public SpawnRule spawn;
         public boolean   surface   = true;
@@ -135,7 +135,7 @@ public class WorldgenHandler
         public String       name;
         public String       root;
         public float        chance      = 1;
-        public int          offset      = 0;
+        public int          offset      = 1;
         public int          size        = 4;
         public int          distance    = 8;
         public int          separation  = 4;
@@ -249,8 +249,7 @@ public class WorldgenHandler
             final JigsawConfig config = new JigsawConfig(struct);
             final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                     : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-            // if (struct.biomeType.equals("village"))
-            this.forceVillageFeature(toAdd);
+            if (struct.surface) this.forceVillageFeature(toAdd);
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!struct._matcher.checkBiome(b)) continue;

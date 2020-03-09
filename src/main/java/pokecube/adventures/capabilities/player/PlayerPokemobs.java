@@ -111,7 +111,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public void deserializeNBT(final CompoundNBT nbt)
     {
-        this.setType(TypeTrainer.getTrainer(nbt.getString("type")));
+        this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
         if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
     }
 

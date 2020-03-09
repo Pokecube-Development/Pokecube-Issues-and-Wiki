@@ -28,10 +28,8 @@ Note: If this bug occurs in a modpack, please report this to the modpack author.
 ...
 
 ____
-#### Affected Versions (Do *not* use "latest"): Replace with a list of all mods you have in, if using AIO, list that instead.
+#### Affected Versions (Do *not* use "latest"): Replace with a list of all mods you have in.
 
-- Pokecube Core:
-- Pokecube Revival (if applicable):
-- Pokecube Mobs (if applicable):
-- Minecraft: 1.12.2
-- Forge:
+- Pokecube AIO:
+- Minecraft: 1.15.2
+- Forge: 31.1.18
