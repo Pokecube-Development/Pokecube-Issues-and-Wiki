@@ -1,11 +1,18 @@
 package pokecube.core.client.gui;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
@@ -15,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
@@ -25,6 +33,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
@@ -99,6 +108,7 @@ public class AnimationGui extends Screen
     int   prevX            = 0;
     int   prevY            = 0;
     float scale            = 1;
+    long  transitTime      = 0;
 
     int[] shift = { 0, 0 };
 
@@ -106,8 +116,14 @@ public class AnimationGui extends Screen
     boolean bg     = false;
     byte    sexe   = IPokemob.NOSEXE;
     boolean shiny  = false;
+    boolean cap    = false;
+    boolean took   = false;
 
     List<String> components;
+
+    private static final Set<PokedexEntry>           borked         = Sets.newHashSet();
+    private static final Map<PokedexEntry, Vector3f> original_sizes = Maps.newHashMap();
+    private static int                               tries          = 0;
 
     public AnimationGui()
     {
@@ -160,6 +176,9 @@ public class AnimationGui extends Screen
         this.renderHolder.anim = ThutCore.trim(this.anim.getText());
         PacketPokedex.updateWatchEntry(AnimationGui.entry);
 
+        this.forme.setCursorPositionZero();
+        this.forme_alt.setCursorPositionZero();
+
         Set<Object> states = Sets.newHashSet();
         String[] args = this.state_g.getText().split(" ");
         for (final String s : args)
@@ -210,6 +229,136 @@ public class AnimationGui extends Screen
         }
     }
 
+    private boolean capture(final boolean slowly)
+    {
+        final MainWindow window = Minecraft.getInstance().mainWindow;
+        final int h = window.getHeight();
+        final int w = window.getWidth();
+
+        final double scale = window.getGuiScaleFactor();
+        int x;
+        int y;
+
+        // The 140 is for 40 pixels for buttons, and 100 pixels for text boxes
+        // then -10 for some padding, related to the 5 + for x and y below
+        int width = (int) (w - scale * 140);
+        int height = width;
+        if (height > h) height = width = h;
+
+        x = w / 2 - width / 2;
+        y = h / 2 - height / 2;
+
+        final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").toFile();
+        dir.mkdirs();
+        // TODO instead go based on the mob's assumed texture?
+
+        final String name = this.holder == null ? AnimationGui.entry.getTrimmedName() : this.holder.key.getPath();
+        final File outfile = new File(dir, name + (this.shiny ? "s" : "") + ".png");
+
+        GL11.glPixelStorei(3333, 1);
+        GL11.glPixelStorei(3317, 1);
+        final ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * 4);
+        GL11.glReadPixels(x, y, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+
+        int x0 = width, y0 = height, xf = 0, yf = 0;
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+            {
+                final int k = (i + width * j) * 4;
+                final int r = buffer.get(k) & 0xFF;
+                final int g = buffer.get(k + 1) & 0xFF;
+                final int b = buffer.get(k + 2) & 0xFF;
+                if (!(r == 18 && g == 19 && b == 20))
+                {
+                    x0 = Math.min(i, x0);
+                    xf = Math.max(i, xf);
+                    y0 = Math.min(j, y0);
+                    yf = Math.max(j, yf);
+                }
+            }
+        int dy = yf - y0;
+        int dx = xf - x0;
+        final int dr = Math.max(dx, dy);
+        if (dx > dy) y0 -= (dx - dy) / 2;
+        if (dx < dy) x0 -= (dy - dx) / 2;
+        dx = dr;
+        dy = dr;
+        final int ow = width;
+        width = dx + 1;
+        height = dy + 1;
+        if (width < 0 || height < 0) return true;
+
+        final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        int maxX = 0, minX = width, maxY = 0, minY = height;
+
+        for (int i = x0; i < x0 + width; i++)
+            for (int j = y0; j < y0 + height; j++)
+            {
+                final int k = (i + ow * j) * 4;
+                final int r = buffer.get(k) & 0xFF;
+                final int g = buffer.get(k + 1) & 0xFF;
+                final int b = buffer.get(k + 2) & 0xFF;
+                int a = 0xFF;
+                if (r == 18 && g == 19 && b == 20) a = 0;
+
+                if (a != 0)
+                {
+                    minX = Math.min(minX, i);
+                    maxX = Math.max(maxX, i);
+                    minY = Math.min(minY, j);
+                    maxY = Math.max(maxY, j);
+                }
+                x = i - x0;
+                y = height - (j - y0 + 1);
+                image.setRGB(x, y, a << 24 | r << 16 | g << 8 | b);
+            }
+
+        dx = maxX - minX;
+        dy = maxY - minY;
+
+        boolean scaled = false;
+        if (dx <= 0 || dy <= 0) System.out.println("Error with " + AnimationGui.entry);
+        else
+        {
+            final float target = ow / 3f;
+            final float big = 1.05f;
+            final float sml = 0.95f;
+            float s = width / target;
+            final Vector3f dims = AnimationGui.entry.getModelSize();
+            if (!AnimationGui.original_sizes.containsKey(AnimationGui.entry)) AnimationGui.original_sizes.put(
+                    AnimationGui.entry, new Vector3f(dims));
+            if (s > big)
+            {
+                if (slowly) s = 1.005f;
+                dims.y *= s;
+                dims.z = dims.y;
+                dims.x = dims.y;
+                scaled = true;
+            }
+            else if (s < sml)
+            {
+                if (slowly) s = 0.995f;
+                dims.y *= s;
+                dims.z = dims.y;
+                dims.x = dims.y;
+                scaled = true;
+            }
+        }
+
+        try
+        {
+            if (!scaled) ImageIO.write(image, "png", outfile);
+            return !scaled;
+        }
+        catch (final IOException e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
     @Override
     public void onClose()
     {
@@ -220,7 +369,13 @@ public class AnimationGui extends Screen
     @Override
     public void render(final int unk1, final int unk2, final float unk3)
     {
-        if (this.bg) AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
+        if (this.bg)
+        {
+            GlStateManager.pushMatrix();
+            GlStateManager.translated(0, 0, -900);
+            AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
+            GlStateManager.popMatrix();
+        }
 
         final int yOffset = this.height / 2;
         this.font.drawString("State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
@@ -272,9 +427,8 @@ public class AnimationGui extends Screen
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);
 
-            final float mobScale = pokemob.getSize();
             final Vector3f dims = pokemob.getPokedexEntry().getModelSize();
-            final float size = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            final float size = Math.max(dims.z, Math.max(dims.y, dims.x));
             final float j = (this.width - xSize) / 2 + dx;
             final float k = (this.height - ySize) / 2 + dy;
 
@@ -319,6 +473,45 @@ public class AnimationGui extends Screen
             if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
 
             GL11.glPopMatrix();
+        }
+
+        if (this.cap)
+        {
+            this.scale = 1;
+            if (this.took && this.transitTime < System.currentTimeMillis())
+            {
+                this.cylceUp();
+                this.took = false;
+                this.transitTime = System.currentTimeMillis() + 2;
+            }
+            else if (this.transitTime < System.currentTimeMillis())
+            {
+                try
+                {
+                    this.took = this.capture(AnimationGui.borked.contains(AnimationGui.entry));
+                    AnimationGui.tries = 0;
+                }
+                catch (final Exception e)
+                {
+                    final Vector3f dims = AnimationGui.entry.getModelSize();
+                    if (AnimationGui.borked.add(AnimationGui.entry)) dims.set(AnimationGui.original_sizes.get(
+                            AnimationGui.entry));
+                    else
+                    {
+                        dims.y *= 2;
+                        dims.z = dims.y;
+                        dims.x = dims.y;
+                    }
+                    PokecubeCore.LOGGER.error("borked: {}", AnimationGui.entry);
+                    AnimationGui.tries++;
+                    if (AnimationGui.tries > 20)
+                    {
+                        this.took = true;
+                        PokecubeCore.LOGGER.error("Skipping image for {}", AnimationGui.entry);
+                    }
+                }
+                this.transitTime = System.currentTimeMillis() + (this.took ? 0 : 2);
+            }
         }
     }
 
@@ -423,6 +616,11 @@ public class AnimationGui extends Screen
         this.addButton(new Button(this.width / 2 - xOffset, yOffset - 100, 20, 20, "\u25b2", b ->
         {
             this.shift[1] -= Screen.hasShiftDown() ? 10 : 1;
+        }));
+        this.addButton(new Button(this.width / 2 - xOffset, yOffset - 120, 40, 20, "Icons", b ->
+        {
+            this.cap = !this.cap;
+            b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 40, 40, 20, "normal", b ->
         {
@@ -552,37 +750,7 @@ public class AnimationGui extends Screen
     public boolean keyPressed(final int code, final int unk1, final int unk2)
     {
         if (code == GLFW.GLFW_KEY_ENTER) this.onUpdated();
-        if (code == GLFW.GLFW_KEY_RIGHT) if (!Screen.hasShiftDown())
-        {
-            this.formes = Database.customModels.getOrDefault(AnimationGui.entry, Collections.emptyList());
-            this.entries = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
-            if (AnimationGui.entry.getBaseForme() != null && !this.entries.contains(AnimationGui.entry.getBaseForme()))
-            {
-                this.entries.add(AnimationGui.entry.getBaseForme());
-                Collections.sort(this.entries, Database.COMPARATOR);
-            }
-            if (this.entryIndex >= this.entries.size())
-            {
-                this.entryIndex = 0;
-                this.formIndex = -1;
-                final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
-                if (num != AnimationGui.entry) AnimationGui.entry = num;
-                else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
-                this.holder = AnimationGui.entry.getModel(this.sexe);
-            }
-            else if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1) this.holder = this.formes.get(
-                    this.formIndex);
-            else if (this.entries.size() > 0)
-            {
-                this.formIndex = -1;
-                AnimationGui.entry = this.entries.get(this.entryIndex++ % this.entries.size());
-                this.holder = AnimationGui.entry.getModel(this.sexe);
-            }
-            this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
-            AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
-            this.forme.setText(AnimationGui.mob);
-            this.onUpdated();
-        }
+        if (code == GLFW.GLFW_KEY_RIGHT) if (!Screen.hasShiftDown()) this.cylceUp();
         else
         {
             final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
@@ -608,6 +776,38 @@ public class AnimationGui extends Screen
             this.onUpdated();
         }
         return super.keyPressed(code, unk1, unk2);
+    }
+
+    private void cylceUp()
+    {
+        this.formes = Database.customModels.getOrDefault(AnimationGui.entry, Collections.emptyList());
+        this.entries = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
+        if (AnimationGui.entry.getBaseForme() != null && !this.entries.contains(AnimationGui.entry.getBaseForme()))
+        {
+            this.entries.add(AnimationGui.entry.getBaseForme());
+            Collections.sort(this.entries, Database.COMPARATOR);
+        }
+        if (this.entryIndex >= this.entries.size())
+        {
+            this.entryIndex = 0;
+            this.formIndex = -1;
+            final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
+            if (num != AnimationGui.entry) AnimationGui.entry = num;
+            else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+        }
+        else if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1) this.holder = this.formes.get(
+                this.formIndex);
+        else if (this.entries.size() > 0)
+        {
+            this.formIndex = -1;
+            AnimationGui.entry = this.entries.get(this.entryIndex++ % this.entries.size());
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+        }
+        this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
+        AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
+        this.forme.setText(AnimationGui.mob);
+        this.onUpdated();
     }
 
     @Override
