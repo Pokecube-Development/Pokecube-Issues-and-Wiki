@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 
@@ -23,6 +24,7 @@ import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
@@ -50,6 +52,9 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.PokedexEntryLoader.SpawnRule;
+import pokecube.core.database.SpawnBiomeMatcher;
+import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
 import pokecube.core.events.StructureEvent;
@@ -102,19 +107,19 @@ public class JigsawPieces
 
     public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
             final BlockPos pos, final List<StructurePiece> parts, final SharedSeedRandom rand,
-            final JigSawConfig struct)
+            final JigSawConfig struct, final Biome biome)
     {
         Structures.init();
         final ResourceLocation key = new ResourceLocation(struct.root);
         final JigsawAssmbler assembler = new JigsawAssmbler();
         boolean built = assembler.build(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos,
-                parts, rand);
+                parts, rand, biome);
         int n = 0;
         while (!built && n++ < 20)
         {
             parts.clear();
             built = assembler.build(key, struct.size, CustomJigsawPiece::new, chunk_gen, templateManagerIn, pos, parts,
-                    rand);
+                    rand, biome);
         }
         if (!built) PokecubeCore.LOGGER.warn("Failed to complete a structure at " + pos);
 
@@ -125,35 +130,30 @@ public class JigsawPieces
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
                 : PlacementBehaviour.TERRAIN_MATCHING;
         final List<Pair<JigsawPiece, Integer>> parts = Lists.newArrayList();
-        String subbiome = part.biomeType;
+        final String subbiome = part.biomeType;
         for (String option : part.options)
         {
             final String[] args = option.split(";");
-            boolean ignoreAir = part.ignoreAir;
             Integer second = 1;
-            String flag = "";
             PlacementBehaviour place = behaviour;
+            JsonObject thing = null;
             if (args.length > 1) try
             {
-                final JsonObject thing = PokedexEntryLoader.gson.fromJson(args[1], JsonObject.class);
+                thing = PokedexEntryLoader.gson.fromJson(args[1], JsonObject.class);
                 if (thing.has("weight")) second = thing.get("weight").getAsInt();
-                if (thing.has("flag")) flag = thing.get("flag").getAsString();
-                if (thing.has("ignoreAir")) ignoreAir = thing.get("ignoreAir").getAsBoolean();
-                if (thing.has("subbiome")) subbiome = thing.get("subbiome").getAsString();
                 if (thing.has("rigid")) place = thing.get("rigid").getAsBoolean() ? PlacementBehaviour.RIGID
                         : PlacementBehaviour.TERRAIN_MATCHING;
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                PokecubeCore.LOGGER.error("Error parsing json for {}", args[1]);
+                PokecubeCore.LOGGER.error(e);
             }
             option = args[0];
-            JigsawPiece piece;
-            if (option.equals("empty")) parts.add(Pair.of(piece = EmptyJigsawPiece.INSTANCE, second));
-            else parts.add(Pair.of(piece = new SingleOffsetPiece(part, option, ImmutableList.of(
-                    PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, ignoreAir, subbiome), second));
-            if (piece instanceof SingleOffsetPiece) ((SingleOffsetPiece) piece).flag = flag;
-
+            if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
+            else parts.add(Pair.of(new SingleOffsetPiece(part, option, ImmutableList.of(
+                    PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, subbiome).process(thing),
+                    second));
         }
         final JigsawPatternCustom pattern = new JigsawPatternCustom(part, parts, behaviour);
         // Register the buildings
@@ -181,7 +181,7 @@ public class JigsawPieces
     {
         protected final JigSawPool part;
         public int                 offset = 1;
-        private final boolean      ignoreAir;
+        private boolean            ignoreAir;
 
         public String flag = "";
 
@@ -189,18 +189,59 @@ public class JigsawPieces
         public String  spawnReplace = "";
         public boolean isSpawn;
 
-        public MutableBoundingBox mask = null;
+        private SpawnBiomeMatcher _spawn = null;
+        public MutableBoundingBox mask   = null;
 
         private boolean maskCheck = false;
 
         public SingleOffsetPiece(final JigSawPool part, final String location,
-                final List<StructureProcessor> processors, final PlacementBehaviour type, final boolean ignoreAir,
-                final String subbiome)
+                final List<StructureProcessor> processors, final PlacementBehaviour type, final String subbiome)
         {
             super(location, processors, type);
-            this.ignoreAir = ignoreAir;
             this.subbiome = subbiome;
+            this.ignoreAir = part.ignoreAir;
             this.part = part;
+        }
+
+        private SpawnBiomeMatcher fromJson(final JsonElement rule)
+        {
+            try
+            {
+                return new SpawnBiomeMatcher(PokedexEntryLoader.gson.fromJson(rule, SpawnRule.class));
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error parsing spawn for {}", rule);
+                PokecubeCore.LOGGER.error(e);
+                return null;
+            }
+        }
+
+        public SingleOffsetPiece process(final JsonObject thing)
+        {
+            if (thing != null) try
+            {
+                if (thing.has("flag")) this.flag = thing.get("flag").getAsString();
+                if (thing.has("ignoreAir")) this.ignoreAir = thing.get("ignoreAir").getAsBoolean();
+                if (thing.has("subbiome")) this.subbiome = thing.get("subbiome").getAsString();
+                if (thing.has("spawn")) this._spawn = this.fromJson(thing.get("spawn"));
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error parsing values for {}", thing);
+                PokecubeCore.LOGGER.error(e);
+            }
+            return this;
+        }
+
+        public boolean isValidPos(final SpawnCheck check)
+        {
+            if (this._spawn != null)
+            {
+                final boolean valid = this._spawn.matches(check);
+                return valid;
+            }
+            return true;
         }
 
         @Override

@@ -1,6 +1,5 @@
 package pokecube.core.database.worldgen;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -169,8 +168,6 @@ public class WorldgenHandler
 
     public static Map<String, JigsawStructure> structs = Maps.newHashMap();
 
-    public File DEFAULT;
-
     public CustomDims dims;
 
     public String           MODID    = PokecubeCore.MODID;
@@ -192,11 +189,7 @@ public class WorldgenHandler
         final ResourceLocation json = new ResourceLocation(this.ROOT.toString() + "worldgen.json");
         final InputStream res = Database.resourceManager.getResource(json).getInputStream();
         final Reader reader = new InputStreamReader(res);
-        final Structures database = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
-
-        this.defaults.structures.addAll(database.structures);
-        this.defaults.pools.addAll(database.pools);
-        this.defaults.jigsaws.addAll(database.jigsaws);
+        this.defaults = PokedexEntryLoader.gson.fromJson(reader, Structures.class);
     }
 
     public void processStructures(final RegistryEvent.Register<Feature<?>> event)
@@ -209,6 +202,7 @@ public class WorldgenHandler
         {
             PokecubeMod.LOGGER.catching(e);
         }
+        this.defaults.toString();
 
         for (final JigSawPool pool : this.defaults.pools)
             JigsawPieces.initPool(pool);
@@ -249,7 +243,7 @@ public class WorldgenHandler
             final JigsawConfig config = new JigsawConfig(struct);
             final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                     : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-            if (struct.surface) this.forceVillageFeature(toAdd);
+            if (struct.surface && !struct.water) this.forceVillageFeature(toAdd);
             for (final Biome b : ForgeRegistries.BIOMES.getValues())
             {
                 if (!struct._matcher.checkBiome(b)) continue;

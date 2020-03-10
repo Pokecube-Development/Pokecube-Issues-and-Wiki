@@ -1,137 +1,97 @@
 {
-  "structures": [
+  "pools": [
     {
-      "name": "space_temple",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "end"
+      "name":"pokecube_legends:temples/surface_base",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:temples/surface/base"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/underwater_base",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:temples/underwater/base"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/underground_base",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:temples/underground/base"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/surface",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/space_temple;{\"spawn\":{\"values\":{\"category\":\"the_end\"}}}",
+        "pokecube_legends:temples/surface/celebi_temple;{\"spawn\":{\"values\":{\"typesBlacklist\":\"sparse,cold,dry,spooky\",\"category\":\"forest\"}}}",
+        "pokecube_legends:temples/surface/hooh_tower;{\"spawn\":{\"values\":{\"category\":\"plains\"}}}",
+        "pokecube_legends:temples/surface/zacian_temple;{\"spawn\":{\"values\":{\"category\":\"river\"}}}",
+        "pokecube_legends:temples/surface/zamazenta_temple;{\"spawn\":{\"values\":{\"category\":\"river\"}}}",
+        "pokecube_legends:temples/surface/regis_temple;{\"spawn\":{\"values\":{\"category\":\"icy\"}}}",
+        "pokecube_legends:temples/surface/xerneas_place;{\"spawn\":{\"values\":{\"types\":\"spooky\"}}}",
+        "pokecube_legends:temples/surface/yveltal_place;{\"spawn\":{\"values\":{\"types\":\"sandy\"}}}",
+        "pokecube_legends:temples/surface/nature_place;{\"spawn\":{\"values\":{\"category\":\"swamp\"}}}",
+        "pokecube_legends:temples/surface/keldeo_place;{\"spawn\":{\"values\":{\"category\":\"extreme_hills\"}}}",
+        "pokecube_legends:temples/surface/lugia_tower;{\"spawn\":{\"values\":{\"category\":\"beach\"}}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/underground",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:temples/underground/groudon_temple;{\"spawn\":{\"values\":{\"category\":\"nether\"}}}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:temples/underwater",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:temples/underwater/kyogre_temple;{\"spawn\":{\"values\":{\"category\":\"ocean\"}}}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {
+      "name":"pokecube_legends:temples/surface",
+      "root":"pokecube_legends:temples/surface_base",
+      "biomeType":"ruin",
+      "distance":32,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "types":"all"
         }
       }
     },
     {
-      "name": "celebi_temple",
-      "chance": 0.001,
-      "offset": -7,
-      "biomeType": "ruin",
-      "spawn": {
-        "values": {
-          "typesBlacklist": "sparse,cold,dry,spooky",
-          "types": "forest"
+      "name":"pokecube_legends:temples/underground",
+      "root":"pokecube_legends:temples/underground_base",
+      "biomeType":"ruin",
+      "distance":32,
+      "separation":8,
+      "surface":false,
+      "spawn":{
+        "values":{
+          "types":"all"
         }
       }
     },
     {
-      "name": "hooh_tower",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "plains"
-        }
-      }
-    },
-    {
-      "name": "zacian_temple",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "river"
-        }
-      }
-    },
-    {
-      "name": "zamazenta_temple",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "river"
-        }
-      }
-    },
-    {
-      "name": "kyogre_temple",
-      "chance": 0.001,
-      "water": true,
-      "spawn": {
-        "values": {
-          "types": "ocean"
-        }
-      }
-    },
-    {
-      "name": "groudon_temple",
-      "chance": 0.01,
-      "surface": false,
-      "spawn": {
-        "values": {
-          "types": "nether"
-        }
-      }
-    },
-    {
-      "name": "regis_temple",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "snowy"
-        }
-      }
-    },
-    {
-      "name": "xerneas_place",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "spooky"
-        }
-      }
-    },
-    {
-      "name": "yveltal_place",
-      "chance": 0.001,
-      "offset": -6,
-      "spawn": {
-        "values": {
-          "types": "sandy"
-        }
-      }
-    },
-    {
-      "name": "nature_place",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "swamp"
-        }
-      }
-    },
-    {
-      "name": "keldeo_place",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "mountain"
-        }
-      }
-    },
-    {
-      "name": "lugia_tower",
-      "chance": 0.001,
-      "offset": -1,
-      "spawn": {
-        "values": {
-          "types": "cold"
+      "name":"pokecube_legends:temples/underwater",
+      "root":"pokecube_legends:temples/underwater_base",
+      "biomeType":"ruin",
+      "distance":32,
+      "separation":8,
+      "water":true,
+      "spawn":{
+        "values":{
+          "types":"all"
         }
       }
     }
-  ],
-  "jigsaws": []
+  ]
 }

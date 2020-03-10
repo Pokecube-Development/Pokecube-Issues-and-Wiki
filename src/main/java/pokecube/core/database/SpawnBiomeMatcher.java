@@ -43,24 +43,35 @@ public class SpawnBiomeMatcher
         public final IWorld           world;
         public final Vector3          location;
 
+        public SpawnCheck(final Vector3 location, final IWorld world, final Biome biome)
+        {
+            this.world = world;
+            this.location = location;
+            this.biome = biome.getRegistryName();
+            this.day = this.dusk = this.dawn = this.night = true;
+            this.light = 1f;
+            this.type = BiomeType.NONE;
+            this.material = Material.AIR;
+        }
+
         public SpawnCheck(final Vector3 location, final IWorld world)
         {
             this.world = world;
             this.location = location;
+            this.biome = location.getBiome(world).getRegistryName();
+            this.material = location.getBlockMaterial(world);
+            final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
+            final int subBiomeId = t.getBiome(location);
+            if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
+            else this.type = BiomeType.NONE;
             // TODO better way to choose current time.
             final double time = world.getWorld().getDayTime() / 24000;
+            final int lightBlock = world.getLight(location.getPos());
+            this.light = lightBlock / 15f;
             this.day = PokedexEntry.day.contains(time);
             this.dusk = PokedexEntry.dusk.contains(time);
             this.dawn = PokedexEntry.dawn.contains(time);
             this.night = PokedexEntry.night.contains(time);
-            this.material = location.getBlockMaterial(world);
-            final int lightBlock = world.getLight(location.getPos());
-            this.light = lightBlock / 15f;
-            this.biome = location.getBiome(world).getRegistryName();
-            final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
-            final int subBiomeId = t.getBiome(location);
-            if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
-            else this.type = null;
         }
     }
 
