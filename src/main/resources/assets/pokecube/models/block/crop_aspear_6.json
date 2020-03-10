@@ -1,6 +1,6 @@
 {
     "parent": "pokecube:block/berrycrop6",
     "textures": {
-        "cross": "pokecube:block/aspearcrop"
+        "cross": "pokecube:block/aspearcrop6"
     }
 }
