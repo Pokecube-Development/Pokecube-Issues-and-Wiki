@@ -94,18 +94,20 @@ public class BerryGenManager
     {
     }
 
-    public static final ResourceLocation REPLACETAG      = new ResourceLocation("pokecube:berry_tree_replace");
-    public static final RuleEntry        REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE,
+    public static final ResourceLocation                  REPLACETAG      = new ResourceLocation(
+            "pokecube:berry_tree_replace");
+    public static final RuleEntry                         REPLACEABLEONLY = new RuleEntry(AlwaysTrueRuleTest.INSTANCE,
             new TagMatchRuleTest(BlockTags.getCollection().getOrCreate(BerryGenManager.REPLACETAG)),
             Blocks.STRUCTURE_VOID.getDefaultState());
-    public static final NotRuleProcessor NOREPLACE       = new NotRuleProcessor(ImmutableList.of(
-            BerryGenManager.REPLACEABLEONLY));
+    public static final NotRuleProcessor                  NOREPLACE       = new NotRuleProcessor(
+            ImmutableList.of(BerryGenManager.REPLACEABLEONLY));
 
-    public static final ImmutableList<StructureProcessor> DARULES = ImmutableList.of(BerryGenManager.NOREPLACE);
+    public static final ImmutableList<StructureProcessor> DARULES         = ImmutableList.of(BerryGenManager.NOREPLACE);
 
-    public String           MODID = PokecubeCore.MODID;
-    public ResourceLocation ROOT  = new ResourceLocation(PokecubeCore.MODID, "structures/");
-    public Berries          defaults;
+    public String                                         MODID           = PokecubeCore.MODID;
+    public ResourceLocation                               ROOT            = new ResourceLocation(PokecubeCore.MODID,
+            "structures/");
+    public Berries                                        defaults;
 
     public BerryGenManager()
     {
@@ -133,8 +135,8 @@ public class BerryGenManager
         }
         catch (final Exception e)
         {
-            if (e instanceof FileNotFoundException) PokecubeMod.LOGGER.warn("No Berry tree database found for "
-                    + this.MODID);
+            if (e instanceof FileNotFoundException)
+                PokecubeMod.LOGGER.warn("No Berry tree database found for " + this.MODID);
             else PokecubeMod.LOGGER.catching(e);
             return;
         }
@@ -212,8 +214,8 @@ public class BerryGenManager
                 for (int j = -2; j <= 2; j++)
                     world.getChunk(i + chunkX, j + chunkZ);
             final MutableBoundingBox bounds = new MutableBoundingBox(xMin, yMin, zMin, xMax, yMax, zMax);
-            final Start make = new Start(null, chunkX, chunkZ, biome, bounds, 0, cropPos.toLong() + world.getSeed()
-                    + world.getGameTime());
+            final Start make = new Start(null, chunkX, chunkZ, biome, bounds, 0,
+                    cropPos.toLong() + world.getSeed() + world.getGameTime());
             final Random rand = make.build(world, this, cropPos, berryId);
             if (rand != null)
             {
@@ -231,11 +233,11 @@ public class BerryGenManager
                             valid = true;
                             final PlacementSettings settings = piece.createPlacementSettings(p.getRotation(), bounds);
                             settings.clearProcessors();
-                            final List<BlockInfo> list = Template.processBlockInfos(t, world, pos, settings, settings
-                                    .func_204764_a(t.blocks, pos));
+                            final List<BlockInfo> list = Template.processBlockInfos(t, world, pos, settings,
+                                    settings.func_227459_a_(t.blocks, pos));
                             for (final BlockInfo i : list)
-                                if (i != null && i.state != null && !(i.state.getBlock() == Blocks.JIGSAW || i.state
-                                        .getBlock() == Blocks.STRUCTURE_VOID))
+                                if (i != null && i.state != null && !(i.state.getBlock() == Blocks.JIGSAW
+                                        || i.state.getBlock() == Blocks.STRUCTURE_VOID))
                                 {
                                     final BlockState state = world.getBlockState(i.pos);
                                     if (state != null && state.getBlock() != Blocks.AIR)
@@ -247,7 +249,8 @@ public class BerryGenManager
                 if (valid)
                 {
                     world.setBlockState(cropPos, Blocks.AIR.getDefaultState());
-                    make.generateStructure(world, rand, make.getBoundingBox(), new ChunkPos(chunkX, chunkZ));
+                    make.func_225565_a_(world, world.getChunkProvider().getChunkGenerator(), rand,
+                            make.getBoundingBox(), new ChunkPos(chunkX, chunkZ));
                 }
             }
         }
@@ -260,7 +263,7 @@ public class BerryGenManager
             public Start(final Structure<?> structureIn, final int chunkX, final int chunkZ, final Biome biomeIn,
                     final MutableBoundingBox boundsIn, final int referenceIn, final long seed)
             {
-                super(structureIn, chunkX, chunkZ, biomeIn, boundsIn, referenceIn, seed);
+                super(structureIn, chunkX, chunkZ, boundsIn, referenceIn, seed);
                 this.biome = biomeIn;
             }
 
@@ -373,8 +376,9 @@ public class BerryGenManager
                                 final BlockState state = world.getBlockState(temp);
                                 final Block block = world.getBlockState(temp).getBlock();
                                 if (!world.isAirBlock(temp) && !block.isFoliage(world.getBlockState(temp), world, temp)
-                                        && block != Blocks.GRASS && block != Blocks.DIRT && !PokecubeTerrainChecker
-                                                .isWood(state)) flag = false;
+                                        && block != Blocks.GRASS && block != Blocks.DIRT
+                                        && !PokecubeTerrainChecker.isWood(state))
+                                    flag = false;
                             }
                             else flag = false;
                 }
@@ -415,9 +419,10 @@ public class BerryGenManager
                                     temp = new BlockPos(j2, j1, l2);
                                     final Block block = world.getBlockState(temp).getBlock();
 
-                                    if (block == null || block.canBeReplacedByLeaves(world.getBlockState(temp), world,
-                                            temp)) if (world.isAirBlock(temp)) BerryGenManager.placeBerryLeaf(world,
-                                                    temp, berryId);
+                                    if (block == null
+                                            || block.canBeReplacedByLeaves(world.getBlockState(temp), world, temp))
+                                        if (world.isAirBlock(temp))
+                                            BerryGenManager.placeBerryLeaf(world, temp, berryId);
                                 }
                             }
                         }
@@ -430,9 +435,10 @@ public class BerryGenManager
                         final BlockState state = world.getBlockState(temp);
                         final Block block = state.getBlock();
 
-                        if (block == null || block.isAir(world.getBlockState(temp), world, temp) || block.isFoliage(
-                                world.getBlockState(temp), world, temp) && state.getMaterial() == Material.LEAVES) world
-                                        .setBlockState(temp, this.wood);
+                        if (block == null || block.isAir(world.getBlockState(temp), world, temp)
+                                || block.isFoliage(world.getBlockState(temp), world, temp)
+                                        && state.getMaterial() == Material.LEAVES)
+                            world.setBlockState(temp, this.wood);
                     }
                 }
             }
@@ -555,37 +561,41 @@ public class BerryGenManager
         void growTree(ServerWorld world, BlockPos cropPos, int berryId);
     }
 
-    public static HashMap<Integer, TreeGrower> trees = Maps.newHashMap();
+    public static HashMap<Integer, TreeGrower>            trees          = Maps.newHashMap();
 
     public static Map<SpawnBiomeMatcher, List<ItemStack>> berryLocations = Maps.newHashMap();
 
-    private static List<SpawnBiomeMatcher> matchers = Lists.newArrayList();
+    private static List<SpawnBiomeMatcher>                matchers       = Lists.newArrayList();
 
-    private static BerryGenList list;
+    private static BerryGenList                           list;
 
-    private static final QName prior = new QName("priority");
+    private static final QName                            prior          = new QName("priority");
 
-    private static final Comparator<SpawnBiomeMatcher> COMPARE = (o1, o2) ->
-    {
-        Integer p1 = 50;
-        Integer p2 = 50;
-        if (o1.spawnRule.values.containsKey(BerryGenManager.prior)) p1 = Integer.parseInt(o1.spawnRule.values.get(
-                BerryGenManager.prior));
-        if (o2.spawnRule.values.containsKey(BerryGenManager.prior)) p2 = Integer.parseInt(o2.spawnRule.values.get(
-                BerryGenManager.prior));
-        return p1.compareTo(p2);
-    };
+    private static final Comparator<SpawnBiomeMatcher>    COMPARE        = (o1, o2) ->
+                                                                         {
+                                                                             Integer p1 = 50;
+                                                                             Integer p2 = 50;
+                                                                             if (o1.spawnRule.values.containsKey(
+                                                                                     BerryGenManager.prior))
+                                                                                 p1 = Integer.parseInt(
+                                                                                         o1.spawnRule.values.get(
+                                                                                                 BerryGenManager.prior));
+                                                                             if (o2.spawnRule.values.containsKey(
+                                                                                     BerryGenManager.prior))
+                                                                                 p2 = Integer.parseInt(
+                                                                                         o2.spawnRule.values.get(
+                                                                                                 BerryGenManager.prior));
+                                                                             return p1.compareTo(p2);
+                                                                         };
 
     public static ItemStack getRandomBerryForBiome(final World world, final BlockPos location)
     {
         if (BerryGenManager.berryLocations.isEmpty()) BerryGenManager.parseConfig();
         SpawnBiomeMatcher toMatch = null;
         final SpawnCheck checker = new SpawnCheck(Vector3.getNewVector().set(location), world);
-        /**
-         * Shuffle list, then re-sort it. This allows the values of the same
+        /** Shuffle list, then re-sort it. This allows the values of the same
          * priority to be randomized, but then still respect priority order for
-         * specific ones.
-         */
+         * specific ones. */
         Collections.shuffle(BerryGenManager.matchers);
         BerryGenManager.matchers.sort(BerryGenManager.COMPARE);
         for (final SpawnBiomeMatcher matcher : BerryGenManager.matchers)
