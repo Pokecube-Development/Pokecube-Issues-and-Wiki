@@ -75,6 +75,7 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
         {
+            PokecubeCore.LOGGER.debug("Registering Pokecube Legends Features");
             new WorldgenHandler(Reference.ID).processStructures(event);
 
             if (PokecubeCore.getConfig().generateFossils) for (final Biome b : ForgeRegistries.BIOMES.getValues())

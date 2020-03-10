@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0.45,0" scale=".5"/>
+ <model>
+  <phase name="global" scale=".5"/>
+    <metadata headCap="-30,30" head="head"/>
+    <phase type="flying">
+        <part name="Right_lilwing">
+            <component name="1" startKey="0" length="2" rotOffset="0,0.35,0" rotChange="0,0,-55"/>
+            <component name="2" startKey="2" length="2" rotChange="0,0,55"/>
+        </part>
+        <part name="Left_bigwing">
+            <component name="1" startKey="0" length="2" rotOffset="0,5.3,0" rotChange="0,26,90"/>
+            <component name="2" startKey="2" length="2" rotChange="0,-26,-90"/>
+        </part>
+        <part name="Left_lilwing">
+            <component name="1" startKey="0" length="2" rotOffset="0,0.35,0" rotChange="0,0,55.0"/>
+            <component name="2" startKey="2" length="2" rotChange="0,0,-55"/>
+        </part>
+        <part name="Right_bigwing">
+            <component name="1" startKey="0" length="2" rotOffset="0,-5.3,0" rotChange="0,-26,-90"/>
+            <component name="2" startKey="2" length="2" rotChange="0,26,90"/>
+        </part>
+    </phase>
  </model>
  <details>
   <RIDDENOFFSET>

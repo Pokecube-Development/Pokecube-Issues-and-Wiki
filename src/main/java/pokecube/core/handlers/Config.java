@@ -405,7 +405,7 @@ public class Config extends ConfigData
     @Configure(category = Config.world)
     public int          spawnDimension         = 0;
     @Configure(category = Config.world)
-    public String       professor_override     = "pokecube:mob:professor{\"name\":\"pokecube.professor.named:Cedar\",\"guard\":{\"time\":\"allday\",\"roam\":0}}";
+    public String       professor_override     = "pokecube:mob:professor{\"name\":\"pokecube.professor.named:Cedar\",\"guard\":{\"time\":\"day\",\"roam\":0}}";
 
     // Mob Spawning settings
     @Configure(category = Config.spawning)

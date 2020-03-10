@@ -36,7 +36,7 @@ public class BerryCrop extends CropsBlock
         {
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
             final BlockPos up = pos.up();
-            if (grower != null) grower.growTree(worldIn, pos, this.index);
+            if (grower != null) grower.growTree((ServerWorld) worldIn, pos, this.index);
             else if (worldIn.isAirBlock(up)) worldIn.setBlockState(up, BerryManager.berryFruits.get(this.index)
                     .getDefaultState());
         }
@@ -51,7 +51,7 @@ public class BerryCrop extends CropsBlock
         {
             final TreeGrower grower = BerryGenManager.trees.get(this.index);
             final BlockPos up = pos.up();
-            if (grower != null) grower.growTree(worldIn, pos, this.index);
+            if (grower != null) grower.growTree((ServerWorld) worldIn, pos, this.index);
             else if (worldIn.isAirBlock(up)) worldIn.setBlockState(up, BerryManager.berryFruits.get(this.index)
                     .getDefaultState());
         }

@@ -176,7 +176,8 @@
       "separation":4,
       "spawn":{
         "values":{
-          "types":"all"
+          "types":"all",
+          "categoryBlacklist":"ocean"
         }
       }
     },

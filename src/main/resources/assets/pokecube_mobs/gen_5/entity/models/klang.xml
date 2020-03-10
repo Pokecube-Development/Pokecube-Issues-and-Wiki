@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" offset="0,1.0,0" scale="0.8"/>
-  <merges merge="Idle->idle"/>
+  <phase name="global" scale="0.8"/>
+  <phase type="idle">
+    <part name="Gear1A">
+        <component name="Idle1A" startKey="0" length="10" rotChange="0.0,-120.0,0.0,"/>
+        <component name="Idle1A-" startKey="10" length="10" rotChange="0.0,-120.0,0.0,"/>
+        <component name="Idle1A--" startKey="20" length="10" rotChange="0.0,-120.0,0.0,"/>
+    </part>
+    <part name="Gear1B">
+        <component name="Idle1B" startKey="0" length="10" rotChange="0.0,120.0,0.0,"/>
+        <component name="Idle1B-" startKey="10" length="10" rotChange="0.0,120.0,0.0,"/>
+        <component name="Idle1B--" startKey="20" length="10" rotChange="0.0,120.0,0.0,"/>
+    </part>
+</phase>
  </model>
 </ModelAnimator>
