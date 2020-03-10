@@ -1,0 +1,51 @@
+{
+  "pools":[
+    {
+      "name":"pokecube_mobs:berry_trees/grow",
+      "rigid":false,
+      "options":[
+        "pokecube_mobs:berry_trees/root"
+      ]
+    },
+    {
+      "name":"pokecube_mobs:berry_trees/trees",
+      "rigid":true,
+      "options":[
+        "pokecube_mobs:berry_trees/enigma;{\"berry\":\"enigma\"}",
+        "pokecube_mobs:berry_trees/grepa;{\"berry\":\"grepa\"}",
+        "pokecube_mobs:berry_trees/hondew;{\"berry\":\"hondew\"}",
+        "pokecube_mobs:berry_trees/kelpsy;{\"berry\":\"kelpsy\"}",
+        "pokecube_mobs:berry_trees/leppa;{\"berry\":\"leppa\"}",
+        "pokecube_mobs:berry_trees/nanab;{\"berry\":\"nanab\"}",
+        "pokecube_mobs:berry_trees/oran;{\"berry\":\"oran\"}",
+        "pokecube_mobs:berry_trees/pecha;{\"berry\":\"pecha\"}",
+        "pokecube_mobs:berry_trees/pomeg;{\"berry\":\"pomeg\"}",
+        "pokecube_mobs:berry_trees/qualot;{\"berry\":\"qualot\"}",
+        "pokecube_mobs:berry_trees/sitrus;{\"berry\":\"sitrus\"}",
+        "pokecube_mobs:berry_trees/tamato;{\"berry\":\"tamato\"}"
+      ]
+    }
+  ],
+  "jigsaws": [
+    {      
+      "name":"pokecube_mobs:berry_trees/grow",
+      "root":"pokecube_mobs:berry_trees/grow",
+      "onGrow": true,
+      "biomeType":"none",
+      "trees":[
+        "enigma",
+        "grepa",
+        "hondew",
+        "kelpsy",
+        "leppa",
+        "nanab",
+        "oran",
+        "pecha",
+        "pomeg",
+        "qualot",
+        "sitrus",
+        "tamato"
+      ]
+    }
+  ]
+}

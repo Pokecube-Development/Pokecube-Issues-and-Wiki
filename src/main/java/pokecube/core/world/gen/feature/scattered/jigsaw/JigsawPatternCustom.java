@@ -2,6 +2,7 @@ package pokecube.core.world.gen.feature.scattered.jigsaw;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.BiPredicate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -16,8 +17,10 @@ import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
+import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.SingleOffsetPiece;
 
 public class JigsawPatternCustom extends JigsawPattern
 {
@@ -26,6 +29,10 @@ public class JigsawPatternCustom extends JigsawPattern
     private final JigSawPool  pool;
     private boolean           processed_subpools = false;
     private int               min_value          = Integer.MIN_VALUE;
+
+    public boolean respects_pool_spawns = true;
+
+    public BiPredicate<JigsawPiece, SpawnCheck> validator = (p, s) -> true;
 
     public JigsawPatternCustom(final JigSawPool part, final List<Pair<JigsawPiece, Integer>> parts,
             final PlacementBehaviour behaviour)
@@ -44,12 +51,17 @@ public class JigsawPatternCustom extends JigsawPattern
                 final JigsawPattern sub = JigsawManager.REGISTRY.get(sub_pool);
                 if (sub != null) this.jigsawPieces.addAll(sub.jigsawPieces);
                 else PokecubeCore.LOGGER.error("No subpool registered by name {}", sub_pool);
-
             }
             this.processed_subpools = true;
         }
-
         return this.jigsawPieces;
+    }
+
+    public boolean isValidPos(final JigsawPiece part, final SpawnCheck check)
+    {
+        if (this.respects_pool_spawns && part instanceof SingleOffsetPiece && !((SingleOffsetPiece) part).isValidPos(
+                check)) return false;
+        return this.validator.test(part, check);
     }
 
     @Override
@@ -77,7 +89,6 @@ public class JigsawPatternCustom extends JigsawPattern
         {
             return p_214942_1_.getBoundingBox(templateManagerIn, BlockPos.ZERO, Rotation.NONE).getYSize();
         }).max().orElse(0);
-
         return this.min_value;
     }
 }

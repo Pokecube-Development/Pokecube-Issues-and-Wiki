@@ -9,11 +9,7 @@ import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
-import pokecube.core.blocks.berries.BerryGenManager;
-import pokecube.core.blocks.berries.BerryGenManager.GenericGrower;
-import pokecube.core.handlers.ItemGenerator;
 import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.berries.ItemBerry.BerryType;
 
@@ -34,7 +30,7 @@ public class BerryManager
     /** Map of berry id -> name of berry */
     public static Map<String, ItemBerry>        byName      = Maps.newHashMap();
 
-    public static void addBerry(ItemBerry berry)
+    public static void addBerry(final ItemBerry berry)
     {
         final BerryType type = berry.type;
 
@@ -44,36 +40,49 @@ public class BerryManager
         if (type.effect != null) UsableItemEffects.BerryUsable.effects.put(type.index, type.effect);
     }
 
-    public static Item getBerryItem(String name)
+    public static Item getBerryItem(final String name)
     {
         return BerryManager.byName.get(name);
     }
 
-    public static Block getCrop(ItemBerry berry)
+    public static Block getCrop(final ItemBerry berry)
     {
         return BerryManager.berryCrops.get(berry.type.index);
     }
 
-    public static Block getFruit(ItemBerry berry)
+    public static Block getFruit(final ItemBerry berry)
     {
         return BerryManager.berryFruits.get(berry.type.index);
     }
 
     public static void registerTrees()
     {
-        BerryGenManager.trees.put(3, new GenericGrower(ItemGenerator.logs.get("pecha").getDefaultState()));
-        BerryGenManager.trees.put(6, new GenericGrower(ItemGenerator.logs.get("leppa").getDefaultState()));
-        BerryGenManager.trees.put(7, new GenericGrower(ItemGenerator.logs.get("oran").getDefaultState()));
-        BerryGenManager.trees.put(10, new GenericGrower(ItemGenerator.logs.get("sitrus").getDefaultState()));
-        BerryGenManager.trees.put(60, new GenericGrower(ItemGenerator.logs.get("enigma").getDefaultState()));
-        BerryGenManager.trees.put(18, new GenericGrower(ItemGenerator.logs.get("nanab").getDefaultState()));
-        //
-        // // EV Berries
-        BerryGenManager.trees.put(21, new GenericGrower(Blocks.OAK_LOG.getDefaultState()));
-        BerryGenManager.trees.put(22, new GenericGrower(Blocks.OAK_LOG.getDefaultState()));
-        BerryGenManager.trees.put(23, new GenericGrower(Blocks.OAK_LOG.getDefaultState()));
-        BerryGenManager.trees.put(24, new GenericGrower(Blocks.OAK_LOG.getDefaultState()));
-        BerryGenManager.trees.put(25, new GenericGrower(Blocks.OAK_LOG.getDefaultState()));
-        BerryGenManager.trees.put(26, new GenericGrower(Blocks.OAK_LOG.getDefaultState()));
+        // TODO remove this.
+        // BerryGenManager.trees.put(3, new
+        // GenericGrower(ItemGenerator.logs.get("pecha").getDefaultState()));
+        // BerryGenManager.trees.put(6, new
+        // GenericGrower(ItemGenerator.logs.get("leppa").getDefaultState()));
+        // BerryGenManager.trees.put(7, new
+        // GenericGrower(ItemGenerator.logs.get("oran").getDefaultState()));
+        // BerryGenManager.trees.put(10, new
+        // GenericGrower(ItemGenerator.logs.get("sitrus").getDefaultState()));
+        // BerryGenManager.trees.put(60, new
+        // GenericGrower(ItemGenerator.logs.get("enigma").getDefaultState()));
+        // BerryGenManager.trees.put(18, new
+        // GenericGrower(ItemGenerator.logs.get("nanab").getDefaultState()));
+        // //
+        // // // EV Berries
+        // BerryGenManager.trees.put(21, new
+        // GenericGrower(Blocks.OAK_LOG.getDefaultState()));
+        // BerryGenManager.trees.put(22, new
+        // GenericGrower(Blocks.OAK_LOG.getDefaultState()));
+        // BerryGenManager.trees.put(23, new
+        // GenericGrower(Blocks.OAK_LOG.getDefaultState()));
+        // BerryGenManager.trees.put(24, new
+        // GenericGrower(Blocks.OAK_LOG.getDefaultState()));
+        // BerryGenManager.trees.put(25, new
+        // GenericGrower(Blocks.OAK_LOG.getDefaultState()));
+        // BerryGenManager.trees.put(26, new
+        // GenericGrower(Blocks.OAK_LOG.getDefaultState()));
     }
 }

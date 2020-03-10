@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:air",
+    "#pokecube:berry_crops"
+  ]
+}
