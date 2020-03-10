@@ -1,0 +1,6 @@
+{
+    "parent": "pokecube:block/pokecube_leaves",
+    "textures": {
+        "all": "pokecube:block/kelpsy_leaves"
+    }
+}
