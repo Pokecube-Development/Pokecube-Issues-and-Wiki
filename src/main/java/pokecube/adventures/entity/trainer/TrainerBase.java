@@ -71,6 +71,14 @@ public abstract class TrainerBase extends NpcMob
                 || PokecubeAdv.config.trainersTradeMobs);
     }
 
+    protected boolean canTrade(final PlayerEntity player)
+    {
+        final boolean friend = this.pokemobsCap.friendlyCooldown >= 0;
+        final boolean pity = this.pokemobsCap.defeated(player);
+        final boolean lost = this.pokemobsCap.defeatedBy(player);
+        return this.aiStates.getAIState(IHasNPCAIStates.TRADES) && (friend || pity || lost);
+    }
+
     @Override
     public boolean processInteract(final PlayerEntity player, final Hand hand)
     {
@@ -105,7 +113,7 @@ public abstract class TrainerBase extends NpcMob
             this.playCelebrateSound();
             return true;
         }
-        else if (this.pokemobsCap.friendlyCooldown >= 0 && this.aiStates.getAIState(IHasNPCAIStates.TRADES))
+        else if (this.canTrade(player))
         {
             final boolean customer = player == this.getCustomer();
             if (customer) return true;

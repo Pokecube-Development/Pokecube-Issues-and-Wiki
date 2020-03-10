@@ -506,7 +506,7 @@ public class TrainerEventHandler
             {
                 final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
                 packet.data.putInt("I", trainer.getEntityId());
-                packet.data.putBoolean("V", pokemobs.hasDefeated(event.getPlayer()));
+                packet.data.putBoolean("V", pokemobs.defeatedBy(event.getPlayer()));
                 PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) event.getPlayer());
             }
         }
