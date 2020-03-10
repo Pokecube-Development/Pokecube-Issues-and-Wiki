@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
@@ -77,12 +78,10 @@ public class JigsawAssmbler
     {
     }
 
-    public boolean build(final ResourceLocation resourceLocationIn, final int depth,
-            final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator<?> chunkGenerator,
-            final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
-            final Random rand, final Biome biome)
+    private void init(final int depth, final JigsawManager.IPieceFactory pieceFactory,
+            final ChunkGenerator<?> chunkGenerator, final TemplateManager templateManagerIn, final BlockPos pos,
+            final List<StructurePiece> parts, final Random rand, final Biome biome)
     {
-        PokecubeCore.LOGGER.debug("Jigsaw starting build");
         this.biome = biome;
         this.base_pos = pos;
         this.depth = depth;
@@ -91,10 +90,41 @@ public class JigsawAssmbler
         this.templateManager = templateManagerIn;
         this.structurePieces = parts;
         this.rand = rand;
+        this.root = null;
         this.once_added.clear();
-        final Rotation rotation = Rotation.randomRotation(rand);
-        final JigsawPattern jigsawpattern = JigsawManager.REGISTRY.get(resourceLocationIn);
-        if (jigsawpattern instanceof JigsawPatternCustom) this.root = (JigsawPatternCustom) jigsawpattern;
+    }
+
+    private JigsawPattern init(final ResourceLocation resourceLocationIn)
+    {
+        return JigsawManager.REGISTRY.get(resourceLocationIn);
+    }
+
+    public boolean build(final ResourceLocation resourceLocationIn, final int depth,
+            final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator<?> chunkGenerator,
+            final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
+            final Random rand, final Biome biome)
+    {
+        return this.build(this.init(resourceLocationIn), Rotation.randomRotation(rand), depth, pieceFactory,
+                chunkGenerator, templateManagerIn, pos, parts, rand, biome, c ->
+                { // Do nothing
+                }, c ->
+                { // Do nothing
+                }, -1);
+    }
+
+    public boolean build(final JigsawPattern jigsawpattern, final Rotation rotation, final int depth,
+            final JigsawManager.IPieceFactory pieceFactory, final ChunkGenerator<?> chunkGenerator,
+            final TemplateManager templateManagerIn, final BlockPos pos, final List<StructurePiece> parts,
+            final Random rand, final Biome biome, final Consumer<JigsawPatternCustom> pre,
+            final Consumer<JigsawPatternCustom> post, final int default_k)
+    {
+        PokecubeCore.LOGGER.debug("Jigsaw starting build");
+        this.init(depth, pieceFactory, chunkGenerator, templateManagerIn, pos, parts, rand, biome);
+        if (jigsawpattern instanceof JigsawPatternCustom)
+        {
+            this.root = (JigsawPatternCustom) jigsawpattern;
+            pre.accept(this.root);
+        }
 
         if (this.root != null) if (this.root.jigsaw.water) this.SURFACE_TYPE = Type.OCEAN_FLOOR_WG;
         else if (!this.root.jigsaw.surface) this.SURFACE_TYPE = null;
@@ -105,7 +135,16 @@ public class JigsawAssmbler
         final MutableBoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
         final int i = (mutableboundingbox.maxX + mutableboundingbox.minX) / 2;
         final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
-        final int k = chunkGenerator.func_222532_b(i, j, Heightmap.Type.WORLD_SURFACE_WG);
+        int k = default_k;
+
+        if (k == -1) if (this.SURFACE_TYPE != null) k = chunkGenerator.func_222532_b(i, j, this.SURFACE_TYPE);
+        else
+        {
+            k = this.chunkGenerator.func_222532_b(i, j, Heightmap.Type.OCEAN_FLOOR_WG);
+            if (k > 0) k = this.rand.nextInt(k + 1);
+            else k = chunkGenerator.world.getSeaLevel();
+        }
+
         abstractvillagepiece.offset(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta()), 0);
         parts.add(abstractvillagepiece);
         if (depth > 0)
@@ -120,10 +159,12 @@ public class JigsawAssmbler
             {
                 final Entry jigsawmanager$entry = this.availablePieces.removeFirst();
                 this.addPiece(jigsawmanager$entry.villagePiece, jigsawmanager$entry.shapeReference,
-                        jigsawmanager$entry.index, jigsawmanager$entry.depth);
+                        jigsawmanager$entry.index, jigsawmanager$entry.depth, default_k);
             }
-
         }
+
+        if (this.root != null) post.accept(this.root);
+
         if (jigsawpattern instanceof JigsawPatternCustom)
         {
             final List<String> guarenteed = Lists.newArrayList(((JigsawPatternCustom) jigsawpattern).neededChildren);
@@ -145,10 +186,11 @@ public class JigsawAssmbler
         final IWorld world = this.chunkGenerator.world;
         final BlockPos pos = this.base_pos;
         final SpawnCheck check = new SpawnCheck(Vector3.getNewVector().set(pos), world, this.biome);
-        list.removeIf(p -> (p instanceof SingleOffsetPiece && !((SingleOffsetPiece) p).isValidPos(check)));
+        if (this.root != null) list.removeIf(p -> !this.root.isValidPos(p, check));
         list.removeIf(p -> this.once_added.contains(p));
-        for (final JigsawPiece p : list)
-            if (p instanceof SingleOffsetPiece && !((SingleOffsetPiece) p).flag.isEmpty()) needed.add(p);
+        if (this.root != null) for (final JigsawPiece p : list)
+            if (p instanceof SingleOffsetPiece && !((SingleOffsetPiece) p).flag.isEmpty() && this.root.neededChildren
+                    .contains(((SingleOffsetPiece) p).flag)) needed.add(p);
         list.removeIf(p -> needed.contains(p));
         Collections.shuffle(needed, this.rand);
         for (final JigsawPiece p : needed)
@@ -164,7 +206,7 @@ public class JigsawAssmbler
     }
 
     private void addPiece(final AbstractVillagePiece villagePieceIn, final AtomicReference<VoxelShape> atomicVoxelShape,
-            final int part_index, final int current_depth)
+            final int part_index, final int current_depth, final int default_k)
     {
         final JigsawPiece jigsawpiece = villagePieceIn.getJigsawPiece();
         final BlockPos blockpos = villagePieceIn.getPos();
@@ -175,9 +217,9 @@ public class JigsawAssmbler
         final MutableBoundingBox mutableboundingbox = villagePieceIn.getBoundingBox();
         final int i = mutableboundingbox.minY;
 
-        int k0 = -1;
+        int k0 = default_k;
 
-        if (this.SURFACE_TYPE == null)
+        if (k0 == -1) if (this.SURFACE_TYPE == null)
         {
             k0 = this.chunkGenerator.func_222532_b(blockpos.getX(), blockpos.getZ(), Heightmap.Type.OCEAN_FLOOR_WG);
             if (k0 > 0) k0 = this.rand.nextInt(k0 + 1);

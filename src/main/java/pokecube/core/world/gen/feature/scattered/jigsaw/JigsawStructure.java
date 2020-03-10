@@ -138,6 +138,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos((chunkPosX << 4) + 9, 0,
                     (chunkPosZ << 4) + 9));
             JigSawConfig matched = this.getStruct();
+            if (matched._matcher == null) return false;
             if (!matched._matcher.checkBiome(biome)) for (final JigSawConfig m : this.structs)
                 if (m._matcher.checkBiome(biome))
                 {
@@ -203,6 +204,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             {
                 final BlockPos blockpos = new BlockPos(chunkX * 16, 90, chunkZ * 16);
                 JigSawConfig matched = ((JigsawStructure) this.getStructure()).getStruct();
+                if (matched._matcher == null) return;
                 if (!matched._matcher.checkBiome(biome)) for (final JigSawConfig m : ((JigsawStructure) this
                         .getStructure()).structs)
                     if (m._matcher.checkBiome(biome))

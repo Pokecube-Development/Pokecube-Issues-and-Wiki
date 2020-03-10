@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -101,8 +102,16 @@ public class JigsawPieces
 
     public static void initPool(final JigSawPool pool)
     {
+        JigsawPieces.initPool(pool, (p, t) ->
+        { // Do nothing by default.
+        }, ImmutableList.of(PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES));
+    }
+
+    public static void initPool(final JigSawPool pool, final BiConsumer<SingleOffsetPiece, JsonObject> proc,
+            final List<StructureProcessor> rules)
+    {
         JigsawPieces.pools.put(pool.name, pool);
-        JigsawPieces.patterns.put(pool.name, JigsawPieces.registerPart(pool));
+        JigsawPieces.patterns.put(pool.name, JigsawPieces.registerPart(pool, proc, rules));
     }
 
     public static void initStructure(final ChunkGenerator<?> chunk_gen, final TemplateManager templateManagerIn,
@@ -125,7 +134,8 @@ public class JigsawPieces
 
     }
 
-    private static JigsawPatternCustom registerPart(final JigSawPool part)
+    private static JigsawPatternCustom registerPart(final JigSawPool part,
+            final BiConsumer<SingleOffsetPiece, JsonObject> proc, final List<StructureProcessor> rules)
     {
         final PlacementBehaviour behaviour = part.rigid ? PlacementBehaviour.RIGID
                 : PlacementBehaviour.TERRAIN_MATCHING;
@@ -151,8 +161,7 @@ public class JigsawPieces
             }
             option = args[0];
             if (option.equals("empty")) parts.add(Pair.of(EmptyJigsawPiece.INSTANCE, second));
-            else parts.add(Pair.of(new SingleOffsetPiece(part, option, ImmutableList.of(
-                    PokecubeStructureProcessor.PROCESSOR, JigsawPieces.RULES), place, subbiome).process(thing),
+            else parts.add(Pair.of(new SingleOffsetPiece(part, option, rules, place, subbiome).process(thing, proc),
                     second));
         }
         final JigsawPatternCustom pattern = new JigsawPatternCustom(part, parts, behaviour);
@@ -179,9 +188,9 @@ public class JigsawPieces
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
-        protected final JigSawPool part;
-        public int                 offset = 1;
-        private boolean            ignoreAir;
+        public final JigSawPool pool;
+        public int              offset = 1;
+        private boolean         ignoreAir;
 
         public String flag = "";
 
@@ -191,16 +200,17 @@ public class JigsawPieces
 
         private SpawnBiomeMatcher _spawn = null;
         public MutableBoundingBox mask   = null;
+        public PlacementSettings  last_used;
 
         private boolean maskCheck = false;
 
-        public SingleOffsetPiece(final JigSawPool part, final String location,
+        public SingleOffsetPiece(final JigSawPool pool, final String location,
                 final List<StructureProcessor> processors, final PlacementBehaviour type, final String subbiome)
         {
             super(location, processors, type);
             this.subbiome = subbiome;
-            this.ignoreAir = part.ignoreAir;
-            this.part = part;
+            this.ignoreAir = pool.ignoreAir;
+            this.pool = pool;
         }
 
         private SpawnBiomeMatcher fromJson(final JsonElement rule)
@@ -217,7 +227,7 @@ public class JigsawPieces
             }
         }
 
-        public SingleOffsetPiece process(final JsonObject thing)
+        public SingleOffsetPiece process(final JsonObject thing, final BiConsumer<SingleOffsetPiece, JsonObject> proc)
         {
             if (thing != null) try
             {
@@ -225,6 +235,7 @@ public class JigsawPieces
                 if (thing.has("ignoreAir")) this.ignoreAir = thing.get("ignoreAir").getAsBoolean();
                 if (thing.has("subbiome")) this.subbiome = thing.get("subbiome").getAsString();
                 if (thing.has("spawn")) this._spawn = this.fromJson(thing.get("spawn"));
+                proc.accept(this, thing);
             }
             catch (final Exception e)
             {
@@ -252,21 +263,21 @@ public class JigsawPieces
         }
 
         @Override
-        protected PlacementSettings createPlacementSettings(final Rotation p_214860_1_,
+        public PlacementSettings createPlacementSettings(final Rotation p_214860_1_,
                 final MutableBoundingBox p_214860_2_)
         {
-            final PlacementSettings placementsettings = new PlacementSettings();
-            placementsettings.setBoundingBox(p_214860_2_);
-            placementsettings.setRotation(p_214860_1_);
-            placementsettings.func_215223_c(true);
-            placementsettings.setIgnoreEntities(false);
-            if (this.part.filler) placementsettings.addProcessor(FillerProcessor.PROCESSOR);
-            if (this.ignoreAir) placementsettings.addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
-            else placementsettings.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
-            placementsettings.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
-            this.processors.forEach(placementsettings::addProcessor);
-            this.getPlacementBehaviour().getStructureProcessors().forEach(placementsettings::addProcessor);
-            return placementsettings;
+            this.last_used = new PlacementSettings();
+            this.last_used.setBoundingBox(p_214860_2_);
+            this.last_used.setRotation(p_214860_1_);
+            this.last_used.func_215223_c(true);
+            this.last_used.setIgnoreEntities(false);
+            if (this.pool.filler) this.last_used.addProcessor(FillerProcessor.PROCESSOR);
+            if (this.ignoreAir) this.last_used.addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
+            else this.last_used.addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+            this.last_used.addProcessor(JigsawReplacementStructureProcessor.INSTANCE);
+            this.processors.forEach(this.last_used::addProcessor);
+            this.getPlacementBehaviour().getStructureProcessors().forEach(this.last_used::addProcessor);
+            return this.last_used;
         }
 
         public Template getTemplate(final TemplateManager manager)
@@ -308,7 +319,7 @@ public class JigsawPieces
                 for (final Template.BlockInfo template$blockinfo : Template.processBlockInfos(template, worldIn, pos,
                         placementsettings, this.func_214857_a(manager, pos, rotation, false)))
                     this.func_214846_a(worldIn, template$blockinfo, pos, rotation, rand, box);
-                if (this.part.base_under)
+                if (this.pool.base_under)
                 {
                     final MutableBoundingBox box2 = template.getMutableBoundingBox(placementsettings, pos);
                     final Vector3 v = Vector3.getNewVector();

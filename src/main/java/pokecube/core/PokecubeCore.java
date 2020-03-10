@@ -47,6 +47,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.ClientProxy;
 import pokecube.core.database.Database;
@@ -86,7 +87,6 @@ import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
-import pokecube.core.world.gen.feature.scattered.testa.ConfigStructurePiece;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
@@ -130,7 +130,6 @@ public class PokecubeCore
             }
 
             // Register the general structure piece we use
-            Registry.register(Registry.STRUCTURE_PIECE, "pokecube:struct_piece", ConfigStructurePiece.CONFIGTYPE);
             Registry.register(Registry.STRUCTURE_PIECE, "pokecube:jigsaw_piece", JigsawPieces.CSP);
 
             // Register structure processor types
@@ -141,6 +140,7 @@ public class PokecubeCore
 
             // Register the configurable worldgen things from datapack
             new WorldgenHandler().processStructures(event);
+            new BerryGenManager().processStructures(event);
 
             // Register village stuff
             // TODO add in forge village stuff maybe here when it is done.

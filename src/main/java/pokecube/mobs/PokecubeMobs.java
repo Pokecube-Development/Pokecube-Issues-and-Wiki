@@ -15,6 +15,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -28,6 +29,7 @@ import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.CombatTypeLoader;
 import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
@@ -72,9 +74,15 @@ public class PokecubeMobs
         @SubscribeEvent
         public static void registerSounds(final RegistryEvent.Register<SoundEvent> event)
         {
-            // register a new mob here
             PokecubeCore.LOGGER.debug("Registering Pokemob Sounds");
             Database.initMobSounds(event.getRegistry());
+        }
+
+        @SubscribeEvent
+        public static void registerFeatures(final RegistryEvent.Register<Feature<?>> event)
+        {
+            PokecubeCore.LOGGER.debug("Registering Pokecube Mobs Features");
+            new BerryGenManager(PokecubeMobs.MODID).processStructures(event);
         }
     }
 
