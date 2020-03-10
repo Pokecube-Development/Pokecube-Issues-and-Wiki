@@ -35,7 +35,11 @@ public class StructuresInit
 
     public void init(final FMLCommonSetupEvent event)
     { // 10.000 Chunk - spawnRate
-      // Biome UB01
+    	
+    	// Mirage Spot
+        this.MirageSpotSpawn(800, "miragespot", GenerationStage.Decoration.SURFACE_STRUCTURES);
+    	
+        // Biome UB01
         this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 900, "ub01_1", "pokecube_legends:ub001",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 600, "ub01_2", "pokecube_legends:ub001",
@@ -49,6 +53,8 @@ public class StructuresInit
         this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 350, "ub01_6", "pokecube_legends:ub001",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 300, "ub01_7", "pokecube_legends:ub001",
+                GenerationStage.Decoration.SURFACE_STRUCTURES);
+        this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 460, "ub01_8", "pokecube_legends:ub001",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 250, "ub01_9", "pokecube_legends:ub001",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
@@ -64,25 +70,39 @@ public class StructuresInit
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_GRASSJUN, 300, "ub02_4", "pokecube_legends:ub002",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
+        this.SpawnBuild(BlockInit.ULTRA_GRASSJUN, 300, "ub02_5", "pokecube_legends:ub002",
+                GenerationStage.Decoration.SURFACE_STRUCTURES);
 
         // Biome UB03
-        this.SpawnBuild(BlockInit.ULTRA_SAND, 50, "ub03_1", "pokecube_legends:ub003",
+        this.SpawnBuild(BlockInit.ULTRA_SAND, 70, "ub03_1", "pokecube_legends:ub003",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
-        this.SpawnBuild(BlockInit.ULTRA_SAND, 750, "ub03_2", "pokecube_legends:ub003",
+        this.SpawnBuild(BlockInit.ULTRA_SAND, 600, "ub03_2", "pokecube_legends:ub003",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_SAND, 700, "ub03_3", "pokecube_legends:ub003",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_SAND, 100, "ub03_4", "pokecube_legends:ub003",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
+        this.SpawnBuild(BlockInit.ULTRA_SAND, 100, "ub03_5", "pokecube_legends:ub003",
+                GenerationStage.Decoration.SURFACE_STRUCTURES);
+        this.SpawnBuild(BlockInit.ULTRA_SAND, 200, "ub03_6", "pokecube_legends:ub003",
+                GenerationStage.Decoration.SURFACE_STRUCTURES);
+        this.SpawnBuild(BlockInit.ULTRA_SAND, 150, "ub03_7", "pokecube_legends:ub003",
+                GenerationStage.Decoration.SURFACE_STRUCTURES);
 
-        // Extra
+        // Biome UB04
         this.SpawnBuildFly(BlockInit.ULTRA_COBBLES, 300, "ub03_float", "pokecube_legends:ub004",
                 GenerationStage.Decoration.RAW_GENERATION);
-        this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 300, "crystal_base", "pokecube_legends:ub001",
+        this.SpawnBuild(BlockInit.ULTRA_COBBLES, 90, "ub04_1", "pokecube_legends:ub004",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
-        this.SpawnBuild(BlockInit.ULTRA_GRASSJUN, 300, "crystal_base", "pokecube_legends:ub002",
+        this.SpawnBuild(BlockInit.ULTRA_COBBLES, 150, "ub04_2", "pokecube_legends:ub004",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
-        this.SpawnBuild(BlockInit.ULTRA_SAND, 300, "crystal_base", "pokecube_legends:ub003",
+        
+        //Extra
+        this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 330, "crystal_base", "pokecube_legends:ub001",
+                GenerationStage.Decoration.SURFACE_STRUCTURES);
+        this.SpawnBuild(BlockInit.ULTRA_GRASSJUN, 310, "crystal_base", "pokecube_legends:ub002",
+                GenerationStage.Decoration.SURFACE_STRUCTURES);
+        this.SpawnBuild(BlockInit.ULTRA_SAND, 320, "crystal_base", "pokecube_legends:ub003",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
     }
 
@@ -117,7 +137,7 @@ public class StructuresInit
                     if (template == null) return false;
                     final Rotation rotation = Rotation.values()[random.nextInt(3)];
                     final Mirror mirror = Mirror.values()[random.nextInt(2)];
-                    final BlockPos spawnTo = new BlockPos(i, j - 4, k);
+                    final BlockPos spawnTo = new BlockPos(i, j - 2, k);
                     template.addBlocksToWorldChunk(iworld, spawnTo, new PlacementSettings().addProcessor(
                             PokecubeStructureProcessor.PROCESSOR).setRotation(rotation).setRandom(random).setMirror(
                                     mirror).setChunk((ChunkPos) null).setIgnoreEntities(false));
@@ -135,6 +155,47 @@ public class StructuresInit
                     Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
         }
 
+    }
+    
+    public void MirageSpotSpawn(final int spawnRate, final String nameBuild, final GenerationStage.Decoration deco)
+    {
+        final Feature<NoFeatureConfig> feature = new Feature<NoFeatureConfig>(NoFeatureConfig::deserialize)
+        {
+            @Override
+            public boolean place(final IWorld iworld, final ChunkGenerator<?> generator, final Random random,
+                    final BlockPos pos, final NoFeatureConfig config)
+            {
+                int i = pos.getX();
+                int k = pos.getZ();
+                final DimensionType dimensionType = iworld.getDimension().getType();
+                boolean dimensionCriteria = false;
+                if (dimensionType == DimensionType.OVERWORLD) dimensionCriteria = true;
+                if (!dimensionCriteria) return false;
+                if (random.nextInt(10000) + 1 <= spawnRate)
+                {
+                    i += random.nextInt(16) + 8;
+                    k += random.nextInt(16) + 8;
+                    int j = iworld.getHeight(Heightmap.Type.WORLD_SURFACE, i, k);
+                    j -= 1;
+                    final Template template = ((ServerWorld) iworld.getWorld()).getSaveHandler()
+                            .getStructureTemplateManager().getTemplateDefaulted(new ResourceLocation(Reference.ID,
+                                    nameBuild));
+                    if (template == null) return false;
+                    final Rotation rotation = Rotation.values()[random.nextInt(3)];
+                    final Mirror mirror = Mirror.values()[random.nextInt(2)];
+                    final BlockPos spawnTo = new BlockPos(i, j - 1, k);
+                    template.addBlocksToWorldChunk(iworld, spawnTo, new PlacementSettings().addProcessor(
+                            PokecubeStructureProcessor.PROCESSOR).setRotation(rotation).setRandom(random).setMirror(
+                                    mirror).setChunk((ChunkPos) null).setIgnoreEntities(false));
+                    return true;
+                }
+                return false;
+            }
+        };
+        for (Biome biome : ForgeRegistries.BIOMES.getValues()) {
+			biome.addFeature(deco, Biome.createDecoratedFeature(feature, IFeatureConfig.NO_FEATURE_CONFIG, 
+					Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
+		}
     }
 
     public void SpawnBuildFly(final Block blockPlace, final int spawnRate, final String nameBuild,
