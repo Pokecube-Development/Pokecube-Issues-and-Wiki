@@ -34,6 +34,7 @@ import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.SingleOffse
 public class JigsawStructure extends ScatteredStructure<JigsawConfig>
 {
     final String name;
+    final int    modifier;
     JigSawConfig struct;
 
     List<JigSawConfig> structs = Lists.newArrayList();
@@ -42,6 +43,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     {
         super(JigsawConfig::deserialize);
         this.name = name;
+        this.modifier = this.name.hashCode();
     }
 
     public JigsawStructure addStruct(final JigSawConfig struct)
@@ -182,7 +184,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     @Override
     protected int getSeedModifier()
     {
-        return 165746796;
+        return this.modifier;
     }
 
     public static class Start extends MarginedStructureStart
@@ -208,7 +210,8 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                         matched = m;
                         break;
                     }
-                JigsawPieces.initStructure(generator, templateManagerIn, blockpos, this.components, this.rand, matched);
+                JigsawPieces.initStructure(generator, templateManagerIn, blockpos, this.components, this.rand, matched,
+                        biome);
                 PokecubeCore.LOGGER.debug("Placing structure {} at {} {} {} composed of {} parts ", matched.name,
                         blockpos.getX(), blockpos.getY(), blockpos.getZ(), this.components.size());
                 // Check if any components are valid spawn spots, if so, set the

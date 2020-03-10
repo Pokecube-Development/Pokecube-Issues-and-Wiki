@@ -18,18 +18,16 @@ import pokecube.core.interfaces.IPokemob.FormeHolder;
 
 public abstract class PokeInfoPage extends WatchPage
 {
-    final PokemobInfoPage parent;
-    List<PokedexEntry>    entries    = Lists.newArrayList();
-    List<FormeHolder>     formes     = Lists.newArrayList();
-    int                   entryIndex = 0;
-    int                   formIndex  = 0;
+    final PokemobInfoPage     parent;
+    static List<PokedexEntry> entries    = Lists.newArrayList();
+    static List<FormeHolder>  formes     = Lists.newArrayList();
+    static int                entryIndex = 0;
+    static int                formIndex  = 0;
 
     public PokeInfoPage(final PokemobInfoPage parent, final String title)
     {
         super(new TranslationTextComponent("pokewatch.title.pokeinfo." + title), parent.watch);
         this.parent = parent;
-        this.entryIndex = 0;
-        this.formIndex = -1;
     }
 
     @Override
@@ -72,21 +70,21 @@ public abstract class PokeInfoPage extends WatchPage
         { // Cycle Form.
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             FormeHolder holder = null;
-            this.formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
-            this.entries = Lists.newArrayList(Database.getFormes(entry));
+            PokeInfoPage.formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
+            PokeInfoPage.entries = Lists.newArrayList(Database.getFormes(entry));
 
-            if (entry.getBaseForme() != null && !this.entries.contains(entry.getBaseForme()))
+            if (entry.getBaseForme() != null && !PokeInfoPage.entries.contains(entry.getBaseForme()))
             {
-                this.entries.add(entry.getBaseForme());
-                Collections.sort(this.entries, Database.COMPARATOR);
+                PokeInfoPage.entries.add(entry.getBaseForme());
+                Collections.sort(PokeInfoPage.entries, Database.COMPARATOR);
             }
-            this.entryIndex = this.entryIndex % this.entries.size();
-            if (!this.formes.isEmpty() && this.formIndex++ < this.formes.size() - 1) holder = this.formes.get(
-                    this.formIndex);
-            else if (this.entries.size() > 0)
+            PokeInfoPage.entryIndex = PokeInfoPage.entryIndex % PokeInfoPage.entries.size();
+            if (!PokeInfoPage.formes.isEmpty() && PokeInfoPage.formIndex++ < PokeInfoPage.formes.size() - 1)
+                holder = PokeInfoPage.formes.get(PokeInfoPage.formIndex);
+            else if (PokeInfoPage.entries.size() > 0)
             {
-                this.formIndex = -1;
-                entry = this.entries.get(this.entryIndex++ % this.entries.size());
+                PokeInfoPage.formIndex = -1;
+                entry = PokeInfoPage.entries.get(PokeInfoPage.entryIndex++ % PokeInfoPage.entries.size());
                 holder = entry.getModel(this.parent.pokemob.getSexe());
                 this.parent.initPages(this.parent.pokemob.megaEvolve(entry));
             }
