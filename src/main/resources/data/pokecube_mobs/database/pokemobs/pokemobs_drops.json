@@ -3953,39 +3953,6 @@
       }
     },
     {
-      "name": "Vivillon Elegant"
-    },
-    {
-      "name": "Vivillon End"
-    },
-    {
-      "name": "Vivillon Hell"
-    },
-    {
-      "name": "Vivillon Highplains"
-    },
-    {
-      "name": "Vivillon IcySnow"
-    },
-    {
-      "name": "Vivillon Modern"
-    },
-    {
-      "name": "Vivillon Monsoon"
-    },
-    {
-      "name": "Vivillon Ocean"
-    },
-    {
-      "name": "Vivillon Polar"
-    },
-    {
-      "name": "Vivillon Sandstorm"
-    },
-    {
-      "name": "Vivillon Sun"
-    },
-    {
       "name": "Litleo",
       "stats": {
         "lootTable": "pokecube:entities/rabbit_1"
@@ -4872,12 +4839,6 @@
     },
     {
       "name": "Sinistea"
-    },
-    {
-      "name": "Sinistea Forgery"
-    },
-    {
-      "name": "Polteageist Forgery"
     },
     {
       "name": "Polteageist"

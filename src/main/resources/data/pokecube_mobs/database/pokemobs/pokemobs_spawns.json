@@ -8466,13 +8466,26 @@
       "name": "Sinistea",
       "stats": {
         "spawnRules": [
-          {
+		  {
+            "model": {
+              "key": "sinistea_nofake",
+              "tex": "sinistea",
+              "model": "sinistea_nofake",
+              "anim": "sinistea"
+            },
             "values": {
+              "typesBlacklist": "cold",
               "types": "spooky",
               "rate": "0.2"
             }
           },
           {
+			"model": {
+              "key": "sinistea_nofake",
+              "tex": "sinistea",
+              "model": "sinistea_nofake",
+              "anim": "sinistea"
+            },
             "values": {
               "types": "village",
               "rate": "0.1"
