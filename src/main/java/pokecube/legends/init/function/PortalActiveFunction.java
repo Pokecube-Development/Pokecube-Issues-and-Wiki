@@ -117,7 +117,7 @@ public class PortalActiveFunction
                 world.addEntity(entity);
             }
         }
-        world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
+        world.destroyBlock(new BlockPos((int) x, (int) y, (int) z), false);
         if (world instanceof ServerWorld)
         {
             final ServerWorld sworld = world;
