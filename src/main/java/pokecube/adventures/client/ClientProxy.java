@@ -9,6 +9,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
@@ -169,6 +171,8 @@ public class ClientProxy extends CommonProxy
         ScreenManager.registerFactory(SplicerContainer.TYPE, Splicer::new);
         ScreenManager.registerFactory(ExtractorContainer.TYPE, Extractor::new);
         ScreenManager.registerFactory(BagContainer.TYPE, Bag<BagContainer>::new);
+        
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER, RenderType.translucent());
     }
 
     @Override

@@ -1,0 +1,10 @@
+{
+  "parent": "forge:item/default",
+  "loader": "forge:obj",
+  "model": "pokecube_legends:models/block/portal.obj",
+  "ambientToFullbright": true,
+  "textures": {
+    "None": "pokecube_legends:blocks/portal_off",
+    "particle": "pokecube_legends:blocks/portal_off"
+  }
+}

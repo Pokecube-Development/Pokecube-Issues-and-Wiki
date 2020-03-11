@@ -4,7 +4,7 @@
   "model": "pokecube_legends:models/block/portal.obj",
   "ambientToFullbright": true,
   "textures": {
-    "None": "pokecube_legends:blocks/portal1",
-    "particle": "pokecube_legends:blocks/portal1"
+    "None": "pokecube_legends:blocks/portal_on",
+    "particle": "pokecube_legends:blocks/portal_on"
   }
 }

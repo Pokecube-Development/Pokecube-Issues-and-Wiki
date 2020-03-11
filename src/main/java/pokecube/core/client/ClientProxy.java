@@ -17,6 +17,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultPlayerSkin;
@@ -76,6 +78,7 @@ import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.inventory.trade.TradeContainer;
+import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
@@ -87,26 +90,26 @@ import thut.api.maths.Vector3;
 
 public class ClientProxy extends CommonProxy
 {
-    public static KeyBinding nextMob;
-    public static KeyBinding nextMove;
-    public static KeyBinding previousMob;
-    public static KeyBinding previousMove;
-    public static KeyBinding mobBack;
-    public static KeyBinding mobAttack;
-    public static KeyBinding mobStance;
-    public static KeyBinding mobMegavolve;
-    public static KeyBinding noEvolve;
-    public static KeyBinding mobMove1;
-    public static KeyBinding mobMove2;
-    public static KeyBinding mobMove3;
-    public static KeyBinding mobMove4;
-    public static KeyBinding gzmove;
-    public static KeyBinding mobUp;
-    public static KeyBinding mobDown;
-    public static KeyBinding throttleUp;
-    public static KeyBinding throttleDown;
-    public static KeyBinding arrangeGui;
-    public static KeyBinding animateGui;
+    public static KeyBinding                     nextMob;
+    public static KeyBinding                     nextMove;
+    public static KeyBinding                     previousMob;
+    public static KeyBinding                     previousMove;
+    public static KeyBinding                     mobBack;
+    public static KeyBinding                     mobAttack;
+    public static KeyBinding                     mobStance;
+    public static KeyBinding                     mobMegavolve;
+    public static KeyBinding                     noEvolve;
+    public static KeyBinding                     mobMove1;
+    public static KeyBinding                     mobMove2;
+    public static KeyBinding                     mobMove3;
+    public static KeyBinding                     mobMove4;
+    public static KeyBinding                     gzmove;
+    public static KeyBinding                     mobUp;
+    public static KeyBinding                     mobDown;
+    public static KeyBinding                     throttleUp;
+    public static KeyBinding                     throttleDown;
+    public static KeyBinding                     arrangeGui;
+    public static KeyBinding                     animateGui;
 
     private static Map<String, ResourceLocation> players  = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
@@ -325,6 +328,12 @@ public class ClientProxy extends CommonProxy
 
         // Register shouldercap
         CapabilityManager.INSTANCE.register(IShoulderHolder.class, IShoulderHolder.STORAGE, ShoulderHolder::new);
+
+        // Register the render layers
+        for (Block crop : BerryManager.berryCrops.values())
+            RenderTypeLookup.setRenderLayer(crop, RenderType.translucent());
+        for (Block fruit : BerryManager.berryFruits.values())
+            RenderTypeLookup.setRenderLayer(fruit, RenderType.translucent());
 
     }
 
