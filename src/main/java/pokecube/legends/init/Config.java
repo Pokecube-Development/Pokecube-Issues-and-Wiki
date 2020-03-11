@@ -3,7 +3,7 @@ package pokecube.legends.init;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.LegendaryConditions;
-//import pokecube.legends.handlers.PortalSpawnHandler;
+// import pokecube.legends.handlers.PortalSpawnHandler;
 import pokecube.legends.handlers.WormHoleSpawnHandler;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -28,8 +28,6 @@ public class Config extends ConfigData
     @Configure(category = "ultraspace")
     public int     ticksPerPortalSpawn = 9000;
 
-    //private final PortalSpawnHandler   portals         = new PortalSpawnHandler();
-    private boolean                    portalReged     = false;
     private final WormHoleSpawnHandler wormholes       = new WormHoleSpawnHandler();
     private boolean                    wormholeReged   = false;
     private final LegendaryConditions  conditions      = new LegendaryConditions();
@@ -43,17 +41,6 @@ public class Config extends ConfigData
     @Override
     public void onUpdated()
     {
-        //if (this.enabledmirage && !this.portalReged)
-        //{
-        //    MinecraftForge.EVENT_BUS.register(this.portals);
-        //    this.portalReged = true;
-        //}
-        //else if (!this.enabledmirage && this.portalReged)
-        //{
-        //    MinecraftForge.EVENT_BUS.unregister(this.portals);
-        //    this.portalReged = false;
-        //}
-
         if (this.enabledportal && !this.wormholeReged)
         {
             MinecraftForge.EVENT_BUS.register(this.wormholes);

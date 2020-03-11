@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.feature.scattered.jigsaw;
+package pokecube.core.world.gen.jigsaw;
 
 import java.util.List;
 import java.util.Random;
@@ -20,7 +20,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawPool;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.SingleOffsetPiece;
+import pokecube.core.world.gen.jigsaw.JigsawPieces.SingleOffsetPiece;
 
 public class JigsawPatternCustom extends JigsawPattern
 {

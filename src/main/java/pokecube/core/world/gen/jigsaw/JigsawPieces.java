@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.feature.scattered.jigsaw;
+package pokecube.core.world.gen.jigsaw;
 
 import java.util.List;
 import java.util.Map;

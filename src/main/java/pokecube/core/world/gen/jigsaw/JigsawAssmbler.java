@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.feature.scattered.jigsaw;
+package pokecube.core.world.gen.jigsaw;
 
 import java.util.Collections;
 import java.util.Deque;
@@ -39,7 +39,7 @@ import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.SingleOffsetPiece;
+import pokecube.core.world.gen.jigsaw.JigsawPieces.SingleOffsetPiece;
 import thut.api.maths.Vector3;
 
 public class JigsawAssmbler
@@ -126,7 +126,8 @@ public class JigsawAssmbler
             pre.accept(this.root);
         }
 
-        if (this.root != null) if (this.root.jigsaw.water) this.SURFACE_TYPE = Type.OCEAN_FLOOR_WG;
+        if (this.root != null) if (this.root.jigsaw.water || this.root.jigsaw.air)
+            this.SURFACE_TYPE = Type.OCEAN_FLOOR_WG;
         else if (!this.root.jigsaw.surface) this.SURFACE_TYPE = null;
 
         final JigsawPiece jigsawpiece = jigsawpattern.getRandomPiece(rand);
@@ -137,6 +138,8 @@ public class JigsawAssmbler
         final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
         int k = default_k;
 
+        if (k == -1 && this.root != null && this.root.jigsaw.air) k = chunkGenerator.func_222532_b(i, j,
+                this.SURFACE_TYPE) + rand.nextInt(this.root.jigsaw.variance) + this.root.jigsaw.height;
         if (k == -1) if (this.SURFACE_TYPE != null) k = chunkGenerator.func_222532_b(i, j, this.SURFACE_TYPE);
         else
         {

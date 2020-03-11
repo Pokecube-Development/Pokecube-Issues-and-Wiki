@@ -22,11 +22,26 @@
       ]
     },
     {
+      "name":"pokecube_legends:mirage/base",
+      "rigid":false,
+      "options":[
+        "pokecube_legends:mirage/base"
+      ]
+    },
+    {
+      "name":"pokecube_legends:mirage",
+      "rigid":true,
+      "options":[
+        "pokecube_legends:mirage/miragespot"
+      ]
+    },
+    {
       "name":"pokecube_legends:temples/surface",
       "rigid":true,
       "ignoreAir":false,
       "options":[
         "pokecube_legends:temples/surface/space_temple;{\"spawn\":{\"values\":{\"category\":\"the_end\"}}}",
+        "pokecube_legends:temples/surface/portal_temple;{\"spawn\":{\"values\":{\"category\":\"the_end\"}}}",
         "pokecube_legends:temples/surface/celebi_temple;{\"spawn\":{\"values\":{\"typesBlacklist\":\"sparse,cold,dry,spooky\",\"category\":\"forest\"}}}",
         "pokecube_legends:temples/surface/hooh_tower;{\"spawn\":{\"values\":{\"category\":\"plains\"}}}",
         "pokecube_legends:temples/surface/zacian_temple;{\"spawn\":{\"values\":{\"category\":\"river\"}}}",
@@ -90,6 +105,19 @@
       "spawn":{
         "values":{
           "types":"all"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:mirage",
+      "root":"pokecube_legends:mirage/base",
+      "biomeType":"ruin",
+      "distance":24,
+      "separation":8,
+      "spawn":{
+        "values":{
+          "types":"all",
+          "categoryBlacklist":"ocean"
         }
       }
     }

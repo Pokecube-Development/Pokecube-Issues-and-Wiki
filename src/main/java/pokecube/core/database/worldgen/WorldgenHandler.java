@@ -34,9 +34,9 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawConfig;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawStructure;
+import pokecube.core.world.gen.jigsaw.JigsawConfig;
+import pokecube.core.world.gen.jigsaw.JigsawPieces;
+import pokecube.core.world.gen.jigsaw.JigsawStructure;
 
 public class WorldgenHandler
 {
@@ -136,6 +136,9 @@ public class WorldgenHandler
         public SpawnRule    spawn;
         public boolean      surface     = true;
         public boolean      water       = false;
+        public boolean      air         = false;
+        public int          height      = 16;
+        public int          variance    = 50;
         public boolean      atSpawn     = false;
         public List<String> needed_once = Lists.newArrayList();
 
