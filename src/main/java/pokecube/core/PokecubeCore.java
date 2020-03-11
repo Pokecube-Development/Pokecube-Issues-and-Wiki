@@ -86,7 +86,7 @@ import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.EntityProvider;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces;
+import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;

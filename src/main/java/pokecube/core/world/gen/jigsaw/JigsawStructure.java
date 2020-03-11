@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.feature.scattered.jigsaw;
+package pokecube.core.world.gen.jigsaw;
 
 import java.util.List;
 import java.util.Random;
@@ -28,8 +28,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.CustomJigsawPiece;
-import pokecube.core.world.gen.feature.scattered.jigsaw.JigsawPieces.SingleOffsetPiece;
+import pokecube.core.world.gen.jigsaw.JigsawPieces.CustomJigsawPiece;
+import pokecube.core.world.gen.jigsaw.JigsawPieces.SingleOffsetPiece;
 
 public class JigsawStructure extends ScatteredStructure<JigsawConfig>
 {

@@ -8,7 +8,7 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.Blocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -18,6 +18,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.legends.blocks.PortalWarp;
+import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import thut.api.maths.Vector3;
 
@@ -87,42 +89,36 @@ public class PortalActiveFunction
         return ret;
     }
 
-    public static void executeProcedure(final int x, final int y, final int z, final ServerWorld world)
+    public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerWorld world)
     {
-        if (!world.isRemote)
-        {
-            final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
-            final BlockPos pos = null;
-            final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
-            final Vector3 location = Vector3.getNewVector().set(pos);
-            // IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+        if (state.getBlock() != BlockInit.BLOCK_PORTALWARP) return;
 
-            // Normal Worlds
-            if (entity != null && !entityToSpawn.legendary && !entityToSpawn.isMega && entity.dimension
-                    .getId() != ModDimensions.DIMENSION_TYPE.getId())
-            {
-                entity.setHealth(entity.getMaxHealth());
-                location.add(0, 1, 0).moveEntity(entity);
-                entity.setPosition(x, y, z);
-                world.addEntity(entity);
-            }
+        final PokedexEntry entityToSpawn = PortalActiveFunction.getRandomEntry();
+        final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
+        final Vector3 v = Vector3.getNewVector().set(pos);
+        // IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
 
-            // Ultra Space
-            else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE
-                    .getId())
-            {
-                entity.setHealth(entity.getMaxHealth());
-                location.add(0, 1, 0).moveEntity(entity);
-                entity.setPosition(x, y, z);
-                world.addEntity(entity);
-            }
-        }
-        world.destroyBlock(new BlockPos((int) x, (int) y, (int) z), false);
-        if (world instanceof ServerWorld)
+        // Normal Worlds
+        if (entity != null && !entityToSpawn.legendary && !entityToSpawn.isMega && entity.dimension
+                .getId() != ModDimensions.DIMENSION_TYPE.getId())
         {
-            final ServerWorld sworld = world;
-            sworld.playSound(x, y, z, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
+            entity.setHealth(entity.getMaxHealth());
+            v.add(0, 1, 0).moveEntity(entity);
+            entity.setPosition(v.x, v.y, v.z);
+            world.addEntity(entity);
         }
+
+        // Ultra Space
+        else if (entity != null && !entityToSpawn.isMega && entity.dimension.getId() == ModDimensions.DIMENSION_TYPE
+                .getId())
+        {
+            entity.setHealth(entity.getMaxHealth());
+            v.add(0, 1, 0).moveEntity(entity);
+            entity.setPosition(v.x, v.y, v.z);
+            world.addEntity(entity);
+        }
+        world.setBlockState(pos, state.with(PortalWarp.ACTIVE, false));
+        world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.NEUTRAL, 1, 1, false);
 
     }
 }

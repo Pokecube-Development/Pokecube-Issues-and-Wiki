@@ -35,10 +35,7 @@ public class StructuresInit
 
     public void init(final FMLCommonSetupEvent event)
     { // 10.000 Chunk - spawnRate
-    	
-    	// Mirage Spot
-        this.MirageSpotSpawn(800, "miragespot", GenerationStage.Decoration.SURFACE_STRUCTURES);
-    	
+
         // Biome UB01
         this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 900, "ub01_1", "pokecube_legends:ub001",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
@@ -96,8 +93,8 @@ public class StructuresInit
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_COBBLES, 150, "ub04_2", "pokecube_legends:ub004",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
-        
-        //Extra
+
+        // Extra
         this.SpawnBuild(BlockInit.ULTRA_GRASSMUSS, 330, "crystal_base", "pokecube_legends:ub001",
                 GenerationStage.Decoration.SURFACE_STRUCTURES);
         this.SpawnBuild(BlockInit.ULTRA_GRASSJUN, 310, "crystal_base", "pokecube_legends:ub002",
@@ -155,47 +152,6 @@ public class StructuresInit
                     Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
         }
 
-    }
-    
-    public void MirageSpotSpawn(final int spawnRate, final String nameBuild, final GenerationStage.Decoration deco)
-    {
-        final Feature<NoFeatureConfig> feature = new Feature<NoFeatureConfig>(NoFeatureConfig::deserialize)
-        {
-            @Override
-            public boolean place(final IWorld iworld, final ChunkGenerator<?> generator, final Random random,
-                    final BlockPos pos, final NoFeatureConfig config)
-            {
-                int i = pos.getX();
-                int k = pos.getZ();
-                final DimensionType dimensionType = iworld.getDimension().getType();
-                boolean dimensionCriteria = false;
-                if (dimensionType == DimensionType.OVERWORLD) dimensionCriteria = true;
-                if (!dimensionCriteria) return false;
-                if (random.nextInt(10000) + 1 <= spawnRate)
-                {
-                    i += random.nextInt(16) + 8;
-                    k += random.nextInt(16) + 8;
-                    int j = iworld.getHeight(Heightmap.Type.WORLD_SURFACE, i, k);
-                    j -= 1;
-                    final Template template = ((ServerWorld) iworld.getWorld()).getSaveHandler()
-                            .getStructureTemplateManager().getTemplateDefaulted(new ResourceLocation(Reference.ID,
-                                    nameBuild));
-                    if (template == null) return false;
-                    final Rotation rotation = Rotation.values()[random.nextInt(3)];
-                    final Mirror mirror = Mirror.values()[random.nextInt(2)];
-                    final BlockPos spawnTo = new BlockPos(i, j - 1, k);
-                    template.addBlocksToWorldChunk(iworld, spawnTo, new PlacementSettings().addProcessor(
-                            PokecubeStructureProcessor.PROCESSOR).setRotation(rotation).setRandom(random).setMirror(
-                                    mirror).setChunk((ChunkPos) null).setIgnoreEntities(false));
-                    return true;
-                }
-                return false;
-            }
-        };
-        for (Biome biome : ForgeRegistries.BIOMES.getValues()) {
-			biome.addFeature(deco, Biome.createDecoratedFeature(feature, IFeatureConfig.NO_FEATURE_CONFIG, 
-					Placement.NOPE, IPlacementConfig.NO_PLACEMENT_CONFIG));
-		}
     }
 
     public void SpawnBuildFly(final Block blockPlace, final int spawnRate, final String nameBuild,

@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "#None": "pokecube_legends:blocks/portal1"
+            "#None": "pokecube_legends:blocks/portal_on"
         },
         "model": "minecraft:block/cube",
     	"custom": {
@@ -11,9 +11,28 @@
 	    }
      },
     "variants": {
-        "facing=east":  { "model": "pokecube_legends:item/portal.obj", "y":90 },
-        "facing=west":  { "model": "pokecube_legends:item/portal.obj", "y":270 },
-        "facing=south": { "model": "pokecube_legends:item/portal.obj", "y":180 },
-        "facing=north": { "model": "pokecube_legends:item/portal.obj", "y":0}
+        "facing=east,active=true":  { "model": "pokecube_legends:item/portal.obj", "y":90 },
+        "facing=west,active=true":  { "model": "pokecube_legends:item/portal.obj", "y":270 },
+        "facing=south,active=true": { "model": "pokecube_legends:item/portal.obj", "y":180 },
+        "facing=north,active=true": { "model": "pokecube_legends:item/portal.obj", "y":0},
+        "facing=east,active=false":{ 
+          "model": "pokecube_legends:item/portal.obj",
+          "y":90, 
+          "textures": {
+              "#None": "pokecube_legends:blocks/portal_off"
+          }
+        },
+        "facing=west,active=false":  { "model": "pokecube_legends:item/portal.obj", "y":270, 
+          "textures": {
+              "#None": "pokecube_legends:blocks/portal_off"
+          } },
+        "facing=south,active=false": { "model": "pokecube_legends:item/portal.obj", "y":180, 
+          "textures": {
+              "#None": "pokecube_legends:blocks/portal_off"
+          } },
+        "facing=north,active=false": { "model": "pokecube_legends:item/portal.obj", "y":0, 
+          "textures": {
+              "#None": "pokecube_legends:blocks/portal_off"
+          }}
     }
 }

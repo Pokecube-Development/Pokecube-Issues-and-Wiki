@@ -1,4 +1,4 @@
-package pokecube.core.world.gen.feature.scattered.jigsaw;
+package pokecube.core.world.gen.jigsaw;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.Dynamic;
