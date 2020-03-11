@@ -83,9 +83,11 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE)
     public int     dayCarePowerPerFuel = 256;
     @Configure(category = Config.MACHINE)
-    public int     dayCareTickRate     = 1;
+    public int     dayCareTickRate     = 20;
     @Configure(category = Config.MACHINE)
-    public String  dayCarePowerToExp   = "5";
+    public String  dayCarePowerPerExp  = "0.5";
+    @Configure(category = Config.MACHINE)
+    public String  dayCareExpFunction  = "n/10";
     @Configure(category = Config.MACHINE)
     public boolean dayCareBreedSpeedup = true;
     @Configure(category = Config.MACHINE)
@@ -112,7 +114,7 @@ public class Config extends ConfigData
         EnergyHandler.initParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
         WarppadTile.initParser(this.warpPadCostFunction);
-        DaycareTile.initParser(this.dayCarePowerToExp);
+        DaycareTile.initParser(this.dayCarePowerPerExp, this.dayCareExpFunction);
         AfaTile.initParser(this.afaCostFunction, this.afaCostFunctionShiny);
         this.dayCareTickRate = Math.max(1, this.dayCareTickRate);
     }
