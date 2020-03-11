@@ -104,14 +104,14 @@ public class WearableEventHandler
             IWearable wear = evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null) wear = (IWearable) evt.getItemStack().getItem();
             final EnumWearable slot = wear.getSlot(evt.getItemStack());
-            String key = I18n.format(this.keys[slot.index].getTranslationKey());
+            String key = I18n.format(this.keys[slot.index].getLocalizedName());
             String message = "";
             switch (slot.slots)
             {
             case 2:
                 message = I18n.format("wearables.keyuse.left", key);
                 evt.getToolTip().add(new StringTextComponent(message));
-                key = I18n.format(this.keys[slot.index + 1].getTranslationKey());
+                key = I18n.format(this.keys[slot.index + 1].getLocalizedName());
                 message = I18n.format("wearables.keyuse.right", key);
                 evt.getToolTip().add(new StringTextComponent(message));
                 break;

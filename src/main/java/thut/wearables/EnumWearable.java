@@ -8,6 +8,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 
 public enum EnumWearable
 {
@@ -62,7 +64,12 @@ public enum EnumWearable
             public void onInteract(final LivingEntity player, final ItemStack itemstack, final EnumWearable slot,
                     final int subIndex, final ItemUseContext context)
             {
-                if (!itemstack.isEmpty()) itemstack.getItem().onItemUse(context);
+                if (!itemstack.isEmpty())
+                {
+                    final ActionResultType result = itemstack.getItem().onItemUse(context);
+                    if (result == ActionResultType.PASS && player instanceof PlayerEntity) itemstack.useItemRightClick(
+                            player.getEntityWorld(), (PlayerEntity) player, Hand.MAIN_HAND);
+                }
             }
 
             @Override
