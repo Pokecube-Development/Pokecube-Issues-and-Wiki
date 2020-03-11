@@ -363,6 +363,7 @@ public class AnimationGui extends Screen
     public void render(final int unk1, final int unk2, final float partialTicks)
     {
         if (this.bg) AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
+        super.render(unk1, unk2, partialTicks);
 
         final int yOffset = this.height / 2;
         this.font.drawString("State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
