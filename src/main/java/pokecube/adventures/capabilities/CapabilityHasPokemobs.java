@@ -2,9 +2,11 @@ package pokecube.adventures.capabilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
@@ -17,6 +19,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -63,46 +66,101 @@ public class CapabilityHasPokemobs
                 return new DefeatEntry(defeater, time);
             }
 
-            final String defeater;
-            long         defeatTime;
+            final String id;
+            long         time;
 
             public DefeatEntry(final String defeater, final long time)
             {
-                this.defeater = defeater;
-                this.defeatTime = time;
+                this.id = defeater;
+                this.time = time;
             }
 
             @Override
             public int compareTo(final DefeatEntry o)
             {
-                return this.defeater.compareTo(o.defeater);
+                return this.id.compareTo(o.id);
             }
 
             @Override
             public boolean equals(final Object other)
             {
-                if (other instanceof DefeatEntry) return ((DefeatEntry) other).defeater.equals(this.defeater);
+                if (other instanceof DefeatEntry) return ((DefeatEntry) other).id.equals(this.id);
                 return false;
             }
 
             @Override
             public int hashCode()
             {
-                return this.defeater.hashCode();
+                return this.id.hashCode();
             }
 
             void writeToNBT(final CompoundNBT nbt)
             {
-                nbt.putString("player", this.defeater);
-                nbt.putLong("time", this.defeatTime);
+                nbt.putString("name", this.id);
+                nbt.putLong("time", this.time);
+            }
+        }
+
+        public static class DefeatList
+        {
+            private final ArrayList<DefeatEntry>   values = new ArrayList<>();
+            private final Map<String, DefeatEntry> map    = Maps.newHashMap();
+
+            public void clear()
+            {
+                this.values.clear();
+                this.map.clear();
+            }
+
+            public boolean isValid(final Entity in, final long resetTime)
+            {
+                if (in == null) return false;
+                if (!this.map.containsKey(in.getCachedUniqueIdString())) return false;
+                // If this is the case, then this mob is not re-battleable.
+                if (resetTime <= 0) return true;
+                final DefeatEntry s = this.map.get(in.getCachedUniqueIdString());
+                // Otherwise check the diff.
+                final long diff = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime() - s.time;
+                if (diff > resetTime) return false;
+                return true;
+            }
+
+            public void validate(final Entity in)
+            {
+                if (in == null) return;
+                final DefeatEntry s = this.map.getOrDefault(in.getCachedUniqueIdString(), new DefeatEntry(in
+                        .getCachedUniqueIdString(), 0));
+                s.time = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                this.map.put(in.getCachedUniqueIdString(), s);
+            }
+
+            public void load(final ListNBT list)
+            {
+                this.clear();
+                for (int i = 0; i < list.size(); i++)
+                    this.values.add(DefeatEntry.createFromNBT(list.getCompound(i)));
+                this.values.forEach(d -> this.map.put(d.id, d));
+            }
+
+            public ListNBT save()
+            {
+                final ListNBT list = new ListNBT();
+                for (final DefeatEntry entry : this.values)
+                {
+                    final CompoundNBT CompoundNBT = new CompoundNBT();
+                    entry.writeToNBT(CompoundNBT);
+                    list.add(CompoundNBT);
+                }
+                return list;
             }
         }
 
         private final LazyOptional<IHasPokemobs> cap_holder = LazyOptional.of(() -> this);
 
-        public long                   resetTime        = 0;
-        public int                    friendlyCooldown = 0;
-        public ArrayList<DefeatEntry> defeaters        = new ArrayList<>();
+        public long       resetTime        = 0;
+        public int        friendlyCooldown = 0;
+        public DefeatList defeated         = new DefeatList();
+        public DefeatList defeatedBy       = new DefeatList();
 
         // Should the client be notified of the defeat via a packet?
         public boolean notifyDefeat = false;
@@ -147,8 +205,8 @@ public class CapabilityHasPokemobs
         public boolean canBattle(final LivingEntity target)
         {
             final IHasPokemobs trainer = CapabilityHasPokemobs.getHasPokemobs(target);
-            if (trainer != null && trainer.getTarget() != null && trainer.getTarget() != this.user) return false;
-            return !this.hasDefeated(target);
+            if (trainer != null && trainer.getTarget() != null && trainer.getTarget() != target) return false;
+            return !this.defeatedBy(target) && !this.defeated(target);
         }
 
         @Override
@@ -186,13 +244,18 @@ public class CapabilityHasPokemobs
             if (nbt.contains("battleCD")) this.battleCooldown = nbt.getInt("battleCD");
             if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
 
-            this.defeaters.clear();
+            this.defeated.clear();
+            this.defeatedBy.clear();
             if (nbt.contains("resetTime")) this.resetTime = nbt.getLong("resetTime");
-            if (nbt.contains("DefeatList", 9))
+            if (nbt.contains("defeated", 9))
             {
-                final ListNBT ListNBT = nbt.getList("DefeatList", 10);
-                for (int i = 0; i < ListNBT.size(); i++)
-                    this.defeaters.add(DefeatEntry.createFromNBT(ListNBT.getCompound(i)));
+                final ListNBT list = nbt.getList("defeated", 10);
+                this.defeated.load(list);
+            }
+            if (nbt.contains("defeatedBy", 9))
+            {
+                final ListNBT list = nbt.getList("defeatedBy", 10);
+                this.defeatedBy.load(list);
             }
             this.notifyDefeat = nbt.getBoolean("notifyDefeat");
             this.friendlyCooldown = nbt.getInt("friendly");
@@ -306,21 +369,14 @@ public class CapabilityHasPokemobs
             return this.type;
         }
 
-        public boolean hasDefeated(final Entity e)
+        public boolean defeated(final Entity e)
         {
-            if (e == null) return false;
-            final String name = e.getCachedUniqueIdString();
-            for (final DefeatEntry s : this.defeaters)
-                if (s.defeater.equals(name))
-                {
-                    // If this is the case, then this mob is not re-battleable.
-                    if (this.resetTime <= 0) return true;
-                    // Otherwise check the diff.
-                    final long diff = this.user.getEntityWorld().getGameTime() - s.defeatTime;
-                    if (diff > this.resetTime) return false;
-                    return true;
-                }
-            return false;
+            return this.defeated.isValid(e, this.resetTime);
+        }
+
+        public boolean defeatedBy(final Entity e)
+        {
+            return this.defeatedBy.isValid(e, this.resetTime);
         }
 
         public void init(final LivingEntity user, final IHasNPCAIStates aiStates, final IHasMessages messages,
@@ -372,58 +428,60 @@ public class CapabilityHasPokemobs
             if (this.getOutMob() == null && !this.aiStates.getAIState(IHasNPCAIStates.THROWING)) if (this
                     .getCooldown() <= this.user.getEntityWorld().getGameTime())
             {
-                this.onDefeated(this.getTarget());
+                this.onLose(this.getTarget());
                 this.setNextSlot(0);
             }
         }
 
         @Override
-        public void onDefeated(final Entity defeater)
+        public void onWin(final Entity lost)
         {
-            final IHasPokemobs defeatingTrainer = CapabilityHasPokemobs.getHasPokemobs(defeater);
+            // Only store for players
+            if (lost instanceof PlayerEntity) this.defeated.validate(lost);
+        }
+
+        @Override
+        public void onLose(final Entity won)
+        {
+            final IHasPokemobs defeatingTrainer = CapabilityHasPokemobs.getHasPokemobs(won);
             // If we were defeated by another trainer, lets forget about the
             // battle.
-            if (defeatingTrainer != null) defeatingTrainer.setTarget(null);
+            if (defeatingTrainer != null)
+            {
+                defeatingTrainer.setTarget(null);
+                defeatingTrainer.onWin(this.user);
+            }
 
             // Get this cleanup stuff done first.
-            if (defeater instanceof PlayerEntity) this.setCooldown(this.user.getEntityWorld().getGameTime()
-                    + this.battleCooldown);
-            else this.setCooldown(this.user.getEntityWorld().getGameTime() + 10);
+            this.setCooldown(this.user.getEntityWorld().getGameTime() + 10);
             this.setTarget(null);
 
             // Then parse if rewards and actions should be dealt with.
-            final boolean reward = !(this.hasDefeated(defeater) || !this.user.isAlive() || this.user.getHealth() <= 0);
+            final boolean reward = !(this.defeatedBy(won) || !this.user.isAlive() || this.user.getHealth() <= 0);
 
             // TODO possible have alternate message for invalid defeat?
             if (!reward) return;
 
-            if (defeater instanceof PlayerEntity)
+            // Only store for players
+            if (won instanceof PlayerEntity) this.defeatedBy.validate(won);
+
+            if (won instanceof PlayerEntity) if (this.rewards.getRewards() != null)
             {
-                final DefeatEntry entry = new DefeatEntry(defeater.getCachedUniqueIdString(), this.user.getEntityWorld()
-                        .getGameTime());
-                if (this.defeaters.contains(entry)) this.defeaters.get(this.defeaters.indexOf(
-                        entry)).defeatTime = entry.defeatTime;
-                else this.defeaters.add(entry);
-                if (this.rewards.getRewards() != null)
-                {
-                    final PlayerEntity player = (PlayerEntity) defeater;
-                    this.rewards.giveReward(player, this.user);
-                    this.checkDefeatAchievement(player);
-                }
+                final PlayerEntity player = (PlayerEntity) won;
+                this.rewards.giveReward(player, this.user);
+                this.checkDefeatAchievement(player);
             }
-            if (defeater != null)
+            if (won != null)
             {
-                this.messages.sendMessage(MessageState.DEFEAT, defeater, this.user.getDisplayName(), defeater
-                        .getDisplayName());
-                if (this.notifyDefeat && defeater instanceof ServerPlayerEntity)
+                this.messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());
+                if (this.notifyDefeat && won instanceof ServerPlayerEntity)
                 {
                     final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
                     packet.data.putInt("I", this.user.getEntityId());
                     packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTime);
-                    PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) defeater);
+                    PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) won);
                 }
-                if (defeater instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT,
-                        (LivingEntity) defeater);
+                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won);
             }
         }
 
@@ -437,7 +495,8 @@ public class CapabilityHasPokemobs
         @Override
         public void resetDefeatList()
         {
-            this.defeaters.clear();
+            this.defeated.clear();
+            this.defeatedBy.clear();
         }
 
         @Override
@@ -457,7 +516,7 @@ public class CapabilityHasPokemobs
         public CompoundNBT serializeNBT()
         {
             final CompoundNBT nbt = new CompoundNBT();
-            ListNBT ListNBT = new ListNBT();
+            final ListNBT ListNBT = new ListNBT();
             for (int index = 0; index < this.getMaxPokemobCount(); index++)
             {
                 final ItemStack i = this.getPokemob(index);
@@ -475,14 +534,8 @@ public class CapabilityHasPokemobs
 
             if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
             nbt.putInt("battleCD", this.battleCooldown);
-            ListNBT = new ListNBT();
-            for (final DefeatEntry entry : this.defeaters)
-            {
-                final CompoundNBT CompoundNBT = new CompoundNBT();
-                entry.writeToNBT(CompoundNBT);
-                ListNBT.add(CompoundNBT);
-            }
-            nbt.put("DefeatList", ListNBT);
+            nbt.put("defeated", this.defeated.save());
+            nbt.put("defeatedBy", this.defeatedBy.save());
             nbt.putBoolean("notifyDefeat", this.notifyDefeat);
             nbt.putLong("resetTime", this.resetTime);
             if (this.sight != -1) nbt.putInt("sight", this.sight);
@@ -827,7 +880,9 @@ public class CapabilityHasPokemobs
 
         void onAddMob();
 
-        void onDefeated(Entity defeater);
+        void onLose(Entity won);
+
+        void onWin(Entity lost);
 
         default void removeTargetWatcher(final ITargetWatcher watcher)
         {

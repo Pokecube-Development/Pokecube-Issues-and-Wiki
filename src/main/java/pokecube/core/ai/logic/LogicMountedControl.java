@@ -50,6 +50,7 @@ public class LogicMountedControl extends LogicBase
     public void tick(final World world)
     {
         final Entity rider = this.entity.getControllingPassenger();
+        this.entity.stepHeight = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
         if (rider == null) return;
         final Config config = PokecubeCore.getConfig();

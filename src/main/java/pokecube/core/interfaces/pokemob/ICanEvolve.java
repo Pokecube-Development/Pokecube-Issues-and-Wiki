@@ -43,38 +43,6 @@ import thut.core.common.network.EntityUpdate;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
 {
-    /** Used to allow the pokemob to evolve over a few ticks */
-    static class EvoTicker
-    {
-        /** take 10 ticks to evolve to give time to clean things up first. */
-        int                tick = 10;
-        /** Who we are evolving to. */
-        final LivingEntity evo;
-        /** UUID to evolve into. */
-        final UUID         id;
-
-        public EvoTicker(final LivingEntity evolution, final UUID id)
-        {
-            this.evo = evolution;
-            this.id = id;
-            MinecraftForge.EVENT_BUS.register(this);
-        }
-
-        @SubscribeEvent
-        public void tick(final WorldTickEvent evt)
-        {
-            if (evt.world != this.evo.getEntityWorld() || evt.phase != Phase.END || evt.world.isRemote()) return;
-            final ServerWorld world = (ServerWorld) evt.world;
-            final boolean exists = world.getEntityByUuid(this.id) != null;
-            if (!exists && this.tick-- <= 0)
-            {
-                this.evo.setUniqueId(this.id);
-                EntityUpdate.sendEntityUpdate(this.evo);
-                MinecraftForge.EVENT_BUS.unregister(this);
-            }
-        }
-    }
-
     /** Simlar to EvoTicker, but for more general form changing. */
     static class MegaEvoTicker
     {
@@ -519,12 +487,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Schedule adding to world.
             if (!evt.isCanceled() && thisEntity.addedToChunk)
             {
-                // Remove old mob
-                thisEntity.remove();
-
-                // Add new mob
-                evolution.getEntityWorld().addEntity(evolution);
-
+                final ServerWorld world = (ServerWorld) thisEntity.getEntityWorld();
                 // Remount riders on the new mob.
                 final List<Entity> riders = thisEntity.getPassengers();
                 for (final Entity e : riders)
@@ -532,8 +495,12 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     e.stopRiding();
                     e.startRiding(evolution);
                 }
+                // Remove old mob
+                world.removeEntity(thisEntity);
+                evolution.setUniqueId(thisEntity.getUniqueID());
+                // Add new mob
+                evolution.getEntityWorld().addEntity(evolution);
 
-                new EvoTicker(evolution, thisEntity.getUniqueID());
                 EntityUpdate.sendEntityUpdate(evolution);
             }
         }

@@ -7,14 +7,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -33,11 +35,11 @@ public class PortalWarp extends Rotates
     }
 
     // time for spawn
-    @Override
-    public int tickRate(final IWorldReader world)
-    {
-        return 600;
-    }
+    //@Override
+    //public int tickRate(final IWorldReader world)
+    //{
+    //    return 600;
+    //}
 
     @Override
     public BlockBase setInfoBlockName(final String infoname)
@@ -66,19 +68,35 @@ public class PortalWarp extends Rotates
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
+    public boolean onBlockActivated(final BlockState state,final World worldIn,final BlockPos pos,final PlayerEntity entity,final Hand hand,final BlockRayTraceResult hit)
     {
-        final int x = pos.getX();
-        final int y = pos.getY();
-        final int z = pos.getZ();
-        if (worldIn instanceof ServerWorld) PortalActiveFunction.executeProcedure(x, y, z, (ServerWorld) worldIn);
+    	boolean retval = super.onBlockActivated(state, worldIn, pos, entity, hand, hit);
+    	Direction direction = hit.getFace();
+		{
+	        final int x = pos.getX();
+	        final int y = pos.getY();
+	        final int z = pos.getZ();
+	        if (worldIn instanceof ServerWorld) PortalActiveFunction.executeProcedure(x, y, z, (ServerWorld) worldIn);
+		}
+		return true;
     }
 
     @OnlyIn(Dist.CLIENT)
-    @Override
-    public void animateTick(final BlockState stateIn, final World world, final BlockPos pos, final Random random)
-    {
-        if (random.nextInt(100) == 0) world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                SoundEvents.AMBIENT_CAVE, SoundCategory.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
-    }
+	@Override
+	public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
+		super.animateTick(state, world, pos, random);
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		if (true)
+			for (int l = 0; l < 4; ++l) {
+				double d0 = (x + random.nextFloat());
+				double d1 = (y + random.nextFloat());
+				double d2 = (z + random.nextFloat());
+				double d3 = (random.nextFloat() - 0.5D) * 0.6000000014901161D;
+				double d4 = (random.nextFloat() - 0.5D) * 0.6000000014901161D;
+				double d5 = (random.nextFloat() - 0.5D) * 0.6000000014901161D;
+				world.addParticle(ParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
+			}
+	}
 }

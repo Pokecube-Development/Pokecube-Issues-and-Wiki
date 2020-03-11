@@ -1,6 +1,6 @@
 {
     "variants": {
-        "age=0": { "model": "pokecube:block/berrycrop"},
+        "age=0": { "model": "pokecube:block/crop_hondew_0"},
         "age=1": { "model": "pokecube:block/crop_hondew_1"},
         "age=2": { "model": "pokecube:block/crop_hondew_2"},
         "age=3": { "model": "pokecube:block/crop_hondew_3"},

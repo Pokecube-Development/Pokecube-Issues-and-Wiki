@@ -87,10 +87,11 @@ public class PacketChangeForme extends Packet
         // Check dynamax/gigantamax first.
         final ForbidReason reason = SpawnHandler.getNoSpawnReason(world, pos);
 
+        boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
+        boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX);
         if (reason == MaxTile.MAXSPOT)
         {
-            boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
-            final boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX) || entry.isMega;
+            isDyna = isDyna || entry.isMega;
             PokedexEntry newEntry = entry.isMega ? entry.getBaseForme() : entry;
 
             if (gigant && !isDyna)
@@ -132,7 +133,24 @@ public class PacketChangeForme extends Packet
             }
         }
 
-        PokedexEntry newEntry = pokemob.getPokedexEntry().getEvo(pokemob);
+        PokedexEntry newEntry = entry.isMega ? entry.getBaseForme() : entry;
+        if (gigant && !isDyna)
+        {
+            newEntry = Database.getEntry(newEntry.getTrimmedName() + "_gigantamax");
+            if (newEntry == null) gigant = false;
+        }
+        if (isDyna || gigant)
+        {
+            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.revert", "green",
+                    oldName);
+            pokemob.displayMessageToOwner(mess);
+            pokemob.setCombatState(CombatStates.MEGAFORME, false);
+            mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.revert", "green", oldName);
+            ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
+            return;
+        }
+
+        newEntry = pokemob.getPokedexEntry().getEvo(pokemob);
         if (newEntry != null && newEntry.getPokedexNb() == pokemob.getPokedexEntry().getPokedexNb())
         {
             if (pokemob.getPokedexEntry() == newEntry)

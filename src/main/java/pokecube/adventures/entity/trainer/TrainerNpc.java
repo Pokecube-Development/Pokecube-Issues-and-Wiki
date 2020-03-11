@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs.DefeatEntry;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -149,14 +148,17 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         this.setTypes();
         if (nbt.contains("DefeatList"))
         {
-            this.pokemobsCap.defeaters.clear();
             this.pokemobsCap.setGender((byte) (nbt.getBoolean("gender") ? 1 : 2));
             if (nbt.contains("resetTime")) this.pokemobsCap.resetTime = nbt.getLong("resetTime");
-            if (nbt.contains("DefeatList", 9))
+            if (nbt.contains("defeated", 9))
             {
-                final ListNBT ListNBT = nbt.getList("DefeatList", 10);
-                for (int i = 0; i < ListNBT.size(); i++)
-                    this.pokemobsCap.defeaters.add(DefeatEntry.createFromNBT(ListNBT.getCompound(i)));
+                final ListNBT list = nbt.getList("defeated", 10);
+                this.pokemobsCap.defeated.load(list);
+            }
+            if (nbt.contains("defeatedBy", 9))
+            {
+                final ListNBT list = nbt.getList("defeatedBy", 10);
+                this.pokemobsCap.defeatedBy.load(list);
             }
             this.pokemobsCap.notifyDefeat = nbt.getBoolean("notifyDefeat");
         }

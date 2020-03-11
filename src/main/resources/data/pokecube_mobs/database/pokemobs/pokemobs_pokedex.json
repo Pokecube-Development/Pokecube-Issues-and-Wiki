@@ -18108,6 +18108,18 @@
       "name": "Heracross",
       "number": 214,
       "base": true,
+	  "female_model": {
+        "key": "heracross_female",
+        "tex": "heracross",
+        "model": "heracross_female",
+        "anim": "heracross_female"
+      },
+      "male_model": {
+        "key": "heracross_male",
+        "tex": "heracross",
+        "model": "heracross_male",
+        "anim": "heracross_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -69462,6 +69474,12 @@
       "name": "Sinistea",
       "number": 854,
       "base": true,
+	  "model": {
+        "key": "sinistea_nofake",
+        "tex": "sinistea",
+        "model": "sinistea_nofake",
+        "anim": "sinistea_nofake"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -69531,13 +69549,15 @@
       }
     },
     {
-      "name": "Sinistea Forgery",
-      "number": 854
-    },
-    {
       "name": "Polteageist",
       "number": 855,
       "base": true,
+	  "model": {
+        "key": "polteageist_nofake",
+        "tex": "polteageist",
+        "model": "polteageist_nofake",
+        "anim": "polteageist_nofake"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -69605,10 +69625,6 @@
         },
         "evolutionMoves": "teatime"
       }
-    },
-    {
-      "name": "Polteageist Forgery",
-      "number": 855
     },
     {
       "name": "Hatenna",

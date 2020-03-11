@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" scale="0.3"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <customTex default="vivillonend">
+  </customTex>
+  <phase type="idle">
+   <part name="ant1">
+    <component length="9" name="1" rotChange="1,0,0," startKey="0"/>
+    <component length="9" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="ant2">
+    <component length="9" name="1" rotChange="1,0,0," startKey="0"/>
+    <component length="9" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="15,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="15,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="-25,0,20" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="leg2">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="-25,0,-20" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="wing1">
+    <component length="10" name="1" rotOffset="0,50,0" startKey="0"/>
+   </part>
+   <part name="wing1_2">
+    <component length="10" name="1" rotOffset="0,50,0" startKey="0"/>
+   </part>
+   <part name="wing1_001">
+    <component length="10" name="1" rotOffset="0,-50,0" startKey="0"/>
+   </part>
+   <part name="wing2_2">
+    <component length="10" name="1" rotOffset="0,-50,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="ant1">
+    <component length="9" name="1" rotChange="1,0,0," startKey="0"/>
+    <component length="9" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="head">
+    <component length="10" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" rotOffset="60,0,0" startKey="0"/>
+   </part>
+   <part name="ant2">
+    <component length="9" name="1" rotChange="1,0,0," startKey="0"/>
+    <component length="9" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="15,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="15,0,0" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="-25,0,20" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="leg2">
+    <component length="9" name="1" rotChange="2,0,0," rotOffset="-25,0,-20" startKey="0"/>
+    <component length="9" name="2" rotChange="-2,0,0," startKey="10"/>
+   </part>
+   <part name="wing1">
+    <component length="3" name="1" rotOffset="0,30,0" rotChange="0,12,0," startKey="0"/>
+    <component length="3" name="2" rotChange="0,-24,0," startKey="5"/>
+    <component length="3" name="3" rotChange="0,12,0," startKey="10"/>
+   </part>
+   <part name="wing1_2">
+    <component length="9" name="1" rotOffset="0,30,0" rotChange="0,-19,0," startKey="0"/>
+    <component length="9" name="2" rotChange="0,19,0," startKey="10"/>
+   </part>
+   <part name="wing1_001">
+    <component length="3" name="1" rotOffset="0,-30,0" rotChange="0,-12,0," startKey="0"/>
+    <component length="3" name="2" rotChange="0,24,0," startKey="5"/>
+    <component length="3" name="3" rotChange="0,-12,0," startKey="10"/>
+   </part>
+   <part name="wing2_2">
+    <component length="9" name="1" rotOffset="0,-30,0" rotChange="0,19,0," startKey="0"/>
+    <component length="9" name="2" rotChange="0,-19,0," startKey="10"/>
+   </part>
+  </phase>
+ </model>
+ <Pokemon base="true" name="Vivillon" number="666"/>
+ <Pokemon name="Vivillon Sun" number="666"/>
+ <Pokemon name="Vivillon Ocean" number="666"/>
+ <Pokemon name="Vivillon Elegant" number="666"/>
+ <Pokemon name="Vivillon Hell" number="666"/>
+ <Pokemon name="Vivillon End" number="666"/>
+ <Pokemon name="Vivillon Highplains" number="666"/>
+ <Pokemon name="Vivillon IcySnow" number="666"/>
+ <Pokemon name="Vivillon Modern" number="666"/>
+ <Pokemon name="Vivillon Monsoon" number="666"/>
+ <Pokemon name="Vivillon Polar" number="666"/>
+ <Pokemon name="Vivillon Sandstorm" number="666"/>
+</ModelAnimator>

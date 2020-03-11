@@ -8919,9 +8919,26 @@
       "name": "Spewpa",
       "stats": {
         "evolutions": [
-          {
-            "name": "Vivillon Elegant",
+		{
+            "name": "Vivillon",
             "level": 12,
+            "model": {
+              "key": "vivillon_de",
+              "tex": "vivillon_de",
+              "model": "vivillon_de",
+              "anim": "vivillon_de"
+            }
+          },
+          {
+            "name": "Vivillon",
+            "level": 12,
+			"form_from": "vivillon_el",
+            "model": {
+              "key": "vivillon_el",
+              "tex": "vivillon_el",
+              "model": "vivillon_el",
+              "anim": "vivillon_el"
+            },
             "location": {
               "values": {
                 "typesBlacklist": "cold,hot,mountain",
@@ -8930,8 +8947,14 @@
             }
           },
           {
-            "name": "Vivillon Ocean",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_oc",
+              "tex": "vivillon_oc",
+              "model": "vivillon_oc",
+              "anim": "vivillon_oc"
+            },
             "location": {
               "values": {
                 "typesBlacklist": "cold",
@@ -8940,8 +8963,14 @@
             }
           },
           {
-            "name": "Vivillon Sandstorm",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_sa",
+              "tex": "vivillon_sa",
+              "model": "vivillon_sa",
+              "anim": "vivillon_sa"
+            },
             "location": {
               "values": {
                 "types": "sandy"
@@ -8949,8 +8978,14 @@
             }
           },
           {
-            "name": "Vivillon Hell",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_he",
+              "tex": "vivillon_he",
+              "model": "vivillon_he",
+              "anim": "vivillon_he"
+            },
             "location": {
               "values": {
                 "types": "nether"
@@ -8958,8 +8993,14 @@
             }
           },
           {
-            "name": "Vivillon End",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_en",
+              "tex": "vivillon_en",
+              "model": "vivillon_en",
+              "anim": "vivillon_en"
+            },
             "location": {
               "values": {
                 "types": "end"
@@ -8967,8 +9008,14 @@
             }
           },
           {
-            "name": "Vivillon Polar",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_po",
+              "tex": "vivillon_po",
+              "model": "vivillon_po",
+              "anim": "vivillon_po"
+            },
             "location": {
               "values": {
                 "biomes": "iceplainsspikes"
@@ -8976,8 +9023,14 @@
             }
           },
           {
-            "name": "Vivillon IcySnow",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_ic",
+              "tex": "vivillon_ic",
+              "model": "vivillon_ic",
+              "anim": "vivillon_ic"
+            },
             "location": {
               "values": {
                 "types": "cold"
@@ -8985,8 +9038,14 @@
             }
           },
           {
-            "name": "Vivillon Monsoon",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_mon",
+              "tex": "vivillon_mon",
+              "model": "vivillon_mon",
+              "anim": "vivillon_mon"
+            },
             "location": {
               "values": {
                 "anyType": "swamp,jungle"
@@ -8994,8 +9053,14 @@
             }
           },
           {
-            "name": "Vivillon Sun",
+            "name": "Vivillon",
             "level": 12,
+			"model": {
+              "key": "vivillon_su",
+              "tex": "vivillon_su",
+              "model": "vivillon_su",
+              "anim": "vivillon_su"
+            },
             "location": {
               "values": {
                 "types": "savanna"
@@ -9005,24 +9070,17 @@
           {
             "name": "Vivillon Modern",
             "level": 12,
+			"model": {
+              "key": "vivillon_mod",
+              "tex": "vivillon_mod",
+              "model": "vivillon_mod",
+              "anim": "vivillon_mod"
+            },
             "location": {
               "values": {
                 "types": "village"
               }
             }
-          },
-          {
-            "name": "Vivillon Highplains",
-            "level": 12,
-            "location": {
-              "values": {
-                "types": "mountain"
-              }
-            }
-          },
-          {
-            "name": "Vivillon",
-            "level": 12
           }
         ],
         "species": "Insecta"
@@ -11090,28 +11148,26 @@
           {
             "name": "Polteageist",
             "item_preset": "chippedpot",
-            "animation": "18"
-          }
-        ],
-        "species": "Fish"
-      }
-    },
-    {
-      "name": "Sinistea Forgery",
-      "stats": {
-        "evolutions": [
-          {
-            "name": "Polteageist Forgery",
+			"form_from": "sinistea_nofake",
+            "model": {
+              "key": "polteageist_nofake",
+              "tex": "polteageist",
+              "model": "polteageist_nofake",
+              "anim": "polteageist"
+            }
+          },
+		  {
+            "name": "Polteageist",
             "item_preset": "crackedpot",
-            "animation": "18"
+			"form_from": "sinistea_fake",
+            "model": {
+              "key": "polteageist_fake",
+              "tex": "polteageist",
+              "model": "polteageist_fake",
+              "anim": "polteageist"
+            }
           }
         ],
-        "species": "Fish"
-      }
-    },
-    {
-      "name": "Polteageist Forgery",
-      "stats": {
         "species": "Object"
       }
     },
