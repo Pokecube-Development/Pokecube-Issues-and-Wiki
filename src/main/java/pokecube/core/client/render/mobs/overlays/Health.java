@@ -15,27 +15,21 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.Quaternion;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.StatsCollector;
@@ -72,12 +66,12 @@ public class Health
         builder.alpha(new RenderState.AlphaState(0.003921569F));
         builder.cull(new RenderState.CullState(false));
         builder.depthTest(new RenderState.DepthTestState(515));
-        
+
         final RenderType.State rendertype$state = builder.build(false);
         TYPE = RenderType.get("pokecube:mob_health_tag", DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, true,
                 false, rendertype$state);
     }
-    
+
     static boolean        blend;
     static boolean        normalize;
     static boolean        lighting;
@@ -330,40 +324,13 @@ public class Health
     {
         try
         {
-            TextureManager manager = Minecraft.getInstance().getTextureManager();
-            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            RenderSystem.pushMatrix();
-            manager.bindTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
-            manager.getTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE).setBlurMipmapDirect(false, false);
-            RenderSystem.enableRescaleNormal();
-            RenderSystem.enableAlphaTest();
-            RenderSystem.defaultAlphaFunc();
-            RenderSystem.enableBlend();
-            IBakedModel bakedmodel = itemRenderer.getItemModelWithOverrides(stack, (World) null, (LivingEntity) null);
-
-            // MatrixStack matrixstack = new MatrixStack();
-            boolean flag = !bakedmodel.func_230044_c_();
-            if (flag)
-            {
-                RenderHelper.setupGuiFlatDiffuseLighting();
-            }
-            // itemRenderer.renderItem(stack,
-            // net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI,
-            // false, matrixstack, buf, 15728880, OverlayTexture.DEFAULT_LIGHT,
-            // bakedmodel);
-            Minecraft.getInstance().getFirstPersonRenderer().renderItemSide(mob, stack,
-                    net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GROUND, false, mat, buf,
-                    OverlayTexture.DEFAULT_LIGHT);
-
-            RenderSystem.enableDepthTest();
-            if (flag)
-            {
-                RenderHelper.setupGui3DDiffuseLighting();
-            }
-
-            RenderSystem.disableAlphaTest();
-            RenderSystem.disableRescaleNormal();
-            RenderSystem.popMatrix();
+            mat.push();
+            mat.translate(vertexX, vertexY + 7, 0);
+            mat.scale(20, -20, 1);
+            Minecraft.getInstance().getItemRenderer().renderItem(mob, stack,
+                    net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, mat, buf,
+                    mob.getEntityWorld(), 15728880, OverlayTexture.DEFAULT_LIGHT);
+            mat.pop();
 
         }
         catch (final Exception e)
