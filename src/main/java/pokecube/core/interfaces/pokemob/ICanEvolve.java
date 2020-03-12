@@ -43,6 +43,47 @@ import thut.core.common.network.EntityUpdate;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
 {
+    static class EvoTicker
+    {
+        final LivingEntity thisEntity;
+        final LivingEntity evolution;
+        final World        world;
+
+        public EvoTicker(final LivingEntity thisEntity, final LivingEntity evolution)
+        {
+            this.thisEntity = thisEntity;
+            this.evolution = evolution;
+            this.world = thisEntity.getEntityWorld();
+            MinecraftForge.EVENT_BUS.register(this);
+        }
+
+        @SubscribeEvent
+        public void tick(final WorldTickEvent evt)
+        {
+            if (evt.world != this.world || evt.phase != Phase.END) return;
+            MinecraftForge.EVENT_BUS.unregister(this);
+            final ServerWorld world = (ServerWorld) this.thisEntity.getEntityWorld();
+            // Remount riders on the new mob.
+            final List<Entity> riders = this.thisEntity.getPassengers();
+            for (final Entity e : riders)
+            {
+                e.stopRiding();
+                e.startRiding(this.evolution);
+            }
+            // Remove old mob
+            world.removeEntity(this.thisEntity);
+            // Add new mob
+            this.evolution.getEntityWorld().addEntity(this.evolution);
+
+            EntityUpdate.sendEntityUpdate(this.evolution);
+        }
+
+        static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution)
+        {
+            evolution.setUniqueId(thisEntity.getUniqueID());
+        }
+    }
+
     /** Simlar to EvoTicker, but for more general form changing. */
     static class MegaEvoTicker
     {
@@ -485,24 +526,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             final EvolveEvent evt = new EvolveEvent.Post(evoMob);
             PokecubeCore.POKEMOB_BUS.post(evt);
             // Schedule adding to world.
-            if (!evt.isCanceled() && thisEntity.addedToChunk)
-            {
-                final ServerWorld world = (ServerWorld) thisEntity.getEntityWorld();
-                // Remount riders on the new mob.
-                final List<Entity> riders = thisEntity.getPassengers();
-                for (final Entity e : riders)
-                {
-                    e.stopRiding();
-                    e.startRiding(evolution);
-                }
-                // Remove old mob
-                world.removeEntity(thisEntity);
-                evolution.setUniqueId(thisEntity.getUniqueID());
-                // Add new mob
-                evolution.getEntityWorld().addEntity(evolution);
-
-                EntityUpdate.sendEntityUpdate(evolution);
-            }
+            if (!evt.isCanceled() && thisEntity.addedToChunk) EvoTicker.scheduleEvolve(thisEntity, evolution);
         }
         return evoMob;
     }
