@@ -14,6 +14,7 @@
    <part name="Head" tex="charizardyhead"/>
    <animation diffs="0,0.48" part="Head" trigger="random:0.005:1"/>
   </customTex>
+  <material name="Fire" light="1" transluscent="true"/>
   <phase type="sitting">
    <part name="wing1">
     <component length="10" name="1" rotChange="0.0,0.0,2.0," rotOffset="0,40,0," startKey="0"/>

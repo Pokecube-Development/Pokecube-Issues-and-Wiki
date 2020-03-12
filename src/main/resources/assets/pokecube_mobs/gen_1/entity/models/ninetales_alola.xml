@@ -7,6 +7,7 @@
    <part name="Head" tex="ninetalesalolahead"/>
    <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
   </customTex>
+  <material name="Body" light="0.1" transluscent="true"/>
   <phase axis="0" length="50" name="snakeWalk" parts="tail1:tail1_1:tail1_2:tail1_3:tail1_4:tail1_5:tail1_6:tail1_7:tail1_8"/>
   <phase axis="0" length="60" name="snakeWalk" parts="tail2:tail2_1:tail2_2:tail2_3:tail2_4:tail2_5:tail2_6:tail2_7:tail2_8"/>
   <phase axis="0" length="60" name="snakeWalk" parts="tail3:tail3_1:tail3_2:tail3_3:tail3_4:tail3_5:tail3_6:tail3_7:tail3_8"/>

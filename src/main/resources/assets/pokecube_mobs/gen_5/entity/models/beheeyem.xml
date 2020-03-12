@@ -3,6 +3,7 @@
  <model name="">
   <phase name="global" scale="0.39"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
+  <material name="Light" light="1" transluscent="true"/>
   <customTex default="beheeyem">
    <part name="Head" tex="beheeyemhead"/>
    <animation diffs="0,0.35" part="Head" trigger="random:0.005:1"/>

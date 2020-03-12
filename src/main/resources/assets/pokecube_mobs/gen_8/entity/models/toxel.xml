@@ -7,6 +7,7 @@
 		<part name="Head" tex="toxelhead"/>
 		<animation diffs="0,0.5" part="Head" trigger="random:0.005:15"/>
 		</customTex>
+		<material name="Glow" light="0.4" transluscent="true"/>
 		<phase type="idle">
 		<part name="cint">
 		  <component name="1" posOffset="0,5,0" length="1" startKey="0"/>

@@ -4,6 +4,7 @@
 	<phase name="global" scale="0.45"/>
 	<metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="1"/>
 	<customTex default="ariados">
+	<material name="Eye" light="0.1" transluscent="true"/>
 	<part name="Head" tex="ariadoshead"/>
 	<animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
 	</customTex>

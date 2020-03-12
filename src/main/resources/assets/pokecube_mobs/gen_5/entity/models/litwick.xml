@@ -6,6 +6,7 @@
    <part name="Head" tex="litwickeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
+  <material name="Fire" light="1" transluscent="true"/>
   <phase type="idle">
    <part name="arm1">
     <component length="10" name="1" rotChange="0,0,-3" rotOffset="0,0,-30" startKey="0"/>

@@ -8,6 +8,7 @@
    <part name="Head" tex="dracozolteye"/>
    <animation diffs="0,0.3" part="Head" trigger="random:0.005:15"/>
   </customTex>
+  <material name="Glow" light="0.7" transluscent="true"/>
   <phase axis="1" name="snakeIdle" parts="body1:body2:body3:body4:body5"/>
   <phase length="20" axis="0" name="snakeWalk" parts="body1:body2:body3:body4:body5"/>
   <phase type="sitting">
