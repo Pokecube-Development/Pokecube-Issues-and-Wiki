@@ -1,4 +1,9 @@
 {
+	"credit": "Made with Blockbench",
+	"textures": {
+		"tomato": "pokecube:block/fruit_tamato",
+		"particle": "pokecube:block/fruit_tamato"
+	},
 	"elements": [
 		{
 			"name": "Cube",
@@ -6,12 +11,12 @@
 			"to": [8.48, 13.66, 9.58],
 			"rotation": {"angle": 45, "axis": "x", "origin": [7.81, 12, 6.48]},
 			"faces": {
-				"north": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"east": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 90},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 90},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 0}
+				"north": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"east": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#tomato"},
+				"up": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#tomato"},
+				"down": {"uv": [0, 0, 8, 8], "texture": "#tomato"}
 			}
 		},
 		{
@@ -20,11 +25,11 @@
 			"to": [11.09, 13.42, 8.35],
 			"rotation": {"angle": 45, "axis": "z", "origin": [9.32, 11.82, 7.14]},
 			"faces": {
-				"north": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 90},
-				"east": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 180},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270}
+				"north": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#tomato"},
+				"east": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"up": {"uv": [0, 0, 8, 8], "rotation": 180, "texture": "#tomato"},
+				"down": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"}
 			}
 		},
 		{
@@ -33,11 +38,11 @@
 			"to": [8.48, 13.12, 11.05],
 			"rotation": {"angle": -45, "axis": "x", "origin": [8.36, 11.71, 8.8]},
 			"faces": {
-				"east": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 90},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 90},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 0}
+				"east": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#tomato"},
+				"up": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#tomato"},
+				"down": {"uv": [0, 0, 8, 8], "texture": "#tomato"}
 			}
 		},
 		{
@@ -46,63 +51,63 @@
 			"to": [9.68, 13.02, 8.35],
 			"rotation": {"angle": -45, "axis": "z", "origin": [7.43, 11.71, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 90},
-				"east": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 180},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270}
+				"north": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#tomato"},
+				"east": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"up": {"uv": [0, 0, 8, 8], "rotation": 180, "texture": "#tomato"},
+				"down": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"}
 			}
 		},
 		{
 			"name": "Cube",
 			"from": [7.78, 12.79, 7.96],
-			"to": [8.22, 15.09, 8.19],
+			"to": [8.22, 15.84, 8.19],
 			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 13.94, 8.07]},
 			"faces": {
-				"north": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"east": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"up": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 180}
+				"north": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"east": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"up": {"uv": [8, 0, 16, 8], "rotation": 180, "texture": "#tomato"}
 			}
 		},
 		{
 			"name": "Cube",
 			"from": [8.14, 12.79, 7.89],
-			"to": [8.57, 15.09, 8.11],
+			"to": [8.57, 15.84, 8.11],
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [8.35, 13.94, 8]},
 			"faces": {
-				"north": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"east": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"up": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 180}
+				"north": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"east": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"up": {"uv": [8, 0, 16, 8], "rotation": 180, "texture": "#tomato"}
 			}
 		},
 		{
 			"name": "Cube",
 			"from": [7.42, 12.79, 7.89],
-			"to": [7.85, 15.09, 8.11],
+			"to": [7.85, 15.84, 8.11],
 			"rotation": {"angle": 22.5, "axis": "z", "origin": [7.63, 13.94, 8]},
 			"faces": {
-				"north": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"east": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"up": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 180}
+				"north": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"east": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"up": {"uv": [8, 0, 16, 8], "rotation": 180, "texture": "#tomato"}
 			}
 		},
 		{
 			"name": "Cube",
 			"from": [7.78, 12.95, 7.89],
-			"to": [8.22, 15.25, 8.11],
+			"to": [8.22, 16, 8.11],
 			"faces": {
-				"north": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"east": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 270},
-				"up": {"uv": [8, 0, 16, 8], "texture": "#tomato", "rotation": 180}
+				"north": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"east": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [8, 0, 16, 8], "rotation": 270, "texture": "#tomato"},
+				"up": {"uv": [8, 0, 16, 8], "rotation": 180, "texture": "#tomato", "cullface": "up"}
 			}
 		},
 		{
@@ -110,17 +115,13 @@
 			"from": [5.84, 10.16, 5.84],
 			"to": [10.16, 13.84, 10.16],
 			"faces": {
-				"north": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 90},
-				"east": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"south": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"west": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270},
-				"up": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 180},
-				"down": {"uv": [0, 0, 8, 8], "texture": "#tomato", "rotation": 270}
+				"north": {"uv": [0, 0, 8, 8], "rotation": 90, "texture": "#tomato"},
+				"east": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"south": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"west": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"},
+				"up": {"uv": [0, 0, 8, 8], "rotation": 180, "texture": "#tomato"},
+				"down": {"uv": [0, 0, 8, 8], "rotation": 270, "texture": "#tomato"}
 			}
 		}
-	],
-	"textures": {
-		"tomato": "pokecube:block/fruit_tamato",
-		"particle": "pokecube:block/fruit_tamato"
-	}
+	]
 }
