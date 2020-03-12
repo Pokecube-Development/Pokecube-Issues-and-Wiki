@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
@@ -38,35 +37,35 @@ import pokecube.nbtedit.nbt.SaveStates;
 public class GuiNBTTree extends Screen
 {
 
-    private final Minecraft mc = Minecraft.getInstance();
+    private final Minecraft           mc      = Minecraft.getInstance();
 
     private final NBTTree             tree;
     private final List<GuiNBTNode>    nodes;
     private final GuiSaveSlotButton[] saves;
     private final GuiNBTButton[]      nbtButtons;
 
-    private final int X_GAP = 10, START_X = 10;
+    private final int                 X_GAP   = 10, START_X = 10;
 
-    final int         START_Y = 30;
-    private final int Y_GAP   = Minecraft.getInstance().fontRenderer.FONT_HEIGHT + 2;
+    final int                         START_Y = 30;
+    private final int                 Y_GAP   = Minecraft.getInstance().fontRenderer.FONT_HEIGHT + 2;
 
-    private int y, yClick;
+    private int                       y, yClick;
 
-    int bottom;
+    int                               bottom;
 
-    int width;
+    int                               width;
 
-    int height;
+    int                               height;
 
-    private int heightDiff;
+    private int                       heightDiff;
 
-    private int offset;
+    private int                       offset;
 
-    private Node<NamedNBT> focused;
-    private int            focusedSlotIndex;
-    public boolean         reInit = false;
+    private Node<NamedNBT>            focused;
+    private int                       focusedSlotIndex;
+    public boolean                    reInit  = false;
 
-    private GuiEditNBT window;
+    private GuiEditNBT                window;
 
     public GuiNBTTree(final NBTTree tree)
     {
@@ -201,8 +200,8 @@ public class GuiNBTTree extends Screen
 
     private boolean canPaste()
     {
-        return NBTEdit.clipboard != null && this.focused != null && this.canAddToParent(this.focused.getObject()
-                .getNBT(), NBTEdit.clipboard.getNBT());
+        return NBTEdit.clipboard != null && this.focused != null
+                && this.canAddToParent(this.focused.getObject().getNBT(), NBTEdit.clipboard.getNBT());
     }
 
     @Override
@@ -304,8 +303,8 @@ public class GuiNBTTree extends Screen
                     int height = this.getHeightDifference();
 
                     if (height < 1) height = 1;
-                    int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this
-                            .getContentHeight();
+                    int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
+                            / this.getContentHeight();
                     if (length < 32) length = 32;
                     if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
 
@@ -319,8 +318,8 @@ public class GuiNBTTree extends Screen
 
             AbstractGui.fill(this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
 
-            int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this
-                    .getContentHeight();
+            int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1))
+                    / this.getContentHeight();
             if (length < 32) length = 32;
             if (length > this.bottom - (this.START_Y - 1) - 8) length = this.bottom - (this.START_Y - 1) - 8;
             int y = -this.offset * (this.bottom - (this.START_Y - 1) - length) / this.heightDiff + this.START_Y - 1;
@@ -532,16 +531,17 @@ public class GuiNBTTree extends Screen
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder worldRenderer = tessellator.getBuffer();
         this.mc.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         final float var6 = 32.0F;
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
         final Color color = new Color(4210752);
-        worldRenderer.color(color.getRed(), color.getGreen(), color.getBlue(), par4);
-        worldRenderer.pos(0.0D, par2, 0.0D).tex(0.0f, par2 / var6);
-        worldRenderer.pos(this.width, par2, 0.0D).tex(this.width / var6, par2 / var6);
-        worldRenderer.color(color.getRed(), color.getGreen(), color.getBlue(), par3);
-        worldRenderer.pos(this.width, par1, 0.0D).tex(this.width / var6, par1 / var6);
-        worldRenderer.pos(0.0D, par1, 0.0D).tex(0.0f, par1 / var6);
+        int r = color.getRed();
+        int g = color.getRed();
+        int b = color.getRed();
+        int a = par4;
+        worldRenderer.pos(0.0D, par2, 0.0D).color(r, g, b, a).tex(0.0f, par2 / var6).endVertex();
+        worldRenderer.pos(this.width, par2, 0.0D).color(r, g, b, a).tex(this.width / var6, par2 / var6).endVertex();
+        worldRenderer.pos(this.width, par1, 0.0D).color(r, g, b, a).tex(this.width / var6, par1 / var6).endVertex();
+        worldRenderer.pos(0.0D, par1, 0.0D).color(r, g, b, a).tex(0.0f, par1 / var6).endVertex();
         tessellator.draw();
     }
 
@@ -634,8 +634,8 @@ public class GuiNBTTree extends Screen
             for (final GuiNBTButton b : this.nbtButtons)
                 b.active = true;
             this.nbtButtons[12].active = toFocus != this.tree.getRoot();
-            this.nbtButtons[11].active = toFocus.hasParent() && !(toFocus.getParent().getObject()
-                    .getNBT() instanceof ListNBT);
+            this.nbtButtons[11].active = toFocus.hasParent()
+                    && !(toFocus.getParent().getObject().getNBT() instanceof ListNBT);
             this.nbtButtons[13].active = true;
             this.nbtButtons[14].active = toFocus != this.tree.getRoot();
             this.nbtButtons[15].active = NBTEdit.clipboard != null;
