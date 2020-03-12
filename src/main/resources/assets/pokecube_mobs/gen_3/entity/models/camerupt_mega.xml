@@ -4,6 +4,7 @@
   <phase name="global" scale="0.5"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
+  <material name="Lava" light="1" transluscent="true"/>
   <customTex default="cameruptmega">
    <part name="Head" tex="cameruptmegahead"/>
    <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>

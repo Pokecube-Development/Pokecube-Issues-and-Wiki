@@ -10,6 +10,7 @@
   <phase axis="0" name="snakeWalk" parts="neck:neck1:neck2:neck3:tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7"/>
   <phase axis="0" name="snakeWalk" parts="wing1_3:wing1_4:wing1_5:wing1_6:wing1_7:wing1_8:wing1_9"/>
   <phase axis="0" name="snakeWalk" parts="wing2_3:wing2_4:wing2_5:wing2_6:wing2_7:wing2_8:wing2_9"/>
+  <material name="Glow" light="1" transluscent="true"/>
   <phase type="idle">
    <part name="wing1">
     <component length="10" name="1" rotOffset="0,0,50" startKey="0"/>
