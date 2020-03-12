@@ -3,6 +3,7 @@ package pokecube.core.network.pokemobs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.Vec3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.interfaces.IPokemob;
@@ -30,14 +31,37 @@ public class PacketMountedControl extends Packet
         if (controller.upInputDown) packet.message += PacketMountedControl.UP;
         if (controller.downInputDown) packet.message += PacketMountedControl.DOWN;
         if (controller.followOwnerLook) packet.message += PacketMountedControl.SYNCLOOK;
-        packet.throttle = (float) controller.throttle;
+        packet.y = (float) controller.throttle;
         PokecubeCore.packets.sendToServer(packet);
+    }
+
+    public static void sendUpdatePacket(final Entity pokemob)
+    {
+        final PacketMountedControl packet = new PacketMountedControl();
+        packet.entityId = pokemob.getEntityId();
+        final Vec3d pos = pokemob.getPositionVector();
+        packet.message = 0;
+        packet.x = (float) pos.x;
+        packet.y = (float) pos.y;
+        packet.z = (float) pos.z;
+        PokecubeCore.packets.sendToTracking(packet, pokemob);
+        packet.message = 1;
+        packet.x = (float) pokemob.prevPosX;
+        packet.y = (float) pokemob.prevPosY;
+        packet.z = (float) pokemob.prevPosZ;
+        PokecubeCore.packets.sendToTracking(packet, pokemob);
+        packet.message = 2;
+        packet.x = pokemob.rotationYaw;
+        packet.y = pokemob.prevRotationYaw;
+        PokecubeCore.packets.sendToTracking(packet, pokemob);
     }
 
     int  entityId;
     byte message;
 
-    float throttle;
+    float x;
+    float y;
+    float z;
 
     public PacketMountedControl()
     {
@@ -49,7 +73,34 @@ public class PacketMountedControl extends Packet
         super(buf);
         this.entityId = buf.readInt();
         this.message = buf.readByte();
-        this.throttle = buf.readFloat();
+        this.x = buf.readFloat();
+        this.y = buf.readFloat();
+        this.z = buf.readFloat();
+    }
+
+    @Override
+    public void handleClient()
+    {
+        final Entity mob = PokecubeCore.proxy.getWorld().getEntityByID(this.entityId);
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        if (mob != null && mob.getControllingPassenger() != PokecubeCore.proxy.getPlayer()) switch (this.message)
+        {
+        case 0:
+            mob.setPosition(this.x, this.y, this.z);
+            break;
+        case 1:
+            mob.prevPosX = this.x;
+            mob.prevPosY = this.y;
+            mob.prevPosZ = this.z;
+            break;
+        case 2:
+            mob.rotationYaw = this.x;
+            mob.prevRotationYaw = this.y;
+
+            if (pokemob != null) pokemob.setHeading(this.x);
+
+            break;
+        }
     }
 
     @Override
@@ -59,7 +110,8 @@ public class PacketMountedControl extends Packet
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (pokemob != null && pokemob.getController() != null)
         {
-            if (pokemob.getOwner() != player) return;
+            final Entity entity = pokemob.getEntity().getControllingPassenger();
+            if (entity == null || !entity.getUniqueID().equals(player.getUniqueID())) return;
             final LogicMountedControl controller = pokemob.getController();
             controller.forwardInputDown = (this.message & PacketMountedControl.FORWARD) > 0;
             controller.backInputDown = (this.message & PacketMountedControl.BACK) > 0;
@@ -68,8 +120,9 @@ public class PacketMountedControl extends Packet
             controller.upInputDown = (this.message & PacketMountedControl.UP) > 0;
             controller.downInputDown = (this.message & PacketMountedControl.DOWN) > 0;
             controller.followOwnerLook = (this.message & PacketMountedControl.SYNCLOOK) > 0;
-            controller.throttle = this.throttle;
-            mob.getPersistentData().putDouble("pokecube:mob_throttle", this.throttle);
+            controller.throttle = this.y;
+            mob.getPersistentData().putDouble("pokecube:mob_throttle", this.y);
+            PacketMountedControl.sendUpdatePacket(mob);
         }
     }
 
@@ -78,6 +131,8 @@ public class PacketMountedControl extends Packet
     {
         buf.writeInt(this.entityId);
         buf.writeByte(this.message);
-        buf.writeFloat(this.throttle);
+        buf.writeFloat(this.x);
+        buf.writeFloat(this.y);
+        buf.writeFloat(this.z);
     }
 }

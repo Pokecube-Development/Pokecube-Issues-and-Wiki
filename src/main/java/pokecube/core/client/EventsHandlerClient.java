@@ -102,7 +102,7 @@ public class EventsHandlerClient
         {
             final Entity e = event.player.getRidingEntity();
             pokemob = CapabilityPokemob.getPokemobFor(e);
-            if (pokemob != null)
+            if (pokemob != null && e.getControllingPassenger() == event.player)
             {
                 final LogicMountedControl controller = pokemob.getController();
                 if (controller == null) break control;

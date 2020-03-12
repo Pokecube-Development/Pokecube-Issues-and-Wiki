@@ -19,6 +19,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ITickList;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.storage.MapData;
@@ -181,6 +182,18 @@ public class WorldEntity extends World implements IBlockEntityWorld
     public NetworkTagManager getTags()
     {
         return this.world.getTags();
+    }
+
+    @Override
+    public Biome getBiome(final BlockPos pos)
+    {
+        return this.world.getBiome(pos);
+    }
+
+    @Override
+    public Biome getBiomeBody(final BlockPos pos)
+    {
+        return this.world.getBiomeBody(pos);
     }
 
 }
