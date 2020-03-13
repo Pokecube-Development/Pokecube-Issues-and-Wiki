@@ -261,9 +261,9 @@ public class TextureHelper implements IPartTexturer
     {
         if (this.mob == null) return;
         if (this.bindPerState(part)) return;
-        final String texName = ThutCore.trim(this.texNames.containsKey(part) ? this.texNames.get(part)
-                : this.default_path);
-        if (texName == null || texName.trim().isEmpty()) this.texNames.put(part, this.default_path);
+        final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
+        final String texName = ThutCore.trim(this.texNames.containsKey(part) ? this.texNames.get(part) : defaults);
+        if (texName == null || texName.trim().isEmpty()) this.texNames.put(part, defaults);
         ResourceLocation tex = this.getResource(texName);
         TexState state;
         String texMod;
@@ -276,7 +276,11 @@ public class TextureHelper implements IPartTexturer
     public void bindObject(final Object thing)
     {
         this.mob = ((ICapabilityProvider) thing).getCapability(TextureHelper.CAPABILITY).orElse(null);
-        if (this.mob != null) this.default_tex = this.getResource(this.default_path);
+        if (this.mob != null)
+        {
+            final String defaults = this.formeMap.getOrDefault(this.mob.getForm(), this.default_path);
+            this.default_tex = this.getResource(defaults);
+        }
     }
 
     private boolean bindPerState(final String part)
