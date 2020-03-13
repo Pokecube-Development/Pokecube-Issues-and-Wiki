@@ -158,7 +158,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             // Only handle this on clients, and if not capturing something
             if (this.isServerWorld() && PokecubeManager.isFilled(this.getItem()) && !this.getNoCollisionRelease())
                 SendOutManager.sendOut(this, true);
-            EntityUpdate.sendEntityUpdate(this);
+            if (this.isServerWorld()) EntityUpdate.sendEntityUpdate(this);
             break;
         case ENTITY:
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
