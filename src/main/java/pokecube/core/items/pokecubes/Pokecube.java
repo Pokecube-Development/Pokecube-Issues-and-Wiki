@@ -412,6 +412,7 @@ public class Pokecube extends Item implements IPokecube
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
         entity.shootingEntity = thrower;
         entity.shooter = thrower.getUniqueID();
+        entity.forceSpawn = true;
         entity.setItem(stack);
         final boolean rightclick = target == thrower;
         if (rightclick) target = null;
