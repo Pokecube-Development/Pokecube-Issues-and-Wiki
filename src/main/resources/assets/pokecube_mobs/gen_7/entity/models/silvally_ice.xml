@@ -2,15 +2,12 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.28"/>
-  <customTex default="silvallyghost">
-   <part name="Head" tex="silvallyghosthead"/>
-   <animation diffs="0,0.35" part="Head" trigger="random:0.005:20"/>
+  <customTex default="silvallyice">
+   <part name="Head" tex="silvallyicehead"/>
+   <animation diffs="0,0.35" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <material name="Light" light="1" transluscent="true"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
-  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-10,10" headDir="-1"/>
-  <metadata head="neck1" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-10,10" headDir="-1"/>
-  <metadata head="neck2" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-5,5" headDir="-1"/>
+  <metadata head="head:neck:neck1:neck2" headAxis="2" headCap="-20,20" headCap1="-10,10"  headDir2="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
   <phase type="idle">
    <part name="tail">
