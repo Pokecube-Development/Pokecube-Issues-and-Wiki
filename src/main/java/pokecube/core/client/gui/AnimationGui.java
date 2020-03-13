@@ -19,6 +19,7 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -362,7 +363,12 @@ public class AnimationGui extends Screen
     @Override
     public void render(final int unk1, final int unk2, final float partialTicks)
     {
-        if (this.bg) AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
+        if (this.bg){ 
+            RenderSystem.pushMatrix();
+            RenderSystem.translated(0, 0, -900);
+            AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
+            RenderSystem.popMatrix();
+        }
         super.render(unk1, unk2, partialTicks);
 
         final int yOffset = this.height / 2;
@@ -412,7 +418,7 @@ public class AnimationGui extends Screen
             entity.limbSwing += 0.125;
             final float zoom =  this.scale;
 
-            GuiPokemobBase.renderMob(entity, j, k + 30, yRenderAngle, xRenderAngle + 180, yHeadRenderAngle,
+            GuiPokemobBase.renderMob(entity, j, k + 100, yRenderAngle, xRenderAngle + 180, yHeadRenderAngle,
                     xHeadRenderAngle, zoom);
         }
 

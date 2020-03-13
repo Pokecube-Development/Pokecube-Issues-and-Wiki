@@ -514,7 +514,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         if (holder.wrapper == null)
         {
             holder.init();
-            PokecubeMod.LOGGER.info("Reloaded model for " + type.getEntry());
+            PokecubeMod.LOGGER.debug("Reloaded model for " + type.getEntry());
         }
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
                 || holder.texture == null)
