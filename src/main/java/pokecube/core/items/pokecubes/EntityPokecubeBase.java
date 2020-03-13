@@ -151,12 +151,6 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         switch (result.getType())
         {
         case BLOCK:
-            // No phasing through stuff.
-            this.setMotion(0, 0, 0);
-
-            // Set us to the location
-            this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
-
             this.seeking = false;
             this.targetLocation.clear();
             this.targetEntity = null;
@@ -164,6 +158,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             // Only handle this on clients, and if not capturing something
             if (this.isServerWorld() && PokecubeManager.isFilled(this.getItem()) && !this.getNoCollisionRelease())
                 SendOutManager.sendOut(this, true);
+            EntityUpdate.sendEntityUpdate(this);
             break;
         case ENTITY:
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;

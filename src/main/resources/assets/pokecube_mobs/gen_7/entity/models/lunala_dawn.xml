@@ -3,6 +3,7 @@
  <model>
   <phase name="global" offset="0,0.3,0" scale="0.25"/>
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <material name="Moon" light="1" transluscent="true"/>
   <phase type="idle">
    <part name="arm1">
     <component length="8" name="1" rotChange="0,3,0," rotOffset="-7,0,0," startKey="0"/>

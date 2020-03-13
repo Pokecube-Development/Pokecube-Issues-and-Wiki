@@ -2,6 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="Glalie Mega">
   <phase name="global" rotation="0,1,0,0" scale="1.2"/>
+  <material name="Crystal" light="1" transluscent="true"/>
   <phase type="idle">
    <part name="head">
     <component length="10" name="1" posChange="0,-1,0" posOffset="0,0.5,0" startKey="0"/>

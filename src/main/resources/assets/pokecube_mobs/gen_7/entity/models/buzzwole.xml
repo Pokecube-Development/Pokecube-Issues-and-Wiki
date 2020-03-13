@@ -4,6 +4,7 @@
   <phase name="global" scale="0.25"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftFront="leg3" leftHind="leg2" name="quadWalk" rightFront="leg4" rightHind="leg1"/>
+  <material name="Glow" light="1" transluscent="true"/>
   <phase type="walking">
    <part name="arm1">
     <component length="10" name="1" rotChange="-10,0,0" rotOffset="0,0,30" startKey="0"/>

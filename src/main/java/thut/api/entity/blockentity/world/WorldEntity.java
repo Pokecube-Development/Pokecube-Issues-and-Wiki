@@ -190,4 +190,15 @@ public class WorldEntity extends World implements IBlockEntityWorld
         return world.getNoiseBiome(x, y, z);
     }
 
+    @Override
+    public Biome getBiome(BlockPos pos)
+    {
+        return world.getBiome(pos);
+    }
+
+    @Override
+    public Biome getNoiseBiome(int x, int y, int z)
+    {
+        return world.getNoiseBiome(x, y, z);
+    }
 }

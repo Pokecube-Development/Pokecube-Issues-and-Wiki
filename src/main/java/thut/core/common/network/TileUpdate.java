@@ -15,7 +15,7 @@ public class TileUpdate extends Packet
     {
         if (tile.getWorld().isRemote)
         {
-            ThutCore.LOGGER.error("Packet sent on wrong side!");
+            ThutCore.LOGGER.error("Packet sent on wrong side!", new IllegalArgumentException());
             return;
         }
         final CompoundNBT tag = new CompoundNBT();

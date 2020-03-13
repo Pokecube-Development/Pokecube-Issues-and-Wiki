@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
@@ -65,9 +64,11 @@ public class LogicMountedControl extends LogicBase
         boolean canSurf = this.pokemob.canUseSurf();
         boolean canDive = this.pokemob.canUseDive();
 
+        ServerPlayerEntity player = null;
+
         if (rider instanceof ServerPlayerEntity)
         {
-            final PlayerEntity player = (PlayerEntity) rider;
+            player = (ServerPlayerEntity) rider;
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             final PokedexEntry entry = this.pokemob.getPokedexEntry();
@@ -97,6 +98,13 @@ public class LogicMountedControl extends LogicBase
             shouldControl = verticalControl = PokecubeCore.getConfig().surfEnabled || shouldControl;
 
         if (waterSpeed) airSpeed = false;
+
+        if (canFly) for (final Entity e : this.entity.getRecursivePassengers())
+            if (e instanceof ServerPlayerEntity)
+            {
+                ((ServerPlayerEntity) e).connection.vehicleFloatingTickCount = 0;
+                ((ServerPlayerEntity) e).connection.floatingTickCount = 0;
+            }
 
         final Entity controller = rider;
         if (this.pokemob.getPokedexEntry().shouldDive)
@@ -154,7 +162,7 @@ public class LogicMountedControl extends LogicBase
                 vz += MathHelper.cos(this.entity.rotationYaw * 0.017453292F) * f;
             }
         }
-        if (this.upInputDown) if (this.entity.onGround)
+        if (this.upInputDown) if (this.entity.onGround && !verticalControl)
         {
             this.entity.isAirBorne = true;
             // TODO somehow configure this jump value.
@@ -225,8 +233,8 @@ public class LogicMountedControl extends LogicBase
         this.entity.setMotion(vx, vy, vz);
 
         // Sync the rotations.
-        this.entity.setRenderYawOffset(this.pokemob.getHeading());
-        this.entity.setRotationYawHead(this.pokemob.getHeading());
+        this.entity.rotationYaw = this.pokemob.getHeading();
+        this.entity.rotationYawHead = this.pokemob.getHeading();
     }
 
 }

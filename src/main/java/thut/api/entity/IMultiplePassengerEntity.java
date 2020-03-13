@@ -17,7 +17,7 @@ public interface IMultiplePassengerEntity
 {
     public static class MultiplePassengerManager
     {
-        public static void managePassenger(Entity passenger, IMultiplePassengerEntity multipassenger)
+        public static void managePassenger(final Entity passenger, final IMultiplePassengerEntity multipassenger)
         {
             final Entity entity = (Entity) multipassenger;
             if (!entity.isPassenger(passenger)) return;
@@ -38,6 +38,8 @@ public interface IMultiplePassengerEntity
                 v = (Vector3f) v.clone();
                 transform.transform(v);
             }
+            // if (!(passenger.getEntityWorld() instanceof ServerWorld))
+            // System.out.println(v + " " + pitch);
             passenger.setPosition(entity.posX + v.x, entity.posY + passenger.getYOffset() + v.y, entity.posZ + v.z);
         }
     }
@@ -46,7 +48,7 @@ public interface IMultiplePassengerEntity
     {
         public static final UUID BLANK = new UUID(0, 0);
 
-        public static Seat readFromNBT(CompoundNBT tag)
+        public static Seat readFromNBT(final CompoundNBT tag)
         {
             final byte[] arr = tag.getByteArray("v");
             final PacketBuffer buf = new PacketBuffer(Unpooled.copiedBuffer(arr));
@@ -57,13 +59,13 @@ public interface IMultiplePassengerEntity
 
         private UUID entityId;
 
-        public Seat(PacketBuffer buf)
+        public Seat(final PacketBuffer buf)
         {
             this.seat = new Vector3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
             this.setEntityId(new UUID(buf.readLong(), buf.readLong()));
         }
 
-        public Seat(Vector3f vector3f, UUID readInt)
+        public Seat(final Vector3f vector3f, final UUID readInt)
         {
             this.seat = vector3f;
             this.setEntityId(readInt != null ? readInt : Seat.BLANK);
@@ -76,11 +78,11 @@ public interface IMultiplePassengerEntity
         }
 
         @Override
-        public boolean equals(Object obj)
+        public boolean equals(final Object obj)
         {
             if (!(obj instanceof Seat)) return false;
             final Seat other = (Seat) obj;
-            return this.getEntityId().equals(other.getEntityId()) && this.seat.epsilonEquals(other.seat, 0.5f);
+            return this.getEntityId().equals(other.getEntityId()) && this.seat.epsilonEquals(other.seat, 0.1f);
         }
 
         /**
@@ -95,7 +97,7 @@ public interface IMultiplePassengerEntity
          * @param entityId
          *            the entityId to set
          */
-        public void setEntityId(UUID entityId)
+        public void setEntityId(final UUID entityId)
         {
             this.entityId = entityId;
         }
@@ -106,7 +108,7 @@ public interface IMultiplePassengerEntity
             return this.seat + " " + this.getEntityId();
         }
 
-        public void writeToBuf(PacketBuffer buf)
+        public void writeToBuf(final PacketBuffer buf)
         {
             buf.writeFloat(this.seat.x);
             buf.writeFloat(this.seat.y);
@@ -115,7 +117,7 @@ public interface IMultiplePassengerEntity
             buf.writeLong(this.getEntityId().getLeastSignificantBits());
         }
 
-        public void writeToNBT(CompoundNBT tag)
+        public void writeToNBT(final CompoundNBT tag)
         {
             final PacketBuffer buffer = new PacketBuffer(Unpooled.buffer(8));
             this.writeToBuf(buffer);
@@ -126,25 +128,25 @@ public interface IMultiplePassengerEntity
     public static final IDataSerializer<Seat> SEATSERIALIZER = new IDataSerializer<Seat>()
     {
         @Override
-        public Seat copyValue(Seat value)
+        public Seat copyValue(final Seat value)
         {
             return new Seat((Vector3f) value.seat.clone(), value.getEntityId());
         }
 
         @Override
-        public DataParameter<Seat> createKey(int id)
+        public DataParameter<Seat> createKey(final int id)
         {
             return new DataParameter<>(id, this);
         }
 
         @Override
-        public Seat read(PacketBuffer buf)
+        public Seat read(final PacketBuffer buf)
         {
             return new Seat(buf);
         }
 
         @Override
-        public void write(PacketBuffer buf, Seat value)
+        public void write(final PacketBuffer buf, final Seat value)
         {
             value.writeToBuf(buf);
         }

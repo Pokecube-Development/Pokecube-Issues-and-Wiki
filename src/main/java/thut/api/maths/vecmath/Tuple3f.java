@@ -395,17 +395,17 @@ public abstract class Tuple3f implements java.io.Serializable, Cloneable
     {
         float diff;
 
-        diff = this.x - t1.x;
+        diff = Math.abs(this.x - t1.x);
         if (Float.isNaN(diff)) return false;
-        if ((diff < 0 ? -diff : diff) > epsilon) return false;
+        if (diff > epsilon) return false;
 
-        diff = this.y - t1.y;
+        diff = Math.abs(this.y - t1.y);
         if (Float.isNaN(diff)) return false;
-        if ((diff < 0 ? -diff : diff) > epsilon) return false;
+        if (diff > epsilon) return false;
 
-        diff = this.z - t1.z;
+        diff = Math.abs(this.z - t1.z);
         if (Float.isNaN(diff)) return false;
-        if ((diff < 0 ? -diff : diff) > epsilon) return false;
+        if (diff > epsilon) return false;
 
         return true;
 

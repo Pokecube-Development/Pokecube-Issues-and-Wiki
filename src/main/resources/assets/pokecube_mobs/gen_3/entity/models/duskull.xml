@@ -2,6 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.3"/>
+  <material name="Eye" light="1" transluscent="true"/>
   <phase type="idle">
    <part name="eye">
     <component length="10" name="1" posChange="-7,0,0," startKey="0"/>

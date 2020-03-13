@@ -10,6 +10,7 @@
    <part name="Head" tex="infernapehead"/>
    <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
   </customTex>
+  <material name="Fire" light="1" transluscent="true"/>
   <phase angle="5" axis="0" axis1="0" length="15" name="snakeIdle" parts="flame:flame1:flame2"/>
   <phase type="sitting">
    <part name="cint">

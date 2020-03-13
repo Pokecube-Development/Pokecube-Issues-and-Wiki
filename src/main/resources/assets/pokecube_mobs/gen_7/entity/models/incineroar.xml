@@ -13,6 +13,7 @@
    <part name="Head" tex="incineroarhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>
+  <material name="Fire" light="1" transluscent="true"/>
   <phase type="idle">
    <part name="neck">
     <component length="1" name="1" rotOffset="10,0,0," startKey="0"/>
