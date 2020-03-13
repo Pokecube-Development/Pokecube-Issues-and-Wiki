@@ -54319,6 +54319,12 @@
       "number": 666,
       "base": true,
       "hasShiny": false,
+      "model": {
+        "key": "vivillon_mod",
+        "tex": "vivillon_mod",
+        "model": "vivillon",
+        "anim": "vivillon"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -54389,50 +54395,6 @@
         },
         "evolutionMoves": "gust"
       }
-    },
-    {
-      "name": "Vivillon Elegant",
-      "number": 666
-    },
-    {
-      "name": "Vivillon End",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Hell",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Highplains",
-      "number": 666
-    },
-    {
-      "name": "Vivillon IcySnow",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Modern",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Monsoon",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Ocean",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Polar",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Sandstorm",
-      "number": 666
-    },
-    {
-      "name": "Vivillon Sun",
-      "number": 666
     },
     {
       "name": "Litleo",

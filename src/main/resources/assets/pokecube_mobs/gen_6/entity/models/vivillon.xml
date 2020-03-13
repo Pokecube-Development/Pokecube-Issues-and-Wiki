@@ -3,8 +3,6 @@
  <model name="">
   <phase name="global" scale="0.3"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
-  <customTex default="vivillonend">
-  </customTex>
   <phase type="idle">
    <part name="ant1">
     <component length="9" name="1" rotChange="1,0,0," startKey="0"/>
@@ -94,16 +92,4 @@
    </part>
   </phase>
  </model>
- <Pokemon base="true" name="Vivillon" number="666"/>
- <Pokemon name="Vivillon Sun" number="666"/>
- <Pokemon name="Vivillon Ocean" number="666"/>
- <Pokemon name="Vivillon Elegant" number="666"/>
- <Pokemon name="Vivillon Hell" number="666"/>
- <Pokemon name="Vivillon End" number="666"/>
- <Pokemon name="Vivillon Highplains" number="666"/>
- <Pokemon name="Vivillon IcySnow" number="666"/>
- <Pokemon name="Vivillon Modern" number="666"/>
- <Pokemon name="Vivillon Monsoon" number="666"/>
- <Pokemon name="Vivillon Polar" number="666"/>
- <Pokemon name="Vivillon Sandstorm" number="666"/>
 </ModelAnimator>
