@@ -145,6 +145,7 @@ public final class SpawnHandler
     {
         if (!SpawnHandler.canSpawn(entry.getSpawnData(), location, world, true)) return false;
         final EntityType<?> entityTypeIn = entry.getEntityType();
+        if (entityTypeIn == null) return false;
         if (WorldEntitySpawner.canSpawnAtBody(PlacementType.ON_GROUND, world, location.getPos(), entityTypeIn))
             return true;
         if (entry.swims()) if (WorldEntitySpawner.canSpawnAtBody(PlacementType.IN_WATER, world, location.getPos(),
@@ -751,12 +752,12 @@ public final class SpawnHandler
                         if (event.getPicked() == null) continue;
                         entity = PokecubeCore.createPokemob(event.getPicked(), world);
                         entity.setHealth(entity.getMaxHealth());
-                        entity.setLocationAndAngles((double) x + 0.5F, (double) y + 0.5F, (double) z + 0.5F,
-                                world.rand.nextFloat() * 360.0F, 0.0F);
+                        entity.setLocationAndAngles((double) x + 0.5F, (double) y + 0.5F, (double) z + 0.5F, world.rand
+                                .nextFloat() * 360.0F, 0.0F);
                         if (entity.canSpawn(world, SpawnReason.NATURAL))
                         {
-                            if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, this.v3.set(
-                                    entity), entry.getLevel(matcher), entry.getVariance(matcher))) != null)
+                            if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, this.v3.set(entity),
+                                    entry.getLevel(matcher), entry.getVariance(matcher))) != null)
                             {
                                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                                 if (!event.getSpawnArgs().isEmpty())

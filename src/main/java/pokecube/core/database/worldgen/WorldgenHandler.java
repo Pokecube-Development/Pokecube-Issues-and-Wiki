@@ -40,6 +40,7 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.world.gen.WorldStructDatafixer;
 import pokecube.core.world.gen.jigsaw.JigsawConfig;
 import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.jigsaw.JigsawStructure;
@@ -64,6 +65,8 @@ public class WorldgenHandler
                 out.value(value.toString());
             }
         }).create();
+        PokecubeCore.LOGGER.info("Registering DataFixer for structures");
+        WorldStructDatafixer.insertFixer();
     }
 
     public static class CustomDim
