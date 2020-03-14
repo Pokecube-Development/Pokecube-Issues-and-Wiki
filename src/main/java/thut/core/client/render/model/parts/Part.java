@@ -154,6 +154,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     private void preRender(final MatrixStack mat)
     {
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         mat.push();
         // Translate of offset for rotation.
         mat.translate(this.offset.x, this.offset.y, this.offset.z);
@@ -174,7 +175,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render(final MatrixStack mat, final IVertexBuilder buffer)
     {
-        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         if (this.hidden) return;
         // Fill the int array
         int[] rgbabro = this.getRGBABrO();
