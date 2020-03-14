@@ -3,6 +3,7 @@
   "loader": "forge:obj",
   "model": "pokecube:models/block/dynamax.obj",
   "ambientToFullbright": true,
+  "flip-v": true,
   "textures": {
     "None": "pokecube:block/dynamax",
     "particle": "pokecube:block/dynamax"
