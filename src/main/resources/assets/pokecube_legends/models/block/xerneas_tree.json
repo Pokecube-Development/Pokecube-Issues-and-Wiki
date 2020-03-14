@@ -3,6 +3,7 @@
   "loader": "forge:obj",
   "model": "pokecube_legends:models/block/xerneas_tree.obj",
   "ambientToFullbright": true,
+  "flip-v": true,
   "textures": {
     "None": "pokecube_legends:blocks/xerneas_tree",
     "particle": "pokecube_legends:blocks/xerneas_tree"

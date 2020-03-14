@@ -3,6 +3,7 @@
   "loader": "forge:obj",
   "model": "pokecube_legends:models/block/keldeoblock.obj",
   "ambientToFullbright": true,
+  "flip-v": true,
   "textures": {
     "None": "pokecube_legends:blocks/keldeoblock2",
 	"None_keldeoblock1.png": "pokecube_legends:blocks/keldeoblock1",

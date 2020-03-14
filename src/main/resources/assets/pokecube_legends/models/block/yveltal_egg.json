@@ -3,6 +3,7 @@
   "loader": "forge:obj",
   "model": "pokecube_legends:models/block/yveltal_egg.obj",
   "ambientToFullbright": true,
+  "flip-v": true,
   "textures": {
     "None": "pokecube_legends:blocks/yveltal_egg",
     "particle": "pokecube_legends:blocks/yveltal_egg"

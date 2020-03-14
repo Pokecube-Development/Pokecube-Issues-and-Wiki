@@ -3,6 +3,7 @@
   "loader": "forge:obj",
   "model": "pokecube_legends:models/block/naturespawn.obj",
   "ambientToFullbright": true,
+  "flip-v": true,
   "textures": {
     "None": "pokecube_legends:blocks/naturespawn",
     "particle": "pokecube_legends:blocks/naturespawn"
