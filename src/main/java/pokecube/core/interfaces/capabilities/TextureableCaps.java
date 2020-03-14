@@ -87,6 +87,7 @@ public class TextureableCaps
         private final LazyOptional<IMobTexturable> holder = LazyOptional.of(() -> this);
         EntityPokemob                              mob;
         IPokemob                                   pokemob;
+        String                                     forme;
         List<String>                               states = Lists.newArrayList();
 
         public PokemobCap()
@@ -147,6 +148,17 @@ public class TextureableCaps
         {
             if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
             return this.pokemob.modifyTexture(in);
+        }
+
+        @Override
+        public String getForm()
+        {
+            if (this.forme == null)
+            {
+                if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+                this.forme = this.pokemob.getPokedexEntry().getTrimmedName();
+            }
+            return this.forme;
         }
     }
 

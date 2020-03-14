@@ -2,8 +2,8 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.28"/>
-  <customTex default="silvally">
-   <part name="Head" tex="silvallyhead"/>
+  <customTex default="silvallyfire">
+   <part name="Head" tex="silvallyfirehead"/>
    <animation diffs="0,0.35" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <material name="Light" light="1" transluscent="true"/>

@@ -47,6 +47,11 @@ public interface IMobTexturable
         return null;
     }
 
+    default String getForm()
+    {
+        return "";
+    }
+
     default ResourceLocation getTexture(@Nullable final String part)
     {
         return new ResourceLocation(this.getModId(), part);

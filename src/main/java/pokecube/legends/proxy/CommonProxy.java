@@ -3,16 +3,14 @@ package pokecube.legends.proxy;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.legends.init.PlantsInit;
 import pokecube.legends.worldgen.dimension.UltraSpaceConfig;
-import pokecube.legends.worldgen.structures.StructuresInit;
 import thut.core.common.Proxy;
 
 public class CommonProxy implements Proxy
 {
-	@Override
+    @Override
     public void setup(final FMLCommonSetupEvent event)
     {
-		new UltraSpaceConfig().init(event);
-		new PlantsInit().init(event);
-		new StructuresInit().init(event);
+        new UltraSpaceConfig().init(event);
+        new PlantsInit().init(event);
     }
 }

@@ -113,7 +113,9 @@ public class AnimationGui extends Screen
     boolean cap    = false;
     boolean took   = false;
 
-    List<String>               components;
+    boolean[] genders = { false, false };
+
+    List<String> components;
 
     private static final Set<PokedexEntry>           borked         = Sets.newHashSet();
     private static final Map<PokedexEntry, Vector3f> original_sizes = Maps.newHashMap();
@@ -246,8 +248,13 @@ public class AnimationGui extends Screen
         dir.mkdirs();
         // TODO instead go based on the mob's assumed texture?
 
-        final String name = this.holder == null ? AnimationGui.entry.getTrimmedName() : this.holder.key.getPath();
-        final File outfile = new File(dir, name + (this.shiny ? "s" : "") + ".png");
+        String name = this.holder == null ? AnimationGui.entry.getTrimmedName() : this.holder.key.getPath();
+
+        final boolean genderDiff = AnimationGui.entry.textureDetails[1] != null || AnimationGui.entry.getModel(
+                (byte) 0) != AnimationGui.entry.getModel((byte) 1);
+        if (genderDiff && this.holder == null) name = name + "_" + (this.sexe == IPokemob.FEMALE ? "female" : "male");
+
+        final File outfile = new File(dir, name + (this.shiny && AnimationGui.entry.hasShiny ? "s" : "") + ".png");
 
         GL11.glPixelStorei(3333, 1);
         GL11.glPixelStorei(3317, 1);
@@ -727,12 +734,34 @@ public class AnimationGui extends Screen
 
     private void cylceUp()
     {
+        boolean next = false;
+        if (this.genders[0] && this.genders[1])
+        {
+            this.genders[0] = false;
+            this.genders[1] = false;
+            next = true;
+        }
+        if (!next) if (!this.genders[0])
+        {
+            this.sexe = IPokemob.MALE;
+            this.genders[0] = true;
+        }
+        else if (!this.genders[1])
+        {
+            this.sexe = IPokemob.FEMALE;
+            this.genders[1] = true;
+        }
+
         this.formes = Database.customModels.getOrDefault(AnimationGui.entry, Collections.emptyList());
         this.entries = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
         if (AnimationGui.entry.getBaseForme() != null && !this.entries.contains(AnimationGui.entry.getBaseForme()))
         {
             this.entries.add(AnimationGui.entry.getBaseForme());
             Collections.sort(this.entries, Database.COMPARATOR);
+        }
+        if (!next)
+        {
+
         }
         if (this.entryIndex >= this.entries.size())
         {
@@ -751,6 +780,7 @@ public class AnimationGui extends Screen
             AnimationGui.entry = this.entries.get(this.entryIndex++ % this.entries.size());
             this.holder = AnimationGui.entry.getModel(this.sexe);
         }
+
         this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
         AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
         this.forme.setText(AnimationGui.mob);
