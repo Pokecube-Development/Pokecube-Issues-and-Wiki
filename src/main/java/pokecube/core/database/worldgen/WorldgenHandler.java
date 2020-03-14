@@ -9,6 +9,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
 
 import javax.xml.namespace.QName;
 
@@ -22,6 +24,7 @@ import com.google.gson.stream.JsonWriter;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -141,8 +144,9 @@ public class WorldgenHandler
         public boolean      surface     = true;
         public boolean      water       = false;
         public boolean      air         = false;
-        public int          height      = 16;
+        public int          height      = 0;
         public int          variance    = 50;
+        public int          priority    = 100;
         public boolean      atSpawn     = false;
         public List<String> needed_once = Lists.newArrayList();
 
@@ -166,6 +170,23 @@ public class WorldgenHandler
     }
 
     public static Map<String, JigsawStructure> structs = Maps.newHashMap();
+
+    private static Map<Structure<?>, Integer> priorities = Maps.newHashMap();
+
+    public static boolean isBlocked(final ChunkGenerator<?> gen, final Random rand, final Structure<?> feat_in,
+            final int chunkX, final int chunkZ)
+    {
+        final Integer id = WorldgenHandler.priorities.getOrDefault(feat_in, 100);
+        for (final Entry<Structure<?>, Integer> entry : WorldgenHandler.priorities.entrySet())
+        {
+            final Structure<?> feat = entry.getKey();
+            if (feat == feat_in) continue;
+            final Integer id2 = entry.getValue();
+            if (id2 >= id) continue;
+            if (feat.hasStartAt(gen, rand, chunkX, chunkZ)) return true;
+        }
+        return false;
+    }
 
     public CustomDims dims;
 
@@ -204,7 +225,6 @@ public class WorldgenHandler
             else PokecubeMod.LOGGER.catching(e);
             return;
         }
-
         // Initialize the pools
         for (final JigSawPool pool : this.defaults.pools)
             JigsawPieces.initPool(pool);
@@ -226,6 +246,7 @@ public class WorldgenHandler
             WorldgenHandler.structs.put(key, toAdd);
             toAdd.setRegistryName(new ResourceLocation(struct.name));
             event.getRegistry().register(toAdd);
+            WorldgenHandler.priorities.put(toAdd, struct.priority);
         }
         // No natural spawn, we skip this one for spawning.
         if (struct.spawn == null) return;
@@ -234,7 +255,7 @@ public class WorldgenHandler
         final JigsawConfig config = new JigsawConfig(struct);
         final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                 : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-        if (struct.surface && !struct.water) WorldgenHandler.forceVillageFeature(toAdd);
+        if (struct.surface && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
         for (final Biome b : ForgeRegistries.BIOMES.getValues())
         {
             if (!struct._matcher.checkBiome(b)) continue;

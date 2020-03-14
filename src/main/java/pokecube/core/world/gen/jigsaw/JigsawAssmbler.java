@@ -139,7 +139,8 @@ public class JigsawAssmbler
         int k = default_k;
 
         if (k == -1 && this.root != null && this.root.jigsaw.air) k = chunkGenerator.func_222532_b(i, j,
-                this.SURFACE_TYPE) + rand.nextInt(this.root.jigsaw.variance) + this.root.jigsaw.height;
+                this.SURFACE_TYPE) + rand.nextInt(this.root.jigsaw.variance);
+
         if (k == -1) if (this.SURFACE_TYPE != null) k = chunkGenerator.func_222532_b(i, j, this.SURFACE_TYPE);
         else
         {
@@ -147,8 +148,10 @@ public class JigsawAssmbler
             if (k > 0) k = this.rand.nextInt(k + 1);
             else k = chunkGenerator.world.getSeaLevel();
         }
-
-        abstractvillagepiece.offset(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta()), 0);
+        int dy = 0;
+        if (this.root != null) dy = -this.root.jigsaw.height;
+        abstractvillagepiece.offset(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta() + dy),
+                0);
         parts.add(abstractvillagepiece);
         if (depth > 0)
         {

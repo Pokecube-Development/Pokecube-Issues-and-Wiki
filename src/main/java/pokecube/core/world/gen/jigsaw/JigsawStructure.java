@@ -25,6 +25,7 @@ import net.minecraft.world.gen.feature.template.Template.BlockInfo;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.worldgen.WorldgenHandler;
 import pokecube.core.database.worldgen.WorldgenHandler.JigSawConfig;
 import pokecube.core.events.StructureEvent.PickLocation;
 import pokecube.core.utils.PokecubeSerializer;
@@ -107,6 +108,17 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
         sx = sx * base + random.nextInt(i - j + 1);
         sz = sz * base + random.nextInt(i - j + 1);
 
+        boolean blocked = WorldgenHandler.isBlocked(chunkGenerator, random, this, sx, sz);
+        int tries = 0;
+        while (blocked && tries++ < 20)
+        {
+            sx = x / base;
+            sz = z / base;
+            sx = sx * base + random.nextInt(i - j + 1);
+            sz = sz * base + random.nextInt(i - j + 1);
+            blocked = WorldgenHandler.isBlocked(chunkGenerator, random, this, sx, sz);
+        }
+
         return new ChunkPos(sx, sz);
     }
 
@@ -135,8 +147,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             final int i = chunkPosX >> 4;
             final int j = chunkPosZ >> 4;
             rand.setSeed(i ^ j << 4 ^ chunkGen.getSeed());
-            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos((chunkPosX << 4) + 9, 0,
-                    (chunkPosZ << 4) + 9));
+            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos(chunkPosX << 4, 0, chunkPosZ << 4));
             JigSawConfig matched = this.getStruct();
             if (matched._matcher == null) return false;
             if (!matched._matcher.checkBiome(biome)) for (final JigSawConfig m : this.structs)

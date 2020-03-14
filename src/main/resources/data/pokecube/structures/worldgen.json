@@ -189,6 +189,7 @@
       "distance":24,
       "separation":8,
       "size":6,
+      "priority":10,
       "biomeType":"village",
       "needed_once":[
         "pokecenter",
@@ -209,6 +210,7 @@
       "distance":24,
       "separation":8,
       "size":6,
+      "priority":10,
       "biomeType":"village",
       "needed_once":[
         "pokecenter",

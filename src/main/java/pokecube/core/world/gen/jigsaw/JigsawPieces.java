@@ -190,6 +190,7 @@ public class JigsawPieces
     {
         public final JigSawPool pool;
         public int              offset = 1;
+        public int              dy     = 0;
         private boolean         ignoreAir;
 
         public String flag = "";
@@ -235,6 +236,7 @@ public class JigsawPieces
                 if (thing.has("ignoreAir")) this.ignoreAir = thing.get("ignoreAir").getAsBoolean();
                 if (thing.has("subbiome")) this.subbiome = thing.get("subbiome").getAsString();
                 if (thing.has("spawn")) this._spawn = this.fromJson(thing.get("spawn"));
+                if (thing.has("dy")) this.dy = thing.get("dy").getAsInt();
                 proc.accept(this, thing);
             }
             catch (final Exception e)
@@ -259,7 +261,7 @@ public class JigsawPieces
         public int func_214850_d()
         {
             // This is the ground level delta.
-            return this.offset;
+            return this.offset + this.dy;
         }
 
         @Override
