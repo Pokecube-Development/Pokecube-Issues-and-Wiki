@@ -47,7 +47,7 @@ public class PersistantStatusEffect extends BaseEffect
 
             boolean toRemove = pokemob != null ? false : Math.random() > 0.8;
             if (effect.getDuration() == 0) toRemove = true;
-            final int duration = PokecubeCore.getConfig().attackCooldown + 10;
+            final int duration = PokecubeCore.getConfig().attackCooldown * 5;
 
             LivingEntity targetM = entity.getAttackingEntity();
             if (targetM == null) targetM = entity.getRevengeTarget();
@@ -55,8 +55,8 @@ public class PersistantStatusEffect extends BaseEffect
             if (targetM == null) targetM = entity;
             float scale = 1;
             final IPokemob user = CapabilityPokemob.getPokemobFor(targetM);
-            final DamageSource source = user != null && user.getOwner() != null ? DamageSource
-                    .causeIndirectDamage(targetM, user.getOwner())
+            final DamageSource source = user != null && user.getOwner() != null ? DamageSource.causeIndirectDamage(
+                    targetM, user.getOwner())
                     : targetM != null ? DamageSource.causeMobDamage(targetM) : new DamageSource("generic");
 
             if (pokemob != null)
