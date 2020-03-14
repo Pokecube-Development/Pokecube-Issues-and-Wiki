@@ -53,9 +53,13 @@ public class BiWalkAnimation extends Animation
         for (final String s : lf)
             if (s != null) fl.add(ThutCore.trim(s));
         biwalkdur = Integer.parseInt(this.get(map, "duration"));
+        int armAxis = 0;
+        int legAxis = 0;
         if (!this.get(map, "legAngle").isEmpty()) walkAngle1 = Float.parseFloat(this.get(map, "legAngle"));
         if (!this.get(map, "armAngle").isEmpty()) walkAngle2 = Float.parseFloat(this.get(map, "armAngle"));
-        this.init(hl, hr, fl, fr, biwalkdur, walkAngle1, walkAngle2);
+        if (!this.get(map, "legAxis").isEmpty()) legAxis = Integer.parseInt(this.get(map, "legAxis"));
+        if (!this.get(map, "armAxis").isEmpty()) armAxis = Integer.parseInt(this.get(map, "armAxis"));
+        this.init(hl, hr, fl, fr, biwalkdur, walkAngle1, walkAngle2, legAxis, armAxis);
         return this;
     }
 
@@ -81,7 +85,7 @@ public class BiWalkAnimation extends Animation
      * @return
      */
     public BiWalkAnimation init(final Set<String> hl, final Set<String> hr, final Set<String> fl, final Set<String> fr,
-            int duration, final float legAngle, final float armAngle)
+            int duration, final float legAngle, final float armAngle, final int legAxis, final int armAxis)
     {
         duration = duration + duration % 4;
         for (final String s : hr)
@@ -92,21 +96,21 @@ public class BiWalkAnimation extends Animation
             component1.name = ident + "1";
             component1.identifier = ident + "1";
             component1.startKey = 0;
-            component1.rotChange[0] = legAngle;
+            component1.rotChange[legAxis] = legAngle;
 
             final AnimationComponent component2 = new AnimationComponent();
             component2.length = duration / 2;
             component2.name = ident + "2";
             component2.identifier = ident + "2";
             component2.startKey = duration / 4;
-            component2.rotChange[0] = -2 * legAngle;
+            component2.rotChange[legAxis] = -2 * legAngle;
 
             final AnimationComponent component3 = new AnimationComponent();
             component3.length = duration / 4;
             component3.name = ident + "3";
             component3.identifier = ident + "3";
             component3.startKey = 3 * duration / 4;
-            component3.rotChange[0] = legAngle;
+            component3.rotChange[legAxis] = legAngle;
 
             final ArrayList<AnimationComponent> set = Lists.newArrayList();
 
@@ -126,21 +130,21 @@ public class BiWalkAnimation extends Animation
             component1.name = ident + "1";
             component1.identifier = ident + "1";
             component1.startKey = 0;
-            component1.rotChange[0] = -legAngle;
+            component1.rotChange[legAxis] = -legAngle;
 
             final AnimationComponent component2 = new AnimationComponent();
             component2.length = duration / 2;
             component2.name = ident + "2";
             component2.identifier = ident + "2";
             component2.startKey = duration / 4;
-            component2.rotChange[0] = 2 * legAngle;
+            component2.rotChange[legAxis] = 2 * legAngle;
 
             final AnimationComponent component3 = new AnimationComponent();
             component3.length = duration / 4;
             component3.name = ident + "3";
             component3.identifier = ident + "3";
             component3.startKey = 3 * duration / 4;
-            component3.rotChange[0] = -legAngle;
+            component3.rotChange[legAxis] = -legAngle;
 
             final ArrayList<AnimationComponent> set = Lists.newArrayList();
 
@@ -160,21 +164,21 @@ public class BiWalkAnimation extends Animation
             component1.name = ident + "1";
             component1.identifier = ident + "1";
             component1.startKey = 0;
-            component1.rotChange[0] = armAngle;
+            component1.rotChange[armAxis] = armAngle;
 
             final AnimationComponent component2 = new AnimationComponent();
             component2.length = duration / 2;
             component2.name = ident + "2";
             component2.identifier = ident + "2";
             component2.startKey = duration / 4;
-            component2.rotChange[0] = -2 * armAngle;
+            component2.rotChange[armAxis] = -2 * armAngle;
 
             final AnimationComponent component3 = new AnimationComponent();
             component3.length = duration / 4;
             component3.name = ident + "3";
             component3.identifier = ident + "3";
             component3.startKey = 3 * duration / 4;
-            component3.rotChange[0] = armAngle;
+            component3.rotChange[armAxis] = armAngle;
 
             final ArrayList<AnimationComponent> set = Lists.newArrayList();
 
@@ -194,21 +198,21 @@ public class BiWalkAnimation extends Animation
             component1.name = ident + "1";
             component1.identifier = ident + "1";
             component1.startKey = 0;
-            component1.rotChange[0] = -armAngle;
+            component1.rotChange[armAxis] = -armAngle;
 
             final AnimationComponent component2 = new AnimationComponent();
             component2.length = duration / 2;
             component2.name = ident + "2";
             component2.identifier = ident + "2";
             component2.startKey = duration / 4;
-            component2.rotChange[0] = 2 * armAngle;
+            component2.rotChange[armAxis] = 2 * armAngle;
 
             final AnimationComponent component3 = new AnimationComponent();
             component3.length = duration / 4;
             component3.name = ident + "3";
             component3.identifier = ident + "3";
             component3.startKey = 3 * duration / 4;
-            component3.rotChange[0] = -armAngle;
+            component3.rotChange[armAxis] = -armAngle;
 
             final ArrayList<AnimationComponent> set = Lists.newArrayList();
 

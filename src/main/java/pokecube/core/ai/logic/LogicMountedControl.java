@@ -93,7 +93,11 @@ public class LogicMountedControl extends LogicBase
                 break;
             }
 
-        if (canFly) shouldControl = verticalControl = PokecubeCore.getConfig().flyEnabled || shouldControl;
+        if (canFly)
+        {
+            shouldControl = verticalControl = PokecubeCore.getConfig().flyEnabled || shouldControl;
+            if (verticalControl) this.entity.setNoGravity(true);
+        }
         if ((canSurf || canDive) && (waterSpeed = this.entity.isInWater()))
             shouldControl = verticalControl = PokecubeCore.getConfig().surfEnabled || shouldControl;
 

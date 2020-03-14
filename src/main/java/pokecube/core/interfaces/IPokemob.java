@@ -196,7 +196,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     // TODO also include effects from external float reasons here
     default boolean flys()
     {
-        return this.getPokedexEntry().flys() && !this.isGrounded();
+        return (this.getPokedexEntry().flys() || this.canUseFly() && this.getEntity().isBeingRidden()) && !this
+                .isGrounded();
     }
 
     /** If this is larger than 0, the pokemob shouldn't be allowed to attack. */

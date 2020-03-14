@@ -174,6 +174,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render(final MatrixStack mat, final IVertexBuilder buffer)
     {
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         if (this.hidden) return;
         // Fill the int array
         int[] rgbabro = this.getRGBABrO();

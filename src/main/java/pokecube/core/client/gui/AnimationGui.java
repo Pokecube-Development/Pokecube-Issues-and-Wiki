@@ -448,8 +448,12 @@ public class AnimationGui extends Screen
                 catch (final Exception e)
                 {
                     final Vector3f dims = AnimationGui.entry.getModelSize();
-                    if (AnimationGui.borked.add(AnimationGui.entry)) dims.set(AnimationGui.original_sizes.get(
-                            AnimationGui.entry));
+                    if (AnimationGui.borked.add(AnimationGui.entry))
+                    {
+                        if (AnimationGui.original_sizes.containsKey(AnimationGui.entry)) dims.set(
+                                AnimationGui.original_sizes.get(AnimationGui.entry));
+                        else dims.set(0.1f, 0.1f, 0.1f);
+                    }
                     else
                     {
                         dims.y *= 2;
