@@ -154,6 +154,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     public void render()
     {
+        GL11.glScalef(this.preScale.x, this.preScale.y, this.preScale.z);
         if (this.hidden) return;
         this.preRender();
         // Renders the model.
@@ -164,7 +165,6 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void renderAll()
     {
-        GL11.glScalef(this.preScale.x, this.preScale.y, this.preScale.z);
         this.render();
         for (final IExtendedModelPart o : this.childParts.values())
         {
