@@ -920,6 +920,11 @@ public class CapabilityHasPokemobs
         void throwCubeAt(Entity target);
 
         void setDataSync(DataSync sync);
+
+        default void onTick()
+        {
+            this.lowerCooldowns();
+        }
     }
 
     public static interface ITargetWatcher

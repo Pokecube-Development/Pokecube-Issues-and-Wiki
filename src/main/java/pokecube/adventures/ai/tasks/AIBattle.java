@@ -33,7 +33,6 @@ public class AIBattle extends AITrainerBase
 {
     private boolean  canPath     = true;
     private BlockPos battleLoc   = null;
-    private long     checkedTick = 0;
     private int      deagrotimer = 0;
 
     public AIBattle(final LivingEntity trainer)
@@ -240,10 +239,6 @@ public class AIBattle extends AITrainerBase
     @Override
     public boolean shouldRun()
     {
-        // Ensure cooldowns are ticked once a tick.
-        if (this.checkedTick != this.entity.getEntityWorld().getGameTime()) this.trainer.lowerCooldowns();
-        this.checkedTick = this.entity.getEntityWorld().getGameTime();
-
         final LivingEntity target = this.trainer.getTarget();
         if (target == null) return false;
         final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
