@@ -87,7 +87,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     }
 
     @Override
-    protected ChunkPos getStartPositionForPosition(final ChunkGenerator<?> chunkGenerator, final Random random, int x,
+    public ChunkPos getStartPositionForPosition(final ChunkGenerator<?> chunkGenerator, final Random random, int x,
             int z, final int spacingOffsetsX, final int spacingOffsetsZ)
     {
         final int i = this.getBiomeFeatureDistance(chunkGenerator);
