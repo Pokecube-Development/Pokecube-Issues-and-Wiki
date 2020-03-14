@@ -23,6 +23,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
@@ -167,19 +168,20 @@ public class WorldgenHandler
 
     public static Map<String, JigsawStructure> structs = Maps.newHashMap();
 
-    private static Map<Structure<?>, Integer> priorities = Maps.newHashMap();
+    private static Map<JigsawStructure, Integer> priorities = Maps.newHashMap();
 
     public static boolean isBlocked(final ChunkGenerator<?> gen, final Random rand, final Structure<?> feat_in,
             final int chunkX, final int chunkZ)
     {
         final Integer id = WorldgenHandler.priorities.getOrDefault(feat_in, 100);
-        for (final Entry<Structure<?>, Integer> entry : WorldgenHandler.priorities.entrySet())
+        final ChunkPos pos = new ChunkPos(chunkX, chunkZ);
+        for (final Entry<JigsawStructure, Integer> entry : WorldgenHandler.priorities.entrySet())
         {
-            final Structure<?> feat = entry.getKey();
+            final JigsawStructure feat = entry.getKey();
             if (feat == feat_in) continue;
             final Integer id2 = entry.getValue();
             if (id2 >= id) continue;
-            if (feat.hasStartAt(gen, rand, chunkX, chunkZ)) return true;
+            if (feat.getStartPositionForPosition(gen, rand, chunkX, chunkZ, 0, 0).equals(pos)) return true;
         }
         return false;
     }

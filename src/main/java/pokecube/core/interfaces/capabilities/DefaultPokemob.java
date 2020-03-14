@@ -329,7 +329,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 this.getEntity().setAttackTarget(null);
                 return;
             }
-            else if (!AITools.validTargets.test(entity))
+            else if (!forced && !AITools.validTargets.test(entity))
             {
                 this.getEntity().setAttackTarget(null);
                 return;

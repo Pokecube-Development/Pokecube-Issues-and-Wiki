@@ -97,7 +97,8 @@ public class AIFindTarget extends AIBase implements IAICombat
                         + " is targetting owner.", new IllegalArgumentException());
                 return;
             }
-            pokemob.onSetTarget(evt.getTarget());
+            final boolean force = evt.getTarget() != null && evt.getTarget().getLastAttackedEntity() == evt.getEntity();
+            pokemob.onSetTarget(evt.getTarget(), force);
         }
     }
 

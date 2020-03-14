@@ -61,6 +61,8 @@ public class Impl
                     break check;
 
                 final IColony colony = Impl.instance.getColonyManager().getClosestColony(world.getWorld(), v.getPos());
+                if (colony == null || colony.getBuildingManager() == null || colony.getBuildingManager()
+                        .getBuildings() == null) break check;
                 final Vec3d vec = new Vec3d(v.x, v.y, v.z);
                 for (final IBuilding b : colony.getBuildingManager().getBuildings().values())
                 {
