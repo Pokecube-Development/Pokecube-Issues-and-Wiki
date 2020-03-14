@@ -28,6 +28,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
@@ -359,6 +360,13 @@ public class TrainerEventHandler
     public static void onNpcSpawn(final NpcSpawn event)
     {
         TrainerEventHandler.initTrainer(event.getNpcMob(), event.getReason());
+    }
+
+    @SubscribeEvent
+    public static void onNpcTick(final LivingUpdateEvent event)
+    {
+        final IHasPokemobs pokemobHolder = CapabilityHasPokemobs.getHasPokemobs(event.getEntityLiving());
+        if (pokemobHolder != null) pokemobHolder.onTick();
     }
 
     private static void initTrainer(final LivingEntity npc, final SpawnReason reason)
