@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="1.1"/>
+  <phase name="global" scale="1.0"/>
   <phase duration="10" leftArm="left_arm" leftLeg="jaw" legAngle="5" name="biWalk" rightArm="right_arm" rightLeg="" legAxis="2"/>
   <phase type="idle">
    <part name="Body">
