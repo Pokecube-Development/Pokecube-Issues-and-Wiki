@@ -112,13 +112,12 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             }
             else texName = null;
             if (material == null) material = new Material(matName, texName, mat.getDiffuse(), mat.getSpecular(),
-                    mat.getEmissive(), mat.ambientIntensity, mat.shininess, mat.transparency);
+                    mat.getEmissive(), mat.ambientIntensity, mat.shininess);
             if (isDef)
             {
                 if (material.texture == null) material.texture = texName;
                 material.ambientIntensity = mat.ambientIntensity;
                 material.shininess = mat.shininess;
-                material.transparency = mat.transparency;
                 material.emissiveColor = mat.getEmissive();
                 material.specularColor = mat.getSpecular();
                 material.diffuseColor = mat.getDiffuse();

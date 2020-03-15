@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.IRenderTypeBuffer.Impl;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderState.ShadeModelState;
+import net.minecraft.client.renderer.RenderState.WriteMaskState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -28,7 +29,8 @@ public class Material
     public float            emissiveMagnitude;
     public float            ambientIntensity;
     public float            shininess;
-    public float            transparency;
+    public float            alpha         = 1;
+    public boolean          transluscent  = false;
     public boolean          flat          = true;
 
     IVertexBuilder          override_buff = null;
@@ -42,7 +44,7 @@ public class Material
     }
 
     public Material(final String name, final String texture, final Vector3f diffuse, final Vector3f specular,
-            final Vector3f emissive, final float ambient, final float shiny, final float transparent)
+            final Vector3f emissive, final float ambient, final float shiny)
     {
         this(name);
         this.texture = texture;
@@ -52,7 +54,6 @@ public class Material
         this.emissiveMagnitude = Math.min(emissive.x / 0.8f, 1);
         this.ambientIntensity = ambient;
         this.shininess = shiny;
-        this.transparency = transparent;
     }
 
     public void makeVertexBuilder(final ResourceLocation texture, final IRenderTypeBuffer buffer)
@@ -83,7 +84,7 @@ public class Material
         this.tex = tex;
         RenderType.State.Builder builder = RenderType.State.builder();
         builder.texture(new RenderState.TextureState(tex, false, false));
-        builder.transparency(new RenderState.TransparencyState("translucent_transparency", () ->
+        builder.transparency(new RenderState.TransparencyState("material_transparency", () ->
         {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
@@ -93,9 +94,10 @@ public class Material
         }));
         if (emissiveMagnitude == 0) builder.diffuseLighting(new RenderState.DiffuseLightingState(true));
         builder.alpha(new RenderState.AlphaState(0.003921569F));
-        builder.cull(new RenderState.CullState(false));
         builder.lightmap(new RenderState.LightmapState(true));
         builder.overlay(new RenderState.OverlayState(true));
+        boolean transp = (alpha < 1 || transluscent);
+        if (transp) builder.writeMask(new WriteMaskState(true, true));
         if (!this.flat) builder.shadeModel(new ShadeModelState(true));
 
         final RenderType.State rendertype$state = builder.build(true);

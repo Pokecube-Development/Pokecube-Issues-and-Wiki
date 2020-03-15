@@ -155,7 +155,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)
                 this.wrapped.body.currentAnim
-                .setCurrentFrame(this.info.currentTick % this.wrapped.body.currentAnim.frameCount());
+                        .setCurrentFrame(this.info.currentTick % this.wrapped.body.currentAnim.frameCount());
             // Check head parts for rendering rotations of them.
             for (final String s : this.getHeadParts())
             {
@@ -275,7 +275,9 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         material.diffuseColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
         material.emissiveColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
         material.specularColor = new thut.api.maths.vecmath.Vector3f(1, 1, 1);
-        material.transparency = mat.transluscent ? 1 : 0;
+        material.alpha = mat.alpha;
+        material.flat = !mat.smooth;
+        material.transluscent = mat.transluscent;
         this.wrapped.body.namesToMats.put(mat_name, material);
     }
 }

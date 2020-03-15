@@ -258,7 +258,7 @@ public class Body implements IRetexturableModel
         if (result != null) return result;
         try
         {
-            result = new Material(materialName, materialName, new Vector3f(), new Vector3f(), new Vector3f(), 1, 1, 0);
+            result = new Material(materialName, materialName, new Vector3f(), new Vector3f(), new Vector3f(), 1, 1);
             this.namesToMats.put(materialName, result);
             return result;
         }
