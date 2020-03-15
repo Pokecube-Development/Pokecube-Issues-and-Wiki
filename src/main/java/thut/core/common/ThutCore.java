@@ -26,16 +26,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -46,15 +45,14 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import thut.api.LinkableCaps;
 import thut.api.OwnableCaps;
-import thut.api.boom.ExplosionCustom;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IMobTexturable;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
+import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.TerrainManager;
@@ -84,6 +82,16 @@ public class ThutCore
     // generic minecraft events.)
     public static class MobEvents
     {
+        private static final ResourceLocation CAPID = new ResourceLocation(ThutCore.MODID, "inventory");
+
+        @SubscribeEvent
+        public static void onMobCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
+        {
+            if (event.getCapabilities().containsKey(MobEvents.CAPID)) return;
+            if (!(event.getObject() instanceof IBlockEntity)) return;
+            event.addCapability(MobEvents.CAPID, new BlockEntityInventory((IBlockEntity) event.getObject()));
+        }
+
         @SubscribeEvent
         public static void interact(final RightClickBlock event)
         {
@@ -112,28 +120,6 @@ public class ThutCore
                         return;
                     }
                 }
-            }
-            if (event.getSide() == LogicalSide.CLIENT) return;
-
-            switch (event.getHand())
-            {
-            case MAIN_HAND:
-                if (!event.getItemStack().isEmpty()) return;
-
-                final Entity mob = event.getEntity();
-                final ServerWorld world = (ServerWorld) event.getEntity().getEntityWorld();
-                final Vector3 center = Vector3.getNewVector().set(mob);
-                final float power = 100;
-                final ExplosionCustom boom = new ExplosionCustom(world, mob, center, power);
-                boom.maxPerTick[0] = 1000;
-                boom.maxPerTick[1] = 5000;
-                // boom.doExplosion();
-                break;
-            case OFF_HAND:
-                break;
-            default:
-                break;
-
             }
         }
     }
