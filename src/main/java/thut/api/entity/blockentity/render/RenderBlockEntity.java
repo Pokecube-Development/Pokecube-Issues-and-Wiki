@@ -12,12 +12,14 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -85,17 +87,11 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                     {
                         pos.setPos(i - xMin, j - yMin, k - zMin);
                         if (!blockEntity.shouldHide(pos))
+                        {
                             this.drawBlockAt(pos, blockEntity, mat, bufferIn, packedLightIn);
-                        else this.drawCrateAt(pos, blockEntity, mat, bufferIn, packedLightIn);
-                    }
-
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        pos.setPos(i, j, k);
-                        if (!blockEntity.shouldHide(pos))
                             this.drawTileAt(pos, blockEntity, partialTicks, mat, bufferIn, packedLightIn);
+                        }
+                        else this.drawCrateAt(pos, blockEntity, mat, bufferIn, packedLightIn);
                     }
             mat.pop();
 
@@ -155,25 +151,11 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         if (tile != null)
         {
             mat.push();
-            mat.rotate(new Quaternion(0, 90.0F, 0.0F, true));
-            mat.push();
-            mat.rotate(new Quaternion(-180, 0.0F, 0.0F, true));
-            mat.translate(0.5F, 0.5F, 0.5F);
-            mat.rotate(new Quaternion(0, -90.0F, 0.0F, true));
-            final float f7 = 1.0F;
-            mat.scale(-f7, -f7, f7);
-            final boolean fast = tile.hasFastRenderer();
-            if (fast)
-            {
-                // TODO how this works now?
-                // TileEntityRendererDispatcher.instance.preDrawBatch();
-                // TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0,
-                // partialTicks);
-                // TileEntityRendererDispatcher.instance.drawBatch();
-            }
-            // else TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0,
-            // partialTicks);
-            mat.pop();
+            mat.translate(-0.5, 1, -0.5);
+            mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
+            mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+            mat.rotate(Vector3f.XP.rotationDegrees(180.0F));
+            TileEntityRendererDispatcher.instance.renderTileEntity(tile, partialTicks, mat, bufferIn);
             mat.pop();
         }
     }
@@ -200,16 +182,28 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
 
     private void renderBakedBlockModel(final IBlockEntity entity, final IBakedModel model, final BlockState state,
             final IBlockReader world, BlockPos pos, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
-            final int packedLightIn)
+            int packedLightIn)
     {
         mat.translate(pos.getX() - 1, pos.getY(), pos.getZ() - 1);
         mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
         mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
         mat.rotate(Vector3f.XP.rotationDegrees(180.0F));
 
-        Minecraft.getInstance().getBlockRendererDispatcher().renderBlock(state, mat, bufferIn, packedLightIn,
-                OverlayTexture.DEFAULT_LIGHT, EmptyModelData.INSTANCE);
-        mat.translate(pos.getX(), pos.getY(), pos.getZ());
-        return;
+        BlockRenderType blockrendertype = state.getRenderType();
+        if (blockrendertype == BlockRenderType.MODEL)
+        {
+            BlockRendererDispatcher render = Minecraft.getInstance().getBlockRendererDispatcher();
+            IBakedModel ibakedmodel = render.getModelForState(state);
+            BlockPos min = entity.getMin();
+            BlockPos epos = ((Entity) entity).getPosition();
+            pos = pos.add(min.getX() + epos.getX(), min.getY() + epos.getY(), min.getZ() + epos.getZ());
+            int i = Minecraft.getInstance().getBlockColors().getColor(state, entity.getFakeWorld().getWorld(), pos, 0);
+            float f = (i >> 16 & 255) / 255.0F;
+            float f1 = (i >> 8 & 255) / 255.0F;
+            float f2 = (i & 255) / 255.0F;
+            render.getBlockModelRenderer().renderModel(mat.getLast(),
+                    bufferIn.getBuffer(RenderTypeLookup.getRenderType(state)), state, ibakedmodel, f, f1, f2,
+                    packedLightIn, OverlayTexture.DEFAULT_LIGHT, EmptyModelData.INSTANCE);
+        }
     }
 }
