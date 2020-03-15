@@ -41,7 +41,7 @@ public abstract class PokemobRidable extends PokemobBase implements IMultiplePas
     }
 
     @Override
-    public boolean canBeRiddenInWater()
+    public boolean canBeRiddenInWater(final Entity rider)
     {
         return this.pokemobCap.canUseSurf() || this.pokemobCap.canUseDive();
     }
