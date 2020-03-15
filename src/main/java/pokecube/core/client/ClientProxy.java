@@ -334,6 +334,8 @@ public class ClientProxy extends CommonProxy
             RenderTypeLookup.setRenderLayer(crop, RenderType.translucent());
         for (Block fruit : BerryManager.berryFruits.values())
             RenderTypeLookup.setRenderLayer(fruit, RenderType.translucent());
+        for (Block leaf : ItemGenerator.leaves.values())
+            RenderTypeLookup.setRenderLayer(leaf, RenderType.cutoutMipped());
 
     }
 
