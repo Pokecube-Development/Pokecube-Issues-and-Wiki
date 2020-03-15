@@ -39,16 +39,6 @@ public class BerryLeaf extends LeavesBlock
     }
 
     @Override
-    public void tick(final BlockState state, final World worldIn, final BlockPos pos, final Random random)
-    {
-        super.tick(state, worldIn, pos, random);
-        // Random chance to make a berry here.
-        final Block fruit = BerryManager.berryFruits.get(this.index);
-        if (fruit != null && worldIn.isAirBlock(pos.down()) && random.nextInt(PokecubeCore
-                .getConfig().leafBerryTicks) == 0) worldIn.setBlockState(pos.down(), fruit.getDefaultState());
-    }
-
-    @Override
     public boolean ticksRandomly(final BlockState state)
     {
         return true;
