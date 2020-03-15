@@ -88,9 +88,10 @@ public abstract class Mesh
         final int red = this.rgbabro[0];
         final int green = this.rgbabro[1];
         final int blue = this.rgbabro[2];
-        final int alpha = this.rgbabro[3];
+        int alpha = this.rgbabro[3];
         final int lightmapUV = this.rgbabro[4];
         final int overlayUV = this.rgbabro[5];
+        alpha = (int) (255 * ((1 - material.transparency) * alpha / 255f));
         int n = 0;
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
         final Matrix4f pos = matrixstack$entry.getPositionMatrix();
