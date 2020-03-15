@@ -1,0 +1,76 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"3": "pokecube_legends:blocks/naturespawn",
+		"particle": "pokecube_legends:blocks/naturespawn"
+	},
+	"elements": [
+		{
+			"name": "snail_shell",
+			"from": [4, 3, 6.5],
+			"to": [11, 11, 9.25],
+			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [10, 0, 14, 4.5], "rotation": 270, "texture": "#3", "cullface": "up"},
+				"east": {"uv": [8, 0, 9.999, 3.999], "texture": "#3", "cullface": "up"},
+				"south": {"uv": [14, 0, 10, 4.5], "rotation": 90, "texture": "#3", "cullface": "up"},
+				"west": {"uv": [8.5, 5.5, 8.75, 5.75], "rotation": 90, "texture": "#3", "cullface": "up"},
+				"up": {"uv": [8, 1.5, 9.999, 5.999], "rotation": 90, "texture": "#3", "cullface": "up"},
+				"down": {"uv": [8, 0, 9.999, 4.499], "rotation": 90, "texture": "#3", "cullface": "up"}
+			}
+		},
+		{
+			"name": "snail_shell_piece",
+			"from": [2, 3, 6.5],
+			"to": [4, 6, 9.25],
+			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [10, 4.5, 11.9, 6], "rotation": 270, "texture": "#3", "cullface": "up"},
+				"south": {"uv": [10, 4.5, 11.9, 6], "rotation": 270, "texture": "#3", "cullface": "up"},
+				"west": {"uv": [8.5, 5.5, 8.75, 5.75], "rotation": 90, "texture": "#3", "cullface": "up"},
+				"up": {"uv": [8.5, 5.5, 8.75, 5.75], "rotation": 90, "texture": "#3", "cullface": "up"},
+				"down": {"uv": [8, 4.5, 9.999, 5.999], "rotation": 90, "texture": "#3", "cullface": "up"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-30, 130, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-30, 130, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 315, 0],
+			"translation": [2, 2.5, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 315, 0],
+			"translation": [2, 2.5, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 45, 0],
+			"translation": [0, -1.5, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"head": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 14.4, 0]
+		},
+		"fixed": {
+			"rotation": [0, 180, 0],
+			"translation": [0, -4, 0],
+			"scale": [0.6, 0.6, 0.6]
+		}
+	}
+}

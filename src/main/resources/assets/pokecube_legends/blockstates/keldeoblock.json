@@ -1,20 +1,13 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "#None": "pokecube_legends:blocks/keldeoblock2",
-			"#None_keldeoblock1.png": "pokecube_legends:blocks/keldeoblock1"
-        },
-		"model": "minecraft:block/cube",
-    	"custom": {
-		  "base_model": "pokecube_legends:keldeoblock.obj",
-	      "flip-v": true
-	    }
-     },
-    "variants": {
-        "facing=east":  { "model": "pokecube_legends:item/keldeoblock.obj", "y":90 },
-        "facing=west":  { "model": "pokecube_legends:item/keldeoblock.obj", "y":270 },
-        "facing=south": { "model": "pokecube_legends:item/keldeoblock.obj", "y":180 },
-        "facing=north": { "model": "pokecube_legends:item/keldeoblock.obj", "y":0}
-    }
+  "variants": {
+    "facing=east,half=bottom":  { "model": "pokecube_legends:block/keldeoblock_bottom", "y":270 },
+    "facing=west,half=bottom":  { "model": "pokecube_legends:block/keldeoblock_bottom", "y":90 },
+    "facing=north,half=bottom": { "model": "pokecube_legends:block/keldeoblock_bottom", "y":180},
+    "facing=south,half=bottom": { "model": "pokecube_legends:block/keldeoblock_bottom", "y":0 },
+
+    "facing=east,half=top":  { "model": "pokecube_legends:block/keldeoblock_top", "y":270 },
+    "facing=west,half=top":  { "model": "pokecube_legends:block/keldeoblock_top", "y":90 },
+    "facing=north,half=top": { "model": "pokecube_legends:block/keldeoblock_top", "y":180},
+    "facing=south,half=top": { "model": "pokecube_legends:block/keldeoblock_top", "y":0 }
+  }
 }
