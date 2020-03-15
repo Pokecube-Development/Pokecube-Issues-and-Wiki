@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0.25,0" scale=".4"/>
-  <phase armAngle="50" duration="10" leftArm="" leftLeg="Left_foot" legAngle="45" name="biWalk" rightArm="" rightLeg="Right_foot"/>
+ <model>
+  <phase name="global" scale=".4"/>
+  <metadata head="head" headAxis="2" headCap="-60,60" headCap1="-10,30"/>
+  <material name="bubble" alpha="0.25" transluscent="true" smooth="true"/>
+  <phase armAngle="50" duration="10" leftArm="left_cell_arm" leftLeg="" legAngle="45" name="biWalk" rightArm="right_cell_arm" rightLeg=""/>
  </model>
 </ModelAnimator>
