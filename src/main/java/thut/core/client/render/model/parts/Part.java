@@ -340,7 +340,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         material.emissiveColor = new Vector3f(mat.light, mat.light, mat.light);
         material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
         material.specularColor = new Vector3f(1, 1, 1);
-        material.transparency = mat.alpha;
+        material.transparency = 1 - mat.alpha;
         for (final String s : parts)
             for (final Mesh mesh : this.shapes)
             {
