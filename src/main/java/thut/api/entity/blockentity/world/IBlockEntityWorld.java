@@ -47,7 +47,6 @@ public interface IBlockEntityWorld extends IBlockReader
             final boolean invalid = tile.isRemoved();
             if (!invalid) tile.remove();
             tile.setPos(pos.toImmutable());
-            tile.validate();
         }
         return tile;
     }

@@ -151,7 +151,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     private void drawTileAt(final BlockPos pos, final IBlockEntity entity, final float partialTicks,
             final MatrixStack mat, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
-        final TileEntity tile = entity.getFakeWorld().getTile(pos);
+        final TileEntity tile = entity.getTiles()[pos.getX()][pos.getY()][pos.getZ()];
         if (tile != null)
         {
             mat.push();
