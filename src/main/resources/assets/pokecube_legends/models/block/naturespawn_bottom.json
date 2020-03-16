@@ -209,33 +209,6 @@
 				"up": {"uv": [0, 0, 7.997, 0.499], "rotation": 90, "texture": "#3", "cullface": "up"},
 				"down": {"uv": [0, 1, 7.997, 2.498], "rotation": 90, "texture": "#3"}
 			}
-		},
-		{
-			"name": "snail_shell",
-			"from": [16, 15, 6.5],
-			"to": [23, 23, 9.25],
-			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8]},
-			"faces": {
-				"north": {"uv": [10, 0, 14, 4.5], "rotation": 270, "texture": "#3", "cullface": "up"},
-				"east": {"uv": [8, 0, 9.999, 3.999], "texture": "#3", "cullface": "up"},
-				"south": {"uv": [14, 0, 10, 4.5], "rotation": 90, "texture": "#3", "cullface": "up"},
-				"west": {"uv": [8.5, 5.5, 8.75, 5.75], "rotation": 90, "texture": "#3", "cullface": "up"},
-				"up": {"uv": [8, 1.5, 9.999, 5.999], "rotation": 90, "texture": "#3", "cullface": "up"},
-				"down": {"uv": [8, 0, 9.999, 4.499], "rotation": 90, "texture": "#3", "cullface": "up"}
-			}
-		},
-		{
-			"name": "snail_shell_piece",
-			"from": [14, 15, 6.5],
-			"to": [16, 18, 9.25],
-			"rotation": {"angle": 45, "axis": "z", "origin": [8, 8, 8]},
-			"faces": {
-				"north": {"uv": [10, 4.5, 11.9, 6], "rotation": 270, "texture": "#3", "cullface": "up"},
-				"south": {"uv": [11.999, 4.5, 10.099, 6], "rotation": 90, "texture": "#3", "cullface": "up"},
-				"west": {"uv": [8.5, 5.5, 8.75, 5.75], "rotation": 90, "texture": "#3", "cullface": "up"},
-				"up": {"uv": [8.5, 5.5, 8.75, 5.75], "rotation": 90, "texture": "#3", "cullface": "up"},
-				"down": {"uv": [8, 4.5, 9.999, 5.999], "rotation": 90, "texture": "#3", "cullface": "up"}
-			}
 		}
 	],
 	"display": {

@@ -11,14 +11,17 @@ import net.minecraftforge.common.ToolType;
 import pokecube.legends.blocks.BlockBase;
 import pokecube.legends.blocks.GrassJungleBlock;
 import pokecube.legends.blocks.GrassMussBlock;
+import pokecube.legends.blocks.KeldeoBlock;
 import pokecube.legends.blocks.LegendaryBlock;
 import pokecube.legends.blocks.NatureCoreBlock;
 import pokecube.legends.blocks.PortalWarp;
-import pokecube.legends.blocks.Rotates;
 import pokecube.legends.blocks.SandUltraBlock;
 import pokecube.legends.blocks.SpaceCoreBlock;
 import pokecube.legends.blocks.StoneMagneticBlock;
 import pokecube.legends.blocks.UltraSpacePortal;
+import pokecube.legends.blocks.VictiniBlock;
+import pokecube.legends.blocks.XerneasCore;
+import pokecube.legends.blocks.YveltalEgg;
 
 public class BlockInit
 {
@@ -92,18 +95,18 @@ public class BlockInit
             .hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3).sound(SoundType.STONE)
             .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock();;
 
-    public static Block KELDEO_CORE = new Rotates("keldeoblock", Block.Properties.create(Material.ROCK)
+    public static Block KELDEO_CORE = new KeldeoBlock("keldeoblock", Block.Properties.create(Material.ROCK)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3).sound(SoundType.STONE)
             .lightValue(12).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock();;
 
-    public static Block VICTINI_CORE = new Rotates("victiniblock", Block.Properties.create(Material.IRON)
+    public static Block VICTINI_CORE = new VictiniBlock("victiniblock", Block.Properties.create(Material.IRON)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(3).sound(SoundType.ANVIL)
             .lightValue(4).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock();;
 
-    public static Block YVELTAL_CORE = new Rotates("yveltal_egg", Block.Properties.create(Material.IRON)
+    public static Block YVELTAL_CORE = new YveltalEgg("yveltal_egg", Block.Properties.create(Material.IRON)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.AXE).harvestLevel(3).sound(SoundType.WOOD).lightValue(2)
             .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock();
-    public static Block XERNEAS_CORE = new Rotates("xerneas_tree", Block.Properties.create(Material.IRON)
+    public static Block XERNEAS_CORE = new XerneasCore("xerneas_tree", Block.Properties.create(Material.IRON)
             .hardnessAndResistance(5, 15).harvestTool(ToolType.AXE).harvestLevel(3).sound(SoundType.WOOD).lightValue(12)
             .variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 2, 1)).noInfoBlock();
 

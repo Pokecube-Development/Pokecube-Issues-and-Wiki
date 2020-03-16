@@ -1,8 +1,13 @@
 {
-    "variants": {
-        "facing=east":  { "model": "pokecube_legends:block/naturespawn", "y":90 },
-        "facing=west":  { "model": "pokecube_legends:block/naturespawn", "y":270 },
-        "facing=south": { "model": "pokecube_legends:block/naturespawn", "y":180 },
-        "facing=north": { "model": "pokecube_legends:block/naturespawn", "y":0}
-    }
+  "variants": {
+    "facing=east,half=bottom":  { "model": "pokecube_legends:block/naturespawn_bottom", "y":270 },
+    "facing=west,half=bottom":  { "model": "pokecube_legends:block/naturespawn_bottom", "y":90 },
+    "facing=north,half=bottom": { "model": "pokecube_legends:block/naturespawn_bottom", "y":180},
+    "facing=south,half=bottom": { "model": "pokecube_legends:block/naturespawn_bottom", "y":0 },
+
+    "facing=east,half=top":  { "model": "pokecube_legends:block/naturespawn_top", "y":270 },
+    "facing=west,half=top":  { "model": "pokecube_legends:block/naturespawn_top", "y":90 },
+    "facing=north,half=top": { "model": "pokecube_legends:block/naturespawn_top", "y":180},
+    "facing=south,half=top": { "model": "pokecube_legends:block/naturespawn_top", "y":0 }
+  }
 }
