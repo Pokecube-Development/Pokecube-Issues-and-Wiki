@@ -24,37 +24,45 @@ import thut.core.common.ThutCore;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
-    private final HashMap<String, IExtendedModelPart> childParts = new HashMap<>();
-    private final List<Mesh>                          shapes     = Lists.newArrayList();
+    private final HashMap<String, IExtendedModelPart> parts  = new HashMap<>();
+    private final List<String>                        order  = Lists.newArrayList();
+    private final List<Mesh>                          shapes = Lists.newArrayList();
 
-    private final String                              name;
-    private IExtendedModelPart                        parent     = null;
-    IPartTexturer                                     texturer;
-    IAnimationChanger                                 changer;
+    private final String       name;
+    private IExtendedModelPart parent = null;
+    IPartTexturer              texturer;
+    IAnimationChanger          changer;
 
-    public Vector4                                    preRot     = new Vector4();
-    public Vector4                                    postRot    = new Vector4();
-    public Vector3                                    preTrans   = Vector3.getNewVector();
-    public Vector3                                    postTrans  = Vector3.getNewVector();
-    public Vertex                                     preScale   = new Vertex(1, 1, 1);
+    public Vector4 preRot    = new Vector4();
+    public Vector4 postRot   = new Vector4();
+    public Vector3 preTrans  = Vector3.getNewVector();
+    public Vector3 postTrans = Vector3.getNewVector();
+    public Vertex  preScale  = new Vertex(1, 1, 1);
 
-    public Vector3                                    offset     = Vector3.getNewVector();
-    public Vector4                                    rotations  = new Vector4();
-    public Vertex                                     scale      = new Vertex(1, 1, 1);
+    public Vector3 offset    = Vector3.getNewVector();
+    public Vector4 rotations = new Vector4();
+    public Vertex  scale     = new Vertex(1, 1, 1);
 
-    public int                                        red        = 255, green = 255, blue = 255, alpha = 255;
-    public int                                        brightness = 15728640;
-    public int                                        overlay    = 655360;
+    public int red        = 255, green = 255, blue = 255, alpha = 255;
+    public int brightness = 15728640;
+    public int overlay    = 655360;
 
-    private final int[]                               rgbabro    = new int[6];
+    private final int[] rgbabro = new int[6];
 
-    private boolean                                   hidden     = false;
-    private final List<Material>                      materials  = Lists.newArrayList();
-    private final Set<Material>                       matcache   = Sets.newHashSet();
+    private boolean              hidden    = false;
+    private final List<Material> materials = Lists.newArrayList();
+    private final Set<Material>  matcache  = Sets.newHashSet();
 
     public Part(final String name)
     {
         this.name = name;
+    }
+
+    @Override
+    public void preProcess()
+    {
+        this.sort(this.order);
+        IExtendedModelPart.super.preProcess();
     }
 
     public void addShape(final Mesh shape)
@@ -137,11 +145,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         return this.rgbabro;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public HashMap<String, IExtendedModelPart> getSubParts()
     {
-        return this.childParts;
+        return this.parts;
     }
 
     private void postRender(final MatrixStack mat)
@@ -177,7 +184,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         if (this.hidden) return;
         // Fill the int array
-        int[] rgbabro = this.getRGBABrO();
+        final int[] rgbabro = this.getRGBABrO();
         for (final Mesh s : this.shapes)
         {
             s.rgbabro = rgbabro;
@@ -201,8 +208,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (!skip)
         {
             this.preRender(mat);
-            for (final IExtendedModelPart o : this.childParts.values())
+            for (final String s : this.order)
+            {
+                final IExtendedModelPart o = this.parts.get(s);
                 o.renderAllExcept(mat, buffer, excludedGroupNames);
+            }
             this.render(mat, buffer);
             this.postRender(mat);
         }
@@ -223,8 +233,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (!rendered)
         {
             this.preRender(mat);
-            for (final IExtendedModelPart o : this.childParts.values())
+            for (final String s : this.order)
+            {
+                final IExtendedModelPart o = this.parts.get(s);
                 o.renderOnly(mat, buffer, groupNames);
+            }
             this.postRender(mat);
         }
     }
@@ -263,7 +276,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setAnimationChanger(final IAnimationChanger changer)
     {
         this.changer = changer;
-        for (final IExtendedModelPart part : this.childParts.values())
+        for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setAnimationChanger(changer);
     }
 
@@ -326,7 +339,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setTexturer(final IPartTexturer texturer)
     {
         this.texturer = texturer;
-        for (final IExtendedModelPart part : this.childParts.values())
+        for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(texturer);
     }
 
@@ -348,6 +361,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             {
                 if (mesh.name == null) mesh.name = this.getName();
                 if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat_name)) mesh.setMaterial(material);
+            }
+        for (final Material m : this.materials)
+            if (m.name.equals(mat_name))
+            {
+                this.matcache.remove(m);
+                this.materials.remove(m);
+                this.matcache.add(material);
+                this.materials.add(material);
+                break;
             }
     }
 }

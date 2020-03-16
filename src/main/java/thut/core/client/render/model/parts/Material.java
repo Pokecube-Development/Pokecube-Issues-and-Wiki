@@ -1,7 +1,10 @@
 package thut.core.client.render.model.parts;
 
+import java.util.Map;
+
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -30,13 +33,16 @@ public class Material
     public float            emissiveMagnitude;
     public float            ambientIntensity;
     public float            shininess;
-    public float            alpha         = 1;
-    public boolean          transluscent  = false;
-    public boolean          flat          = true;
+    public float            alpha        = 1;
+    public boolean          transluscent = false;
+    public boolean          flat         = true;
 
-    IVertexBuilder          override_buff = null;
-    IRenderTypeBuffer       typeBuff      = null;
-    RenderType              type          = null;
+    private int fix_counter = 0;
+
+    IVertexBuilder    override_buff = null;
+    IRenderTypeBuffer typeBuff      = null;
+
+    private final Map<ResourceLocation, RenderType> types = Maps.newHashMap();
 
     public Material(final String name)
     {
@@ -59,19 +65,19 @@ public class Material
 
     public void makeVertexBuilder(final ResourceLocation texture, final IRenderTypeBuffer buffer)
     {
-        this.type = this.makeRenderType(texture);
+        final RenderType type = this.makeRenderType(texture);
         if (buffer instanceof Impl)
         {
             final Impl impl = (Impl) buffer;
-            IVertexBuilder buff = impl.getBuffer(this.type);
+            IVertexBuilder buff = impl.getBuffer(type);
             // This means we didn't actually make one for this texture!
             if (buff == impl.defaultBuffer)
             {
                 final BufferBuilder builder = new BufferBuilder(256);
                 // Add a new bufferbuilder to the maps.
-                impl.buffersByType.put(this.type, builder);
+                impl.buffersByType.put(type, builder);
                 // This starts the buffer, and registers it to the Impl.
-                builder.begin(this.type.getGlMode(), this.type.getVertexFormat());
+                builder.begin(type.getGlMode(), type.getVertexFormat());
                 impl.startedBuffers.add(builder);
                 buff = builder;
             }
@@ -82,8 +88,9 @@ public class Material
 
     private RenderType makeRenderType(final ResourceLocation tex)
     {
+        // if (this.types.containsKey(tex)) return this.types.get(tex);
         this.tex = tex;
-        RenderType.State.Builder builder = RenderType.State.builder();
+        final RenderType.State.Builder builder = RenderType.State.builder();
         builder.texture(new RenderState.TextureState(tex, false, false));
         builder.transparency(new RenderState.TransparencyState("material_transparency", () ->
         {
@@ -93,23 +100,23 @@ public class Material
         {
             RenderSystem.disableBlend();
         }));
-        if (emissiveMagnitude == 0) builder.diffuseLighting(new RenderState.DiffuseLightingState(true));
+        if (this.emissiveMagnitude == 0) builder.diffuseLighting(new RenderState.DiffuseLightingState(true));
         builder.alpha(new RenderState.AlphaState(0.003921569F));
         builder.lightmap(new RenderState.LightmapState(true));
         builder.overlay(new RenderState.OverlayState(true));
-        boolean transp = (alpha < 1 || transluscent);
+        final boolean transp = this.alpha < 1 || this.transluscent;
         if (transp)
         {
-            builder.writeMask(new WriteMaskState(true, true));
+            if (this.fix_counter++ < 2) builder.writeMask(new WriteMaskState(true, true));
+            else builder.writeMask(new WriteMaskState(true, false));
             builder.depthTest(new DepthTestState(513));
         }
         if (!this.flat) builder.shadeModel(new ShadeModelState(true));
-
         final RenderType.State rendertype$state = builder.build(true);
-
         final String id = this.render_name + tex;
         final RenderType type = RenderType.get(id, DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
                 rendertype$state);
+        this.types.put(tex, type);
         return type;
     }
 
