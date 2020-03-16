@@ -800,7 +800,7 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     @Override
     public int tickRate(final IWorldReader world)
     {
-        return PokecubeLegends.config.ticksPerMirageSpawn;
+        return 500;
     }
 
     @Override
@@ -824,7 +824,9 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     @Override
     public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
-        if (state.get(PortalWarp.ACTIVE)) return;
+        final PortalWarpPart part = state.get(PortalWarp.PART);
+        if (state.get(PortalWarp.ACTIVE) || part != PortalWarpPart.MIDDLE || random
+                .nextFloat() > PokecubeLegends.config.mirageRespawnChance) return;
         worldIn.setBlockState(pos, state.with(PortalWarp.ACTIVE, true));
         this.setActiveState(worldIn, pos, state, true);
     }
@@ -833,9 +835,8 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     public ActionResultType onBlockActivated(final BlockState state, final World worldIn, final BlockPos pos,
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
-        final PortalWarpPart part = state.get(PortalWarp.PART);
         if (!state.get(PortalWarp.ACTIVE)) return ActionResultType.FAIL;
-        if (worldIn instanceof ServerWorld && part == PortalWarpPart.MIDDLE)
+        if (worldIn instanceof ServerWorld)
         {
             PortalActiveFunction.executeProcedure(pos, state, (ServerWorld) worldIn);
             this.setActiveState(worldIn, pos, state, false);

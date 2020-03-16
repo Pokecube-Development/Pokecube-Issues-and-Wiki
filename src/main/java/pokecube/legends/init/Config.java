@@ -20,7 +20,7 @@ public class Config extends ConfigData
     @Configure(category = "mirage")
     public boolean enabledmirage       = true;
     @Configure(category = "mirage")
-    public int     ticksPerMirageSpawn = 7000;
+    public double  mirageRespawnChance = 0.01;
 
     // ultra space portal
     @Configure(category = "ultraspace")
