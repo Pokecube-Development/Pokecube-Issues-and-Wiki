@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "pokecube_legends:blocks/portal1",
-		"particle": "pokecube_legends:blocks/portal1"
+		"0": "pokecube_legends:blocks/portal_on",
+		"particle": "pokecube_legends:blocks/portal_on"
 	},
 	"elements": [
 		{
