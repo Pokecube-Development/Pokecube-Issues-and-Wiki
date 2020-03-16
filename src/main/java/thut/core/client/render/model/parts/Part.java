@@ -99,7 +99,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void addChild(final IExtendedModelPart subPart)
     {
-        this.childParts.put(subPart.getName(), subPart);
+        this.parts.put(subPart.getName(), subPart);
         subPart.setParent(this);
     }
 
