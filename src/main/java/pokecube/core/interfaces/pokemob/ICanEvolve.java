@@ -48,20 +48,24 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         final LivingEntity thisEntity;
         final LivingEntity evolution;
         final World        world;
+        boolean            done = false;
 
         public EvoTicker(final LivingEntity thisEntity, final LivingEntity evolution)
         {
             this.thisEntity = thisEntity;
             this.evolution = evolution;
             this.world = thisEntity.getEntityWorld();
+        }
+
+        public void init()
+        {
             MinecraftForge.EVENT_BUS.register(this);
         }
 
-        @SubscribeEvent
-        public void tick(final WorldTickEvent evt)
+        public void tick()
         {
-            if (evt.world != this.world || evt.phase != Phase.END) return;
-            MinecraftForge.EVENT_BUS.unregister(this);
+            if (this.done) return;
+            this.done = true;
             final ServerWorld world = (ServerWorld) this.thisEntity.getEntityWorld();
             // Remount riders on the new mob.
             final List<Entity> riders = this.thisEntity.getPassengers();
@@ -70,17 +74,38 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 e.stopRiding();
                 e.startRiding(this.evolution);
             }
-            // Remove old mob
-            world.removeEntity(this.thisEntity);
-            // Add new mob
-            this.evolution.getEntityWorld().addEntity(this.evolution);
+            final IPokemob old = CapabilityPokemob.getPokemobFor(this.thisEntity);
 
+            if (this.thisEntity != this.evolution)
+            {
+                // Set this mob wild, then kill it.
+                if (old != null) old.setOwner((UUID) null);
+                this.thisEntity.getPersistentData().putBoolean("evo_removed", true);
+                // Remove old mob
+                world.removeEntity(this.thisEntity);
+                // Add new mob
+                if (!this.evolution.isAlive()) this.evolution.revive();
+                this.evolution.getEntityWorld().addEntity(this.evolution);
+
+            }
             EntityUpdate.sendEntityUpdate(this.evolution);
         }
 
-        static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution)
+        @SubscribeEvent
+        public void tick(final WorldTickEvent evt)
         {
+            if (evt.world != this.world || evt.phase != Phase.END) return;
+            MinecraftForge.EVENT_BUS.unregister(this);
+            this.tick();
+        }
+
+        static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution, final boolean immediate)
+        {
+            if (!(thisEntity.world instanceof ServerWorld)) return;
             evolution.setUniqueId(thisEntity.getUniqueID());
+            final EvoTicker ticker = new EvoTicker(thisEntity, evolution);
+            if (!immediate) ticker.init();
+            else ticker.tick();
         }
     }
 
@@ -119,19 +144,20 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         public void tick(final WorldTickEvent evt)
         {
             if (evt.world != this.world || evt.phase != Phase.END) return;
-            if (!this.mob.addedToChunk || !this.mob.isAlive())
+            if (!this.mob.addedToChunk || !this.mob.isAlive() || this.set)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
                 return;
             }
             if (evt.world.getGameTime() >= this.evoTime)
             {
+                this.set = true;
                 if (this.pokemob.getCombatState(CombatStates.MEGAFORME) && this.pokemob
                         .getOwner() instanceof ServerPlayerEntity) Triggers.MEGAEVOLVEPOKEMOB.trigger(
                                 (ServerPlayerEntity) this.pokemob.getOwner(), this.pokemob);
                 final int evoTicks = this.pokemob.getEvolutionTicks();
                 final float hp = this.pokemob.getHealth();
-                this.pokemob = this.pokemob.megaEvolve(this.mega);
+                this.pokemob = this.pokemob.megaEvolve(this.mega, true);
                 this.pokemob.setHealth(hp);
                 /**
                  * Flag the new mob as evolving to continue the animation
@@ -198,6 +224,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm,
             final ITextComponent message, final boolean dynamaxing)
     {
+        if (!(evolver.getEntity().world instanceof ServerWorld)) return;
         new MegaEvoTicker(newForm, PokecubeCore.getConfig().evolutionTicks / 2, evolver, message, dynamaxing);
     }
 
@@ -455,6 +482,16 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         return theMob;
     }
 
+    default IPokemob megaEvolve(final PokedexEntry newEntry)
+    {
+        if (this.getEntity().getEntityWorld() instanceof ServerWorld)
+        {
+            final ServerWorld world = (ServerWorld) this.getEntity().getEntityWorld();
+            return this.megaEvolve(newEntry, !world.tickingEntities);
+        }
+        return (IPokemob) this;
+    }
+
     /**
      * Converts us to the given entry
      *
@@ -462,7 +499,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      *            new pokedex entry to have
      * @return the new pokemob, return this if it fails
      */
-    default IPokemob megaEvolve(final PokedexEntry newEntry)
+    default IPokemob megaEvolve(final PokedexEntry newEntry, final boolean immediate)
     {
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = CapabilityPokemob.getPokemobFor(thisEntity);
@@ -520,13 +557,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 PokecubeCore.LOGGER.debug("Un Mega Evolving, changing ability back to " + ability);
             }
 
-            // Set this mob wild, then kill it.
-            this.setOwner((UUID) null);
-
             final EvolveEvent evt = new EvolveEvent.Post(evoMob);
             PokecubeCore.POKEMOB_BUS.post(evt);
             // Schedule adding to world.
-            if (!evt.isCanceled() && thisEntity.addedToChunk) EvoTicker.scheduleEvolve(thisEntity, evolution);
+            if (!evt.isCanceled() && thisEntity.addedToChunk) EvoTicker.scheduleEvolve(thisEntity, evolution,
+                    immediate);
         }
         return evoMob;
     }

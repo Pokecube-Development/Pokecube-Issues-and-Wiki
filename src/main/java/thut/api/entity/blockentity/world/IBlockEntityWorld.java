@@ -44,10 +44,7 @@ public interface IBlockEntityWorld extends IBlockReader
         if (tile != null)
         {
             tile.setWorld((World) this);
-            final boolean invalid = tile.isRemoved();
-            if (!invalid) tile.remove();
             tile.setPos(pos.toImmutable());
-            tile.validate();
         }
         return tile;
     }

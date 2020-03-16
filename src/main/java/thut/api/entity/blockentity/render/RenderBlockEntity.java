@@ -87,16 +87,12 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                     for (int k = zMin; k <= zMax; k++)
                     {
                         pos.setPos(i - xMin, j - yMin, k - zMin);
-                        if (!blockEntity.shouldHide(pos)) this.drawBlockAt(pos, blockEntity);
+                        if (!blockEntity.shouldHide(pos))
+                        {
+                            this.drawBlockAt(pos, blockEntity);
+                            this.drawTileAt(pos, blockEntity, partialTicks);
+                        }
                         else this.drawCrateAt(pos, blockEntity);
-                    }
-
-            for (int i = xMin; i <= xMax; i++)
-                for (int j = yMin; j <= yMax; j++)
-                    for (int k = zMin; k <= zMax; k++)
-                    {
-                        pos.setPos(i, j, k);
-                        if (!blockEntity.shouldHide(pos)) this.drawTileAt(pos, blockEntity, partialTicks);
                     }
             GL11.glPopMatrix();
 
@@ -165,20 +161,16 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         GlStateManager.popMatrix();
     }
 
-    private void drawTileAt(final BlockPos pos, final IBlockEntity entity, final float partialTicks)
+    private void drawTileAt(BlockPos pos, final IBlockEntity entity, final float partialTicks)
     {
-        final TileEntity tile = entity.getFakeWorld().getTile(pos);
+        final TileEntity tile = entity.getTiles()[pos.getX()][pos.getY()][pos.getZ()];
         if (tile != null)
         {
             GL11.glPushMatrix();
-            GlStateManager.rotatef(90.0F, 0.0F, 1.0F, 0.0F);
-            GlStateManager.pushMatrix();
-            GlStateManager.rotatef(-180.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.translatef(0.5F, 0.5F, 0.5F);
-            GlStateManager.rotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-            final float f7 = 1.0F;
-            GlStateManager.scalef(-f7, -f7, f7);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            final BlockPos origin = ((Entity) entity).getPosition();
+            pos = origin.subtract(pos);
+
+            GlStateManager.translatef(-0.5f, 0.5f, -0.5f);
             final boolean fast = tile.hasFastRenderer();
             if (fast)
             {
@@ -187,7 +179,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                 TileEntityRendererDispatcher.instance.drawBatch();
             }
             else TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0, partialTicks);
-            GlStateManager.popMatrix();
+
             GL11.glPopMatrix();
         }
     }
@@ -215,6 +207,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     private void renderBakedBlockModel(final IBlockEntity entity, final IBakedModel model, final BlockState state,
             final IBlockReader world, BlockPos pos)
     {
+        GL11.glPushMatrix();
         GlStateManager.rotatef(90.0F, 0.0F, 1.0F, 0.0F);
 
         final BlockPos origin = ((Entity) entity).getPosition();
@@ -231,8 +224,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                 .getFakeWorld().getWorld(), model, state, origin, buffer, false, new Random(), 0,
                 EmptyModelData.INSTANCE);
         tessellator.draw();
-
-        GlStateManager.translatef(pos.getX(), pos.getY(), pos.getZ());
+        GL11.glPopMatrix();
         return;
     }
 }

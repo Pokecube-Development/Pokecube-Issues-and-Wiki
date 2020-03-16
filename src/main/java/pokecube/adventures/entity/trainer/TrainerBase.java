@@ -137,6 +137,23 @@ public abstract class TrainerBase extends NpcMob
     }
 
     @Override
+    public void tick()
+    {
+        this.invuln = true;
+        if (PokecubeAdv.config.trainerAIPause)
+        {
+            final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
+            if (near != null)
+            {
+                final float dist = near.getDistance(this);
+                if (dist > PokecubeAdv.config.aiPauseDistance) return;
+            }
+        }
+        this.invuln = false;
+        super.tick();
+    }
+
+    @Override
     public void livingTick()
     {
         super.livingTick();

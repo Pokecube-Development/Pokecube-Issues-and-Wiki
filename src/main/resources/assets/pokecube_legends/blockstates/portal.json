@@ -1,38 +1,97 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "#None": "pokecube_legends:blocks/portal_on"
-        },
-        "model": "minecraft:block/cube",
-    	"custom": {
-		  "base_model": "pokecube_legends:block/portal.obj",
-	      "flip-v": true
-	    }
-     },
-    "variants": {
-        "facing=east,active=true":  { "model": "pokecube_legends:item/portal.obj", "y":90 },
-        "facing=west,active=true":  { "model": "pokecube_legends:item/portal.obj", "y":270 },
-        "facing=south,active=true": { "model": "pokecube_legends:item/portal.obj", "y":180 },
-        "facing=north,active=true": { "model": "pokecube_legends:item/portal.obj", "y":0},
-        "facing=east,active=false":{ 
-          "model": "pokecube_legends:item/portal.obj",
-          "y":90, 
-          "textures": {
-              "#None": "pokecube_legends:blocks/portal_off"
-          }
-        },
-        "facing=west,active=false":  { "model": "pokecube_legends:item/portal.obj", "y":270, 
-          "textures": {
-              "#None": "pokecube_legends:blocks/portal_off"
-          } },
-        "facing=south,active=false": { "model": "pokecube_legends:item/portal.obj", "y":180, 
-          "textures": {
-              "#None": "pokecube_legends:blocks/portal_off"
-          } },
-        "facing=north,active=false": { "model": "pokecube_legends:item/portal.obj", "y":0, 
-          "textures": {
-              "#None": "pokecube_legends:blocks/portal_off"
-          }}
-    }
+  "variants": {
+  
+    "active=true,facing=east,part=bottom":  { "model": "pokecube_legends:block/portal_bottom", "y":270},
+    "active=true,facing=west,part=bottom":  { "model": "pokecube_legends:block/portal_bottom", "y":90},
+    "active=true,facing=north,part=bottom": { "model": "pokecube_legends:block/portal_bottom", "y":180},
+    "active=true,facing=south,part=bottom": { "model": "pokecube_legends:block/portal_bottom", "y":0},
+
+    "active=true,facing=east,part=bottom_left":  { "model": "pokecube_legends:block/portal_bottom_left", "y":270},
+    "active=true,facing=west,part=bottom_left":  { "model": "pokecube_legends:block/portal_bottom_left", "y":90},
+    "active=true,facing=north,part=bottom_left": { "model": "pokecube_legends:block/portal_bottom_left", "y":180},
+    "active=true,facing=south,part=bottom_left": { "model": "pokecube_legends:block/portal_bottom_left", "y":0},
+
+    "active=true,facing=east,part=bottom_right":  { "model": "pokecube_legends:block/portal_bottom_right", "y":270},
+    "active=true,facing=west,part=bottom_right":  { "model": "pokecube_legends:block/portal_bottom_right", "y":90},
+    "active=true,facing=north,part=bottom_right": { "model": "pokecube_legends:block/portal_bottom_right", "y":180},
+    "active=true,facing=south,part=bottom_right": { "model": "pokecube_legends:block/portal_bottom_right", "y":0},
+
+    "active=true,facing=east,part=middle":  { "model": "pokecube_legends:block/portal_middle", "y":270},
+    "active=true,facing=west,part=middle":  { "model": "pokecube_legends:block/portal_middle", "y":90},
+    "active=true,facing=north,part=middle": { "model": "pokecube_legends:block/portal_middle", "y":180},
+    "active=true,facing=south,part=middle": { "model": "pokecube_legends:block/portal_middle", "y":0},
+
+    "active=true,facing=east,part=middle_left":  { "model": "pokecube_legends:block/portal_middle_left", "y":270},
+    "active=true,facing=west,part=middle_left":  { "model": "pokecube_legends:block/portal_middle_left", "y":90},
+    "active=true,facing=north,part=middle_left": { "model": "pokecube_legends:block/portal_middle_left", "y":180},
+    "active=true,facing=south,part=middle_left": { "model": "pokecube_legends:block/portal_middle_left", "y":0},
+
+    "active=true,facing=east,part=middle_right":  { "model": "pokecube_legends:block/portal_middle_right", "y":270},
+    "active=true,facing=west,part=middle_right":  { "model": "pokecube_legends:block/portal_middle_right", "y":90},
+    "active=true,facing=north,part=middle_right": { "model": "pokecube_legends:block/portal_middle_right", "y":180},
+    "active=true,facing=south,part=middle_right": { "model": "pokecube_legends:block/portal_middle_right", "y":0},
+
+    "active=true,facing=east,part=top":  { "model": "pokecube_legends:block/portal_top", "y":270},
+    "active=true,facing=west,part=top":  { "model": "pokecube_legends:block/portal_top", "y":90},
+    "active=true,facing=north,part=top": { "model": "pokecube_legends:block/portal_top", "y":180},
+    "active=true,facing=south,part=top": { "model": "pokecube_legends:block/portal_top", "y":0},
+
+    "active=true,facing=east,part=top_left":  { "model": "pokecube_legends:block/portal_top_left", "y":270},
+    "active=true,facing=west,part=top_left":  { "model": "pokecube_legends:block/portal_top_left", "y":90},
+    "active=true,facing=north,part=top_left": { "model": "pokecube_legends:block/portal_top_left", "y":180},
+    "active=true,facing=south,part=top_left": { "model": "pokecube_legends:block/portal_top_left", "y":0},
+
+    "active=true,facing=east,part=top_right":  { "model": "pokecube_legends:block/portal_top_right", "y":270},
+    "active=true,facing=west,part=top_right":  { "model": "pokecube_legends:block/portal_top_right", "y":90},
+    "active=true,facing=north,part=top_right": { "model": "pokecube_legends:block/portal_top_right", "y":180},
+    "active=true,facing=south,part=top_right": { "model": "pokecube_legends:block/portal_top_right", "y":0},
+    
+    
+    
+  
+    "active=false,facing=east,part=bottom":  { "model": "pokecube_legends:block/portal_bottom_off", "y":270},
+    "active=false,facing=west,part=bottom":  { "model": "pokecube_legends:block/portal_bottom_off", "y":90},
+    "active=false,facing=north,part=bottom": { "model": "pokecube_legends:block/portal_bottom_off", "y":180},
+    "active=false,facing=south,part=bottom": { "model": "pokecube_legends:block/portal_bottom_off", "y":0},
+
+    "active=false,facing=east,part=bottom_left":  { "model": "pokecube_legends:block/portal_bottom_left_off", "y":270},
+    "active=false,facing=west,part=bottom_left":  { "model": "pokecube_legends:block/portal_bottom_left_off", "y":90},
+    "active=false,facing=north,part=bottom_left": { "model": "pokecube_legends:block/portal_bottom_left_off", "y":180},
+    "active=false,facing=south,part=bottom_left": { "model": "pokecube_legends:block/portal_bottom_left_off", "y":0},
+
+    "active=false,facing=east,part=bottom_right":  { "model": "pokecube_legends:block/portal_bottom_right_off", "y":270},
+    "active=false,facing=west,part=bottom_right":  { "model": "pokecube_legends:block/portal_bottom_right_off", "y":90},
+    "active=false,facing=north,part=bottom_right": { "model": "pokecube_legends:block/portal_bottom_right_off", "y":180},
+    "active=false,facing=south,part=bottom_right": { "model": "pokecube_legends:block/portal_bottom_right_off", "y":0},
+
+    "active=false,facing=east,part=middle":  { "model": "pokecube_legends:block/portal_middle_off", "y":270},
+    "active=false,facing=west,part=middle":  { "model": "pokecube_legends:block/portal_middle_off", "y":90},
+    "active=false,facing=north,part=middle": { "model": "pokecube_legends:block/portal_middle_off", "y":180},
+    "active=false,facing=south,part=middle": { "model": "pokecube_legends:block/portal_middle_off", "y":0},
+
+    "active=false,facing=east,part=middle_left":  { "model": "pokecube_legends:block/portal_middle_left_off", "y":270},
+    "active=false,facing=west,part=middle_left":  { "model": "pokecube_legends:block/portal_middle_left_off", "y":90},
+    "active=false,facing=north,part=middle_left": { "model": "pokecube_legends:block/portal_middle_left_off", "y":180},
+    "active=false,facing=south,part=middle_left": { "model": "pokecube_legends:block/portal_middle_left_off", "y":0},
+
+    "active=false,facing=east,part=middle_right":  { "model": "pokecube_legends:block/portal_middle_right_off", "y":270},
+    "active=false,facing=west,part=middle_right":  { "model": "pokecube_legends:block/portal_middle_right_off", "y":90},
+    "active=false,facing=north,part=middle_right": { "model": "pokecube_legends:block/portal_middle_right_off", "y":180},
+    "active=false,facing=south,part=middle_right": { "model": "pokecube_legends:block/portal_middle_right_off", "y":0},
+
+    "active=false,facing=east,part=top":  { "model": "pokecube_legends:block/portal_top_off", "y":270},
+    "active=false,facing=west,part=top":  { "model": "pokecube_legends:block/portal_top_off", "y":90},
+    "active=false,facing=north,part=top": { "model": "pokecube_legends:block/portal_top_off", "y":180},
+    "active=false,facing=south,part=top": { "model": "pokecube_legends:block/portal_top_off", "y":0},
+
+    "active=false,facing=east,part=top_left":  { "model": "pokecube_legends:block/portal_top_left_off", "y":270},
+    "active=false,facing=west,part=top_left":  { "model": "pokecube_legends:block/portal_top_left_off", "y":90},
+    "active=false,facing=north,part=top_left": { "model": "pokecube_legends:block/portal_top_left_off", "y":180},
+    "active=false,facing=south,part=top_left": { "model": "pokecube_legends:block/portal_top_left_off", "y":0},
+
+    "active=false,facing=east,part=top_right":  { "model": "pokecube_legends:block/portal_top_right_off", "y":270},
+    "active=false,facing=west,part=top_right":  { "model": "pokecube_legends:block/portal_top_right_off", "y":90},
+    "active=false,facing=north,part=top_right": { "model": "pokecube_legends:block/portal_top_right_off", "y":180},
+    "active=false,facing=south,part=top_right": { "model": "pokecube_legends:block/portal_top_right_off", "y":0}
+  }
 }

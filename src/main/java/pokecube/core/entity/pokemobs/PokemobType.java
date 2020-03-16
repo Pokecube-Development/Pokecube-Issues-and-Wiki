@@ -20,6 +20,7 @@ public class PokemobType<T extends TameableEntity> extends EntityType<T>
         super(factory, EntityClassification.CREATURE, true, true, false, true, null, c -> true, c -> 64, c -> 3, null);
         this.entry = entry;
         this.baseSize = EntitySize.flexible(entry.width, entry.height);
+        entry.setEntityType(this);
     }
 
     @Override

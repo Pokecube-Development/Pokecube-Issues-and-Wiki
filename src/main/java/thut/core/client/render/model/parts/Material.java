@@ -30,6 +30,7 @@ public class Material
     boolean light;
     boolean old_cull;
     float[] oldLight = { -1, -1 };
+    int[]   rgba     = { 255, 255, 255, 255 };
 
     public Material(final String name)
     {
@@ -77,6 +78,8 @@ public class Material
 
     public void preRender()
     {
+        GL11.glColor4f(this.rgba[0] / 255f, this.rgba[1] / 255f, this.rgba[2] / 255f, (1 - this.transparency)
+                * this.rgba[3] / 255f);
         this.depth = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
         this.colour_mat = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
         this.light = GL11.glGetBoolean(GL11.GL_LIGHTING);

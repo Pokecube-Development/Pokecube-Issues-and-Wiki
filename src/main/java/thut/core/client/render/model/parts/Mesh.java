@@ -19,7 +19,7 @@ public abstract class Mesh
     public TextureCoordinate[] textureCoordinates;
     public Integer[]           order;
     final Vector3f[]           normalList;
-    private Material           material;
+    public Material            material;
     public String              name;
     private final double[]     uvShift = { 0, 0 };
     final int                  GL_FORMAT;
