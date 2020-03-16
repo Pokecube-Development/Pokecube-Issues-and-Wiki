@@ -1,20 +1,6 @@
 {
   "pools":[
     {
-      "name":"pokecube:scattered/pokecenter_start/path",
-      "rigid":false,
-      "options":[
-        "pokecube:scattered/pokecenter_start/path"
-      ]
-    },
-    {
-      "name":"pokecube:scattered/pokecenter_start/building",
-      "ignoreAir":false,
-      "options":[
-        "pokecube:scattered/pokecenter_start/building"
-      ]
-    },
-    {
       "name":"pokecube:scattered/ruins_start",
       "rigid":false,
       "options":[
@@ -155,18 +141,6 @@
     }
   ],
   "jigsaws":[
-    {
-      "name":"pokecube:scattered/pokecenter_start",
-      "root":"pokecube:scattered/pokecenter_start/path",
-      "chance":1,
-      "biomeType":"village",
-      "atSpawn":true,
-      "spawn":{
-        "values":{
-          "types":"all"
-        }
-      }
-    },
     {
       "name":"pokecube:scattered/ruins",
       "root":"pokecube:scattered/ruins_start",

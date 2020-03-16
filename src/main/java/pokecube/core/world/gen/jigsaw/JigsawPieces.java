@@ -84,7 +84,7 @@ public class JigsawPieces
     public static final Map<String, JigSawPool>          pools    = Maps.newHashMap();
     public static final Map<String, JigsawPatternCustom> patterns = Maps.newHashMap();
 
-    private static final Map<DimensionType, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
+    public static final Map<DimensionType, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
 
     private static boolean shouldApply(final BlockPos pos, final IWorld worldIn)
     {

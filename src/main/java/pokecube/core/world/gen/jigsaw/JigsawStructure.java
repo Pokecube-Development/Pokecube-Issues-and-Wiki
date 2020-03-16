@@ -147,7 +147,8 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             final int i = chunkPosX >> 4;
             final int j = chunkPosZ >> 4;
             rand.setSeed(i ^ j << 4 ^ chunkGen.getSeed());
-            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos(chunkPosX << 4, 0, chunkPosZ << 4));
+            final Biome biome = chunkGen.getBiomeProvider().getBiome(new BlockPos((chunkPosX << 4) + 9, 0,
+                    (chunkPosZ << 4) + 9));
             JigSawConfig matched = this.getStruct();
             if (matched._matcher == null) return false;
             if (!matched._matcher.checkBiome(biome)) for (final JigSawConfig m : this.structs)
@@ -156,19 +157,10 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                     matched = m;
                     break;
                 }
-            rand.nextFloat();
-            if (rand.nextFloat() > matched.chance) return false;
-            final BlockPos pos = new BlockPos(chunkPosX, 0, chunkPosZ);
-            if (!PokecubeSerializer.getInstance().shouldPlace(this.name, pos, chunkGen.world.getDimension().getType(),
-                    this.getBiomeFeatureSeparation(chunkGen))) return false;
-
             if (chunkGen.hasStructure(biome, this))
             {
                 final boolean valid = !MinecraftForge.EVENT_BUS.post(new PickLocation(chunkGen, rand, chunkPosX,
                         chunkPosZ, matched));
-                if (valid && matched.atSpawn) PokecubeSerializer.getInstance().setPlacedCenter();
-                if (valid) PokecubeSerializer.getInstance().place(this.name, pos, chunkGen.world.getDimension()
-                        .getType());
                 return valid;
             }
         }
@@ -215,6 +207,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             {
                 final BlockPos blockpos = new BlockPos(chunkX * 16, 90, chunkZ * 16);
                 JigSawConfig matched = ((JigsawStructure) this.getStructure()).getStruct();
+
                 if (matched._matcher == null) return;
                 if (!matched._matcher.checkBiome(biome)) for (final JigSawConfig m : ((JigsawStructure) this
                         .getStructure()).structs)

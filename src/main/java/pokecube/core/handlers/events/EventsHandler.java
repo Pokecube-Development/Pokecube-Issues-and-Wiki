@@ -112,6 +112,7 @@ import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import thut.api.boom.ExplosionCustom;
 import thut.api.entity.ShearableCaps;
 import thut.api.maths.Vector3;
@@ -564,6 +565,7 @@ public class EventsHandler
     {
         // Reset this.
         PokecubeSerializer.clearInstance();
+        JigsawPieces.sent_events.clear();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
