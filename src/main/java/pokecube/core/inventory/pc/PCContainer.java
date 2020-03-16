@@ -227,12 +227,6 @@ public class PCContainer extends BaseContainer
         }
     }
 
-    @Override
-    public ItemStack transferStackInSlot(final PlayerEntity player, final int index)
-    {
-        return super.transferStackInSlot(player, index);
-    }
-
     public void updateInventoryPages(final int dir, final PlayerInventory invent)
     {
         int page = this.inv.getPage() == 0 && dir == -1 ? PCInventory.PAGECOUNT - 1

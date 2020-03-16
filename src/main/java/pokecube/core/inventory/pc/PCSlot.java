@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 
 public class PCSlot extends Slot
 {
@@ -32,8 +33,7 @@ public class PCSlot extends Slot
     @Override
     public void onSlotChanged()
     {
-        if (this.getStack() == ItemStack.EMPTY) this.inventory.setInventorySlotContents(this.getSlotIndex(),
-                ItemStack.EMPTY);
+        if (this.getStack().isEmpty()) this.inventory.setInventorySlotContents(this.getSlotIndex(), ItemStack.EMPTY);
         this.inventory.markDirty();
     }
 
@@ -42,6 +42,7 @@ public class PCSlot extends Slot
     public void putStack(final ItemStack par1ItemStack)
     {
         this.inventory.setInventorySlotContents(this.getSlotIndex(), par1ItemStack);
+        PlayerPokemobCache.UpdateCache(par1ItemStack, true, false);
         this.onSlotChanged();
     }
 }
