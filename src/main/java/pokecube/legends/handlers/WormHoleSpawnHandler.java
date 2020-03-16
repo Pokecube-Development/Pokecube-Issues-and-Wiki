@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
@@ -17,6 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.legends.PokecubeLegends;
+import pokecube.legends.blocks.UltraSpacePortal;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
 
@@ -43,8 +43,7 @@ public class WormHoleSpawnHandler
         v.x += dx;
         v.z += dz;
         v.y = world.getHeight(Heightmap.Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 10;
-        if (v.isAir(world)) world.setBlockState(v.getPos(), BlockInit.ULTRASPACE_PORTAL.getDefaultState().with(
-                HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(rand.nextInt())));
-
+        if (v.isAir(world)) ((UltraSpacePortal) BlockInit.ULTRASPACE_PORTAL).place(world, v.getPos(), Direction
+                .byHorizontalIndex(rand.nextInt()));
     }
 }
