@@ -157,13 +157,10 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
                     matched = m;
                     break;
                 }
-            rand.nextFloat();
-            if (rand.nextFloat() > matched.chance) return false;
             if (chunkGen.hasStructure(biome, this))
             {
                 final boolean valid = !MinecraftForge.EVENT_BUS.post(new PickLocation(chunkGen, rand, chunkPosX,
                         chunkPosZ, matched));
-                if (valid && matched.atSpawn) PokecubeSerializer.getInstance().setPlacedCenter();
                 return valid;
             }
         }
