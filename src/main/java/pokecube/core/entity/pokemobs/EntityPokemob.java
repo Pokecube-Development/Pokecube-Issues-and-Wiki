@@ -214,7 +214,7 @@ public class EntityPokemob extends PokemobCombat
         remoteRecall = remoteRecall && PokecubeCore.proxy.getPlayer().getUniqueID().equals(this.pokemobCap.getOwnerId())
                 && !this.pokemobCap.getGeneralState(GeneralStates.STAYING);
         shouldRecall = shouldRecall && (!remote || remoteRecall);
-        if (!keepData && shouldRecall) this.pokemobCap.onRecall();
+        if (!keepData && shouldRecall && !this.getPersistentData().contains("evo_removed")) this.pokemobCap.onRecall();
         super.remove(keepData);
     }
 
