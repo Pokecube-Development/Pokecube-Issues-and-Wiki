@@ -254,7 +254,6 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             final IExtendedModelPart o = this.parts.get(s);
             o.preProcess();
         }
-        System.out.println(this.order);
     }
 
     @Override

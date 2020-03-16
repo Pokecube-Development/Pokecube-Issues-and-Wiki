@@ -1,7 +1,5 @@
 package pokecube.mobs.client.smd;
 
-import java.util.HashMap;
-
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -40,10 +38,6 @@ public interface IFakeExtendedPart extends IExtendedModelPart
     {
         return null;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    HashMap<String, IExtendedModelPart> getSubParts();
 
     @Override
     String getType();
