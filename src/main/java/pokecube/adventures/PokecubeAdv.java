@@ -181,7 +181,6 @@ public class PokecubeAdv
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
             if (!event.getMap().getBasePath().equals("textures")) return;
-            System.out.println("registering sprites");
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_dna"));
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_bottle"));
             event.addSprite(new ResourceLocation(PokecubeAdv.MODID, "items/slot_selector"));

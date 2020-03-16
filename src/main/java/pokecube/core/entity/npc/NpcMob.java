@@ -54,15 +54,16 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         TYPE = EntityType.Builder.create(NpcMob::new, EntityClassification.CREATURE).setCustomClientFactory((s,
                 w) -> NpcMob.TYPE.create(w)).build("pokecube:npc");
     }
-    private NpcType type       = NpcType.NONE;
-    public String   name       = "";
-    public String   playerName = "";
-    public String   urlSkin    = "";
-    public String   customTex  = "";
-    private boolean male       = true;
-    public boolean  stationary = false;
-    public Vector3  location   = null;
-    public GuardAI  guardAI;
+    private NpcType   type       = NpcType.NONE;
+    public String     name       = "";
+    public String     playerName = "";
+    public String     urlSkin    = "";
+    public String     customTex  = "";
+    private boolean   male       = true;
+    public boolean    stationary = false;
+    protected boolean invuln     = false;
+    public Vector3    location   = null;
+    public GuardAI    guardAI;
 
     private Consumer<MerchantOffers> init_offers = t ->
     {
@@ -135,6 +136,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             final PlayerEntity player = (PlayerEntity) e;
             if (player.getHeldItemMainhand().isEmpty()) this.remove();
         }
+        if (this.invuln) return false;
         return super.attackEntityFrom(source, i);
     }
 
