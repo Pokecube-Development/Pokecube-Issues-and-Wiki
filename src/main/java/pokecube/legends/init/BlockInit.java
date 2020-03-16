@@ -15,7 +15,6 @@ import pokecube.legends.blocks.KeldeoBlock;
 import pokecube.legends.blocks.LegendaryBlock;
 import pokecube.legends.blocks.NatureCoreBlock;
 import pokecube.legends.blocks.PortalWarp;
-import pokecube.legends.blocks.Rotates;
 import pokecube.legends.blocks.SandUltraBlock;
 import pokecube.legends.blocks.SpaceCoreBlock;
 import pokecube.legends.blocks.StoneMagneticBlock;
@@ -23,7 +22,6 @@ import pokecube.legends.blocks.UltraSpacePortal;
 import pokecube.legends.blocks.VictiniBlock;
 import pokecube.legends.blocks.XerneasCore;
 import pokecube.legends.blocks.YveltalEgg;
-import pokecube.legends.conditions.Keldeo;
 
 public class BlockInit
 {

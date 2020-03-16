@@ -4,19 +4,18 @@ import net.minecraft.util.IStringSerializable;
 
 public enum KeldeoBlockPart implements IStringSerializable
 {
-  TOP("top"),
-  BOTTOM("bottom");
+    TOP("top"), BOTTOM("bottom");
 
-  private final String name;
+    private final String name;
 
-  KeldeoBlockPart(String name)
-  {
-    this.name = name;
-  }
+    KeldeoBlockPart(final String name)
+    {
+        this.name = name;
+    }
 
-  @Override
-  public String getName()
-  {
-    return this.name;
-  }
+    @Override
+    public String getName()
+    {
+        return this.name;
+    }
 }
