@@ -1,12 +1,12 @@
 package thut.core.client.render.animation;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import thut.api.maths.Vector3;
 
 public interface IAnimationChanger
@@ -18,7 +18,7 @@ public interface IAnimationChanger
         public final Vector3 scale;
         public final Vector3 angles;
 
-        public WornOffsets(String parent, Vector3 offset, Vector3 scale, Vector3 angles)
+        public WornOffsets(final String parent, final Vector3 offset, final Vector3 scale, final Vector3 angles)
         {
             this.scale = scale;
             this.angles = angles;
@@ -29,16 +29,32 @@ public interface IAnimationChanger
 
     void addChild(IAnimationChanger animationRandomizer);
 
-    int getColourForPart(String partIdentifier, Entity entity, int default_);
+    default int getColourForPart(final String partIdentifier, final Entity entity, final int default_)
+    {
+        return default_;
+    }
+
+    default boolean hasAnimation(final String phase)
+    {
+        return false;
+    }
 
     @Nullable
     WornOffsets getOffsets(String part);
 
     void init(Set<Animation> anims);
 
-    boolean isPartHidden(String part, Entity entity, boolean default_);
+    default boolean isPartHidden(final String part, final Entity entity, final boolean default_)
+    {
+        return default_;
+    }
 
-    String modifyAnimation(MobEntity entity, float partialTicks, String phase);
+    default boolean getAlternates(final List<String> toFill, final Set<String> options, final Entity mob,
+            final String phase)
+    {
+        if (options.contains(phase)) toFill.add(phase);
+        return true;
+    }
 
     void parseDyeables(Set<String> set);
 

@@ -103,11 +103,24 @@ public interface IModelRenderer<T extends MobEntity>
 
     void scaleEntity(Entity entity, IModel model, float partialTick);
 
-    default void setAnimation(final String phase, final Entity entity, final float partialTick)
+    default void setAnimation(final Entity entity, final float partialTick)
     {
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
-        final List<Animation> anim = this.getAnimations().get(phase);
-        if (holder != null && anim != null) holder.setPendingAnimations(anim, entity.ticksExisted + partialTick);
+        final String phase = this.getAnimation(entity);
+        final List<Animation> anim = this.getAnimations(entity, phase);
+        if (holder != null && anim != null && !anim.isEmpty())
+        {
+            phase.toString();
+            // System.out.println(anim + " " + holder.getPendingAnimations() + "
+            // " + holder.getPlaying().size());
+            // System.out.println(holder.getPlaying());
+            holder.setPendingAnimations(anim, phase);
+        }
+    }
+
+    default List<Animation> getAnimations(final Entity entity, final String phase)
+    {
+        return null;
     }
 
     void setAnimationChanger(IAnimationChanger changer);

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
@@ -34,7 +35,8 @@ public class AnimationHelper
         int aniTick = tick;
         float time1 = aniTick;
         float time2 = 0;
-        final int animationLength = animation.getLength();
+        int animationLength = animation.getLength();
+        animationLength = Math.max(1, animationLength);
         final float limbSpeedFactor = 3f;
         time1 = (time1 + partialTick) % animationLength;
         time2 = limbSwing * limbSpeedFactor % animationLength;
@@ -48,21 +50,23 @@ public class AnimationHelper
                 animated = true;
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
-                temp.addTo(component.posChange[0] / component.length * componentTimer + component.posOffset[0],
-                        component.posChange[1] / component.length * componentTimer + component.posOffset[1],
-                        component.posChange[2] / component.length * componentTimer + component.posOffset[2]);
-                x += (float) (component.rotChange[0] / component.length * componentTimer + component.rotOffset[0]);
-                y += (float) (component.rotChange[1] / component.length * componentTimer + component.rotOffset[1]);
-                z += (float) (component.rotChange[2] / component.length * componentTimer + component.rotOffset[2]);
+                final int length = component.length == 0 ? 1 : component.length;
+                final float ratio = componentTimer / length;
+                temp.addTo(component.posChange[0] * ratio + component.posOffset[0], component.posChange[1] * ratio
+                        + component.posOffset[1], component.posChange[2] * ratio + component.posOffset[2]);
+                x += (float) (component.rotChange[0] * ratio + component.rotOffset[0]);
+                y += (float) (component.rotChange[1] * ratio + component.rotOffset[1]);
+                z += (float) (component.rotChange[2] * ratio + component.rotOffset[2]);
 
-                sx += (float) (component.scaleChange[0] / component.length * componentTimer + component.scaleOffset[0]);
-                sy += (float) (component.scaleChange[1] / component.length * componentTimer + component.scaleOffset[1]);
-                sz += (float) (component.scaleChange[2] / component.length * componentTimer + component.scaleOffset[2]);
+                sx += (float) (component.scaleChange[0] * ratio + component.scaleOffset[0]);
+                sy += (float) (component.scaleChange[1] * ratio + component.scaleOffset[1]);
+                sz += (float) (component.scaleChange[2] * ratio + component.scaleOffset[2]);
 
                 // Apply hidden like this so last hidden state is kept
                 part.setHidden(component.hidden);
             }
         }
+        animate.setStep(animation, aniTick + 2);
         if (animated)
         {
             part.setPreTranslations(temp);
@@ -78,14 +82,18 @@ public class AnimationHelper
         return animated;
     }
 
-    public static boolean doAnimation(final List<Animation> list, final Entity entity, final String partName,
+    public static boolean doAnimation(List<Animation> list, final Entity entity, final String partName,
             final IExtendedModelPart part, final float partialTick, final float limbSwing)
     {
         boolean animate = false;
         final IAnimationHolder holder = AnimationHelper.getHolder(entity);
-        if (holder != null) for (final Animation animation : list)
-            animate = AnimationHelper.animate(animation, holder, partName, part, partialTick, limbSwing,
-                    entity.ticksExisted) || animate;
+        if (holder != null)
+        {
+            list = Lists.newArrayList(holder.getPlaying());
+            for (final Animation animation : list)
+                animate = AnimationHelper.animate(animation, holder, partName, part, partialTick, limbSwing,
+                        entity.ticksExisted) || animate;
+        }
         return animate;
     }
 

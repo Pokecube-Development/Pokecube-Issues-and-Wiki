@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.GlStateManager;
 
@@ -90,6 +91,8 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         public HashMap<String, PartInfo>        parts      = Maps.newHashMap();
         HashMap<String, ArrayList<Vector5>>     global;
         public HashMap<String, List<Animation>> animations = Maps.newHashMap();
+        private final List<String>              toRunNames = Lists.newArrayList();
+        private final List<Animation>           toRun      = Lists.newArrayList();
         public Vector3                          offset     = Vector3.getNewVector();;
         public Vector3                          scale      = Vector3.getNewVector();
         ResourceLocation                        texture;
@@ -153,7 +156,8 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         public String getAnimation(final Entity entityIn)
         {
             if (this.overrideAnim) return this.anim;
-            return this.getPhase((MobEntity) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
+            final String phase = this.getPhase((MobEntity) entityIn, CapabilityPokemob.getPokemobFor(entityIn));
+            return phase;
         }
 
         @Override
@@ -224,7 +228,7 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
 
         private String getPhase(final MobEntity entity, final IPokemob pokemob)
         {
-            String phase = IModelRenderer.super.getAnimation(entity);
+            String phase = "idle";
             if (this.model == null || pokemob == null) return phase;
             final Vec3d velocity = entity.getMotion();
             final float dStep = entity.limbSwingAmount - entity.prevLimbSwingAmount;
@@ -333,8 +337,24 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         @Override
         public boolean hasAnimation(final String phase, final Entity entity)
         {
+            if (this.animator != null && this.animator.hasAnimation(phase)) return true;
             return IModelRenderer.DEFAULTPHASE.equals(phase) || this.animations.containsKey(phase)
                     || this.wrapper.imodel.getBuiltInAnimations().contains(phase);
+        }
+
+        @Override
+        public List<Animation> getAnimations(final Entity entity, final String phase)
+        {
+            this.toRun.clear();
+            this.toRunNames.clear();
+            if (this.animator != null) this.animator.getAlternates(this.toRunNames, this.animations.keySet(), entity,
+                    phase);
+            for (final String name : this.toRunNames)
+            {
+                final List<Animation> anims = this.animations.get(name);
+                if (anims != null) this.toRun.addAll(anims);
+            }
+            return this.toRun;
         }
 
         public void init()

@@ -103,8 +103,10 @@ public class AnimationLoader
             IPartTexturer texturer = renderer.getTexturer();
             IAnimationChanger animator = renderer.getAnimationChanger();
 
-            if (texturer == null) renderer.setTexturer(texturer = new TextureHelper());
-            if (animator == null) renderer.setAnimationChanger(animator = new AnimationChanger());
+            if (texturer == null || texturer instanceof TextureHelper) renderer.setTexturer(
+                    texturer = new TextureHelper());
+            if (animator == null || animator instanceof AnimationChanger) renderer.setAnimationChanger(
+                    animator = new AnimationChanger());
 
             // Custom tagged parts.
             final Set<String> headNames = Sets.newHashSet();
@@ -193,6 +195,8 @@ public class AnimationLoader
                         .toString().replace(holder.name, ThutCore.trim(file.model.customTex.defaults)));
             }
 
+            if (!file.model.subanim.isEmpty()) animator.addChild(new AnimationRandomizer(file.model.subanim));
+
             // Handle materials
             for (final Mat mat : file.model.materials)
                 model.updateMaterial(mat);
@@ -236,9 +240,15 @@ public class AnimationLoader
                 toSet.addAll(fromSet);
             }
 
+            // Finalize animation initialization
+            final Set<Animation> allAnims = Sets.newHashSet();
             // Process the animations
             for (final List<Animation> anims : loaded.getAnimations().values())
+            {
                 AnimationBuilder.processAnimations(anims);
+                // Processing edits the list, so we need to re-add them here.
+                allAnims.addAll(anims);
+            }
 
             // Process Dyeable parts.
             animator.parseDyeables(dye);
@@ -246,10 +256,8 @@ public class AnimationLoader
             // Deal with shearable parts.
             animator.parseShearables(shear);
 
-            // Finalize animation initialization
-            final Set<Animation> anims = Sets.newHashSet();
-
-            animator.init(anims);
+            // Initialize based on existing anims
+            animator.init(allAnims);
 
             // Add the worn offsets
             animator.parseWornOffsets(wornOffsets);

@@ -24,7 +24,7 @@ import thut.core.client.render.animation.AnimationXML.Phase;
 @OnlyIn(Dist.CLIENT)
 public class Animation
 {
-    public final UUID id = UUID.randomUUID();
+    private UUID id;
 
     public String name       = "";
     public String identifier = "";
@@ -72,11 +72,39 @@ public class Animation
         for (final Entry<String, ArrayList<AnimationComponent>> entry : this.sets.entrySet())
             for (final AnimationComponent component : entry.getValue())
                 this.length = Math.max(this.length, component.startKey + component.length);
+        // Thread.dumpStack();
+        // System.out.println(this.length + " " + this.name + " " +
+        // super.toString() + " " + this.id + " " + this.sets
+        // .size());
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this.id == null)
+        {
+            if (this.identifier.isEmpty()) this.identifier = this.name;
+            this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + this.getLength());
+        }
+        if (obj instanceof Animation) return ((Animation) obj).id.equals(this.id);
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        if (this.id == null)
+        {
+            if (this.identifier.isEmpty()) this.identifier = this.name;
+            this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + this.getLength());
+        }
+        return this.id.hashCode();
     }
 
     @Override
     public String toString()
     {
-        return this.name + "|" + this.identifier + "|" + this.loops + "|" + this.getLength();
+        this.length = this.getLength();
+        return this.name + "|" + this.identifier + "|" + this.loops + "|" + this.length;
     }
 }
