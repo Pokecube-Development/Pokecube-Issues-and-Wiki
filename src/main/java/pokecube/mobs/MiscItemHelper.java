@@ -59,9 +59,14 @@ public class MiscItemHelper
         {
             final byte toAdd = evs[i];
             final byte ev = pokemob.getEVs()[i];
+
             if (toAdd > 0 && ev < Byte.MAX_VALUE)
             {
                 fed = true;
+                final byte[] evs2 = pokemob.getEVs();
+                final int amt = ev + toAdd;
+                evs2[i] = (byte) Math.min(Byte.MAX_VALUE, amt);
+                pokemob.setEVs(evs2);
                 break;
             }
         }
@@ -73,17 +78,17 @@ public class MiscItemHelper
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob != null)
         {
-            if (PokecubeItems.is(new ResourceLocation("pokecube:hpup"), stack)) return MiscItemHelper.applyEVs(
+            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_hpup"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 10, 0, 0, 0, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:protein"), stack)) return MiscItemHelper.applyEVs(
+            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_protein"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 10, 0, 0, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:iron"), stack)) return MiscItemHelper.applyEVs(
+            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_iron"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 0, 10, 0, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:calcium"), stack)) return MiscItemHelper.applyEVs(
+            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_calcium"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 0, 0, 10, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:zinc"), stack)) return MiscItemHelper.applyEVs(
+            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_zinc"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 10, 0, 0, 10, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:carbos"), stack)) return MiscItemHelper.applyEVs(
+            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_carbos"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 0, 0, 0, 0, 10 }, stack, pokemob);
         }
         return new ActionResult<>(ActionResultType.FAIL, stack);
@@ -120,8 +125,9 @@ public class MiscItemHelper
     @SubscribeEvent
     public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
     {
-        if (event.getCapabilities().containsKey(MiscItemHelper.USABLE) || MiscItemHelper.CHARCOALSTACK == null
-                || MiscItemHelper.CHARCOALSTACK == event.getObject()) return;
+        // Already added the cap
+        if (event.getCapabilities().containsKey(MiscItemHelper.USABLE)) return;
+        if (MiscItemHelper.CHARCOALSTACK == null || MiscItemHelper.CHARCOALSTACK == event.getObject()) return;
         if (MiscItemHelper.CHARCOALSTACK.getItem() == event.getObject().getItem()) event.addCapability(
                 MiscItemHelper.USABLE, new CharcoalEffect());
     }
