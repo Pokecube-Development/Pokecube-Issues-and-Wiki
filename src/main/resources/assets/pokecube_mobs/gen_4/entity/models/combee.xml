@@ -1,7 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" scale=".2"/>
-  <phase female="F" male="M" name="textures"/>
+  <phase name="global" scale="0.08"/>
+  <phase female="f" male="m" name="textures"/>
+  <customTex default="combee">
+   <part name="Head" tex="combeeeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="wing1">
+    <component length="10" name="1" rotChange="0,0,0.7" rotOffset="0,0,-40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-0.7" startKey="10"/>
+   </part>
+   <part name="wing2">
+    <component length="10" name="1" rotChange="0,0,-0.7" rotOffset="0,0,40" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0.7" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" posOffset="0,-1,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="wing1">
+    <component length="1" name="1" rotChange="0,0,35" rotOffset="0,0,0" startKey="0"/>
+    <component length="1" name="2" rotChange="0,0,-75" startKey="1"/>
+    <component length="1" name="3" rotChange="0,0,35" startKey="2"/>
+   </part>
+   <part name="wing2">
+    <component length="1" name="1" rotChange="0,0,-35" rotOffset="0,0,0" startKey="0"/>
+    <component length="1" name="2" rotChange="0,0,75" startKey="1"/>
+    <component length="1" name="3" rotChange="0,0,-35" startKey="2"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

@@ -8,6 +8,10 @@
   <phase angle="15" axis="2" length="50" name="snakeIdle" parts="arm2_1:arm2_2:arm2_3:arm2_4:arm2_5:arm2_5:arm2_6"/>
   <phase angle="15" axis="2" length="50" name="snakeIdle" parts="arm3_1:arm3_2:arm3_3:arm3_4:arm3_5:arm3_5:arm3_6"/>
   <phase angle="-15" axis="2" length="50" name="snakeIdle" parts="arm4_1:arm4_2:arm4_3:arm4_4:arm4_5:arm4_5:arm4_6"/>
+  <phase angle="-15" axis="2" length="50" name="snakeWalk" parts="arm1_1:arm1_2:arm1_3:arm1_4:arm1_5:arm1_5:arm1_6"/>
+  <phase angle="15" axis="2" length="50" name="snakeWalk" parts="arm2_1:arm2_2:arm2_3:arm2_4:arm2_5:arm2_5:arm2_6"/>
+  <phase angle="15" axis="2" length="50" name="snakeWalk" parts="arm3_1:arm3_2:arm3_3:arm3_4:arm3_5:arm3_5:arm3_6"/>
+  <phase angle="-15" axis="2" length="50" name="snakeWalk" parts="arm4_1:arm4_2:arm4_3:arm4_4:arm4_5:arm4_5:arm4_6"/>
   <phase angle="-10" axis="2" length="50" name="snakeFly" parts="arm1_1:arm1_2:arm1_3:arm1_4:arm1_5:arm1_5:arm1_6"/>
   <phase angle="10" axis="2" length="50" name="snakeFly" parts="arm2_1:arm2_2:arm2_3:arm2_4:arm2_5:arm2_5:arm2_6"/>
   <phase angle="10" axis="2" length="50" name="snakeFly" parts="arm3_1:arm3_2:arm3_3:arm3_4:arm3_5:arm3_5:arm3_6"/>
@@ -72,6 +76,28 @@
    </part>
    <part name="arm4">
     <component length="8" name="1" rotChange="0,0,-4" rotOffset="10,-55,20" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,4" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body1">
+    <component length="8" name="1" rotChange="0.5,0,0" rotOffset="2,0,0" startKey="0"/>
+    <component length="8" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="8" name="1" rotChange="0,0,-4" rotOffset="0,-45,0" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,4" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="8" name="1" rotChange="0,0,4" rotOffset="0,-45,0" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-4" startKey="10"/>
+   </part>
+   <part name="arm3">
+    <component length="8" name="1" rotChange="0,0,4" rotOffset="0,45,0" startKey="0"/>
+    <component length="8" name="2" rotChange="0,0,-4" startKey="10"/>
+   </part>
+   <part name="arm4">
+    <component length="8" name="1" rotChange="0,0,-4" rotOffset="0,45,0" startKey="0"/>
     <component length="8" name="2" rotChange="0,0,4" startKey="10"/>
    </part>
   </phase>
