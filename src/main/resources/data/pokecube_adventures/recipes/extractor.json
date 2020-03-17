@@ -8,19 +8,19 @@
   ],
   "key": {
     "R": {
-      "item": "pokecube:trading_table"
+      "item": "pokecube:trade_machine"
     },
     "S": {
-      "item": "minecraft:iron_block"
+      "item": "minecraft:diamond_block"
     },
     "I": {
-      "item": "minecraft:iron_ingot"
+      "item": "minecraft:gold_ingot"
     },
     "M": {
-      "item": "minecraft:redstone"
+      "item": "minecraft:golden_apple"
     }
   },
   "result": {
-    "item": "pokecube_adventures:afa"
+    "item": "pokecube_adventures:extractor"
   }
 }
