@@ -41,7 +41,7 @@ public class UsableItemEffects
         private final LazyOptional<IPokemobUseable> holder = LazyOptional.of(() -> this);
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side)
+        public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
             return UsableItemEffects.USABLEITEM_CAP.orEmpty(cap, this.holder);
         }
@@ -60,7 +60,7 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onTick(IPokemob pokemob, ItemStack stack)
+        public ActionResult<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
         {
             return this.onUse(pokemob, stack, pokemob.getEntity());
         }
@@ -76,7 +76,7 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             final LivingEntity mob = pokemob.getEntity();
             final float health = pokemob.getHealth();
@@ -107,7 +107,8 @@ public class UsableItemEffects
          * @return
          */
         @Override
-        public ActionResult<ItemStack> onMoveTick(IPokemob pokemob, ItemStack stack, MovePacket moveuse)
+        public ActionResult<ItemStack> onMoveTick(final IPokemob pokemob, final ItemStack stack,
+                final MovePacket moveuse)
         {
             if (stack.getItem() instanceof ItemBerry)
             {
@@ -129,7 +130,7 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onTick(IPokemob pokemob, ItemStack stack)
+        public ActionResult<ItemStack> onTick(final IPokemob pokemob, final ItemStack stack)
         {
             if (stack.getItem() instanceof ItemBerry)
             {
@@ -153,7 +154,7 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             if (stack.getItem() instanceof ItemBerry)
             {
@@ -181,7 +182,7 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             if (user != pokemob.getEntity() && user != pokemob.getOwner()) return new ActionResult<>(
                     ActionResultType.FAIL, stack);
@@ -202,7 +203,7 @@ public class UsableItemEffects
     public static class PotionUse extends BaseUseable
     {
         @Override
-        public ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, ItemStack stack, final LivingEntity user)
         {
             final MobEntity mob = pokemob.getEntity();
             boolean applied = false;
@@ -241,7 +242,7 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             if (user != pokemob.getEntity() && user != pokemob.getOwner()) return new ActionResult<>(
                     ActionResultType.FAIL, stack);
@@ -270,7 +271,7 @@ public class UsableItemEffects
          * @return something happened
          */
         @Override
-        public ActionResult<ItemStack> onUse(IPokemob pokemob, ItemStack stack, LivingEntity user)
+        public ActionResult<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack, final LivingEntity user)
         {
             if (user != pokemob.getEntity() && user != pokemob.getOwner() && !(stack.getItem() instanceof ItemVitamin))
                 return new ActionResult<>(ActionResultType.FAIL, stack);
@@ -290,7 +291,7 @@ public class UsableItemEffects
     public static final ResourceLocation USABLE = new ResourceLocation(PokecubeMod.ID, "usables");
 
     /** 1.12 this needs to be ItemStack instead of item. */
-    public static void registerCapabilities(AttachCapabilitiesEvent<ItemStack> event)
+    public static void registerCapabilities(final AttachCapabilitiesEvent<ItemStack> event)
     {
         if (event.getCapabilities().containsKey(UsableItemEffects.USABLE)) return;
         final Item item = event.getObject().getItem();

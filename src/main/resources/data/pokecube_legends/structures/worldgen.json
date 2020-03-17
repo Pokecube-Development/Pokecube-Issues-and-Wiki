@@ -354,6 +354,7 @@
       "biomeType":"ruin",
       "distance":24,
       "separation":8,
+      "water":true,
       "spawn":{
         "values":{
           "category":"ocean"
@@ -366,6 +367,7 @@
       "biomeType":"ruin",
       "distance":24,
       "separation":8,
+      "surface":false,
       "spawn":{
         "values":{
           "category":"nether"
