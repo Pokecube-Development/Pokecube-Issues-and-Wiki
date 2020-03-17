@@ -101,6 +101,7 @@ public class EntityPokemob extends PokemobCombat
     {
         if (this.getEntityWorld() instanceof ServerWorld)
         {
+            if (this.getHealth() <= 0) this.pokemobCap.onRecall(true);
             final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
             if (near != null && this.getOwnerId() == null)
             {
