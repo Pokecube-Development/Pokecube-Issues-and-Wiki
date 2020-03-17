@@ -4,7 +4,7 @@
       "item": "pokecube_legends:revealglass"
     },
     "title": {
-      "text": "Forces of Nature",
+      "translate": "achievement.pokelegends.nature",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Thundurus/Tornadus/Landorus"
+      "translate": "achievement.pokelegends.nature.desc"
     },
     "frame": "challenge",
     "show_toast": true,

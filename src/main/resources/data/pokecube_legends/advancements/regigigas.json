@@ -4,7 +4,7 @@
       "item": "pokecube_legends:regigiga_spawn"
     },
     "title": {
-      "text": "The Leader of the Titans",
+      "translate": "achievement.pokelegends.regigigas",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Regigigas"
+      "translate": "achievement.pokelegends.regigigas.desc"
     },
     "frame": "challenge",
     "show_toast": true,

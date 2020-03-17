@@ -4,7 +4,7 @@
       "item": "pokecube_legends:darkstone"
     },
     "title": {
-      "text": "..Yang",
+      "translate": "achievement.pokelegends.darkstone",
       "color": "black",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Get a Tao Trio member(Zekrom)."
+      "translate": "achievement.pokelegends.darkstone.desc"
     },
     "frame": "goal",
     "show_toast": true,

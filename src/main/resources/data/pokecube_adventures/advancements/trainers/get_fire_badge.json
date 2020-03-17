@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_fire"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgefire"
+      "translate": "achievement.pokeadv.get.badgefire"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgefire.desc"
+      "translate": "achievement.pokeadv.get.badgefire.desc"
     }
   },
   "criteria": {

@@ -4,7 +4,7 @@
       "item": "pokecube_legends:prisonbottle"
     },
     "title": {
-      "text": "Confined",
+      "translate": "achievement.pokelegends.hoopa",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Hoopa"
+      "translate": "achievement.pokelegends.hoopa.desc"
     },
     "frame": "challenge",
     "show_toast": true,

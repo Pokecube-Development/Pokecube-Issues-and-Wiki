@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_poison"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgepoison"
+      "translate": "achievement.pokeadv.get.badgepoison"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgepoison.desc"
+      "translate": "achievement.pokeadv.get.badgepoison.desc"
     }
   },
   "criteria": {

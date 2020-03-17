@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_grass"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgegrass"
+      "translate": "achievement.pokeadv.get.badgegrass"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgegrass.desc"
+      "translate": "achievement.pokeadv.get.badgegrass.desc"
     }
   },
   "criteria": {

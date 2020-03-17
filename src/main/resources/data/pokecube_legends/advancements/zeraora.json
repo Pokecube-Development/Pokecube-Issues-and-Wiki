@@ -4,7 +4,7 @@
       "item": "pokecube:mastercube"
     },
     "title": {
-      "text": "The Power of Us",
+      "translate": "achievement.pokelegends.zeraora",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Zeraora"
+      "translate": "achievement.pokelegends.zeraora.desc"
     },
     "frame": "challenge",
     "show_toast": true,

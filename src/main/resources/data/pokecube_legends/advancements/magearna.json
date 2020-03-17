@@ -4,7 +4,7 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-      "text": "Metal Heart",
+      "translate": "achievement.pokelegends.magearna",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Magearna"
+      "translate": "achievement.pokelegends.magearna.desc"
     },
     "frame": "challenge",
     "show_toast": true,

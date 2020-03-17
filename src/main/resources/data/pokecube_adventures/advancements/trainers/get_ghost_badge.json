@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_ghost"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgeghost"
+      "translate": "achievement.pokeadv.get.badgeghost"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgeghost.desc"
+      "translate": "achievement.pokeadv.get.badgeghost.desc"
     }
   },
   "criteria": {

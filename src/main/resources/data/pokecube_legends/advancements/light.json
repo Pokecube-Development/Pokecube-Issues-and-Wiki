@@ -4,7 +4,7 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-      "text": "Light Trio",
+      "translate": "achievement.pokelegends.light",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Solgaleo/Lunala/Necrozma"
+      "translate": "achievement.pokelegends.light.desc"
     },
     "frame": "challenge",
     "show_toast": true,

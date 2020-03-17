@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_fairy"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgefairy"
+      "translate": "achievement.pokeadv.get.badgefairy"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgefairy.desc"
+      "translate": "achievement.pokeadv.get.badgefairy.desc"
     }
   },
   "criteria": {

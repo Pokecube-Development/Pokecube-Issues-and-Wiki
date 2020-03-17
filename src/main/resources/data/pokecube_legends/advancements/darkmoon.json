@@ -4,7 +4,7 @@
       "item": "pokecube_legends:n_moon"
     },
     "title": {
-      "text": "Dark Moon",
+      "translate": "achievement.pokelegends.darkmoon",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Lunala/Necrozma"
+      "translate": "achievement.pokelegends.darkmoon.desc"
     },
     "frame": "challenge",
     "show_toast": true,

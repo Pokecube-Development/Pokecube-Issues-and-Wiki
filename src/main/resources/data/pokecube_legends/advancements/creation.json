@@ -4,7 +4,7 @@
       "item": "pokecube_legends:azure_flute"
     },
     "title": {
-      "text": "Creation Trio",
+      "translate": "achievement.pokelegends.creation",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Palkia/Dialga/Giratina"
+      "translate": "achievement.pokelegends.creation.desc"
     },
     "frame": "challenge",
     "show_toast": true,

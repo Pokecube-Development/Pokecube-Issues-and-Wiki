@@ -4,7 +4,7 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-      "text": "Legendary Beasts",
+      "translate": "achievement.pokelegends.beasts",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Entei/Suicune/Raikou"
+      "translate": "achievement.pokelegends.beasts.desc"
     },
     "frame": "challenge",
     "show_toast": true,

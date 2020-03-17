@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_steel"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgesteel"
+      "translate": "achievement.pokeadv.get.badgesteel"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgesteel.desc"
+      "translate": "achievement.pokeadv.get.badgesteel.desc"
     }
   },
   "criteria": {

@@ -4,7 +4,7 @@
       "item": "pokecube:premiercube"
     },
     "title": {
-      "text": "Steel fusion",
+      "translate": "achievement.pokelegends.melmetal",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Melmetal"
+      "translate": "achievement.pokelegends.melmetal.desc"
     },
     "frame": "challenge",
     "show_toast": true,

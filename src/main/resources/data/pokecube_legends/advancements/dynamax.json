@@ -4,7 +4,7 @@
       "item": "pokecube_legends:rustedshield"
     },
     "title": {
-      "text": "Sword and Shield",
+      "translate": "achievement.pokelegends.dynamax",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Zacian/Zamazenta"
+      "translate": "achievement.pokelegends.dynamax.desc"
     },
     "frame": "challenge",
     "show_toast": true,

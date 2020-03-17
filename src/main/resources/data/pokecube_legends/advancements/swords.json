@@ -4,7 +4,7 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-      "text": "Swords of Justice",
+      "translate": "achievement.pokelegends.swords",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Cobalion/Terrakion/Virizion"
+      "translate": "achievement.pokelegends.swords.desc"
     },
     "frame": "challenge",
     "show_toast": true,
