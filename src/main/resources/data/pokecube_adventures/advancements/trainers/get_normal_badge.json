@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_normal"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgenormal"
+      "translate": "achievement.pokeadv.get.badgenormal"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgenormal.desc"
+      "translate": "achievement.pokeadv.get.badgenormal.desc"
     }
   },
   "criteria": {

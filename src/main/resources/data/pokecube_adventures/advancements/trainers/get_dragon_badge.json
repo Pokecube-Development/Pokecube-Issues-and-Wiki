@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_dragon"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgedragon"
+      "translate": "achievement.pokeadv.get.badgedragon"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgedragon.desc"
+      "translate": "achievement.pokeadv.get.badgedragon.desc"
     }
   },
   "criteria": {

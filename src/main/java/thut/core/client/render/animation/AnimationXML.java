@@ -105,6 +105,17 @@ public class AnimationXML
         public String merge;
     }
 
+    @XmlRootElement(name = "subanim")
+    public static class SubAnim
+    {
+        @XmlAttribute(name = "name")
+        public String name;
+        @XmlAttribute(name = "base")
+        public String base;
+        @XmlAttribute(name = "weight")
+        public int    weight = 1;
+    }
+
     @XmlRootElement(name = "customModel")
     public static class CustomModel
     {
@@ -156,19 +167,21 @@ public class AnimationXML
     public static class Model
     {
         @XmlElement(name = "customTex")
-        public CustomTex   customTex;
+        public CustomTex     customTex;
         @XmlElement(name = "customModel")
-        public CustomModel customModel;
+        public CustomModel   customModel;
         @XmlElement(name = "metadata")
-        public Metadata    metadata;
+        public Metadata      metadata;
         @XmlElement(name = "phase")
-        public List<Phase> phases    = Lists.newArrayList();
+        public List<Phase>   phases    = Lists.newArrayList();
         @XmlElement(name = "worn")
-        public List<Worn>  worn      = Lists.newArrayList();
+        public List<Worn>    worn      = Lists.newArrayList();
         @XmlElement(name = "merges")
-        public List<Merge> merges    = Lists.newArrayList();
+        public List<Merge>   merges    = Lists.newArrayList();
         @XmlElement(name = "material")
-        public List<Mat>   materials = Lists.newArrayList();
+        public List<Mat>     materials = Lists.newArrayList();
+        @XmlElement(name = "subanim")
+        public List<SubAnim> subanim   = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "phase")

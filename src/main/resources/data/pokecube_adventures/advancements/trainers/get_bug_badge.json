@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_bug"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgebug"
+      "translate": "achievement.pokeadv.get.badgebug"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgebug.desc"
+      "translate": "achievement.pokeadv.get.badgebug.desc"
     }
   },
   "criteria": {

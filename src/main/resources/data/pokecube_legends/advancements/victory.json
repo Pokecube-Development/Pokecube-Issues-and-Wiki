@@ -4,16 +4,11 @@
       "item": "pokecube:pokecube"
     },
     "title": {
-      "text": "A Master in Battle!",
-      "color": "green",
-      "bold": false,
-      "italic": false,
-      "underlined": false,
-      "strikethrough": false,
-      "obfuscated": false
+      "translate": "achievement.pokelegends.victory",
+      "color": "green"
     },
     "description": {
-      "text": "Get all the badges"
+      "translate": "achievement.pokelegends.victory.desc"
     },
     "frame": "goal",
     "show_toast": true,
@@ -26,7 +21,58 @@
       "conditions": {
         "items": [
           {
+            "item": "pokecube_adventures:badge_normal"
+          },
+          {
             "item": "pokecube_adventures:badge_fighting"
+          },
+          {
+            "item": "pokecube_adventures:badge_flying"
+          },
+          {
+            "item": "pokecube_adventures:badge_poison"
+          },
+          {
+            "item": "pokecube_adventures:badge_ground"
+          },
+          {
+            "item": "pokecube_adventures:badge_rock"
+          },
+          {
+            "item": "pokecube_adventures:badge_bug"
+          },
+          {
+            "item": "pokecube_adventures:badge_ghost"
+          },
+          {
+            "item": "pokecube_adventures:badge_steel"
+          },
+          {
+            "item": "pokecube_adventures:badge_fire"
+          },
+          {
+            "item": "pokecube_adventures:badge_water"
+          },
+          {
+            "item": "pokecube_adventures:badge_grass"
+          },
+          {
+            "item": "pokecube_adventures:badge_electric"
+          },
+          {
+            "item": "pokecube_adventures:badge_psychic"
+          },
+          {
+            "item": "pokecube_adventures:badge_ice"
+          },
+          {
+            "item": "pokecube_adventures:badge_dragon"
+          },
+          {
+            "item": "pokecube_adventures:badge_dark"
+          },
+          {
+            "item": "pokecube_adventures:badge_fairy"
           }
         ]
       }

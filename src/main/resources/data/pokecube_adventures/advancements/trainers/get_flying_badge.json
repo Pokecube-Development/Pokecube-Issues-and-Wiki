@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_flying"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgeflying"
+      "translate": "achievement.pokeadv.get.badgeflying"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgeflying.desc"
+      "translate": "achievement.pokeadv.get.badgeflying.desc"
     }
   },
   "criteria": {

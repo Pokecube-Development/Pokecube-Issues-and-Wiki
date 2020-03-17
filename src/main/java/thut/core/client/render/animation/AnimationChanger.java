@@ -10,7 +10,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -110,6 +109,14 @@ public class AnimationChanger implements IAnimationChanger
     }
 
     @Override
+    public boolean hasAnimation(final String phase)
+    {
+        for (final IAnimationChanger child : this.children)
+            if (child.hasAnimation(phase)) return true;
+        return IAnimationChanger.super.hasAnimation(phase);
+    }
+
+    @Override
     public boolean isPartHidden(final String part, final Entity entity, final boolean default_)
     {
         this.checkWildCard(part);
@@ -121,14 +128,14 @@ public class AnimationChanger implements IAnimationChanger
     }
 
     @Override
-    public String modifyAnimation(final MobEntity entity, final float partialTicks, final String phase)
+    public boolean getAlternates(final List<String> toFill, final Set<String> options, final Entity mob,
+            final String phase)
     {
+        boolean ret = false;
         for (final IAnimationChanger child : this.children)
-        {
-            final String mod = child.modifyAnimation(entity, partialTicks, phase);
-            if (!phase.equals(mod)) return mod;
-        }
-        return phase;
+            ret = child.getAlternates(toFill, options, mob, phase) || ret;
+        if (ret) return true;
+        return IAnimationChanger.super.getAlternates(toFill, options, mob, phase);
     }
 
     @Override

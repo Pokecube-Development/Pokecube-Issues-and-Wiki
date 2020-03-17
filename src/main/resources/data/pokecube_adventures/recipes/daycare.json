@@ -8,21 +8,19 @@
   ],
   "key": {
     "R": {
-      "item": "pokecube:trading_table",
-      "data": 0
+      "item": "pokecube:trade_machine"
     },
     "S": {
-      "item": "minecraft:gold_block"
+      "item": "minecraft:iron_block"
     },
     "I": {
       "item": "minecraft:iron_ingot"
     },
     "M": {
-      "item": "minecraft:golden_apple",
-      "data": 0
+      "item": "minecraft:emerald"
     }
   },
   "result": {
-    "item": "pokecube_adventures:reanimator"
+    "item": "pokecube_adventures:daycare"
   }
 }

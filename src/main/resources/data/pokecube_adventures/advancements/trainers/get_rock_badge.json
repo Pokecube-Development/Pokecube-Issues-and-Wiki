@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_rock"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgerock"
+      "translate": "achievement.pokeadv.get.badgerock"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgerock.desc"
+      "translate": "achievement.pokeadv.get.badgerock.desc"
     }
   },
   "criteria": {

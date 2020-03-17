@@ -50,7 +50,6 @@ import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.Evolution;
 import pokecube.core.database.PokedexEntryLoader.Interact;
-import pokecube.core.database.PokedexEntryLoader.Key;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
@@ -369,7 +368,7 @@ public class PokedexEntry
         public static void initDefaults()
         {
             final Interact fire = new Interact();
-            fire.key = new Key();
+            fire.key = new Drop();
             fire.action = new Action();
             fire.key.values.put(new QName("id"), "minecraft:stick");
             fire.action.values.put(new QName("type"), "item");
@@ -378,7 +377,7 @@ public class PokedexEntry
             fire.action.drops.add(firedrop);
 
             final Interact water = new Interact();
-            water.key = new Key();
+            water.key = new Drop();
             water.action = new Action();
             water.key.values.put(new QName("id"), "minecraft:bucket");
             water.action.values.put(new QName("type"), "item");
@@ -411,7 +410,7 @@ public class PokedexEntry
             for (final Interact interact : data)
             {
                 InteractionLogic.cleanInteract(interact);
-                final Key key = interact.key;
+                final Drop key = interact.key;
                 final Action action = interact.action;
                 final boolean isForme = action.values.get(new QName("type")).equals("forme");
                 Map<QName, String> values = key.getValues();
@@ -423,6 +422,7 @@ public class PokedexEntry
                 interaction.variance = Math.max(1, interact.variance);
                 interaction.hunger = interact.baseHunger;
                 entry.interactionLogic.actions.put(keyStack, interaction);
+
                 if (isForme)
                 {
                     final PokedexEntry forme = Database.getEntry(action.values.get(new QName("forme")));

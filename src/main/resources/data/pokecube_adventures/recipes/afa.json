@@ -8,7 +8,7 @@
   ],
   "key": {
     "R": {
-      "item": "pokecube:trading_table"
+      "item": "pokecube:trade_machine"
     },
     "S": {
       "item": "minecraft:iron_block"
@@ -17,10 +17,10 @@
       "item": "minecraft:iron_ingot"
     },
     "M": {
-      "item": "minecraft:emerald"
+      "item": "minecraft:redstone"
     }
   },
   "result": {
-    "item": "pokecube_adventures:daycare"
+    "item": "pokecube_adventures:afa"
   }
 }

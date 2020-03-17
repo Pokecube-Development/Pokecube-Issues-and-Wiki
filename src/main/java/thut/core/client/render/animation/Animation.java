@@ -15,24 +15,28 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.core.client.render.animation.AnimationRegistry.IPartRenamer;
 import thut.core.client.render.animation.AnimationXML.Phase;
 
-/** Container for Tabula animations.
+/**
+ * Container for Tabula animations.
  *
  * @author Gegy1000
- * @since 0.1.0 */
+ * @since 0.1.0
+ */
 @OnlyIn(Dist.CLIENT)
 public class Animation
 {
-    public final UUID                                     id         = UUID.randomUUID();
+    private UUID id;
 
-    public String                                         name       = "";
-    public String                                         identifier = "";
-    public int                                            length     = -1;
-    /** This is used for sorting animations for determining which components
+    public String name       = "";
+    public String identifier = "";
+    public int    length     = -1;
+    /**
+     * This is used for sorting animations for determining which components
      * should take priority when multiple animations are specified for a single
-     * part. */
-    public int                                            priority   = 10;
+     * part.
+     */
+    public int    priority   = 10;
 
-    public boolean                                        loops      = true;
+    public boolean loops = true;
 
     public TreeMap<String, ArrayList<AnimationComponent>> sets = new TreeMap<>(Ordering.natural());
 
@@ -68,24 +72,39 @@ public class Animation
         for (final Entry<String, ArrayList<AnimationComponent>> entry : this.sets.entrySet())
             for (final AnimationComponent component : entry.getValue())
                 this.length = Math.max(this.length, component.startKey + component.length);
+        // Thread.dumpStack();
+        // System.out.println(this.length + " " + this.name + " " +
+        // super.toString() + " " + this.id + " " + this.sets
+        // .size());
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
-        if (obj instanceof Animation) return this.id.equals(((Animation) obj).id);
-        return false;
+        if (this.id == null)
+        {
+            if (this.identifier.isEmpty()) this.identifier = this.name;
+            this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + this.getLength());
+        }
+        if (obj instanceof Animation) return ((Animation) obj).id.equals(this.id);
+        return super.equals(obj);
     }
 
     @Override
     public int hashCode()
     {
-        return id.hashCode();
+        if (this.id == null)
+        {
+            if (this.identifier.isEmpty()) this.identifier = this.name;
+            this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + this.getLength());
+        }
+        return this.id.hashCode();
     }
 
     @Override
     public String toString()
     {
-        return this.name + "|" + this.identifier + "|" + this.loops + "|" + this.getLength();
+        this.length = this.getLength();
+        return this.name + "|" + this.identifier + "|" + this.loops + "|" + this.length;
     }
 }

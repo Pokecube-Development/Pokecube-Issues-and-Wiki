@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_water"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgewater"
+      "translate": "achievement.pokeadv.get.badgewater"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgewater.desc"
+      "translate": "achievement.pokeadv.get.badgewater.desc"
     }
   },
   "criteria": {

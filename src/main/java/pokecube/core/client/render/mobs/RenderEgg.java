@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
@@ -68,18 +67,6 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
         @Override
         public void init(final Set<Animation> anims)
         {
-        }
-
-        @Override
-        public boolean isPartHidden(final String part, final Entity entity, final boolean default_)
-        {
-            return false;
-        }
-
-        @Override
-        public String modifyAnimation(final MobEntity entity, final float partialTicks, final String phase)
-        {
-            return "idle";
         }
 
         @Override

@@ -4,7 +4,7 @@
       "item": "pokecube_legends:n_sun"
     },
     "title": {
-      "text": "Dark Sun",
+      "translate": "achievement.pokelegends.darksun",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Solgaleo/Necrozma"
+      "translate": "achievement.pokelegends.darksun.desc"
     },
     "frame": "challenge",
     "show_toast": true,

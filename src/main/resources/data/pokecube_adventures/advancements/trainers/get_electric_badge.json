@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_electric"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgeelectric"
+      "translate": "achievement.pokeadv.get.badgeelectric"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgeelectric.desc"
+      "translate": "achievement.pokeadv.get.badgeelectric.desc"
     }
   },
   "criteria": {

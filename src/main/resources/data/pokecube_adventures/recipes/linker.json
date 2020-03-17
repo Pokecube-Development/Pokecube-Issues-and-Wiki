@@ -8,17 +8,16 @@
   ],
   "key": {
     "R": {
-      "item": "minecraft:redstone"
-    },
-    "E": {
       "item": "minecraft:emerald"
     },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
     "O": {
-      "item": "minecraft:stone",
-      "data": 0
+      "item": "minecraft:stone"
     }
   },
   "result": {
-    "item": "pokecube_adventures:target"
+    "item": "pokecube_adventures:linker"
   }
 }

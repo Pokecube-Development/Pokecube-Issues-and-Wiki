@@ -1,9 +1,11 @@
 package thut.core.client.render.animation;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -24,18 +26,23 @@ public class CapabilityAnimation
 {
     public static class DefaultImpl implements IAnimationHolder, ICapabilityProvider
     {
-        private final LazyOptional<IAnimationHolder> holder   = LazyOptional.of(() -> this);
+        private static final List<Animation>         EMPTY  = Collections.emptyList();
+        private final LazyOptional<IAnimationHolder> holder = LazyOptional.of(() -> this);
 
-        Map<Animation, Float>        stepsMap = Maps.newHashMap();
-        Set<Animation>               playing  = Sets.newHashSet();
-        private final Set<Animation> pending  = Sets.newHashSet();
+        Map<String, List<Animation>> anims = Maps.newHashMap();
+
+        List<Animation> playingList = DefaultImpl.EMPTY;
+        List<Animation> non_static  = Lists.newArrayList();
+
+        String pending = "";
+        String playing = "";
 
         @Override
         public void clean()
         {
-            this.stepsMap.clear();
-            this.pending.clear();
-            this.playing.clear();
+            this.pending = "";
+            this.playing = "";
+            this.playingList = DefaultImpl.EMPTY;
         }
 
         @Override
@@ -45,51 +52,45 @@ public class CapabilityAnimation
         }
 
         @Override
-        public Set<Animation> getPendingAnimations()
+        public String getPendingAnimations()
         {
             return this.pending;
         }
 
         @Override
-        public Set<Animation> getPlaying()
+        public List<Animation> getPlaying()
         {
-            return this.playing;
+            if (this.non_static.isEmpty() && !this.pending.isEmpty())
+            {
+                this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
+                this.playing = this.pending;
+                this.non_static.clear();
+                for (final Animation a : this.playingList)
+                    if (a.getLength() > 0) this.non_static.add(a);
+            }
+            return this.playingList;
         }
 
         @Override
-        public void setPendingAnimations(final List<Animation> name, final float step)
+        public void setPendingAnimations(final List<Animation> list, final String name)
         {
-            if (name != null)
-            {
-                this.pending.addAll(name);
-                for (final Animation anim : name)
-                    this.stepsMap.put(anim, step);
-            }
-            else this.pending.clear();
-            if (this.playing.isEmpty()) this.playing.addAll(name);
-            else this.pending.addAll(name);
+            this.anims.put(name, Lists.newArrayList(list));
+            this.getPlaying();
+            this.pending = name;
         }
 
         @Override
         public void setStep(final Animation animation, final float step)
         {
-            final float time = step - this.stepsMap.put(animation, step);
-            if (time > animation.getLength())
-            {
-                this.playing.remove(animation);
-                if (this.playing.isEmpty())
-                {
-                    this.playing.addAll(this.pending);
-                    this.pending.clear();
-                }
-            }
+            // Only reset if we have a pending animation.
+            final int l = animation.getLength();
+            if (l != 0 && step > l && !this.pending.equals(this.playing)) this.non_static.remove(animation);
         }
 
         @Override
         public String getAnimation(final Entity entityIn)
         {
-            // TODO Auto-generated method stub
-            return "idle";
+            return this.playing;
         }
     }
 
@@ -103,16 +104,16 @@ public class CapabilityAnimation
          *
          * @return
          */
-        Set<Animation> getPendingAnimations();
+        String getPendingAnimations();
 
-        Set<Animation> getPlaying();
+        List<Animation> getPlaying();
 
         /**
          * This is the animation about to be run.
          *
          * @param name
          */
-        void setPendingAnimations(List<Animation> name, float step);
+        void setPendingAnimations(final List<Animation> list, final String name);
 
         /** Sets the last tick this animation was run. Can set to 0 to count
          * this animation as cleared.

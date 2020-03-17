@@ -4,7 +4,7 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-      "text": "Heart Diamond",
+      "translate": "achievement.pokelegends.diancie",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Diancie"
+      "translate": "achievement.pokelegends.diancie.desc"
     },
     "frame": "challenge",
     "show_toast": true,

@@ -4,7 +4,7 @@
       "item": "pokecube_legends:magmacore"
     },
     "title": {
-      "text": "Core to Core",
+      "translate": "achievement.pokelegends.magmacore",
       "color": "red",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Go deep into the Nether."
+      "translate": "achievement.pokelegends.magmacore.desc"
     },
     "frame": "goal",
     "show_toast": true,

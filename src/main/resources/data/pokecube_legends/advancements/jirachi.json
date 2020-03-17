@@ -4,7 +4,7 @@
       "item": "pokecube:mastercube"
     },
     "title": {
-      "text": "Pokemon SOrte",
+      "translate": "achievement.pokelegends.jirachi",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Jirachi"
+      "translate": "achievement.pokelegends.jirachi.desc"
     },
     "frame": "challenge",
     "show_toast": true,

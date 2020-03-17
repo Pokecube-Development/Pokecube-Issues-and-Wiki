@@ -139,7 +139,7 @@ public class PokedexEntryLoader
         public Integer   priority;
         public SpawnRule location;
         public String    animation;
-        public Key       item;
+        public Drop      item;
         public String    item_preset;
         public String    time;
         public Boolean   trade;
@@ -194,12 +194,8 @@ public class PokedexEntryLoader
         public Integer cooldown   = 50;
         public Integer variance   = 100;
         public Integer baseHunger = 100;
-        public Key     key;
+        public Drop    key;
         public Action  action;
-    }
-
-    public static class Key extends Drop
-    {
     }
 
     public static class MegaEvoRule implements MegaRule
@@ -397,7 +393,7 @@ public class PokedexEntryLoader
         public String preset;
         public String move;
         public String ability;
-        public Key    item;
+        public Drop   item;
         public String item_preset;
     }
 

@@ -4,10 +4,10 @@
       "item": "pokecube_adventures:badge_fighting"
     },
     "title": {
-      "translate": "achievement.achievement.pokeadv.get.badgefighting"
+      "translate": "achievement.pokeadv.get.badgefighting"
     },
     "description": {
-      "translate": "achievement.achievement.pokeadv.get.badgefighting.desc"
+      "translate": "achievement.pokeadv.get.badgefighting.desc"
     }
   },
   "criteria": {

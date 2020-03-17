@@ -375,9 +375,24 @@ public class Tools
         ItemStack stack = ItemStack.EMPTY;
         Item item = null;
         if (resource) item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(id));
+
         if (!resource || item == null) stack = PokecubeItems.getStack(id, false);
         if (!stack.isEmpty()) item = stack.getItem();
-        if (item == null) return ItemStack.EMPTY;
+        if (item == null) for (final ResourceLocation loc : ForgeRegistries.ITEMS.getKeys())
+        {
+            System.out.println(id + " " + loc);
+            if (loc.getPath().equals(id))
+            {
+                item = ForgeRegistries.ITEMS.getValue(loc);
+                break;
+            }
+        }
+
+        if (item == null && stack.isEmpty())
+        {
+            System.out.println(id + " not found!");
+            return ItemStack.EMPTY;
+        }
         if (stack.isEmpty()) stack = new ItemStack(item, 1);
         stack.setCount(size);
         if (!tag.isEmpty()) try

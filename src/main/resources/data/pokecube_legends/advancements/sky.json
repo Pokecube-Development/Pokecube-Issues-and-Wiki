@@ -4,7 +4,7 @@
       "item": "pokecube:mastercube"
     },
     "title": {
-      "text": "Guardian of the skies",
+      "translate": "achievement.pokelegends.sky",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Ho-oh"
+      "translate": "achievement.pokelegends.sky.desc"
     },
     "frame": "challenge",
     "show_toast": true,
