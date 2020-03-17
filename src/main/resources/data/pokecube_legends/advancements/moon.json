@@ -4,7 +4,7 @@
       "item": "pokecube:mastercube"
     },
     "title": {
-      "text": "Crescent moon",
+      "translate": "achievement.pokelegends.moon",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Cresselia"
+      "translate": "achievement.pokelegends.moon.desc"
     },
     "frame": "challenge",
     "show_toast": true,

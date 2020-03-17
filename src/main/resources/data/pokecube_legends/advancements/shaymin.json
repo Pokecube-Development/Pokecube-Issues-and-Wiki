@@ -4,7 +4,7 @@
       "item": "pokecube_legends:gracidea"
     },
     "title": {
-      "text": "Gratitude",
+      "translate": "achievement.pokelegends.shaymin",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Shaymin"
+      "translate": "achievement.pokelegends.shaymin.desc"
     },
     "frame": "challenge",
     "show_toast": true,

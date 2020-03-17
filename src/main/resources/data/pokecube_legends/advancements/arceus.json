@@ -4,7 +4,7 @@
       "item": "pokecube:mastercube"
     },
     "title": {
-      "text": "The beginning",
+      "translate": "achievement.pokelegends.arceus",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Arceus"
+      "translate": "achievement.pokelegends.arceus.desc"
     },
     "frame": "challenge",
     "show_toast": true,

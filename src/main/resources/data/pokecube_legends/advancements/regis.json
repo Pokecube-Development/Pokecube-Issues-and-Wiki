@@ -4,7 +4,7 @@
       "item": "pokecube_legends:rockcore"
     },
     "title": {
-      "text": "The beginning of the Golems",
+      "translate": "achievement.pokelegends.regis",
       "color": "blue",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Get the basics for the Titans."
+      "translate": "achievement.pokelegends.regis.desc"
     },
     "frame": "challenge",
     "show_toast": true,

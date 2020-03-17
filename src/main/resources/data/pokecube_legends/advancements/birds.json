@@ -4,7 +4,7 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-      "text": "Legendary Birds",
+      "translate": "achievement.pokelegends.birds",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Moltres/Articuno/Zapdos"
+      "translate": "achievement.pokelegends.birds.desc"
     },
     "frame": "challenge",
     "show_toast": true,

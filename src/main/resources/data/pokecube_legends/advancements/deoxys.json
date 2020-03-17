@@ -4,7 +4,7 @@
       "item": "pokecube:mastercube"
     },
     "title": {
-      "text": "The Form from Space",
+      "translate": "achievement.pokelegends.deoxys",
       "color": "light_purple",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Deoxys"
+      "translate": "achievement.pokelegends.deoxys.desc"
     },
     "frame": "challenge",
     "show_toast": true,

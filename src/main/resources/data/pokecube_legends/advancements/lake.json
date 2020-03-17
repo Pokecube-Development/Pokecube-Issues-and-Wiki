@@ -4,7 +4,7 @@
       "item": "pokecube:ultracube"
     },
     "title": {
-      "text": "Lake guardians",
+      "translate": "achievement.pokelegends.lake",
       "color": "gold",
       "bold": false,
       "italic": false,
@@ -13,7 +13,7 @@
       "obfuscated": false
     },
     "description": {
-      "text": "Catch Azelf/Mesprit/Uxie"
+      "translate": "achievement.pokelegends.lake.desc"
     },
     "frame": "challenge",
     "show_toast": true,
