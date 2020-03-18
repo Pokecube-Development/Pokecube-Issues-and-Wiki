@@ -45,6 +45,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.PokecubeCore;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.PortalActiveFunction;
 
@@ -652,39 +653,45 @@ public class PortalWarp extends Rotates implements IWaterLoggable
         //@formatter:on
     }
 
+    private VoxelShape getShape(final PortalWarpPart part, final Direction dir, final boolean active)
+    {
+        if (part == PortalWarpPart.BOTTOM && active) return PortalWarp.PORTAL_BOTTOM.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_LEFT && active) return PortalWarp.PORTAL_BOTTOM_LEFT.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_RIGHT && active) return PortalWarp.PORTAL_BOTTOM_RIGHT.get(dir);
+        else if (part == PortalWarpPart.MIDDLE && active) return PortalWarp.PORTAL_MIDDLE.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_LEFT && active) return PortalWarp.PORTAL_MIDDLE_LEFT.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_RIGHT && active) return PortalWarp.PORTAL_MIDDLE_RIGHT.get(dir);
+        else if (part == PortalWarpPart.TOP_LEFT && active) return PortalWarp.PORTAL_TOP_LEFT.get(dir);
+        else if (part == PortalWarpPart.TOP_RIGHT && active) return PortalWarp.PORTAL_TOP_RIGHT.get(dir);
+
+        else if (part == PortalWarpPart.BOTTOM && !active) return PortalWarp.PORTAL_BOTTOM_OFF.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_LEFT && !active) return PortalWarp.PORTAL_BOTTOM_LEFT_OFF.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_RIGHT && !active) return PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.get(dir);
+        else if (part == PortalWarpPart.MIDDLE && !active) return PortalWarp.PORTAL_MIDDLE_OFF.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_LEFT && !active) return PortalWarp.PORTAL_MIDDLE_LEFT_OFF.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_RIGHT && !active) return PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.get(dir);
+        else if (part == PortalWarpPart.TOP_LEFT && !active) return PortalWarp.PORTAL_TOP_LEFT_OFF.get(dir);
+        else if (part == PortalWarpPart.TOP_RIGHT && !active) return PortalWarp.PORTAL_TOP_RIGHT_OFF.get(dir);
+        else if (part == PortalWarpPart.TOP && !active) return PortalWarp.PORTAL_TOP_OFF.get(dir);
+        else return PortalWarp.PORTAL_TOP.get(dir);
+    }
+
     // Precise selection box
     @Override
     public VoxelShape getShape(final BlockState state, final IBlockReader worldIn, final BlockPos pos,
             final ISelectionContext context)
     {
         final PortalWarpPart part = state.get(PortalWarp.PART);
-        if (part == PortalWarpPart.BOTTOM && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_BOTTOM.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.BOTTOM_LEFT && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_BOTTOM_LEFT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.BOTTOM_RIGHT && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_BOTTOM_RIGHT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_MIDDLE.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE_LEFT && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_MIDDLE_LEFT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE_RIGHT && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_MIDDLE_RIGHT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.TOP_LEFT && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_TOP_LEFT.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.TOP_RIGHT && state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_TOP_RIGHT.get(state.get(PortalWarp.FACING));
+        final Direction dir = state.get(PortalWarp.FACING);
+        final boolean active = state.get(PortalWarp.ACTIVE);
+        VoxelShape s = this.getShape(part, dir, active);
+        if (s == null)
+        {
+            s = VoxelShapes.empty();
+            PokecubeCore.LOGGER.error("Error with hitbox for {}, {}, {}", part, dir, active);
+        }
 
-        else if (part == PortalWarpPart.BOTTOM && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_BOTTOM_OFF.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.BOTTOM_LEFT && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_BOTTOM_LEFT_OFF.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.BOTTOM_RIGHT && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_MIDDLE_OFF.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE_LEFT && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_MIDDLE_LEFT_OFF.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE_RIGHT && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.TOP_LEFT && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_TOP_LEFT_OFF.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.TOP_RIGHT && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_TOP_RIGHT_OFF.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.TOP && !state.get(PortalWarp.ACTIVE)) return PortalWarp.PORTAL_TOP_OFF.get(state.get(PortalWarp.FACING));
-        else return PortalWarp.PORTAL_TOP.get(state.get(PortalWarp.FACING));
+        return s;
     }
 
     public PortalWarp(final String name, final Properties props)
