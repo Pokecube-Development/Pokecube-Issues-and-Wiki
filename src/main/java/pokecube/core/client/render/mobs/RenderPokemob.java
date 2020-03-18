@@ -359,6 +359,9 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
 
         public void init()
         {
+            this.toRun.clear();
+            this.toRunNames.clear();
+            this.parts.clear();
             this.initModel(new ModelWrapper<>(this, this));
         }
 

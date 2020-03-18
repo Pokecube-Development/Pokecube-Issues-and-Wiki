@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
- <model name="">
+ <model>
   <phase name="global" scale="1.0"/>
-  <metadata head="Cabeca" headAxis="1" headAxis2="0" headCap="-30,30" headDir="1"/>
+  <phase duration="10" leftArm="left_arm" leftLeg="" legAngle="15" name="biWalk" rightArm="right_arm" rightLeg="tail1"/>
+  <metadata head="Head" headAxis="2"/>
+  <customTex default="dewgong">
+   <part name="head" tex="dewgong_eye"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="tail1">
+    <component name="1" rotOffset="0,30,0" startKey="0"/>
+   </part>
+   <part name="tail2">
+    <component name="1" rotOffset="0,30,0" startKey="0"/>
+   </part>
+   <part name="tail3">
+    <component name="1" rotOffset="0,30,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="swimming">
+   <part name="tail1">
+    <component length="10" name="1" rotChange="15,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-15,0,0" startKey="10"/>
+   </part>
+   <part name="tail2">
+    <component length="10" name="1" rotChange="10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-10,0,0" startKey="10"/>
+   </part>
+   <part name="tail3">
+    <component length="10" name="1" rotChange="10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-10,0,0" startKey="10"/>
+   </part>
+   <part name="left_arm">
+    <component length="10" name="1" rotChange="0,0,10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-10" startKey="10"/>
+   </part>
+   <part name="right_arm">
+    <component length="10" name="1" rotChange="0,0,-10" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,10" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
