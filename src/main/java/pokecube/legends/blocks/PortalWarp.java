@@ -45,6 +45,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.PokecubeCore;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.function.PortalActiveFunction;
 
@@ -55,124 +56,268 @@ public class PortalWarp extends Rotates implements IWaterLoggable
     private static final BooleanProperty              WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final DirectionProperty            FACING      = HorizontalBlock.HORIZONTAL_FACING;
 
-    private static final Map<Direction, VoxelShape> PORTAL_TOP          = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_TOP_LEFT     = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_TOP_RIGHT    = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE       = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE_LEFT  = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE_RIGHT = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM       = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM_LEFT  = new HashMap<>();
-    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM_RIGHT = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_TOP              = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_TOP_LEFT         = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_TOP_RIGHT        = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE           = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE_LEFT      = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE_RIGHT     = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM           = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM_LEFT      = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM_RIGHT     = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_TOP_OFF          = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_TOP_LEFT_OFF     = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_TOP_RIGHT_OFF    = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE_OFF       = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE_LEFT_OFF  = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_MIDDLE_RIGHT_OFF = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM_OFF       = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM_LEFT_OFF  = new HashMap<>();
+    private static final Map<Direction, VoxelShape> PORTAL_BOTTOM_RIGHT_OFF = new HashMap<>();
 
     String infoname;
 
     // Precise selection box
     static
     {
-        PortalWarp.PORTAL_TOP.put(Direction.NORTH, Block.makeCuboidShape(0, 0, 6.5, 16, 15, 9.5));
-        PortalWarp.PORTAL_TOP.put(Direction.EAST, Block.makeCuboidShape(6.5, 0, 0, 9.5, 15, 16));
-        PortalWarp.PORTAL_TOP.put(Direction.SOUTH, Block.makeCuboidShape(0, 0, 6.5, 16, 15, 9.5));
-        PortalWarp.PORTAL_TOP.put(Direction.WEST, Block.makeCuboidShape(6.5, 0, 0, 9.5, 15, 16));
+        PortalWarp.PORTAL_TOP.put(Direction.NORTH, Block.makeCuboidShape(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_TOP.put(Direction.EAST, Block.makeCuboidShape(6.5, 0, 0, 9.5, 16, 16));
+        PortalWarp.PORTAL_TOP.put(Direction.SOUTH, Block.makeCuboidShape(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_TOP.put(Direction.WEST, Block.makeCuboidShape(6.5, 0, 0, 9.5, 16, 16));
 
         //@formatter:off
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 3, 9, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 7.5, 6.5, 16, 9, 9.5),
+              Block.makeCuboidShape(0, 9, 6.5, 16, 16, 9.5),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 3),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 13, 9.5, 9, 16),
+              Block.makeCuboidShape(6.5, 9, 0, 9.5, 16, 16),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 3, 9, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 7.5, 6.5, 16, 9, 9.5),
+              Block.makeCuboidShape(0, 9, 6.5, 16, 16, 9.5),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 3),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 13, 9.5, 9, 16),
+              Block.makeCuboidShape(6.5, 9, 0, 9.5, 16, 16),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+
         PortalWarp.PORTAL_TOP_LEFT.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 13.5, 3, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 12, 6, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 10.5, 7.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 9, 9, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 7.5, 10.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 6, 12, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 12, 6.5, 3, 13.5, 9.5),
-                        Block.makeCuboidShape(0, 13.5, 6.5, 1.5, 15, 9.5),
-              IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 13.5, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 12, 7.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 10.5, 9, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 9, 10.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 7.5, 12, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 12, 6.5, 6, 13.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13.5, 6.5, 4.5, 14.75, 9.5),
+                        Block.makeCuboidShape(0, 14.75, 6.5, 1.5, 16, 9.5),
+                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_TOP_LEFT.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 3, 13.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 6, 12),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 10.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 9),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 7.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 6),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 0, 9.5, 13.5, 3),
-                        Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 15, 1.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 4.5, 13.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 7.5, 12),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 10.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 9),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 7.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 0, 9.5, 13.5, 6),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 14.75, 4.5),
+                        Block.makeCuboidShape(6.5, 14.75, 0, 9.5, 16, 1.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_TOP_LEFT.put(Direction.SOUTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 0, 6.5, 16, 3, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 3, 6.5, 16, 6, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 6, 6.5, 16, 7.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7.5, 6.5, 16, 9, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 9, 6.5, 16, 10.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 10.5, 6.5, 16, 12, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 12, 6.5, 16, 13.5, 9.5),
-                        Block.makeCuboidShape(14.5, 13.5, 6.5, 16, 15, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 0, 6.5, 16, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 4.5, 6.5, 16, 7.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 7.5, 6.5, 16, 9, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 9, 6.5, 16, 10.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 10.5, 6.5, 16, 12, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 12, 6.5, 16, 13.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11.5, 13.5, 6.5, 16, 14.75, 9.5),
+                        Block.makeCuboidShape(14.5, 14.75, 6.5, 16, 16, 9.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_TOP_LEFT.put(Direction.WEST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 2.5, 9.5, 3, 16),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 4, 9.5, 6, 16),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 5.5, 9.5, 7.5, 16),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 7, 9.5, 9, 16),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 8.5, 9.5, 10.5, 16),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 10, 9.5, 12, 16),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 13, 9.5, 13.5, 16),
-                        Block.makeCuboidShape(6.5, 13.5, 14.5, 9.5, 15, 16),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 2.5, 9.5, 4.5, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 4, 9.5, 7.5, 16),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 5.5, 9.5, 9, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 7, 9.5, 10.5, 16),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 8.5, 9.5, 12, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 10, 9.5, 13.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 11.5, 9.5, 14.75, 16),
+                        Block.makeCuboidShape(6.5, 14.75, 14.5, 9.5, 16, 16),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
 
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 1.5, 6.5, 13.5, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 0, 6.5, 13.5, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 12, 7.5, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 4.5, 6.5, 12, 6, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 10.5, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 9, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 7.5, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 12, 6.5, 6, 13.5, 9.5),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13.5, 6.5, 4.5, 14.75, 9.5),
+                            Block.makeCuboidShape(0, 14.75, 6.5, 1.5, 16, 9.5),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 4.5, 9.5, 4.5, 13.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 6, 9.5, 1.5, 13.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 12),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 3, 9.5, 6, 12),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 10.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 9),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 7.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 0, 9.5, 13.5, 6),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 14.75, 4.5),
+                            Block.makeCuboidShape(6.5, 14.75, 0, 9.5, 16, 1.5),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 1.5, 6.5, 11.5, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 0, 6.5, 10, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 6, 6.5, 16, 7.5, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 4.5, 6.5, 13, 6, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 7.5, 6.5, 16, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 9, 6.5, 16, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 10.5, 6.5, 16, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 12, 6.5, 16, 13.5, 9.5),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11.5, 13.5, 6.5, 16, 14.75, 9.5),
+                            Block.makeCuboidShape(14.5, 14.75, 6.5, 16, 16, 9.5),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_LEFT_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 2.5, 9.5, 4.5, 11.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 2.5, 9.5, 1.5, 10),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 4, 9.5, 7.5, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 4, 9.5, 6, 13),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 5.5, 9.5, 9, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 7, 9.5, 10.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 8.5, 9.5, 12, 16),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 10, 9.5, 13.5, 16),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 11.5, 9.5, 14.75, 16),
+                            Block.makeCuboidShape(6.5, 14.75, 14.5, 9.5, 16, 16),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+
         PortalWarp.PORTAL_TOP_RIGHT.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 0, 6.5, 16, 3, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 3, 6.5, 16, 6, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 6, 6.5, 16, 7.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7.5, 6.5, 16, 9, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 9, 6.5, 16, 10.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 10.5, 6.5, 16, 12, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 12, 6.5, 16, 13.5, 9.5),
-                        Block.makeCuboidShape(14.5, 13.5, 6.5, 16, 15, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.5, 0, 6.5, 16, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 4.5, 6.5, 16, 7.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 7.5, 6.5, 16, 9, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 9, 6.5, 16, 10.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.5, 10.5, 6.5, 16, 12, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9, 12, 6.5, 16, 13.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11.75, 13.5, 6.5, 16, 14.75, 9.5),
+                        Block.makeCuboidShape(14.5, 14.75, 6.5, 16, 16, 9.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_TOP_RIGHT.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 2.5, 9.5, 3, 16),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 4, 9.5, 6, 16),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 5.5, 9.5, 7.5, 16),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 7, 9.5, 9, 16),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 8.5, 9.5, 10.5, 16),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 10, 9.5, 12, 16),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 13, 9.5, 13.5, 16),
-                        Block.makeCuboidShape(6.5, 13.5, 14.5, 9.5, 15, 16),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 1.5, 9.5, 4.5, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 3, 9.5, 7.5, 16),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 4.5, 9.5, 9, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 6, 9.5, 10.5, 16),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 7.5, 9.5, 12, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 9, 9.5, 13.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 11.75, 9.5, 14.75, 16),
+                        Block.makeCuboidShape(6.5, 14.75, 14.5, 9.5, 16, 16),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_TOP_RIGHT.put(Direction.SOUTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 13.5, 3, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 12, 6, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 10.5, 7.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 9, 9, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 7.5, 10.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 6, 12, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 12, 6.5, 3, 13.5, 9.5),
-                        Block.makeCuboidShape(0, 13.5, 6.5, 1.5, 15, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 14.5, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 13, 7.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 11.5, 9, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 10, 10.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 8.5, 12, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 12, 6.5, 7, 13.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13.5, 6.5, 4.25, 14.75, 9.5),
+                        Block.makeCuboidShape(0, 14.75, 6.5, 1.5, 16, 9.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_TOP_RIGHT.put(Direction.WEST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 3, 13.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 6, 12),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 10.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 9),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 7.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 6),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 0, 9.5, 13.5, 3),
-                        Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 15, 1.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 4.5, 14.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 7.5, 13),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 11.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 10),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 8.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 0, 9.5, 13.5, 7),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 14.75, 4.25),
+                        Block.makeCuboidShape(6.5, 14.75, 0, 9.5, 16, 1.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
+
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.5, 1.5, 6.5, 11.5, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.5, 0, 6.5, 10, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 6, 6.5, 16, 7.5, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 4.5, 6.5, 13, 6, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 7.5, 6.5, 16, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 9, 6.5, 16, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.5, 10.5, 6.5, 16, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9, 12, 6.5, 16, 13.5, 9.5),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11.75, 13.5, 6.5, 16, 14.75, 9.5),
+                            Block.makeCuboidShape(14.5, 14.75, 6.5, 16, 16, 9.5),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 1.5, 9.5, 4.5, 11.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 1.5, 9.5, 1.5, 10),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 3, 9.5, 7.5, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 3, 9.5, 6, 13),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 4.5, 9.5, 9, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 6, 9.5, 10.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 7.5, 9.5, 12, 16),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 9, 9.5, 13.5, 16),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 11.75, 9.5, 14.75, 16),
+                            Block.makeCuboidShape(6.5, 14.75, 14.5, 9.5, 16, 16),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 1.5, 6.5, 14.5, 4.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 0, 6.5, 14.5, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 13, 7.5, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 4.5, 6.5, 13, 6, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 11.5, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 10, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 8.5, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 12, 6.5, 7, 13.5, 9.5),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 13.5, 6.5, 4.25, 14.75, 9.5),
+                            Block.makeCuboidShape(0, 14.75, 6.5, 1.5, 16, 9.5),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_TOP_RIGHT_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 4.5, 9.5, 4.5, 14.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 6, 9.5, 1.5, 14.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 13),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 3, 9.5, 6, 13),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 11.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 10),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 8.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 0, 9.5, 13.5, 7),
+                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 14.75, 4.25),
+                            Block.makeCuboidShape(6.5, 14.75, 0, 9.5, 16, 1.5),
+                            IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                      IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
 
         PortalWarp.PORTAL_MIDDLE.put(Direction.NORTH,
           Block.makeCuboidShape(0, 0, 6.5, 16, 16, 9.5));
@@ -183,147 +328,352 @@ public class PortalWarp extends Rotates implements IWaterLoggable
         PortalWarp.PORTAL_MIDDLE.put(Direction.WEST,
           Block.makeCuboidShape(6.5, 0, 0, 9.5, 16, 16));
 
+        PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.NORTH,
+          Block.makeCuboidShape(0, 0, 0, 0, 0, 0));
+        PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.EAST,
+          Block.makeCuboidShape(0, 0, 0, 0, 0, 0));
+        PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.SOUTH,
+          Block.makeCuboidShape(0, 0, 0, 0, 0, 0));
+        PortalWarp.PORTAL_MIDDLE_OFF.put(Direction.WEST,
+          Block.makeCuboidShape(0, 0, 0, 0, 0, 0));
+
         PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 15, 14.5, 9.5),
-              Block.makeCuboidShape(0, 14.5, 6.5, 13.5, 16, 9.5),
-              IBooleanFunction.OR));
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 15, 16, 9.5),
+            Block.makeCuboidShape(0, 0, 6.5, 13.5, 1.5, 9.5),
+            IBooleanFunction.OR));
         PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 14.5, 15),
-            Block.makeCuboidShape(6.5, 14.5, 0, 9.5, 16, 13.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 16, 15),
+            Block.makeCuboidShape(6.5, 0, 0, 9.5, 1.5, 13.5),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.SOUTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 0, 6.5, 16, 14.5, 9.5),
-            Block.makeCuboidShape(2.5, 14.5, 6.5, 16, 16, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 1.5, 6.5, 16, 16, 9.5),
+            Block.makeCuboidShape(2.5, 0, 6.5, 16, 1.5, 9.5),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_MIDDLE_LEFT.put(Direction.WEST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 1, 9.5, 14.5, 16),
-            Block.makeCuboidShape(6.5, 14.5, 2.5, 9.5, 16, 16),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 1, 9.5, 16, 16),
+            Block.makeCuboidShape(6.5, 0, 2.5, 9.5, 1.5, 16),
             IBooleanFunction.OR));
+
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.5, 3, 6.5, 15, 14.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 0, 6.5, 13.5, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 1.5, 6.5, 15, 3, 9.5),
+                Block.makeCuboidShape(6, 14.5, 6.5, 15, 16, 9.5),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 7.5, 9.5, 14.5, 15),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 6, 9.5, 1.5, 13.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 6, 9.5, 3, 15),
+                Block.makeCuboidShape(6.5, 14.5, 6, 9.5, 16, 15),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 3, 6.5, 8.5, 14.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(2.5, 0, 6.5, 10, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 1.5, 6.5, 10, 3, 9.5),
+                Block.makeCuboidShape(1, 14.5, 6.5, 10, 16, 9.5),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_LEFT_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 1, 9.5, 14.5, 8.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 2.5, 9.5, 1.5, 10),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 1, 9.5, 3, 10),
+                Block.makeCuboidShape(6.5, 14.5, 1, 9.5, 16, 10),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
 
         PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1, 0, 6.5, 16, 14.5, 9.5),
-            Block.makeCuboidShape(2.5, 14.5, 6.5, 16, 16, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 16, 16, 9.5),
+            Block.makeCuboidShape(1.5, 0, 6.5, 16, 1.5, 9.5),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 1, 9.5, 14.5, 16),
-            Block.makeCuboidShape(6.5, 14.5, 2.5, 9.5, 16, 16),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 16, 16),
+            Block.makeCuboidShape(6.5, 0, 1.5, 9.5, 1.5, 16),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.SOUTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 15, 14.5, 9.5),
-            Block.makeCuboidShape(0, 14.5, 6.5, 13.5, 16, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 16, 16, 9.5),
+            Block.makeCuboidShape(0, 0, 6.5, 14.5, 1.5, 9.5),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_MIDDLE_RIGHT.put(Direction.WEST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 14.5, 15),
-            Block.makeCuboidShape(6.5, 14.5, 0, 9.5, 16, 13.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 16, 16),
+            Block.makeCuboidShape(6.5, 0, 0, 9.5, 1.5, 14.5),
             IBooleanFunction.OR));
 
-        PortalWarp.PORTAL_BOTTOM.put(Direction.NORTH,
-          Block.makeCuboidShape(0, 0, 6.5, 16, 16, 9.5));
-        PortalWarp.PORTAL_BOTTOM.put(Direction.EAST,
-          Block.makeCuboidShape(6.5, 0, 0, 9.5, 16, 16));
-        PortalWarp.PORTAL_BOTTOM.put(Direction.SOUTH,
-          Block.makeCuboidShape(0, 0, 6.5, 16, 16, 9.5));
-        PortalWarp.PORTAL_BOTTOM.put(Direction.WEST,
-          Block.makeCuboidShape(6.5, 0, 0, 9.5, 16, 16));
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 8.6, 14.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(1.5, 0, 6.5, 10, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 10, 3, 9.5),
+                Block.makeCuboidShape(0, 14.5, 6.5, 10, 16, 9.5),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 14.5, 8.6),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 1.5, 9.5, 1.5, 10),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 3, 10),
+                Block.makeCuboidShape(6.5, 14.5, 0, 9.5, 16, 10),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.4, 3, 6.5, 16, 14.5, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 0, 6.5, 14.5, 1.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 1.5, 6.5, 16, 3, 9.5),
+                Block.makeCuboidShape(6, 14.5, 6.5, 16, 16, 9.5),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 7.4, 9.5, 14.5, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 6, 9.5, 1.5, 14.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 6, 9.5, 3, 16),
+                Block.makeCuboidShape(6.5, 14.5, 6, 9.5, 16, 16),
+                IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR));
+
+        PortalWarp.PORTAL_BOTTOM.put(Direction.NORTH, Block.makeCuboidShape(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_BOTTOM.put(Direction.EAST, Block.makeCuboidShape(6.5, 0, 0, 9.5, 16, 16));
+        PortalWarp.PORTAL_BOTTOM.put(Direction.SOUTH, Block.makeCuboidShape(0, 0, 6.5, 16, 16, 9.5));
+        PortalWarp.PORTAL_BOTTOM.put(Direction.WEST, Block.makeCuboidShape(6.5, 0, 0, 9.5, 16, 16));
+
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 16, 9, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 3, 10.5, 9.5),
+              Block.makeCuboidShape(13, 9, 6.5, 16, 10.5, 9.5),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 9, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 3),
+              Block.makeCuboidShape(6.5, 9, 13, 9.5, 10.5, 16),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 16, 9, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 3, 10.5, 9.5),
+              Block.makeCuboidShape(13, 9, 6.5, 16, 10.5, 9.5),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 9, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 3),
+              Block.makeCuboidShape(6.5, 9, 13, 9.5, 10.5, 16),
+              IBooleanFunction.OR), IBooleanFunction.OR));
 
         PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 1.5, 1.5, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 3, 3, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 6, 4.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 7.5, 6, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 9, 7.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 10.5, 9, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 12, 12, 9.5),
-                        Block.makeCuboidShape(0, 12, 6.5, 13.5, 16, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 3, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 4.5, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 6, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 7.5, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 9, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 10.5, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 12, 13.5, 9.5),
+                        Block.makeCuboidShape(0, 13.5, 6.5, 13.5, 16, 9.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 1.5, 1.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 3, 3),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 4.5, 6),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 6, 7.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 9),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 10.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 12, 12),
-                        Block.makeCuboidShape(6.5, 12, 0, 9.5, 16, 13.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 3, 3),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 4.5, 4.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 6, 6),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 7.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 9),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 10.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 13.5, 12),
+                        Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 16, 13.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.SOUTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(14.5, 0, 6.5, 16, 1.5, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 1.5, 6.5, 16, 3, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 3, 6.5, 16, 4.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 4.5, 6.5, 16, 6, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 6, 6.5, 16, 7.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 7.5, 6.5, 16, 9, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 9, 6.5, 16, 12, 9.5),
-                        Block.makeCuboidShape(2.5, 12, 6.5, 16, 16, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 1.5, 6.5, 16, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11.5, 3, 6.5, 16, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 4.5, 6.5, 16, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 6, 6.5, 16, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7.5, 6.5, 16, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 9, 6.5, 16, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 10.5, 6.5, 16, 13.5, 9.5),
+                        Block.makeCuboidShape(2.5, 13.5, 6.5, 16, 16, 9.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_BOTTOM_LEFT.put(Direction.WEST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 14.5, 9.5, 1.5, 16),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 13, 9.5, 3, 16),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 10, 9.5, 4.5, 16),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 8.5, 9.5, 6, 16),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 7, 9.5, 7.5, 16),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 5.5, 9.5, 9, 16),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 4, 9.5, 12, 16),
-                        Block.makeCuboidShape(6.5, 12, 2.5, 9.5, 16, 16),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 13, 9.5, 3, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 11.5, 9.5, 4.5, 16),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 10, 9.5, 6, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 8.5, 9.5, 7.5, 16),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 7, 9.5, 9, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 5.5, 9.5, 10.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 4, 9.5, 13.5, 16),
+                        Block.makeCuboidShape(6.5, 13.5, 2.5, 9.5, 16, 16),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
 
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 3, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 4.5, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 6, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 7.5, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 9, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 10.5, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 12, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 12, 6.5, 12, 13.5, 9.5),
+                        Block.makeCuboidShape(4.5, 13.5, 6.5, 13.5, 16, 9.5),
+                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+            IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 3, 3),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 4.5, 4.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 6, 6),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 7.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 9),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 10.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 12),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 3, 9.5, 13.5, 12),
+                          Block.makeCuboidShape(6.5, 13.5, 4.5, 9.5, 16, 13.5),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 1.5, 6.5, 16, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(11.5, 3, 6.5, 16, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 4.5, 6.5, 16, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 6, 6.5, 16, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 7.5, 6.5, 16, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 9, 6.5, 16, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 10.5, 6.5, 16, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 12, 6.5, 13, 13.5, 9.5),
+                          Block.makeCuboidShape(2.5, 13.5, 6.5, 11.5, 16, 9.5),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_LEFT_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 13, 9.5, 3, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 11.5, 9.5, 4.5, 16),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 10, 9.5, 6, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 8.5, 9.5, 7.5, 16),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 7, 9.5, 9, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 5.5, 9.5, 10.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 4, 9.5, 12, 16),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 4, 9.5, 13.5, 13),
+                          Block.makeCuboidShape(6.5, 13.5, 2.5, 9.5, 16, 11.5),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+
         PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(14.5, 0, 6.5, 16, 1.5, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13, 1.5, 6.5, 16, 3, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10, 3, 6.5, 16, 4.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(8.5, 4.5, 6.5, 16, 6, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7, 6, 6.5, 16, 7.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.5, 7.5, 6.5, 16, 9, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4, 9, 6.5, 16, 12, 9.5),
-                        Block.makeCuboidShape(2.5, 12, 6.5, 16, 16, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13.25, 1.5, 6.5, 16, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.5, 3, 6.5, 16, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9, 4.5, 6.5, 16, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.5, 6, 6.5, 16, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 7.5, 6.5, 16, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 9, 6.5, 16, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 10.5, 6.5, 16, 13.5, 9.5),
+                        Block.makeCuboidShape(1.5, 13.5, 6.5, 16, 16, 9.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 14.5, 9.5, 1.5, 16),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 13, 9.5, 3, 16),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 10, 9.5, 4.5, 16),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 8.5, 9.5, 6, 16),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 7, 9.5, 7.5, 16),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 5.5, 9.5, 9, 16),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 4, 9.5, 12, 16),
-                        Block.makeCuboidShape(6.5, 12, 2.5, 9.5, 16, 16),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 13.25, 9.5, 3, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 10.5, 9.5, 4.5, 16),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 9, 9.5, 6, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 7.5, 9.5, 7.5, 16),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 6, 9.5, 9, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 4.5, 9.5, 10.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 3, 9.5, 13.5, 16),
+                        Block.makeCuboidShape(6.5, 13.5, 1.5, 9.5, 16, 16),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.SOUTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 6.5, 1.5, 1.5, 9.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 3, 3, 9.5),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 6, 4.5, 9.5),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 7.5, 6, 9.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 9, 7.5, 9.5),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 10.5, 9, 9.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 12, 12, 9.5),
-                        Block.makeCuboidShape(0, 12, 6.5, 13.5, 16, 9.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 2.75, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 5.5, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 7, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 8.5, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 10, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 11.5, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 13, 13.5, 9.5),
+                        Block.makeCuboidShape(0, 13.5, 6.5, 14.5, 16, 9.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
         PortalWarp.PORTAL_BOTTOM_RIGHT.put(Direction.WEST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 0, 0, 9.5, 1.5, 1.5),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 3, 3),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 4.5, 6),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 6, 7.5),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 9),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 10.5),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 12, 12),
-                        Block.makeCuboidShape(6.5, 12, 0, 9.5, 16, 13.5),
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 3, 2.75),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 4.5, 5.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 6, 7),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 8.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 10),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 11.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 13.5, 13),
+                        Block.makeCuboidShape(6.5, 13.5, 0, 9.5, 16, 14.5),
                         IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                   IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
             IBooleanFunction.OR));
+
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.NORTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(13.25, 1.5, 6.5, 16, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.5, 3, 6.5, 16, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9, 4.5, 6.5, 16, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.5, 6, 6.5, 16, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6, 7.5, 6.5, 16, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.5, 9, 6.5, 16, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 10.5, 6.5, 16, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 12, 6.5, 13, 13.5, 9.5),
+                        Block.makeCuboidShape(1.5, 13.5, 6.5, 11.5, 16, 9.5),
+                        IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                  IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+            IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.EAST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 13.25, 9.5, 3, 16),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 10.5, 9.5, 4.5, 16),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 9, 9.5, 6, 16),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 7.5, 9.5, 7.5, 16),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 6, 9.5, 9, 16),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 4.5, 9.5, 10.5, 16),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 3, 9.5, 12, 16),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 3, 9.5, 13.5, 13),
+                          Block.makeCuboidShape(6.5, 13.5, 1.5, 9.5, 16, 11.5),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.SOUTH,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.5, 6.5, 2.75, 3, 9.5),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3, 6.5, 5.5, 4.5, 9.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.5, 6.5, 7, 6, 9.5),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6, 6.5, 8.5, 7.5, 9.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7.5, 6.5, 10, 9, 9.5),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 9, 6.5, 11.5, 10.5, 9.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10.5, 6.5, 13, 12, 9.5),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(3, 12, 6.5, 13, 13.5, 9.5),
+                          Block.makeCuboidShape(4.5, 13.5, 6.5, 14.5, 16, 9.5),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+              IBooleanFunction.OR), IBooleanFunction.OR));
+        PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.put(Direction.WEST,
+          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 1.5, 0, 9.5, 3, 2.75),
+            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 3, 0, 9.5, 4.5, 5.5),
+              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 4.5, 0, 9.5, 6, 7),
+                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 6, 0, 9.5, 7.5, 8.5),
+                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 7.5, 0, 9.5, 9, 10),
+                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 9, 0, 9.5, 10.5, 11.5),
+                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 10.5, 0, 9.5, 12, 13),
+                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.5, 12, 3, 9.5, 13.5, 13),
+                          Block.makeCuboidShape(6.5, 13.5, 4.5, 9.5, 16, 14.5),
+                          IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+                    IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
+              IBooleanFunction.OR), IBooleanFunction.OR));
         //@formatter:on
+    }
+
+    private VoxelShape getShape(final PortalWarpPart part, final Direction dir, final boolean active)
+    {
+        if (part == PortalWarpPart.BOTTOM && active) return PortalWarp.PORTAL_BOTTOM.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_LEFT && active) return PortalWarp.PORTAL_BOTTOM_LEFT.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_RIGHT && active) return PortalWarp.PORTAL_BOTTOM_RIGHT.get(dir);
+        else if (part == PortalWarpPart.MIDDLE && active) return PortalWarp.PORTAL_MIDDLE.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_LEFT && active) return PortalWarp.PORTAL_MIDDLE_LEFT.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_RIGHT && active) return PortalWarp.PORTAL_MIDDLE_RIGHT.get(dir);
+        else if (part == PortalWarpPart.TOP_LEFT && active) return PortalWarp.PORTAL_TOP_LEFT.get(dir);
+        else if (part == PortalWarpPart.TOP_RIGHT && active) return PortalWarp.PORTAL_TOP_RIGHT.get(dir);
+
+        else if (part == PortalWarpPart.BOTTOM && !active) return PortalWarp.PORTAL_BOTTOM_OFF.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_LEFT && !active) return PortalWarp.PORTAL_BOTTOM_LEFT_OFF.get(dir);
+        else if (part == PortalWarpPart.BOTTOM_RIGHT && !active) return PortalWarp.PORTAL_BOTTOM_RIGHT_OFF.get(dir);
+        else if (part == PortalWarpPart.MIDDLE && !active) return PortalWarp.PORTAL_MIDDLE_OFF.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_LEFT && !active) return PortalWarp.PORTAL_MIDDLE_LEFT_OFF.get(dir);
+        else if (part == PortalWarpPart.MIDDLE_RIGHT && !active) return PortalWarp.PORTAL_MIDDLE_RIGHT_OFF.get(dir);
+        else if (part == PortalWarpPart.TOP_LEFT && !active) return PortalWarp.PORTAL_TOP_LEFT_OFF.get(dir);
+        else if (part == PortalWarpPart.TOP_RIGHT && !active) return PortalWarp.PORTAL_TOP_RIGHT_OFF.get(dir);
+        else if (part == PortalWarpPart.TOP && !active) return PortalWarp.PORTAL_TOP_OFF.get(dir);
+        else return PortalWarp.PORTAL_TOP.get(dir);
     }
 
     // Precise selection box
@@ -332,19 +682,16 @@ public class PortalWarp extends Rotates implements IWaterLoggable
             final ISelectionContext context)
     {
         final PortalWarpPart part = state.get(PortalWarp.PART);
-        if (part == PortalWarpPart.BOTTOM) return PortalWarp.PORTAL_BOTTOM.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.BOTTOM_LEFT) return PortalWarp.PORTAL_BOTTOM_LEFT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.BOTTOM_RIGHT) return PortalWarp.PORTAL_BOTTOM_RIGHT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE) return PortalWarp.PORTAL_MIDDLE.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE_LEFT) return PortalWarp.PORTAL_MIDDLE_LEFT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.MIDDLE_RIGHT) return PortalWarp.PORTAL_MIDDLE_RIGHT.get(state.get(
-                PortalWarp.FACING));
-        else if (part == PortalWarpPart.TOP_LEFT) return PortalWarp.PORTAL_TOP_LEFT.get(state.get(PortalWarp.FACING));
-        else if (part == PortalWarpPart.TOP_RIGHT) return PortalWarp.PORTAL_TOP_RIGHT.get(state.get(PortalWarp.FACING));
-        else return PortalWarp.PORTAL_TOP.get(state.get(PortalWarp.FACING));
+        final Direction dir = state.get(PortalWarp.FACING);
+        final boolean active = state.get(PortalWarp.ACTIVE);
+        VoxelShape s = this.getShape(part, dir, active);
+        if (s == null)
+        {
+            s = VoxelShapes.empty();
+            PokecubeCore.LOGGER.error("Error with hitbox for {}, {}, {}", part, dir, active);
+        }
+
+        return s;
     }
 
     public PortalWarp(final String name, final Properties props)

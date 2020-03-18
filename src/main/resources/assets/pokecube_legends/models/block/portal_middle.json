@@ -1,32 +1,21 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-    "0": "pokecube_legends:blocks/portal_on",
+		"0": "pokecube_legends:blocks/portal_on",
 		"particle": "pokecube_legends:blocks/portal_on"
 	},
 	"elements": [
 		{
 			"name": "Voxels",
 			"from": [0, 0, 6.5],
-			"to": [16, 14.5, 9.5],
-			"faces": {
-				"north": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"},
-				"east": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "east"},
-				"south": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"},
-				"west": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "west"},
-				"down": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "down"}
-			}
-		},
-		{
-			"name": "Voxels",
-			"from": [0, 14.5, 6.5],
 			"to": [16, 16, 9.5],
 			"faces": {
-				"north": {"uv": [5.333, 5.333, 10.665, 5.833], "texture": "#0"},
-				"east": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "east"},
-				"south": {"uv": [5.333, 5.333, 10.665, 5.833], "texture": "#0"},
-				"west": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "west"},
-				"up": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "up"}
+				"north": {"uv": [10.5, 5.5, 5, 10.5], "texture": "#0"},
+				"east": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"},
+				"south": {"uv": [5, 5.5, 10.5, 10.5], "texture": "#0"},
+				"west": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"},
+				"up": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"},
+				"down": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"}
 			}
 		}
 	],
@@ -70,7 +59,7 @@
 		{
 			"name": "portal_middle",
 			"origin": [8, 8, 8],
-			"children": [0, 1]
+			"children": [0]
 		}
 	]
 }

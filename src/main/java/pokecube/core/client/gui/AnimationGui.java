@@ -535,6 +535,7 @@ public class AnimationGui extends Screen
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 80, 40, 20, "F5", b ->
         {
+            AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20, "BG", b ->
