@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -48,89 +46,90 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import org.antlr.v4.runtime.misc.NotNull;
+import javax.annotation.Nullable;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
+import static net.minecraft.util.math.shapes.VoxelShapes.combineAndSimplify;
 
 public class UltraSpacePortal extends Rotates implements IWaterLoggable
 {
-    private static final EnumProperty<UltraSpacePortalPart> PART        = EnumProperty.create("part",
-            UltraSpacePortalPart.class);
-    private static final BooleanProperty                    WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty                  FACING      = HorizontalBlock.HORIZONTAL_FACING;
+    private static final EnumProperty<UltraSpacePortalPart> PART = EnumProperty.create("part", UltraSpacePortalPart.class);
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-    private static final Map<Direction, VoxelShape> WORMHOLE_TOP          = new HashMap<>();
-    private static final Map<Direction, VoxelShape> WORMHOLE_TOP_LEFT     = new HashMap<>();
-    private static final Map<Direction, VoxelShape> WORMHOLE_TOP_RIGHT    = new HashMap<>();
-    private static final Map<Direction, VoxelShape> WORMHOLE_MIDDLE       = new HashMap<>();
-    private static final Map<Direction, VoxelShape> WORMHOLE_MIDDLE_LEFT  = new HashMap<>();
+    private static final Map<Direction, VoxelShape> WORMHOLE_TOP = new HashMap<>();
+    private static final Map<Direction, VoxelShape> WORMHOLE_TOP_LEFT = new HashMap<>();
+    private static final Map<Direction, VoxelShape> WORMHOLE_TOP_RIGHT = new HashMap<>();
+    private static final Map<Direction, VoxelShape> WORMHOLE_MIDDLE = new HashMap<>();
+    private static final Map<Direction, VoxelShape> WORMHOLE_MIDDLE_LEFT = new HashMap<>();
     private static final Map<Direction, VoxelShape> WORMHOLE_MIDDLE_RIGHT = new HashMap<>();
-    private static final Map<Direction, VoxelShape> WORMHOLE_BOTTOM       = new HashMap<>();
-    private static final Map<Direction, VoxelShape> WORMHOLE_BOTTOM_LEFT  = new HashMap<>();
+    private static final Map<Direction, VoxelShape> WORMHOLE_BOTTOM = new HashMap<>();
+    private static final Map<Direction, VoxelShape> WORMHOLE_BOTTOM_LEFT = new HashMap<>();
     private static final Map<Direction, VoxelShape> WORMHOLE_BOTTOM_RIGHT = new HashMap<>();
-
+    
     String  infoname;
     boolean hasTextInfo = true;
 
-    // Precise selection box
-    static
-    {
-        //@formatter:off
-        UltraSpacePortal.WORMHOLE_TOP.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.875, 13, 7.25, 11.125, 14.5, 8.75),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.65625, 7.75, 9.1875, 10.34375, 8.875, 10.3125),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.24219, 3.8125, 10.76562, 9.75781, 4.65625, 11.60937),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 10.76562, 16, 3.8125, 11.60937),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 7.25, 16, 13, 8.75),
-                    Block.makeCuboidShape(0, 0, 9.1875, 16, 7.75, 10.3125),
+    //Precise selection box
+    static {
+        WORMHOLE_TOP.put(Direction.NORTH,
+          combineAndSimplify(makeCuboidShape(4.875, 13, 7.25, 11.125, 14.5, 8.75),
+            combineAndSimplify(makeCuboidShape(5.65625, 7.75, 9.1875, 10.34375, 8.875, 10.3125),
+              combineAndSimplify(makeCuboidShape(6.24219, 3.8125, 10.76562, 9.75781, 4.65625, 11.60937),
+                combineAndSimplify(makeCuboidShape(0, 0, 10.76562, 16, 3.8125, 11.60937),
+                  combineAndSimplify(makeCuboidShape(0, 0, 7.25, 16, 13, 8.75),
+                    makeCuboidShape(0, 0, 9.1875, 16, 7.75, 10.3125),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR));
-        UltraSpacePortal.WORMHOLE_TOP.put(Direction.EAST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.25, 13, 4.875, 8.75, 14.5, 11.125),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.6875, 7.75, 5.65625, 6.8125, 8.875, 10.34375),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.39063, 3.8125, 6.24219, 5.23438, 4.65625, 9.75781),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.39063, 0, 0, 5.23438, 3.8125, 16),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.25, 0, 0, 8.75, 13, 16),
-                    Block.makeCuboidShape(5.6875, 0, 0, 6.8125, 7.75, 16),
+        WORMHOLE_TOP.put(Direction.EAST,
+          combineAndSimplify(makeCuboidShape(7.25, 13, 4.875, 8.75, 14.5, 11.125),
+            combineAndSimplify(makeCuboidShape(5.6875, 7.75, 5.65625, 6.8125, 8.875, 10.34375),
+              combineAndSimplify(makeCuboidShape(4.39063, 3.8125, 6.24219, 5.23438, 4.65625, 9.75781),
+                combineAndSimplify(makeCuboidShape(4.39063, 0, 0, 5.23438, 3.8125, 16),
+                  combineAndSimplify(makeCuboidShape(7.25, 0, 0, 8.75, 13, 16),
+                    makeCuboidShape(5.6875, 0, 0, 6.8125, 7.75, 16),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR));
-        UltraSpacePortal.WORMHOLE_TOP.put(Direction.SOUTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(4.875, 13, 7.25, 11.125, 14.5, 8.75),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(5.65625, 7.75, 5.6875, 10.34375, 8.875, 6.8125),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(6.24219, 3.8125, 4.39063, 9.75781, 4.65625, 5.23438),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 4.39063, 16, 3.8125, 5.23438),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 7.25, 16, 13, 8.75),
-                    Block.makeCuboidShape(0, 0, 5.6875, 16, 7.75, 6.8125),
+        WORMHOLE_TOP.put(Direction.SOUTH,
+          combineAndSimplify(makeCuboidShape(4.875, 13, 7.25, 11.125, 14.5, 8.75),
+            combineAndSimplify(makeCuboidShape(5.65625, 7.75, 5.6875, 10.34375, 8.875, 6.8125),
+              combineAndSimplify(makeCuboidShape(6.24219, 3.8125, 4.39063, 9.75781, 4.65625, 5.23438),
+                combineAndSimplify(makeCuboidShape(0, 0, 4.39063, 16, 3.8125, 5.23438),
+                  combineAndSimplify(makeCuboidShape(0, 0, 7.25, 16, 13, 8.75),
+                    makeCuboidShape(0, 0, 5.6875, 16, 7.75, 6.8125),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR));
-        UltraSpacePortal.WORMHOLE_TOP.put(Direction.WEST,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.25, 13, 4.875, 8.75, 14.5, 11.125),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(9.1875, 7.75, 5.65625, 10.3125, 8.875, 10.34375),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.76562, 3.8125, 6.24219, 11.60937, 4.65625, 9.75781),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(10.76562, 0, 0, 11.60937, 3.8125, 16),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(7.25, 0, 0, 8.75, 13, 16),
-                    Block.makeCuboidShape(9.1875, 0, 0, 10.3125, 7.75, 16),
+        WORMHOLE_TOP.put(Direction.WEST,
+          combineAndSimplify(makeCuboidShape(7.25, 13, 4.875, 8.75, 14.5, 11.125),
+            combineAndSimplify(makeCuboidShape(9.1875, 7.75, 5.65625, 10.3125, 8.875, 10.34375),
+              combineAndSimplify(makeCuboidShape(10.76562, 3.8125, 6.24219, 11.60937, 4.65625, 9.75781),
+                combineAndSimplify(makeCuboidShape(10.76562, 0, 0, 11.60937, 3.8125, 16),
+                  combineAndSimplify(makeCuboidShape(7.25, 0, 0, 8.75, 13, 16),
+                    makeCuboidShape(9.1875, 0, 0, 10.3125, 7.75, 16),
                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
               IBooleanFunction.OR), IBooleanFunction.OR));
 
-        UltraSpacePortal.WORMHOLE_TOP_LEFT.put(Direction.NORTH,
-          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 11.5, 7.25, 2.75, 13, 8.75),
-            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 6.625, 9.1875, 0.0625, 7.75, 10.3125),
-              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 10, 7.25, 5.5, 11.5, 8.75),
-                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 5.5, 9.1875, 2.125, 6.625, 10.3125),
-                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 8.5, 7.25, 7, 10, 8.75),
-                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4.375, 9.1875, 3.25, 5.5, 10.3125),
-                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1.28125, 10.76562, 0.4375, 2.125, 11.60937),
-                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 7, 7.25, 8.5, 8.5, 8.75),
-                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 3.25, 9.1875, 4.375, 4.375, 10.3125),
-                            VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0.4375, 10.76562, 1.28125, 1.28125, 11.60937),
-                              VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 5.5, 7.25, 10, 7, 8.75),
-                                VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 2.125, 9.1875, 5.5, 3.25, 10.3125),
-                                  VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 10.76562, 2.125, 0.4375, 11.60937),
-                                    VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 4, 7.25, 11.5, 5.5, 8.75),
-                                      VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 1, 9.1875, 6.625, 2.125, 10.3125),
-                                        VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 2.65, 7.25, 13, 4, 8.75),
-                                          VoxelShapes.combineAndSimplify(Block.makeCuboidShape(0, 0, 9.1875, 7.75, 1, 10.3125),
-                                            Block.makeCuboidShape(0, 0, 7.25, 14.5, 2.65, 8.75),
+        WORMHOLE_TOP_LEFT.put(Direction.NORTH,
+          combineAndSimplify(makeCuboidShape(0, 11.5, 7.25, 2.75, 13, 8.75),
+            combineAndSimplify(makeCuboidShape(0, 6.625, 9.1875, 0.0625, 7.75, 10.3125),
+              combineAndSimplify(makeCuboidShape(0, 10, 7.25, 5.5, 11.5, 8.75),
+                combineAndSimplify(makeCuboidShape(0, 5.5, 9.1875, 2.125, 6.625, 10.3125),
+                  combineAndSimplify(makeCuboidShape(0, 8.5, 7.25, 7, 10, 8.75),
+                    combineAndSimplify(makeCuboidShape(0, 4.375, 9.1875, 3.25, 5.5, 10.3125),
+                      combineAndSimplify(makeCuboidShape(0, 1.28125, 10.76562, 0.4375, 2.125, 11.60937),
+                        combineAndSimplify(makeCuboidShape(0, 7, 7.25, 8.5, 8.5, 8.75),
+                          combineAndSimplify(makeCuboidShape(0, 3.25, 9.1875, 4.375, 4.375, 10.3125),
+                            combineAndSimplify(makeCuboidShape(0, 0.4375, 10.76562, 1.28125, 1.28125, 11.60937),
+                              combineAndSimplify(makeCuboidShape(0, 5.5, 7.25, 10, 7, 8.75),
+                                combineAndSimplify(makeCuboidShape(0, 2.125, 9.1875, 5.5, 3.25, 10.3125),
+                                  combineAndSimplify(makeCuboidShape(0, 0, 10.76562, 2.125, 0.4375, 11.60937),
+                                    combineAndSimplify(makeCuboidShape(0, 4, 7.25, 11.5, 5.5, 8.75),
+                                      combineAndSimplify(makeCuboidShape(0, 1, 9.1875, 6.625, 2.125, 10.3125),
+                                        combineAndSimplify(makeCuboidShape(0, 2.65, 7.25, 13, 4, 8.75),
+                                          combineAndSimplify(makeCuboidShape(0, 0, 9.1875, 7.75, 1, 10.3125),
+                                            makeCuboidShape(0, 0, 7.25, 14.5, 2.65, 8.75),
                                             IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                                           IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
                                     IBooleanFunction.OR), IBooleanFunction.OR), IBooleanFunction.OR),
@@ -1468,7 +1467,6 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
         return false;
     }
 
-    @Override
     public boolean canRenderInLayer(final BlockState state, final BlockRenderLayer layer)
     {
         return layer == BlockRenderLayer.CUTOUT;
