@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "pokecube_legends:blocks/portal_on",
-		"particle": "pokecube_legends:blocks/portal_on"
+		"0": "pokecube_legends:blocks/portal_off",
+		"particle": "pokecube_legends:blocks/portal_off"
 	},
 	"elements": [
 		{
@@ -11,11 +11,11 @@
 			"to": [16, 16, 9.5],
 			"faces": {
 				"north": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"},
-				"east": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"},
-				"south": {"uv": [5, 5.5, 10.5, 10.5], "texture": "#0"},
-				"west": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"},
-				"up": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"},
-				"down": {"uv": [5, 0, 10.5, 0.25], "texture": "#0"}
+				"east": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"},
+				"south": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"},
+				"west": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"},
+				"up": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"},
+				"down": {"uv": [5.333, 5.866, 10.664, 10.095], "texture": "#0"}
 			}
 		}
 	],
