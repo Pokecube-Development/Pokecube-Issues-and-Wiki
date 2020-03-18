@@ -413,5 +413,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             this.changePage(this.index - 1);
             PokemobInfoPage.savedIndex = this.index;
         }));
+        this.addButton(this.search);
     }
 }
