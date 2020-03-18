@@ -182,6 +182,20 @@ public class TextureHelper implements IPartTexturer
     }
 
     @Override
+    public void reset()
+    {
+        this.texNames.clear();
+        this.texNames2.clear();
+        this.texStates.clear();
+        this.smoothing.clear();
+        this.formeMap.clear();
+        this.texMap.clear();
+        this.default_flat = true;
+        this.default_path = null;
+        this.default_tex = null;
+    }
+
+    @Override
     public void init(final CustomTex customTex)
     {
         if (customTex == null) return;

@@ -39,6 +39,10 @@ public interface IAnimationChanger
         return false;
     }
 
+    default void reset()
+    {
+    }
+
     @Nullable
     WornOffsets getOffsets(String part);
 

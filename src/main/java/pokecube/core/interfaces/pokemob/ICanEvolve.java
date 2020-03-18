@@ -489,7 +489,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             final ServerWorld world = (ServerWorld) this.getEntity().getEntityWorld();
             return this.megaEvolve(newEntry, !world.tickingEntities);
         }
-        return (IPokemob) this;
+        return this.megaEvolve(newEntry, true);
     }
 
     /**

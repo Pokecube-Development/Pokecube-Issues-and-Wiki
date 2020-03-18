@@ -44,6 +44,17 @@ public class AnimationChanger implements IAnimationChanger
     }
 
     @Override
+    public void reset()
+    {
+        this.children.clear();
+        this.shearables.clear();
+        this.dyeables.clear();
+        this.colourOffsets.clear();
+        this.wornOffsets.clear();
+        this.checkWildCard.clear();
+    }
+
+    @Override
     public void addChild(final IAnimationChanger animationRandomizer)
     {
         this.children.add(animationRandomizer);

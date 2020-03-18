@@ -6,7 +6,12 @@ import thut.core.client.render.animation.AnimationXML.Phase;
 
 public interface IPartTexturer
 {
-    /** Adds mapping for a custom state's texture
+    default void reset()
+    {
+    }
+
+    /**
+     * Adds mapping for a custom state's texture
      *
      * @param part
      *            - Part or Material name

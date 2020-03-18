@@ -104,10 +104,10 @@ public class AnimationLoader
             IPartTexturer texturer = renderer.getTexturer();
             IAnimationChanger animator = renderer.getAnimationChanger();
 
-            if (texturer == null || texturer instanceof TextureHelper) renderer.setTexturer(
-                    texturer = new TextureHelper());
-            if (animator == null || animator instanceof AnimationChanger) renderer.setAnimationChanger(
-                    animator = new AnimationChanger());
+            if (texturer == null) renderer.setTexturer(texturer = new TextureHelper());
+            else texturer.reset();
+            if (animator == null) renderer.setAnimationChanger(animator = new AnimationChanger());
+            else animator.reset();
 
             // Custom tagged parts.
             final Set<String> headNames = Sets.newHashSet();
