@@ -14,6 +14,8 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraftforge.common.ToolType;
 
 public class Rotates extends BlockBase
@@ -63,5 +65,36 @@ public class Rotates extends BlockBase
     public IFluidState getFluidState(final BlockState state)
     {
         return state.get(Rotates.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
+
+    /**
+     * Returns the blockstate with the given rotation from the passed
+     * blockstate. If inapplicable, returns the passed
+     * blockstate.
+     *
+     * @deprecated call via {@link IBlockState#withRotation(Rotation)} whenever
+     *             possible. Implementing/overriding is
+     *             fine.
+     */
+    @Deprecated
+    @Override
+    public BlockState rotate(final BlockState state, final Rotation rot)
+    {
+        return state.with(Rotates.FACING, rot.rotate(state.get(Rotates.FACING)));
+    }
+
+    /**
+     * Returns the blockstate with the given mirror of the passed blockstate. If
+     * inapplicable, returns the passed
+     * blockstate.
+     *
+     * @deprecated call via {@link IBlockState#withMirror(Mirror)} whenever
+     *             possible. Implementing/overriding is fine.
+     */
+    @Deprecated
+    @Override
+    public BlockState mirror(final BlockState state, final Mirror mirrorIn)
+    {
+        return state.rotate(mirrorIn.toRotation(state.get(Rotates.FACING)));
     }
 }
