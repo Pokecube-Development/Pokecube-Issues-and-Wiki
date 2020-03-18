@@ -1,33 +1,33 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-    "0": "pokecube_legends:blocks/portal_on",
+		"0": "pokecube_legends:blocks/portal_on",
 		"particle": "pokecube_legends:blocks/portal_on"
 	},
 	"elements": [
 		{
 			"name": "Voxels",
-			"from": [1, 0, 6.5],
-			"to": [16, 14.5, 9.5],
+			"from": [1, 1.5, 6.5],
+			"to": [16, 16, 9.5],
 			"faces": {
-				"north": {"uv": [10.667, 5.866, 15.996, 10.095], "texture": "#0"},
-				"east": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "east"},
-				"south": {"uv": [0, 5.866, 5.329, 10.095], "texture": "#0"},
-				"west": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "west"},
-				"up": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "west"},
-				"down": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "down"}
+				"north": {"uv": [5, 5.5, 0, 10], "texture": "#0"},
+				"east": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"south": {"uv": [0, 5.5, 5, 10], "texture": "#0"},
+				"west": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"up": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"down": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"}
 			}
 		},
 		{
 			"name": "Voxels",
-			"from": [2.5, 14.5, 6.5],
-			"to": [16, 16, 9.5],
+			"from": [2.5, 0, 6.5],
+			"to": [16, 1.5, 9.5],
 			"faces": {
-				"north": {"uv": [10.667, 5.333, 15.463, 5.833], "texture": "#0"},
-				"east": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "east"},
-				"south": {"uv": [0.534, 5.333, 5.331, 5.833], "texture": "#0"},
-				"west": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "west"},
-				"up": {"uv": [5.333, 0, 10.665, 0.5], "texture": "#0", "cullface": "up"}
+				"north": {"uv": [0.5, 10, 5, 10.5], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"south": {"uv": [0.5, 10, 5, 10.5], "texture": "#0"},
+				"west": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"},
+				"down": {"uv": [5.5, 0, 10.5, 0.25], "texture": "#0"}
 			}
 		}
 	],
