@@ -93,8 +93,8 @@ public class X3dXML
             {
                 final ArrayList<thut.core.client.render.texturing.TextureCoordinate> ret = new ArrayList<>();
                 final String[] points = this.point.split(" ");
-                if (points.length % 2 != 0)
-                    throw new ModelFormatException("Invalid number of elements in the points string " + points.length);
+                if (points.length % 2 != 0) throw new ModelFormatException(
+                        "Invalid number of elements in the points string " + points.length);
                 for (int i = 0; i < points.length; i += 2)
                 {
                     final thut.core.client.render.texturing.TextureCoordinate toAdd = new thut.core.client.render.texturing.TextureCoordinate(
@@ -110,25 +110,25 @@ public class X3dXML
             final ArrayList<Vertex> ret = new ArrayList<>();
 
             final String[] points = line.split(" ");
-            if (points.length % 3 != 0)
-                throw new ModelFormatException("Invalid number of elements in the points string");
+            if (points.length % 3 != 0) throw new ModelFormatException(
+                    "Invalid number of elements in the points string");
             for (int i = 0; i < points.length; i += 3)
             {
-                final Vertex toAdd = new Vertex(Float.parseFloat(points[i]), Float.parseFloat(points[i + 1]),
-                        Float.parseFloat(points[i + 2]));
+                final Vertex toAdd = new Vertex(Float.parseFloat(points[i]), Float.parseFloat(points[i + 1]), Float
+                        .parseFloat(points[i + 2]));
                 ret.add(toAdd);
             }
             return ret.toArray(new Vertex[ret.size()]);
         }
 
         @XmlAttribute(name = "solid")
-        boolean           solid;
+        boolean solid;
 
         @XmlAttribute(name = "normalPerVertex")
-        boolean           normalPerVertex;
+        boolean normalPerVertex;
 
         @XmlAttribute(name = "index")
-        String            index;
+        String index;
 
         @XmlElement(name = "Coordinate")
         Coordinate        points;
@@ -264,8 +264,8 @@ public class X3dXML
         public String getGroupName()
         {
             if (this.group == null && this.getIfsTransform() != this) return this.getIfsTransform().getGroupName();
-            if (this.group == null || this.group.DEF == null)
-                return this.getIfsTransform().DEF.replace("_ifs_TRANSFORM", "");
+            if (this.group == null || this.group.DEF == null) return this.getIfsTransform().DEF.replace(
+                    "_ifs_TRANSFORM", "");
             return this.group.DEF.substring("group_ME_".length());
         }
 

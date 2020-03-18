@@ -16,10 +16,12 @@ import thut.api.maths.Vector4;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.model.IExtendedModelPart;
 
-/** This class applies the tabula style animations to models consisting of
+/**
+ * This class applies the tabula style animations to models consisting of
  * IExtendedModelPart parts.
  *
- * @author Thutmose */
+ * @author Thutmose
+ */
 public class AnimationHelper
 {
     private final static Map<UUID, IAnimationHolder> holderMap = Maps.newHashMap();
@@ -28,7 +30,7 @@ public class AnimationHelper
             final IExtendedModelPart part, final float partialTick, final float limbSwing, final int tick)
     {
         final ArrayList<AnimationComponent> components = animation.getComponents(partName);
-        if (components == null) { return false; }
+        if (components == null) return false;
         boolean animated = false;
         final Vector3 temp = Vector3.getNewVector();
         float x = 0, y = 0, z = 0;
@@ -73,9 +75,9 @@ public class AnimationHelper
             part.setPreTranslations(temp);
             part.setPreScale(temp.set(sx, sy, sz));
             final Quaternion quat = new Quaternion(0, 0, 0, 1);
-            if (z != 0) quat.multiply(Vector3f.ZP.rotationDegrees(z));
-            if (y != 0) quat.multiply(Vector3f.YN.rotationDegrees(y));
             if (x != 0) quat.multiply(Vector3f.XP.rotationDegrees(x));
+            if (z != 0) quat.multiply(Vector3f.YN.rotationDegrees(z));
+            if (y != 0) quat.multiply(Vector3f.ZP.rotationDegrees(y));
             part.setPreRotations(new Vector4(quat));
         }
         return animated;
@@ -100,8 +102,8 @@ public class AnimationHelper
     {
         final IAnimationHolder cap = mob.getCapability(CapabilityAnimation.CAPABILITY, null).orElse(null);
         if (cap != null) return cap;
-        if (AnimationHelper.holderMap.containsKey(mob.getUniqueID()))
-            return AnimationHelper.holderMap.get(AnimationHelper.holderMap.get(mob.getUniqueID()));
+        if (AnimationHelper.holderMap.containsKey(mob.getUniqueID())) return AnimationHelper.holderMap.get(
+                AnimationHelper.holderMap.get(mob.getUniqueID()));
         else
         {
             final CapabilityAnimation.DefaultImpl holder = new CapabilityAnimation.DefaultImpl();

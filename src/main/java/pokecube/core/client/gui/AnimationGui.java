@@ -73,7 +73,7 @@ public class AnimationGui extends Screen
         return ret;
     }
 
-    static String              mob              = "";
+    static String mob = "";
 
     public static PokedexEntry entry;
     TextFieldWidget            anim;
@@ -104,7 +104,7 @@ public class AnimationGui extends Screen
     float scale            = 1;
     long  transitTime      = 0;
 
-    int[]                      shift            = { 0, 0 };
+    int[] shift = { 0, 0 };
 
     boolean ground = true;
     boolean bg     = false;
@@ -170,6 +170,7 @@ public class AnimationGui extends Screen
 
         this.renderHolder.overrideAnim = true;
         this.renderHolder.anim = ThutCore.trim(this.anim.getText());
+        this.renderHolder.init();
         PacketPokedex.updateWatchEntry(AnimationGui.entry);
 
         this.forme.setCursorPositionZero();
@@ -370,7 +371,8 @@ public class AnimationGui extends Screen
     @Override
     public void render(final int unk1, final int unk2, final float partialTicks)
     {
-        if (this.bg){ 
+        if (this.bg)
+        {
             RenderSystem.pushMatrix();
             RenderSystem.translated(0, 0, -900);
             AbstractGui.fill(0, 0, this.width, this.height, 0xFF121314);
@@ -394,24 +396,19 @@ public class AnimationGui extends Screen
             pokemob.setSize(1);
 
             final float xSize = this.width / 2;
-            final float ySize = this.height / 2;
             final float dx = xSize / 3 + this.shift[0];
             final float dy = 00 + this.shift[1];
 
             final float yaw = 0;
 
-            final IMobColourable colourable = pokemob.getEntity() instanceof IMobColourable
-                    ? (IMobColourable) pokemob.getEntity()
-                    : pokemob instanceof IMobColourable ? (IMobColourable) pokemob : null;
-            if (colourable != null)
-            {
-                colourable.setRGBA(255, 255, 255, 255);
-            }
+            final IMobColourable colourable = pokemob.getEntity() instanceof IMobColourable ? (IMobColourable) pokemob
+                    .getEntity() : pokemob instanceof IMobColourable ? (IMobColourable) pokemob : null;
+            if (colourable != null) colourable.setRGBA(255, 255, 255, 255);
             // Reset some things that add special effects to rendered mobs.
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
             pokemob.setGeneralState(GeneralStates.EVOLVING, false);
             final int j = (int) ((this.width - xSize) / 2 + dx);
-            final int k = (int) ((this.height - ySize) / 2 + dy);
+            final int k = (int) (this.height / 2 + dy);
 
             entity.prevRenderYawOffset = yaw;
             entity.renderYawOffset = yaw;
@@ -422,11 +419,11 @@ public class AnimationGui extends Screen
             entity.prevRotationYawHead = entity.rotationYawHead;
             entity.prevRotationPitch = entity.rotationPitch;
             entity.ticksExisted = Minecraft.getInstance().player.ticksExisted;
-            entity.limbSwing += 0.125;
-            final float zoom =  this.scale;
+            entity.limbSwing += 0.0125;
+            final float zoom = this.scale;
 
-            GuiPokemobBase.renderMob(entity, j, k + 100, yRenderAngle, xRenderAngle + 180, yHeadRenderAngle,
-                    xHeadRenderAngle, zoom);
+            GuiPokemobBase.renderMob(entity, j, k, this.yRenderAngle, this.xRenderAngle + 180, this.yHeadRenderAngle,
+                    this.xHeadRenderAngle, zoom);
         }
 
         if (this.cap)
@@ -480,6 +477,7 @@ public class AnimationGui extends Screen
         final int yOffset = this.height / 2;
         final int xOffset = this.width / 2;
         this.sexe = IPokemob.MALE;
+        this.bg = true;
         if (GuiPokedex.pokedexEntry != null) AnimationGui.mob = GuiPokedex.pokedexEntry.getName();
         AnimationGui.entry = Database.getEntry(AnimationGui.mob);
         if (AnimationGui.entry == null) AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
@@ -537,6 +535,7 @@ public class AnimationGui extends Screen
         {
             AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
+            this.onUpdated();
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20, "BG", b ->
         {

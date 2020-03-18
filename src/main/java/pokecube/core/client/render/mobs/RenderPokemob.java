@@ -361,6 +361,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
         public void init()
         {
+            RenderPokemob.holders.put(this.entry, this);
             this.toRun.clear();
             this.toRunNames.clear();
             this.parts.clear();
@@ -516,6 +517,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
         final PokemobType<?> type = (PokemobType<?>) entity.getType();
         Holder holder = this.holder;
+        RenderPokemob.holders.put(pokemob.getPokedexEntry(), holder);
 
         if (pokemob.getCustomHolder() != null)
         {
