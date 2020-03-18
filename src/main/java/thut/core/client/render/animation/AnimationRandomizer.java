@@ -65,6 +65,15 @@ public class AnimationRandomizer implements IAnimationChanger
         }
     }
 
+    @Override
+    public void reset()
+    {
+        this.sets.clear();
+        this.allAnims.clear();
+        this.loadedSets.clear();
+        this.reversed.clear();
+    }
+
     private void addAnimationSet(final Animation animation, final String parent)
     {
         List<RandomAnimation> anims = this.sets.get(parent);
