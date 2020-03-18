@@ -1,18 +1,8 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "#None": "pokecube:block/dynamax"
-        },
-    	"custom": {
-		  "base_model": "pokecube:block/dynamax.obj",
-	      "flip-v": true
-	    }
-     },
-    "variants": {
-        "facing=east":  { "model": "pokecube:block/dynamax.obj", "y":90 },
-        "facing=west":  { "model": "pokecube:block/dynamax.obj", "y":270 },
-        "facing=south": { "model": "pokecube:block/dynamax.obj", "y":180 },
-        "facing=north": { "model": "pokecube:block/dynamax.obj", "y":0}
-    }
+  "variants": {
+    "facing=north": { "model": "pokecube:block/dynamax", "y":180},
+    "facing=east":  { "model": "pokecube:block/dynamax", "y":270 },
+    "facing=south": { "model": "pokecube:block/dynamax", "y":0 },
+    "facing=west":  { "model": "pokecube:block/dynamax", "y":90 }
+  }
 }
