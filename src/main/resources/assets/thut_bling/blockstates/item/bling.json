@@ -1,0 +1,20 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "builtin/generated",
+    "transform": "forge:default-item"
+  },
+  "variants": {
+    "type": {
+      "ring": {"textures": {"layer0": "thut_bling:items/ring"}},
+      "neck": {"textures": {"layer0": "thut_bling:items/neck"}},
+      "wrist": {"textures": {"layer0": "thut_bling:items/wrist"}},
+      "eye": {"textures": {"layer0": "thut_bling:items/eye"}},
+      "ankle": {"textures": {"layer0": "thut_bling:items/ankle"}},
+      "ear": {"textures": {"layer0": "thut_bling:items/ear"}},
+      "waist": {"textures": {"layer0": "thut_bling:items/waist"}},
+      "hat": {"textures": {"layer0": "thut_bling:items/hat"}},
+      "bag": {"textures": {"layer0": "thut_bling:items/bag"}}
+    }
+  }
+}
