@@ -1,8 +1,8 @@
 {
-    "variants": {
-        "facing=east":  { "model": "pokecube:block/dynamax", "y":90 },
-        "facing=west":  { "model": "pokecube:block/dynamax", "y":270 },
-        "facing=south": { "model": "pokecube:block/dynamax", "y":180 },
-        "facing=north": { "model": "pokecube:block/dynamax", "y":0}
-    }
+  "variants": {
+    "facing=north": { "model": "pokecube:block/dynamax", "y":180},
+    "facing=east":  { "model": "pokecube:block/dynamax", "y":270 },
+    "facing=south": { "model": "pokecube:block/dynamax", "y":0 },
+    "facing=west":  { "model": "pokecube:block/dynamax", "y":90 }
+  }
 }
