@@ -27,6 +27,8 @@ public class Config extends ConfigData
     public boolean enabledportal       = true;
     @Configure(category = "ultraspace")
     public int     ticksPerPortalSpawn = 9000;
+    @Configure(category = "ultraspace")
+    public int     portalDwellTime     = 9000;
 
     private final WormHoleSpawnHandler wormholes       = new WormHoleSpawnHandler();
     private boolean                    wormholeReged   = false;
