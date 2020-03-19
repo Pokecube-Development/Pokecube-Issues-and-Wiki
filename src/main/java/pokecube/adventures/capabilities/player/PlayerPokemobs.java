@@ -1,5 +1,6 @@
 package pokecube.adventures.capabilities.player;
 
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -9,8 +10,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
@@ -116,8 +119,29 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @Override
+    public void setTarget(final LivingEntity target)
+    {
+        final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
+        System.out.println(target + " " + oldBattle + " " + this.target);
+        if (oldBattle != null) if (oldBattle.getTarget() == this.player && oldBattle.canBattle(this.player)) return;
+
+        final Set<ITargetWatcher> watchers = this.getTargetWatchers();
+        this.target = target;
+        // Notify the watchers that a target was actually set.
+        for (final ITargetWatcher watcher : watchers)
+            watcher.onSet(target);
+    }
+
+    @Override
+    public LivingEntity getTarget()
+    {
+        return super.getTarget();
+    }
+
+    @Override
     public void resetPokemob()
     {
         // We do nothing here either.
+        this.setTarget(null);
     }
 }

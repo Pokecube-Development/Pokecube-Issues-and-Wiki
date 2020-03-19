@@ -96,10 +96,8 @@ public abstract class TrainerBase extends NpcMob
                 }
                 player.sendMessage(new StringTextComponent(message));
             }
-            else if (!this.getEntityWorld().isRemote && player.isCrouching()
-                    && player.getHeldItemMainhand().getItem() == Items.STICK)
-                this.pokemobsCap.throwCubeAt(player);
-            else if (player.getHeldItemMainhand().getItem() == Items.STICK) this.pokemobsCap.setTarget(player);
+            else if (!this.getEntityWorld().isRemote && player.isCrouching() && player.getHeldItemMainhand()
+                    .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
             return true;
         }
         else if (PokecubeItems.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0
