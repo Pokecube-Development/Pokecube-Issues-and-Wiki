@@ -11,26 +11,35 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
+import thut.core.client.render.model.parts.Material;
+import thut.core.common.ThutCore;
 
 public interface IModel
 {
     public static class HeadInfo
     {
-        /** This should be updated to match the mob, incase the IModel needs to
-         * do custom rendering itself. */
+        /**
+         * This should be updated to match the mob, incase the IModel needs to
+         * do custom rendering itself.
+         */
         public float headYaw;
-        /** This should be updated to match the mob, incase the IModel needs to
-         * do custom rendering itself. */
+        /**
+         * This should be updated to match the mob, incase the IModel needs to
+         * do custom rendering itself.
+         */
         public float headPitch;
 
         /** This is the current ticksExisted for the object being rendered.. */
-        public int   currentTick    = 0;
-        /** This is the ticksExisted before this render tick for the object
-         * being rendered */
-        public int   lastTick       = 0;
+        public int currentTick = 0;
+        /**
+         * This is the ticksExisted before this render tick for the object
+         * being rendered
+         */
+        public int lastTick    = 0;
 
         public float yawCapMax      = 180;
         public float yawCapMin      = -180;
@@ -58,9 +67,10 @@ public interface IModel
 
     HashMap<String, IExtendedModelPart> getParts();
 
-    /** Adjusts for differences in global coordinate systems.
-     * @param mat 
+    /**
+     * Adjusts for differences in global coordinate systems.
      *
+     * @param mat
      * @param dy
      */
     default void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
@@ -70,8 +80,10 @@ public interface IModel
         mat.translate(0, 0, dy - 1.5f);
     }
 
-    /** @return Whether this model actually exists, if this returns false,
-     *         things will often look for a different extension. */
+    /**
+     * @return Whether this model actually exists, if this returns false,
+     *         things will often look for a different extension.
+     */
     boolean isValid();
 
     void preProcessAnimations(Collection<List<Animation>> collection);
@@ -88,7 +100,16 @@ public interface IModel
 
     default void updateMaterial(final Mat mat)
     {
+        mat.name = ThutCore.trim(mat.name);
+        final Material material = new Material(mat.name);
+        material.diffuseColor = new Vector3f(1, 1, 1);
+        material.emissiveColor = new Vector3f(mat.light, mat.light, mat.light);
+        material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
+        material.specularColor = new Vector3f(1, 1, 1);
+        material.alpha = mat.alpha;
+        material.flat = !mat.smooth;
+        material.transluscent = mat.transluscent;
         for (final IExtendedModelPart part : this.getParts().values())
-            part.updateMaterial(mat);
+            part.updateMaterial(mat, material);
     }
 }

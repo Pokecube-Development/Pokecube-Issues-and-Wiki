@@ -18,18 +18,21 @@ public interface IPartTexturer
      * @param state
      *            - State to be mapped, either AI state, or an integer.
      * @param tex
-     *            - Texture being mapped. */
+     *            - Texture being mapped.
+     */
     default void addCustomMapping(final String part, final String state, final String tex)
     {
 
     }
 
-    /** Adds a mapping of part texture.
+    /**
+     * Adds a mapping of part texture.
      *
      * @param part
      *            - The part or material to be textured
      * @param tex
-     *            - The name of the texture. */
+     *            - The name of the texture.
+     */
     default void addMapping(final String part, final String tex)
     {
 
@@ -46,34 +49,35 @@ public interface IPartTexturer
      * Applies the texture for the part.<br>
      * This method will bind the texture to render engine for the part.
      *
-     * @param part */
+     * @param part
+     */
     ResourceLocation getTexture(String part, ResourceLocation default_);
 
-    /** Binds the object under consideration.
+    /**
+     * Binds the object under consideration.
      *
-     * @param thing */
+     * @param thing
+     */
     default void bindObject(final Object thing)
     {
 
     }
 
-    /** Is there a mapping already for this part - used for material specific
+    /**
+     * Is there a mapping already for this part - used for material specific
      * textures.
      *
      * @param part
-     * @return */
+     * @return
+     */
     boolean hasMapping(String part);
 
-    /** Should the part use flat shading. Defaults to true
-     *
-     * @param part
-     * @return */
-    boolean isFlat(String part);
-
-    /** Shifts the UVs for the texture animation
+    /**
+     * Shifts the UVs for the texture animation
      *
      * @param part
      * @param toFill
-     * @return */
+     * @return
+     */
     boolean shiftUVs(String part, double[] toFill);
 }

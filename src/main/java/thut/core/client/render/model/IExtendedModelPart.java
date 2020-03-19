@@ -99,7 +99,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     }
 
-    default void updateMaterial(final Mat mat)
+    default void updateMaterial(final Mat mat, final Material material)
     {
 
     }

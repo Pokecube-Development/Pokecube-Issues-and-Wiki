@@ -43,12 +43,6 @@ public class Status
         }
 
         @Override
-        public boolean isFlat(final String part)
-        {
-            return this.wrapped == null ? true : this.wrapped.isFlat(part);
-        }
-
-        @Override
         public boolean shiftUVs(final String part, final double[] toFill)
         {
             toFill[0] += this.time;
@@ -69,8 +63,7 @@ public class Status
 
     public static void render(final IModelRenderer<MobEntity> renderer, final MatrixStack mat,
             final IRenderTypeBuffer buf, final MobEntity mobEntity, final double d, final double d1, final double d2,
-            final float f,
-            final float partialTick)
+            final float f, final float partialTick)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mobEntity);
         if (pokemob == null) return;

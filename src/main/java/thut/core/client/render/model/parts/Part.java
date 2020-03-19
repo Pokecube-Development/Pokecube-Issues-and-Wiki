@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
-import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -89,9 +88,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final Mesh shape : this.shapes)
         {
             ResourceLocation tex_1 = tex;
+            // System.out.println(shape + " " + shape.material + " " +
+            // shape.material.flat);
             // Apply material only, we make these if defined anyay.
             if (texer.hasMapping(shape.material.name)) tex_1 = texer.getTexture(shape.material.name, tex);
-            shape.material.flat = texer.isFlat(shape.material.name);
             shape.material.makeVertexBuilder(tex_1, bufferIn);
         }
     }
@@ -344,32 +344,23 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void updateMaterial(final Mat mat)
+    public void updateMaterial(final Mat mat, final Material material)
     {
-        final String mat_name = ThutCore.trim(mat.name);
         final String[] parts = mat.name.split(":");
-        final Material material = new Material(mat_name);
-        material.diffuseColor = new Vector3f(1, 1, 1);
-        material.emissiveColor = new Vector3f(mat.light, mat.light, mat.light);
-        material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);
-        material.specularColor = new Vector3f(1, 1, 1);
-        material.alpha = mat.alpha;
-        material.flat = !mat.smooth;
-        material.transluscent = mat.transluscent;
         for (final String s : parts)
             for (final Mesh mesh : this.shapes)
             {
                 if (mesh.name == null) mesh.name = this.getName();
-                if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat_name)) mesh.setMaterial(material);
+                if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name)) mesh.setMaterial(material);
             }
         for (final Material m : this.materials)
-            if (m.name.equals(mat_name))
+            if (m.name.equals(mat.name))
             {
                 this.matcache.remove(m);
                 this.materials.remove(m);
-                this.matcache.add(material);
-                this.materials.add(material);
                 break;
             }
+        this.matcache.add(material);
+        this.materials.add(material);
     }
 }

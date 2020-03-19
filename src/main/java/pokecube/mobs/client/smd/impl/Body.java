@@ -24,10 +24,10 @@ import thut.core.common.ThutCore;
 /** Body, Made of Bones, Faces, and Materials. */
 public class Body implements IRetexturableModel
 {
-    public final Model                        parent;
-    public ArrayList<Face>                    faces        = Lists.newArrayList();
-    public ArrayList<MutableVertex>           verts        = Lists.newArrayList();
-    public ArrayList<Bone>                    bones        = Lists.newArrayList();
+    public final Model              parent;
+    public ArrayList<Face>          faces = Lists.newArrayList();
+    public ArrayList<MutableVertex> verts = Lists.newArrayList();
+    public ArrayList<Bone>          bones = Lists.newArrayList();
     // Used to idenfify which bones are the neck.
     public HashMap<String, Bone>              namesToBones = Maps.newHashMap();
     public HashMap<String, Material>          namesToMats;
@@ -215,8 +215,10 @@ public class Body implements IRetexturableModel
         for (int i = 0; i < 3; i++)
         {
             final String[] values = params[i].split("\\s+");
-            /** The negative signs are for differences in default coordinate
-             * systems between minecraft and blender. */
+            /**
+             * The negative signs are for differences in default coordinate
+             * systems between minecraft and blender.
+             */
             final float x = Float.parseFloat(values[1]);
             final float y = -Float.parseFloat(values[2]);
             final float z = -Float.parseFloat(values[3]);
@@ -270,10 +272,9 @@ public class Body implements IRetexturableModel
 
     public void render(final MatrixStack mat, final IVertexBuilder buffer, final int[] rgbabro)
     {
-        final boolean smooth = this.texturer == null ? false : !this.texturer.isFlat(null);
         this.uvShift[0] = this.uvShift[1] = 0;
         if (!this.parent.usesMaterials) for (final Face f : this.faces)
-            f.addForRender(mat, buffer, rgbabro, uvShift, smooth);
+            f.addForRender(mat, buffer, rgbabro, this.uvShift, false);
         else for (final Map.Entry<Material, ArrayList<Face>> entry : this.matsToFaces.entrySet())
         {
             Material material;
@@ -283,10 +284,9 @@ public class Body implements IRetexturableModel
                 if (this.texturer != null)
                 {
                     this.texturer.shiftUVs(tex, this.uvShift);
-                    material.flat = texturer.isFlat(material.name);
-                    this.texturer.shiftUVs(tex, uvShift);
+                    this.texturer.shiftUVs(tex, this.uvShift);
                 }
-                this.render(mat, material.preRender(mat, buffer), rgbabro, entry, smooth);
+                this.render(mat, material.preRender(mat, buffer), rgbabro, entry, !material.flat);
                 this.uvShift[0] = this.uvShift[1] = 0;
             }
         }
@@ -296,7 +296,7 @@ public class Body implements IRetexturableModel
             final Map.Entry<Material, ArrayList<Face>> entry, final boolean smooth)
     {
         for (final Face face : entry.getValue())
-            face.addForRender(mat, buffer, rgbabro, uvShift, smooth);
+            face.addForRender(mat, buffer, rgbabro, this.uvShift, smooth);
     }
 
     public void resetVerts()
@@ -331,8 +331,10 @@ public class Body implements IRetexturableModel
         for (int i = 1; i < 7; i++)
             locRots[i - 1] = Float.parseFloat(params[i]);
         final Bone theBone = this.bones.get(id);
-        /** The negative signs are for differences in default coordinate systems
-         * between minecraft and blender. */
+        /**
+         * The negative signs are for differences in default coordinate systems
+         * between minecraft and blender.
+         */
         theBone.setRest(Helpers.makeMatrix(locRots[0], -locRots[1], -locRots[2], locRots[3], -locRots[4], -locRots[5]));
     }
 

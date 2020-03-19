@@ -206,6 +206,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
                 shapes.add(renderShape);
                 final Appearance appearance = shape.appearance;
                 final Material material = this.getMaterial(appearance);
+                renderShape.name = name;
                 if (material != null) renderShape.setMaterial(material);
             }
             final X3dPart o = new X3dPart(name);
