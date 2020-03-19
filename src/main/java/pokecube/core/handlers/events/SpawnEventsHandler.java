@@ -189,7 +189,7 @@ public class SpawnEventsHandler
             PokecubeCore.LOGGER.error("Error parsing " + thing.get("guard"), e);
             info = new GuardInfo();
         }
-        if (info == null) info = new GuardInfo();
+        if (info == null) return;
         // Set us to sit at this location.
         final IGuardAICapability guard = npc.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
         npc.setHomePosAndDistance(npc.getPosition(), info.roam);
