@@ -67,7 +67,8 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.initPages(this.parent.pokemob);
         }));
         this.addButton(new Button(x - 65, y + 4, 20, 9, "\u2500", b ->
-        { // Cycle Form.
+        { // Cycle Form, only if not a real mob
+            if (this.parent.pokemob.getEntity().addedToChunk) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             FormeHolder holder = null;
             PokeInfoPage.formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
