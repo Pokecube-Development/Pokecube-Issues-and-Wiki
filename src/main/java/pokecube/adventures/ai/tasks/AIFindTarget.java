@@ -23,6 +23,36 @@ import thut.api.maths.Vector3;
 
 public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 {
+    public static boolean canBattle(final LivingEntity input, final LivingEntity mobIn)
+    {
+        if (input != null && input.getLastAttackedEntity() == mobIn) return true;
+        if (mobIn.getRevengeTarget() != null && mobIn.getRevengeTarget() == mobIn) return true;
+        final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(input);
+        if (other == null) return true;
+        if (other.getTarget() != null && other.getTarget() != mobIn) return false;
+        if (other.getNextPokemob().isEmpty() && other.getOutID() == null)
+        {
+            boolean found = false;
+            if (other.getOutID() == null)
+            {
+                final List<Entity> mobs = PCEventsHandler.getOutMobs(input, false);
+                if (!mobs.isEmpty()) for (final Entity mob : mobs)
+                    if (mob.getDistanceSq(input) < 32 * 32)
+                    {
+                        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                        if (pokemob != null && !found)
+                        {
+                            other.setOutMob(pokemob);
+                            found = true;
+                            break;
+                        }
+                    }
+            }
+            return found;
+        }
+        return true;
+    }
+
     @SafeVarargs
     public static Predicate<LivingEntity> match(final LivingEntity entityIn, final boolean allowTamed,
             final Class<? extends LivingEntity>... targetClass)
@@ -39,7 +69,8 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                 if (input.getLastAttackedEntity() == entityIn && input.ticksExisted - input
                         .getLastAttackedEntityTime() < 50) return true;
                 // Only target valid classes.
-                if (!this.validClass(input) || !input.attackable() || !this.canBattle(input)) return false;
+                if (!this.validClass(input) || !input.attackable() || !AIFindTarget.canBattle(input, entityIn))
+                    return false;
                 final IOwnable ownable = OwnableCaps.getOwnable(input);
                 // Don't target pets
                 if (ownable != null && ownable.getOwner() == entityIn) return false;
@@ -64,33 +95,6 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                 for (final Class<? extends LivingEntity> s : targetClass)
                     if (s.isInstance(input)) return true;
                 return false;
-            }
-
-            private boolean canBattle(final LivingEntity input)
-            {
-                if (entityIn.getAttackingEntity() == input) return true;
-                final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(input);
-                if (other != null && other.getNextPokemob().isEmpty() && other.getOutID() == null)
-                {
-                    boolean found = false;
-                    if (other.getOutID() == null)
-                    {
-                        final List<Entity> mobs = PCEventsHandler.getOutMobs(input, false);
-                        if (!mobs.isEmpty()) for (final Entity mob : mobs)
-                            if (mob.getDistanceSq(input) < 32 * 32)
-                            {
-                                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-                                if (pokemob != null && !found)
-                                {
-                                    other.setOutMob(pokemob);
-                                    found = true;
-                                    break;
-                                }
-                            }
-                    }
-                    return found;
-                }
-                return true;
             }
         };
     }
@@ -148,6 +152,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             // Check if timer has run out.
             if (this.maxTimer > 0 && this.timer++ >= this.maxTimer)
             {
+                this.timer = 0;
                 final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
                 // this is an ended battle, so we cancel both side.
                 if (other != null) other.setTarget(null);
@@ -249,8 +254,10 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                     || this.aiTracker.getAIState(IHasNPCAIStates.INBATTLE)) this.trainer.resetPokemob();
             return;
         }
+        final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
         // Set trainers target
         this.trainer.setTarget(target);
+        if (other != null) other.setTarget(this.entity);
     }
 
     @Override
