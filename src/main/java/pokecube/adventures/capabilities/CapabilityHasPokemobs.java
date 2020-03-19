@@ -606,17 +606,6 @@ public class CapabilityHasPokemobs
         public void setTarget(LivingEntity target)
         {
             final Set<ITargetWatcher> watchers = this.getTargetWatchers();
-            if (target != null && !watchers.isEmpty())
-            {
-                boolean valid = false;
-                for (final ITargetWatcher watcher : watchers)
-                    if (watcher.validTargetSet(target))
-                    {
-                        valid = true;
-                        break;
-                    }
-                if (!valid) target = null;
-            }
             // No next pokemob, so we shouldn't have a target in this case.
             if (this.getPokemob(0).isEmpty())
             {

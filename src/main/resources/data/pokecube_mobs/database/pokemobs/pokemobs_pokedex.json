@@ -6450,8 +6450,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Rock Head, Sturdy",
-            "hidden": "Sand Veil"
+            "normal": "Magnet Pull, Sturdy",
+            "hidden": "Galvanize"
           }
         },
         "mass": 20.3,
@@ -6581,8 +6581,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Rock Head, Sturdy",
-            "hidden": "Sand Veil"
+            "normal": "Magnet Pull, Sturdy",
+            "hidden": "Galvanize"
           }
         },
         "mass": 110.0,
@@ -6707,8 +6707,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Rock Head, Sturdy",
-            "hidden": "Sand Veil"
+            "normal": "Magnet Pull, Sturdy",
+            "hidden": "Galvanize"
           }
         },
         "mass": 316.0,
