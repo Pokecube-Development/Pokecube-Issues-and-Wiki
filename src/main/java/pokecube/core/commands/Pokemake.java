@@ -41,11 +41,11 @@ import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
-public class MakeCommand
+public class Pokemake
 {
     public static void setToArgs(final String[] args, final IPokemob mob, final int index, final Vector3 offset)
     {
-        MakeCommand.setToArgs(args, mob, index, offset, true);
+        Pokemake.setToArgs(args, mob, index, offset, true);
     }
 
     /**
@@ -264,7 +264,7 @@ public class MakeCommand
                 newArgs.add(s);
         }
         final Vector3 offset = Vector3.getNewVector().set(0, 1, 0);
-        MakeCommand.setToArgs(newArgs.toArray(new String[0]), pokemob, 0, offset);
+        Pokemake.setToArgs(newArgs.toArray(new String[0]), pokemob, 0, offset);
         pokemob.spawnInit();
         final Vector3 temp = Vector3.getNewVector();
         temp.set(source.getPos()).addTo(offset);
@@ -298,30 +298,29 @@ public class MakeCommand
         // Set a permission
         command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokemake"));
         // Plain command, no args besides name.
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_POKEMOB).executes(ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType
-                        .getString(ctx, "mob"), Lists.newArrayList())));
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
+                .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
+                        .newArrayList())));
 
         // command with player and no arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_POKEMOB).then(Commands.argument("player", EntityArgument.player()).executes(
-                        ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
-                                .newArrayList(EntityArgument.getPlayer(ctx, "player"))))));
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
+                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokemake.execute(ctx
+                        .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument
+                                .getPlayer(ctx, "player"))))));
 
         // Command with player then string arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_POKEMOB).then(Commands.argument("player", EntityArgument.player()).then(Commands
-                        .argument("args:", StringArgumentType.string()).suggests(TEMP).then(Commands.argument("arg1",
-                                StringArgumentType.greedyString()).executes(ctx -> MakeCommand.execute(ctx.getSource(),
-                                        StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument
-                                                .getPlayer(ctx, "player"), StringArgumentType.getString(ctx,
-                                                        "arg1"))))))));
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args:",
+                        StringArgumentType.string()).suggests(TEMP).then(Commands.argument("arg1", StringArgumentType
+                                .greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType
+                                        .getString(ctx, "mob"), Lists.newArrayList(EntityArgument.getPlayer(ctx,
+                                                "player"), StringArgumentType.getString(ctx, "arg1"))))))));
         // Command string arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_POKEMOB).then(Commands.argument("args:", StringArgumentType.string()).suggests(TEMP)
-                        .then(Commands.argument("arg1", StringArgumentType.greedyString()).executes(ctx -> MakeCommand
-                                .execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(
-                                        StringArgumentType.getString(ctx, "arg1")))))));
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
+                .then(Commands.argument("args:", StringArgumentType.string()).suggests(TEMP).then(Commands.argument(
+                        "arg1", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(),
+                                StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(StringArgumentType
+                                        .getString(ctx, "arg1")))))));
 
         commandDispatcher.register(command);
 
@@ -333,28 +332,27 @@ public class MakeCommand
         // Set a permission
         command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // Plain command, no args besides name.
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_OTHERS).executes(ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType
-                        .getString(ctx, "mob"), Lists.newArrayList())));
+        command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
+                .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"), Lists
+                        .newArrayList())));
 
         // command with player an no arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_OTHERS).then(Commands.argument("player", EntityArgument.player()).executes(
-                        ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
-                                .newArrayList(EntityArgument.getPlayer(ctx, "player"))))));
+        command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
+                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokemake.execute(ctx
+                        .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument
+                                .getPlayer(ctx, "player"))))));
 
         // Command with player then string arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_OTHERS).then(Commands.argument("player", EntityArgument.player()).then(Commands
-                        .argument("arg1", StringArgumentType.greedyString()).executes(ctx -> MakeCommand.execute(ctx
-                                .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(
-                                        EntityArgument.getPlayer(ctx, "player"), StringArgumentType.getString(ctx,
-                                                "mob")))))));
+        command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("arg1",
+                        StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(),
+                                StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument.getPlayer(
+                                        ctx, "player"), StringArgumentType.getString(ctx, "arg1")))))));
         // Command string arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(
-                MakeCommand.SUGGEST_OTHERS).then(Commands.argument("arg1", StringArgumentType.greedyString()).executes(
-                        ctx -> MakeCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
-                                .newArrayList(StringArgumentType.getString(ctx, "mob"))))));
+        command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
+                .then(Commands.argument("arg1", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx
+                        .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(StringArgumentType
+                                .getString(ctx, "arg1"))))));
 
         commandDispatcher.register(command);
 

@@ -19,10 +19,16 @@ public class CommandManager
         final LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokecube").requires(Tools.hasPerm(
                 perm));
 
-        KillCommand.register(command);
-        CountCommand.register(command);
-        RestoreCommand.register(command);
+        Kill.register(command);
+        Count.register(command);
+        Restore.register(command);
 
         commandDispatcher.register(command);
+        TM.register(commandDispatcher);
+        SecretBase.register(commandDispatcher);
+        Pokemake.register(commandDispatcher);
+        Meteor.register(commandDispatcher);
+        Pokerecall.register(commandDispatcher);
+        Pokeegg.register(commandDispatcher);
     }
 }

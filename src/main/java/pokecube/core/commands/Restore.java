@@ -30,7 +30,7 @@ import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
 
-public class RestoreCommand
+public class Restore
 {
 
     public static void register(final LiteralArgumentBuilder<CommandSource> command)
@@ -42,27 +42,27 @@ public class RestoreCommand
         final LiteralArgumentBuilder<CommandSource> root = Commands.literal("restore").requires(Tools.hasPerm(perm));
         final LiteralArgumentBuilder<CommandSource> restore = Commands.literal("restore").then(Commands.argument("uuid",
                 StringArgumentType.string()).then(Commands.argument("id", IntegerArgumentType.integer()).executes(
-                        ctx -> RestoreCommand.execute_give(ctx.getSource(), StringArgumentType.getString(ctx, "uuid"),
+                        ctx -> Restore.execute_give(ctx.getSource(), StringArgumentType.getString(ctx, "uuid"),
                                 IntegerArgumentType.getInteger(ctx, "id")))));
 
         final LiteralArgumentBuilder<CommandSource> check = Commands.literal("check").then(Commands.argument("player",
-                GameProfileArgument.gameProfile()).executes(ctx -> RestoreCommand.execute(ctx.getSource(),
+                GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
                         GameProfileArgument.getGameProfiles(ctx, "player"), false, false, false)));
         final LiteralArgumentBuilder<CommandSource> check_pc = Commands.literal("check_pc").then(Commands.argument(
-                "player", GameProfileArgument.gameProfile()).executes(ctx -> RestoreCommand.execute(ctx.getSource(),
+                "player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
                         GameProfileArgument.getGameProfiles(ctx, "player"), false, true, false)));
         final LiteralArgumentBuilder<CommandSource> check_deleted = Commands.literal("check_deleted").then(Commands
-                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> RestoreCommand.execute(ctx
+                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx
                         .getSource(), GameProfileArgument.getGameProfiles(ctx, "player"), false, false, true)));
 
         final LiteralArgumentBuilder<CommandSource> give = Commands.literal("give").then(Commands.argument("player",
-                GameProfileArgument.gameProfile()).executes(ctx -> RestoreCommand.execute(ctx.getSource(),
+                GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
                         GameProfileArgument.getGameProfiles(ctx, "player"), true, false, false)));
         final LiteralArgumentBuilder<CommandSource> give_pc = Commands.literal("give_pc").then(Commands.argument(
-                "player", GameProfileArgument.gameProfile()).executes(ctx -> RestoreCommand.execute(ctx.getSource(),
+                "player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
                         GameProfileArgument.getGameProfiles(ctx, "player"), true, true, false)));
         final LiteralArgumentBuilder<CommandSource> give_deleted = Commands.literal("give_deleted").then(Commands
-                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> RestoreCommand.execute(ctx
+                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx
                         .getSource(), GameProfileArgument.getGameProfiles(ctx, "player"), true, false, true)));
 
         root.then(check);

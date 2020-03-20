@@ -15,7 +15,7 @@ import pokecube.core.handlers.events.SpawnHandler;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
-public class MeteorCommand
+public class Meteor
 {
 
     public static int execute(final CommandSource source, final int power) throws CommandSyntaxException
@@ -32,7 +32,7 @@ public class MeteorCommand
         PermissionAPI.registerNode("command.meteor", DefaultPermissionLevel.OP, "Is the player allowed to use /meteor");
         commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs,
                 "command.pokecount")).then(Commands.argument("power", IntegerArgumentType.integer()).executes((
-                        ctx) -> MeteorCommand.execute(ctx.getSource(), IntegerArgumentType.getInteger(ctx, "power")))));
+                        ctx) -> Meteor.execute(ctx.getSource(), IntegerArgumentType.getInteger(ctx, "power")))));
 
     }
 }

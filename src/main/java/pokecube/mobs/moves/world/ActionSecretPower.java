@@ -4,7 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
-import pokecube.core.commands.SecretBaseCommand;
+import pokecube.core.commands.SecretBase;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
@@ -37,7 +37,7 @@ public class ActionSecretPower implements IMoveAction
             owner.sendMessage(message);
             return false;
         }
-        SecretBaseCommand.pendingBaseLocations.put(owner.getUniqueID(), new Vector4(location.x, location.y, location.z,
+        SecretBase.pendingBaseLocations.put(owner.getUniqueID(), new Vector4(location.x, location.y, location.z,
                 owner.dimension.getId()));
         final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.confirm", location
                 .set(location.getPos()));
