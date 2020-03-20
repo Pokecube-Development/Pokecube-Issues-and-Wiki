@@ -19,7 +19,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
 
-public class KillCommand
+public class Kill
 {
 
     public static int execute(final CommandSource source, final boolean tame, final boolean cull)
@@ -58,11 +58,11 @@ public class KillCommand
         PermissionAPI.registerNode(killAllPerm, DefaultPermissionLevel.OP,
                 "Is the player allowed to force all pokemobs to recall");
 
-        command.then(Commands.literal("kill").requires(Tools.hasPerm(killPerm)).executes((ctx) -> KillCommand.execute(
+        command.then(Commands.literal("kill").requires(Tools.hasPerm(killPerm)).executes((ctx) -> Kill.execute(
                 ctx.getSource(), false, false)));
-        command.then(Commands.literal("kill_all").requires(Tools.hasPerm(killAllPerm)).executes((ctx) -> KillCommand
+        command.then(Commands.literal("kill_all").requires(Tools.hasPerm(killAllPerm)).executes((ctx) -> Kill
                 .execute(ctx.getSource(), true, false)));
-        command.then(Commands.literal("cull").requires(Tools.hasPerm(cullPerm)).executes((ctx) -> KillCommand.execute(
+        command.then(Commands.literal("cull").requires(Tools.hasPerm(cullPerm)).executes((ctx) -> Kill.execute(
                 ctx.getSource(), false, true)));
     }
 }

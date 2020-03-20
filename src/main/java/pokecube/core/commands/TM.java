@@ -21,7 +21,7 @@ import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.commands.CommandTools;
 
-public class TMCommand
+public class TM
 {
     private static SuggestionProvider<CommandSource> SUGGEST_TMS = (ctx,
             sb) -> net.minecraft.command.ISuggestionProvider.suggest(MovesUtils.moves.keySet(), sb);
@@ -56,7 +56,7 @@ public class TMCommand
     public static int execute(final CommandSource source, final String tm) throws CommandSyntaxException
     {
         final ServerPlayerEntity player = source.asPlayer();
-        return TMCommand.execute(source, player, tm);
+        return TM.execute(source, player, tm);
     }
 
     public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
@@ -67,11 +67,11 @@ public class TMCommand
         LiteralArgumentBuilder<CommandSource> command = Commands.literal("poketm").requires(cs -> CommandTools.hasPerm(
                 cs, "command.poketm"));
         // No target argument version
-        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TMCommand.SUGGEST_TMS)
-                .executes(ctx -> TMCommand.execute(ctx.getSource(), StringArgumentType.getString(ctx, "tm"))));
+        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TM.SUGGEST_TMS)
+                .executes(ctx -> TM.execute(ctx.getSource(), StringArgumentType.getString(ctx, "tm"))));
         // Target argument version
-        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TMCommand.SUGGEST_TMS)
-                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> TMCommand.execute(ctx
+        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TM.SUGGEST_TMS)
+                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> TM.execute(ctx
                         .getSource(), EntityArgument.getPlayer(ctx, "player"), StringArgumentType.getString(ctx,
                                 "tm")))));
         commandDispatcher.register(command);

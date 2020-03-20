@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.commands.MakeCommand;
+import pokecube.core.commands.Pokemake;
 import pokecube.core.contributors.Contributor;
 import pokecube.core.contributors.ContributorManager;
 import pokecube.core.database.Database;
@@ -127,7 +127,7 @@ public class PokecubePacketHandler
                     else pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
                     pokemob.setExp(Tools.levelToXp(pokemob.getExperienceMode(), 5), true);
                     pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
-                    if (this.args.length > 1) MakeCommand.setToArgs(this.args, pokemob, 1, null, false);
+                    if (this.args.length > 1) Pokemake.setToArgs(this.args, pokemob, 1, null, false);
                     final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
                     PokecubeManager.heal(item, owner.getEntityWorld());
                     pokemob.getEntity().remove();

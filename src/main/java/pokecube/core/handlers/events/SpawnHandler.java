@@ -39,7 +39,7 @@ import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import pokecube.core.PokecubeCore;
-import pokecube.core.commands.MakeCommand;
+import pokecube.core.commands.Pokemake;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.SpawnBiomeMatcher;
@@ -763,13 +763,13 @@ public final class SpawnHandler
                                 if (!event.getSpawnArgs().isEmpty())
                                 {
                                     final String[] args = event.getSpawnArgs().split(" ");
-                                    MakeCommand.setToArgs(args, pokemob, 0, this.v, false);
+                                    Pokemake.setToArgs(args, pokemob, 0, this.v, false);
                                 }
                                 else if (matcher.spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
                                 {
                                     final String[] args = matcher.spawnRule.values.get(SpawnBiomeMatcher.SPAWNCOMMAND)
                                             .split(" ");
-                                    MakeCommand.setToArgs(args, pokemob, 0, this.v, false);
+                                    Pokemake.setToArgs(args, pokemob, 0, this.v, false);
                                 }
                                 final SpawnEvent.Post evt = new SpawnEvent.Post(dbe, this.v3, world, pokemob);
                                 PokecubeCore.POKEMOB_BUS.post(evt);

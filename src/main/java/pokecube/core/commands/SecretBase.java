@@ -34,7 +34,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.common.commands.CommandTools;
 
-public class SecretBaseCommand
+public class SecretBase
 {
     public static Map<UUID, Vector4> pendingBaseLocations = Maps.newHashMap();
 
@@ -63,9 +63,9 @@ public class SecretBaseCommand
 
     public static int execute_create(final CommandSource source, final ServerPlayerEntity player, final Vec3d input)
     {
-        if (SecretBaseCommand.pendingBaseLocations.containsKey(player.getUniqueID()))
+        if (SecretBase.pendingBaseLocations.containsKey(player.getUniqueID()))
         {
-            final Vector4 loc = SecretBaseCommand.pendingBaseLocations.remove(player.getUniqueID());
+            final Vector4 loc = SecretBase.pendingBaseLocations.remove(player.getUniqueID());
             final Vector3 pos = Vector3.getNewVector().set(loc.x, loc.y, loc.z);
             final DimensionType type = DimensionType.getById((int) loc.w);
             if (type == player.dimension && pos.distTo(Vector3.getNewVector().set(input)) < 16)
@@ -103,20 +103,20 @@ public class SecretBaseCommand
         LiteralArgumentBuilder<CommandSource> command;
 
         command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.exit")).then(
-                Commands.argument("exit", StringArgumentType.word()).suggests(SecretBaseCommand.SUGGEST_EXIT).executes(
-                        ctx -> SecretBaseCommand.execute_exit(ctx.getSource(), ctx.getSource().asPlayer())));
+                Commands.argument("exit", StringArgumentType.word()).suggests(SecretBase.SUGGEST_EXIT).executes(
+                        ctx -> SecretBase.execute_exit(ctx.getSource(), ctx.getSource().asPlayer())));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.create")).then(
-                Commands.argument("confirm", StringArgumentType.word()).suggests(SecretBaseCommand.SUGGEST_CONFIRM)
-                        .then(Commands.argument("location", Vec3Argument.vec3()).executes(ctx -> SecretBaseCommand
+                Commands.argument("confirm", StringArgumentType.word()).suggests(SecretBase.SUGGEST_CONFIRM)
+                        .then(Commands.argument("location", Vec3Argument.vec3()).executes(ctx -> SecretBase
                                 .execute_create(ctx.getSource(), ctx.getSource().asPlayer(), Vec3Argument.getVec3(ctx,
                                         "location")))));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.other")).then(
                 Commands.argument("target", EntityArgument.player()).then(Commands.argument("owner", GameProfileArgument
-                        .gameProfile()).executes(ctx -> SecretBaseCommand.execute(ctx.getSource(), EntityArgument
+                        .gameProfile()).executes(ctx -> SecretBase.execute(ctx.getSource(), EntityArgument
                                 .getPlayer(ctx, "target"), GameProfileArgument.getGameProfiles(ctx, "owner")))));
         commandDispatcher.register(command);
     }
