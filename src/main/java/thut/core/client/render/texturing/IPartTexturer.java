@@ -68,7 +68,19 @@ public interface IPartTexturer
      * @param part
      * @return
      */
-    boolean isFlat(String part);
+    default boolean isFlat(final String part)
+    {
+        return true;
+    }
+
+    /**
+     * @param part
+     * @return
+     */
+    default void modifiyRGBA(final String part, final int[] rgbaIn)
+    {
+
+    }
 
     /**
      * Shifts the UVs for the texture animation

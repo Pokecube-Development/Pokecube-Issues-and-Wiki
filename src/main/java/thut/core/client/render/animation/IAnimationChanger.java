@@ -29,9 +29,9 @@ public interface IAnimationChanger
 
     void addChild(IAnimationChanger animationRandomizer);
 
-    default int getColourForPart(final String partIdentifier, final Entity entity, final int default_)
+    default boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
     {
-        return default_;
+        return false;
     }
 
     default boolean hasAnimation(final String phase)

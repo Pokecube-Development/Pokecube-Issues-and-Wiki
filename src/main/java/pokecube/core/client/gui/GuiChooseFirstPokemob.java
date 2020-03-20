@@ -295,7 +295,7 @@ public class GuiChooseFirstPokemob extends Screen
             GL11.glPushMatrix();
             GL11.glTranslatef(0, 0, 40);
             GuiPokedex.renderMob(entity, this.getMinecraft(), dx, dy, size, this.height, this.width, this.xSize,
-                    this.ySize, hx, hy, yaw);
+                    this.ySize, hx, hy, yaw, true);
             GL11.glPopMatrix();
         }
         catch (final Throwable e)

@@ -4,9 +4,16 @@
   <phase name="global" scale="0.5"/>
   <metadata head="Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
   <customTex default="spinda">
-   <part name="Head" tex="spindahead"/>
-   <part name="Ear" tex="spindaear"/>
-   <part name="Ear" tex="spindaear"/>
+   <part name="face" tex="spindaface"/>
+   <part name="Ear" tex="spinda_ear"/>
+   <part name="spot_1" tex="spinda_spot"/>
+   <part name="spot_2" tex="spinda_spot"/>
+   <part name="spot_3" tex="spinda_spot"/>
+   <part name="spot_4" tex="spinda_spot"/>
+   <rngfixed material="spot_1" seed="1"/>
+   <rngfixed material="spot_2" seed="2"/>
+   <rngfixed material="spot_3" seed="3"/>
+   <rngfixed material="spot_4" seed="4"/>
   </customTex>
  </model>
 </ModelAnimator>

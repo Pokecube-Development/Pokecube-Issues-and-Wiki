@@ -131,13 +131,17 @@ public class AnimationXML
         @XmlAttribute(name = "smoothing")
         public String          smoothing;
         @XmlElement(name = "animation")
-        public List<TexAnim>   anims  = Lists.newArrayList();
+        public List<TexAnim>   anims     = Lists.newArrayList();
         @XmlElement(name = "part")
-        public List<TexPart>   parts  = Lists.newArrayList();
+        public List<TexPart>   parts     = Lists.newArrayList();
         @XmlElement(name = "custom")
-        public List<TexCustom> custom = Lists.newArrayList();
+        public List<TexCustom> custom    = Lists.newArrayList();
         @XmlElement(name = "forme")
-        public List<TexForm>   forme  = Lists.newArrayList();
+        public List<TexForm>   forme     = Lists.newArrayList();
+        @XmlElement(name = "colour")
+        public List<ColourTex> colours   = Lists.newArrayList();
+        @XmlElement(name = "rngfixed")
+        public List<RNGFixed>  rngfixeds = Lists.newArrayList();
     }
 
     @XmlRootElement(name = "metadata")
@@ -244,6 +248,34 @@ public class AnimationXML
         public String name;
         @XmlAttribute(name = "tex")
         public String tex;
+    }
+
+    @XmlRootElement(name = "colour")
+    public static class ColourTex
+    {
+        @XmlAttribute(name = "forme")
+        public String forme = "";
+        @XmlAttribute(name = "material")
+        public String material;
+        @XmlAttribute(name = "red")
+        public float  red;
+        @XmlAttribute(name = "green")
+        public float  green;
+        @XmlAttribute(name = "blue")
+        public float  blue;
+        @XmlAttribute(name = "alpha")
+        public float  alpha;
+    }
+
+    @XmlRootElement(name = "rngfixed")
+    public static class RNGFixed
+    {
+        @XmlAttribute(name = "forme")
+        public String forme = "";
+        @XmlAttribute(name = "material")
+        public String material;
+        @XmlAttribute(name = "red")
+        public int    seed;
     }
 
     @XmlRootElement(name = "ModelAnimator")

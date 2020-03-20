@@ -1,6 +1,5 @@
 package thut.core.client.render.obj;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -356,18 +355,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
         }
         rgbab[4] = brightness;
         final IAnimationChanger animChanger = renderer.getAnimationChanger();
-        if (animChanger != null)
-        {
-            final int default_ = new Color(rgbab[0], rgbab[1], rgbab[2], rgbab[3]).getRGB();
-            final int rgb = animChanger.getColourForPart(parent.getName(), entity, default_);
-            if (rgb != default_)
-            {
-                final Color col = new Color(rgb);
-                rgbab[0] = col.getRed();
-                rgbab[1] = col.getGreen();
-                rgbab[2] = col.getBlue();
-            }
-        }
+        if (animChanger != null) animChanger.modifyColourForPart(parent.getName(), entity, rgbab);
         parent.setRGBAB(rgbab);
         for (final String partName : parent.getSubParts().keySet())
         {
