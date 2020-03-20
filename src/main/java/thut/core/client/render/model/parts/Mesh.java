@@ -155,6 +155,5 @@ public abstract class Mesh
     {
         this.material = material;
         this.name = material.name;
-        System.out.println(this + " " + material + " " + material.name + " " + material.flat);
     }
 }
