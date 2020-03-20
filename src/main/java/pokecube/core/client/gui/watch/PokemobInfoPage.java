@@ -313,81 +313,85 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                     || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
                     || this.minecraft.player.abilities.isCreativeMode;
 
-                    // Megas Inherit colouring from the base form.
-                    if (!fullColour && pokedexEntry.isMega)
-                        fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0
-                        || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
+            // Megas Inherit colouring from the base form.
+            if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
+                    Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry.getBaseForme(),
+                            Minecraft.getInstance().player) > 0;
 
-                        // Select which box to draw via position.
-                        if (fullColour) dr = 0;
-                        else if (stats.hasInspected(pokedexEntry)) dr = 9;
-                        else dr = 18;
-                        GL11.glColor3f(1, 1, 1);
-                        dx = -75;
-                        dy = 11;
-                        // Draw the box.
-                        this.blit(x + dx, y + dy, dr, 247, 9, 9);
+            // Select which box to draw via position.
+            if (fullColour) dr = 0;
+            else if (stats.hasInspected(pokedexEntry)) dr = 9;
+            else dr = 18;
+            GL11.glColor3f(1, 1, 1);
+            dx = -75;
+            dy = 11;
+            // Draw the box.
+            this.blit(x + dx, y + dy, dr, 247, 9, 9);
 
-                        IPokemob pokemob = this.renderMob;
-                        // Copy the stuff to the render mob if this mob is in world
-                        if (pokemob.getEntity().addedToChunk)
-                        {
-                            final IPokemob newMob = EventsHandlerClient.getRenderMob(pokemob.getPokedexEntry(),
-                                    pokemob.getEntity().getEntityWorld());
-                            newMob.read(pokemob.write());
-                            pokemob = this.renderMob = newMob;
-                        }
+            IPokemob pokemob = this.renderMob;
+            // Copy the stuff to the render mob if this mob is in world
+            if (pokemob.getEntity().addedToChunk)
+            {
+                final IPokemob newMob = EventsHandlerClient.getRenderMob(pokemob.getPokedexEntry(), pokemob.getEntity()
+                        .getEntityWorld());
+                newMob.read(pokemob.write());
+                pokemob = this.renderMob = newMob;
+            }
+            else
+            {
+                final LivingEntity player = this.watch.player;
+                EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
 
-                        if (!pokemob.getEntity().addedToChunk)
-                        {
-                            final LivingEntity player = this.watch.player;
-                            EntityTools.copyEntityTransforms(pokemob.getEntity(), player);
-                        }
+                // Set colouring accordingly.
+                if (fullColour) pokemob.setRGBA(255, 255, 255, 255);
+                else if (stats.hasInspected(pokedexEntry)) pokemob.setRGBA(127, 127, 127, 255);
+                else pokemob.setRGBA(15, 15, 15, 255);
+            }
 
-                        final float yaw = Util.milliTime() / 20;
-                        dx = -110;
-                        dy = -18;
-                        // Draw the actual pokemob
-                        GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 0.75f);
-                        // Draw gender, types and lvl
-                        int genderColor = 0xBBBBBB;
-                        String gender = "";
-                        if (pokemob.getSexe() == IPokemob.MALE)
-                        {
-                            genderColor = 0x0011CC;
-                            gender = "\u2642";
-                        }
-                        else if (pokemob.getSexe() == IPokemob.FEMALE)
-                        {
-                            genderColor = 0xCC5555;
-                            gender = "\u2640";
-                        }
-                        final String level = "L. " + pokemob.getLevel();
-                        dx = -74;
-                        dy = 42;
-                        this.drawString(this.font, level, x + dx, y + dy, 0xffffff);
-                        dx = -40;
-                        this.drawCenteredString(this.font, gender, x + dx, y + dy, genderColor);
-                        pokemob.getType1();
-                        final String type1 = PokeType.getTranslatedName(pokemob.getType1());
-                        final String type2 = PokeType.getTranslatedName(pokemob.getType2());
-                        dx = -74;
-                        dy = 52;
-                        colour = pokemob.getType1().colour;
-                        this.drawString(this.font, type1, x + dx, y + dy, colour);
-                        colour = pokemob.getType2().colour;
-                        dy = 62;
-                        if (pokemob.getType2() != PokeType.unknown) this.drawString(this.font, type2, x + dx, y + dy, colour);
+            final float yaw = Util.milliTime() / 20;
+            dx = -110;
+            dy = -18;
+            // Draw the actual pokemob
+            GuiPokemobBase.renderMob(pokemob.getEntity(), x + dx, y + dy, 0, yaw, 0, yaw, 0.75f);
+            // Draw gender, types and lvl
+            int genderColor = 0xBBBBBB;
+            String gender = "";
+            if (pokemob.getSexe() == IPokemob.MALE)
+            {
+                genderColor = 0x0011CC;
+                gender = "\u2642";
+            }
+            else if (pokemob.getSexe() == IPokemob.FEMALE)
+            {
+                genderColor = 0xCC5555;
+                gender = "\u2640";
+            }
+            final String level = "L. " + pokemob.getLevel();
+            dx = -74;
+            dy = 42;
+            this.drawString(this.font, level, x + dx, y + dy, 0xffffff);
+            dx = -40;
+            this.drawCenteredString(this.font, gender, x + dx, y + dy, genderColor);
+            pokemob.getType1();
+            final String type1 = PokeType.getTranslatedName(pokemob.getType1());
+            final String type2 = PokeType.getTranslatedName(pokemob.getType2());
+            dx = -74;
+            dy = 52;
+            colour = pokemob.getType1().colour;
+            this.drawString(this.font, type1, x + dx, y + dy, colour);
+            colour = pokemob.getType2().colour;
+            dy = 62;
+            if (pokemob.getType2() != PokeType.unknown) this.drawString(this.font, type2, x + dx, y + dy, colour);
 
-                        // Draw box around where type displays
-                        dx = -76;
-                        dy = 50;
-                        dr = 20;
-                        colour = 0xFF78C850;
-                        this.vLine(x + dx, y + dy, y + dy + dr, colour);
-                        this.vLine(x + dx + 2 * dr, y + dy, y + dy + dr, colour);
-                        dr = 40;
-                        this.hLine(x + dx, x + dx + dr, y + dy + dr / 2, colour);
+            // Draw box around where type displays
+            dx = -76;
+            dy = 50;
+            dr = 20;
+            colour = 0xFF78C850;
+            this.vLine(x + dx, y + dy, y + dy + dr, colour);
+            this.vLine(x + dx + 2 * dr, y + dy, y + dy + dr, colour);
+            dr = 40;
+            this.hLine(x + dx, x + dx + dr, y + dy + dr / 2, colour);
 
         }
     }

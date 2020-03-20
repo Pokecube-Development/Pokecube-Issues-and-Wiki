@@ -29,15 +29,18 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.stats.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
+import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokeType;
+import thut.core.common.handlers.PlayerDataHandler;
 
 public class GuiPokedex extends Screen
 {
-    public static PokedexEntry     pokedexEntry = null;
+    public static PokedexEntry pokedexEntry = null;
 
     public IPokemob                pokemob      = null;
     protected PlayerEntity         PlayerEntity = null;
@@ -50,7 +53,7 @@ public class GuiPokedex extends Screen
     protected int ySize;
     int           prevX = 0;
 
-    int                            prevY        = 0;
+    int prevY = 0;
 
     /**
      *
@@ -148,8 +151,8 @@ public class GuiPokedex extends Screen
         this.pokemobTextField.setEnableBackgroundDrawing(false);
         this.pokemobTextField.setEnabled(true);
 
-        if (GuiPokedex.pokedexEntry != null)
-            this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry.getUnlocalizedName()));
+        if (GuiPokedex.pokedexEntry != null) this.pokemobTextField.setText(I18n.format(GuiPokedex.pokedexEntry
+                .getUnlocalizedName()));
         this.addButton(this.pokemobTextField);
         this.initList();
     }
@@ -237,8 +240,8 @@ public class GuiPokedex extends Screen
         if (button != 0) this.minecraft.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         if (button == 14)
         {
-            PacketPokedex.sendInspectPacket(true,
-                    Minecraft.getInstance().getLanguageManager().getCurrentLanguage().getCode());
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getCurrentLanguage()
+                    .getCode());
             return true;
         }
 
@@ -266,10 +269,27 @@ public class GuiPokedex extends Screen
         this.blit(j2, k2, 0, 0, this.xSize, this.ySize);
 
         // Draw mob
-        final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry,
-                this.PlayerEntity.getEntityWorld());
-        if (!renderMob.getEntity().addedToChunk)
-            EntityTools.copyEntityTransforms(renderMob.getEntity(), this.PlayerEntity);
+        final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry, this.PlayerEntity
+                .getEntityWorld());
+        if (!renderMob.getEntity().addedToChunk) EntityTools.copyEntityTransforms(renderMob.getEntity(),
+                this.PlayerEntity);
+
+        final PokedexEntry pokedexEntry = renderMob.getPokedexEntry();
+        final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft.getInstance().player)
+                .getData(PokecubePlayerStats.class);
+        boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
+                || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
+                || this.minecraft.player.abilities.isCreativeMode;
+
+        // Megas Inherit colouring from the base form.
+        if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry.getBaseForme(),
+                Minecraft.getInstance().player) > 0 || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft
+                        .getInstance().player) > 0;
+        // Set colouring accordingly.
+        if (fullColour) renderMob.setRGBA(255, 255, 255, 255);
+        else if (stats.hasInspected(pokedexEntry)) renderMob.setRGBA(127, 127, 127, 255);
+        else renderMob.setRGBA(15, 15, 15, 255);
+
         GlStateManager.enableDepthTest();
         final float yaw = Util.milliTime() / 20;
         final float pitch = 0;

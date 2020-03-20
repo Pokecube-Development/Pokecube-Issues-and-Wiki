@@ -1,5 +1,6 @@
 package thut.core.client.render.texturing;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -13,8 +14,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import thut.api.entity.IMobTexturable;
+import thut.core.client.render.animation.AnimationXML.ColourTex;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.client.render.animation.AnimationXML.RNGFixed;
 import thut.core.client.render.animation.AnimationXML.TexAnim;
 import thut.core.client.render.animation.AnimationXML.TexCustom;
 import thut.core.client.render.animation.AnimationXML.TexForm;
@@ -48,6 +51,77 @@ public class TextureHelper implements IPartTexturer
             this.arr = arr;
             for (final double d : arr)
                 if (d >= 1) this.shift = false;
+        }
+    }
+
+    private static class ColourState
+    {
+        float   red   = 1;
+        float   blue  = 1;
+        float   green = 1;
+        float   alpha = 1;
+        String  forme = "";
+        boolean mul   = true;
+
+        ColourState()
+        {
+        }
+
+        public void apply(final int[] rgbaIn, final IMobTexturable mob)
+        {
+            if (!this.forme.isEmpty() && !this.forme.equals(mob.getForm())) return;
+
+            if (this.mul)
+            {
+                final float r = this.red * rgbaIn[0] / 255f;
+                final float g = this.green * rgbaIn[1] / 255f;
+                final float b = this.blue * rgbaIn[2] / 255f;
+                final float a = this.alpha * rgbaIn[3] / 255f;
+                rgbaIn[0] = (int) (r * 255);
+                rgbaIn[1] = (int) (g * 255);
+                rgbaIn[2] = (int) (b * 255);
+                rgbaIn[3] = (int) (a * 255);
+            }
+        }
+    }
+
+    private static class RandomFixedOffsetState
+    {
+        int    seedModifier = 0;
+        double rangeU       = 1;
+        double rangeV       = 1;
+        double startU       = 0;
+        double startV       = 0;
+
+        Random rand = new Random();
+
+        RandomFixedOffsetState()
+        {
+        }
+
+        boolean applyState(final double[] toFill, final IMobTexturable mob)
+        {
+            double dx = 0;
+            double dy = 0;
+            this.rand.setSeed(this.seedModifier + mob.getRandomSeed());
+            dx = this.startU + this.rand.nextDouble() * this.rangeU;
+            dy = this.startV + this.rand.nextDouble() * this.rangeV;
+            toFill[0] = dx;
+            toFill[1] = dy;
+            return true;
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (obj == null) return false;
+            return obj.hashCode() == this.hashCode();
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return this.seedModifier;
         }
     }
 
@@ -173,6 +247,10 @@ public class TextureHelper implements IPartTexturer
 
     Map<String, TexState> texStates = Maps.newHashMap();
 
+    Map<String, Set<RandomFixedOffsetState>> fixedOffsets = Maps.newHashMap();
+
+    Map<String, Set<ColourState>> colours = Maps.newHashMap();
+
     Map<String, String> formeMap = Maps.newHashMap();
 
     public TextureHelper()
@@ -187,6 +265,8 @@ public class TextureHelper implements IPartTexturer
         this.texStates.clear();
         this.formeMap.clear();
         this.texMap.clear();
+        this.fixedOffsets.clear();
+        this.colours.clear();
         this.default_flat = true;
         this.default_path = null;
         this.default_tex = null;
@@ -231,6 +311,26 @@ public class TextureHelper implements IPartTexturer
             final String tex = ThutCore.trim(anim.tex);
             this.formeMap.put(name, tex);
         }
+        for (final RNGFixed state : customTex.rngfixeds)
+        {
+            final RandomFixedOffsetState s = new RandomFixedOffsetState();
+            s.seedModifier = state.seed;
+            Set<RandomFixedOffsetState> set = this.fixedOffsets.get(state.material);
+            if (set == null) this.fixedOffsets.put(state.material, set = Sets.newHashSet());
+            set.add(s);
+        }
+        for (final ColourTex state : customTex.colours)
+        {
+            final ColourState s = new ColourState();
+            s.alpha = state.alpha;
+            s.red = state.red;
+            s.green = state.green;
+            s.blue = state.blue;
+            s.forme = state.forme;
+            Set<ColourState> set = this.colours.get(state.material);
+            if (set == null) this.colours.put(state.material, set = Sets.newHashSet());
+            set.add(s);
+        }
     }
 
     private void clear()
@@ -240,6 +340,13 @@ public class TextureHelper implements IPartTexturer
         this.formeMap.clear();
         this.texNames.clear();
         this.texNames2.clear();
+    }
+
+    @Override
+    public void modifiyRGBA(final String part, final int[] rgbaIn)
+    {
+        for (final ColourState state : this.colours.getOrDefault(part, Collections.emptySet()))
+            state.apply(rgbaIn, this.mob);
     }
 
     @Override
@@ -333,6 +440,10 @@ public class TextureHelper implements IPartTexturer
     public boolean shiftUVs(final String part, final double[] toFill)
     {
         if (this.mob == null) return false;
+        final Set<RandomFixedOffsetState> offsets = this.fixedOffsets.getOrDefault(part, Collections.emptySet());
+        for (final RandomFixedOffsetState state : offsets)
+            state.applyState(toFill, this.mob);
+        if (offsets.size() > 0) return true;
         TexState state;
         if ((state = this.texStates.get(part)) != null) return state.applyState(toFill, this.mob);
         return false;

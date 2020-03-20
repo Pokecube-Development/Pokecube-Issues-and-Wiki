@@ -52,6 +52,11 @@ public interface IMobTexturable
         return "";
     }
 
+    default int getRandomSeed()
+    {
+        return 0;
+    }
+
     default ResourceLocation getTexture(@Nullable final String part)
     {
         return new ResourceLocation(this.getModId(), part);

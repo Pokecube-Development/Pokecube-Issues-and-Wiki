@@ -1,6 +1,5 @@
 package thut.core.client.render.wrappers;
 
-import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +38,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     private T                      entityIn;
     protected float                rotationPointX = 0, rotationPointY = 0, rotationPointZ = 0;
     protected float                rotateAngleX   = 0, rotateAngleY = 0, rotateAngleZ = 0, rotateAngle = 0;
+
+    private final int[] tmp = new int[4];
 
     private final Vector5 rots = new Vector5();
 
@@ -99,17 +100,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             alpha = poke.getRGBA()[3];
         }
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
-        if (animChanger != null)
+        if (animChanger != null && animChanger.modifyColourForPart(parent.getName(), entity, this.tmp))
         {
-            final int default_ = new Color(red, green, blue, alpha).getRGB();
-            final int rgb = animChanger.getColourForPart(parent.getName(), entity, default_);
-            if (rgb != default_)
-            {
-                final Color col = new Color(rgb);
-                red = col.getRed();
-                green = col.getGreen();
-                blue = col.getBlue();
-            }
+            red = this.tmp[0];
+            green = this.tmp[1];
+            blue = this.tmp[2];
+            alpha = this.tmp[3];
         }
         parent.setRGBABrO(red, green, blue, alpha, brightness, overlay);
         for (final String partName : parent.getSubParts().keySet())

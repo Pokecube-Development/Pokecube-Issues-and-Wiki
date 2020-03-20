@@ -73,6 +73,15 @@ public interface IPartTexturer
     boolean hasMapping(String part);
 
     /**
+     * @param part
+     * @return
+     */
+    default void modifiyRGBA(final String part, final int[] rgbaIn)
+    {
+
+    }
+
+    /**
      * Shifts the UVs for the texture animation
      *
      * @param part

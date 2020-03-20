@@ -114,6 +114,12 @@ public class TextureableCaps
         }
 
         @Override
+        public int getRandomSeed()
+        {
+            return this.pokemob.getRNGValue();
+        }
+
+        @Override
         public String getModId()
         {
             if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
@@ -157,6 +163,7 @@ public class TextureableCaps
             {
                 if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
                 this.forme = this.pokemob.getPokedexEntry().getTrimmedName();
+                if (this.pokemob.getCustomHolder() != null) this.forme = this.pokemob.getCustomHolder().key.getPath();
             }
             return this.forme;
         }

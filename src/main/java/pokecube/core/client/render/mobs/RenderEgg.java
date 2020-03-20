@@ -1,5 +1,6 @@
 package pokecube.core.client.render.mobs;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,12 +51,17 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
         }
 
         @Override
-        public int getColourForPart(final String partIdentifier, final Entity entity, final int default_)
+        public boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
         {
             final IPokemob poke = ((EntityPokemobEgg) entity).getPokemob(false);
             final PokeType t1 = poke.getType1();
             final PokeType t2 = poke.getType2();
-            return partIdentifier.contains("spot") ? t2.colour : t1.colour;
+            final int rgb = partIdentifier.contains("spot") ? t2.colour : t1.colour;
+            final Color c = new Color(rgb);
+            rgba[0] = c.getRed();
+            rgba[1] = c.getGreen();
+            rgba[2] = c.getBlue();
+            return true;
         }
 
         @Override
