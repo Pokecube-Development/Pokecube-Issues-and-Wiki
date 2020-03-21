@@ -537,12 +537,12 @@ public class PokedexEntryLoader
     public static final Gson gson;
 
     public static final Comparator<XMLPokedexEntry> ENTRYSORTER = (o1, o2) ->
-                                                                {
-                                                                    int diff = o1.number - o2.number;
-                                                                    if (diff == 0) if (o1.base && !o2.base) diff = -1;
-                                                                    else if (o2.base && !o1.base) diff = 1;
-                                                                    return diff;
-                                                                };
+    {
+        int diff = o1.number - o2.number;
+        if (diff == 0) if (o1.base && !o2.base) diff = -1;
+        else if (o2.base && !o1.base) diff = 1;
+        return diff;
+    };
 
     public static XMLPokedexEntry missingno = new XMLPokedexEntry();
 
