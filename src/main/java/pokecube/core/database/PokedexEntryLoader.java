@@ -172,7 +172,7 @@ public class PokedexEntryLoader
                     final String value = ThutCore.trim(element);
                     this._hide_.add(value);
                 }
-                for (final TexColours c : this.colours)
+                if (this.colours != null) for (final TexColours c : this.colours)
                 {
                     c.material = ThutCore.trim(c.material);
                     this._colourMap_.put(c.material, c);
