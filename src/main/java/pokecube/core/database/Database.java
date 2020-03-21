@@ -494,7 +494,7 @@ public class Database
             PokecubeCore.LOGGER.error("Error with databases ", e);
         }
         // Outputs a file for reference.
-        PokedexEntryLoader.writeCompoundDatabase();
+        if (PokecubeMod.debug) PokedexEntryLoader.writeCompoundDatabase();
         // Init the lists of what all forms are loaded.
         Database.initFormLists();
 
