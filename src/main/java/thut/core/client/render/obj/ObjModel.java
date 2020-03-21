@@ -64,8 +64,9 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
             final float partialTicks, final float limbSwing)
     {
-//        this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks, this.getHeadInfo().headYaw,
-//                this.getHeadInfo().headYaw, limbSwing, 0);
+        // this.updateAnimation(entity, renderer, renderer.getAnimation(entity),
+        // partialTicks, this.getHeadInfo().headYaw,
+        // this.getHeadInfo().headYaw, limbSwing, 0);
     }
 
     @Override
@@ -224,12 +225,24 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
                     final ArrayList<AnimationComponent> components = animation.sets.get(s);
                     for (final AnimationComponent comp : components)
                     {
-                        comp.posOffset[0] /= -16;
-                        comp.posOffset[1] /= -16;
-                        comp.posOffset[2] /= -16;
-                        comp.posChange[0] /= -16;
-                        comp.posChange[1] /= -16;
-                        comp.posChange[2] /= -16;
+                        // These get adjusted so the coordinate system is
+                        // consistant with the older versions.
+
+                        d0 = comp.posOffset[0] / 16;
+                        d1 = comp.posOffset[1] / 16;
+                        d2 = comp.posOffset[2] / 16;
+
+                        comp.posOffset[0] = -d0;
+                        comp.posOffset[1] = d2;
+                        comp.posOffset[2] = -d1;
+
+                        d0 = comp.posChange[0] / 16;
+                        d1 = comp.posChange[1] / 16;
+                        d2 = comp.posChange[2] / 16;
+
+                        comp.posChange[0] = -d0;
+                        comp.posChange[1] = d2;
+                        comp.posChange[2] = -d1;
                     }
                 }
     }
@@ -289,7 +302,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void globalFix(MatrixStack mat, float dx, float dy, float dz)
+    public void globalFix(final MatrixStack mat, final float dx, final float dy, final float dz)
     {
         // FIXME obj rotation
         mat.rotate(Vector3f.XP.rotationDegrees(180));
@@ -339,7 +352,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
         }
         for (final String partName : parent.getSubParts().keySet())
         {
-            final IExtendedModelPart part = (IExtendedModelPart) parent.getSubParts().get(partName);
+            final IExtendedModelPart part = parent.getSubParts().get(partName);
             this.updateSubParts(entity, renderer, currentPhase, partialTick, part, headYaw, headPitch, limbSwing,
                     brightnessIn);
         }

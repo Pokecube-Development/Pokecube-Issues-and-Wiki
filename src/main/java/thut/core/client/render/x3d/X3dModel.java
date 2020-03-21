@@ -234,6 +234,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     @Override
     public void preProcessAnimations(final Collection<List<Animation>> animations)
     {
+        double d0, d1, d2;
         for (final List<Animation> list : animations)
             for (final Animation animation : list)
                 for (final String s : animation.sets.keySet())
@@ -241,12 +242,24 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
                     final ArrayList<AnimationComponent> components = animation.sets.get(s);
                     for (final AnimationComponent comp : components)
                     {
-                        comp.posOffset[0] /= -16;
-                        comp.posOffset[1] /= -16;
-                        comp.posOffset[2] /= -16;
-                        comp.posChange[0] /= -16;
-                        comp.posChange[1] /= -16;
-                        comp.posChange[2] /= -16;
+                        // These get adjusted so the coordinate system is
+                        // consistant with the older versions.
+
+                        d0 = comp.posOffset[0] / 16;
+                        d1 = comp.posOffset[1] / 16;
+                        d2 = comp.posOffset[2] / 16;
+
+                        comp.posOffset[0] = -d0;
+                        comp.posOffset[1] = d2;
+                        comp.posOffset[2] = -d1;
+
+                        d0 = comp.posChange[0] / 16;
+                        d1 = comp.posChange[1] / 16;
+                        d2 = comp.posChange[2] / 16;
+
+                        comp.posChange[0] = -d0;
+                        comp.posChange[1] = d2;
+                        comp.posChange[2] = -d1;
                     }
                 }
         IExtendedModelPart.sort(this.order, this.getParts());
