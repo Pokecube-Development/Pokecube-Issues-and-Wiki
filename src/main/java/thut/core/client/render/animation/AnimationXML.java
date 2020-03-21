@@ -274,7 +274,7 @@ public class AnimationXML
         public String forme = "";
         @XmlAttribute(name = "material")
         public String material;
-        @XmlAttribute(name = "red")
+        @XmlAttribute(name = "seed")
         public int    seed;
     }
 
