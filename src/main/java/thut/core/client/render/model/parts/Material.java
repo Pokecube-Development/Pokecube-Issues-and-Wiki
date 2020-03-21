@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.IRenderTypeBuffer.Impl;
 import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderState.CullState;
 import net.minecraft.client.renderer.RenderState.DepthTestState;
 import net.minecraft.client.renderer.RenderState.ShadeModelState;
 import net.minecraft.client.renderer.RenderState.WriteMaskState;
@@ -111,6 +112,7 @@ public class Material
             else builder.writeMask(new WriteMaskState(true, false));
             builder.depthTest(new DepthTestState(513));
         }
+        else builder.cull(new CullState(false));
         if (!this.flat) builder.shadeModel(new ShadeModelState(true));
         final RenderType.State rendertype$state = builder.build(true);
         final String id = this.render_name + tex;
