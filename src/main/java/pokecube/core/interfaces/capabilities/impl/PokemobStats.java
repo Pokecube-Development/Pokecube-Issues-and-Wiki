@@ -1,5 +1,7 @@
 package pokecube.core.interfaces.capabilities.impl;
 
+import java.util.Random;
+
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -52,6 +54,7 @@ public abstract class PokemobStats extends PokemobGenes
     @Override
     public int getRNGValue()
     {
+        if (this.personalityValue == 0) this.personalityValue = new Random().nextInt();
         return this.personalityValue;
     }
 
@@ -165,8 +168,9 @@ public abstract class PokemobStats extends PokemobGenes
     }
 
     @Override
-    public void setRNGValue(final int value)
+    public void setRNGValue(int value)
     {
+        if (value == 0) value = new Random().nextInt();
         this.personalityValue = value;
     }
 

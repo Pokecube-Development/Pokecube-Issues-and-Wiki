@@ -351,6 +351,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         compound.putInt("yTile", this.yTile);
         compound.putInt("zTile", this.zTile);
         compound.putByte("inGround", (byte) (this.inGround ? 1 : 0));
+        compound.putInt("autorelease", this.autoRelease);
         if (this.shooter != null) compound.put("owner", NBTUtil.writeUniqueId(this.shooter));
 
     }
@@ -372,6 +373,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         this.xTile = compound.getInt("xTile");
         this.yTile = compound.getInt("yTile");
         this.zTile = compound.getInt("zTile");
+        this.autoRelease = compound.getInt("autorelease");
         this.inGround = compound.getByte("inGround") == 1;
         if (compound.contains("owner", 10)) this.shooter = NBTUtil.readUniqueId(compound.getCompound("owner"));
 
