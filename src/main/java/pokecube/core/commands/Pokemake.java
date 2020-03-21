@@ -287,16 +287,16 @@ public class Pokemake
 
     public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
     {
+        final String perm = "command.pokemake";
         // Normal pokemake
-        PermissionAPI.registerNode("command.pokemake", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokemake");
+        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokemake");
 
         final SuggestionProvider<CommandSource> TEMP = (ctx, sb) -> net.minecraft.command.ISuggestionProvider.suggest(
                 Lists.newArrayList("args"), sb);
 
         LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokemake");
         // Set a permission
-        command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokemake"));
+        command = command.requires(cs -> CommandTools.hasPerm(cs, perm));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
                 .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
