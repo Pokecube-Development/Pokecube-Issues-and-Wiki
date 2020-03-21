@@ -218,6 +218,7 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     @Override
     public void preProcessAnimations(final Collection<List<Animation>> animations)
     {
+        double d0, d1, d2;
         for (final List<Animation> list : animations)
             for (final Animation animation : list)
                 for (final String s : animation.sets.keySet())

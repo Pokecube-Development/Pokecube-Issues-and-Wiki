@@ -75,8 +75,8 @@ public class AnimationHelper
             part.setPreTranslations(temp);
             part.setPreScale(temp.set(sx, sy, sz));
             final Quaternion quat = new Quaternion(0, 0, 0, 1);
-            if (x != 0) quat.multiply(Vector3f.XP.rotationDegrees(x));
             if (z != 0) quat.multiply(Vector3f.YN.rotationDegrees(z));
+            if (x != 0) quat.multiply(Vector3f.XP.rotationDegrees(x));
             if (y != 0) quat.multiply(Vector3f.ZP.rotationDegrees(y));
             part.setPreRotations(new Vector4(quat));
         }
