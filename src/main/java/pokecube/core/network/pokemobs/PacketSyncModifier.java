@@ -12,8 +12,9 @@ import thut.core.common.network.Packet;
 
 public class PacketSyncModifier extends Packet
 {
-    public static void sendUpdate(String type, IPokemob pokemob)
+    public static void sendUpdate(final String type, final IPokemob pokemob)
     {
+        if (pokemob == null) return;
         if (!pokemob.getEntity().addedToChunk) return;
         final PacketSyncModifier packet = new PacketSyncModifier();
         packet.entityId = pokemob.getEntity().getEntityId();
@@ -32,7 +33,7 @@ public class PacketSyncModifier extends Packet
     {
     }
 
-    public PacketSyncModifier(PacketBuffer buf)
+    public PacketSyncModifier(final PacketBuffer buf)
     {
         this.entityId = buf.readInt();
         this.modifier = buf.readInt();
@@ -58,7 +59,7 @@ public class PacketSyncModifier extends Packet
     }
 
     @Override
-    public void write(PacketBuffer buf)
+    public void write(final PacketBuffer buf)
     {
         buf.writeInt(this.entityId);
         buf.writeInt(this.modifier);
