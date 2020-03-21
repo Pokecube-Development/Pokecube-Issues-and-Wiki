@@ -268,14 +268,7 @@ public class AIBattle extends AITrainerBase
             if (this.deagrotimer-- < 0)
             {
                 this.trainer.onWin(target);
-                this.trainer.setTarget(null);
-                this.trainer.resetPokemob();
-                if (other.getTarget() == this.entity)
-                {
-                    other.onLose(this.entity);
-                    other.setTarget(null);
-                    other.resetPokemob();
-                }
+                if (other.getTarget() == this.entity) other.onLose(this.entity);
                 return false;
             }
         }
@@ -289,6 +282,7 @@ public class AIBattle extends AITrainerBase
         // reward.
         if (this.trainer.getPokemob(0).isEmpty())
         {
+            this.trainer.deAgro(this.trainer, CapabilityHasPokemobs.getHasPokemobs(this.trainer.getTarget()));
             this.trainer.setTarget(null);
             return;
         }

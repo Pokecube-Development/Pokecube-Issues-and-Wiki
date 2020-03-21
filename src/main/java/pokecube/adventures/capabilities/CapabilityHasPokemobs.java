@@ -438,17 +438,11 @@ public class CapabilityHasPokemobs
         {
             // Only store for players
             if (lost instanceof PlayerEntity) this.defeated.validate(lost);
-        }
-
-        private void resetTargets(final IHasPokemobs us, final IHasPokemobs them)
-        {
-            if (them == null || us == null) return;
-
-            us.getTrainer().setRevengeTarget(null);
-            them.getTrainer().setRevengeTarget(null);
-
-            us.getTrainer().setLastAttackedEntity(null);
-            them.getTrainer().setLastAttackedEntity(null);
+            if (lost == this.getTarget())
+            {
+                this.setTarget(null);
+                this.resetPokemob();
+            }
         }
 
         @Override
@@ -459,7 +453,7 @@ public class CapabilityHasPokemobs
             // Apply this first to remove any memory of the battle.
             // This clears the revenge/attacked values, to truely cancel
             // agression
-            this.resetTargets(this, defeatingTrainer);
+            this.deAgro(this, defeatingTrainer);
             // If we were defeated by another trainer, lets forget about the
             // battle.
             if (defeatingTrainer != null)
@@ -939,6 +933,20 @@ public class CapabilityHasPokemobs
         default void onTick()
         {
             this.lowerCooldowns();
+        }
+
+        default void deAgro(final IHasPokemobs us, final IHasPokemobs them)
+        {
+            if (us != null)
+            {
+                us.getTrainer().setRevengeTarget(null);
+                us.getTrainer().setLastAttackedEntity(null);
+            }
+            if (them != null)
+            {
+                them.getTrainer().setRevengeTarget(null);
+                them.getTrainer().setLastAttackedEntity(null);
+            }
         }
     }
 
