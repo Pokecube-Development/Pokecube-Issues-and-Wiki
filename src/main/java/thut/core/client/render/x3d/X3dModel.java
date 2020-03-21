@@ -1,6 +1,5 @@
 package thut.core.client.render.x3d;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
-import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
@@ -334,40 +332,11 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             parent.setPostRotations2(dir2);
         }
 
-        final int red = 255, green = 255, blue = 255;
         final int brightness = entity.getBrightnessForRender();
-        final int alpha = 255;
         final int[] rgbab = parent.getRGBAB();
-        if (entity instanceof IMobColourable)
-        {
-            final IMobColourable poke = (IMobColourable) entity;
-            rgbab[0] = poke.getRGBA()[0];
-            rgbab[1] = poke.getRGBA()[1];
-            rgbab[2] = poke.getRGBA()[2];
-            rgbab[3] = poke.getRGBA()[3];
-        }
-        else
-        {
-            rgbab[0] = red;
-            rgbab[1] = green;
-            rgbab[2] = blue;
-            rgbab[3] = alpha;
-            rgbab[4] = brightness;
-        }
         rgbab[4] = brightness;
         final IAnimationChanger animChanger = renderer.getAnimationChanger();
-        if (animChanger != null)
-        {
-            final int default_ = new Color(rgbab[0], rgbab[1], rgbab[2], rgbab[3]).getRGB();
-            final int rgb = animChanger.getColourForPart(parent.getName(), entity, default_);
-            if (rgb != default_)
-            {
-                final Color col = new Color(rgb);
-                rgbab[0] = col.getRed();
-                rgbab[1] = col.getGreen();
-                rgbab[2] = col.getBlue();
-            }
-        }
+        if (animChanger != null) animChanger.modifyColourForPart(parent.getName(), entity, rgbab);
         parent.setRGBAB(rgbab);
         for (final String partName : parent.getSubParts().keySet())
         {

@@ -26,7 +26,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
 
-public class CountCommand
+public class Count
 {
 
     public static int execute(final CommandSource source) throws CommandSyntaxException
@@ -63,7 +63,7 @@ public class CountCommand
         final String perm = "command.pokecube.count";
         PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to check the number of pokemobs in the world");
-        command.then(Commands.literal("count").requires(Tools.hasPerm(perm)).executes((ctx) -> CountCommand.execute(ctx
+        command.then(Commands.literal("count").requires(Tools.hasPerm(perm)).executes((ctx) -> Count.execute(ctx
                 .getSource())));
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="1.0"/>
+  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headDir2="-1"/>
+  <customTex default="cursola">
+   <part name="head" tex="cursola_eyes"/>
+  </customTex>
+  <phase duration="10" leftFront="left leg front" leftHind="left leg back:left hand" name="quadWalk" rightFront="right leg front" rightHind="right leg back:right hand"/>
+  <material name="ghost" alpha="0.25" transluscent="true" smooth="true"/>
+ </model>
+</ModelAnimator>

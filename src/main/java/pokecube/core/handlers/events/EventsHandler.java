@@ -74,10 +74,6 @@ import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
-import pokecube.core.commands.MakeCommand;
-import pokecube.core.commands.MeteorCommand;
-import pokecube.core.commands.SecretBaseCommand;
-import pokecube.core.commands.TMCommand;
 import pokecube.core.contributors.Contributor;
 import pokecube.core.contributors.ContributorManager;
 import pokecube.core.database.Database;
@@ -580,10 +576,6 @@ public class EventsHandler
         // Database.loadingThread.interrupt();
         // Database.resourceManager = event.getServer().getResourceManager();
         PokecubeItems.init(event.getServer());
-        TMCommand.register(event.getCommandDispatcher());
-        SecretBaseCommand.register(event.getCommandDispatcher());
-        MakeCommand.register(event.getCommandDispatcher());
-        MeteorCommand.register(event.getCommandDispatcher());
         CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher(), "pokesettings");
         CommandManager.register(event.getCommandDispatcher());
     }

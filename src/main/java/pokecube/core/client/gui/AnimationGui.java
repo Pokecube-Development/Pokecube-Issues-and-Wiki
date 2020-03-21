@@ -89,6 +89,7 @@ public class AnimationGui extends Screen
     TextFieldWidget            forme;
     TextFieldWidget            forme_alt;
     TextFieldWidget            dyeColour;
+    TextFieldWidget            rngValue;
 
     IPokemob    toRender;
     Holder      renderHolder;
@@ -156,6 +157,15 @@ public class AnimationGui extends Screen
         this.toRender.setShiny(this.shiny);
         this.toRender.getEntity().onGround = this.ground;
         this.toRender.setCustomHolder(this.holder);
+
+        try
+        {
+            this.toRender.setRNGValue(Integer.parseInt(this.rngValue.getText()));
+        }
+        catch (final NumberFormatException e2)
+        {
+            this.rngValue.setText(this.toRender.getRNGValue() + "");
+        }
 
         try
         {
@@ -389,9 +399,9 @@ public class AnimationGui extends Screen
         this.font.drawString("State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
         this.font.drawString("State-Logic", this.width - 101, yOffset - 02 - yOffset / 2, 0xFFFFFF);
 
-        this.font.drawString("Animation", this.width - 101, yOffset + 30 - yOffset / 2, 0xFFFFFF);
-        this.font.drawString("              Info:", this.width - 101, yOffset + 30 - yOffset / 2, 0xFFFFFF);
-        this.font.drawString("Forme", this.width - 101, yOffset + 60 - yOffset / 2, 0xFFFFFF);
+        this.font.drawString("Animation", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
+        this.font.drawString("              Info:", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
+        this.font.drawString("Forme", this.width - 101, yOffset / 2 + 60, 0xFFFFFF);
 
         super.render(unk1, unk2, unk3);
 
@@ -544,6 +554,7 @@ public class AnimationGui extends Screen
         this.state_l = new TextFieldWidget(this.font, this.width - 101, yOffset + 07 - yOffset / 2, 100, 10, "");
         this.forme = new TextFieldWidget(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, "");
         this.forme_alt = new TextFieldWidget(this.font, this.width - 101, yOffset + 97 - yOffset / 2, 100, 10, "");
+        this.rngValue = new TextFieldWidget(this.font, this.width - 101, yOffset + 123 - yOffset / 2, 100, 10, "");
         this.dyeColour = new TextFieldWidget(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, "");
         this.forme.setText(AnimationGui.mob);
         this.dyeColour.setText(AnimationGui.entry.defaultSpecial + "");
@@ -554,6 +565,7 @@ public class AnimationGui extends Screen
         this.addButton(this.state_l);
         this.addButton(this.forme);
         this.addButton(this.forme_alt);
+        this.addButton(this.rngValue);
         this.addButton(this.dyeColour);
 
         this.addButton(new Button(this.width / 2 - xOffset, yOffset, 40, 20, "next", b ->
@@ -710,7 +722,7 @@ public class AnimationGui extends Screen
                     final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
                             : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
                     for (int i = 0; i < holders.size(); i++)
-                        if (holders.get(i).key.equals(key))
+                        if (key == null || holders.get(i).key.equals(key))
                         {
                             final FormeHolder holder = i + 1 < holders.size() ? holders.get(i + 1) : holders.get(0);
                             this.forme_alt.setText(holder.key.toString());
@@ -737,7 +749,7 @@ public class AnimationGui extends Screen
                     final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
                             : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
                     for (int i = 0; i < holders.size(); i++)
-                        if (holders.get(i).key.equals(key))
+                        if (key == null || holders.get(i).key.equals(key))
                         {
                             final FormeHolder holder = i - 1 >= 0 ? holders.get(i - 1)
                                     : holders.get(holders.size() - 1);

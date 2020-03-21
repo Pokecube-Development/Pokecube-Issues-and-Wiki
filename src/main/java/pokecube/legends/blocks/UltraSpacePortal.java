@@ -48,6 +48,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.legends.PokecubeLegends;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
 
@@ -973,7 +974,10 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
 
     public void place(final World world, final BlockPos pos, final Direction direction)
     {
-        this.place(world, pos, this.getDefaultState(), direction);
+        final BlockState state = this.getDefaultState().with(UltraSpacePortal.PART, UltraSpacePortalPart.BOTTOM).with(
+                UltraSpacePortal.FACING, direction);
+        world.setBlockState(pos, state, 3);
+        this.place(world, pos, state, direction.getOpposite());
     }
 
     public void place(final World world, final BlockPos pos, final BlockState state, final Direction direction)
@@ -1392,7 +1396,7 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
     @Override
     public int tickRate(final IWorldReader world)
     {
-        return 700;
+        return PokecubeLegends.config.portalDwellTime;
     }
 
     @Override

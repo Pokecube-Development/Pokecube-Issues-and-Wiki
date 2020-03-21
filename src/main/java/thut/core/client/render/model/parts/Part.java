@@ -64,13 +64,26 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         // Render each Shape
         for (final Mesh s : this.shapes)
         {
+            if (s.name == null) s.name = this.name;
+
+            if (this.texturer != null)
+            {
+                this.texturer.modifiyRGBA(this.name, this.rgbab);
+                this.setRGBAB(this.rgbab);
+            }
+
             // Set colours.
             if (s.material != null)
             {
+                if (this.texturer != null)
+                {
+                    this.texturer.modifiyRGBA(s.material.name, this.rgbab);
+                    this.setRGBAB(this.rgbab);
+                }
                 s.material.rgba[0] = this.red;
-                s.material.rgba[0] = this.green;
-                s.material.rgba[0] = this.blue;
-                s.material.rgba[0] = this.alpha;
+                s.material.rgba[1] = this.green;
+                s.material.rgba[2] = this.blue;
+                s.material.rgba[3] = this.alpha;
             }
             else GL11.glColor4f(this.red / 255f, this.green / 255f, this.blue / 255f, this.alpha / 255f);
             s.renderShape(this.texturer);

@@ -13,8 +13,11 @@ public class MobLoader
     public static void registerDatabases(final InitDatabase.Pre evt)
     {
         PokecubeCore.LOGGER.debug("Registering Loadable Databases");
-        Database.addDatabase("database/pokemobs/pokemobs_pokedex.json", EnumDatabase.POKEMON);
-        Database.addDatabase("database/moves.json", EnumDatabase.MOVES);
-        Database.addDatabase("database/spawns.json", EnumDatabase.BERRIES);
+        for (int i = 0; i < Math.min(PokecubeCore.getConfig().configDatabases.size(), 3); i++)
+        {
+            final String[] args = PokecubeCore.getConfig().configDatabases.get(i).split(";");
+            for (final String s : args)
+                if (!s.trim().isEmpty()) Database.addDatabase(s, EnumDatabase.values()[i]);
+        }
     }
 }

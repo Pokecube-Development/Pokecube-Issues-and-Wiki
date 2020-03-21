@@ -38,6 +38,11 @@ public interface IPartTexturer
         // Do nothing by default
     }
 
+    default boolean isHidden(final String part)
+    {
+        return false;
+    }
+
     /**
      * Applies the texture for the part.<br>
      * This method will bind the texture to render engine for the part.
@@ -68,7 +73,19 @@ public interface IPartTexturer
      * @param part
      * @return
      */
-    boolean isFlat(String part);
+    default boolean isFlat(final String part)
+    {
+        return true;
+    }
+
+    /**
+     * @param part
+     * @return
+     */
+    default void modifiyRGBA(final String part, final int[] rgbaIn)
+    {
+
+    }
 
     /**
      * Shifts the UVs for the texture animation

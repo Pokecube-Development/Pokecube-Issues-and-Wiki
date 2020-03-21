@@ -86,7 +86,7 @@ public class TextureableCaps
     {
         private final LazyOptional<IMobTexturable> holder = LazyOptional.of(() -> this);
         EntityPokemob                              mob;
-        IPokemob                                   pokemob;
+        public IPokemob                            pokemob;
         String                                     forme;
         List<String>                               states = Lists.newArrayList();
 
@@ -110,7 +110,15 @@ public class TextureableCaps
         @Override
         public LivingEntity getEntity()
         {
+            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
             return this.mob;
+        }
+
+        @Override
+        public int getRandomSeed()
+        {
+            if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+            return this.pokemob.getRNGValue();
         }
 
         @Override
@@ -157,6 +165,7 @@ public class TextureableCaps
             {
                 if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
                 this.forme = this.pokemob.getPokedexEntry().getTrimmedName();
+                if (this.pokemob.getCustomHolder() != null) this.forme = this.pokemob.getCustomHolder().key.getPath();
             }
             return this.forme;
         }

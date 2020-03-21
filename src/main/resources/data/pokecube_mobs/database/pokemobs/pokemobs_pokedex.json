@@ -6450,8 +6450,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Rock Head, Sturdy",
-            "hidden": "Sand Veil"
+            "normal": "Magnet Pull, Sturdy",
+            "hidden": "Galvanize"
           }
         },
         "mass": 20.3,
@@ -6581,8 +6581,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Rock Head, Sturdy",
-            "hidden": "Sand Veil"
+            "normal": "Magnet Pull, Sturdy",
+            "hidden": "Galvanize"
           }
         },
         "mass": 110.0,
@@ -6707,8 +6707,8 @@
         },
         "abilities": {
           "values": {
-            "normal": "Rock Head, Sturdy",
-            "hidden": "Sand Veil"
+            "normal": "Magnet Pull, Sturdy",
+            "hidden": "Galvanize"
           }
         },
         "mass": 316.0,
@@ -70609,6 +70609,9 @@
       "name": "Alcremie",
       "number": 869,
       "base": true,
+      "model": {
+        "key": "alcremie_extra1"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -70714,10 +70717,6 @@
         },
         "mass": 0.5
       }
-    },
-    {
-      "name": "Alcremie Berry",
-      "number": 869
     },
     {
       "name": "Falinks",

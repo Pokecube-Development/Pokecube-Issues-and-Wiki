@@ -1,6 +1,5 @@
 package thut.core.client.render.wrappers;
 
-import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -98,18 +97,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             final IExtendedModelPart part = this.imodel.getParts().get(partName);
             if (part == null) continue;
             final int[] rgbab = part.getRGBAB();
-            if (animChanger != null)
-            {
-                final int default_ = new Color(rgbab[0], rgbab[1], rgbab[2], rgbab[3]).getRGB();
-                final int rgb = animChanger.getColourForPart(partName, entityIn, default_);
-                if (rgb != default_)
-                {
-                    final Color col = new Color(rgb);
-                    rgbab[0] = col.getRed();
-                    rgbab[1] = col.getGreen();
-                    rgbab[2] = col.getBlue();
-                }
-            }
+            if (animChanger != null) animChanger.modifyColourForPart(part.getName(), entityIn, rgbab);
             part.setRGBAB(rgbab);
             try
             {
