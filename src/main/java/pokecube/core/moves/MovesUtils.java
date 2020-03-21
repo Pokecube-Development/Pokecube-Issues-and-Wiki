@@ -522,23 +522,14 @@ public class MovesUtils implements IMoveConstants
         }
         else
         {
-            mods = new float[7];
+            mods = new float[Stats.values().length];
             old = mods.clone();
         }
-        if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-            mods[1] = (byte) Math.max(-6, Math.min(6, mods[1] + stats[1]));
-        if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-            mods[2] = (byte) Math.max(-6, Math.min(6, mods[2] + stats[2]));
-        if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-            mods[3] = (byte) Math.max(-6, Math.min(6, mods[3] + stats[3]));
-        if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-            mods[4] = (byte) Math.max(-6, Math.min(6, mods[4] + stats[4]));
-        if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-            mods[5] = (byte) Math.max(-6, Math.min(6, mods[5] + stats[5]));
-        if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-            mods[6] = (byte) Math.max(-6, Math.min(6, mods[6] + stats[6]));
-        if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
-            mods[7] = (byte) Math.max(-6, Math.min(6, mods[7] + stats[7]));
+        // We start at 1, as there are not modifies for stat 0 (HP)
+        for (int i = 1; i < mods.length; i++)
+            if (attacked ? atk.attackedStatModProb > Math.random() : atk.attackerStatModProb > Math.random())
+                mods[i] = (byte) Math.max(-6, Math.min(6, mods[i] + stats[i]));
+
         boolean ret = false;
         final byte[] diff = new byte[old.length];
         for (int i = 0; i < old.length; i++)
