@@ -1,0 +1,171 @@
+{
+  "hotload": true,
+  "pokemon": [
+    {
+      "name": "Alcremie",
+      "models": [
+        {
+          "key":"alcremie_extra1",
+          "hidden": [
+            "extra6",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra6_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
+          ]
+        },
+        {
+          "key":"alcremie_extra2",
+          "hidden": [
+            "extra1",
+            "extra6",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra6_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
+          ]
+        },
+        {
+          "key":"alcremie_extra3",
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra6",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra6_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
+          ]
+        },
+        {
+          "key":"alcremie_extra4",
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra6",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra6_001",
+            "extra5_001",
+            "extra7_001"
+          ]
+        },
+        {
+          "key":"alcremie_extra5",
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra6",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra6_001",
+            "extra7_001"
+          ]
+        },
+        {
+          "key":"alcremie_extra6",
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra7",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra7_001"
+          ]
+        },
+        {
+          "key":"alcremie_extra7",
+          "hidden": [
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4",
+            "extra5",
+            "extra6",
+            "extra1_001",
+            "extra2_001",
+            "extra3_001",
+            "extra4_001",
+            "extra5_001",
+            "extra6_001"
+          ]
+        },
+        {
+          "key":"alcremie_7_blue",
+          "parent": "alcremie_extra7",
+          "colours": [
+            {
+              "material": "body",
+              "red": 0.75,
+              "green": 0.75
+            },
+            {
+              "material": "rightmesh",
+              "red": 0.75,
+              "green": 0.75
+            },
+            {
+              "material": "leftmesh",
+              "red": 0.75,
+              "green": 0.75
+            }
+          ]
+        },
+        {
+          "key":"alcremie_7_red",
+          "parent": "alcremie_extra7",
+          "colours": [
+            {
+              "material": "body",
+              "blue": 0.75,
+              "green": 0.75
+            },
+            {
+              "material": "rightmesh",
+              "blue": 0.75,
+              "green": 0.75
+            },
+            {
+              "material": "leftmesh",
+              "blue": 0.75,
+              "green": 0.75
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

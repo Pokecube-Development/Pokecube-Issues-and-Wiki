@@ -38,6 +38,11 @@ public interface IPartTexturer
         // Do nothing by default
     }
 
+    default boolean isHidden(final String part)
+    {
+        return false;
+    }
+
     /**
      * Applies the texture for the part.<br>
      * This method will bind the texture to render engine for the part.

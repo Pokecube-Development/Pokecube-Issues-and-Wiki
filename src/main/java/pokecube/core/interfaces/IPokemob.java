@@ -27,6 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.IHasCommands;
@@ -73,7 +74,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
         // This key is used for unique identifier for lookup in renderer for
         // initialization.
-        public ResourceLocation key;
+        public ResourceLocation   key;
+        public DefaultFormeHolder loaded_from;
 
         private FormeHolder(final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
@@ -97,6 +99,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         {
             if (obj instanceof FormeHolder) return this.key.equals(((FormeHolder) obj).key);
             return false;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return this.key.hashCode();
         }
     }
 

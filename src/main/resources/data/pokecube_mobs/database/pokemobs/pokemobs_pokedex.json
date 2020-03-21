@@ -70609,6 +70609,9 @@
       "name": "Alcremie",
       "number": 869,
       "base": true,
+      "model": {
+        "key": "alcremie_extra1"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -70714,10 +70717,6 @@
         },
         "mass": 0.5
       }
-    },
-    {
-      "name": "Alcremie Berry",
-      "number": 869
     },
     {
       "name": "Falinks",

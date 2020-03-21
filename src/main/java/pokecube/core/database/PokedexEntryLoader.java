@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -24,8 +25,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang3.ClassUtils;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -107,24 +111,81 @@ public class PokedexEntryLoader
 
     public static class DefaultFormeHolder
     {
+        public static class TexColours
+        {
+            public String material = "";
+            public float  red      = 1;
+            public float  green    = 1;
+            public float  blue     = 1;
+            public float  alpha    = 1;
+        }
+
         // These three allow specific models/textures for evos
-        protected String key   = null;
-        protected String tex   = null;
-        protected String model = null;
-        protected String anim  = null;
+        public String key   = null;
+        public String tex   = null;
+        public String model = null;
+        public String anim  = null;
+
+        public String parent = null;
+
+        public List<TexColours> colours = Lists.newArrayList();
+        public String[]         hidden  = {};
+
+        public Map<String, TexColours> _colourMap_ = Maps.newHashMap();
+        public Set<String>             _hide_      = Sets.newHashSet();
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
             if (this.key != null)
             {
+                final ResourceLocation key = PokecubeItems.toPokecubeResource(this.key);
+                if (Database.formeHolders.containsKey(key)) return Database.formeHolders.get(key);
+
+                parent_check:
+                if (this.parent != null)
+                {
+                    final ResourceLocation pkey = PokecubeItems.toPokecubeResource(this.parent);
+                    final FormeHolder parent = Database.formeHolders.get(pkey);
+                    if (parent == null || parent.loaded_from == null)
+                    {
+                        PokecubeCore.LOGGER.error(
+                                "Error loading parent {} for {}, it needs to be registered earlier in the file!",
+                                this.parent, this.key);
+                        break parent_check;
+                    }
+                    final DefaultFormeHolder p = parent.loaded_from;
+                    if (p.tex != null && this.tex == null) this.tex = p.tex;
+                    if (p.model != null && this.model == null) this.model = p.model;
+                    if (p.anim != null && this.anim == null) this.anim = p.anim;
+                    if (p.hidden.length > 0)
+                    {
+                        final List<String> ours = Lists.newArrayList(this.hidden);
+                        for (final String s : p.hidden)
+                            ours.add(s);
+                        this.hidden = ours.toArray(new String[0]);
+                    }
+                    this.colours.addAll(p.colours);
+                }
+                for (final String element : this.hidden)
+                {
+                    final String value = ThutCore.trim(element);
+                    this._hide_.add(value);
+                }
+                for (final TexColours c : this.colours)
+                {
+                    c.material = ThutCore.trim(c.material);
+                    this._colourMap_.put(c.material, c);
+                }
+
                 final ResourceLocation texl = this.tex != null ? PokecubeItems.toPokecubeResource(baseEntry.texturePath
                         + this.tex) : null;
                 final ResourceLocation modell = this.model != null ? PokecubeItems.toPokecubeResource(baseEntry.model
                         .toString().replace(baseEntry.getTrimmedName(), this.model)) : null;
                 final ResourceLocation animl = this.anim != null ? PokecubeItems.toPokecubeResource(baseEntry.animation
                         .toString().replace(baseEntry.getTrimmedName(), this.anim)) : null;
-                final FormeHolder holder = FormeHolder.get(modell, texl, animl, PokecubeItems.toPokecubeResource(
-                        this.key));
+                final FormeHolder holder = FormeHolder.get(modell, texl, animl, key);
+                holder.loaded_from = this;
+                Database.registerFormeHolder(baseEntry, holder);
                 return holder;
             }
             return null;
@@ -200,10 +261,10 @@ public class PokedexEntryLoader
 
     public static class MegaEvoRule implements MegaRule
     {
-        ItemStack          stack;
-        String             oreDict;
-        String             moveName;
-        String             ability;
+        public ItemStack   stack;
+        public String      oreDict;
+        public String      moveName;
+        public String      ability;
         final PokedexEntry baseForme;
 
         public MegaEvoRule(final PokedexEntry baseForme)
@@ -422,6 +483,8 @@ public class PokedexEntryLoader
         public DefaultFormeHolder male_model   = null;
         public DefaultFormeHolder female_model = null;
 
+        public List<DefaultFormeHolder> models = Lists.newArrayList();
+
         void mergeMissingFrom(final XMLPokedexEntry other)
         {
             if (this.moves == null && other.moves != null) this.moves = other.moves;
@@ -433,6 +496,17 @@ public class PokedexEntryLoader
             }
             if (this.body == null && other.body != null) this.body = other.body;
             if (this.model == null && other.model != null) this.model = other.model;
+
+            for (final DefaultFormeHolder others : other.models)
+            {
+                for (final DefaultFormeHolder ours : this.models)
+                    if (others.key.equals(ours.key))
+                    {
+                        this.models.remove(ours);
+                        break;
+                    }
+                this.models.add(others);
+            }
             if (this.stats == null && other.stats != null) this.stats = other.stats;
             else if (other.stats != null) // Copy everything which is missing
                 for (final Field f : StatsNode.class.getDeclaredFields())
@@ -525,11 +599,12 @@ public class PokedexEntryLoader
                 if (Modifier.isFinal(field.getModifiers())) continue;
                 if (Modifier.isStatic(field.getModifiers())) continue;
                 if (Modifier.isTransient(field.getModifiers())) continue;
+                if (field.getName().startsWith("_")) continue;
                 field.setAccessible(true);
                 value = field.get(original);
                 defaultvalue = field.get(copy);
                 if (value == null) continue;
-                if (value.getClass().isPrimitive()) field.set(copy, value);
+                if (ClassUtils.isPrimitiveOrWrapper(value.getClass())) field.set(copy, value);
                 else if (defaultvalue != null && defaultvalue.equals(value)) field.set(copy, null);
                 else if (value instanceof String)
                 {
@@ -715,6 +790,15 @@ public class PokedexEntryLoader
             final String[] moves = xmlMoves.evolutionMoves.split(",");
             for (final String s : moves)
                 entry.getEvolutionMoves().add(s);
+        }
+    }
+
+    private static void initFormeModels(final PokedexEntry entry, final List<DefaultFormeHolder> list)
+    {
+        for (final DefaultFormeHolder holder : list)
+        {
+            holder.getForme(entry);
+            PokecubeCore.LOGGER.debug("Loaded Forme: " + holder.key);
         }
     }
 
@@ -1385,6 +1469,7 @@ public class PokedexEntryLoader
         if (stats != null) try
         {
             PokedexEntryLoader.initStats(entry, stats);
+            PokedexEntryLoader.initFormeModels(entry, xmlEntry.models);
             if (!init)
             {
                 entry.breeds = xmlEntry.breed;
