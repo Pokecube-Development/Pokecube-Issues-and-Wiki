@@ -138,7 +138,7 @@ public class TextureHelper implements IPartTexturer
     @CapabilityInject(IMobTexturable.class)
     public static final Capability<IMobTexturable> CAPABILITY = null;
 
-    IMobTexturable                   mob;
+    protected IMobTexturable         mob;
     /** Map of part/material name -> texture name */
     Map<String, String>              texNames  = Maps.newHashMap();
     /** Map of part/material name -> map of custom state -> texture name */

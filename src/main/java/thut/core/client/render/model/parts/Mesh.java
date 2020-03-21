@@ -140,7 +140,15 @@ public abstract class Mesh
     public void renderShape(final MatrixStack mat, IVertexBuilder buffer, final IPartTexturer texturer)
     {
         // Apply Texturing.
-        if (texturer != null) texturer.shiftUVs(this.material.name, this.uvShift);
+        if (texturer != null)
+        {
+            final boolean sameName = this.name.equals(this.material.name);
+            texturer.shiftUVs(this.material.name, this.uvShift);
+            if (texturer.isHidden(this.material.name)) return;
+            if (!sameName && texturer.isHidden(this.name)) return;
+            texturer.modifiyRGBA(this.material.name, this.rgbabro);
+            if (!sameName) texturer.modifiyRGBA(this.name, this.rgbabro);
+        }
         buffer = this.material.preRender(mat, buffer);
         if (this.material.emissiveMagnitude > 0)
         {

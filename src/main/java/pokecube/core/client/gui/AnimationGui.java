@@ -668,7 +668,7 @@ public class AnimationGui extends Screen
                     final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
                             : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
                     for (int i = 0; i < holders.size(); i++)
-                        if (holders.get(i).key.equals(key))
+                        if (key == null || holders.get(i).key.equals(key))
                         {
                             final FormeHolder holder = i + 1 < holders.size() ? holders.get(i + 1) : holders.get(0);
                             this.forme_alt.setText(holder.key.toString());
@@ -695,7 +695,7 @@ public class AnimationGui extends Screen
                     final ResourceLocation key = this.forme_alt.getText().isEmpty() ? null
                             : PokecubeItems.toPokecubeResource(this.forme_alt.getText());
                     for (int i = 0; i < holders.size(); i++)
-                        if (holders.get(i).key.equals(key))
+                        if (key == null || holders.get(i).key.equals(key))
                         {
                             final FormeHolder holder = i - 1 >= 0 ? holders.get(i - 1)
                                     : holders.get(holders.size() - 1);
