@@ -47,7 +47,7 @@ public class CommandGui
     public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
     {
         PermissionAPI.registerNode("command.wearables", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /poketm");
+                "Is the player allowed to use /wearables");
 
         final LiteralArgumentBuilder<CommandSource> command = Commands.literal("wearables").requires(cs -> CommandTools
                 .hasPerm(cs, "command.wearables")).then(Commands.argument("player", EntityArgument.player()).executes(
