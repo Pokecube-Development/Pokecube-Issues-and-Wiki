@@ -18,6 +18,8 @@ import thut.api.maths.Vector3;
  */
 public class AIFollowOwner extends AIBase
 {
+    public static double speedMult = 2;
+
     private LivingEntity theOwner;
 
     private double        speed;
@@ -82,6 +84,7 @@ public class AIFollowOwner extends AIBase
             final Vec3d v = this.theOwner.getMotion();
             this.speed = Math.sqrt(v.x * v.x + v.z * v.z);
             this.speed = Math.max(0.6, this.speed);
+            this.speed *= AIFollowOwner.speedMult;
             final Path path = this.petPathfinder.getPathToEntity(this.theOwner, 0);
             if (path != null) this.addEntityPath(this.entity, path, this.speed);
         }
