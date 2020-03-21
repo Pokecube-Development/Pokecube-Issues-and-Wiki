@@ -157,16 +157,17 @@ public class PokedexEntryLoader
                     if (p.tex != null && this.tex == null) this.tex = p.tex;
                     if (p.model != null && this.model == null) this.model = p.model;
                     if (p.anim != null && this.anim == null) this.anim = p.anim;
-                    if (p.hidden.length > 0)
+                    if (p.hidden != null) if (p.hidden.length > 0)
                     {
-                        final List<String> ours = Lists.newArrayList(this.hidden);
+                        final List<String> ours = this.hidden == null ? Lists.newArrayList()
+                                : Lists.newArrayList(this.hidden);
                         for (final String s : p.hidden)
                             ours.add(s);
                         this.hidden = ours.toArray(new String[0]);
                     }
                     this.colours.addAll(p.colours);
                 }
-                for (final String element : this.hidden)
+                if (this.hidden != null) for (final String element : this.hidden)
                 {
                     final String value = ThutCore.trim(element);
                     this._hide_.add(value);
