@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.IForgeRegistry;
-import thut.bling.network.BagPacket;
+import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
@@ -110,7 +110,7 @@ public class BlingItem extends Item implements IWearable
     {
         if (this.slot == EnumWearable.BACK)
         {
-            if (!worldIn.isRemote) BagPacket.OpenBag(playerIn);
+            if (!worldIn.isRemote) PacketBag.OpenBag(playerIn, playerIn.getHeldItem(hand));
             return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
         }
         return super.onItemRightClick(worldIn, playerIn, hand);
