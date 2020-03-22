@@ -46,7 +46,7 @@ public class RecipeFossilRevive extends PoweredRecipe
             final BlockPos pos = ((TileEntity) tile).getPos();
             final PokedexEntry entry = RecipeFossilRevive.getEntry(this, tile);
             if (entry == Database.missingno) return false;
-            final boolean tame = !entry.legendary;
+            final boolean tame = !entry.isLegendary();
             MobEntity entity = PokecubeCore.createPokemob(entry, world);
             if (entity != null)
             {

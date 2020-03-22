@@ -70,7 +70,7 @@ public class CommandGenStuff
             displayJson.add("icon", icon);
             displayJson.add("title", title);
             displayJson.add("description", description);
-            if (entry.legendary) displayJson.addProperty("frame", "challenge");
+            if (entry.isLegendary()) displayJson.addProperty("frame", "challenge");
             return displayJson;
         }
 

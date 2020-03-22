@@ -224,7 +224,7 @@ public class Pokemake
             if (name.equalsIgnoreCase("random_normal"))
             {
                 entry = iterator.next();
-                while (entry.legendary || entry.isMega)
+                while (entry.isLegendary() || entry.isMega)
                     entry = iterator.next();
             }
             else if (name.equalsIgnoreCase("random_all"))
@@ -236,7 +236,7 @@ public class Pokemake
             else if (name.equalsIgnoreCase("random_legend"))
             {
                 entry = iterator.next();
-                while (!entry.legendary || !entry.base)
+                while (!entry.isLegendary() || !entry.base)
                     entry = iterator.next();
             }
         }
