@@ -64,7 +64,6 @@ import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.TimePeriod;
 import pokecube.core.utils.Tools;
-import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
@@ -1643,15 +1642,7 @@ public class PokedexEntry
             if (e != null && e.species != null && this.species != null) for (final String s : this.species)
                 for (final String s1 : e.species)
                     if (s.equals(s1)) this.addRelation(e);
-
-        final Object[] temp = this.getRelated().toArray();
-        final Double[] nums = new Double[temp.length];
-        for (int i = 0; i < nums.length; i++)
-            nums[i] = (double) ((PokedexEntry) temp[i]).getPokedexNb();
-        new Cruncher().sort(nums, temp);
-        this.getRelated().clear();
-        for (final Object o : temp)
-            this.getRelated().add((PokedexEntry) o);
+        this.getRelated().sort(Database.COMPARATOR);
     }
 
     /**

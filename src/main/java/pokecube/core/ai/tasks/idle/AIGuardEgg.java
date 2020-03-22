@@ -3,7 +3,6 @@ package pokecube.core.ai.tasks.idle;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.util.math.AxisAlignedBB;
 import pokecube.core.ai.tasks.AIBase;
@@ -22,8 +21,6 @@ public class AIGuardEgg extends AIBase
     public static int PATHCOOLDOWN   = 50;
     public static int SEARCHCOOLDOWN = 50;
 
-    IPokemob         pokemob;
-    MobEntity        entity;
     EntityPokemobEgg egg               = null;
     int              eggSearchCooldown = 0;
     int              eggPathCooldown   = 0;
@@ -57,19 +54,19 @@ public class AIGuardEgg extends AIBase
     @Override
     public boolean shouldRun()
     {
-        // Only run if we have a live egg to watch.
-        if (this.egg != null) return this.egg.isAlive() ? true : false;
-        return false;
-    }
-
-    @Override
-    public void tick()
-    {
-
-        // Cooldown and have egg, nothing to do here.
-        if (this.eggSearchCooldown-- > 0 || this.egg != null) return;
+        egg:
+        if (this.egg != null)
+        {
+            if (!this.egg.isAlive())
+            {
+                this.egg = null;
+                break egg;
+            }
+            return true;
+        }
+        if (this.eggSearchCooldown-- > 0) return false;
         // Only the female (or neutral) will guard the eggs.
-        if (this.pokemob.getSexe() == IPokemob.MALE) return;
+        if (this.pokemob.getSexe() == IPokemob.MALE) return false;
         this.eggSearchCooldown = AIGuardEgg.SEARCHCOOLDOWN;
         final AxisAlignedBB bb = this.entity.getBoundingBox().grow(16, 8, 16);
         // Search for valid eggs.
@@ -84,6 +81,9 @@ public class AIGuardEgg extends AIBase
             this.pokemob.getEntity().setAttackTarget(null);
             this.pokemob.setCombatState(CombatStates.ANGRY, false);
         }
+        // Only run if we have a live egg to watch.
+        if (this.egg != null) return this.egg.isAlive() ? true : false;
+        return false;
     }
 
 }
