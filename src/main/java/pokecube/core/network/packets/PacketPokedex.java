@@ -57,6 +57,7 @@ import thut.core.common.network.Packet;
 
 public class PacketPokedex extends Packet
 {
+    public static final byte BREEDLIST    = -12;
     public static final byte OPEN         = -11;
     public static final byte REORDER      = -10;
     public static final byte INSPECTMOB   = -9;
@@ -115,9 +116,10 @@ public class PacketPokedex extends Packet
     private static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, PacketPokedex.adapter)
             .setExclusionStrategies(PacketPokedex.spawn_matcher).create();
 
-    public static List<String>                         values      = Lists.newArrayList();
-    public static List<SpawnBiomeMatcher>              selectedMob = Lists.newArrayList();
-    public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc = Maps.newHashMap();
+    public static List<String>                         values       = Lists.newArrayList();
+    public static List<SpawnBiomeMatcher>              selectedMob  = Lists.newArrayList();
+    public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc  = Maps.newHashMap();
+    public static Map<String, List<String>>            relatedLists = Maps.newHashMap();
 
     @OnlyIn(value = Dist.CLIENT)
     public static void sendChangePagePacket(final byte page, final boolean mode, final PokedexEntry selected)
@@ -155,6 +157,11 @@ public class PacketPokedex extends Packet
         PacketPokedex.selectedLoc.clear();
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
         PokecubeCore.packets.sendToServer(packet);
+    }
+
+    public static void sendBreedingList(final ServerPlayerEntity player, final PokedexEntry entry)
+    {
+
     }
 
     public static void sendOpenPacket(final ServerPlayerEntity player, final IPokemob pokemob, final boolean watch)
@@ -284,6 +291,7 @@ public class PacketPokedex extends Packet
     {
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
         int n = 0;
+        int num = 0;
         CompoundNBT data;
         switch (this.message)
         {
@@ -329,10 +337,19 @@ public class PacketPokedex extends Packet
         case REQUESTMOB:
             PacketPokedex.selectedMob.clear();
             data = this.data.getCompound("V");
-            final int num = data.getInt("n");
+            num = data.getInt("n");
             for (int i = 0; i < num; i++)
                 PacketPokedex.selectedMob.add(PacketPokedex.gson.fromJson(data.getString("" + i),
                         SpawnBiomeMatcher.class));
+            return;
+        case BREEDLIST:
+            data = this.data.getCompound("V");
+            final String entry = this.data.getString("e");
+            final List<String> related = Lists.newArrayList();
+            num = data.getInt("n");
+            for (int i = 0; i < num; i++)
+                related.add(data.getString("" + i));
+            PacketPokedex.relatedLists.put(entry, related);
             return;
         }
     }
@@ -375,6 +392,19 @@ public class PacketPokedex extends Packet
             }
             spawns.putInt("n", n);
             packet.data.put("V", spawns);
+            PokecubeCore.packets.sendTo(packet, player);
+            packet = new PacketPokedex(PacketPokedex.BREEDLIST);
+            final CompoundNBT breedable = new CompoundNBT();
+            packet.data.putString("e", entry.getTrimmedName());
+            breedable.putString("0", entry.getTrimmedName());
+            n = 1;
+            for (final PokedexEntry e : entry.getRelated())
+            {
+                breedable.putString("" + n, e.getTrimmedName());
+                n++;
+            }
+            breedable.putInt("n", n);
+            packet.data.put("V", breedable);
             PokecubeCore.packets.sendTo(packet, player);
             return;
         case REQUESTLOC:

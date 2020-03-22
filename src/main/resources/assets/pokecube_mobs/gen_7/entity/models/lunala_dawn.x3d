@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <X3D>
 	<head>
-		<meta name="filename" content="lunalanecrozma.x3d" />
+		<meta name="filename" content="lunala-draw.x3d" />
 		<meta name="generator" content="Blender 2.79 (sub 0)" />
 	</head>
 	<Scene>
@@ -53,17 +53,17 @@
 					</Shape>
 				</Group>
 			</Transform>
-			<Transform DEF="wing1_001_TRANSFORM"
+			<Transform DEF="wing2_TRANSFORM"
 			           translation="-0.646877 0.000000 -0.909696"
 			           scale="1.000000 1.000000 1.000000"
 			           rotation="1.000000 0.000000 0.000000 0.000000"
 			           >
-				<Transform DEF="wing1_001_ifs_TRANSFORM"
+				<Transform DEF="wing2_ifs_TRANSFORM"
 				           translation="0.000000 0.000000 0.000000"
 				           scale="1.000000 1.000000 1.000000"
 				           rotation="1.000000 0.000000 0.000000 0.000000"
 				           >
-					<Group DEF="group_ME_wing1_001">
+					<Group DEF="group_ME_wing2">
 						<Shape>
 							<Appearance>
 								<Material DEF="MA_Moon"
@@ -86,17 +86,17 @@
 						</Shape>
 					</Group>
 				</Transform>
-				<Transform DEF="wing1_1_001_TRANSFORM"
+				<Transform DEF="wing2_1_TRANSFORM"
 				           translation="-1.965454 0.000000 0.000003"
 				           scale="1.000000 1.000000 1.000000"
 				           rotation="0.000000 0.000000 0.000000 0.000000"
 				           >
-					<Transform DEF="wing1_1_001_ifs_TRANSFORM"
+					<Transform DEF="wing2_1_ifs_TRANSFORM"
 					           translation="-0.000000 0.000000 0.000000"
 					           scale="1.000000 1.000000 1.000000"
 					           rotation="1.000000 0.000000 0.000000 0.000000"
 					           >
-						<Group DEF="group_ME_wing1_1_001">
+						<Group DEF="group_ME_wing2_1">
 							<Shape>
 								<Appearance>
 									<Material USE="MA_Moon" />
@@ -382,17 +382,17 @@
 							</Group>
 						</Transform>
 					</Transform>
-					<Transform DEF="hand1_2_001_TRANSFORM"
+					<Transform DEF="hand2_2_TRANSFORM"
 					           translation="-2.336783 0.000000 2.374483"
 					           scale="1.000000 1.000000 1.000000"
 					           rotation="1.000000 0.000000 0.000000 0.000000"
 					           >
-						<Transform DEF="hand1_2_001_ifs_TRANSFORM"
+						<Transform DEF="hand2_2_ifs_TRANSFORM"
 						           translation="-0.000000 0.000000 0.000000"
 						           scale="1.000000 1.000000 1.000000"
 						           rotation="1.000000 0.000000 0.000000 0.000000"
 						           >
-							<Group DEF="group_ME_hand1_2_001">
+							<Group DEF="group_ME_hand2_2">
 								<Shape>
 									<Appearance>
 										<ImageTexture USE="IM_Lunala_png" />
@@ -436,17 +436,17 @@
 							</Transform>
 						</Transform>
 					</Transform>
-					<Transform DEF="hand1_001_TRANSFORM"
+					<Transform DEF="hand2_TRANSFORM"
 					           translation="-2.336783 0.000000 2.374483"
 					           scale="1.000000 1.000000 1.000000"
 					           rotation="1.000000 0.000000 0.000000 0.000000"
 					           >
-						<Transform DEF="hand1_001_ifs_TRANSFORM"
+						<Transform DEF="hand2_ifs_TRANSFORM"
 						           translation="-0.000000 0.000000 0.000000"
 						           scale="1.000000 1.000000 1.000000"
 						           rotation="1.000000 0.000000 0.000000 0.000000"
 						           >
-							<Group DEF="group_ME_hand1_001">
+							<Group DEF="group_ME_hand2">
 								<Shape>
 									<Appearance>
 										<ImageTexture USE="IM_Lunala_png" />
@@ -491,12 +491,12 @@
 						</Transform>
 					</Transform>
 				</Transform>
-				<Transform DEF="mark_wing_001_TRANSFORM"
+				<Transform DEF="mark_wing2_TRANSFORM"
 				           translation="-0.225329 0.000000 2.269810"
 				           scale="1.000000 1.000000 1.000000"
 				           rotation="0.000000 0.000000 0.000000 0.000000"
 				           >
-					<Transform DEF="mark_wing_001_ifs_TRANSFORM"
+					<Transform DEF="mark_wing2_ifs_TRANSFORM"
 					           translation="-0.000000 0.000000 0.000000"
 					           scale="1.000000 1.000000 1.000000"
 					           rotation="1.000000 0.000000 0.000000 0.000000"

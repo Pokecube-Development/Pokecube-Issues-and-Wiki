@@ -1,5 +1,7 @@
 package pokecube.core.client.gui.watch.pokemob;
 
+import java.util.Collections;
+
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -13,15 +15,32 @@ import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.network.packets.PacketPokedex;
 
 public class Breeding extends ListPage<LineEntry>
 {
+    int                   last = 0;
     final PokemobInfoPage parent;
 
     public Breeding(final PokemobInfoPage parent)
     {
         super(parent, "breeding");
         this.parent = parent;
+    }
+
+    @Override
+    void drawInfo(final int mouseX, final int mouseY, final float partialTicks)
+    {
+        final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
+        final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
+                .size();
+        // This is to give extra time for packet syncing.
+        if (this.last != num)
+        {
+            this.initList();
+            this.last = num;
+            this.children.add(this.list);
+        }
     }
 
     @Override
@@ -75,24 +94,20 @@ public class Breeding extends ListPage<LineEntry>
                 thisObj.renderComponentHoverEffect(component, x, y);
             }
         };
+        final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         this.list = new ScrollGui<>(this, this.minecraft, width, height - this.font.FONT_HEIGHT / 2,
                 this.font.FONT_HEIGHT, offsetX, offsetY);
-        ITextComponent main = new TranslationTextComponent(this.parent.pokemob.getPokedexEntry().getUnlocalizedName());
-        main.setStyle(new Style());
-        main.getStyle().setColor(TextFormatting.GREEN);
-        main.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, this.parent.pokemob.getPokedexEntry()
-                .getName()));
-        if (this.parent.pokemob.getPokedexEntry().breeds)
+        ITextComponent main = new TranslationTextComponent(ourEntry.getUnlocalizedName());
+        if (ourEntry.breeds) for (final String name : PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(),
+                Collections.emptyList()))
         {
+            final PokedexEntry entry = Database.getEntry(name);
+            if (entry == null) continue;
+            main = new TranslationTextComponent(entry.getUnlocalizedName());
+            main.setStyle(new Style());
+            main.getStyle().setColor(TextFormatting.GREEN);
+            main.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName()));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
-            for (final PokedexEntry entry : this.parent.pokemob.getPokedexEntry().getRelated())
-            {
-                main = new TranslationTextComponent(entry.getUnlocalizedName());
-                main.setStyle(new Style());
-                main.getStyle().setColor(TextFormatting.GREEN);
-                main.getStyle().setClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName()));
-                this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main, colour).setClickListner(listener));
-            }
         }
     }
 }
