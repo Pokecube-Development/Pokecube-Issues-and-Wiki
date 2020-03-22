@@ -119,12 +119,13 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @Override
-    public void setTarget(final LivingEntity target)
+    public void setTarget(LivingEntity target)
     {
         final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
-        if (oldBattle != null) if (oldBattle.getTarget() == this.player && oldBattle.canBattle(this.player)) return;
+        if (target != null && oldBattle != null && oldBattle.getTarget() == this.player && oldBattle.canBattle(
+                this.player)) return;
         final IHasPokemobs targetmobs = CapabilityHasPokemobs.getHasPokemobs(target);
-        if (targetmobs == null && target != null) return;
+        if (targetmobs == null && target != null) target = null;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
         this.target = target;
         // Notify the watchers that a target was actually set.

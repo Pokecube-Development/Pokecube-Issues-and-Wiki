@@ -619,7 +619,7 @@ public class CapabilityHasPokemobs
         {
             final Set<ITargetWatcher> watchers = this.getTargetWatchers();
             // No next pokemob, so we shouldn't have a target in this case.
-            if (this.getPokemob(0).isEmpty())
+            if (target != null && this.getPokemob(0).isEmpty())
             {
                 this.target = null;
                 // Notify the watchers that a target was actually set.
