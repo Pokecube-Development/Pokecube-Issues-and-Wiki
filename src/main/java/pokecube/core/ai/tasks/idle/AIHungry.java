@@ -725,7 +725,6 @@ public class AIHungry extends AIBase
                     {
                         if (this.lastMessageTick1 < this.entity.getEntityWorld().getGameTime())
                         {
-                            System.out.println("Sent message " + this.lastMessageTick1 + " " + this);
                             this.lastMessageTick1 = (int) (this.entity.getEntityWorld().getGameTime() + 100);
                             this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.hurt",
                                     this.pokemob.getDisplayName()));
@@ -736,7 +735,6 @@ public class AIHungry extends AIBase
                         this.lastMessageTick2 = (int) (this.entity.getEntityWorld().getGameTime() + 100);
                         this.pokemob.displayMessageToOwner(new TranslationTextComponent("pokemob.hungry.dead",
                                 this.pokemob.getDisplayName()));
-                        System.out.println("Sent message");
                     }
                 }
             }
