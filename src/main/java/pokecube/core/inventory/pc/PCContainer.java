@@ -29,8 +29,6 @@ import thut.core.common.ThutCore;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
 
-// TODO inventory tweaks
-// @ChestContainer(isLargeChest = true, showButtons = false)
 public class PCContainer extends BaseContainer
 {
     public static final ContainerType<PCContainer> TYPE = new ContainerType<>(PCContainer::new);
