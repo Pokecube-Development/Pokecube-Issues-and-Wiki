@@ -17,7 +17,7 @@ public class GeneProtector
         final SpeciesInfo info = gene.getValue();
         final PokedexEntry entry = info.entry;
         // No cloning legends.
-        if (entry.legendary) return true;
+        if (entry.isLegendary()) return true;
         // No cloning things with requirements
         if (SpecialCaseRegister.getCaptureCondition(entry) != null || SpecialCaseRegister.getSpawnCondition(
                 entry) != null) return true;

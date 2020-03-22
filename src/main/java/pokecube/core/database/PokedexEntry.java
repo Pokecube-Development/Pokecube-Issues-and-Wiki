@@ -53,6 +53,7 @@ import pokecube.core.database.PokedexEntryLoader.Interact;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
+import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
@@ -868,11 +869,11 @@ public class PokedexEntry
     @CopyToGender
     public boolean isSocial = true;
 
-    public boolean isStarter    = false;
+    public boolean    isStarter    = false;
     @CopyToGender
-    public boolean isStationary = false;
+    public boolean    isStationary = false;
     @CopyToGender
-    public boolean legendary    = false;
+    protected boolean legendary    = false;
 
     @CopyToGender
     public float width  = -1;
@@ -1852,5 +1853,11 @@ public class PokedexEntry
         if (hasFemale && sexe == IPokemob.FEMALE) return this.female_holder;
         if (hasMale && sexe == IPokemob.MALE) return this.male_holder;
         return this.default_holder;
+    }
+
+    public boolean isLegendary()
+    {
+        return this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null || SpecialCaseRegister
+                .getSpawnCondition(this) != null;
     }
 }

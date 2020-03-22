@@ -99,7 +99,7 @@ public class PortalActiveFunction
         // IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
 
         // Normal Worlds
-        if (entity != null && !entityToSpawn.legendary && !entityToSpawn.isMega && entity.dimension
+        if (entity != null && !entityToSpawn.isLegendary() && !entityToSpawn.isMega && entity.dimension
                 .getId() != ModDimensions.DIMENSION_TYPE.getId())
         {
             entity.setHealth(entity.getMaxHealth());
