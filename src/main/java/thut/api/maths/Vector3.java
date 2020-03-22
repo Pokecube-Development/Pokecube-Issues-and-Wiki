@@ -160,7 +160,7 @@ public class Vector3
                     ztest) == Vector3.Int(zprev)))
             {
                 test.set(xtest, ytest, ztest);
-                final boolean clear = test.clearOfBlocks(world);
+                final boolean clear = test.isClearOfBlocks(world);
 
                 if (!clear) return Vector3.getNewVector().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(
                         ztest));
@@ -238,7 +238,7 @@ public class Vector3
         final VoxelShape shape = state.getCollisionShape(world, pos);
         final List<AxisAlignedBB> aabbs = shape.toBoundingBoxList();
         for (final AxisAlignedBB aabb : aabbs)
-            if (aabb != null) if (aabb.contains(x, y, z)) return false;
+            if (aabb != null) if (aabb.contains(x - x0, y - y0, z - z0)) return false;
         return true;
     }
 
@@ -288,17 +288,17 @@ public class Vector3
 
         final long start = System.nanoTime();
 
-        if (!v.clearOfBlocks(world))
+        if (!v.isClearOfBlocks(world))
         {
             int n = 0;
 
             clear:
-            while (!v.clearOfBlocks(world))
+            while (!v.isClearOfBlocks(world))
             {
                 for (final Direction side : Direction.values())
                 {
                     v2.set(v);
-                    if (v.offsetBy(side).clearOfBlocks(world)) break clear;
+                    if (v.offsetBy(side).isClearOfBlocks(world)) break clear;
                     v.set(v2);
                 }
                 boolean step = true;
@@ -357,7 +357,7 @@ public class Vector3
             final double time = end / 1000000000D;
             if (time > 0.001) System.out.println("Took " + time + "s to check");
 
-            if (v.clearOfBlocks(world)) return true;
+            if (v.isClearOfBlocks(world)) return true;
             return false;
         }
         return true;
@@ -619,29 +619,6 @@ public class Vector3
     public Vector3 clear()
     {
         return this.set(0, 0, 0);
-    }
-
-    public boolean clearOfBlocks(final IBlockReader world)
-    {
-
-        final BlockState state = this.getBlockState(world);
-        if (state == null) return true;
-        final Block block = state.getBlock();
-
-        if (state.isOpaqueCube(world, this.getPos())) return false;
-
-        if (block == null || block.isAir(state, world, this.pos) || !state.getMaterial().blocksMovement() || !state
-                .isSolid()) return true;
-
-        final List<AxisAlignedBB> aabbs = new ArrayList<>();
-        final VoxelShape shape = state.getCollisionShape(world, this.pos);
-        aabbs.addAll(shape.toBoundingBoxList());
-
-        if (aabbs.size() == 0) return true;
-
-        for (final AxisAlignedBB aabb : aabbs)
-            if (aabb != null) if (aabb.contains(this.x, this.y, this.z)) return false;
-        return true;
     }
 
     public Vector3 copy()
@@ -1118,12 +1095,8 @@ public class Vector3
             final List<AxisAlignedBB> aabbs = shape.toBoundingBoxList();
             if (aabbs.size() == 0) return true;
             for (final AxisAlignedBB aabb : aabbs)
-                if (aabb != null)
-                {
-                    if (this.y <= aabb.maxY && this.y >= aabb.minY) return false;
-                    if (this.z <= aabb.maxZ && this.z >= aabb.minZ) return false;
-                    if (this.x <= aabb.maxX && this.x >= aabb.minX) return false;
-                }
+                if (aabb != null && aabb.contains(this.x - this.intX(), this.y - this.intY(), this.z - this.intZ()))
+                    return false;
             return true;
         }
         return ret;
