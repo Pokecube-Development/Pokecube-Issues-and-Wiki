@@ -131,7 +131,7 @@ public class ThutParticles
                 final Vector3 normal = vel.normalize().copy();
                 final Vector4 v3 = new Vector4(0, 1, 0, (float) (90 - normal.toSpherical().z * 180 / Math.PI));
                 final Vector4 v2 = new Vector4(1, 0, 0, (float) (90 + normal.y * 180 / Math.PI));
-                particle.setOrientation(v3.addAngles(v2));
+                particle.setOrientation(v3.addAngles(v2).toQuaternion());
             }
             ret = particle;
         }
