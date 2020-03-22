@@ -350,13 +350,13 @@ public class TypeTrainer extends NpcType
                 if (types[0].equalsIgnoreCase("all"))
                 {
                     for (final PokedexEntry s : Database.spawnables)
-                        if (!s.legendary && s.getPokedexNb() != 151) t.pokemon.add(s);
+                        if (!s.isLegendary()) t.pokemon.add(s);
                 }
                 else for (final String type2 : types)
                 {
                     final PokeType pokeType = PokeType.getType(type2);
                     if (pokeType != PokeType.unknown) for (final PokedexEntry s : Database.spawnables)
-                        if (s.isType(pokeType) && !s.legendary && s.getPokedexNb() != 151) t.pokemon.add(s);
+                        if (s.isType(pokeType) && !s.isLegendary()) t.pokemon.add(s);
                 }
             }
             if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);

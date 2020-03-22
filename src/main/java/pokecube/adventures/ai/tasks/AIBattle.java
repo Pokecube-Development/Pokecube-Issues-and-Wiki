@@ -206,6 +206,7 @@ public class AIBattle extends AITrainerBase
     public void reset()
     {
         this.trainer.resetPokemob();
+        this.trainer.setTarget(null);
         this.battleLoc = null;
     }
 

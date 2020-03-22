@@ -198,12 +198,6 @@ public class AIMate extends AIBase
     @Override
     public void tick()
     {
-        if (this.pokemob.getSexe() != IPokemob.MALE)
-        {
-            int diff = 1 * PokecubeCore.getConfig().mateMultiplier;
-            if (this.pokemob.getLoveTimer() > 0) diff = 1;
-            this.pokemob.setLoveTimer(this.pokemob.getLoveTimer() + diff);
-        }
         Entity mob = this.pokemob.getLover();
         if (mob != null) mob = PokecubeCore.getEntityProvider().getEntity(mob.getEntityWorld(), mob.getEntityId(),
                 true);

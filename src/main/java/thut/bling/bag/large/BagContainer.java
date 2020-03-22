@@ -1,4 +1,4 @@
-package pokecube.adventures.items.bag;
+package thut.bling.bag.large;
 
 import java.util.Set;
 import java.util.function.Predicate;
@@ -14,10 +14,10 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.network.PacketBag;
 import pokecube.core.inventory.BaseContainer;
+import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
+import thut.wearables.ThutWearables;
 
 public class BagContainer extends BaseContainer
 {
@@ -95,7 +95,7 @@ public class BagContainer extends BaseContainer
         {
             final PacketBag packet = new PacketBag(PacketBag.RENAME, this.inv.owner);
             packet.data.putString("N", name);
-            PokecubeAdv.packets.sendToServer(packet);
+            ThutWearables.packets.sendToServer(packet);
         }
     }
 
@@ -142,7 +142,7 @@ public class BagContainer extends BaseContainer
         {
             final PacketBag packet = new PacketBag(PacketBag.SETPAGE, this.inv.owner);
             packet.data.putInt("P", page);
-            PokecubeAdv.packets.sendToServer(packet);
+            ThutWearables.packets.sendToServer(packet);
         }
         this.bindInventories();
     }

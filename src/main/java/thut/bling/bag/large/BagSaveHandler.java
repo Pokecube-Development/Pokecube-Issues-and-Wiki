@@ -1,4 +1,4 @@
-package pokecube.core.inventory.pc;
+package thut.bling.bag.large;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,30 +10,29 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import pokecube.core.PokecubeCore;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
-public class PCSaveHandler
+public class BagSaveHandler
 {
-    private static PCSaveHandler instance;
+    private static BagSaveHandler instance;
 
-    private static PCSaveHandler clientInstance;
+    private static BagSaveHandler clientInstance;
 
-    public static PCSaveHandler getInstance()
+    public static BagSaveHandler getInstance()
     {
         if (ThutCore.proxy.isServerSide())
         {
-            if (PCSaveHandler.instance == null) PCSaveHandler.instance = new PCSaveHandler();
-            return PCSaveHandler.instance;
+            if (BagSaveHandler.instance == null) BagSaveHandler.instance = new BagSaveHandler();
+            return BagSaveHandler.instance;
         }
-        if (PCSaveHandler.clientInstance == null) PCSaveHandler.clientInstance = new PCSaveHandler();
-        return PCSaveHandler.clientInstance;
+        if (BagSaveHandler.clientInstance == null) BagSaveHandler.clientInstance = new BagSaveHandler();
+        return BagSaveHandler.clientInstance;
     }
 
     public boolean seenPCCreator = false;
 
-    public PCSaveHandler()
+    public BagSaveHandler()
     {
     }
 
@@ -42,10 +41,10 @@ public class PCSaveHandler
         if (ThutCore.proxy.isClientSide()) return;
         try
         {
-            final File file = PlayerDataHandler.getFileForUUID(uuid.toString(), "PCInventory");
+            final File file = PlayerDataHandler.getFileForUUID(uuid.toString(), "BagInventory");
             if (file != null && file.exists())
             {
-                PokecubeCore.LOGGER.debug("Loading PC: " + uuid);
+                ThutCore.LOGGER.debug("Loading Bag: " + uuid);
                 final FileInputStream fileinputstream = new FileInputStream(file);
                 final CompoundNBT CompoundNBT = CompressedStreamTools.readCompressed(fileinputstream);
                 fileinputstream.close();
@@ -62,13 +61,12 @@ public class PCSaveHandler
 
     public void loadNBT(final CompoundNBT nbt)
     {
-        this.seenPCCreator = nbt.getBoolean("seenPCCreator");
         // Read PC Data from NBT
-        final INBT temp = nbt.get("PC");
+        final INBT temp = nbt.get("Bag");
         if (temp instanceof ListNBT)
         {
             final ListNBT tagListPC = (ListNBT) temp;
-            PCInventory.loadFromNBT(tagListPC);
+            BagInventory.loadFromNBT(tagListPC);
         }
     }
 
@@ -77,7 +75,7 @@ public class PCSaveHandler
         if (ThutCore.proxy.isClientSide()) return;
         try
         {
-            final File file = PlayerDataHandler.getFileForUUID(uuid.toString(), "PCInventory");
+            final File file = PlayerDataHandler.getFileForUUID(uuid.toString(), "BagInventory");
             if (file != null)
             {
                 final CompoundNBT CompoundNBT = new CompoundNBT();
@@ -101,9 +99,8 @@ public class PCSaveHandler
 
     public void writeToNBT(final CompoundNBT nbt, final UUID uuid)
     {
-        nbt.putBoolean("seenPCCreator", this.seenPCCreator);
-        final ListNBT tagsPC = PCInventory.saveToNBT(uuid);
-        nbt.put("PC", tagsPC);
+        final ListNBT tagsPC = BagInventory.saveToNBT(uuid);
+        nbt.put("Bag", tagsPC);
     }
 
 }

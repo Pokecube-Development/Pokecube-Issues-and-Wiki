@@ -15,7 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import thut.bling.client.BlingRender;
-import thut.bling.network.BagPacket;
+import thut.bling.network.PacketBag;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 
@@ -79,7 +79,7 @@ public class ThutBling
 
         public void setup(final FMLCommonSetupEvent event)
         {
-            ThutWearables.packets.registerMessage(BagPacket.class, BagPacket::new);
+            ThutWearables.packets.registerMessage(PacketBag.class, PacketBag::new);
         }
 
         public void setupClient(final FMLClientSetupEvent event)
@@ -106,7 +106,6 @@ public class ThutBling
 
     public ThutBling()
     {
-        // TODO Auto-generated constructor stub
     }
 
 }

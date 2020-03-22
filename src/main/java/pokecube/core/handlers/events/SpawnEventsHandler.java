@@ -102,7 +102,7 @@ public class SpawnEventsHandler
             if (v == null) v = vbak.copy();
         }
         if (random > weight || v == null) return;
-        if (dbe.legendary)
+        if (dbe.isLegendary())
         {
             final int level = SpawnHandler.getSpawnLevel(world, v, dbe);
             if (level < PokecubeCore.getConfig().minLegendLevel) return;

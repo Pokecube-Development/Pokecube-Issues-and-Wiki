@@ -1,4 +1,4 @@
-package pokecube.adventures.items.bag;
+package thut.bling.bag.large;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,8 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.common.util.INBTSerializable;
-import pokecube.core.PokecubeCore;
-import pokecube.core.interfaces.PokecubeMod;
 import thut.core.common.ThutCore;
 
 public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
@@ -25,7 +23,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
     public static BagInventory blank;
 
     public static UUID defaultId = new UUID(1234, 4321);
-    public static int  PAGECOUNT = 32;
+    public static int  PAGECOUNT = 8;
 
     public static void clearPC()
     {
@@ -71,12 +69,12 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
             final BagInventory loaded = new BagInventory();
             loaded.deserializeNBT(items);
             if (!replace && BagInventory.getMap().containsKey(loaded.owner)) continue;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Loading Bag for " + loaded.owner);
+            ThutCore.LOGGER.debug("Loading Bag for " + loaded.owner);
             BagInventory load = null;
             load = replace ? loaded : BagInventory.getPC(loaded.owner);
             if (load == null)
             {
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Skipping " + loaded.owner);
+                ThutCore.LOGGER.info("Skipping " + loaded.owner);
                 continue tags;
             }
             load.setPage(loaded.getPage());
@@ -91,7 +89,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
 
     public static ListNBT saveToNBT(final UUID uuid)
     {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Saving Bag for " + uuid);
+        ThutCore.LOGGER.debug("Saving Bag for " + uuid);
         final ListNBT nbttag = new ListNBT();
         final CompoundNBT items = BagInventory.getMap().get(uuid).serializeNBT();
         nbttag.add(items);

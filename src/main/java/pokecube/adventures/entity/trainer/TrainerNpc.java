@@ -28,6 +28,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -82,7 +83,9 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
             {
                 final IPokemob mon = PokecubeManager.itemToPokemob(stack, this.getEntityWorld());
                 final int stat = this.getBaseStats(mon);
-                if (stat > stat1 || mon.getLevel() > mon1.getLevel()) continue;
+                if (stat > stat1 || mon.getLevel() > mon1.getLevel() || SpecialCaseRegister.getCaptureCondition(mon
+                        .getEvolutionEntry()) != null || SpecialCaseRegister.getSpawnCondition(mon
+                                .getEvolutionEntry()) != null) continue;
                 final UUID trader1 = mon1.getOwnerId();
                 final boolean everstone = PokecubeItems.is(ICanEvolve.EVERSTONE, stack);
                 mon.setOriginalOwnerUUID(this.getUniqueID());

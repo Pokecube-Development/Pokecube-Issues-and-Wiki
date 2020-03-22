@@ -1,19 +1,26 @@
-package pokecube.adventures.network;
+package thut.bling.network;
 
 import java.util.UUID;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.items.bag.BagContainer;
-import pokecube.adventures.items.bag.BagInventory;
-import thut.core.common.network.Packet;
+import thut.bling.bag.large.BagContainer;
+import thut.bling.bag.large.BagInventory;
+import thut.wearables.ThutWearables;
+import thut.wearables.network.Packet;
 
 public class PacketBag extends Packet
 {
+    public static void OpenBag(final PlayerEntity playerIn, final ItemStack heldItem)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
     public static final byte SETPAGE = 0;
     public static final byte RENAME  = 1;
     public static final byte INIT    = 2;
@@ -30,7 +37,7 @@ public class PacketBag extends Packet
         packet.data.putInt("C", inv.getPage());
         for (int i = 0; i < inv.boxes.length; i++)
             packet.data.putString("N" + i, inv.boxes[i]);
-        PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
+        ThutWearables.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
     }
 
     public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner)
@@ -41,7 +48,7 @@ public class PacketBag extends Packet
             final PacketBag packet = new PacketBag(PacketBag.OPEN, owner);
             packet.data = inv.serializeBox(i);
             packet.data.putUniqueId(PacketBag.OWNER, owner);
-            PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
+            ThutWearables.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
         }
         sendTo.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new BagContainer(id,
                 playerInventory, BagInventory.getPC(playerIn)), sendTo.getDisplayName()));

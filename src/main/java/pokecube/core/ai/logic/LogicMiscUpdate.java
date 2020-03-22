@@ -106,6 +106,13 @@ public class LogicMiscUpdate extends LogicBase
             this.reset = false;
         }
 
+        if (this.pokemob.getSexe() != IPokemob.MALE)
+        {
+            int diff = 1 * PokecubeCore.getConfig().mateMultiplier;
+            if (this.pokemob.getLoveTimer() > 0) diff = 1;
+            this.pokemob.setLoveTimer(this.pokemob.getLoveTimer() + diff);
+        }
+
         // If not angry, and not been so for a while, reset stat modifiers.
         if (!angry)
         {
