@@ -68,7 +68,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
                     new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()));
         }
         pc.addItem(mob.copy());
-        PCSaveHandler.getInstance().savePC(uuid);
+        PCSaveHandler.getInstance().save(uuid);
     }
 
     public static void clearPC()
@@ -93,7 +93,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     {
         if (uuid != null)
         {
-            if (!PCInventory.getMap().containsKey(uuid)) PCSaveHandler.getInstance().loadPC(uuid);
+            if (!PCInventory.getMap().containsKey(uuid)) PCSaveHandler.getInstance().load(uuid);
             if (PCInventory.getMap().containsKey(uuid)) return PCInventory.getMap().get(uuid);
             return new PCInventory(uuid);
         }
@@ -198,7 +198,7 @@ public class PCInventory implements IInventory, INBTSerializable<CompoundNBT>
     @Override
     public void closeInventory(final PlayerEntity player)
     {
-        PCSaveHandler.getInstance().savePC(this.owner);
+        PCSaveHandler.getInstance().save(this.owner);
     }
 
     @Override
