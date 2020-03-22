@@ -310,10 +310,6 @@ public class AIAttack extends AIBase implements IAICombat
             if (this.pokemobTarget != null && !this.pokemobTarget.getCombatState(CombatStates.DODGING)
                     || !(this.pokemobTarget != null) || this.attack.move.isNotIntercepable()) this.targetLoc.set(
                             this.entityTarget).addTo(0, this.entityTarget.getHeight() / 2, 0);
-            else
-            {
-
-            }
             // Tell the target no need to try to dodge anymore, move is fired.
             if (this.pokemobTarget != null) this.setCombatState(this.pokemobTarget, CombatStates.DODGING, false);
             // Swing arm for effect.

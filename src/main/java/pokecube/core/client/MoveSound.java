@@ -14,6 +14,15 @@ public class MoveSound extends TickableSound
     private final Vector3            pos2 = Vector3.getNewVector();
     private int                      time = 0;
 
+    public static float getVolume(final Vector3 pos1, final Vector3 pos2)
+    {
+        final double dist = pos2.distanceTo(pos1);
+        if (dist > 20) return 0;
+        float volume = (float) (15.0f / dist);
+        volume = Math.min(1, volume);
+        return volume;
+    }
+
     public MoveSound(final SoundEvent sound, final Vector3 pos)
     {
         super(sound, SoundCategory.BLOCKS);
@@ -29,10 +38,8 @@ public class MoveSound extends TickableSound
     public void tick()
     {
         this.pos2.set(this.player);
-        final double dist = this.pos2.distanceTo(this.pos1);
-        this.volume = (float) (15.0f / dist);
-        this.volume = Math.min(1, this.volume);
-        if (this.time++ > 100 || dist > 20) this.donePlaying = true;
+        this.volume = MoveSound.getVolume(this.pos1, this.pos2);
+        if (this.time++ > 100 || this.volume == 0) this.donePlaying = true;
     }
 
     @Override

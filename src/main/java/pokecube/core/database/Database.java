@@ -790,6 +790,7 @@ public class Database
 
     private static void loadStarterPack()
     {
+        Database.starterPack.clear();
         try
         {
             final JAXBContext jaxbContext = JAXBContext.newInstance(XMLStarterItems.class);
@@ -801,7 +802,7 @@ public class Database
             for (final Drop drop : database.drops)
             {
                 final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
-                if (stack != null) Database.starterPack.add(stack);
+                if (!stack.isEmpty()) Database.starterPack.add(stack);
             }
         }
         catch (final Exception e)
