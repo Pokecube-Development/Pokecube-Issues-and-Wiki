@@ -67,6 +67,8 @@ public class RecipeFossilRevive extends PoweredRecipe
 
                 final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
                 if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
+                dnaSource.grow(-1);
+                tile.setInventorySlotContents(0, dnaSource);
                 pokemob = event.getPokemob();
                 entity = pokemob.getEntity();
                 world.addEntity(entity);

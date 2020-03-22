@@ -145,7 +145,7 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
     public int receiveEnergy(final int maxReceive, final boolean simulate)
     {
         int var = maxReceive;
-        if (maxReceive + this.energy < this.getMaxEnergyStored()) var = this.getMaxEnergyStored() - this.energy;
+        if (maxReceive + this.energy > this.getMaxEnergyStored()) var = this.getMaxEnergyStored() - this.energy;
         if (!simulate) this.energy += var;
         this.energy = Math.max(0, this.energy);
         this.energy = Math.min(this.getMaxEnergyStored(), this.energy);

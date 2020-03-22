@@ -35,13 +35,34 @@ public class ClonerHelper
 {
     public static class DNAPack
     {
+        public final String  id;
         public final Alleles alleles;
         public final float   chance;
 
-        public DNAPack(final Alleles alleles, final float chance)
+        public DNAPack(final String id, final Alleles alleles, final float chance)
         {
             this.alleles = alleles;
             this.chance = chance;
+            this.id = id;
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.id;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return this.id.hashCode();
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (!(obj instanceof DNAPack)) return false;
+            return this.toString().equals(obj.toString());
         }
     }
 
