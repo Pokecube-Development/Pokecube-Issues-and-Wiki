@@ -5,8 +5,8 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
   <phase duration="8" leftArm="" leftLeg="leg1" legAngle="45" name="biWalk" rightArm="" rightLeg="leg2"/>
   <phase angle="15" axis="0" length="50" name="snakeWalk" parts="hair:hair1:hair2"/>
-  <customTex default="zoroak">
-   <part name="Head" tex="zoroakeye"/>
+  <customTex default="zoroark">
+   <part name="Head" tex="zoroarkeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase type="sitting">
