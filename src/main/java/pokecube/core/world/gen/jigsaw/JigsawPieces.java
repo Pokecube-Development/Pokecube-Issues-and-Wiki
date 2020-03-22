@@ -7,11 +7,14 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.Dynamic;
+import com.mojang.datafixers.types.DynamicOps;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.block.BlockState;
@@ -29,6 +32,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.jigsaw.EmptyJigsawPiece;
+import net.minecraft.world.gen.feature.jigsaw.IJigsawDeserializer;
 import net.minecraft.world.gen.feature.jigsaw.JigsawManager;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern.PlacementBehaviour;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
@@ -188,6 +192,9 @@ public class JigsawPieces
 
     public static class SingleOffsetPiece extends SingleJigsawPiece
     {
+        public static IJigsawDeserializer PIECETYPE = IJigsawDeserializer.register("pokecube:sop",
+                SingleOffsetPiece::new);
+
         public final JigSawPool pool;
         public int              offset = 1;
         public int              dy     = 0;
@@ -205,6 +212,18 @@ public class JigsawPieces
 
         private boolean maskCheck = false;
 
+        public SingleOffsetPiece(final Dynamic<?> dyn)
+        {
+            super(dyn);
+            final String poolstr = dyn.get("pool").asString("");
+            this.pool = PokedexEntryLoader.gson.fromJson(poolstr, JigSawPool.class);
+            this.subbiome = dyn.get("subbiome").asString("");
+            this.flag = dyn.get("flag").asString("");
+            this.offset = dyn.get("offset").asInt(0);
+            this.dy = dyn.get("dy").asInt(0);
+            this.ignoreAir = dyn.get("ignoreAir").asBoolean(false);
+        }
+
         public SingleOffsetPiece(final JigSawPool pool, final String location,
                 final List<StructureProcessor> processors, final PlacementBehaviour type, final String subbiome)
         {
@@ -212,6 +231,30 @@ public class JigsawPieces
             this.subbiome = subbiome;
             this.ignoreAir = pool.ignoreAir;
             this.pool = pool;
+        }
+
+        @Override
+        public <T> Dynamic<T> serialize0(final DynamicOps<T> ops)
+        {
+            final Map<T, T> map = Maps.newHashMap();
+            map.put(ops.createString("pool"), ops.createString(PokedexEntryLoader.gson.toJson(this.pool)));
+            map.put(ops.createString("subbiome"), ops.createString(this.subbiome));
+            map.put(ops.createString("flag"), ops.createString(this.flag));
+            map.put(ops.createString("location"), ops.createString(this.location.toString()));
+            map.put(ops.createString("ignoreAir"), ops.createBoolean(this.ignoreAir));
+            map.put(ops.createString("dy"), ops.createInt(this.dy));
+            map.put(ops.createString("offset"), ops.createInt(this.offset));
+            map.put(ops.createString("processors"), ops.createList(this.processors.stream().map((proc) ->
+            {
+                return proc.serialize(ops).getValue();
+            })));
+            return new Dynamic<>(ops, ops.createMap(ImmutableMap.copyOf(map)));
+        }
+
+        @Override
+        public IJigsawDeserializer getType()
+        {
+            return SingleOffsetPiece.PIECETYPE;
         }
 
         private SpawnBiomeMatcher fromJson(final JsonElement rule)
@@ -370,6 +413,7 @@ public class JigsawPieces
             }
             else if (JigsawPieces.shouldApply(pos, worldIn))
             {
+                PokecubeCore.LOGGER.info(function);
                 final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, rand, sbb);
                 MinecraftForge.EVENT_BUS.post(event);
                 if (event.getResult() == Result.ALLOW) JigsawPieces.apply(pos, worldIn);
