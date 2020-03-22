@@ -345,7 +345,8 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
     public void setProgress(final int progress)
     {
         this.progress.set(progress);
-        if (this.getProcess() != null) this.total.set(this.getProcess().recipe.getEnergyCost());
+        if (this.getProcess() != null && this.getProcess().recipe != null) this.total.set(this.getProcess().recipe
+                .getEnergyCost());
     }
 
     @Override
