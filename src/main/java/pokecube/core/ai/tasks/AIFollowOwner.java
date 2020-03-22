@@ -83,8 +83,8 @@ public class AIFollowOwner extends AIBase
             this.ownerPos.set(this.theOwner);
             final Vec3d v = this.theOwner.getMotion();
             this.speed = Math.sqrt(v.x * v.x + v.z * v.z);
-            this.speed = Math.max(0.6, this.speed);
             this.speed *= AIFollowOwner.speedMult;
+            this.speed = Math.max(0.6, this.speed);
             final Path path = this.petPathfinder.getPathToEntityLiving(this.theOwner, 0);
             if (path != null) this.addEntityPath(this.entity, path, this.speed);
         }

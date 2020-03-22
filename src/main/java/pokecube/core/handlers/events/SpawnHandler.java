@@ -295,24 +295,15 @@ public final class SpawnHandler
         // Don't select distances too far up/down from current.
         final double y = Math.min(Math.max(-5, rand.nextGaussian() * 10), 10);
         v.addTo(x, y, z);
+        v.set(v.getPos()).addTo(0.5, 0.5, 0.5);
 
         // Don't select unloaded areas.
         if (!world.isAreaLoaded(v.getPos(), 8)) return null;
 
         // Find surface
-        final Vector3 temp1 = SpawnHandler.getSpawnSurface(world, SpawnHandler.vec1, 10);
+        final Vector3 temp1 = SpawnHandler.getSpawnSurface(world, v, 10);
+        if (!(temp1.isClearOfBlocks(world) || temp1.offset(Direction.UP).isClearOfBlocks(world))) return null;
         return temp1;
-    }
-
-    @Deprecated
-    /**
-     * Given a player, find a random position near it. Use
-     * getRandomPointNear(Entity mob, int range) instead.
-     */
-    public static Vector3 getRandomSpawningPointNearEntity(final World world, final Entity player, final int maxRange,
-            final int maxTries)
-    {
-        return SpawnHandler.getRandomPointNear(player, maxRange);
     }
 
     public static PokedexEntry getSpawnForLoc(final World world, final Vector3 pos)
@@ -360,16 +351,14 @@ public final class SpawnHandler
 
     public static Vector3 getSpawnSurface(final World world, final Vector3 loc, final int range)
     {
-        final boolean setToSurface = false;
-        if (!setToSurface) return loc.copy();
         int tries = 0;
         BlockState state;
         while (tries++ <= range)
         {
             state = loc.getBlockState(world);
-            if (state.getMaterial() == Material.WATER) return loc;
+            if (state.getMaterial() == Material.WATER) return loc.copy();
             final boolean clear = loc.isClearOfBlocks(world);
-            if (clear && !loc.isClearOfBlocks(world)) return loc.offset(Direction.UP);
+            if (clear && !loc.offsetBy(Direction.DOWN).isClearOfBlocks(world)) return loc.copy();
             loc.offsetBy(Direction.DOWN);
         }
         return loc.copy();

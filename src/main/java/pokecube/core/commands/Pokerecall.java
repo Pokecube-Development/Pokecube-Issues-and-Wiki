@@ -75,7 +75,7 @@ public class Pokerecall
 
     public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
     {
-        PermissionAPI.registerNode("command.poketm", DefaultPermissionLevel.ALL,
+        PermissionAPI.registerNode("command.pokerecall", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokerecall");
 
         // Setup with name and permission
