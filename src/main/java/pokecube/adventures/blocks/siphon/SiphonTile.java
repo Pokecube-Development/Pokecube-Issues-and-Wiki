@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -114,7 +115,7 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         if (hand == Hand.MAIN_HAND && this.energy != null && player instanceof ServerPlayerEntity)
