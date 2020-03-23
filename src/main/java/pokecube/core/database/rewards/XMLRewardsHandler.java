@@ -145,14 +145,15 @@ public class XMLRewardsHandler
 
         public static class FreeTranslatedReward implements IInspectReward
         {
-            public final String           key;
-            public final boolean          watch_only;
-            public final boolean          page_file;
-            final String                  message;
-            final String                  tagKey;
-            final String                  langFile;
-            public Map<String, ItemStack> lang_stacks = Maps.newHashMap();
-            public Map<String, PagesFile> lang_books  = Maps.newHashMap();
+            public static Map<String, ItemStack> lang_stacks = Maps.newHashMap();
+            public static Map<String, PagesFile> lang_books  = Maps.newHashMap();
+
+            public final String  key;
+            public final boolean watch_only;
+            public final boolean page_file;
+            public final String  message;
+            public final String  tagKey;
+            public final String  langFile;
 
             public FreeTranslatedReward(final String key, final String message, final String tagKey,
                     final String langFile, final boolean watch_only)
@@ -168,15 +169,15 @@ public class XMLRewardsHandler
             public ItemStack getInfoStack(String lang)
             {
                 lang = lang.toLowerCase(Locale.ROOT);
-                if (!this.lang_stacks.containsKey(lang)) this.initLangBook(lang);
-                return this.lang_stacks.getOrDefault(lang, ItemStack.EMPTY).copy();
+                if (!FreeTranslatedReward.lang_stacks.containsKey(lang)) this.initLangBook(lang);
+                return FreeTranslatedReward.lang_stacks.getOrDefault(lang, ItemStack.EMPTY).copy();
             }
 
             public PagesFile getInfoBook(String lang)
             {
                 lang = lang.toLowerCase(Locale.ROOT);
-                if (!this.lang_books.containsKey(lang)) this.initLangBook(lang);
-                return this.lang_books.getOrDefault(lang, null);
+                if (!FreeTranslatedReward.lang_books.containsKey(lang)) this.initLangBook(lang);
+                return FreeTranslatedReward.lang_books.getOrDefault(lang, null);
             }
 
             @Override
@@ -215,7 +216,7 @@ public class XMLRewardsHandler
                     {
                         final PagesFile book = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
                                 PagesFile.class);
-                        this.lang_books.put(key, book);
+                        FreeTranslatedReward.lang_books.put(key, book);
                     }
                     else
                     {
@@ -226,7 +227,7 @@ public class XMLRewardsHandler
                         try
                         {
                             stack.setTag(JsonToNBT.getTagFromJson(json));
-                            this.lang_stacks.put(key, stack);
+                            FreeTranslatedReward.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)
                         {
