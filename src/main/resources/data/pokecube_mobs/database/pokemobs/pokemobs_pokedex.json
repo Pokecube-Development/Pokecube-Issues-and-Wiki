@@ -64230,6 +64230,7 @@
       "name": "Cosmog",
       "number": 789,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -64287,6 +64288,7 @@
       "name": "Cosmoem",
       "number": 790,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -64739,6 +64741,7 @@
       "name": "Pheromosa",
       "number": 795,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -64808,6 +64811,7 @@
       "name": "Xurkitree",
       "number": 796,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -64876,6 +64880,7 @@
       "name": "Celesteela",
       "number": 797,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -64953,6 +64958,7 @@
       "name": "Kartana",
       "number": 798,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -65021,6 +65027,7 @@
       "name": "Guzzlord",
       "number": 799,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -65088,6 +65095,7 @@
       "name": "Necrozma",
       "number": 800,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -65161,6 +65169,7 @@
     {
       "name": "Necrozma Ultra",
       "number": 800,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -65210,6 +65219,7 @@
       "name": "Magearna",
       "number": 801,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -65276,6 +65286,7 @@
       "name": "Marshadow",
       "number": 802,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -65343,6 +65354,7 @@
       "name": "Poipole",
       "number": 803,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -65404,6 +65416,7 @@
     {
       "name": "Naganadel",
       "number": 804,
+      "legend": true,
       "base": true,
       "stats": {
         "stats": {
@@ -65476,6 +65489,7 @@
     {
       "name": "Stakataka",
       "number": 805,
+      "legend": true,
       "base": true,
       "stats": {
         "stats": {
@@ -65541,6 +65555,7 @@
     {
       "name": "Blacephalon",
       "number": 806,
+      "legend": true,
       "base": true,
       "stats": {
         "stats": {
@@ -65605,6 +65620,7 @@
     {
       "name": "Zeraora",
       "number": 807,
+      "legend": true,
       "base": true,
       "stats": {
         "stats": {
@@ -72252,6 +72268,7 @@
       "name": "Zacian",
       "number": 888,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -72320,6 +72337,7 @@
     {
       "name": "Zacian Crowned",
       "number": 888,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -72360,6 +72378,7 @@
     {
       "name": "Zamazenta",
       "number": 889,
+      "legend": true,
       "base": true,
       "stats": {
         "stats": {
@@ -72428,6 +72447,7 @@
     {
       "name": "Zamazenta Crowned",
       "number": 889,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -72469,6 +72489,7 @@
       "name": "Eternatus",
       "number": 890,
       "base": true,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
@@ -72542,6 +72563,7 @@
     {
       "name": "Eternatus Eternamax",
       "number": 890,
+      "legend": true,
       "stats": {
         "stats": {
           "values": {
