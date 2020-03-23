@@ -133,12 +133,14 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         {
             this.container.updateInventoryPages((byte) 1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
+            this.textFieldBoxName.setText(this.container.getPage());
         }));
         final String prev = I18n.format("block.pc.previous");
         this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
         {
             this.container.updateInventoryPages((byte) -1, this.minecraft.player.inventory);
             this.textFieldSelectedBox.setText(this.container.getPageNb());
+            this.textFieldBoxName.setText(this.container.getPage());
         }));
         this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
                 - yOffset - 121, 25, 10, this.page);
@@ -209,17 +211,17 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                             {
                                 final int index = i;
                                 final PCSlot slot = (PCSlot) this.container.inventorySlots.get(index);
-                                slot.release = false;
+                                slot.release = this.release;
                             }
                         }
                         else for (int i = 0; i < 54; i++)
                         {
                             final int index = i;
                             final PCSlot slot = (PCSlot) this.container.inventorySlots.get(index);
-                            slot.release = true;
+                            slot.release = this.release;
                         }
                         this.container.release = this.release;
-                        final PacketPC packet = new PacketPC(PacketPC.RELEASE, this.container.inv.owner);
+                        final PacketPC packet = new PacketPC(PacketPC.RELEASE, this.minecraft.player.getUniqueID());
                         packet.data.putBoolean("T", true);
                         packet.data.putBoolean("R", this.release);
                         PokecubeCore.packets.sendToServer(packet);
@@ -238,7 +240,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                     .format("block.pc.option.confirm"), b ->
                     {
                         this.release = !this.release;
-                        this.container.setRelease(this.release);
+                        this.container.setRelease(this.release, this.minecraft.player.getUniqueID());
                         if (this.release)
                         {
                             this.buttons.get(6).active = this.release;
@@ -249,7 +251,24 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                             this.buttons.get(6).active = this.release;
                             this.buttons.get(6).visible = this.release;
                         }
-                        this.minecraft.player.closeScreen();
+                        final PacketPC packet = new PacketPC(PacketPC.RELEASE, this.minecraft.player.getUniqueID());
+                        packet.data.putBoolean("T", false);
+                        packet.data.putBoolean("R", this.release);
+                        packet.data.putInt("page", this.container.inv.getPage());
+                        for (int i = 0; i < 54; i++)
+                            if (this.container.toRelease[i])
+                            {
+                                packet.data.putBoolean("val" + i, true);
+                                System.out.println("release: " + i);
+                            }
+                        PokecubeCore.packets.sendToServer(packet);
+                        this.container.toRelease = new boolean[54];
+                        for (int i = 0; i < 54; i++)
+                        {
+                            final int index = i;
+                            final PCSlot slot = (PCSlot) this.container.inventorySlots.get(index);
+                            slot.release = this.release;
+                        }
                     }));
             this.buttons.get(6).visible = false;
             this.buttons.get(6).active = false;
@@ -258,6 +277,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
                 + 0, 100, 10, this.boxName);
         this.textFieldBoxName.enableBackgroundDrawing = false;
+
         this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
                 - 121, 90, 10, "");
 
@@ -283,13 +303,6 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     public void render(final int mouseX, final int mouseY, final float f)
     {
         this.renderBackground();
-        // this.textFieldSelectedBox.drawTextBox();
-        //
-        // if (!this.bound) this.textFieldSearch.drawTextBox();
-        //
-        // if (this.textFieldBoxName.visible)
-        // this.textFieldBoxName.drawTextBox();
-        // final float zLevel = 1000;
         super.render(mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
             if (!this.textFieldSearch.getText().isEmpty())
@@ -298,8 +311,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                 if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
                 final int y = i / 9 * 18 + this.height / 2 - 96;
-                // System.out.println(this.textFieldSearch.getText() + " " + i +
-                // " " + stack);
+
                 RenderHelper.disableStandardItemLighting();
                 final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
                 if (name.isEmpty() || !name.toLowerCase(java.util.Locale.ENGLISH).contains(this.textFieldSearch
