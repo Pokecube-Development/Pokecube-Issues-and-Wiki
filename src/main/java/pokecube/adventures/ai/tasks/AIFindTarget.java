@@ -25,8 +25,9 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 {
     public static boolean canBattle(final LivingEntity input, final LivingEntity mobIn)
     {
+
         if (input != null && input.getLastAttackedEntity() == mobIn) return true;
-        if (mobIn.getRevengeTarget() != null && mobIn.getRevengeTarget() == mobIn) return true;
+        if (mobIn.getRevengeTarget() != null && mobIn.getRevengeTarget() == input) return true;
         final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(input);
         if (other == null) return true;
         if (other.getTarget() != null && other.getTarget() != mobIn) return false;
@@ -64,13 +65,18 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             @Override
             public boolean apply(final LivingEntity input)
             {
+
                 // If the input has attacked us recently, then return true
                 // regardless of following checks.
                 if (input.getLastAttackedEntity() == entityIn && input.ticksExisted - input
                         .getLastAttackedEntityTime() < 50) return true;
+
+                final boolean validClass = this.validClass(input);
+                final boolean validAgro = input.attackable();
+                final boolean canBattle = AIFindTarget.canBattle(input, entityIn);
+
                 // Only target valid classes.
-                if (!this.validClass(input) || !input.attackable() || !AIFindTarget.canBattle(input, entityIn))
-                    return false;
+                if (!validClass || !validAgro || !canBattle) return false;
                 final IOwnable ownable = OwnableCaps.getOwnable(input);
                 // Don't target pets
                 if (ownable != null && ownable.getOwner() == entityIn) return false;
@@ -236,6 +242,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             {
                 final LivingEntity e = (LivingEntity) o;
                 final double dist = e.getDistance(this.entity);
+
                 // Only visible or valid targets.
                 if (this.validTargetSet(e) && dist < sight)
                 {

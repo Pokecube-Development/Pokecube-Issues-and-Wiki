@@ -340,6 +340,9 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
         this.autoRelease--;
         if (this.autoRelease == 0) SendOutManager.sendOut(this, true);
+        final boolean capturing = this.getTilt() >= 0;
+        final boolean releasing = this.isReleasing();
+        if (capturing || releasing) this.seeking = false;
 
         this.preValidateVelocity();
         this.checkCollision();

@@ -378,13 +378,14 @@ public class TrainerEventHandler
         }
 
         final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(npc);
-        if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld)) return;
+        if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld) || npc instanceof PlayerEntity) return;
         if (npc.getPersistentData().contains("pokeadv_join") && npc.getPersistentData().getLong("pokeadv_join") == npc
                 .getEntityWorld().getGameTime()) return;
         npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
 
         // Wrap it as a fake vanilla AI
         if (npc instanceof MobEntity) TypeTrainer.addAI((MobEntity) npc);
+        PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
 
         final TypeTrainer newType = TypeTrainer.get(npc, true);
         if (newType == null) return;

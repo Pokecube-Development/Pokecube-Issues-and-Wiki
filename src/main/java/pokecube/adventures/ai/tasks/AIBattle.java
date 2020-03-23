@@ -244,8 +244,17 @@ public class AIBattle extends AITrainerBase
         if (target == null) return false;
         final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
         final boolean hitUs = target.getLastAttackedEntity() == this.entity;
-        if (!hitUs && other != null && other.getNextPokemob().isEmpty() && other.getOutID() == null)
+        if (!hitUs && other != null && other.getNextPokemob().isEmpty())
         {
+            if (other.getOutID() != null)
+            {
+                final IPokemob outMob = other.getOutMob();
+                if (outMob != null && !outMob.getEntity().isAlive())
+                {
+                    other.setOutID(null);
+                    other.setOutMob(null);
+                }
+            }
             if (other.getOutID() == null)
             {
                 final List<Entity> mobs = PCEventsHandler.getOutMobs(target, false);
@@ -265,12 +274,12 @@ public class AIBattle extends AITrainerBase
                         }
                     this.deagrotimer = 20;
                 }
-            }
-            if (this.deagrotimer-- < 0)
-            {
-                this.trainer.onWin(target);
-                if (other.getTarget() == this.entity) other.onLose(this.entity);
-                return false;
+                if (this.deagrotimer-- < 0)
+                {
+                    this.trainer.onWin(target);
+                    if (other.getTarget() == this.entity) other.onLose(this.entity);
+                    return false;
+                }
             }
         }
         return true;
