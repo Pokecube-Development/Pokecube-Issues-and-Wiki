@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
@@ -31,9 +32,9 @@ public class AI extends Page
     TextFieldWidget battleCooldown;
     TextFieldWidget faceDirection;
 
-    public AI(final ITextComponent title, final EditorGui parent)
+    public AI(final EditorGui parent)
     {
-        super(title, parent);
+        super(new StringTextComponent(""), parent);
     }
 
     protected void actionPerformed(final int id) throws IOException
@@ -72,7 +73,7 @@ public class AI extends Page
         case 3:
             trainer.notifyDefeat = !trainer.notifyDefeat;
             this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
                     null);
             packet.data.put("T", tag);
@@ -94,7 +95,7 @@ public class AI extends Page
             trainer.setLevelMode(LevelMode.values()[(trainer.getLevelMode().ordinal() + 1) % LevelMode
                     .values().length]);
             this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
                     null);
             packet.data.put("T", tag);
@@ -130,7 +131,7 @@ public class AI extends Page
             this.parent.mc.player.sendStatusMessage(mess, true);
             break;
         case 9:
-            packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             // Reset defeat list.
             packet.data.putBoolean("RDL", true);
             packet.data.putInt("I", this.parent.entity.getEntityId());
@@ -214,7 +215,7 @@ public class AI extends Page
             argInt = value.isEmpty() ? 0 : Integer.parseInt(value);
             ((DefaultPokemobs) this.parent.trainer).resetTime = argInt;
             this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
                     null);
             packet.data.put("T", tag);
@@ -227,7 +228,7 @@ public class AI extends Page
             argInt = value.isEmpty() ? 0 : Integer.parseInt(value);
             ((DefaultPokemobs) this.parent.trainer).battleCooldown = argInt;
             this.onPageClosed();
-            packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+            packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
                     null);
             packet.data.put("T", tag);
@@ -254,7 +255,7 @@ public class AI extends Page
     private void sendGuardUpdate()
     {
         this.onPageClosed();
-        final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+        final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         final IGuardAICapability guard = this.parent.guard;
         final INBT tag = EventsHandler.GUARDAI_CAP.getStorage().writeNBT(EventsHandler.GUARDAI_CAP, guard, null);
         packet.data.put("T", tag);
@@ -267,7 +268,7 @@ public class AI extends Page
     private void sendAIUpdate()
     {
         this.onPageClosed();
-        final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+        final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         final INBT tag = CapabilityNPCAIStates.storage.writeNBT(CapabilityNPCAIStates.AISTATES_CAP,
                 this.parent.aiStates, null);
         packet.data.put("T", tag);

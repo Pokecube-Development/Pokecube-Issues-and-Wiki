@@ -83,37 +83,34 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
         if (WarppadTile.invalidSources.contains(entityIn.dimension) || entityIn.getEntityWorld().isRemote) return;
 
         final TeleDest dest = this.getDest();
+        final Vector4 link = dest.loc;
+        final long time = this.world.getGameTime();
+        final long lastStepped = entityIn.getPersistentData().getLong("lastWarpPadUse");
+        // No step now, too soon.
+        if (lastStepped - WarppadTile.COOLDOWN > time) return;
+        entityIn.getPersistentData().putLong("lastWarpPadUse", time);
         if (!this.noEnergyNeed && PokecubeAdv.config.warpPadEnergy)
         {
-            final long time = this.world.getGameTime();
-            final long lastStepped = entityIn.getPersistentData().getLong("lastWarpPadUse");
-            // No step now, too soon.
-            if (lastStepped - WarppadTile.COOLDOWN > time) return;
 
             double cost = 0;
-            final Vector4 link = dest.loc;
             final Vector3 here = Vector3.getNewVector().set(this);
             WarppadTile.parser.setVarValue("dx", link.x - here.x);
             WarppadTile.parser.setVarValue("dy", link.y - here.y);
             WarppadTile.parser.setVarValue("dz", link.z - here.z);
             WarppadTile.parser.setVarValue("dw", link.w - this.getWorld().getDimension().getType().getId());
             cost = WarppadTile.parser.getValue();
-            entityIn.getPersistentData().putLong("lastWarpPadUse", time);
             if (!this.noEnergyNeed && this.energy < cost)
             {
-                System.out.println(lastStepped + " " + time);
-                entityIn.playSound(SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, 1.0F, 1.0F);
+                this.getWorld().playSound(null, this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos()
+                        .getZ() + 0.5, SoundEvents.BLOCK_NOTE_BLOCK_BASEDRUM, SoundCategory.BLOCKS, 1, 1);
                 return;
             }
-            else
-            {
-                this.energy -= cost;
-                this.getWorld().playSound(null, this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos()
-                        .getZ() + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
-                this.getWorld().playSound(null, link.x + 0.5, link.y + 0.5, link.z + 0.5,
-                        SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
-            }
+            else this.energy -= cost;
         }
+        this.getWorld().playSound(null, this.getPos().getX() + 0.5, this.getPos().getY() + 0.5, this.getPos().getZ()
+                + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 1, 1);
+        this.getWorld().playSound(null, link.x + 0.5, link.y + 0.5, link.z + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
+                SoundCategory.BLOCKS, 1, 1);
         WarppadTile.warp(entityIn, dest, true);
     }
 

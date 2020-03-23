@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
@@ -20,11 +21,14 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.client.gui.items.editor.pages.AI;
+import pokecube.adventures.client.gui.items.editor.pages.LivePokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Messages;
 import pokecube.adventures.client.gui.items.editor.pages.Pokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Rewards;
 import pokecube.adventures.client.gui.items.editor.pages.Routes;
+import pokecube.adventures.client.gui.items.editor.pages.Spawn;
 import pokecube.adventures.client.gui.items.editor.pages.Trades;
+import pokecube.adventures.client.gui.items.editor.pages.Trainer;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -34,7 +38,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 
 public class EditorGui extends Screen
 {
-    private static class MissingPage extends Page
+    public static class MissingPage extends Page
     {
 
         public MissingPage(final EditorGui watch)
@@ -62,7 +66,7 @@ public class EditorGui extends Screen
     {
         // We start with this as it will be replaced based on why this gui is
         // opened.
-        EditorGui.PAGELIST.add(MissingPage.class);
+        EditorGui.PAGELIST.add(Trainer.class);
         EditorGui.PAGELIST.add(AI.class);
         EditorGui.PAGELIST.add(Messages.class);
         EditorGui.PAGELIST.add(Pokemob.class);
@@ -71,7 +75,7 @@ public class EditorGui extends Screen
         EditorGui.PAGELIST.add(Trades.class);
     }
 
-    public static int lastPage = -1;
+    public static int lastPage = 0;
 
     private static Page makePage(final Class<? extends Page> clazz, final EditorGui parent)
     {
@@ -98,9 +102,9 @@ public class EditorGui extends Screen
     public final IPokemob           pokemob;
     public int                      index = 0;
 
-    protected EditorGui(final Entity mob)
+    public EditorGui(final Entity mob)
     {
-        super(mob.getDisplayName());
+        super(new StringTextComponent(""));
         this.entity = mob;
         this.trainer = CapabilityHasPokemobs.getHasPokemobs(mob);
         this.rewards = CapabilityHasRewards.getHasRewards(mob);
@@ -109,6 +113,40 @@ public class EditorGui extends Screen
         this.pokemob = CapabilityPokemob.getPokemobFor(mob);
         if (this.entity != null) this.guard = this.entity.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
         else this.guard = null;
+    }
+
+    @Override
+    public void init(final Minecraft mc, final int width, final int height)
+    {
+        super.init(mc, width, height);
+        // Here we just init current, it will then decide on what to do.
+        this.current_page = this.createPage(EditorGui.lastPage);
+        this.current_page.init(mc, width, height);
+        this.current_page.onPageOpened();
+    }
+
+    @Override
+    public void render(final int mouseX, final int mouseY, final float partialTicks)
+    {
+        super.render(mouseX, mouseY, partialTicks);
+        try
+        {
+            this.current_page.render(mouseX, mouseY, partialTicks);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.warn("Error with page " + this.current_page, e);
+        }
+    }
+
+    @Override
+    public void init()
+    {
+        super.init();
+        // Here we just init current, it will then decide on what to do.
+        this.current_page = this.createPage(EditorGui.lastPage);
+        this.current_page.init();
+        this.current_page.onPageOpened();
     }
 
     public void changePage(final int newIndex)
@@ -120,10 +158,13 @@ public class EditorGui extends Screen
         EditorGui.lastPage = this.index;
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
+        System.out.println("test");
     }
 
     public Page createPage(final int index)
     {
+        if (this.entity == null) return new Spawn(this);
+        if (this.pokemob != null) return new LivePokemob(this);
         return EditorGui.makePage(EditorGui.PAGELIST.get(index), this);
     }
 

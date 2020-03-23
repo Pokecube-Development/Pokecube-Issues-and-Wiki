@@ -76,14 +76,15 @@ public class AnimationGui extends Screen
     static String mob = "";
 
     public static PokedexEntry entry;
-    TextFieldWidget            anim;
-    TextFieldWidget            state_g;
-    TextFieldWidget            state_c;
-    TextFieldWidget            state_l;
-    TextFieldWidget            forme;
-    TextFieldWidget            forme_alt;
-    TextFieldWidget            dyeColour;
-    TextFieldWidget            rngValue;
+
+    TextFieldWidget anim;
+    TextFieldWidget state_g;
+    TextFieldWidget state_c;
+    TextFieldWidget state_l;
+    TextFieldWidget forme;
+    TextFieldWidget forme_alt;
+    TextFieldWidget dyeColour;
+    TextFieldWidget rngValue;
 
     IPokemob    toRender;
     Holder      renderHolder;
