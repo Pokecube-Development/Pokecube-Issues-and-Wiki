@@ -513,7 +513,7 @@ public class TrainerEventHandler
             final TrainerNpc trainer = (TrainerNpc) event.getTarget();
             if (pokemobs.notifyDefeat)
             {
-                final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
+                final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
                 packet.data.putInt("I", trainer.getEntityId());
                 packet.data.putBoolean("V", pokemobs.defeatedBy(event.getPlayer()));
                 PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) event.getPlayer());

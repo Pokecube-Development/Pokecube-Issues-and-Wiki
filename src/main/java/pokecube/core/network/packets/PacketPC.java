@@ -86,7 +86,21 @@ public class PacketPC extends Packet
         PCInventory pc;
         switch (this.message)
         {
+        case PCINIT:
+            pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
+            pc.seenOwner = this.data.getBoolean("O");
+            pc.autoToPC = this.data.getBoolean("A");
+            if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
+            if (this.data.contains("N"))
+            {
+                final int num = this.data.getInt("N");
+                pc.boxes = new String[num];
+                for (int i = 0; i < pc.boxes.length; i++)
+                    pc.boxes[i] = this.data.getString("N" + i);
+            }
+            break;
         case BIND:
+            break;
         case PCOPEN:
             pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
             pc.deserializeBox(this.data);

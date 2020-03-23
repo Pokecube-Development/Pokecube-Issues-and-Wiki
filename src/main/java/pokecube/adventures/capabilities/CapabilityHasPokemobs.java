@@ -1,6 +1,5 @@
 package pokecube.adventures.capabilities;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -103,12 +102,10 @@ public class CapabilityHasPokemobs
 
         public static class DefeatList
         {
-            private final ArrayList<DefeatEntry>   values = new ArrayList<>();
-            private final Map<String, DefeatEntry> map    = Maps.newHashMap();
+            private final Map<String, DefeatEntry> map = Maps.newHashMap();
 
             public void clear()
             {
-                this.values.clear();
                 this.map.clear();
             }
 
@@ -138,14 +135,16 @@ public class CapabilityHasPokemobs
             {
                 this.clear();
                 for (int i = 0; i < list.size(); i++)
-                    this.values.add(DefeatEntry.createFromNBT(list.getCompound(i)));
-                this.values.forEach(d -> this.map.put(d.id, d));
+                {
+                    final DefeatEntry d = DefeatEntry.createFromNBT(list.getCompound(i));
+                    this.map.put(d.id, d);
+                }
             }
 
             public ListNBT save()
             {
                 final ListNBT list = new ListNBT();
-                for (final DefeatEntry entry : this.values)
+                for (final DefeatEntry entry : this.map.values())
                 {
                     final CompoundNBT CompoundNBT = new CompoundNBT();
                     entry.writeToNBT(CompoundNBT);
@@ -488,7 +487,7 @@ public class CapabilityHasPokemobs
                 this.messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());
                 if (this.notifyDefeat && won instanceof ServerPlayerEntity)
                 {
-                    final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
+                    final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
                     packet.data.putInt("I", this.user.getEntityId());
                     packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTime);
                     PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) won);

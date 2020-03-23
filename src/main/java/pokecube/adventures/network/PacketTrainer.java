@@ -1,9 +1,13 @@
 package pokecube.adventures.network;
 
+import com.google.gson.JsonObject;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,8 +19,15 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.client.gui.items.editor.EditorGui;
+import pokecube.adventures.events.TrainerSpawnHandler;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.events.StructureEvent;
+import pokecube.core.events.StructureEvent.ReadTag;
 import pokecube.core.handlers.events.EventsHandler;
+import thut.api.maths.Vector3;
 import thut.core.common.network.Packet;
 
 public class PacketTrainer extends Packet
@@ -27,11 +38,11 @@ public class PacketTrainer extends Packet
     public static final String EDITTRAINER  = "pokecube_adventures.traineredit.trainer";
     public static final String SPAWNTRAINER = "pokecube_adventures.traineredit.spawn";
 
-    public static final byte MESSAGEUPDATETRAINER = 0;
-    public static final byte MESSAGENOTIFYDEFEAT  = 1;
-    public static final byte MESSAGEKILLTRAINER   = 2;
-    public static final byte MESSAGEUPDATEMOB     = 3;
-    public static final byte MESSAGESPAWNTRAINER  = 4;
+    public static final byte UPDATETRAINER = 0;
+    public static final byte NOTIFYDEFEAT  = 1;
+    public static final byte KILLTRAINER   = 2;
+    public static final byte UPDATEMOB     = 3;
+    public static final byte SPAWN         = 4;
 
     public static void register()
     {
@@ -61,7 +72,7 @@ public class PacketTrainer extends Packet
             editor.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."));
             return;
         }
-        final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGEUPDATETRAINER);
+        final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         packet.data.putBoolean("O", true);
         packet.data.putInt("I", target == null ? -1 : target.getEntityId());
 
@@ -112,14 +123,58 @@ public class PacketTrainer extends Packet
     @OnlyIn(value = Dist.CLIENT)
     public void handleClient()
     {
-        // TODO Auto-generated method stub
-        super.handleClient();
+        final PlayerEntity player = PokecubeCore.proxy.getPlayer();
+        switch (this.message)
+        {
+        case UPDATETRAINER:
+
+            // O for Open Gui Packet.
+            if (this.data.getBoolean("O"))
+            {
+                final int id = this.data.getInt("I");
+                final Entity mob = player.getEntityWorld().getEntityByID(id);
+                if (mob != null && this.data.contains("C"))
+                {
+                    final CompoundNBT nbt = this.data.getCompound("C");
+                    final IHasNPCAIStates ai = CapabilityNPCAIStates.getNPCAIStates(mob);
+                    final IGuardAICapability guard = mob.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+                    final IHasPokemobs pokemobs = CapabilityHasPokemobs.getHasPokemobs(mob);
+                    if (nbt.contains("A")) if (ai != null) CapabilityNPCAIStates.storage.readNBT(
+                            CapabilityNPCAIStates.AISTATES_CAP, ai, null, nbt.get("A"));
+                    if (nbt.contains("G")) if (guard != null) EventsHandler.GUARDAI_CAP.getStorage().readNBT(
+                            EventsHandler.GUARDAI_CAP, guard, null, nbt.get("G"));
+                    if (nbt.contains("P")) if (pokemobs != null) CapabilityHasPokemobs.storage.readNBT(
+                            CapabilityHasPokemobs.HASPOKEMOBS_CAP, pokemobs, null, nbt.get("P"));
+                }
+                net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new EditorGui(mob));
+                return;
+            }
+
+            break;
+        }
     }
 
     @Override
     public void handleServer(final ServerPlayerEntity player)
     {
-        // TODO Auto-generated method stub
-        super.handleServer(player);
+        switch (this.message)
+        {
+        case SPAWN:
+            final String type = this.data.getString("T");
+            final int level = this.data.getInt("L");
+            final boolean leader = this.data.getBoolean("C");
+            System.out.println(type + " " + level + " " + leader);
+            final Vector3 vec = Vector3.getNewVector().set(player);
+            String args = "pokecube_adventures:" + (leader ? "leader" : "trainer");
+            final JsonObject thing = new JsonObject();
+            thing.addProperty("level", level);
+            thing.addProperty("trainerType", type);
+            final String var = PokedexEntryLoader.gson.toJson(thing);
+            args = args + var;
+            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(), player
+                    .getRNG(), MutableBoundingBox.getNewBoundingBox());
+            TrainerSpawnHandler.StructureSpawn(event);
+            break;
+        }
     }
 }

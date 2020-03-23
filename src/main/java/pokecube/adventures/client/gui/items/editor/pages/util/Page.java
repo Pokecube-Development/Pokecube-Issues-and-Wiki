@@ -45,6 +45,7 @@ public abstract class Page extends Screen implements IGuiEventListener
 
     public void onPageOpened()
     {
+        this.parent.children().remove(this.parent.current_page);
         @SuppressWarnings("unchecked")
         final List<IGuiEventListener> list = (List<IGuiEventListener>) this.parent.children();
         list.add(this);
