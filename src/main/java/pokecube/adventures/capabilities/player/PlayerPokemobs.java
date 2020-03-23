@@ -136,6 +136,8 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public LivingEntity getTarget()
     {
+        final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
+        if (oldBattle != null && oldBattle.getTarget() != this.player) this.target = null;
         return super.getTarget();
     }
 

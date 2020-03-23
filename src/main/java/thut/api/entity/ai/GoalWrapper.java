@@ -8,40 +8,21 @@ public class GoalWrapper extends Goal
 {
     final IAIRunnable wrapped;
 
-    public GoalWrapper(IAIRunnable wrap)
+    public GoalWrapper(final IAIRunnable wrap)
     {
         this.wrapped = wrap;
     }
 
-    public GoalWrapper(IAIRunnable wrap, EnumSet<Flag> flags)
+    public GoalWrapper(final IAIRunnable wrap, final EnumSet<Flag> flags)
     {
         this.wrapped = wrap;
         this.setMutexFlags(flags);
     }
 
     @Override
-    public EnumSet<Flag> getMutexFlags()
-    {
-        return super.getMutexFlags();
-    }
-
-    @Override
-    public boolean isPreemptible()
-    {
-        return super.isPreemptible();
-    }
-
-    @Override
     public void resetTask()
     {
         this.wrapped.reset();
-    }
-
-    @Override
-    public void setMutexFlags(EnumSet<Flag> p_220684_1_)
-    {
-        // TODO Auto-generated method stub
-        super.setMutexFlags(p_220684_1_);
     }
 
     @Override
