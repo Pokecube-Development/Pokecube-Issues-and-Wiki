@@ -25,6 +25,31 @@
               "material":"head",
               "blue":0.5,
               "green":0.45
+			},
+            {
+              "material":"body_botton",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_center",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_hair",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"hair_botton",
+			  "blue": 0.9,
+			  "green": 0.8
             }
           ]
         },
@@ -47,8 +72,33 @@
           "colours":[
             {
               "material":"head",
-              "red":0.,
+              "red":0.75,
               "green":0.5
+            },
+            {
+              "material":"body_botton",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_center",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_hair",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"hair_botton",
+			  "blue": 0.9,
+			  "green": 0.8
             }
           ]
         },
@@ -73,6 +123,31 @@
               "material":"head",
               "blue":0.75,
               "green":0.80
+            },
+            {
+              "material":"body_botton",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_center",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_hair",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"hair_botton",
+			  "blue": 0.9,
+			  "green": 0.8
             }
           ]
         },
@@ -97,6 +172,31 @@
               "material":"head",
               "blue":0.25,
               "red":0.5
+            },
+            {
+              "material":"body_botton",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_center",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_hair",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"hair_botton",
+			  "blue": 0.9,
+			  "green": 0.8
             }
           ]
         },
@@ -121,6 +221,31 @@
               "material":"head",
               "blue":0.15,
               "green":0.5
+            },
+            {
+              "material":"body_botton",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_center",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_hair",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"hair_botton",
+			  "blue": 0.9,
+			  "green": 0.8
             }
           ]
         },
@@ -145,6 +270,31 @@
               "material":"head",
               "blue":0.15,
               "green":0.9
+            },
+            {
+              "material":"body_botton",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_center",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_hair",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"hair_botton",
+			  "blue": 0.9,
+			  "green": 0.8
             }
           ]
         },
@@ -168,6 +318,31 @@
             {
               "material":"head",
               "green":0.6
+            },
+            {
+              "material":"body_botton",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_center",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_hair",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "blue": 0.9,
+			  "green": 0.8
+            },
+            {
+              "material":"hair_botton",
+			  "blue": 0.9,
+			  "green": 0.8
             }
           ]
         },
@@ -388,9 +563,9 @@
             }
           ]
         },
-        {
-          "key":"alcremie_ruby_swirl_1",
-          "parent":"alcremie_extra1",
+		{
+          "key":"alcremie_ruby_7",
+          "parent":"alcremie_extra7",
           "colours":[
             {
               "material":"body_botton",
@@ -399,8 +574,8 @@
             },
             {
               "material":"body_center",
-              "blue":1,
-              "green":1
+              "blue":0.75,
+              "green":0.75
             },
             {
               "material":"body_hair",
@@ -409,13 +584,44 @@
             },
             {
               "material":"body_neck",
-              "blue":1,
-              "green":1
+              "blue":0.75,
+              "green":0.75
             },
             {
               "material":"hair_botton",
               "blue":0.75,
               "green":0.75
+            }
+          ]
+        },
+        {
+          "key":"alcremie_matcha_1",
+          "parent":"alcremie_extra1",
+          "colours":[
+            {
+              "material":"body_botton",
+			  "red": 0.8,
+			  "blue": 0.8
+            },
+            {
+              "material":"body_center",
+			  "red": 0.75,
+			  "blue": 0.75
+            },
+            {
+              "material":"body_hair",
+			  "red": 0.8,
+			  "blue": 0.8
+            },
+            {
+              "material":"body_neck",
+			  "red": 0.75,
+			  "blue": 0.75
+            },
+            {
+              "material":"hair_botton",
+			  "red": 0.8,
+			  "blue": 0.8
             }
           ]
         },
