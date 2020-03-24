@@ -314,6 +314,7 @@ public class PacketPokedex extends Packet
         case REWARDS:
             final String reward = this.data.getString("R");
             if (!reward.isEmpty()) Database.loadRewards(reward);
+            pokecube.core.client.gui.GuiInfoMessages.clear();
             return;
         }
     }
