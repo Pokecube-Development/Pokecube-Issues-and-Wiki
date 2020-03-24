@@ -175,15 +175,14 @@ public class PacketTrade extends Packet
                     }
                 }
 
-                System.out.println(pokecube0 + " " + pokecube1 + " " + toTrade + " " + pokeseal + " " + reskin + " "
-                        + seal + " " + skin);
-
+                trade:
                 if (toTrade)
                 {
                     final IPokemob pokemob0 = PokecubeManager.itemToPokemob(pokecube0, player.getEntityWorld());
                     final IPokemob pokemob1 = PokecubeManager.itemToPokemob(pokecube1, player.getEntityWorld());
                     final UUID owner0 = pokemob0.getOwnerId();
                     final UUID owner1 = pokemob1.getOwnerId();
+                    if (owner0 != null && owner0.equals(owner1)) break trade;
                     pokemob0.setOwner(owner1);
                     pokemob1.setOwner(owner0);
                     pokemob0.setTraded(true);
