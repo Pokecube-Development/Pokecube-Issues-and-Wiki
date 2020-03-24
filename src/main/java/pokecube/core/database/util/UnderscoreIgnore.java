@@ -16,6 +16,6 @@ public class UnderscoreIgnore implements ExclusionStrategy
     @Override
     public boolean shouldSkipField(final FieldAttributes f)
     {
-        return !f.getName().startsWith("_");
+        return f.getName().startsWith("_");
     }
 }
