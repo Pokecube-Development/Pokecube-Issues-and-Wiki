@@ -183,11 +183,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void render(final MatrixStack mat, final IVertexBuilder buffer)
     {
         if (this.hidden) return;
-        // Fill the int array
-        final int[] rgbabro = this.getRGBABrO();
         for (final Mesh s : this.shapes)
         {
-            s.rgbabro = rgbabro;
+            // Fill the int array in here, as the rendering can adjust it.
+            s.rgbabro = this.getRGBABrO();
             // Render each Shape
             s.renderShape(mat, buffer, this.texturer);
         }
