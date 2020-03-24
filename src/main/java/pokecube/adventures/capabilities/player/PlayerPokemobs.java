@@ -122,7 +122,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     public void setTarget(LivingEntity target)
     {
         final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
-        if (target != null && oldBattle != null && oldBattle.getTarget() == this.player && oldBattle.canBattle(
+        if (target != null && oldBattle != null && oldBattle.getTargetRaw() == this.player && oldBattle.canBattle(
                 this.player)) return;
         final IHasPokemobs targetmobs = CapabilityHasPokemobs.getHasPokemobs(target);
         if (targetmobs == null && target != null || target == this.player) target = null;
@@ -137,7 +137,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     public LivingEntity getTarget()
     {
         final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
-        if (oldBattle != null && oldBattle != this && oldBattle.getTarget() != this.player) this.target = null;
+        if (oldBattle != null && oldBattle != this && oldBattle.getTargetRaw() != this.player) this.target = null;
         return this.target;
     }
 

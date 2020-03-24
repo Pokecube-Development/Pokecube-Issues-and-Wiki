@@ -733,11 +733,7 @@ public class Database
 
     public static void loadRewards(final String input)
     {
-        if (XMLRewardsHandler.loadedRecipes.add(input))
-        {
-            System.out.println("Loading: " + input.replaceAll(" ", ""));
-            Database.loadRewards(new StringReader(input));
-        }
+        if (XMLRewardsHandler.loadedRecipes.add(input)) Database.loadRewards(new StringReader(input));
     }
 
     public static void loadRewards(final Reader reader)
