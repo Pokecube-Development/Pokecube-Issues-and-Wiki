@@ -347,8 +347,8 @@ public class ClientProxy extends CommonProxy
         {
             final Vector3 pos = this.move_positions.remove(e);
             this.move_sounds.remove(e);
-            final double dist = pos2.distanceTo(pos);
-            if ((float) (15.0f / dist) > 0.1) Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos));
+            final float volume = MoveSound.getVolume(pos, pos2);
+            if (volume > 0) Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos));
         }
     }
 

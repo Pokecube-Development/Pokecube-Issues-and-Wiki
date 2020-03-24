@@ -17,7 +17,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.ai.tasks.idle.AIIdle;
-import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
@@ -579,7 +578,9 @@ public class Config extends ConfigData
     public boolean useCache     = true;
 
     @Configure(category = Config.database)
-    public List<String> configDatabases = Lists.newArrayList(new String[] { "", "", "" });
+    public List<String> configDatabases = Lists.newArrayList(new String[] {
+            "database/pokemobs/pokemobs_pokedex.json;database/pokemobs/pokemobs_spawns.json;database/pokemobs/pokemobs_interacts.json",
+            "database/moves.json", "database/spawns.json" });
 
     @Configure(category = Config.database)
     public List<String> recipeDatabases = Lists.newArrayList(new String[] { "recipes" });
@@ -708,15 +709,6 @@ public class Config extends ConfigData
                     PokecubeCore.LOGGER.error("Error updating " + f.getName(), e);
                 }
             }
-        }
-
-        // Load in the extra databases from configs.
-        // FIXME is this called too late?
-        for (int i = 0; i < Math.min(this.configDatabases.size(), 3); i++)
-        {
-            final String[] args = this.configDatabases.get(i).split(";");
-            for (final String s : args)
-                if (!s.trim().isEmpty()) Database.addDatabase(s, EnumDatabase.values()[i]);
         }
 
         // Ensure these values are in bounds.

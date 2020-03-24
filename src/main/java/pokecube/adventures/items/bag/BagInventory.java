@@ -71,7 +71,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
             final BagInventory loaded = new BagInventory();
             loaded.deserializeNBT(items);
             if (!replace && BagInventory.getMap().containsKey(loaded.owner)) continue;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Loading PC for " + loaded.owner);
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Loading Bag for " + loaded.owner);
             BagInventory load = null;
             load = replace ? loaded : BagInventory.getPC(loaded.owner);
             if (load == null)
@@ -91,7 +91,7 @@ public class BagInventory implements IInventory, INBTSerializable<CompoundNBT>
 
     public static ListNBT saveToNBT(final UUID uuid)
     {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Saving PC for " + uuid);
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Saving Bag for " + uuid);
         final ListNBT nbttag = new ListNBT();
         final CompoundNBT items = BagInventory.getMap().get(uuid).serializeNBT();
         nbttag.add(items);

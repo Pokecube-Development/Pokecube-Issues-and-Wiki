@@ -145,6 +145,10 @@ public abstract class Mesh
         if (texturer != null)
         {
             texturer.applyTexture(this.name);
+
+            if (this.material != null && texturer.isHidden(this.material.name)) return;
+            if (texturer.isHidden(this.name)) return;
+
             if (textureShift = texturer.shiftUVs(this.name, this.uvShift))
             {
                 GL11.glMatrixMode(GL11.GL_TEXTURE);

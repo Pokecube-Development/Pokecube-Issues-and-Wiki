@@ -34,7 +34,7 @@ public class AIMate extends AIBase
     int spawnBabyDelay = 0;
     int pathDelay      = 0;
 
-    public AIMate(IPokemob mob)
+    public AIMate(final IPokemob mob)
     {
         super(mob);
     }
@@ -123,8 +123,8 @@ public class AIMate extends AIBase
                 final IPokemob[] males = loverMob.getMalesForBreeding().toArray(new IPokemob[0]);
                 Arrays.sort(males, (o1, o2) ->
                 {
-                    if (o2.getLevel() == o1.getLevel()) return o1.getDisplayName().getFormattedText().compareTo(
-                            o2.getDisplayName().getFormattedText());
+                    if (o2.getLevel() == o1.getLevel()) return o1.getDisplayName().getFormattedText().compareTo(o2
+                            .getDisplayName().getFormattedText());
                     return o2.getLevel() - o1.getLevel();
                 });
                 final int level = males[0].getLevel();
@@ -164,7 +164,7 @@ public class AIMate extends AIBase
         }
     }
 
-    private AxisAlignedBB makeBox(double dx, double dy, double dz, AxisAlignedBB centre)
+    private AxisAlignedBB makeBox(final double dx, final double dy, final double dz, final AxisAlignedBB centre)
     {
         return centre.grow(dx, dy, dz);
     }
@@ -185,7 +185,7 @@ public class AIMate extends AIBase
     public boolean shouldRun()
     {
         if (!this.pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
-        if (this.cooldown > 0) return false;
+        if (--this.cooldown > 0) return false;
         if (this.pokemob.getLover() != null) if (this.pokemob.tryToBreed() && this.pokemob.getLover().isAlive())
             return true;
         if (this.pokemob.getGeneralState(GeneralStates.MATING)) return true;
@@ -198,12 +198,6 @@ public class AIMate extends AIBase
     @Override
     public void tick()
     {
-        if (this.pokemob.getSexe() != IPokemob.MALE)
-        {
-            int diff = 1 * PokecubeCore.getConfig().mateMultiplier;
-            if (this.pokemob.getLoveTimer() > 0) diff = 1;
-            this.pokemob.setLoveTimer(this.pokemob.getLoveTimer() + diff);
-        }
         Entity mob = this.pokemob.getLover();
         if (mob != null) mob = PokecubeCore.getEntityProvider().getEntity(mob.getEntityWorld(), mob.getEntityId(),
                 true);

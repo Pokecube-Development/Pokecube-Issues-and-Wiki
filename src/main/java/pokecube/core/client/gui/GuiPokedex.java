@@ -54,7 +54,7 @@ public class GuiPokedex extends Screen
 
     public static void renderMob(final MobEntity entity, final Minecraft mc, final int dx, final int dy,
             final float scale, final int height, final int width, final int xSize, final int ySize,
-            final float xHeadRenderAngle, final float yHeadRenderAngle, final float yaw)
+            final float xHeadRenderAngle, final float yHeadRenderAngle, final float yaw, final boolean guarenteeColour)
     {
         try
         {
@@ -73,7 +73,7 @@ public class GuiPokedex extends Screen
             {
                 boolean fullColour = StatsCollector.getCaptured(pokedexEntry, Minecraft.getInstance().player) > 0
                         || StatsCollector.getHatched(pokedexEntry, Minecraft.getInstance().player) > 0
-                        || mc.player.abilities.isCreativeMode;
+                        || mc.player.abilities.isCreativeMode || guarenteeColour;
 
                 // Megas Inherit colouring from the base form.
                 if (!fullColour && pokedexEntry.isMega) fullColour = StatsCollector.getCaptured(pokedexEntry
@@ -389,7 +389,7 @@ public class GuiPokedex extends Screen
         final float hx = 0;
         final float hy = yaw;
         GuiPokedex.renderMob(renderMob.getEntity(), minecraft, 0, 0, 1f, this.height, this.width, this.xSize,
-                this.ySize, hx, hy, yaw);
+                this.ySize, hx, hy, yaw, false);
         GL11.glPopMatrix();
 
         // Draw info about mob

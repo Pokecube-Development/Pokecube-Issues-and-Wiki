@@ -5,13 +5,11 @@ import java.util.UUID;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagInventory;
-import pokecube.core.inventory.pc.PCContainer;
 import thut.core.common.network.Packet;
 
 public class PacketBag extends Packet
@@ -93,8 +91,8 @@ public class PacketBag extends Packet
     public void handleServer(final ServerPlayerEntity player)
     {
 
-        PCContainer container = null;
-        if (player.openContainer instanceof PCContainer) container = (PCContainer) player.openContainer;
+        BagContainer container = null;
+        if (player.openContainer instanceof BagContainer) container = (BagContainer) player.openContainer;
         BagInventory pc;
         switch (this.message)
         {
@@ -118,21 +116,6 @@ public class PacketBag extends Packet
                 pc.boxes = new String[num];
                 for (int i = 0; i < pc.boxes.length; i++)
                     pc.boxes[i] = this.data.getString("N" + i);
-            }
-            break;
-        case RELEASE:
-            final boolean toggle = this.data.getBoolean("T");
-            if (toggle) container.setRelease(this.data.getBoolean("R"));
-            else
-            {
-                final int page = this.data.getInt("page");
-                pc = BagInventory.getPC(this.data.getUniqueId(PacketBag.OWNER));
-                for (int i = 0; i < 54; i++)
-                    if (this.data.getBoolean("val" + i))
-                    {
-                        final int j = i + page * 54;
-                        pc.setInventorySlotContents(j, ItemStack.EMPTY);
-                    }
             }
             break;
         default:

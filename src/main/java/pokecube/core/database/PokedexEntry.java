@@ -53,6 +53,7 @@ import pokecube.core.database.PokedexEntryLoader.Interact;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
+import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
@@ -64,7 +65,6 @@ import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.TimePeriod;
 import pokecube.core.utils.Tools;
-import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
@@ -869,11 +869,11 @@ public class PokedexEntry
     @CopyToGender
     public boolean isSocial = true;
 
-    public boolean isStarter    = false;
+    public boolean    isStarter    = false;
     @CopyToGender
-    public boolean isStationary = false;
+    public boolean    isStationary = false;
     @CopyToGender
-    public boolean legendary    = false;
+    protected boolean legendary    = false;
 
     @CopyToGender
     public float width  = -1;
@@ -1643,15 +1643,7 @@ public class PokedexEntry
             if (e != null && e.species != null && this.species != null) for (final String s : this.species)
                 for (final String s1 : e.species)
                     if (s.equals(s1)) this.addRelation(e);
-
-        final Object[] temp = this.getRelated().toArray();
-        final Double[] nums = new Double[temp.length];
-        for (int i = 0; i < nums.length; i++)
-            nums[i] = (double) ((PokedexEntry) temp[i]).getPokedexNb();
-        new Cruncher().sort(nums, temp);
-        this.getRelated().clear();
-        for (final Object o : temp)
-            this.getRelated().add((PokedexEntry) o);
+        this.getRelated().sort(Database.COMPARATOR);
     }
 
     /**
@@ -1861,5 +1853,11 @@ public class PokedexEntry
         if (hasFemale && sexe == IPokemob.FEMALE) return this.female_holder;
         if (hasMale && sexe == IPokemob.MALE) return this.male_holder;
         return this.default_holder;
+    }
+
+    public boolean isLegendary()
+    {
+        return this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null || SpecialCaseRegister
+                .getSpawnCondition(this) != null;
     }
 }

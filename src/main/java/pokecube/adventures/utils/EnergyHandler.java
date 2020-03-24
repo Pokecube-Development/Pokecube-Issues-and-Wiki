@@ -181,7 +181,7 @@ public class EnergyHandler
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
         Integer output = (int) EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true);
         event.getTile().energy.theoreticalOutput = output;
-        event.getTile().energy.currentOutput = 0;
+        event.getTile().energy.currentOutput = output;
         final IEnergyStorage producer = event.getTile().getCapability(CapabilityEnergy.ENERGY).orElse(null);
         final Integer start = output;
         final Vector3 v = Vector3.getNewVector().set(event.getTile());

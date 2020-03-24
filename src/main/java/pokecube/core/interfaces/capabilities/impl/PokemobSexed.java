@@ -28,7 +28,7 @@ public abstract class PokemobSexed extends PokemobStats
 {
 
     @Override
-    public boolean canMate(AnimalEntity AnimalEntity)
+    public boolean canMate(final AnimalEntity AnimalEntity)
     {
         if (!this.isRoutineEnabled(AIRoutine.MATE)) return false;
         final IPokemob otherMob = CapabilityPokemob.getPokemobFor(AnimalEntity);
@@ -64,13 +64,13 @@ public abstract class PokemobSexed extends PokemobStats
         return false;
     }
 
-    private int getBreedingDelay(IPokemob mate)
+    private int getBreedingDelay(final IPokemob mate)
     {
         return PokecubeCore.getConfig().breedingDelay;
     }
 
     @Override
-    public Object getChild(IBreedingMob male)
+    public Object getChild(final IBreedingMob male)
     {
         if (!IPokemob.class.isInstance(male)) return null;
         boolean transforms = false;
@@ -108,7 +108,7 @@ public abstract class PokemobSexed extends PokemobStats
         return this.males;
     }
 
-    public void lay(IPokemob male)
+    public void lay(final IPokemob male)
     {
         this.here.set(this.getEntity());
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this + " lay()");
@@ -149,7 +149,7 @@ public abstract class PokemobSexed extends PokemobStats
         }
     }
 
-    protected void mate(IBreedingMob male)
+    protected void mate(final IBreedingMob male)
     {
         final IPokemob mate = (IPokemob) male;
         if (male == null || !mate.getEntity().isAlive()) return;
@@ -203,6 +203,6 @@ public abstract class PokemobSexed extends PokemobStats
     @Override
     public boolean tryToBreed()
     {
-        return this.loveTimer > 0 || this.lover != null;
+        return this.loveTimer >= 0 || this.lover != null;
     }
 }

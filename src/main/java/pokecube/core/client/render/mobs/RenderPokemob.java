@@ -23,6 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder.TexColours;
 import pokecube.core.entity.pokemobs.GenericPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.interfaces.IMoveConstants;
@@ -30,12 +31,14 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.capabilities.TextureableCaps.PokemobCap;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
+import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
@@ -59,6 +62,55 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         {
             super();
             this.entry = entry;
+        }
+
+        @Override
+        public void init(final CustomTex customTex)
+        {
+            // First do the super init
+            super.init(customTex);
+
+            // Then do our extra stuff.
+        }
+
+        @Override
+        public void modifiyRGBA(final String part, final int[] rgbaIn)
+        {
+            IPokemob mob = null;
+            if (this.mob instanceof PokemobCap) mob = ((PokemobCap) this.mob).pokemob;
+            holders:
+            if (mob != null)
+            {
+                final FormeHolder holder = mob.getCustomHolder();
+                if (holder == null || holder.loaded_from == null || holder.loaded_from._colourMap_.isEmpty())
+                    break holders;
+
+                if (holder.loaded_from._colourMap_.containsKey(part))
+                {
+                    final TexColours c = holder.loaded_from._colourMap_.get(part);
+                    final float r = c.red * rgbaIn[0] / 255f;
+                    final float g = c.green * rgbaIn[1] / 255f;
+                    final float b = c.blue * rgbaIn[2] / 255f;
+                    final float a = c.alpha * rgbaIn[3] / 255f;
+                    rgbaIn[0] = (int) (r * 255);
+                    rgbaIn[1] = (int) (g * 255);
+                    rgbaIn[2] = (int) (b * 255);
+                    rgbaIn[3] = (int) (a * 255);
+                    return;
+                }
+            }
+            super.modifiyRGBA(part, rgbaIn);
+        }
+
+        @Override
+        public boolean isHidden(final String part)
+        {
+            IPokemob mob = null;
+            if (this.mob instanceof PokemobCap) mob = ((PokemobCap) this.mob).pokemob;
+            if (mob == null) return false;
+            final FormeHolder holder = mob.getCustomHolder();
+            if (holder == null || holder.loaded_from == null) return false;
+            return holder.loaded_from._hide_.contains(part);
         }
 
         @Override

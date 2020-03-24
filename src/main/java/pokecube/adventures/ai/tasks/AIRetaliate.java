@@ -22,7 +22,7 @@ public class AIRetaliate extends AITrainerBase implements ITargetWatcher
         if (this.trainer.getCooldown() > this.entity.getEntityWorld().getGameTime() || !this.trainer.isAgressive())
             return false;
         final LivingEntity target = this.entity.getAttackingEntity();
-        return target != null && target.isAlive() && this.entity.canEntityBeSeen(target);
+        return this.validTargetSet(target);
     }
 
     @Override
@@ -49,6 +49,12 @@ public class AIRetaliate extends AITrainerBase implements ITargetWatcher
     @Override
     public boolean validTargetSet(final LivingEntity target)
     {
-        return this.entity.getAttackingEntity() == target;
+        if (target == null) return false;
+        if (!(target.isAlive() && this.entity.canEntityBeSeen(target))) return false;
+        if (target != null && target.getLastAttackedEntity() == this.entity && target
+                .getLastAttackedEntityTime() < target.ticksExisted + 20) return true;
+        final int timer = this.entity.getRevengeTimer();
+        final int age = this.entity.ticksExisted - 50;
+        return this.entity.getAttackingEntity() == target && timer > age;
     }
 }

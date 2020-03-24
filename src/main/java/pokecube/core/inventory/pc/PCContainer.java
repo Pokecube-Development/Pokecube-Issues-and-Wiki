@@ -1,6 +1,7 @@
 package pokecube.core.inventory.pc;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
@@ -29,8 +30,6 @@ import thut.core.common.ThutCore;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
 
-// TODO inventory tweaks
-// @ChestContainer(isLargeChest = true, showButtons = false)
 public class PCContainer extends BaseContainer
 {
     public static final ContainerType<PCContainer> TYPE = new ContainerType<>(PCContainer::new);
@@ -190,11 +189,11 @@ public class PCContainer extends BaseContainer
         this.inv.closeInventory(player);
     }
 
-    public void setRelease(final boolean bool)
+    public void setRelease(final boolean bool, final UUID id)
     {
         if (this.release && !bool) if (ThutCore.proxy.isClientSide())
         {
-            final PacketPC packet = new PacketPC(PacketPC.RELEASE, this.inv.owner);
+            final PacketPC packet = new PacketPC(PacketPC.RELEASE, id);
             packet.data.putBoolean("T", false);
             packet.data.putInt("page", this.inv.getPage());
             for (int i = 0; i < 54; i++)

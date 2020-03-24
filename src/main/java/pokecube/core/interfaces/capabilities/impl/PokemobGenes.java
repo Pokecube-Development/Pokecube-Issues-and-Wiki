@@ -217,6 +217,16 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 this.genesColour.refreshExpressed();
             }
         }
+        if (this.genes == null)
+        {
+            final int[] rgba = new int[4];
+            rgba[0] = 255;
+            rgba[1] = 255;
+            rgba[2] = 255;
+            rgba[3] = 255;
+            return rgba;
+        }
+
         return this.genesColour.getExpressed().getValue();
     }
 

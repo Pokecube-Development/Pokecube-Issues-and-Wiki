@@ -1,11 +1,22 @@
 package pokecube.adventures;
 
+import java.util.Map.Entry;
+
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
+import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
+import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.utils.EnergyHandler;
+import pokecube.core.database.Database;
+import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
+import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.handlers.ItemGenerator;
+import pokecube.core.items.ItemFossil;
+import thut.api.entity.genetics.Alleles;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -67,11 +78,13 @@ public class Config extends ConfigData
 
     // Cloning related options
     @Configure(type = Type.CLIENT, category = Config.MACHINE)
-    public boolean expandedDNATooltips      = false;
+    public boolean expandedDNATooltips      = true;
     @Configure(category = Config.MACHINE)
     public int     fossilReanimateCost      = 50000;
     @Configure(category = Config.MACHINE)
     public boolean anyReanimate             = true;
+    @Configure(category = Config.MACHINE)
+    public boolean autoAddFossilDNA         = true;
     @Configure(category = Config.MACHINE)
     public String  clonerEfficiencyFunction = "x";
 
@@ -121,6 +134,17 @@ public class Config extends ConfigData
         DaycareTile.initParser(this.dayCarePowerPerExp, this.dayCareExpFunction);
         AfaTile.initParser(this.afaCostFunction, this.afaCostFunctionShiny);
         this.dayCareTickRate = Math.max(1, this.dayCareTickRate);
+
+        if (this.autoAddFossilDNA) for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils.entrySet())
+        {
+            final String name = fossil.getKey();
+            final ItemStack stack = new ItemStack(fossil.getValue());
+            final SpeciesGene gene = new SpeciesGene();
+            final SpeciesInfo info = gene.getValue();
+            info.entry = Database.getEntry(name);
+            final Alleles genes = new Alleles(gene, gene);
+            ClonerHelper.registerDNA(new DNAPack(name, genes, 1), stack);
+        }
     }
 
 }

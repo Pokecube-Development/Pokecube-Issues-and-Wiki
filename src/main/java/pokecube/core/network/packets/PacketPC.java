@@ -86,7 +86,21 @@ public class PacketPC extends Packet
         PCInventory pc;
         switch (this.message)
         {
+        case PCINIT:
+            pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
+            pc.seenOwner = this.data.getBoolean("O");
+            pc.autoToPC = this.data.getBoolean("A");
+            if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
+            if (this.data.contains("N"))
+            {
+                final int num = this.data.getInt("N");
+                pc.boxes = new String[num];
+                for (int i = 0; i < pc.boxes.length; i++)
+                    pc.boxes[i] = this.data.getString("N" + i);
+            }
+            break;
         case BIND:
+            break;
         case PCOPEN:
             pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
             pc.deserializeBox(this.data);
@@ -102,7 +116,9 @@ public class PacketPC extends Packet
 
         PCContainer container = null;
         if (player.openContainer instanceof PCContainer) container = (PCContainer) player.openContainer;
-        PCInventory pc;
+        PCInventory pc = null;
+        if (container != null) pc = container.inv;
+        UUID id;
         switch (this.message)
         {
         case BIND:
@@ -129,7 +145,8 @@ public class PacketPC extends Packet
             break;
         case PCINIT:
             PCInventory.blank = new PCInventory(PCInventory.blank_box);
-            pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
+            id = this.data.getUniqueId(PacketPC.OWNER);
+            pc = PCInventory.getPC(id);
             pc.seenOwner = this.data.getBoolean("O");
             pc.autoToPC = this.data.getBoolean("A");
             if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
@@ -143,11 +160,13 @@ public class PacketPC extends Packet
             break;
         case RELEASE:
             final boolean toggle = this.data.getBoolean("T");
-            if (toggle) container.setRelease(this.data.getBoolean("R"));
+            id = this.data.getUniqueId(PacketPC.OWNER);
+            if (toggle) container.setRelease(this.data.getBoolean("R"), id);
             else
             {
                 final int page = this.data.getInt("page");
-                pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
+                if (pc == null) pc = PCInventory.getPC(id);
+                container.setRelease(this.data.getBoolean("R"), id);
                 for (int i = 0; i < 54; i++)
                     if (this.data.getBoolean("val" + i))
                     {
@@ -157,7 +176,8 @@ public class PacketPC extends Packet
             }
             break;
         case TOGGLEAUTO:
-            pc = PCInventory.getPC(this.data.getUniqueId(PacketPC.OWNER));
+            id = this.data.getUniqueId(PacketPC.OWNER);
+            pc = PCInventory.getPC(id);
             pc.autoToPC = this.data.getBoolean("A");
             break;
         default:

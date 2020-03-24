@@ -83,27 +83,40 @@ public class AnimationChanger implements IAnimationChanger
     }
 
     @Override
-    public int getColourForPart(final String partIdentifier, final Entity entity, final int default_)
+    public boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
     {
         this.checkWildCard(partIdentifier);
-        dye:
+        for (final IAnimationChanger child : this.children)
+            if (child.modifyColourForPart(partIdentifier, entity, rgba)) return true;
+        final int rgb = this.getColourForPart(partIdentifier, entity);
+        final int a = rgb >> 24 & 255;
+        final int r = rgb >> 16 & 255;
+        final int g = rgb >> 8 & 255;
+        final int b = rgb & 255;
+        rgba[0] = r;
+        rgba[1] = g;
+        rgba[2] = b;
+        rgba[3] = a;
+        return true;
+    }
+
+    public int getColourForPart(final String partIdentifier, final Entity entity)
+    {
+        this.checkWildCard(partIdentifier);
+        int rgba = 0xFF000000;
+        final IMobColourable pokemob = entity.getCapability(AnimationChanger.CAPABILITY).orElse(null);
+        if (pokemob == null) return rgba;
         if (this.dyeables.contains(partIdentifier))
         {
-            int rgba = 0xFF000000;
-            final IMobColourable pokemob = entity.getCapability(AnimationChanger.CAPABILITY).orElse(null);
-            if (pokemob == null) break dye;
             final Function<Integer, Integer> offset = this.colourOffsets.get(partIdentifier);
             int colour = pokemob.getDyeColour() & 15;
             if (offset != null) colour = offset.apply(colour);
             rgba += DyeColor.byId(colour).textColor;
             return rgba;
         }
-        for (final IAnimationChanger child : this.children)
-        {
-            final int var = child.getColourForPart(partIdentifier, entity, default_);
-            if (var != default_) return var;
-        }
-        return default_;
+        final int[] arr = pokemob.getRGBA();
+        rgba = (arr[3] & 0xFF) << 24 | (arr[0] & 0xFF) << 16 | (arr[1] & 0xFF) << 8 | (arr[2] & 0xFF) << 0;
+        return rgba;
     }
 
     @Override

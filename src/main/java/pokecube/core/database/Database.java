@@ -498,7 +498,7 @@ public class Database
             PokecubeCore.LOGGER.error("Error with databases ", e);
         }
         // Outputs a file for reference.
-        PokedexEntryLoader.writeCompoundDatabase();
+        if (PokecubeMod.debug) PokedexEntryLoader.writeCompoundDatabase();
         // Init the lists of what all forms are loaded.
         Database.initFormLists();
 
@@ -804,6 +804,7 @@ public class Database
 
     private static void loadStarterPack()
     {
+        Database.starterPack.clear();
         try
         {
             final JAXBContext jaxbContext = JAXBContext.newInstance(XMLStarterItems.class);
@@ -815,7 +816,7 @@ public class Database
             for (final Drop drop : database.drops)
             {
                 final ItemStack stack = PokedexEntryLoader.getStackFromDrop(drop);
-                if (stack != null) Database.starterPack.add(stack);
+                if (!stack.isEmpty()) Database.starterPack.add(stack);
             }
         }
         catch (final Exception e)

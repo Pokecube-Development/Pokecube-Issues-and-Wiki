@@ -190,6 +190,7 @@ public class AIFindTarget extends AIBase implements IAICombat
      */
     final Predicate<Entity> validGuardTarget = input ->
                                              {
+                                                 if (input == AIFindTarget.this.entity) return false;
                                                  if (TeamManager.sameTeam(AIFindTarget.this.entity, input))
                                                      return false;
                                                  if (!AITools.validTargets.test(input)) return false;

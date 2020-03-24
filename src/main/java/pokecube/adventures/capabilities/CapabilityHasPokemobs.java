@@ -1,6 +1,5 @@
 package pokecube.adventures.capabilities;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -103,12 +102,10 @@ public class CapabilityHasPokemobs
 
         public static class DefeatList
         {
-            private final ArrayList<DefeatEntry>   values = new ArrayList<>();
-            private final Map<String, DefeatEntry> map    = Maps.newHashMap();
+            private final Map<String, DefeatEntry> map = Maps.newHashMap();
 
             public void clear()
             {
-                this.values.clear();
                 this.map.clear();
             }
 
@@ -138,14 +135,16 @@ public class CapabilityHasPokemobs
             {
                 this.clear();
                 for (int i = 0; i < list.size(); i++)
-                    this.values.add(DefeatEntry.createFromNBT(list.getCompound(i)));
-                this.values.forEach(d -> this.map.put(d.id, d));
+                {
+                    final DefeatEntry d = DefeatEntry.createFromNBT(list.getCompound(i));
+                    this.map.put(d.id, d);
+                }
             }
 
             public ListNBT save()
             {
                 final ListNBT list = new ListNBT();
-                for (final DefeatEntry entry : this.values)
+                for (final DefeatEntry entry : this.map.values())
                 {
                     final CompoundNBT CompoundNBT = new CompoundNBT();
                     entry.writeToNBT(CompoundNBT);
@@ -179,7 +178,7 @@ public class CapabilityHasPokemobs
         private long                      cooldown      = 0;
         private int                       sight         = -1;
         private TypeTrainer               type;
-        private LivingEntity              target;
+        protected LivingEntity            target;
         private UUID                      outID;
         private boolean                   canMegaEvolve = false;
         private IPokemob                  outMob;
@@ -438,23 +437,35 @@ public class CapabilityHasPokemobs
         {
             // Only store for players
             if (lost instanceof PlayerEntity) this.defeated.validate(lost);
+            if (lost == this.getTarget())
+            {
+                this.setTarget(null);
+                this.resetPokemob();
+            }
         }
 
         @Override
         public void onLose(final Entity won)
         {
             final IHasPokemobs defeatingTrainer = CapabilityHasPokemobs.getHasPokemobs(won);
+
+            // Apply this first to remove any memory of the battle.
+            // This clears the revenge/attacked values, to truely cancel
+            // agression
+            this.deAgro(this, defeatingTrainer);
             // If we were defeated by another trainer, lets forget about the
             // battle.
             if (defeatingTrainer != null)
             {
-                defeatingTrainer.setTarget(null);
                 defeatingTrainer.onWin(this.user);
+                defeatingTrainer.setTarget(null);
+                defeatingTrainer.resetPokemob();
             }
 
             // Get this cleanup stuff done first.
             this.setCooldown(this.user.getEntityWorld().getGameTime() + 10);
             this.setTarget(null);
+            this.resetPokemob();
 
             // Then parse if rewards and actions should be dealt with.
             final boolean reward = !(this.defeatedBy(won) || !this.user.isAlive() || this.user.getHealth() <= 0);
@@ -476,7 +487,7 @@ public class CapabilityHasPokemobs
                 this.messages.sendMessage(MessageState.DEFEAT, won, this.user.getDisplayName(), won.getDisplayName());
                 if (this.notifyDefeat && won instanceof ServerPlayerEntity)
                 {
-                    final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
+                    final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
                     packet.data.putInt("I", this.user.getEntityId());
                     packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTime);
                     PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) won);
@@ -603,24 +614,13 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public void setTarget(LivingEntity target)
+        public void setTarget(final LivingEntity target)
         {
             final Set<ITargetWatcher> watchers = this.getTargetWatchers();
-            if (target != null && !watchers.isEmpty())
-            {
-                boolean valid = false;
-                for (final ITargetWatcher watcher : watchers)
-                    if (watcher.validTargetSet(target))
-                    {
-                        valid = true;
-                        break;
-                    }
-                if (!valid) target = null;
-            }
             // No next pokemob, so we shouldn't have a target in this case.
-            if (this.getPokemob(0).isEmpty())
+            if (target != null && this.getPokemob(0).isEmpty())
             {
-                target = null;
+                this.target = null;
                 // Notify the watchers that a target was actually set.
                 for (final ITargetWatcher watcher : watchers)
                     watcher.onSet(null);
@@ -695,6 +695,12 @@ public class CapabilityHasPokemobs
         {
             this.datasync = sync;
         }
+
+        @Override
+        public LivingEntity getTrainer()
+        {
+            return this.user;
+        }
     }
 
     public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>
@@ -703,6 +709,8 @@ public class CapabilityHasPokemobs
         {
             CONFIG, YES, NO;
         }
+
+        LivingEntity getTrainer();
 
         /** Adds the pokemob back into the inventory, healing it as needed. */
         default boolean addPokemob(ItemStack mob)
@@ -924,6 +932,20 @@ public class CapabilityHasPokemobs
         default void onTick()
         {
             this.lowerCooldowns();
+        }
+
+        default void deAgro(final IHasPokemobs us, final IHasPokemobs them)
+        {
+            if (us != null)
+            {
+                us.getTrainer().setRevengeTarget(null);
+                us.getTrainer().setLastAttackedEntity(null);
+            }
+            if (them != null)
+            {
+                them.getTrainer().setRevengeTarget(null);
+                them.getTrainer().setLastAttackedEntity(null);
+            }
         }
     }
 

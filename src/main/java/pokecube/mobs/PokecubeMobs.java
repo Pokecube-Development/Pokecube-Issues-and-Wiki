@@ -313,6 +313,7 @@ public class PokecubeMobs
     public void registerDatabases(final InitDatabase.Pre evt)
     {
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_pokedex.json", EnumDatabase.POKEMON);
+        Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_formes.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_drops.json", EnumDatabase.POKEMON);
         Database.addDatabase("pokecube_mobs:database/pokemobs/pokemobs_interacts.json", EnumDatabase.POKEMON);

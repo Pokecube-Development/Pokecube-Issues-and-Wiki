@@ -224,7 +224,7 @@ public class CommandConfigs
         String name = "";
         name = prefix + "_check";
         final String perm1 = "command." + name;
-        PermissionAPI.registerNode(perm1, DefaultPermissionLevel.OP, "Is the player allowed to check configs for "
+        PermissionAPI.registerNode(perm1, DefaultPermissionLevel.ALL, "Is the player allowed to check configs for "
                 + data.MODID);
 
         LiteralArgumentBuilder<CommandSource> command = Commands.literal(name).requires(cs -> CommandTools.hasPerm(cs,

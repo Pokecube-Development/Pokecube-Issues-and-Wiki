@@ -5,12 +5,19 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -104,6 +111,20 @@ public class SiphonTile extends InteractableTile implements ITickableTileEntity
     public SiphonTile(final TileEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn);
+    }
+
+    @Override
+    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+            final BlockRayTraceResult hit)
+    {
+        if (hand == Hand.MAIN_HAND && this.energy != null && player instanceof ServerPlayerEntity)
+        {
+            ITextComponent message = null;
+            message = new TranslationTextComponent("block.rfsiphon.info", this.energy.theoreticalOutput
+                    - this.energy.currentOutput, this.energy.theoreticalOutput);
+            player.sendMessage(message);
+        }
+        return super.onInteract(pos, player, hand, hit);
     }
 
     @Override

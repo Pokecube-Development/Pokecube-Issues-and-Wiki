@@ -13,6 +13,8 @@ import com.google.common.collect.HashBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -47,6 +49,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.core.ai.npc.Activities;
+import pokecube.core.ai.npc.Schedules;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.ClientProxy;
@@ -112,6 +116,18 @@ public class PokecubeCore
             SecretBaseDimension.BIOME = new SecretBiome();
             event.getRegistry().register(SecretBaseDimension.BIOME);
             BiomeDictionary.addTypes(SecretBaseDimension.BIOME, BiomeDictionary.Type.VOID);
+        }
+
+        @SubscribeEvent
+        public static void registerActivities(final RegistryEvent.Register<Activity> event)
+        {
+            Activities.register(event);
+        }
+
+        @SubscribeEvent
+        public static void registerSchedules(final RegistryEvent.Register<Schedule> event)
+        {
+            Schedules.register(event);
         }
 
         @SubscribeEvent

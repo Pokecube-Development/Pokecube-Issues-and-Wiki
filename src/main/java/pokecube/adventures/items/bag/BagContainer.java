@@ -17,11 +17,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
 import pokecube.core.inventory.BaseContainer;
-import pokecube.core.inventory.pc.PCSlot;
 import thut.core.common.ThutCore;
 
-// TODO inventory tweaks
-// @ChestContainer(isLargeChest = true, showButtons = false)
 public class BagContainer extends BaseContainer
 {
     public static final ContainerType<BagContainer> TYPE = new ContainerType<>(BagContainer::new);
@@ -65,25 +62,24 @@ public class BagContainer extends BaseContainer
         this.bindInventories();
     }
 
+    protected void bindInventories()
+    {
+        this.clearSlots();
+        this.bindBagInventory();
+        this.bindPlayerInventory(this.invPlayer, 45);
+    }
+
     protected void bindBagInventory()
     {
         int n = 0;
         n = this.inv.getPage() * 54;
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 9; j++)
-                this.addSlot(new PCSlot(this.inv, n + j + i * 9, 8 + j * 18 + BagContainer.xOffset, 18 + i * 18
+                this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + BagContainer.xOffset, 18 + i * 18
                         + BagContainer.yOffset));
         // int k = 0;
         for (final Object o : this.inventorySlots)
             if (o instanceof Slot) ((Slot) o).onSlotChanged();
-    }
-
-    protected void bindInventories()
-    {
-        // System.out.println("bind");
-        this.clearSlots();
-        this.bindBagInventory();
-        this.bindPlayerInventory(this.invPlayer, 45);
     }
 
     @Override
@@ -163,12 +159,6 @@ public class BagContainer extends BaseContainer
             final PlayerEntity player)
     {
         return super.slotClick(slotId, dragType, clickTypeIn, player);
-    }
-
-    @Override
-    public ItemStack transferStackInSlot(final PlayerEntity player, final int index)
-    {
-        return super.transferStackInSlot(player, index);
     }
 
     public void updateInventoryPages(final int dir, final PlayerInventory invent)

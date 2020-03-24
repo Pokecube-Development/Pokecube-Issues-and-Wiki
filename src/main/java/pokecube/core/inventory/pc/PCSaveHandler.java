@@ -37,7 +37,7 @@ public class PCSaveHandler
     {
     }
 
-    public void loadPC(final UUID uuid)
+    public void load(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
         try
@@ -49,7 +49,7 @@ public class PCSaveHandler
                 final FileInputStream fileinputstream = new FileInputStream(file);
                 final CompoundNBT CompoundNBT = CompressedStreamTools.readCompressed(fileinputstream);
                 fileinputstream.close();
-                this.readPcFromNBT(CompoundNBT.getCompound("Data"));
+                this.loadNBT(CompoundNBT.getCompound("Data"));
             }
         }
         catch (final FileNotFoundException e)
@@ -60,7 +60,7 @@ public class PCSaveHandler
         }
     }
 
-    public void readPcFromNBT(final CompoundNBT nbt)
+    public void loadNBT(final CompoundNBT nbt)
     {
         this.seenPCCreator = nbt.getBoolean("seenPCCreator");
         // Read PC Data from NBT
@@ -72,7 +72,7 @@ public class PCSaveHandler
         }
     }
 
-    public void savePC(final UUID uuid)
+    public void save(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
         try
@@ -81,7 +81,7 @@ public class PCSaveHandler
             if (file != null)
             {
                 final CompoundNBT CompoundNBT = new CompoundNBT();
-                this.writePcToNBT(CompoundNBT, uuid);
+                this.writeToNBT(CompoundNBT, uuid);
                 final CompoundNBT CompoundNBT1 = new CompoundNBT();
                 CompoundNBT1.put("Data", CompoundNBT);
                 final FileOutputStream fileoutputstream = new FileOutputStream(file);
@@ -99,7 +99,7 @@ public class PCSaveHandler
         }
     }
 
-    public void writePcToNBT(final CompoundNBT nbt, final UUID uuid)
+    public void writeToNBT(final CompoundNBT nbt, final UUID uuid)
     {
         nbt.putBoolean("seenPCCreator", this.seenPCCreator);
         final ListNBT tagsPC = PCInventory.saveToNBT(uuid);

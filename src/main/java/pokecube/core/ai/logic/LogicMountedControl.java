@@ -170,7 +170,7 @@ public class LogicMountedControl extends LogicBase
         {
             this.entity.isAirBorne = true;
             // TODO somehow configure this jump value.
-            vy += 2;
+            vy += 1;
             net.minecraftforge.common.ForgeHooks.onLivingJump(this.entity);
         }
         else if (verticalControl) vy += 0.1 * this.throttle;

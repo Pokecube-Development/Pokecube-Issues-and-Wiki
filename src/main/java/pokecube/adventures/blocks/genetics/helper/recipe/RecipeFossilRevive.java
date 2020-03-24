@@ -46,7 +46,7 @@ public class RecipeFossilRevive extends PoweredRecipe
             final BlockPos pos = ((TileEntity) tile).getPos();
             final PokedexEntry entry = RecipeFossilRevive.getEntry(this, tile);
             if (entry == Database.missingno) return false;
-            final boolean tame = !entry.legendary;
+            final boolean tame = !entry.isLegendary();
             MobEntity entity = PokecubeCore.createPokemob(entry, world);
             if (entity != null)
             {
@@ -67,6 +67,8 @@ public class RecipeFossilRevive extends PoweredRecipe
 
                 final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
                 if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
+                dnaSource.grow(-1);
+                tile.setInventorySlotContents(0, dnaSource);
                 pokemob = event.getPokemob();
                 entity = pokemob.getEntity();
                 world.addEntity(entity);
