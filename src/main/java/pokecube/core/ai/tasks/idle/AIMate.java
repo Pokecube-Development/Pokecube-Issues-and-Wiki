@@ -184,6 +184,8 @@ public class AIMate extends AIBase
     @Override
     public boolean shouldRun()
     {
+        if (!this.pokemob.getPokedexEntry().breeds) return false;
+        if (this.pokemob.getPokedexEntry().isLegendary() && !PokecubeCore.getConfig().legendsBreed) return false;
         if (!this.pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (--this.cooldown > 0) return false;
         if (this.pokemob.getLover() != null) if (this.pokemob.tryToBreed() && this.pokemob.getLover().isAlive())
