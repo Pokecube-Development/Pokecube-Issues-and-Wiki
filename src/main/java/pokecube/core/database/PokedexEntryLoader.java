@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -108,6 +109,8 @@ public class PokedexEntryLoader
 
     public static class DefaultFormeHolder
     {
+        public static boolean _main_init_ = false;
+
         public static class TexColours
         {
             public String material = "";
@@ -128,11 +131,23 @@ public class PokedexEntryLoader
         public List<TexColours> colours = Lists.newArrayList();
         public String[]         hidden  = {};
 
-        public Map<String, TexColours> _colourMap_ = Maps.newHashMap();
-        public Set<String>             _hide_      = Sets.newHashSet();
+        public Map<String, TexColours>  _colourMap_ = Maps.newHashMap();
+        public Set<String>              _hide_      = Sets.newHashSet();
+        private final List<FormeHolder> _matches    = Lists.newArrayList();
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
+            if (this.key.endsWith("*"))
+            {
+                if (DefaultFormeHolder._main_init_)
+                {
+                    final String key = this.key.substring(0, this.key.length() - 1);
+                    if (this._matches.isEmpty()) for (final ResourceLocation test : Database.formeHolders.keySet())
+                        if (test.getPath().startsWith(key)) this._matches.add(Database.formeHolders.get(test));
+                    if (!this._matches.isEmpty()) return this._matches.get(new Random().nextInt(this._matches.size()));
+                }
+                return null;
+            }
             if (this.key != null)
             {
                 final ResourceLocation key = PokecubeItems.toPokecubeResource(this.key);

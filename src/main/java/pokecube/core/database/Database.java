@@ -46,6 +46,7 @@ import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.PokedexEntry.InteractionLogic;
 import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
+import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.PokedexEntryLoader.XMLDatabase;
@@ -280,6 +281,7 @@ public class Database
 
     public static void registerFormeHolder(final PokedexEntry entry, final FormeHolder holder)
     {
+        if (holder == null) return;
         List<FormeHolder> holders = Database.customModels.get(entry);
         if (holders == null) Database.customModels.put(entry, holders = Lists.newArrayList());
         if (!holders.contains(holder))
@@ -942,6 +944,7 @@ public class Database
                 if (holder != null) Database.registerFormeHolder(data.evolution, holder);
             }
         }
+        DefaultFormeHolder._main_init_ = true;
 
         /** Initialize relations, prey, children. */
         for (final PokedexEntry p : Database.allFormes)
