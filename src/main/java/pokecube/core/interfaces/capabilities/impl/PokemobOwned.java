@@ -317,10 +317,13 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
                     if (!event.isCanceled()) this.onToss((LivingEntity) owner, itemstack.copy());
                 }
             }
+            // This ensures it can't be caught by dupe
+            this.setOwner(tosser.getUniqueID());
+            this.getEntity().setHealth(0);
             this.getEntity().captureDrops(null);
 
             // Set Dead for deletion
-            this.getEntity().remove(onDeath);
+            this.getEntity().remove(true);
         }
     }
 
