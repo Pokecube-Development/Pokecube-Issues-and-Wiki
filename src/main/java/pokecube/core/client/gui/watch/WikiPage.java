@@ -138,6 +138,7 @@ public class WikiPage extends ListPage<LineEntry>
         final List<FreeTranslatedReward> books = Lists.newArrayList();
         for (final IInspectReward reward : PokedexInspector.rewards)
             if (reward instanceof FreeTranslatedReward) books.add((FreeTranslatedReward) reward);
+
         books.sort((o1, o2) -> o1.key.compareTo(o2.key));
         final int offsetX = (this.watch.width - 160) / 2 + 20;
         final int offsetY = (this.watch.height - 160) / 2 + 20;
@@ -164,7 +165,6 @@ public class WikiPage extends ListPage<LineEntry>
             {
             }
         };
-
         final boolean item_book = !book.page_file;
         final String lang = this.minecraft.getLanguageManager().getCurrentLanguage().getCode().toLowerCase(Locale.ROOT);
         if (item_book)

@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
+import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.events.PokedexInspectEvent;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
@@ -98,6 +99,7 @@ public class PokedexInspector
     public static void init()
     {
         PokedexInspector.rewards.clear();
+        XMLRewardsHandler.loadedRecipes.clear();
         Database.loadRewards();
     }
 

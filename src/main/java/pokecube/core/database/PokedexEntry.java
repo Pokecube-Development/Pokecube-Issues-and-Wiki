@@ -177,20 +177,20 @@ public class PokedexEntry
                 this.matcher.reset();
                 this.matcher.parse();
                 final List<String> biomeNames = Lists.newArrayList();
-                for (final BiomeType t : this.matcher.validSubBiomes)
+                for (final BiomeType t : this.matcher._validSubBiomes)
                     biomeNames.add(I18n.format(t.readableName));
                 for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                 {
-                    final boolean valid = this.matcher.validBiomes.contains(test.getRegistryName());
+                    final boolean valid = this.matcher._validBiomes.contains(test.getRegistryName());
                     if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
                 }
                 for (final SpawnBiomeMatcher matcher : this.matcher.children)
                 {
-                    for (final BiomeType t : matcher.validSubBiomes)
+                    for (final BiomeType t : matcher._validSubBiomes)
                         biomeNames.add(I18n.format(t.readableName));
                     for (final Biome test : SpawnBiomeMatcher.getAllBiomes())
                     {
-                        final boolean valid = matcher.validBiomes.contains(test.getRegistryName());
+                        final boolean valid = matcher._validBiomes.contains(test.getRegistryName());
                         if (valid) biomeNames.add(I18n.format(test.getTranslationKey()));
                     }
                 }
@@ -646,14 +646,14 @@ public class PokedexEntry
         public boolean isValid(final Biome biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher.validBiomes.contains(biome.getRegistryName())) return true;
+                if (matcher._validBiomes.contains(biome.getRegistryName())) return true;
             return false;
         }
 
         public boolean isValid(final BiomeType biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher.validSubBiomes.contains(biome)) return true;
+                if (matcher._validSubBiomes.contains(biome)) return true;
             return false;
         }
 
