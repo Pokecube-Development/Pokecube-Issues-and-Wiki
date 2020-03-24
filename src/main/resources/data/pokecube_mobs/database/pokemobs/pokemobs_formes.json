@@ -5,7 +5,7 @@
       "name":"Alcremie",
       "models":[
         {
-          "key":"alcremie_extra1",
+          "key":"alcremie1",
           "hidden":[
             "extra6",
             "extra2",
@@ -29,7 +29,7 @@
           ]
         },
         {
-          "key":"alcremie_extra2",
+          "key":"alcremie2",
           "hidden":[
             "extra1",
             "extra6",
@@ -53,7 +53,7 @@
           ]
         },
         {
-          "key":"alcremie_extra3",
+          "key":"alcremie3",
           "hidden":[
             "extra1",
             "extra2",
@@ -77,7 +77,7 @@
           ]
         },
         {
-          "key":"alcremie_extra4",
+          "key":"alcremie4",
           "hidden":[
             "extra1",
             "extra2",
@@ -101,7 +101,7 @@
           ]
         },
         {
-          "key":"alcremie_extra5",
+          "key":"alcremie5",
           "hidden":[
             "extra1",
             "extra2",
@@ -125,7 +125,7 @@
           ]
         },
         {
-          "key":"alcremie_extra6",
+          "key":"alcremie6",
           "hidden":[
             "extra1",
             "extra2",
@@ -149,7 +149,7 @@
           ]
         },
         {
-          "key":"alcremie_extra7",
+          "key":"alcremie7",
           "hidden":[
             "extra1",
             "extra2",
@@ -173,7 +173,7 @@
         },
         {
           "key":"alcremie_ruby_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -204,7 +204,7 @@
         },
         {
           "key":"alcremie_ruby_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -235,7 +235,7 @@
         },
         {
           "key":"alcremie_ruby_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -266,7 +266,7 @@
         },
         {
           "key":"alcremie_ruby_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -297,7 +297,7 @@
         },
         {
           "key":"alcremie_ruby_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -328,7 +328,7 @@
         },
         {
           "key":"alcremie_ruby_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -359,7 +359,7 @@
         },
         {
           "key":"alcremie_ruby_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
@@ -390,7 +390,7 @@
         },
         {
           "key":"alcremie_matcha_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -421,7 +421,7 @@
         },
 		{
           "key":"alcremie_matcha_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -452,7 +452,7 @@
         },
 		{
           "key":"alcremie_matcha_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -483,7 +483,7 @@
         },
 		{
           "key":"alcremie_matcha_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -514,7 +514,7 @@
         },
 		{
           "key":"alcremie_matcha_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -545,7 +545,7 @@
         },
 		{
           "key":"alcremie_matcha_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -576,7 +576,7 @@
         },
 		{
           "key":"alcremie_matcha_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
@@ -607,7 +607,7 @@
         },
 		{
           "key":"alcremie_mint_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -638,7 +638,7 @@
         },
 		{
           "key":"alcremie_mint_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -669,7 +669,7 @@
         },
 		{
           "key":"alcremie_mint_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -700,7 +700,7 @@
         },
 		{
           "key":"alcremie_mint_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -731,7 +731,7 @@
         },
 		{
           "key":"alcremie_mint_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -762,7 +762,7 @@
         },
 		{
           "key":"alcremie_mint_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -793,7 +793,7 @@
         },
 		{
           "key":"alcremie_mint_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
@@ -824,7 +824,7 @@
         },
 		{
           "key":"alcremie_salted_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -850,7 +850,7 @@
         },
 		{
           "key":"alcremie_salted_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -876,7 +876,7 @@
         },
 		{
           "key":"alcremie_salted_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -902,7 +902,7 @@
         },
 		{
           "key":"alcremie_salted_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -928,7 +928,7 @@
         },
 		{
           "key":"alcremie_salted_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -954,7 +954,7 @@
         },
 		{
           "key":"alcremie_salted_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -980,7 +980,7 @@
         },
 		{
           "key":"alcremie_salted_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
@@ -1006,7 +1006,7 @@
         },
 		{
           "key":"alcremie_swirl_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -1037,7 +1037,7 @@
         },
 		{
           "key":"alcremie_swirl_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -1068,7 +1068,7 @@
         },
 		{
           "key":"alcremie_swirl_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -1099,7 +1099,7 @@
         },
 		{
           "key":"alcremie_swirl_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -1130,7 +1130,7 @@
         },
 		{
           "key":"alcremie_swirl_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -1161,7 +1161,7 @@
         },
 		{
           "key":"alcremie_swirl_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -1192,7 +1192,7 @@
         },
 		{
           "key":"alcremie_swirl_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
@@ -1223,7 +1223,7 @@
         },
 		{
           "key":"alcremie_caramel_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -1254,7 +1254,7 @@
         },
 		{
           "key":"alcremie_caramel_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -1285,7 +1285,7 @@
         },
 		{
           "key":"alcremie_caramel_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -1316,7 +1316,7 @@
         },
 		{
           "key":"alcremie_caramel_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -1347,7 +1347,7 @@
         },
 		{
           "key":"alcremie_caramel_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -1378,7 +1378,7 @@
         },
 		{
           "key":"alcremie_caramel_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -1409,7 +1409,7 @@
         },
 		{
           "key":"alcremie_caramel_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
@@ -1440,7 +1440,7 @@
         },
 		{
           "key":"alcremie_lemon_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -1469,7 +1469,7 @@
         },
 		{
           "key":"alcremie_lemon_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -1498,7 +1498,7 @@
         },
 		{
           "key":"alcremie_lemon_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -1527,7 +1527,7 @@
         },
 		{
           "key":"alcremie_lemon_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -1556,7 +1556,7 @@
         },
 		{
           "key":"alcremie_lemon_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -1585,7 +1585,7 @@
         },
 		{
           "key":"alcremie_lemon_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -1614,7 +1614,7 @@
         },
 		{
           "key":"alcremie_lemon_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
@@ -1643,7 +1643,7 @@
         },
 		{
           "key":"alcremie_rainbow_1",
-          "parent":"alcremie_extra1",
+          "parent":"alcremie1",
           "colours":[
             {
               "material":"body_botton",
@@ -1672,7 +1672,7 @@
         },
 		{
           "key":"alcremie_rainbow_2",
-          "parent":"alcremie_extra2",
+          "parent":"alcremie2",
           "colours":[
             {
               "material":"body_botton",
@@ -1701,7 +1701,7 @@
         },
 		{
           "key":"alcremie_rainbow_3",
-          "parent":"alcremie_extra3",
+          "parent":"alcremie3",
           "colours":[
             {
               "material":"body_botton",
@@ -1730,7 +1730,7 @@
         },
 		{
           "key":"alcremie_rainbow_4",
-          "parent":"alcremie_extra4",
+          "parent":"alcremie4",
           "colours":[
             {
               "material":"body_botton",
@@ -1759,7 +1759,7 @@
         },
 		{
           "key":"alcremie_rainbow_5",
-          "parent":"alcremie_extra5",
+          "parent":"alcremie5",
           "colours":[
             {
               "material":"body_botton",
@@ -1788,7 +1788,7 @@
         },
 		{
           "key":"alcremie_rainbow_6",
-          "parent":"alcremie_extra6",
+          "parent":"alcremie6",
           "colours":[
             {
               "material":"body_botton",
@@ -1817,7 +1817,7 @@
         },
 		{
           "key":"alcremie_rainbow_7",
-          "parent":"alcremie_extra7",
+          "parent":"alcremie7",
           "colours":[
             {
               "material":"body_botton",
