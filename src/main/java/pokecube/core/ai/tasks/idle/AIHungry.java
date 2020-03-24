@@ -158,6 +158,9 @@ public class AIHungry extends AIBase
      * @return found any berries to eat in inventory. */
     protected boolean checkInventory()
     {
+        // Too hungry to check inventory.
+        if (this.hungerTime >= PokecubeCore.getConfig().pokemobLifeSpan) return false;
+
         for (int i = 2; i < 7; i++)
         {
             final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
