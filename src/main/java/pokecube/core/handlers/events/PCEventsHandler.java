@@ -85,7 +85,6 @@ public class PCEventsHandler
     @SubscribeEvent
     public static void PCLoggin(final EntityJoinWorldEvent evt)
     {
-        // TODO see if I need to try to detect if a mob is loaded.
         if (!(evt.getEntity() instanceof ServerPlayerEntity)) return;
 
         final ServerPlayerEntity player = (ServerPlayerEntity) evt.getEntity();
@@ -179,6 +178,7 @@ public class PCEventsHandler
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(out);
                     if (poke != null) poke.onRecall();
                 }
+                mob.remove();
             }
         }
     }
