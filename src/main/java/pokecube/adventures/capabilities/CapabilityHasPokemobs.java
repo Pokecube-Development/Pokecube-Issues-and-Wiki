@@ -701,6 +701,12 @@ public class CapabilityHasPokemobs
         {
             return this.user;
         }
+
+        @Override
+        public LivingEntity getTargetRaw()
+        {
+            return this.target;
+        }
     }
 
     public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>
@@ -865,6 +871,13 @@ public class CapabilityHasPokemobs
         ItemStack getPokemob(int slot);
 
         LivingEntity getTarget();
+
+        /**
+         * This returns the target without any additional checks
+         *
+         * @return
+         */
+        LivingEntity getTargetRaw();
 
         default Set<ITargetWatcher> getTargetWatchers()
         {

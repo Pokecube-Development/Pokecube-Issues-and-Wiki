@@ -123,7 +123,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     {
         if (target == this.player) return;
         final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
-        if (target != null && oldBattle != null && oldBattle.getTarget() == this.player && oldBattle.canBattle(
+        if (target != null && oldBattle != null && oldBattle.getTargetRaw() == this.player && oldBattle.canBattle(
                 this.player)) return;
         final IHasPokemobs targetmobs = CapabilityHasPokemobs.getHasPokemobs(target);
         if (targetmobs == null) target = null;
@@ -132,6 +132,14 @@ public class PlayerPokemobs extends DefaultPokemobs
         // Notify the watchers that a target was actually set.
         for (final ITargetWatcher watcher : watchers)
             watcher.onSet(target);
+    }
+
+    @Override
+    public LivingEntity getTarget()
+    {
+        final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
+        if (oldBattle != null && oldBattle != this && oldBattle.getTargetRaw() != this.player) this.target = null;
+        return this.target;
     }
 
     @Override
