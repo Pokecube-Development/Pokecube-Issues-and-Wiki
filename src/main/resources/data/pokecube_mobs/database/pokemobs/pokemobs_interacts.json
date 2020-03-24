@@ -11287,12 +11287,14 @@
         "evolutions": [
           {
             "name": "Alcremie",
+			"model": {
+              "key": "alcremie_*"
+            },
             "item": {
               "values": {
                 "id": "minecraft:milk_bucket"
               }
-            },
-            "animation": "18"
+            }
           }
         ],
         "species": "Cream"
