@@ -371,5 +371,9 @@ public class Config
         if (COMMON_CONFIG_SPEC != null) Config.loadConfig(holder, COMMON_CONFIG_SPEC, common);
         if (CLIENT_CONFIG_SPEC != null) Config.loadConfig(holder, CLIENT_CONFIG_SPEC, client);
         if (SERVER_CONFIG__SPEC != null) Config.loadConfig(holder, SERVER_CONFIG__SPEC, server);
+
+        // This ensures the values are initialized, this onUpdated is never
+        // called unless the config is different
+        holder.onUpdated();
     }
 }

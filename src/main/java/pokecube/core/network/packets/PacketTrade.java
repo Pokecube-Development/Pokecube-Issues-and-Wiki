@@ -64,7 +64,7 @@ public class PacketTrade extends Packet
         final Container cont = player.openContainer;
         if (!(cont instanceof TradeContainer)) return;
         final TradeContainer container = (TradeContainer) cont;
-        System.out.println(this.data);
+
         final InvWrapper inv = (InvWrapper) container.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                 .orElse(null);
         if (this.data.contains("r"))
@@ -214,7 +214,6 @@ public class PacketTrade extends Packet
 
             }
 
-            System.out.println(slot + " " + slot0 + " " + slot1 + " " + stack);
             final PacketTrade trade = new PacketTrade();
             trade.data.putBoolean("0", slot0);
             trade.data.putBoolean("1", slot1);
