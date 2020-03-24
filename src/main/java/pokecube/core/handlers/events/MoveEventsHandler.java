@@ -217,7 +217,7 @@ public class MoveEventsHandler
         final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getEntityWorld(), location.intX(), location
                 .intY(), location.intZ()) == ForbidReason.REPEL;
         if (!(owner instanceof PlayerEntity)) owner = PokecubeMod.getFakePlayer(user.getEntity().getEntityWorld());
-        if (!repel)
+        if (repel)
         {
             if (!user.getCombatState(CombatStates.ANGRY)) CommandTools.sendError(owner, "pokemob.action.denyrepel");
             return false;
