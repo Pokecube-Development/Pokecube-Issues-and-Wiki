@@ -24,6 +24,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -45,7 +46,6 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
-import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
@@ -129,8 +129,9 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         if (source.getImmediateSource() instanceof ServerPlayerEntity && (this.tilt <= 0 || ((PlayerEntity) source
                 .getImmediateSource()).abilities.isCreativeMode))
         {
-            Tools.giveItem((PlayerEntity) source.getImmediateSource(), this.getItem());
-            this.remove();
+            final ServerPlayerEntity player = (ServerPlayerEntity) source.getImmediateSource();
+            this.processInitialInteract(player, Hand.MAIN_HAND);
+            return false;
         }
         if (source == DamageSource.OUT_OF_WORLD)
         {
