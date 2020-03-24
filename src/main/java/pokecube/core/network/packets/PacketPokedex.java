@@ -1,6 +1,5 @@
 package pokecube.core.network.packets;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,13 +9,8 @@ import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,6 +32,9 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
+import pokecube.core.database.rewards.XMLRewardsHandler;
+import pokecube.core.database.util.QNameAdaptor;
+import pokecube.core.database.util.UnderscoreIgnore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
@@ -57,6 +54,7 @@ import thut.core.common.network.Packet;
 
 public class PacketPokedex extends Packet
 {
+    public static final byte REWARDS      = -13;
     public static final byte BREEDLIST    = -12;
     public static final byte OPEN         = -11;
     public static final byte REORDER      = -10;
@@ -70,51 +68,8 @@ public class PacketPokedex extends Packet
     public static final byte REMOVE       = -2;
     public static final byte RENAME       = -1;
 
-    private static final TypeAdapter<QName> adapter       = new TypeAdapter<QName>()
-                                                          {
-                                                              @Override
-                                                              public QName read(final JsonReader in) throws IOException
-                                                              {
-                                                                  return new QName(in.nextString());
-                                                              }
-
-                                                              @Override
-                                                              public void write(final JsonWriter out, final QName value)
-                                                                      throws IOException
-                                                              {
-                                                                  out.value(value.toString());
-                                                              }
-                                                          };
-    private static final ExclusionStrategy  spawn_matcher = new ExclusionStrategy()
-                                                          {
-                                                              @Override
-                                                              public boolean shouldSkipClass(final Class<?> clazz)
-                                                              {
-                                                                  return false;
-                                                              }
-
-                                                              @Override
-                                                              public boolean shouldSkipField(final FieldAttributes f)
-                                                              {
-                                                                  switch (f.getName())
-                                                                  {
-                                                                  case "validBiomes":
-                                                                      return true;
-                                                                  case "validSubBiomes":
-                                                                      return true;
-                                                                  case "blackListBiomes":
-                                                                      return true;
-                                                                  case "blackListSubBiomes":
-                                                                      return true;
-                                                                  case "additionalConditions":
-                                                                      return true;
-                                                                  }
-                                                                  return false;
-                                                              }
-                                                          };
-
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, PacketPokedex.adapter)
-            .setExclusionStrategies(PacketPokedex.spawn_matcher).create();
+    private static final Gson gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE)
+            .setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
 
     public static List<String>                         values       = Lists.newArrayList();
     public static List<SpawnBiomeMatcher>              selectedMob  = Lists.newArrayList();
@@ -157,11 +112,6 @@ public class PacketPokedex extends Packet
         PacketPokedex.selectedLoc.clear();
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
         PokecubeCore.packets.sendToServer(packet);
-    }
-
-    public static void sendBreedingList(final ServerPlayerEntity player, final PokedexEntry entry)
-    {
-
     }
 
     public static void sendOpenPacket(final ServerPlayerEntity player, final IPokemob pokemob, final boolean watch)
@@ -267,6 +217,16 @@ public class PacketPokedex extends Packet
         PokecubeCore.packets.sendToServer(packet);
     }
 
+    public static void sendLoginPacket(final ServerPlayerEntity target)
+    {
+        for (final String reward : XMLRewardsHandler.loadedRecipes)
+        {
+            final PacketPokedex message = new PacketPokedex(PacketPokedex.REWARDS);
+            message.data.putString("R", reward);
+            PokecubeCore.packets.sendTo(message, target);
+        }
+    }
+
     byte               message;
     public CompoundNBT data = new CompoundNBT();
 
@@ -350,6 +310,10 @@ public class PacketPokedex extends Packet
             for (int i = 0; i < num; i++)
                 related.add(data.getString("" + i));
             PacketPokedex.relatedLists.put(entry, related);
+            return;
+        case REWARDS:
+            final String reward = this.data.getString("R");
+            if (!reward.isEmpty()) Database.loadRewards(reward);
             return;
         }
     }

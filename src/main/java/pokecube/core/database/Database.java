@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -730,17 +731,35 @@ public class Database
             }
     }
 
+    public static void loadRewards(final String input)
+    {
+        if (XMLRewardsHandler.loadedRecipes.add(input))
+        {
+            System.out.println("Loading: " + input.replaceAll(" ", ""));
+            Database.loadRewards(new StringReader(input));
+        }
+    }
+
+    public static void loadRewards(final Reader reader)
+    {
+        final XMLRewards database = PokedexEntryLoader.gson.fromJson(reader, XMLRewards.class);
+        for (final XMLReward drop : database.recipes)
+            XMLRewardsHandler.addReward(drop);
+    }
+
     public static void loadRewards()
     {
         for (final ResourceLocation name : XMLRewardsHandler.recipeFiles)
             try
             {
-                final Reader reader = new InputStreamReader(Database.resourceManager.getResource(name)
-                        .getInputStream());
-                final XMLRewards database = PokedexEntryLoader.gson.fromJson(reader, XMLRewards.class);
+                final BufferedReader reader = new BufferedReader(new InputStreamReader(Database.resourceManager
+                        .getResource(name).getInputStream()));
+                final StringBuffer sb = new StringBuffer();
+                String str;
+                while ((str = reader.readLine()) != null)
+                    sb.append(str);
                 reader.close();
-                for (final XMLReward drop : database.recipes)
-                    XMLRewardsHandler.addReward(drop);
+                Database.loadRewards(sb.toString());
             }
             catch (final FileNotFoundException e)
             {

@@ -10,7 +10,6 @@ import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
@@ -20,7 +19,6 @@ import pokecube.core.contributors.Contributor;
 import pokecube.core.contributors.ContributorManager;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
-import pokecube.core.interfaces.IHealer;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -155,28 +153,7 @@ public class PokecubePacketHandler
         }
     }
 
-    public final static byte CHANNEL_ID_ChooseFirstPokemob = 0;
-    public final static byte CHANNEL_ID_PokemobMove        = 1;
-
-    public final static byte CHANNEL_ID_EntityPokemob = 2;
-    public final static byte CHANNEL_ID_HealTable     = 3;
-
-    public final static byte CHANNEL_ID_PokemobSpawner = 4;
-
-    public final static byte CHANNEL_ID_STATS = 6;
-
-    public static boolean giveHealer = true;
-
     public static HashMap<Contributor, StarterInfoContainer> specialStarters = Maps.newHashMap();
-
-    public static void handlePokecenterPacket(final ServerPlayerEntity sender)
-    {
-        if (sender.openContainer instanceof IHealer)
-        {
-            final IHealer healer = (IHealer) sender.openContainer;
-            healer.heal();
-        }
-    }
 
     public static void init()
     {

@@ -105,6 +105,7 @@ import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokecube;
+import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
@@ -508,6 +509,7 @@ public class EventsHandler
 
         PacketDataSync.sendInitPacket(player, "pokecube-data");
         PacketDataSync.sendInitPacket(player, "pokecube-stats");
+        PacketPokedex.sendLoginPacket((ServerPlayerEntity) player);
 
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(evt.getPlayer());
     }

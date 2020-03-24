@@ -41,16 +41,16 @@ public class SpawnListEntry
         this.value = value;
         this.parent = parent;
         this.fontRender = fontRender;
-        value.additionalConditions = Sets.newHashSet();
-        value.blackListBiomes = Sets.newHashSet();
-        value.blackListSubBiomes = Sets.newHashSet();
-        value.validBiomes = Sets.newHashSet();
-        value.validSubBiomes = Sets.newHashSet();
+        value._additionalConditions = Sets.newHashSet();
+        value._blackListBiomes = Sets.newHashSet();
+        value._blackListSubBiomes = Sets.newHashSet();
+        value._validBiomes = Sets.newHashSet();
+        value._validSubBiomes = Sets.newHashSet();
         value.reset();
         value.parse();
 
         final List<ITextComponent> biomes = Lists.newArrayList();
-        if (value.validBiomes != null) for (final ResourceLocation b : value.validBiomes)
+        if (value._validBiomes != null) for (final ResourceLocation b : value._validBiomes)
             biomes.add(ForgeRegistries.BIOMES.getValue(b).getDisplayName());
         if (entry != null) this.output.add(entry.getName() + ":");
         final String ind = entry != null ? "  " : "";
@@ -67,7 +67,7 @@ public class SpawnListEntry
         }
 
         final List<String> types = Lists.newArrayList();
-        if (value.validSubBiomes != null) for (final BiomeType t : value.validSubBiomes)
+        if (value._validSubBiomes != null) for (final BiomeType t : value._validSubBiomes)
             types.add(I18n.format(t.readableName));
         if (!types.isEmpty())
         {

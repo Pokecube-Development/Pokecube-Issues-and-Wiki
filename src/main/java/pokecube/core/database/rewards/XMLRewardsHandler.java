@@ -145,8 +145,8 @@ public class XMLRewardsHandler
 
         public static class FreeTranslatedReward implements IInspectReward
         {
-            public static Map<String, ItemStack> lang_stacks = Maps.newHashMap();
-            public static Map<String, PagesFile> lang_books  = Maps.newHashMap();
+            public Map<String, ItemStack> lang_stacks = Maps.newHashMap();
+            public Map<String, PagesFile> lang_books  = Maps.newHashMap();
 
             public final String  key;
             public final boolean watch_only;
@@ -169,15 +169,15 @@ public class XMLRewardsHandler
             public ItemStack getInfoStack(String lang)
             {
                 lang = lang.toLowerCase(Locale.ROOT);
-                if (!FreeTranslatedReward.lang_stacks.containsKey(lang)) this.initLangBook(lang);
-                return FreeTranslatedReward.lang_stacks.getOrDefault(lang, ItemStack.EMPTY).copy();
+                if (!this.lang_stacks.containsKey(lang)) this.initLangBook(lang);
+                return this.lang_stacks.getOrDefault(lang, ItemStack.EMPTY).copy();
             }
 
             public PagesFile getInfoBook(String lang)
             {
                 lang = lang.toLowerCase(Locale.ROOT);
-                if (!FreeTranslatedReward.lang_books.containsKey(lang)) this.initLangBook(lang);
-                return FreeTranslatedReward.lang_books.getOrDefault(lang, null);
+                if (!this.lang_books.containsKey(lang)) this.initLangBook(lang);
+                return this.lang_books.getOrDefault(lang, null);
             }
 
             @Override
@@ -216,7 +216,7 @@ public class XMLRewardsHandler
                     {
                         final PagesFile book = PokedexEntryLoader.gson.fromJson(new InputStreamReader(stream, "UTF-8"),
                                 PagesFile.class);
-                        FreeTranslatedReward.lang_books.put(key, book);
+                        this.lang_books.put(key, book);
                     }
                     else
                     {
@@ -227,7 +227,7 @@ public class XMLRewardsHandler
                         try
                         {
                             stack.setTag(JsonToNBT.getTagFromJson(json));
-                            FreeTranslatedReward.lang_stacks.put(key, stack);
+                            this.lang_stacks.put(key, stack);
                         }
                         catch (final Exception e)
                         {
@@ -326,6 +326,8 @@ public class XMLRewardsHandler
     }
 
     public static Set<ResourceLocation> recipeFiles = Sets.newHashSet();
+
+    public static Set<String> loadedRecipes = Sets.newHashSet();
 
     public static Map<String, IRewardParser> recipeParsers = Maps.newHashMap();
 

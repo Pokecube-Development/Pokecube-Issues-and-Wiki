@@ -3,7 +3,6 @@ package pokecube.core.database;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
@@ -32,9 +31,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -50,6 +46,7 @@ import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.core.database.PokedexEntryLoader.StatsNode.Stats;
 import pokecube.core.database.abilities.AbilityManager;
+import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
@@ -548,20 +545,8 @@ public class PokedexEntryLoader
 
     static
     {
-        gson = new GsonBuilder().registerTypeAdapter(QName.class, new TypeAdapter<QName>()
-        {
-            @Override
-            public QName read(final JsonReader in) throws IOException
-            {
-                return new QName(in.nextString());
-            }
-
-            @Override
-            public void write(final JsonWriter out, final QName value) throws IOException
-            {
-                out.value(value.toString());
-            }
-        }).setPrettyPrinting().disableHtmlEscaping().create();
+        gson = new GsonBuilder().registerTypeAdapter(QName.class, QNameAdaptor.INSTANCE).setPrettyPrinting()
+                .disableHtmlEscaping().create();
         PokedexEntryLoader.missingno.stats = new StatsNode();
     }
 
