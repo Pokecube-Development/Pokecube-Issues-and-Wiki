@@ -3,22 +3,19 @@ package pokecube.core.ai.routes;
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.world.server.ServerWorld;
-import pokecube.core.ai.npc.Activities;
 
 public class GuardTask<T extends MobEntity> extends Task<MobEntity>
 {
-    final GuardAI  goal;
-    final Brain<T> brain;
+    final GuardAI goal;
 
-    public GuardTask(final Brain<T> brain, final GuardAI goal)
+    public GuardTask(final GuardAI goal)
     {
         super(ImmutableMap.of());
         this.goal = goal;
-        this.brain = brain;
     }
 
     @Override
@@ -37,21 +34,25 @@ public class GuardTask<T extends MobEntity> extends Task<MobEntity>
     @Override
     protected void startExecuting(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
-        this.brain.switchTo(Activities.STATIONARY);
+        entityIn.getBrain().switchTo(Activity.IDLE);
         this.goal.startExecuting();
     }
 
     @Override
     protected void resetTask(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
-        this.brain.switchTo(Activity.IDLE);
+        entityIn.getBrain().switchTo(Activity.IDLE);
         this.goal.resetTask();
+        entityIn.getNavigator().clearPath();
+        entityIn.getBrain().removeMemory(MemoryModuleType.PATH);
     }
 
     @Override
     protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
         this.goal.tick();
+        if (owner.getNavigator().getPath() != null) owner.getBrain().setMemory(MemoryModuleType.PATH, owner
+                .getNavigator().getPath());
     }
 
     @Override

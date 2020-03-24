@@ -379,6 +379,7 @@ public class Pokecube extends Item implements IPokecube
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
         entity.shootingEntity = thrower.isCrouching() ? null : thrower;
+        if (thrower.isCrouching()) entity.setNoCollisionRelease();
         entity.shooter = thrower.getUniqueID();
         entity.setItem(stack);
 

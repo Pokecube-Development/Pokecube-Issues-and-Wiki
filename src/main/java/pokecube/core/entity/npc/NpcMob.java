@@ -81,12 +81,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         this.enablePersistence();
     }
 
-    private ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addGuard(
-            final Brain<VillagerEntity> brain, final GuardAI guardai,
+    private ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addGuard(final GuardAI guardai,
             final ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addTo)
     {
         final List<Pair<Integer, ? extends Task<? super VillagerEntity>>> temp = Lists.newArrayList(addTo);
-        final Pair<Integer, GuardTask<VillagerEntity>> pair = Pair.of(0, new GuardTask<>(brain, guardai));
+        final Pair<Integer, GuardTask<VillagerEntity>> pair = Pair.of(0, new GuardTask<>(guardai));
         temp.add(0, pair);
         return ImmutableList.copyOf(temp);
     }
@@ -104,26 +103,24 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             if (this.isChild())
             {
                 brain.setSchedule(Schedules.CHILD);
-                brain.registerActivity(Activity.PLAY, this.addGuard(brain, guardai, VillagerTasks.play(f)));
+                brain.registerActivity(Activity.PLAY, this.addGuard(guardai, VillagerTasks.play(f)));
             }
             else
             {
                 brain.setSchedule(Schedules.ADULT);
-                brain.registerActivity(Activity.WORK, this.addGuard(brain, guardai, VillagerTasks.work(profession, f)),
+                brain.registerActivity(Activity.WORK, this.addGuard(guardai, VillagerTasks.work(profession, f)),
                         ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
             }
-            brain.registerActivity(Activity.CORE, this.addGuard(brain, guardai, VillagerTasks.core(profession, f)));
-            brain.registerActivity(Activity.MEET, this.addGuard(brain, guardai, VillagerTasks.meet(profession, f)),
+            brain.registerActivity(Activity.CORE, this.addGuard(guardai, VillagerTasks.core(profession, f)));
+            brain.registerActivity(Activity.MEET, this.addGuard(guardai, VillagerTasks.meet(profession, f)),
                     ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
-            brain.registerActivity(Activity.REST, this.addGuard(brain, guardai, VillagerTasks.rest(profession, f)));
-            brain.registerActivity(Activity.IDLE, this.addGuard(brain, guardai, VillagerTasks.idle(profession, f)));
-            brain.registerActivity(Activity.PANIC, this.addGuard(brain, guardai, VillagerTasks.panic(profession, f)));
-            brain.registerActivity(Activity.PRE_RAID, this.addGuard(brain, guardai, VillagerTasks.preRaid(profession,
-                    f)));
-            brain.registerActivity(Activity.RAID, this.addGuard(brain, guardai, VillagerTasks.raid(profession, f)));
-            brain.registerActivity(Activity.HIDE, this.addGuard(brain, guardai, VillagerTasks.hide(profession, f)));
-            brain.registerActivity(Activities.STATIONARY, this.addGuard(brain, guardai, Tasks.stationary(profession,
-                    f)));
+            brain.registerActivity(Activity.REST, this.addGuard(guardai, VillagerTasks.rest(profession, f)));
+            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, VillagerTasks.idle(profession, f)));
+            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, VillagerTasks.panic(profession, f)));
+            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, VillagerTasks.preRaid(profession, f)));
+            brain.registerActivity(Activity.RAID, this.addGuard(guardai, VillagerTasks.raid(profession, f)));
+            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, VillagerTasks.hide(profession, f)));
+            brain.registerActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setDefaultActivities(ImmutableSet.of(Activity.CORE));
             brain.setFallbackActivity(Activity.IDLE);
             brain.switchTo(Activity.IDLE);
