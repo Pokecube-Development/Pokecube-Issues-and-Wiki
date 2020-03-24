@@ -378,13 +378,14 @@ public class TrainerEventHandler
         }
 
         final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(npc);
-        if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld)) return;
+        if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld) || npc instanceof PlayerEntity) return;
         if (npc.getPersistentData().contains("pokeadv_join") && npc.getPersistentData().getLong("pokeadv_join") == npc
                 .getEntityWorld().getGameTime()) return;
         npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
 
         // Wrap it as a fake vanilla AI
         if (npc instanceof MobEntity) TypeTrainer.addAI((MobEntity) npc);
+        PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
 
         final TypeTrainer newType = TypeTrainer.get(npc, true);
         if (newType == null) return;
@@ -512,7 +513,7 @@ public class TrainerEventHandler
             final TrainerNpc trainer = (TrainerNpc) event.getTarget();
             if (pokemobs.notifyDefeat)
             {
-                final PacketTrainer packet = new PacketTrainer(PacketTrainer.MESSAGENOTIFYDEFEAT);
+                final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
                 packet.data.putInt("I", trainer.getEntityId());
                 packet.data.putBoolean("V", pokemobs.defeatedBy(event.getPlayer()));
                 PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) event.getPlayer());

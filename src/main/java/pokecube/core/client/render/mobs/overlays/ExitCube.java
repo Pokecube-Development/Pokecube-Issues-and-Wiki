@@ -67,5 +67,21 @@ public class ExitCube
                 PokecubeCore.spawnParticle(entity.getEntityWorld(), "powder", loc, vel, colour | 0xFF000000);
             }
         }
+        if (pokemob.isShiny())
+        {
+            final Random rand = new Random();
+            final Vector3 loc = Vector3.getNewVector().set(entity, true);
+            final float width = entity.getWidth();
+            final Vector3 vel = Vector3.getNewVector();
+            vel.x = rand.nextGaussian() / 100;
+            vel.y = rand.nextGaussian() / 100;
+            vel.z = rand.nextGaussian() / 100;
+            loc.x += width * rand.nextGaussian() / 2;
+            loc.y += width * rand.nextGaussian() / 2;
+            loc.z += width * rand.nextGaussian() / 2;
+            final int colour = DyeColor.GREEN.textColor;
+            if (rand.nextFloat() < 0.125) PokecubeCore.spawnParticle(entity.getEntityWorld(), "happy_villager", loc,
+                    vel, colour | 0xFF000000);
+        }
     }
 }

@@ -48,6 +48,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.combat.KillEvent;
@@ -504,8 +505,23 @@ public class PokemobEventsHandler
             if (!held.isEmpty())
             {
                 // Check if it should evolve from item, do so if yes.
+                evo:
                 if (pokemob.canEvolve(held))
                 {
+                    boolean valid = false;
+                    if (pokemob.getPokedexEntry().canEvolve() && pokemob.getEntity().isServerWorld())
+                        for (final EvolutionData d : pokemob.getPokedexEntry().getEvolutions())
+                        {
+                        boolean hasItem = !d.item.isEmpty();
+                        hasItem = hasItem || d.preset != null;
+                        if (hasItem && d.shouldEvolve(pokemob, held))
+                        {
+                        valid = true;
+                        break;
+                        }
+                        }
+                    if (!valid) break evo;
+
                     final IPokemob evolution = pokemob.evolve(true, false, held);
                     if (evolution != null) if (!player.abilities.isCreativeMode)
                     {

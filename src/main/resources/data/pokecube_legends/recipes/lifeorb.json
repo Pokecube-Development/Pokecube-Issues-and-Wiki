@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MNM",
+    "MOM",
+    "MBM"
+  ],
+  "key": {
+    "M": {
+      "item": "minecraft:quartz_block"
+    },
+    "O": {
+      "item": "pokecube_legends:grayorb"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "B": {
+      "item": "minecraft:golden_apple"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:lifeorb",
+    "count": 1
+  }
+}

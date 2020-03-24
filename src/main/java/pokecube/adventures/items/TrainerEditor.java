@@ -2,11 +2,13 @@ package pokecube.adventures.items;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
+import pokecube.adventures.network.PacketTrainer;
 
 public class TrainerEditor extends Item
 {
@@ -20,14 +22,17 @@ public class TrainerEditor extends Item
     public boolean itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
             final LivingEntity target, final Hand hand)
     {
-        // TODO Auto-generated method stub
-        return super.itemInteractionForEntity(stack, playerIn, target, hand);
+        if (playerIn instanceof ServerPlayerEntity) PacketTrainer.sendEditOpenPacket(target,
+                (ServerPlayerEntity) playerIn);
+        return true;
     }
 
     @Override
     public ActionResultType onItemUse(final ItemUseContext context)
     {
-        // TODO Auto-generated method stub
-        return super.onItemUse(context);
+        final PlayerEntity playerIn = context.getPlayer();
+        if (playerIn instanceof ServerPlayerEntity) PacketTrainer.sendEditOpenPacket(null,
+                (ServerPlayerEntity) playerIn);
+        return ActionResultType.SUCCESS;
     }
 }

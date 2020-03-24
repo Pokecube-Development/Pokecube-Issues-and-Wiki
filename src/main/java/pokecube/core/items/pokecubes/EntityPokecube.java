@@ -254,7 +254,7 @@ public class EntityPokecube extends EntityPokecubeBase
     {
         final boolean filled = PokecubeManager.isFilled(this.getItem());
         this.setTime(this.getTime() - 1);
-        if (this.isReleasing()) if (this.getTime() < 0 || this.getReleased() == null || !this.getReleased().isAlive())
+        if (this.isReleasing() && (this.getTime() < 0 || this.getReleased() == null || !this.getReleased().isAlive()))
         {
             this.remove();
             return;

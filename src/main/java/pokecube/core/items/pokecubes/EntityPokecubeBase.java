@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -163,6 +164,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         case ENTITY:
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
             final boolean capturing = this.getTilt() >= 0;
+            final boolean releasing = this.isReleasing();
             final IPokemob hitMob = CapabilityPokemob.getPokemobFor(hit.getEntity());
 
             final boolean invalidStick = hit.getEntity() instanceof PlayerEntity || !capturing || hitMob == null
@@ -172,9 +174,14 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (!invalidStick) this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
 
             // Capturing or on client, break early.
-            if (!this.isServerWorld() || capturing) break;
+            if (!this.isServerWorld() || capturing || releasing) break;
             // Send out or try to capture.
-            if (PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
+            if (PokecubeManager.isFilled(this.getItem()))
+            {
+                final LivingEntity sent = SendOutManager.sendOut(this, true);
+                if (sent instanceof MobEntity && hit.getEntity() instanceof LivingEntity) ((MobEntity) sent)
+                        .setAttackTarget((LivingEntity) hit.getEntity());
+            }
             else CaptureManager.captureAttempt(this, this.rand, hit.getEntity());
             break;
         case MISS:
@@ -196,7 +203,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                             mob) < 4;
         };
 
-        for (final Entity entity : this.world.getEntitiesInAABBexcluding(this, axisalignedbb, valid))
+        if (!this.isReleasing()) for (final Entity entity : this.world.getEntitiesInAABBexcluding(this, axisalignedbb,
+                valid))
         {
             if (entity == this.ignoreEntity)
             {
@@ -264,7 +272,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             final double dr = dir.distanceTo(here);
             double dist = dr / 10;
             dist = Math.min(2, dist);
-            if (dr > 0.2) dist = Math.max(0.2, dist);
+            if (dr > 0.5) dist = Math.max(0.5, dist);
             dir.subtractFrom(here);
             dir.norm().scalarMultBy(dist);
             dir.setVelocities(this);
@@ -332,6 +340,9 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
         this.autoRelease--;
         if (this.autoRelease == 0) SendOutManager.sendOut(this, true);
+        final boolean capturing = this.getTilt() >= 0;
+        final boolean releasing = this.isReleasing();
+        if (capturing || releasing) this.seeking = false;
 
         this.preValidateVelocity();
         this.checkCollision();

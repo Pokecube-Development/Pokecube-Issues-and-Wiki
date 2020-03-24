@@ -1,6 +1,5 @@
 package thut.api.entity.ai;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -44,26 +43,8 @@ public class GoalsWrapper extends Goal
     }
 
     @Override
-    public EnumSet<Flag> getMutexFlags()
-    {
-        return super.getMutexFlags();
-    }
-
-    @Override
-    public boolean isPreemptible()
-    {
-        return false;
-    }
-
-    @Override
     public void resetTask()
     {
-    }
-
-    @Override
-    public void setMutexFlags(final EnumSet<Flag> p_220684_1_)
-    {
-        super.setMutexFlags(p_220684_1_);
     }
 
     @Override

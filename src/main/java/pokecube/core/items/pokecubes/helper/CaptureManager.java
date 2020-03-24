@@ -135,7 +135,6 @@ public class CaptureManager
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         cube.setNotCapturing();
 
-        System.out.println(mob);
         if (mob != null)
         {
 
