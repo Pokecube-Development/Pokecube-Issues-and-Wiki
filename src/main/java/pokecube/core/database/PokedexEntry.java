@@ -1857,7 +1857,9 @@ public class PokedexEntry
 
     public boolean isLegendary()
     {
-        return this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null || SpecialCaseRegister
-                .getSpawnCondition(this) != null;
+        final boolean baseLegend = this.getBaseForme() != null && this.getBaseForme() != this ? this.getBaseForme()
+                .isLegendary() : false;
+        return baseLegend || this.legendary || SpecialCaseRegister.getCaptureCondition(this) != null
+                || SpecialCaseRegister.getSpawnCondition(this) != null;
     }
 }
