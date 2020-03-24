@@ -11287,12 +11287,92 @@
         "evolutions": [
           {
             "name": "Alcremie",
+			"chance": 0.5,
+			"model": {
+              "key": "alcremie_ruby"
+            },
             "item": {
               "values": {
                 "id": "minecraft:milk_bucket"
               }
+            }
+          },
+		  {
+            "name": "Alcremie",
+			"model": {
+              "key": "alcremie_matcha"
             },
-            "animation": "18"
+            "item": {
+              "values": {
+                "id": "minecraft:milk_bucket"
+              }
+            }
+          },
+		  {
+            "name": "Alcremie",
+			"model": {
+              "key": "alcremie_mint"
+            },
+            "item": {
+              "values": {
+                "id": "minecraft:milk_bucket"
+              }
+            }
+          },
+		  {
+            "name": "Alcremie",
+			"model": {
+              "key": "alcremie_salted"
+            },
+            "item": {
+              "values": {
+                "id": "minecraft:milk_bucket"
+              }
+            }
+          },
+		  {
+            "name": "Alcremie",
+			"model": {
+              "key": "alcremie_swirl"
+            },
+            "item": {
+              "values": {
+                "id": "minecraft:milk_bucket"
+              }
+            }
+          },
+		  {
+            "name": "Alcremie",
+			"model": {
+              "key": "alcremie_caramel"
+            },
+            "item": {
+              "values": {
+                "id": "minecraft:milk_bucket"
+              }
+            }
+          },
+		  {
+            "name": "Alcremie",
+			"model": {
+              "key": "alcremie_lemon"
+            },
+            "item": {
+              "values": {
+                "id": "minecraft:milk_bucket"
+              }
+            }
+          },
+		  {
+            "name": "Alcremie",
+			"model": {
+              "key": "alcremie_rainbow"
+            },
+            "item": {
+              "values": {
+                "id": "minecraft:milk_bucket"
+              }
+            }
           }
         ],
         "species": "Cream"
