@@ -86,6 +86,8 @@ public class CommonProxy implements Proxy
         PokecubeAdv.packets.registerMessage(PacketBag.class, PacketBag::new);
         PokecubeAdv.packets.registerMessage(PacketTrainer.class, PacketTrainer::new);
         PokecubeAdv.packets.registerMessage(PacketCommander.class, PacketCommander::new);
+
+        PacketTrainer.register();
     }
 
     @Override
