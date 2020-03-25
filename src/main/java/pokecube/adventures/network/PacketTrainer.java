@@ -162,7 +162,7 @@ public class PacketTrainer extends Packet
         {
         case SPAWN:
 
-            if (PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
+            if (!PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
             {
                 player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."));
                 return;
