@@ -125,7 +125,7 @@ public interface IGuardAICapability
     public static void addCapability(final AttachCapabilitiesEvent<?> event)
     {
         if (event.getCapabilities().containsKey(IGuardAICapability.GUARDCAP)) return;
-
+        event.addCapability(IGuardAICapability.GUARDCAP, new Provider());
     }
 
     IGuardTask getActiveTask();
