@@ -7,10 +7,12 @@
     "item.pokecube_adventures.linker": "Location Linker",
     "item.pokecube_adventures.linker.set": "Saved Location to Linker",
     "item.pokecube_adventures.linker.unset": "Reset Linker",
+    "item.pokecube_adventures.linked.mob": "Set guard location for %1$s to %2$s, %3$s, %4$s",
+    "item.pokecube_adventures.linked.mob.fail": "You are not allowed to do that!",
 
     "item.pokecube_adventures.biome_setter": "Sub-Biome Setter",
     "item.pokecube_adventures.exp_share": "Exp. Share",
-    "item.pokecube_adventures.trainerspawner": "Trainer Editor",
+    "item.pokecube_adventures.trainer_editor": "Trainer Editor",
     "item.pokecube_adventures.bag": "Bag",
 
     "item.pokecube_adventures.badge_unknown": "??? badge",
