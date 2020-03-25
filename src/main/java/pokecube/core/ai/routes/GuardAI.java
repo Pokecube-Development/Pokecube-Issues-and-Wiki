@@ -78,10 +78,7 @@ public class GuardAI extends Goal
             if (this.capability.getActiveTask().getPos() == null || this.entity.getNavigator().noPath() && this.entity
                     .getPosition().distanceSq(this.capability.getActiveTask().getPos()) < this.capability
                             .getActiveTask().getRoamDistance() * this.capability.getActiveTask().getRoamDistance() / 2)
-            {
                 this.capability.setState(GuardState.COOLDOWN);
-                return true;
-            }
         case COOLDOWN:
             if (this.cooldownTicks < 20 * 15)
             {
@@ -90,10 +87,11 @@ public class GuardAI extends Goal
             }
             this.cooldownTicks = 0;
             this.capability.setState(GuardState.IDLE);
-            return false;
+            break;
         default:
-            return false;
+            break;
         }
+        return true;
     }
 
     @Override
@@ -110,13 +108,7 @@ public class GuardAI extends Goal
                 .getDayTime(), 24000)) return false;
         final BlockPos pos = this.capability.getActiveTask().getPos();
         if (pos == null || pos.equals(BlockPos.ZERO)) return false;
-        final double distanceToGuardPointSq = this.entity.getPosition().distanceSq(this.capability.getActiveTask()
-                .getPos());
-        double maxDist = this.capability.getActiveTask().getRoamDistance() * this.capability.getActiveTask()
-                .getRoamDistance();
-        maxDist = Math.max(maxDist, 0.75);
-        maxDist = Math.max(maxDist, this.entity.getWidth());
-        return distanceToGuardPointSq > maxDist;
+        return true;
     }
 
     @Override
