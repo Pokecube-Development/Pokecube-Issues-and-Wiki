@@ -11,21 +11,15 @@ import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -61,7 +55,6 @@ import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
@@ -71,7 +64,6 @@ import pokecube.core.events.PCEvent;
 import pokecube.core.events.pokemob.InteractEvent;
 import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -87,28 +79,6 @@ import thut.core.common.world.mobs.data.types.Data_String;
 
 public class TrainerEventHandler
 {
-    private static class Provider extends GuardAICapability implements ICapabilitySerializable<CompoundNBT>
-    {
-        private final LazyOptional<IGuardAICapability> holder = LazyOptional.of(() -> this);
-
-        @Override
-        public void deserializeNBT(final CompoundNBT nbt)
-        {
-            EventsHandler.GUARDAI_CAP.getStorage().readNBT(EventsHandler.GUARDAI_CAP, this, null, nbt);
-        }
-
-        @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
-        {
-            return EventsHandler.GUARDAI_CAP.orEmpty(capability, this.holder);
-        }
-
-        @Override
-        public CompoundNBT serializeNBT()
-        {
-            return (CompoundNBT) EventsHandler.GUARDAI_CAP.getStorage().writeNBT(EventsHandler.GUARDAI_CAP, this, null);
-        }
-    }
 
     private static class NpcOffers implements Consumer<MerchantOffers>
     {
@@ -160,13 +130,10 @@ public class TrainerEventHandler
     public static final ResourceLocation REWARDSCAP  = new ResourceLocation(PokecubeAdv.MODID, "rewards");
     public static final ResourceLocation DATASCAP    = new ResourceLocation(PokecubeAdv.MODID, "data");
     public static final ResourceLocation TRADESCAP   = new ResourceLocation(PokecubeAdv.MODID, "trades");
-    public static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeAdv.MODID, "guardai");
 
     public static void attach_guard(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (event.getCapabilities().containsKey(TrainerEventHandler.GUARDCAP)) return;
-        if (event.getObject() instanceof VillagerEntity || event.getObject() instanceof TrainerNpc) event.addCapability(
-                TrainerEventHandler.GUARDCAP, new Provider());
+        IGuardAICapability.addCapability(event);
     }
 
     public static void attach_pokemobs(final AttachCapabilitiesEvent<Entity> event)

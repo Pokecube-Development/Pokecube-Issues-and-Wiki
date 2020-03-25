@@ -28,7 +28,7 @@ public final class TimePeriod
      * 0.0/1.0 means sunrise. Noon is at 0.25, dusk at 0.5, midnight at 0.75.
      * The precision is limited to Minecraft's tick precision.
      */
-    public TimePeriod(double start, double end)
+    public TimePeriod(final double start, final double end)
     {
         this((int) (start * 24000), (int) (end * 24000));
     }
@@ -44,7 +44,7 @@ public final class TimePeriod
         this.wrapped = this.startTick > this.endTick;
     }
 
-    public TimePeriod(TimePeriod other)
+    public TimePeriod(final TimePeriod other)
     {
         if (null != other)
         {
@@ -64,19 +64,20 @@ public final class TimePeriod
         }
     }
 
-    public boolean contains(double time)
+    public boolean contains(final double time)
     {
+        if (this.startTick == this.endTick) return false;
         return this.wrapped ? time >= this.startTime || time <= this.endTime
                 : time >= this.startTime && time <= this.endTime;
     }
 
-    public boolean contains(long time, long dayLength)
+    public boolean contains(long time, final long dayLength)
     {
         time = time % dayLength;
         return this.contains(time / (double) dayLength);
     }
 
-    public boolean overlaps(TimePeriod other)
+    public boolean overlaps(final TimePeriod other)
     {
         if (null != other) return this.startTick < other.endTick && this.endTick > other.startTick;
         return false;

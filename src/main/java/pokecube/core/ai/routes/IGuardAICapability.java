@@ -8,8 +8,14 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.TimePeriod;
 
 public interface IGuardAICapability
@@ -31,7 +37,7 @@ public interface IGuardAICapability
 
         float getRoamDistance();
 
-        default void load(INBT tag)
+        default void load(final INBT tag)
         {
             final CompoundNBT nbt = (CompoundNBT) tag;
             if (nbt.contains("pos")) this.setPos(NBTUtil.readBlockPos(nbt.getCompound("pos")));
@@ -62,11 +68,34 @@ public interface IGuardAICapability
         void startTask(MobEntity entity);
     }
 
+    public static class Provider extends GuardAICapability implements ICapabilitySerializable<CompoundNBT>
+    {
+        private final LazyOptional<IGuardAICapability> holder = LazyOptional.of(() -> this);
+
+        @Override
+        public void deserializeNBT(final CompoundNBT nbt)
+        {
+            EventsHandler.GUARDAI_CAP.getStorage().readNBT(EventsHandler.GUARDAI_CAP, this, null, nbt);
+        }
+
+        @Override
+        public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
+        {
+            return EventsHandler.GUARDAI_CAP.orEmpty(capability, this.holder);
+        }
+
+        @Override
+        public CompoundNBT serializeNBT()
+        {
+            return (CompoundNBT) EventsHandler.GUARDAI_CAP.getStorage().writeNBT(EventsHandler.GUARDAI_CAP, this, null);
+        }
+    }
+
     public static class Storage implements Capability.IStorage<IGuardAICapability>
     {
         @Override
-        public void readNBT(Capability<IGuardAICapability> capability, IGuardAICapability instance, Direction side,
-                INBT nbt)
+        public void readNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
+                final Direction side, final INBT nbt)
         {
             if (nbt instanceof CompoundNBT)
             {
@@ -81,13 +110,22 @@ public interface IGuardAICapability
         }
 
         @Override
-        public INBT writeNBT(Capability<IGuardAICapability> capability, IGuardAICapability instance, Direction side)
+        public INBT writeNBT(final Capability<IGuardAICapability> capability, final IGuardAICapability instance,
+                final Direction side)
         {
             final CompoundNBT ret = new CompoundNBT();
             ret.putInt("state", instance.getState().ordinal());
             ret.put("tasks", instance.serializeTasks());
             return ret;
         }
+    }
+
+    static final ResourceLocation GUARDCAP = new ResourceLocation(PokecubeMod.ID, "guardai");
+
+    public static void addCapability(final AttachCapabilitiesEvent<?> event)
+    {
+        if (event.getCapabilities().containsKey(IGuardAICapability.GUARDCAP)) return;
+
     }
 
     IGuardTask getActiveTask();
