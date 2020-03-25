@@ -33,6 +33,7 @@ import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.interfaces.entity.impl.PersistantStatusEffect;
+import pokecube.core.interfaces.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.interfaces.entity.impl.StatEffect;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.interfaces.pokemob.stats.DefaultModifiers;
@@ -633,26 +634,39 @@ public class MovesUtils implements IMoveConstants
         if (move_Base.move.baseEntry.protectionMoves) MoveEntry.protectionMoves.add(move_Base.name);
     }
 
-    public static boolean setStatus(final Entity attacked, final byte status)
+    public static boolean setStatus(final Entity attacked, byte status)
     {
         final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
-        if (attackedPokemob != null)
+
+        boolean applied = false;
+        final boolean[] statuses = new boolean[Status.values().length];
+        for (final Status test : Status.values())
+            statuses[test.ordinal()] = (test.getMask() & status) != 0;
+        final int start = new Random().nextInt(1000);
+        for (int i = 0; i < statuses.length; i++)
         {
-            final boolean apply = attackedPokemob.setStatus(status);
-            if (!apply) return false;
-            else attackedPokemob.getEntity().getNavigator().clearPath();
-            return true;
-        }
-        else if (attacked instanceof LivingEntity)
-        {
-            final IOngoingAffected affected = CapabilityAffected.getAffected(attacked);
-            if (affected != null)
+            final int j = (i + start) % statuses.length;
+            if (!statuses[j]) continue;
+            status = Status.values()[j].getMask();
+            if (attackedPokemob != null)
             {
-                final IOngoingEffect effect = new PersistantStatusEffect(status, 5);
-                affected.addEffect(effect);
+                final boolean apply = attackedPokemob.setStatus(status);
+                applied = applied || apply;
+                if (apply) attackedPokemob.getEntity().getNavigator().clearPath();
+                return true;
+            }
+            else if (attacked instanceof LivingEntity)
+            {
+                final IOngoingAffected affected = CapabilityAffected.getAffected(attacked);
+                if (affected != null)
+                {
+                    applied = true;
+                    final IOngoingEffect effect = new PersistantStatusEffect(status, 5);
+                    affected.addEffect(effect);
+                }
             }
         }
-        return true;
+        return applied;
     }
 
     public static Entity targetHit(final Entity attacker, final Vector3 dest)

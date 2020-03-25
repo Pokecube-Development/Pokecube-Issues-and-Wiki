@@ -344,7 +344,16 @@ public abstract class PokemobMoves extends PokemobSexed
         final short timer = (short) (turns == -1 ? PokecubeCore.getConfig().attackCooldown * 5
                 : turns * PokecubeCore.getConfig().attackCooldown);
         this.setStatusTimer(timer);
-        final PersistantStatusEffect statusEffect = new PersistantStatusEffect(status, turns);
+        PersistantStatusEffect statusEffect;
+        try
+        {
+            statusEffect = new PersistantStatusEffect(status, turns);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.warn("Error making status effect!");
+            return false;
+        }
         return CapabilityAffected.addEffect(this.getEntity(), statusEffect);
     }
 
