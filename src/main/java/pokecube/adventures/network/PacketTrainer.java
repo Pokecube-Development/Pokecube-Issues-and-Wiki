@@ -27,6 +27,7 @@ import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.ReadTag;
 import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
 import thut.api.maths.Vector3;
 import thut.core.common.network.Packet;
 
@@ -160,6 +161,13 @@ public class PacketTrainer extends Packet
         switch (this.message)
         {
         case SPAWN:
+
+            if (PermissionAPI.hasPermission(player, PacketTrainer.SPAWNTRAINER))
+            {
+                player.sendMessage(new StringTextComponent(TextFormatting.RED + "You are not allowed to do that."));
+                return;
+            }
+
             final String type = this.data.getString("T");
             final int level = this.data.getInt("L");
             final boolean leader = this.data.getBoolean("C");
@@ -169,6 +177,10 @@ public class PacketTrainer extends Packet
             final JsonObject thing = new JsonObject();
             thing.addProperty("level", level);
             thing.addProperty("trainerType", type);
+            final GuardInfo info = new GuardInfo();
+            info.time = "day";
+            info.roam = 2;
+            thing.add("guard", PokedexEntryLoader.gson.toJsonTree(info));
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(), player

@@ -168,7 +168,7 @@ public class SpawnEventsHandler
         }
     }
 
-    private static class GuardInfo
+    public static class GuardInfo
     {
         public String time = "";
         public int    roam = 0;
