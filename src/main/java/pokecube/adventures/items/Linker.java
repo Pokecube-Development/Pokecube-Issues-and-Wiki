@@ -3,12 +3,10 @@ package pokecube.adventures.items;
 import java.util.UUID;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -18,8 +16,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.handlers.events.EventsHandler;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps;
@@ -83,21 +81,7 @@ public class Linker extends Item
                 .getObject()));
     }
 
-    public static String PERMLINKTRAINER = "pokecube_adventures.linker.link_npc";
-    public static String PERMLINKPET     = "pokecube_adventures.linker.link_pet";
-
-    public Linker(final Properties properties)
-    {
-        super(properties);
-        PermissionAPI.registerNode(Linker.PERMLINKTRAINER, DefaultPermissionLevel.OP,
-                "Is the player allowed to use the linker item to set a trainer's stationary location");
-        PermissionAPI.registerNode(Linker.PERMLINKPET, DefaultPermissionLevel.ALL,
-                "Is the player allowed to use the linker item to set their pokemob's stationary location");
-    }
-
-    @Override
-    public boolean itemInteractionForEntity(final ItemStack stack, final PlayerEntity playerIn,
-            final LivingEntity target, final Hand hand)
+    public static boolean interact(final ServerPlayerEntity playerIn, final Entity target, final ItemStack stack)
     {
         final IGuardAICapability ai = target.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
         final LazyOptional<ILinkStorage> test_stack = stack.getCapability(LinkableCaps.STORE, null);
@@ -108,18 +92,32 @@ public class Linker extends Item
         {
             final IOwnable ownable = OwnableCaps.getOwnable(target);
             boolean valid = false;
-            if (ownable != null) valid = playerIn.getUniqueID().equals(ownable.getOwnerId()) && PermissionAPI
-                    .hasPermission(playerIn, Linker.PERMLINKPET);
-            else if (target instanceof NpcMob) valid = PermissionAPI.hasPermission(playerIn, Linker.PERMLINKTRAINER);
+            if (ownable != null && ownable.getOwnerId() != null) valid = playerIn.getUniqueID().equals(ownable
+                    .getOwnerId()) && PermissionAPI.hasPermission(playerIn, Linker.PERMLINKPET);
+            else if (CapabilityHasPokemobs.getHasPokemobs(target) != null) valid = PermissionAPI.hasPermission(playerIn,
+                    Linker.PERMLINKTRAINER);
             if (valid)
             {
                 ai.getPrimaryTask().setPos(new BlockPos(pos.x, pos.y + 1, pos.z));
-                playerIn.sendMessage(new TranslationTextComponent("pokecube_adventures.linked.mob", target
+                playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob", target
                         .getDisplayName(), pos.x, pos.y + 1, pos.z));
+                return true;
             }
-            else playerIn.sendMessage(new TranslationTextComponent("pokecube_adventures.linked.mob.fail"));
+            else playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"));
         }
         return false;
+    }
+
+    public static String PERMLINKTRAINER = "pokecube_adventures.linker.link_npc";
+    public static String PERMLINKPET     = "pokecube_adventures.linker.link_pet";
+
+    public Linker(final Properties properties)
+    {
+        super(properties);
+        PermissionAPI.registerNode(Linker.PERMLINKTRAINER, DefaultPermissionLevel.OP,
+                "Is the player allowed to use the linker item to set a trainer's stationary location");
+        PermissionAPI.registerNode(Linker.PERMLINKPET, DefaultPermissionLevel.ALL,
+                "Is the player allowed to use the linker item to set their pokemob's stationary location");
     }
 
 }

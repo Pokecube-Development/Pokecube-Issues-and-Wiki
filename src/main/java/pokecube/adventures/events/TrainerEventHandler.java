@@ -51,6 +51,7 @@ import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.items.Linker;
 import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
@@ -378,6 +379,10 @@ public class TrainerEventHandler
         // TODO trainer edit item.
         final IHasMessages messages = CapabilityNPCMessages.getMessages(target);
         final IHasPokemobs pokemobs = CapabilityHasPokemobs.getHasPokemobs(target);
+
+        if (evt.getItemStack().getItem() instanceof Linker && evt.getPlayer() instanceof ServerPlayerEntity && Linker
+                .interact((ServerPlayerEntity) evt.getPlayer(), target, evt.getItemStack())) evt.setCanceled(true);
+
         if (!target.isSneaking() && pokemobs != null && evt.getItemStack().getItem() instanceof TrainerEditor)
         {
             evt.setCanceled(true);
