@@ -3,10 +3,10 @@ package pokecube.core.ai.routes;
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.ai.npc.Activities;
 
 public class GuardTask<T extends MobEntity> extends Task<MobEntity>
 {
@@ -34,7 +34,7 @@ public class GuardTask<T extends MobEntity> extends Task<MobEntity>
     @Override
     protected void startExecuting(final ServerWorld worldIn, final MobEntity entityIn, final long gameTimeIn)
     {
-        entityIn.getBrain().switchTo(Activity.IDLE);
+        entityIn.getBrain().switchTo(Activities.STATIONARY);
         this.goal.startExecuting();
     }
 
@@ -43,16 +43,12 @@ public class GuardTask<T extends MobEntity> extends Task<MobEntity>
     {
         entityIn.getBrain().switchTo(Activity.IDLE);
         this.goal.resetTask();
-        entityIn.getNavigator().clearPath();
-        entityIn.getBrain().removeMemory(MemoryModuleType.PATH);
     }
 
     @Override
     protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
         this.goal.tick();
-        if (owner.getNavigator().getPath() != null) owner.getBrain().setMemory(MemoryModuleType.PATH, owner
-                .getNavigator().getPath());
     }
 
     @Override

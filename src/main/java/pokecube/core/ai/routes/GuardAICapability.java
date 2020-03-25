@@ -2,7 +2,6 @@ package pokecube.core.ai.routes;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 
 import com.google.common.collect.Lists;
 
@@ -10,6 +9,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.math.BlockPos;
@@ -17,14 +17,6 @@ import pokecube.core.utils.TimePeriod;
 
 public class GuardAICapability implements IGuardAICapability
 {
-    public static class Factory implements Callable<IGuardAICapability>
-    {
-        @Override
-        public IGuardAICapability call() throws Exception
-        {
-            return new GuardAICapability();
-        }
-    }
 
     public static class GuardTask implements IGuardTask
     {
@@ -48,6 +40,8 @@ public class GuardAICapability implements IGuardAICapability
         {
             boolean hasPath = !entity.getNavigator().noPath();
             final BlockPos newPos = entity.getPosition();
+
+            if (hasPath) entity.getBrain().setMemory(MemoryModuleType.PATH, entity.getNavigator().getPath());
 
             this.lastPathedCounter--;
             if (this.lastPathedCounter > 0) return;
@@ -91,6 +85,7 @@ public class GuardAICapability implements IGuardAICapability
         public void endTask(final MobEntity entity)
         {
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
+            entity.getBrain().removeMemory(MemoryModuleType.PATH);
         }
 
         @Override

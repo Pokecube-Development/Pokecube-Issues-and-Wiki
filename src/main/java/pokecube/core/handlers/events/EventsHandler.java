@@ -27,10 +27,8 @@ import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -41,8 +39,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -68,7 +64,6 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
@@ -216,34 +211,10 @@ public class EventsHandler
         }
     }
 
-    public static class Provider extends GuardAICapability implements ICapabilitySerializable<CompoundNBT>
-    {
-        private final LazyOptional<IGuardAICapability> holder = LazyOptional.of(() -> this);
-
-        @Override
-        public void deserializeNBT(final CompoundNBT nbt)
-        {
-            EventsHandler.GUARDAI_CAP.getStorage().readNBT(EventsHandler.GUARDAI_CAP, this, null, nbt);
-        }
-
-        @Override
-        public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
-        {
-            return EventsHandler.GUARDAI_CAP.orEmpty(capability, this.holder);
-        }
-
-        @Override
-        public CompoundNBT serializeNBT()
-        {
-            return (CompoundNBT) EventsHandler.GUARDAI_CAP.getStorage().writeNBT(EventsHandler.GUARDAI_CAP, this, null);
-        }
-    }
-
     public static final ResourceLocation POKEMOBCAP  = new ResourceLocation(PokecubeMod.ID, "pokemob");
     public static final ResourceLocation AFFECTEDCAP = new ResourceLocation(PokecubeMod.ID, "affected");
     public static final ResourceLocation DATACAP     = new ResourceLocation(PokecubeMod.ID, "data");
     public static final ResourceLocation TEXTURECAP  = new ResourceLocation(PokecubeMod.ID, "textured");
-    public static final ResourceLocation GUARDCAP    = new ResourceLocation(PokecubeMod.ID, "guardai");
 
     @CapabilityInject(IGuardAICapability.class)
     public static final Capability<IGuardAICapability> GUARDAI_CAP = null;
@@ -321,15 +292,15 @@ public class EventsHandler
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);
-            event.addCapability(EventsHandler.GUARDCAP, new Provider());
             event.addCapability(ShearableCaps.LOC, new ShearableCaps.Wrapper(pokemob));
+            IGuardAICapability.addCapability(event);
         }
 
         if (event.getObject() instanceof NpcMob)
         {
             final NpcMob prof = (NpcMob) event.getObject();
             event.addCapability(EventsHandler.TEXTURECAP, new NPCCap<>(prof, e -> e.getTex(), e -> !e.isMale()));
-            event.addCapability(EventsHandler.GUARDCAP, new Provider());
+            IGuardAICapability.addCapability(event);
         }
     }
 
