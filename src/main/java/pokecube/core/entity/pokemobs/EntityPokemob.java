@@ -37,7 +37,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.helper.PokemobCombat;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
@@ -101,6 +100,11 @@ public class EntityPokemob extends PokemobCombat
     {
         if (this.getEntityWorld() instanceof ServerWorld)
         {
+            if (this.getPersistentData().getBoolean("removed"))
+            {
+                this.remove();
+                return;
+            }
             if (this.getHealth() <= 0) this.pokemobCap.onRecall(true);
             final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
             if (near != null && this.getOwnerId() == null)
@@ -209,13 +213,6 @@ public class EntityPokemob extends PokemobCombat
     @Override
     public void remove(final boolean keepData)
     {
-        boolean shouldRecall = this.addedToChunk;
-        final boolean remote = !(this.getEntityWorld() instanceof ServerWorld);
-        boolean remoteRecall = remote && PokecubeCore.getConfig().autoRecallPokemobs;
-        remoteRecall = remoteRecall && PokecubeCore.proxy.getPlayer().getUniqueID().equals(this.pokemobCap.getOwnerId())
-                && !this.pokemobCap.getGeneralState(GeneralStates.STAYING);
-        shouldRecall = shouldRecall && (!remote || remoteRecall);
-        if (!keepData && shouldRecall && !this.getPersistentData().contains("evo_removed")) this.pokemobCap.onRecall();
         super.remove(keepData);
     }
 
