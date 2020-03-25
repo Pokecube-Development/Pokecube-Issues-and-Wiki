@@ -17,18 +17,22 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
+import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.events.CloneEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.IMobGenetics;
 
@@ -67,8 +71,6 @@ public class RecipeFossilRevive extends PoweredRecipe
 
                 final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
                 if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
-                dnaSource.grow(-1);
-                tile.setInventorySlotContents(0, dnaSource);
                 pokemob = event.getPokemob();
                 entity = pokemob.getEntity();
                 world.addEntity(entity);
@@ -84,6 +86,8 @@ public class RecipeFossilRevive extends PoweredRecipe
         {
             final ItemStack dnaSource = inventory.getStackInSlot(0);
             if (dnaSource.isEmpty()) return Database.missingno;
+            final ItemStack material = inventory.getStackInSlot(1);
+            if (material.isEmpty()) return Database.missingno;
             final PokedexEntry entry = ClonerHelper.getFromGenes(dnaSource);
             if (entry == null) return Database.missingno;
             return entry;
@@ -109,9 +113,19 @@ public class RecipeFossilRevive extends PoweredRecipe
             return this.getEntry(inventory);
         }
 
-        default ItemStack shouldKeep(final CraftingInventory inventory, final int index)
+        default int priority()
         {
-            return net.minecraftforge.common.ForgeHooks.getContainerItem(inventory.getStackInSlot(index));
+            return 100;
+        }
+
+        default int getEnergyCost()
+        {
+            return RecipeFossilRevive.ENERGYCOST;
+        }
+
+        default boolean shouldKeep(final ItemStack stack)
+        {
+            return false;
         }
     }
 
@@ -162,9 +176,28 @@ public class RecipeFossilRevive extends PoweredRecipe
     @Override
     public boolean complete(final IPoweredProgress tile)
     {
+        boolean completed = false;
         for (final ReviveMatcher matcher : RecipeFossilRevive.MATCHERS)
-            if (matcher.complete(tile)) return true;
-        return RecipeFossilRevive.ANYMATCHER.complete(tile);
+            if (completed = matcher.complete(tile)) break;
+        if (!completed) completed = RecipeFossilRevive.ANYMATCHER.complete(tile);
+        if (completed)
+        {
+            final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
+            tile.setInventorySlotContents(tile.getOutputSlot(), this.getCraftingResult(tile.getCraftMatrix()));
+            for (int i = 0; i < remaining.size(); i++)
+            {
+                final ItemStack stack = remaining.get(i);
+                if (!stack.isEmpty()) tile.setInventorySlotContents(i, stack);
+                else
+                {
+                    final ItemStack old = tile.getStackInSlot(i);
+                    if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
+                    tile.decrStackSize(i, 1);
+                }
+            }
+            if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.detectAndSendChanges();
+        }
+        return completed;
     }
 
     @Override
@@ -180,9 +213,11 @@ public class RecipeFossilRevive extends PoweredRecipe
     }
 
     @Override
-    public int getEnergyCost()
+    public int getEnergyCost(final IPoweredProgress tile)
     {
-        return RecipeFossilRevive.ENERGYCOST;
+        for (final ReviveMatcher matcher : RecipeFossilRevive.MATCHERS)
+            if (RecipeFossilRevive.getEntry(matcher, tile) != Database.missingno) return matcher.getEnergyCost();
+        return RecipeFossilRevive.ANYMATCHER.getEnergyCost();
     }
 
     public PokedexEntry getPokedexEntry(final IPoweredProgress tile)
@@ -206,5 +241,29 @@ public class RecipeFossilRevive extends PoweredRecipe
         for (final ReviveMatcher matcher : RecipeFossilRevive.MATCHERS)
             if (matcher.getEntry(inv, worldIn) != Database.missingno) return true;
         return RecipeFossilRevive.ANYMATCHER.getEntry(inv, worldIn) != Database.missingno;
+    }
+
+    @Override
+    public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
+    {
+        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
+        final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
+        if (!(inv_p.inventory instanceof ClonerTile)) return nonnulllist;
+        final ClonerTile tile = (ClonerTile) inv_p.inventory;
+        ReviveMatcher matcher = RecipeFossilRevive.ANYMATCHER;
+        for (final ReviveMatcher matcher2 : RecipeFossilRevive.MATCHERS)
+            if (matcher2.getEntry(inv, tile.getWorld()) != Database.missingno)
+            {
+                matcher = matcher2;
+                break;
+            }
+        for (int i = 0; i < nonnulllist.size(); ++i)
+        {
+            final ItemStack item = inv.getStackInSlot(i);
+            if (matcher.shouldKeep(item)) nonnulllist.set(i, item);
+            else if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
+        }
+        return nonnulllist;
     }
 }

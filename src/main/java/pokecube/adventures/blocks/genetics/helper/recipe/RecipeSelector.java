@@ -115,8 +115,8 @@ public class RecipeSelector extends SpecialRecipe
 
     private static Map<ItemStack, SelectorValue> selectorValues = Maps.newHashMap();
 
-    public static final IRecipeSerializer<RecipeSelector> SERIALIZER = IRecipeSerializer.register(
-            "pokecube_adventures:selectors", new SpecialRecipeSerializer<>(RecipeSelector::new));
+    public static final IRecipeSerializer<RecipeSelector> SERIALIZER = new SpecialRecipeSerializer<>(
+            RecipeSelector::new);
 
     public static void addSelector(final ItemStack stack, final SelectorValue value)
     {
@@ -157,8 +157,29 @@ public class RecipeSelector extends SpecialRecipe
     @Override
     public ItemStack getCraftingResult(final CraftingInventory inv)
     {
-        final ItemStack book = inv.getStackInSlot(0);
-        final ItemStack modifier = inv.getStackInSlot(1);
+
+        ItemStack book = ItemStack.EMPTY;
+        ItemStack modifier = ItemStack.EMPTY;
+        for (int i = 0; i < inv.getSizeInventory(); i++)
+        {
+            final ItemStack test = inv.getStackInSlot(i);
+            final boolean isBook = !ClonerHelper.getGeneSelectors(test).isEmpty();
+            if (isBook)
+            {
+                if (!book.isEmpty()) return ItemStack.EMPTY;
+                book = test;
+                continue;
+            }
+            final boolean isModifier = RecipeSelector.getSelectorValue(test) != RecipeSelector.defaultSelector;
+            if (isModifier)
+            {
+                if (!modifier.isEmpty()) return ItemStack.EMPTY;
+                modifier = test;
+                continue;
+            }
+            if (!test.isEmpty()) return ItemStack.EMPTY;
+        }
+        if (book.isEmpty() || modifier.isEmpty()) return ItemStack.EMPTY;
         final SelectorValue value = RecipeSelector.getSelectorValue(modifier);
         ClonerHelper.getSelectorValue(book);
         final ItemStack ret = book.copy();
@@ -176,10 +197,28 @@ public class RecipeSelector extends SpecialRecipe
     @Override
     public boolean matches(final CraftingInventory inv, final World worldIn)
     {
-        if (inv.getSizeInventory() < 2) return false;
-        final ItemStack book = inv.getStackInSlot(0);
-        final ItemStack modifier = inv.getStackInSlot(1);
-        if (ClonerHelper.getGeneSelectors(book).isEmpty() || modifier.isEmpty()) return false;
+        ItemStack book = ItemStack.EMPTY;
+        ItemStack modifier = ItemStack.EMPTY;
+        for (int i = 0; i < inv.getSizeInventory(); i++)
+        {
+            final ItemStack test = inv.getStackInSlot(i);
+            final boolean isBook = !ClonerHelper.getGeneSelectors(test).isEmpty();
+            if (isBook)
+            {
+                if (!book.isEmpty()) return false;
+                book = test;
+                continue;
+            }
+            final boolean isModifier = RecipeSelector.getSelectorValue(test) != RecipeSelector.defaultSelector;
+            if (isModifier)
+            {
+                if (!modifier.isEmpty()) return false;
+                modifier = test;
+                continue;
+            }
+            if (!test.isEmpty()) return false;
+        }
+        if (book.isEmpty() || modifier.isEmpty()) return false;
         final SelectorValue value = RecipeSelector.getSelectorValue(modifier);
         final SelectorValue oldValue = ClonerHelper.getSelectorValue(book);
         if (value.equals(oldValue)) return false;

@@ -41,7 +41,7 @@ public class ClonerTile extends BaseGeneticsTile
         case 0:// DNA Container
             return ClonerHelper.getFromGenes(stack) != null;
         case 1:// Egg
-            PokecubeItems.is(ClonerTile.EGGS, stack);
+            return PokecubeItems.is(ClonerTile.EGGS, stack);
         }
         return index != this.getOutputSlot();
     }

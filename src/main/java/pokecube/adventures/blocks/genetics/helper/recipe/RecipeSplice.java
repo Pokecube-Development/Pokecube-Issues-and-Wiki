@@ -78,7 +78,6 @@ public class RecipeSplice extends PoweredRecipe
         {
             PokedexEntry entry = ClonerHelper.getFromGenes(dna);
             if (entry == null) entry = ClonerHelper.getFromGenes(egg);
-
             egg = egg.copy();
             if (egg.getTag() == null) egg.setTag(new CompoundNBT());
             ClonerHelper.spliceGenes(ClonerHelper.getGenes(dna), egg, new ItemBasedSelector(selector));
@@ -89,7 +88,7 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public int getEnergyCost()
+    public int getEnergyCost(final IPoweredProgress tile)
     {
         return RecipeSplice.ENERGYCOST;
     }
@@ -112,11 +111,9 @@ public class RecipeSplice extends PoweredRecipe
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
             final ItemStack item = inv.getStackInSlot(i);
-
             if (i == 0 && keepDNA) nonnulllist.set(i, item);
             if (i == 1 && keepSelector) nonnulllist.set(i, item);
             if (i == 0 && item.getItem() == Items.POTION) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
-
             if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         tile.override_selector = ItemStack.EMPTY;

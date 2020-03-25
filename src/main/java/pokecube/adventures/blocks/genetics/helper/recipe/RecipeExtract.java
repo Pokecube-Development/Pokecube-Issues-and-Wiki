@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
@@ -47,7 +48,7 @@ public class RecipeExtract extends PoweredRecipe
     @Override
     public boolean complete(final IPoweredProgress tile)
     {
-        final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
+        final List<ItemStack> remaining = this.getRemainingItems(tile.getCraftMatrix());
         tile.setInventorySlotContents(tile.getOutputSlot(), this.getCraftingResult(tile.getCraftMatrix()));
         for (int i = 0; i < remaining.size(); i++)
         {
@@ -81,7 +82,8 @@ public class RecipeExtract extends PoweredRecipe
         IMobGenetics genes;
         final ItemStack destination = inv.getStackInSlot(0);
         ItemStack source = inv.getStackInSlot(2);
-        final ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
+        ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
+        if (ClonerHelper.getGeneSelectors(selector).isEmpty()) selector = ItemStack.EMPTY;
         source:
         if ((genes = ClonerHelper.getGenes(source)) == null)
         {
@@ -100,7 +102,7 @@ public class RecipeExtract extends PoweredRecipe
         }
         final ItemStack output = destination.copy();
         output.setCount(1);
-        if (source.isEmpty() || genes == null) return ItemStack.EMPTY;
+        if (source.isEmpty() || genes == null || selector.isEmpty()) return ItemStack.EMPTY;
         if (output.getTag() == null) output.setTag(new CompoundNBT());
         ClonerHelper.mergeGenes(genes, output, new ItemBasedSelector(selector));
         output.setCount(1);
@@ -108,7 +110,7 @@ public class RecipeExtract extends PoweredRecipe
     }
 
     @Override
-    public int getEnergyCost()
+    public int getEnergyCost(final IPoweredProgress tile)
     {
         return RecipeExtract.ENERGYCOST;
     }
@@ -119,11 +121,13 @@ public class RecipeExtract extends PoweredRecipe
         return RecipeExtract.SERIALIZER;
     }
 
-    public ItemStack toKeep(final int slot, final ItemStack stackIn, final CraftingInventory inv)
+    @Override
+    public NonNullList<ItemStack> getRemainingItems(final CraftingInventory inv)
     {
-        if (!(inv instanceof PoweredCraftingInventory)) return ItemStack.EMPTY;
+        final NonNullList<ItemStack> nonnulllist = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        if (!(inv instanceof PoweredCraftingInventory)) return nonnulllist;
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
-        if (!(inv_p.inventory instanceof ExtractorTile)) return ItemStack.EMPTY;
+        if (!(inv_p.inventory instanceof ExtractorTile)) return nonnulllist;
         final ExtractorTile tile = (ExtractorTile) inv_p.inventory;
         final ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
         boolean keepDNA = false;
@@ -131,12 +135,16 @@ public class RecipeExtract extends PoweredRecipe
         final SelectorValue value = ClonerHelper.getSelectorValue(selector);
         if (value.dnaDestructChance < Math.random()) keepDNA = true;
         if (value.selectorDestructChance < Math.random()) keepSelector = true;
-        if (slot == 2 && keepDNA) return stackIn;
-        if (slot == 1 && keepSelector)
+        System.out.println(value.selectorDestructChance + " " + value.dnaDestructChance + " " + keepSelector);
+
+        for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            tile.override_selector = ItemStack.EMPTY;
-            return stackIn;
+            final ItemStack item = inv.getStackInSlot(i);
+            if (i == 0 && keepDNA) nonnulllist.set(i, item);
+            if (i == 1 && keepSelector) nonnulllist.set(i, item);
+            if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
-        return ItemStack.EMPTY;
+        tile.override_selector = ItemStack.EMPTY;
+        return nonnulllist;
     }
 }
