@@ -88,20 +88,18 @@
         {
           "key": "",
           "values": {
-            "id": "pokecube_adventures:mewhair"
+            "id": "pokecube:mewhair"
           }
         },
         {
           "key": "",
           "values": {
-            "d": "32767",
             "id": "pokecube:pokemobegg"
           }
         },
         {
           "key": "",
           "values": {
-            "d": "32767",
             "id": "minecraft:potion"
           }
         }
@@ -111,7 +109,7 @@
         "cost": "10000",
         "pokemon": "Ditto",
         "remain": "0",
-        "priority": "-1"
+        "priority": "1000"
       }
     },
     {
@@ -122,13 +120,12 @@
         {
           "key": "",
           "values": {
-            "id": "pokecube_adventures:mewhair"
+            "id": "pokecube:mewhair"
           }
         },
         {
           "key": "",
           "values": {
-            "d": "32767",
             "id": "pokecube:pokemobegg"
           }
         },
@@ -137,8 +134,7 @@
           "values": {
             "id": "minecraft:potion",
             "tag": "{Potion:\"minecraft:strong_regeneration\"}"
-          },
-          "tag": "{Potion:\"minecraft:strong_regeneration\"}"
+          }
         }
       ],
       "values": {
@@ -181,8 +177,7 @@
           "values": {
             "id": "minecraft:potion",
             "tag": "{Potion:\"minecraft:strong_regeneration\"}"
-          },
-          "tag": "{Potion:\"minecraft:strong_regeneration\"}"
+          }
         }
       ],
       "values": {

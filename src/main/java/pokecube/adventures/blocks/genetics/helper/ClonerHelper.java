@@ -124,6 +124,7 @@ public class ClonerHelper
         final INBT genes = nbt.get(GeneticsManager.GENES);
         final IMobGenetics eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
         GeneRegistry.GENETICS_CAP.getStorage().readNBT(GeneRegistry.GENETICS_CAP, eggs, null, genes);
+        if (eggs.getAlleles().isEmpty()) return null;
         return eggs;
     }
 
@@ -131,7 +132,6 @@ public class ClonerHelper
     {
         final Set<Class<? extends Gene>> ret = Sets.newHashSet();
         if (stack.isEmpty() || !stack.hasTag()) return ret;
-        if (!stack.getDisplayName().getFormattedText().startsWith("Selector")) return ret;
         if (stack.getTag().contains("pages") && stack.getTag().get("pages") instanceof ListNBT)
         {
             final ListNBT pages = (ListNBT) stack.getTag().get("pages");

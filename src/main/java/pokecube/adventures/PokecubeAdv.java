@@ -39,6 +39,7 @@ import pokecube.adventures.blocks.genetics.extractor.ExtractorBlock;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorContainer;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredProcess;
+import pokecube.adventures.blocks.genetics.helper.recipe.RecipeHandlers;
 import pokecube.adventures.blocks.genetics.splicer.SplicerBlock;
 import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
@@ -59,6 +60,7 @@ import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.InventoryHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.utils.PokeType;
 import thut.core.common.commands.CommandConfigs;
@@ -150,7 +152,7 @@ public class PokecubeAdv
         @SubscribeEvent
         public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
         {
-            PoweredProcess.init();
+            PoweredProcess.init(event);
         }
 
         @SubscribeEvent
@@ -235,6 +237,9 @@ public class PokecubeAdv
 
         // Initialize advancement triggers
         Triggers.init();
+
+        // Initialize the recipe handlers for genetics stuff.
+        RecipeHandlers.init();
     }
 
     public static final String TRAINERTEXTUREPATH = PokecubeAdv.MODID + ":textures/trainer/";
@@ -278,8 +283,7 @@ public class PokecubeAdv
         PokecubeCore.POKEMOB_BUS.register(this);
 
         XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeAdv.MODID, "database/rewards.json"));
-        // XMLRewardsHandler.recipeFiles.add(new
-        // ResourceLocation(PokecubeAdv.MODID, "database/recipes.json"));
+        XMLRecipeHandler.recipeFiles.add(new ResourceLocation(PokecubeAdv.MODID, "database/recipes.json"));
     }
 
     @SubscribeEvent

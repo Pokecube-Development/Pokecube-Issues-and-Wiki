@@ -26,8 +26,8 @@ public class Splicer extends ContainerScreen<SplicerContainer>
 
         // Draw the progress bar.
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
-        final int i = this.container.tile.progress.get();
-        final int j = this.container.tile.total.get();
+        final int i = this.container.tile.progress;
+        final int j = this.container.tile.total;
         final int l1 = j != 0 && i != 0 ? i * 24 / j : 0;
         this.blit(x + 78, y + 34, 176, 0, l1 + 1, 16);
     }

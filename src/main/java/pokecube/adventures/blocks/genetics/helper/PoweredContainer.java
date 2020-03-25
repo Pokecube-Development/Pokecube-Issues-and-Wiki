@@ -21,8 +21,7 @@ public abstract class PoweredContainer<T extends BaseGeneticsTile> extends BaseC
         this.tile = provider.getTile(this);
         this.inv = this.tile;
 
-        this.trackInt(this.tile.progress);
-        this.trackInt(this.tile.total);
+        this.trackIntArray(this.tile.syncValues);
     }
 
     @Override

@@ -48,7 +48,6 @@ public class GuiInfoMessages
     }
 
     public static void clear()
-
     {
         GuiInfoMessages.messages.clear();
         GuiInfoMessages.recent.clear();

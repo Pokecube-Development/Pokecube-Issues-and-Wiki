@@ -1,10 +1,12 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.RegistryEvent.Register;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import thut.core.common.network.TileUpdate;
 
@@ -29,12 +31,16 @@ public class PoweredProcess
         return null;
     }
 
-    public static void init()
+    public static void init(final Register<IRecipeSerializer<?>> event)
     {
         RecipeSelector.SERIALIZER.toString();
         RecipeExtract.SERIALIZER.toString();
         RecipeSplice.SERIALIZER.toString();
         RecipeFossilRevive.SERIALIZER.toString();
+
+        // This one needs registration as is actually a real crafting recipe.
+        event.getRegistry().register(RecipeSelector.SERIALIZER.setRegistryName(new ResourceLocation(
+                "pokecube_adventures:selectors")));
     }
 
     public static PoweredProcess load(final CompoundNBT tag, final BaseGeneticsTile tile)
@@ -78,12 +84,12 @@ public class PoweredProcess
     public int getProgress()
     {
         if (this.recipe == null) return 0;
-        return this.recipe.getEnergyCost() - this.needed;
+        return this.recipe.getEnergyCost(this.tile) - this.needed;
     }
 
     public void reset()
     {
-        if (this.recipe != null) this.needed = this.recipe.getEnergyCost();
+        if (this.recipe != null) this.needed = this.recipe.getEnergyCost(this.tile);
         else this.needed = 0;
         if (this.tile != null) this.tile.setProgress(this.getProgress());
     }
@@ -101,7 +107,7 @@ public class PoweredProcess
         this.world = ((TileEntity) tile).getWorld();
         this.pos = ((TileEntity) tile).getPos();
         this.recipe = PoweredProcess.findRecipe(tile, this.world);
-        if (this.recipe != null) this.needed = this.recipe.getEnergyCost();
+        if (this.recipe != null) this.needed = this.recipe.getEnergyCost(this.tile);
         return this;
     }
 

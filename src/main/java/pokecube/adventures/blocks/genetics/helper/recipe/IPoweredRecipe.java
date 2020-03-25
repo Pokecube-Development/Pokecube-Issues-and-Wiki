@@ -4,5 +4,5 @@ public interface IPoweredRecipe
 {
     boolean complete(IPoweredProgress tile);
 
-    int getEnergyCost();
+    int getEnergyCost(IPoweredProgress tile);
 }
