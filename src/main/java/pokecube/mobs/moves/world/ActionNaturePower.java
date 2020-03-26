@@ -118,7 +118,7 @@ public class ActionNaturePower implements IMoveAction
                 // If it is dirt, it must be under a tree,
                 // otherwise it can be under air or a plant.
                 final boolean validUp = blockHere == Blocks.DIRT ? PokecubeTerrainChecker.isWood(stateUp)
-                        : blockUp.isAir(stateUp, world, t.up()) || PokecubeTerrainChecker.isPlant(stateUp);
+                        : blockUp.isAir(stateUp, world, t.up()) || PokecubeTerrainChecker.isCutablePlant(stateUp);
                 return validHere && validUp;
             };
             // Used on a tree, spreads outwards from tree along dirt and grass
@@ -265,7 +265,7 @@ public class ActionNaturePower implements IMoveAction
                 final boolean validHere = blockHere instanceof GrassBlock;
                 // Only counts as plains if it has plants on grass, so say
                 // flowers, tall grass, etc
-                final boolean validUp = PokecubeTerrainChecker.isPlant(stateUp);
+                final boolean validUp = PokecubeTerrainChecker.isCutablePlant(stateUp);
                 return validHere && validUp;
             };
             // Used on a grass, spreads sideways and only converts blocks that

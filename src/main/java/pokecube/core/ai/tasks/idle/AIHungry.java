@@ -71,26 +71,38 @@ public class AIHungry extends AIBase
 
     public static int TICKRATE         = 20;
 
+    public static float EATTHRESHOLD  = 0.75f;
+    public static float HUNTTHRESHOLD = 0.6f;
+    public static float BERRYGEN      = 0.55f;
+    public static float MATERESET     = 0.5f;
+    public static float DAMAGE        = 0.3f;
+    public static float DEATH         = 0.0f;
+
     // final World world;
-    final ItemEntity  berry;
-    final double      distance;
-    int               lastMessageTick1 = -1;
-    int               lastMessageTick2 = -1;
-    Vector3           foodLoc          = null;
-    boolean           block            = false;
-    boolean           sleepy           = false;
-    int               hungerTime;
-    double            moveSpeed;
-    Vector3           v                = Vector3.getNewVector();
-    Vector3           v1               = Vector3.getNewVector();
-    Random            rand;
+    final ItemEntity berry;
+    final double     distance;
+    int              lastMessageTick1 = -1;
+    int              lastMessageTick2 = -1;
+    Vector3          foodLoc          = null;
+    boolean          block            = false;
+    boolean          sleepy           = false;
+    float            hungerValue      = 1;
+    double           moveSpeed;
+    Vector3          v                = Vector3.getNewVector();
+    Vector3          v1               = Vector3.getNewVector();
+    Random           rand;
 
     public AIHungry(final IPokemob pokemob, final ItemEntity berry_, final double distance)
     {
         super(pokemob);
         this.berry = berry_;
         this.distance = distance;
-        this.moveSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 0.75;
+        this.moveSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.75;
+    }
+
+    private boolean hitThreshold(final float threshold)
+    {
+        return this.hungerValue <= threshold;
     }
 
     /** Swimming things look for fish hooks to try to go eat.
@@ -146,6 +158,7 @@ public class AIHungry extends AIBase
      * @return found food */
     protected boolean checkHunt()
     {
+        if (!this.hitThreshold(AIHungry.HUNTTHRESHOLD)) return false;
         if (this.pokemob.isPhototroph()) if (this.checkPhotoeat()) return true;
         if (this.pokemob.isLithotroph()) if (this.checkRockEat()) return true;
         if (this.pokemob.isElectrotroph()) if (this.checkElectricEat()) return true;
@@ -159,7 +172,7 @@ public class AIHungry extends AIBase
     protected boolean checkInventory()
     {
         // Too hungry to check inventory.
-        if (this.hungerTime >= PokecubeCore.getConfig().pokemobLifeSpan) return false;
+        if (this.hitThreshold(AIHungry.DEATH)) return false;
 
         for (int i = 2; i < 7; i++)
         {
@@ -248,9 +261,9 @@ public class AIHungry extends AIBase
             }
         }
         final ChunkCoordinate c = new ChunkCoordinate(this.v, this.entity.dimension.getId());
-        final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
-        if (this.sleepy && this.hungerTime < 0 && !ownedSleepCheck)
+        final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob
+                .getGeneralState(GeneralStates.STAYING);
+        if (this.sleepy && this.hitThreshold(AIHungry.EATTHRESHOLD) && !ownedSleepCheck)
         {
             if (!this.isGoodSleepingSpot(c))
             {
@@ -331,7 +344,7 @@ public class AIHungry extends AIBase
      *            distance to the plant */
     protected void eatPlant(final BlockState b, final Vector3 location, final double dist)
     {
-        double diff = 1;
+        double diff = 1.5;
         diff = Math.max(diff, this.entity.getWidth());
         if (dist < diff)
         {
@@ -340,15 +353,15 @@ public class AIHungry extends AIBase
             this.pokemob.eat(this.berry);
             if (PokecubeCore.getConfig().pokemobsEatPlants)
             {
-                this.foodLoc.setBlock(this.world,
-                        (location.getBlockState(this.world).getMaterial() == Material.PLANTS ? Blocks.DIRT : Blocks.AIR)
-                        .getDefaultState());
-                if (location.getBlockState(this.world).getMaterial() != Material.PLANTS)
+                if (b.getMaterial() != Material.PLANTS)
                 {
                     final List<ItemStack> list = Block.getDrops(b, this.world, this.foodLoc.getPos(), null);
                     for (final ItemStack stack : list)
                         this.toRun.add(new InventoryChange(this.entity, 2, stack, true));
                 }
+                if (b.getMaterial() == Material.ORGANIC) this.world.setBlockState(location.getPos(), Blocks.DIRT
+                        .getDefaultState());
+                else this.world.destroyBlock(location.getPos(), false);
             }
             this.foodLoc = null;
             this.addEntityPath(this.entity, null, this.moveSpeed);
@@ -396,10 +409,12 @@ public class AIHungry extends AIBase
         diff = Math.max(diff, this.entity.getWidth());
         if (dist < diff)
         {
-            if (PokecubeCore.getConfig().pokemobsEatRocks)
-                if (b.getBlock() == Blocks.COBBLESTONE) this.v.setBlock(this.world, Blocks.GRAVEL.getDefaultState());
-                else if (b.getBlock() == Blocks.GRAVEL && PokecubeCore.getConfig().pokemobsEatGravel) this.v.setBlock(this.world, Blocks.AIR.getDefaultState());
-                else if (b.getMaterial() == Material.ROCK) this.v.setBlock(this.world, Blocks.COBBLESTONE.getDefaultState());
+            if (PokecubeCore.getConfig().pokemobsEatRocks) if (b.getBlock() == Blocks.COBBLESTONE) location.setBlock(
+                    this.world, Blocks.GRAVEL.getDefaultState());
+            else if (b.getBlock() == Blocks.GRAVEL && PokecubeCore.getConfig().pokemobsEatGravel) location.setBlock(
+                    this.world, Blocks.AIR.getDefaultState());
+            else if (b.getMaterial() == Material.ROCK) location.setBlock(this.world, Blocks.COBBLESTONE
+                    .getDefaultState());
             this.setCombatState(this.pokemob, CombatStates.HUNTING, false);
             this.berry.setItem(new ItemStack(b.getBlock()));
             this.pokemob.eat(this.berry);
@@ -456,11 +471,14 @@ public class AIHungry extends AIBase
     {
         this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0);
 
+        final boolean tameCheck = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
+                GeneralStates.STAYING);
+
         /*
          * Tame pokemon can eat berries out of trapped chests, so check for one
          * of those here.
          */
-        if (this.pokemob.getGeneralState(GeneralStates.TAMED))
+        if (tameCheck)
         {
             IInventory container = null;
             this.v.set(this.entity).add(0, this.entity.getHeight(), 0);
@@ -490,22 +508,32 @@ public class AIHungry extends AIBase
 
         // No food already obtained, reset mating rules, hungry things don't
         // mate
-        this.pokemob.resetLoveStatus();
+        if (this.hitThreshold(AIHungry.MATERESET)) this.pokemob.resetLoveStatus();
 
-        if (this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getLogicState(LogicStates.SITTING))
+        if (tameCheck && this.pokemob.getLogicState(LogicStates.SITTING))
         {
             this.pokemob.setHungerCooldown(100);
             // Still let them go hunting if they really want to.
             return;
         }
         this.block = false;
-        this.v.set(this.entity).add(0, this.entity.getHeight(), 0);
+        this.v.set(this.entity, true);
 
         if (this.foodLoc == null)
         {
             if (!this.block && this.pokemob.isHerbivore())
             {
-                final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isPlant(b2);
+                final Predicate<BlockState> checker = (b2) -> this.isHerb(b2);
+                final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, checker);
+                if (temp != null)
+                {
+                    this.block = true;
+                    this.foodLoc = temp.copy();
+                }
+            }
+            if (!this.block && this.pokemob.isLithotroph())
+            {
+                final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
                 final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, (int) this.distance, checker);
                 if (temp != null)
                 {
@@ -561,7 +589,11 @@ public class AIHungry extends AIBase
     @Override
     public void reset()
     {
-        this.foodLoc = null;
+    }
+
+    private boolean isHerb(final BlockState state)
+    {
+        return PokecubeTerrainChecker.isFruit(state) || PokecubeTerrainChecker.isEdiblePlant(state);
     }
 
     @Override
@@ -581,8 +613,9 @@ public class AIHungry extends AIBase
                 return;
             }
             if (b.getBlock() instanceof IBerryFruitBlock) this.eatBerry(b, d);
-            else if (PokecubeTerrainChecker.isPlant(b)) this.eatPlant(b, this.foodLoc, d);
+            else if (this.isHerb(b)) this.eatPlant(b, this.foodLoc, d);
             else if (PokecubeTerrainChecker.isRock(b) && this.pokemob.isLithotroph()) this.eatRocks(b, this.foodLoc, d);
+            else this.foodLoc = null;
         }
     }
 
@@ -599,31 +632,44 @@ public class AIHungry extends AIBase
         // Do not run if the mob is in battle.
         if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
 
+        if (this.pokemob.neverHungry())
+        {
+            this.pokemob.setHungerTime(0);
+            this.pokemob.setCombatState(CombatStates.HUNTING, false);
+            return false;
+        }
+
         // Apply cooldowns and increment hunger.
         this.pokemob.setHungerCooldown(this.pokemob.getHungerCooldown() - hungerTicks);
         this.pokemob.setHungerTime(this.pokemob.getHungerTime() + hungerTicks);
 
+        this.calculateHunger();
+
         // Do not run this if on cooldown
         if (this.pokemob.getHungerCooldown() > 0) return false;
 
-        // Do not run this if not really hungry
-        if (this.pokemob.getHungerTime() < 0) return false;
+        this.v.set(this.entity);
 
-        this.hungerTime = this.pokemob.getHungerTime();
+        // Check if we should go after bait. The Math.random() > 0.99 is to
+        // allow non-hungry fish to also try to get bait.
+        if (Math.random() > 0.99) this.checkBait();
+
+        // Do not run this if not really hungry
+        if (!this.hitThreshold(AIHungry.EATTHRESHOLD)) return false;
+
         // Check if we are hunting or should be
         // Reset hunting status if we are not actually hungry
-        if (!this.pokemob.neverHungry() && this.pokemob.getHungerCooldown() < 0 && this.hungerTime > 0)
+        if (this.pokemob.getHungerCooldown() < 0 && this.hitThreshold(AIHungry.HUNTTHRESHOLD))
         {
             if (!this.pokemob.getCombatState(CombatStates.HUNTING))
                 this.pokemob.setCombatState(CombatStates.HUNTING, true);
         }
-        else if (this.hungerTime < 0 && this.pokemob.getCombatState(CombatStates.HUNTING))
+        else if (!this.hitThreshold(AIHungry.EATTHRESHOLD) && this.pokemob.getCombatState(CombatStates.HUNTING))
             this.pokemob.setCombatState(CombatStates.HUNTING, false);
 
         final boolean hunting = this.pokemob.getCombatState(CombatStates.HUNTING);
-        if (this.pokemob.getLogicState(LogicStates.SLEEPING) || !hunting || this.pokemob.neverHungry())
+        if (this.pokemob.getLogicState(LogicStates.SLEEPING) && !hunting)
         {
-            if (this.pokemob.neverHungry()) this.pokemob.setHungerTime(0);
             if (hunting) this.setCombatState(this.pokemob, CombatStates.HUNTING, false);
             return false;
         }
@@ -632,7 +678,16 @@ public class AIHungry extends AIBase
         // We have a location, so can run.
         if (this.foodLoc != null) return true;
         // We are hunting for food, so can run.
-        return hunting;
+        return true;
+    }
+
+    private void calculateHunger()
+    {
+        final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4 + PokecubeCore.getConfig().pokemobLifeSpan;
+        final float current = -(this.pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
+        // Convert to a scale
+        this.hungerValue = current / full;
+        this.hungerValue = Math.max(0, this.hungerValue);
     }
 
     @Override
@@ -641,19 +696,11 @@ public class AIHungry extends AIBase
         // Configs can set this to -1 to disable ticking.
         if (AIHungry.TICKRATE < 0) return;
 
-        final int deathTime = PokecubeCore.getConfig().pokemobLifeSpan;
-        final double hurtTime = deathTime / 2d;
-        this.hungerTime = this.pokemob.getHungerTime();
+        this.v.set(this.entity);
         final int hungerTicks = AIHungry.TICKRATE;
 
         // Everything after here only applies about once per second.
         if (this.entity.ticksExisted % hungerTicks != 0) return;
-
-        this.v.set(this.entity);
-
-        // Check if we should go after bait. The Math.random() > 0.99 is to
-        // allow non-hungry fish to also try to get bait.
-        if (this.shouldRun() || Math.random() > 0.99) this.checkBait();
 
         // Check if we should go to sleep instead.
         this.checkSleep();
@@ -666,14 +713,11 @@ public class AIHungry extends AIBase
          * Check the various hunger types if it is hunting. And if so, refresh
          * the hunger time counter.
          */
-        if (this.pokemob.getCombatState(CombatStates.HUNTING))
-            if (this.checkHunt()) this.hungerTime = this.pokemob.getHungerTime();
-
-        final float ratio = (float) ((this.hungerTime - hurtTime) / deathTime);
+        if (this.pokemob.getCombatState(CombatStates.HUNTING)) if (this.checkHunt()) this.calculateHunger();
 
         // Check own inventory for berries to eat, and then if the mob is
         // allowed to, collect berries if none to eat.
-        if (this.hungerTime > 0 && !this.checkInventory())
+        if (this.hitThreshold(AIHungry.EATTHRESHOLD) && !this.checkInventory())
         {
             // Pokemobs set to stay can collect berries, or wild ones,
             boolean tameCheck = this.pokemob.getGeneralState(GeneralStates.STAYING)
@@ -689,13 +733,16 @@ public class AIHungry extends AIBase
             {
                 // Only run this if we are getting close to hurt damage, mostly
                 // to allow trying other food sources first.
-                if (this.hungerTime > deathTime / 4) this.toRun.add(new GenBerries(this.pokemob));
+                if (this.hitThreshold(AIHungry.BERRYGEN)) this.toRun.add(new GenBerries(this.pokemob));
             }
             // Otherwise take damage.
-            else if (this.entity.ticksExisted % hungerTicks == 0 && ratio > 0)
+            else if (this.hitThreshold(AIHungry.DAMAGE))
             {
-                final boolean dead = this.pokemob.getMaxHealth() * ratio > this.pokemob.getHealth();
-                final float damage = this.pokemob.getMaxHealth() * ratio;
+                final float ratio = (AIHungry.DAMAGE - this.hungerValue) / AIHungry.DAMAGE;
+                final boolean dead = this.pokemob.getMaxHealth() * ratio > this.pokemob.getHealth() || this
+                        .hitThreshold(AIHungry.DEATH);
+                // Ensure it dies if it should.
+                final float damage = dead ? this.pokemob.getMaxHealth() * 20 : this.pokemob.getMaxHealth() * ratio;
                 if (damage >= 1 && ratio >= 0.0625 && this.entity.getHealth() > 0)
                 {
                     this.entity.attackEntityFrom(DamageSource.STARVE, damage);
@@ -719,9 +766,9 @@ public class AIHungry extends AIBase
         }
 
         // cap hunger.
-        this.hungerTime = this.pokemob.getHungerTime();
-        final int hunger = Math.max(this.hungerTime, -deathTime / 4);
-        if (hunger != this.hungerTime) this.pokemob.setHungerTime(hunger);
+        final int hungerTime = this.pokemob.getHungerTime();
+        final int hunger = Math.max(hungerTime, -PokecubeCore.getConfig().pokemobLifeSpan / 4);
+        if (hunger != hungerTime) this.pokemob.setHungerTime(hunger);
 
         // Regenerate health if out of battle.
         if (this.entity.getAttackTarget() == null && this.pokemob.getHealth() > 0 && this.entity.isAlive()

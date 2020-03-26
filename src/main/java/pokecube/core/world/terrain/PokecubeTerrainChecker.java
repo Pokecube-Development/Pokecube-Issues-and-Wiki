@@ -29,7 +29,8 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public static ResourceLocation FRUITTAG      = new ResourceLocation(PokecubeCore.MODID, "fruit");
     public static ResourceLocation GROUNDTAG     = new ResourceLocation(PokecubeCore.MODID, "ground");
     public static ResourceLocation INDUSTRIALTAG = new ResourceLocation(PokecubeCore.MODID, "industrial");
-    public static ResourceLocation PLANTTAG      = new ResourceLocation(PokecubeCore.MODID, "plants");
+    public static ResourceLocation PLANTEATTAG   = new ResourceLocation(PokecubeCore.MODID, "plants_edible");
+    public static ResourceLocation PLANTCUTTAG   = new ResourceLocation(PokecubeCore.MODID, "plants_cutable");
     public static ResourceLocation ROCKTAG       = new ResourceLocation(PokecubeCore.MODID, "rocks");
     public static ResourceLocation SURFACETAG    = new ResourceLocation(PokecubeCore.MODID, "surface");
     public static ResourceLocation TERRAINTAG    = new ResourceLocation(PokecubeCore.MODID, "terrain");
@@ -63,9 +64,22 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         return PokecubeItems.is(PokecubeTerrainChecker.INDUSTRIALTAG, state);
     }
 
-    public static boolean isPlant(final BlockState state)
+    private static boolean isPlant(final Material m)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.PLANTTAG, state);
+        return m == Material.PLANTS || m == Material.TALL_PLANTS || m == Material.SEA_GRASS
+                || m == Material.OCEAN_PLANT;
+    }
+
+    public static boolean isEdiblePlant(final BlockState state)
+    {
+        return PokecubeItems.is(PokecubeTerrainChecker.PLANTEATTAG, state) || PokecubeCore.getConfig().autoPopulateLists
+                && PokecubeTerrainChecker.isPlant(state.getMaterial());
+    }
+
+    public static boolean isCutablePlant(final BlockState state)
+    {
+        return PokecubeItems.is(PokecubeTerrainChecker.PLANTEATTAG, state) || PokecubeCore.getConfig().autoPopulateLists
+                && PokecubeTerrainChecker.isPlant(state.getMaterial());
     }
 
     public static boolean isRock(final BlockState state)

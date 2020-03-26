@@ -16,7 +16,7 @@ public class TreeRemover
     List<Vector3> blocks  = new LinkedList<>();
     List<Vector3> checked = new LinkedList<>();
 
-    public TreeRemover(World world, Vector3 pos)
+    public TreeRemover(final World world, final Vector3 pos)
     {
         this.world = world;
         this.centre = pos;
@@ -28,7 +28,7 @@ public class TreeRemover
         this.checked.clear();
     }
 
-    public int cut(boolean count)
+    public int cut(final boolean count)
     {
         if (!count && this.cutTree(true) == 0) this.cutGrass();
         return this.cutTree(count);
@@ -42,12 +42,12 @@ public class TreeRemover
                 for (int k = -1; k < 6; k++)
                 {
                     temp.set(this.centre).addTo(i, k, j);
-                    if (PokecubeTerrainChecker.isPlant(temp.getBlockState(this.world))) temp.breakBlock(this.world,
-                            true);
+                    if (PokecubeTerrainChecker.isCutablePlant(temp.getBlockState(this.world))) temp.breakBlock(
+                            this.world, true);
                 }
     }
 
-    private int cutPoints(boolean count)
+    private int cutPoints(final boolean count)
     {
         int ret = 0;
         for (final Vector3 v : this.blocks)
@@ -58,7 +58,7 @@ public class TreeRemover
         return ret;
     }
 
-    public int cutTree(boolean count)
+    public int cutTree(final boolean count)
     {
         if (this.blocks.size() > 0 && count) this.clear();
         else if (this.blocks.size() > 0) return this.cutPoints(count);
@@ -86,8 +86,8 @@ public class TreeRemover
                 if (PokecubeTerrainChecker.isWood(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
                 {
                 }
-                else if (PokecubeTerrainChecker.isGround(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
-                    valid = true;
+                else if (PokecubeTerrainChecker.isGround(temp.set(this.centre).addTo(0, k, 0).getBlockState(
+                        this.world))) valid = true;
                 else break;
                 if (valid) break;
                 k--;
@@ -97,7 +97,7 @@ public class TreeRemover
         return base;
     }
 
-    private boolean nextPoint(Vector3 prev, List<Vector3> tempList)
+    private boolean nextPoint(final Vector3 prev, final List<Vector3> tempList)
     {
         boolean ret = false;
 
@@ -117,7 +117,7 @@ public class TreeRemover
         return ret;
     }
 
-    private void populateList(Vector3 base)
+    private void populateList(final Vector3 base)
     {
         this.blocks.add(base);
         while (this.checked.size() < this.blocks.size())
