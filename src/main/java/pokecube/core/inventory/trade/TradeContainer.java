@@ -60,11 +60,11 @@ public class TradeContainer extends BaseContainer
             @Override
             public boolean isItemValid(final ItemStack stack)
             {
-                // if (PokecubeManager.isFilled(stack))
-                // {
-                // final String id = PokecubeManager.getOwner(stack);
-                // return id.equals(inv.player.getCachedUniqueIdString());
-                // }
+                if (PokecubeManager.isFilled(stack))
+                {
+                    final String id = PokecubeManager.getOwner(stack);
+                    return id.equals(inv.player.getCachedUniqueIdString());
+                }
                 return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
             }
         });
