@@ -2,6 +2,7 @@ package pokecube.core.database.abilities;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
@@ -29,11 +30,23 @@ public class AbilityManager
 
     static int nextID = 0;
 
-    public static boolean abilityExists(String name)
+    private static Map<String, String> fixed = Maps.newHashMap();
+
+    private static String getAbilityName(String name)
+    {
+        if (name == null) return null;
+        if (AbilityManager.fixed.containsKey(name)) return AbilityManager.fixed.get(name);
+        final String original = name;
+        name = ThutCore.trim(name);
+        if (name.contains("_")) name = name.replace("_", "");
+        AbilityManager.fixed.put(original, name);
+        return name;
+    }
+
+    public static boolean abilityExists(final String name)
     {
         if (name == null) return false;
-        name = ThutCore.trim(name);
-        return AbilityManager.nameMap.containsKey(name);
+        return AbilityManager.nameMap.containsKey(AbilityManager.getAbilityName(name));
     }
 
     public static void addAbility(final Class<? extends Ability> ability)
@@ -43,7 +56,7 @@ public class AbilityManager
 
     public static void addAbility(final Class<? extends Ability> ability, String name)
     {
-        name = ThutCore.trim(name);
+        name = AbilityManager.getAbilityName(name);
         AbilityManager.nameMap.put(name, ability);
         AbilityManager.nameMap2.put(ability, name);
         AbilityManager.idMap.put(ability, AbilityManager.nextID);
@@ -61,7 +74,7 @@ public class AbilityManager
         if (name == null) return null;
         if (name.startsWith("ability.")) name = name.substring(7);
         if (name.endsWith(".name")) name = name.substring(0, name.length() - 5);
-        return AbilityManager.makeAbility(ThutCore.trim(name), args);
+        return AbilityManager.makeAbility(AbilityManager.getAbilityName(name), args);
     }
 
     public static int getIdForAbility(final Ability ability)
@@ -78,7 +91,7 @@ public class AbilityManager
     {
         final Ability ability = pokemob.getAbility();
         if (ability == null) return false;
-        return ability.toString().equalsIgnoreCase(ThutCore.trim(abilityName));
+        return ability.toString().equalsIgnoreCase(AbilityManager.getAbilityName(abilityName));
     }
 
     public static void init()
@@ -128,7 +141,7 @@ public class AbilityManager
 
     public static void replaceAbility(final Class<? extends Ability> ability, String name)
     {
-        name = ThutCore.trim(name);
+        name = AbilityManager.getAbilityName(name);
         if (AbilityManager.nameMap.containsKey(name))
         {
             final Class<? extends Ability> old = AbilityManager.nameMap.remove(name);
