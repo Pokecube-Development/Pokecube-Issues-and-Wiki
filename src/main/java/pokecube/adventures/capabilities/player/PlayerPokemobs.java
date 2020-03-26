@@ -137,6 +137,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     public LivingEntity getTarget()
     {
         final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
+        if (this.target != null && !this.target.isAlive()) this.target = null;
         if (oldBattle != null && oldBattle != this && oldBattle.getTargetRaw() != this.player) this.target = null;
         return this.target;
     }

@@ -171,7 +171,6 @@ public class PacketTrainer extends Packet
             final String type = this.data.getString("T");
             final int level = this.data.getInt("L");
             final boolean leader = this.data.getBoolean("C");
-            System.out.println(type + " " + level + " " + leader);
             final Vector3 vec = Vector3.getNewVector().set(player);
             String args = "pokecube_adventures:" + (leader ? "leader" : "trainer");
             final JsonObject thing = new JsonObject();

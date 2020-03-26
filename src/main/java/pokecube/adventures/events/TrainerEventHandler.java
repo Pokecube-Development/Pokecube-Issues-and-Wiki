@@ -356,6 +356,7 @@ public class TrainerEventHandler
         PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
 
         final TypeTrainer newType = TypeTrainer.get(npc, true);
+        if (mobs.countPokemon() != 0) return;
         if (newType == null) return;
         mobs.setType(newType);
         final int level = SpawnHandler.getSpawnLevel(npc.getEntityWorld(), Vector3.getNewVector().set(npc), Database

@@ -301,7 +301,6 @@ public class TypeTrainer extends NpcType
     {
         final int num = entry.getPokedexNb();
         if (Pokedex.getInstance().getEntry(num) == null) return ItemStack.EMPTY;
-
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
         if (pokemob != null)
         {
@@ -322,7 +321,7 @@ public class TypeTrainer extends NpcType
             pokemob.setOwner(trainer.getUniqueID());
             pokemob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             final int exp = Tools.levelToXp(pokemob.getExperienceMode(), level);
-            pokemob = pokemob.setForSpawn(exp);
+            pokemob = pokemob.setForSpawn(exp, false);
             final ItemStack item = PokecubeManager.pokemobToItem(pokemob);
             pokemob.getEntity().remove();
             return item;
