@@ -167,9 +167,15 @@ public class AIBattle extends AITrainerBase
                 final ItemStack nextStack = this.trainer.getNextPokemob();
                 if (!nextStack.isEmpty())
                 {
-                    final IPokemob next = PokecubeManager.itemToPokemob(nextStack, this.world);
+                    IPokemob next = PokecubeManager.itemToPokemob(nextStack, this.world);
                     if (next != null)
                     {
+                        // check if our mob should evolve, if so, do so
+                        while (next.canEvolve(next.getHeldItem()))
+                        {
+                            next = next.evolve(false, false);
+                            nextStack.setTag(PokecubeManager.pokemobToItem(next).getTag());
+                        }
                         this.messages.sendMessage(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity
                                 .getDisplayName(), next.getDisplayName(), this.trainer.getTarget().getDisplayName());
                         this.messages.doAction(MessageState.ABOUTSEND, this.trainer.getTarget());

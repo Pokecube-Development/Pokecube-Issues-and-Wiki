@@ -168,6 +168,7 @@ public class CapabilityHasPokemobs
         // This is the reference cooldown.
         public int              battleCooldown = -1;
         private byte            gender         = 0;
+        private int             number         = Integer.MAX_VALUE;
         private LivingEntity    user;
         private IHasNPCAIStates aiStates;
         private IHasMessages    messages;
@@ -233,6 +234,7 @@ public class CapabilityHasPokemobs
                 if (ListNBT.size() != 0) for (int i = 0; i < Math.min(ListNBT.size(), this.getMaxPokemobCount()); ++i)
                     this.setPokemob(i, ItemStack.read(ListNBT.getCompound(i)));
             }
+            this.initCount();
             this.setType(TypeTrainer.getTrainer(nbt.getString("type"), true));
             this.setCooldown(nbt.getLong("nextBattle"));
             if (nbt.contains("outPokemob")) this.setOutID(UUID.fromString(nbt.getString("outPokemob")));
@@ -708,6 +710,21 @@ public class CapabilityHasPokemobs
         {
             return this.target;
         }
+
+        @Override
+        public int countPokemon()
+        {
+            if (this.number > this.getMaxPokemobCount()) this.initCount();
+            return this.number;
+        }
+
+        @Override
+        public void initCount()
+        {
+            this.number = 0;
+            for (int i = 0; i < this.getMaxPokemobCount(); i++)
+                if (PokecubeManager.isFilled(this.getPokemob(i))) this.number++;
+        }
     }
 
     public static interface IHasPokemobs extends ICapabilitySerializable<CompoundNBT>
@@ -809,13 +826,9 @@ public class CapabilityHasPokemobs
             return true;
         }
 
-        default int countPokemon()
-        {
-            int ret = 0;
-            for (int i = 0; i < this.getMaxPokemobCount(); i++)
-                if (PokecubeManager.isFilled(this.getPokemob(i))) ret++;
-            return ret;
-        }
+        int countPokemon();
+
+        void initCount();
 
         /** The distance to see for attacking players */
         default int getAgressDistance()
