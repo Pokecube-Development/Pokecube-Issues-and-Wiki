@@ -33,9 +33,14 @@ import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.RegisterDimensionsEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -282,6 +287,32 @@ public class SecretBaseDimension extends ModDimension
                 SecretBaseDimension.DIMENSION.getRegistryName(), SecretBaseDimension.DIMENSION,
                 new PacketBuffer(Unpooled.EMPTY_BUFFER), true);
         DimensionManager.keepLoaded(SecretBaseDimension.TYPE);
+    }
+
+    @SubscribeEvent
+    @OnlyIn(value = Dist.CLIENT)
+    public static void clientTick(final ClientTickEvent event)
+    {
+        final World world = PokecubeCore.proxy.getWorld();
+        if (world == null) return;
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
+                SecretBaseDimension.TYPE.getRegistryName())) world.getWorldBorder().setSize(2999984);
+    }
+
+    @SubscribeEvent
+    public static void worldTick(final WorldTickEvent event)
+    {
+        final World world = event.world;
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
+                SecretBaseDimension.TYPE.getRegistryName())) world.getWorldBorder().setSize(2999984);
+    }
+
+    @SubscribeEvent
+    public static void worldLoad(final WorldEvent.Load event)
+    {
+        final IWorld world = event.getWorld();
+        if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
+                SecretBaseDimension.TYPE.getRegistryName())) world.getWorldBorder().setSize(2999984);
     }
 
     @Override
