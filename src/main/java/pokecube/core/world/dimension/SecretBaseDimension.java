@@ -17,6 +17,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -289,6 +290,10 @@ public class SecretBaseDimension extends ModDimension
     public static DimensionType             TYPE;
     public static Biome                     BIOME;
 
+    public static final String ID = PokecubeCore.MODID + ":secret_bases";
+
+    private static final ResourceLocation IDLOC = new ResourceLocation(SecretBaseDimension.ID);
+
     @SubscribeEvent
     public static void register(final RegisterDimensionsEvent event)
     {
@@ -304,7 +309,7 @@ public class SecretBaseDimension extends ModDimension
         final World world = PokecubeCore.proxy.getWorld();
         if (world == null) return;
         if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
-                SecretBaseDimension.TYPE.getRegistryName())) world.getWorldBorder().setSize(2999984);
+                SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
     }
 
     @SubscribeEvent
@@ -312,7 +317,7 @@ public class SecretBaseDimension extends ModDimension
     {
         final World world = event.world;
         if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
-                SecretBaseDimension.TYPE.getRegistryName())) world.getWorldBorder().setSize(2999984);
+                SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
     }
 
     @SubscribeEvent
@@ -320,7 +325,7 @@ public class SecretBaseDimension extends ModDimension
     {
         final IWorld world = event.getWorld();
         if (world.getWorldBorder().getSize() != 2999984 && world.getDimension().getType().getRegistryName().equals(
-                SecretBaseDimension.TYPE.getRegistryName())) world.getWorldBorder().setSize(2999984);
+                SecretBaseDimension.IDLOC)) world.getWorldBorder().setSize(2999984);
     }
 
     @Override
