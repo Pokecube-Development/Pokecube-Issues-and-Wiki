@@ -137,6 +137,7 @@ public class CapabilityHasPokemobs
                 for (int i = 0; i < list.size(); i++)
                 {
                     final DefeatEntry d = DefeatEntry.createFromNBT(list.getCompound(i));
+                    if (d.id.isEmpty()) continue;
                     this.map.put(d.id, d);
                 }
             }
