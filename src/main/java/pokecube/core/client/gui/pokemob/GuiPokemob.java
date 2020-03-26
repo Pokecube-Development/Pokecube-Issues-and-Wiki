@@ -57,6 +57,7 @@ public class GuiPokemob extends GuiPokemobBase
             current *= scale / 100f;
             current = Math.min(1, current);
             this.value = (int) (1000 * (1 - current)) / 10f;
+            this.value = Math.max(0, this.value);
 
             int col = 0xFF555555;
             // Fill the background

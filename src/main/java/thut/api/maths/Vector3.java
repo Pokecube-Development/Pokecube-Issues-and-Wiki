@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -744,7 +743,7 @@ public class Vector3
                     if (state == null) continue loop;
                     final Block b = state.getBlock();
                     if (predicateList) for (final Object o : list)
-                        if (((Predicate<BlockState>) o).apply(state))
+                        if (((Predicate<BlockState>) o).test(state))
                         {
                             ret.set(rTestAbs);
                             return ret;
@@ -764,7 +763,7 @@ public class Vector3
                         }
                         list = tempList;
                     }
-                    if (matcher != null && matcher.apply(state))
+                    if (matcher != null && matcher.test(state))
                     {
                         ret.set(rTestAbs);
                         return ret;

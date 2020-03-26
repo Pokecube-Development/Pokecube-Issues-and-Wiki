@@ -194,8 +194,7 @@ public class PokecubeCore
         public static void registerDimensions(final RegistryEvent.Register<ModDimension> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Dimensions");
-            event.getRegistry().register(SecretBaseDimension.DIMENSION.setRegistryName(PokecubeCore.MODID,
-                    "secret_bases"));
+            event.getRegistry().register(SecretBaseDimension.DIMENSION.setRegistryName(SecretBaseDimension.ID));
         }
 
         @SubscribeEvent
