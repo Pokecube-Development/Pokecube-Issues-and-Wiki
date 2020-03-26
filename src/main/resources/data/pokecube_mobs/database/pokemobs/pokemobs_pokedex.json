@@ -14938,6 +14938,7 @@
       "name": "Pichu",
       "number": 172,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -15002,6 +15003,7 @@
       "name": "Cleffa",
       "number": 173,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -15068,6 +15070,7 @@
       "name": "Igglybuff",
       "number": 174,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -15133,6 +15136,7 @@
       "name": "Togepi",
       "number": 175,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -19860,6 +19864,7 @@
       "name": "Tyrogue",
       "number": 236,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -19994,6 +19999,7 @@
       "name": "Smoochum",
       "number": 238,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -20069,6 +20075,7 @@
       "name": "Elekid",
       "number": 239,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -20141,6 +20148,7 @@
       "name": "Magby",
       "number": 240,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -24659,6 +24667,7 @@
       "name": "Azurill",
       "number": 298,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -29633,6 +29642,7 @@
       "name": "Wynaut",
       "number": 360,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -33432,6 +33442,7 @@
       "name": "Budew",
       "number": 406,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -35489,6 +35500,7 @@
       "name": "Chingling",
       "number": 433,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -35863,6 +35875,7 @@
       "name": "Bonsly",
       "number": 438,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -35935,6 +35948,7 @@
       "name": "Mime Jr.",
       "number": 439,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -36010,6 +36024,7 @@
       "name": "Happiny",
       "number": 440,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -36470,6 +36485,7 @@
       "name": "Munchlax",
       "number": 446,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -36544,6 +36560,7 @@
       "name": "Riolu",
       "number": 447,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -37379,6 +37396,7 @@
       "name": "Mantyke",
       "number": 458,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -63959,6 +63977,7 @@
       "number": 785,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64027,6 +64046,7 @@
       "number": 786,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64095,6 +64115,7 @@
       "number": 787,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64163,6 +64184,7 @@
       "number": 788,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64348,6 +64370,7 @@
       "number": 791,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64471,6 +64494,7 @@
       "number": 792,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64595,6 +64619,7 @@
       "number": 793,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64666,6 +64691,7 @@
       "number": 794,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64742,6 +64768,7 @@
       "number": 795,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64812,6 +64839,7 @@
       "number": 796,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64881,6 +64909,7 @@
       "number": 797,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -64959,6 +64988,7 @@
       "number": 798,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65028,6 +65058,7 @@
       "number": 799,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65096,6 +65127,7 @@
       "number": 800,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65170,6 +65202,7 @@
       "name": "Necrozma Ultra",
       "number": 800,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65287,6 +65320,7 @@
       "number": 802,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65355,6 +65389,7 @@
       "number": 803,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65418,6 +65453,7 @@
       "number": 804,
       "legend": true,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65491,6 +65527,7 @@
       "number": 805,
       "legend": true,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65557,6 +65594,7 @@
       "number": 806,
       "legend": true,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -65622,6 +65660,7 @@
       "number": 807,
       "legend": true,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -68826,6 +68865,7 @@
       "name": "Toxel",
       "number": 848,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -72269,6 +72309,7 @@
       "number": 888,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -72338,6 +72379,7 @@
       "name": "Zacian Crowned",
       "number": 888,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -72380,6 +72422,7 @@
       "number": 889,
       "legend": true,
       "base": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -72448,6 +72491,7 @@
       "name": "Zamazenta Crowned",
       "number": 889,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -72490,6 +72534,7 @@
       "number": 890,
       "base": true,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -72564,6 +72609,7 @@
       "name": "Eternatus Eternamax",
       "number": 890,
       "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
