@@ -646,13 +646,13 @@ public class AIHungry extends AIBase
     @Override
     public boolean shouldRun()
     {
-        int hungerTicks = AIHungry.TICKRATE;
+        final int hungerTicks = AIHungry.TICKRATE;
         // This can be set in configs to disable.
         if (hungerTicks < 0) return false;
 
         // Only run this every few ticks.
         if (this.entity.ticksExisted % hungerTicks != 0) return false;
-        hungerTicks *= 100;
+
         // Do not run if the mob is in battle.
         if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
 
