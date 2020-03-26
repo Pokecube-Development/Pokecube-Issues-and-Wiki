@@ -60,7 +60,7 @@ public class CapabilityHasPokemobs
         {
             public static DefeatEntry createFromNBT(final CompoundNBT nbt)
             {
-                final String defeater = nbt.getString("player");
+                final String defeater = nbt.getString("name");
                 final long time = nbt.getLong("time");
                 return new DefeatEntry(defeater, time);
             }
