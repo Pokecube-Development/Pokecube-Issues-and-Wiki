@@ -67825,7 +67825,7 @@
         "baseExp": 54,
         "baseFriendship": 50,
         "expMode": "Fast",
-        "genderRatio": 255,
+        "genderRatio": 127,
         "logics": {
           "values": {
             "shoulder": "FALSE"
