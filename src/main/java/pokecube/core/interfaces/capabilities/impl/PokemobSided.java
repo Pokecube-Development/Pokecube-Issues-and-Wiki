@@ -15,7 +15,7 @@ public abstract class PokemobSided extends PokemobBase
 {
     private final Map<ResourceLocation, ResourceLocation>   shinyTexs    = Maps.newHashMap();
     private final Map<ResourceLocation, ResourceLocation[]> texs         = Maps.newHashMap();
-    private FormeHolder                                     forme_holder = null;
+    protected FormeHolder                                   forme_holder = null;
 
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -105,6 +105,8 @@ public abstract class PokemobSided extends PokemobBase
     public FormeHolder getCustomHolder()
     {
         if (this.forme_holder == null) return this.getPokedexEntry().getModel(this.getSexe());
+        if (Database.formeToEntry.getOrDefault(this.forme_holder.key, this.getPokedexEntry()) != this.getPokedexEntry())
+            return this.getPokedexEntry().getModel(this.getSexe());
         return this.forme_holder;
     }
 }
