@@ -982,11 +982,16 @@ public class Database
         final PackFinder finder = new PackFinder(ResourcePackInfo::new);
         resourcePacks.addPackFinder(finder);
         for (final IResourcePack info : finder.allPacks)
-        {
-            PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
-            Database.resourceManager.addResourcePack(info);
-            Database.customPacks.add(info);
-        }
+            try
+            {
+                PokecubeCore.LOGGER.debug("Loading Pack: " + info.getName());
+                Database.resourceManager.addResourcePack(info);
+                Database.customPacks.add(info);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.fatal("Error with pack " + info.getName(), e);
+            }
         resourcePacks.close();
 
         // Register the dex inspector
