@@ -51,13 +51,20 @@ public class Impl
             return;
         }
         final int r = 1;
-        for (int i = -r; i <= r; i++)
-            for (int j = -r; j <= r; j++)
-                if (BuildingInfo.isCity(event.chunkPosX + i, event.chunkPosZ + j, dimInfo))
-                {
-                    event.setCanceled(true);
-                    return;
-                }
+        try
+        {
+            for (int i = -r; i <= r; i++)
+                for (int j = -r; j <= r; j++)
+                    if (BuildingInfo.isCity(event.chunkPosX + i, event.chunkPosZ + j, dimInfo))
+                    {
+                        event.setCanceled(true);
+                        return;
+                    }
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.error("Error checking for lost cities structure!", e);
+        }
     }
 
     public static class LostCityTerrainChecker extends PokecubeTerrainChecker
