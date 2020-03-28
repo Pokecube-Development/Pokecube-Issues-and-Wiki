@@ -157,6 +157,7 @@ public class Database
     public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
     public static HashMap<PokedexEntry, List<FormeHolder>> customModels    = new HashMap<>();
     public static HashMap<ResourceLocation, FormeHolder>   formeHolders    = new HashMap<>();
+    public static HashMap<ResourceLocation, PokedexEntry>  formeToEntry    = new HashMap<>();
 
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
@@ -283,6 +284,7 @@ public class Database
     {
         if (holder == null) return;
         List<FormeHolder> holders = Database.customModels.get(entry);
+        Database.formeToEntry.put(holder.key, entry);
         if (holders == null) Database.customModels.put(entry, holders = Lists.newArrayList());
         if (!holders.contains(holder))
         {
