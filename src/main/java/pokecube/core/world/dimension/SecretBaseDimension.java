@@ -229,6 +229,12 @@ public class SecretBaseDimension extends ModDimension
         {
             return new SecretChunkGen(this.getWorld(), new SecretProvider(), new SecretSettings());
         }
+
+        @Override
+        public boolean canRespawnHere()
+        {
+            return false;
+        }
     }
 
     public static class SecretProvider extends BiomeProvider
