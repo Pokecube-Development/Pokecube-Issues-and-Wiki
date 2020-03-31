@@ -27421,6 +27421,18 @@
       "name": "Cacturne",
       "number": 332,
       "base": true,
+	  "female_model": {
+        "key": "cacturne_female",
+        "tex": "cacturne",
+        "model": "cacturne_female",
+        "anim": "cacturne_female"
+      },
+      "male_model": {
+        "key": "cacturne_male",
+        "tex": "cacturne",
+        "model": "cacturne_male",
+        "anim": "cacturne_male"
+      },
       "stats": {
         "stats": {
           "values": {
@@ -68487,9 +68499,9 @@
         },
         "sizes": {
           "values": {
-            "length": "2.2",
-            "width": "2.2",
-            "height": "2.2"
+            "length": "1",
+            "width": "1",
+            "height": "1"
           }
         },
         "types": {
