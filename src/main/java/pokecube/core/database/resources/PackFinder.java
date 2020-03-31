@@ -52,7 +52,14 @@ public class PackFinder implements IPackFinder
         }
 
         final Map<String, ResourcePackInfo> map = Maps.newHashMap();
-        this.folderFinder.addPackInfosToMap(map, packInfoFactoryIn);
+        try
+        {
+            this.folderFinder.addPackInfosToMap(map, packInfoFactoryIn);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.fatal("Error checking resourcepacks for data!", e);
+        }
 
         for (final ResourcePackInfo info : map.values())
         {
