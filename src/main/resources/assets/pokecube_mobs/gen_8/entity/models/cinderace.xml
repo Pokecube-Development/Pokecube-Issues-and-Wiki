@@ -3,7 +3,7 @@
   <model name="">
 	<phase name="global" scale="0.7"/>
 	<metadata head="head" headCap="-70,70" headCap1="-60,60" headAxis="2" headAxis2="0" headDir="-1"/>
-	<phase name="biWalk" leftLeg="leg1:leg1_1" rightLeg="leg2:leg2_1" leftArm="" rightArm="" duration="6" legAngle="30"/>
+	<phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="30"/>
    <customTex default="cinderace">
     <part name="Head" tex="cinderacehead"/>
     <animation diffs="0,0.5" part="Head" trigger="random:0.005:2"/>
@@ -152,14 +152,8 @@
 	</part>
 	</phase>
 	<phase type="walking">
-	<part name="cint">
-		<component name="1" rotOffset="20,0,0" length="1" startKey="0"/>
-	</part>
-	<part name="ball">
-	 <component length="1" name="1" hidden="true" startKey="0"/>
-	</part>
 	<part name="body">
-		<component name="1" rotOffset="20,0,0" length="1" startKey="0"/>
+	  <component name="1" rotOffset="2,0,0" length="1" startKey="0"/>
 	</part>		
 	<part name="arm1">
 	  <component name="1" rotOffset="0,0,-55" rotChange="0,60,0" length="8" startKey="0"/>
@@ -167,7 +161,7 @@
 	  <component name="3" rotChange="0,60,0" length="8" startKey="10"/>
 	</part>
 	<part name="arm1_1">
-		<component name="1" rotOffset="0,-90,0" length="1" startKey="0"/>
+		<component name="1" rotOffset="0,0,-5" length="1" startKey="0"/>
 	</part>
 	<part name="arm2">
 	  <component name="1" rotOffset="0,0,55" rotChange="0,60,0" length="5" startKey="0"/>
@@ -175,7 +169,13 @@
 	  <component name="3" rotChange="0,60,0" length="8" startKey="10"/>
 	</part>
 	<part name="arm2_1">
-		<component name="1" rotOffset="0,90,0" length="1" startKey="0"/>
+		<component name="1" rotOffset="0,0,5" length="1" startKey="0"/>
+	</part>
+	<part name="leg1_1">
+	  <component name="1" rotOffset="-20,0,0" length="1" startKey="0"/>
+	</part>
+	<part name="leg2_1">
+	  <component name="1" rotOffset="-20,0,0" length="1" startKey="0"/>
 	</part>
 	<part name="orl1">
 	  <component name="1" rotOffset="-20,0,0" rotChange="-2,0,0" length="12" startKey="0"/>
