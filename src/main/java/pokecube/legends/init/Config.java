@@ -35,6 +35,8 @@ public class Config extends ConfigData
     private final LegendaryConditions  conditions      = new LegendaryConditions();
     private boolean                    conditionsReged = false;
 
+    public boolean loaded = false;
+
     public Config()
     {
         super(Reference.ID);
@@ -43,6 +45,7 @@ public class Config extends ConfigData
     @Override
     public void onUpdated()
     {
+        if (!this.loaded) return;
         if (this.enabledportal && !this.wormholeReged)
         {
             MinecraftForge.EVENT_BUS.register(this.wormholes);
