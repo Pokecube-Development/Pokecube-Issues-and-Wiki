@@ -215,9 +215,8 @@ public class EntityPokemob extends PokemobCombat
     }
 
     @Override
-    public void remove(final boolean keepData)
-    {
-        super.remove(keepData);
+    public void setPortal(final BlockPos pos)
+    {// Nope, no nether portal for us.
     }
 
     @Override
@@ -291,9 +290,9 @@ public class EntityPokemob extends PokemobCombat
     {
         boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
         this.despawntimer--;
-        if (PokecubeCore.getConfig().despawn)
-            if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
-            else if (this.despawntimer == 0) return true;
+        if (PokecubeCore.getConfig().despawn) if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore
+                .getConfig().despawnTimer;
+        else if (this.despawntimer == 0) return true;
         player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getEntityWorld().getHeight(),
                 this);
         if (PokecubeCore.getConfig().cull && !player) return true;
