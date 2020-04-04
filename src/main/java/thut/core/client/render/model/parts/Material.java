@@ -124,7 +124,17 @@ public class Material
 
     public IVertexBuilder preRender(final MatrixStack mat, final IVertexBuilder buffer)
     {
-        return this.override_buff == null ? buffer : this.override_buff;
+        final IVertexBuilder buff = this.override_buff == null ? buffer : this.override_buff;
+        if (buff instanceof BufferBuilder && this.tex != null)
+        {
+            final BufferBuilder builder = (BufferBuilder) buff;
+            if (!builder.isDrawing())
+            {
+                final RenderType type = this.makeRenderType(this.tex);
+                builder.begin(type.getGlMode(), type.getVertexFormat());
+            }
+        }
+        return buff;
     }
 
     public void postRender(final MatrixStack mat)

@@ -42,18 +42,20 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
 
-/** This health renderer is directly based on Neat vy Vaziki, which can be found
+/**
+ * This health renderer is directly based on Neat vy Vaziki, which can be found
  * here: https://github.com/Vazkii/Neat This version has been modified to only
  * apply to pokemobs, as well as to show level, gender and exp. I have also
- * modified the nametags to indicate ownership */
+ * modified the nametags to indicate ownership
+ */
 public class Health
 {
-    static List<LivingEntity>       renderedEntities = new ArrayList<>();
+    static List<LivingEntity> renderedEntities = new ArrayList<>();
 
     private static final RenderType TYPE;
     static
     {
-        RenderType.State.Builder builder = RenderType.State.builder();
+        final RenderType.State.Builder builder = RenderType.State.builder();
         builder.transparency(new RenderState.TransparencyState("translucent_transparency", () ->
         {
             RenderSystem.enableBlend();
@@ -72,11 +74,11 @@ public class Health
                 false, rendertype$state);
     }
 
-    static boolean        blend;
-    static boolean        normalize;
-    static boolean        lighting;
-    static int            src;
-    static int            dst;
+    static boolean blend;
+    static boolean normalize;
+    static boolean lighting;
+    static int     src;
+    static int     dst;
 
     public static boolean enabled = true;
 
@@ -85,8 +87,8 @@ public class Health
         return Tools.getPointedEntity(e, 32);
     }
 
-    private static void blit(IVertexBuilder buffer, Matrix4f pos, float x1, float y1, float x2, float y2, float z,
-            int r, int g, int b, int a)
+    private static void blit(final IVertexBuilder buffer, final Matrix4f pos, final float x1, final float y1,
+            final float x2, final float y2, final float z, final int r, final int g, final int b, final int a)
     {
         try
         {
@@ -95,7 +97,7 @@ public class Health
             buffer.pos(pos, x2, y2, z).color(r, g, b, a).endVertex();
             buffer.pos(pos, x2, y1, z).color(r, g, b, a).endVertex();
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {}", e.toString());
         }
@@ -107,7 +109,6 @@ public class Health
         if (!Health.enabled) return;
 
         final Stack<LivingEntity> ridingStack = new Stack<>();
-        // pos = new Vec3d(0, 0, 0);
 
         LivingEntity entity = passedEntity;
 
@@ -132,7 +133,7 @@ public class Health
             ridingStack.push(entity);
         }
 
-        IVertexBuilder buffer = Utils.makeBuilder(TYPE, buf);
+        final IVertexBuilder buffer = Utils.makeBuilder(Health.TYPE, buf);
         Matrix4f pos;
 
         mat.push();
@@ -174,8 +175,8 @@ public class Health
             b = color.getBlue();
             ITextComponent nameComp = pokemob.getDisplayName();
             boolean nametag = pokemob.getGeneralState(GeneralStates.TAMED);
-            final PokecubePlayerStats stats = PlayerDataHandler.getInstance()
-                    .getPlayerData(Minecraft.getInstance().player).getData(PokecubePlayerStats.class);
+            final PokecubePlayerStats stats = PlayerDataHandler.getInstance().getPlayerData(Minecraft
+                    .getInstance().player).getData(PokecubePlayerStats.class);
             PokedexEntry name_entry = pokemob.getPokedexEntry();
             if (name_entry.isMega || name_entry.isGenderForme) name_entry = name_entry.getBaseForme();
             final boolean captureOrHatch = StatsCollector.getCaptured(name_entry, Minecraft.getInstance().player) > 0
@@ -183,8 +184,8 @@ public class Health
             boolean scanned = false;
             nametag = nametag || captureOrHatch || (scanned = stats.hasInspected(pokemob.getPokedexEntry()));
             if (!nametag) nameComp.getStyle().setObfuscated(true);
-            if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName())
-                nameComp = ((MobEntity) entity).getCustomName();
+            if (entity instanceof MobEntity && ((MobEntity) entity).hasCustomName()) nameComp = ((MobEntity) entity)
+                    .getCustomName();
             final float s = 0.5F;
             final String name = I18n.format(nameComp.getFormattedText());
             final float namel = mc.fontRenderer.getStringWidth(name) * s;
@@ -198,17 +199,18 @@ public class Health
             if (config.drawBackground)
             {
                 final int a = 32;
-                blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0, 0, a);
+                Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0,
+                        0, a);
                 zlevel += zshift;
             }
 
             // Health bar
             // Gray Space
-            blit(buffer, pos, -size, 0, size, barHeight1, zlevel, 127, 127, 127, 127);
+            Health.blit(buffer, pos, -size, 0, size, barHeight1, zlevel, 127, 127, 127, 127);
             zlevel += zshift;
 
             // Health Bar Fill
-            blit(buffer, pos, -size, 0, healthSize * 2 - size, barHeight1, zlevel, r, g, b, 127);
+            Health.blit(buffer, pos, -size, 0, healthSize * 2 - size, barHeight1, zlevel, r, g, b, 127);
             zlevel += zshift;
 
             // Exp Bar
@@ -216,20 +218,20 @@ public class Health
             g = 64;
             b = 255;
 
-            int br = 15 << 20 | 15 << 4;
+            final int br = 15 << 20 | 15 << 4;
 
             int exp = pokemob.getExp() - Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
-            float maxExp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1)
-                    - Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
+            float maxExp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - Tools.levelToXp(
+                    pokemob.getExperienceMode(), pokemob.getLevel());
             if (pokemob.getLevel() == 100) maxExp = exp = 1;
             if (exp < 0 || !pokemob.getGeneralState(GeneralStates.TAMED)) exp = 0;
             final float expSize = size * (exp / maxExp);
             // Gray Space
-            blit(buffer, pos, -size, barHeight1, size, barHeight1 + 1, zlevel, 127, 127, 127, 127);
+            Health.blit(buffer, pos, -size, barHeight1, size, barHeight1 + 1, zlevel, 127, 127, 127, 127);
             zlevel += zshift;
 
             // Exp Bar Fill
-            blit(buffer, pos, -size, barHeight1, expSize * 2 - size, barHeight1 + 1, zlevel, r, g, b, 127);
+            Health.blit(buffer, pos, -size, barHeight1, expSize * 2 - size, barHeight1 + 1, zlevel, r, g, b, 127);
             zlevel += zshift;
 
             mat.push();
@@ -267,15 +269,14 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner) mc.fontRenderer.drawString(healthStr,
-                    (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(healthStr) / 2, h, 0xFFFFFFFF);
+            if (isOwner) mc.fontRenderer.drawString(healthStr, (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(
+                    healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.getLast().getPositionMatrix();
 
             mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, true, 0, br);
-            mc.fontRenderer.renderString(gender,
-                    (int) (size / (s * s1) * 2) - 2 - mc.fontRenderer.getStringWidth(gender), h - 1, colour, false, pos,
-                    buf, true, 0, br);
+            mc.fontRenderer.renderString(gender, (int) (size / (s * s1) * 2) - 2 - mc.fontRenderer.getStringWidth(
+                    gender), h - 1, colour, false, pos, buf, true, 0, br);
 
             if (PokecubeCore.getConfig().enableDebugInfo && mc.gameSettings.showDebugInfo)
             {
@@ -319,22 +320,21 @@ public class Health
     }
 
     @SuppressWarnings("deprecation")
-    public static void renderIcon(LivingEntity mob, MatrixStack mat, IRenderTypeBuffer buf, final int vertexX,
-            final int vertexY, final ItemStack stack, final int intU, final int intV)
+    public static void renderIcon(final LivingEntity mob, final MatrixStack mat, final IRenderTypeBuffer buf,
+            final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV)
     {
+        mat.push();
         try
         {
-            mat.push();
             mat.translate(vertexX, vertexY + 7, 0);
             mat.scale(20, -20, 1);
             Minecraft.getInstance().getItemRenderer().renderItem(mob, stack,
-                    net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, mat, buf,
-                    mob.getEntityWorld(), 15728880, OverlayTexture.DEFAULT_LIGHT);
-            mat.pop();
-
+                    net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, mat, buf, mob
+                            .getEntityWorld(), 15728880, OverlayTexture.DEFAULT_LIGHT);
         }
         catch (final Exception e)
         {
         }
+        mat.pop();
     }
 }
