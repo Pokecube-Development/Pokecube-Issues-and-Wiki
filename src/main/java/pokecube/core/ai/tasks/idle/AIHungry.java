@@ -69,7 +69,23 @@ public class AIHungry extends AIBase
 
     }
 
-    public static int TICKRATE         = 20;
+    public static float calculateHunger(final IPokemob pokemob)
+    {
+        final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4 + PokecubeCore.getConfig().pokemobLifeSpan;
+        final float current = -(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
+        // Convert to a scale
+        float hungerValue = current / full;
+        hungerValue = Math.max(0, hungerValue);
+        hungerValue = Math.min(1, hungerValue);
+        return hungerValue;
+    }
+
+    public static boolean hitThreshold(final float hungerValue, final float threshold)
+    {
+        return hungerValue <= threshold;
+    }
+
+    public static int TICKRATE = 20;
 
     public static float EATTHRESHOLD  = 0.75f;
     public static float HUNTTHRESHOLD = 0.6f;
@@ -100,12 +116,8 @@ public class AIHungry extends AIBase
         this.moveSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.75;
     }
 
-    private boolean hitThreshold(final float threshold)
-    {
-        return this.hungerValue <= threshold;
-    }
-
-    /** Swimming things look for fish hooks to try to go eat.
+    /**
+     * Swimming things look for fish hooks to try to go eat.
      *
      * @return found a hook. */
     protected boolean checkBait()
@@ -165,7 +177,13 @@ public class AIHungry extends AIBase
         return false;
     }
 
-    /** Checks its own inventory for berries to eat, returns true if it finds
+    private boolean hitThreshold(final float threshold)
+    {
+        return AIHungry.hitThreshold(this.hungerValue, threshold);
+    }
+
+    /**
+     * Checks its own inventory for berries to eat, returns true if it finds
      * some.
      *
      * @return found any berries to eat in inventory. */
@@ -683,11 +701,7 @@ public class AIHungry extends AIBase
 
     private void calculateHunger()
     {
-        final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4 + PokecubeCore.getConfig().pokemobLifeSpan;
-        final float current = -(this.pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
-        // Convert to a scale
-        this.hungerValue = current / full;
-        this.hungerValue = Math.max(0, this.hungerValue);
+        this.hungerValue = AIHungry.calculateHunger(this.pokemob);
     }
 
     @Override
