@@ -49,7 +49,7 @@
       "key": "default",
       "output": {
         "values": {
-          "id": "pokecube:tm_normal",
+          "id": "pokecube:tm1",
           "tag": "{move:\"cut\",display:{Name:\"Cut\"}}",
           "n": "1"
         },
@@ -70,7 +70,7 @@
       "key": "default",
       "output": {
         "values": {
-          "id": "pokecube:tm_normal",
+          "id": "pokecube:tm1",
           "tag": "{move:\"flash\",display:{Name:\"Flash\"}}",
           "n": "1"
         },
@@ -91,7 +91,7 @@
       "key": "default",
       "output": {
         "values": {
-          "id": "pokecube:tm_fighting",
+          "id": "pokecube:tm2",
           "tag": "{move:\"rocksmash\",display:{Name:\"Rock Smash\"}}",
           "n": "1"
         },
