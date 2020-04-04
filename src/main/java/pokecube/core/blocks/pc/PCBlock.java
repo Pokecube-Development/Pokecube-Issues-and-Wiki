@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
@@ -32,7 +31,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
 
@@ -113,7 +111,7 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
     // Default States
     public PCBlock(final Properties properties, final boolean top, final boolean needsBase)
     {
-        super(Properties.create(Material.IRON).hardnessAndResistance(3.0f, 5.0f).harvestTool(ToolType.PICKAXE));
+        super(properties);
         this.top = top;
         this.needsBase = needsBase;
         this.setDefaultState(this.stateContainer.getBaseState().with(PCBlock.FACING, Direction.NORTH).with(

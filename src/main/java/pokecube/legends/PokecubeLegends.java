@@ -170,6 +170,7 @@ public class PokecubeLegends
     @SubscribeEvent
     public void serverStarting(final FMLServerStartingEvent event)
     {
+        PokecubeLegends.config.loaded = true;
         PokecubeLegends.config.onUpdated();
     }
 }
