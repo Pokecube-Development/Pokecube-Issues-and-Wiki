@@ -71,6 +71,22 @@ public class AIHungry extends AIBase
 
     }
 
+    public static float calculateHunger(final IPokemob pokemob)
+    {
+        final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4 + PokecubeCore.getConfig().pokemobLifeSpan;
+        final float current = -(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
+        // Convert to a scale
+        float hungerValue = current / full;
+        hungerValue = Math.max(0, hungerValue);
+        hungerValue = Math.min(1, hungerValue);
+        return hungerValue;
+    }
+
+    public static boolean hitThreshold(final float hungerValue, final float threshold)
+    {
+        return hungerValue <= threshold;
+    }
+
     public static int TICKRATE = 20;
 
     public static float EATTHRESHOLD  = 0.75f;
@@ -100,11 +116,6 @@ public class AIHungry extends AIBase
         this.berry = berry_;
         this.distance = distance;
         this.moveSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.75;
-    }
-
-    private boolean hitThreshold(final float threshold)
-    {
-        return this.hungerValue <= threshold;
     }
 
     /**
@@ -171,6 +182,11 @@ public class AIHungry extends AIBase
         if (this.pokemob.isLithotroph()) if (this.checkRockEat()) return true;
         if (this.pokemob.isElectrotroph()) if (this.checkElectricEat()) return true;
         return false;
+    }
+
+    private boolean hitThreshold(final float threshold)
+    {
+        return AIHungry.hitThreshold(this.hungerValue, threshold);
     }
 
     /**
@@ -707,11 +723,7 @@ public class AIHungry extends AIBase
 
     private void calculateHunger()
     {
-        final float full = PokecubeCore.getConfig().pokemobLifeSpan / 4 + PokecubeCore.getConfig().pokemobLifeSpan;
-        final float current = -(this.pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
-        // Convert to a scale
-        this.hungerValue = current / full;
-        this.hungerValue = Math.max(0, this.hungerValue);
+        this.hungerValue = AIHungry.calculateHunger(this.pokemob);
     }
 
     @Override
