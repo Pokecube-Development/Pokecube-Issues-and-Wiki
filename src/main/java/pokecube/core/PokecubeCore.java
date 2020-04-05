@@ -324,6 +324,8 @@ public class PokecubeCore
      */
     public static MobEntity createPokemob(final PokedexEntry entry, final World world)
     {
+        if (entry == null) return null;
+        if (world == null) return null;
         EntityType<? extends MobEntity> type = PokecubeCore.typeMap.get(entry);
         if (type == null) type = PokecubeCore.typeMap.get(entry.getBaseForme());
         if (type != null) return type.create(world);
