@@ -54,6 +54,7 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
         public boolean modifyColourForPart(final String partIdentifier, final Entity entity, final int[] rgba)
         {
             final IPokemob poke = ((EntityPokemobEgg) entity).getPokemob(false);
+            if (poke == null) return false;
             final PokeType t1 = poke.getType1();
             final PokeType t2 = poke.getType2();
             final int rgb = partIdentifier.contains("spot") ? t2.colour : t1.colour;
