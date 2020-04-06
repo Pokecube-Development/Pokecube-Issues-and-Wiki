@@ -29,10 +29,12 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.blocks.healer.HealerTile;
+import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.handlers.events.EventsHandler.MeteorAreaSetter;
 import pokecube.core.handlers.events.PCEventsHandler;
@@ -168,7 +170,14 @@ public class CommonProxy implements Proxy
 
     public void serverAboutToStart(final FMLServerAboutToStartEvent event)
     {
+        // Do nothing here, the client side uses this to clear some things for
+        // single player
+    }
 
+    @Override
+    public void loaded(final FMLLoadCompleteEvent event)
+    {
+        Database.postResourcesLoaded();
     }
 
     public void pokecenterloop(final HealerTile tileIn, final boolean play)

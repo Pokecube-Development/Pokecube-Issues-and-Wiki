@@ -145,7 +145,7 @@ public class Pokeegg
         PermissionAPI.registerNode("command.pokeeggrand", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokeeggrand");
 
-        command = Commands.literal("pokemakerand");
+        command = Commands.literal("pokeeggrand");
         // Set a permission
         command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokeeggrand"));
         // Plain command, no args besides name.

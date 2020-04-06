@@ -168,23 +168,23 @@ public class PokecubeItems extends Items
         PokecubeItems.CANDY = new Item(new Item.Properties().rarity(Rarity.EPIC).group(PokecubeItems.POKECUBEITEMS));
 
         // Blocks
-        PokecubeItems.HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
+        PokecubeItems.HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
                 .lightValue(15)).setRegistryName(PokecubeCore.MODID, "pokecenter");
         PokecubeItems.NESTBLOCK = new NestBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
                 PokecubeCore.MODID, "nest");
         PokecubeItems.REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
                 PokecubeCore.MODID, "repel");
         PokecubeItems.DYNABLOCK = new MaxBlock(Block.Properties.create(Material.ROCK).lightValue(15)
-                .hardnessAndResistance(1000)).setRegistryName(PokecubeCore.MODID, "dynamax");
-        PokecubeItems.PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(
+                .hardnessAndResistance(2000)).setRegistryName(PokecubeCore.MODID, "dynamax");
+        PokecubeItems.PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).lightValue(
                 15), true).setRegistryName(PokecubeCore.MODID, "pc_top");
-        PokecubeItems.PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100).lightValue(
-                15), false).setRegistryName(PokecubeCore.MODID, "pc_base");
-        PokecubeItems.TRADER = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
+        PokecubeItems.PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
+                .lightValue(15), false).setRegistryName(PokecubeCore.MODID, "pc_base");
+        PokecubeItems.TRADER = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
                 .lightValue(15)).setRegistryName(PokecubeCore.MODID, "trade_machine");
-        PokecubeItems.TMMACHINE = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(100)
+        PokecubeItems.TMMACHINE = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
                 .lightValue(15)).setRegistryName(PokecubeCore.MODID, "tm_machine");
-        PokecubeItems.SECRETBASE = new BaseBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(100))
+        PokecubeItems.SECRETBASE = new BaseBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2000))
                 .setRegistryName(PokecubeCore.MODID, "secret_base");
         PokecubeItems.FOSSILSTONE = new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 10)
                 .harvestTool(ToolType.PICKAXE)).setRegistryName(PokecubeCore.MODID, "fossilstone");

@@ -146,6 +146,7 @@ public class LegendarySpawn
                 match = match1;
                 entry = match1.entry;
                 final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
+                if (spawnCondition == null) continue;
                 final Vector3 location = Vector3.getNewVector().set(evt.getPos());
                 if (spawnCondition.canSpawn(evt.getPlayer(), location, false)) break;
             }
@@ -192,20 +193,17 @@ public class LegendarySpawn
 
     public LegendarySpawn(final String entry, final Item held, final Block target)
     {
-        this(Database.getEntry(entry), (c) -> c.getItem() == held, (b) -> b.getBlock() == target);
-    }
-
-    public LegendarySpawn(final PokedexEntry entry, final Item held, final Block target)
-    {
         this(entry, (c) -> c.getItem() == held, (b) -> b.getBlock() == target);
     }
 
-    public LegendarySpawn(final PokedexEntry entry, final Predicate<ItemStack> heldItemChecker,
+    public LegendarySpawn(final String entry, final Predicate<ItemStack> heldItemChecker,
             final Predicate<BlockState> targetBlockChecker)
     {
         this.heldItemChecker = heldItemChecker;
         this.targetBlockChecker = targetBlockChecker;
-        this.entry = entry;
-        LegendarySpawn.spawns.add(this);
+        this.entry = Database.getEntry(entry);
+        if (this.entry == null) PokecubeCore.LOGGER.warn(
+                "Tried to register spawn entry for {}, which is not a valid entry!", entry);
+        else LegendarySpawn.spawns.add(this);
     }
 }

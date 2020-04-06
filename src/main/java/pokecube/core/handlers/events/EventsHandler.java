@@ -59,7 +59,6 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -521,12 +520,6 @@ public class EventsHandler
     {
         Database.swapManager(event.getServer());
         PokecubeCore.proxy.serverAboutToStart(event);
-    }
-
-    @SubscribeEvent
-    public static void serverStarted(final FMLServerStartedEvent event)
-    {
-        Database.postResourcesLoaded();
     }
 
     @SubscribeEvent
