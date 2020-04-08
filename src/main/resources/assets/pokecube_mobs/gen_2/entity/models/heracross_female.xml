@@ -12,12 +12,6 @@
    <part name="body">
     <component length="1" name="1" posOffset="0,14,0," startKey="0"/>
    </part>
-   <part name="p1">
-    <component length="1" name="1" hidden="false" startKey="0"/>
-   </part>
-   <part name="p2">
-    <component length="1" name="1" hidden="true" startKey="0"/>
-   </part>
    <part name="ant1">
     <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
@@ -58,12 +52,6 @@
     <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
    </part>
-   <part name="p1">
-    <component length="1" name="1" hidden="false" startKey="0"/>
-   </part>
-   <part name="p2">
-    <component length="1" name="1" hidden="true" startKey="0"/>
-   </part>
    <part name="ant2">
     <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
@@ -100,12 +88,6 @@
     <component length="10" name="1" rotOffset="-25,0,0," rotChange="2,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
    </part>
-   <part name="p1">
-    <component length="1" name="1" hidden="false" startKey="0"/>
-   </part>
-   <part name="p2">
-    <component length="1" name="1" hidden="true" startKey="0"/>
-   </part>
    <part name="ant1">
     <component length="10" name="1" rotOffset="20,0,0," rotChange="2,0,0" startKey="0"/>
     <component length="10" name="2" rotChange="-2,0,0" startKey="10"/>
@@ -133,12 +115,6 @@
   <phase type="flying">
    <part name="body">
     <component length="1" name="1" rotOffset="40,0,0," startKey="0"/>
-   </part>
-   <part name="p1">
-    <component length="1" name="1" hidden="false" startKey="0"/>
-   </part>
-   <part name="p2">
-    <component length="1" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="arm1">
     <component length="10" name="1" rotOffset="-10,0,-40," rotChange="0,6,0" startKey="0"/>

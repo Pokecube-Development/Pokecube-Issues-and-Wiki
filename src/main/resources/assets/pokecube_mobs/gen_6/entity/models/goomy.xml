@@ -1,6 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
- <model name="Goomy">
+ <model name="">
   <phase name="global" scale="0.2"/>
+  <customTex default="goomy">
+   <part name="Head" tex="goomyface"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="body">
+    <component length="1" name="1" scaleOffset="0,0,-0.4" startKey="0"/>
+   </part>
+   <part name="ant1">
+    <component length="10" name="1" rotOffset="10,0,-20" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant2">
+    <component length="10" name="1" rotOffset="10,0,20" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant3">
+    <component length="10" name="1" rotOffset="-10,0,-10" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant4">
+    <component length="10" name="1" rotOffset="-10,0,10" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="body">
+    <component length="15" name="1" scaleChange="0,0,-0.1" startKey="0"/>
+    <component length="15" name="2" scaleChange="0,0,0.2" startKey="5"/>
+	<component length="15" name="2" scaleChange="0,0,-0.1" startKey="10"/>
+   </part>
+   <part name="ant1">
+    <component length="10" name="1" rotOffset="0,0,-20" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant2">
+    <component length="10" name="1" rotOffset="0,0,20" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant3">
+    <component length="10" name="1" rotOffset="0,0,-10" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant4">
+    <component length="10" name="1" rotOffset="0,0,10" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" scaleChange="0,-0.2,0" startKey="0"/>
+    <component length="10" name="2" scaleChange="0,0.4,0" startKey="5"/>
+	<component length="10" name="3" scaleChange="0,-0.2,0" startKey="10"/>
+   </part>
+   <part name="ant1">
+    <component length="10" name="1" rotOffset="-15,0,-20" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant2">
+    <component length="10" name="1" rotOffset="-15,0,20" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant3">
+    <component length="10" name="1" rotOffset="-15,0,10" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+   <part name="ant4">
+    <component length="10" name="1" rotOffset="-15,0,-10" rotChange="-10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="10,0,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
