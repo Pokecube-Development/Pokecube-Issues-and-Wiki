@@ -43,7 +43,6 @@ import pokecube.core.commands.Pokemake;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.SpawnBiomeMatcher;
-import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
@@ -620,18 +619,7 @@ public final class SpawnHandler
     public int doSpawnForLocation(final World world, final Vector3 v, final boolean checkPlayers)
     {
         int ret = 0;
-        if (!v.doChunksExist(world, 8)) return ret;
-        final int radius = PokecubeCore.getConfig().maxSpawnRadius;
-        final boolean player = !checkPlayers || Tools.isAnyPlayerInRange(radius, 10, world, v);
-        if (!player) return ret;
         int num = 0;
-        final int height = world.getActualHeight();
-        final AxisAlignedBB box = v.getAABB();
-        final List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, box.grow(radius, Math.max(
-                height, radius), radius));
-        for (final LivingEntity o : list)
-            if (CapabilityPokemob.getPokemobFor(o) != null) num++;
-        if (num > SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return ret;
         if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return ret;
         SpawnHandler.refreshTerrain(v, world);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
@@ -648,7 +636,6 @@ public final class SpawnHandler
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn and location";
             PokecubeCore.LOGGER.info(String.format(toLog, SpawnHandler.temp, dt));
         }
-        num = 0;
         time = System.nanoTime();
         ret += num = this.doSpawnForType(world, v, dbe, this.parser, t, checkPlayers);
         dt = (System.nanoTime() - time) / 10e3D;
@@ -671,26 +658,28 @@ public final class SpawnHandler
     public int doSpawnForPlayer(final PlayerEntity player, final World world)
     {
         long time = System.nanoTime();
+        final int radius = PokecubeCore.getConfig().maxSpawnRadius;
+        this.v.set(player);
+        if (!world.isAreaLoaded(this.v.getPos(), radius)) return 0;
+        if (!Tools.isAnyPlayerInRange(radius, 10, world, this.v)) return 0;
+        int num = 0;
+        final int height = world.getActualHeight();
+        final AxisAlignedBB box = this.v.getAABB();
+        final List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, box.grow(radius, Math.max(
+                height, radius), radius));
+        for (final LivingEntity o : list)
+            if (CapabilityPokemob.getPokemobFor(o) != null) num++;
+        if (num > SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return 0;
         final Vector3 v = SpawnHandler.getRandomPointNear(player, PokecubeCore.getConfig().maxSpawnRadius);
         double dt = (System.nanoTime() - time) / 1000d;
         if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.info("Location Find took " + dt);
-
         if (v == null) return 0;
-        final AxisAlignedBB box = v.getAABB();
-        final int radius = PokecubeCore.getConfig().maxSpawnRadius;
-        final int height = v.getMaxY(world);
-        final List<EntityPokemob> list = world.getEntitiesWithinAABB(EntityPokemob.class, box.grow(radius, Math.max(
-                height, radius), radius));
-        if (list.size() < SpawnHandler.MAXNUM * SpawnHandler.MAX_DENSITY)
-        {
-            time = System.nanoTime();
-            final int num = this.doSpawnForLocation(world, v);
-            dt = (System.nanoTime() - time) / 10e3D;
-            if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.info(dt + "\u00B5" + "s for player " + player
-                    .getDisplayName().getUnformattedComponentText() + " at " + v + ", spawned " + num);
-            return num;
-        }
-        return 0;
+        time = System.nanoTime();
+        num = this.doSpawnForLocation(world, v);
+        dt = (System.nanoTime() - time) / 10e3D;
+        if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.info(dt + "\u00B5" + "s for player " + player
+                .getDisplayName().getUnformattedComponentText() + " at " + v + ", spawned " + num);
+        return num;
     }
 
     private int doSpawnForType(final World world, final Vector3 loc, final PokedexEntry dbe, final JEP parser,
