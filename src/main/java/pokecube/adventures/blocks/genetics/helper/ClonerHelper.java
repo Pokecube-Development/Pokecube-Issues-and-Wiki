@@ -203,7 +203,8 @@ public class ClonerHelper
         return potion.equals("minecraft:water") || potion.equals("minecraft:mundane");
     }
 
-    public static void mergeGenes(final IMobGenetics genesIn, final ItemStack destination, final IGeneSelector selector)
+    public static void mergeGenes(final IMobGenetics genesIn, final ItemStack destination, final IGeneSelector selector,
+            final boolean force)
     {
         IMobGenetics eggs = ClonerHelper.getGenes(destination);
         if (eggs == null) eggs = GeneRegistry.GENETICS_CAP.getDefaultInstance();
@@ -215,7 +216,7 @@ public class ClonerHelper
             eggsAllele = selector.merge(alleles, eggsAllele);
             if (eggsAllele != null) eggs.getAlleles().put(loc, eggsAllele);
         }
-        ClonerHelper.setGenes(destination, eggs, EditType.EXTRACT);
+        ClonerHelper.setGenes(destination, eggs, force ? EditType.OTHER : EditType.EXTRACT);
     }
 
     public static void registerDNA(final DNAPack entry, final ItemStack stack)

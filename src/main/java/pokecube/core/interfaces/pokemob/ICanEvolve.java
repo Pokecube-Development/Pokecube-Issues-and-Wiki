@@ -334,6 +334,10 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Send post evolve event.
                 evt = new EvolveEvent.Post(evo);
                 PokecubeCore.POKEMOB_BUS.post(evt);
+
+                // We are running on init, so we don't want these effects.
+                evo.setGeneralState(GeneralStates.EVOLVING, false);
+                evo.setEvolutionTicks(-1);
                 return evo;
             }
             return null;

@@ -3,6 +3,7 @@ package pokecube.adventures.blocks.genetics.splicer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
@@ -35,7 +36,14 @@ public class SplicerContainer extends PoweredContainer<SplicerTile>
 
         this.tile.setCraftMatrix(new PoweredCraftingInventory(this, this.tile, 1, 3));
 
-        this.addSlot(new Slot(this.tile, this.tile.getOutputSlot(), 114, 35));
+        this.addSlot(new Slot(this.tile, this.tile.getOutputSlot(), 114, 35)
+        {
+            @Override
+            public boolean isItemValid(final ItemStack stack)
+            {
+                return false;
+            }
+        });
 
         final int di = 17;
         final int di2 = 18;

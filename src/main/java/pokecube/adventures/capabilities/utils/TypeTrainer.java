@@ -358,6 +358,8 @@ public class TypeTrainer extends NpcType
                         if (s.isType(pokeType) && !s.isLegendary()) t.pokemon.add(s);
                 }
             }
+            // Remove large pokemobs from their list.
+            t.pokemon.removeIf(e -> (e.length > 8 || e.height > 8 || e.width > 8));
             if (t.pokemon.size() == 0 && t != TypeTrainer.merchant) toRemove.add(t);
         }
         if (!toRemove.isEmpty()) PokecubeCore.LOGGER.debug("Removing Trainer Types: " + toRemove);

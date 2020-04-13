@@ -677,7 +677,7 @@ public class AIHungry extends AIBase
 
         // Check if we are hunting or should be
         // Reset hunting status if we are not actually hungry
-        if (this.pokemob.getHungerCooldown() < 0 && this.hitThreshold(AIHungry.HUNTTHRESHOLD))
+        if (this.hitThreshold(AIHungry.HUNTTHRESHOLD))
         {
             if (!this.pokemob.getCombatState(CombatStates.HUNTING))
                 this.pokemob.setCombatState(CombatStates.HUNTING, true);

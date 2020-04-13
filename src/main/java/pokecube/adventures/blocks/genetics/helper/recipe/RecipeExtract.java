@@ -84,6 +84,7 @@ public class RecipeExtract extends PoweredRecipe
         ItemStack source = inv.getStackInSlot(2);
         ItemStack selector = tile.override_selector.isEmpty() ? inv.getStackInSlot(1) : tile.override_selector;
         if (ClonerHelper.getGeneSelectors(selector).isEmpty()) selector = ItemStack.EMPTY;
+        boolean forcedGenes = false;
         source:
         if ((genes = ClonerHelper.getGenes(source)) == null)
         {
@@ -96,7 +97,8 @@ public class RecipeExtract extends PoweredRecipe
                     final Alleles alleles = pack.alleles;
                     genes = GeneRegistry.GENETICS_CAP.getDefaultInstance();
                     genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
-                    break source;
+                    forcedGenes = true;
+                    if (pack.chance > Math.random()) break source;
                 }
             source = ItemStack.EMPTY;
         }
@@ -104,7 +106,7 @@ public class RecipeExtract extends PoweredRecipe
         output.setCount(1);
         if (source.isEmpty() || genes == null || selector.isEmpty()) return ItemStack.EMPTY;
         if (output.getTag() == null) output.setTag(new CompoundNBT());
-        ClonerHelper.mergeGenes(genes, output, new ItemBasedSelector(selector));
+        ClonerHelper.mergeGenes(genes, output, new ItemBasedSelector(selector), forcedGenes);
         output.setCount(1);
         return output;
     }
@@ -135,7 +137,6 @@ public class RecipeExtract extends PoweredRecipe
         final SelectorValue value = ClonerHelper.getSelectorValue(selector);
         if (value.dnaDestructChance < Math.random()) keepDNA = true;
         if (value.selectorDestructChance < Math.random()) keepSelector = true;
-        System.out.println(value.selectorDestructChance + " " + value.dnaDestructChance + " " + keepSelector);
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
