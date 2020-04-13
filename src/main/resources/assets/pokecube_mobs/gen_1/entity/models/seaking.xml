@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
- <model name="">
-  <phase headAxis="1" headCap="-50,50" name="global" offset="0,0,0.5" scale="0.75"/>
+ <model>
+  <phase name="global" offset="0,0,0" scale="0.5"/>
   <phase type="idle">
-   <part name="barbatana">
-    <component length="10" name="1" rotChange="0,-7,0" rotOffset="0,7,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,7,0" startKey="12"/>
+   <part name="left fin">
+    <component length="10" name="1" rotChange="0,20,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-20,0" startKey="12"/>
    </part>
-   <part name="barbatana1">
-    <component length="10" name="1" rotChange="0,-7,0" rotOffset="0,7,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,7,0" startKey="12"/>
+   <part name="right fin">
+    <component length="10" name="1" rotChange="0,-20,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,20,0" startKey="12"/>
    </part>
-   <part name="tail_1">
-    <component length="10" name="1" rotChange="0,-7,0" rotOffset="0,7,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,7,0" startKey="12"/>
+   <part name="left fin tail">
+    <component length="10" name="1" rotChange="0,20,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,-20,0" startKey="12"/>
    </part>
-   <part name="tail_2">
-    <component length="10" name="1" rotChange="0,-7,0" rotOffset="0,7,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,7,0" startKey="12"/>
-   </part>
-   <part name="tail_2_1">
-    <component length="10" name="1" rotChange="0,-7,0" rotOffset="0,7,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,7,0" startKey="12"/>
-   </part>
-   <part name="tail1_2">
-    <component length="10" name="1" rotChange="0,-7,0" rotOffset="0,7,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,7,0" startKey="12"/>
+   <part name="right fin tail">
+    <component length="10" name="1" rotChange="0,-20,0" startKey="0"/>
+    <component length="10" name="2" rotChange="0,20,0" startKey="12"/>
    </part>
   </phase>
  </model>
