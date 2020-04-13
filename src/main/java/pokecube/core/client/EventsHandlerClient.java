@@ -188,6 +188,9 @@ public class EventsHandlerClient
     public static void keyInput(final KeyInputEvent evt)
     {
         final ClientPlayerEntity player = Minecraft.getInstance().player;
+        // We only handle these ingame anyway.
+        if (player == null) return;
+
         if (evt.getKey() == GLFW.GLFW_KEY_F5) if (AnimationGui.entry != null && Minecraft
                 .getInstance().currentScreen instanceof AnimationGui)
         {
