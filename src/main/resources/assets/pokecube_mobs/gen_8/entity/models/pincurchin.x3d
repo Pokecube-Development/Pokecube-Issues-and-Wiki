@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <X3D>
 	<head>
-		<meta name="filename" content="pinchurchin.x3d" />
+		<meta name="filename" content="pincurchin.x3d" />
 		<meta name="generator" content="Blender 2.79 (sub 0)" />
 	</head>
 	<Scene>
@@ -301,9 +301,9 @@
 							                    normalPerVertex="true"
 							                    index="0 1 2 0 2 3 "
 							                    >
-								<Coordinate point="0.093411 -0.012658 0.079119 0.065244 -0.012658 -0.103579 -0.093411 -0.012658 -0.079119 -0.065244 -0.012658 0.103579 " />
-								<Normal vector="0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 0.000000 1.000000 0.000000 " />
-								<TextureCoordinate point="0.5000 0.5625 0.5000 0.0000 1.0000 0.0000 1.0000 0.5625 " />
+								<Coordinate point="-0.093411 -0.012658 -0.079119 0.065244 -0.012658 -0.103579 0.093411 -0.012658 0.079119 -0.065244 -0.012658 0.103579 " />
+								<Normal vector="0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 " />
+								<TextureCoordinate point="1.0000 0.0000 0.5000 0.0000 0.5000 0.5625 1.0000 0.5625 " />
 							</IndexedTriangleSet>
 						</Shape>
 					</Group>
