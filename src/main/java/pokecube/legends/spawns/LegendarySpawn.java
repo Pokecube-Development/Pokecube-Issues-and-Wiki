@@ -182,7 +182,7 @@ public class LegendarySpawn
         {
             Collections.shuffle(wrong_biomes);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(
-                    wrong_items.get(0).getUnlocalizedName())));
+                    matches.get(0).entry.getUnlocalizedName())));
         }
 
     }
