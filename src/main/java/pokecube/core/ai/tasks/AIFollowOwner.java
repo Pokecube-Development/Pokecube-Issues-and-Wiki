@@ -37,7 +37,7 @@ public class AIFollowOwner extends AIBase
         super(entity);
         this.minDist = min;
         this.maxDist = max;
-        this.speed = 1;
+        this.speed = entity.getMovementSpeed();
         if (this.pokemob.getOwner() != null) this.ownerPos.set(this.pokemob.getOwner());
     }
 
@@ -78,13 +78,18 @@ public class AIFollowOwner extends AIBase
         if (--this.cooldown <= 0)
         {
             this.cooldown = 2;
-            final double dl = this.v.set(this.theOwner).distToSq(this.ownerPos);
-            if (dl < 1) return;
+            double dl = this.v.set(this.theOwner).distToSq(this.ownerPos);
+            if (dl < 1 && !this.petPathfinder.noPath()) return;
+            dl = this.v.set(this.entity).distTo(this.ownerPos);
             this.ownerPos.set(this.theOwner);
             final Vec3d v = this.theOwner.getMotion();
-            this.speed = Math.sqrt(v.x * v.x + v.z * v.z);
+            double ownerSpeed = Math.sqrt(v.x * v.x + v.z * v.z);
+            if (ownerSpeed == 0) ownerSpeed = this.pokemob.getMovementSpeed();
+            double dist_speed = ownerSpeed;
+            if (dl > 3) dist_speed *= 1 + (dl - 3) / 10;
+            this.speed = dist_speed;
             this.speed *= AIFollowOwner.speedMult;
-            this.speed = Math.max(0.6, this.speed);
+            this.speed = Math.max(this.pokemob.getMovementSpeed(), this.speed);
             final Path path = this.petPathfinder.getPathToEntity(this.theOwner, 0);
             if (path != null) this.addEntityPath(this.entity, path, this.speed);
         }

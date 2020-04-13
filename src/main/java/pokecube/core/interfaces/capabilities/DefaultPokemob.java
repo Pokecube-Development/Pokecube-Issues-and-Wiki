@@ -249,7 +249,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
 
             // Owner related tasks
             if (!this.entry.isStationary) // Follow owner around
-                aiList.add(new AIFollowOwner(this, 2 + entity.getWidth() + this.length, 2 + entity.getWidth()
+                aiList.add(new AIFollowOwner(this, 3 + entity.getWidth() + this.length, 8 + entity.getWidth()
                         + this.length).setPriority(400));
 
             entity.goalSelector.addGoal(0, new GoalsWrapper(entity, aiList.toArray(new IAIRunnable[0])));
@@ -262,12 +262,6 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         else
         {
             entity.goalSelector.addGoal(2, new GuardAI(this.getEntity(), this.guardCap));
-            // if (entity instanceof TameableEntity)
-            // entity.goalSelector.addGoal(2,
-            // ((TameableEntity) entity).getAISit());
-
-            // entity.field_70714_bg.addTask(5, new
-            // WaterAvoidingRandomWalkingGoal((CreatureEntity) entity, 1.0D));
 
             // Combat goals
             if (entity instanceof TameableEntity)
@@ -275,14 +269,6 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 entity.targetSelector.addGoal(1, new OwnerHurtByTargetGoal((TameableEntity) entity));
                 entity.targetSelector.addGoal(2, new OwnerHurtTargetGoal((TameableEntity) entity));
                 entity.targetSelector.addGoal(3, new HurtByTargetGoal((TameableEntity) entity).setCallsForHelp());
-            }
-
-            if (entity instanceof TameableEntity)
-            {
-                // Goal follow = this.floats() || this.flys() ? new
-                // FollowOwnerFlyingGoal((TameableEntity) entity, 1, 4, 8)
-                // : new FollowOwnerGoal((TameableEntity) entity, 1, 4, 8);
-                // entity.field_70714_bg.addTask(3, follow);
             }
 
         }

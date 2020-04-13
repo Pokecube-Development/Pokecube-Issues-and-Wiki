@@ -17,7 +17,7 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 
 public class Pickup extends Ability
 {
-    public static ResourceLocation lootTable    = new ResourceLocation("pokecube", "abilities/pickup");
+    public static ResourceLocation lootTable    = new ResourceLocation("pokecube_mobs", "abilities/pickup");
     public static boolean          useLootTable = true;
 
     @Override
