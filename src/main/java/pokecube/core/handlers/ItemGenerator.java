@@ -93,14 +93,14 @@ public class ItemGenerator
 
             // Crop
             Block block = new BerryCrop(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly()
-                    .hardnessAndResistance(0.0F).sound(SoundType.CROP), index);
+                    .hardnessAndResistance(0.0F).notSolid().sound(SoundType.CROP), index);
             block.setRegistryName(PokecubeCore.MODID, "crop_" + name);
             BerryManager.berryCrops.put(index, block);
             registry.register(block);
 
             // Fruit
             block = new BerryFruit(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly()
-                    .hardnessAndResistance(0.0F).sound(SoundType.CROP), index);
+                    .hardnessAndResistance(0.0F).notSolid().sound(SoundType.CROP), index);
             block.setRegistryName(PokecubeCore.MODID, "fruit_" + name);
             BerryManager.berryFruits.put(index, block);
             registry.register(block);
@@ -122,7 +122,7 @@ public class ItemGenerator
 
             // Leaves
             block = new BerryLeaf(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly()
-                    .sound(SoundType.PLANT), index);
+                    .notSolid().sound(SoundType.PLANT), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);
@@ -140,7 +140,7 @@ public class ItemGenerator
             final int index = ((ItemBerry) BerryManager.getBerryItem(name)).type.index;
             // Leaves
             final Block block = new BerryLeaf(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F)
-                    .tickRandomly().sound(SoundType.PLANT), index);
+                    .tickRandomly().notSolid().sound(SoundType.PLANT), index);
             block.setRegistryName(PokecubeCore.MODID, "leaves_" + name);
             ItemGenerator.leaves.put(name, block);
             registry.register(block);

@@ -210,22 +210,22 @@ public class PokecubeAdv
 
     static void init()
     {
-        PokecubeAdv.AFA = new AfaBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.MODID,
-                "afa");
-        PokecubeAdv.COMMANDER = new CommanderBlock(Block.Properties.create(Material.IRON)).setRegistryName(
-                PokecubeAdv.MODID, "commander");
-        PokecubeAdv.DAYCARE = new DaycareBlock(Block.Properties.create(Material.IRON)).setRegistryName(
-                PokecubeAdv.MODID, "daycare");
-        PokecubeAdv.CLONER = new ClonerBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.MODID,
-                "cloner");
-        PokecubeAdv.EXTRACTOR = new ExtractorBlock(Block.Properties.create(Material.IRON)).setRegistryName(
-                PokecubeAdv.MODID, "extractor");
-        PokecubeAdv.SPLICER = new SplicerBlock(Block.Properties.create(Material.IRON)).setRegistryName(
-                PokecubeAdv.MODID, "splicer");
-        PokecubeAdv.SIPHON = new SiphonBlock(Block.Properties.create(Material.IRON)).setRegistryName(PokecubeAdv.MODID,
-                "siphon");
-        PokecubeAdv.WARPPAD = new WarppadBlock(Block.Properties.create(Material.IRON)).setRegistryName(
-                PokecubeAdv.MODID, "warppad");
+        PokecubeAdv.AFA = new AfaBlock(Block.Properties.create(Material.IRON).variableOpacity()).setRegistryName(
+                PokecubeAdv.MODID, "afa");
+        PokecubeAdv.COMMANDER = new CommanderBlock(Block.Properties.create(Material.IRON).variableOpacity())
+                .setRegistryName(PokecubeAdv.MODID, "commander");
+        PokecubeAdv.DAYCARE = new DaycareBlock(Block.Properties.create(Material.IRON).variableOpacity())
+                .setRegistryName(PokecubeAdv.MODID, "daycare");
+        PokecubeAdv.CLONER = new ClonerBlock(Block.Properties.create(Material.IRON).variableOpacity()).setRegistryName(
+                PokecubeAdv.MODID, "cloner");
+        PokecubeAdv.EXTRACTOR = new ExtractorBlock(Block.Properties.create(Material.IRON).variableOpacity())
+                .setRegistryName(PokecubeAdv.MODID, "extractor");
+        PokecubeAdv.SPLICER = new SplicerBlock(Block.Properties.create(Material.IRON).variableOpacity())
+                .setRegistryName(PokecubeAdv.MODID, "splicer");
+        PokecubeAdv.SIPHON = new SiphonBlock(Block.Properties.create(Material.IRON).variableOpacity()).setRegistryName(
+                PokecubeAdv.MODID, "siphon");
+        PokecubeAdv.WARPPAD = new WarppadBlock(Block.Properties.create(Material.IRON).variableOpacity())
+                .setRegistryName(PokecubeAdv.MODID, "warppad");
         PokecubeAdv.EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(
                 PokecubeAdv.MODID, "exp_share");
         PokecubeAdv.LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(
