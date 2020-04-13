@@ -94,5 +94,8 @@ public class CommonProxy implements Proxy
     public void loaded(final FMLLoadCompleteEvent event)
     {
         Compat.BUS.post(new CompatEvent());
+        PokecubeAdv.config.loaded = true;
+        // Reload this here to initialze anything that needs to be done here.
+        PokecubeAdv.config.onUpdated();
     }
 }

@@ -177,6 +177,8 @@ public class CommonProxy implements Proxy
     @Override
     public void loaded(final FMLLoadCompleteEvent event)
     {
+        // Reload this here to initialze anything that needs to be done here.
+        PokecubeCore.getConfig().onUpdated();
         Database.postResourcesLoaded();
     }
 
