@@ -4,7 +4,7 @@
         "#forge:ores/sapphire",
         "#forge:ores/ruby"
     ],
-    "optionalk": [
+    "optional": [
         "pokecube:fossilstone"
     ]
 }
