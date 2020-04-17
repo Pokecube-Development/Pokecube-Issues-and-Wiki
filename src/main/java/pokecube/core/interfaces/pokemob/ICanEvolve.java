@@ -85,6 +85,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 world.removeEntity(this.thisEntity);
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
+                this.evolution.getPersistentData().remove("evo_removed");
+                this.evolution.getPersistentData().remove("removed");
                 this.evolution.getEntityWorld().addEntity(this.evolution);
 
             }
@@ -184,6 +186,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
                 }
                 this.pokemob.setEvolutionTicks(evoTicks);
+                this.pokemob.getEntity().getPersistentData().remove("evo_removed");
+                this.pokemob.getEntity().getPersistentData().remove("removed");
 
                 if (this.message != null) this.pokemob.displayMessageToOwner(this.message);
                 MinecraftForge.EVENT_BUS.unregister(this);
