@@ -109,6 +109,7 @@ public class EntityPokemob extends PokemobCombat
                 this.remove();
                 return;
             }
+            if (this.pokemobCap.getOwnerId() != null) this.enablePersistence();
             if (this.getHealth() <= 0) this.pokemobCap.onRecall(true);
             final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
             if (near != null && this.getOwnerId() == null)
@@ -288,6 +289,7 @@ public class EntityPokemob extends PokemobCombat
 
     private boolean cullCheck(final double distanceToClosestPlayer)
     {
+        if (this.pokemobCap.getOwnerId() != null) return false;
         boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
         this.despawntimer--;
         if (PokecubeCore.getConfig().despawn) if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore

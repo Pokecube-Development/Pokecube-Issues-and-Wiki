@@ -318,7 +318,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
                 }
             }
             // This ensures it can't be caught by dupe
-            this.getEntity().getPersistentData().putBoolean("removed", true);
+            if (onDeath) this.getEntity().getPersistentData().putBoolean("removed", true);
             this.getEntity().captureDrops(null);
 
             // Set Dead for deletion
