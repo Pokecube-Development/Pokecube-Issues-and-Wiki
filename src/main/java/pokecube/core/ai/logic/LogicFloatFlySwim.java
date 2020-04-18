@@ -68,12 +68,6 @@ public class LogicFloatFlySwim extends LogicBase
         }
 
         @Override
-        public double getSpeed()
-        {
-            return super.getSpeed();
-        }
-
-        @Override
         public void tick()
         {
             if (this.action == MovementController.Action.MOVE_TO)
@@ -98,8 +92,8 @@ public class LogicFloatFlySwim extends LogicBase
                         SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
                 else f1 = (float) (this.getSpeed() * this.mob.getAttribute(SharedMonsterAttributes.FLYING_SPEED)
                         .getValue());
-
                 this.mob.setAIMoveSpeed(f1);
+                this.mob.jumpMovementFactor = f1 * 0.05f;
                 final double d4 = MathHelper.sqrt(d0 * d0 + d2 * d2);
                 final float f2 = (float) -(MathHelper.atan2(d1, d4) * (180F / (float) Math.PI));
                 this.mob.rotationPitch = this.limitAngle(this.mob.rotationPitch, f2, 10.0F);
@@ -107,6 +101,7 @@ public class LogicFloatFlySwim extends LogicBase
             }
             else
             {
+                this.mob.jumpMovementFactor = 0.02f;
                 this.mob.setMoveVertical(0.0F);
                 this.mob.setMoveForward(0.0F);
             }

@@ -120,6 +120,8 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE)
     public int    afaMaxEnergy         = 3200;
 
+    public boolean loaded = false;
+
     public Config()
     {
         super(PokecubeAdv.MODID);
@@ -128,6 +130,8 @@ public class Config extends ConfigData
     @Override
     public void onUpdated()
     {
+        if (!this.loaded) return;
+
         EnergyHandler.initParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
         WarppadTile.initParser(this.warpPadCostFunction);
