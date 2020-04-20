@@ -12,6 +12,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
@@ -21,6 +22,9 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.items.pokecubes.helper.SendOutManager;
 import thut.core.common.commands.CommandTools;
 
 public class Pokerecall
@@ -30,7 +34,16 @@ public class Pokerecall
         final ServerPlayerEntity player = ctx.getSource().asPlayer();
         final Set<String> opts = Sets.newHashSet();
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
-            opts.add(e.getDisplayName().getFormattedText());
+        {
+            final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+            if (poke != null) opts.add(e.getDisplayName().getFormattedText());
+            else if (e instanceof EntityPokecubeBase)
+            {
+                final EntityPokecubeBase cube = (EntityPokecubeBase) e;
+                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+                if (mob != null) opts.add(mob.getDisplayName().getFormattedText());
+            }
+        }
         return net.minecraft.command.ISuggestionProvider.suggest(opts, sb);
     };
 
@@ -41,11 +54,17 @@ public class Pokerecall
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
             if (e.getDisplayName().getFormattedText().equals(pokemob))
             {
-                final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+                IPokemob poke = CapabilityPokemob.getPokemobFor(e);
                 if (poke != null)
                 {
                     poke.onRecall();
                     num++;
+                }
+                else if (e instanceof EntityPokecubeBase)
+                {
+                    final EntityPokecubeBase cube = (EntityPokecubeBase) e;
+                    final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+                    poke = CapabilityPokemob.getPokemobFor(mob);
                 }
             }
         if (num == 0) source.sendFeedback(new TranslationTextComponent("pokecube.recall.fail"), false);
@@ -60,12 +79,22 @@ public class Pokerecall
         final ServerPlayerEntity player = source.asPlayer();
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
         {
-            final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+            IPokemob poke = CapabilityPokemob.getPokemobFor(e);
             if (poke != null) if (all || sitting && poke.getLogicState(LogicStates.SITTING) || staying && poke
                     .getGeneralState(GeneralStates.STAYING))
             {
                 poke.onRecall();
                 num++;
+            }
+            else if (e instanceof EntityPokecubeBase)
+            {
+                final EntityPokecubeBase cube = (EntityPokecubeBase) e;
+                final LivingEntity sent = SendOutManager.sendOut(cube, true);
+                if (sent != null && (poke = CapabilityPokemob.getPokemobFor(e)) != null)
+                {
+                    poke.onRecall();
+                    num++;
+                }
             }
         }
         if (num == 0) source.sendFeedback(new TranslationTextComponent("pokecube.recall.fail"), false);
