@@ -252,7 +252,6 @@ public class EntityPokecube extends EntityPokecubeBase
     @Override
     public void tick()
     {
-        final boolean filled = PokecubeManager.isFilled(this.getItem());
         this.setTime(this.getTime() - 1);
         if (this.isReleasing() && (this.getTime() < 0 || this.getReleased() == null || !this.getReleased().isAlive()))
         {
@@ -264,6 +263,7 @@ public class EntityPokecube extends EntityPokecubeBase
             if (CaptureManager.captureSucceed(this))
             {
                 boolean gave = false;
+                final boolean filled = PokecubeManager.isFilled(this.getItem());
                 if (filled)
                 {
                     final CaptureEvent.Post event = new CaptureEvent.Post(this);

@@ -7,13 +7,13 @@
   ],
   "key": {
     "G": {
-      "item": "pokecube_legends:ruby"
+      "tag": "forge:gems/ruby"
     },
     "A": {
       "item": "pokecube_legends:grayorb"
     },
     "R": {
-      "item": "pokecube_legends:ruby_block"
+      "tag": "forge:storage_blocks/ruby"
     }
   },
   "result": {

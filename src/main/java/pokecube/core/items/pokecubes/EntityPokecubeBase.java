@@ -483,7 +483,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
      */
     protected float getGravityVelocity()
     {
-        return this.seeking ? 0 : 0.03F;
+        return 0.03F;
     }
 
     /**

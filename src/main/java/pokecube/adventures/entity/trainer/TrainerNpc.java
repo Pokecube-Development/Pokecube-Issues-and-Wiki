@@ -119,6 +119,7 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     public VillagerEntity createChild(final AgeableEntity ageable)
     {
         if (this.isChild() || this.getGrowingAge() > 0 || !this.aiStates.getAIState(IHasNPCAIStates.MATES)) return null;
+        if (TrainerSpawnHandler.countTrainersNear(this, 64) > 5) return null;
         if (this.pokemobsCap.getGender() == 2)
         {
             final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(ageable);
