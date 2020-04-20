@@ -4,6 +4,7 @@
 package pokecube.core.entity.pokemobs;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -35,6 +36,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.helper.PokemobCombat;
+import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
@@ -105,7 +107,12 @@ public class EntityPokemob extends PokemobCombat
                 this.remove();
                 return;
             }
-            if (this.pokemobCap.getOwnerId() != null) this.enablePersistence();
+            if (this.pokemobCap.getOwnerId() != null)
+            {
+                this.enablePersistence();
+                if (this.ticksExisted % 100 == new Random(this.pokemobCap.getRNGValue()).nextInt(100))
+                    PlayerPokemobCache.UpdateCache(this.pokemobCap);
+            }
             if (this.getHealth() <= 0) this.pokemobCap.onRecall(true);
             final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
             if (near != null && this.getOwnerId() == null)
@@ -284,14 +291,26 @@ public class EntityPokemob extends PokemobCombat
 
     private int despawntimer = 0;
 
+    @Override
+    public boolean preventDespawn()
+    {
+        final boolean despawns = PokecubeCore.getConfig().despawn;
+        final boolean culls = PokecubeCore.getConfig().cull;
+        final boolean owned = this.pokemobCap.getOwnerId() != null;
+        if (owned) return true;
+        return !(despawns || culls);
+    }
+
     private boolean cullCheck(final double distanceToClosestPlayer)
     {
         if (this.pokemobCap.getOwnerId() != null) return false;
         boolean player = distanceToClosestPlayer < PokecubeCore.getConfig().cullDistance;
-        this.despawntimer--;
-        if (PokecubeCore.getConfig().despawn) if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore
-                .getConfig().despawnTimer;
-        else if (this.despawntimer == 0) return true;
+        if (PokecubeCore.getConfig().despawn)
+        {
+            this.despawntimer--;
+            if (this.despawntimer < 0 || player) this.despawntimer = PokecubeCore.getConfig().despawnTimer;
+            else if (this.despawntimer == 0) return true;
+        }
         player = Tools.isAnyPlayerInRange(PokecubeCore.getConfig().cullDistance, this.getEntityWorld().getHeight(),
                 this);
         if (PokecubeCore.getConfig().cull && !player) return true;
