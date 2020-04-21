@@ -63,7 +63,7 @@ public class BaseTile extends InteractableTile
                 // We need to remove the location.
                 this.world.setBlockState(pos, this.original);
                 player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"));
-                return false;
+                return ActionResultType.FAIL;
             }
         }
         final DimensionType dim = player.dimension;
