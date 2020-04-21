@@ -98,10 +98,10 @@ public class PokecubeMobs
         PokecubeCore.POKEMOB_BUS.register(this);
         // We override these so that they use ours instead of default ones.
         CombatTypeLoader.TYPES = new ResourceLocation(PokecubeMobs.MODID, "database/types.json");
-        Database.STARTERPACK = new ResourceLocation(PokecubeMobs.MODID, "database/pack.xml");
+        Database.STARTERPACK = new ResourceLocation(PokecubeMobs.MODID, "database/pack.json");
 
         DBLoader.trainerDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trainers.json"));
-        DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.xml"));
+        DBLoader.tradeDatabases.add(new ResourceLocation(PokecubeMobs.MODID, "database/trades.json"));
 
         XMLRewardsHandler.recipeFiles.add(new ResourceLocation(PokecubeMobs.MODID, "database/rewards.json"));
 

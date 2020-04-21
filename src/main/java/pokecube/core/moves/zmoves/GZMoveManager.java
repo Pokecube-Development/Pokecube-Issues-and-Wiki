@@ -29,6 +29,18 @@ public class GZMoveManager
         return battleEffect != null && battleEffect.contains("z-power");
     }
 
+    public static boolean isDMove(final MoveJsonEntry entry)
+    {
+        final String battleEffect = ThutCore.trim(entry.battleEffect);
+        return battleEffect != null && battleEffect.contains("attack_dynamax_pokmon_use");
+    }
+
+    public static boolean isGMove(final MoveJsonEntry entry)
+    {
+        final String battleEffect = ThutCore.trim(entry.battleEffect);
+        return battleEffect != null && battleEffect.contains("attack_that_gigantamax");
+    }
+
     public static void init(final MovesJson moves)
     {
         final Map<PokeType, String> g_type_map = Maps.newHashMap();
@@ -41,11 +53,14 @@ public class GZMoveManager
         {
             entry.gMove = ThutCore.trim(entry.gMove);
             entry.zMove = ThutCore.trim(entry.zMove);
-            if ("yes".equals(entry.gMove))
+            final boolean g = GZMoveManager.isGMove(entry);
+            final boolean d = GZMoveManager.isDMove(entry);
+            final boolean z = GZMoveManager.isZMove(entry);
+            if (d || g)
             {
                 num++;
                 final PokeType type = PokeType.getType(entry.type);
-                if (entry.name.startsWith("gmax"))
+                if (g)
                 {
                     if (entry.gmaxEntry != null) num2++;
                     if (entry.gmaxEntry != null)
@@ -56,7 +71,7 @@ public class GZMoveManager
                 }
                 else g_type_map.put(type, entry.name);
             }
-            if (GZMoveManager.isZMove(entry))
+            if (z)
             {
                 final PokeType type = PokeType.getType(entry.type);
                 if (entry.zEntry != null)

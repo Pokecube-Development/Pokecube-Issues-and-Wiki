@@ -16,8 +16,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -787,10 +785,8 @@ public class Database
     {
         try
         {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLSpawns.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             final Reader reader = new InputStreamReader(Database.resourceManager.getResource(file).getInputStream());
-            final XMLSpawns database = (XMLSpawns) unmarshaller.unmarshal(reader);
+            final XMLSpawns database = PokedexEntryLoader.gson.fromJson(reader, XMLSpawns.class);
             reader.close();
             for (final XMLSpawnEntry xmlEntry : database.pokemon)
             {
@@ -826,11 +822,9 @@ public class Database
         Database.starterPack.clear();
         try
         {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLStarterItems.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             final Reader reader = new InputStreamReader(Database.resourceManager.getResource(Database.STARTERPACK)
                     .getInputStream());
-            final XMLStarterItems database = (XMLStarterItems) unmarshaller.unmarshal(reader);
+            final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
             reader.close();
             for (final Drop drop : database.drops)
             {

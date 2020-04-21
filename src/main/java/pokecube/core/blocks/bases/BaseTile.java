@@ -58,7 +58,7 @@ public class BaseTile extends InteractableTile
                 return false;
             }
             if (this.last_base == null) this.last_base = exit_here;
-            if (exit_here.distanceSq(this.last_base) > 0.75)
+            if (exit_here.distanceSq(this.last_base.getX(), this.last_base.getY(), this.last_base.getZ(), false) > 0.0)
             {
                 // We need to remove the location.
                 this.world.setBlockState(pos, this.original);

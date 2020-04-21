@@ -1,0 +1,22 @@
+{
+  "drops": [
+    {
+      "values": {
+        "id": "pokecube:pokewatch",
+        "n": "1"
+      }
+    },
+    {
+      "values": {
+        "id": "pokecube:pokecube",
+        "n": "10"
+      }
+    },
+    {
+      "values": {
+        "id": "pokecube_adventures:bag",
+        "n": "1"
+      }
+    }
+  ]
+}
