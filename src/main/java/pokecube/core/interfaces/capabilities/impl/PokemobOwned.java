@@ -237,6 +237,8 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             }
 
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Recalling " + this.getEntity());
+            // Clear the pokemob's motion on recall
+            this.getEntity().setMotion(0, 0, 0);
 
             /** If this has fainted, status should be reset. */
             if (this.getHealth() <= 0)
