@@ -12,6 +12,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
@@ -70,11 +71,15 @@ public class SecretBase
             final DimensionType type = DimensionType.getById((int) loc.w);
             if (type == player.dimension && pos.distTo(Vector3.getNewVector().set(input)) < 16)
             {
+                final BlockPos base_pos = new BlockPos(input);
+                final BlockState original = pos.getBlockState(player.getEntityWorld());
                 pos.setBlock(player.getEntityWorld(), PokecubeItems.SECRETBASE.getDefaultState());
                 final BaseTile tile = (BaseTile) player.getEntityWorld().getTileEntity(pos.getPos());
                 final IOwnableTE ownable = (IOwnableTE) tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
                 ownable.setPlacer(player);
-                SecretBaseDimension.setSecretBasePoint(player, new BlockPos(input), type);
+                tile.last_base = base_pos;
+                tile.original = original;
+                SecretBaseDimension.setSecretBasePoint(player, base_pos, type);
                 pos.x = pos.intX();
                 pos.y = pos.intY();
                 pos.z = pos.intZ();
@@ -108,16 +113,15 @@ public class SecretBase
         commandDispatcher.register(command);
 
         command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.create")).then(
-                Commands.argument("confirm", StringArgumentType.word()).suggests(SecretBase.SUGGEST_CONFIRM)
-                        .then(Commands.argument("location", Vec3Argument.vec3()).executes(ctx -> SecretBase
-                                .execute_create(ctx.getSource(), ctx.getSource().asPlayer(), Vec3Argument.getVec3(ctx,
-                                        "location")))));
+                Commands.argument("confirm", StringArgumentType.word()).suggests(SecretBase.SUGGEST_CONFIRM).then(
+                        Commands.argument("location", Vec3Argument.vec3()).executes(ctx -> SecretBase.execute_create(ctx
+                                .getSource(), ctx.getSource().asPlayer(), Vec3Argument.getVec3(ctx, "location")))));
         commandDispatcher.register(command);
 
         command = Commands.literal("pokebase").requires(cs -> CommandTools.hasPerm(cs, "command.pokebase.other")).then(
                 Commands.argument("target", EntityArgument.player()).then(Commands.argument("owner", GameProfileArgument
-                        .gameProfile()).executes(ctx -> SecretBase.execute(ctx.getSource(), EntityArgument
-                                .getPlayer(ctx, "target"), GameProfileArgument.getGameProfiles(ctx, "owner")))));
+                        .gameProfile()).executes(ctx -> SecretBase.execute(ctx.getSource(), EntityArgument.getPlayer(
+                                ctx, "target"), GameProfileArgument.getGameProfiles(ctx, "owner")))));
         commandDispatcher.register(command);
     }
 }
