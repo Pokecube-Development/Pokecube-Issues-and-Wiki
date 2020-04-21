@@ -1,6 +1,9 @@
 package pokecube.core.ai.logic;
 
+import java.util.Set;
+
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -11,6 +14,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
@@ -28,6 +32,7 @@ import pokecube.core.utils.Permissions;
  */
 public class LogicMountedControl extends LogicBase
 {
+    public static Set<DimensionType> BLACKLISTED = Sets.newHashSet();
 
     public boolean leftInputDown    = false;
     public boolean rightInputDown   = false;
@@ -85,14 +90,7 @@ public class LogicMountedControl extends LogicBase
             if (config.permsDiveSpecific && canDive && !handler.hasPermission(player.getGameProfile(),
                     Permissions.DIVESPECIFIC.get(entry), context)) canDive = false;
         }
-        // TODO possibly change this to dimensiontypes.
-        if (canFly) for (int i = 0; i < PokecubeCore.getConfig().flyDimBlacklist.size(); i++)
-            if (PokecubeCore.getConfig().flyDimBlacklist.get(i) == world.getDimension().getType().getId())
-            {
-                canFly = false;
-                break;
-            }
-
+        if (canFly) canFly = !LogicMountedControl.BLACKLISTED.contains(world.getDimension().getType());
         if (canFly)
         {
             shouldControl = verticalControl = PokecubeCore.getConfig().flyEnabled || shouldControl;

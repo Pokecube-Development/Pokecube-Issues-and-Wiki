@@ -18,8 +18,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -913,12 +911,7 @@ public class PokedexEntryLoader
         XMLDatabase database = null;
         final InputStreamReader reader = new InputStreamReader(stream);
         if (json) database = PokedexEntryLoader.gson.fromJson(reader, XMLDatabase.class);
-        else
-        {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLDatabase.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            database = (XMLDatabase) unmarshaller.unmarshal(reader);
-        }
+        else throw new IllegalArgumentException("This only takes json files now!");
         reader.close();
         return database;
     }

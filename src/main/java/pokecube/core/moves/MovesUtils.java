@@ -214,7 +214,7 @@ public class MovesUtils implements IMoveConstants
 
         final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
         final Entity attackerMob = attacker.getEntity();
-        if (attack.equals("pokemob.status.confusion"))
+        if (attack.equals(MoveEntry.CONFUSED.name))
         {
             if (attackedPokemob != null)
             {
