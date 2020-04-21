@@ -222,8 +222,8 @@ public class CommandConfigs
             final String prefix)
     {
         String name = "";
-        name = prefix + "_check";
-        final String perm1 = "command." + name;
+        name = prefix;
+        final String perm1 = "command." + name + ".check";
         PermissionAPI.registerNode(perm1, DefaultPermissionLevel.ALL, "Is the player allowed to check configs for "
                 + data.MODID);
 
@@ -233,15 +233,15 @@ public class CommandConfigs
                                 StringArgumentType.getString(ctx, "option"))));
         commandDispatcher.register(command);
 
-        name = prefix + "_set";
-        final String perm2 = "command." + name;
+        name = prefix;
+        final String perm2 = "command." + name + ".set";
         PermissionAPI.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to set configs for "
                 + data.MODID);
 
-        command = Commands.literal(name).requires(cs -> CommandTools.hasPerm(cs, perm2)).then(Commands.argument(
-                "option", StringArgumentType.string()).suggests(CommandConfigs.MakeProvider(data)).then(Commands
-                        .argument("value", StringArgumentType.greedyString()).executes(ctx -> CommandConfigs.execute(
-                                data, ctx.getSource(), StringArgumentType.getString(ctx, "option"), StringArgumentType
+        command = Commands.literal(name).then(Commands.argument("option", StringArgumentType.string()).suggests(
+                CommandConfigs.MakeProvider(data)).then(Commands.argument("value", StringArgumentType.greedyString())
+                        .requires(cs -> CommandTools.hasPerm(cs, perm2)).executes(ctx -> CommandConfigs.execute(data,
+                                ctx.getSource(), StringArgumentType.getString(ctx, "option"), StringArgumentType
                                         .getString(ctx, "value")))));
         commandDispatcher.register(command);
     }
