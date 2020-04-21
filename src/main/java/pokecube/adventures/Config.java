@@ -10,6 +10,7 @@ import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
 import pokecube.adventures.blocks.warppad.WarppadTile;
+import pokecube.adventures.items.bag.BagInventory;
 import pokecube.adventures.utils.EnergyHandler;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
@@ -26,6 +27,7 @@ public class Config extends ConfigData
 
     private static final String MACHINE = "machine";
     private static final String TRAINER = "trainers";
+    private static final String BAG     = "bag";
 
     @Configure(category = Config.TRAINER)
     public boolean npcsAreTrainers         = true;
@@ -120,6 +122,13 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE)
     public int    afaMaxEnergy         = 3200;
 
+    @Configure(category = Config.BAG, type = Type.SERVER)
+    public boolean bagsHoldEverything  = false;
+    @Configure(category = Config.BAG, type = Type.SERVER)
+    public boolean bagsHoldFilledCubes = false;
+    @Configure(category = Config.BAG, type = Type.SERVER)
+    public int     bagPages            = BagInventory.PAGECOUNT;
+
     public boolean loaded = false;
 
     public Config()
@@ -132,6 +141,7 @@ public class Config extends ConfigData
     {
         if (!this.loaded) return;
 
+        BagInventory.PAGECOUNT = this.bagPages;
         EnergyHandler.initParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
         WarppadTile.initParser(this.warpPadCostFunction);

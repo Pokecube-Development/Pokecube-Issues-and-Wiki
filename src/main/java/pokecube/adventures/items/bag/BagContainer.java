@@ -12,15 +12,20 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
+import pokecube.core.PokecubeItems;
 import pokecube.core.inventory.BaseContainer;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.core.common.ThutCore;
 
 public class BagContainer extends BaseContainer
 {
+    public static final ResourceLocation VALID = new ResourceLocation(PokecubeAdv.MODID, "bagable");
+
     public static final ContainerType<BagContainer> TYPE = new ContainerType<>(BagContainer::new);
 
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
@@ -38,9 +43,14 @@ public class BagContainer extends BaseContainer
      */
     public static boolean isItemValid(final ItemStack itemstack)
     {
-        if (itemstack.isEmpty()) return false;
-        // TODO check tags on the item to see if it is valid
-        return true;
+        // No placing bags in self.
+        if (itemstack.getItem() == PokecubeAdv.BAG) return false;
+        // Config option to hold anything.
+        if (PokecubeAdv.config.bagsHoldEverything) return true;
+        // Specifically ban filled cubes
+        if (!PokecubeAdv.config.bagsHoldFilledCubes && PokecubeManager.isFilled(itemstack)) return false;
+        // Otherwise check the tag
+        return PokecubeItems.is(BagContainer.VALID, itemstack);
     }
 
     public final BagInventory inv;

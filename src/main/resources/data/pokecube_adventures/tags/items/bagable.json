@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube:pokemob_held",
+    "#pokecube:pokemob_food",
+    "#pokecube:pokemob_fossils",
+    "#pokecube:pokecubes"
+  ]
+}
