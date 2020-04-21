@@ -327,25 +327,32 @@ public class EventsHandler
     public static void EntityJoinWorld(final EntityJoinWorldEvent evt)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (PokecubeCore.getConfig().disableVanillaMonsters && pokemob == null && evt.getEntity() instanceof IMob
-                && !(evt.getEntity() instanceof EnderDragonEntity || evt.getEntity() instanceof EnderDragonPartEntity)
-                && evt.getEntity().getClass().getName().contains("net.minecraft"))
+
+        boolean canSpawn = evt.getEntity() instanceof PlayerEntity || !(evt.getEntity() instanceof LivingEntity);
+
+        if (!canSpawn) canSpawn = !(PokecubeCore.getConfig().disableVanillaMonsters && pokemob == null && evt
+                .getEntity() instanceof IMob && !(evt.getEntity() instanceof EnderDragonEntity || evt
+                        .getEntity() instanceof EnderDragonPartEntity) && evt.getEntity().getType().getRegistryName()
+                                .getNamespace().equals("minecraft"));
+        if (!canSpawn)
         {
             evt.getEntity().remove();
             // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
-        // TODO had an IAnimals check here, is that gone now?
-        if (PokecubeCore.getConfig().disableVanillaAnimals && pokemob == null && !(evt.getEntity() instanceof IMob)
-                && !(evt.getEntity() instanceof INPC) && !(evt.getEntity() instanceof IMerchant) && evt.getEntity()
-                        .getClass().getName().contains("net.minecraft"))
+        if (!canSpawn) canSpawn = !(PokecubeCore.getConfig().disableVanillaAnimals && pokemob == null && !(evt
+                .getEntity() instanceof IMob) && !(evt.getEntity() instanceof INPC) && !(evt
+                        .getEntity() instanceof IMerchant) && evt.getEntity().getType().getRegistryName().getNamespace()
+                                .equals("minecraft"));
+        if (!canSpawn)
         {
             evt.getEntity().remove();
             // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
+
         if (evt.getEntity() instanceof IPokemob && evt.getEntity().getPersistentData().getBoolean("onShoulder"))
         {
             ((IPokemob) evt.getEntity()).setLogicState(LogicStates.SITTING, false);
