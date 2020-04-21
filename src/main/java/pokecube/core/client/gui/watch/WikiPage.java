@@ -13,7 +13,6 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -108,14 +107,14 @@ public class WikiPage extends ListPage<LineEntry>
         super.initList();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        final String next = I18n.format("block.pc.next");
-        final String prev = I18n.format("block.pc.previous");
-        this.addButton(new Button(x + 26, y - 69, 50, 12, next, b ->
+        final String next = ">";
+        final String prev = "<";
+        this.addButton(new Button(x + 64, y - 70, 12, 12, next, b ->
         {
             this.index++;
             this.setList();
         }));
-        this.addButton(new Button(x - 76, y - 69, 50, 12, prev, b ->
+        this.addButton(new Button(x - 76, y - 70, 12, 12, prev, b ->
         {
             this.index--;
             this.setList();
