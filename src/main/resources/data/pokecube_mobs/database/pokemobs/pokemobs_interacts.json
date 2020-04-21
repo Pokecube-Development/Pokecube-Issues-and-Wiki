@@ -817,7 +817,6 @@
             "baseHunger": 250,
             "key": {
               "values": {
-                "d": "32767",
                 "id": "minecraft:shears"
               }
             },
@@ -1509,7 +1508,6 @@
             "baseHunger": 500,
             "key": {
               "values": {
-                "d": "32767",
                 "id": "minecraft:shears"
               }
             },
@@ -1540,7 +1538,6 @@
             "baseHunger": 500,
             "key": {
               "values": {
-                "d": "32767",
                 "id": "minecraft:shears"
               }
             },
@@ -2725,7 +2722,6 @@
             "baseHunger": 250,
             "key": {
               "values": {
-                "d": "32767",
                 "id": "minecraft:shears"
               }
             },
@@ -2736,7 +2732,7 @@
               "drops": [
                 {
                   "values": {
-                    "id": "minecraft:wool",
+                    "id": "minecraft:white_wool",
                     "n": "2"
                   }
                 }
@@ -5014,7 +5010,6 @@
             "baseHunger": 250,
             "key": {
               "values": {
-                "d": "32767",
                 "id": "minecraft:shears"
               }
             },
@@ -10814,7 +10809,6 @@
             "baseHunger": 250,
             "key": {
               "values": {
-                "d": "32767",
                 "id": "minecraft:shears"
               }
             },
@@ -10825,7 +10819,7 @@
               "drops": [
                 {
                   "values": {
-                    "id": "minecraft:wool",
+                    "id": "minecraft:white_wool",
                     "n": "2"
                   }
                 }
@@ -10867,7 +10861,6 @@
             "baseHunger": 250,
             "key": {
               "values": {
-                "d": "32767",
                 "id": "minecraft:shears"
               }
             },
@@ -10878,7 +10871,7 @@
               "drops": [
                 {
                   "values": {
-                    "id": "minecraft:wool",
+                    "id": "minecraft:white_wool",
                     "n": "2"
                   }
                 }

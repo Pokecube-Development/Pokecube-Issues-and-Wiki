@@ -2,6 +2,7 @@ package thut.api.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -58,6 +59,12 @@ public class ShearableCaps
         public void shear()
         {
             this.wrapped.shear();
+        }
+
+        @Override
+        public void shear(final ItemStack shears)
+        {
+            this.wrapped.shear(shears);
         }
     }
 

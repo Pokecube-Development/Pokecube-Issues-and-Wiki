@@ -93,6 +93,9 @@ public class LogicMiscUpdate extends LogicBase
             this.de_dyna = false;
         }
 
+        // Check if we are sheared every second or so
+        if (this.entity.ticksExisted % 20 == 0) this.pokemob.isSheared();
+
         // If angry and has no target, make it not angry.
         if (angry && this.lastHadTargetTime-- <= 0) this.pokemob.setCombatState(CombatStates.ANGRY, false);
         else if (angry && this.entity.getAttackTarget() != null)

@@ -93,16 +93,10 @@ public class PokedexEntryLoader
         public Map<QName, String> getValues()
         {
             if (this.values == null) this.values = Maps.newHashMap();
-            if (this.tag != null)
-            {
-                final QName name = new QName("tag");
-                this.values.put(name, this.tag);
-            }
-            if (this.id != null)
-            {
-                final QName name = new QName("id");
-                this.values.put(name, this.id);
-            }
+            final QName tagName = new QName("tag");
+            final QName idName = new QName("id");
+            if (this.tag != null && !this.values.containsKey(tagName)) this.values.put(tagName, this.tag);
+            if (this.id != null && !this.values.containsKey(idName)) this.values.put(idName, this.id);
             return this.values;
         }
     }
