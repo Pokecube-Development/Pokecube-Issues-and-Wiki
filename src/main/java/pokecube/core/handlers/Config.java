@@ -9,12 +9,12 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.ai.tasks.idle.AIIdle;
 import pokecube.core.database.Database.EnumDatabase;
@@ -203,118 +203,118 @@ public class Config extends ConfigData
 
     // AI Related settings
     @Configure(category = Config.mobAI)
-    public int           mateMultiplier        = 1;
+    public int          mateMultiplier        = 1;
     @Configure(category = Config.mobAI)
-    public double        mateDensityWild       = 2;
+    public double       mateDensityWild       = 2;
     @Configure(category = Config.mobAI)
-    public int           mateAIRate            = 40;
+    public int          mateAIRate            = 40;
     @Configure(category = Config.mobAI)
-    public double        mateDensityPlayer     = 4;
+    public double       mateDensityPlayer     = 4;
     @Configure(category = Config.mobAI)
-    public int           breedingDelay         = 4000;
+    public int          breedingDelay         = 4000;
     @Configure(category = Config.mobAI)
-    public int           eggHatchTime          = 10000;
+    public int          eggHatchTime          = 10000;
     @Configure(category = Config.mobAI, type = Type.SERVER)
     /** do wild pokemobs which leave cullDistance despawn immediately */
-    public boolean       cull                  = false;
+    public boolean      cull                  = false;
     /** distance for culling */
     @Configure(category = Config.mobAI, type = Type.SERVER)
-    public int           cullDistance          = 96;
+    public int          cullDistance          = 96;
     @Configure(category = Config.mobAI, type = Type.SERVER)
-    public boolean       despawn               = true;
+    public boolean      despawn               = true;
     /** distance for culling */
     @Configure(category = Config.mobAI)
-    public int           despawnTimer          = 2000;
+    public int          despawnTimer          = 2000;
     @Configure(category = Config.mobAI)
     /** Will lithovores eat gravel */
-    public boolean       pokemobsEatGravel     = false;
+    public boolean      pokemobsEatGravel     = false;
     @Configure(category = Config.mobAI)
     /** Will lithovores eat rocks */
-    public boolean       pokemobsEatRocks      = true;
+    public boolean      pokemobsEatRocks      = true;
     @Configure(category = Config.mobAI)
     /** Will herbivores eat plants */
-    public boolean       pokemobsEatPlants     = true;
+    public boolean      pokemobsEatPlants     = true;
     @Configure(category = Config.mobAI)
     /** Is there a warning before a wild pok�mob attacks the player. */
-    public boolean       pokemobagresswarning  = true;
+    public boolean      pokemobagresswarning  = true;
     @Configure(category = Config.mobAI, type = Type.SERVER)
     /** Distance to player needed to agress the player */
-    public int           mobAggroRadius        = 3;
+    public int          mobAggroRadius        = 3;
     @Configure(category = Config.mobAI)
     /**
      * Approximately how many ticks between wild pokemobs running agro
      * checks.
      */
-    public int           mobAgroRate           = 200;
+    public int          mobAgroRate           = 200;
     @Configure(category = Config.mobAI)
     /**
      * Approximate number of ticks before pok�mob starts taking hunger
      * damage
      */
-    public int           pokemobLifeSpan       = 8000;
+    public int          pokemobLifeSpan       = 8000;
     @Configure(category = Config.mobAI)
     /** Warning time before a wild pok�mob attacks a player */
-    public int           pokemobagressticks    = 100;
+    public int          pokemobagressticks    = 100;
     @Configure(category = Config.mobAI)
-    public boolean       pokemobsDamageOwner   = false;
+    public boolean      pokemobsDamageOwner   = false;
     @Configure(category = Config.mobAI)
-    public boolean       pokemobsDamagePlayers = true;
+    public boolean      pokemobsDamagePlayers = true;
     @Configure(category = Config.mobAI)
-    public boolean       pokemobsDamageBlocks  = false;
+    public boolean      pokemobsDamageBlocks  = false;
     @Configure(category = Config.mobAI)
-    public boolean       pokemobsDropItems     = true;
+    public boolean      pokemobsDropItems     = true;
     @Configure(category = Config.mobAI)
-    public double        expFromDeathDropScale = 1;
+    public double       expFromDeathDropScale = 1;
     @Configure(category = Config.mobAI)
     /** Do explosions occur and cause damage */
-    public boolean       explosions            = true;
+    public boolean      explosions            = true;
     @Configure(category = Config.mobAI, type = Type.SERVER)
-    public int           attackCooldown        = 20;
+    public int          attackCooldown        = 20;
     @Configure(category = Config.mobAI)
-    public int           chaseDistance         = 32;
+    public int          chaseDistance         = 32;
     @Configure(category = Config.mobAI)
-    public int           combatDistance        = 4;
+    public int          combatDistance        = 4;
     @Configure(category = Config.mobAI)
-    public int           aiDisableDistance     = 32;
+    public int          aiDisableDistance     = 32;
     @Configure(category = Config.mobAI)
-    public int           tameGatherDelay       = 20;
+    public int          tameGatherDelay       = 20;
     @Configure(category = Config.mobAI)
-    public int           wildGatherDelay       = 200;
+    public int          wildGatherDelay       = 200;
     @Configure(category = Config.mobAI)
-    public int           tameGatherDistance    = 16;
+    public int          tameGatherDistance    = 16;
     @Configure(category = Config.mobAI)
-    public int           wildGatherDistance    = 8;
+    public int          wildGatherDistance    = 8;
     @Configure(category = Config.mobAI)
-    public boolean       tameGather            = true;
+    public boolean      tameGather            = true;
     @Configure(category = Config.mobAI)
-    public boolean       wildGather            = false;
+    public boolean      wildGather            = false;
     @Configure(category = Config.mobAI)
-    public boolean       flyEnabled            = true;
+    public boolean      flyEnabled            = true;
     @Configure(category = Config.mobAI, type = Type.SERVER)
     // TODO possibly change this to dimensiontypes.
-    public List<Integer> flyDimBlacklist       = Lists.newArrayList(new Integer[] { -1, 1 });
+    public List<String> blackListedFlyDims    = Lists.newArrayList(new String[] { "the_end", "the_nether" });
     @Configure(category = Config.mobAI)
-    public boolean       surfEnabled           = true;
+    public boolean      surfEnabled           = true;
     @Configure(category = Config.mobAI)
-    public boolean       diveEnabled           = true;
+    public boolean      diveEnabled           = true;
     @Configure(category = Config.mobAI)
-    public List<String>  dodgeSounds           = Lists.newArrayList("entity.witch.throw");
+    public List<String> dodgeSounds           = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String>  leapSounds            = Lists.newArrayList("entity.witch.throw");
+    public List<String> leapSounds            = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String>  guardBlacklistClass   = Lists.newArrayList("net.minecraft.entity.IMerchant",
+    public List<String> guardBlacklistClass   = Lists.newArrayList("net.minecraft.entity.IMerchant",
             "net.minecraft.entity.INpc", "pokecube.core.items.pokemobeggs.EntityPokemobEgg",
             "net.minecraft.entity.IProjectile");
     @Configure(category = Config.mobAI)
-    public List<String>  guardBlacklistId      = Lists.newArrayList();
+    public List<String> guardBlacklistId      = Lists.newArrayList();
     @Configure(category = Config.mobAI)
-    public double        interactHungerScale   = 1;
+    public double       interactHungerScale   = 1;
     @Configure(category = Config.mobAI)
-    public double        interactDelayScale    = 1;
+    public double       interactDelayScale    = 1;
     @Configure(category = Config.mobAI)
-    public boolean       pokemobsOnShoulder    = true;
+    public boolean      pokemobsOnShoulder    = true;
     @Configure(category = Config.mobAI)
-    public int           fishHookBaitRange     = 16;
+    public int          fishHookBaitRange     = 16;
 
     // ridden Speed multipliers
     @Configure(category = Config.mobAI, type = Type.SERVER)
@@ -411,71 +411,71 @@ public class Config extends ConfigData
     // Mob Spawning settings
     @Configure(category = Config.spawning)
     /** Do monsters not spawn. */
-    public boolean       deactivateMonsters     = false;
+    public boolean      deactivateMonsters     = false;
     @Configure(category = Config.spawning)
     /** do monster spawns get swapped with shadow pokemobs */
-    public boolean       disableVanillaMonsters = false;
+    public boolean      disableVanillaMonsters = false;
     @Configure(category = Config.spawning)
-    public boolean       disableVanillaAnimals  = false;
+    public boolean      disableVanillaAnimals  = false;
     @Configure(category = Config.spawning)
     /** do animals not spawn */
-    public boolean       deactivateAnimals      = true;
+    public boolean      deactivateAnimals      = true;
     @Configure(category = Config.spawning)
     /** do Pokemobs spawn */
-    public boolean       pokemonSpawn           = true;
+    public boolean      pokemonSpawn           = true;
     @Configure(category = Config.spawning, type = Type.SERVER)
     /**
      * This is also the radius which mobs spawn in. Is only despawn radius if
      * cull is true
      */
-    public int           maxSpawnRadius         = 32;
+    public int          maxSpawnRadius         = 32;
     @Configure(category = Config.spawning, type = Type.SERVER)
     /** closest distance to a player the pokemob can spawn. */
-    public int           minSpawnRadius         = 16;
+    public int          minSpawnRadius         = 16;
     @Configure(category = Config.spawning)
     /** Minimum level legendaries can spawn at. */
-    public int           minLegendLevel         = 1;
+    public int          minLegendLevel         = 1;
     @Configure(category = Config.spawning)
     /** Will nests spawn */
-    public boolean       nests                  = false;
+    public boolean      nests                  = false;
     @Configure(category = Config.spawning)
     /** number of nests per chunk */
-    public int           nestsPerChunk          = 1;
+    public int          nestsPerChunk          = 1;
     @Configure(category = Config.spawning)
     /** To be used for nest retrogen. */
-    public boolean       refreshNests           = false;
+    public boolean      refreshNests           = false;
     @Configure(category = Config.spawning)
-    public int           mobSpawnNumber         = 10;
+    public int          mobSpawnNumber         = 10;
     @Configure(category = Config.spawning)
-    public double        mobDensityMultiplier   = 1;
+    public double       mobDensityMultiplier   = 1;
     @Configure(category = Config.spawning, type = Type.SERVER)
-    public int           levelCap               = 50;
+    public int          levelCap               = 50;
     @Configure(category = Config.spawning)
-    public boolean       shouldCap              = true;
+    public boolean      shouldCap              = true;
     @Configure(category = Config.spawning, type = Type.SERVER)
     @Versioned
-    public List<String>  spawnLevelFunctions    = Lists.newArrayList(new String[] {
+    public List<String> spawnLevelFunctions    = Lists.newArrayList(new String[] {
             //@formatter:off
             "-1:abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3)):false:false",
             "0:abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3)):false:false",
             "1:1+r/200:true:true"
             });//@formatter:on
     @Configure(category = Config.spawning, type = Type.SERVER)
-    public boolean       expFunction            = false;
+    public boolean      expFunction            = false;
     @Configure(category = Config.spawning, type = Type.SERVER)
-    public String        spawnLevelVariance     = "x + ceil(5*rand())";
+    public String       spawnLevelVariance     = "x + ceil(5*rand())";
     @Configure(category = Config.spawning)
-    public List<Integer> dimensionBlacklist     = Lists.newArrayList();
+    public List<String> spawnDimBlacklist      = Lists.newArrayList();
     @Configure(category = Config.spawning)
-    public List<Integer> dimensionWhitelist     = Lists.newArrayList();
+    public List<String> spawnDimWhitelist      = Lists.newArrayList();
     @Configure(category = Config.spawning)
-    public boolean       whiteListEnabled       = false;
+    public boolean      spawnWhitelisted       = false;
     @Configure(category = Config.spawning)
     /** Spawns run once every this many ticks.. */
-    public int           spawnRate              = 20;
+    public int          spawnRate              = 20;
     @Configure(category = Config.spawning)
     /** Default radius for repel blocks */
-    public int           repelRadius            = 16;
+    public int          repelRadius            = 16;
 
     // Gui/client settings
     @Configure(category = Config.client)
@@ -848,18 +848,22 @@ public class Config extends ConfigData
 
         // TODO see if these are the correct things to be using.
         SpawnHandler.dimensionBlacklist.clear();
-        for (final int i : this.dimensionBlacklist)
+        for (final String i : this.spawnDimBlacklist)
         {
-            @SuppressWarnings("deprecation")
-            final DimensionType type = Registry.DIMENSION_TYPE.getByValue(i);
-            SpawnHandler.dimensionBlacklist.add(type);
+            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
+            if (type != null) SpawnHandler.dimensionBlacklist.add(type);
         }
         SpawnHandler.dimensionWhitelist.clear();
-        for (final int i : this.dimensionWhitelist)
+        for (final String i : this.spawnDimWhitelist)
         {
-            @SuppressWarnings("deprecation")
-            final DimensionType type = Registry.DIMENSION_TYPE.getByValue(i);
-            SpawnHandler.dimensionWhitelist.add(type);
+            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
+            if (type != null) SpawnHandler.dimensionWhitelist.add(type);
+        }
+        LogicMountedControl.BLACKLISTED.clear();
+        for (final String i : this.blackListedFlyDims)
+        {
+            final DimensionType type = DimensionType.byName(new ResourceLocation(i));
+            if (type != null) LogicMountedControl.BLACKLISTED.add(type);
         }
 
         boolean failed = false;

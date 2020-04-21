@@ -170,7 +170,7 @@ public final class SpawnHandler
         if (world == null) return true;
         if (world.getDifficulty() == Difficulty.PEACEFUL || !SpawnHandler.doSpawns) return false;
         if (SpawnHandler.dimensionBlacklist.contains(world.getDimension())) return false;
-        if (PokecubeCore.getConfig().whiteListEnabled && !SpawnHandler.dimensionWhitelist.contains(world
+        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world
                 .getDimension())) return false;
         return true;
     }
