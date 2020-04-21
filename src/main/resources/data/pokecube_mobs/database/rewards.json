@@ -50,10 +50,9 @@
       "output": {
         "values": {
           "id": "pokecube:tm1",
-          "tag": "{move:\"cut\",display:{Name:\"Cut\"}}",
+          "tag": "{move:\"cut\",display:{Name:\"{\\\"translate\\\":\\\"pokemob.move.cut\\\"}\"}}",
           "n": "1"
-        },
-        "tag": "{move:\"cut\",display:{Name:\"Cut\"}}"
+        }
       },
       "condition": {
         "values": {
@@ -71,10 +70,9 @@
       "output": {
         "values": {
           "id": "pokecube:tm1",
-          "tag": "{move:\"flash\",display:{Name:\"Flash\"}}",
+          "tag": "{move:\"flash\",display:{Name:\"{\\\"translate\\\":\\\"pokemob.move.flash\\\"}\"}}",
           "n": "1"
-        },
-        "tag": "{move:\"flash\",display:{Name:\"Flash\"}}"
+        }
       },
       "condition": {
         "values": {
@@ -92,10 +90,9 @@
       "output": {
         "values": {
           "id": "pokecube:tm2",
-          "tag": "{move:\"rocksmash\",display:{Name:\"Rock Smash\"}}",
+          "tag": "{move:\"rocksmash\",display:{Name:\"{\\\"translate\\\":\\\"pokemob.move.rocksmash\\\"}\"}}",
           "n": "1"
-        },
-        "tag": "{move:\"rocksmash\",display:{Name:\"Rock Smash\"}}"
+        }
       },
       "condition": {
         "values": {
