@@ -15,7 +15,7 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSplice;
-import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import thut.api.entity.genetics.IMobGenetics;
 
 public class SplicerTile extends BaseGeneticsTile
 {
@@ -46,7 +46,8 @@ public class SplicerTile extends BaseGeneticsTile
                     stack) != RecipeSelector.defaultSelector;
             return hasGenes || selector;
         case 2:// DNA Destination
-            return ItemPokemobEgg.getEntry(stack) != null;
+            final IMobGenetics genes = ClonerHelper.getGenes(stack);
+            return genes != null;
         }
         return false;
     }
