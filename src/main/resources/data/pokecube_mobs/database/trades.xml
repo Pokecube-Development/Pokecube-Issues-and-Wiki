@@ -52,6 +52,10 @@
 			<Sell id="pokecube:revive" n="2" />
 			<Buy id="minecraft:emerald" n="1" />
 		</Trade>
+		<Trade chance="1">
+			<Sell id="pokecube_adventures:exp_share" n="1" />
+			<Buy id="minecraft:emerald" n="64" />
+		</Trade>
     </Trades>
 	<Trades template="merchant">
 		<Trade chance="1">
@@ -86,7 +90,7 @@
 		</Trade>
 		<Trade chance="0.1">
 			<Sell id="pokecube_adventures:exp_share" n="1" />
-			<Buy id="minecraft:emerald" n="64" />
+			<Buy id="minecraft:emerald" n="32" />
 		</Trade>
 		<Trade chance="1">
 			<Sell id="pokecube:shiny_charm" />
