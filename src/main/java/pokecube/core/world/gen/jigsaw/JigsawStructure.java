@@ -14,6 +14,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.structure.MarginedStructureStart;
@@ -135,6 +136,9 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
             final int chunkPosZ)
     {
         if (this.getStruct() == null) return false;
+
+        final DimensionType dim = chunkGen.world.getDimension().getType();
+        if (this.getStruct().isBlackisted(dim)) return false;
 
         // Check if spawn building and should build.
         if (this.getStruct().atSpawn && (PokecubeSerializer.getInstance().hasPlacedSpawnOrCenter() || !PokecubeCore
