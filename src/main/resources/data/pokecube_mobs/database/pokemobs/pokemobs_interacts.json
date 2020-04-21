@@ -10432,7 +10432,7 @@
         "megaRules": [
           {
             "name": "Necrozma Ultra",
-            "item_preset": "nether_star"
+            "item_preset": "pokecube_mobs:necrozma"
           }
         ],
         "species": "Light"
