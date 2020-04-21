@@ -15,20 +15,25 @@ import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
 import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicFloatFlySwim;
 import pokecube.core.ai.logic.LogicInLiquid;
 import pokecube.core.ai.logic.LogicInMaterials;
@@ -375,24 +380,22 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 final Interaction action = this.getPokedexEntry().interactionLogic.actions.get(this
                         .getPokedexEntry().interactionLogic.getKey(key));
                 final int timer = action.cooldown + this.rand.nextInt(1 + action.variance);
-                if (lastShear < server.getTickCounter() - timer)
-                {
-                    this.setGeneralState(GeneralStates.SHEARED, false);
-                    sheared = false;
-                }
+                if (lastShear < server.getTickCounter() - timer) sheared = false;
             }
             // Cannot shear this!
             else sheared = false;
+            this.setGeneralState(GeneralStates.SHEARED, sheared);
         }
         return sheared;
     }
 
     @Override
-    public void shear()
+    public void shear(final ItemStack shears)
     {
         if (this.isSheared() || !this.getEntity().isServerWorld()) return;
+        final ResourceLocation WOOL = new ResourceLocation("wool");
 
-        final ItemStack key = new ItemStack(Items.SHEARS);
+        final ItemStack key = shears;
         if (this.getPokedexEntry().interact(key))
         {
             final MinecraftServer server = this.getEntity().getServer();
@@ -406,10 +409,18 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             this.setHungerTime(time + action.hunger);
             for (final ItemStack stack : list)
             {
-                final ItemStack toAdd = stack.copy();
-                // TODO process colour change of items properly?
+                ItemStack toAdd = stack.copy();
+                if (PokecubeItems.is(WOOL, stack))
+                {
+                    final DyeColor colour = DyeColor.byId(this.getDyeColour());
+                    final Item wool = SheepEntity.WOOL_BY_COLOR.get(colour).asItem();
+                    toAdd = new ItemStack(wool, stack.getCount());
+                    if (stack.hasTag()) toAdd.setTag(stack.getTag().copy());
+                }
                 ret.add(toAdd);
             }
+            for (final ItemStack stack : ret)
+                this.getEntity().entityDropItem(stack);
             this.getEntity().playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
         }
 

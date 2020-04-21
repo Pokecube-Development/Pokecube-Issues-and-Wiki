@@ -448,7 +448,7 @@ public class PokedexEntry
 
         boolean canInteract(final ItemStack key)
         {
-            return this.getStackKey(key) != ItemStack.EMPTY;
+            return !this.getStackKey(key).isEmpty();
         }
 
         private ItemStack getFormeKey(final ItemStack held)
@@ -481,41 +481,13 @@ public class PokedexEntry
             return this.actions.get(this.getStackKey(key)).stacks;
         }
 
-        boolean interact(final PlayerEntity player, final IPokemob pokemob, final boolean doInteract)
+        public boolean applyInteraction(final PlayerEntity player, final IPokemob pokemob, final boolean consumeInput)
         {
             final MobEntity entity = pokemob.getEntity();
             final ItemStack held = player.getHeldItemMainhand();
-            ItemStack stack = this.getStackKey(held);
-            if (stack.isEmpty())
-            {
-                stack = this.getFormeKey(held);
-                if (stack.isEmpty()) return false;
-                if (!doInteract) return true;
-                final Interaction action = this.actions.get(stack);
-                final PokedexEntry forme = action.forme;
-                pokemob.megaEvolve(forme);
-                return true;
-            }
-
-            if (InteractionLogic.isShears.test(stack))
-            {
-                if (pokemob.isSheared()) return false;
-                pokemob.shear();
-                return pokemob.isSheared();
-            }
-
+            final ItemStack stack = this.getStackKey(held);
             final CompoundNBT data = entity.getPersistentData();
             final Interaction action = this.actions.get(stack);
-            if (data.contains("lastInteract"))
-            {
-                final long time = data.getLong("lastInteract");
-                final long diff = entity.getEntityWorld().getGameTime() - time;
-                if (diff < action.cooldown + new Random(time).nextInt(action.variance)) return false;
-            }
-            if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
-            if (!action.female && pokemob.getSexe() == IPokemob.FEMALE) return false;
-            if (action.stacks.isEmpty() && action.lootTable == null) return false;
-            if (!doInteract) return true;
             ItemStack result = null;
             if (action.lootTable != null)
             {
@@ -542,11 +514,47 @@ public class PokedexEntry
             data.putLong("lastInteract", entity.getEntityWorld().getGameTime());
             final int time = pokemob.getHungerTime();
             pokemob.setHungerTime(time + action.hunger);
-            held.shrink(1);
+            if (consumeInput) held.shrink(1);
             if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem, result);
             else if (!player.inventory.addItemStackToInventory(result)) player.dropItem(result, false);
             if (player != pokemob.getOwner()) entity.setAttackTarget(player);
             return true;
+        }
+
+        boolean interact(final PlayerEntity player, final IPokemob pokemob, final boolean doInteract)
+        {
+            final MobEntity entity = pokemob.getEntity();
+            final ItemStack held = player.getHeldItemMainhand();
+            ItemStack stack = this.getStackKey(held);
+            if (stack.isEmpty())
+            {
+                stack = this.getFormeKey(held);
+                if (stack.isEmpty()) return false;
+                if (!doInteract) return true;
+                final Interaction action = this.actions.get(stack);
+                final PokedexEntry forme = action.forme;
+                pokemob.megaEvolve(forme);
+                return true;
+            }
+            final CompoundNBT data = entity.getPersistentData();
+            final Interaction action = this.actions.get(stack);
+            if (data.contains("lastInteract"))
+            {
+                final long time = data.getLong("lastInteract");
+                final long diff = entity.getEntityWorld().getGameTime() - time;
+                if (diff < action.cooldown + new Random(time).nextInt(action.variance)) return false;
+            }
+            if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
+            if (!action.female && pokemob.getSexe() == IPokemob.FEMALE) return false;
+            if (action.stacks.isEmpty() && action.lootTable == null) return false;
+            if (InteractionLogic.isShears.test(stack))
+            {
+                if (pokemob.isSheared()) return true;
+                if (doInteract) pokemob.shear(stack);
+                return true;
+            }
+            if (!doInteract) return true;
+            return this.applyInteraction(player, pokemob, true);
         }
     }
 
