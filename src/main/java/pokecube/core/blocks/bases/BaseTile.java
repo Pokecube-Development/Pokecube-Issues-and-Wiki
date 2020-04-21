@@ -25,9 +25,10 @@ import thut.api.block.IOwnableTE;
 public class BaseTile extends InteractableTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
-    boolean                                            any       = false;
-    public BlockPos                                    last_base = null;
-    public BlockState                                  original  = Blocks.STONE.getDefaultState();
+
+    boolean           any       = false;
+    public BlockPos   last_base = null;
+    public BlockState original  = Blocks.STONE.getDefaultState();
 
     public BaseTile()
     {
