@@ -233,7 +233,6 @@ public class CommandConfigs
                                 StringArgumentType.getString(ctx, "option"))));
         commandDispatcher.register(command);
 
-        name = prefix;
         final String perm2 = "command." + name + ".set";
         PermissionAPI.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to set configs for "
                 + data.MODID);
