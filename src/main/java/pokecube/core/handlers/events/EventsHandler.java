@@ -59,6 +59,7 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -536,6 +537,12 @@ public class EventsHandler
         // Reset this.
         PokecubeSerializer.clearInstance();
         JigsawPieces.sent_events.clear();
+    }
+
+    @SubscribeEvent
+    public static void serverStarted(final FMLServerStartedEvent event)
+    {
+        Database.postServerLoaded();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

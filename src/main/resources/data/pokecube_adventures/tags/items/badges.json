@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube_adventures:badge_bug",
+    "pokecube_adventures:badge_dark",
+    "pokecube_adventures:badge_dragon",
+    "pokecube_adventures:badge_electric",
+    "pokecube_adventures:badge_fairy",
+    "pokecube_adventures:badge_fighting",
+    "pokecube_adventures:badge_fire",
+    "pokecube_adventures:badge_flying",
+    "pokecube_adventures:badge_ghost",
+    "pokecube_adventures:badge_grass",
+    "pokecube_adventures:badge_ground",
+    "pokecube_adventures:badge_ice",
+    "pokecube_adventures:badge_normal",
+    "pokecube_adventures:badge_poison",
+    "pokecube_adventures:badge_psychic",
+    "pokecube_adventures:badge_rock",
+    "pokecube_adventures:badge_steel",
+    "pokecube_adventures:badge_unknown",
+    "pokecube_adventures:badge_water"
+  ]
+}
