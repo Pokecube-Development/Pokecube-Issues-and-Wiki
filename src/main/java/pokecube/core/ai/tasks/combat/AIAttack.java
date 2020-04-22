@@ -24,6 +24,8 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
+import thut.api.entity.ICompoundMob;
+import thut.api.entity.ICompoundMob.ICompoundPart;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Matrix3;
 import thut.api.maths.Vector3;
@@ -241,18 +243,38 @@ public class AIAttack extends AIBase implements IAICombat
             attackerLength = Math.max(attackerLength, attackerWidth);
             attackerWidth = attackerLength;
 
-            final float attackedLength = this.entityTarget.getWidth();
-            final float attackedHeight = this.entityTarget.getHeight();
-            final float attackedWidth = this.entityTarget.getWidth();
+            if (this.entityTarget instanceof ICompoundMob)
+                for (final ICompoundPart p : ((ICompoundMob) this.entityTarget).getParts())
+                {
 
-            final float dx = (float) (this.entity.posX - this.entityTarget.posX);
-            final float dz = (float) (this.entity.posZ - this.entityTarget.posZ);
-            final float dy = (float) (this.entity.posY - this.entityTarget.posY);
+                final float attackedLength = p.getMob().getWidth();
+                final float attackedHeight = p.getMob().getHeight();
+                final float attackedWidth = p.getMob().getWidth();
 
-            final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
-            final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
-                    + attackedLength);
-            inRange = box.intersects(box2);// intersects 1.12
+                final float dx = (float) (this.entity.posX - p.getMob().posX);
+                final float dz = (float) (this.entity.posZ - p.getMob().posZ);
+                final float dy = (float) (this.entity.posY - p.getMob().posY);
+
+                final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
+                final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz + attackedLength);
+                inRange = box.intersects(box2);// intersects 1.12
+                if (inRange) break;
+                }
+            else
+            {
+                final float attackedLength = this.entityTarget.getWidth();
+                final float attackedHeight = this.entityTarget.getHeight();
+                final float attackedWidth = this.entityTarget.getWidth();
+
+                final float dx = (float) (this.entity.posX - this.entityTarget.posX);
+                final float dz = (float) (this.entity.posZ - this.entityTarget.posZ);
+                final float dy = (float) (this.entity.posY - this.entityTarget.posY);
+
+                final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
+                final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
+                        + attackedLength);
+                inRange = box.intersects(box2);// intersects 1.12
+            }
         }
         if (self)
         {
