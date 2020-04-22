@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import io.netty.buffer.ByteBuf;
@@ -16,10 +17,10 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -35,6 +36,8 @@ import net.minecraft.world.biome.BiomeContainer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap.Type;
+import thut.api.entity.ICompoundMob;
+import thut.api.entity.ICompoundMob.ICompoundPart;
 
 /** @author Thutmose */
 public class Vector3
@@ -523,28 +526,70 @@ public class Vector3
             final Vector3 source, final World world, final Entity excluded)
     {
         direction = direction.normalize();
-
-        double dx, dy, dz;
         final List<Entity> ret = new ArrayList<>();
+        Predicate<Entity> predicate = e -> e != excluded;
+        predicate = predicate.and(EntityPredicates.NOT_SPECTATING);
+        final double ds = range;
+        final Vec3d vec3 = source.toVec3d();
+        final Vec3d vec31 = direction.toVec3d();
+        final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
+        final float f = 0.5F;
+        final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
+        final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
 
-        for (double i = 0; i < range; i += size)
-        {
-            dx = i * direction.x;
-            dy = i * direction.y;
-            dz = i * direction.z;
+        for (final Entity entity1 : mobs)
+            if (entity1 instanceof ICompoundMob) parts:
+            for (final ICompoundPart part : ((ICompoundMob) entity1).getParts())
+            {
+                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
+                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                if (optional.isPresent())
+                {
+                    ret.add(entity1);
+                    break parts;
+                }
+            }
+            else
+            {
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
+                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                if (optional.isPresent()) ret.add(entity1);
+            }
+        return ret;
+    }
 
-            final double xtest = source.x + dx, ytest = source.y + dy, ztest = source.z + dz;
+    public List<Entity> allEntityLocationExcluding(final int range, final double size, Vector3 direction,
+            final Vector3 source, final World world, final Entity excluded, Predicate<Entity> predicate)
+    {
+        direction = direction.normalize();
+        final List<Entity> ret = new ArrayList<>();
+        if (predicate == null) predicate = EntityPredicates.NOT_SPECTATING;
+        final double ds = range;
+        final Vec3d vec3 = source.toVec3d();
+        final Vec3d vec31 = direction.toVec3d();
+        final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
+        final float f = 0.5F;
+        final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
+        final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
 
-            final boolean check = Vector3.isPointClearBlocks(xtest, ytest, ztest, world);
-
-            if (!check) break;
-
-            final double x0 = xtest, y0 = ytest, z0 = ztest;
-            final List<Entity> targets = world.getEntitiesWithinAABBExcludingEntity(excluded,
-                    new AxisAlignedBB(x0 - size, y0 - size, z0 - size, x0 + size, y0 + size, z0 + size));
-            if (targets != null && targets.size() > 0) for (final Entity e : targets)
-                if (e instanceof LivingEntity && !ret.contains(e) && !e.isRidingOrBeingRiddenBy(excluded)) ret.add(e);
-        }
+        for (final Entity entity1 : mobs)
+            if (entity1 instanceof ICompoundMob) parts:
+            for (final ICompoundPart part : ((ICompoundMob) entity1).getParts())
+            {
+                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
+                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                if (optional.isPresent())
+                {
+                    ret.add(entity1);
+                    break parts;
+                }
+            }
+            else
+            {
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
+                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                if (optional.isPresent()) ret.add(entity1);
+            }
         return ret;
     }
 
@@ -786,59 +831,55 @@ public class Vector3
         return Vector3.findNextSolidBlock(world, this, direction, range);
     }
 
-    public Entity firstEntityExcluding(final double range, final Vector3 direction, final World world,
-            final boolean effect, final Entity excluded)
+    public Entity firstEntityExcluding(final double range, final Vec3d vec31, final World world, final Entity entity,
+            Predicate<Entity> predicate)
     {
-        final List<Entity> toExclude = new ArrayList<>();
-        if (excluded != null)
-        {
-            toExclude.add(excluded);
-            toExclude.addAll(excluded.getRecursivePassengers());
-        }
-        return this.firstEntityExcluding(range, direction, world, effect, toExclude);
-    }
-
-    public Entity firstEntityExcluding(final double range, Vector3 direction, final World world, final boolean effect,
-            final List<Entity> excluded)
-    {
-        direction = direction.normalize();
-        double xprev = this.x, yprev = this.y, zprev = this.z;
-        double dx, dy, dz;
-
-        for (double i = 0; i < range; i += 0.0625)
-        {
-            dx = i * direction.x;
-            dy = i * direction.y;
-            dz = i * direction.z;
-
-            final double xtest = this.x + dx, ytest = this.y + dy, ztest = this.z + dz;
-
-            final boolean check = Vector3.isPointClearBlocks(xtest, ytest, ztest, world);
-
-            if (!check) break;
-
-            if (effect && world.isRemote) world.addParticle(ParticleTypes.MYCELIUM, xtest, ytest, ztest, 0, 0, 0);
-
-            if (!((int) xtest == (int) xprev && (int) ytest == (int) yprev && (int) ztest == (int) zprev))
+        Entity pointedEntity = null;
+        if (predicate == null) predicate = EntityPredicates.NOT_SPECTATING;
+        double ds = range;
+        final Vec3d vec3 = this.toVec3d();
+        final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
+        final float f = 0.5F;
+        final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
+        final List<Entity> mobs = world.getEntitiesInAABBexcluding(entity, aabb, predicate);
+        ds *= ds;
+        for (final Entity entity1 : mobs)
+            if (entity1 instanceof ICompoundMob) parts:
+            for (final ICompoundPart part : ((ICompoundMob) entity1).getParts())
             {
-                final int x0 = xtest > 0 ? (int) xtest : (int) xtest - 1,
-                        y0 = ytest > 0 ? (int) ytest : (int) ytest - 1, z0 = ztest > 0 ? (int) ztest : (int) ztest - 1;
-                final List<LivingEntity> targets = world.getEntitiesWithinAABB(LivingEntity.class,
-                        new AxisAlignedBB(x0 - 0.5, y0 - 0.5, z0 - 0.5, x0 + 0.5, y0 + 0.5, z0 + 0.5));
-                if (targets != null && targets.size() > 0)
+                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
+                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                if (optional.isPresent())
                 {
-                    final List<Entity> ret = new ArrayList<>();
-                    for (final Entity e : targets)
-                        if (e instanceof LivingEntity && !excluded.contains(e)) ret.add(e);
-                    if (ret.size() > 0) return ret.get(0);
+                    final double d1 = vec3.squareDistanceTo(optional.get());
+                    if (d1 < ds)
+                    {
+                        pointedEntity = entity1;
+                        ds = d1;
+                        break parts;
+                    }
                 }
             }
-            yprev = ytest;
-            xprev = xtest;
-            zprev = ztest;
-        }
+            else
+            {
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
+                final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
+                if (optional.isPresent())
+                {
+                    final double d1 = vec3.squareDistanceTo(optional.get());
+                    if (d1 < ds)
+                    {
+                        pointedEntity = entity1;
+                        ds = d1;
+                    }
+                }
+            }
+        return pointedEntity;
+    }
 
-        return null;
+    public Vec3d toVec3d()
+    {
+        return new Vec3d(this.x, this.y, this.z);
     }
 
     public List<Entity> firstEntityLocationExcluding(final int range, final double size, Vector3 direction,

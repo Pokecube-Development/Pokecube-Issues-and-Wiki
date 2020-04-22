@@ -147,7 +147,7 @@ public class Health
             if (maxHealth <= 0) break processing;
 
             final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? config.dynamax_scale
-                    : passedEntity.getHeight();
+                    : pokemob.getPokedexEntry().height * pokemob.getSize();
             mat.translate(0, dy + config.heightAbove, 0);
             Quaternion quaternion;
             quaternion = viewer.getRotation();

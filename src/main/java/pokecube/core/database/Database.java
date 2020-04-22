@@ -42,7 +42,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.PokedexEntry.InteractionLogic;
-import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
@@ -203,7 +202,7 @@ public class Database
         Database.missingno.stats[5] = 29;
         Database.missingno.addMoves(Lists.newArrayList(), Maps.newHashMap());
         Database.missingno.addMove("skyattack");
-        Database.missingno.mobType = MovementType.FLYING;
+        Database.missingno.mobType = 15;
         Database.addEntry(Database.missingno);
     }
 
@@ -571,9 +570,9 @@ public class Database
                 if (noAbilities = e.abilities.isEmpty()) e.abilities.addAll(base.abilities);
                 if (noAbilities && e.abilitiesHidden.isEmpty()) e.abilitiesHidden.addAll(base.abilitiesHidden);
             }
-            if (e.mobType == null)
+            if (e.mobType == 0)
             {
-                e.mobType = MovementType.NORMAL;
+                e.mobType = 1;
                 PokecubeCore.LOGGER.debug(e + " Has no Mob Type");
             }
             if (e.type2 == null) e.type2 = PokeType.unknown;

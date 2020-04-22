@@ -33,6 +33,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.event.InputEvent.MouseInputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
@@ -179,6 +180,18 @@ public class EventsHandlerClient
             EventsHandlerClient.renderMobs.put(entry, pokemob);
         }
         return pokemob;
+    }
+
+    @SubscribeEvent
+    public static void mouseInput(final MouseInputEvent evt)
+    {
+        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        // We only handle these ingame anyway.
+        if (player == null) return;
+        //
+        // if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() ==
+        // GLFW.GLFW_MOUSE_BUTTON_RIGHT) System.out.println(
+        // "test");
     }
 
     @SubscribeEvent

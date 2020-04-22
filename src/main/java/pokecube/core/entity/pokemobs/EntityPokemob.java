@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
-import pokecube.core.entity.pokemobs.helper.PokemobCombat;
+import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -48,7 +48,7 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.world.mobs.data.Data;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
-public class EntityPokemob extends PokemobCombat
+public class EntityPokemob extends PokemobHasParts
 {
     public EntityPokemob(final EntityType<? extends ShoulderRidingEntity> type, final World world)
     {

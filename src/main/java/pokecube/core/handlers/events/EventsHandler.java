@@ -272,6 +272,7 @@ public class EventsHandler
     @SubscribeEvent
     public static void capabilityEntities(final AttachCapabilitiesEvent<Entity> event)
     {
+        if (!(event.getObject() instanceof LivingEntity)) return;
         if (event.getObject() instanceof LivingEntity && !event.getCapabilities().containsKey(
                 EventsHandler.AFFECTEDCAP))
         {

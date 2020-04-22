@@ -2,7 +2,6 @@ package pokecube.core.utils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -275,38 +274,15 @@ public class Tools
     public static Entity getPointedEntity(final Entity entity, double distance, final Predicate<Entity> selector)
     {
         final Vec3d vec3 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+        final Vector3 pos = Vector3.getNewVector().set(vec3);
         final Vector3 loc = Tools.getPointedLocation(entity, distance);
-        if (loc != null) distance = loc.distanceTo(Vector3.getNewVector().set(vec3));
-        double d0 = distance;
+        if (loc != null) distance = loc.distanceTo(pos);
         final Vec3d vec31 = entity.getLook(0);
-        final Vec3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        Entity pointedEntity = null;
-
         Predicate<Entity> predicate = EntityPredicates.NOT_SPECTATING.and(c -> entity.canBeCollidedWith());
         if (selector != null) predicate = predicate.and(selector);
         predicate = predicate.and(c -> !c.isSpectator() && c.isAlive() && c.canBeCollidedWith() && !c
                 .isRidingOrBeingRiddenBy(entity));
-        final float f = 0.5F;
-        final World world = entity.getEntityWorld();
-        final AxisAlignedBB aabb = entity.getBoundingBox().expand(vec31.x * d0, vec31.y * d0, vec31.z * d0).grow(f, f,
-                f);
-        final List<Entity> mobs = world.getEntitiesInAABBexcluding(entity, aabb, predicate);
-        d0 *= d0;
-        for (final Entity entity1 : mobs)
-        {
-            final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
-            final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
-            if (optional.isPresent())
-            {
-                final double d1 = vec3.squareDistanceTo(optional.get());
-                if (d1 < d0)
-                {
-                    pointedEntity = entity1;
-                    d0 = d1;
-                }
-            }
-        }
-        return pointedEntity;
+        return pos.firstEntityExcluding(distance, vec31, entity.getEntityWorld(), entity, predicate);
     }
 
     public static Vector3 getPointedLocation(final Entity entity, final double distance)

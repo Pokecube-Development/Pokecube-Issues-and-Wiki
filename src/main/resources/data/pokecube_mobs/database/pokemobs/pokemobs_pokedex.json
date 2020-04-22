@@ -20897,7 +20897,7 @@
             "shoulder": "FALSE"
           }
         },
-        "movementType": "flying"
+        "movementType": "flying,water"
       },
       "moves": {
         "lvlupMoves": {
@@ -64942,8 +64942,8 @@
         },
         "sizes": {
           "values": {
-            "width": "9.2",
-            "length": "9.2",
+            "width": "4",
+            "length": "4",
             "height": "9.2"
           }
         },

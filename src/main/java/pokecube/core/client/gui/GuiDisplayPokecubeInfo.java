@@ -681,10 +681,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         else
         {
             final PlayerEntity player = this.minecraft.player;
-            Entity target = null;
-            final Vector3 look = Vector3.getNewVector().set(player.getLook(1));
-            final Vector3 temp = Vector3.getNewVector().set(player).addTo(0, player.getEyeHeight(), 0);
-            target = temp.firstEntityExcluding(32, look, player.getEntityWorld(), player.isCrouching(), player);
+            final Entity target = Tools.getPointedEntity(player, 32);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
             if (targetMob != null && player.getUniqueID().equals(targetMob.getOwnerId())) targetMob.onRecall();
         }
@@ -707,10 +704,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         else
         {
             final PlayerEntity player = this.minecraft.player;
-            Entity target = null;
-            final Vector3 look = Vector3.getNewVector().set(player.getLook(1));
-            final Vector3 temp = Vector3.getNewVector().set(player).addTo(0, player.getEyeHeight(), 0);
-            target = temp.firstEntityExcluding(32, look, player.getEntityWorld(), player.isCrouching(), player);
+            final Entity target = Tools.getPointedEntity(player, 32);
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
             if (targetMob != null && targetMob.getOwner() == player) PacketCommand.sendCommand(targetMob,
                     Command.STANCE, new StanceHandler(!targetMob.getLogicState(LogicStates.SITTING), StanceHandler.SIT)
