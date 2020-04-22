@@ -603,6 +603,7 @@ public class AnimationGui extends Screen
         {
             AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
+            this.onUpdated();
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20, "BG", b ->
         {
