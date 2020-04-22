@@ -567,9 +567,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             return;
         }
 
-        final PokemobType<?> type = (PokemobType<?>) entity.getType();
-        Holder holder = this.holder;
-        RenderPokemob.holders.put(pokemob.getPokedexEntry(), holder);
+        Holder holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
 
         if (pokemob.getCustomHolder() != null)
         {
@@ -591,7 +589,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         if (holder.wrapper == null)
         {
             holder.init();
-            PokecubeMod.LOGGER.debug("Reloaded model for " + type.getEntry());
+            PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
                 || holder.texture == null) holder = RenderPokemob.getMissingNo();
@@ -615,7 +613,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         catch (final Exception e)
         {
             // holderMap.put(type, this.holder);
-            PokecubeCore.LOGGER.error("Error rendering " + type.getEntry(), e);
+            PokecubeCore.LOGGER.error("Error rendering " + pokemob.getPokedexEntry(), e);
         }
     }
 
@@ -645,7 +643,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         Holder holder = this.holder;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return texture;
-
+        holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
         if (pokemob.getCustomHolder() != null)
         {
             final FormeHolder forme = pokemob.getCustomHolder();
