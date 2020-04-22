@@ -12,6 +12,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -158,12 +159,15 @@ public class TextureableCaps
             return this.pokemob.modifyTexture(in);
         }
 
+        PokedexEntry lastEntry = null;
+
         @Override
         public String getForm()
         {
-            if (this.forme == null)
+            if (this.forme == null || this.pokemob == null || this.pokemob.getPokedexEntry() != this.lastEntry)
             {
                 if (this.pokemob == null) this.pokemob = CapabilityPokemob.getPokemobFor(this.mob);
+                this.lastEntry = this.pokemob.getPokedexEntry();
                 this.forme = this.pokemob.getPokedexEntry().getTrimmedName();
                 if (this.pokemob.getCustomHolder() != null) this.forme = this.pokemob.getCustomHolder().key.getPath();
             }
