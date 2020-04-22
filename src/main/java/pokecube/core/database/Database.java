@@ -41,7 +41,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.PokedexEntry.InteractionLogic;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
@@ -576,12 +575,8 @@ public class Database
                 PokecubeCore.LOGGER.debug(e + " Has no Mob Type");
             }
             if (e.type2 == null) e.type2 = PokeType.unknown;
-            if (e.interactionLogic.actions.isEmpty())
-            {
-                InteractionLogic.initForEntry(e);
-                if (e.interactionLogic.actions.isEmpty() && !base.interactionLogic.actions.isEmpty())
-                    e.interactionLogic.actions = base.interactionLogic.actions;
-            }
+            if (!base._loaded_interactions.isEmpty() && e._loaded_interactions.isEmpty()) e._loaded_interactions.addAll(
+                    base._loaded_interactions);
         }
     }
 
@@ -898,6 +893,12 @@ public class Database
                 - dummies) + " missing Formes");
 
         toRemove.clear();
+    }
+
+    public static void postServerLoaded()
+    {
+        for (final PokedexEntry entry : Database.getSortedFormes())
+            entry.postServerLoad();
     }
 
     /**
