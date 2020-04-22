@@ -569,6 +569,10 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced)
     public boolean       pokemobsAreAllFrozen   = false;
 
+    @Configure(category = Config.advanced)
+    @SyncConfig
+    public double largeMobForSplit = 2;
+
     @Configure(category = Config.genetics)
     public String       epigeneticEVFunction = GeneticsManager.epigeneticFunction;
     @Configure(category = Config.genetics)
