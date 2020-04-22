@@ -555,7 +555,16 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             return;
         }
 
-        final PokemobType<?> type = (PokemobType<?>) entity.getType();
+        PokemobType<?> type = (PokemobType<?>) entity.getType();
+
+        if (type.getEntry() != pokemob.getPokedexEntry())
+        {
+            // Properly find the renderer for if we have changed form without
+            // changing mob.
+            final PokemobType<?> type2 = (PokemobType<?>) PokecubeCore.typeMap.get(pokemob.getPokedexEntry());
+            if (type2 != null) type = type2;
+        }
+
         Holder holder = RenderPokemob.holderMap.getOrDefault(type, this.holder);
 
         if (pokemob.getCustomHolder() != null)

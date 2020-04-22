@@ -1,61 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.8"/>
+  <phase name="global" scale="0.7"/>
   <metadata head="Head" headAxis="2" headAxis2="1" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
-  <phase type="walking">
-   <part name="Cube_001">
-    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+  <customTex default="ledian_skin">
+   <part name="ledian_eyes" tex="ledian_eye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="left_wing">
+    <component name="1" hidden="true" startKey="0"/>
    </part>
-   <part name="Cube_002">
-    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   <part name="right_wing">
+    <component name="1" hidden="true" startKey="0"/>
    </part>
-   <part name="Cube_009">
-    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+   <part name="left_shell">
+    <component name="1" rotOffset="0,25,65" posOffset="-0.5,0,-2" startKey="0"/>
    </part>
-   <part name="Cube_011">
-    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
-   </part>
-   <part name="Cube_012">
-    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
-   </part>
-   <part name="Cube_010">
-    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   <part name="right_shell">
+    <component name="1" rotOffset="-0,-25,65" posOffset="0.5,0,-1" startKey="0"/>
    </part>
   </phase>
   <phase type="flying">
-   <part name="Cube_017">
-    <component length="2" name="1" rotChange="0,-10,0" startKey="0"/>
-    <component length="4" name="2" rotChange="0,20,0" startKey="2"/>
-    <component length="2" name="1" rotChange="0,-10,0" startKey="6"/>
+   <part name="left_wing">
+    <component name="2" rotOffset="0,0,-15" rotChange="0,0,-15" startKey="0" length="2"/>
+    <component name="3" rotChange="0,0,15" startKey="5" length="2"/>
    </part>
-   <part name="Cube_018">
-    <component length="2" name="1" rotChange="0,10,0" startKey="0"/>
-    <component length="4" name="2" rotChange="0,-20,0" startKey="2"/>
-    <component length="2" name="1" rotChange="0,10,0" startKey="6"/>
+   <part name="right_wing">
+    <component name="2" rotOffset="0,0,-15" rotChange="0,0,-15" startKey="0" length="2"/>
+    <component name="3" rotChange="0,0,15" startKey="5" length="2"/>
    </part>
-   <part name="Cube_019">
-    <component length="2" name="1" rotChange="0,-10,0" startKey="0"/>
-    <component length="4" name="2" rotChange="0,20,0" startKey="2"/>
-    <component length="2" name="1" rotChange="0,-10,0" startKey="6"/>
+   <part name="left_shell">
+    <component name="1" rotOffset="0,0,-15" startKey="0"/>
    </part>
-   <part name="Cube_020">
-    <component length="2" name="1" rotChange="0,10,0" startKey="0"/>
-    <component length="4" name="2" rotChange="0,-20,0" startKey="2"/>
-    <component length="2" name="1" rotChange="0,10,0" startKey="6"/>
+   <part name="right_shell">
+    <component name="1" rotOffset="0,0,-15" startKey="0"/>
    </part>
   </phase>
+  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

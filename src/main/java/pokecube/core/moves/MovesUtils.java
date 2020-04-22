@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
@@ -214,7 +214,7 @@ public class MovesUtils implements IMoveConstants
 
         final IPokemob attackedPokemob = CapabilityPokemob.getPokemobFor(attacked);
         final Entity attackerMob = attacker.getEntity();
-        if (attack.equals("pokemob.status.confusion"))
+        if (attack.equals(MoveEntry.CONFUSED.name))
         {
             if (attackedPokemob != null)
             {
@@ -669,16 +669,15 @@ public class MovesUtils implements IMoveConstants
         return applied;
     }
 
-    public static Entity targetHit(final Entity attacker, final Vector3 dest)
+    public static Predicate<Entity> targetMatcher(final Entity attacker)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker, true);
-        source.y += attacker.getHeight() / 4;
-        final boolean ignoreAllies = false;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(attacker);
-        final Predicate<Entity> matcher = e ->
+        return e ->
         {
-            if (attacker == e.getRidingEntity()) return false;
-            if (attacker == e) return false;
+            if (pokemob == null) return false;
+            if (!(e instanceof LivingEntity)) return false;
+            if (attacker.isEntityEqual(e.getRidingEntity())) return false;
+            if (attacker.isEntityEqual(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof PlayerEntity) return false;
             if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUniqueID().equals(pokemob.getOwnerId()))
                 return false;
@@ -686,28 +685,32 @@ public class MovesUtils implements IMoveConstants
                     true) == attacker) return false;
             return true;
         };
+    }
+
+    public static Entity targetHit(final Entity attacker, final Vector3 dest)
+    {
+        final Vector3 source = Vector3.getNewVector().set(attacker, true);
+        source.y += attacker.getHeight() / 4;
+        final boolean ignoreAllies = false;
         return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getEntityWorld(), attacker,
-                ignoreAllies, matcher);
+                ignoreAllies, MovesUtils.targetMatcher(attacker));
     }
 
     public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final World world,
-            final Entity attacker, final boolean ignoreAllies, final Predicate<? super Entity> matcher)
+            final Entity attacker, final boolean ignoreAllies, final Predicate<Entity> matcher)
     {
-        // Vector3 dest = Vector3.getVector().set(target, true);
         Entity target = null;
 
-        final List<Entity> targets = source.allEntityLocationExcluding(distance, 0.5, dir, source, world, attacker);
+        final List<Entity> targets = source.allEntityLocationExcluding(distance, 0.5, dir, source, world, attacker,
+                matcher);
         double closest = 16;
 
         if (targets != null) for (final Entity e : targets)
-        {
-            if (!matcher.apply(e)) continue;
             if (attacker.getDistance(e) < closest)
             {
                 closest = attacker.getDistance(e);
                 target = e;
             }
-        }
         return target;
     }
 
@@ -716,29 +719,12 @@ public class MovesUtils implements IMoveConstants
         final Vector3 source = Vector3.getNewVector().set(attacker, true);
 
         source.y += attacker.getHeight() / 4;
+        final Predicate<Entity> matcher = MovesUtils.targetMatcher(attacker);
         final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source, attacker
-                .getEntityWorld(), attacker);
+                .getEntityWorld(), attacker, matcher);
         final List<LivingEntity> ret = new ArrayList<>();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(attacker);
-
-        final Predicate<Entity> matcher = e ->
-        {
-            if (attacker == e.getRidingEntity()) return false;
-            if (attacker == e) return false;
-            if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof PlayerEntity) return false;
-            if (pokemob != null && !PokecubeCore.getConfig().pokemobsDamageOwner && e.getUniqueID().equals(pokemob
-                    .getOwnerId())) return false;
-            if (PokecubeCore.getEntityProvider().getEntity(attacker.getEntityWorld(), e.getEntityId(),
-                    true) == attacker) return false;
-            return true;
-        };
-
         if (targets != null) for (final Entity e : targets)
-            if (e instanceof LivingEntity)
-            {
-                if (!matcher.apply(e)) continue;
-                ret.add((LivingEntity) e);
-            }
+            if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;
     }
 

@@ -20,7 +20,8 @@ public class DBLoader
     public static List<ResourceLocation> trainerDatabases = Lists.newArrayList(new ResourceLocation(PokecubeAdv.MODID,
             "database/types.json"));
     public static List<ResourceLocation> tradeDatabases   = Lists.newArrayList();
-    public static ResourceLocation       NAMESLOC         = new ResourceLocation(PokecubeAdv.MODID, "database/names.csv");
+    public static ResourceLocation       NAMESLOC         = new ResourceLocation(PokecubeAdv.MODID,
+            "database/names.csv");
 
     public static boolean loaded = false;
 
@@ -83,15 +84,6 @@ public class DBLoader
                 catch (final Exception e)
                 {
                     PokecubeCore.LOGGER.error("Error loading trainers from " + s, e);
-                }
-            for (final ResourceLocation s : DBLoader.tradeDatabases)
-                try
-                {
-                    TradeEntryLoader.makeEntries(s);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeCore.LOGGER.error("Error loading trades from " + s, e);
                 }
         }
         catch (final Exception e)

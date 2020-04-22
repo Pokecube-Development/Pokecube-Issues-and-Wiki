@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -15,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,6 +40,8 @@ import pokecube.adventures.ai.tasks.AIRetaliate;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.entity.trainer.TrainerBase;
+import pokecube.adventures.utils.DBLoader;
+import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -148,23 +152,45 @@ public class TypeTrainer extends NpcType
             // All retaliate
             ais.add(new AIRetaliate(npc));
 
+            final Predicate<LivingEntity> noRunWhileRest = e ->
+            {
+                if (e instanceof VillagerEntity)
+                {
+                    final VillagerEntity villager = (VillagerEntity) e;
+                    if (villager.getBrain().hasActivity(Activity.REST)) return false;
+                }
+                return true;
+            };
+            final Predicate<LivingEntity> noRunWhileMeet = e ->
+            {
+                if (e instanceof VillagerEntity)
+                {
+                    final VillagerEntity villager = (VillagerEntity) e;
+                    if (villager.getBrain().hasActivity(Activity.MEET)) return false;
+                }
+                return true;
+            };
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
-                ais.add(new AIFindTarget(npc, PlayerEntity.class).setPriority(10));
+                ais.add(new AIFindTarget(npc, PlayerEntity.class).setRunCondition(noRunWhileRest).setPriority(10));
                 ais.add(new AIMate(npc, ((TrainerBase) npc).getClass()));
             }
 
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                ais.add(new AIFindTarget(npc, 0.05f, EntityPokemob.class).setPriority(20));
+                ais.add(new AIFindTarget(npc, 0.05f, EntityPokemob.class).setRunCondition(noRunWhileRest).setPriority(
+                        20));
                 ais.add(new AICapture(npc).setPriority(10));
             }
             // 1% chance of battling another of same class if seen
             // Also this will stop the battle after 1200 ticks.
-            if (Config.instance.trainersBattleEachOther) ais.add(new AIFindTarget(npc, 0.001f, 1200, npc.getClass())
-                    .setPriority(20));
+            if (Config.instance.trainersBattleEachOther)
+            {
+                final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
+                ais.add(new AIFindTarget(npc, 0.001f, 1200, npc.getClass()).setRunCondition(shouldRun).setPriority(20));
+            }
 
             npc.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));
         });
@@ -332,6 +358,17 @@ public class TypeTrainer extends NpcType
 
     public static void postInitTrainers()
     {
+
+        for (final ResourceLocation s : DBLoader.tradeDatabases)
+            try
+            {
+                TradeEntryLoader.makeEntries(s);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error loading trades from " + s, e);
+            }
+
         final List<TypeTrainer> toRemove = new ArrayList<>();
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
         {

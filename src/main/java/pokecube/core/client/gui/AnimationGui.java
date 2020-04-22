@@ -578,7 +578,6 @@ public class AnimationGui extends Screen
             this.forme.setText(AnimationGui.mob);
             this.holder = AnimationGui.entry.getModel(this.sexe);
             this.forme_alt.setText(this.holder == null ? "" : this.holder.key.toString());
-            System.out.println(AnimationGui.entry + " " + this.holder + " " + this.sexe);
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
@@ -603,6 +602,7 @@ public class AnimationGui extends Screen
         {
             AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
+            this.onUpdated();
         }));
         this.addButton(new Button(this.width / 2 - xOffset, yOffset + 100, 40, 20, "BG", b ->
         {

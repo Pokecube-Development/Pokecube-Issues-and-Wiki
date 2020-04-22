@@ -81,9 +81,9 @@ public class CommandGenStuff
             json.add("criteria", AdvancementGenerator.fromCriteria(entry, id));
             if (parent != null)
             {
-                if (entry.evolvesFrom != null)
+                if (entry._evolvesFrom != null)
                 {
-                    final String newParent = id + "_" + entry.evolvesFrom.getTrimmedName();
+                    final String newParent = id + "_" + entry._evolvesFrom.getTrimmedName();
                     parent = parent.replace("root", newParent);
                     parent = parent.replace("get_first_pokemob", newParent);
 

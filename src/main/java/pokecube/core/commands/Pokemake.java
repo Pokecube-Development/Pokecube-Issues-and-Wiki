@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
@@ -16,6 +17,8 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
+import net.minecraft.command.arguments.ItemArgument;
+import net.minecraft.command.arguments.ItemInput;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -87,6 +90,7 @@ public class Pokemake
         int mindex = 0;
         boolean asWild = false;
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Making by Arguments: " + index + " " + Arrays.toString(args));
+        ItemStack itemstack = ItemStack.EMPTY;
 
         if (index < args.length) for (int j = index; j < args.length; j++)
         {
@@ -104,13 +108,12 @@ public class Pokemake
             if (arg.equalsIgnoreCase("s")) mob.setShiny(true);
             else if (arg.equalsIgnoreCase("item"))
             {
-                // String[] args1 = val.split(" ");
-                final ItemStack itemstack = ItemStack.EMPTY;
                 try
                 {
-                    // TODO make item from name.
+                    final ItemInput item = ItemArgument.item().parse(new StringReader(val));
+                    itemstack = item.createStack(1, false);
                 }
-                catch (final Exception e)
+                catch (final Throwable e)
                 {
                     PokecubeCore.LOGGER.error("Error with item for " + val, e);
                 }
@@ -118,7 +121,7 @@ public class Pokemake
                  * Use this instead of isEmpty() to allow specifically setting
                  * an air itemstack for clearing held items.
                  */
-                if (itemstack == ItemStack.EMPTY) PokecubeCore.LOGGER.error("No Item found for " + val);
+                if (itemstack.isEmpty()) PokecubeCore.LOGGER.error("No Item found for " + val);
                 else mob.setHeldItem(itemstack);
             }
             else if (arg.equalsIgnoreCase("l"))
@@ -291,69 +294,78 @@ public class Pokemake
         // Normal pokemake
         PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokemake");
 
-        final SuggestionProvider<CommandSource> TEMP = (ctx, sb) -> net.minecraft.command.ISuggestionProvider.suggest(
-                Lists.newArrayList("args"), sb);
-
-        LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokemake");
+        LiteralArgumentBuilder<CommandSource> command;
         // Set a permission
-        command = command.requires(cs -> CommandTools.hasPerm(cs, perm));
+        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
                 .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
                         .newArrayList())));
+        commandDispatcher.register(command);
 
+        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // command with player and no arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
                 .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokemake.execute(ctx
                         .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument
                                 .getPlayer(ctx, "player"))))));
+        commandDispatcher.register(command);
 
+        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Command with player then string arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
-                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args:",
-                        StringArgumentType.string()).suggests(TEMP).then(Commands.argument("arg1", StringArgumentType
-                                .greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType
-                                        .getString(ctx, "mob"), Lists.newArrayList(EntityArgument.getPlayer(ctx,
-                                                "player"), StringArgumentType.getString(ctx, "arg1"))))))));
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args",
+                        StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(),
+                                StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument.getPlayer(
+                                        ctx, "player"), StringArgumentType.getString(ctx, "args")))))));
+        commandDispatcher.register(command);
+
+        command = Commands.literal("pokemake").requires(cs -> CommandTools.hasPerm(cs, perm));
         // Command string arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokemake.SUGGEST_POKEMOB)
-                .then(Commands.argument("args:", StringArgumentType.string()).suggests(TEMP).then(Commands.argument(
-                        "arg1", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(),
-                                StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(StringArgumentType
-                                        .getString(ctx, "arg1")))))));
-
+                .then(Commands.argument("args", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx
+                        .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(StringArgumentType
+                                .getString(ctx, "args"))))));
         commandDispatcher.register(command);
 
         // Random pokemake
         PermissionAPI.registerNode("command.pokemakerand", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokemakerand");
 
-        command = Commands.literal("pokemakerand");
         // Set a permission
-        command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
+        command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
                 .executes(ctx -> Pokemake.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"), Lists
                         .newArrayList())));
+        commandDispatcher.register(command);
 
+        // Set a permission
+        command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // command with player an no arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
                 .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokemake.execute(ctx
                         .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument
                                 .getPlayer(ctx, "player"))))));
+        commandDispatcher.register(command);
 
+        // Set a permission
+        command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // Command with player then string arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
-                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("arg1",
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args",
                         StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx.getSource(),
                                 StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument.getPlayer(
-                                        ctx, "player"), StringArgumentType.getString(ctx, "arg1")))))));
+                                        ctx, "player"), StringArgumentType.getString(ctx, "args")))))));
+        commandDispatcher.register(command);
+
+        // Set a permission
+        command = Commands.literal("pokemakerand").requires(cs -> CommandTools.hasPerm(cs, "command.pokemakerand"));
         // Command string arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokemake.SUGGEST_OTHERS)
-                .then(Commands.argument("arg1", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx
+                .then(Commands.argument("args", StringArgumentType.greedyString()).executes(ctx -> Pokemake.execute(ctx
                         .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(StringArgumentType
-                                .getString(ctx, "arg1"))))));
-
+                                .getString(ctx, "args"))))));
         commandDispatcher.register(command);
 
     }

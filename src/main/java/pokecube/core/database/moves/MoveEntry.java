@@ -32,22 +32,24 @@ public class MoveEntry implements IMoveConstants
     public static int SPECIAL  = -4;
     public static int FLEE     = -3;
 
+    public static final MoveEntry CONFUSED;
+
     static
     {
-        final MoveEntry confusion = new MoveEntry("pokemob.status.confusion", -1);
-        confusion.type = PokeType.unknown;
-        confusion.category = IMoveConstants.PHYSICAL;
-        confusion.attackCategory = IMoveConstants.CATEGORY_CONTACT + IMoveConstants.CATEGORY_SELF;
-        confusion.power = 40;
-        confusion.protect = false;
-        confusion.magiccoat = false;
-        confusion.snatch = false;
-        confusion.kingsrock = false;
-        confusion.notIntercepable = true;
-        confusion.baseEntry = new MoveJsonEntry();
+        CONFUSED = new MoveEntry("pokemob.status.confusion", -1);
+        MoveEntry.CONFUSED.type = PokeType.unknown;
+        MoveEntry.CONFUSED.category = IMoveConstants.PHYSICAL;
+        MoveEntry.CONFUSED.attackCategory = IMoveConstants.CATEGORY_CONTACT + IMoveConstants.CATEGORY_SELF;
+        MoveEntry.CONFUSED.power = 40;
+        MoveEntry.CONFUSED.protect = false;
+        MoveEntry.CONFUSED.magiccoat = false;
+        MoveEntry.CONFUSED.snatch = false;
+        MoveEntry.CONFUSED.kingsrock = false;
+        MoveEntry.CONFUSED.notIntercepable = true;
+        MoveEntry.CONFUSED.baseEntry = new MoveJsonEntry();
     }
 
-    public static MoveEntry get(String name)
+    public static MoveEntry get(final String name)
     {
         return MoveEntry.movesNames.get(name);
     }
@@ -102,7 +104,7 @@ public class MoveEntry implements IMoveConstants
     public String                  animDefault = "none";
     public JsonMoves.MoveJsonEntry baseEntry;
 
-    public MoveEntry(String name, int index)
+    public MoveEntry(final String name, final int index)
     {
         this.name = name;
         this.index = index;
@@ -121,7 +123,7 @@ public class MoveEntry implements IMoveConstants
         return this.notIntercepable;
     }
 
-    public void setNotIntercepable(boolean b)
+    public void setNotIntercepable(final boolean b)
     {
         if (this.baseEntry != null) this.baseEntry.interceptable = !b;
         else this.notIntercepable = b;

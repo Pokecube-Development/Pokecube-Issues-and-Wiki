@@ -2,10 +2,12 @@ package pokecube.core.blocks.bases;
 
 import java.util.UUID;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -23,7 +25,10 @@ import thut.api.block.IOwnableTE;
 public class BaseTile extends InteractableTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
-    boolean                                            any = false;
+
+    boolean           any       = false;
+    public BlockPos   last_base = null;
+    public BlockState original  = Blocks.STONE.getDefaultState();
 
     public BaseTile()
     {
@@ -52,11 +57,13 @@ public class BaseTile extends InteractableTile
                 PokecubeCore.LOGGER.error(e);
                 return false;
             }
-            if (exit_here.distanceSq(pos) > 15)
+            if (this.last_base == null) this.last_base = exit_here;
+            if (exit_here.distanceSq(this.last_base.getX(), this.last_base.getY(), this.last_base.getZ(), false) > 0.0)
             {
                 // We need to remove the location.
-                this.world.setBlockState(pos, Blocks.STONE.getDefaultState());
+                this.world.setBlockState(pos, this.original);
                 player.sendMessage(new TranslationTextComponent("pokemob.removebase.stale"));
+                return false;
             }
         }
         final DimensionType dim = player.dimension;
@@ -70,12 +77,32 @@ public class BaseTile extends InteractableTile
     {
         super.read(compound);
         this.any = compound.getBoolean("any_use");
+        if (compound.contains("base_pos"))
+        {
+            final CompoundNBT tag = compound.getCompound("base_pos");
+            this.last_base = NBTUtil.readBlockPos(tag);
+        }
+        if (compound.contains("revert_to"))
+        {
+            final CompoundNBT tag = compound.getCompound("revert_to");
+            this.original = NBTUtil.readBlockState(tag);
+        }
     }
 
     @Override
     public CompoundNBT write(final CompoundNBT compound)
     {
         compound.putBoolean("any_use", this.any);
+        if (this.last_base != null)
+        {
+            final CompoundNBT tag = NBTUtil.writeBlockPos(this.last_base);
+            compound.put("base_pos", tag);
+        }
+        if (this.original != null)
+        {
+            final CompoundNBT tag = NBTUtil.writeBlockState(this.original);
+            compound.put("revert_to", tag);
+        }
         return super.write(compound);
     }
 }

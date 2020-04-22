@@ -9,7 +9,12 @@ import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import pokecube.core.ai.pathing.ClimbPathNavi;
+import pokecube.core.ai.pathing.FlyPathNavi;
+import pokecube.core.ai.pathing.SwimPathNavi;
+import pokecube.core.ai.pathing.WalkPathNavi;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.maths.Vector3;
@@ -74,30 +79,48 @@ public class LogicFloatFlySwim extends LogicBase
             {
                 this.action = MovementController.Action.WAIT;
                 this.mob.setNoGravity(true);
-                final double d0 = this.posX - this.mob.posX;
-                final double d1 = this.posY - this.mob.posY;
-                final double d2 = this.posZ - this.mob.posZ;
-                final double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                if (d3 < 2.5000003E-7F)
+                final double dx = this.posX - this.mob.posX;
+                final double dy = this.posY - this.mob.posY;
+                final double dz = this.posZ - this.mob.posZ;
+                // Total distance squared
+                final double ds2 = dx * dx + dy * dy + dz * dz;
+                if (ds2 < 0.01F)
                 {
                     this.mob.setMoveVertical(0.0F);
                     this.mob.setMoveForward(0.0F);
                     return;
                 }
+                // Horizontal distance
+                final float dh = MathHelper.sqrt(dx * dx + dz * dz);
+                final float ds = MathHelper.sqrt(ds2);
 
-                final float f = (float) (MathHelper.atan2(d2, d0) * (180F / (float) Math.PI)) - 90.0F;
+                final float f = (float) (MathHelper.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
                 this.mob.rotationYaw = this.limitAngle(this.mob.rotationYaw, f, 10.0F);
+
+                float angleDiff = this.mob.rotationYaw - f;
+                angleDiff /= 180F / (float) Math.PI;
+
+                final float dot = MathHelper.cos(angleDiff);
+
                 float f1;
                 if (this.mob.onGround) f1 = (float) (this.getSpeed() * this.mob.getAttribute(
                         SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
                 else f1 = (float) (this.getSpeed() * this.mob.getAttribute(SharedMonsterAttributes.FLYING_SPEED)
                         .getValue());
-                this.mob.setAIMoveSpeed(f1);
-                this.mob.jumpMovementFactor = f1 * 0.05f;
-                final double d4 = MathHelper.sqrt(d0 * d0 + d2 * d2);
-                final float f2 = (float) -(MathHelper.atan2(d1, d4) * (180F / (float) Math.PI));
+
+                this.mob.setAIMoveSpeed(f1 * dot);
+                this.mob.jumpMovementFactor = (float) (f1 * 0.05);
+                final float f2 = (float) -(MathHelper.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.rotationPitch = this.limitAngle(this.mob.rotationPitch, f2, 10.0F);
-                this.mob.setMoveVertical(d1 > 0.0D ? f1 : -f1);
+                f1 *= Math.abs(dy / ds);
+                this.mob.setMoveVertical(dy > 0.0D ? f1 : -f1);
+
+                // dampen the velocity so they don't orbit their destination
+                // points.
+                final float dh_hat = MathHelper.abs(dh / ds);
+                final float dy_hat = (float) Math.abs(dy / ds);
+                final Vec3d v = this.mob.getMotion();
+                this.mob.setMotion(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
             }
             else
             {
@@ -126,10 +149,10 @@ public class LogicFloatFlySwim extends LogicBase
     public LogicFloatFlySwim(final IPokemob entity)
     {
         super(entity);
-        this.flyPather = new FlyingPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
-        this.walkPather = new GroundPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
-        this.climbPather = new ClimberPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
-        this.swimPather = new SwimmerPathNavigator(entity.getEntity(), entity.getEntity().getEntityWorld());
+        this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().getEntityWorld());
+        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().getEntityWorld());
+        this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().getEntityWorld());
+        this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().getEntityWorld());
 
         this.flyPather.setCanOpenDoors(false);
         this.flyPather.setCanSwim(true);

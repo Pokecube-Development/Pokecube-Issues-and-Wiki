@@ -19,6 +19,11 @@ public abstract class PokemobCombat extends PokemobRidable
         super(type, worldIn);
     }
 
+    public boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount)
+    {
+        return this.attackEntityFrom(source, amount);
+    }
+
     @Override
     public boolean isInvulnerableTo(final DamageSource source)
     {

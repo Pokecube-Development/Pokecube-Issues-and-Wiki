@@ -18,8 +18,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -40,7 +38,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.PokedexEntry.InteractionLogic;
 import pokecube.core.database.PokedexEntry.MegaRule;
 import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
@@ -93,16 +90,10 @@ public class PokedexEntryLoader
         public Map<QName, String> getValues()
         {
             if (this.values == null) this.values = Maps.newHashMap();
-            if (this.tag != null)
-            {
-                final QName name = new QName("tag");
-                this.values.put(name, this.tag);
-            }
-            if (this.id != null)
-            {
-                final QName name = new QName("id");
-                this.values.put(name, this.id);
-            }
+            final QName tagName = new QName("tag");
+            final QName idName = new QName("id");
+            if (this.tag != null && !this.values.containsKey(tagName)) this.values.put(tagName, this.tag);
+            if (this.id != null && !this.values.containsKey(idName)) this.values.put(idName, this.id);
             return this.values;
         }
     }
@@ -907,7 +898,14 @@ public class PokedexEntryLoader
         if (xmlStats.movementType != null)
         {
             final String[] strings = xmlStats.movementType.trim().split(":");
-            entry.mobType = MovementType.getType(strings[0]);
+
+            final String typeArg = strings[0];
+            final String[] types = typeArg.split(",");
+            for (final String type : types)
+            {
+                final MovementType t = MovementType.getType(type);
+                if (t != null) entry.mobType |= t.mask;
+            }
             if (strings.length > 1) entry.preferedHeight = Double.parseDouble(strings[1]);
         }
         if (xmlStats.species != null) entry.species = xmlStats.species.trim().split(" ");
@@ -919,12 +917,7 @@ public class PokedexEntryLoader
         XMLDatabase database = null;
         final InputStreamReader reader = new InputStreamReader(stream);
         if (json) database = PokedexEntryLoader.gson.fromJson(reader, XMLDatabase.class);
-        else
-        {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLDatabase.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            database = (XMLDatabase) unmarshaller.unmarshal(reader);
-        }
+        else throw new IllegalArgumentException("This only takes json files now!");
         reader.close();
         return database;
     }
@@ -1319,102 +1312,13 @@ public class PokedexEntryLoader
                 else if (s1.equalsIgnoreCase("dusk")) entry.activeTimes.add(PokedexEntry.dusk);
                 else if (s1.equalsIgnoreCase("dawn")) entry.activeTimes.add(PokedexEntry.dawn);
         }
-        if (!xmlStats.interactions.isEmpty()) InteractionLogic.initForEntry(entry, xmlStats.interactions);
+        if (!xmlStats.interactions.isEmpty()) entry._loaded_interactions.addAll(xmlStats.interactions);
 
         if (xmlStats.hatedMaterials != null) entry.hatedMaterial = xmlStats.hatedMaterials.split(":");
 
-        if (xmlStats.formeItems != null)
-        {
-            final Map<QName, String> values = xmlStats.formeItems.values;
-            entry.formeItems.clear();
-            for (final QName key : values.keySet())
-            {
-                final String keyString = key.toString();
-                final String value = values.get(key);
-                if (keyString.equals("forme"))
-                {
-                    final String[] args = value.split(",");
-                    for (final String s : args)
-                    {
-                        String forme = "";
-                        String item = "";
-                        final String[] args2 = s.split(":");
-                        for (final String s1 : args2)
-                        {
-                            final String arg1 = s1.trim().substring(0, 1);
-                            final String arg2 = s1.trim().substring(1);
-                            if (arg1.equals("N")) forme = arg2;
-                            else if (arg1.equals("I")) item = arg2.replace("`", ":");
-                        }
+        if (xmlStats.formeItems != null) entry._forme_items = xmlStats.formeItems;
 
-                        final PokedexEntry formeEntry = Database.getEntry(forme);
-                        if (!forme.isEmpty() && formeEntry != null)
-                        {
-                            final ItemStack stack = PokecubeItems.getStack(item, false);
-                            // TODO see if needs to add to holdables
-                            entry.formeItems.put(stack, formeEntry);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (xmlStats.megaRules != null) for (final XMLMegaRule rule : xmlStats.megaRules)
-        {
-
-            String forme = rule.name != null ? rule.name : null;
-            if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
-            {
-                forme = entry.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
-                if (rule.item_preset == null) rule.item_preset = entry.getTrimmedName() + "" + ThutCore.trim(
-                        rule.preset);
-            }
-            final String move = rule.move;
-            final String ability = rule.ability;
-            final String item_preset = rule.item_preset;
-
-            if (forme == null)
-            {
-                PokecubeCore.LOGGER.info("Error with mega evolution for " + entry + " rule: preset=" + rule.preset
-                        + " name=" + rule.name);
-                continue;
-            }
-
-            final PokedexEntry formeEntry = Database.getEntry(forme);
-            if (!forme.isEmpty() && formeEntry != null)
-            {
-                ItemStack stack = ItemStack.EMPTY;
-                if (item_preset != null && !item_preset.isEmpty())
-                {
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(forme + " " + item_preset);
-                    stack = PokecubeItems.getStack(item_preset, false);
-                    if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
-                }
-                else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
-                if (rule.item != null) if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item
-                        .getValues());
-                if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
-                {
-                    PokecubeCore.LOGGER.info("Skipping Mega: " + entry + " -> " + formeEntry
-                            + " as it has no conditions, or conditions cannot be met.");
-                    PokecubeCore.LOGGER.info(" rule: preset=" + rule.preset + " name=" + rule.name + " item="
-                            + rule.item_preset);
-                    continue;
-                }
-                final MegaEvoRule mrule = new MegaEvoRule(entry);
-                if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
-                if (ability != null) mrule.ability = ability;
-                if (move != null) mrule.moveName = move;
-                if (!stack.isEmpty())
-                {
-                    mrule.stack = stack;
-                    if (!PokecubeItems.isValidHeldItem(stack)) PokecubeItems.addToHoldables(stack);
-                }
-                formeEntry.isMega = true;
-                entry.megaRules.put(formeEntry, mrule);
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + entry + " -> " + formeEntry);
-            }
-        }
+        if (xmlStats.megaRules != null) entry._loaded_megarules.addAll(xmlStats.megaRules);
 
         // Add gigantamax things as "megas"
         if (entry.getName().contains("Gigantamax")) entry.isMega = true;

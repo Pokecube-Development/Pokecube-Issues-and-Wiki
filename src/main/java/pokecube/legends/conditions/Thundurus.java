@@ -9,19 +9,19 @@ import pokecube.core.interfaces.IPokemob;
 public class Thundurus extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean volcanion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("meloetta")) > 0;
-                
-        String name = "Meloetta";
-                
-        if ((volcanion)) return true;
+        if (!this.canCapture(trainer)) return false;
+        final boolean meloetta = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "meloetta_aria")) > 0;
+
+        final String name = "meloetta_aria";
+
+        if (meloetta) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }

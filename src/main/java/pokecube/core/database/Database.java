@@ -16,8 +16,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -43,8 +41,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry.EvolutionData;
-import pokecube.core.database.PokedexEntry.InteractionLogic;
-import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
@@ -205,7 +201,7 @@ public class Database
         Database.missingno.stats[5] = 29;
         Database.missingno.addMoves(Lists.newArrayList(), Maps.newHashMap());
         Database.missingno.addMove("skyattack");
-        Database.missingno.mobType = MovementType.FLYING;
+        Database.missingno.mobType = 15;
         Database.addEntry(Database.missingno);
     }
 
@@ -573,18 +569,14 @@ public class Database
                 if (noAbilities = e.abilities.isEmpty()) e.abilities.addAll(base.abilities);
                 if (noAbilities && e.abilitiesHidden.isEmpty()) e.abilitiesHidden.addAll(base.abilitiesHidden);
             }
-            if (e.mobType == null)
+            if (e.mobType == 0)
             {
-                e.mobType = MovementType.NORMAL;
+                e.mobType = 1;
                 PokecubeCore.LOGGER.debug(e + " Has no Mob Type");
             }
             if (e.type2 == null) e.type2 = PokeType.unknown;
-            if (e.interactionLogic.actions.isEmpty())
-            {
-                InteractionLogic.initForEntry(e);
-                if (e.interactionLogic.actions.isEmpty() && !base.interactionLogic.actions.isEmpty())
-                    e.interactionLogic.actions = base.interactionLogic.actions;
-            }
+            if (!base._loaded_interactions.isEmpty() && e._loaded_interactions.isEmpty()) e._loaded_interactions.addAll(
+                    base._loaded_interactions);
         }
     }
 
@@ -787,10 +779,8 @@ public class Database
     {
         try
         {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLSpawns.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             final Reader reader = new InputStreamReader(Database.resourceManager.getResource(file).getInputStream());
-            final XMLSpawns database = (XMLSpawns) unmarshaller.unmarshal(reader);
+            final XMLSpawns database = PokedexEntryLoader.gson.fromJson(reader, XMLSpawns.class);
             reader.close();
             for (final XMLSpawnEntry xmlEntry : database.pokemon)
             {
@@ -826,11 +816,9 @@ public class Database
         Database.starterPack.clear();
         try
         {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLStarterItems.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             final Reader reader = new InputStreamReader(Database.resourceManager.getResource(Database.STARTERPACK)
                     .getInputStream());
-            final XMLStarterItems database = (XMLStarterItems) unmarshaller.unmarshal(reader);
+            final XMLStarterItems database = PokedexEntryLoader.gson.fromJson(reader, XMLStarterItems.class);
             reader.close();
             for (final Drop drop : database.drops)
             {
@@ -905,6 +893,12 @@ public class Database
                 - dummies) + " missing Formes");
 
         toRemove.clear();
+    }
+
+    public static void postServerLoaded()
+    {
+        for (final PokedexEntry entry : Database.getSortedFormes())
+            entry.postServerLoad();
     }
 
     /**

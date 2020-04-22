@@ -59,6 +59,7 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
@@ -272,6 +273,7 @@ public class EventsHandler
     @SubscribeEvent
     public static void capabilityEntities(final AttachCapabilitiesEvent<Entity> event)
     {
+        if (!(event.getObject() instanceof LivingEntity)) return;
         if (event.getObject() instanceof LivingEntity && !event.getCapabilities().containsKey(
                 EventsHandler.AFFECTEDCAP))
         {
@@ -327,25 +329,32 @@ public class EventsHandler
     public static void EntityJoinWorld(final EntityJoinWorldEvent evt)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (PokecubeCore.getConfig().disableVanillaMonsters && pokemob == null && evt.getEntity() instanceof IMob
-                && !(evt.getEntity() instanceof EnderDragonEntity || evt.getEntity() instanceof EnderDragonPartEntity)
-                && evt.getEntity().getClass().getName().contains("net.minecraft"))
+
+        boolean canSpawn = evt.getEntity() instanceof PlayerEntity || !(evt.getEntity() instanceof LivingEntity);
+
+        if (!canSpawn) canSpawn = !(PokecubeCore.getConfig().disableVanillaMonsters && pokemob == null && evt
+                .getEntity() instanceof IMob && !(evt.getEntity() instanceof EnderDragonEntity || evt
+                        .getEntity() instanceof EnderDragonPartEntity) && evt.getEntity().getType().getRegistryName()
+                                .getNamespace().equals("minecraft"));
+        if (!canSpawn)
         {
             evt.getEntity().remove();
             // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
-        // TODO had an IAnimals check here, is that gone now?
-        if (PokecubeCore.getConfig().disableVanillaAnimals && pokemob == null && !(evt.getEntity() instanceof IMob)
-                && !(evt.getEntity() instanceof INPC) && !(evt.getEntity() instanceof IMerchant) && evt.getEntity()
-                        .getClass().getName().contains("net.minecraft"))
+        if (!canSpawn) canSpawn = !(PokecubeCore.getConfig().disableVanillaAnimals && pokemob == null && !(evt
+                .getEntity() instanceof IMob) && !(evt.getEntity() instanceof INPC) && !(evt
+                        .getEntity() instanceof IMerchant) && evt.getEntity().getType().getRegistryName().getNamespace()
+                                .equals("minecraft"));
+        if (!canSpawn)
         {
             evt.getEntity().remove();
             // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
+
         if (evt.getEntity() instanceof IPokemob && evt.getEntity().getPersistentData().getBoolean("onShoulder"))
         {
             ((IPokemob) evt.getEntity()).setLogicState(LogicStates.SITTING, false);
@@ -528,6 +537,12 @@ public class EventsHandler
         // Reset this.
         PokecubeSerializer.clearInstance();
         JigsawPieces.sent_events.clear();
+    }
+
+    @SubscribeEvent
+    public static void serverStarted(final FMLServerStartedEvent event)
+    {
+        Database.postServerLoaded();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

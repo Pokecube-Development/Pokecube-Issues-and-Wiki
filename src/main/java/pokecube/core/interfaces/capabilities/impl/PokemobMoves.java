@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -109,7 +110,7 @@ public abstract class PokemobMoves extends PokemobSexed
         }
         else if (Math.random() > 0.5)
         {
-            MovesUtils.doAttack("pokemob.status.confusion", this, this.getEntity());
+            MovesUtils.doAttack(MoveEntry.CONFUSED.name, this, this.getEntity());
             ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red", this
                     .getDisplayName());
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(this.getEntity().getAttackTarget());

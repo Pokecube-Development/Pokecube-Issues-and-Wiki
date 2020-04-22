@@ -1,10 +1,17 @@
 package thut.core.client;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
+import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -18,10 +25,66 @@ import thut.api.terrain.TerrainSegment;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.client.render.particle.ThutParticles;
 import thut.core.common.CommonProxy;
+import thut.core.common.ThutCore;
 
 public class ClientProxy extends CommonProxy
 {
     private boolean initParticles = false;
+
+    private long lastMouseRightClickDown = 0;
+    private long lastRightClickBlockMain = 0;
+    private long lastRightClickBlockOff  = 0;
+    private long lastRightClickItemMain  = 0;
+    private long lastRightClickItemOff   = 0;
+
+    @SubscribeEvent
+    public void mouseFloodCtrl(final RawMouseEvent evt)
+    {
+        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        // We only handle these ingame anyway.
+        if (player == null || evt.getAction() == GLFW.GLFW_RELEASE || ThutCore.conf.mouseFloodCtrl <= 0) return;
+        final long time = System.currentTimeMillis();
+        if (time - this.lastMouseRightClickDown < ThutCore.conf.mouseFloodCtrl)
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        this.lastMouseRightClickDown = time;
+    }
+
+    @SubscribeEvent
+    public void mouseFloodCtrl(final RightClickBlock evt)
+    {
+        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        // We only handle these ingame anyway.
+        if (player == null || ThutCore.conf.mouseFloodCtrl <= 0 || evt.getPlayer() != player) return;
+        final long time = System.currentTimeMillis();
+        final long ref = evt.getHand() == Hand.MAIN_HAND ? this.lastRightClickBlockMain : this.lastRightClickBlockOff;
+        if (time - ref < ThutCore.conf.mouseFloodCtrl)
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        if (evt.getHand() == Hand.MAIN_HAND) this.lastRightClickBlockMain = time;
+        else this.lastRightClickBlockOff = time;
+    }
+
+    @SubscribeEvent
+    public void mouseFloodCtrl(final RightClickItem evt)
+    {
+        final ClientPlayerEntity player = Minecraft.getInstance().player;
+        // We only handle these ingame anyway.
+        if (player == null || ThutCore.conf.mouseFloodCtrl <= 0 || evt.getPlayer() != player) return;
+        final long time = System.currentTimeMillis();
+        final long ref = evt.getHand() == Hand.MAIN_HAND ? this.lastRightClickItemMain : this.lastRightClickItemOff;
+        if (time - ref < ThutCore.conf.mouseFloodCtrl)
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        if (evt.getHand() == Hand.MAIN_HAND) this.lastRightClickItemMain = time;
+        else this.lastRightClickItemOff = time;
+    }
 
     @Override
     public PlayerEntity getPlayer()

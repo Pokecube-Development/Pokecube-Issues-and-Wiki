@@ -50,6 +50,9 @@ import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.database.PokedexEntryLoader.Evolution;
 import pokecube.core.database.PokedexEntryLoader.Interact;
+import pokecube.core.database.PokedexEntryLoader.MegaEvoRule;
+import pokecube.core.database.PokedexEntryLoader.StatsNode.Stats;
+import pokecube.core.database.PokedexEntryLoader.XMLMegaRule;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.abilities.AbilityManager;
@@ -59,6 +62,7 @@ import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
@@ -448,7 +452,7 @@ public class PokedexEntry
 
         boolean canInteract(final ItemStack key)
         {
-            return this.getStackKey(key) != ItemStack.EMPTY;
+            return !this.getStackKey(key).isEmpty();
         }
 
         private ItemStack getFormeKey(final ItemStack held)
@@ -481,41 +485,13 @@ public class PokedexEntry
             return this.actions.get(this.getStackKey(key)).stacks;
         }
 
-        boolean interact(final PlayerEntity player, final IPokemob pokemob, final boolean doInteract)
+        public boolean applyInteraction(final PlayerEntity player, final IPokemob pokemob, final boolean consumeInput)
         {
             final MobEntity entity = pokemob.getEntity();
             final ItemStack held = player.getHeldItemMainhand();
-            ItemStack stack = this.getStackKey(held);
-            if (stack.isEmpty())
-            {
-                stack = this.getFormeKey(held);
-                if (stack.isEmpty()) return false;
-                if (!doInteract) return true;
-                final Interaction action = this.actions.get(stack);
-                final PokedexEntry forme = action.forme;
-                pokemob.megaEvolve(forme);
-                return true;
-            }
-
-            if (InteractionLogic.isShears.test(stack))
-            {
-                if (pokemob.isSheared()) return false;
-                pokemob.shear();
-                return pokemob.isSheared();
-            }
-
+            final ItemStack stack = this.getStackKey(held);
             final CompoundNBT data = entity.getPersistentData();
             final Interaction action = this.actions.get(stack);
-            if (data.contains("lastInteract"))
-            {
-                final long time = data.getLong("lastInteract");
-                final long diff = entity.getEntityWorld().getGameTime() - time;
-                if (diff < action.cooldown + new Random(time).nextInt(action.variance)) return false;
-            }
-            if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
-            if (!action.female && pokemob.getSexe() == IPokemob.FEMALE) return false;
-            if (action.stacks.isEmpty() && action.lootTable == null) return false;
-            if (!doInteract) return true;
             ItemStack result = null;
             if (action.lootTable != null)
             {
@@ -542,11 +518,47 @@ public class PokedexEntry
             data.putLong("lastInteract", entity.getEntityWorld().getGameTime());
             final int time = pokemob.getHungerTime();
             pokemob.setHungerTime(time + action.hunger);
-            held.shrink(1);
+            if (consumeInput) held.shrink(1);
             if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem, result);
             else if (!player.inventory.addItemStackToInventory(result)) player.dropItem(result, false);
             if (player != pokemob.getOwner()) entity.setAttackTarget(player);
             return true;
+        }
+
+        boolean interact(final PlayerEntity player, final IPokemob pokemob, final boolean doInteract)
+        {
+            final MobEntity entity = pokemob.getEntity();
+            final ItemStack held = player.getHeldItemMainhand();
+            ItemStack stack = this.getStackKey(held);
+            if (stack.isEmpty())
+            {
+                stack = this.getFormeKey(held);
+                if (stack.isEmpty()) return false;
+                if (!doInteract) return true;
+                final Interaction action = this.actions.get(stack);
+                final PokedexEntry forme = action.forme;
+                pokemob.megaEvolve(forme);
+                return true;
+            }
+            final CompoundNBT data = entity.getPersistentData();
+            final Interaction action = this.actions.get(stack);
+            if (data.contains("lastInteract"))
+            {
+                final long time = data.getLong("lastInteract");
+                final long diff = entity.getEntityWorld().getGameTime() - time;
+                if (diff < action.cooldown + new Random(time).nextInt(action.variance)) return false;
+            }
+            if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
+            if (!action.female && pokemob.getSexe() == IPokemob.FEMALE) return false;
+            if (action.stacks.isEmpty() && action.lootTable == null) return false;
+            if (InteractionLogic.isShears.test(stack))
+            {
+                if (pokemob.isSheared()) return true;
+                if (doInteract) pokemob.shear(stack);
+                return true;
+            }
+            if (!doInteract) return true;
+            return this.applyInteraction(player, pokemob, true);
         }
     }
 
@@ -555,9 +567,21 @@ public class PokedexEntry
         boolean shouldMegaEvolve(IPokemob mobIn, PokedexEntry entryTo);
     }
 
-    public static enum MovementType
+    protected static enum MovementType
     {
-        FLYING, FLOATING, WATER, NORMAL;
+        FLYING(8), FLOATING(4), WATER(2), NORMAL(1);
+
+        public final int mask;
+
+        private MovementType(final int mask)
+        {
+            this.mask = mask;
+        }
+
+        public boolean is(final int test)
+        {
+            return (this.mask & test) != 0;
+        }
 
         public static MovementType getType(final String type)
         {
@@ -755,7 +779,7 @@ public class PokedexEntry
     @CopyToGender
     protected int                               catchRate       = -1;
     @CopyToGender
-    private PokedexEntry                        childNb         = null;
+    private PokedexEntry                        _childNb        = null;
     /** A map of father pokedexnb : child pokedexNbs */
     @CopyToGender
     protected Map<PokedexEntry, PokedexEntry[]> childNumbers    = Maps.newHashMap();
@@ -801,10 +825,10 @@ public class PokedexEntry
     @CopyToGender
     public List<EvolutionData> evolutions    = new ArrayList<>();
     @CopyToGender
-    public EvolutionData       evolvesBy     = null;
+    public EvolutionData       _evolvesBy    = null;
     /** Who this pokemon evolves from. */
     @CopyToGender
-    public PokedexEntry        evolvesFrom   = null;
+    public PokedexEntry        _evolvesFrom  = null;
     @CopyToGender
     public byte[]              evs;
     protected PokedexEntry     female        = null;
@@ -895,21 +919,22 @@ public class PokedexEntry
     @CopyToGender
     protected HashMap<PokedexEntry, MegaRule> megaRules = Maps.newHashMap();
 
-    /** Movement type for this mob */
+    /** Movement type for this mob, this is a bitmask for MovementType */
     @CopyToGender
-    protected MovementType mobType          = null;
+    protected int mobType = 0;
+
     /** Mod which owns the pokemob, used for texture location. */
     @CopyToGender
-    private String         modId;
-    protected String       name;
+    private String    modId;
+    protected String  name;
     /** Particle Effects. */
     @CopyToGender
-    public String[]        particleData;
+    public String[]   particleData;
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
-    public double[][]      passengerOffsets = { { 0, 0.75, 0 } };
+    public double[][] passengerOffsets = { { 0, 0.75, 0 } };
     @CopyToGender
-    protected int          pokedexNb;
+    protected int     pokedexNb;
 
     /** All possible moves */
     @CopyToGender
@@ -1000,6 +1025,12 @@ public class PokedexEntry
     public ResourceLocation texture   = PokedexEntry.TEXNO;
     public ResourceLocation animation = PokedexEntry.ANIMNO;
 
+    // Here we have things that need to wait until loaded for initialization, so
+    // we cache them.
+    protected List<Interact>    _loaded_interactions = Lists.newArrayList();
+    protected Stats             _forme_items         = null;
+    protected List<XMLMegaRule> _loaded_megarules    = Lists.newArrayList();
+
     /**
      * This constructor is used for making blank entry for copy comparisons.
      *
@@ -1017,6 +1048,109 @@ public class PokedexEntry
         if (Database.getEntry(name) == null) Database.allFormes.add(this);
         else new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name))
                 .printStackTrace();
+    }
+
+    /**
+     * Applies various things which needed server to be initialized, such as
+     * interactions for tag lists, etc
+     */
+    public void postServerLoad()
+    {
+        this.formeItems.clear();
+        this.megaRules.clear();
+        this.interactionLogic.actions.clear();
+        InteractionLogic.initForEntry(this);
+        if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions);
+
+        if (this._forme_items != null)
+        {
+            final Map<QName, String> values = this._forme_items.values;
+            for (final QName key : values.keySet())
+            {
+                final String keyString = key.toString();
+                final String value = values.get(key);
+                if (keyString.equals("forme"))
+                {
+                    final String[] args = value.split(",");
+                    for (final String s : args)
+                    {
+                        String forme = "";
+                        String item = "";
+                        final String[] args2 = s.split(":");
+                        for (final String s1 : args2)
+                        {
+                            final String arg1 = s1.trim().substring(0, 1);
+                            final String arg2 = s1.trim().substring(1);
+                            if (arg1.equals("N")) forme = arg2;
+                            else if (arg1.equals("I")) item = arg2.replace("`", ":");
+                        }
+
+                        final PokedexEntry formeEntry = Database.getEntry(forme);
+                        if (!forme.isEmpty() && formeEntry != null)
+                        {
+                            final ItemStack stack = PokecubeItems.getStack(item, false);
+                            // TODO see if needs to add to holdables
+                            this.formeItems.put(stack, formeEntry);
+                        }
+                    }
+                }
+            }
+        }
+        for (final XMLMegaRule rule : this._loaded_megarules)
+        {
+            String forme = rule.name != null ? rule.name : null;
+            if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
+            {
+                forme = this.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
+                if (rule.item_preset == null) rule.item_preset = this.getTrimmedName() + "" + ThutCore.trim(
+                        rule.preset);
+            }
+            final String move = rule.move;
+            final String ability = rule.ability;
+            final String item_preset = rule.item_preset;
+
+            if (forme == null)
+            {
+                PokecubeCore.LOGGER.info("Error with mega evolution for " + this + " rule: preset=" + rule.preset
+                        + " name=" + rule.name);
+                continue;
+            }
+
+            final PokedexEntry formeEntry = Database.getEntry(forme);
+            if (!forme.isEmpty() && formeEntry != null)
+            {
+                ItemStack stack = ItemStack.EMPTY;
+                if (item_preset != null && !item_preset.isEmpty())
+                {
+                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(forme + " " + item_preset);
+                    stack = PokecubeItems.getStack(item_preset, false);
+                    if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
+                }
+                else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
+                if (rule.item != null) if (PokecubeMod.debug) PokecubeCore.LOGGER.info(stack + " " + rule.item
+                        .getValues());
+                if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
+                {
+                    PokecubeCore.LOGGER.info("Skipping Mega: " + this + " -> " + formeEntry
+                            + " as it has no conditions, or conditions cannot be met.");
+                    PokecubeCore.LOGGER.info(" rule: preset=" + rule.preset + " name=" + rule.name + " item="
+                            + rule.item_preset);
+                    continue;
+                }
+                final MegaEvoRule mrule = new MegaEvoRule(this);
+                if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
+                if (ability != null) mrule.ability = ability;
+                if (move != null) mrule.moveName = move;
+                if (!stack.isEmpty())
+                {
+                    mrule.stack = stack;
+                    if (!PokecubeItems.isValidHeldItem(stack)) PokecubeItems.addToHoldables(stack);
+                }
+                formeEntry.isMega = true;
+                this.megaRules.put(formeEntry, mrule);
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
+            }
+        }
     }
 
     public List<TimePeriod> activeTimes()
@@ -1095,7 +1229,6 @@ public class PokedexEntry
             if (!itemCheck && stack != ItemStack.EMPTY) itemCheck = stack.isItemEqual(d.item);
             if (d.level >= 0 && level >= d.level && itemCheck) return true;
         }
-
         return false;
     }
 
@@ -1134,7 +1267,7 @@ public class PokedexEntry
         if (e.length == -1) e.length = this.length;
         if (e.childNumbers.isEmpty()) e.childNumbers = this.childNumbers;
         if (e.species == null) e.species = this.species;
-        if (e.mobType == null) e.mobType = this.mobType;
+        if (e.mobType == 0) e.mobType = this.mobType;
         if (e.catchRate == -1) e.catchRate = this.catchRate;
         if (e.sexeRatio == -1) e.sexeRatio = this.sexeRatio;
         if (e.mass == -1) e.mass = this.mass;
@@ -1183,12 +1316,12 @@ public class PokedexEntry
 
     public boolean floats()
     {
-        return this.mobType == MovementType.FLOATING;
+        return MovementType.FLOATING.is(this.mobType);
     }
 
     public boolean flys()
     {
-        return this.mobType == MovementType.FLYING;
+        return MovementType.FLYING.is(this.mobType);
     }
 
     public Ability getAbility(final int number, final IPokemob pokemob)
@@ -1238,15 +1371,15 @@ public class PokedexEntry
 
     public PokedexEntry getChild()
     {
-        if (this.childNb == null)
+        if (this._childNb == null)
         {
             for (final PokedexEntry e : this.getRelated())
                 for (final EvolutionData d : e.evolutions)
-                    if (d.evolution == this) this.childNb = e.getChild();
-            if (this.childNb == null) this.childNb = this;
+                    if (d.evolution == this) this._childNb = e.getChild();
+            if (this._childNb == null) this._childNb = this;
         }
 
-        return this.childNb;
+        return this._childNb;
     }
 
     public PokedexEntry getChild(final PokedexEntry fatherNb)
@@ -1285,8 +1418,8 @@ public class PokedexEntry
             }
             String descString = typeDesc;
             if (evoString != null) descString = descString + "\n" + evoString;
-            if (entry.evolvesFrom != null) descString = descString + "\n" + I18n.format(
-                    "pokemob.description.evolve.from", entry.getTranslatedName(), entry.evolvesFrom
+            if (entry._evolvesFrom != null) descString = descString + "\n" + I18n.format(
+                    "pokemob.description.evolve.from", entry.getTranslatedName(), entry._evolvesFrom
                             .getTranslatedName());
             this.description = new StringTextComponent(descString);
         }
@@ -1627,8 +1760,8 @@ public class PokedexEntry
             final PokedexEntry temp = d.evolution;
 
             if (temp == null) continue;
-            temp.evolvesFrom = this;
-            temp.evolvesBy = d;
+            temp._evolvesFrom = this;
+            temp._evolvesBy = d;
             temp.addRelation(this);
             this.addRelation(temp);
             for (final PokedexEntry d1 : temp.getRelated())
@@ -1785,7 +1918,7 @@ public class PokedexEntry
 
     public boolean swims()
     {
-        return this.mobType == MovementType.WATER;
+        return MovementType.WATER.is(this.mobType);
     }
 
     public ResourceLocation texture()
