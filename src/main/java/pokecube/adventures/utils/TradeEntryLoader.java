@@ -137,8 +137,8 @@ public class TradeEntryLoader
         else if (flag.equals("tag_sell"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            final Tag<Item> itemtag = ItemTags.getCollection().get(tag);
-            if (itemtag != null) for (final Item i : itemtag.getAllElements())
+            final Tag<Item> itemtag = ItemTags.getCollection().getOrCreate(tag);
+            for (final Item i : itemtag.getAllElements())
             {
                 final ItemStack stack = new ItemStack(i);
                 if (!stack.isEmpty())
@@ -165,6 +165,7 @@ public class TradeEntryLoader
                     trades.tradesList.add(recipe);
                 }
             }
+            return true;
         }
         else if (flag.equals("tag_buy"))
         {
@@ -189,6 +190,7 @@ public class TradeEntryLoader
                     trades.tradesList.add(recipe);
                 }
             }
+            return true;
         }
         return false;
     }

@@ -1,8 +1,7 @@
 package pokecube.adventures.ai.tasks;
 
 import java.util.List;
-
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -63,7 +62,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             IHasPokemobs trainer = CapabilityHasPokemobs.getHasPokemobs(entityIn);
 
             @Override
-            public boolean apply(final LivingEntity input)
+            public boolean test(final LivingEntity input)
             {
 
                 // If the input has attacked us recently, then return true
@@ -119,6 +118,9 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     private int       timer      = 0;
     private final int maxTimer;
 
+    // This is whether the ai should run for the current task holder
+    private Predicate<LivingEntity> shouldRun = e -> true;
+
     public AIFindTarget(final LivingEntity entityIn, final float agressionProbability, final int battleTime,
             final Predicate<LivingEntity> validTargets)
     {
@@ -149,9 +151,16 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         this(entityIn, agressionProbability, battleTime, AIFindTarget.match(entityIn, targetClass));
     }
 
+    public AIFindTarget setRunCondition(final Predicate<LivingEntity> shouldRun)
+    {
+        this.shouldRun = shouldRun;
+        return this;
+    }
+
     @Override
     public boolean shouldRun()
     {
+        if (!this.shouldRun.test(this.entity)) return false;
         if (this.trainer.getTarget() != null)
         {
             final LivingEntity target = this.trainer.getTarget();
@@ -270,6 +279,6 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     @Override
     public boolean validTargetSet(final LivingEntity target)
     {
-        return this.validTargets.apply(target);
+        return this.validTargets.test(target);
     }
 }

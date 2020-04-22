@@ -25,6 +25,7 @@ import com.google.gson.stream.JsonWriter;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
@@ -133,22 +134,23 @@ public class WorldgenHandler
     {
         public String       name;
         public String       root;
-        public float        chance      = 1;
-        public int          offset      = 1;
-        public int          size        = 4;
-        public int          distance    = 8;
-        public int          separation  = 4;
-        public String       type        = "";
-        public String       biomeType   = "ruin";
+        public float        chance       = 1;
+        public int          offset       = 1;
+        public int          size         = 4;
+        public int          distance     = 8;
+        public int          separation   = 4;
+        public String       type         = "";
+        public String       biomeType    = "ruin";
         public SpawnRule    spawn;
-        public boolean      surface     = true;
-        public boolean      water       = false;
-        public boolean      air         = false;
-        public int          height      = 0;
-        public int          variance    = 50;
-        public int          priority    = 100;
-        public boolean      atSpawn     = false;
-        public List<String> needed_once = Lists.newArrayList();
+        public boolean      surface      = true;
+        public boolean      water        = false;
+        public boolean      air          = false;
+        public int          height       = 0;
+        public int          variance     = 50;
+        public int          priority     = 100;
+        public boolean      atSpawn      = false;
+        public List<String> needed_once  = Lists.newArrayList();
+        public List<String> dimBlacklist = Lists.newArrayList();
 
         public SpawnBiomeMatcher _matcher;
 
@@ -161,6 +163,21 @@ public class WorldgenHandler
         {
             return WorldgenHandler.GSON.fromJson(structstring, JigSawConfig.class);
         }
+
+        public boolean isBlackisted(final DimensionType dim)
+        {
+            for (final String s : this.dimBlacklist)
+            {
+                if (!WorldgenHandler.dimTypes.containsKey(s))
+                {
+                    final DimensionType type = DimensionType.byName(new ResourceLocation(s));
+                    WorldgenHandler.dimTypes.put(s, type);
+                }
+                final DimensionType type = WorldgenHandler.dimTypes.get(s);
+                if (type == dim) return true;
+            }
+            return false;
+        }
     }
 
     public static class Structures
@@ -170,6 +187,8 @@ public class WorldgenHandler
     }
 
     public static Map<String, JigsawStructure> structs = Maps.newHashMap();
+
+    private static Map<String, DimensionType> dimTypes = Maps.newHashMap();
 
     private static Map<JigsawStructure, Integer> priorities = Maps.newHashMap();
 
