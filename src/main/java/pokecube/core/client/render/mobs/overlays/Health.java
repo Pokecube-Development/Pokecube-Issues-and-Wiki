@@ -127,7 +127,8 @@ public class Health
                 GlStateManager.pushMatrix();
 
                 Health.preRender();
-                final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? 5 : passedEntity.getHeight();
+                final double dy = pokemob.getCombatState(CombatStates.DYNAMAX) ? 5
+                        : pokemob.getPokedexEntry().height * pokemob.getSize();
                 final double x = pos.x, y = pos.y + dy, z = pos.z;
                 GlStateManager.translated(x, y + config.heightAbove, z);
 
