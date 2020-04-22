@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -15,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,6 +40,8 @@ import pokecube.adventures.ai.tasks.AIRetaliate;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.entity.trainer.TrainerBase;
+import pokecube.adventures.utils.DBLoader;
+import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -332,6 +336,17 @@ public class TypeTrainer extends NpcType
 
     public static void postInitTrainers()
     {
+
+        for (final ResourceLocation s : DBLoader.tradeDatabases)
+            try
+            {
+                TradeEntryLoader.makeEntries(s);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error loading trades from " + s, e);
+            }
+
         final List<TypeTrainer> toRemove = new ArrayList<>();
         for (final TypeTrainer t : TypeTrainer.typeMap.values())
         {
