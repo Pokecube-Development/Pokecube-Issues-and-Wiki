@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="1.0"/>
+  <phase name="global" scale="0.3"/>
   <metadata head="Head" headAxis="2" headAxis2="1" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
-  <phase type="walking">
-   <part name="Cube_004">
-    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+  <customTex default="ledyba_skin">
+   <part name="Face" tex="ledyba_eye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="left_wing">
+    <component name="1" hidden="true"/>
    </part>
-   <part name="Cube_005">
-    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   <part name="right_wing">
+    <component name="1" hidden="true"/>
    </part>
-   <part name="Cube_006">
-    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+   <part name="left_shell">
+    <component name="1" rotOffset="10,13,65" posOffset="-2,0,-2"/>
    </part>
-   <part name="Cube_007">
-    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   <part name="right_shell">
+    <component name="1" rotOffset="-5,-13,65" posOffset="2,0,-2"/>
    </part>
-   <part name="Cube_008">
-    <component length="5" name="1" rotChange="0,0,-10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,-10" startKey="15"/>
+  </phase>
+  <phase type="flying">
+   <part name="left_wing">
+    <component name="2" rotOffset="0,0,-15" rotChange="0,0,-15" startKey="0" length="2"/>
+    <component name="3" rotChange="0,0,15" startKey="5" length="2"/>
    </part>
-   <part name="Cube_009">
-    <component length="5" name="1" rotChange="0,0,10" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-20" startKey="5"/>
-    <component length="5" name="1" rotChange="0,0,10" startKey="15"/>
+   <part name="right_wing">
+    <component name="2" rotOffset="0,0,-15" rotChange="0,0,-15" startKey="0" length="2"/>
+    <component name="3" rotChange="0,0,15" startKey="5" length="2"/>
+   </part>
+   <part name="left_shell">
+    <component name="1" rotOffset="0,0,-15" startKey="0"/>
+   </part>
+   <part name="right_shell">
+    <component name="1" rotOffset="0,0,-15" startKey="0"/>
    </part>
   </phase>
  </model>
