@@ -23,6 +23,7 @@ public class ConfigHandler extends ConfigData
     private static final String BIOMES      = "biomes";
     private static final String BLOCKENTITY = "blockentity";
     private static final String MISC        = "misc";
+    private static final String CLIENT      = "client";
 
     @Configure(category = ConfigHandler.BOOMS)
     private final int           explosionRadius     = 127;
@@ -45,6 +46,9 @@ public class ConfigHandler extends ConfigData
     public boolean      autoBlacklistErroredTEs = true;
     @Configure(category = ConfigHandler.MISC)
     public boolean      debug                   = true;
+
+    @Configure(category = ConfigHandler.CLIENT)
+    public int mouseFloodCtrl = 100;
 
     public ConfigHandler()
     {
