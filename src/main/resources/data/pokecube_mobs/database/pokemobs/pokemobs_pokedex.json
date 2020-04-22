@@ -20897,7 +20897,7 @@
             "shoulder": "FALSE"
           }
         },
-        "movementType": "flying"
+        "movementType": "flying,water"
       },
       "moves": {
         "lvlupMoves": {

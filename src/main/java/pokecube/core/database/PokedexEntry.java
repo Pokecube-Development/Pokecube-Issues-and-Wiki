@@ -563,9 +563,21 @@ public class PokedexEntry
         boolean shouldMegaEvolve(IPokemob mobIn, PokedexEntry entryTo);
     }
 
-    public static enum MovementType
+    protected static enum MovementType
     {
-        FLYING, FLOATING, WATER, NORMAL;
+        FLYING(8), FLOATING(4), WATER(2), NORMAL(1);
+
+        public final int mask;
+
+        private MovementType(final int mask)
+        {
+            this.mask = mask;
+        }
+
+        public boolean is(final int test)
+        {
+            return (this.mask & test) != 0;
+        }
 
         public static MovementType getType(final String type)
         {
@@ -763,7 +775,7 @@ public class PokedexEntry
     @CopyToGender
     protected int                               catchRate       = -1;
     @CopyToGender
-    private PokedexEntry                        childNb         = null;
+    private PokedexEntry                        _childNb        = null;
     /** A map of father pokedexnb : child pokedexNbs */
     @CopyToGender
     protected Map<PokedexEntry, PokedexEntry[]> childNumbers    = Maps.newHashMap();
@@ -809,10 +821,10 @@ public class PokedexEntry
     @CopyToGender
     public List<EvolutionData> evolutions    = new ArrayList<>();
     @CopyToGender
-    public EvolutionData       evolvesBy     = null;
+    public EvolutionData       _evolvesBy    = null;
     /** Who this pokemon evolves from. */
     @CopyToGender
-    public PokedexEntry        evolvesFrom   = null;
+    public PokedexEntry        _evolvesFrom  = null;
     @CopyToGender
     public byte[]              evs;
     protected PokedexEntry     female        = null;
@@ -903,21 +915,22 @@ public class PokedexEntry
     @CopyToGender
     protected HashMap<PokedexEntry, MegaRule> megaRules = Maps.newHashMap();
 
-    /** Movement type for this mob */
+    /** Movement type for this mob, this is a bitmask for MovementType */
     @CopyToGender
-    protected MovementType mobType          = null;
+    protected int mobType = 0;
+
     /** Mod which owns the pokemob, used for texture location. */
     @CopyToGender
-    private String         modId;
-    protected String       name;
+    private String    modId;
+    protected String  name;
     /** Particle Effects. */
     @CopyToGender
-    public String[]        particleData;
+    public String[]   particleData;
     /** Offset between top of hitbox and where player sits */
     @CopyToGender
-    public double[][]      passengerOffsets = { { 0, 0.75, 0 } };
+    public double[][] passengerOffsets = { { 0, 0.75, 0 } };
     @CopyToGender
-    protected int          pokedexNb;
+    protected int     pokedexNb;
 
     /** All possible moves */
     @CopyToGender
@@ -1142,7 +1155,7 @@ public class PokedexEntry
         if (e.length == -1) e.length = this.length;
         if (e.childNumbers.isEmpty()) e.childNumbers = this.childNumbers;
         if (e.species == null) e.species = this.species;
-        if (e.mobType == null) e.mobType = this.mobType;
+        if (e.mobType == 0) e.mobType = this.mobType;
         if (e.catchRate == -1) e.catchRate = this.catchRate;
         if (e.sexeRatio == -1) e.sexeRatio = this.sexeRatio;
         if (e.mass == -1) e.mass = this.mass;
@@ -1191,12 +1204,12 @@ public class PokedexEntry
 
     public boolean floats()
     {
-        return this.mobType == MovementType.FLOATING;
+        return MovementType.FLOATING.is(this.mobType);
     }
 
     public boolean flys()
     {
-        return this.mobType == MovementType.FLYING;
+        return MovementType.FLYING.is(this.mobType);
     }
 
     public Ability getAbility(final int number, final IPokemob pokemob)
@@ -1246,15 +1259,15 @@ public class PokedexEntry
 
     public PokedexEntry getChild()
     {
-        if (this.childNb == null)
+        if (this._childNb == null)
         {
             for (final PokedexEntry e : this.getRelated())
                 for (final EvolutionData d : e.evolutions)
-                    if (d.evolution == this) this.childNb = e.getChild();
-            if (this.childNb == null) this.childNb = this;
+                    if (d.evolution == this) this._childNb = e.getChild();
+            if (this._childNb == null) this._childNb = this;
         }
 
-        return this.childNb;
+        return this._childNb;
     }
 
     public PokedexEntry getChild(final PokedexEntry fatherNb)
@@ -1293,8 +1306,8 @@ public class PokedexEntry
             }
             String descString = typeDesc;
             if (evoString != null) descString = descString + "\n" + evoString;
-            if (entry.evolvesFrom != null) descString = descString + "\n" + I18n.format(
-                    "pokemob.description.evolve.from", entry.getTranslatedName(), entry.evolvesFrom
+            if (entry._evolvesFrom != null) descString = descString + "\n" + I18n.format(
+                    "pokemob.description.evolve.from", entry.getTranslatedName(), entry._evolvesFrom
                             .getTranslatedName());
             this.description = new StringTextComponent(descString);
         }
@@ -1635,8 +1648,8 @@ public class PokedexEntry
             final PokedexEntry temp = d.evolution;
 
             if (temp == null) continue;
-            temp.evolvesFrom = this;
-            temp.evolvesBy = d;
+            temp._evolvesFrom = this;
+            temp._evolvesBy = d;
             temp.addRelation(this);
             this.addRelation(temp);
             for (final PokedexEntry d1 : temp.getRelated())
@@ -1793,7 +1806,7 @@ public class PokedexEntry
 
     public boolean swims()
     {
-        return this.mobType == MovementType.WATER;
+        return MovementType.WATER.is(this.mobType);
     }
 
     public ResourceLocation texture()

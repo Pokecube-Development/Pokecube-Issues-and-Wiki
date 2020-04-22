@@ -899,7 +899,14 @@ public class PokedexEntryLoader
         if (xmlStats.movementType != null)
         {
             final String[] strings = xmlStats.movementType.trim().split(":");
-            entry.mobType = MovementType.getType(strings[0]);
+
+            final String typeArg = strings[0];
+            final String[] types = typeArg.split(",");
+            for (final String type : types)
+            {
+                final MovementType t = MovementType.getType(type);
+                if (t != null) entry.mobType |= t.mask;
+            }
             if (strings.length > 1) entry.preferedHeight = Double.parseDouble(strings[1]);
         }
         if (xmlStats.species != null) entry.species = xmlStats.species.trim().split(" ");
