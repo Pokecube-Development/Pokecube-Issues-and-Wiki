@@ -693,7 +693,6 @@ public class MovesUtils implements IMoveConstants
     public static Entity targetHit(final Vector3 source, final Vector3 dir, final int distance, final World world,
             final Entity attacker, final boolean ignoreAllies, final Predicate<? super Entity> matcher)
     {
-        // Vector3 dest = Vector3.getVector().set(target, true);
         Entity target = null;
 
         final List<Entity> targets = source.allEntityLocationExcluding(distance, 0.5, dir, source, world, attacker);

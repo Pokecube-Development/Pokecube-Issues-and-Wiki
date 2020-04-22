@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import pokecube.core.PokecubeCore;
@@ -19,7 +20,7 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
         IMobColourable
 {
     public final DefaultPokemob pokemobCap;
-    protected final EntitySize  size;
+    protected EntitySize        size;
 
     public PokemobBase(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
@@ -27,8 +28,7 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
         final DefaultPokemob cap = (DefaultPokemob) this.getCapability(CapabilityPokemob.POKEMOB_CAP, null).orElse(
                 null);
         this.pokemobCap = cap == null ? new DefaultPokemob(this) : cap;
-        this.size = new EntitySize(cap.getPokedexEntry().width, cap.getPokedexEntry().height, true);
-
+        this.size = EntitySize.fixed(cap.getPokedexEntry().width, cap.getPokedexEntry().height);
     }
 
     @Override
@@ -56,4 +56,6 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
     {
         return this.size.scale(this.getRenderScale());
     }
+
+    abstract boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount);
 }
