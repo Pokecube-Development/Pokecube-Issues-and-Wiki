@@ -13,31 +13,32 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import pokecube.core.PokecubeCore;
 import thut.api.entity.ICompoundMob;
 
 public abstract class PokemobHasParts extends PokemobCombat implements ICompoundMob
 {
     private final PokemobPart[] parts;
+    int                         numWide = 0;
+    int                         numTall = 0;
 
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
-
-        final int maxH = 2;
-        final int maxW = 2;
-
+        final double maxH = PokecubeCore.getConfig().largeMobForSplit;
+        final double maxW = PokecubeCore.getConfig().largeMobForSplit;
         // These are the conditions for splitting us into parts.
         if (this.size.height > maxH || this.size.width > maxW)
         {
-            final int numWide = MathHelper.ceil(this.pokemobCap.getPokedexEntry().width / 2);
-            final int numTall = MathHelper.ceil(this.pokemobCap.getPokedexEntry().height / 2);
-            this.parts = new PokemobPart[numWide * numWide * numTall];
+            this.numWide = MathHelper.ceil(this.pokemobCap.getPokedexEntry().width / maxW);
+            this.numTall = MathHelper.ceil(this.pokemobCap.getPokedexEntry().height / maxH);
+            this.parts = new PokemobPart[this.numWide * this.numWide * this.numTall];
             int i = 0;
-            for (int y = 0; y < numTall; y++)
-                for (int x = 0; x < numWide; x++)
-                    for (int z = 0; z < numWide; z++)
-                        this.parts[i++] = new PokemobPart(this, this.size.width / numWide, this.size.height / numTall,
-                                x, y, z);
+            for (int y = 0; y < this.numTall; y++)
+                for (int x = 0; x < this.numWide; x++)
+                    for (int z = 0; z < this.numWide; z++)
+                        this.parts[i++] = new PokemobPart(this, this.size.width / this.numWide, this.size.height
+                                / this.numTall, x, y, z);
             this.size = EntitySize.fixed(1, 1);
         }
         else this.parts = new PokemobPart[0];
@@ -115,10 +116,8 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
     {
         if (this.parts.length > 0)
         {
-            final int numWide = MathHelper.ceil(this.pokemobCap.getPokedexEntry().width / 2);
-            final int numTall = MathHelper.ceil(this.pokemobCap.getPokedexEntry().height / 2);
-            final double dx = numWide / this.size.width;
-            final double dy = numTall / this.size.height;
+            final double dx = this.numWide / this.size.width;
+            final double dy = this.numTall / this.size.height;
             final double dz = dx;
             final Vec3d r = this.getPositionVec();
             for (final PokemobPart p : this.parts)
@@ -135,12 +134,11 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
             return;
         }
         Vec3d toMove = pos;
-        final int numTall = MathHelper.ceil(this.pokemobCap.getPokedexEntry().height / 2);
         for (final PokemobPart p : this.parts)
         {
             // Only consider top and bottom slabs for this.
             if (pos.y < 0 && p.shift.getY() > 0) continue;
-            if (pos.y > 0 && p.shift.getY() < numTall - 1) continue;
+            if (pos.y > 0 && p.shift.getY() < this.numTall - 1) continue;
             final Vec3d posA = p.getPositionVec();
             p.move(typeIn, toMove);
             final Vec3d posB = p.getPositionVec();
