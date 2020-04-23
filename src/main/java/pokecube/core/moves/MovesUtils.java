@@ -615,12 +615,12 @@ public class MovesUtils implements IMoveConstants
         return false;
     }
 
-    /** creats and ExplosionCustom */
-    public static ExplosionCustom newExplosion(final Entity entity, final double par2, final double par4,
-            final double par6, final float par8, final boolean par9, final boolean par10)
+    /** creates an ExplosionCustom */
+    public static ExplosionCustom newExplosion(final Entity entity, final double x, final double y, final double z,
+            final float power)
     {
-        final ExplosionCustom var11 = new ExplosionCustom(entity.getEntityWorld(), entity, par2, par4, par6, par8)
-                .setMaxRadius(PokecubeCore.getConfig().blastRadius);
+        final ExplosionCustom var11 = new ExplosionCustom(entity.getEntityWorld(), entity, x, y, z, power).setMaxRadius(
+                PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = CapabilityPokemob.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof PlayerEntity) var11.owner = (PlayerEntity) poke.getOwner();
         else var11.owner = null;

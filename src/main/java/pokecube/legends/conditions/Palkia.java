@@ -9,23 +9,23 @@ import pokecube.core.interfaces.IPokemob;
 public class Palkia extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean uxie = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("uxie")) > 0;
-        boolean mesprit = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("mesprit")) > 0;
-        boolean azelf = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("azelf")) > 0;
-                
-        String name = "Uxie, Mesprir, Azelf";
-                
-        if ((uxie && mesprit && azelf)) return true;
+        if (!this.canCapture(trainer)) return false;
+        final boolean uxie = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "uxie")) > 0;
+        final boolean mesprit = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "mesprit")) > 0;
+        final boolean azelf = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "azelf")) > 0;
+
+        final String name = "Uxie, Mesprit, Azelf";
+
+        if (uxie && mesprit && azelf) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }

@@ -22,8 +22,6 @@ import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.merchant.IMerchant;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -221,21 +219,52 @@ public class EventsHandler
     static double                                      max         = 0;
 
     /**
-     * This returns true if the given entity is ia "vanilla" animal
+     * This returns true if the given entity is not a vanilla entity, or is not
+     * a mob-like entity, it returns false for modded mobs, as well as players,
+     * armour stands, boats, etc
      */
-    public static Predicate<Entity> ANIMALMATCHER  = e -> e instanceof AnimalEntity || e instanceof WaterMobEntity;
+    private static Predicate<Entity> NOTVANILLAANIMALORMOB;
+
     /**
      * This returns true if the given entity is ia "vanilla" monster, but not a
      * boss
      */
-    public static Predicate<Entity> MONSTERMATCHER = e -> e instanceof IMob && !(e instanceof EnderDragonEntity)
-            && !(e instanceof WitherEntity);
+    public static Predicate<Entity> MONSTERMATCHER;
+
+    /**
+     * This returns true if the given entity is ia "vanilla" animal
+     */
+    public static Predicate<Entity> ANIMALMATCHER;
 
     static
     {
-        final Predicate<Entity> VANILLA = e -> e.getType().getRegistryName().getNamespace().equals("minecraft");
-        EventsHandler.ANIMALMATCHER = VANILLA.and(EventsHandler.ANIMALMATCHER);
-        EventsHandler.MONSTERMATCHER = VANILLA.and(EventsHandler.MONSTERMATCHER);
+        // This deals with making sure it is actually a mob, as well as not an
+        // npc, or a pokemob
+        EventsHandler.NOTVANILLAANIMALORMOB = e ->
+        {
+            boolean canSpawn = false;
+            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(e);
+            // This includes players, armour stands, effects, etc
+            final boolean noSpawnBlock = !(e instanceof MobEntity);
+            // We don't want to block something if we have made it a pokemob
+            final boolean isPokemob = pokemob != null;
+            // Simple check for vanillaness, via the entity type registry name
+            final boolean isVanilla = e.getType().getRegistryName().getNamespace().equals("minecraft");
+            // Lets not block villagers/merchants/pillagers
+            final boolean isNpc = e instanceof INPC || e instanceof IMerchant || e instanceof WitherEntity;
+            // Lets also not block the ender dragon/parts
+            final boolean isDragon = e instanceof EnderDragonEntity || e instanceof EnderDragonPartEntity;
+            canSpawn = noSpawnBlock || isDragon || isNpc || isPokemob || !isVanilla;
+            return !canSpawn;
+        };
+
+        // IMob -> monster
+        EventsHandler.MONSTERMATCHER = e -> (e instanceof IMob);
+        // Not IMob -> animal
+        EventsHandler.ANIMALMATCHER = e -> !(e instanceof IMob);
+
+        EventsHandler.ANIMALMATCHER = EventsHandler.NOTVANILLAANIMALORMOB.and(EventsHandler.ANIMALMATCHER);
+        EventsHandler.MONSTERMATCHER = EventsHandler.NOTVANILLAANIMALORMOB.and(EventsHandler.MONSTERMATCHER);
     }
 
     static int count = 0;
@@ -328,26 +357,14 @@ public class EventsHandler
     @SubscribeEvent
     public static void EntityJoinWorld(final EntityJoinWorldEvent evt)
     {
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-
-        boolean canSpawn = evt.getEntity() instanceof PlayerEntity || !(evt.getEntity() instanceof LivingEntity);
-
-        if (!canSpawn) canSpawn = !(PokecubeCore.getConfig().disableVanillaMonsters && pokemob == null && evt
-                .getEntity() instanceof IMob && !(evt.getEntity() instanceof EnderDragonEntity || evt
-                        .getEntity() instanceof EnderDragonPartEntity) && evt.getEntity().getType().getRegistryName()
-                                .getNamespace().equals("minecraft"));
-        if (!canSpawn)
+        if (PokecubeCore.getConfig().disableVanillaMonsters && EventsHandler.MONSTERMATCHER.test(evt.getEntity()))
         {
             evt.getEntity().remove();
             // TODO maybe replace stuff here
             evt.setCanceled(true);
             return;
         }
-        if (!canSpawn) canSpawn = !(PokecubeCore.getConfig().disableVanillaAnimals && pokemob == null && !(evt
-                .getEntity() instanceof IMob) && !(evt.getEntity() instanceof INPC) && !(evt
-                        .getEntity() instanceof IMerchant) && evt.getEntity().getType().getRegistryName().getNamespace()
-                                .equals("minecraft"));
-        if (!canSpawn)
+        if (PokecubeCore.getConfig().disableVanillaAnimals && EventsHandler.ANIMALMATCHER.test(evt.getEntity()))
         {
             evt.getEntity().remove();
             // TODO maybe replace stuff here
