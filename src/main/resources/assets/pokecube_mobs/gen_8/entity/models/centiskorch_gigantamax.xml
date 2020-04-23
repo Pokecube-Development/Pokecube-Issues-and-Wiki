@@ -7,7 +7,7 @@
 												body_020:body_021:body_022:body_023:body_024"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <customTex default="centiskorchgigantamax" />
-  <material name="Glow" light="0.9" transluscent="true"/>
+  <material name="Glow" light="0.9" transluscent="false"/>
   <phase type="sitting">
    <part name="body">
     <component length="10" name="1" rotOffset="30,0,0" posOffset="0,-65,-50" startKey="0"/>
