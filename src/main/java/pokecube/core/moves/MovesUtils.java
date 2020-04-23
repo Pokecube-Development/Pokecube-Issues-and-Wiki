@@ -615,7 +615,7 @@ public class MovesUtils implements IMoveConstants
         return false;
     }
 
-    /** creats an ExplosionCustom */
+    /** creates an ExplosionCustom */
     public static ExplosionCustom newExplosion(final Entity entity, final double x, final double y, final double z,
             final float power)
     {
