@@ -46,14 +46,14 @@ public class Move_Explode extends Move_Basic
         private final Move_Explode move;
         private final BitSet       hit = new BitSet();
 
-        public Hitter(IPokemob user, Move_Explode move)
+        public Hitter(final IPokemob user, final Move_Explode move)
         {
             this.user = user;
             this.move = move;
         }
 
         @Override
-        public void hitEntity(Entity e, float power, Explosion boom)
+        public void hitEntity(final Entity e, final float power, final Explosion boom)
         {
             if (this.hit.get(e.getEntityId()) || !(e instanceof LivingEntity)) return;
             this.hit.set(e.getEntityId());
@@ -75,7 +75,7 @@ public class Move_Explode extends Move_Basic
      * @param name
      * @param attackCategory
      */
-    public Move_Explode(String name)
+    public Move_Explode(final String name)
     {
         super(name);
         this.move.selfDamage = 100;
@@ -88,7 +88,7 @@ public class Move_Explode extends Move_Basic
      * @param attacker
      * @param location
      */
-    public void actualAttack(IPokemob attacker, Vector3 location)
+    public void actualAttack(final IPokemob attacker, final Vector3 location)
     {
         final List<Entity> targets = attacker.getEntity().getEntityWorld().getEntitiesWithinAABBExcludingEntity(attacker
                 .getEntity(), location.getAABB().grow(8));
@@ -115,7 +115,7 @@ public class Move_Explode extends Move_Basic
     }
 
     @Override
-    public void attack(IPokemob attacker, Entity attacked)
+    public void attack(final IPokemob attacker, final Entity attacked)
     {
         if (!attacker.getEntity().isAlive()) return;
         final MobEntity mob = attacker.getEntity();
@@ -168,13 +168,12 @@ public class Move_Explode extends Move_Basic
                 this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0, pokemob.getSize()
                         * pokemob.getPokedexEntry().height / 2, 0));
             }
+            attacker.onRecall();
         }
-        attacker.onRecall();
-
     }
 
     @Override
-    public void attack(IPokemob attacker, Vector3 attacked)
+    public void attack(final IPokemob attacker, final Vector3 attacked)
     {
         if (!attacker.getEntity().isAlive()) return;
         if (PokecubeCore.getConfig().explosions) this.attack(attacker, attacker.getEntity());
@@ -189,7 +188,7 @@ public class Move_Explode extends Move_Basic
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void postAttack(final MovePacket packet)
     {
         final Entity attacked = packet.attacked;
         final IPokemob pokemob = packet.attacker;
