@@ -101,8 +101,8 @@ public class AnimationHelper
     {
         final IAnimationHolder cap = mob.getCapability(CapabilityAnimation.CAPABILITY, null).orElse(null);
         if (cap != null) return cap;
-        if (AnimationHelper.holderMap.containsKey(mob.getUniqueID())) return AnimationHelper.holderMap.get(
-                AnimationHelper.holderMap.get(mob.getUniqueID()));
+        if (AnimationHelper.holderMap.containsKey(mob.getUniqueID())) return AnimationHelper.holderMap.get(mob
+                .getUniqueID());
         else
         {
             final CapabilityAnimation.DefaultImpl holder = new CapabilityAnimation.DefaultImpl();

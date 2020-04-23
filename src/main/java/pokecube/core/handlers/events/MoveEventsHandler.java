@@ -156,9 +156,9 @@ public class MoveEventsHandler
             boolean smelt = false;
             final AbstractFurnaceTileEntity tile = new FurnaceTileEntity();
             tile.setWorld(world);
-            for (int i = 0; i < items.size(); i++)
+            for (final ItemEntity item2 : items)
             {
-                final ItemEntity item = items.get(i);
+                final ItemEntity item = item2;
                 final ItemStack stack = item.getItem();
                 final int num = stack.getCount();
                 tile.setInventorySlotContents(0, stack);
@@ -235,6 +235,10 @@ public class MoveEventsHandler
         return true;
     }
 
+    /**
+     * This will have the following effects, for "Strong" electric type moves:
+     * Melt sand to glass
+     */
     public static boolean doDefaultElectric(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (move.getPWR() < MoveEventsHandler.ELECTRICSTRONG || !PokecubeCore.getConfig().defaultElectricActions)
@@ -260,6 +264,13 @@ public class MoveEventsHandler
         return false;
     }
 
+    /**
+     * This will have the following effects, for fire type moves:
+     * Ignite flamable blocks
+     * Melt snow
+     * If strong, melt obsidian to lava
+     * If none of the above, attempt to cook items nearby
+     */
     public static boolean doDefaultFire(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
@@ -309,6 +320,11 @@ public class MoveEventsHandler
         return MoveEventsHandler.attemptSmelt(attacker, location);
     }
 
+    /**
+     * This will have the following effects, for ice type moves:
+     * Place snow
+     * Freeze water
+     */
     public static boolean doDefaultIce(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultIceActions) return false;
@@ -350,6 +366,13 @@ public class MoveEventsHandler
         return false;
     }
 
+    /**
+     * This will have the following effects, for water type moves:
+     * Extinguish fires
+     * if strong:
+     * turn lava to obsidian
+     * water farmland
+     */
     public static boolean doDefaultWater(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;

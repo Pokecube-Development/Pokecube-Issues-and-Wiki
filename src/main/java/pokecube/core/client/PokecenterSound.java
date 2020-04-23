@@ -14,6 +14,8 @@ public class PokecenterSound extends TickableSound
     private final Vector3            pos1 = Vector3.getNewVector();
     private final Vector3            pos2 = Vector3.getNewVector();
 
+    public boolean stopped = false;
+
     public PokecenterSound(final HealerTile tileIn)
     {
         super(HealerTile.MUSICLOOP, SoundCategory.BLOCKS);
@@ -31,6 +33,12 @@ public class PokecenterSound extends TickableSound
     @Override
     public void tick()
     {
+        if (this.stopped)
+        {
+            this.volume = 0;
+            this.donePlaying = true;
+            return;
+        }
         this.pos2.set(this.player);
         final double distSq = this.pos2.distToSq(this.pos1);
         this.volume = (float) (50.0f / distSq);
