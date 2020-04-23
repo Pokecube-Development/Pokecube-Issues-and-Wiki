@@ -169,9 +169,9 @@ public final class SpawnHandler
     {
         if (world == null) return true;
         if (world.getDifficulty() == Difficulty.PEACEFUL || !SpawnHandler.doSpawns) return false;
-        if (SpawnHandler.dimensionBlacklist.contains(world.getDimension())) return false;
-        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world
-                .getDimension())) return false;
+        if (SpawnHandler.dimensionBlacklist.contains(world.getDimension().getType())) return false;
+        if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world.getDimension()
+                .getType())) return false;
         return true;
     }
 
@@ -778,10 +778,10 @@ public final class SpawnHandler
         final List<ServerPlayerEntity> players = world.getPlayers();
         if (players.isEmpty()) return;
         Collections.shuffle(players);
-        for (int i = 0; i < players.size(); i++)
+        for (final ServerPlayerEntity player : players)
         {
-            if (players.get(i).dimension != world.getDimension().getType()) continue;
-            this.doSpawnForPlayer(players.get(i), world);
+            if (player.dimension != world.getDimension().getType()) continue;
+            this.doSpawnForPlayer(player, world);
         }
     }
 

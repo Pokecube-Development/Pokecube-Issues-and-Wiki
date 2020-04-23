@@ -44,21 +44,21 @@ public class AbilityGene implements Gene
     }
 
     @Override
-    public Gene interpolate(Gene other)
+    public Gene interpolate(final Gene other)
     {
         final AbilityGene otherA = (AbilityGene) other;
         final byte otherIndex = otherA.ability.abilityIndex;
         final byte index = otherIndex == this.ability.abilityIndex ? otherIndex
                 : Math.random() < 0.5 ? otherIndex : this.ability.abilityIndex;
         final AbilityGene newGene = new AbilityGene();
-        if (!otherA.ability.ability.isEmpty() && otherA.ability.ability.equals(this.ability))
+        if (!otherA.ability.ability.isEmpty() && otherA.ability.ability.equals(this.ability.ability))
             newGene.ability.ability = this.ability.ability;
         newGene.ability.abilityIndex = index;
         return newGene;
     }
 
     @Override
-    public void load(CompoundNBT tag)
+    public void load(final CompoundNBT tag)
     {
         this.ability.abilityIndex = tag.getByte("I");
         this.ability.ability = tag.getString("A");
@@ -83,7 +83,7 @@ public class AbilityGene implements Gene
     }
 
     @Override
-    public <T> void setValue(T value)
+    public <T> void setValue(final T value)
     {
         this.ability = (AbilityObject) value;
     }

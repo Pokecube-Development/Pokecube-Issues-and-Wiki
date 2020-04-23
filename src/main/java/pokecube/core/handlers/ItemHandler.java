@@ -45,11 +45,6 @@ public class ItemHandler
         registry.register(PokecubeItems.TMMACHINE);
         registry.register(PokecubeItems.TRADER);
         registry.register(PokecubeItems.SECRETBASE);
-
-        // tableBlock.setUnlocalizedName("pokecube_table").setRegistryName(PokecubeMod.ID,
-        // "pokecube_table");
-        // tableBlock.setCreativeTab(creativeTabPokecubeBlocks);
-        // register(tableBlock, registry);
     }
 
     private static void addMiscItems(final IForgeRegistry<Item> registry)

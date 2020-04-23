@@ -59,7 +59,8 @@ public class AITools
 
     public static int           DEAGROTIMER    = 50;
     public static Set<Class<?>> invalidClasses = Sets.newHashSet();
-    public static Set<String>   invalidIDs     = Sets.newHashSet();
+
+    public static Set<ResourceLocation> invalidIDs = Sets.newHashSet();
 
     /**
      * Checks the blacklists set via configs, to see whether the target is a
@@ -91,9 +92,9 @@ public class AITools
             {
                 s = s.substring(0, s.length() - 1);
                 for (final ResourceLocation res : keys)
-                    if (res.toString().startsWith(s)) AITools.invalidIDs.add(res.toString());
+                    if (res.toString().startsWith(s)) AITools.invalidIDs.add(res);
             }
-            else AITools.invalidIDs.add(s);
+            else AITools.invalidIDs.add(new ResourceLocation(s));
     }
 
 }
