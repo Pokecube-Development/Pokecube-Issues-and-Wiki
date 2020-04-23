@@ -145,7 +145,7 @@ public class Move_Explode extends Move_Basic
         final float f1 = (float) (this.getPWR(pokemob, attacked) * PokecubeCore.getConfig().blastStrength * pokemob
                 .getStat(Stats.ATTACK, true) / 500000f);
 
-        final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.posX, mob.posY, mob.posZ, f1, false, true);
+        final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.posX, mob.posY, mob.posZ, f1);
         boom.hitter = new Hitter(pokemob, this);
         final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.getEntityWorld(), boom);
         MinecraftForge.EVENT_BUS.post(evt);

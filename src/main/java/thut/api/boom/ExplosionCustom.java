@@ -200,11 +200,6 @@ public class ExplosionCustom extends Explosion
         this.world.playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ,
                 SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.rand.nextFloat()
                         - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
-
-        // if (this.explosionSize >= 2.0F && this.isSmoking)
-        // this.world.addParticle(ParticleTypes.EXPLOSION,
-        // this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D, 0.0D);
-        // else
         this.world.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
                 0.0D);
         MinecraftForge.EVENT_BUS.register(this);
@@ -245,6 +240,8 @@ public class ExplosionCustom extends Explosion
         {
             hitLocation = hitLocation.subtract(velocity.normalize());
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, hitLocation, blast * factor);
+            boo.setMaxRadius(this.radius);
+            boo.owner = this.owner;
             boo.doExplosion();
             return;
         }
@@ -280,6 +277,8 @@ public class ExplosionCustom extends Explosion
             if (world.isAreaLoaded(source.getPos(), max)) if (strength != 0)
             {
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, source, strength * factor);
+            boo.setMaxRadius(this.radius);
+            boo.owner = this.owner;
             boo.doExplosion();
 
             }
@@ -289,6 +288,8 @@ public class ExplosionCustom extends Explosion
             absorbedLoc = absorbedLoc.subtract(velocity.normalize());
             final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, absorbedLoc, remainingEnergy
                     * factor);
+            boo.setMaxRadius(this.radius);
+            boo.owner = this.owner;
             boo.doExplosion();
         }
     }
