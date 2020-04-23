@@ -31,6 +31,7 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
+import pokecube.legends.PokecubeLegends;
 import thut.api.maths.Vector3;
 
 public class LegendarySpawn
@@ -80,7 +81,8 @@ public class LegendarySpawn
                 location.add(0, 1, 0).moveEntity(entity);
                 spawnCondition.onSpawn(pokemob);
                 playerIn.getHeldItemMainhand().setCount(0);
-                worldIn.setBlockState(evt.getPos(), Blocks.AIR.getDefaultState());
+                if (PokecubeLegends.config.singleUseLegendSpawns) worldIn.setBlockState(evt.getPos(), Blocks.AIR
+                        .getDefaultState());
                 if (pokemob.getExp() < 100) entity = pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), 50))
                         .getEntity();
                 worldIn.addEntity(entity);

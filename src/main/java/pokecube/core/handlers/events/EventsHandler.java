@@ -571,8 +571,6 @@ public class EventsHandler
     public static void serverStarting(final FMLServerStartingEvent event)
     {
         PokecubeCore.LOGGER.info("Server Starting, Registering Commands");
-        // Database.loadingThread.interrupt();
-        // Database.resourceManager = event.getServer().getResourceManager();
         PokecubeItems.init(event.getServer());
         CommandConfigs.register(PokecubeCore.getConfig(), event.getCommandDispatcher(), "pokesettings");
         CommandManager.register(event.getCommandDispatcher());

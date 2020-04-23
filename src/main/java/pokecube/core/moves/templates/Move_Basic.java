@@ -177,7 +177,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         else
         {
             final List<Entity> subTargets = new ArrayList<>();
-            if (subTargets.contains(attacker)) subTargets.remove(attacker);
+            if (subTargets.contains(attacker.getEntity())) subTargets.remove(attacker.getEntity());
             targets.addAll(subTargets);
         }
         while (targets.contains(null))

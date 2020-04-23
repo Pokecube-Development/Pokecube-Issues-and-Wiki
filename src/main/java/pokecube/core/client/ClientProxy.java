@@ -395,7 +395,8 @@ public class ClientProxy extends CommonProxy
         }
         else if (!play && this.pokecenter_sounds.containsKey(tileIn.getPos()))
         {
-            final PokecenterSound sound = this.pokecenter_sounds.remove(tileIn);
+            final PokecenterSound sound = this.pokecenter_sounds.remove(tileIn.getPos());
+            sound.stopped = true;
             Minecraft.getInstance().getSoundHandler().stop(sound);
         }
 

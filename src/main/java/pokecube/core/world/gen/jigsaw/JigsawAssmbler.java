@@ -193,7 +193,7 @@ public class JigsawAssmbler
         final BlockPos pos = this.base_pos;
         final SpawnCheck check = new SpawnCheck(Vector3.getNewVector().set(pos), world, this.biome);
         if (this.root != null) list.removeIf(p -> !this.root.isValidPos(p, check));
-        list.removeIf(p -> this.once_added.contains(p));
+        list.removeIf(p -> p instanceof SingleOffsetPiece && this.once_added.contains(((SingleOffsetPiece) p).flag));
         if (this.root != null) for (final JigsawPiece p : list)
             if (p instanceof SingleOffsetPiece && !((SingleOffsetPiece) p).flag.isEmpty() && this.root.neededChildren
                     .contains(((SingleOffsetPiece) p).flag)) needed.add(p);

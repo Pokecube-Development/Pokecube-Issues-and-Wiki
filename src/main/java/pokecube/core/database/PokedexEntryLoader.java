@@ -516,17 +516,17 @@ public class PokedexEntryLoader
                 for (final Field f : StatsNode.class.getDeclaredFields())
                 try
                 {
-                final Object ours = f.get(this.stats);
-                final Object theirs = f.get(other.stats);
-                boolean isNumber = !(ours instanceof String || ours instanceof Stats);
-                if (isNumber) if (ours instanceof Float) isNumber = (float) ours == -1;
-                else if (ours instanceof Integer) isNumber = (int) ours == -1;
-                if (ours == null) f.set(this.stats, theirs);
-                else if (isNumber) f.set(this.stats, theirs);
+                    final Object ours = f.get(this.stats);
+                    final Object theirs = f.get(other.stats);
+                    boolean isNumber = !(ours instanceof String || ours instanceof Stats);
+                    if (isNumber) if (ours instanceof Float) isNumber = (float) ours == -1;
+                    else if (ours instanceof Integer) isNumber = (int) ours == -1;
+                    if (ours == null) f.set(this.stats, theirs);
+                    else if (isNumber) f.set(this.stats, theirs);
                 }
                 catch (final Exception e)
                 {
-                e.printStackTrace();
+                    e.printStackTrace();
                 }
         }
 
@@ -874,14 +874,14 @@ public class PokedexEntryLoader
                 if (keyString.equals("hidden"))
                 {
                     final String[] vars = value.split(",");
-                    for (int i = 0; i < vars.length; i++)
-                        if (!entry.abilitiesHidden.contains(vars[i].trim())) entry.abilitiesHidden.add(vars[i].trim());
+                    for (final String var : vars)
+                        if (!entry.abilitiesHidden.contains(var.trim())) entry.abilitiesHidden.add(var.trim());
                 }
                 if (keyString.equals("normal"))
                 {
                     final String[] vars = value.split(",");
-                    for (int i = 0; i < vars.length; i++)
-                        if (!entry.abilities.contains(vars[i].trim())) entry.abilities.add(vars[i].trim());
+                    for (final String var : vars)
+                        if (!entry.abilities.contains(var.trim())) entry.abilities.add(var.trim());
                     if (entry.abilities.size() == 1) entry.abilities.add(entry.abilities.get(0));
                 }
             }
@@ -1126,7 +1126,7 @@ public class PokedexEntryLoader
                     check:
                     {
                         if (!clear) for (final EvolutionData existing : entry.evolutions)
-                            if (existing.data.equals(existing)) break check;
+                            if (existing.data.equals(data.data)) break check;
                         entry.addEvolution(data);
                     }
                 }

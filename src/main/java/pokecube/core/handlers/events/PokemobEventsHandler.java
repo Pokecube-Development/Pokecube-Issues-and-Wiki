@@ -226,41 +226,6 @@ public class PokemobEventsHandler
                 .getGameTime());
     }
 
-    @SubscribeEvent
-    public static void interactEvent(final PlayerInteractEvent.RightClickBlock evt)
-    {
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getEntity().getPersistentData().getLong(ID);
-
-        // if (evt.getItemStack().getItem() == Items.STICK && evt.getPlayer()
-        // instanceof ServerPlayerEntity)
-        // {
-        // final TerrainSegment seg =
-        // TerrainManager.getInstance().getTerrainForEntity(evt.getPlayer());
-        // System.out.println(seg);
-        // for (final Entry<Integer, String> entry :
-        // BiomeType.getMap().entrySet())
-        // System.out.println(entry.getValue() + " " + entry.getKey());
-        // }
-        if (time == evt.getEntity().getEntityWorld().getGameTime())
-        {
-            evt.setCanceled(true);
-            return;
-        }
-    }
-
-    @SubscribeEvent
-    public static void interactEvent(final PlayerInteractEvent.RightClickItem evt)
-    {
-        final String ID = "LastSuccessInteractEvent";
-        final long time = evt.getEntity().getPersistentData().getLong(ID);
-        if (time == evt.getEntity().getEntityWorld().getGameTime())
-        {
-            evt.setCanceled(true);
-            return;
-        }
-    }
-
     private static boolean isRidable(final Entity rider, final IPokemob pokemob)
     {
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -511,15 +476,15 @@ public class PokemobEventsHandler
                     boolean valid = false;
                     if (pokemob.getPokedexEntry().canEvolve() && pokemob.getEntity().isServerWorld())
                         for (final EvolutionData d : pokemob.getPokedexEntry().getEvolutions())
-                        {
+                    {
                         boolean hasItem = !d.item.isEmpty();
                         hasItem = hasItem || d.preset != null;
                         if (hasItem && d.shouldEvolve(pokemob, held))
                         {
-                        valid = true;
-                        break;
+                            valid = true;
+                            break;
                         }
-                        }
+                    }
                     if (!valid) break evo;
 
                     final IPokemob evolution = pokemob.evolve(true, false, held);

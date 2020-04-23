@@ -94,7 +94,7 @@ public class GZMoveManager
         for (final MoveJsonEntry entry : moves.moves)
         {
             // Do not map these onto anything.
-            if (g_type_map.containsKey(entry.name) || g_max_moves.contains(entry.name) || z_moves.containsKey(
+            if (g_type_map.containsValue(entry.name) || g_max_moves.contains(entry.name) || z_moves.containsValue(
                     entry.name)) continue;
             final String name = ThutCore.trim(entry.name);
             String z_to = ThutCore.trim(entry.zMovesTo);
