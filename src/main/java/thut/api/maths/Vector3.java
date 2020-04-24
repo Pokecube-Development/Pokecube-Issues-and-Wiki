@@ -125,8 +125,8 @@ public class Vector3
     public static Vector3 findMidPoint(final List<Vector3> points)
     {
         final Vector3 mid = Vector3.getNewVector();
-        for (int j = 0; j < points.size(); j++)
-            mid.addTo(points.get(j));
+        for (final Vector3 point : points)
+            mid.addTo(point);
         if (points.size() > 0) mid.scalarMultBy(1 / (double) points.size());
         return mid;
     }
@@ -536,17 +536,17 @@ public class Vector3
         final float f = 0.5F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
-
+        ICompoundPart[] parts = null;
         for (final Entity entity1 : mobs)
-            if (entity1 instanceof ICompoundMob) parts:
-            for (final ICompoundPart part : ((ICompoundMob) entity1).getParts())
+            if (entity1 instanceof ICompoundMob && (parts = ((ICompoundMob) entity1).getParts()).length > 0) partcheck:
+            for (final ICompoundPart part : parts)
             {
                 final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
                 final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
                     ret.add(entity1);
-                    break parts;
+                    break partcheck;
                 }
             }
             else
@@ -568,25 +568,25 @@ public class Vector3
         final Vec3d vec3 = source.toVec3d();
         final Vec3d vec31 = direction.toVec3d();
         final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
-        final float f = 0.5F;
+        final float f = 1F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(excluded, aabb, predicate);
-
+        ICompoundPart[] parts = null;
         for (final Entity entity1 : mobs)
-            if (entity1 instanceof ICompoundMob) parts:
-            for (final ICompoundPart part : ((ICompoundMob) entity1).getParts())
+            if (entity1 instanceof ICompoundMob && (parts = ((ICompoundMob) entity1).getParts()).length > 0) partcheck:
+            for (final ICompoundPart part : parts)
             {
-                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
+                final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(size);
                 final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent())
                 {
                     ret.add(entity1);
-                    break parts;
+                    break partcheck;
                 }
             }
             else
             {
-                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(0.3F);
+                final AxisAlignedBB axisalignedbb = entity1.getBoundingBox().grow(size);
                 final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
                 if (optional.isPresent()) ret.add(entity1);
             }
@@ -843,9 +843,10 @@ public class Vector3
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(entity, aabb, predicate);
         ds *= ds;
+        ICompoundPart[] parts = null;
         for (final Entity entity1 : mobs)
-            if (entity1 instanceof ICompoundMob) parts:
-            for (final ICompoundPart part : ((ICompoundMob) entity1).getParts())
+            if (entity1 instanceof ICompoundMob && (parts = ((ICompoundMob) entity1).getParts()).length > 0) partcheck:
+            for (final ICompoundPart part : parts)
             {
                 final AxisAlignedBB axisalignedbb = part.getMob().getBoundingBox().grow(0.3F);
                 final Optional<Vec3d> optional = axisalignedbb.rayTrace(vec3, vec32);
@@ -856,7 +857,7 @@ public class Vector3
                     {
                         pointedEntity = entity1;
                         ds = d1;
-                        break parts;
+                        break partcheck;
                     }
                 }
             }

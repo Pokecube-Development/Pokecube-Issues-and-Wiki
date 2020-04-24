@@ -515,7 +515,9 @@ public class PokedexEntry
                 result = results.get(index).copy();
             }
             if (result.isEmpty()) return false;
-            data.putLong("lastInteract", entity.getEntityWorld().getGameTime());
+            final long timer = action.cooldown + new Random().nextInt(action.variance) + entity.getEntityWorld()
+                    .getGameTime();
+            data.putLong("lastInteract", timer);
             final int time = pokemob.getHungerTime();
             pokemob.setHungerTime(time + action.hunger);
             if (consumeInput) held.shrink(1);
@@ -546,7 +548,7 @@ public class PokedexEntry
             {
                 final long time = data.getLong("lastInteract");
                 final long diff = entity.getEntityWorld().getGameTime() - time;
-                if (diff < action.cooldown + new Random(time).nextInt(action.variance)) return false;
+                if (diff < 0) return false;
             }
             if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
             if (!action.female && pokemob.getSexe() == IPokemob.FEMALE) return false;

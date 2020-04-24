@@ -16,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -42,6 +43,8 @@ import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokeType;
 import thut.api.boom.ExplosionCustom;
+import thut.api.entity.ICompoundMob;
+import thut.api.entity.ICompoundMob.ICompoundPart;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
@@ -116,10 +119,50 @@ public class MovesUtils implements IMoveConstants
     public static boolean contactAttack(final IPokemob attacker, final Entity attacked)
     {
         if (attacked == null || attacker == null) return false;
-        double range = PokecubeCore.getConfig().contactAttackDistance;
-        range = Math.max(attacker.getMobSizes().x, range);
-        range = Math.max(1, range);
-        return attacker.getEntity().getDistance(attacked) <= range;
+        ICompoundPart[] parts = null;
+        boolean inRange = false;
+        final float dr = 0.5f;
+        final Entity entity = attacker.getEntity();
+        float attackerLength = attacker.getPokedexEntry().length * attacker.getSize() + dr;
+        final float attackerHeight = attacker.getPokedexEntry().height * attacker.getSize() + dr;
+        float attackerWidth = attacker.getPokedexEntry().height * attacker.getSize() + dr;
+        attackerLength = Math.max(attackerLength, attackerHeight);
+        attackerWidth = Math.max(attackerWidth, attackerHeight);
+        attackerLength = Math.max(attackerLength, attackerWidth);
+        attackerWidth = attackerLength;
+        if (attacked instanceof ICompoundMob && (parts = ((ICompoundMob) attacked).getParts()).length > 0)
+            for (final ICompoundPart p : parts)
+        {
+            final float attackedLength = p.getMob().getWidth();
+            final float attackedHeight = p.getMob().getHeight();
+            final float attackedWidth = p.getMob().getWidth();
+
+            final float dx = (float) (entity.posX - p.getMob().posX);
+            final float dz = (float) (entity.posZ - p.getMob().posZ);
+            final float dy = (float) (entity.posY - p.getMob().posY);
+
+            final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
+            final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
+                    + attackedLength);
+            inRange = box.intersects(box2);
+            if (inRange) break;
+        }
+        else
+        {
+            final float attackedLength = attacked.getWidth() + dr;
+            final float attackedHeight = attacked.getHeight() + dr;
+            final float attackedWidth = attacked.getWidth() + dr;
+
+            final float dx = (float) (entity.posX - attacked.posX);
+            final float dz = (float) (entity.posZ - attacked.posZ);
+            final float dy = (float) (entity.posY - attacked.posY);
+
+            final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
+            final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
+                    + attackedLength);
+            inRange = box.intersects(box2);
+        }
+        return inRange;
     }
 
     /**
@@ -689,8 +732,7 @@ public class MovesUtils implements IMoveConstants
 
     public static Entity targetHit(final Entity attacker, final Vector3 dest)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker, true);
-        source.y += attacker.getHeight() / 4;
+        final Vector3 source = Vector3.getNewVector().set(attacker, false);
         final boolean ignoreAllies = false;
         return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getEntityWorld(), attacker,
                 ignoreAllies, MovesUtils.targetMatcher(attacker));

@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
@@ -24,8 +23,6 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
-import thut.api.entity.ICompoundMob;
-import thut.api.entity.ICompoundMob.ICompoundPart;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Matrix3;
 import thut.api.maths.Vector3;
@@ -232,50 +229,8 @@ public class AIAttack extends AIBase implements IAICombat
 
         // Checks to see if the target is in range.
         if (distanced) inRange = dist < var1;
-        else
-        {
-            float attackerLength = this.pokemob.getPokedexEntry().length * this.pokemob.getSize() + 0.5f;
-            final float attackerHeight = this.pokemob.getPokedexEntry().height * this.pokemob.getSize() + 0.5f;
-            float attackerWidth = this.pokemob.getPokedexEntry().height * this.pokemob.getSize() + 0.5f;
+        else inRange = MovesUtils.contactAttack(this.pokemob, this.entityTarget);
 
-            attackerLength = Math.max(attackerLength, attackerHeight);
-            attackerWidth = Math.max(attackerWidth, attackerHeight);
-            attackerLength = Math.max(attackerLength, attackerWidth);
-            attackerWidth = attackerLength;
-
-            if (this.entityTarget instanceof ICompoundMob)
-                for (final ICompoundPart p : ((ICompoundMob) this.entityTarget).getParts())
-                {
-
-                final float attackedLength = p.getMob().getWidth();
-                final float attackedHeight = p.getMob().getHeight();
-                final float attackedWidth = p.getMob().getWidth();
-
-                final float dx = (float) (this.entity.posX - p.getMob().posX);
-                final float dz = (float) (this.entity.posZ - p.getMob().posZ);
-                final float dy = (float) (this.entity.posY - p.getMob().posY);
-
-                final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
-                final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz + attackedLength);
-                inRange = box.intersects(box2);// intersects 1.12
-                if (inRange) break;
-                }
-            else
-            {
-                final float attackedLength = this.entityTarget.getWidth();
-                final float attackedHeight = this.entityTarget.getHeight();
-                final float attackedWidth = this.entityTarget.getWidth();
-
-                final float dx = (float) (this.entity.posX - this.entityTarget.posX);
-                final float dz = (float) (this.entity.posZ - this.entityTarget.posZ);
-                final float dy = (float) (this.entity.posY - this.entityTarget.posY);
-
-                final AxisAlignedBB box = new AxisAlignedBB(0, 0, 0, attackerWidth, attackerHeight, attackerLength);
-                final AxisAlignedBB box2 = new AxisAlignedBB(dx, dy, dz, dx + attackedWidth, dy + attackedHeight, dz
-                        + attackedLength);
-                inRange = box.intersects(box2);// intersects 1.12
-            }
-        }
         if (self)
         {
             inRange = true;

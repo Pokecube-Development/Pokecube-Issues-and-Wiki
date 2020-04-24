@@ -17,9 +17,4 @@
    </part>
   </phase>
  </model>
- <details>
-  <PARTICLEEFFECTS>
-   flame:15.5:15.5
-  </PARTICLEEFFECTS>
- </details>
 </ModelAnimator>
