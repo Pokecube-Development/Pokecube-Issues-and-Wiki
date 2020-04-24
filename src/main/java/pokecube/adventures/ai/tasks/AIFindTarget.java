@@ -15,7 +15,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.moves.MovesUtils;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
@@ -235,31 +234,12 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         if (Math.random() > this.agroChance) return;
 
         // Look for targets
-        final Vector3 here = Vector3.getNewVector().set(this.entity);
+        final Vector3 here = Vector3.getNewVector().set(this.entity, true);
         LivingEntity target = null;
         final int sight = this.trainer.getAgressDistance();
-        targetTrack:
-        {
-            here.addTo(0, this.entity.getEyeHeight(), 0);
-            final Vector3 look = Vector3.getNewVector().set(this.entity.getLook(1));
-            here.addTo(look);
-            look.scalarMultBy(sight);
-            look.addTo(here);
-            final List<LivingEntity> targets = MovesUtils.targetsHit(this.entity, look);
-
-            if (!targets.isEmpty()) for (final Object o : targets)
-            {
-                final LivingEntity e = (LivingEntity) o;
-                final double dist = e.getDistance(this.entity);
-
-                // Only visible or valid targets.
-                if (this.validTargetSet(e) && dist < sight)
-                {
-                    target = e;
-                    break targetTrack;
-                }
-            }
-        }
+        final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.validTargetSet((LivingEntity) e);
+        final Entity match = here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity, matcher);
+        if (match instanceof LivingEntity) target = (LivingEntity) match;
 
         // If no target, return false.
         if (target == null)
