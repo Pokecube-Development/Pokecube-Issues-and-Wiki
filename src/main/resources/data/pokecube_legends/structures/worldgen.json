@@ -332,7 +332,7 @@
       "separation":8,
       "spawn":{
         "values":{
-          "category":"spooky"
+          "types":"spooky"
         }
       }
     },

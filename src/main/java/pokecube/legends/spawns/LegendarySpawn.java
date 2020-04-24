@@ -59,7 +59,6 @@ public class LegendarySpawn
         final PlayerEntity playerIn = evt.getPlayer();
         final ServerWorld worldIn = (ServerWorld) evt.getWorld();
         final PokedexEntry entry = spawn.entry;
-        if (!spawn.heldItemChecker.test(stack)) return SpawnResult.WRONGITEM;
 
         final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
         final ISpecialCaptureCondition captureCondition = ISpecialCaptureCondition.captureMap.get(entry);
@@ -68,6 +67,8 @@ public class LegendarySpawn
             final Vector3 location = Vector3.getNewVector().set(evt.getPos());
             if (spawnCondition.canSpawn(playerIn, location, false))
             {
+                if (!spawn.heldItemChecker.test(stack)) return SpawnResult.WRONGITEM;
+
                 MobEntity entity = PokecubeCore.createPokemob(entry, worldIn);
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                 if (captureCondition != null && !captureCondition.canCapture(playerIn, pokemob))
@@ -174,17 +175,19 @@ public class LegendarySpawn
 
         if (worked) return;
 
-        if (wrong_items.size() == matches.size())
+        if (wrong_items.size() > 0)
         {
             Collections.shuffle(wrong_items);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.wrongitem.info", new TranslationTextComponent(
                     wrong_items.get(0).getUnlocalizedName())));
+            return;
         }
-        if (wrong_biomes.size() == matches.size())
+        if (wrong_biomes.size() > matches.size())
         {
             Collections.shuffle(wrong_biomes);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(
                     matches.get(0).entry.getUnlocalizedName())));
+            return;
         }
 
     }

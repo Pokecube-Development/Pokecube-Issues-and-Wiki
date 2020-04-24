@@ -152,6 +152,8 @@ public abstract class TrainerBase extends NpcMob
         super.tick();
     }
 
+    private boolean checkedMobs = false;
+
     @Override
     public void livingTick()
     {
@@ -180,9 +182,9 @@ public abstract class TrainerBase extends NpcMob
         if (this.pokemobsCap.countPokemon() == 0 && !this.fixedMobs)
         {
             final TypeTrainer type = this.pokemobsCap.getType();
-            if (type != null && !type.pokemon.isEmpty())
+            if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
-
+                this.checkedMobs = true;
                 final int level = SpawnHandler.getSpawnLevel(this.getEntityWorld(), Vector3.getNewVector().set(this),
                         type.pokemon.get(0));
                 this.initTeam(level);
