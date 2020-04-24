@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition;
@@ -101,7 +102,9 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     public boolean canSpawn(final Entity trainer, final Vector3 location, final boolean message)
     {
         if (!this.canSpawn(trainer)) return false;
-        if (SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location, trainer.getEntityWorld(), false))
+        final SpawnData data = this.getEntry().getSpawnData();
+        if (data == null || SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location, trainer.getEntityWorld(),
+                false))
         {
             final boolean here = Tools.countPokemon(location, trainer.getEntityWorld(), 32, this.getEntry()) > 0;
             return !here;
