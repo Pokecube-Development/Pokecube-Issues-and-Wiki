@@ -29,20 +29,24 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
-import net.minecraftforge.client.event.InputEvent.MouseInputEvent;
+import net.minecraftforge.client.event.InputEvent.RawMouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -185,16 +189,27 @@ public class EventsHandlerClient
         return pokemob;
     }
 
-    @SubscribeEvent
-    public static void mouseInput(final MouseInputEvent evt)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void mouseInput(final RawMouseEvent evt)
     {
         final ClientPlayerEntity player = Minecraft.getInstance().player;
         // We only handle these ingame anyway.
         if (player == null) return;
         //
-        // if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() ==
-        // GLFW.GLFW_MOUSE_BUTTON_RIGHT) System.out.println(
-        // "test");
+        if (evt.getAction() == GLFW.GLFW_PRESS && evt.getButton() == GLFW.GLFW_MOUSE_BUTTON_RIGHT) if (Minecraft
+                .getInstance().objectMouseOver == null || Minecraft.getInstance().objectMouseOver
+                        .getType() == Type.MISS)
+        {
+            final Entity entity = Tools.getPointedEntity(player, 5);
+            if (entity != null) hands:
+            for (final Hand hand : Hand.values())
+                if (Minecraft.getInstance().playerController.interactWithEntity(player, entity,
+                        hand) == ActionResultType.SUCCESS)
+                {
+                    evt.setCanceled(true);
+                    break hands;
+                }
+        }
     }
 
     @SubscribeEvent

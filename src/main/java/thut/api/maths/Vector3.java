@@ -854,7 +854,7 @@ public class Vector3
         double ds = range;
         final Vec3d vec3 = this.toVec3d();
         final Vec3d vec32 = vec3.add(vec31.x * ds, vec31.y * ds, vec31.z * ds);
-        final float f = 0.5F;
+        final float f = 2.5F;
         final AxisAlignedBB aabb = this.getAABB().expand(vec31.x * ds, vec31.y * ds, vec31.z * ds).grow(f, f, f);
         final List<Entity> mobs = world.getEntitiesInAABBexcluding(entity, aabb, predicate);
         ds *= ds;
