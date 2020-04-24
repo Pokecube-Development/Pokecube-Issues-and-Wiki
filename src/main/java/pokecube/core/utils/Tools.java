@@ -273,8 +273,7 @@ public class Tools
 
     public static Entity getPointedEntity(final Entity entity, double distance, final Predicate<Entity> selector)
     {
-        final Vec3d vec3 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
-        final Vector3 pos = Vector3.getNewVector().set(vec3);
+        final Vector3 pos = Vector3.getNewVector().set(entity, true);
         final Vector3 loc = Tools.getPointedLocation(entity, distance);
         if (loc != null) distance = loc.distanceTo(pos);
         final Vec3d vec31 = entity.getLook(0);

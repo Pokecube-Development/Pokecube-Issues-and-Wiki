@@ -17,6 +17,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem;
 import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
@@ -57,7 +58,7 @@ public class ClientProxy extends CommonProxy
     private long lastRightClickItemMain  = 0;
     private long lastRightClickItemOff   = 0;
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void mouseFloodCtrl(final RawMouseEvent evt)
     {
         final ClientPlayerEntity player = Minecraft.getInstance().player;
@@ -72,7 +73,7 @@ public class ClientProxy extends CommonProxy
         this.lastMouseRightClickDown = time;
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void mouseFloodCtrl(final RightClickBlock evt)
     {
         final ClientPlayerEntity player = Minecraft.getInstance().player;
@@ -89,7 +90,7 @@ public class ClientProxy extends CommonProxy
         else this.lastRightClickBlockOff = time;
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void mouseFloodCtrl(final RightClickItem evt)
     {
         final ClientPlayerEntity player = Minecraft.getInstance().player;
