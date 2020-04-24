@@ -321,6 +321,12 @@ public class SpawnBiomeMatcher
             return;
         }
 
+        if (this._validBiomes == null) this._validBiomes = Sets.newHashSet();
+        if (this._validSubBiomes == null) this._validSubBiomes = Sets.newHashSet();
+        if (this._blackListBiomes == null) this._blackListBiomes = Sets.newHashSet();
+        if (this._blackListSubBiomes == null) this._blackListSubBiomes = Sets.newHashSet();
+        if (this._validStructures == null) this._validStructures = Sets.newHashSet();
+
         this._validBiomes.clear();
         this._validSubBiomes.clear();
         this._blackListBiomes.clear();
