@@ -1,0 +1,318 @@
+{
+  "pokemon": [
+    {
+      "name": "Lugia",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ho-Oh",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Celebi",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:celebi_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Regirock",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "typesBlacklist": "cold",
+              "types": "mountain",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Regice",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "mountain,cold",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Registeel",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "typesBlacklist": "cold",
+              "types": "mountain",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Regigigas",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:regis_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Kyogre",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:kyogre_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Groudon",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:groudon_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Heatran",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "nether",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Dialga",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Palkia",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Arceus",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Zekrom",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reshiram",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Victini",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "village",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tornadus Incarnate",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:nature_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Thundurus Incarnate",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:nature_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Landorus Incarnate",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:nature_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Keldeo",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Xerneas",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:xerneas_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Yveltal",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:yveltal_place",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Zacian",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Zamazenta",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:zamazenta_temple,pokecube_legends:zacian_temple",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
