@@ -9,9 +9,11 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -26,19 +28,18 @@ import thut.wearables.EnumWearable;
 
 public class Util
 {
-    public static RenderType getType(ResourceLocation loc, boolean alpha)
+    public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        return alpha
-                ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
-                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
-                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
-                                .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
-                                .lightmap(new RenderState.LightmapState(true))
-                                .overlay(new RenderState.OverlayState(true)).build(false))
+        return alpha ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true,
+                false, RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+                        .diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(new RenderState.AlphaState(
+                                0.003921569F)).cull(new RenderState.CullState(false)).lightmap(
+                                        new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true))
+                        .build(false))
                 : RenderType.get("thutbling:bling_b", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
                         RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
-                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
-                                .cull(new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
+                                .diffuseLighting(new RenderState.DiffuseLightingState(true)).cull(
+                                        new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
                                 .overlay(new RenderState.OverlayState(true)).build(false));
     }
 
@@ -77,8 +78,8 @@ public class Util
             {
                 textures = new ResourceLocation[2];
                 textures[0] = new ResourceLocation(tex);
-                if (stack.getTag().contains("tex2"))
-                    textures[1] = new ResourceLocation(stack.getTag().getString("tex2"));
+                if (stack.getTag().contains("tex2")) textures[1] = new ResourceLocation(stack.getTag().getString(
+                        "tex2"));
                 else textures[1] = textures[0];
                 Util.customTextures.put(tex, textures);
                 return textures;
@@ -90,21 +91,23 @@ public class Util
 
     public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc)
     {
-        return buff.getBuffer(getType(loc, true));
+        return buff.getBuffer(Util.getType(loc, true));
     }
 
-    public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc, boolean alpha)
+    public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc,
+            final boolean alpha)
     {
-        return buff.getBuffer(getType(loc, alpha));
+        return buff.getBuffer(Util.getType(loc, alpha));
     }
 
     public static void renderStandardModelWithGem(final MatrixStack mat, final IRenderTypeBuffer buff,
             final ItemStack stack, final String colorpart, final String itempart, final IModel model,
-            ResourceLocation[] tex, final Vector3f dr, final Vector3f ds, final int brightness, final int overlay)
+            final ResourceLocation[] tex, final Vector3f dr, final Vector3f ds, final int brightness, final int overlay)
     {
         if (!(model instanceof IModelCustom)) return;
         ResourceLocation tex0 = tex[0];
-        ResourceLocation tex1 = tex[1];
+        final ResourceLocation tex1 = tex[1];
+        ItemStack gem = ItemStack.EMPTY;
         final IModelCustom renderable = (IModelCustom) model;
         DyeColor ret = DyeColor.YELLOW;
         if (stack.hasTag() && stack.getTag().contains("dyeColour"))
@@ -115,8 +118,15 @@ public class Util
         final Color colour = new Color(ret.getColorValue() + 0xFF000000);
         IExtendedModelPart part = model.getParts().get(colorpart);
 
-        if (stack.hasTag() && stack.getTag().contains("gem"))
-            tex0 = new ResourceLocation(stack.getTag().getString("gem"));
+        if (stack.hasTag() && stack.getTag().contains("gemTag"))
+        {
+            gem = ItemStack.read(stack.getTag().getCompound("gemTag"));
+            final ResourceLocation sprite = Minecraft.getInstance().getItemRenderer().getItemModelMesher()
+                    .getParticleIcon(gem).getName();
+            final String namespace = sprite.getNamespace();
+            final String val = "textures/" + sprite.getPath();
+            tex0 = new ResourceLocation(namespace, val + ".png");
+        }
         else tex0 = null;
         mat.push();
         mat.translate(dr.x, dr.y, dr.z);
@@ -131,6 +141,11 @@ public class Util
         if (part != null && tex0 != null)
         {
             final IVertexBuilder buf0 = Util.makeBuilder(buff, tex0);
+            renderable.renderPart(mat, buf0, itempart);
+        }
+        else if (part != null && !gem.isEmpty())
+        {
+            final IVertexBuilder buf0 = buff.getBuffer(RenderTypeLookup.getRenderType(gem));
             renderable.renderPart(mat, buf0, itempart);
         }
         mat.pop();

@@ -92,6 +92,20 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
         return this.heads;
     }
 
+    public List<String> getOrder()
+    {
+        if (this.order.isEmpty())
+        {
+            IExtendedModelPart.sort(this.order, this.getParts());
+            for (final String s : this.getOrder())
+            {
+                final IExtendedModelPart o = this.parts.get(s);
+                o.preProcess();
+            }
+        }
+        return this.order;
+    }
+
     private Material getMaterial(final X3dXML.Appearance appearance)
     {
         final X3dXML.Material mat = appearance.material;
@@ -262,18 +276,13 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
                         comp.posChange[2] = -d1;
                     }
                 }
-        IExtendedModelPart.sort(this.order, this.getParts());
-        for (final String s : this.order)
-        {
-            final IExtendedModelPart o = this.parts.get(s);
-            o.preProcess();
-        }
+        this.getOrder();
     }
 
     @Override
     public void renderAll(final MatrixStack mat, final IVertexBuilder buffer)
     {
-        for (final String s : this.order)
+        for (final String s : this.getOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
             if (o.getParent() == null) o.renderAll(mat, buffer);
@@ -283,7 +292,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     @Override
     public void renderAllExcept(final MatrixStack mat, final IVertexBuilder buffer, final String... excludedGroupNames)
     {
-        for (final String s : this.order)
+        for (final String s : this.getOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
             if (o.getParent() == null) o.renderAllExcept(mat, buffer, excludedGroupNames);
@@ -293,7 +302,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     @Override
     public void renderOnly(final MatrixStack mat, final IVertexBuilder buffer, final String... groupNames)
     {
-        for (final String s : this.order)
+        for (final String s : this.getOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
             if (o.getParent() == null) o.renderOnly(mat, buffer, groupNames);
@@ -303,7 +312,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     @Override
     public void renderPart(final MatrixStack mat, final IVertexBuilder buffer, final String partName)
     {
-        for (final String s : this.order)
+        for (final String s : this.getOrder())
         {
             final IExtendedModelPart o = this.parts.get(s);
             if (o.getParent() == null) o.renderPart(mat, buffer, partName);

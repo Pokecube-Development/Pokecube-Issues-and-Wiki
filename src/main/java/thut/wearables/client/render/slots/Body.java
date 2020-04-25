@@ -35,12 +35,12 @@ public class Body
             if (wearer.isCrouching())
             {
                 mat.translate(0.0F, 0.23125F, 0.0F);
-                if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(7)) != null)
-                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(7)) != null) mat.translate(offsetArr[0],
+                        offsetArr[1], offsetArr[2]);
             }
             theModel.bipedBody.setAnglesAndRotation(mat);
-            if ((offsetArr = ThutWearables.config.renderOffsets.get(7)) != null)
-                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsets.get(7)) != null) mat.translate(offsetArr[0],
+                    offsetArr[1], offsetArr[2]);
             render = true;
             break;
         case NECK:
@@ -48,12 +48,12 @@ public class Body
             if (wearer.isCrouching())
             {
                 mat.translate(0.0F, 0.23125F, 0.0F);
-                if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(6)) != null)
-                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(6)) != null) mat.translate(offsetArr[0],
+                        offsetArr[1], offsetArr[2]);
             }
             theModel.bipedBody.setAnglesAndRotation(mat);
-            if ((offsetArr = ThutWearables.config.renderOffsets.get(6)) != null)
-                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsets.get(6)) != null) mat.translate(offsetArr[0],
+                    offsetArr[1], offsetArr[2]);
             render = true;
             break;
         case WAIST:
@@ -62,11 +62,11 @@ public class Body
             if (wearer.isCrouching())
             {
                 mat.translate(0.0F, 0.13125F, -0.105F);
-                if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(8)) != null)
-                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(8)) != null) mat.translate(offsetArr[0],
+                        offsetArr[1], offsetArr[2]);
             }
-            if ((offsetArr = ThutWearables.config.renderOffsets.get(8)) != null)
-                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsets.get(8)) != null) mat.translate(offsetArr[0],
+                    offsetArr[1], offsetArr[2]);
             render = true;
             break;
         default:
