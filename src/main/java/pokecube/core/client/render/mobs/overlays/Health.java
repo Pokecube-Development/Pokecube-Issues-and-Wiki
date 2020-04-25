@@ -14,6 +14,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.Quaternion;
@@ -88,8 +89,14 @@ public class Health
     }
 
     private static void blit(final IVertexBuilder buffer, final Matrix4f pos, final float x1, final float y1,
-            final float x2, final float y2, final float z, final int r, final int g, final int b, final int a)
+            final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
+            final int id)
     {
+        if (buffer instanceof BufferBuilder)
+        {
+            final BufferBuilder buf = (BufferBuilder) buffer;
+            if (buf.getVertexFormat().getSize() != 16) return;
+        }
         try
         {
             buffer.pos(pos, x1, y1, z).color(r, g, b, a).endVertex();
@@ -99,7 +106,8 @@ public class Health
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {}", e.toString());
+            PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {} {} {}", buffer, id, e.toString());
+
         }
     }
 
@@ -200,17 +208,17 @@ public class Health
             {
                 final int a = 32;
                 Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0,
-                        0, a);
+                        0, a, 0);
                 zlevel += zshift;
             }
 
             // Health bar
             // Gray Space
-            Health.blit(buffer, pos, -size, 0, size, barHeight1, zlevel, 127, 127, 127, 127);
+            Health.blit(buffer, pos, -size, 0, size, barHeight1, zlevel, 127, 127, 127, 127, 1);
             zlevel += zshift;
 
             // Health Bar Fill
-            Health.blit(buffer, pos, -size, 0, healthSize * 2 - size, barHeight1, zlevel, r, g, b, 127);
+            Health.blit(buffer, pos, -size, 0, healthSize * 2 - size, barHeight1, zlevel, r, g, b, 127, 2);
             zlevel += zshift;
 
             // Exp Bar
@@ -227,11 +235,11 @@ public class Health
             if (exp < 0 || !pokemob.getGeneralState(GeneralStates.TAMED)) exp = 0;
             final float expSize = size * (exp / maxExp);
             // Gray Space
-            Health.blit(buffer, pos, -size, barHeight1, size, barHeight1 + 1, zlevel, 127, 127, 127, 127);
+            Health.blit(buffer, pos, -size, barHeight1, size, barHeight1 + 1, zlevel, 127, 127, 127, 127, 3);
             zlevel += zshift;
 
             // Exp Bar Fill
-            Health.blit(buffer, pos, -size, barHeight1, expSize * 2 - size, barHeight1 + 1, zlevel, r, g, b, 127);
+            Health.blit(buffer, pos, -size, barHeight1, expSize * 2 - size, barHeight1 + 1, zlevel, r, g, b, 127, 4);
             zlevel += zshift;
 
             mat.push();

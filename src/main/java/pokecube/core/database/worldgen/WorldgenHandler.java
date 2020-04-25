@@ -93,9 +93,11 @@ public class WorldgenHandler
     public static class JsonStructure
     {
         public String    name;
-        /** In MultiStructures, this is the chance that the part will be picked.
+        /**
+         * In MultiStructures, this is the chance that the part will be picked.
          * Parts are sorted by priority, then the first to have a successful
-         * pick is what is generated for that position. */
+         * pick is what is generated for that position.
+         */
         public float     chance    = 1;
         public int       offset    = 1;
         public String    biomeType = "none";
@@ -278,7 +280,6 @@ public class WorldgenHandler
         if (struct.surface && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
         for (final Biome b : ForgeRegistries.BIOMES.getValues())
         {
-            if (!struct._matcher.checkBiome(b)) continue;
             b.addFeature(stage, toAdd.withConfiguration(config));
             b.addStructure(toAdd.withConfiguration(config));
         }

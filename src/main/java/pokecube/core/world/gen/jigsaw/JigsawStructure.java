@@ -124,6 +124,22 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
         return new ChunkPos(sx, sz);
     }
 
+    private boolean matches(final JigSawConfig struct, final Biome b)
+    {
+        if (struct == null) return false;
+        if (struct._matcher == null) return false;
+        if (!struct._matcher.checkBiome(b)) return false;
+        return true;
+    }
+
+    private boolean biomeMatches(final Biome b)
+    {
+        if (this.matches(this.getStruct(), b)) return true;
+        if (this.structs.size() > 0) for (final JigSawConfig struct : this.structs)
+            if (this.matches(struct, b)) return true;
+        return false;
+    }
+
     @Override
     public boolean place(final IWorld worldIn, final ChunkGenerator<? extends GenerationSettings> generator,
             final Random rand, final BlockPos pos, final JigsawConfig config)
@@ -136,7 +152,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     public boolean func_225558_a_(final BiomeManager biomeManager, final ChunkGenerator<?> chunkGen, final Random rand,
             final int chunkPosX, final int chunkPosZ, final Biome biome)
     {
-        if (this.getStruct() == null) return false;
+        if (!this.biomeMatches(biome)) return false;
 
         final DimensionType dim = chunkGen.world.getDimension().getType();
         if (this.getStruct().isBlackisted(dim)) return false;
