@@ -3,6 +3,7 @@ package pokecube.core;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -595,7 +596,8 @@ public class PokecubeItems extends Items
         if (toCheck instanceof Item)
         {
             final Item item = (Item) toCheck;
-            final boolean tagged = ItemTags.getCollection().getOrCreate(tag).contains(item);
+            boolean tagged = ItemTags.getCollection().getOrCreate(tag).contains(item);
+            tagged = tagged || PokecubeItems.pendingTags.getOrDefault(tag, Collections.emptySet()).contains(item);
             if (!tagged) return item.getRegistryName().equals(tag);
             return tagged;
         }

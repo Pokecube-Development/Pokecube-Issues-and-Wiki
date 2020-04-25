@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:gems"
+  ],
+  "optional": [
+    "#pokecube:megastones"
+  ]
+}
