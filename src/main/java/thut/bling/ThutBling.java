@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
@@ -107,6 +108,12 @@ public class ThutBling
         public static void registerItems(final RegistryEvent.Register<Item> event)
         {
             BlingItem.initDefaults(event.getRegistry());
+        }
+
+        @SubscribeEvent
+        public static void registerRecipes(final RegistryEvent.Register<IRecipeSerializer<?>> event)
+        {
+            event.getRegistry().register(GemRecipe.SERIALIZER.setRegistryName(GemRecipe.IDTAG));
         }
     }
 

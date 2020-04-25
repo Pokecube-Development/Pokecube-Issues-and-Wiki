@@ -1,5 +1,6 @@
 package pokecube.adventures.blocks.genetics.cloner;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
@@ -14,15 +15,19 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
+import pokecube.adventures.blocks.genetics.helper.GeneticsTileParentable;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeFossilRevive;
 import pokecube.core.PokecubeItems;
 
-public class ClonerTile extends BaseGeneticsTile
+public class ClonerTile extends GeneticsTileParentable
 {
     public static TileEntityType<? extends TileEntity> TYPE;
 
     public static final ResourceLocation EGGS = new ResourceLocation("forge", "eggs");
+
+    ClonerTile parent        = null;
+    boolean    checkedParent = false;
 
     public ClonerTile()
     {
@@ -32,6 +37,23 @@ public class ClonerTile extends BaseGeneticsTile
     public ClonerTile(final TileEntityType<?> tileEntityTypeIn)
     {
         super(tileEntityTypeIn, 10, 9);
+    }
+
+    @Override
+    public BaseGeneticsTile getParent()
+    {
+        if (!this.checkedParent && this.getWorld() != null)
+        {
+            this.checkedParent = true;
+            final BlockState state = this.getWorld().getBlockState(this.getPos());
+            if (state.get(ClonerBlock.HALF) == ClonerBlockPart.TOP)
+            {
+                final BlockPos new_pos = this.getPos().down();
+                final TileEntity down = this.getWorld().getTileEntity(new_pos);
+                if (down instanceof ClonerTile) this.parent = (ClonerTile) down;
+            }
+        }
+        return this.parent;
     }
 
     @Override
@@ -55,11 +77,20 @@ public class ClonerTile extends BaseGeneticsTile
 
     @Override
     public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
-            final BlockRayTraceResult hit)
+            BlockRayTraceResult hit)
     {
+        final BlockState state = this.getWorld().getBlockState(this.getPos());
+        if (state.get(ClonerBlock.HALF) == ClonerBlockPart.TOP)
+        {
+            final BlockPos new_pos = this.getPos().down();
+            final BlockState down = this.getWorld().getBlockState(new_pos);
+            hit = new BlockRayTraceResult(hit.getHitVec(), hit.getFace(), new_pos, hit.isInside());
+            return down.onBlockActivated(this.getWorld(), player, hand, hit);
+        }
         final TranslationTextComponent name = new TranslationTextComponent("block.pokecube_adventures.cloner");
         player.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new ClonerContainer(id,
                 playerInventory, IWorldPosCallable.of(this.getWorld(), pos)), name));
         return ActionResultType.SUCCESS;
     }
+
 }
