@@ -29,8 +29,8 @@ import pokecube.core.blocks.InteractableHorizontalBlock;
 
 public class ClonerBlock extends InteractableHorizontalBlock implements IWaterLoggable
 {
-    private static final EnumProperty<ClonerBlockPart> HALF        = EnumProperty.create("half", ClonerBlockPart.class);
-    private static final BooleanProperty               WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final EnumProperty<ClonerBlockPart> HALF        = EnumProperty.create("half", ClonerBlockPart.class);
+    public static final BooleanProperty               WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // Precise selection box
     private static final VoxelShape CLONER_BOTTOM = VoxelShapes.or(Block.makeCuboidShape(0, 0, 0, 16, 12, 16), Block
