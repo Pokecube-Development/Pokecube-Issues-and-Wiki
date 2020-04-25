@@ -1,5 +1,7 @@
 package thut.api.entity.blockentity.render;
 
+import java.util.Random;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.block.BlockRenderType;
@@ -12,13 +14,13 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -27,10 +29,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.IModelData;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
@@ -40,15 +44,15 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
 {
     private static IBakedModel crate_model;
 
-    static final Tessellator   t     = new Tessellator(2097152);
+    static final Tessellator t = new Tessellator(2097152);
 
-    float                      pitch = 0.0f;
-    float                      yaw   = 0.0f;
-    long                       time  = 0;
-    boolean                    up    = true;
-    BufferBuilder              b     = RenderBlockEntity.t.getBuffer();
+    float         pitch = 0.0f;
+    float         yaw   = 0.0f;
+    long          time  = 0;
+    boolean       up    = true;
+    BufferBuilder b     = RenderBlockEntity.t.getBuffer();
 
-    ResourceLocation           texture;
+    ResourceLocation texture;
 
     public RenderBlockEntity(final EntityRendererManager manager)
     {
@@ -110,7 +114,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         final BlockPos mobPos = entity.getMin();
         pos = pos.add(mobPos);
         if (BlockState == null) BlockState = Blocks.AIR.getDefaultState();
-        World world = ((Entity) entity).getEntityWorld();
+        final World world = ((Entity) entity).getEntityWorld();
         if (BlockState.getMaterial() != Material.AIR)
         {
             final BlockRendererDispatcher blockrendererdispatcher = Minecraft.getInstance()
@@ -180,30 +184,28 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         return PlayerContainer.LOCATION_BLOCKS_TEXTURE;
     }
 
-    private void renderBakedBlockModel(final IBlockEntity entity, final IBakedModel model, final BlockState state,
+    private void renderBakedBlockModel(final IBlockEntity entity, IBakedModel model, final BlockState state,
             final IBlockReader world, BlockPos pos, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
-            int packedLightIn)
+            final int packedLightIn)
     {
         mat.translate(pos.getX() - 1, pos.getY(), pos.getZ() - 1);
         mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
         mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
         mat.rotate(Vector3f.XP.rotationDegrees(180.0F));
 
-        BlockRenderType blockrendertype = state.getRenderType();
-        if (blockrendertype == BlockRenderType.MODEL)
-        {
-            BlockRendererDispatcher render = Minecraft.getInstance().getBlockRendererDispatcher();
-            IBakedModel ibakedmodel = render.getModelForState(state);
-            BlockPos min = entity.getMin();
-            BlockPos epos = ((Entity) entity).getPosition();
-            pos = pos.add(min.getX() + epos.getX(), min.getY() + epos.getY(), min.getZ() + epos.getZ());
-            int i = Minecraft.getInstance().getBlockColors().getColor(state, entity.getFakeWorld().getWorld(), pos, 0);
-            float f = (i >> 16 & 255) / 255.0F;
-            float f1 = (i >> 8 & 255) / 255.0F;
-            float f2 = (i & 255) / 255.0F;
-            render.getBlockModelRenderer().renderModel(mat.getLast(),
-                    bufferIn.getBuffer(RenderTypeLookup.getRenderType(state)), state, ibakedmodel, f, f1, f2,
-                    packedLightIn, OverlayTexture.DEFAULT_LIGHT, EmptyModelData.INSTANCE);
-        }
+        final IModelData data = Minecraft.getInstance().getBlockRendererDispatcher().getModelForState(state)
+                .getModelData((ILightReader) world, pos, state, EmptyModelData.INSTANCE);
+        final BlockPos min = entity.getMin();
+        final BlockPos epos = ((Entity) entity).getPosition();
+        final BlockPos rpos = pos.add(min).add(entity.getOriginalPos());
+        pos = pos.add(min.getX() + epos.getX(), min.getY() + epos.getY(), min.getZ() + epos.getZ());
+        for (final RenderType type : RenderType.getBlockRenderTypes())
+            if (RenderTypeLookup.canRenderInLayer(state, type))
+            {
+                final BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRendererDispatcher();
+                model = blockRenderer.getModelForState(state);
+                blockRenderer.getBlockModelRenderer().renderModel((ILightReader) world, model, state, pos, mat, bufferIn
+                        .getBuffer(type), true, new Random(), state.getPositionRandom(rpos), packedLightIn, data);
+            }
     }
 }

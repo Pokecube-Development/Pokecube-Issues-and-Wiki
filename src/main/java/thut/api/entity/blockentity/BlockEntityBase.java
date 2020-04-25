@@ -115,6 +115,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public TileEntity[][][]    tiles             = null;
     BlockEntityUpdater         collider;
     BlockEntityInteractHandler interacter;
+    BlockPos                   originalPos       = null;
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final World par1World)
     {
@@ -124,6 +125,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     abstract protected void accelerate();
+
+    @Override
+    public BlockPos getOriginalPos()
+    {
+        if (this.originalPos == null) this.originalPos = this.getPosition();
+        return this.originalPos;
+    }
 
     /**
      * Applies a velocity to each of the entities pushing them away from each
@@ -366,6 +374,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             final CompoundNBT bounds = nbt.getCompound("bounds");
             this.boundMin = new BlockPos(bounds.getDouble("minx"), bounds.getDouble("miny"), bounds.getDouble("minz"));
             this.boundMax = new BlockPos(bounds.getDouble("maxx"), bounds.getDouble("maxy"), bounds.getDouble("maxz"));
+            if (bounds.contains("orix")) this.originalPos = new BlockPos(bounds.getDouble("orix"), bounds.getDouble(
+                    "oriy"), bounds.getDouble("oriz"));
         }
         this.readBlocks(nbt);
     }
@@ -549,6 +559,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         vector.putDouble("maxx", this.boundMax.getX());
         vector.putDouble("maxy", this.boundMax.getY());
         vector.putDouble("maxz", this.boundMax.getZ());
+        vector.putDouble("orix", this.getOriginalPos().getX());
+        vector.putDouble("oriy", this.getOriginalPos().getY());
+        vector.putDouble("oriz", this.getOriginalPos().getZ());
         nbt.put("bounds", vector);
         try
         {

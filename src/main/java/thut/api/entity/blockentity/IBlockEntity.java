@@ -269,6 +269,8 @@ public interface IBlockEntity
 
     BlockPos getMin();
 
+    BlockPos getOriginalPos();
+
     TileEntity[][][] getTiles();
 
     void setBlocks(BlockState[][][] blocks);
