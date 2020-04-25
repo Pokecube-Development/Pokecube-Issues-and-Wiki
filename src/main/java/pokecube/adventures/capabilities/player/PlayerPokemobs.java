@@ -10,13 +10,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -122,10 +122,10 @@ public class PlayerPokemobs extends DefaultPokemobs
     public void setTarget(LivingEntity target)
     {
         if (target == this.player) return;
-        final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
+        final IHasPokemobs oldBattle = TrainerCaps.getHasPokemobs(this.target);
         if (target != null && oldBattle != null && oldBattle.getTargetRaw() == this.player && oldBattle.canBattle(
                 this.player)) return;
-        final IHasPokemobs targetmobs = CapabilityHasPokemobs.getHasPokemobs(target);
+        final IHasPokemobs targetmobs = TrainerCaps.getHasPokemobs(target);
         if (targetmobs == null) target = null;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
         this.target = target;
@@ -137,7 +137,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public LivingEntity getTarget()
     {
-        final IHasPokemobs oldBattle = CapabilityHasPokemobs.getHasPokemobs(this.target);
+        final IHasPokemobs oldBattle = TrainerCaps.getHasPokemobs(this.target);
         if (this.target != null && !this.target.isAlive()) this.target = null;
         if (oldBattle != null && oldBattle != this && oldBattle.getTargetRaw() != this.player) this.target = null;
         return this.target;

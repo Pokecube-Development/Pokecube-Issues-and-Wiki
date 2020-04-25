@@ -19,6 +19,7 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.core.PokecubeCore;
@@ -26,8 +27,8 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.StructureEvent.ReadTag;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
+import pokecube.core.utils.CapHolders;
 import thut.api.maths.Vector3;
 import thut.core.common.network.Packet;
 
@@ -64,7 +65,7 @@ public class PacketTrainer extends Packet
         final String node = target == editor || target == null ? editor.isCrouching() ? PacketTrainer.EDITSELF
                 : PacketTrainer.SPAWNTRAINER
                 : target instanceof ServerPlayerEntity ? PacketTrainer.EDITOTHER
-                        : CapabilityHasPokemobs.getHasPokemobs(target) != null ? PacketTrainer.EDITTRAINER
+                        : TrainerCaps.getHasPokemobs(target) != null ? PacketTrainer.EDITTRAINER
                                 : PacketTrainer.EDITMOB;
         final boolean canEdit = !editor.getServer().isDedicatedServer() || PermissionAPI.hasPermission(editor, node);
 
@@ -80,15 +81,14 @@ public class PacketTrainer extends Packet
         if (target != null)
         {
             final CompoundNBT tag = new CompoundNBT();
-            final IHasNPCAIStates ai = CapabilityNPCAIStates.getNPCAIStates(target);
-            final IGuardAICapability guard = target.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
-            final IHasPokemobs pokemobs = CapabilityHasPokemobs.getHasPokemobs(target);
-            if (ai != null) tag.put("A", CapabilityNPCAIStates.storage.writeNBT(CapabilityNPCAIStates.AISTATES_CAP, ai,
+            final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(target);
+            final IGuardAICapability guard = target.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
+            final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
+            if (ai != null) tag.put("A", CapabilityNPCAIStates.storage.writeNBT(TrainerCaps.AISTATES_CAP, ai, null));
+            if (guard != null) tag.put("G", CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP, guard,
                     null));
-            if (guard != null) tag.put("G", EventsHandler.GUARDAI_CAP.getStorage().writeNBT(EventsHandler.GUARDAI_CAP,
-                    guard, null));
-            if (pokemobs != null) tag.put("P", CapabilityHasPokemobs.storage.writeNBT(
-                    CapabilityHasPokemobs.HASPOKEMOBS_CAP, pokemobs, null));
+            if (pokemobs != null) tag.put("P", CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP,
+                    pokemobs, null));
             packet.data.put("C", tag);
         }
         PokecubeAdv.packets.sendTo(packet, editor);
@@ -137,15 +137,15 @@ public class PacketTrainer extends Packet
                 if (mob != null && this.data.contains("C"))
                 {
                     final CompoundNBT nbt = this.data.getCompound("C");
-                    final IHasNPCAIStates ai = CapabilityNPCAIStates.getNPCAIStates(mob);
-                    final IGuardAICapability guard = mob.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
-                    final IHasPokemobs pokemobs = CapabilityHasPokemobs.getHasPokemobs(mob);
+                    final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(mob);
+                    final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+                    final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(mob);
                     if (nbt.contains("A")) if (ai != null) CapabilityNPCAIStates.storage.readNBT(
-                            CapabilityNPCAIStates.AISTATES_CAP, ai, null, nbt.get("A"));
-                    if (nbt.contains("G")) if (guard != null) EventsHandler.GUARDAI_CAP.getStorage().readNBT(
-                            EventsHandler.GUARDAI_CAP, guard, null, nbt.get("G"));
+                            TrainerCaps.AISTATES_CAP, ai, null, nbt.get("A"));
+                    if (nbt.contains("G")) if (guard != null) CapHolders.GUARDAI_CAP.getStorage().readNBT(
+                            CapHolders.GUARDAI_CAP, guard, null, nbt.get("G"));
                     if (nbt.contains("P")) if (pokemobs != null) CapabilityHasPokemobs.storage.readNBT(
-                            CapabilityHasPokemobs.HASPOKEMOBS_CAP, pokemobs, null, nbt.get("P"));
+                            TrainerCaps.HASPOKEMOBS_CAP, pokemobs, null, nbt.get("P"));
                 }
                 net.minecraft.client.Minecraft.getInstance().displayGuiScreen(new EditorGui(mob));
                 return;

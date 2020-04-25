@@ -5,7 +5,7 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability.GuardState;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 
 /**
@@ -99,7 +99,7 @@ public class GuardAI extends Goal
     {
         if (this.capability == null)
         {
-            PokecubeCore.LOGGER.error(this.entity.getCapability(EventsHandler.GUARDAI_CAP, null));
+            PokecubeCore.LOGGER.error(this.entity.getCapability(CapHolders.GUARDAI_CAP, null));
             return false;
         }
         // TODO find some way to determine actual length of day

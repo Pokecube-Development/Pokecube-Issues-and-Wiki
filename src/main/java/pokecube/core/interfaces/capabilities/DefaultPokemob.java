@@ -60,13 +60,13 @@ import pokecube.core.ai.tasks.utility.AIUseMove;
 import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.core.events.pokemob.InitAIEvent;
 import pokecube.core.handlers.TeamManager;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.impl.PokemobSaves;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.AITools;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TagNames;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -143,7 +143,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     {
         final MobEntity entity = this.getEntity();
 
-        this.guardCap = entity.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+        this.guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         this.genes = entity.getCapability(GeneRegistry.GENETICS_CAP).orElse(null);
         if (this.getOwnerHolder() == null) PokecubeCore.LOGGER.warn("Pokemob without ownable cap, this is a bug! "
                 + this.getPokedexEntry());

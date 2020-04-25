@@ -12,14 +12,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.client.gui.items.editor.pages.AI;
 import pokecube.adventures.client.gui.items.editor.pages.LivePokemob;
 import pokecube.adventures.client.gui.items.editor.pages.Messages;
@@ -32,9 +29,9 @@ import pokecube.adventures.client.gui.items.editor.pages.Trainer;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.CapHolders;
 
 public class EditorGui extends Screen
 {
@@ -106,12 +103,12 @@ public class EditorGui extends Screen
     {
         super(new StringTextComponent(""));
         this.entity = mob;
-        this.trainer = CapabilityHasPokemobs.getHasPokemobs(mob);
-        this.rewards = CapabilityHasRewards.getHasRewards(mob);
-        this.messages = CapabilityNPCMessages.getMessages(mob);
-        this.aiStates = CapabilityNPCAIStates.getNPCAIStates(mob);
+        this.trainer = TrainerCaps.getHasPokemobs(mob);
+        this.rewards = TrainerCaps.getHasRewards(mob);
+        this.messages = TrainerCaps.getMessages(mob);
+        this.aiStates = TrainerCaps.getNPCAIStates(mob);
         this.pokemob = CapabilityPokemob.getPokemobFor(mob);
-        if (this.entity != null) this.guard = this.entity.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
+        if (this.entity != null) this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         else this.guard = null;
     }
 

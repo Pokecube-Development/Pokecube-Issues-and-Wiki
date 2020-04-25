@@ -6,12 +6,10 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.server.ServerWorld;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.ai.tasks.AIBase.IRunnable;
 import thut.api.entity.ai.IAIRunnable;
 
@@ -34,9 +32,9 @@ public class AITrainerBase implements IAIRunnable
     {
         this.entity = trainer;
         this.world = (ServerWorld) trainer.getEntityWorld();
-        this.aiTracker = CapabilityNPCAIStates.getNPCAIStates(trainer);
-        this.trainer = CapabilityHasPokemobs.getHasPokemobs(trainer);
-        this.messages = CapabilityNPCMessages.getMessages(trainer);
+        this.aiTracker = TrainerCaps.getNPCAIStates(trainer);
+        this.trainer = TrainerCaps.getHasPokemobs(trainer);
+        this.messages = TrainerCaps.getMessages(trainer);
         this.valid = trainer != null && this.aiTracker != null && this.messages != null;
     }
 
