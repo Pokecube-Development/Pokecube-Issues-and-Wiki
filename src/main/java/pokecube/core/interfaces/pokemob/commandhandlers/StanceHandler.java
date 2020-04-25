@@ -4,12 +4,12 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
 
@@ -41,8 +41,8 @@ public class StanceHandler extends DefaultHandler
         case STAY:
             boolean stay;
             pokemob.setGeneralState(GeneralStates.STAYING, stay = !pokemob.getGeneralState(GeneralStates.STAYING));
-            final IGuardAICapability guard = pokemob.getEntity().getCapability(EventsHandler.GUARDAI_CAP, null).orElse(
-                    null);
+            final IGuardAICapability guard = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP, null)
+                    .orElse(null);
             if (stay)
             {
                 final Vector3 mid = Vector3.getNewVector().set(pokemob.getEntity());

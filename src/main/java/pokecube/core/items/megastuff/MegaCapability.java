@@ -5,13 +5,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.utils.CapHolders;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
@@ -33,9 +33,6 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
         return false;
     };
 
-    @CapabilityInject(IMegaCapability.class)
-    public static final Capability<IMegaCapability> MEGA_CAP = null;
-
     public static boolean canMegaEvolve(final PlayerEntity player, final IPokemob target)
     {
         final PokedexEntry entry = target.getPokedexEntry();
@@ -44,10 +41,11 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
 
     public static boolean matches(final ItemStack stack, final PokedexEntry entry)
     {
-        final IMegaCapability cap = stack.getCapability(MegaCapability.MEGA_CAP, null).orElse(null);
+        final IMegaCapability cap = stack.getCapability(CapHolders.MEGA_CAP, null).orElse(null);
         if (cap != null)
         {
             if (cap.isStone(stack)) return false;
+            if (!cap.isValid(stack, entry)) return false;
             PokedexEntry stacks;
             if ((stacks = cap.getEntry(stack)) == null) return true;
             final PokedexEntry stackbase = stacks.getBaseForme() == null ? stacks : stacks.getBaseForme();
@@ -65,13 +63,14 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
     {
         this.stack = itemStack;
         this.holder = LazyOptional.of(() -> this.stack.getItem() instanceof IMegaCapability
-                ? (IMegaCapability) this.stack.getItem() : this);
+                ? (IMegaCapability) this.stack.getItem()
+                : this);
     }
 
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
-        return MegaCapability.MEGA_CAP.orEmpty(capability, this.holder);
+        return CapHolders.MEGA_CAP.orEmpty(capability, this.holder);
     }
 
     @Override

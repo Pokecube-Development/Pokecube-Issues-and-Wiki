@@ -20,10 +20,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.core.PokecubeItems;
@@ -122,8 +121,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         if (TrainerSpawnHandler.countTrainersNear(this, 64) > 5) return null;
         if (this.pokemobsCap.getGender() == 2)
         {
-            final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(ageable);
-            final IHasNPCAIStates otherAI = CapabilityNPCAIStates.getNPCAIStates(ageable);
+            final IHasPokemobs other = TrainerCaps.getHasPokemobs(ageable);
+            final IHasNPCAIStates otherAI = TrainerCaps.getNPCAIStates(ageable);
             if (other != null && otherAI != null && otherAI.getAIState(IHasNPCAIStates.MATES) && other.getGender() == 1)
             {
                 if (this.location == null) this.location = Vector3.getNewVector();

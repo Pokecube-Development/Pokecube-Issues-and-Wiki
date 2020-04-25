@@ -33,18 +33,16 @@ import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.player.PlayerPokemobs;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
@@ -212,7 +210,7 @@ public class TrainerEventHandler
     {
         if (event.getCapabilities().containsKey(TrainerEventHandler.POKEMOBSCAP)) return true;
         for (final ICapabilityProvider provider : event.getCapabilities().values())
-            if (provider.getCapability(CapabilityHasPokemobs.HASPOKEMOBS_CAP).isPresent()) return true;
+            if (provider.getCapability(TrainerCaps.HASPOKEMOBS_CAP).isPresent()) return true;
         return false;
     }
 
@@ -277,8 +275,8 @@ public class TrainerEventHandler
      */
     public static void livingHurtEvent(final LivingHurtEvent evt)
     {
-        final IHasPokemobs pokemobHolder = CapabilityHasPokemobs.getHasPokemobs(evt.getEntity());
-        final IHasMessages messages = CapabilityNPCMessages.getMessages(evt.getEntity());
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getEntity());
+        final IHasMessages messages = TrainerCaps.getMessages(evt.getEntity());
 
         if (evt.getEntity() instanceof INPC && !Config.instance.pokemobsHarmNPCs && (evt
                 .getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource)) evt
@@ -307,7 +305,7 @@ public class TrainerEventHandler
     public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
     {
         if (evt.getTarget() == null || !(evt.getEntity() instanceof LivingEntity)) return;
-        final IHasPokemobs pokemobHolder = CapabilityHasPokemobs.getHasPokemobs(evt.getTarget());
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getTarget());
         if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.setTarget((LivingEntity) evt
                 .getEntity());
     }
@@ -333,7 +331,7 @@ public class TrainerEventHandler
     @SubscribeEvent
     public static void onNpcTick(final LivingUpdateEvent event)
     {
-        final IHasPokemobs pokemobHolder = CapabilityHasPokemobs.getHasPokemobs(event.getEntityLiving());
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntityLiving());
         if (pokemobHolder != null) pokemobHolder.onTick();
     }
 
@@ -345,7 +343,7 @@ public class TrainerEventHandler
             ((NpcMob) npc).setUseOffers(new NpcOffer((NpcMob) npc));
         }
 
-        final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(npc);
+        final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(npc);
         if (mobs == null || !(npc.getEntityWorld() instanceof ServerWorld) || npc instanceof PlayerEntity) return;
         if (npc.getPersistentData().contains("pokeadv_join") && npc.getPersistentData().getLong("pokeadv_join") == npc
                 .getEntityWorld().getGameTime()) return;
@@ -378,8 +376,8 @@ public class TrainerEventHandler
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
         // TODO trainer edit item.
-        final IHasMessages messages = CapabilityNPCMessages.getMessages(target);
-        final IHasPokemobs pokemobs = CapabilityHasPokemobs.getHasPokemobs(target);
+        final IHasMessages messages = TrainerCaps.getMessages(target);
+        final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
 
         if (evt.getItemStack().getItem() instanceof Linker && evt.getPlayer() instanceof ServerPlayerEntity && Linker
                 .interact((ServerPlayerEntity) evt.getPlayer(), target, evt.getItemStack())) evt.setCanceled(true);
@@ -435,7 +433,7 @@ public class TrainerEventHandler
         final IPokemob recalled = evt.recalled;
         final LivingEntity owner = recalled.getOwner();
         if (owner == null) return;
-        final IHasPokemobs pokemobHolder = CapabilityHasPokemobs.getHasPokemobs(owner);
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(owner);
         if (pokemobHolder != null)
         {
             if (recalled == pokemobHolder.getOutMob()) pokemobHolder.setOutMob(null);
@@ -454,7 +452,7 @@ public class TrainerEventHandler
         final IPokemob sent = evt.pokemob;
         final LivingEntity owner = sent.getOwner();
         if (owner == null || owner instanceof PlayerEntity) return;
-        final IHasPokemobs pokemobHolder = CapabilityHasPokemobs.getHasPokemobs(owner);
+        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(owner);
         if (pokemobHolder != null)
         {
             if (pokemobHolder.getOutMob() != null && pokemobHolder.getOutMob() != evt.pokemob)
@@ -463,7 +461,7 @@ public class TrainerEventHandler
                 pokemobHolder.setOutMob(evt.pokemob);
             }
             else pokemobHolder.setOutMob(evt.pokemob);
-            final IHasNPCAIStates aiStates = CapabilityNPCAIStates.getNPCAIStates(owner);
+            final IHasNPCAIStates aiStates = TrainerCaps.getNPCAIStates(owner);
             if (aiStates != null) aiStates.setAIState(IHasNPCAIStates.THROWING, false);
         }
     }
@@ -478,7 +476,7 @@ public class TrainerEventHandler
     public static void TrainerWatchEvent(final StartTracking event)
     {
         if (!(event.getTarget() instanceof TrainerNpc)) return;
-        final IHasPokemobs mobs = CapabilityHasPokemobs.getHasPokemobs(event.getEntity());
+        final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(event.getEntity());
         if (!(mobs instanceof DefaultPokemobs)) return;
         final DefaultPokemobs pokemobs = (DefaultPokemobs) mobs;
         if (event.getPlayer() instanceof ServerPlayerEntity)

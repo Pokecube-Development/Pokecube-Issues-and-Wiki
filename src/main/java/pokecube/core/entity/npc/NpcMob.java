@@ -44,7 +44,7 @@ import pokecube.core.ai.npc.Tasks;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.utils.CapHolders;
 import thut.api.maths.Vector3;
 
 public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
@@ -93,7 +93,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     @Override
     protected void initBrain(final Brain<VillagerEntity> brain)
     {
-        final IGuardAICapability guard = this.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability guard = this.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         if (guard != null)
         {
             final GuardAI guardai = new GuardAI(this, guard);

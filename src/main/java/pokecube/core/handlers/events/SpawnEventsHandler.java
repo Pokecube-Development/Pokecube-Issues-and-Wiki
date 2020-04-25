@@ -33,6 +33,7 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.TimePeriod;
 import thut.api.maths.Vector3;
@@ -191,7 +192,7 @@ public class SpawnEventsHandler
         }
         if (info == null) return;
         // Set us to sit at this location.
-        final IGuardAICapability guard = npc.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability guard = npc.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         npc.setHomePosAndDistance(npc.getPosition(), info.roam);
         if (guard != null)
         {

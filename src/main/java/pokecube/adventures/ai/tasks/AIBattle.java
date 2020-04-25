@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import pokecube.adventures.Config;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -248,7 +248,7 @@ public class AIBattle extends AITrainerBase
     {
         final LivingEntity target = this.trainer.getTarget();
         if (target == null) return false;
-        final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
+        final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
         final boolean hitUs = target.getLastAttackedEntity() == this.entity;
         if (!hitUs && other != null && other.getNextPokemob().isEmpty())
         {
@@ -298,7 +298,7 @@ public class AIBattle extends AITrainerBase
         // reward.
         if (this.trainer.getPokemob(0).isEmpty())
         {
-            this.trainer.deAgro(this.trainer, CapabilityHasPokemobs.getHasPokemobs(this.trainer.getTarget()));
+            this.trainer.deAgro(this.trainer, TrainerCaps.getHasPokemobs(this.trainer.getTarget()));
             this.trainer.setTarget(null);
             return;
         }

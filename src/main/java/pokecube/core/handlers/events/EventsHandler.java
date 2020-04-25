@@ -35,8 +35,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -214,9 +212,7 @@ public class EventsHandler
     public static final ResourceLocation DATACAP     = new ResourceLocation(PokecubeMod.ID, "data");
     public static final ResourceLocation TEXTURECAP  = new ResourceLocation(PokecubeMod.ID, "textured");
 
-    @CapabilityInject(IGuardAICapability.class)
-    public static final Capability<IGuardAICapability> GUARDAI_CAP = null;
-    static double                                      max         = 0;
+    static double max = 0;
 
     /**
      * This returns true if the given entity is not a vanilla entity, or is not

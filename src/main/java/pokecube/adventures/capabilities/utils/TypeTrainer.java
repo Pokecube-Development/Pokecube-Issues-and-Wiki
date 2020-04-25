@@ -38,8 +38,8 @@ import pokecube.adventures.ai.tasks.AICapture;
 import pokecube.adventures.ai.tasks.AIFindTarget;
 import pokecube.adventures.ai.tasks.AIMate;
 import pokecube.adventures.ai.tasks.AIRetaliate;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
@@ -454,7 +454,7 @@ public class TypeTrainer extends NpcType
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture(final LivingEntity trainer)
     {
-        final IHasPokemobs cap = CapabilityHasPokemobs.getHasPokemobs(trainer);
+        final IHasPokemobs cap = TrainerCaps.getHasPokemobs(trainer);
         if (!this.checkedTex)
         {
             this.checkedTex = true;
