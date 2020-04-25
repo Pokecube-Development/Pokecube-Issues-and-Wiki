@@ -13,10 +13,10 @@ import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.packets.PacketSyncRoutes;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
+import pokecube.core.utils.CapHolders;
 
 public class GuiPokemobRoutes extends GuiPokemobBase
 {
@@ -35,7 +35,7 @@ public class GuiPokemobRoutes extends GuiPokemobBase
         this.playerInventory = inv;
         this.pokeInventory = this.pokemob.getInventory();
         this.entity = this.pokemob.getEntity();
-        this.guard = this.entity.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
+        this.guard = this.entity.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         container.setMode(PacketPokemobGui.ROUTES);
     }
 

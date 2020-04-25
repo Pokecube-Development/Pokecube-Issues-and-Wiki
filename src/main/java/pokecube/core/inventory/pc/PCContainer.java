@@ -22,10 +22,10 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.inventory.BaseContainer;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.megastuff.IMegaCapability;
-import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.network.packets.PacketPC;
+import pokecube.core.utils.CapHolders;
 import thut.core.common.ThutCore;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
@@ -50,7 +50,7 @@ public class PCContainer extends BaseContainer
     public static boolean isItemValid(final ItemStack itemstack)
     {
         if (itemstack.isEmpty()) return false;
-        final LazyOptional<IMegaCapability> mega = itemstack.getCapability(MegaCapability.MEGA_CAP);
+        final LazyOptional<IMegaCapability> mega = itemstack.getCapability(CapHolders.MEGA_CAP);
         final LazyOptional<IActiveWearable> worn = itemstack.getCapability(ThutWearables.WEARABLE_CAP);
 
         final boolean eggorCube = !PokecubeCore.getConfig().pcHoldsOnlyPokecubes || PokecubeManager.isFilled(itemstack)

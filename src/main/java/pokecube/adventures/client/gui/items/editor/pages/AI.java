@@ -16,11 +16,12 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs.LevelMode;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 
 public class AI extends Page
@@ -55,7 +56,8 @@ public class AI extends Page
             final IGuardAICapability guard = this.parent.guard;
             guard.getPrimaryTask().setPos(this.parent.entity.getPosition());
             guard.getPrimaryTask().setActiveTime(!this.parent.aiStates.getAIState(IHasNPCAIStates.STATIONARY)
-                    ? new TimePeriod(0, 0) : TimePeriod.fullDay);
+                    ? new TimePeriod(0, 0)
+                    : TimePeriod.fullDay);
             this.sendGuardUpdate();
             this.sendAIUpdate();
             mess = new TranslationTextComponent("traineredit.set.stationary." + this.parent.aiStates.getAIState(
@@ -74,8 +76,7 @@ public class AI extends Page
             trainer.notifyDefeat = !trainer.notifyDefeat;
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
-                    null);
+            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
             packet.data.put("T", tag);
             packet.data.putInt("I", this.parent.entity.getEntityId());
             PokecubeAdv.packets.sendToServer(packet);
@@ -96,8 +97,7 @@ public class AI extends Page
                     .values().length]);
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
-                    null);
+            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
             packet.data.put("T", tag);
             packet.data.putInt("I", this.parent.entity.getEntityId());
             PokecubeAdv.packets.sendToServer(packet);
@@ -216,8 +216,7 @@ public class AI extends Page
             ((DefaultPokemobs) this.parent.trainer).resetTime = argInt;
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
-                    null);
+            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
             packet.data.put("T", tag);
             packet.data.putInt("I", this.parent.entity.getEntityId());
             PokecubeAdv.packets.sendToServer(packet);
@@ -229,8 +228,7 @@ public class AI extends Page
             ((DefaultPokemobs) this.parent.trainer).battleCooldown = argInt;
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-            tag = CapabilityHasPokemobs.storage.writeNBT(CapabilityHasPokemobs.HASPOKEMOBS_CAP, this.parent.trainer,
-                    null);
+            tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
             packet.data.put("T", tag);
             packet.data.putInt("I", this.parent.entity.getEntityId());
             PokecubeAdv.packets.sendToServer(packet);
@@ -257,7 +255,7 @@ public class AI extends Page
         this.onPageClosed();
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         final IGuardAICapability guard = this.parent.guard;
-        final INBT tag = EventsHandler.GUARDAI_CAP.getStorage().writeNBT(EventsHandler.GUARDAI_CAP, guard, null);
+        final INBT tag = CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP, guard, null);
         packet.data.put("T", tag);
         packet.data.putByte("V", (byte) 4);
         packet.data.putInt("I", this.parent.entity.getEntityId());
@@ -269,8 +267,7 @@ public class AI extends Page
     {
         this.onPageClosed();
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-        final INBT tag = CapabilityNPCAIStates.storage.writeNBT(CapabilityNPCAIStates.AISTATES_CAP,
-                this.parent.aiStates, null);
+        final INBT tag = CapabilityNPCAIStates.storage.writeNBT(TrainerCaps.AISTATES_CAP, this.parent.aiStates, null);
         packet.data.put("T", tag);
         packet.data.putByte("V", (byte) 3);
         packet.data.putInt("I", this.parent.entity.getEntityId());

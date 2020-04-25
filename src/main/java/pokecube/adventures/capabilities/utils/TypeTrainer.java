@@ -17,6 +17,7 @@ import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.schedule.Activity;
+import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,8 +38,8 @@ import pokecube.adventures.ai.tasks.AICapture;
 import pokecube.adventures.ai.tasks.AIFindTarget;
 import pokecube.adventures.ai.tasks.AIMate;
 import pokecube.adventures.ai.tasks.AIRetaliate;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.adventures.utils.TradeEntryLoader;
@@ -157,7 +158,9 @@ public class TypeTrainer extends NpcType
                 if (e instanceof VillagerEntity)
                 {
                     final VillagerEntity villager = (VillagerEntity) e;
-                    if (villager.getBrain().hasActivity(Activity.REST)) return false;
+                    final Schedule s = villager.getBrain().getSchedule();
+                    final Activity a = s.getScheduledActivity((int) (e.world.getDayTime() % 24000L));
+                    if (a == Activity.REST) return false;
                 }
                 return true;
             };
@@ -166,7 +169,9 @@ public class TypeTrainer extends NpcType
                 if (e instanceof VillagerEntity)
                 {
                     final VillagerEntity villager = (VillagerEntity) e;
-                    if (villager.getBrain().hasActivity(Activity.MEET)) return false;
+                    final Schedule s = villager.getBrain().getSchedule();
+                    final Activity a = s.getScheduledActivity((int) (e.world.getDayTime() % 24000L));
+                    if (a == Activity.MEET) return false;
                 }
                 return true;
             };
@@ -375,11 +380,11 @@ public class TypeTrainer extends NpcType
             t.pokemon.clear();
             if (t.pokelist != null && t.pokelist.length != 0) if (!t.pokelist[0].startsWith("-"))
                 for (final String s : t.pokelist)
-                {
+            {
                 final PokedexEntry e = Database.getEntry(s);
                 if (e != null && !t.pokemon.contains(e)) t.pokemon.add(e);
                 else if (e == null) PokecubeCore.LOGGER.error("Error in reading of " + s);
-                }
+            }
             else
             {
                 final String[] types = t.pokelist[0].replace("-", "").split(":");
@@ -449,7 +454,7 @@ public class TypeTrainer extends NpcType
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture(final LivingEntity trainer)
     {
-        final IHasPokemobs cap = CapabilityHasPokemobs.getHasPokemobs(trainer);
+        final IHasPokemobs cap = TrainerCaps.getHasPokemobs(trainer);
         if (!this.checkedTex)
         {
             this.checkedTex = true;

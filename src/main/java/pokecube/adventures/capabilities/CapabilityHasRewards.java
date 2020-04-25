@@ -14,8 +14,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
@@ -31,13 +29,13 @@ public class CapabilityHasRewards
         @Override
         public void deserializeNBT(final ListNBT nbt)
         {
-            CapabilityHasRewards.storage.readNBT(CapabilityHasRewards.REWARDS_CAP, this, null, nbt);
+            CapabilityHasRewards.storage.readNBT(TrainerCaps.REWARDS_CAP, this, null, nbt);
         }
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityHasRewards.REWARDS_CAP.orEmpty(cap, this.holder);
+            return TrainerCaps.REWARDS_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -49,7 +47,7 @@ public class CapabilityHasRewards
         @Override
         public ListNBT serializeNBT()
         {
-            return (ListNBT) CapabilityHasRewards.storage.writeNBT(CapabilityHasRewards.REWARDS_CAP, this, null);
+            return (ListNBT) CapabilityHasRewards.storage.writeNBT(TrainerCaps.REWARDS_CAP, this, null);
         }
 
     }
@@ -71,7 +69,7 @@ public class CapabilityHasRewards
                     if (item == null) continue;
                     item.setPickupDelay(0);
                 }
-                final IHasMessages messageSender = CapabilityNPCMessages.getMessages(rewarder);
+                final IHasMessages messageSender = TrainerCaps.getMessages(rewarder);
                 if (messageSender != null)
                 {
                     messageSender.sendMessage(MessageState.GIVEITEM, player, rewarder.getDisplayName(), i
@@ -122,15 +120,15 @@ public class CapabilityHasRewards
         public INBT writeNBT(final Capability<IHasRewards> capability, final IHasRewards instance, final Direction side)
         {
             final ListNBT ListNBT = new ListNBT();
-            for (int i = 0; i < instance.getRewards().size(); ++i)
+            for (final Reward element : instance.getRewards())
             {
-                final ItemStack stack = instance.getRewards().get(i).stack;
+                final ItemStack stack = element.stack;
 
                 if (!stack.isEmpty())
                 {
                     final CompoundNBT CompoundNBT = new CompoundNBT();
                     stack.write(CompoundNBT);
-                    CompoundNBT.putFloat("chance", instance.getRewards().get(i).chance);
+                    CompoundNBT.putFloat("chance", element.chance);
                     ListNBT.add(CompoundNBT);
                 }
             }
@@ -139,17 +137,5 @@ public class CapabilityHasRewards
 
     }
 
-    @CapabilityInject(IHasRewards.class)
-    public static final Capability<IHasRewards> REWARDS_CAP = null;
-
     public static Storage storage;
-
-    public static IHasRewards getHasRewards(final ICapabilityProvider entityIn)
-    {
-        IHasRewards holder = null;
-        if (entityIn == null) return null;
-        holder = entityIn.getCapability(CapabilityHasRewards.REWARDS_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasRewards) return (IHasRewards) entityIn;
-        return holder;
-    }
 }

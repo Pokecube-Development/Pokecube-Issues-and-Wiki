@@ -38,11 +38,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
@@ -236,7 +236,7 @@ public class TrainerSpawnHandler
             final long time = System.nanoTime();
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
             if (t == null) return;
-            final IHasPokemobs cap = CapabilityHasPokemobs.getHasPokemobs(t);
+            final IHasPokemobs cap = TrainerCaps.getHasPokemobs(t);
             final NpcSpawn event = new NpcSpawn(t, v.getPos(), w, SpawnReason.NATURAL);
             if (MinecraftForge.EVENT_BUS.post(event))
             {

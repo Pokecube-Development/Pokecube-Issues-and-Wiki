@@ -21,8 +21,6 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -205,7 +203,7 @@ public class CapabilityHasPokemobs
         @Override
         public boolean canBattle(final LivingEntity target)
         {
-            final IHasPokemobs trainer = CapabilityHasPokemobs.getHasPokemobs(target);
+            final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(target);
             if (trainer != null && trainer.getTarget() != null && trainer.getTarget() != target) return false;
             return !this.defeatedBy(target) && !this.defeated(target);
         }
@@ -279,7 +277,7 @@ public class CapabilityHasPokemobs
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityHasPokemobs.HASPOKEMOBS_CAP.orEmpty(cap, this.cap_holder);
+            return TrainerCaps.HASPOKEMOBS_CAP.orEmpty(cap, this.cap_holder);
         }
 
         @Override
@@ -450,7 +448,7 @@ public class CapabilityHasPokemobs
         @Override
         public void onLose(final Entity won)
         {
-            final IHasPokemobs defeatingTrainer = CapabilityHasPokemobs.getHasPokemobs(won);
+            final IHasPokemobs defeatingTrainer = TrainerCaps.getHasPokemobs(won);
 
             // Apply this first to remove any memory of the battle.
             // This clears the revenge/attacked values, to truely cancel
@@ -1015,16 +1013,5 @@ public class CapabilityHasPokemobs
 
     }
 
-    @CapabilityInject(IHasPokemobs.class)
-    public static final Capability<IHasPokemobs> HASPOKEMOBS_CAP = null;
-
     public static Storage storage;
-
-    public static IHasPokemobs getHasPokemobs(final ICapabilityProvider entityIn)
-    {
-        if (entityIn == null) return null;
-        final IHasPokemobs holder = entityIn.getCapability(CapabilityHasPokemobs.HASPOKEMOBS_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasPokemobs) return (IHasPokemobs) entityIn;
-        return holder;
-    }
 }

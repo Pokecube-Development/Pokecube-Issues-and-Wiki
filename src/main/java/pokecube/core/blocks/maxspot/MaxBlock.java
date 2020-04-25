@@ -1,5 +1,11 @@
 package pokecube.core.blocks.maxspot;
 
+import static net.minecraft.util.math.shapes.VoxelShapes.combineAndSimplify;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -19,12 +25,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import pokecube.core.blocks.InteractableHorizontalBlock;
-import static net.minecraft.util.math.shapes.VoxelShapes.combineAndSimplify;
 
 public class MaxBlock extends InteractableHorizontalBlock
 {

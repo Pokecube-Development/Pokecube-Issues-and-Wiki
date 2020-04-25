@@ -14,12 +14,13 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 
 public interface IGuardAICapability
 {
+
     public static enum GuardState
     {
         IDLE, RUNNING, COOLDOWN
@@ -75,19 +76,20 @@ public interface IGuardAICapability
         @Override
         public void deserializeNBT(final CompoundNBT nbt)
         {
-            EventsHandler.GUARDAI_CAP.getStorage().readNBT(EventsHandler.GUARDAI_CAP, this, null, nbt);
+            CapHolders.GUARDAI_CAP.getStorage().readNBT(CapHolders.GUARDAI_CAP, this, null, nbt);
         }
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
         {
-            return EventsHandler.GUARDAI_CAP.orEmpty(capability, this.holder);
+            return CapHolders.GUARDAI_CAP.orEmpty(capability, this.holder);
         }
 
         @Override
         public CompoundNBT serializeNBT()
         {
-            return (CompoundNBT) EventsHandler.GUARDAI_CAP.getStorage().writeNBT(EventsHandler.GUARDAI_CAP, this, null);
+            return (CompoundNBT) CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP,
+                    this, null);
         }
     }
 

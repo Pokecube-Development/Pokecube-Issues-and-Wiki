@@ -12,8 +12,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -34,7 +32,7 @@ public class CapabilityHasTrades
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityHasTrades.CAPABILITY.orEmpty(cap, this.cap_holder);
+            return TrainerCaps.TRADES_CAP.orEmpty(cap, this.cap_holder);
         }
 
         @Override
@@ -120,9 +118,6 @@ public class CapabilityHasTrades
 
     }
 
-    @CapabilityInject(IHasTrades.class)
-    public static final Capability<IHasTrades> CAPABILITY = null;
-
     public static Storage storage;
 
     public static interface IHasTrades
@@ -147,13 +142,5 @@ public class CapabilityHasTrades
         void verify(ItemStack stack);
 
         void setValidator(Consumer<ItemStack> validator);
-    }
-
-    public static IHasTrades getHasTrades(final ICapabilityProvider entityIn)
-    {
-        if (entityIn == null) return null;
-        final IHasTrades holder = entityIn.getCapability(CapabilityHasTrades.CAPABILITY, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasTrades) return (IHasTrades) entityIn;
-        return holder;
     }
 }

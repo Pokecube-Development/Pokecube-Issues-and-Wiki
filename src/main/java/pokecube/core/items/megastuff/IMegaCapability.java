@@ -6,6 +6,7 @@ import pokecube.core.database.PokedexEntry;
 
 public interface IMegaCapability
 {
+
     public static class Default implements IMegaCapability
     {
         public Default()
@@ -13,19 +14,19 @@ public interface IMegaCapability
         }
 
         @Override
-        public PokedexEntry getEntry(ItemStack stack)
+        public PokedexEntry getEntry(final ItemStack stack)
         {
             return Database.missingno;
         }
 
         @Override
-        public boolean isStone(ItemStack stack)
+        public boolean isStone(final ItemStack stack)
         {
             return false;
         }
 
         @Override
-        public boolean isValid(ItemStack stack, PokedexEntry entry)
+        public boolean isValid(final ItemStack stack, final PokedexEntry entry)
         {
             return false;
         }

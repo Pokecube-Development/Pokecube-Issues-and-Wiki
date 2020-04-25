@@ -20,16 +20,12 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
-import pokecube.adventures.capabilities.CapabilityHasRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
-import pokecube.adventures.capabilities.CapabilityHasTrades;
 import pokecube.adventures.capabilities.CapabilityHasTrades.IHasTrades;
-import pokecube.adventures.capabilities.CapabilityNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
-import pokecube.adventures.capabilities.CapabilityNPCMessages;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.events.TrainerSpawnHandler;
@@ -61,11 +57,11 @@ public abstract class TrainerBase extends NpcMob
     protected TrainerBase(final EntityType<? extends TrainerBase> type, final World worldIn)
     {
         super(type, worldIn);
-        this.pokemobsCap = (DefaultPokemobs) this.getCapability(CapabilityHasPokemobs.HASPOKEMOBS_CAP).orElse(null);
-        this.rewardsCap = this.getCapability(CapabilityHasRewards.REWARDS_CAP).orElse(null);
-        this.messages = this.getCapability(CapabilityNPCMessages.MESSAGES_CAP).orElse(null);
-        this.aiStates = this.getCapability(CapabilityNPCAIStates.AISTATES_CAP).orElse(null);
-        this.trades = this.getCapability(CapabilityHasTrades.CAPABILITY).orElse(null);
+        this.pokemobsCap = (DefaultPokemobs) this.getCapability(TrainerCaps.HASPOKEMOBS_CAP).orElse(null);
+        this.rewardsCap = this.getCapability(TrainerCaps.REWARDS_CAP).orElse(null);
+        this.messages = this.getCapability(TrainerCaps.MESSAGES_CAP).orElse(null);
+        this.aiStates = this.getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
+        this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
 
         this.aiStates.setAIState(IHasNPCAIStates.TRADES, PokecubeAdv.config.trainersTradeItems
                 || PokecubeAdv.config.trainersTradeMobs);
@@ -152,6 +148,8 @@ public abstract class TrainerBase extends NpcMob
         super.tick();
     }
 
+    private boolean checkedMobs = false;
+
     @Override
     public void livingTick()
     {
@@ -180,9 +178,9 @@ public abstract class TrainerBase extends NpcMob
         if (this.pokemobsCap.countPokemon() == 0 && !this.fixedMobs)
         {
             final TypeTrainer type = this.pokemobsCap.getType();
-            if (type != null && !type.pokemon.isEmpty())
+            if (type != null && !type.pokemon.isEmpty() && !this.checkedMobs)
             {
-
+                this.checkedMobs = true;
                 final int level = SpawnHandler.getSpawnLevel(this.getEntityWorld(), Vector3.getNewVector().set(this),
                         type.pokemon.get(0));
                 this.initTeam(level);

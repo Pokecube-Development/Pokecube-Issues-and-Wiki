@@ -12,8 +12,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.LazyOptional;
@@ -43,7 +41,7 @@ public class CapabilityNPCMessages
         @Override
         public void deserializeNBT(final CompoundNBT nbt)
         {
-            CapabilityNPCMessages.storage.readNBT(CapabilityNPCMessages.MESSAGES_CAP, this, null, nbt);
+            CapabilityNPCMessages.storage.readNBT(TrainerCaps.MESSAGES_CAP, this, null, nbt);
         }
 
         @Override
@@ -63,7 +61,7 @@ public class CapabilityNPCMessages
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityNPCMessages.MESSAGES_CAP.orEmpty(cap, this.holder);
+            return TrainerCaps.MESSAGES_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -84,7 +82,7 @@ public class CapabilityNPCMessages
         @Override
         public CompoundNBT serializeNBT()
         {
-            return (CompoundNBT) CapabilityNPCMessages.storage.writeNBT(CapabilityNPCMessages.MESSAGES_CAP, this, null);
+            return (CompoundNBT) CapabilityNPCMessages.storage.writeNBT(TrainerCaps.MESSAGES_CAP, this, null);
         }
 
         @Override
@@ -156,17 +154,5 @@ public class CapabilityNPCMessages
         }
     }
 
-    @CapabilityInject(IHasMessages.class)
-    public static final Capability<IHasMessages> MESSAGES_CAP = null;
-
     public static Storage storage;
-
-    public static IHasMessages getMessages(final ICapabilityProvider entityIn)
-    {
-        IHasMessages holder = null;
-        if (entityIn == null) return null;
-        holder = entityIn.getCapability(CapabilityNPCMessages.MESSAGES_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasMessages) return (IHasMessages) entityIn;
-        return holder;
-    }
 }

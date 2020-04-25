@@ -24,8 +24,11 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.Database;
+import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.worldgen.WorldgenHandler;
+import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
@@ -139,6 +142,12 @@ public class PokecubeLegends
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeLegends.proxy::loaded);
         // Just generally register it to event bus.
         FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeLegends.proxy);
+    }
+
+    @SubscribeEvent
+    public void registerDatabases(final InitDatabase.Pre evt)
+    {
+        Database.addDatabase("pokecube_legends:database/pokemobs/pokemobs_spawns.json", EnumDatabase.POKEMON);
     }
 
     @SubscribeEvent

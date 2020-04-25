@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.5"/>
-  <metadata head="body_base" headAxis="1" headAxis2="0" headCap="-180,180" headCap1="-10,10" headDir="1"/>
+  <phase name="global" scale="0.4"/>
+  <metadata head="pineco" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="-10,10" headDir="1"/>
  </model>
 </ModelAnimator>

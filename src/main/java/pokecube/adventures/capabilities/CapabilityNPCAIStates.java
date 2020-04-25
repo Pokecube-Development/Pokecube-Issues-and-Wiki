@@ -5,8 +5,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.IntNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -25,7 +23,7 @@ public class CapabilityNPCAIStates
         @Override
         public void deserializeNBT(final INBT nbt)
         {
-            CapabilityNPCAIStates.storage.readNBT(CapabilityNPCAIStates.AISTATES_CAP, this, null, nbt);
+            CapabilityNPCAIStates.storage.readNBT(TrainerCaps.AISTATES_CAP, this, null, nbt);
         }
 
         @Override
@@ -37,7 +35,7 @@ public class CapabilityNPCAIStates
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityNPCAIStates.AISTATES_CAP.orEmpty(cap, this.holder);
+            return TrainerCaps.AISTATES_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -55,7 +53,7 @@ public class CapabilityNPCAIStates
         @Override
         public INBT serializeNBT()
         {
-            return CapabilityNPCAIStates.storage.writeNBT(CapabilityNPCAIStates.AISTATES_CAP, this, null);
+            return CapabilityNPCAIStates.storage.writeNBT(TrainerCaps.AISTATES_CAP, this, null);
         }
 
         @Override
@@ -136,17 +134,5 @@ public class CapabilityNPCAIStates
 
     }
 
-    @CapabilityInject(IHasNPCAIStates.class)
-    public static final Capability<IHasNPCAIStates> AISTATES_CAP = null;
-
     public static Storage storage;
-
-    public static IHasNPCAIStates getNPCAIStates(final ICapabilityProvider entityIn)
-    {
-        IHasNPCAIStates holder = null;
-        if (entityIn == null) return null;
-        holder = entityIn.getCapability(CapabilityNPCAIStates.AISTATES_CAP, null).orElse(null);
-        if (holder == null && entityIn instanceof IHasNPCAIStates) return (IHasNPCAIStates) entityIn;
-        return holder;
-    }
 }

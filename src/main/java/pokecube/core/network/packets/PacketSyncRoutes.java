@@ -15,8 +15,8 @@ import pokecube.core.ai.routes.GuardAICapability.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
+import pokecube.core.utils.CapHolders;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.network.Packet;
 
@@ -56,7 +56,7 @@ public class PacketSyncRoutes extends Packet
 
     public static void sendUpdateClientPacket(final Entity mob, final ServerPlayerEntity player, final boolean gui)
     {
-        final IGuardAICapability guard = mob.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
+        final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         final PacketSyncRoutes packet = new PacketSyncRoutes();
         packet.data.put("R", guard.serializeTasks());
         packet.data.putBoolean("O", gui);
@@ -87,7 +87,7 @@ public class PacketSyncRoutes extends Packet
         final CompoundNBT data = this.data;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
         if (e == null) return;
-        final IGuardAICapability guard = e.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
+        final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         guard.loadTasks((ListNBT) data.get("R"));
         if (data.getBoolean("O")) PacketSyncRoutes.sendServerPacket(e, null);
     }
@@ -99,7 +99,7 @@ public class PacketSyncRoutes extends Packet
         final CompoundNBT data = this.data;
         final Entity e = PokecubeCore.getEntityProvider().getEntity(player.getEntityWorld(), id, true);
         if (e == null) return;
-        final IGuardAICapability guard = e.getCapability(EventsHandler.GUARDAI_CAP, null).orElse(null);
+        final IGuardAICapability guard = e.getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
 
         if (guard != null) if (data.isEmpty())
         {

@@ -7,15 +7,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.EntityPredicates;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.moves.MovesUtils;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
@@ -27,7 +26,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 
         if (input != null && input.getLastAttackedEntity() == mobIn) return true;
         if (mobIn.getRevengeTarget() != null && mobIn.getRevengeTarget() == input) return true;
-        final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(input);
+        final IHasPokemobs other = TrainerCaps.getHasPokemobs(input);
         if (other == null) return true;
         if (other.getTarget() != null && other.getTarget() != mobIn) return false;
         if (other.getNextPokemob().isEmpty() && other.getOutID() == null)
@@ -59,7 +58,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     {
         return new Predicate<LivingEntity>()
         {
-            IHasPokemobs trainer = CapabilityHasPokemobs.getHasPokemobs(entityIn);
+            IHasPokemobs trainer = TrainerCaps.getHasPokemobs(entityIn);
 
             @Override
             public boolean test(final LivingEntity input)
@@ -168,7 +167,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             if (this.maxTimer > 0 && this.timer++ >= this.maxTimer)
             {
                 this.timer = 0;
-                final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
+                final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
                 // this is an ended battle, so we cancel both side.
                 if (other != null) other.setTarget(null);
 
@@ -235,31 +234,12 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         if (Math.random() > this.agroChance) return;
 
         // Look for targets
-        final Vector3 here = Vector3.getNewVector().set(this.entity);
+        final Vector3 here = Vector3.getNewVector().set(this.entity, true);
         LivingEntity target = null;
         final int sight = this.trainer.getAgressDistance();
-        targetTrack:
-        {
-            here.addTo(0, this.entity.getEyeHeight(), 0);
-            final Vector3 look = Vector3.getNewVector().set(this.entity.getLook(1));
-            here.addTo(look);
-            look.scalarMultBy(sight);
-            look.addTo(here);
-            final List<LivingEntity> targets = MovesUtils.targetsHit(this.entity, look);
-
-            if (!targets.isEmpty()) for (final Object o : targets)
-            {
-                final LivingEntity e = (LivingEntity) o;
-                final double dist = e.getDistance(this.entity);
-
-                // Only visible or valid targets.
-                if (this.validTargetSet(e) && dist < sight)
-                {
-                    target = e;
-                    break targetTrack;
-                }
-            }
-        }
+        final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.validTargetSet((LivingEntity) e);
+        final Entity match = here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity, matcher);
+        if (match instanceof LivingEntity) target = (LivingEntity) match;
 
         // If no target, return false.
         if (target == null)
@@ -270,7 +250,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
                     || this.aiTracker.getAIState(IHasNPCAIStates.INBATTLE)) this.trainer.resetPokemob();
             return;
         }
-        final IHasPokemobs other = CapabilityHasPokemobs.getHasPokemobs(target);
+        final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
         // Set trainers target
         this.trainer.setTarget(target);
         if (other != null) other.setTarget(this.entity);

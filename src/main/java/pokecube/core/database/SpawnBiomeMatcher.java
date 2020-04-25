@@ -14,9 +14,13 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.Category;
+import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -41,6 +45,7 @@ public class SpawnBiomeMatcher
         public final ResourceLocation biome;
         public final BiomeType        type;
         public final IWorld           world;
+        public final IChunk           chunk;
         public final Vector3          location;
 
         public SpawnCheck(final Vector3 location, final IWorld world, final Biome biome)
@@ -52,6 +57,7 @@ public class SpawnBiomeMatcher
             this.light = 1f;
             this.type = BiomeType.NONE;
             this.material = Material.AIR;
+            this.chunk = world.getChunk(location.intX() >> 4, location.intZ() >> 4, ChunkStatus.EMPTY, false);
         }
 
         public SpawnCheck(final Vector3 location, final IWorld world)
@@ -60,6 +66,7 @@ public class SpawnBiomeMatcher
             this.location = location;
             this.biome = location.getBiome(world).getRegistryName();
             this.material = location.getBlockMaterial(world);
+            this.chunk = world.getChunk(location.intX() >> 4, location.intZ() >> 4, ChunkStatus.EMPTY, false);
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
             final int subBiomeId = t.getBiome(location);
             if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);
@@ -78,6 +85,7 @@ public class SpawnBiomeMatcher
     public static final QName ATYPES          = new QName("anyType");
     public static final QName BIOMES          = new QName("biomes");
     public static final QName TYPES           = new QName("types");
+    public static final QName STRUCTURES      = new QName("structures");
     public static final QName BIOMESBLACKLIST = new QName("biomesBlacklist");
     public static final QName TYPESBLACKLIST  = new QName("typesBlacklist");
     public static final QName NIGHT           = new QName("night");
@@ -136,6 +144,7 @@ public class SpawnBiomeMatcher
     }
 
     public Set<ResourceLocation> _validBiomes        = Sets.newHashSet();
+    public Set<String>           _validStructures    = Sets.newHashSet();
     public Set<BiomeType>        _validSubBiomes     = Sets.newHashSet();
     public Set<ResourceLocation> _blackListBiomes    = Sets.newHashSet();
     public Set<BiomeType>        _blackListSubBiomes = Sets.newHashSet();
@@ -204,19 +213,59 @@ public class SpawnBiomeMatcher
     {
         this.parse();
         if (!this.valid) return false;
-        if (this._validSubBiomes.contains(BiomeType.NONE) || this._validBiomes.isEmpty() && this._validSubBiomes.isEmpty()
-                && this._blackListSubBiomes.isEmpty() && this._blackListBiomes.isEmpty()) return false;
+        // This takes priority, regardless of the other options.
+        BiomeType type = checker.type;
+        if (checker.type == null) type = BiomeType.ALL;
+        final boolean blackListed = this._blackListBiomes.contains(checker.biome) || this._blackListSubBiomes.contains(
+                type);
+        if (blackListed) return false;
+        IChunk chunk = checker.chunk;
+        // No chunk here, no spawn here!
+        if (chunk == null) return false;
+        // Check structures first, then check biomes, the spawn rule would use
+        // blacklisted types to prevent this being in the wrong spot anyway
+        if (!this._validStructures.isEmpty())
+        {
+            Map<String, StructureStart> starts = chunk.getStructureStarts();
+            for (final String s : this._validStructures)
+            {
+                final StructureStart structurestart = starts.get(s);
+                if (structurestart != null && structurestart != StructureStart.DUMMY)
+                {
+                    final MutableBoundingBox box = structurestart.getBoundingBox();
+                    if (box.isVecInside(checker.location.getPos())) return true;
+                }
+            }
+            // Also check the surrounding chunks, if they exist
+            for (int i = -1; i <= 1; i++)
+                for (int j = -1; j <= 1; j++)
+                {
+                    // Just checked here!
+                    if (i == j && j == 0) continue;
+                    chunk = checker.world.getChunk(checker.chunk.getPos().x + i, checker.chunk.getPos().z + j,
+                            ChunkStatus.EMPTY, false);
+                    if (chunk == null) continue;
+                    starts = chunk.getStructureStarts();
+                    for (final String s : this._validStructures)
+                    {
+                        final StructureStart structurestart = starts.get(s);
+                        if (structurestart != null && structurestart != StructureStart.DUMMY)
+                        {
+                            final MutableBoundingBox box = structurestart.getBoundingBox();
+                            if (box.isVecInside(checker.location.getPos())) return true;
+                        }
+                    }
+                }
+            return false;
+        }
+        if (this._validSubBiomes.contains(BiomeType.NONE) || this._validBiomes.isEmpty() && this._validSubBiomes
+                .isEmpty() && this._blackListSubBiomes.isEmpty() && this._blackListBiomes.isEmpty()) return false;
         final boolean noSubbiome = checker.type == null || checker.type == BiomeType.NONE;
         final boolean rightBiome = this._validSubBiomes.contains(BiomeType.ALL) || this._validBiomes.contains(
                 checker.biome) || this._validBiomes.isEmpty();
         boolean rightSubBiome = this._validSubBiomes.isEmpty() && noSubbiome || this._validSubBiomes.contains(
                 BiomeType.ALL) || this._validSubBiomes.contains(checker.type);
         if (this._validBiomes.isEmpty() && this._validSubBiomes.isEmpty()) rightSubBiome = true;
-        BiomeType type = checker.type;
-        if (checker.type == null) type = BiomeType.ALL;
-        final boolean blackListed = this._blackListBiomes.contains(checker.biome) || this._blackListSubBiomes.contains(
-                type);
-        if (blackListed) return false;
         return rightBiome && rightSubBiome;
     }
 
@@ -272,10 +321,17 @@ public class SpawnBiomeMatcher
             return;
         }
 
+        if (this._validBiomes == null) this._validBiomes = Sets.newHashSet();
+        if (this._validSubBiomes == null) this._validSubBiomes = Sets.newHashSet();
+        if (this._blackListBiomes == null) this._blackListBiomes = Sets.newHashSet();
+        if (this._blackListSubBiomes == null) this._blackListSubBiomes = Sets.newHashSet();
+        if (this._validStructures == null) this._validStructures = Sets.newHashSet();
+
         this._validBiomes.clear();
         this._validSubBiomes.clear();
         this._blackListBiomes.clear();
         this._blackListSubBiomes.clear();
+        this._validStructures.clear();
         this.preParseSubBiomes();
         final String biomeString = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMES);
         final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPES);
@@ -283,6 +339,7 @@ public class SpawnBiomeMatcher
         final String typeBlacklistString = this.spawnRule.values.get(SpawnBiomeMatcher.TYPESBLACKLIST);
         final String biomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.BIOMECAT);
         final String noBiomeCat = this.spawnRule.values.get(SpawnBiomeMatcher.NOBIOMECAT);
+        final String validStructures = this.spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.DAY)) this.day = Boolean.parseBoolean(
                 this.spawnRule.values.get(SpawnBiomeMatcher.DAY));
         if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.NIGHT)) this.night = Boolean.parseBoolean(
@@ -326,6 +383,13 @@ public class SpawnBiomeMatcher
                 final Category c = this.getCat(s);
                 if (c != null) noBiomeCats.add(c);
             }
+        }
+
+        if (validStructures != null)
+        {
+            final String[] args = validStructures.split(",");
+            for (final String s : args)
+                this._validStructures.add(s);
         }
 
         if (biomeString != null)
@@ -458,7 +522,7 @@ public class SpawnBiomeMatcher
 
         if (hasForgeTypes && this._validBiomes.isEmpty()) this.valid = false;
         if (this._validSubBiomes.isEmpty() && this._validBiomes.isEmpty() && this._blackListBiomes.isEmpty()
-                && this._blackListSubBiomes.isEmpty()) this.valid = false;
+                && this._blackListSubBiomes.isEmpty() && this._validStructures.isEmpty()) this.valid = false;
     }
 
     private void preParseSubBiomes()

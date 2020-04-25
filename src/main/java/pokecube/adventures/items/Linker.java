@@ -16,9 +16,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.capabilities.CapabilityHasPokemobs;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.handlers.events.EventsHandler;
+import pokecube.core.utils.CapHolders;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps;
 import thut.api.LinkableCaps.ILinkStorage;
@@ -83,7 +83,7 @@ public class Linker extends Item
 
     public static boolean interact(final ServerPlayerEntity playerIn, final Entity target, final ItemStack stack)
     {
-        final IGuardAICapability ai = target.getCapability(EventsHandler.GUARDAI_CAP).orElse(null);
+        final IGuardAICapability ai = target.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final LazyOptional<ILinkStorage> test_stack = stack.getCapability(LinkableCaps.STORE, null);
         if (!test_stack.isPresent()) return false;
         final ILinkStorage storage = test_stack.orElse(null);
@@ -94,7 +94,7 @@ public class Linker extends Item
             boolean valid = false;
             if (ownable != null && ownable.getOwnerId() != null) valid = playerIn.getUniqueID().equals(ownable
                     .getOwnerId()) && PermissionAPI.hasPermission(playerIn, Linker.PERMLINKPET);
-            else if (CapabilityHasPokemobs.getHasPokemobs(target) != null) valid = PermissionAPI.hasPermission(playerIn,
+            else if (TrainerCaps.getHasPokemobs(target) != null) valid = PermissionAPI.hasPermission(playerIn,
                     Linker.PERMLINKTRAINER);
             if (valid)
             {
