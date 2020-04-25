@@ -3829,6 +3829,7 @@
           {
             "values": {
               "types": "river,cavewater",
+              "air": "false",
               "rate": "0.01"
             }
           }
