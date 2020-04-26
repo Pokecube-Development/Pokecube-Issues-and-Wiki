@@ -35,7 +35,8 @@ public class CapabilityTerrain
             this.chunk = chunk;
         }
 
-        public DefaultProvider setChunk(final IChunk chunk)
+        @Override
+        public ITerrainProvider setChunk(final IChunk chunk)
         {
             this.chunk = chunk;
             return this;
@@ -113,12 +114,10 @@ public class CapabilityTerrain
         {
             chunkY &= 15;
             TerrainSegment ret = this.segments[chunkY];
-            if (ret == null)
-            {
-                ret = this.segments[chunkY] = new TerrainSegment(this.getChunkPos().getX(), chunkY, this.getChunkPos()
-                        .getZ());
-                ret.chunk = this.chunk;
-            }
+            if (ret == null) ret = this.segments[chunkY] = new TerrainSegment(this.getChunkPos().getX(), chunkY, this
+                    .getChunkPos().getZ());
+            ret.chunk = this.chunk;
+            ret.real = true;
             return ret;
         }
 
@@ -166,6 +165,8 @@ public class CapabilityTerrain
         TerrainSegment getTerrainSegment(int chunkY);
 
         void setTerrainSegment(TerrainSegment segment, int chunkY);
+
+        ITerrainProvider setChunk(final IChunk chunk);
     }
 
     public static class Storage implements Capability.IStorage<ITerrainProvider>

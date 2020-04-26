@@ -359,21 +359,24 @@ public final class SpawnHandler
             Variance variance, final int baseLevel)
     {
         int spawnLevel = baseLevel;
-        // final TerrainSegment t =
-        // TerrainManager.getInstance().getTerrian(world, location);
-        // final int b = t.getBiome(location);
-        // if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(b))
-        // variance = SpawnHandler.subBiomeLevels
-        // .get(b);
-        // else variance = SpawnHandler.DEFAULT_VARIANCE;
-        // if (spawnLevel == -1) if (SpawnHandler.subBiomeLevels.containsKey(b))
-        // {
-        // variance = SpawnHandler.subBiomeLevels.get(b);
-        // spawnLevel = variance.apply(baseLevel);
-        // }FIXME subbiome levels
-        spawnLevel = SpawnHandler.parse(world, location);
-        variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
-        spawnLevel = variance.apply(spawnLevel);
+
+        final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
+        final int b = t.getBiome(location);
+        if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(b)) variance = SpawnHandler.subBiomeLevels
+                .get(b);
+        else variance = SpawnHandler.DEFAULT_VARIANCE;
+        if (spawnLevel == -1) if (SpawnHandler.subBiomeLevels.containsKey(b))
+        {
+            variance = SpawnHandler.subBiomeLevels.get(b);
+            spawnLevel = variance.apply(baseLevel);
+        }
+
+        if (spawnLevel == baseLevel)
+        {
+            spawnLevel = SpawnHandler.parse(world, location);
+            variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
+            spawnLevel = variance.apply(spawnLevel);
+        }
         final SpawnEvent.Level event = new SpawnEvent.Level(pokemon, location, world, spawnLevel, variance);
         PokecubeCore.POKEMOB_BUS.post(event);
         return event.getLevel();
