@@ -39,6 +39,7 @@ public class RepelTile extends InteractableTile
     {
         if (this.getWorld() == null || this.getWorld().isRemote || !this.enabled) return false;
         final BlockPos pos = this.getPos();
+        System.out.println("Setting to Repel: " + this.range);
         return SpawnHandler.addForbiddenSpawningCoord(pos.getX(), pos.getY(), pos.getZ(), this.world.getDimension()
                 .getType().getId(), this.range, ForbidReason.REPEL);
     }
@@ -52,7 +53,9 @@ public class RepelTile extends InteractableTile
         {
             final ItemBerry berry = (ItemBerry) stack.getItem();
             final int old = this.range;
+            this.removeForbiddenSpawningCoord();
             this.range = Math.max(1, berry.type.index);
+            this.addForbiddenSpawningCoord();
             if (!player.isCreative() && old != this.range) stack.split(1);
             if (!this.getWorld().isRemote) player.sendMessage(new TranslationTextComponent("repel.info.setrange",
                     this.range, this.enabled));
@@ -72,7 +75,9 @@ public class RepelTile extends InteractableTile
     public void read(final CompoundNBT nbt)
     {
         super.read(nbt);
+        this.removeForbiddenSpawningCoord();
         this.range = nbt.getInt("range");
+        this.addForbiddenSpawningCoord();
         this.enabled = nbt.getBoolean("enabled");
     }
 

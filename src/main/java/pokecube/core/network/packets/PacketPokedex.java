@@ -37,6 +37,8 @@ import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.database.util.UnderscoreIgnore;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.PokedexInspector;
+import pokecube.core.handlers.events.SpawnHandler;
+import pokecube.core.handlers.events.SpawnHandler.ForbidReason;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -75,6 +77,8 @@ public class PacketPokedex extends Packet
     public static List<SpawnBiomeMatcher>              selectedMob  = Lists.newArrayList();
     public static Map<PokedexEntry, SpawnBiomeMatcher> selectedLoc  = Maps.newHashMap();
     public static Map<String, List<String>>            relatedLists = Maps.newHashMap();
+
+    public static boolean repelled = false;
 
     @OnlyIn(value = Dist.CLIENT)
     public static void sendChangePagePacket(final byte page, final boolean mode, final PokedexEntry selected)
@@ -293,6 +297,7 @@ public class PacketPokedex extends Packet
                         data.getString("" + i), SpawnBiomeMatcher.class));
             if (this.data.contains("E")) PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry",
                     this.data.getString("E"));
+            PacketPokedex.repelled = this.data.getBoolean("R");
             return;
         case REQUESTMOB:
             PacketPokedex.selectedMob.clear();
@@ -377,6 +382,8 @@ public class PacketPokedex extends Packet
             pos = Vector3.getNewVector().set(player);
             checker = new SpawnCheck(pos, player.getEntityWorld());
             names = new ArrayList<>();
+            final boolean repelled = SpawnHandler.getNoSpawnReason(player.getEntityWorld(), pos
+                    .getPos()) == ForbidReason.REPEL;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
 
@@ -407,6 +414,7 @@ public class PacketPokedex extends Packet
                 n++;
             }
             packet.data.put("V", spawns);
+            packet.data.putBoolean("R", repelled);
             entry = Database.getEntry(PokecubePlayerDataHandler.getCustomDataTag(player).getString("WEntry"));
             if (entry != null) packet.data.putString("E", entry.getName());
             PokecubeCore.packets.sendTo(packet, player);
