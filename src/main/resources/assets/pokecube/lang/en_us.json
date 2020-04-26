@@ -82,6 +82,8 @@
 
     "pokewatch.progress.inspect": "Check Progress",
 
+    "pokewatch.spawns.peaceful": "§cNothing can spawn on Peaceful!",
+    "pokewatch.spawns.repelled": "§cHere is in range of a repel!",
     "pokewatch.spawns.times": "Times:",
     "pokewatch.spawns.day": "Day",
     "pokewatch.spawns.night": "Night",
