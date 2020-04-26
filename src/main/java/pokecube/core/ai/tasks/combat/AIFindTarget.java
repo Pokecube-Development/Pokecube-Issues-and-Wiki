@@ -239,6 +239,8 @@ public class AIFindTarget extends AIBase implements IAICombat
                 this.pokemob.getHome());
         else centre.set(this.pokemob.getOwner());
 
+        if (!this.world.isAreaLoaded(centre.getPos(), 18)) return false;
+
         pokemobs = this.getEntitiesWithinDistance(this.world, centre.getPos(), 16, MobEntity.class);
 
         // We check for whether it is the same species and, has the same owner
@@ -305,6 +307,8 @@ public class AIFindTarget extends AIBase implements IAICombat
                 this.pokemob.getHome());
         else centre.set(this.pokemob.getOwner());
 
+        if (!this.world.isAreaLoaded(centre.getPos(), PokecubeCore.getConfig().guardSearchDistance + 2)) return false;
+
         pokemobs = this.getEntitiesWithinDistance(this.world, centre.getPos(), PokecubeCore
                 .getConfig().guardSearchDistance, LivingEntity.class);
 
@@ -354,10 +358,11 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
 
+        if (!this.world.isAreaLoaded(this.entity.getPosition(), 18)) return false;
+
         final List<LivingEntity> list = this.getEntitiesWithinDistance(this.entity, 16, LivingEntity.class);
-        if (!list.isEmpty()) for (int j = 0; j < list.size(); j++)
+        if (!list.isEmpty()) for (final LivingEntity entity : list)
         {
-            final LivingEntity entity = list.get(j);
             final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
             if (mob != null && this.pokemob.getPokedexEntry().isFood(mob.getPokedexEntry()) && this.pokemob
                     .getLevel() > mob.getLevel() && Vector3.isVisibleEntityFromEntity(entity, entity))
@@ -392,14 +397,15 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
 
+        if (!this.world.isAreaLoaded(this.entity.getPosition(), 18)) return false;
+
         final List<LivingEntity> list = this.getEntitiesWithinDistance(this.pokemob.getOwner(), 16, LivingEntity.class);
         final Entity old = this.entity.getAttackTarget();
         final IOwnable oldOwnable = OwnableCaps.getOwnable(old);
         final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;
 
-        if (!list.isEmpty()) for (int j = 0; j < list.size(); j++)
+        if (!list.isEmpty()) for (final LivingEntity entity : list)
         {
-            final LivingEntity entity = list.get(j);
             if (oldOwner != null && entity == oldOwner) return false;
 
             if (entity instanceof MobEntity && ((MobEntity) entity).getAttackTarget() != null && ((MobEntity) entity)

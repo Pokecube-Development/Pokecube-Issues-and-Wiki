@@ -89,6 +89,7 @@ import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.EntityProvider;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
 import pokecube.core.world.gen.jigsaw.JigsawPieces;
@@ -384,6 +385,7 @@ public class PokecubeCore
 
         MinecraftForge.EVENT_BUS.register(SpawnEventsHandler.class);
         MinecraftForge.EVENT_BUS.register(EventsHandler.class);
+        MinecraftForge.EVENT_BUS.register(PokemobTracker.class);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeCore.proxy::setup);
         // Register the doClientStuff method for modloading

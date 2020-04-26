@@ -237,6 +237,9 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         final Vector3 here = Vector3.getNewVector().set(this.entity, true);
         LivingEntity target = null;
         final int sight = this.trainer.getAgressDistance();
+
+        if (!this.world.isAreaLoaded(here.getPos(), sight + 3)) return;
+
         final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.validTargetSet((LivingEntity) e);
         final Entity match = here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity, matcher);
         if (match instanceof LivingEntity) target = (LivingEntity) match;

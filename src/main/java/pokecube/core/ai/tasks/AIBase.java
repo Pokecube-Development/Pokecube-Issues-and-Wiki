@@ -1,5 +1,6 @@
 package pokecube.core.ai.tasks;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -151,6 +152,7 @@ public abstract class AIBase implements IAIRunnable
     protected <T extends Entity> List<T> getEntitiesWithinDistance(final Entity source, final float distance,
             final Class<T> clazz, final Class<?>... targetClass)
     {
+        if (!source.getEntityWorld().isAreaLoaded(source.getPosition(), (int) distance)) return Collections.emptyList();
         return this.getEntitiesWithinDistance(source.getEntityWorld(), source.getPosition(), distance, clazz,
                 targetClass);
     }
@@ -158,6 +160,7 @@ public abstract class AIBase implements IAIRunnable
     protected <T extends Entity> List<T> getEntitiesWithinDistance(final World world, final BlockPos pos,
             final float distance, final Class<T> clazz, final Class<?>... targetClass)
     {
+        if (!world.isAreaLoaded(pos, (int) distance)) return Collections.emptyList();
         return world.getEntitiesWithinAABB(clazz, new AxisAlignedBB(pos).grow(distance), e ->
         {
             if (clazz.isInstance(e)) return true;

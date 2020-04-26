@@ -28,7 +28,7 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
-import pokecube.adventures.events.TrainerSpawnHandler;
+import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
@@ -151,11 +151,24 @@ public abstract class TrainerBase extends NpcMob
     private boolean checkedMobs = false;
 
     @Override
+    public void onAddedToWorld()
+    {
+        TrainerTracker.add(this);
+        super.onAddedToWorld();
+    }
+
+    @Override
+    public void onRemovedFromWorld()
+    {
+        TrainerTracker.removeTrainer(this);
+        super.onRemovedFromWorld();
+    }
+
+    @Override
     public void livingTick()
     {
         super.livingTick();
         if (!this.isServerWorld()) return;
-        if (this.ticksExisted % 20 == 1) TrainerSpawnHandler.addTrainerCoord(this);
         if (this.pokemobsCap.getOutID() != null && this.pokemobsCap.getOutMob() == null)
         {
             final Entity mob = this.getServer().getWorld(this.dimension).getEntityByUuid(this.pokemobsCap.getOutID());
@@ -202,7 +215,6 @@ public abstract class TrainerBase extends NpcMob
     public void remove()
     {
         EventsHandler.recallAllPokemobs(this);
-        TrainerSpawnHandler.removeTrainer(this);
         super.remove();
     }
 

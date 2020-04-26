@@ -1,6 +1,5 @@
 package pokecube.core.utils;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -11,8 +10,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -22,7 +19,6 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
@@ -31,7 +27,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
@@ -198,49 +193,6 @@ public class Tools
         if (IPokecube.BEHAVIORS.containsKey(pokecubeId)) additionalBonus = IPokecube.BEHAVIORS.getValue(pokecubeId)
                 .getAdditionalBonus(pokemob);
         return Tools.computeCatchRate(pokemob, cubeBonus, additionalBonus);
-    }
-
-    public static int countPokemon(final Vector3 location, final World world, final double distance,
-            final PokedexEntry entry)
-    {
-        int ret = 0;
-        final List<MobEntity> list = world.getEntitiesWithinAABB(MobEntity.class, location.getAABB().grow(distance,
-                distance, distance));
-        for (final MobEntity o : list)
-        {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(o);
-            if (mob != null) if (mob.getPokedexEntry() == entry) ret++;
-        }
-
-        return ret;
-    }
-
-    public static int countPokemon(final Vector3 location, final World world, final double distance,
-            final PokeType type)
-    {
-        int ret = 0;
-        final List<MobEntity> list = world.getEntitiesWithinAABB(MobEntity.class, location.getAABB().grow(distance,
-                distance, distance));
-        for (final MobEntity o : list)
-        {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(o);
-            if (mob != null) if (mob.getPokedexEntry().isType(type)) ret++;
-        }
-        return ret;
-    }
-
-    public static int countPokemon(final World world, final Vector3 location, final double radius)
-    {
-        final AxisAlignedBB box = location.getAABB();
-        final List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, box.grow(radius, radius,
-                radius));
-        int num = 0;
-        for (final LivingEntity o : list)
-        {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(o);
-            if (mob != null) num++;
-        }
-        return num;
     }
 
     public static double getCatchRate(final float hPmax, final float hP, final float catchRate, final double cubeBonus,
@@ -433,7 +385,7 @@ public class Tools
         for (int i = 0; i < world.getPlayers().size(); ++i)
         {
             final PlayerEntity PlayerEntity = world.getPlayers().get(i);
-            if (EntityPredicates.NOT_SPECTATING.test(PlayerEntity))
+            if (EntityPredicates.NOT_SPECTATING.test(PlayerEntity) || PokecubeCore.getConfig().debug)
             {
                 final double d0 = PlayerEntity.posX - location.x;
                 final double d1 = PlayerEntity.posZ - location.z;
