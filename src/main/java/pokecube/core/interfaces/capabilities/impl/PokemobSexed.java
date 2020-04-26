@@ -19,7 +19,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import pokecube.core.utils.Tools;
+import pokecube.core.utils.PokemobTracker;
 import thut.api.entity.IBreedingMob;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -113,7 +113,7 @@ public abstract class PokemobSexed extends PokemobStats
         this.here.set(this.getEntity());
         if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this + " lay()");
         if (this.getEntity().getEntityWorld().isRemote) return;
-        final int num = Tools.countPokemon(this.getEntity().getEntityWorld(), this.here, PokecubeCore
+        final int num = PokemobTracker.countPokemobs(this.getEntity().getEntityWorld(), this.here, PokecubeCore
                 .getConfig().maxSpawnRadius);
         if (!(this.getOwner() instanceof PlayerEntity) && num > PokecubeCore.getConfig().mobSpawnNumber * 1.25) return;
         final Vector3 pos = this.here.set(this.getEntity()).addTo(0, Math.max(this.getPokedexEntry().height * this

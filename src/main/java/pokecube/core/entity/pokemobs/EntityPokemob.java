@@ -42,6 +42,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -222,6 +223,20 @@ public class EntityPokemob extends PokemobHasParts
     public void remove(final boolean keepData)
     {
         super.remove(keepData);
+    }
+
+    @Override
+    public void onAddedToWorld()
+    {
+        PokemobTracker.addPokemob(this.pokemobCap);
+        super.onAddedToWorld();
+    }
+
+    @Override
+    public void onRemovedFromWorld()
+    {
+        PokemobTracker.removePokemob(this.pokemobCap);
+        super.onRemovedFromWorld();
     }
 
     @Override

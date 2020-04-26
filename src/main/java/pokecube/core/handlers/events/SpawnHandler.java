@@ -19,7 +19,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
@@ -52,6 +51,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.boom.ExplosionCustom;
@@ -187,7 +187,7 @@ public final class SpawnHandler
         if (data == null) return false;
         if (respectDensity)
         {
-            final int count = Tools.countPokemon(world, v, PokecubeCore.getConfig().maxSpawnRadius);
+            final int count = PokemobTracker.countPokemobs(world, v, PokecubeCore.getConfig().maxSpawnRadius);
             if (count > PokecubeCore.getConfig().mobSpawnNumber * PokecubeCore.getConfig().mobDensityMultiplier)
                 return false;
         }
@@ -696,13 +696,9 @@ public final class SpawnHandler
         this.v.set(player);
         if (!world.isAreaLoaded(this.v.getPos(), radius)) return 0;
         if (!Tools.isAnyPlayerInRange(radius, 10, world, this.v)) return 0;
-        int num = 0;
         final int height = world.getActualHeight();
-        final AxisAlignedBB box = this.v.getAABB();
-        final List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, box.grow(radius, Math.max(
-                height, radius), radius));
-        for (final LivingEntity o : list)
-            if (CapabilityPokemob.getPokemobFor(o) != null) num++;
+        final AxisAlignedBB box = this.v.getAABB().grow(radius, Math.max(height, radius), radius);
+        int num = PokemobTracker.countPokemobs(world, box);
         if (num > SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return 0;
         final Vector3 v = SpawnHandler.getRandomPointNear(player, PokecubeCore.getConfig().maxSpawnRadius);
         double dt = (System.nanoTime() - time) / 1000d;
