@@ -54,18 +54,18 @@ public class TrainerTracker
 
     private static Map<DimensionType, List<Entry>> mobMap = new HashMap<>();
 
-    public static void add(final TrainerBase pokemob)
+    public static void add(final TrainerBase npc)
     {
         // First remove the mob from all maps, incase it is in one.
-        TrainerTracker.removeTrainer(pokemob);
+        TrainerTracker.removeTrainer(npc);
 
-        final DimensionType dim = pokemob.getEntity().dimension;
+        final DimensionType dim = npc.getEntity().dimension;
         // Find the appropriate map
         final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there
         if (!TrainerTracker.mobMap.containsKey(dim)) TrainerTracker.mobMap.put(dim, mobList);
-        // Add the pokemob to the list
-        mobList.add(new Entry(pokemob));
+        // Add the mob to the list
+        mobList.add(new Entry(npc));
     }
 
     public static void removeTrainer(final TrainerBase pokemob)
@@ -78,7 +78,7 @@ public class TrainerTracker
     public static int countTrainers(final IWorld world, final AxisAlignedBB box, final Predicate<TrainerBase> matches)
     {
         final DimensionType dim = world.getDimension().getType();
-        final List<Entry> mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>());
+        final Entry[] mobList = TrainerTracker.mobMap.getOrDefault(dim, new ArrayList<>()).toArray(new Entry[0]);
         int num = 0;
         for (final Entry e : mobList)
             if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && matches.test(e.npc)) num++;

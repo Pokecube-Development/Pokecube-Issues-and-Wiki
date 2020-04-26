@@ -79,7 +79,7 @@ public class PokemobTracker
     public static int countPokemobs(final IWorld world, final AxisAlignedBB box, final Predicate<IPokemob> matches)
     {
         final DimensionType dim = world.getDimension().getType();
-        final List<Entry> mobList = PokemobTracker.mobMap.getOrDefault(dim, new ArrayList<>());
+        final Entry[] mobList = PokemobTracker.mobMap.getOrDefault(dim, new ArrayList<>()).toArray(new Entry[0]);
         int num = 0;
         for (final Entry e : mobList)
             if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && matches.test(e.pokemob)) num++;

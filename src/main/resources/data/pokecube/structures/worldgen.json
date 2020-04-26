@@ -10,6 +10,7 @@
     {
       "name":"pokecube:scattered/ruins",
       "rigid":true,
+      "biomeType":"ruin",
       "options":[
         "pokecube:scattered/ruins/ruin_1"
       ]
