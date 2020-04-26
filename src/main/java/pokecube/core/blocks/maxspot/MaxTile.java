@@ -20,7 +20,7 @@ public class MaxTile extends InteractableTile
 {
     public static TileEntityType<? extends TileEntity> TYPE;
 
-    public static final ForbidReason MAXSPOT = new ForbidReason();
+    public static final ForbidReason MAXSPOT = new ForbidReason("pokecube:maxspot");
 
     public static int NESTSPAWNTYPES = 1;
 

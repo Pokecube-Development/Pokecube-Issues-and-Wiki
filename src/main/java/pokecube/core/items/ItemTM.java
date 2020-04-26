@@ -98,7 +98,6 @@ public class ItemTM extends Item
             for (final String s : learnables)
                 if (mob.getPokedexNb() == 151 || ThutCore.trim(s).equals(ThutCore.trim(name)) || PokecubeMod.debug)
                 {
-
                     if (mob.getMove(0) == null) mob.setMove(0, name);
                     else if (mob.getMove(1) == null) mob.setMove(1, name);
                     else if (mob.getMove(2) == null) mob.setMove(2, name);
@@ -121,8 +120,10 @@ public class ItemTM extends Item
         ItemTM.tms.put(type, this);
     }
 
-    /** If this function returns true (or the item is damageable), the
-     * ItemStack's NBT tag will be sent to the client. */
+    /**
+     * If this function returns true (or the item is damageable), the
+     * ItemStack's NBT tag will be sent to the client.
+     */
     @Override
     public boolean shouldSyncTag()
     {

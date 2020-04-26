@@ -26,6 +26,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
@@ -66,13 +67,15 @@ public final class SpawnHandler
 
     public static class ForbiddenEntry
     {
-        final int          range;
-        final ForbidReason reason;
+        public final int             range;
+        public final ForbidReason    reason;
+        public final ChunkCoordinate origin;
 
-        public ForbiddenEntry(final int range, final ForbidReason reason)
+        public ForbiddenEntry(final int range, final ForbidReason reason, final ChunkCoordinate origin)
         {
             this.range = range;
             this.reason = reason;
+            this.origin = origin;
         }
     }
 
@@ -82,9 +85,35 @@ public final class SpawnHandler
 
         static
         {
-            NONE = new ForbidReason();
-            REPEL = new ForbidReason();
-            NEST = new ForbidReason();
+            NONE = new ForbidReason("pokecube:none");
+            REPEL = new ForbidReason("pokecube:repel");
+            NEST = new ForbidReason("pokecube:nest");
+        }
+
+        public final ResourceLocation name;
+
+        public ForbidReason(final String name)
+        {
+            this.name = new ResourceLocation(name);
+        }
+
+        @Override
+        public String toString()
+        {
+            return this.name.toString();
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return this.name.hashCode();
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (obj instanceof ForbidReason) return ((ForbidReason) obj).name.equals(this.name);
+            return false;
         }
     }
 
@@ -136,7 +165,7 @@ public final class SpawnHandler
     {
         final ChunkCoordinate coord = new ChunkCoordinate(x, y, z, dim);
         if (SpawnHandler.forbiddenSpawningCoords.containsKey(coord)) return false;
-        SpawnHandler.forbiddenSpawningCoords.put(coord, new ForbiddenEntry(range, reason));
+        SpawnHandler.forbiddenSpawningCoords.put(coord, new ForbiddenEntry(range, reason, coord));
         return true;
     }
 
@@ -258,9 +287,11 @@ public final class SpawnHandler
         {
             final ForbiddenEntry entry = SpawnHandler.forbiddenSpawningCoords.get(coord);
             final int tolerance = entry.range;
-            if (x >= coord.getX() - tolerance && z >= coord.getZ() - tolerance && y >= coord.getY() - tolerance
-                    && y <= coord.getY() + tolerance && x <= coord.getX() + tolerance && z <= coord.getZ() + tolerance
-                    && world.getDimension().getType().getId() == coord.dim) return entry;
+            final int dx = Math.abs(x - coord.getX());
+            final int dy = Math.abs(y - coord.getY());
+            final int dz = Math.abs(z - coord.getZ());
+            if (world.getDimension().getType().getId() == coord.dim && dx <= tolerance && dz <= tolerance
+                    && dy <= tolerance) return entry;
         }
         return null;
     }
@@ -328,21 +359,24 @@ public final class SpawnHandler
             Variance variance, final int baseLevel)
     {
         int spawnLevel = baseLevel;
-        // final TerrainSegment t =
-        // TerrainManager.getInstance().getTerrian(world, location);
-        // final int b = t.getBiome(location);
-        // if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(b))
-        // variance = SpawnHandler.subBiomeLevels
-        // .get(b);
-        // else variance = SpawnHandler.DEFAULT_VARIANCE;
-        // if (spawnLevel == -1) if (SpawnHandler.subBiomeLevels.containsKey(b))
-        // {
-        // variance = SpawnHandler.subBiomeLevels.get(b);
-        // spawnLevel = variance.apply(baseLevel);
-        // }FIXME subbiome levels
-        spawnLevel = SpawnHandler.parse(world, location);
-        variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
-        spawnLevel = variance.apply(spawnLevel);
+
+        final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
+        final int b = t.getBiome(location);
+        if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(b)) variance = SpawnHandler.subBiomeLevels
+                .get(b);
+        else variance = SpawnHandler.DEFAULT_VARIANCE;
+        if (spawnLevel == -1) if (SpawnHandler.subBiomeLevels.containsKey(b))
+        {
+            variance = SpawnHandler.subBiomeLevels.get(b);
+            spawnLevel = variance.apply(baseLevel);
+        }
+
+        if (spawnLevel == baseLevel)
+        {
+            spawnLevel = SpawnHandler.parse(world, location);
+            variance = variance == null ? SpawnHandler.DEFAULT_VARIANCE : variance;
+            spawnLevel = variance.apply(spawnLevel);
+        }
         final SpawnEvent.Level event = new SpawnEvent.Level(pokemon, location, world, spawnLevel, variance);
         PokecubeCore.POKEMOB_BUS.post(event);
         return event.getLevel();

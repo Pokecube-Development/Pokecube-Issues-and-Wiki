@@ -333,11 +333,11 @@ public class EventsHandler
     @SubscribeEvent
     public static void capabilityItemStacks(final AttachCapabilitiesEvent<ItemStack> event)
     {
+        UsableItemEffects.registerCapabilities(event);
         if (!MegaCapability.isStoneOrWearable(event.getObject())) return;
         final ResourceLocation key = new ResourceLocation("pokecube:megawearable");
         if (event.getCapabilities().containsKey(key)) return;
         event.addCapability(key, new MegaCapability(event.getObject()));
-        UsableItemEffects.registerCapabilities(event);
     }
 
     @SubscribeEvent
