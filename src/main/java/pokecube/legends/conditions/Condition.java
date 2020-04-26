@@ -130,21 +130,25 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     }
 
     // Basic Legend
-    public void sendLegend(final Entity trainer, String type, final int numA, final int numB)
+    public void sendLegend(final Entity trainer, final String type, final int numA, final int numB)
     {
         final String message = "msg.infolegend.info";
-        type = PokeType.getTranslatedName(PokeType.getType(type));
-        trainer.sendMessage(new TranslationTextComponent(message, type, numA + 1, numB));
+        final ITextComponent typeMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
+                type)));
+        trainer.sendMessage(new TranslationTextComponent(message, typeMess, numA + 1, numB));
     }
 
     // Duo Type Legend
-    public void sendLegendDuo(final Entity trainer, String type, String kill, final int numA, final int numB,
-            final int killa, final int killb)
+    public void sendLegendDuo(final Entity trainer, final String type, final String kill, final int numA,
+            final int numB, final int killa, final int killb)
     {
         final String message = "msg.infolegendduo.info";
-        type = PokeType.getTranslatedName(PokeType.getType(type));
-        kill = PokeType.getTranslatedName(PokeType.getType(kill));
-        trainer.sendMessage(new TranslationTextComponent(message, type, kill, numA + 1, numB, killa + 1, killb));
+        final ITextComponent typeMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
+                type)));
+        final ITextComponent killMess = new TranslationTextComponent(PokeType.getUnlocalizedName(PokeType.getType(
+                kill)));
+        trainer.sendMessage(new TranslationTextComponent(message, typeMess, killMess, numA + 1, numB, killa + 1,
+                killb));
     }
 
     // Catch specific Legend
