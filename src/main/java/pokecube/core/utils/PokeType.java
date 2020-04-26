@@ -17,14 +17,15 @@ public enum PokeType implements IExtensibleEnum
         throw new IllegalStateException("Enum not extended");
     }
 
-    public static float getAttackEfficiency(final PokeType type, final PokeType defenseType1, final PokeType defenseType2)
+    public static float getAttackEfficiency(final PokeType type, final PokeType defenseType1,
+            final PokeType defenseType2)
     {
         float multiplier = 1;
         if (type == null) return multiplier;
         if (defenseType1 != unknown && defenseType1 != null) multiplier *= PokeType.typeTable[type
-                                                                                              .ordinal()][defenseType1.ordinal()];
+                .ordinal()][defenseType1.ordinal()];
         if (defenseType2 != unknown && defenseType2 != null) multiplier *= PokeType.typeTable[type
-                                                                                              .ordinal()][defenseType2.ordinal()];
+                .ordinal()][defenseType2.ordinal()];
         return multiplier;
     }
 
@@ -33,13 +34,16 @@ public enum PokeType implements IExtensibleEnum
         return type.name;
     }
 
+    public static String getUnlocalizedName(final PokeType type)
+    {
+        return "type." + type.name;
+    }
+
     @OnlyIn(Dist.CLIENT)
     public static String getTranslatedName(final PokeType type)
     {
-        final String translated = I18n.format("type." + type.name);
-
+        final String translated = I18n.format(PokeType.getUnlocalizedName(type));
         if (translated == null || translated.startsWith("type.")) return type.name;
-
         return translated;
     }
 
