@@ -45,6 +45,10 @@ public class AIIdle extends AIBase
         // Don't select distances too far up/down from current.
         final double y = Math.min(Math.max(1, rand.nextGaussian() * 4), 2);
         v.addTo(x, y, z);
+
+        // Ensure the target location is loaded.
+        if (!mob.getEntity().getEntityWorld().isAreaLoaded(v.getPos(), 4)) return null;
+
         // TODO also ensure no lava, etc
         if (v.isClearOfBlocks(world)) return v;
         return null;
