@@ -10,13 +10,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.SnowBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.DirectionalPlaceContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.AbstractCookingRecipe;
 import net.minecraft.item.crafting.IRecipe;
@@ -25,9 +25,14 @@ import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.FurnaceTileEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -68,6 +73,25 @@ import thut.core.common.commands.CommandTools;
 
 public class MoveEventsHandler
 {
+    public static class UseContext extends BlockItemUseContext
+    {
+        protected UseContext(final World worldIn, final PlayerEntity playerIn, final Hand handIn,
+                final ItemStack stackIn, final BlockRayTraceResult rayTraceResultIn)
+        {
+            super(worldIn, playerIn, handIn, stackIn, rayTraceResultIn);
+        }
+
+        public BlockPos getHitPos()
+        {
+            return this.rayTraceResult.getPos();
+        }
+
+        public BlockState getHitState()
+        {
+            return this.getWorld().getBlockState(this.getHitPos());
+        }
+    }
+
     public static class ActionWrapper implements IMoveAction
     {
         final IMoveAction   wrapped;
@@ -255,8 +279,8 @@ public class MoveEventsHandler
             location.setBlock(world, Blocks.GLASS.getDefaultState());
             return true;
         }
-        else if (state.isReplaceable(MoveEventsHandler.getContext(world, Blocks.GLASS.getDefaultState(), nextBlock
-                .getPos(), Direction.UP, Direction.UP)) && nextState.getBlock() == Blocks.SAND)
+        else if (state.isReplaceable(MoveEventsHandler.getContext(world, attacker, Blocks.GLASS.getDefaultState(),
+                location)) && nextState.getBlock() == Blocks.SAND)
         {
             nextBlock.setBlock(world, Blocks.GLASS.getDefaultState());
             return true;
@@ -275,48 +299,50 @@ public class MoveEventsHandler
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
         final World world = attacker.getEntity().getEntityWorld();
-        final Vector3 nextBlock = Vector3.getNewVector().set(attacker.getEntity()).subtractFrom(location).reverse()
-                .norm().addTo(location);
-        final BlockState nextState = nextBlock.getBlockState(world);
-        final BlockState state = location.getBlockState(world);
-        final Vector3 prevBlock = Vector3.getNewVector().set(attacker.getEntity()).subtractFrom(location).norm().addTo(
+        final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.LAVA.getDefaultState(),
                 location);
-        final BlockState prevState = prevBlock.getBlockState(world);
-        final int flamNext = nextState.getBlock().getFlammability(nextState, world, nextBlock.getPos(), Direction.UP);
-        if (state.getMaterial().isReplaceable() && flamNext != 0)
-        {
-            location.setBlock(world, Blocks.FIRE.getDefaultState());
-            return true;
-        }
-        else if (prevState.getMaterial().isReplaceable() && state.getBlock().getFlammability(state, world, location
-                .getPos(), Direction.UP) != 0)
-        {
-            prevBlock.setBlock(world, Blocks.FIRE.getDefaultState());
-            return true;
-        }
-        else if (location.getBlock(world) == Blocks.SNOW)
-        {
-            location.setAir(world);
-            return true;
-        }
-        else if (prevBlock.getBlock(world) == Blocks.SNOW)
-        {
-            prevBlock.setAir(world);
-            return true;
-        }
-        if (move.getPWR() < MoveEventsHandler.FIRESTRONG) return MoveEventsHandler.attemptSmelt(attacker, location);
+        final BlockState state = context.getHitState();
         final Block block = state.getBlock();
+        final BlockPos hitPos = context.getHitPos();
+        final BlockPos prevPos = context.getPos();
+        final int flamNext = block.getFlammability(state, world, prevPos, context.getFace());
+        final BlockState prev = world.getBlockState(prevPos);
+
+        // Start fires
+        if (flamNext != 0 && prev.isReplaceable(context))
+        {
+            world.setBlockState(prevPos, Blocks.FIRE.getDefaultState());
+            return true;
+        }
+        // Melt Snow
+        else if (block == Blocks.SNOW_BLOCK)
+        {
+            world.setBlockState(hitPos, Blocks.WATER.getDefaultState());
+            return true;
+        }
+        // Melt Snow
+        else if (block == Blocks.SNOW)
+        {
+            final int level = state.get(SnowBlock.LAYERS);
+            world.setBlockState(hitPos, Blocks.WATER.getDefaultState().with(FlowingFluidBlock.LEVEL, level));
+            return true;
+        }
+        // Otherwise smelt attempt
+        if (move.getPWR() < MoveEventsHandler.FIRESTRONG) return MoveEventsHandler.attemptSmelt(attacker, location);
+
+        // Melt obsidian
         if (block == Blocks.OBSIDIAN)
         {
-            location.setBlock(world, Blocks.LAVA.getDefaultState());
+            world.setBlockState(hitPos, Blocks.LAVA.getDefaultState());
             return true;
         }
-        else if (state.isReplaceable(MoveEventsHandler.getContext(world, Blocks.LAVA.getDefaultState(), nextBlock
-                .getPos(), Direction.UP, Direction.UP)) && nextState.getBlock() == Blocks.OBSIDIAN)
+        // Evapourate water
+        else if (block == Blocks.WATER)
         {
-            nextBlock.setBlock(world, Blocks.LAVA.getDefaultState());
+            world.setBlockState(hitPos, Blocks.AIR.getDefaultState());
             return true;
         }
+        // Otherwise smelt attempt
         return MoveEventsHandler.attemptSmelt(attacker, location);
     }
 
@@ -329,41 +355,18 @@ public class MoveEventsHandler
     {
         if (!PokecubeCore.getConfig().defaultIceActions) return false;
         final World world = attacker.getEntity().getEntityWorld();
-        final BlockPos pos = location.getPos();
-        final BlockState state = location.getBlockState(world);
+        final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.SNOW.getDefaultState(),
+                location);
+        final BlockState state = context.getHitState();
         final Block block = state.getBlock();
-        final BlockPos down = location.offset(Direction.DOWN).getPos();
-        final BlockState downState = world.getBlockState(down);
-        if (block.isAir(state, world, location.getPos()))
+        // // First attempt to freeze the water
+        if (block == Blocks.WATER && state.get(FlowingFluidBlock.LEVEL) == 0)
         {
-            if (Block.hasSolidSide(downState, world, down, Direction.UP)) try
-            {
-                world.setBlockState(pos, Blocks.SNOW.getDefaultState(), 2);
-                return true;
-            }
-            catch (final Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-        else if (block == Blocks.WATER && state.get(FlowingFluidBlock.LEVEL) == 0)
-        {
-            location.setBlock(world, Blocks.ICE.getDefaultState());
+            world.setBlockState(context.getPos(), Blocks.ICE.getDefaultState());
             return true;
         }
-        else if (state.isReplaceable(MoveEventsHandler.getContext(world, Blocks.SNOW.getDefaultState(), pos,
-                Direction.UP, Direction.UP)))
-        {
-            if (Block.hasSolidSide(downState, world, down, Direction.UP)) location.setBlock(world, Blocks.SNOW
-                    .getDefaultState());
-            return true;
-        }
-        else if (world.isAirBlock(pos.up()) && Block.hasSolidSide(state, world, pos, Direction.UP))
-        {
-            world.setBlockState(pos.up(), Blocks.SNOW.getDefaultState());
-            return true;
-        }
-        return false;
+        final ActionResultType result = context.getItem().onItemUse(context);
+        return result == ActionResultType.SUCCESS;
     }
 
     /**
@@ -376,56 +379,70 @@ public class MoveEventsHandler
     public static boolean doDefaultWater(final IPokemob attacker, final Move_Base move, final Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
+        if (move.isSelfMove()) return false;
         final World world = attacker.getEntity().getEntityWorld();
-        final BlockState state = location.getBlockState(world);
-        final Vector3 prevBlock = Vector3.getNewVector().set(attacker.getEntity()).subtractFrom(location).norm().addTo(
+        final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.WATER.getDefaultState(),
                 location);
-        final BlockState prevState = prevBlock.getBlockState(world);
-        if (state.getBlock() == Blocks.FIRE)
+        final BlockState state = context.getHitState();
+        final Block block = state.getBlock();
+        final BlockPos hitPos = context.getHitPos();
+        // Put out fires
+        if (block == Blocks.FIRE)
         {
             location.setAir(world);
             return true;
         }
-        else if (prevState.getBlock() == Blocks.FIRE)
-        {
-            prevBlock.setAir(world);
-            return true;
-        }
-        if (move.getPWR() < MoveEventsHandler.WATERSTRONG) return false;
-        final Block block = state.getBlock();
-        final Vector3 nextBlock = Vector3.getNewVector().set(attacker.getEntity()).subtractFrom(location).reverse()
-                .norm().addTo(location);
-        final BlockState nextState = nextBlock.getBlockState(world);
-        if (move.getPWR() >= MoveEventsHandler.WATERSTRONG) if (block == Blocks.LAVA)
-        {
-            location.setBlock(world, Blocks.OBSIDIAN.getDefaultState());
-            return true;
-        }
-        else if (state.isReplaceable(MoveEventsHandler.getContext(world, Blocks.OBSIDIAN.getDefaultState(), nextBlock
-                .getPos(), Direction.UP, Direction.UP)) && nextState.getBlock() == Blocks.LAVA)
-        {
-            nextBlock.setBlock(world, Blocks.OBSIDIAN.getDefaultState());
-            return true;
-        }
-        boolean done = false;
-        if (nextState.getProperties().contains(FarmlandBlock.MOISTURE))
-        {
-            nextBlock.setBlock(world, nextState.with(FarmlandBlock.MOISTURE, 7));
-            done = true;
-        }
         if (state.getProperties().contains(FarmlandBlock.MOISTURE))
         {
-            location.setBlock(world, state.with(FarmlandBlock.MOISTURE, 7));
-            done = true;
+            final int level = state.get(FarmlandBlock.MOISTURE);
+            if (level < 7)
+            {
+                world.setBlockState(hitPos, state.with(FarmlandBlock.MOISTURE, 7));
+                return true;
+            }
         }
-        return done;
+        if (move.getPWR() < MoveEventsHandler.WATERSTRONG) return false;
+        // Freeze lava
+        if (block == Blocks.LAVA)
+        {
+            final int level = state.get(FlowingFluidBlock.LEVEL);
+            final BlockState replacement = level == 0 ? Blocks.OBSIDIAN.getDefaultState()
+                    : Blocks.STONE.getDefaultState();
+            world.setBlockState(hitPos, replacement);
+            return true;
+        }
+        final BlockPos prevPos = context.getPos();
+        final BlockState prev = world.getBlockState(prevPos);
+
+        // Freeze lava
+        if (prev.getBlock() == Blocks.LAVA)
+        {
+            final int level = state.get(FlowingFluidBlock.LEVEL);
+            final BlockState replacement = level == 0 ? Blocks.OBSIDIAN.getDefaultState()
+                    : Blocks.STONE.getDefaultState();
+            world.setBlockState(prevPos, replacement);
+            return true;
+        }
+
+        // Attempt to place some water
+        if (prev.isReplaceable(context)) world.setBlockState(prevPos, Blocks.WATER.getDefaultState().with(
+                FlowingFluidBlock.LEVEL, 2));
+        return false;
     }
 
-    public static BlockItemUseContext getContext(final World world, final BlockState toPlace, final BlockPos location,
-            final Direction placeFrom, final Direction placeTo)
+    public static UseContext getContext(final World world, final IPokemob user, final BlockState toPlace,
+            final Vector3 target)
     {
         final ItemStack stack = new ItemStack(toPlace.getBlock());
-        return new DirectionalPlaceContext(world, location, placeFrom, stack, placeTo);
+        final PlayerEntity player = user.getOwner() instanceof PlayerEntity ? (PlayerEntity) user.getOwner()
+                : PokecubeMod.getFakePlayer(world);
+        final Vector3 origin = Vector3.getNewVector().set(user.getEntity());
+        final Vec3d start = origin.toVec3d();
+        final Vec3d end = target.toVec3d();
+        final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.ANY, user
+                .getEntity());
+        final BlockRayTraceResult hit = world.rayTraceBlocks(context);
+        return new UseContext(world, player, Hand.MAIN_HAND, stack, hit);
     }
 
     public static MoveEventsHandler getInstance()
