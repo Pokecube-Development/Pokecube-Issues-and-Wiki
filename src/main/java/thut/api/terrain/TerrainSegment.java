@@ -229,6 +229,10 @@ public class TerrainSegment
 
     public boolean init = true;
 
+    // This is true if this was loaded from the capability, false if during
+    // worldgen
+    public boolean real = false;
+
     Vector3 temp = Vector3.getNewVector();
 
     Vector3 temp1 = Vector3.getNewVector();
@@ -362,8 +366,7 @@ public class TerrainSegment
 
     private int getBiome(final IWorld world, final Vector3 v, final boolean caveAdjust)
     {
-        if (this.chunk == null || this.chunk.getPos().x != this.chunkX || this.chunk.getPos().z != this.chunkZ)
-            this.chunk = world.getChunk(this.chunkX, this.chunkZ);
+        if (!this.real) return -1;
         if (this.chunk == null)
         {
             Thread.dumpStack();
@@ -407,8 +410,8 @@ public class TerrainSegment
     {
         if (this.init && world instanceof ServerWorld)
         {
-            this.refresh(world);
             this.init = false;
+            this.refresh(world);
         }
     }
 
@@ -426,7 +429,11 @@ public class TerrainSegment
     public void refresh(final IWorld world)
     {
         final long time = System.nanoTime();
-        if (this.chunk == null) this.chunk = world.getChunk(this.chunkX, this.chunkZ);
+        if (!world.chunkExists(this.chunkX, this.chunkZ))
+        {
+            this.init = true;
+            return;
+        }
         for (int i = 0; i < TerrainSegment.GRIDSIZE; i++)
             for (int j = 0; j < TerrainSegment.GRIDSIZE; j++)
                 for (int k = 0; k < TerrainSegment.GRIDSIZE; k++)
