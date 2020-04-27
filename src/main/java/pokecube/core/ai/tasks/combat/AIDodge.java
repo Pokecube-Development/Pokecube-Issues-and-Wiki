@@ -18,6 +18,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.AITools;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 
@@ -95,7 +96,7 @@ public class AIDodge extends AIBase implements IAICombat
         /*
          * Only flying or floating things can dodge properly in the air.
          */
-        if (!(this.pokemob.flys() || this.pokemob.floats()) && !this.entity.onGround) perp.scalarMultBy(0.2);
+        if (!AITools.canNavigate.test(this.pokemob)) perp.scalarMultBy(0.2);
         /*
          * Apply the dodge
          */
@@ -125,7 +126,7 @@ public class AIDodge extends AIBase implements IAICombat
         // Only dodge if there is an attack target.
         if ((this.target = this.entity.getAttackTarget()) == null) return false;
         // Only flying or floating can dodge while in the air
-        if (!this.entity.onGround && !(this.pokemob.floats() || this.pokemob.flys())) return false;
+        if (!AITools.canNavigate.test(this.pokemob)) return false;
 
         final IPokemob target = CapabilityPokemob.getPokemobFor(this.entity.getAttackTarget());
         if (target != null)
