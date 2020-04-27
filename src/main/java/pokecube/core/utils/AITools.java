@@ -14,6 +14,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 
 public class AITools
 {
@@ -51,6 +53,9 @@ public class AITools
                 if (player.isSpectator() || player.getServerWorld().getDifficulty().getId() <= Difficulty.EASY.getId())
                     return false;
             }
+            // Confirm is not an egg or a pokecube as well
+            if (input instanceof EntityPokemobEgg) return false;
+            if (input instanceof EntityPokecubeBase) return false;
             return true;
         }
     }

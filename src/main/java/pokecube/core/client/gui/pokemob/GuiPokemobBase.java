@@ -89,6 +89,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     @Override
     public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
     {
+        if (this.name.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
         if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.name.setFocused(false);
         else if (keyCode == GLFW.GLFW_KEY_ENTER && this.name.isFocused())
         {

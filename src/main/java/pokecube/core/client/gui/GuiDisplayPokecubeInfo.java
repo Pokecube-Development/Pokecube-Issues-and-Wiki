@@ -56,6 +56,7 @@ import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
 import pokecube.core.network.pokemobs.PacketCommand;
+import pokecube.core.utils.AITools;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
@@ -628,6 +629,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         final Predicate<Entity> selector = input ->
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
+            if (!AITools.validTargets.test(input)) return false;
             if (pokemob == null) return true;
             return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
         };

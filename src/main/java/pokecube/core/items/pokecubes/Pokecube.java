@@ -46,6 +46,7 @@ import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -287,9 +288,10 @@ public class Pokecube extends Item implements IPokecube
         if (MobEntity instanceof PlayerEntity && !worldIn.isRemote)
         {
             final PlayerEntity player = (PlayerEntity) MobEntity;
-            final com.google.common.base.Predicate<Entity> selector = input ->
+            final Predicate<Entity> selector = input ->
             {
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(input);
+                if (!AITools.validTargets.test(input)) return false;
                 if (pokemob == null) return true;
                 return pokemob.getOwner() != player;
             };
