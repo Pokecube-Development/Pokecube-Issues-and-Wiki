@@ -57,7 +57,7 @@ public class MoveAnimationHelper
 
     private static MoveAnimationHelper instance;
 
-    public static IMoveAnimation getAnimationPreset(String anim)
+    public static IMoveAnimation getAnimationPreset(final String anim)
     {
         IMoveAnimation animation = null;
         if (anim == null || anim.isEmpty()) return animation;
@@ -85,11 +85,11 @@ public class MoveAnimationHelper
         return MoveAnimationHelper.instance;
     }
 
-    final Vector3                 source     = Vector3.getNewVector();
-    final Vector3                 target     = Vector3.getNewVector();
-    final int                     index;
+    final Vector3 source = Vector3.getNewVector();
+    final Vector3 target = Vector3.getNewVector();
+    final int     index;
 
-    private int                   effects    = 0;
+    private int effects = 0;
 
     Map<BlockPos, TerrainSegment> terrainMap = Maps.newHashMap();
 
@@ -113,7 +113,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void chunkUnload(ChunkEvent.Unload evt)
+    public void chunkUnload(final ChunkEvent.Unload evt)
     {
         if (!evt.getWorld().isRemote()) return;
         for (int i = 0; i < 16; i++)
@@ -132,7 +132,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onCapabilityAttach(AttachCapabilitiesEvent<Chunk> event)
+    public void onCapabilityAttach(final AttachCapabilitiesEvent<Chunk> event)
     {
         if (!event.getObject().getWorld().isRemote) return;
         if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP))
@@ -146,7 +146,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onRenderWorldPost(RenderFogEvent event)
+    public void onRenderWorldPost(final RenderFogEvent event)
     {
         if (this.effects == 0) return;
         int num = 0;
@@ -190,7 +190,7 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void worldLoad(WorldEvent.Load evt)
+    public void worldLoad(final WorldEvent.Load evt)
     {
         if (!evt.getWorld().isRemote()) return;
         this.terrainMap.clear();
