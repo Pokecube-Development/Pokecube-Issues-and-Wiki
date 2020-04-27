@@ -285,15 +285,13 @@ public class AIHungry extends AIBase
     {
         this.sleepy = true;
         for (final TimePeriod p : this.pokemob.getPokedexEntry().activeTimes())
-        {// TODO find some way to determine actual length of day for things like
-         // AR support.
-            if (p != null && p.contains(this.entity.getEntityWorld().getDayTime(), 24000));
+            // TODO AR-like support.
+            if (p != null && p.contains(this.entity.getEntityWorld().getDayTime(), 24000))
             {
                 this.sleepy = false;
                 this.pokemob.setLogicState(LogicStates.SLEEPING, false);
                 break;
             }
-        }
         final ChunkCoordinate c = new ChunkCoordinate(this.v, this.entity.dimension.getId());
         final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob
                 .getGeneralState(GeneralStates.STAYING);
