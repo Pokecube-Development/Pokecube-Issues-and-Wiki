@@ -28,7 +28,6 @@ public interface ITerrainProvider
         {
             chunk = world.getChunk(pos.getX(), pos.getZ(), ChunkStatus.FULL, false);
             real = chunk instanceof ICapabilityProvider;
-            System.out.println(real + " " + chunk);
         }
 
         // This means it occurs during worldgen?
