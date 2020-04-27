@@ -18,6 +18,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.adventures.CommonProxy;
@@ -42,6 +44,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.bling.client.render.Back;
+import thut.core.client.gui.ConfigGui;
 import thut.core.client.render.x3d.X3dModel;
 import thut.wearables.EnumWearable;
 
@@ -61,7 +64,8 @@ public class ClientProxy extends CommonProxy
         public void renderWearable(final EnumWearable slot, final int index, final LivingEntity wearer,
                 final ItemStack stack, final float partialTicks)
         {
-            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag.x3d"));
+            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.MODID,
+                    "models/worn/bag.x3d"));
             Back.renderBack(wearer, stack, this.bag, this.BAG_TEXS, wearer.getBrightnessForRender());
         }
     }
@@ -115,8 +119,8 @@ public class ClientProxy extends CommonProxy
             final int index = ClonerHelper.getIndex(stack);
             if (genes != null) for (final Alleles a : genes.getAlleles().values())
             {
-                TranslationTextComponent comp = new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expressed."
-                        + a.getExpressed().getKey().getPath(), a.getExpressed());
+                TranslationTextComponent comp = new TranslationTextComponent(PokecubeAdv.MODID
+                        + ".tooltip.gene.expressed." + a.getExpressed().getKey().getPath(), a.getExpressed());
                 evt.getToolTip().add(comp);
                 if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                 {
@@ -134,8 +138,9 @@ public class ClientProxy extends CommonProxy
                 for (final Class<? extends Gene> geneC : genesSet)
                 try
                 {
-                final Gene gene = geneC.newInstance();
-                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.selector.gene." + gene.getKey().getPath()));
+                    final Gene gene = geneC.newInstance();
+                    evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.selector.gene."
+                            + gene.getKey().getPath()));
                 }
                 catch (InstantiationException | IllegalAccessException e)
                 {
@@ -162,6 +167,10 @@ public class ClientProxy extends CommonProxy
         ScreenManager.registerFactory(SplicerContainer.TYPE, Splicer::new);
         ScreenManager.registerFactory(ExtractorContainer.TYPE, Extractor::new);
         ScreenManager.registerFactory(BagContainer.TYPE, Bag<BagContainer>::new);
+
+        // Register config gui
+        ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
+                ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));
     }
 
     @Override
