@@ -11,10 +11,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
+import thut.api.ThutCaps;
 
 public class CapabilityTerrain
 {
@@ -90,7 +90,7 @@ public class CapabilityTerrain
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return CapabilityTerrain.TERRAIN_CAP.orEmpty(cap, this.holder);
+            return ThutCaps.TERRAIN_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -188,7 +188,4 @@ public class CapabilityTerrain
             return null;
         }
     }
-
-    @CapabilityInject(ITerrainProvider.class)
-    public static final Capability<ITerrainProvider> TERRAIN_CAP = null;
 }

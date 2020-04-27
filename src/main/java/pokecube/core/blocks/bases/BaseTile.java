@@ -20,7 +20,7 @@ import net.minecraft.world.dimension.DimensionType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.world.dimension.SecretBaseDimension;
-import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 
 public class BaseTile extends InteractableTile
@@ -45,7 +45,7 @@ public class BaseTile extends InteractableTile
         UUID targetBase = player.getUniqueID();
         if (!this.any)
         {
-            final IOwnableTE tile = (IOwnableTE) this.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+            final IOwnableTE tile = (IOwnableTE) this.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             targetBase = tile.getOwnerId();
             if (targetBase == null) return ActionResultType.SUCCESS;
             BlockPos exit_here;
