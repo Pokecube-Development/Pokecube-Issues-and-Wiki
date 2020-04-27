@@ -1,7 +1,8 @@
 package pokecube.core.moves.animations.presets;
 
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
@@ -21,15 +22,17 @@ public class Thunder extends MoveAnimationBase
     }
 
     @Override
-    public void initColour(long time, float partialTicks, Move_Base move)
+    public void initColour(final long time, final float partialTicks, final Move_Base move)
     {
         // No colouring for thunder.
     }
 
     @Override
-    public void spawnClientEntities(MovePacketInfo info)
+    @OnlyIn(value = Dist.CLIENT)
+    public void spawnClientEntities(final MovePacketInfo info)
     {
-        final ClientWorld theRealWorld = (ClientWorld) info.attacker.getEntityWorld();
+        final net.minecraft.client.world.ClientWorld theRealWorld = (net.minecraft.client.world.ClientWorld) info.attacker
+                .getEntityWorld();
         final LightningBoltEntity lightning = new LightningBoltEntity(theRealWorld, info.target.x, info.target.y,
                 info.target.z, false);
         theRealWorld.addEntity(lightning);

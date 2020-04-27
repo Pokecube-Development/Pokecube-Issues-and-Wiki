@@ -20,19 +20,6 @@ public interface ITerrainProvider
 {
     public static Map<DimensionType, Map<BlockPos, TerrainSegment>> pendingCache = Maps.newHashMap();
 
-    public static TerrainSegment getCached(final DimensionType dim, final BlockPos pos)
-    {
-        Map<BlockPos, TerrainSegment> dimMap = null;
-        dimMap = ITerrainProvider.pendingCache.getOrDefault(dim, new HashMap<>());
-        /**
-         * Here we need to make a new terrain segment, and cache it, then
-         * later if the world is actually available, we can get the terrain
-         * segment. from that.
-         */
-        if (dimMap.containsKey(pos)) return dimMap.get(pos);
-        return null;
-    }
-
     public static TerrainSegment removeCached(final DimensionType dim, final BlockPos pos)
     {
         return ITerrainProvider.pendingCache.getOrDefault(dim, Collections.emptyMap()).remove(pos);
