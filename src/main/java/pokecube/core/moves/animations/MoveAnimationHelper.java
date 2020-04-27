@@ -85,11 +85,11 @@ public class MoveAnimationHelper
         return MoveAnimationHelper.instance;
     }
 
-    final Vector3                        source     = Vector3.getNewVector();
-    final Vector3                        target     = Vector3.getNewVector();
-    final int                            index;
+    final Vector3 source = Vector3.getNewVector();
+    final Vector3 target = Vector3.getNewVector();
+    final int     index;
 
-    private int                          effects    = 0;
+    private int effects = 0;
 
     public Map<BlockPos, TerrainSegment> terrainMap = Maps.newHashMap();
 

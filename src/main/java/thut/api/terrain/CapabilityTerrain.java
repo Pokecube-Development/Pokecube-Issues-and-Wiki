@@ -103,9 +103,9 @@ public class CapabilityTerrain
         @Override
         public TerrainSegment getTerrainSegement(final BlockPos blockLocation)
         {
-            final int chunkY = blockLocation.getY() / 16 & 15;
+            final int chunkY = blockLocation.getY();
             final TerrainSegment segment = this.getTerrainSegment(chunkY);
-            segment.getCentre().addTo(0, 256 * (blockLocation.getY() / 256), 0);
+            segment.getCentre().addTo(0, 256 * (blockLocation.getY() * 16 / 256), 0);
             return segment;
         }
 
@@ -113,9 +113,13 @@ public class CapabilityTerrain
         public TerrainSegment getTerrainSegment(int chunkY)
         {
             chunkY &= 15;
+            final BlockPos pos = new BlockPos(this.chunk.getPos().x, chunkY, this.chunk.getPos().z);
+            final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(this.chunk.getWorldForge()
+                    .getDimension().getType(), pos);
             TerrainSegment ret = this.segments[chunkY];
-            if (ret == null) ret = this.segments[chunkY] = new TerrainSegment(this.getChunkPos().getX(), chunkY, this
-                    .getChunkPos().getZ());
+            if (ret == null) ret = this.segments[chunkY] = new TerrainSegment(pos.getX(), pos.getY(), pos.getZ());
+            if (cached != null) for (int i = 0; i < cached.biomes.length; i++)
+                if (ret.biomes[i] == -1) ret.biomes[i] = cached.biomes[i];
             ret.chunk = this.chunk;
             ret.real = true;
             return ret;
