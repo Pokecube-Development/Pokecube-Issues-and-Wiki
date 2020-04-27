@@ -14,6 +14,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 
 public class AITools
 {
@@ -51,7 +53,21 @@ public class AITools
                 if (player.isSpectator() || player.getServerWorld().getDifficulty().getId() <= Difficulty.EASY.getId())
                     return false;
             }
+            // Confirm is not an egg or a pokecube as well
+            if (input instanceof EntityPokemobEgg) return false;
+            if (input instanceof EntityPokecubeBase) return false;
             return true;
+        }
+    }
+
+    private static class CanNavigate implements Predicate<IPokemob>
+    {
+        @Override
+        public boolean test(final IPokemob input)
+        {
+            if (input.swims() && input.getEntity().isInWater()) return true;
+            if (input.floats() || input.flys()) return true;
+            return input.isOnGround();
         }
     }
 
@@ -73,6 +89,12 @@ public class AITools
      * player.
      */
     public static Predicate<IPokemob> shouldAgroNearestPlayer = new AgroCheck();
+
+    /**
+     * Checks to see if the pokemob is capable of changing its motion, this is
+     * used for things like dodging in combat, etc
+     */
+    public static Predicate<IPokemob> canNavigate = new CanNavigate();
 
     public static void initIDs()
     {

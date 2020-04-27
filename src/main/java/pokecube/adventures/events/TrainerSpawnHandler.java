@@ -2,15 +2,12 @@ package pokecube.adventures.events;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.UUID;
 
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.block.Blocks;
@@ -46,6 +43,7 @@ import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.entity.trainer.LeaderNpc;
 import pokecube.adventures.entity.trainer.TrainerNpc;
+import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
@@ -56,49 +54,14 @@ import pokecube.core.events.NpcSpawn;
 import pokecube.core.events.StructureEvent;
 import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
-import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
 public class TrainerSpawnHandler
 {
-    public static Map<UUID, ChunkCoordinate> trainerMap = Maps.newConcurrentMap();
-    private static Vector3                   vec1       = Vector3.getNewVector();
-    static Vector3                           v          = Vector3.getNewVector(), v1 = Vector3.getNewVector(),
-            v2 = Vector3.getNewVector();
-    static JEP                               parser     = new JEP();
-
-    /**
-     * Adds or updates the location of the trainer.
-     *
-     * @param e
-     * @return
-     */
-    public static void addTrainerCoord(final Entity e)
-    {
-        final int dim = e.dimension.getId();
-        final ChunkCoordinate coord = ChunkCoordinate.getChunkCoordFromWorldCoord(e.getPosition(), dim);
-        TrainerSpawnHandler.trainerMap.put(e.getUniqueID(), coord);
-    }
-
-    public static int countTrainersInArea(final World world, final int x, final int y, final int z, int radius)
-    {
-        int ret = 0;
-        radius = radius >> 4;
-        for (final ChunkCoordinate coord : TrainerSpawnHandler.trainerMap.values())
-            if (x >= coord.getX() - radius && z >= coord.getZ() - radius && y >= coord.getY() - radius && y <= coord
-                    .getY() + radius && x <= coord.getX() + radius && z <= coord.getZ() + radius && world.getDimension()
-                            .getType().getId() == coord.dim) ret++;
-        return ret;
-    }
-
-    public static int countTrainersNear(final Entity e, final int trainerBox)
-    {
-        final int x = (int) e.posX >> 4;
-        final int y = (int) e.posY >> 4;
-        final int z = (int) e.posZ >> 4;
-        return TrainerSpawnHandler.countTrainersInArea(e.getEntityWorld(), x, y, z, trainerBox);
-    }
+    private static Vector3 vec1   = Vector3.getNewVector();
+    static Vector3         v      = Vector3.getNewVector(), v1 = Vector3.getNewVector(), v2 = Vector3.getNewVector();
+    static JEP             parser = new JEP();
 
     /** Given a player, find a random position near it. */
     public static Vector3 getRandomSpawningPointNearEntity(final World world, final Entity player, final int maxRange)
@@ -209,11 +172,6 @@ public class TrainerSpawnHandler
                 .getEntityWorld());
     }
 
-    public static void removeTrainer(final Entity e)
-    {
-        TrainerSpawnHandler.trainerMap.remove(e.getUniqueID());
-    }
-
     public static void tick(final ServerWorld w)
     {
         if (w.isRemote) return;
@@ -228,9 +186,7 @@ public class TrainerSpawnHandler
         v = temp != null ? temp.offset(Direction.UP) : v;
 
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
-        final int count = TrainerSpawnHandler.countTrainersInArea(w, v.intX() >> 4, v.intY() >> 4, v.intZ() >> 4,
-                Config.instance.trainerBox);
-
+        final int count = TrainerTracker.countTrainers(w, v, PokecubeAdv.config.trainerBox);
         if (count < Config.instance.trainerDensity)
         {
             final long time = System.nanoTime();
@@ -252,7 +208,6 @@ public class TrainerSpawnHandler
                 w.addEntity(t);
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
                 PokecubeCore.LOGGER.debug("Spawned Trainer: " + t + " " + count);
-                TrainerSpawnHandler.addTrainerCoord(t);
             }
             else t.remove();
         }

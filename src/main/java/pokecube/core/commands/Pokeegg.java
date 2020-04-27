@@ -104,73 +104,79 @@ public class Pokeegg
 
     public static void register(final CommandDispatcher<CommandSource> commandDispatcher)
     {
-        // Normal pokemake
-        PermissionAPI.registerNode("command.pokeegg", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokeegg");
-
-        final SuggestionProvider<CommandSource> TEMP = (ctx, sb) -> net.minecraft.command.ISuggestionProvider.suggest(
-                Lists.newArrayList("args"), sb);
+        final String perm = "command.pokeegg";
+        PermissionAPI.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokeegg");
 
         LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokeegg");
-        // Set a permission
-        command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokeegg"));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_POKEMOB)
                 .executes(ctx -> Pokeegg.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mob"), Lists
                         .newArrayList())));
+        commandDispatcher.register(command);
 
+        command = Commands.literal("pokeegg").requires(cs -> CommandTools.hasPerm(cs, perm));
         // command with player and no arguments
         command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_POKEMOB)
                 .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokeegg.execute(ctx
                         .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument
                                 .getPlayer(ctx, "player"))))));
-
-        // Command with player then string arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_POKEMOB)
-                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args:",
-                        StringArgumentType.string()).suggests(TEMP).then(Commands.argument("arg1", StringArgumentType
-                                .greedyString()).executes(ctx -> Pokeegg.execute(ctx.getSource(), StringArgumentType
-                                        .getString(ctx, "mob"), Lists.newArrayList(EntityArgument.getPlayer(ctx,
-                                                "player"), StringArgumentType.getString(ctx, "arg1"))))))));
-        // Command string arguments
-        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_POKEMOB)
-                .then(Commands.argument("args:", StringArgumentType.string()).suggests(TEMP).then(Commands.argument(
-                        "arg1", StringArgumentType.greedyString()).executes(ctx -> Pokeegg.execute(ctx.getSource(),
-                                StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(StringArgumentType
-                                        .getString(ctx, "arg1")))))));
-
         commandDispatcher.register(command);
 
-        // Random pokemake
-        PermissionAPI.registerNode("command.pokeeggrand", DefaultPermissionLevel.OP,
-                "Is the player allowed to use /pokeeggrand");
+        command = Commands.literal("pokeegg").requires(cs -> CommandTools.hasPerm(cs, perm));
+        // Command with player then string arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_POKEMOB)
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args",
+                        StringArgumentType.greedyString()).executes(ctx -> Pokeegg.execute(ctx.getSource(),
+                                StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(EntityArgument.getPlayer(
+                                        ctx, "player"), StringArgumentType.getString(ctx, "args")))))));
+        commandDispatcher.register(command);
 
-        command = Commands.literal("pokeeggrand");
+        command = Commands.literal("pokeegg").requires(cs -> CommandTools.hasPerm(cs, perm));
+        // Command string arguments
+        command = command.then(Commands.argument("mob", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_POKEMOB)
+                .then(Commands.argument("args", StringArgumentType.greedyString()).executes(ctx -> Pokeegg.execute(ctx
+                        .getSource(), StringArgumentType.getString(ctx, "mob"), Lists.newArrayList(StringArgumentType
+                                .getString(ctx, "args"))))));
+        commandDispatcher.register(command);
+
+        // Random Pokeegg
+        PermissionAPI.registerNode("command.Pokeeggrand", DefaultPermissionLevel.OP,
+                "Is the player allowed to use /Pokeeggrand");
+
         // Set a permission
-        command = command.requires(cs -> CommandTools.hasPerm(cs, "command.pokeeggrand"));
+        command = Commands.literal("pokeeggrand").requires(cs -> CommandTools.hasPerm(cs, "command.pokeeggrand"));
         // Plain command, no args besides name.
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_OTHERS)
                 .executes(ctx -> Pokeegg.execute(ctx.getSource(), StringArgumentType.getString(ctx, "mode"), Lists
                         .newArrayList())));
+        commandDispatcher.register(command);
 
+        // Set a permission
+        command = Commands.literal("pokeeggrand").requires(cs -> CommandTools.hasPerm(cs, "command.pokeeggrand"));
         // command with player an no arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_OTHERS)
                 .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> Pokeegg.execute(ctx
                         .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument
                                 .getPlayer(ctx, "player"))))));
+        commandDispatcher.register(command);
 
+        // Set a permission
+        command = Commands.literal("pokeeggrand").requires(cs -> CommandTools.hasPerm(cs, "command.pokeeggrand"));
         // Command with player then string arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_OTHERS)
-                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("arg1",
+                .then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("args",
                         StringArgumentType.greedyString()).executes(ctx -> Pokeegg.execute(ctx.getSource(),
                                 StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(EntityArgument.getPlayer(
-                                        ctx, "player"), StringArgumentType.getString(ctx, "mob")))))));
+                                        ctx, "player"), StringArgumentType.getString(ctx, "args")))))));
+        commandDispatcher.register(command);
+
+        // Set a permission
+        command = Commands.literal("pokeeggrand").requires(cs -> CommandTools.hasPerm(cs, "command.pokeeggrand"));
         // Command string arguments
         command = command.then(Commands.argument("mode", StringArgumentType.string()).suggests(Pokeegg.SUGGEST_OTHERS)
-                .then(Commands.argument("arg1", StringArgumentType.greedyString()).executes(ctx -> Pokeegg.execute(ctx
+                .then(Commands.argument("args", StringArgumentType.greedyString()).executes(ctx -> Pokeegg.execute(ctx
                         .getSource(), StringArgumentType.getString(ctx, "mode"), Lists.newArrayList(StringArgumentType
-                                .getString(ctx, "arg1"))))));
-
+                                .getString(ctx, "args"))))));
         commandDispatcher.register(command);
 
     }

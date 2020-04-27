@@ -58,6 +58,7 @@ import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.utils.EnergyHandler;
 import pokecube.adventures.utils.InventoryHandler;
+import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.recipes.XMLRecipeHandler;
@@ -278,6 +279,7 @@ public class PokecubeAdv
         MinecraftForge.EVENT_BUS.register(EnergyHandler.class);
         MinecraftForge.EVENT_BUS.register(InventoryHandler.class);
         MinecraftForge.EVENT_BUS.register(BlockEventHandler.class);
+        MinecraftForge.EVENT_BUS.register(TrainerTracker.class);
 
         PokecubeCore.POKEMOB_BUS.register(TrainerEventHandler.class);
         PokecubeCore.POKEMOB_BUS.register(this);

@@ -25,6 +25,7 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerSpawnHandler;
+import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.SpecialCaseRegister;
@@ -118,7 +119,8 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
     public VillagerEntity createChild(final AgeableEntity ageable)
     {
         if (this.isChild() || this.getGrowingAge() > 0 || !this.aiStates.getAIState(IHasNPCAIStates.MATES)) return null;
-        if (TrainerSpawnHandler.countTrainersNear(this, 64) > 5) return null;
+        if (TrainerTracker.countTrainers(this.getEntityWorld(), this.location.set(this),
+                PokecubeAdv.config.trainerBox) > 5) return null;
         if (this.pokemobsCap.getGender() == 2)
         {
             final IHasPokemobs other = TrainerCaps.getHasPokemobs(ageable);

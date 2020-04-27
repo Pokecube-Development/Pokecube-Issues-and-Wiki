@@ -125,7 +125,7 @@ public class WorldgenHandler
     {
         public String       name;
         public String       target     = "empty";
-        public String       biomeType  = "ruin";
+        public String       biomeType  = "none";
         public List<String> options    = Lists.newArrayList();
         public boolean      rigid      = true;
         public boolean      ignoreAir  = true;
@@ -144,7 +144,7 @@ public class WorldgenHandler
         public int          distance     = 8;
         public int          separation   = 4;
         public String       type         = "";
-        public String       biomeType    = "ruin";
+        public String       biomeType    = "none";
         public SpawnRule    spawn;
         public boolean      surface      = true;
         public boolean      water        = false;

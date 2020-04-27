@@ -21,7 +21,7 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
-import pokecube.core.utils.Tools;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.legends.PokecubeLegends;
 import thut.api.maths.Vector3;
 
@@ -106,7 +106,8 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         if (data == null || SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location, trainer.getEntityWorld(),
                 false))
         {
-            final boolean here = Tools.countPokemon(location, trainer.getEntityWorld(), 32, this.getEntry()) > 0;
+            final boolean here = PokemobTracker.countPokemobs(location, trainer.getEntityWorld(), 32, this
+                    .getEntry()) > 0;
             return !here;
         }
         if (message) this.sendNoHere(trainer);

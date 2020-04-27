@@ -12,11 +12,14 @@ issueTrackerURL="https://github.com/Pokecube-Development/Pokecube-Issues-and-Wik
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]]
 modId="thutcore"
-version="${file.jarVersion}"
+version="99.99.aio"
 displayName="Thut Core"
 authors="Thutmose"
 description='''
 This is a library of shared functionality for my mods.
+
+This is the version embedded into pokecube, so use that for
+the more reliable version number
 '''
 [[mods]]
 modId="thutcrafts"
@@ -33,6 +36,8 @@ displayName="Thut Wearables"
 authors="Thutmose"
 description='''
 Accessories Slots for Minecraft!
+
+This is the version embedded into pokecube.
 '''
 [[mods]]
 modId="thut_bling"
@@ -41,6 +46,8 @@ displayName="Thut Bling"
 authors="Thutmose"
 description='''
 Bling for Thut Wearables!
+
+This is the version embedded into pokecube.
 '''
 [[mods]]
 modId="pokecube"

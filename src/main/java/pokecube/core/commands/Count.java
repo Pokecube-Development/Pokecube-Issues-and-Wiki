@@ -34,7 +34,6 @@ public class Count
         final ServerWorld world = source.getWorld();
         final Stream<Entity> mobs = world.getEntities();
         final Vec3d pos = source.getPos();
-        // CommandGenStuff.execute(source.asPlayer(), new String[] { "" });
         int count1 = 0;
         int count2 = 0;
         final Map<PokedexEntry, Integer> counts = Maps.newHashMap();

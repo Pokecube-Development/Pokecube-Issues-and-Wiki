@@ -46,19 +46,46 @@ public class LogicFloatFlySwim extends LogicBase
 
             if (this.action == MovementController.Action.MOVE_TO && !this.entity.getNavigator().noPath())
             {
-                final double d0 = this.posX - this.entity.posX;
-                double d1 = this.posY - this.entity.posY;
-                final double d2 = this.posZ - this.entity.posZ;
-                final double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-                d1 = d1 / d3;
-                final float f = (float) (MathHelper.atan2(d2, d0) * (180F / (float) Math.PI)) - 90.0F;
-                this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, f, 90.0F);
-                this.entity.renderYawOffset = this.entity.rotationYaw;
-                final float f1 = (float) (this.speed * this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
+                this.action = MovementController.Action.WAIT;
+
+                final double dx = this.posX - this.mob.posX;
+                final double dy = this.posY - this.mob.posY;
+                final double dz = this.posZ - this.mob.posZ;
+                // Total distance squared
+                final double ds2 = dx * dx + dy * dy + dz * dz;
+                if (ds2 < 0.01F)
+                {
+                    this.mob.setMoveVertical(0.0F);
+                    this.mob.setMoveForward(0.0F);
+                    return;
+                }
+                // Horizontal distance
+                final float dh = MathHelper.sqrt(dx * dx + dz * dz);
+                final float ds = MathHelper.sqrt(ds2);
+
+                final float f = (float) (MathHelper.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
+                this.mob.rotationYaw = this.limitAngle(this.mob.rotationYaw, f, 10.0F);
+
+                float angleDiff = this.mob.rotationYaw - f;
+                angleDiff /= 180F / (float) Math.PI;
+
+                final float dot = MathHelper.cos(angleDiff);
+                float f1 = (float) (this.getSpeed() * this.mob.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
                         .getValue());
-                this.entity.setAIMoveSpeed(MathHelper.lerp(0.125F, this.entity.getAIMoveSpeed(), f1));
-                this.entity.setMotion(this.entity.getMotion().add(0.0D, this.entity.getAIMoveSpeed() * d1 * 0.1D,
-                        0.0D));
+
+                this.mob.setAIMoveSpeed(f1 * dot);
+                this.mob.jumpMovementFactor = (float) (f1 * 0.05);
+                final float f2 = (float) -(MathHelper.atan2(dy, dh) * (180F / (float) Math.PI));
+                this.mob.rotationPitch = this.limitAngle(this.mob.rotationPitch, f2, 10.0F);
+                f1 *= Math.abs(dy / ds);
+                this.mob.setMoveVertical(dy > 0.0D ? f1 : -f1);
+
+                // dampen the velocity so they don't orbit their destination
+                // points.
+                final float dh_hat = MathHelper.abs(dh / ds);
+                final float dy_hat = (float) Math.abs(dy / ds);
+                final Vec3d v = this.mob.getMotion();
+                this.mob.setMotion(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
             }
             else this.entity.setAIMoveSpeed(0.0F);
         }
@@ -183,7 +210,7 @@ public class LogicFloatFlySwim extends LogicBase
             this.pokemob.getEntity().navigator = this.flyPather;
             this.pokemob.getEntity().moveController = this.flyController;
         }
-        else if (this.pokemob.getEntity().isInWater())
+        else if (this.pokemob.getEntity().isInWater() && this.pokemob.swims())
         {
             this.pokemob.getEntity().navigator = this.swimPather;
             this.pokemob.getEntity().moveController = this.swimController;

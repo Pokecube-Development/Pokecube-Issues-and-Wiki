@@ -38,6 +38,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -85,6 +87,7 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.PokeType;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.maths.Vector3;
+import thut.core.client.gui.ConfigGui;
 
 public class ClientProxy extends CommonProxy
 {
@@ -324,6 +327,11 @@ public class ClientProxy extends CommonProxy
 
         // Register shouldercap
         CapabilityManager.INSTANCE.register(IShoulderHolder.class, IShoulderHolder.STORAGE, ShoulderHolder::new);
+
+        // Register config gui
+        ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c -> c.registerExtensionPoint(
+                ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeCore.getConfig(),
+                        parent)));
 
     }
 

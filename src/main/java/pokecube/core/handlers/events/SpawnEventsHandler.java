@@ -205,7 +205,7 @@ public class SpawnEventsHandler
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = false)
     public static void StructureSpawn(final StructureEvent.BuildStructure event)
     {
         if (event.getBiomeType() != null)

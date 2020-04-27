@@ -15,6 +15,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.AITools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
@@ -63,6 +64,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             @Override
             public boolean test(final LivingEntity input)
             {
+                if (!AITools.validTargets.test(input)) return false;
 
                 // If the input has attacked us recently, then return true
                 // regardless of following checks.
@@ -237,6 +239,9 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         final Vector3 here = Vector3.getNewVector().set(this.entity, true);
         LivingEntity target = null;
         final int sight = this.trainer.getAgressDistance();
+
+        if (!this.world.isAreaLoaded(here.getPos(), sight + 3)) return;
+
         final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.validTargetSet((LivingEntity) e);
         final Entity match = here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity, matcher);
         if (match instanceof LivingEntity) target = (LivingEntity) match;

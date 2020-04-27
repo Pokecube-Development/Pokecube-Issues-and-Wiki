@@ -24,6 +24,9 @@
     "thutcore.biometype.all": "All",
     
     "_comment": "Config Options",
+    
+    "thutcore.config.not_finished": "Unfinished, please use the ingame commands, or edit the config files directly.",
+    
     "thutcore.config.explosions": "Explosion Settings",
     "thutcore.config.explosions.tooltip": "Explosion Settings",
     "thutcore.config.explosionRadius.tooltip": "Maximum radius of effect of explosions, lower this to reduce RAM use of blasts.",
