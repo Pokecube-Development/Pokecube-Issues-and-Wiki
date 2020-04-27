@@ -244,8 +244,10 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
                     raytraceresult);
         }
-        else if (this.shootingEntity != null && this.getMotion().lengthSquared() == 0) if (this.isServerWorld())
-            if (PokecubeManager.isFilled(this.getItem()) && this.tilt < 0) SendOutManager.sendOut(this, true);
+        else if (this.shootingEntity != null && this.tilt < 0 && this.getMotion().lengthSquared() == 0 && this
+                .isServerWorld() && PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
+        else if (!this.getNoCollisionRelease() && this.isInWater() && PokecubeManager.isFilled(this.getItem()))
+            SendOutManager.sendOut(this, true);
     }
 
     public void preValidateVelocity()
