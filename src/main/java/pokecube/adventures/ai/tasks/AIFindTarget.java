@@ -15,6 +15,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.AITools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
@@ -63,6 +64,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
             @Override
             public boolean test(final LivingEntity input)
             {
+                if (!AITools.validTargets.test(input)) return false;
 
                 // If the input has attacked us recently, then return true
                 // regardless of following checks.
