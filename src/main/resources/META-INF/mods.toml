@@ -37,8 +37,7 @@ authors="Thutmose"
 description='''
 Accessories Slots for Minecraft!
 
-This is the version embedded into pokecube, so use that for
-the more reliable version number
+This is the version embedded into pokecube.
 '''
 [[mods]]
 modId="thut_bling"
@@ -48,8 +47,7 @@ authors="Thutmose"
 description='''
 Bling for Thut Wearables!
 
-This is the version embedded into pokecube, so use that for
-the more reliable version number
+This is the version embedded into pokecube.
 '''
 [[mods]]
 modId="pokecube"
