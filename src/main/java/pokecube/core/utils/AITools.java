@@ -60,6 +60,17 @@ public class AITools
         }
     }
 
+    private static class CanNavigate implements Predicate<IPokemob>
+    {
+        @Override
+        public boolean test(final IPokemob input)
+        {
+            if (input.swims() && input.getEntity().isInWater()) return true;
+            if (input.floats() || input.flys()) return true;
+            return input.isOnGround();
+        }
+    }
+
     public static boolean handleDamagedTargets = true;
 
     public static int           DEAGROTIMER    = 50;
@@ -78,6 +89,12 @@ public class AITools
      * player.
      */
     public static Predicate<IPokemob> shouldAgroNearestPlayer = new AgroCheck();
+
+    /**
+     * Checks to see if the pokemob is capable of changing its motion, this is
+     * used for things like dodging in combat, etc
+     */
+    public static Predicate<IPokemob> canNavigate = new CanNavigate();
 
     public static void initIDs()
     {

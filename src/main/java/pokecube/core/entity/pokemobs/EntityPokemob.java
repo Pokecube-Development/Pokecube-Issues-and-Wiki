@@ -14,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
@@ -29,6 +30,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -132,6 +134,24 @@ public class EntityPokemob extends PokemobHasParts
             }
         }
         super.tick();
+    }
+
+    @Override
+    protected float getWaterSlowDown()
+    {
+        return 0.8f;
+    }
+
+    @Override
+    public void travel(final Vec3d dr)
+    {
+        if (this.isServerWorld() && this.isInWater() && this.pokemobCap.swims())
+        {
+            this.moveRelative(this.getAIMoveSpeed(), dr);
+            this.move(MoverType.SELF, this.getMotion());
+            this.setMotion(this.getMotion().scale(0.8D));
+        }
+        else super.travel(dr);
     }
 
     @Override
