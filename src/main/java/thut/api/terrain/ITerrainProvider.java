@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import thut.api.ThutCaps;
 
 public interface ITerrainProvider
 {
@@ -20,13 +21,14 @@ public interface ITerrainProvider
     {
         final ChunkPos temp = new ChunkPos(p);
         final BlockPos pos = new BlockPos(temp.x, p.getY() / 16, temp.z);
-        boolean real = world instanceof World && world.chunkExists(pos.getX() >> 4, pos.getZ() >> 4);
+        boolean real = world instanceof World && world.chunkExists(pos.getX(), pos.getZ());
 
         IChunk chunk = null;
         if (real)
         {
-            chunk = world.getChunk(pos.getX() >> 4, pos.getZ() >> 4, ChunkStatus.SPAWN, false);
+            chunk = world.getChunk(pos.getX(), pos.getZ(), ChunkStatus.FULL, false);
             real = chunk instanceof ICapabilityProvider;
+            System.out.println(real + " " + chunk);
         }
 
         // This means it occurs during worldgen?
@@ -47,15 +49,15 @@ public interface ITerrainProvider
         }
 
         final CapabilityTerrain.ITerrainProvider provider = ((ICapabilityProvider) chunk).getCapability(
-                CapabilityTerrain.TERRAIN_CAP).orElse(null);
+                ThutCaps.TERRAIN_CAP).orElse(null);
         provider.setChunk(chunk);
+        final TerrainSegment segment = provider.getTerrainSegement(p);
         if (ITerrainProvider.pendingCache.containsKey(pos))
         {
             final TerrainSegment cached = ITerrainProvider.pendingCache.remove(pos);
-            // TODO if we should instead somehow merge the changes?
-            provider.setTerrainSegment(cached, pos.getY());
+            for (int i = 0; i < cached.biomes.length; i++)
+                if (segment.biomes[i] == -1) segment.biomes[i] = cached.biomes[i];
         }
-        final TerrainSegment segment = provider.getTerrainSegement(p);
         return segment;
     }
 }

@@ -20,10 +20,10 @@ import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
 import thut.api.IOwnable;
-import thut.api.LinkableCaps;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.LinkStorage;
 import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.maths.Vector4;
 
 public class Linker extends Item
@@ -84,7 +84,7 @@ public class Linker extends Item
     public static boolean interact(final ServerPlayerEntity playerIn, final Entity target, final ItemStack stack)
     {
         final IGuardAICapability ai = target.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        final LazyOptional<ILinkStorage> test_stack = stack.getCapability(LinkableCaps.STORE, null);
+        final LazyOptional<ILinkStorage> test_stack = stack.getCapability(ThutCaps.STORE, null);
         if (!test_stack.isPresent()) return false;
         final ILinkStorage storage = test_stack.orElse(null);
         final Vector4 pos = storage.getLinkedPos(playerIn);

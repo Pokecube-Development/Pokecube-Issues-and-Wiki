@@ -11,7 +11,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -104,7 +103,7 @@ public class LinkableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return LinkableCaps.STORE.orEmpty(cap, this.holder);
+            return ThutCaps.STORE.orEmpty(cap, this.holder);
         }
 
     }
@@ -131,7 +130,7 @@ public class LinkableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return LinkableCaps.LINK.orEmpty(cap, this.holder);
+            return ThutCaps.LINK.orEmpty(cap, this.holder);
         }
 
     }
@@ -167,11 +166,6 @@ public class LinkableCaps
         }
     }
 
-    @CapabilityInject(ILinkable.class)
-    public static final Capability<ILinkable>    LINK  = null;
-    @CapabilityInject(ILinkStorage.class)
-    public static final Capability<ILinkStorage> STORE = null;
-
     public static void setup()
     {
         CapabilityManager.INSTANCE.register(ILinkable.class, new LinkStore(), Linkable::new);
@@ -187,7 +181,7 @@ public class LinkableCaps
         // Only run for items
         if (event.getItemStack().isEmpty()) return;
         // Check if stack is a linkstore
-        final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(LinkableCaps.STORE, event
+        final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(ThutCaps.STORE, event
                 .getFace());
         if (!test_stack.isPresent()) return;
         final ILinkStorage storage = test_stack.orElse(null);
@@ -195,7 +189,7 @@ public class LinkableCaps
         // Only run for tile entities
         if (tile != null)
         {
-            final LazyOptional<ILinkable> test_tile = tile.getCapability(LinkableCaps.LINK, event.getFace());
+            final LazyOptional<ILinkable> test_tile = tile.getCapability(ThutCaps.LINK, event.getFace());
             // Only run for linkable ones
             if (test_tile.isPresent()) if (test_tile.orElse(null).link(storage, event.getPlayer()))
             {

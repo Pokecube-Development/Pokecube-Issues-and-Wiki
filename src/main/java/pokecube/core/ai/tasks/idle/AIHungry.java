@@ -287,7 +287,7 @@ public class AIHungry extends AIBase
         for (final TimePeriod p : this.pokemob.getPokedexEntry().activeTimes())
         {// TODO find some way to determine actual length of day for things like
          // AR support.
-            if (p != null && p.contains(this.entity.getEntityWorld().getDayTime(), 24000)) ;
+            if (p != null && p.contains(this.entity.getEntityWorld().getDayTime(), 24000));
             {
                 this.sleepy = false;
                 this.pokemob.setLogicState(LogicStates.SLEEPING, false);
@@ -669,6 +669,10 @@ public class AIHungry extends AIBase
         // Only run this every few ticks.
         if (this.entity.ticksExisted % hungerTicks != 0) return false;
 
+        // Ensure we are not set to hunt if we shouldn't be
+        if (!this.hitThreshold(AIHungry.EATTHRESHOLD) && this.pokemob.getCombatState(CombatStates.HUNTING)) this.pokemob
+                .setCombatState(CombatStates.HUNTING, false);
+
         // Do not run if the mob is in battle.
         if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
 
@@ -699,13 +703,8 @@ public class AIHungry extends AIBase
 
         // Check if we are hunting or should be
         // Reset hunting status if we are not actually hungry
-        if (this.hitThreshold(AIHungry.HUNTTHRESHOLD))
-        {
-            if (!this.pokemob.getCombatState(CombatStates.HUNTING)) this.pokemob.setCombatState(CombatStates.HUNTING,
-                    true);
-        }
-        else if (!this.hitThreshold(AIHungry.EATTHRESHOLD) && this.pokemob.getCombatState(CombatStates.HUNTING))
-            this.pokemob.setCombatState(CombatStates.HUNTING, false);
+        if (this.hitThreshold(AIHungry.HUNTTHRESHOLD)) if (!this.pokemob.getCombatState(CombatStates.HUNTING))
+            this.pokemob.setCombatState(CombatStates.HUNTING, true);
 
         final boolean hunting = this.pokemob.getCombatState(CombatStates.HUNTING);
         if (this.pokemob.getLogicState(LogicStates.SLEEPING) && !hunting)

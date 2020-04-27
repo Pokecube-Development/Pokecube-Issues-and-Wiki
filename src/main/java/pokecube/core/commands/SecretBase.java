@@ -28,7 +28,7 @@ import net.minecraftforge.server.permission.PermissionAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.world.dimension.SecretBaseDimension;
-import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.entity.ThutTeleporter;
 import thut.api.maths.Vector3;
@@ -75,7 +75,7 @@ public class SecretBase
                 final BlockState original = pos.getBlockState(player.getEntityWorld());
                 pos.setBlock(player.getEntityWorld(), PokecubeItems.SECRETBASE.getDefaultState());
                 final BaseTile tile = (BaseTile) player.getEntityWorld().getTileEntity(pos.getPos());
-                final IOwnableTE ownable = (IOwnableTE) tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+                final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
                 ownable.setPlacer(player);
                 tile.last_base = base_pos;
                 tile.original = original;
