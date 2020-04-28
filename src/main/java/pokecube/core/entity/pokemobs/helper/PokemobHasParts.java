@@ -15,6 +15,7 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.ICompoundMob;
+import thut.api.terrain.TerrainManager;
 
 public abstract class PokemobHasParts extends PokemobCombat implements ICompoundMob
 {
@@ -56,17 +57,14 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
             {
                 int j = 0;
 
-                for (int k = 0; k < list.size(); ++k)
-                    if (!list.get(k).isPassenger()) ++j;
+                for (final Entity element : list)
+                    if (!element.isPassenger()) ++j;
 
                 if (j > i - 1) this.attackEntityFrom(DamageSource.CRAMMING, 6.0F);
             }
 
-            for (int l = 0; l < list.size(); ++l)
-            {
-                final Entity entity = list.get(l);
+            for (final Entity entity : list)
                 this.collideWithEntity(entity);
-            }
         }
 
     }
@@ -85,24 +83,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
     public boolean isEntityEqual(final Entity entityIn)
     {
         return this == entityIn || entityIn instanceof PokemobPart && ((PokemobPart) entityIn).base == this;
-    }
-
-    @Override
-    public void onAddedToWorld()
-    {
-        super.onAddedToWorld();
-    }
-
-    @Override
-    public void remove(final boolean keepData)
-    {
-        super.remove(keepData);
-    }
-
-    @Override
-    public void onRemovedFromWorld()
-    {
-        super.onRemovedFromWorld();
     }
 
     @Override
@@ -133,19 +113,26 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
             super.move(typeIn, pos);
             return;
         }
+        final float s = this.pokemobCap.getSize();
+        final double dist = Math.max(this.pokemobCap.getPokedexEntry().width * s, this.pokemobCap
+                .getPokedexEntry().length * s);
         Vec3d toMove = pos;
-        for (final PokemobPart p : this.parts)
+        if (TerrainManager.isAreaLoaded(this.getEntityWorld(), this.getPosition(), dist))
         {
-            // Only consider top and bottom slabs for this.
-            if (pos.y < 0 && p.shift.getY() > 0) continue;
-            if (pos.y > 0 && p.shift.getY() < this.numTall - 1) continue;
-            final Vec3d posA = p.getPositionVec();
-            p.move(typeIn, toMove);
-            final Vec3d posB = p.getPositionVec();
-            toMove = posB.subtract(posA);
+            for (final PokemobPart p : this.parts)
+            {
+                // Only consider top and bottom slabs for this.
+                if (pos.y < 0 && p.shift.getY() > 0) continue;
+                if (pos.y > 0 && p.shift.getY() < this.numTall - 1) continue;
+                final Vec3d posA = p.getPositionVec();
+                p.move(typeIn, toMove);
+                final Vec3d posB = p.getPositionVec();
+                toMove = posB.subtract(posA);
+            }
+            super.move(typeIn, toMove);
+            this.updatePartsPos();
         }
-        super.move(typeIn, toMove);
-        this.updatePartsPos();
+        else super.move(typeIn, toMove);
     }
 
     @Override

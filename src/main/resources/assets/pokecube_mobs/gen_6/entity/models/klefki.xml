@@ -2,6 +2,81 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale=".1"/>
-  <metadata head="head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <metadata head="body" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
+  <customTex default="klefki">
+   <part name="Head" tex="klefkieye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="sitting">
+   <part name="s">
+	<component name="1" startKey="0" length="10" rotOffset="90,0,0,"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="s">
+	<component name="1" startKey="0" length="10" rotChange="4,0,0,"/>
+	<component name="2" startKey="10" length="10" rotChange="-4,0,0,"/>
+   </part>
+   <part name="key1">
+	<component name="1" startKey="0" length="10" rotChange="0,0,10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,-10,"/>
+   </part>
+   <part name="key2">
+	<component name="1" startKey="0" length="10" rotChange="0,0,-10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,10,"/>
+   </part>
+   <part name="key3">
+	<component name="1" startKey="0" length="10" rotChange="0,0,-10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,10,"/>
+   </part>
+   <part name="key4">
+	<component name="1" startKey="0" length="10" rotChange="0,0,10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,-10,"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="s">
+	<component name="1" startKey="0" length="10" rotOffset="10,0,0" rotChange="4,0,0,"/>
+	<component name="2" startKey="10" length="10" rotChange="-4,0,0,"/>
+   </part>
+   <part name="key1">
+	<component name="1" startKey="0" length="10" rotChange="0,0,10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,-10,"/>
+   </part>
+   <part name="key2">
+	<component name="1" startKey="0" length="10" rotChange="0,0,-10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,10,"/>
+   </part>
+   <part name="key3">
+	<component name="1" startKey="0" length="10" rotChange="0,0,-10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,10,"/>
+   </part>
+   <part name="key4">
+	<component name="1" startKey="0" length="10" rotChange="0,0,10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,-10,"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="s">
+	<component name="1" startKey="0" length="10" rotOffset="10,0,0" rotChange="4,0,0,"/>
+	<component name="2" startKey="10" length="10" rotChange="-4,0,0,"/>
+   </part>
+   <part name="key1">
+	<component name="1" startKey="0" length="10" rotChange="0,0,10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,-10,"/>
+   </part>
+   <part name="key2">
+	<component name="1" startKey="0" length="10" rotChange="0,0,-10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,10,"/>
+   </part>
+   <part name="key3">
+	<component name="1" startKey="0" length="10" rotChange="0,0,-10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,10,"/>
+   </part>
+   <part name="key4">
+	<component name="1" startKey="0" length="10" rotChange="0,0,10,"/>
+	<component name="2" startKey="10" length="10" rotChange="0,0,-10,"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
