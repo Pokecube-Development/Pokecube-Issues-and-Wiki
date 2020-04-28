@@ -34,6 +34,7 @@ public class BlockInit
             .noInfoBlock();
     public static Block TEMPORAL_CRYSTAL = new BlockBase("temporal_crystal", Material.GLASS, 1.0f, 12f, SoundType.GLASS)
             .noInfoBlock();
+    public static Block RAID_SPAWN = new LegendaryBlock("raidspawn_block", Material.IRON).setInfoBlockName("raidspawn");
 
     // Decorative_Blocks
     public static Block OCEAN_BRICK   = new BlockBase("oceanbrick", Material.ROCK, 1.5f, 10f, SoundType.STONE)
