@@ -52,6 +52,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
+import thut.api.terrain.TerrainManager;
 
 public class UltraSpacePortal extends Rotates implements IWaterLoggable
 {
@@ -1429,6 +1430,9 @@ public class UltraSpacePortal extends Rotates implements IWaterLoggable
     @Override
     public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
+        // Only remove this if the nearby area is actually loaded.
+        if (!TerrainManager.isAreaLoaded(worldIn, pos, 8)) return;
+
         this.remove(worldIn, pos, state);
         worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
         worldIn.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.ENTITY_ENDERMAN_TELEPORT,
