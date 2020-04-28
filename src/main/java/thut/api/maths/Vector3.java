@@ -678,12 +678,8 @@ public class Vector3
         return this.subtract(pointB).magSq();
     }
 
-    public boolean doChunksExist(final World world, final int distance)
-    {
-        return world.isAreaLoaded(this.getPos(), distance);
-    }
-
-    /** Returns the dot (scalar) product of the two vectors
+    /**
+     * Returns the dot (scalar) product of the two vectors
      *
      * @param vector1
      * @param vector2

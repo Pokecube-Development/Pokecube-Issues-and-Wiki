@@ -32,6 +32,7 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
 public class ExplosionCustom extends Explosion
@@ -271,18 +272,18 @@ public class ExplosionCustom extends Explosion
         if (n != 0)
 
             for (int i = 0; i < n; i++)
-            {
+        {
             final Vector3 source = locations.get(i);
             final float strength = Math.min(blasts.get(i), 256);
-            if (world.isAreaLoaded(source.getPos(), max)) if (strength != 0)
+            if (TerrainManager.isAreaLoaded(world, source.getPos(), max)) if (strength != 0)
             {
-            final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, source, strength * factor);
-            boo.setMaxRadius(this.radius);
-            boo.owner = this.owner;
-            boo.doExplosion();
+                final ExplosionCustom boo = new ExplosionCustom(world, this.exploder, source, strength * factor);
+                boo.setMaxRadius(this.radius);
+                boo.owner = this.owner;
+                boo.doExplosion();
 
             }
-            }
+        }
         if (remainingEnergy > 10)
         {
             absorbedLoc = absorbedLoc.subtract(velocity.normalize());
