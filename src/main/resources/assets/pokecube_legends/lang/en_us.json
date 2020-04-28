@@ -158,6 +158,7 @@
     "block.pokecube_legends.ultramagnetic": "Ultra Magnetic Stone",
     "block.pokecube_legends.ultrasand": "Ultra Sand",
     "block.pokecube_legends.ultrasandstone": "Ultra Sandstone",
+	"block.pokecube_legends.raidspawn_block": "Raid Spot Spawn",
 
     "": "/Ultra Space Part",
     "block.pokecube_legends.ultraspace_portal": "Ultra Wormhole",
@@ -168,6 +169,7 @@
     "": "/Tooltips Block",
     "legendblock.portalwarp.tooltip": "This portal spawns a random Pokemon over a period of time.",
     "legendblock.ultraportal.tooltip": "Use to enter and exit Ultra Space",
+	"legendblock.raidspawn.tooltip": "Use to create a Raid battle!",
 
     "": "/Tooltips Items",
     "legends.adamantorb.tooltip": "Use this item on 'Time and Space Spawn' to Spawn Dialga",
