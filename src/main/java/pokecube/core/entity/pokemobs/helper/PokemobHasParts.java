@@ -115,7 +115,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
         }
         final float s = this.pokemobCap.getSize();
         final double dist = Math.max(this.pokemobCap.getPokedexEntry().width * s, this.pokemobCap
-                .getPokedexEntry().length * s);
+                .getPokedexEntry().length * s) + 8;
         Vec3d toMove = pos;
         if (TerrainManager.isAreaLoaded(this.getEntityWorld(), this.getPosition(), dist))
         {

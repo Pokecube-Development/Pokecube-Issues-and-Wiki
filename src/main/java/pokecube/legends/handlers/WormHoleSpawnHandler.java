@@ -19,6 +19,7 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.UltraSpacePortal;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 
 public class WormHoleSpawnHandler
 {
@@ -40,6 +41,10 @@ public class WormHoleSpawnHandler
         final int dx = rand.nextInt(distance) - distance / 2;
         final int dz = rand.nextInt(distance) - distance / 2;
         final Vector3 v = Vector3.getNewVector().set(player).add(dx, 0, dz);
+
+        // Only spawn this if the nearby area is actually loaded.
+        if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
+
         v.x += dx;
         v.z += dz;
         v.y = world.getHeight(Heightmap.Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 10;
