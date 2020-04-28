@@ -19,6 +19,7 @@ import pokecube.core.utils.AITools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 
 public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 {
@@ -240,7 +241,7 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         LivingEntity target = null;
         final int sight = this.trainer.getAgressDistance();
 
-        if (!this.world.isAreaLoaded(here.getPos(), sight + 3)) return;
+        if (!TerrainManager.isAreaLoaded(this.world, here, sight + 3)) return;
 
         final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.validTargetSet((LivingEntity) e);
         final Entity match = here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity, matcher);

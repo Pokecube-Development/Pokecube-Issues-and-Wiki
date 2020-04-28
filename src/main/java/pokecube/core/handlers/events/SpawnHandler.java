@@ -328,7 +328,7 @@ public final class SpawnHandler
         v.set(v.getPos()).addTo(0.5, 0.5, 0.5);
 
         // Don't select unloaded areas.
-        if (!world.isAreaLoaded(v.getPos(), 8)) return null;
+        if (!TerrainManager.isAreaLoaded(world, v, 8)) return null;
 
         // Find surface
         final Vector3 temp1 = SpawnHandler.getSpawnSurface(world, v, 10);
@@ -694,7 +694,7 @@ public final class SpawnHandler
         long time = System.nanoTime();
         final int radius = PokecubeCore.getConfig().maxSpawnRadius;
         this.v.set(player);
-        if (!world.isAreaLoaded(this.v.getPos(), radius)) return 0;
+        if (!TerrainManager.isAreaLoaded(world, this.v, radius)) return 0;
         if (!Tools.isAnyPlayerInRange(radius, 10, world, this.v)) return 0;
         final int height = world.getActualHeight();
         final AxisAlignedBB box = this.v.getAABB().grow(radius, Math.max(height, radius), radius);

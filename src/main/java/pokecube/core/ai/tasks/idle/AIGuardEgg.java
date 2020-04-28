@@ -5,10 +5,13 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.util.math.AxisAlignedBB;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 
 /**
  * This IAIRunnable results in the mother of an egg always staying within 4
@@ -68,10 +71,11 @@ public class AIGuardEgg extends AIBase
         // Only the female (or neutral) will guard the eggs.
         if (this.pokemob.getSexe() == IPokemob.MALE) return false;
         this.eggSearchCooldown = AIGuardEgg.SEARCHCOOLDOWN;
-
-        if (!this.world.isAreaLoaded(this.entity.getPosition(), 18)) return false;
-
-        final AxisAlignedBB bb = this.entity.getBoundingBox().grow(16, 8, 16);
+        if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
+                .getConfig().guardSearchDistance + 2)) return false;
+        final Vector3 here = Vector3.getNewVector().set(this.entity);
+        final AxisAlignedBB bb = here.getAABB().grow(PokecubeCore.getConfig().guardSearchDistance, 8, PokecubeCore
+                .getConfig().guardSearchDistance);
         // Search for valid eggs.
         final List<Entity> list2 = this.entity.getEntityWorld().getEntitiesInAABBexcluding(this.entity, bb,
                 input -> input instanceof EntityPokemobEgg && AIGuardEgg.this.entity.getUniqueID().equals(
