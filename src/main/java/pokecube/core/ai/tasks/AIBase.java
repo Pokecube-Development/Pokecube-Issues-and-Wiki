@@ -25,6 +25,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 import thut.lib.ItemStackTools;
 
 public abstract class AIBase implements IAIRunnable
@@ -152,7 +153,8 @@ public abstract class AIBase implements IAIRunnable
     protected <T extends Entity> List<T> getEntitiesWithinDistance(final Entity source, final float distance,
             final Class<T> clazz, final Class<?>... targetClass)
     {
-        if (!source.getEntityWorld().isAreaLoaded(source.getPosition(), (int) distance)) return Collections.emptyList();
+        if (!TerrainManager.isAreaLoaded(source.getEntityWorld(), source.getPosition(), distance)) return Collections
+                .emptyList();
         return this.getEntitiesWithinDistance(source.getEntityWorld(), source.getPosition(), distance, clazz,
                 targetClass);
     }
@@ -160,7 +162,7 @@ public abstract class AIBase implements IAIRunnable
     protected <T extends Entity> List<T> getEntitiesWithinDistance(final World world, final BlockPos pos,
             final float distance, final Class<T> clazz, final Class<?>... targetClass)
     {
-        if (!world.isAreaLoaded(pos, (int) distance)) return Collections.emptyList();
+        if (!TerrainManager.isAreaLoaded(world, pos, distance)) return Collections.emptyList();
         return world.getEntitiesWithinAABB(clazz, new AxisAlignedBB(pos).grow(distance), e ->
         {
             if (clazz.isInstance(e)) return true;

@@ -56,6 +56,7 @@ import pokecube.core.handlers.events.SpawnEventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 
 public class TrainerSpawnHandler
 {
@@ -85,7 +86,7 @@ public class TrainerSpawnHandler
         v.addTo(x, y, z);
 
         // Don't select unloaded areas.
-        if (!world.isAreaLoaded(v.getPos(), 8)) return null;
+        if (!TerrainManager.isAreaLoaded(world, v, 8)) return null;
 
         // Find surface
         final Vector3 temp1 = Vector3.getNextSurfacePoint(world, TrainerSpawnHandler.vec1, Vector3.secondAxisNeg, 10);

@@ -34,6 +34,7 @@ import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
 public class AIFindTarget extends AIBase implements IAICombat
@@ -239,7 +240,7 @@ public class AIFindTarget extends AIBase implements IAICombat
                 this.pokemob.getHome());
         else centre.set(this.pokemob.getOwner());
 
-        if (!this.world.isAreaLoaded(centre.getPos(), 18)) return false;
+        if (!TerrainManager.isAreaLoaded(this.world, centre, 18)) return false;
 
         pokemobs = this.getEntitiesWithinDistance(this.world, centre.getPos(), 16, MobEntity.class);
 
@@ -307,7 +308,8 @@ public class AIFindTarget extends AIBase implements IAICombat
                 this.pokemob.getHome());
         else centre.set(this.pokemob.getOwner());
 
-        if (!this.world.isAreaLoaded(centre.getPos(), PokecubeCore.getConfig().guardSearchDistance + 2)) return false;
+        if (!TerrainManager.isAreaLoaded(this.world, centre, PokecubeCore.getConfig().guardSearchDistance + 2))
+            return false;
 
         pokemobs = this.getEntitiesWithinDistance(this.world, centre.getPos(), PokecubeCore
                 .getConfig().guardSearchDistance, LivingEntity.class);
@@ -358,9 +360,10 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
 
-        if (!this.world.isAreaLoaded(this.entity.getPosition(), 18)) return false;
-
-        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.entity, 16, LivingEntity.class);
+        if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
+                .getConfig().guardSearchDistance + 2)) return false;
+        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.entity, PokecubeCore
+                .getConfig().guardSearchDistance, LivingEntity.class);
         if (!list.isEmpty()) for (final LivingEntity entity : list)
         {
             final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
@@ -397,9 +400,11 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
 
-        if (!this.world.isAreaLoaded(this.entity.getPosition(), 18)) return false;
+        if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
+                .getConfig().guardSearchDistance + 2)) return false;
+        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.pokemob.getOwner(), PokecubeCore
+                .getConfig().guardSearchDistance, LivingEntity.class);
 
-        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.pokemob.getOwner(), 16, LivingEntity.class);
         final Entity old = this.entity.getAttackTarget();
         final IOwnable oldOwnable = OwnableCaps.getOwnable(old);
         final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;

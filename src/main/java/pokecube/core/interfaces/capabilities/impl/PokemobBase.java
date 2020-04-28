@@ -27,7 +27,7 @@ import pokecube.core.interfaces.pokemob.moves.PokemobMoveStats;
 import pokecube.core.interfaces.pokemob.stats.StatModifiers;
 import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.IOwnable;
-import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
@@ -242,7 +242,7 @@ public abstract class PokemobBase implements IPokemob
      */
     public IOwnable getOwnerHolder()
     {
-        if (this.ownerHolder == null) this.ownerHolder = this.entity.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+        if (this.ownerHolder == null) this.ownerHolder = this.entity.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
         return this.ownerHolder;
     }
 
@@ -277,6 +277,7 @@ public abstract class PokemobBase implements IPokemob
      *
      * @param level
      */
+    @Override
     public void updateHealth()
     {
         final float old = this.getMaxHealth();

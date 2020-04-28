@@ -239,7 +239,7 @@ public class TerrainSegment
 
     Vector3 mid = Vector3.getNewVector();
 
-    int[] biomes = new int[TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE];
+    protected int[] biomes = new int[TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE];
 
     HashMap<String, ITerrainEffect> effects = new HashMap<>();
     public final ITerrainEffect[]   effectArr;

@@ -20,6 +20,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 
 /**
  * This IAIRunnable makes the mobs randomly wander around if they have nothing
@@ -47,7 +48,7 @@ public class AIIdle extends AIBase
         v.addTo(x, y, z);
 
         // Ensure the target location is loaded.
-        if (!mob.getEntity().getEntityWorld().isAreaLoaded(v.getPos(), 4)) return null;
+        if (!TerrainManager.isAreaLoaded(mob.getEntity().getEntityWorld(), v, 8)) return null;
 
         // TODO also ensure no lava, etc
         if (v.isClearOfBlocks(world)) return v;

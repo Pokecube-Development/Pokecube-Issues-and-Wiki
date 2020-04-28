@@ -21,7 +21,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -50,7 +49,7 @@ public class OwnableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return OwnableCaps.CAPABILITY.orEmpty(cap, this.holder);
+            return ThutCaps.OWNABLE_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -187,7 +186,7 @@ public class OwnableCaps
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
-            return OwnableCaps.CAPABILITY.orEmpty(cap, this.holder);
+            return ThutCaps.OWNABLE_CAP.orEmpty(cap, this.holder);
         }
 
         @Override
@@ -265,13 +264,10 @@ public class OwnableCaps
     public static final ResourceLocation                   LOCWRAP  = new ResourceLocation("thutcore:ownable_wrap");
     public static final ResourceLocation                   STICKTAG = new ResourceLocation("thutcore:pokeystick");
 
-    @CapabilityInject(IOwnable.class)
-    public static final Capability<IOwnable> CAPABILITY = null;
-
     public static IOwnable getOwnable(final ICapabilityProvider in)
     {
         if (in == null) return null;
-        return in.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+        return in.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -304,7 +300,7 @@ public class OwnableCaps
         final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
         if (tile != null && event.getEntity() instanceof LivingEntity)
         {
-            final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+            final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE) ((IOwnableTE) ownable).setPlacer((LivingEntity) event.getEntity());
             else if (ownable != null) ownable.setOwner((LivingEntity) event.getEntity());
         }
@@ -316,7 +312,7 @@ public class OwnableCaps
         final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
         if (tile != null)
         {
-            final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+            final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE && ((IOwnableTE) ownable).canEdit(event.getEntityLiving()) && ItemTags
                     .getCollection().getOrCreate(OwnableCaps.STICKTAG).contains(event.getItemStack().getItem())) event
                             .getWorld().destroyBlock(event.getPos(), true);
@@ -329,7 +325,7 @@ public class OwnableCaps
         final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
         if (tile != null)
         {
-            final IOwnable ownable = tile.getCapability(OwnableCaps.CAPABILITY).orElse(null);
+            final IOwnable ownable = tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             if (ownable instanceof IOwnableTE && !((IOwnableTE) ownable).canEdit(event.getPlayer())) event.setCanceled(
                     true);
         }

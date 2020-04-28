@@ -11,7 +11,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.core.inventory.BaseContainer;
 import pokecube.core.inventory.TexturedSlot;
-import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 
 public class AfaContainer extends BaseContainer
@@ -102,7 +102,7 @@ public class AfaContainer extends BaseContainer
             // Server side
             if (tile instanceof AfaTile)
             {
-                this.ownable = (IOwnableTE) tile.getCapability(OwnableCaps.CAPABILITY);
+                this.ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP);
                 final IItemHandlerModifiable handler = (IItemHandlerModifiable) tile.getCapability(
                         CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
                 this.inv = new InvWrapper(handler, this.ownable);
@@ -112,7 +112,7 @@ public class AfaContainer extends BaseContainer
         if (this.ownable == null)
         {
             final AfaTile tile = new AfaTile();
-            this.ownable = (IOwnableTE) tile.getCapability(OwnableCaps.CAPABILITY);
+            this.ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP);
             final IItemHandlerModifiable handler = (IItemHandlerModifiable) tile.getCapability(
                     CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
             this.inv = new InvWrapper(handler, this.ownable);
