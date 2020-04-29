@@ -155,7 +155,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         if (tile != null)
         {
             mat.push();
-            mat.translate(-0.5, 1, -0.5);
+            mat.translate(pos.getX(), pos.getY(), pos.getZ());
+            mat.translate(-1.5, 0, -1.5);
             mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
             mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
             mat.rotate(Vector3f.XP.rotationDegrees(180.0F));

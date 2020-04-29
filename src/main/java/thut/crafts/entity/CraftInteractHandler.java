@@ -35,18 +35,22 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
     {
         if (player.isCrouching()) return ActionResultType.PASS;
         final ActionResultType result = super.applyPlayerInteraction(player, vec, stack, hand);
-        if (result == ActionResultType.SUCCESS || this.processInitialInteract(player, player.getHeldItem(hand), hand))
-            return ActionResultType.SUCCESS;
+        boolean passed = result == ActionResultType.SUCCESS;
+        passed = passed || this.processInitialInteract(player, player.getHeldItem(hand), hand);
+        if (passed) return ActionResultType.SUCCESS;
         vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
-        final Vec3d playerPos = player.getPositionVector().add(0, player.getEyeHeight(), 0);
-        final Vec3d start = playerPos.subtract(this.craft.getPositionVector());
-        final RayTraceResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
-                .getPositionVector()), vec.add(this.craft.getPositionVector()), this.craft);
-        final BlockRayTraceResult trace = hit instanceof BlockRayTraceResult ? (BlockRayTraceResult) hit : null;
+        if (this.trace == null)
+        {
+            final Vec3d playerPos = player.getPositionVector().add(0, player.getEyeHeight(), 0);
+            final Vec3d start = playerPos.subtract(this.craft.getPositionVector());
+            final RayTraceResult hit = IBlockEntity.BlockEntityFormer.rayTraceInternal(start.add(this.craft
+                    .getPositionVector()), vec.add(this.craft.getPositionVector()), this.craft);
+            this.trace = hit instanceof BlockRayTraceResult ? (BlockRayTraceResult) hit : null;
+        }
         BlockPos pos;
-        if (trace == null) pos = this.craft.getPosition();
-        else pos = trace.getPos();
-        if (trace != null && this.interactInternal(player, pos, stack, hand) == ActionResultType.SUCCESS)
+        if (this.trace == null) pos = this.craft.getPosition();
+        else pos = this.trace.getPos();
+        if (this.trace != null && this.interactInternal(player, pos, stack, hand) == ActionResultType.SUCCESS)
             return ActionResultType.SUCCESS;
         else if (this.craft.rotationYaw != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
         {

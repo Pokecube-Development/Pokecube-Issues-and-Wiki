@@ -12,6 +12,7 @@ import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -24,6 +25,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
@@ -33,6 +36,34 @@ import thut.core.common.network.EntityUpdate;
 
 public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEntity
 {
+    public static class DismountTicker
+    {
+        final Entity dismounted;
+        final Entity craft;
+        final Seat   seat;
+
+        public DismountTicker(final Entity dismounted, final Entity craft, final Seat seat)
+        {
+            this.dismounted = dismounted;
+            this.craft = craft;
+            this.seat = seat;
+            MinecraftForge.EVENT_BUS.register(this);
+        }
+
+        @SubscribeEvent
+        public void tick(final WorldTickEvent event)
+        {
+            if (event.world != this.craft.world) return;
+            MinecraftForge.EVENT_BUS.unregister(this);
+            final double x = this.craft.getPosX() + this.seat.seat.x;
+            final double y = this.craft.getPosY() + this.seat.seat.y;
+            final double z = this.craft.getPosZ() + this.seat.seat.z;
+            if (this.dismounted instanceof ServerPlayerEntity) ((ServerPlayerEntity) this.dismounted).connection
+                    .setPlayerLocation(x, y, z, this.dismounted.rotationYaw, this.dismounted.rotationPitch);
+            else this.dismounted.setPosition(x, y, z);
+        }
+    }
+
     public static final EntityType<EntityCraft> CRAFTTYPE = new BlockEntityType<>(EntityCraft::new);
 
     @SuppressWarnings("unchecked")
@@ -119,7 +150,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             final Vector3 rel = Vector3.getNewVector().set(this).addTo(seat.seat.x, seat.seat.y, seat.seat.z);
             final BlockPos pos = rel.getPos();
             final BlockState block = this.getFakeWorld().getBlock(pos);
-            if (block == null) break seats;
+            if (block == null || !block.has(StairsBlock.FACING)) break seats;
             Vector3 dest = Vector3.getNewVector().set(destX, destY, destZ);
             switch (block.get(StairsBlock.FACING))
             {
@@ -287,7 +318,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     public Vector3f getSeat(final Entity passenger)
     {
         final Vector3f ret = null;
-        if (passenger.getServer() == null) System.out.println(this.getSeatCount() + " " + this.getSeat(0));
         for (int i = 0; i < this.getSeatCount(); i++)
         {
             Seat seat;
@@ -381,6 +411,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             if (this.getSeat(i).getEntityId().equals(passenger.getUniqueID()))
             {
                 this.setSeatID(i, Seat.BLANK);
+                new DismountTicker(passenger, this, this.getSeat(i));
                 break;
             }
     }
@@ -412,8 +443,8 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         final UUID old = toSet.getEntityId();
         if (!old.equals(id))
         {
-            toSet.setEntityId(id);
             toSet = (Seat) toSet.clone();
+            toSet.setEntityId(id);
             this.dataManager.set(EntityCraft.SEAT[index], toSet);
         }
     }

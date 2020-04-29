@@ -23,10 +23,17 @@ public abstract class BlockEntityInteractHandler
     final IBlockEntity blockEntity;
     final Entity       theEntity;
 
+    protected BlockRayTraceResult trace;
+
     public BlockEntityInteractHandler(final IBlockEntity entity)
     {
         this.blockEntity = entity;
         this.theEntity = (Entity) entity;
+    }
+
+    public BlockRayTraceResult getLastTrace()
+    {
+        return this.trace;
     }
 
     public ActionResultType applyPlayerInteraction(final PlayerEntity player, Vec3d vec,
@@ -37,19 +44,21 @@ public abstract class BlockEntityInteractHandler
                 0);
         final Vec3d start = playerPos;
         final Vec3d end = playerPos.add(player.getLookVec().scale(4.5));
-        BlockRayTraceResult trace = null;
+        this.trace = null;
         final RayTraceResult trace2 = IBlockEntity.BlockEntityFormer.rayTraceInternal(start, end, this.blockEntity);
-        if (trace2 instanceof BlockRayTraceResult) trace = (BlockRayTraceResult) trace2;
+        if (trace2 instanceof BlockRayTraceResult) this.trace = (BlockRayTraceResult) trace2;
         BlockPos pos;
-        if (trace == null) pos = this.theEntity.getPosition();
-        else pos = trace.getPos();
+        if (this.trace == null) pos = this.theEntity.getPosition();
+        else pos = this.trace.getPos();
         BlockState state = this.blockEntity.getFakeWorld().getBlock(pos);
         final World world = this.blockEntity.getFakeWorld() instanceof World ? (World) this.blockEntity.getFakeWorld()
                 : this.theEntity.getEntityWorld();
         // FIXME interacting with blocks on the block entity?
-        boolean activate = state != null && state.onBlockActivated(world, player, hand, trace) == ActionResultType.SUCCESS;
+        boolean activate = state != null && state.onBlockActivated(world, player, hand,
+                this.trace) == ActionResultType.SUCCESS;
         if (activate) return ActionResultType.SUCCESS;
-        else if (trace == null || trace.getType() == Type.MISS || state != null && !state.getMaterial().isSolid())
+        else if (this.trace == null || this.trace.getType() == Type.MISS || state != null && !state.getMaterial()
+                .isSolid())
         {
             final Vec3d playerLook = playerPos.add(player.getLookVec().scale(4));
 
@@ -60,16 +69,16 @@ public abstract class BlockEntityInteractHandler
 
             if (result instanceof BlockRayTraceResult)
             {
-                trace = (BlockRayTraceResult) result;
-                pos = trace.getPos();
+                this.trace = (BlockRayTraceResult) result;
+                pos = this.trace.getPos();
                 state = this.theEntity.getEntityWorld().getBlockState(pos);
-                final ItemUseContext context2 = new ItemUseContext(player, hand, trace);
+                final ItemUseContext context2 = new ItemUseContext(player, hand, this.trace);
                 if (player.isCrouching() && !stack.isEmpty())
                 {
                     final ActionResultType itemUse = ForgeHooks.onPlaceItemIntoWorld(context2);
                     if (itemUse != ActionResultType.PASS) return itemUse;
                 }
-                activate = state.onBlockActivated(world, player, hand, trace) == ActionResultType.SUCCESS;
+                activate = state.onBlockActivated(world, player, hand, this.trace) == ActionResultType.SUCCESS;
                 if (activate) return ActionResultType.SUCCESS;
                 else if (!player.isCrouching() && !stack.isEmpty())
                 {
