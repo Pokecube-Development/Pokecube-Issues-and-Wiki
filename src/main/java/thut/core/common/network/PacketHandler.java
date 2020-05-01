@@ -11,19 +11,16 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-import thut.core.common.ThutCore;
 
 public class PacketHandler
 {
     private static boolean canClientConnect(final String versionClient, final String versionServer)
     {
-        ThutCore.LOGGER.debug("Client-Server Test: {} -> {}", versionClient, versionServer);
         return versionClient.equals(versionServer);
     }
 
     private static boolean canServerConnect(final String versionClient, final String versionServer)
     {
-        ThutCore.LOGGER.debug("Server-Client Test: {} -> {}", versionServer, versionClient);
         return versionClient.equals(versionServer);
     }
 
