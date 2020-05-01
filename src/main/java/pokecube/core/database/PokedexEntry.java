@@ -397,13 +397,14 @@ public class PokedexEntry
 
         protected static void initForEntry(final PokedexEntry entry)
         {
+            // Here we deal with the defaulted interactions for this type.
             final List<Interact> val = Lists.newArrayList();
             for (final PokeType t : InteractionLogic.defaults.keySet())
                 if (entry.isType(t)) val.addAll(InteractionLogic.defaults.get(t));
-            if (!val.isEmpty()) InteractionLogic.initForEntry(entry, val);
+            if (!val.isEmpty()) InteractionLogic.initForEntry(entry, val, false);
         }
 
-        protected static void initForEntry(final PokedexEntry entry, final List<Interact> data)
+        protected static void initForEntry(final PokedexEntry entry, final List<Interact> data, final boolean replace)
         {
             if (data == null || data.isEmpty())
             {
@@ -419,6 +420,9 @@ public class PokedexEntry
                 Map<QName, String> values = key.getValues();
                 final ItemStack keyStack = Tools.getStack(values);
                 final Interaction interaction = new Interaction(keyStack);
+
+                if (!replace && entry.interactionLogic.canInteract(keyStack)) continue;
+
                 interaction.male = interact.male;
                 interaction.female = interact.female;
                 interaction.cooldown = interact.cooldown;
@@ -451,7 +455,7 @@ public class PokedexEntry
 
         boolean canInteract(final ItemStack key)
         {
-            return !this.getStackKey(key).isEmpty();
+            return !this.getKey(key).isEmpty();
         }
 
         private ItemStack getFormeKey(final ItemStack held)
@@ -1060,8 +1064,10 @@ public class PokedexEntry
         this.formeItems.clear();
         this.megaRules.clear();
         this.interactionLogic.actions.clear();
+        // Apply loaded interactions
+        if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
+        // Apply default interactions
         InteractionLogic.initForEntry(this);
-        if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions);
 
         if (this._forme_items != null)
         {
