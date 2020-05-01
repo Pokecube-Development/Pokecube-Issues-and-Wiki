@@ -27,6 +27,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
 import pokecube.core.database.stats.ISpecialSpawnCondition;
+import pokecube.core.database.stats.ISpecialSpawnCondition.CanSpawn;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -38,7 +39,7 @@ public class LegendarySpawn
 {
     private static enum SpawnResult
     {
-        SUCCESS, WRONGITEM, NOCAPTURE, NOSPAWN, FAIL;
+        SUCCESS, WRONGITEM, NOCAPTURE, ALREADYHAVE, NOSPAWN, FAIL;
     }
 
     private static List<LegendarySpawn> spawns = Lists.newArrayList();
@@ -54,7 +55,7 @@ public class LegendarySpawn
     }
 
     private static SpawnResult trySpawn(final LegendarySpawn spawn, final ItemStack stack,
-            final PlayerInteractEvent.RightClickBlock evt)
+            final PlayerInteractEvent.RightClickBlock evt, final boolean message)
     {
         final PlayerEntity playerIn = evt.getPlayer();
         final ServerWorld worldIn = (ServerWorld) evt.getWorld();
@@ -65,7 +66,9 @@ public class LegendarySpawn
         if (spawnCondition != null)
         {
             final Vector3 location = Vector3.getNewVector().set(evt.getPos());
-            if (spawnCondition.canSpawn(playerIn, location, false))
+            final CanSpawn test = spawnCondition.canSpawn(playerIn, location, message);
+            if (test == CanSpawn.ALREADYHAVE) return SpawnResult.ALREADYHAVE;
+            if (test.test())
             {
                 if (!spawn.heldItemChecker.test(stack)) return SpawnResult.WRONGITEM;
 
@@ -90,7 +93,7 @@ public class LegendarySpawn
                 evt.setCanceled(true);
                 return SpawnResult.SUCCESS;
             }
-            else return SpawnResult.NOSPAWN;
+            else return test == CanSpawn.NO ? SpawnResult.FAIL : SpawnResult.NOSPAWN;
         }
         return SpawnResult.FAIL;
     }
@@ -99,17 +102,17 @@ public class LegendarySpawn
     public static void livingDeath(final LivingDeathEvent evt)
     {
         if (!(evt.getEntity().getEntityWorld() instanceof ServerWorld)) return;
-        // // Recall if it is a pokemob.
+
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (attacked != null && attacked.getOwnerId() == null && evt.getEntity().getPersistentData().contains(
-                "spwnedby:"))
+                "spwnedby:Most"))
         {
             ServerWorld world = (ServerWorld) evt.getEntity().getEntityWorld();
             world = world.getServer().getWorld(DimensionType.OVERWORLD);
             final UUID id = evt.getEntity().getPersistentData().getUniqueId("spwnedby:");
             PokecubePlayerDataHandler.getCustomDataTag(id).putLong("spwn_ded:" + attacked.getPokedexEntry()
                     .getTrimmedName(), world.getGameTime());
-
+            PokecubePlayerDataHandler.saveCustomData(id.toString());
         }
     }
 
@@ -139,7 +142,7 @@ public class LegendarySpawn
         if (stack.isEmpty()) stack = evt.getPlayer().getHeldItemMainhand();
         if (stack.isEmpty()) stack = evt.getPlayer().getHeldItemOffhand();
 
-        if (evt.getItemStack().isEmpty())
+        if (stack.isEmpty())
         {
             Collections.shuffle(matches);
             LegendarySpawn match = matches.get(0);
@@ -151,7 +154,7 @@ public class LegendarySpawn
                 final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
                 if (spawnCondition == null) continue;
                 final Vector3 location = Vector3.getNewVector().set(evt.getPos());
-                if (spawnCondition.canSpawn(evt.getPlayer(), location, false)) break;
+                if (spawnCondition.canSpawn(evt.getPlayer(), location, false).test()) break;
             }
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.noitem.info", new TranslationTextComponent(
                     match.entry.getUnlocalizedName())));
@@ -163,17 +166,30 @@ public class LegendarySpawn
         SpawnResult result = SpawnResult.FAIL;
         final List<PokedexEntry> wrong_items = Lists.newArrayList();
         final List<PokedexEntry> wrong_biomes = Lists.newArrayList();
+        final List<PokedexEntry> already_spawned = Lists.newArrayList();
+
         for (final LegendarySpawn match : matches)
         {
-            result = LegendarySpawn.trySpawn(match, stack, evt);
+            result = LegendarySpawn.trySpawn(match, stack, evt, false);
             worked = result == SpawnResult.SUCCESS;
             if (worked) break;
 
             if (result == SpawnResult.WRONGITEM) wrong_items.add(match.entry);
             if (result == SpawnResult.NOSPAWN) wrong_biomes.add(match.entry);
+            if (result == SpawnResult.ALREADYHAVE) already_spawned.add(match.entry);
+            // Try again but with message, as this probably has a custom one.
+            if (result == SpawnResult.FAIL) LegendarySpawn.trySpawn(match, stack, evt, true);
         }
 
         if (worked) return;
+
+        if (already_spawned.size() > 0)
+        {
+            Collections.shuffle(already_spawned);
+            evt.getPlayer().sendMessage(new TranslationTextComponent("msg.alreadyspawned.info",
+                    new TranslationTextComponent(already_spawned.get(0).getUnlocalizedName())));
+            return;
+        }
 
         if (wrong_items.size() > 0)
         {
@@ -182,7 +198,7 @@ public class LegendarySpawn
                     wrong_items.get(0).getUnlocalizedName())));
             return;
         }
-        if (wrong_biomes.size() > matches.size())
+        if (wrong_biomes.size() > 0)
         {
             Collections.shuffle(wrong_biomes);
             evt.getPlayer().sendMessage(new TranslationTextComponent("msg.nohere.info", new TranslationTextComponent(

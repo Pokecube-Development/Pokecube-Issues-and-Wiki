@@ -14,6 +14,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
@@ -29,6 +30,7 @@ import pokecube.core.events.pokemob.SpawnCheckEvent;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
+import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 
@@ -66,7 +68,7 @@ public class SpawnBiomeMatcher
             this.location = location;
             this.biome = location.getBiome(world).getRegistryName();
             this.material = location.getBlockMaterial(world);
-            this.chunk = world.getChunk(location.intX() >> 4, location.intZ() >> 4, ChunkStatus.EMPTY, false);
+            this.chunk = ITerrainProvider.getChunk(world.getDimension().getType(), new ChunkPos(location.getPos()));
             final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
             final int subBiomeId = t.getBiome(location);
             if (subBiomeId >= 0) this.type = BiomeType.getType(subBiomeId);

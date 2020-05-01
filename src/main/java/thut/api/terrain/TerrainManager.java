@@ -10,9 +10,11 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.DefaultProvider;
+import thut.core.common.ThutCore;
 
 public class TerrainManager
 {
@@ -90,6 +92,22 @@ public class TerrainManager
         if (evt.getWorld() != null && evt.getWorld().getDimension() != null) dim = evt.getWorld().getDimension()
                 .getType();
         if (dim != null) ITerrainProvider.removeChunk(dim, evt.getChunk().getPos());
+    }
+
+    @SubscribeEvent
+    public static void onWorldLoad(final WorldEvent.Load evt)
+    {
+    }
+
+    @SubscribeEvent
+    public static void onWorldUnload(final WorldEvent.Unload evt)
+    {
+        DimensionType dim = null;
+        if (evt.getWorld() != null && evt.getWorld().getDimension() != null) dim = evt.getWorld().getDimension()
+                .getType();
+        ThutCore.LOGGER.debug("Clearing cache for " + dim);
+        ITerrainProvider.loadedChunks.remove(dim);
+        ITerrainProvider.pendingCache.remove(dim);
     }
 
     @SubscribeEvent

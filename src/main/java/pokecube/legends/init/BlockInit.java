@@ -89,7 +89,7 @@ public class BlockInit
     public static Block REGIROCK_CORE   = new BlockBase("regirock_spawn", Block.Properties.create(Material.ROCK).sound(
             SoundType.STONE).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2)).noInfoBlock();
     public static Block REGIGIGA_CORE   = new BlockBase("regigiga_spawn", Block.Properties.create(Material.IRON).sound(
-            SoundType.METAL).hardnessAndResistance(2000, 2000)).noInfoBlock();
+            SoundType.METAL).hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2)).noInfoBlock();
 
     public static Block TIMESPACE_CORE = new SpaceCoreBlock("timerspawn", Block.Properties.create(Material.ORGANIC)
             .hardnessAndResistance(2000, 2000).sound(SoundType.STONE).lightValue(12).variableOpacity()).setShape(

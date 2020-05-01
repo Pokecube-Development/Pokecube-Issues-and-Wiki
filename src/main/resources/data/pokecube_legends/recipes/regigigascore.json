@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RGR",
+    "CAC",
+    "RGR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:emerald_block"
+    },
+    "A": {
+      "item": "minecraft:redstone_block"
+    },
+    "C": {
+      "item": "minecraft:end_stone_bricks"
+    },
+    "G": {
+      "item": "minecraft:gold_block"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:regigiga_spawn",
+    "count": 1
+  }
+}
