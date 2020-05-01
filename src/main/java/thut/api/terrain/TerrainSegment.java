@@ -429,7 +429,7 @@ public class TerrainSegment
     public void refresh(final IWorld world)
     {
         final long time = System.nanoTime();
-        if (!world.chunkExists(this.chunkX, this.chunkZ))
+        if (!this.real)
         {
             this.init = true;
             return;
