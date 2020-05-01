@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -23,6 +24,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.legends.PokecubeLegends;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpawnCondition
@@ -32,6 +34,13 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     {
         for (final Vector3 v : blocks)
             if (v.getBlock(world) != toTest) return false;
+        return true;
+    }
+
+    protected static boolean isBlock(final World world, final ArrayList<Vector3> blocks, final ResourceLocation toTest)
+    {
+        for (final Vector3 v : blocks)
+            if (!ItemList.is(toTest, v.getBlockState(world))) return false;
         return true;
     }
 

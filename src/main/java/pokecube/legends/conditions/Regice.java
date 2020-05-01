@@ -3,18 +3,22 @@ package pokecube.legends.conditions;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.CaptureStats;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.legends.Reference;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 public class Regice extends Condition
 {
+    private static final ResourceLocation VALID = new ResourceLocation(Reference.ID, "regice");
+
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
@@ -66,16 +70,15 @@ public class Regice extends Condition
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(-1, -1, 0));
         locations.add(location.add(1, -1, 0));
-        check = Condition.isBlock(world, locations, Blocks.ICE) || Condition.isBlock(world, locations,
-                Blocks.PACKED_ICE);
+        check = Condition.isBlock(world, locations, Regice.VALID);
         if (check)
         {
             Block b = location.add(0, -1, 1).getBlock(world);
-            check = b == Blocks.ICE || b == Blocks.PACKED_ICE;
+            check = ItemList.is(Regice.VALID, b);
             if (!check)
             {
                 b = location.add(0, -1, -1).getBlock(world);
-                check = b == Blocks.ICE || b == Blocks.PACKED_ICE;
+                check = ItemList.is(Regice.VALID, b);
             }
         }
         else
@@ -85,16 +88,15 @@ public class Regice extends Condition
             locations.add(location.add(0, -2, 0));
             locations.add(location.add(0, -1, 1));
             locations.add(location.add(0, -1, -1));
-            check = Condition.isBlock(world, locations, Blocks.ICE) || Condition.isBlock(world, locations,
-                    Blocks.PACKED_ICE);
+            check = Condition.isBlock(world, locations, Regice.VALID);
             if (check)
             {
                 Block b = location.add(1, -1, 0).getBlock(world);
-                check = b == Blocks.ICE || b == Blocks.PACKED_ICE;
+                check = ItemList.is(Regice.VALID, b);
                 if (!check)
                 {
                     b = location.add(-1, -1, 0).getBlock(world);
-                    check = b == Blocks.ICE || b == Blocks.PACKED_ICE;
+                    check = ItemList.is(Regice.VALID, b);
                 }
             }
         }
