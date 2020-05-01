@@ -18,18 +18,19 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 public class AfaTile extends InteractableTile implements ITickableTileEntity, IEnergyStorage
 {
     public static TileEntityType<? extends TileEntity> TYPE;
-    public static final ResourceLocation               SHINYTAG = new ResourceLocation(PokecubeAdv.MODID, "shiny_charm");
+    public static final ResourceLocation               SHINYTAG = new ResourceLocation(PokecubeAdv.MODID,
+            "shiny_charm");
 
     public static JEP parser;
     public static JEP parserS;
@@ -98,7 +99,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
             this.ability = null;
         }
         final ItemStack stack = this.itemstore.getStackInSlot(0);
-        this.shiny = PokecubeItems.is(AfaTile.SHINYTAG, stack);
+        this.shiny = ItemList.is(AfaTile.SHINYTAG, stack);
         if (this.shiny) return;
         this.pokemob = PokecubeManager.itemToPokemob(stack, this.getWorld());
         if (this.pokemob != null && this.pokemob.getAbility() != null)
@@ -189,7 +190,7 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
         this.frozen = nbt.getBoolean("frozen");
         this.animationTime = nbt.getFloat("animTime");
         this.animation = nbt.getString("animation");
-        this.shiny = PokecubeItems.is(AfaTile.SHINYTAG, this.itemstore.getStackInSlot(0));
+        this.shiny = ItemList.is(AfaTile.SHINYTAG, this.itemstore.getStackInSlot(0));
     }
 
     @Override

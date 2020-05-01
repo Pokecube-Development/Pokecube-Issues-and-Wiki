@@ -18,7 +18,7 @@ import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.GeneticsTileParentable;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeFossilRevive;
-import pokecube.core.PokecubeItems;
+import thut.api.item.ItemList;
 
 public class ClonerTile extends GeneticsTileParentable
 {
@@ -64,7 +64,7 @@ public class ClonerTile extends GeneticsTileParentable
         case 0:// DNA Container
             return ClonerHelper.getFromGenes(stack) != null;
         case 1:// Egg
-            return PokecubeItems.is(ClonerTile.EGGS, stack);
+            return ItemList.is(ClonerTile.EGGS, stack);
         }
         return index != this.getOutputSlot();
     }

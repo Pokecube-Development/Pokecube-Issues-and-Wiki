@@ -17,8 +17,8 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.daycare.DaycareTile;
-import pokecube.core.PokecubeItems;
 import thut.api.OwnableCaps;
+import thut.api.item.ItemList;
 
 public class InventoryHandler
 {
@@ -49,7 +49,7 @@ public class InventoryHandler
         @Override
         public boolean isItemValid(final int slot, final ItemStack stack)
         {
-            if (this.mask != null) return PokecubeItems.is(this.mask, stack) && this.stackCheck.test(stack);
+            if (this.mask != null) return ItemList.is(this.mask, stack) && this.stackCheck.test(stack);
             return super.isItemValid(slot, stack) && this.stackCheck.test(stack);
         }
 

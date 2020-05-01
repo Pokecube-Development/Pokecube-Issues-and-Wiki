@@ -29,7 +29,6 @@ import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TrainerTracker;
-import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.EventsHandler;
@@ -37,6 +36,7 @@ import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 public abstract class TrainerBase extends NpcMob
@@ -63,8 +63,8 @@ public abstract class TrainerBase extends NpcMob
         this.aiStates = this.getCapability(TrainerCaps.AISTATES_CAP).orElse(null);
         this.trades = this.getCapability(TrainerCaps.TRADES_CAP).orElse(null);
 
-        this.aiStates.setAIState(IHasNPCAIStates.TRADES,
-                PokecubeAdv.config.trainersTradeItems || PokecubeAdv.config.trainersTradeMobs);
+        this.aiStates.setAIState(IHasNPCAIStates.TRADES, PokecubeAdv.config.trainersTradeItems
+                || PokecubeAdv.config.trainersTradeMobs);
     }
 
     protected boolean canTrade(final PlayerEntity player)
@@ -96,8 +96,8 @@ public abstract class TrainerBase extends NpcMob
                     .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
             return true;
         }
-        else if (PokecubeItems.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0
-                && !this.getOffers().isEmpty())
+        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
+                .isEmpty())
         {
             stack.split(1);
             player.setHeldItem(hand, stack);
@@ -286,11 +286,11 @@ public abstract class TrainerBase extends NpcMob
     public void openMerchantContainer(final PlayerEntity player, final ITextComponent tittle, final int level)
     {
         // This is the player specific get recipes and open inventory thing
-        final OptionalInt optionalint = player
-                .openContainer(new SimpleNamedContainerProvider((int_unk_2, player_inventory, unk) ->
-                {
-                    return new MerchantContainer(int_unk_2, player_inventory, this);
-                }, tittle));
+        final OptionalInt optionalint = player.openContainer(new SimpleNamedContainerProvider((int_unk_2,
+                player_inventory, unk) ->
+        {
+            return new MerchantContainer(int_unk_2, player_inventory, this);
+        }, tittle));
         if (optionalint.isPresent())
         {
             final MerchantOffers merchantoffers = this.getOffers();
@@ -308,8 +308,10 @@ public abstract class TrainerBase extends NpcMob
         return this.pokemobsCap.getGender() == 1;
     }
 
-    /** @param male
-     *            the male to set */
+    /**
+     * @param male
+     *            the male to set
+     */
     @Override
     public void setMale(final boolean male)
     {

@@ -14,13 +14,14 @@ import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.PokecubeMod;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 public class DispenserBehaviorPokecube implements IDispenseItemBehavior
 {
 
     @Override
-    public ItemStack dispense(IBlockSource source, ItemStack stack)
+    public ItemStack dispense(final IBlockSource source, final ItemStack stack)
     {
         Direction dir = null;
         final BlockState state = source.getBlockState();
@@ -47,7 +48,7 @@ public class DispenserBehaviorPokecube implements IDispenseItemBehavior
         else if (dir == Direction.UP) player.rotationPitch = -90;
         else if (dir == Direction.DOWN) player.rotationPitch = 90;
 
-        if (PokecubeItems.is(PokecubeItems.POKEMOBEGG, stack))
+        if (ItemList.is(PokecubeItems.POKEMOBEGG, stack))
         {
             player.setHeldItem(Hand.MAIN_HAND, stack);
             final BlockRayTraceResult result = new BlockRayTraceResult(new Vec3d(0.5, 0.5, 0.5), Direction.UP, source

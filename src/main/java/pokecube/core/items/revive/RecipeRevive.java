@@ -14,6 +14,7 @@ import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TagNames;
+import thut.api.item.ItemList;
 
 public class RecipeRevive extends SpecialRecipe
 {
@@ -46,7 +47,7 @@ public class RecipeRevive extends SpecialRecipe
             if (!stack.isEmpty())
             {
                 if (PokecubeManager.isFilled(stack)) other = stack;
-                if (PokecubeItems.is(RecipeRevive.REVIVETAG, stack)) revive = true;
+                if (ItemList.is(RecipeRevive.REVIVETAG, stack)) revive = true;
                 if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL)) seal = stack;
             }
         }
@@ -99,7 +100,7 @@ public class RecipeRevive extends SpecialRecipe
             {
                 n++;
                 if (PokecubeManager.isFilled(stack)) other = stack;
-                if (PokecubeItems.is(RecipeRevive.REVIVETAG, stack)) revive = true;
+                if (ItemList.is(RecipeRevive.REVIVETAG, stack)) revive = true;
                 if (stack.getItem() == PokecubeItems.getEmptyCube(PokecubeBehavior.POKESEAL)) seal = stack;
             }
         }

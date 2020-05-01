@@ -33,7 +33,6 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicFloatFlySwim;
 import pokecube.core.ai.logic.LogicInLiquid;
 import pokecube.core.ai.logic.LogicInMaterials;
@@ -73,6 +72,7 @@ import thut.api.OwnableCaps;
 import thut.api.entity.ai.GoalsWrapper;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.GeneRegistry;
+import thut.api.item.ItemList;
 import thut.core.client.render.animation.AnimationChanger;
 import thut.core.common.ThutCore;
 
@@ -410,7 +410,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             for (final ItemStack stack : list)
             {
                 ItemStack toAdd = stack.copy();
-                if (PokecubeItems.is(WOOL, stack))
+                if (ItemList.is(WOOL, stack))
                 {
                     final DyeColor colour = DyeColor.byId(this.getDyeColour());
                     final Item wool = SheepEntity.WOOL_BY_COLOR.get(colour).asItem();

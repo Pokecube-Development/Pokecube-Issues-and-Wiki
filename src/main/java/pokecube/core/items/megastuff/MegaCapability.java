@@ -8,11 +8,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.CapHolders;
+import thut.api.item.ItemList;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
 
@@ -77,7 +77,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
     public boolean isStone(final ItemStack stack)
     {
         if (stack.getItem() instanceof IMegaCapability) return ((IMegaCapability) stack.getItem()).isStone(stack);
-        return PokecubeItems.is(MegaCapability.MEGASTONES, stack);
+        return ItemList.is(MegaCapability.MEGASTONES, stack);
     }
 
     @Override
@@ -87,9 +87,9 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
                 entry);
         final PokedexEntry stacks = this.getEntry(stack);
 
-        final boolean isStone = PokecubeItems.is(MegaCapability.MEGASTONES, stack);
-        final boolean isMegaWear = PokecubeItems.is(MegaCapability.MEGAWORNTAG, stack);
-        final boolean isBling = PokecubeItems.is(MegaCapability.BLINGTAG, stack);
+        final boolean isStone = ItemList.is(MegaCapability.MEGASTONES, stack);
+        final boolean isMegaWear = ItemList.is(MegaCapability.MEGAWORNTAG, stack);
+        final boolean isBling = ItemList.is(MegaCapability.BLINGTAG, stack);
 
         System.out.println(isStone + " " + isMegaWear + " " + isBling + " " + stacks);
 
@@ -110,16 +110,16 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
 
     public static PokedexEntry getForStack(final ItemStack stack)
     {
-        final boolean isMegaWear = PokecubeItems.is(MegaCapability.MEGAWORNTAG, stack);
+        final boolean isMegaWear = ItemList.is(MegaCapability.MEGAWORNTAG, stack);
         if (isMegaWear) return Database.missingno;
-        final boolean isStone = PokecubeItems.is(MegaCapability.MEGASTONES, stack);
+        final boolean isStone = ItemList.is(MegaCapability.MEGASTONES, stack);
         if (isStone)
         {
             PokedexEntry e = Database.getEntry(stack.getItem().getRegistryName().getPath());
             if (e == null) e = Database.missingno;
             return e;
         }
-        final boolean isBling = PokecubeItems.is(MegaCapability.BLINGTAG, stack);
+        final boolean isBling = ItemList.is(MegaCapability.BLINGTAG, stack);
         if (isBling && stack.hasTag() && stack.getTag().contains("gemTag"))
         {
             final ItemStack stack2 = ItemStack.read(stack.getChildTag("gemTag"));
@@ -130,9 +130,9 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
 
     public static boolean isStoneOrWearable(final ItemStack object)
     {
-        final boolean isStone = PokecubeItems.is(MegaCapability.MEGASTONES, object);
-        final boolean isMegaWear = PokecubeItems.is(MegaCapability.MEGAWORNTAG, object);
-        final boolean isBling = PokecubeItems.is(MegaCapability.BLINGTAG, object);
+        final boolean isStone = ItemList.is(MegaCapability.MEGASTONES, object);
+        final boolean isMegaWear = ItemList.is(MegaCapability.MEGAWORNTAG, object);
+        final boolean isBling = ItemList.is(MegaCapability.BLINGTAG, object);
         return isStone || isMegaWear || isBling;
     }
 }

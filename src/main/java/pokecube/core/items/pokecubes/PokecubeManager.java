@@ -22,6 +22,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.TagNames;
+import thut.api.item.ItemList;
 
 public class PokecubeManager
 {
@@ -248,7 +249,7 @@ public class PokecubeManager
 
         final ResourceLocation id = PokecubeItems.getCubeId(itemStack);
 
-        if (PokecubeItems.is(PokecubeItems.POKEMOBEGG, itemStack)) color = 0x78C848;
+        if (ItemList.is(PokecubeItems.POKEMOBEGG, itemStack)) color = 0x78C848;
         else if (id != null) if (id.getPath().equals("poke")) color = 0xEE0000;
         else if (id.getPath().equals("great")) color = 0x0B90CE;
         else if (id.getPath().equals("ultra")) color = 0xDCA937;

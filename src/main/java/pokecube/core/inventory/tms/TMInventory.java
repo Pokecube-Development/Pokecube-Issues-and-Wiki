@@ -14,6 +14,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.inventory.InvHelper;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.item.ItemList;
 
 public class TMInventory extends Inventory implements ICapabilitySerializable<CompoundNBT>
 {
@@ -50,7 +51,7 @@ public class TMInventory extends Inventory implements ICapabilitySerializable<Co
         switch (index)
         {
         case 0:
-            return PokecubeItems.is(PokecubeItems.TMKEY, stack.getItem());
+            return ItemList.is(PokecubeItems.TMKEY, stack.getItem());
         case 1:
             return PokecubeManager.isFilled(stack);
         }
