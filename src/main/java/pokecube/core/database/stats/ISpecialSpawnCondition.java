@@ -11,6 +11,15 @@ import thut.api.maths.Vector3;
 
 public interface ISpecialSpawnCondition
 {
+    public static enum CanSpawn
+    {
+        YES, NOTHERE, ALREADYHERE, ALREADYHAVE, KILLEDTOOMANY, NO;
+
+        public boolean test()
+        {
+            return this == YES;
+        }
+    }
 
     public static final HashMap<PokedexEntry, ISpecialSpawnCondition> spawnMap = Maps.newHashMap();
 
@@ -21,7 +30,7 @@ public interface ISpecialSpawnCondition
      * @param trainer
      * @return
      */
-    public boolean canSpawn(Entity trainer);
+    public CanSpawn canSpawn(Entity trainer);
 
     /**
      * Location specfic canSpawn
@@ -30,7 +39,7 @@ public interface ISpecialSpawnCondition
      * @param location
      * @return
      */
-    public boolean canSpawn(Entity trainer, Vector3 location, boolean message);
+    public CanSpawn canSpawn(Entity trainer, Vector3 location, boolean message);
 
     /**
      * Called right before the mob is actually spawned into the world

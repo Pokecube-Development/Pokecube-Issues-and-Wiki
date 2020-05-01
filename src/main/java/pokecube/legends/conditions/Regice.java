@@ -58,9 +58,10 @@ public class Regice extends Condition
     }
 
     @Override
-    public boolean canSpawn(final Entity trainer, final Vector3 location, final boolean message)
+    public CanSpawn canSpawn(final Entity trainer, final Vector3 location, final boolean message)
     {
-        if (!super.canSpawn(trainer, location, message)) return false;
+        final CanSpawn test = super.canSpawn(trainer, location, message);
+        if (!test.test()) return test;
 
         final ArrayList<Vector3> locations = new ArrayList<>();
         boolean check = false;
@@ -103,9 +104,9 @@ public class Regice extends Condition
         if (!check)
         {
             if (message) trainer.sendMessage(new TranslationTextComponent("msg.reginotlookright.txt"));
-            return false;
+            return CanSpawn.NO;
         }
-        return true;
+        return CanSpawn.YES;
     }
 
     @Override

@@ -16,6 +16,7 @@
     "msg.notrust.info": "§c[§a%1$s§c] does not trust you enough for that.",
     "msg.noitem.info": "§cThis requires an offering.",
     "msg.wrongitem.info": "§c[§a%1$s§c] does not like your offering.",
+    "msg.alreadyspawned.info": "§c You have already spawned [§a%1$s§c]!",
     "msg.noheremultiple.info": "§cNothing relevant seems to spawn in this location.",
 
     "_comment": "/Biome Names",
