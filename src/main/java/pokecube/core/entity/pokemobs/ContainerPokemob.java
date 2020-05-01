@@ -119,7 +119,7 @@ public class ContainerPokemob extends BaseContainer
                         @Override
                         public boolean isItemValid(final ItemStack stack)
                         {
-                            return true;// PokecubeItems.isValidHeldItem(stack);
+                            return true;// ItemList.isValidHeldItem(stack);
                         }
                     });
         }

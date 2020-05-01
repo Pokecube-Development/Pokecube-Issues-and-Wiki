@@ -68,6 +68,7 @@ import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 
@@ -264,7 +265,7 @@ public class PokemobEventsHandler
         {
             final LivingEntity owner = killer.getOwner();
             final ItemStack stack = killer.getHeldItem();
-            if (PokecubeItems.is(new ResourceLocation("pokecube", "luckyegg"), stack))
+            if (ItemList.is(new ResourceLocation("pokecube", "luckyegg"), stack))
             {
                 final int exp = killer.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor, killed
                         .getBaseXP(), killed.getLevel());
@@ -276,7 +277,7 @@ public class PokemobEventsHandler
                 for (final Entity mob : pokemobs)
                 {
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
-                    if (poke != null) if (PokecubeItems.is(new ResourceLocation("pokecube", "exp_share"), poke
+                    if (poke != null) if (ItemList.is(new ResourceLocation("pokecube", "exp_share"), poke
                             .getHeldItem()))
                     {
                         final int exp = poke.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
@@ -382,7 +383,7 @@ public class PokemobEventsHandler
             if (held.getItem() == Items.GOLDEN_HOE) if (player.abilities.isCreativeMode && player.isSneaking()) pokemob
                     .setHungerTime(pokemob.getHungerTime() + 4000);
             // Use shiny charm to make shiny
-            if (PokecubeItems.is(new ResourceLocation("pokecube:shiny_charm"), held))
+            if (ItemList.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {
                 if (player.isSneaking())
                 {
@@ -549,7 +550,6 @@ public class PokemobEventsHandler
             evt.setCancellationResult(ActionResultType.SUCCESS);
             return;
         }
-
     }
 
     @SubscribeEvent

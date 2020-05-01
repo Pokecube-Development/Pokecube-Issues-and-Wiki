@@ -35,6 +35,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.item.ItemList;
 
 public class GeneticsManager
 {
@@ -105,7 +106,7 @@ public class GeneticsManager
     @SubscribeEvent
     public static void attachItemCapability(final AttachCapabilitiesEvent<ItemStack> event)
     {
-        if (PokecubeItems.is(PokecubeItems.POKEMOBEGG, event.getObject()) && !event.getCapabilities().containsKey(
+        if (ItemList.is(PokecubeItems.POKEMOBEGG, event.getObject()) && !event.getCapabilities().containsKey(
                 GeneticsManager.POKECUBEGENETICS)) event.addCapability(GeneticsManager.POKECUBEGENETICS,
                         new GeneticsProvider());
     }

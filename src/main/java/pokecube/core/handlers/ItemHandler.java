@@ -56,7 +56,6 @@ public class ItemHandler
         registry.register(PokecubeItems.CANDY.setRegistryName(PokecubeMod.ID, "candy"));
         Item item = new Item(new Item.Properties().rarity(Rarity.RARE).group(PokecubeItems.POKECUBEITEMS))
                 .setRegistryName(PokecubeMod.ID, "luckyegg");
-        PokecubeItems.setAs(PokecubeItems.HELDKEY, item);
         registry.register(item);
         item = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeMod.ID,
                 "revive");

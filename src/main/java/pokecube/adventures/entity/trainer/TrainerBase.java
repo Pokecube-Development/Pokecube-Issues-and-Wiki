@@ -29,7 +29,6 @@ import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TrainerTracker;
-import pokecube.core.PokecubeItems;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.EventsHandler;
@@ -37,6 +36,7 @@ import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 public abstract class TrainerBase extends NpcMob
@@ -96,8 +96,8 @@ public abstract class TrainerBase extends NpcMob
                     .getItem() == Items.STICK) this.pokemobsCap.throwCubeAt(player);
             return true;
         }
-        else if (PokecubeItems.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this
-                .getOffers().isEmpty())
+        else if (ItemList.is(TrainerBase.BRIBE, stack) && this.pokemobsCap.friendlyCooldown <= 0 && !this.getOffers()
+                .isEmpty())
         {
             stack.split(1);
             player.setHeldItem(hand, stack);
