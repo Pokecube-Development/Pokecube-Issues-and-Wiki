@@ -13,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Explosion;
@@ -55,7 +56,11 @@ public class Move_Explode extends Move_Basic
         @Override
         public void hitEntity(final Entity e, final float power, final Explosion boom)
         {
+            // Dont hit twice, and only hit living entities.
             if (this.hit.get(e.getEntityId()) || !(e instanceof LivingEntity)) return;
+            // Dont hit self, that is taken care of elsewhere.
+            if (e == this.user.getEntity()) return;
+            // Flag as already hit.
             this.hit.set(e.getEntityId());
 
             byte statusChange = IMoveConstants.STATUS_NON;
@@ -70,6 +75,9 @@ public class Move_Explode extends Move_Basic
         }
 
     }
+
+    public static final DamageSource SELFBOOM = new DamageSource("pokemob.exploded").setExplosion()
+            .setDamageIsAbsolute();
 
     /**
      * @param name
@@ -151,24 +159,29 @@ public class Move_Explode extends Move_Basic
         MinecraftForge.EVENT_BUS.post(evt);
         if (!evt.isCanceled())
         {
-            pokemob.setHealth(0);// kill the mob.
-            if (PokecubeCore.getConfig().explosions && MoveEventsHandler.canEffectBlock(pokemob, this.v.set(mob))) boom
-                    .doExplosion();
+            final boolean explodeDamage = PokecubeCore.getConfig().explosions;
+            final boolean damagePerms = MoveEventsHandler.canEffectBlock(pokemob, this.v.set(mob));
+            // If these, we let the explosion handle the damage.
+            if (explodeDamage && damagePerms) boom.doExplosion();
             else
             {
+                // Otherwise spawn in some effects
                 mob.getEntityWorld().playSound((PlayerEntity) null, mob.posX, mob.posY, mob.posZ,
                         SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (mob
                                 .getEntityWorld().rand.nextFloat() - mob.getEntityWorld().rand.nextFloat()) * 0.2F)
                                 * 0.7F);
-
                 if (this.getPWR() > 200) mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.posX, mob.posY,
                         mob.posZ, 1.0D, 0.0D, 0.0D);
                 else mob.getEntityWorld().addParticle(ParticleTypes.EXPLOSION, mob.posX, mob.posY, mob.posZ, 1.0D, 0.0D,
                         0.0D);
+                // and hit nearby targets normally.
                 this.actualAttack(pokemob, Vector3.getNewVector().set(pokemob.getEntity()).add(0, pokemob.getSize()
                         * pokemob.getPokedexEntry().height / 2, 0));
             }
-            attacker.onRecall();
+            // First give it some health so it is alive
+            mob.setHealth(1);
+            // Now we kill the user via a damage source.
+            mob.attackEntityFrom(Move_Explode.SELFBOOM, mob.getMaxHealth() * 1e5f);
         }
     }
 
