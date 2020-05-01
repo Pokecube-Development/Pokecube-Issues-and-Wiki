@@ -11,17 +11,30 @@ import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+import thut.core.common.ThutCore;
 
 public class PacketHandler
 {
+    private static boolean canClientConnect(final String versionClient, final String versionServer)
+    {
+        ThutCore.LOGGER.debug("Client-Server Test: {} -> {}", versionClient, versionServer);
+        return versionClient.equals(versionServer);
+    }
+
+    private static boolean canServerConnect(final String versionClient, final String versionServer)
+    {
+        ThutCore.LOGGER.debug("Server-Client Test: {} -> {}", versionServer, versionClient);
+        return versionClient.equals(versionServer);
+    }
+
     private final SimpleChannel INSTANCE;
 
     private int ID = 0;
 
     public PacketHandler(final ResourceLocation channel, final String version)
     {
-        this.INSTANCE = NetworkRegistry.newSimpleChannel(channel, () -> version, s -> version.isEmpty() ? true
-                : s.compareTo(version) >= 0, s -> version.isEmpty() ? true : s.compareTo(version) >= 0);
+        this.INSTANCE = NetworkRegistry.newSimpleChannel(channel, () -> version, s -> PacketHandler.canClientConnect(
+                version, s), s -> PacketHandler.canServerConnect(s, version));
     }
 
     public SimpleChannel channel()
@@ -34,27 +47,27 @@ public class PacketHandler
         return this.ID++;
     }
 
-    public <MSG extends Packet> void registerMessage(Class<MSG> clazz, Function<PacketBuffer, MSG> decoder)
+    public <MSG extends Packet> void registerMessage(final Class<MSG> clazz, final Function<PacketBuffer, MSG> decoder)
     {
         this.INSTANCE.registerMessage(this.nextID(), clazz, Packet::write, decoder, Packet::handle);
     }
 
-    public void sendTo(Packet message, ServerPlayerEntity target)
+    public void sendTo(final Packet message, final ServerPlayerEntity target)
     {
         this.channel().send(PacketDistributor.PLAYER.with(() -> target), message);
     }
 
-    public void sendToServer(Packet message)
+    public void sendToServer(final Packet message)
     {
         this.channel().sendToServer(message);
     }
 
-    public void sendToTracking(Packet message, Entity tracked)
+    public void sendToTracking(final Packet message, final Entity tracked)
     {
         this.channel().send(PacketDistributor.TRACKING_ENTITY.with(() -> tracked), message);
     }
 
-    public void sendToTracking(Packet message, IChunk tracked)
+    public void sendToTracking(final Packet message, final IChunk tracked)
     {
         if (tracked instanceof Chunk) this.channel().send(PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) tracked),
                 message);

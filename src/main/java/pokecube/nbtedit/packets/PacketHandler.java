@@ -18,7 +18,7 @@ import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 public class PacketHandler
 {
     public static final thut.core.common.network.PacketHandler INSTANCE = new thut.core.common.network.PacketHandler(
-            new ResourceLocation(NBTEdit.MODID, "comms"), "");
+            new ResourceLocation(NBTEdit.MODID, "comms"), "0");
 
     /**
      * Sends a Entity's nbt data to the player for editing.
