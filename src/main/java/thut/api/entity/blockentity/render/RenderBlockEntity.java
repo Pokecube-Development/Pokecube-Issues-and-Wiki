@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
@@ -21,6 +20,7 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.container.PlayerContainer;
@@ -68,15 +68,9 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         try
         {
             mat.push();
-            final IBlockEntity blockEntity = entity;
-            if (entity instanceof IMultiplePassengerEntity)
-            {
-                final IMultiplePassengerEntity multi = (IMultiplePassengerEntity) entity;
-                final float yaw = -(multi.getPrevYaw() + (multi.getYaw() - multi.getPrevYaw()) * partialTicks);
-                final float pitch = -(multi.getPrevPitch() + (multi.getPitch() - multi.getPrevPitch()) * partialTicks);
-                mat.rotate(new Quaternion(0, yaw, pitch, true));
-            }
+
             final BlockPos.Mutable pos = new BlockPos.Mutable();
+            final IBlockEntity blockEntity = entity;
 
             final int xMin = MathHelper.floor(blockEntity.getMin().getX());
             final int xMax = MathHelper.floor(blockEntity.getMax().getX());
@@ -85,6 +79,22 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final int yMin = MathHelper.floor(blockEntity.getMin().getY());
             final int yMax = MathHelper.floor(blockEntity.getMax().getY());
 
+            final double dx = (xMax - xMin) / 2 + 0.5;
+            final double dz = (zMax - zMin) / 2 + 0.5;
+
+            mat.translate(-dx, 0, -dz);
+
+            mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
+            mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+            mat.rotate(Vector3f.XP.rotationDegrees(180.0F));
+            if (entity instanceof IMultiplePassengerEntity)
+            {
+                final IMultiplePassengerEntity multi = (IMultiplePassengerEntity) entity;
+                final float yaw = -(multi.getPrevYaw() + (multi.getYaw() - multi.getPrevYaw()) * partialTicks);
+                final float pitch = -(multi.getPrevPitch() + (multi.getPitch() - multi.getPrevPitch()) * partialTicks);
+                mat.rotate(new Quaternion(0, yaw, pitch, true));
+            }
+
             for (int i = xMin; i <= xMax; i++)
                 for (int j = yMin; j <= yMax; j++)
                     for (int k = zMin; k <= zMax; k++)
@@ -92,8 +102,11 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
                         pos.setPos(i - xMin, j - yMin, k - zMin);
                         if (!blockEntity.shouldHide(pos))
                         {
-                            this.drawBlockAt(pos, blockEntity, mat, bufferIn, packedLightIn);
+                            mat.push();
+                            mat.translate(pos.getX(), pos.getY(), pos.getZ());
                             this.drawTileAt(pos, blockEntity, partialTicks, mat, bufferIn, packedLightIn);
+                            this.drawBlockAt(pos, blockEntity, mat, bufferIn, packedLightIn);
+                            mat.pop();
                         }
                         else this.drawCrateAt(pos, blockEntity, mat, bufferIn, packedLightIn);
                     }
@@ -106,30 +119,20 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         }
     }
 
-    private void drawBlockAt(BlockPos pos, final IBlockEntity entity, final MatrixStack mat,
+    private void drawBlockAt(final BlockPos pos, final IBlockEntity entity, final MatrixStack mat,
             final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         if (entity.getBlocks() == null) return;
-        BlockState BlockState = entity.getBlocks()[pos.getX()][pos.getY()][pos.getZ()];
+        BlockState state = entity.getBlocks()[pos.getX()][pos.getY()][pos.getZ()];
         final BlockPos mobPos = entity.getMin();
-        pos = pos.add(mobPos);
-        if (BlockState == null) BlockState = Blocks.AIR.getDefaultState();
-        final World world = ((Entity) entity).getEntityWorld();
-        if (BlockState.getMaterial() != Material.AIR)
+        final BlockPos realpos = pos.add(mobPos).add(((Entity) entity).getPosition());
+        if (state == null) state = Blocks.AIR.getDefaultState();
+        World world = ((Entity) entity).getEntityWorld();
+        if (state.getMaterial() != Material.AIR)
         {
-            final BlockRendererDispatcher blockrendererdispatcher = Minecraft.getInstance()
-                    .getBlockRendererDispatcher();
-            final BlockState actualstate = BlockState.getBlock().getExtendedState(BlockState, entity.getFakeWorld(),
-                    pos);
-            if (actualstate.getRenderType() == BlockRenderType.MODEL)
-            {
-                mat.push();
-                mat.translate(0.5, 0, 0.5);
-                final IBakedModel model = blockrendererdispatcher.getModelForState(actualstate);
-
-                this.renderBakedBlockModel(entity, model, actualstate, world, pos, mat, bufferIn, packedLightIn);
-                mat.pop();
-            }
+            world = (World) entity.getFakeWorld();
+            final BlockState actualstate = state.getBlock().getExtendedState(state, entity.getFakeWorld(), pos);
+            this.renderBakedBlockModel(entity, actualstate, world, realpos, pos, mat, bufferIn, packedLightIn);
         }
     }
 
@@ -152,29 +155,16 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final MatrixStack mat, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final TileEntity tile = entity.getTiles()[pos.getX()][pos.getY()][pos.getZ()];
-        if (tile != null)
-        {
-            mat.push();
-            mat.translate(pos.getX(), pos.getY(), pos.getZ());
-            mat.translate(-1.5, 0, -1.5);
-            mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
-            mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-            mat.rotate(Vector3f.XP.rotationDegrees(180.0F));
-            TileEntityRendererDispatcher.instance.renderTileEntity(tile, partialTicks, mat, bufferIn);
-            mat.pop();
-        }
+        if (tile != null) TileEntityRendererDispatcher.instance.renderTileEntity(tile, partialTicks, mat, bufferIn);
     }
 
     private IBakedModel getCrateModel()
     {
         if (RenderBlockEntity.crate_model == null)
         {
-            // IModel<?> model = ModelLoaderRegistry
-            // .getModelOrLogError(new ResourceLocation(ThutCore.MODID,
-            // "block/craft_crate"), "derp?");
-            // crate_model = model.bake(model.getDefaultState(),
-            // DefaultVertexFormats.BLOCK,
-            // ModelLoader.defaultTextureGetter());
+            // FIXME actually load a real model here!
+            final ResourceLocation loc = new ModelResourceLocation("thutcore:craft_crate");
+            RenderBlockEntity.crate_model = Minecraft.getInstance().getModelManager().getModel(loc);
         }
         return RenderBlockEntity.crate_model;
     }
@@ -185,28 +175,21 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
         return PlayerContainer.LOCATION_BLOCKS_TEXTURE;
     }
 
-    private void renderBakedBlockModel(final IBlockEntity entity, IBakedModel model, final BlockState state,
-            final IBlockReader world, BlockPos pos, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
+    private void renderBakedBlockModel(final IBlockEntity entity, final BlockState state, final IBlockReader world,
+            final BlockPos real_pos, final BlockPos relPos, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
             final int packedLightIn)
     {
-        mat.translate(pos.getX() - 1, pos.getY(), pos.getZ() - 1);
-        mat.rotate(Vector3f.YN.rotationDegrees(180.0F));
-        mat.rotate(Vector3f.ZP.rotationDegrees(180.0F));
-        mat.rotate(Vector3f.XP.rotationDegrees(180.0F));
-
         final IModelData data = Minecraft.getInstance().getBlockRendererDispatcher().getModelForState(state)
-                .getModelData((ILightReader) world, pos, state, EmptyModelData.INSTANCE);
-        final BlockPos min = entity.getMin();
-        final BlockPos epos = ((Entity) entity).getPosition();
-        final BlockPos rpos = pos.add(min).add(entity.getOriginalPos());
-        pos = pos.add(min.getX() + epos.getX(), min.getY() + epos.getY(), min.getZ() + epos.getZ());
+                .getModelData((ILightReader) world, real_pos, state, EmptyModelData.INSTANCE);
+        final BlockPos rpos = relPos.add(entity.getOriginalPos());
         for (final RenderType type : RenderType.getBlockRenderTypes())
             if (RenderTypeLookup.canRenderInLayer(state, type))
             {
                 final BlockRendererDispatcher blockRenderer = Minecraft.getInstance().getBlockRendererDispatcher();
-                model = blockRenderer.getModelForState(state);
-                blockRenderer.getBlockModelRenderer().renderModel((ILightReader) world, model, state, pos, mat, bufferIn
-                        .getBuffer(type), true, new Random(), state.getPositionRandom(rpos), packedLightIn, data);
+                final IBakedModel model = blockRenderer.getModelForState(state);
+                blockRenderer.getBlockModelRenderer().renderModel((ILightReader) world, model, state, real_pos, mat,
+                        bufferIn.getBuffer(type), false, new Random(), state.getPositionRandom(rpos), packedLightIn,
+                        data);
             }
     }
 }

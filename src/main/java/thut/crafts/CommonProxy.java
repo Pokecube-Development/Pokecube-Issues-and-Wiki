@@ -29,12 +29,12 @@ public class CommonProxy implements Proxy
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
         if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isCrouching() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+                .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
         final BlockPos pos = evt.getPos();
-        if (itemstack.hasTag() && playerIn.isCrouching() && itemstack.getTag().contains("min"))
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
             BlockPos min = pos;
@@ -71,7 +71,7 @@ public class CommonProxy implements Proxy
             final String message = "msg.craft.setcorner";
             if (!worldIn.isRemote) playerIn.sendMessage(new TranslationTextComponent(message, pos));
             evt.setCanceled(true);
-            itemstack.getTag().putLong("time", worldIn.getDayTime());
+            itemstack.getTag().putLong("time", worldIn.getGameTime());
         }
     }
 
@@ -79,12 +79,12 @@ public class CommonProxy implements Proxy
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
         if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isCrouching() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+                .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
-        if (itemstack.hasTag() && playerIn.isCrouching() && itemstack.getTag().contains("min") && itemstack.getTag()
-                .getLong("time") != worldIn.getDayTime())
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
+                .getLong("time") != worldIn.getGameTime())
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
             final Vec3d loc = playerIn.getPositionVector().add(0, playerIn.getEyeHeight(), 0).add(playerIn.getLookVec()

@@ -60,8 +60,8 @@ public class WorldEntity extends World implements IBlockEntityWorld
     @Override
     public BlockState getBlockState(final BlockPos pos)
     {
-        final BlockState state = this.getBlock(pos);
-        if (state == null) return this.world.getBlockState(pos);
+        BlockState state = this.getBlock(pos);
+        if (state == null) state = this.world.getBlockState(pos);
         return state;
     }
 
@@ -185,20 +185,20 @@ public class WorldEntity extends World implements IBlockEntityWorld
     }
 
     @Override
-    public Biome getNoiseBiomeRaw(int x, int y, int z)
+    public Biome getNoiseBiomeRaw(final int x, final int y, final int z)
     {
-        return world.getNoiseBiome(x, y, z);
+        return this.world.getNoiseBiome(x, y, z);
     }
 
     @Override
-    public Biome getBiome(BlockPos pos)
+    public Biome getBiome(final BlockPos pos)
     {
-        return world.getBiome(pos);
+        return this.world.getBiome(pos);
     }
 
     @Override
-    public Biome getNoiseBiome(int x, int y, int z)
+    public Biome getNoiseBiome(final int x, final int y, final int z)
     {
-        return world.getNoiseBiome(x, y, z);
+        return this.world.getNoiseBiome(x, y, z);
     }
 }

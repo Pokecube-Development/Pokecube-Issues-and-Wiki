@@ -6,17 +6,16 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 
 public abstract class BlockEntityInteractHandler
 {
@@ -36,57 +35,41 @@ public abstract class BlockEntityInteractHandler
         return this.trace;
     }
 
-    public ActionResultType applyPlayerInteraction(final PlayerEntity player, Vec3d vec,
-            @Nullable final ItemStack stack, final Hand hand)
+    public ActionResultType applyPlayerInteraction(final PlayerEntity player, final Vec3d vec, final ItemStack stack,
+            final Hand hand)
     {
-        vec = vec.add(vec.x > 0 ? -0.01 : 0.01, vec.y > 0 ? -0.01 : 0.01, vec.z > 0 ? -0.01 : 0.01);
-        final Vec3d playerPos = player.getPositionVector().add(0, player.isServerWorld() ? player.getEyeHeight() : 0,
-                0);
+        final Vec3d playerPos = player.getEyePosition(1);
         final Vec3d start = playerPos;
         final Vec3d end = playerPos.add(player.getLookVec().scale(4.5));
         this.trace = null;
-        final RayTraceResult trace2 = IBlockEntity.BlockEntityFormer.rayTraceInternal(start, end, this.blockEntity);
+        RayTraceResult trace2 = IBlockEntity.BlockEntityFormer.rayTraceInternal(start, end, this.blockEntity);
         if (trace2 instanceof BlockRayTraceResult) this.trace = (BlockRayTraceResult) trace2;
-        BlockPos pos;
-        if (this.trace == null) pos = this.theEntity.getPosition();
-        else pos = this.trace.getPos();
-        BlockState state = this.blockEntity.getFakeWorld().getBlock(pos);
+        final World realWorld = this.theEntity.getEntityWorld();
+        BlockState state;
         final World world = this.blockEntity.getFakeWorld() instanceof World ? (World) this.blockEntity.getFakeWorld()
-                : this.theEntity.getEntityWorld();
-        // FIXME interacting with blocks on the block entity?
-        boolean activate = state != null && state.onBlockActivated(world, player, hand,
-                this.trace) == ActionResultType.SUCCESS;
-        if (activate) return ActionResultType.SUCCESS;
-        else if (this.trace == null || this.trace.getType() == Type.MISS || state != null && !state.getMaterial()
-                .isSolid())
+                : realWorld;
+        if (this.trace != null) switch (this.trace.getType())
         {
-            final Vec3d playerLook = playerPos.add(player.getLookVec().scale(4));
+        case BLOCK:
+            // In this case, we have attempt to interact with the block on
+            // the entity
+            state = this.blockEntity.getFakeWorld().getBlock(this.trace.getPos());
 
-            final RayTraceContext context = new RayTraceContext(playerPos, playerLook,
-                    RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, player);
-
-            final RayTraceResult result = this.theEntity.getEntityWorld().rayTraceBlocks(context);
-
-            if (result instanceof BlockRayTraceResult)
+            return state.onBlockActivated(world, player, hand, this.trace);
+        case ENTITY:
+            break;
+        case MISS:
+            // In this case, we trace the normal world and see what we get
+            final RayTraceContext context = new RayTraceContext(start, end, BlockMode.OUTLINE, FluidMode.NONE, player);
+            trace2 = realWorld.rayTraceBlocks(context);
+            if (trace2 instanceof BlockRayTraceResult)
             {
-                this.trace = (BlockRayTraceResult) result;
-                pos = this.trace.getPos();
-                state = this.theEntity.getEntityWorld().getBlockState(pos);
-                final ItemUseContext context2 = new ItemUseContext(player, hand, this.trace);
-                if (player.isCrouching() && !stack.isEmpty())
-                {
-                    final ActionResultType itemUse = ForgeHooks.onPlaceItemIntoWorld(context2);
-                    if (itemUse != ActionResultType.PASS) return itemUse;
-                }
-                activate = state.onBlockActivated(world, player, hand, this.trace) == ActionResultType.SUCCESS;
-                if (activate) return ActionResultType.SUCCESS;
-                else if (!player.isCrouching() && !stack.isEmpty())
-                {
-                    final ActionResultType itemUse = ForgeHooks.onPlaceItemIntoWorld(context2);
-                    if (itemUse != ActionResultType.PASS) return itemUse;
-                }
+                state = realWorld.getBlockState(((BlockRayTraceResult) trace2).getPos());
+                return state.onBlockActivated(realWorld, player, hand, (BlockRayTraceResult) trace2);
             }
-            return ActionResultType.PASS;
+            break;
+        default:
+            break;
         }
         return ActionResultType.PASS;
     }

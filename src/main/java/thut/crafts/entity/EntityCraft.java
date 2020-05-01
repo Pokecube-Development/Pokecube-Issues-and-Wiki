@@ -102,7 +102,35 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         if (this.isServerWorld() && !this.consumePower()) this.toMoveY = this.toMoveX = this.toMoveZ = false;
         this.toMoveX = this.controller.leftInputDown || this.controller.rightInputDown;
         this.toMoveZ = this.controller.backInputDown || this.controller.forwardInputDown;
+
+        this.speedDown = 1;
+        this.speedUp = 1;
+        this.speedHoriz = 1;
+
+        // this.speedUp = 0.5;
+        // this.speedDown = 0.5;
+        // final int high = 30;
+        // final int low = 15;
+        //
+        // if (this.getPosY() < high && this.getMotion().y > 0)
+        // this.controller.upInputDown = true;
+        //
+        // if (this.getPosY() > low && this.getMotion().y < 0)
+        // this.controller.downInputDown = true;
+        //
+        // if (this.getPosY() > high)
+        // {
+        // this.controller.downInputDown = true;
+        // this.controller.upInputDown = false;
+        // }
+        // if (this.getPosY() < low)
+        // {
+        // this.controller.downInputDown = false;
+        // this.controller.upInputDown = true;
+        // }
+
         this.toMoveY = this.controller.upInputDown || this.controller.downInputDown;
+
         float destY = this.toMoveY ? this.controller.upInputDown ? 30 : -30 : 0;
         float destX = this.toMoveX ? this.controller.leftInputDown ? 30 : -30 : 0;
         float destZ = this.toMoveZ ? this.controller.forwardInputDown ? 30 : -30 : 0;
@@ -366,8 +394,14 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     protected void onGridAlign()
     {
         final BlockPos pos = this.getPosition();
+        double dx = this.getPosX();
+        double dy = this.getPosY();
+        double dz = this.getPosZ();
         this.setPosition(pos.getX() + 0.5, Math.round(this.posY), pos.getZ() + 0.5);
-        EntityUpdate.sendEntityUpdate(this);
+        dx -= this.getPosX();
+        dy -= this.getPosY();
+        dz -= this.getPosZ();
+        if (dx * dx + dy * dy + dz * dz > 0) EntityUpdate.sendEntityUpdate(this);
     }
 
     @Override
@@ -460,9 +494,25 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         if (this.isPassenger(passenger))
         {
-            if (passenger.isCrouching()) passenger.stopRiding();
+            if (passenger.isShiftKeyDown()) passenger.stopRiding();
             IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
+            passenger.onGround = true;
+            passenger.onLivingFall(passenger.fallDistance, 0);
+            passenger.fallDistance = 0;
+            if (passenger instanceof ServerPlayerEntity)
+            {
+                ((ServerPlayerEntity) passenger).connection.vehicleFloatingTickCount = 0;
+                ((ServerPlayerEntity) passenger).connection.floatingTickCount = 0;
+            }
         }
+    }
+
+    @Override
+    public boolean onLivingFall(final float distance, final float damageMultiplier)
+    {
+        // Do nothing here, the supoer method will call this to all passengers
+        // as well!
+        return false;
     }
 
     @Override
