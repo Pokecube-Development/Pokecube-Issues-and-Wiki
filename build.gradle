@@ -21,7 +21,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 ext {
-    VERSION_COMPILE = gitVersion()
+    VERSION_COMPILE = gitVersion("${version_major}.${version_minor}")
+    VERSION_THUTCORE = gitVersion("${version_thutcore}")
     // Force a refresh of the toml file
     cleanTOML()
 }
@@ -131,7 +132,7 @@ jar {
 
 processResources.doLast {
     def TOMLFILE = "./build/resources/main/META-INF/mods.toml"
-    replaceParameters(TOMLFILE, "version_thutcore", "${version_thutcore}")
+    replaceParameters(TOMLFILE, "version_thutcore", VERSION_THUTCORE)
     replaceParameters(TOMLFILE, "version_mc", "${version_mcsupport}")
 }
 
@@ -153,11 +154,11 @@ def cleanTOML()
     delete "./build/resources/main/META-INF/mods.toml" 
 }
 
-def gitVersion() {
+def gitVersion(value) {
     def raw = grgit.describe(longDescr: true)
     def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List
     def hash = desc.remove(desc.size() - 1)
     def offset = desc.remove(desc.size() - 1)
     def branch = grgit.branch.current().name
-    return "${version_major}.${version_minor}.${offset}"
+    return "${value}.${offset}"
 }
