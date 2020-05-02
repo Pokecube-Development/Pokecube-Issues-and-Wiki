@@ -95,11 +95,6 @@ public class TerrainManager
     }
 
     @SubscribeEvent
-    public static void onWorldLoad(final WorldEvent.Load evt)
-    {
-    }
-
-    @SubscribeEvent
     public static void onWorldUnload(final WorldEvent.Unload evt)
     {
         DimensionType dim = null;
