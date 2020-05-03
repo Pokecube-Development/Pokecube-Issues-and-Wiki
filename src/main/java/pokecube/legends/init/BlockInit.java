@@ -103,8 +103,8 @@ public class BlockInit
                     VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock();;
 
     public static Block VICTINI_CORE = new VictiniBlock("victiniblock", Block.Properties.create(Material.IRON)
-            .hardnessAndResistance(2000, 2000).sound(SoundType.ANVIL).lightValue(4).variableOpacity()).setShape(
-                    VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock();;
+            .hardnessAndResistance(5, 15).harvestTool(ToolType.PICKAXE).harvestLevel(2).sound(SoundType.ANVIL)
+            .lightValue(4).variableOpacity()).setShape(VoxelShapes.create(0.05, 0, 0.05, 1, 1, 1)).noInfoBlock();;
 
     public static Block YVELTAL_CORE = new YveltalEgg("yveltal_egg", Block.Properties.create(Material.IRON)
             .hardnessAndResistance(2000, 2000).sound(SoundType.WOOD).lightValue(2).variableOpacity()).setShape(
