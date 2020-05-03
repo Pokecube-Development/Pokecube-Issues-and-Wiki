@@ -48,6 +48,17 @@ public class AIFindTarget extends AIBase implements IAICombat
 
     public static int DEAGROTIMER = 50;
 
+    public static void initiateCombat(final MobEntity mob, final LivingEntity target)
+    {
+        if (target == null || !target.isAlive() || target.getHealth() <= 0 || target == mob.getAttackTarget()) return;
+        mob.setAttackTarget(target);
+        if (target instanceof MobEntity) ((MobEntity) target).setAttackTarget(mob);
+        final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        if (targetMob != null) targetMob.setCombatState(CombatStates.ANGRY, true);
+        if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, true);
+    }
+
     @SubscribeEvent
     public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
     {
@@ -273,9 +284,7 @@ public class AIFindTarget extends AIBase implements IAICombat
             // Only agress if not currently in combat.
             if (mob.getAttackTarget() != null) continue;
             // Make all valid ones agress the target.
-            final IPokemob other = CapabilityPokemob.getPokemobFor(mob);
             this.setAttackTarget(mob, from);
-            this.setCombatState(other, CombatStates.ANGRY, false);
         }
 
         return false;
@@ -340,11 +349,26 @@ public class AIFindTarget extends AIBase implements IAICombat
         if (newtarget != null && Vector3.isVisibleEntityFromEntity(this.entity, newtarget))
         {
             this.setAttackTarget(this.entity, newtarget);
-            this.setCombatState(this.pokemob, CombatStates.ANGRY, true);
-            this.entityTarget = newtarget;
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
+    {
+        if (target == null)
+        {
+            final IPokemob aggressor = CapabilityPokemob.getPokemobFor(attacker);
+            super.setAttackTarget(attacker, target);
+            aggressor.setCombatState(CombatStates.ANGRY, false);
+            this.clear();
+        }
+        else
+        {
+            AIFindTarget.initiateCombat(attacker, target);
+            this.entityTarget = target;
+        }
     }
 
     /**
@@ -371,9 +395,6 @@ public class AIFindTarget extends AIBase implements IAICombat
                     .getLevel() > mob.getLevel() && Vector3.isVisibleEntityFromEntity(entity, entity))
             {
                 this.setAttackTarget(this.entity, entity);
-                this.entityTarget = entity;
-                this.setCombatState(this.pokemob, CombatStates.ANGRY, true);
-                this.setLogicState(this.pokemob, LogicStates.SITTING, false);
                 return true;
             }
         }
@@ -417,10 +438,6 @@ public class AIFindTarget extends AIBase implements IAICombat
                     .getAttackTarget().equals(owner) && Vector3.isVisibleEntityFromEntity(entity, entity))
             {
                 this.setAttackTarget(this.entity, entity);
-                this.setAttackTarget((MobEntity) entity, this.entity);
-                this.entityTarget = entity;
-                this.setCombatState(this.pokemob, CombatStates.ANGRY, true);
-                this.setLogicState(this.pokemob, LogicStates.SITTING, false);
                 return true;
             }
         }
@@ -516,7 +533,6 @@ public class AIFindTarget extends AIBase implements IAICombat
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Forgetting Target due to distance. {} -> {}",
                     this.entity, target);
             this.setAttackTarget(this.entity, null);
-            this.clear();
             return false;
         }
 
@@ -534,8 +550,6 @@ public class AIFindTarget extends AIBase implements IAICombat
             {
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Battle is over.");
                 this.setAttackTarget(this.entity, null);
-                this.setCombatState(this.pokemob, CombatStates.ANGRY, false);
-                this.clear();
                 return false;
             }
 
@@ -546,7 +560,6 @@ public class AIFindTarget extends AIBase implements IAICombat
             {
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Target is dead!");
                 this.setAttackTarget(this.entity, null);
-                this.clear();
                 return false;
             }
 
@@ -554,7 +567,6 @@ public class AIFindTarget extends AIBase implements IAICombat
             if (target == this.entity)
             {
                 this.setAttackTarget(this.entity, null);
-                this.clear();
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Cannot target self.");
                 return false;
             }
@@ -563,7 +575,6 @@ public class AIFindTarget extends AIBase implements IAICombat
             if (!this.pokemob.getCombatState(CombatStates.ANGRY))
             {
                 this.setAttackTarget(this.entity, null);
-                this.clear();
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Not Angry. losing target now.");
                 return false;
             }
@@ -572,7 +583,6 @@ public class AIFindTarget extends AIBase implements IAICombat
             if (target.getUniqueID().equals(this.pokemob.getOwnerId()))
             {
                 this.setAttackTarget(this.entity, null);
-                this.clear();
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Cannot target owner.");
                 return false;
             }
@@ -588,7 +598,6 @@ public class AIFindTarget extends AIBase implements IAICombat
                         .getConfig().chaseDistance)
                 {
                     this.setAttackTarget(this.entity, null);
-                    this.entityTarget = null;
                     if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
                             "Cannot target mob that far while guarding.");
                     return false;
@@ -599,7 +608,6 @@ public class AIFindTarget extends AIBase implements IAICombat
                 if (TeamManager.sameTeam(target, this.entity))
                 {
                     this.setAttackTarget(this.entity, null);
-                    this.clear();
                     if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Cannot target team mates.");
                     return false;
                 }
@@ -645,9 +653,7 @@ public class AIFindTarget extends AIBase implements IAICombat
             if (player != null && Vector3.isVisibleEntityFromEntity(this.entity, player) && this.entity.getEntityWorld()
                     .getDifficulty().getId() > Difficulty.EASY.getId() && AITools.validTargets.test(player))
             {
-                this.setCombatState(this.pokemob, CombatStates.ANGRY, true);
                 this.setAttackTarget(this.entity, player);
-                this.entityTarget = player;
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
                         "Found player to be angry with, agressing.");
                 return false;
