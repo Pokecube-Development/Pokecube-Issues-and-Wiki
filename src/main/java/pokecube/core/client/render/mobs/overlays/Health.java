@@ -54,10 +54,18 @@ public class Health
     static List<LivingEntity> renderedEntities = new ArrayList<>();
 
     private static final RenderType TYPE;
+    private static final RenderType BACKGROUND;
     static
     {
         final RenderType.State.Builder builder = RenderType.State.builder();
-        builder.transparency(new RenderState.TransparencyState("translucent_transparency", () ->
+        builder.depthTest(new RenderState.DepthTestState(515));
+        builder.cull(new RenderState.CullState(true));
+        final RenderType.State fg_st = builder.build(false);
+        TYPE = RenderType.get("pokecube:mob_health_tag", DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, true,
+                false, fg_st);
+        final RenderType.State.Builder builder_bg = RenderType.State.builder();
+
+        builder_bg.transparency(new RenderState.TransparencyState("translucent_transparency", () ->
         {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
@@ -65,14 +73,12 @@ public class Health
         {
             RenderSystem.disableBlend();
         }));
-        builder.diffuseLighting(new RenderState.DiffuseLightingState(false));
-        builder.alpha(new RenderState.AlphaState(0.003921569F));
-        builder.cull(new RenderState.CullState(false));
-        builder.depthTest(new RenderState.DepthTestState(515));
+        builder_bg.alpha(new RenderState.AlphaState(0.003921569f));
+        builder_bg.depthTest(new RenderState.DepthTestState(519));
 
-        final RenderType.State rendertype$state = builder.build(false);
-        TYPE = RenderType.get("pokecube:mob_health_tag", DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, true,
-                false, rendertype$state);
+        final RenderType.State bg_st = builder_bg.build(false);
+        BACKGROUND = RenderType.get("pokecube:mob_health_tag_bg", DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS,
+                256, false, false, bg_st);
     }
 
     static boolean blend;
@@ -141,7 +147,7 @@ public class Health
             ridingStack.push(entity);
         }
 
-        final IVertexBuilder buffer = Utils.makeBuilder(Health.TYPE, buf);
+        IVertexBuilder buffer;
         Matrix4f pos;
 
         mat.push();
@@ -160,7 +166,6 @@ public class Health
             Quaternion quaternion;
             quaternion = viewer.getRotation();
             mat.rotate(quaternion);
-
             mat.scale(scale, scale, scale);
 
             final float padding = config.backgroundPadding;
@@ -168,16 +173,16 @@ public class Health
             final int barHeight1 = config.barHeight;
             float size = config.plateSize;
 
-            final float zshift = -0.01f;
+            final float zshift = -0.001f;
             float zlevel = 0.1f;
             int r = 0;
-            int g = 255;
+            int g = 220;
             int b = 0;
             ItemStack stack = ItemStack.EMPTY;
             if (pokemob.getOwner() == viewer.getRenderViewEntity()) stack = entity.getHeldItemMainhand();
             final int armor = entity.getTotalArmorValue();
             final float hue = Math.max(0F, health / maxHealth / 3F - 0.07F);
-            final Color color = Color.getHSBColor(hue, 1F, 1F);
+            final Color color = Color.getHSBColor(hue, 0.8F, 0.8F);
             r = color.getRed();
             g = color.getGreen();
             b = color.getBlue();
@@ -206,19 +211,21 @@ public class Health
             // Background
             if (config.drawBackground)
             {
+                buffer = Utils.makeBuilder(Health.BACKGROUND, buf);
                 final int a = 32;
                 Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0,
                         0, a, 0);
                 zlevel += zshift;
             }
+            buffer = Utils.makeBuilder(Health.TYPE, buf);
 
             // Health bar
             // Gray Space
-            Health.blit(buffer, pos, -size, 0, size, barHeight1, zlevel, 127, 127, 127, 127, 1);
+            Health.blit(buffer, pos, -size, 0, size, barHeight1, zlevel, 127, 127, 127, 255, 1);
             zlevel += zshift;
 
             // Health Bar Fill
-            Health.blit(buffer, pos, -size, 0, healthSize * 2 - size, barHeight1, zlevel, r, g, b, 127, 2);
+            Health.blit(buffer, pos, -size, 0, healthSize * 2 - size, barHeight1, zlevel, r, g, b, 255, 2);
             zlevel += zshift;
 
             // Exp Bar
@@ -235,11 +242,11 @@ public class Health
             if (exp < 0 || !pokemob.getGeneralState(GeneralStates.TAMED)) exp = 0;
             final float expSize = size * (exp / maxExp);
             // Gray Space
-            Health.blit(buffer, pos, -size, barHeight1, size, barHeight1 + 1, zlevel, 127, 127, 127, 127, 3);
+            Health.blit(buffer, pos, -size, barHeight1, size, barHeight1 + 1, zlevel, 127, 127, 127, 255, 3);
             zlevel += zshift;
 
             // Exp Bar Fill
-            Health.blit(buffer, pos, -size, barHeight1, expSize * 2 - size, barHeight1 + 1, zlevel, r, g, b, 127, 4);
+            Health.blit(buffer, pos, -size, barHeight1, expSize * 2 - size, barHeight1 + 1, zlevel, r, g, b, 255, 4);
             zlevel += zshift;
 
             mat.push();
@@ -260,7 +267,7 @@ public class Health
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
             pos = mat.getLast().getPositionMatrix();
-            mc.fontRenderer.renderString(name, 0, 0, colour, false, pos, buf, true, 0, br);
+            mc.fontRenderer.renderString(name, 0, 0, colour, false, pos, buf, false, 0, br);
             s1 = 0.75F;
             mat.pop();
 
@@ -281,10 +288,10 @@ public class Health
                     healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.getLast().getPositionMatrix();
-
-            mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, true, 0, br);
+            final int i2 = (int) (0 * 255.0F) << 24;
+            mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, i2, br);
             mc.fontRenderer.renderString(gender, (int) (size / (s * s1) * 2) - 2 - mc.fontRenderer.getStringWidth(
-                    gender), h - 1, colour, false, pos, buf, true, 0, br);
+                    gender), h - 1, colour, false, pos, buf, false, i2, br);
 
             if (PokecubeCore.getConfig().enableDebugInfo && mc.gameSettings.showDebugInfo)
             {
@@ -322,6 +329,7 @@ public class Health
                     Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16);
                 off -= 4;
             }
+
             mat.pop();
         }
         mat.pop();
