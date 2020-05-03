@@ -54,17 +54,27 @@ public class Pokerecall
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
             if (e.getDisplayName().getFormattedText().equals(pokemob))
             {
-                IPokemob poke = CapabilityPokemob.getPokemobFor(e);
+                final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
                 if (poke != null)
                 {
                     poke.onRecall();
                     num++;
                 }
-                else if (e instanceof EntityPokecubeBase)
+            }
+            else if (e instanceof EntityPokecubeBase)
+            {
+                final EntityPokecubeBase cube = (EntityPokecubeBase) e;
+                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+                if (mob != null && mob.getDisplayName().getFormattedText().equals(pokemob))
                 {
-                    final EntityPokecubeBase cube = (EntityPokecubeBase) e;
-                    final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
-                    poke = CapabilityPokemob.getPokemobFor(mob);
+                    final LivingEntity sent = SendOutManager.sendOut(cube, true);
+                    IPokemob poke;
+                    if (sent != null && (poke = CapabilityPokemob.getPokemobFor(sent)) != null)
+                    {
+                        System.out.println(poke);
+                        poke.onRecall();
+                        num++;
+                    }
                 }
             }
         if (num == 0) source.sendFeedback(new TranslationTextComponent("pokecube.recall.fail"), false);
