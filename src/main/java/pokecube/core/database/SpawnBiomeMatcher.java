@@ -47,7 +47,7 @@ public class SpawnBiomeMatcher
         {
             final boolean globalRain = world.isRaining();
             final BlockPos position = location.getPos();
-            boolean outside = world.isSkyLightMax(position);
+            boolean outside = world.canSeeSky(position);
             outside = outside && world.getHeight(Heightmap.Type.MOTION_BLOCKING, position).getY() > position.getY();
             if (!outside) return NONE;
             if (globalRain)
