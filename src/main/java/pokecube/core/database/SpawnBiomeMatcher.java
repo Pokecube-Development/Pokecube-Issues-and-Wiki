@@ -116,7 +116,7 @@ public class SpawnBiomeMatcher
             this.light = lightBlock / 15f;
             final World w = world.getWorld();
             this.weather = Weather.getForWorld(w, location);
-            this.thundering = this.weather != Weather.NONE && w.isThundering();
+            this.thundering = this.weather == Weather.RAIN && w.isThundering();
             this.day = PokedexEntry.day.contains(time);
             this.dusk = PokedexEntry.dusk.contains(time);
             this.dawn = PokedexEntry.dawn.contains(time);
