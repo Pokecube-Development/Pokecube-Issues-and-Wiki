@@ -13,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -151,22 +150,6 @@ public class TrainerNpc extends TrainerBase implements IEntityAdditionalSpawnDat
         this.fixedTrades = nbt.getBoolean("fixedTrades");
         this.fixedMobs = nbt.getBoolean("fixedMobs");
         this.setTypes();
-        if (nbt.contains("DefeatList"))
-        {
-            this.pokemobsCap.setGender((byte) (nbt.getBoolean("gender") ? 1 : 2));
-            if (nbt.contains("resetTime")) this.pokemobsCap.resetTime = nbt.getLong("resetTime");
-            if (nbt.contains("defeated", 9))
-            {
-                final ListNBT list = nbt.getList("defeated", 10);
-                this.pokemobsCap.defeated.load(list);
-            }
-            if (nbt.contains("defeatedBy", 9))
-            {
-                final ListNBT list = nbt.getList("defeatedBy", 10);
-                this.pokemobsCap.defeatedBy.load(list);
-            }
-            this.pokemobsCap.notifyDefeat = nbt.getBoolean("notifyDefeat");
-        }
     }
 
     public TrainerNpc setLevel(final int level)

@@ -213,7 +213,7 @@ public class AI extends Page
             break;
         case 3:
             argInt = value.isEmpty() ? 0 : Integer.parseInt(value);
-            ((DefaultPokemobs) this.parent.trainer).resetTime = argInt;
+            ((DefaultPokemobs) this.parent.trainer).resetTimeLose = argInt;
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
