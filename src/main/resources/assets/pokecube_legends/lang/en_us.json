@@ -3,6 +3,7 @@
 
     "_comment": "/pokecubes",
     "item.pokecube.beastcube": "Beast Cube",
+    "item.pokecube.beastcube.desc": "A modified pokécube that increases chance in other dimensions.",
 
     "_comment": "/Advancements",
     "advancements.intotespace.descr": "visit Ultra Space",
