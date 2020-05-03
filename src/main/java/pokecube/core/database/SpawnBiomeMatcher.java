@@ -272,8 +272,8 @@ public class SpawnBiomeMatcher
         if (this.needThunder && !checker.thundering) return false;
         if (this.noThunder && checker.thundering) return false;
         if (this._bannedWeather.contains(checker.weather)) return false;
-        if (this._neededWeather.isEmpty() && !this._neededWeather.contains(checker.weather)) return false;
-        return true;
+        if (this._neededWeather.isEmpty()) return true;
+        return this._neededWeather.contains(checker.weather);
     }
 
     private boolean biomeMatches(final SpawnCheck checker)
