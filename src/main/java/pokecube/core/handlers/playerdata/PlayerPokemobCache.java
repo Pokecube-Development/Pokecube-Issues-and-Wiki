@@ -37,13 +37,15 @@ public class PlayerPokemobCache extends PlayerData
         if (uid == null || uid == -1) return;
         final PlayerPokemobCache cache = PlayerDataHandler.getInstance().getPlayerData(owner).getData(
                 PlayerPokemobCache.class);
-
         if (cache != null) cache.addPokemob(owner, stack, pc, deleted);
     }
 
-    public Map<Integer, ItemStack> cache        = Maps.newHashMap();
-    public Set<Integer>            inPC         = Sets.newHashSet();
-    public Set<Integer>            genesDeleted = Sets.newHashSet();
+    public Map<Integer, ItemStack> cache = Maps.newHashMap();
+
+    // These were last seen sent to PC
+    public Set<Integer> _in_pc_ = Sets.newHashSet();
+    // These were permanently deleted via an addon
+    public Set<Integer> _dead_ = Sets.newHashSet();
 
     public PlayerPokemobCache()
     {
@@ -68,8 +70,8 @@ public class PlayerPokemobCache extends PlayerData
         final Integer uid = PokecubeManager.getUID(stack);
         if (uid == null || uid == -1) return;
         this.cache.put(uid, stack);
-        pc = pc ? this.inPC.add(uid) : this.inPC.remove(uid);
-        if (deleted) this.genesDeleted.add(uid);
+        pc = pc ? this._in_pc_.add(uid) : this._in_pc_.remove(uid);
+        if (deleted) this._dead_.add(uid);
         PlayerDataHandler.getInstance().save(owner, this.getIdentifier());
     }
 
@@ -89,8 +91,8 @@ public class PlayerPokemobCache extends PlayerData
     public void readFromNBT(final CompoundNBT tag)
     {
         this.cache.clear();
-        this.inPC.clear();
-        this.genesDeleted.clear();
+        this._in_pc_.clear();
+        this._dead_.clear();
         if (tag.contains("data"))
         {
             final ListNBT list = (ListNBT) tag.get("data");
@@ -104,8 +106,8 @@ public class PlayerPokemobCache extends PlayerData
                 if (id != -1)
                 {
                     this.cache.put(id, stack);
-                    if (var.getBoolean("_in_pc_")) this.inPC.add(id);
-                    if (var.getBoolean("_dead_")) this.genesDeleted.add(id);
+                    if (var.getBoolean("_in_pc_")) this._in_pc_.add(id);
+                    if (var.getBoolean("_dead_")) this._dead_.add(id);
                 }
             }
         }
@@ -125,8 +127,8 @@ public class PlayerPokemobCache extends PlayerData
         {
             final CompoundNBT var = new CompoundNBT();
             var.putInt("uid", id);
-            var.putBoolean("_in_pc_", this.inPC.contains(id));
-            var.putBoolean("_dead_", this.genesDeleted.contains(id));
+            var.putBoolean("_in_pc_", this._in_pc_.contains(id));
+            var.putBoolean("_dead_", this._dead_.contains(id));
             final ItemStack stack = this.cache.get(id);
             stack.write(var);
             list.add(var);
