@@ -14,6 +14,8 @@
     "pokecube:alphaorb",
     "pokecube:omegaorb",
     "pokecube:luckyegg",
+    "pokecube:shiny_charm",
+    "pokecube:berry_juice",
     "pokecube_legends:rustedsword",
     "pokecube_legends:rustedshield",
     "pokecube_legends:n_sun",
@@ -28,7 +30,6 @@
     "pokecube_legends:griseousorb",
     "pokecube_legends:chippedpot",
     "pokecube_legends:crackedpot",
-    "pokecube:shiny_charm",
     "pokecube_adventures:exp_share"
   ]
 }
