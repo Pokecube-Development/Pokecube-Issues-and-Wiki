@@ -33,7 +33,7 @@ public class LeaderNpc extends TrainerNpc
         super(type, worldIn);
         this.aiStates.setAIState(IHasNPCAIStates.STATIONARY, true);
         this.aiStates.setAIState(IHasNPCAIStates.TRADES, false);
-        this.pokemobsCap.resetTime = 0;
+        this.pokemobsCap.resetTimeLose = 0;
     }
 
     @Override

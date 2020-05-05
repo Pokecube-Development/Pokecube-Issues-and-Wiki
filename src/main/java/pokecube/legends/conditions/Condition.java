@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -23,6 +24,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.legends.PokecubeLegends;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
 public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpawnCondition
@@ -32,6 +34,13 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     {
         for (final Vector3 v : blocks)
             if (v.getBlock(world) != toTest) return false;
+        return true;
+    }
+
+    protected static boolean isBlock(final World world, final ArrayList<Vector3> blocks, final ResourceLocation toTest)
+    {
+        for (final Vector3 v : blocks)
+            if (!ItemList.is(toTest, v.getBlockState(world))) return false;
         return true;
     }
 
@@ -76,42 +85,59 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
     }
 
     @Override
-    public boolean canSpawn(final Entity trainer)
+    public CanSpawn canSpawn(final Entity trainer)
     {
-        if (trainer == null) return false;
-        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), this.getEntry()) > 0) return true;
+        if (trainer == null) return CanSpawn.NO;
+        // Already have one, cannot spawn again.
+        if (CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), this.getEntry()) > 0)
+            return CanSpawn.ALREADYHAVE;
         // Also check if can capture, if not, no point in being able to spawn.
         if (trainer instanceof ServerPlayerEntity && PokecubePlayerDataHandler.getCustomDataTag(
-                (ServerPlayerEntity) trainer).getBoolean("capt:" + this.getEntry().getTrimmedName())) return false;
+                (ServerPlayerEntity) trainer).getBoolean("capt:" + this.getEntry().getTrimmedName()))
+            return CanSpawn.ALREADYHAVE;
         if (trainer instanceof ServerPlayerEntity)
         {
-            final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag((ServerPlayerEntity) trainer)
-                    .getBoolean("spwn:" + this.getEntry().getTrimmedName());
-            if (!prevSpawn) return true;
+            final ServerPlayerEntity player = (ServerPlayerEntity) trainer;
+            final String tag0 = "spwn:" + this.getEntry().getTrimmedName();
+            final boolean prevSpawn = PokecubePlayerDataHandler.getCustomDataTag(player).getBoolean(tag0);
+            if (!prevSpawn) return CanSpawn.YES;
             final MinecraftServer server = trainer.getServer();
-            final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag((ServerPlayerEntity) trainer).getLong(
-                    "spwn_ded:" + this.getEntry().getTrimmedName());
-            if (spwnDied > 0) return spwnDied + PokecubeLegends.config.respawnLegendDelay < server.getWorld(
-                    DimensionType.OVERWORLD).getGameTime();
-            return false;
+            final String tag1 = "spwn_ded:" + this.getEntry().getTrimmedName();
+            final long spwnDied = PokecubePlayerDataHandler.getCustomDataTag(player).getLong(tag1);
+            final boolean prevDied = spwnDied > 0;
+            if (prevDied)
+            {
+                final boolean doneCooldown = spwnDied + PokecubeLegends.config.respawnLegendDelay < server.getWorld(
+                        DimensionType.OVERWORLD).getGameTime();
+                if (doneCooldown)
+                {
+                    PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag0);
+                    PokecubePlayerDataHandler.getCustomDataTag(player).remove(tag1);
+                    PokecubePlayerDataHandler.saveCustomData(player);
+                    return CanSpawn.YES;
+                }
+            }
+            return CanSpawn.ALREADYHAVE;
         }
-        return true;
+        return CanSpawn.YES;
     }
 
     @Override
-    public boolean canSpawn(final Entity trainer, final Vector3 location, final boolean message)
+    public CanSpawn canSpawn(final Entity trainer, final Vector3 location, final boolean message)
     {
-        if (!this.canSpawn(trainer)) return false;
+        final CanSpawn test = this.canSpawn(trainer);
+        if (!test.test()) return test;
         final SpawnData data = this.getEntry().getSpawnData();
-        if (data == null || SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location, trainer.getEntityWorld(),
-                false))
+        final boolean canSpawnHere = data == null || SpawnHandler.canSpawn(this.getEntry().getSpawnData(), location,
+                trainer.getEntityWorld(), false);
+        if (canSpawnHere)
         {
             final boolean here = PokemobTracker.countPokemobs(location, trainer.getEntityWorld(), 32, this
                     .getEntry()) > 0;
-            return !here;
+            return here ? CanSpawn.ALREADYHERE : CanSpawn.YES;
         }
         if (message) this.sendNoHere(trainer);
-        return false;
+        return CanSpawn.NOTHERE;
     }
 
     public void sendNoTrust(final Entity trainer)

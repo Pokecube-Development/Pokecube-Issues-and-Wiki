@@ -75,7 +75,6 @@ public class ItemGenerator
             PokecubeCore.LOGGER.debug("Registering berry_" + berry.type.name + " " + index + " " + id);
             berry.setRegistryName(PokecubeCore.MODID, "berry_" + berry.type.name);
             registry.register(berry);
-            PokecubeItems.setAs(PokecubeItems.HELDKEY, berry);
         }
         BerryManager.registerTrees();
     }
@@ -173,7 +172,6 @@ public class ItemGenerator
         {
             final ItemTyped item = new ItemTyped(props, type);
             registry.register(item);
-            PokecubeItems.setAs(PokecubeItems.HELDKEY, item);
         }
     }
 
@@ -204,7 +202,6 @@ public class ItemGenerator
             if (type == PokeType.unknown) props = props.group(PokecubeItems.POKECUBEITEMS);
             final Item tm = new ItemTM(props, type);
             registry.register(tm);
-            PokecubeItems.setAs(PokecubeItems.HELDKEY, tm);
         }
     }
 

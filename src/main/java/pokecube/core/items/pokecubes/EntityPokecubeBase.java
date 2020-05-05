@@ -145,6 +145,13 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         return false;
     }
 
+    @Override
+    protected void outOfWorld()
+    {
+        final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true));
+        if (mob != null && mob.getOwnerId() != null) mob.onRecall();
+    }
+
     /** Called when this EntityThrowable hits a block or entity. */
     protected void onImpact(final RayTraceResult result)
     {
@@ -346,6 +353,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         final boolean capturing = this.getTilt() >= 0;
         final boolean releasing = this.isReleasing();
         if (capturing || releasing) this.seeking = false;
+
+        if (this.posY < -64.0D) this.outOfWorld();
 
         this.preValidateVelocity();
         this.checkCollision();

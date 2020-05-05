@@ -155,7 +155,8 @@ public class CapabilityHasPokemobs
 
         private final LazyOptional<IHasPokemobs> cap_holder = LazyOptional.of(() -> this);
 
-        public long       resetTime        = 0;
+        public long       resetTimeLose    = 0;
+        public long       resetTimeWin     = 0;
         public int        friendlyCooldown = 0;
         public DefeatList defeated         = new DefeatList();
         public DefeatList defeatedBy       = new DefeatList();
@@ -246,7 +247,8 @@ public class CapabilityHasPokemobs
 
             this.defeated.clear();
             this.defeatedBy.clear();
-            if (nbt.contains("resetTime")) this.resetTime = nbt.getLong("resetTime");
+            if (nbt.contains("resetTime")) this.resetTimeLose = nbt.getLong("resetTime");
+            if (nbt.contains("resetTimeWin")) this.resetTimeWin = nbt.getLong("resetTimeWin");
             if (nbt.contains("defeated", 9))
             {
                 final ListNBT list = nbt.getList("defeated", 10);
@@ -371,12 +373,12 @@ public class CapabilityHasPokemobs
 
         public boolean defeated(final Entity e)
         {
-            return this.defeated.isValid(e, this.resetTime);
+            return this.defeated.isValid(e, this.resetTimeWin);
         }
 
         public boolean defeatedBy(final Entity e)
         {
-            return this.defeatedBy.isValid(e, this.resetTime);
+            return this.defeatedBy.isValid(e, this.resetTimeLose);
         }
 
         public void init(final LivingEntity user, final IHasNPCAIStates aiStates, final IHasMessages messages,
@@ -387,7 +389,8 @@ public class CapabilityHasPokemobs
             this.messages = messages;
             this.rewards = rewards;
             this.battleCooldown = Config.instance.trainerCooldown;
-            this.resetTime = this.battleCooldown;
+            this.resetTimeWin = this.battleCooldown;
+            this.resetTimeLose = this.battleCooldown;
         }
 
         @Override
@@ -490,7 +493,7 @@ public class CapabilityHasPokemobs
                 {
                     final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
                     packet.data.putInt("I", this.user.getEntityId());
-                    packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTime);
+                    packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTimeLose);
                     PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) won);
                 }
                 if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won);
@@ -549,7 +552,8 @@ public class CapabilityHasPokemobs
             nbt.put("defeated", this.defeated.save());
             nbt.put("defeatedBy", this.defeatedBy.save());
             nbt.putBoolean("notifyDefeat", this.notifyDefeat);
-            nbt.putLong("resetTime", this.resetTime);
+            nbt.putLong("resetTime", this.resetTimeLose);
+            nbt.putLong("resetTimeWin", this.resetTimeWin);
             if (this.sight != -1) nbt.putInt("sight", this.sight);
             nbt.putInt("friendly", this.friendlyCooldown);
             nbt.putString("levelMode", this.getLevelMode().name());

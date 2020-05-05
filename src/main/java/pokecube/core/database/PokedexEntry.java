@@ -69,6 +69,7 @@ import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.TimePeriod;
 import pokecube.core.utils.Tools;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.BiomeType;
@@ -240,7 +241,6 @@ public class PokedexEntry
             if (data.move != null) this.move = data.move;
             if (data.chance != null) this.randomFactor = data.chance;
             if (this.level == -1) this.level = 0;
-            if (!this.item.isEmpty()) PokecubeItems.addToEvos(this.item);
             if (data.form_from != null) this.neededForme = PokecubeItems.toPokecubeResource(data.form_from);
         }
 
@@ -288,12 +288,11 @@ public class PokedexEntry
             if (this.preset != null || !this.item.isEmpty())
             {
                 correctItem = false;
-                if (!mobs.isEmpty()) if (this.preset != null) correctItem = PokecubeItems.is(this.preset, mobs
-                        .getItem());
+                if (!mobs.isEmpty()) if (this.preset != null) correctItem = ItemList.is(this.preset, mobs.getItem());
                 else correctItem = Tools.isSameStack(mobs, this.item, true);
             }
-            if (PokecubeItems.is(ICanEvolve.EVERSTONE, mob.getHeldItem())) return false;
-            if (PokecubeItems.is(ICanEvolve.EVERSTONE, mobs)) return false;
+            if (ItemList.is(ICanEvolve.EVERSTONE, mob.getHeldItem())) return false;
+            if (ItemList.is(ICanEvolve.EVERSTONE, mobs)) return false;
             ret = ret && correctItem;
             final boolean correctLevel = mob.getLevel() >= this.level;
             ret = ret && correctLevel;
@@ -398,13 +397,14 @@ public class PokedexEntry
 
         protected static void initForEntry(final PokedexEntry entry)
         {
+            // Here we deal with the defaulted interactions for this type.
             final List<Interact> val = Lists.newArrayList();
             for (final PokeType t : InteractionLogic.defaults.keySet())
                 if (entry.isType(t)) val.addAll(InteractionLogic.defaults.get(t));
-            if (!val.isEmpty()) InteractionLogic.initForEntry(entry, val);
+            if (!val.isEmpty()) InteractionLogic.initForEntry(entry, val, false);
         }
 
-        protected static void initForEntry(final PokedexEntry entry, final List<Interact> data)
+        protected static void initForEntry(final PokedexEntry entry, final List<Interact> data, final boolean replace)
         {
             if (data == null || data.isEmpty())
             {
@@ -420,6 +420,9 @@ public class PokedexEntry
                 Map<QName, String> values = key.getValues();
                 final ItemStack keyStack = Tools.getStack(values);
                 final Interaction interaction = new Interaction(keyStack);
+
+                if (!replace && entry.interactionLogic.canInteract(keyStack)) continue;
+
                 interaction.male = interact.male;
                 interaction.female = interact.female;
                 interaction.cooldown = interact.cooldown;
@@ -452,7 +455,7 @@ public class PokedexEntry
 
         boolean canInteract(final ItemStack key)
         {
-            return !this.getStackKey(key).isEmpty();
+            return !this.getKey(key).isEmpty();
         }
 
         private ItemStack getFormeKey(final ItemStack held)
@@ -1061,8 +1064,10 @@ public class PokedexEntry
         this.formeItems.clear();
         this.megaRules.clear();
         this.interactionLogic.actions.clear();
+        // Apply loaded interactions
+        if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
+        // Apply default interactions
         InteractionLogic.initForEntry(this);
-        if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions);
 
         if (this._forme_items != null)
         {
@@ -1143,11 +1148,7 @@ public class PokedexEntry
                 if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
                 if (ability != null) mrule.ability = ability;
                 if (move != null) mrule.moveName = move;
-                if (!stack.isEmpty())
-                {
-                    mrule.stack = stack;
-                    if (!PokecubeItems.isValidHeldItem(stack)) PokecubeItems.addToHoldables(stack);
-                }
+                if (!stack.isEmpty()) mrule.stack = stack;
                 formeEntry.isMega = true;
                 this.megaRules.put(formeEntry, mrule);
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);

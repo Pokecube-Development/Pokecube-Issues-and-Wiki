@@ -17,9 +17,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
-import pokecube.core.PokecubeItems;
 import pokecube.core.inventory.BaseContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 
 public class BagContainer extends BaseContainer
@@ -50,7 +50,7 @@ public class BagContainer extends BaseContainer
         // Specifically ban filled cubes
         if (!PokecubeAdv.config.bagsHoldFilledCubes && PokecubeManager.isFilled(itemstack)) return false;
         // Otherwise check the tag
-        return PokecubeItems.is(BagContainer.VALID, itemstack);
+        return ItemList.is(BagContainer.VALID, itemstack);
     }
 
     public final BagInventory inv;

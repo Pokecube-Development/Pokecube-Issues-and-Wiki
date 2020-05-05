@@ -1,83 +1,89 @@
-# This is an example mods.toml file. It contains the data relating to the loading mods.
-# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
-# The overall format is standard TOML format, v0.5.0.
-# Note that there are a couple of TOML lists in this file.
-# Find more information on toml format here:  https://github.com/toml-lang/toml
-# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
 modLoader="javafml"
-# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[25,)"
-# A URL to refer people to when problems occur with this mod
+loaderVersion="[28,)"
 issueTrackerURL="https://github.com/Pokecube-Development/Pokecube-Issues-and-Wiki/issues"
-# A list of mods - how many allowed here is determined by the individual mod loader
-[[mods]]
-modId="thutcore"
-version="99.99.aio"
-displayName="Thut Core"
-authors="Thutmose"
-description='''
-This is a library of shared functionality for my mods.
 
-This is the version embedded into pokecube, so use that for
-the more reliable version number
-'''
 [[mods]]
-modId="thutcrafts"
-version="${file.jarVersion}"
-displayName="Thut Crafts"
-authors="Thutmose"
-description='''
-Tech Demo mod for testing the elevator mod updates.
-'''
-[[mods]]
-modId="thut_wearables"
-version="${file.jarVersion}"
-displayName="Thut Wearables"
-authors="Thutmose"
-description='''
-Accessories Slots for Minecraft!
+    modId="thutcore"
+    version="version_thutcore"
+    displayName="Thut Core"
+    authors="Thutmose"
+    description='''
+    This is a library of shared functionality for my mods.
 
-This is the version embedded into pokecube.
-'''
+    This is the version embedded into pokecube, so use that for
+    the more reliable version number
+    '''
+    
 [[mods]]
-modId="thut_bling"
-version="${file.jarVersion}"
-displayName="Thut Bling"
-authors="Thutmose"
-description='''
-Bling for Thut Wearables!
+    modId="thutcrafts"
+    version="${file.jarVersion}"
+    displayName="Thut Crafts"
+    authors="Thutmose"
+    description='''
+    Tech Demo mod for testing the elevator mod updates.
+    '''
+    
+[[mods]]
+    modId="thut_wearables"
+    version="${file.jarVersion}"
+    displayName="Thut Wearables"
+    authors="Thutmose"
+    description='''
+    Accessories Slots for Minecraft!
 
-This is the version embedded into pokecube.
-'''
+    This is the version embedded into pokecube.
+    '''
+
 [[mods]]
-modId="pokecube"
-version="${file.jarVersion}"
-displayName="Pokecube Core"
-authors="Thutmose"
-description='''
-Core mod for Pokecube Functionality
-'''
+    modId="thut_bling"
+    version="${file.jarVersion}"
+    displayName="Thut Bling"
+    authors="Thutmose"
+    description='''
+    Bling for Thut Wearables!
+
+    This is the version embedded into pokecube.
+    '''
+
 [[mods]]
-modId="pokecube_mobs"
-version="${file.jarVersion}"
-displayName="Pokecube Mobs"
-authors="Thutmose"
-description='''
-General mobs provider for Pokecube
-'''
+    modId="pokecube"
+    version="${file.jarVersion}"
+    displayName="Pokecube Core"
+    authors="Thutmose"
+    description='''
+    Core mod for Pokecube Functionality
+    '''
+
 [[mods]]
-modId="pokecube_adventures"
-version="${file.jarVersion}"
-displayName="Pokécube Revival"
-authors="Thutmose"
-description='''
-Additional Features for Pokécube..
-'''
+    modId="pokecube_mobs"
+    version="${file.jarVersion}"
+    displayName="Pokecube Mobs"
+    authors="Thutmose"
+    description='''
+    General mobs provider for Pokecube
+    '''
+
 [[mods]]
-modId="pokecube_legends"
-version="${file.jarVersion}"
-displayName="Pokécube Legends"
-authors="NelkGames, Thutmose"
-description='''
-Legendary Spawning mechanics for Pokécube..
-'''
+    modId="pokecube_adventures"
+    version="${file.jarVersion}"
+    displayName="Pokécube Revival"
+    authors="Thutmose"
+    description='''
+    Additional Features for Pokécube..
+    '''
+
+[[mods]]
+    modId="pokecube_legends"
+    version="${file.jarVersion}"
+    displayName="Pokécube Legends"
+    authors="NelkGames, Thutmose"
+    description='''
+    Legendary Spawning mechanics for Pokécube..
+    '''
+    
+[[dependencies.thutcore]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="version_mc"
+    ordering="NONE"
+    side="BOTH"

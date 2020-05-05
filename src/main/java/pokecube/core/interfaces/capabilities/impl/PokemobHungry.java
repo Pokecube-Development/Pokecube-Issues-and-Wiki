@@ -8,22 +8,22 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemobUseable;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.berries.ItemBerry;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
 public abstract class PokemobHungry extends PokemobMoves
 {
-    public static final ResourceLocation LEPPABERRY = new ResourceLocation(PokecubeCore.MODID, "leppaberry");
+    public static final ResourceLocation LEPPABERRY = new ResourceLocation(PokecubeCore.MODID, "berry_leppa");
 
     @Override
-    public void eat(Object e)
+    public void eat(final Object e)
     {
         int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
         if (e instanceof ItemEntity)
@@ -36,7 +36,7 @@ public abstract class PokemobHungry extends PokemobMoves
                 if (result.getType() == ActionResultType.SUCCESS) ItemStackTools.addItemStackToInventory(result
                         .getResult(), this.getInventory(), 1);
             }
-            if (PokecubeItems.is(PokemobHungry.LEPPABERRY, item)) hungerValue *= 2;
+            if (ItemList.is(PokemobHungry.LEPPABERRY, item)) hungerValue *= 2;
             if (item.getItem() instanceof ItemBerry)
             {
                 final ItemBerry berry = (ItemBerry) item.getItem();
@@ -83,7 +83,7 @@ public abstract class PokemobHungry extends PokemobMoves
     }
 
     @Override
-    public int getFlavourAmount(int index)
+    public int getFlavourAmount(final int index)
     {
         return this.dataSync().get(this.params.FLAVOURS[index]);
     }
@@ -146,25 +146,25 @@ public abstract class PokemobHungry extends PokemobMoves
     }
 
     @Override
-    public void noEat(Object e)
+    public void noEat(final Object e)
     {
         if (e != null) this.addHappiness(-10);
     }
 
     @Override
-    public void setFlavourAmount(int index, int amount)
+    public void setFlavourAmount(final int index, final int amount)
     {
         this.dataSync().set(this.params.FLAVOURS[index], amount);
     }
 
     @Override
-    public void setHungerCooldown(int hungerCooldown)
+    public void setHungerCooldown(final int hungerCooldown)
     {
         this.hungerCooldown = hungerCooldown;
     }
 
     @Override
-    public void setHungerTime(int hungerTime)
+    public void setHungerTime(final int hungerTime)
     {
         this.dataSync().set(this.params.HUNGERDW, hungerTime);
     }

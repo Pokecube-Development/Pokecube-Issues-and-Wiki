@@ -23,7 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.handlers.events.MoveEventsHandler;
@@ -35,6 +34,7 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.TimePeriod;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
@@ -203,7 +203,7 @@ public class AIHungry extends AIBase
         for (int i = 2; i < 7; i++)
         {
             final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
-            if (PokecubeItems.is(AIHungry.FOODTAG, stack))
+            if (ItemList.is(AIHungry.FOODTAG, stack))
             {
                 this.setCombatState(this.pokemob, CombatStates.HUNTING, false);
                 this.pokemob.eat(this.berry);
@@ -530,7 +530,7 @@ public class AIHungry extends AIBase
                 for (int i1 = 0; i1 < container.getSizeInventory(); i1++)
                 {
                     final ItemStack stack = container.getStackInSlot(i1);
-                    if (PokecubeItems.is(AIHungry.FOODTAG, stack))
+                    if (ItemList.is(AIHungry.FOODTAG, stack))
                     {
                         stack.shrink(1);
                         if (stack.isEmpty()) container.setInventorySlotContents(i1, ItemStack.EMPTY);

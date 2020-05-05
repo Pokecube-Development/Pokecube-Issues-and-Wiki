@@ -20,7 +20,6 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -39,6 +38,7 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
+import thut.api.item.ItemList;
 import thut.core.common.network.EntityUpdate;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
@@ -261,7 +261,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      */
     default boolean canEvolve(final ItemStack stack)
     {
-        if (PokecubeItems.is(ICanEvolve.EVERSTONE, stack)) return false;
+        if (ItemList.is(ICanEvolve.EVERSTONE, stack)) return false;
         if (this.getPokedexEntry().canEvolve() && this.getEntity().isServerWorld()) for (final EvolutionData d : this
                 .getPokedexEntry().getEvolutions())
             if (d.shouldEvolve((IPokemob) this, stack)) return true;

@@ -3,7 +3,6 @@ package pokecube.core;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +22,6 @@ import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Food;
@@ -36,10 +34,8 @@ import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.IProperty;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.storage.loot.functions.LootFunctionManager;
@@ -69,9 +65,11 @@ import pokecube.core.items.loot.functions.MakeFossil;
 import pokecube.core.items.loot.functions.MakeHeldItem;
 import pokecube.core.items.pokecubes.DispenserBehaviorPokecube;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.items.vitamins.ItemCandy;
 import pokecube.core.utils.Tools;
+import thut.api.item.ItemList;
 
-public class PokecubeItems extends Items
+public class PokecubeItems extends ItemList
 {
     public static ItemStack       POKECUBE_ITEMS   = ItemStack.EMPTY;
     public static ItemStack       POKECUBE_BLOCKS  = ItemStack.EMPTY;
@@ -147,8 +145,6 @@ public class PokecubeItems extends Items
      */
     public static HashMap<ItemStack, PokedexEntry> fossils = new HashMap<>();
 
-    public static Map<ResourceLocation, Set<Item>> pendingTags = Maps.newHashMap();
-
     static
     {
         LootFunctionManager.registerFunction(new MakeBerry.Serializer());
@@ -166,7 +162,8 @@ public class PokecubeItems extends Items
         PokecubeItems.POKEDEX = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), false);
         PokecubeItems.POKEWATCH = new ItemPokedex(new Properties().group(PokecubeItems.POKECUBEITEMS), true);
         PokecubeItems.EGG = new ItemPokemobEgg(new Properties().group(PokecubeItems.POKECUBEITEMS));
-        PokecubeItems.CANDY = new Item(new Item.Properties().rarity(Rarity.EPIC).group(PokecubeItems.POKECUBEITEMS));
+        PokecubeItems.CANDY = new ItemCandy(new Item.Properties().rarity(Rarity.EPIC).group(
+                PokecubeItems.POKECUBEITEMS));
 
         // Blocks
         PokecubeItems.HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
@@ -225,54 +222,12 @@ public class PokecubeItems extends Items
 
         final Item[] items = cubes;
 
-        PokecubeItems.setAs(id.getPath() + "cube", new ItemStack(cubes[0]));
-        PokecubeItems.setAs(id.getPath() + "cube", new ItemStack(cubes[1]));
-
         DispenserBlock.registerDispenseBehavior(() -> items[0], new DispenserBehaviorPokecube());
         DispenserBlock.registerDispenseBehavior(() -> items[1], new DispenserBehaviorPokecube());
 
         if (defaultRenderer) PokecubeItems.cubeIds.add(id);
 
         PokecubeItems.pokecubes.put(id, items);
-    }
-
-    /**
-     * Internal use only. This is used to generate some tags for then packing
-     * into the jars.
-     *
-     * @param name
-     * @param toTag
-     */
-    public static void addToEvos(final ItemStack stack)
-    {
-        if (stack.isEmpty()) return;
-        PokecubeItems.setAs(PokecubeItems.EVOSKEY, stack);
-    }
-
-    /**
-     * Internal use only. This is used to generate some tags for then packing
-     * into the jars.
-     *
-     * @param name
-     * @param toTag
-     */
-    public static void addToEvos(final String name, final IItemProvider item)
-    {
-        PokecubeItems.setAs(name, item.asItem());
-        PokecubeItems.setAs(PokecubeItems.EVOSKEY, item.asItem());
-    }
-
-    /**
-     * Internal use only. This is used to generate some tags for then packing
-     * into the jars.
-     *
-     * @param name
-     * @param toTag
-     */
-    public static void addToHoldables(final ItemStack stack)
-    {
-        if (stack.isEmpty()) return;
-        PokecubeItems.setAs(PokecubeItems.HELDKEY, stack);
     }
 
     public static void deValidate(final ItemStack stack)
@@ -463,8 +418,7 @@ public class PokecubeItems extends Items
 
     public static void init(final MinecraftServer server)
     {
-        PokecubeItems.initVanillaHeldItems();
-        PokecubeItems.initTags(server);
+        if (PokecubeMod.debug) PokecubeItems.initTags(server);
     }
 
     private static void initTags(final MinecraftServer server)
@@ -552,12 +506,12 @@ public class PokecubeItems extends Items
         }
 
         // Init the specific tags registerd
-        for (final ResourceLocation name : PokecubeItems.pendingTags.keySet())
+        for (final ResourceLocation name : ItemList.pendingTags.keySet())
         {
             json = new JsonObject();
             json.addProperty("replace", false);
             array = new JsonArray();
-            final List<Item> items = Lists.newArrayList(PokecubeItems.pendingTags.get(name));
+            final List<Item> items = Lists.newArrayList(ItemList.pendingTags.get(name));
             items.sort((a, b) -> a.getRegistryName().compareTo(b.getRegistryName()));
             for (final Item item : items)
                 array.add(item.getRegistryName().toString());
@@ -577,43 +531,6 @@ public class PokecubeItems extends Items
         }
     }
 
-    private static void initVanillaHeldItems()
-    {
-        PokecubeItems.addToEvos("ice", Blocks.PACKED_ICE);
-        PokecubeItems.addToEvos("mossstone", Blocks.MOSSY_COBBLESTONE);
-        PokecubeItems.addToEvos("icestone", Blocks.PACKED_ICE);
-
-        PokecubeItems.addToEvos("razorfang", Items.IRON_PICKAXE);
-        PokecubeItems.addToEvos("razorclaw", Items.IRON_AXE);
-
-        PokecubeItems.addToEvos("dragonscale", Items.EMERALD);
-        PokecubeItems.addToEvos("deepseascale", Items.FEATHER);
-        PokecubeItems.addToEvos("deepseatooth", Items.FLINT);
-    }
-
-    public static boolean is(final ResourceLocation tag, final Object toCheck)
-    {
-        if (toCheck instanceof Item)
-        {
-            final Item item = (Item) toCheck;
-            boolean tagged = ItemTags.getCollection().getOrCreate(tag).contains(item);
-            tagged = tagged || PokecubeItems.pendingTags.getOrDefault(tag, Collections.emptySet()).contains(item);
-            if (!tagged) return item.getRegistryName().equals(tag);
-            return tagged;
-        }
-        else if (toCheck instanceof ItemStack) return PokecubeItems.is(tag, ((ItemStack) toCheck).getItem());
-        else if (toCheck instanceof Block)
-        {
-
-            final Block block = (Block) toCheck;
-            final boolean tagged = BlockTags.getCollection().getOrCreate(tag).contains(block);
-            if (!tagged) return block.getRegistryName().equals(tag);
-            return tagged;
-        }
-        else if (toCheck instanceof BlockState) return PokecubeItems.is(tag, ((BlockState) toCheck).getBlock());
-        return false;
-    }
-
     public static boolean isValid(final ItemStack stack)
     {
         if (stack.hasTag()) return PokecubeItems.times.contains(stack.getTag().getLong("time"));
@@ -623,13 +540,13 @@ public class PokecubeItems extends Items
     public static boolean isValidEvoItem(final ItemStack stack)
     {
         if (stack.isEmpty()) return false;
-        return PokecubeItems.is(PokecubeItems.EVOSKEY, stack);
+        return ItemList.is(PokecubeItems.EVOSKEY, stack);
     }
 
     public static boolean isValidHeldItem(final ItemStack stack)
     {
         if (stack.getCapability(UsableItemEffects.USABLEITEM_CAP, null).isPresent()) return true;
-        return PokecubeItems.is(PokecubeItems.HELDKEY, stack) || PokecubeItems.isValidEvoItem(stack);
+        return ItemList.is(PokecubeItems.HELDKEY, stack) || PokecubeItems.isValidEvoItem(stack);
     }
 
     public static void loadTime(final CompoundNBT nbt)
@@ -692,38 +609,6 @@ public class PokecubeItems extends Items
         nbt.putInt("count", num);
     }
 
-    /**
-     * Internal use only. This is used to generate some tags for then packing
-     * into the jars.
-     *
-     * @param name
-     * @param toTag
-     */
-    public static void setAs(final ResourceLocation name, final Object toTag)
-    {
-        if (toTag instanceof Item)
-        {
-            final Item item = (Item) toTag;
-            Set<Item> pending = PokecubeItems.pendingTags.get(name);
-            if (pending == null) PokecubeItems.pendingTags.put(name, pending = Sets.newHashSet());
-            pending.add(item);
-        }
-        else if (toTag instanceof ItemStack) PokecubeItems.setAs(name, ((ItemStack) toTag).getItem());
-    }
-
-    /**
-     * Internal use only. This is used to generate some tags for then packing
-     * into the jars.
-     *
-     * @param name
-     * @param toTag
-     */
-    public static void setAs(final String name, final Object toTag)
-    {
-        final ResourceLocation loc = PokecubeItems.toPokecubeResource(name);
-        PokecubeItems.setAs(loc, toTag);
-    }
-
     public static boolean stackExists(final String name)
     {
         if (name == null) return false;
@@ -731,7 +616,7 @@ public class PokecubeItems extends Items
         final Tag<Item> old = ItemTags.getCollection().get(loc);
         final Item item = ForgeRegistries.ITEMS.getValue(loc);
         // TODO confirm this works
-        return old != null || PokecubeItems.pendingTags.containsKey(loc) || item != null;
+        return old != null || ItemList.pendingTags.containsKey(loc) || item != null;
     }
 
     public static ResourceLocation toPokecubeResource(final String name)

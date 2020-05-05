@@ -5,11 +5,9 @@ import java.util.List;
 
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.SwordItem;
 import net.minecraftforge.event.RegistryEvent;
-import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.items.ItemBase;
@@ -83,8 +81,6 @@ public class ItemInit
         {
             final Item mind = new ItemNature(type);
             event.getRegistry().register(mind);
-            final ItemStack stack = new ItemStack(mind);
-            PokecubeItems.addToHoldables(stack);
         }
     }
 

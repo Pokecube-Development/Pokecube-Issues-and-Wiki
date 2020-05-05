@@ -26,6 +26,7 @@ import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
@@ -161,7 +162,7 @@ public class LogicMiscUpdate extends LogicBase
     private void checkEvolution()
     {
         boolean evolving = this.pokemob.getGeneralState(GeneralStates.EVOLVING);
-        if (PokecubeItems.is(ICanEvolve.EVERSTONE, this.pokemob.getHeldItem()))
+        if (ItemList.is(ICanEvolve.EVERSTONE, this.pokemob.getHeldItem()))
         {
             if (evolving)
             {

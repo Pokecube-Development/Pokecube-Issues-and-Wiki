@@ -6618,6 +6618,20 @@
         ]
       }
     },
+	  {
+      "name": "Clauncher",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "beach",
+              "rate": "0.25",
+              "water": "true"
+            }
+          }
+        ]
+      }
+    },
     {
       "name": "Skrelp",
       "stats": {
@@ -7892,7 +7906,8 @@
           {
             "values": {
               "types": "beach",
-              "rate": "0.1"
+              "rate": "0.1",
+              "water": "true"
             }
           }
         ]
@@ -7988,8 +8003,16 @@
         "spawnRules": [
           {
             "values": {
-              "types": "lake,beach",
-              "rate": "0.25"
+              "types": "beach",
+              "rate": "0.25",
+              "water": "true"
+            }
+          },
+          {
+            "values": {
+              "types": "lake",
+              "rate": "0.25",
+              "water": "true"
             }
           }
         ]
@@ -8085,8 +8108,16 @@
         "spawnRules": [
           {
             "values": {
-              "types": "lake,ocean",
-              "rate": "0.12"
+              "types": "ocean",
+              "rate": "0.12",
+              "air": "false"
+            }
+          },
+          {
+            "values": {
+              "types": "lake",
+              "rate": "0.12",
+              "air": "false"
             }
           }
         ]
@@ -8130,8 +8161,16 @@
         "spawnRules": [
           {
             "values": {
-              "types": "lake,ocean",
-              "rate": "0.2"
+              "types": "lake",
+              "rate": "0.2",
+              "water": "true"
+            }
+          },
+          {
+            "values": {
+              "types": "ocean",
+              "rate": "0.2",
+              "water": "true"
             }
           }
         ]

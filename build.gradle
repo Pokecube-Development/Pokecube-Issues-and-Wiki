@@ -3,18 +3,32 @@ buildscript {
         maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
+        flatDir {
+          dirs 'libs'
+        }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle'
 
+plugins {
+  id 'org.ajoberstar.grgit' version '2.3.0'
+}
+
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "${version_minecraft}-${version_compile}"
-group = ''
+ext {
+    VERSION_COMPILE = gitVersion("${version_major}.${version_minor}")
+    VERSION_THUTCORE = gitVersion("${version_thutcore}")
+    // Force a refresh of the toml file
+    cleanTOML()
+}
+
+version = "${version_minecraft}-${VERSION_COMPILE}"
+group = 'thut'
 archivesBaseName = "${compile_name}"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
@@ -108,25 +122,43 @@ jar {
         attributes 'FMLAT': 'accesstransformer.cfg',
         "Specification-Title": "${compile_name}",
         "Specification-Vendor": "${author_name}",
-        "Specification-Version": "1", // We are version 1 of ourselves
+        "Specification-Version": VERSION_COMPILE,
         "Implementation-Title": project.name,
-        "Implementation-Version": "${version_compile}",
+        "Implementation-Version": VERSION_COMPILE,
         "Implementation-Vendor" :"${author_name}",
         "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
     }
 }
 
-task sourcesJar(type: Jar) {
-    classifier = "sources"
-    from sourceSets.main.allJava
+processResources.doLast {
+    def TOMLFILE = "./build/resources/main/META-INF/mods.toml"
+    replaceParameters(TOMLFILE, "version_thutcore", VERSION_THUTCORE)
+    replaceParameters(TOMLFILE, "version_mc", "${version_mcsupport}")
 }
 
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
+def replaceParameters(filename, find, replace) {
+    ant.replace(file:filename,token:find,value:replace)
+}
+
+task sourcesJar(type: Jar) {
+	classifier = "sources"
+	from sourceSets.main.allJava
 }
 
 artifacts {
-    archives sourcesJar
-    archives deobfJar
+	archives sourcesJar
+}
+
+def cleanTOML()
+{
+    delete "./build/resources/main/META-INF/mods.toml" 
+}
+
+def gitVersion(value) {
+    def raw = grgit.describe(longDescr: true)
+    def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List
+    def hash = desc.remove(desc.size() - 1)
+    def offset = desc.remove(desc.size() - 1)
+    def branch = grgit.branch.current().name
+    return "${value}.${offset}"
 }

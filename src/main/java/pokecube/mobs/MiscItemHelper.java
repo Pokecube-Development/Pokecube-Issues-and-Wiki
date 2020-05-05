@@ -8,7 +8,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
@@ -17,6 +16,7 @@ import pokecube.core.items.UsableItemEffects.BaseUseable;
 import pokecube.core.items.UsableItemEffects.VitaminUsable.VitaminEffect;
 import pokecube.core.items.vitamins.ItemVitamin;
 import pokecube.core.utils.PokeType;
+import thut.api.item.ItemList;
 
 public class MiscItemHelper
 {
@@ -78,17 +78,17 @@ public class MiscItemHelper
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob != null)
         {
-            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_hpup"), stack)) return MiscItemHelper.applyEVs(
+            if (ItemList.is(new ResourceLocation("pokecube:vit_hpup"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 10, 0, 0, 0, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_protein"), stack)) return MiscItemHelper.applyEVs(
+            if (ItemList.is(new ResourceLocation("pokecube:vit_protein"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 10, 0, 0, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_iron"), stack)) return MiscItemHelper.applyEVs(
+            if (ItemList.is(new ResourceLocation("pokecube:vit_iron"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 0, 10, 0, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_calcium"), stack)) return MiscItemHelper.applyEVs(
+            if (ItemList.is(new ResourceLocation("pokecube:vit_calcium"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 0, 0, 10, 0, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_zinc"), stack)) return MiscItemHelper.applyEVs(
+            if (ItemList.is(new ResourceLocation("pokecube:vit_zinc"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 10, 0, 0, 10, 0 }, stack, pokemob);
-            if (PokecubeItems.is(new ResourceLocation("pokecube:vit_carbos"), stack)) return MiscItemHelper.applyEVs(
+            if (ItemList.is(new ResourceLocation("pokecube:vit_carbos"), stack)) return MiscItemHelper.applyEVs(
                     new byte[] { 0, 0, 0, 0, 0, 10 }, stack, pokemob);
         }
         return new ActionResult<>(ActionResultType.FAIL, stack);

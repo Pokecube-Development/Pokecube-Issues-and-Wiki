@@ -147,6 +147,11 @@ public class Pokecube extends Item implements IPokecube
             }
             else list.add(new TranslationTextComponent("pokecube.tooltip.advanced"));
         }
+        else
+        {
+            final ResourceLocation name = item.getItem().getRegistryName();
+            list.add(new TranslationTextComponent("item.pokecube." + name.getPath() + ".desc"));
+        }
 
         if (item.hasTag())
         {

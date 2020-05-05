@@ -14,7 +14,7 @@ import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
@@ -46,22 +46,22 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
 
     public static boolean isCave(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.CAVETAG, state);
+        return ItemList.is(PokecubeTerrainChecker.CAVETAG, state);
     }
 
     public static boolean isGround(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.GROUNDTAG, state);
+        return ItemList.is(PokecubeTerrainChecker.GROUNDTAG, state);
     }
 
     public static boolean isFruit(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.FRUITTAG, state);
+        return ItemList.is(PokecubeTerrainChecker.FRUITTAG, state);
     }
 
     public static boolean isIndustrial(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.INDUSTRIALTAG, state);
+        return ItemList.is(PokecubeTerrainChecker.INDUSTRIALTAG, state);
     }
 
     private static boolean isPlant(final Material m)
@@ -72,34 +72,34 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
 
     public static boolean isEdiblePlant(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.PLANTEATTAG, state) || PokecubeCore.getConfig().autoPopulateLists
+        return ItemList.is(PokecubeTerrainChecker.PLANTEATTAG, state) || PokecubeCore.getConfig().autoPopulateLists
                 && PokecubeTerrainChecker.isPlant(state.getMaterial());
     }
 
     public static boolean isCutablePlant(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.PLANTEATTAG, state) || PokecubeCore.getConfig().autoPopulateLists
+        return ItemList.is(PokecubeTerrainChecker.PLANTEATTAG, state) || PokecubeCore.getConfig().autoPopulateLists
                 && PokecubeTerrainChecker.isPlant(state.getMaterial());
     }
 
     public static boolean isRock(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.ROCKTAG, state);
+        return ItemList.is(PokecubeTerrainChecker.ROCKTAG, state);
     }
 
     public static boolean isSurface(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.SURFACETAG, state);
+        return ItemList.is(PokecubeTerrainChecker.SURFACETAG, state);
     }
 
     public static boolean isTerrain(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.TERRAINTAG, state);
+        return ItemList.is(PokecubeTerrainChecker.TERRAINTAG, state);
     }
 
     public static boolean isWood(final BlockState state)
     {
-        return PokecubeItems.is(PokecubeTerrainChecker.WOODTAG, state);
+        return ItemList.is(PokecubeTerrainChecker.WOODTAG, state);
     }
 
     @Override
