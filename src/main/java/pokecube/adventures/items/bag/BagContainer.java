@@ -12,13 +12,15 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.IContainerFactory;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.network.PacketBag;
-import pokecube.core.inventory.BaseContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.inventory.BaseContainer;
 import thut.api.item.ItemList;
 import thut.core.common.ThutCore;
 
@@ -26,7 +28,8 @@ public class BagContainer extends BaseContainer
 {
     public static final ResourceLocation VALID = new ResourceLocation(PokecubeAdv.MODID, "bagable");
 
-    public static final ContainerType<BagContainer> TYPE = new ContainerType<>(BagContainer::new);
+    public static final ContainerType<BagContainer> TYPE = new ContainerType<>(
+            (IContainerFactory<BagContainer>) BagContainer::new);
 
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
 
@@ -57,9 +60,9 @@ public class BagContainer extends BaseContainer
 
     public final PlayerInventory invPlayer;
 
-    public BagContainer(final int id, final PlayerInventory ivplay)
+    public BagContainer(final int id, final PlayerInventory ivplay, final PacketBuffer data)
     {
-        this(id, ivplay, BagInventory.getPC(ivplay.player));
+        this(id, ivplay, new BagInventory(BagManager.INSTANCE, data));
     }
 
     public BagContainer(final int id, final PlayerInventory ivplay, final BagInventory pc)
@@ -81,8 +84,7 @@ public class BagContainer extends BaseContainer
 
     protected void bindBagInventory()
     {
-        int n = 0;
-        n = this.inv.getPage() * 54;
+        final int n = this.inv.getPage() * 54;
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 9; j++)
                 this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + BagContainer.xOffset, 18 + i * 18
@@ -103,7 +105,7 @@ public class BagContainer extends BaseContainer
         this.inv.boxes[this.inv.getPage()] = name;
         if (ThutCore.proxy.isClientSide())
         {
-            final PacketBag packet = new PacketBag(PacketBag.RENAME, this.inv.owner);
+            final PacketBag packet = new PacketBag(PacketBag.RENAME, this.inv.getOwner());
             packet.data.putString("N", name);
             PokecubeAdv.packets.sendToServer(packet);
         }
@@ -150,7 +152,7 @@ public class BagContainer extends BaseContainer
         this.inv.setPage(page - 1);
         if (ThutCore.proxy.isClientSide())
         {
-            final PacketBag packet = new PacketBag(PacketBag.SETPAGE, this.inv.owner);
+            final PacketBag packet = new PacketBag(PacketBag.SETPAGE, this.inv.getOwner());
             packet.data.putInt("P", page);
             PokecubeAdv.packets.sendToServer(packet);
         }
@@ -173,8 +175,8 @@ public class BagContainer extends BaseContainer
 
     public void updateInventoryPages(final int dir, final PlayerInventory invent)
     {
-        int page = this.inv.getPage() == 0 && dir == -1 ? BagInventory.PAGECOUNT - 1
-                : (this.inv.getPage() + dir) % BagInventory.PAGECOUNT;
+        int page = this.inv.getPage() == 0 && dir == -1 ? this.inv.boxCount() - 1
+                : (this.inv.getPage() + dir) % this.inv.boxCount();
         page += 1;
         this.gotoInventoryPage(page);
     }

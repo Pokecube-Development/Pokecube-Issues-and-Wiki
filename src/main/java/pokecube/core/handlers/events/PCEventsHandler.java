@@ -34,7 +34,6 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
-import pokecube.core.inventory.pc.PCSaveHandler;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -108,8 +107,10 @@ public class PCEventsHandler
     {
         final PlayerEntity PlayerEntity = evt.getPlayer();
 
-        if (PlayerEntity.getUniqueID().equals(PCEventsHandler.THUTMOSE)) PCSaveHandler
-                .getInstance().seenPCCreator = true;
+        if (PlayerEntity.getUniqueID().equals(PCEventsHandler.THUTMOSE))
+        {
+
+        }
         if (ThutCore.proxy.isClientSide()) return;
         PacketPC.sendInitialSyncMessage(evt.getPlayer());
 

@@ -10,7 +10,6 @@ import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
 import pokecube.adventures.blocks.warppad.WarppadTile;
-import pokecube.adventures.items.bag.BagInventory;
 import pokecube.adventures.utils.EnergyHandler;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
@@ -127,7 +126,7 @@ public class Config extends ConfigData
     @Configure(category = Config.BAG, type = Type.SERVER)
     public boolean bagsHoldFilledCubes = false;
     @Configure(category = Config.BAG, type = Type.SERVER)
-    public int     bagPages            = BagInventory.PAGECOUNT;
+    public int     bagPages            = 32;
 
     public boolean loaded = false;
 
@@ -141,7 +140,6 @@ public class Config extends ConfigData
     {
         if (!this.loaded) return;
 
-        BagInventory.PAGECOUNT = this.bagPages;
         EnergyHandler.initParser();
         BaseGeneticsTile.initParser(this.clonerEfficiencyFunction);
         WarppadTile.initParser(this.warpPadCostFunction);

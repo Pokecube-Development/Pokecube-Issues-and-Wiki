@@ -11,9 +11,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.tms.TMTile;
-import pokecube.core.inventory.BaseContainer;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.inventory.BaseContainer;
 
 public class TMContainer extends BaseContainer
 {

@@ -7,9 +7,10 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import pokecube.adventures.PokecubeAdv;
+import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.adventures.items.bag.BagContainer;
 import pokecube.adventures.items.bag.BagInventory;
+import pokecube.adventures.items.bag.BagManager;
 import thut.core.common.network.Packet;
 
 public class PacketBag extends Packet
@@ -22,29 +23,17 @@ public class PacketBag extends Packet
 
     public static final String OWNER = "_owner_";
 
-    public static void sendInitialSyncMessage(final PlayerEntity sendTo)
-    {
-        final BagInventory inv = BagInventory.getPC(sendTo.getUniqueID());
-        final PacketBag packet = new PacketBag(PacketBag.INIT, sendTo.getUniqueID());
-        packet.data.putInt("N", inv.boxes.length);
-        packet.data.putInt("C", inv.getPage());
-        for (int i = 0; i < inv.boxes.length; i++)
-            packet.data.putString("N" + i, inv.boxes[i]);
-        PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
-    }
-
     public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner)
     {
-        final BagInventory inv = BagInventory.getPC(owner);
-        for (int i = 0; i < inv.boxes.length; i++)
+        final ServerPlayerEntity player = (ServerPlayerEntity) sendTo;
+        final BagInventory inv = BagManager.INSTANCE.get(owner);
+        final PacketBuffer clt = inv.makeBuffer();
+        final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p, e) -> new BagContainer(i,
+                p, inv), sendTo.getDisplayName());
+        NetworkHooks.openGui(player, provider, buf ->
         {
-            final PacketBag packet = new PacketBag(PacketBag.OPEN, owner);
-            packet.data = inv.serializeBox(i);
-            packet.data.putUniqueId(PacketBag.OWNER, owner);
-            PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
-        }
-        sendTo.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new BagContainer(id,
-                playerInventory, BagInventory.getPC(playerIn)), sendTo.getDisplayName()));
+            buf.writeBytes(clt);
+        });
     }
 
     byte               message;
@@ -75,12 +64,9 @@ public class PacketBag extends Packet
     @Override
     public void handleClient()
     {
-        BagInventory pc;
         switch (this.message)
         {
         case OPEN:
-            pc = BagInventory.getPC(this.data.getUniqueId(PacketBag.OWNER));
-            pc.deserializeBox(this.data);
             break;
         default:
             break;
@@ -93,7 +79,6 @@ public class PacketBag extends Packet
 
         BagContainer container = null;
         if (player.openContainer instanceof BagContainer) container = (BagContainer) player.openContainer;
-        BagInventory pc;
         switch (this.message)
         {
         case SETPAGE:
@@ -103,20 +88,11 @@ public class PacketBag extends Packet
             if (container != null)
             {
                 final String name = this.data.getString("N");
+                System.out.println(name);
                 container.changeName(name);
             }
             break;
         case INIT:
-            BagInventory.blank = new BagInventory(BagInventory.defaultId);
-            pc = BagInventory.getPC(this.data.getUniqueId(PacketBag.OWNER));
-            if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
-            if (this.data.contains("N"))
-            {
-                final int num = this.data.getInt("N");
-                pc.boxes = new String[num];
-                for (int i = 0; i < pc.boxes.length; i++)
-                    pc.boxes[i] = this.data.getString("N" + i);
-            }
             break;
         default:
             break;

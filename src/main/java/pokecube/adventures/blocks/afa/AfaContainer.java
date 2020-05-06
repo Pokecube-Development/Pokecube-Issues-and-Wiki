@@ -9,10 +9,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import pokecube.core.inventory.BaseContainer;
 import pokecube.core.inventory.TexturedSlot;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
+import thut.api.inventory.BaseContainer;
 
 public class AfaContainer extends BaseContainer
 {
