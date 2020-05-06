@@ -1,6 +1,9 @@
 package thut.bling;
 
+import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.gui.screen.inventory.ChestScreen;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -15,7 +18,11 @@ import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import thut.bling.bag.large.LargeContainer;
+import thut.bling.bag.small.SmallContainer;
 import thut.bling.client.BlingRender;
+import thut.bling.client.gui.Bag;
 import thut.bling.network.PacketBag;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
@@ -51,6 +58,8 @@ public class ThutBling
         @Override
         public void setupClient(final FMLClientSetupEvent event)
         {
+            ScreenManager.registerFactory(LargeContainer.TYPE, Bag<LargeContainer>::new);
+            ScreenManager.registerFactory(SmallContainer.TYPE, ChestScreen::new);
         }
 
         @Override
@@ -109,10 +118,26 @@ public class ThutBling
         {
             event.getRegistry().register(GemRecipe.SERIALIZER.setRegistryName(GemRecipe.IDTAG));
         }
+
+        @SubscribeEvent
+        public static void registerContainers(final RegistryEvent.Register<ContainerType<?>> event)
+        {
+            // Register Containers
+            event.getRegistry().register(LargeContainer.TYPE.setRegistryName(ThutBling.MODID, "bling_bag_ender_large"));
+            event.getRegistry().register(SmallContainer.TYPE.setRegistryName(ThutBling.MODID, "bling_bag"));
+        }
     }
+
+    public static Config config = new Config();
 
     public ThutBling()
     {
+        thut.core.common.config.Config.setupConfigs(ThutBling.config, ThutWearables.MODID, ThutBling.MODID);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutBling.PROXY::setup);
+        // Register the doClientStuff method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutBling.PROXY::setupClient);
+        // Register the loaded method for modloading
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(ThutBling.PROXY::finish);
     }
 
 }

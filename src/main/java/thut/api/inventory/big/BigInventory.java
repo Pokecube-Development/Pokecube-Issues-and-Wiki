@@ -86,7 +86,7 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
         this.opened = new boolean[this.boxCount()];
         this.contents.defaultReturnValue(ItemStack.EMPTY);
         this.manager = manager;
-        this.deserializeNBT(buffer.readCompoundTag());
+        if (buffer != null) this.deserializeNBT(buffer.readCompoundTag());
         this.isReal = false;
     }
 
