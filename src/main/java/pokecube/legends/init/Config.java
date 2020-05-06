@@ -18,6 +18,9 @@ public class Config extends ConfigData
     @Configure(category = "general")
     public int     respawnLegendDelay    = 36000;
 
+    @Configure(category = "raids")
+    public int raidDuration = 3000;
+
     // mirage spot
     @Configure(category = "mirage")
     public boolean enabledmirage       = true;

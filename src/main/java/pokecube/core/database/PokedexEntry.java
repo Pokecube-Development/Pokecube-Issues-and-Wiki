@@ -4,6 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1723,6 +1724,11 @@ public class PokedexEntry
     public boolean hasForm(final String form)
     {
         return this.forms.containsKey(Database.trim(form));
+    }
+
+    public Collection<PokedexEntry> getFormes()
+    {
+        return this.forms.values();
     }
 
     public boolean hasPrey()
