@@ -345,6 +345,7 @@ public class TextureHelper implements IPartTexturer
     @Override
     public boolean shiftUVs(final String part, final double[] toFill)
     {
+        toFill[0] = toFill[1] = 0;
         if (this.mob == null) return false;
         final Set<RandomFixed> offsets = this.fixedOffsets.getOrDefault(part, Collections.emptySet());
         for (final RandomFixed state : offsets)
