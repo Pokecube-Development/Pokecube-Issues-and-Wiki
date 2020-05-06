@@ -1,12 +1,16 @@
 package pokecube.legends;
 
+import java.util.Random;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
@@ -18,6 +22,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -25,6 +31,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.SpawnBiomeMatcher;
@@ -33,6 +40,8 @@ import pokecube.core.events.onload.InitDatabase;
 import pokecube.core.events.onload.RegisterPokecubes;
 import pokecube.core.interfaces.IPokecube.DefaultPokecubeBehavior;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.legends.blocks.RaidSpawnBlock;
+import pokecube.legends.blocks.RaidSpawnBlock.State;
 import pokecube.legends.handlers.ForgeEventHandlers;
 import pokecube.legends.init.BiomeInit;
 import pokecube.legends.init.BlockInit;
@@ -190,5 +199,28 @@ public class PokecubeLegends
     {
         PokecubeLegends.config.loaded = true;
         PokecubeLegends.config.onUpdated();
+    }
+
+    @SubscribeEvent
+    public void reactivate_raid(final RightClickBlock event)
+    {
+        if (event.getWorld().isRemote) return;
+        if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE) return;
+        final BlockState hit = event.getWorld().getBlockState(event.getPos());
+        if (hit.getBlock() != BlockInit.RAID_SPAWN)
+        {
+            if (hit.getBlock() == PokecubeItems.DYNABLOCK) event.getPlayer().sendMessage(new TranslationTextComponent(
+                    "msg.notaraidspot.info"));
+            return;
+        }
+        final boolean active = hit.get(RaidSpawnBlock.ACTIVE).active();
+        if (active) return;
+        else
+        {
+            final State state = new Random().nextInt(20) == 0 ? State.RARE : State.NORMAL;
+            event.getWorld().setBlockState(event.getPos(), hit.with(RaidSpawnBlock.ACTIVE, state));
+            event.setUseItem(Result.ALLOW);
+            event.getItemStack().grow(-1);
+        }
     }
 }
