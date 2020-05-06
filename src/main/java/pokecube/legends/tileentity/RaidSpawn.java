@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,7 +43,9 @@ public class RaidSpawn extends MaxTile
     @OnlyIn(Dist.CLIENT)
     public List<BeamSegment> getBeamSegments()
     {
-        final State state = this.world.getBlockState(this.getPos()).get(RaidSpawnBlock.ACTIVE);
+        final BlockState blocks = this.world.getBlockState(this.getPos());
+        if (!blocks.has(RaidSpawnBlock.ACTIVE)) return RaidSpawn.empty;
+        final State state = blocks.get(RaidSpawnBlock.ACTIVE);
         switch (state)
         {
         case EMPTY:
