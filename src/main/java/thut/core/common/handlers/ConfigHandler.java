@@ -48,7 +48,7 @@ public class ConfigHandler extends ConfigData
     public boolean      debug                   = true;
 
     @Configure(category = ConfigHandler.CLIENT)
-    public int mouseFloodCtrl = 100;
+    public int mouseFloodCtrl = 30;
 
     public ConfigHandler()
     {

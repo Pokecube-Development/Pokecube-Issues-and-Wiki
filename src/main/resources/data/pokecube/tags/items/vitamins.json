@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#pokecube:vit_calcium",
+    "#pokecube:vit_carbos",
+    "#pokecube:vit_hpup",
+    "#pokecube:vit_iron",
+    "#pokecube:vit_protein",
+    "#pokecube:vit_zinc"
+  ]
+}

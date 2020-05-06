@@ -11,8 +11,8 @@ import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.SoundEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IHealer;
-import pokecube.core.inventory.BaseContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import thut.api.inventory.BaseContainer;
 
 public class HealerContainer extends BaseContainer implements IHealer
 {

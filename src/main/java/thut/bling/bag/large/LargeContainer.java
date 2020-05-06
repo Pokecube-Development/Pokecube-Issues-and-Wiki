@@ -1,10 +1,5 @@
 package thut.bling.bag.large;
 
-import java.util.Set;
-import java.util.function.Predicate;
-
-import com.google.common.collect.Sets;
-
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -12,18 +7,24 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.inventory.BaseContainer;
+import net.minecraftforge.fml.network.IContainerFactory;
+import thut.api.inventory.BaseContainer;
+import thut.api.item.ItemList;
+import thut.bling.ThutBling;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
 import thut.wearables.ThutWearables;
 
-public class BagContainer extends BaseContainer
+public class LargeContainer extends BaseContainer
 {
-    public static final ContainerType<BagContainer> TYPE = new ContainerType<>(BagContainer::new);
+    public static final ResourceLocation INVALID = new ResourceLocation(ThutBling.MODID, "not_bagable");
 
-    public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
+    public static final ContainerType<LargeContainer> TYPE = new ContainerType<>(
+            (IContainerFactory<LargeContainer>) LargeContainer::new);
 
     public static int STACKLIMIT = 64;
     public static int yOffset;
@@ -38,25 +39,24 @@ public class BagContainer extends BaseContainer
      */
     public static boolean isItemValid(final ItemStack itemstack)
     {
-        if (itemstack.isEmpty()) return false;
-        // TODO check tags on the item to see if it is valid
+        if (ItemList.is(LargeContainer.INVALID, itemstack)) return false;
         return true;
     }
 
-    public final BagInventory inv;
+    public final LargeInventory inv;
 
     public final PlayerInventory invPlayer;
 
-    public BagContainer(final int id, final PlayerInventory ivplay)
+    public LargeContainer(final int id, final PlayerInventory ivplay, final PacketBuffer data)
     {
-        this(id, ivplay, BagInventory.getPC(ivplay.player));
+        this(id, ivplay, new LargeInventory(LargeManager.INSTANCE, data));
     }
 
-    public BagContainer(final int id, final PlayerInventory ivplay, final BagInventory pc)
+    public LargeContainer(final int id, final PlayerInventory ivplay, final LargeInventory pc)
     {
-        super(BagContainer.TYPE, id);
-        BagContainer.xOffset = 0;
-        BagContainer.yOffset = 0;
+        super(LargeContainer.TYPE, id);
+        LargeContainer.xOffset = 0;
+        LargeContainer.yOffset = 0;
         this.inv = pc;
         this.invPlayer = ivplay;
         this.bindInventories();
@@ -71,12 +71,11 @@ public class BagContainer extends BaseContainer
 
     protected void bindBagInventory()
     {
-        int n = 0;
-        n = this.inv.getPage() * 54;
+        final int n = this.inv.getPage() * 54;
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 9; j++)
-                this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + BagContainer.xOffset, 18 + i * 18
-                        + BagContainer.yOffset));
+                this.addSlot(new BagSlot(this.inv, n + j + i * 9, 8 + j * 18 + LargeContainer.xOffset, 18 + i * 18
+                        + LargeContainer.yOffset));
         // int k = 0;
         for (final Object o : this.inventorySlots)
             if (o instanceof Slot) ((Slot) o).onSlotChanged();
@@ -93,7 +92,7 @@ public class BagContainer extends BaseContainer
         this.inv.boxes[this.inv.getPage()] = name;
         if (ThutCore.proxy.isClientSide())
         {
-            final PacketBag packet = new PacketBag(PacketBag.RENAME, this.inv.owner);
+            final PacketBag packet = new PacketBag(PacketBag.RENAME, this.inv.getOwner());
             packet.data.putString("N", name);
             ThutWearables.packets.sendToServer(packet);
         }
@@ -140,7 +139,7 @@ public class BagContainer extends BaseContainer
         this.inv.setPage(page - 1);
         if (ThutCore.proxy.isClientSide())
         {
-            final PacketBag packet = new PacketBag(PacketBag.SETPAGE, this.inv.owner);
+            final PacketBag packet = new PacketBag(PacketBag.SETPAGE, this.inv.getOwner());
             packet.data.putInt("P", page);
             ThutWearables.packets.sendToServer(packet);
         }
@@ -163,8 +162,8 @@ public class BagContainer extends BaseContainer
 
     public void updateInventoryPages(final int dir, final PlayerInventory invent)
     {
-        int page = this.inv.getPage() == 0 && dir == -1 ? BagInventory.PAGECOUNT - 1
-                : (this.inv.getPage() + dir) % BagInventory.PAGECOUNT;
+        int page = this.inv.getPage() == 0 && dir == -1 ? this.inv.boxCount() - 1
+                : (this.inv.getPage() + dir) % this.inv.boxCount();
         page += 1;
         this.gotoInventoryPage(page);
     }

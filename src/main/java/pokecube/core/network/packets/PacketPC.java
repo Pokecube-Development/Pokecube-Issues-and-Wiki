@@ -10,10 +10,12 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pc.PCInventory;
+import pokecube.core.inventory.pc.PCManager;
 import thut.core.common.network.Packet;
 
 public class PacketPC extends Packet
@@ -43,16 +45,15 @@ public class PacketPC extends Packet
 
     public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner, final BlockPos pcPos)
     {
-        final PCInventory inv = PCInventory.getPC(owner);
-        for (int i = 0; i < inv.boxes.length; i++)
+        final ServerPlayerEntity player = (ServerPlayerEntity) sendTo;
+        final PCInventory inv = PCManager.INSTANCE.get(owner);
+        final PacketBuffer clt = inv.makeBuffer();
+        final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p, e) -> new PCContainer(i,
+                p, inv), sendTo.getDisplayName());
+        NetworkHooks.openGui(player, provider, buf ->
         {
-            final PacketPC packet = new PacketPC(PacketPC.PCOPEN, owner);
-            packet.data = inv.serializeBox(i);
-            packet.data.putUniqueId(PacketPC.OWNER, owner);
-            PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
-        }
-        sendTo.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new PCContainer(id,
-                playerInventory, PCInventory.getPC(playerIn)), sendTo.getDisplayName()));
+            buf.writeBytes(clt);
+        });
     }
 
     byte               message;
@@ -144,19 +145,6 @@ public class PacketPC extends Packet
             }
             break;
         case PCINIT:
-            PCInventory.blank = new PCInventory(PCInventory.blank_box);
-            id = this.data.getUniqueId(PacketPC.OWNER);
-            pc = PCInventory.getPC(id);
-            pc.seenOwner = this.data.getBoolean("O");
-            pc.autoToPC = this.data.getBoolean("A");
-            if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
-            if (this.data.contains("N"))
-            {
-                final int num = this.data.getInt("N");
-                pc.boxes = new String[num];
-                for (int i = 0; i < pc.boxes.length; i++)
-                    pc.boxes[i] = this.data.getString("N" + i);
-            }
             break;
         case RELEASE:
             final boolean toggle = this.data.getBoolean("T");

@@ -15,7 +15,6 @@ import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.inventory.pc.PCContainer;
-import pokecube.core.inventory.pc.PCInventory;
 import pokecube.core.inventory.pc.PCSlot;
 import pokecube.core.network.packets.PacketPC;
 import thut.core.common.ThutCore;
@@ -51,9 +50,7 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         if (this.textFieldSelectedBox.isFocused() && keyCode == GLFW.GLFW_KEY_ENTER)
         {
             final String entry = this.textFieldSelectedBox.getText();
-            String box = this.textFieldBoxName.getText();
             int number = 1;
-
             try
             {
                 number = Integer.parseInt(entry);
@@ -62,21 +59,14 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
             {
                 e.printStackTrace();
             }
-
-            number = Math.max(1, Math.min(number, PCInventory.PAGECOUNT));
+            number = Math.max(1, Math.min(number, this.container.inv.boxCount()));
             this.container.gotoInventoryPage(number);
-
-            if (this.textFieldBoxName.enableBackgroundDrawing && box != this.boxName)
-            {
-                if (this.textFieldBoxName.enableBackgroundDrawing)
-                {
-                    box = this.textFieldBoxName.getText();
-                    if (box != this.boxName) this.container.changeName(box);
-                }
-                this.textFieldBoxName.enableBackgroundDrawing = !this.textFieldBoxName.enableBackgroundDrawing;
-            }
             return true;
         }
+        if (this.textFieldBoxName.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
+        if (this.textFieldBoxName.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.textFieldBoxName.setFocused(
+                false);
+        else if (keyCode == GLFW.GLFW_KEY_ENTER && this.textFieldBoxName.isFocused()) return true;
         return super.keyPressed(keyCode, b, c);
     }
 
@@ -158,12 +148,9 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
             final String rename = I18n.format("block.pc.rename");
             this.addButton(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
             {
-                if (this.textFieldBoxName.enableBackgroundDrawing)
-                {
-                    final String box = this.textFieldBoxName.getText();
-                    if (box != this.boxName) this.container.changeName(box);
-                }
-                this.textFieldBoxName.enableBackgroundDrawing = !this.textFieldBoxName.enableBackgroundDrawing;
+                final String box = this.textFieldBoxName.getText();
+                if (!box.equals(this.boxName)) this.container.changeName(box);
+                this.boxName = box;
             }));
         }
         if (this.container.pcPos != null)
@@ -216,11 +203,11 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                             }
                         }
                         else for (int i = 0; i < 54; i++)
-                        {
-                            final int index = i;
-                            final PCSlot slot = (PCSlot) this.container.inventorySlots.get(index);
-                            slot.release = this.release;
-                        }
+                {
+                    final int index = i;
+                    final PCSlot slot = (PCSlot) this.container.inventorySlots.get(index);
+                    slot.release = this.release;
+                }
                         this.container.release = this.release;
                         final PacketPC packet = new PacketPC(PacketPC.RELEASE, this.minecraft.player.getUniqueID());
                         packet.data.putBoolean("T", true);
@@ -275,11 +262,10 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
             this.buttons.get(6).active = false;
         }
 
-        this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80,
-                this.height / 2 - yOffset + 0, 100, 10, this.boxName);
-        this.textFieldBoxName.enableBackgroundDrawing = false;
-        this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10,
-                this.height / 2 - yOffset - 121, 90, 10, "");
+        this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
+                + 0, 100, 10, this.boxName);
+        this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
+                - 121, 90, 10, "");
 
         this.addButton(this.textFieldSelectedBox);
         this.addButton(this.textFieldBoxName);

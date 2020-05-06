@@ -5,6 +5,7 @@
     "#pokecube:megastones",
     "#pokecube:pokemob_evo",
     "#pokecube:tms",
+    "#pokecube:vitamins",
     "#pokecube_legends:mints",
     "#pokecube_legends:z-crystals",
     "#pokecube_mobs:ice_stone",
@@ -14,6 +15,9 @@
     "pokecube:alphaorb",
     "pokecube:omegaorb",
     "pokecube:luckyegg",
+    "pokecube:shiny_charm",
+    "pokecube:berryjuice",
+    "pokecube:candy",
     "pokecube_legends:rustedsword",
     "pokecube_legends:rustedshield",
     "pokecube_legends:n_sun",
@@ -28,7 +32,6 @@
     "pokecube_legends:griseousorb",
     "pokecube_legends:chippedpot",
     "pokecube_legends:crackedpot",
-    "pokecube:shiny_charm",
     "pokecube_adventures:exp_share"
   ]
 }

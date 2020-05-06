@@ -195,6 +195,10 @@
         "pokecenter",
         "gym"
       ],
+      "dimBlacklist":[
+        "the_nether",
+        "the_end"
+      ],
       "spawn":{
         "values":{
           "category":"desert"

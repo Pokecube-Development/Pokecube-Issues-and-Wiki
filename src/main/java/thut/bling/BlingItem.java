@@ -110,7 +110,7 @@ public class BlingItem extends Item implements IWearable
     {
         if (this.slot == EnumWearable.BACK)
         {
-            if (!worldIn.isRemote) PacketBag.OpenBag(playerIn, playerIn.getHeldItem(hand));
+            if (!worldIn.isRemote) PacketBag.sendOpenPacket(playerIn, playerIn.getHeldItem(hand));
             return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(hand));
         }
         return super.onItemRightClick(worldIn, playerIn, hand);

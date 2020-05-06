@@ -14,7 +14,7 @@ import net.minecraftforge.fml.network.IContainerFactory;
 import pokecube.core.PokecubeItems;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.inventory.BaseContainer;
+import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
 
 public class ContainerPokemob extends BaseContainer
@@ -156,43 +156,5 @@ public class ContainerPokemob extends BaseContainer
     {
         super.onContainerClosed(p_75134_1_);
         this.pokemobInv.closeInventory(p_75134_1_);
-    }
-
-    /**
-     * Called when a player shift-clicks on a slot. You must override this or
-     * you will crash when someone does that.
-     */
-    @Override
-    public ItemStack transferStackInSlot(final PlayerEntity player, final int index)
-    {
-        // ItemStack itemstack = ItemStack.EMPTY;
-        // final Slot slot = this.inventorySlots.get(index);
-        //
-        // if (this.mode == 0 && slot != null && slot.getHasStack())
-        // {
-        // final ItemStack itemstack1 = slot.getStack();
-        // itemstack = itemstack1.copy();
-        // final int size = this.pokemobInv.getSizeInventory();
-        // if (index < size)
-        // {
-        // if (!this.mergeItemStack(itemstack1, size, size, true)) return
-        // ItemStack.EMPTY;
-        // }
-        // else if (this.getSlot(1).isItemValid(itemstack1) &&
-        // !this.getSlot(1).getHasStack()) this.getSlot(1)
-        // .putStack(slot.getStack().split(1));
-        // else if (this.getSlot(0).isItemValid(itemstack1))
-        // {
-        // if (!this.mergeItemStack(itemstack1, 0, 1, false)) return
-        // ItemStack.EMPTY;
-        // }
-        // else if (size <= 2 || !this.mergeItemStack(itemstack1, 2, size,
-        // false)) return ItemStack.EMPTY;
-        //
-        // if (itemstack1.isEmpty()) slot.putStack(ItemStack.EMPTY);
-        // else slot.onSlotChanged();
-        // }
-        // return itemstack;
-        return super.transferStackInSlot(player, index);
     }
 }

@@ -148,6 +148,12 @@ public class JigsawAssmbler
             if (k > 0) k = this.rand.nextInt(k + 1);
             else k = chunkGenerator.world.getSeaLevel();
         }
+        if (k <= 0 || k >= chunkGenerator.world.getWorld().getActualHeight())
+        {
+            k = chunkGenerator.world.getWorld().getActualHeight();
+            k = this.rand.nextInt(k + 1);
+        }
+
         int dy = 0;
         if (this.root != null) dy = -this.root.jigsaw.height;
         abstractvillagepiece.offset(0, k - (mutableboundingbox.minY + abstractvillagepiece.getGroundLevelDelta() + dy),

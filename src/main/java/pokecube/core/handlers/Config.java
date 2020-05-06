@@ -99,6 +99,8 @@ public class Config extends ConfigData
     @Configure(category = Config.misc)
     public boolean      pcOnDrop             = true;
     @Configure(category = Config.misc)
+    public int          pcPageCount          = 32;
+    @Configure(category = Config.misc)
     public double       expScaleFactor       = 1;
     @Configure(category = Config.misc, type = Type.SERVER)
     public boolean      pcHoldsOnlyPokecubes = true;

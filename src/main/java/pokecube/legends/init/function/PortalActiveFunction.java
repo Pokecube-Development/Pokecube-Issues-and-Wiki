@@ -1,9 +1,8 @@
 package pokecube.legends.init.function;
 
-import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
@@ -30,21 +29,6 @@ import thut.api.maths.Vector3;
  */
 public class PortalActiveFunction
 {
-    public static Field form_field;
-    static
-    {
-        try
-        {
-            PortalActiveFunction.form_field = PokedexEntry.class.getDeclaredField("forms");
-            PortalActiveFunction.form_field.setAccessible(true);
-        }
-        catch (NoSuchFieldException | SecurityException e)
-        {
-            e.printStackTrace();
-            PortalActiveFunction.form_field = null;
-        }
-    }
-
     public static PokedexEntry getRandomEntry()
     {
         PokedexEntry ret = null;
@@ -62,12 +46,10 @@ public class PortalActiveFunction
         // Select a random sub-forme of this mob
         try
         {
-            @SuppressWarnings("unchecked")
-            final Map<String, PokedexEntry> forms = (Map<String, PokedexEntry>) PortalActiveFunction.form_field.get(
-                    ret);
+            final Collection<PokedexEntry> forms = ret.getFormes();
             if (!forms.isEmpty())
             {
-                final List<PokedexEntry> values = Lists.newArrayList(forms.values());
+                final List<PokedexEntry> values = Lists.newArrayList(forms);
                 Collections.shuffle(values);
                 final int num = values.size();
                 if (num == 0) return ret;
@@ -81,7 +63,7 @@ public class PortalActiveFunction
                 return val;
             }
         }
-        catch (IllegalArgumentException | IllegalAccessException e)
+        catch (final IllegalArgumentException e)
         {
             PokecubeMod.LOGGER.warn("Error finding subforms for " + ret, e);
         }

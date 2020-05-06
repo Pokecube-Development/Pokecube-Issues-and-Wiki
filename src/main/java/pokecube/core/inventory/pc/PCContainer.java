@@ -14,25 +14,28 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.WritableBookItem;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.IContainerFactory;
 import pokecube.core.PokecubeCore;
-import pokecube.core.inventory.BaseContainer;
 import pokecube.core.items.ItemPokedex;
 import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.network.packets.PacketPC;
 import pokecube.core.utils.CapHolders;
+import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
 import thut.wearables.IActiveWearable;
 import thut.wearables.ThutWearables;
 
 public class PCContainer extends BaseContainer
 {
-    public static final ContainerType<PCContainer> TYPE = new ContainerType<>(PCContainer::new);
+    public static final ContainerType<PCContainer> TYPE = new ContainerType<>(
+            (IContainerFactory<PCContainer>) PCContainer::new);
 
     public static Set<Predicate<ItemStack>> CUSTOMPCWHILTELIST = Sets.newHashSet();
 
@@ -71,9 +74,9 @@ public class PCContainer extends BaseContainer
 
     public boolean[] toRelease = new boolean[54];
 
-    public PCContainer(final int id, final PlayerInventory ivplay)
+    public PCContainer(final int id, final PlayerInventory ivplay, final PacketBuffer buffer)
     {
-        this(id, ivplay, PCInventory.getPC(ivplay.player));
+        this(id, ivplay, new PCInventory(PCManager.INSTANCE, buffer));
     }
 
     public PCContainer(final int id, final PlayerInventory ivplay, final PCInventory pc)
@@ -123,7 +126,7 @@ public class PCContainer extends BaseContainer
         this.inv.boxes[this.inv.getPage()] = name;
         if (ThutCore.proxy.isClientSide())
         {
-            final PacketPC packet = new PacketPC(PacketPC.RENAME, this.inv.owner);
+            final PacketPC packet = new PacketPC(PacketPC.RENAME, this.inv.getOwner());
             packet.data.putString("N", name);
             PokecubeCore.packets.sendToServer(packet);
         }
@@ -175,7 +178,7 @@ public class PCContainer extends BaseContainer
         this.inv.setPage(page - 1);
         if (ThutCore.proxy.isClientSide())
         {
-            final PacketPC packet = new PacketPC(PacketPC.SETPAGE, this.inv.owner);
+            final PacketPC packet = new PacketPC(PacketPC.SETPAGE, this.inv.getOwner());
             packet.data.putInt("P", page);
             PokecubeCore.packets.sendToServer(packet);
         }
@@ -220,7 +223,7 @@ public class PCContainer extends BaseContainer
         this.inv.autoToPC = !this.inv.autoToPC;
         if (ThutCore.proxy.isClientSide())
         {
-            final PacketPC packet = new PacketPC(PacketPC.TOGGLEAUTO, this.inv.owner);
+            final PacketPC packet = new PacketPC(PacketPC.TOGGLEAUTO, this.inv.getOwner());
             packet.data.putBoolean("A", this.inv.autoToPC);
             PokecubeCore.packets.sendToServer(packet);
         }
@@ -228,8 +231,8 @@ public class PCContainer extends BaseContainer
 
     public void updateInventoryPages(final int dir, final PlayerInventory invent)
     {
-        int page = this.inv.getPage() == 0 && dir == -1 ? PCInventory.PAGECOUNT - 1
-                : (this.inv.getPage() + dir) % PCInventory.PAGECOUNT;
+        int page = this.inv.getPage() == 0 && dir == -1 ? this.inv.boxCount() - 1
+                : (this.inv.getPage() + dir) % this.inv.boxCount();
         page += 1;
         this.gotoInventoryPage(page);
     }

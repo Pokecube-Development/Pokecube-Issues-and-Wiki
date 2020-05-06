@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -31,8 +30,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import pokecube.core.inventory.pc.PCContainer;
-import pokecube.core.inventory.pc.PCInventory;
+import pokecube.core.network.packets.PacketPC;
 
 public class PCBlock extends HorizontalBlock implements IWaterLoggable
 {
@@ -153,9 +151,7 @@ public class PCBlock extends HorizontalBlock implements IWaterLoggable
         if (this.top)
         {
             if (!this.needsBase || world.getBlockState(pos.down()).getBlock() instanceof PCBlock)
-                if (player instanceof ServerPlayerEntity) player.openContainer(new SimpleNamedContainerProvider((id,
-                        playerInventory, playerIn) -> new PCContainer(id, playerInventory, PCInventory.getPC(playerIn)),
-                        player.getDisplayName()));
+                if (player instanceof ServerPlayerEntity) PacketPC.sendOpenPacket(player, player.getUniqueID(), pos);
             return ActionResultType.SUCCESS;
         }
         else return ActionResultType.PASS;

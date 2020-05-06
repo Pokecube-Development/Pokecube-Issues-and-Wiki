@@ -655,6 +655,7 @@ public final class SpawnHandler
         int ret = 0;
         int num = 0;
         if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return ret;
+        if (v.y <= 0 || v.y >= world.getActualHeight()) return ret;
         SpawnHandler.refreshTerrain(v, world);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
         if (SpawnHandler.onlySubbiomes && t.getBiome(v) < 0) return ret;

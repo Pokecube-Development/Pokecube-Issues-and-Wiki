@@ -10,6 +10,7 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -182,14 +183,21 @@ public class TrainerSpawnHandler
         final PlayerEntity p = players.get(w.rand.nextInt(players.size()));
         Vector3 v = TrainerSpawnHandler.getRandomSpawningPointNearEntity(w, p, Config.instance.trainerBox);
         if (v == null) return;
-        if (v.y < 0) v.y = v.getMaxY(w);
+        if (v.y <= 0) v.y = v.getMaxY(w);
         final Vector3 temp = Vector3.getNextSurfacePoint(w, v, Vector3.secondAxisNeg, 20);
         v = temp != null ? temp.offset(Direction.UP) : v;
+        if (v.y <= 0 || v.y >= w.getActualHeight()) return;
 
         if (!SpawnHandler.checkNoSpawnerInArea(w, v.intX(), v.intY(), v.intZ())) return;
+
         final int count = TrainerTracker.countTrainers(w, v, PokecubeAdv.config.trainerBox);
         if (count < Config.instance.trainerDensity)
         {
+            final BlockState here = v.getBlockState(w);
+            final Vector3 u = v.add(0, -1, 0);
+            final BlockState down = u.getBlockState(w);
+            if (here.isAir(w, v.getPos()) && down.isAir(w, u.getPos())) return;
+
             final long time = System.nanoTime();
             final TrainerNpc t = TrainerSpawnHandler.getTrainer(v, w);
             if (t == null) return;

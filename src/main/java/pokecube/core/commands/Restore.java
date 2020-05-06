@@ -110,8 +110,8 @@ public class Restore
         for (final Entry<Integer, ItemStack> entry : cache.entrySet())
         {
             final Integer id = entry.getKey();
-            final boolean inPC = pokemobCache.inPC.contains(id);
-            final boolean wasDeleted = pokemobCache.genesDeleted.contains(id);
+            final boolean inPC = pokemobCache._in_pc_.contains(id);
+            final boolean wasDeleted = pokemobCache._dead_.contains(id);
             // If it is in the PC, but we dont care, continue
             if (pc != inPC) continue;
             if (deleted != wasDeleted) continue;

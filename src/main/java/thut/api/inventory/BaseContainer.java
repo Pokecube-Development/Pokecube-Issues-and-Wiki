@@ -1,4 +1,4 @@
-package pokecube.core.inventory;
+package thut.api.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

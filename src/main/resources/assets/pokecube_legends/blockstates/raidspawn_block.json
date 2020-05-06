@@ -1,7 +1,7 @@
 {
     "variants": {
         "": { 
-	"model": "pokecube_legends:block/raidspawn" 
+	"model": "pokecube:block/dynamax" 
 	}
    }
 }

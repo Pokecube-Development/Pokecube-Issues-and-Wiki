@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
@@ -43,6 +44,7 @@ import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
 import pokecube.legends.proxy.ClientProxy;
 import pokecube.legends.proxy.CommonProxy;
+import pokecube.legends.tileentity.RaidSpawn;
 import pokecube.legends.worldgen.dimension.ModDimensions;
 import pokecube.legends.worldgen.dimension.UltraSpaceModDimension;
 
@@ -66,6 +68,13 @@ public class PokecubeLegends
         {
             event.getRegistry().registerAll(BlockInit.BLOCKS.toArray(new Block[0]));
             event.getRegistry().registerAll(PlantsInit.BLOCKFLOWERS.toArray(new Block[0]));
+        }
+
+        @SubscribeEvent
+        public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
+        {
+            RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN).build(null);
+            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.getRegistryName()));
         }
 
         @SubscribeEvent

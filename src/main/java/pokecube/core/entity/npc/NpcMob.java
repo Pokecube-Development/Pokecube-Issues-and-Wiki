@@ -79,6 +79,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     {
         super(type, world);
         this.enablePersistence();
+        this.location = Vector3.getNewVector();
     }
 
     private ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addGuard(final GuardAI guardai,

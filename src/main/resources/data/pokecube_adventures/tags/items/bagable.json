@@ -4,6 +4,8 @@
     "#pokecube:pokemob_held",
     "#pokecube:pokemob_food",
     "#pokecube:pokemob_fossils",
-    "#pokecube:pokecubes"
+    "#pokecube:pokecubes",
+    "pokecube:revive",
+    "pokecube:repel"
   ]
 }

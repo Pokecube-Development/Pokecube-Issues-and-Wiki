@@ -4,22 +4,31 @@ import java.util.UUID;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EnderChestInventory;
+import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import thut.bling.bag.large.BagContainer;
-import thut.bling.bag.large.BagInventory;
-import thut.wearables.ThutWearables;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.network.NetworkHooks;
+import thut.bling.bag.large.LargeContainer;
+import thut.bling.bag.large.LargeInventory;
+import thut.bling.bag.large.LargeManager;
+import thut.bling.bag.small.SmallContainer;
+import thut.bling.bag.small.SmallInventory;
+import thut.bling.bag.small.SmallManager;
 import thut.wearables.network.Packet;
 
 public class PacketBag extends Packet
 {
-    public static void OpenBag(final PlayerEntity playerIn, final ItemStack heldItem)
-    {
-        // TODO Auto-generated method stub
-
-    }
+    public static final TranslationTextComponent ENDERBAG      = new TranslationTextComponent(
+            "item.thut_bling.bling_bag_ender_vanilla");
+    public static final TranslationTextComponent LARGEENDERBAG = new TranslationTextComponent(
+            "item.thut_bling.bling_bag_ender_large");
+    public static final TranslationTextComponent SMALLBAG      = new TranslationTextComponent(
+            "item.thut_bling.bling_bag");
 
     public static final byte SETPAGE = 0;
     public static final byte RENAME  = 1;
@@ -29,29 +38,48 @@ public class PacketBag extends Packet
 
     public static final String OWNER = "_owner_";
 
-    public static void sendInitialSyncMessage(final PlayerEntity sendTo)
+    public static void sendOpenPacket(final PlayerEntity playerIn, final ItemStack heldItem)
     {
-        final BagInventory inv = BagInventory.getPC(sendTo.getUniqueID());
-        final PacketBag packet = new PacketBag(PacketBag.INIT, sendTo.getUniqueID());
-        packet.data.putInt("N", inv.boxes.length);
-        packet.data.putInt("C", inv.getPage());
-        for (int i = 0; i < inv.boxes.length; i++)
-            packet.data.putString("N" + i, inv.boxes[i]);
-        ThutWearables.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
+        final String item = heldItem.getItem().getRegistryName().getPath();
+        if (item.equalsIgnoreCase("bling_bag_ender_large"))
+        {
+            PacketBag.sendOpenPacket(playerIn, playerIn.getUniqueID());
+            return;
+        }
+        else if (item.equalsIgnoreCase("bling_bag_ender_vanilla"))
+        {
+            final EnderChestInventory enderchestinventory = playerIn.getInventoryEnderChest();
+            playerIn.openContainer(new SimpleNamedContainerProvider((id, p, e) ->
+            {
+                return ChestContainer.createGeneric9X3(id, p, enderchestinventory);
+            }, PacketBag.ENDERBAG));
+            playerIn.addStat(Stats.OPEN_ENDERCHEST);
+            return;
+        }
+        else if (item.equalsIgnoreCase("bling_bag"))
+        {
+            if (!heldItem.hasTag()) heldItem.setTag(new CompoundNBT());
+            final CompoundNBT tag = heldItem.getTag();
+            UUID id = UUID.randomUUID();
+            if (tag.hasUniqueId("bag_id")) id = tag.getUniqueId("bag_id");
+            else tag.putUniqueId("bag_id", id);
+            final SmallInventory inv = SmallManager.INSTANCE.get(id);
+            playerIn.openContainer(new SimpleNamedContainerProvider((gid, p, e) -> new SmallContainer(gid, p, inv),
+                    PacketBag.SMALLBAG));
+        }
     }
 
     public static void sendOpenPacket(final PlayerEntity sendTo, final UUID owner)
     {
-        final BagInventory inv = BagInventory.getPC(owner);
-        for (int i = 0; i < inv.boxes.length; i++)
+        final ServerPlayerEntity player = (ServerPlayerEntity) sendTo;
+        final LargeInventory inv = LargeManager.INSTANCE.get(owner);
+        final PacketBuffer clt = inv.makeBuffer();
+        final SimpleNamedContainerProvider provider = new SimpleNamedContainerProvider((i, p, e) -> new LargeContainer(
+                i, p, inv), PacketBag.LARGEENDERBAG);
+        NetworkHooks.openGui(player, provider, buf ->
         {
-            final PacketBag packet = new PacketBag(PacketBag.OPEN, owner);
-            packet.data = inv.serializeBox(i);
-            packet.data.putUniqueId(PacketBag.OWNER, owner);
-            ThutWearables.packets.sendTo(packet, (ServerPlayerEntity) sendTo);
-        }
-        sendTo.openContainer(new SimpleNamedContainerProvider((id, playerInventory, playerIn) -> new BagContainer(id,
-                playerInventory, BagInventory.getPC(playerIn)), sendTo.getDisplayName()));
+            buf.writeBytes(clt);
+        });
     }
 
     byte               message;
@@ -82,12 +110,9 @@ public class PacketBag extends Packet
     @Override
     public void handleClient()
     {
-        BagInventory pc;
         switch (this.message)
         {
         case OPEN:
-            pc = BagInventory.getPC(this.data.getUniqueId(PacketBag.OWNER));
-            pc.deserializeBox(this.data);
             break;
         default:
             break;
@@ -98,9 +123,8 @@ public class PacketBag extends Packet
     public void handleServer(final ServerPlayerEntity player)
     {
 
-        BagContainer container = null;
-        if (player.openContainer instanceof BagContainer) container = (BagContainer) player.openContainer;
-        BagInventory pc;
+        LargeContainer container = null;
+        if (player.openContainer instanceof LargeContainer) container = (LargeContainer) player.openContainer;
         switch (this.message)
         {
         case SETPAGE:
@@ -114,16 +138,6 @@ public class PacketBag extends Packet
             }
             break;
         case INIT:
-            BagInventory.blank = new BagInventory(BagInventory.defaultId);
-            pc = BagInventory.getPC(this.data.getUniqueId(PacketBag.OWNER));
-            if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
-            if (this.data.contains("N"))
-            {
-                final int num = this.data.getInt("N");
-                pc.boxes = new String[num];
-                for (int i = 0; i < pc.boxes.length; i++)
-                    pc.boxes[i] = this.data.getString("N" + i);
-            }
             break;
         default:
             break;

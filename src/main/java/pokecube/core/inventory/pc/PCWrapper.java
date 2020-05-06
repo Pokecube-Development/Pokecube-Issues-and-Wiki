@@ -26,7 +26,7 @@ public class PCWrapper implements ICapabilityProvider, IInventory
     @Override
     public int getSizeInventory()
     {
-        return PCInventory.PAGECOUNT * 56;
+        return this.tile.inventory.boxCount() * 54;
     }
 
     @Override

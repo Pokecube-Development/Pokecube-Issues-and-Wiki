@@ -3,7 +3,7 @@ package pokecube.adventures.blocks.genetics.helper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
-import pokecube.core.inventory.BaseContainer;
+import thut.api.inventory.BaseContainer;
 
 public abstract class PoweredContainer<T extends BaseGeneticsTile> extends BaseContainer
 {
