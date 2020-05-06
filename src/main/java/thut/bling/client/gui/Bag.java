@@ -3,13 +3,10 @@ package thut.bling.client.gui;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -115,7 +112,6 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
 
         this.textFieldBoxName = new TextFieldWidget(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
                 + 0, 100, 10, this.boxName);
-        this.textFieldBoxName.enableBackgroundDrawing = false;
         this.textFieldSearch = new TextFieldWidget(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
                 - 121, 90, 10, "");
 
@@ -149,34 +145,17 @@ public class Bag<T extends LargeContainer> extends ContainerScreen<T>
                 if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
                 final int y = i / 9 * 18 + this.height / 2 - 96;
-                // System.out.println(this.textFieldSearch.getText() + " " + i +
-                // " " + stack);
-                RenderHelper.disableStandardItemLighting();
                 final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
-
-                    GlStateManager.disableLighting();
-                    GlStateManager.disableDepthTest();
-                    GlStateManager.colorMask(true, true, true, false);
                     final int slotColor = 0x55FF0000;
                     AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
-                    GlStateManager.colorMask(true, true, true, true);
-                    GlStateManager.enableLighting();
-                    GlStateManager.enableDepthTest();
                 }
                 else
                 {
-                    GlStateManager.disableLighting();
-                    GlStateManager.disableDepthTest();
-                    GlStateManager.colorMask(true, true, true, false);
                     final int slotColor = 0x5500FF00;
                     AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
-                    GlStateManager.colorMask(true, true, true, true);
-                    GlStateManager.enableLighting();
-                    GlStateManager.enableDepthTest();
                 }
-                RenderHelper.enableGUIStandardItemLighting();
             }
         this.renderHoveredToolTip(mouseX, mouseY);
     }

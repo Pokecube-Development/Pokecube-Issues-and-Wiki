@@ -18,6 +18,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
@@ -123,7 +124,7 @@ public class RaidSpawnBlock extends MaxBlock
     }
 
     @Override
-    public boolean onBlockActivated(final BlockState state, final World worldIn, final BlockPos pos,
+    public ActionResultType onBlockActivated(final BlockState state, final World worldIn, final BlockPos pos,
             final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
     {
         if (worldIn instanceof ServerWorld)
@@ -135,11 +136,12 @@ public class RaidSpawnBlock extends MaxBlock
                 worldIn.setBlockState(pos, state.with(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }
         }
-        return true;
+        ;
+        return ActionResultType.SUCCESS;
     }
 
     @Override
-    public void randomTick(final BlockState state, final World worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerWorld worldIn, final BlockPos pos, final Random random)
     {
         final boolean active = state.get(RaidSpawnBlock.ACTIVE).active();
         if (active) return;

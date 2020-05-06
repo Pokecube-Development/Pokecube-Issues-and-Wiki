@@ -2,144 +2,133 @@ package pokecube.legends.client.render.block;
 
 import java.util.List;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix3f;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.tileentity.BeaconTileEntity;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import pokecube.legends.tileentity.RaidSpawn;
-import pokecube.legends.tileentity.RaidSpawn.BeamSegment;
 
 public class Raid extends TileEntityRenderer<RaidSpawn>
 {
-    private static final ResourceLocation TEXTURE_BEACON_BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
+    public static final ResourceLocation TEXTURE_BEACON_BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
+
+    public Raid(final TileEntityRendererDispatcher rendererDispatcherIn)
+    {
+        super(rendererDispatcherIn);
+    }
 
     @Override
-    public void render(final RaidSpawn tileEntityIn, final double x, final double y, final double z,
-            final float partialTicks, final int destroyStage)
+    public void render(final RaidSpawn tileEntityIn, final float partialTicks, final MatrixStack matrixStackIn,
+            final IRenderTypeBuffer bufferIn, final int combinedLightIn, final int combinedOverlayIn)
     {
-        this.func_217651_a(x, y, z, partialTicks, tileEntityIn.getBeamSegments(), tileEntityIn.getWorld()
-                .getGameTime());
-    }
+        final long i = tileEntityIn.getWorld().getGameTime();
+        final List<RaidSpawn.BeamSegment> list = tileEntityIn.getBeamSegments();
+        int j = 0;
 
-    private void func_217651_a(final double p_217651_1_, final double p_217651_3_, final double p_217651_5_,
-            final double p_217651_7_, final List<BeamSegment> p_217651_9_, final long p_217651_10_)
-    {
-        GlStateManager.alphaFunc(516, 0.1F);
-        this.bindTexture(Raid.TEXTURE_BEACON_BEAM);
-        GlStateManager.disableFog();
-        int i = 0;
-
-        for (int j = 0; j < p_217651_9_.size(); ++j)
+        for (int k = 0; k < list.size(); ++k)
         {
-            final BeamSegment beacontileentity$beamsegment = p_217651_9_.get(j);
-            Raid.func_217652_a(p_217651_1_, p_217651_3_, p_217651_5_, p_217651_7_, p_217651_10_, i, j == p_217651_9_
-                    .size() - 1 ? 1024 : beacontileentity$beamsegment.getHeight(), beacontileentity$beamsegment
-                            .getColors());
-            i += beacontileentity$beamsegment.getHeight();
+            final RaidSpawn.BeamSegment RaidSpawn$beamsegment = list.get(k);
+            Raid.renderBeamSegment(matrixStackIn, bufferIn, partialTicks, i, j, k == list.size() - 1 ? 1024
+                    : RaidSpawn$beamsegment.getHeight(), RaidSpawn$beamsegment.getColors());
+            j += RaidSpawn$beamsegment.getHeight();
         }
 
-        GlStateManager.enableFog();
     }
 
-    private static void func_217652_a(final double p_217652_0_, final double p_217652_2_, final double p_217652_4_,
-            final double p_217652_6_, final long p_217652_8_, final int p_217652_10_, final int p_217652_11_,
-            final float[] p_217652_12_)
+    private static void renderBeamSegment(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn,
+            final float partialTicks, final long totalWorldTime, final int yOffset, final int height,
+            final float[] colors)
     {
-        Raid.renderBeamSegment(p_217652_0_, p_217652_2_, p_217652_4_, p_217652_6_, 1.0D, p_217652_8_, p_217652_10_,
-                p_217652_11_, p_217652_12_, 0.2D, 0.25D);
+        Raid.renderBeamSegment(matrixStackIn, bufferIn, Raid.TEXTURE_BEACON_BEAM, partialTicks, 1.0F, totalWorldTime,
+                yOffset, height, colors, 0.2F, 0.25F);
     }
 
-    public static void renderBeamSegment(final double x, final double y, final double z, final double partialTicks,
-            final double textureScale, final long totalWorldTime, final int yOffset, final int height,
-            final float[] colors, final double beamRadius, final double glowRadius)
+    public static void renderBeamSegment(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn,
+            final ResourceLocation textureLocation, final float partialTicks, final float textureScale,
+            final long totalWorldTime, final int yOffset, final int height, final float[] colors,
+            final float beamRadius, final float glowRadius)
     {
         final int i = yOffset + height;
-        GlStateManager.texParameter(3553, 10242, 10497);
-        GlStateManager.texParameter(3553, 10243, 10497);
-        GlStateManager.disableLighting();
-        GlStateManager.disableCull();
-        GlStateManager.disableBlend();
-        GlStateManager.depthMask(true);
-        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE,
-                GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.pushMatrix();
-        GlStateManager.translated(x + 0.5D, y, z + 0.5D);
-        final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder bufferbuilder = tessellator.getBuffer();
-        final double d0 = Math.floorMod(totalWorldTime, 40L) + partialTicks;
-        final double d1 = height < 0 ? d0 : -d0;
-        final double d2 = MathHelper.frac(d1 * 0.2D - MathHelper.floor(d1 * 0.1D));
-        final float f = colors[0];
-        final float f1 = colors[1];
-        final float f2 = colors[2];
-        GlStateManager.pushMatrix();
-        GlStateManager.rotated(d0 * 2.25D - 45.0D, 0.0D, 1.0D, 0.0D);
-        double d3 = 0.0D;
-        double d5 = 0.0D;
-        double d6 = -beamRadius;
-        final double d9 = -beamRadius;
-        double d12 = -1.0D + d2;
-        double d13 = height * textureScale * (0.5D / beamRadius) + d12;
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-        bufferbuilder.pos(0.0D, i, beamRadius).tex(1.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(0.0D, yOffset, beamRadius).tex(1.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(beamRadius, yOffset, 0.0D).tex(0.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(beamRadius, i, 0.0D).tex(0.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(0.0D, i, d9).tex(1.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(0.0D, yOffset, d9).tex(1.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(d6, yOffset, 0.0D).tex(0.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(d6, i, 0.0D).tex(0.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(beamRadius, i, 0.0D).tex(1.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(beamRadius, yOffset, 0.0D).tex(1.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(0.0D, yOffset, d9).tex(0.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(0.0D, i, d9).tex(0.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(d6, i, 0.0D).tex(1.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(d6, yOffset, 0.0D).tex(1.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(0.0D, yOffset, beamRadius).tex(0.0D, d12).color(f, f1, f2, 1.0F).endVertex();
-        bufferbuilder.pos(0.0D, i, beamRadius).tex(0.0D, d13).color(f, f1, f2, 1.0F).endVertex();
-        tessellator.draw();
-        GlStateManager.popMatrix();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO);
-        GlStateManager.depthMask(false);
-        d3 = -glowRadius;
-        final double d4 = -glowRadius;
-        d5 = -glowRadius;
-        d6 = -glowRadius;
-        d12 = -1.0D + d2;
-        d13 = height * textureScale + d12;
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-        bufferbuilder.pos(d3, i, d4).tex(1.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(d3, yOffset, d4).tex(1.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, yOffset, d5).tex(0.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, i, d5).tex(0.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, i, glowRadius).tex(1.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, yOffset, glowRadius).tex(1.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(d6, yOffset, glowRadius).tex(0.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(d6, i, glowRadius).tex(0.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, i, d5).tex(1.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, yOffset, d5).tex(1.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, yOffset, glowRadius).tex(0.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(glowRadius, i, glowRadius).tex(0.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(d6, i, glowRadius).tex(1.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(d6, yOffset, glowRadius).tex(1.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(d3, yOffset, d4).tex(0.0D, d12).color(f, f1, f2, 0.125F).endVertex();
-        bufferbuilder.pos(d3, i, d4).tex(0.0D, d13).color(f, f1, f2, 0.125F).endVertex();
-        tessellator.draw();
-        GlStateManager.popMatrix();
-        GlStateManager.enableLighting();
-        GlStateManager.enableTexture();
-        GlStateManager.depthMask(true);
+        matrixStackIn.push();
+        matrixStackIn.translate(0.5D, 0.0D, 0.5D);
+        final float f = Math.floorMod(totalWorldTime, 40L) + partialTicks;
+        final float f1 = height < 0 ? f : -f;
+        final float f2 = MathHelper.frac(f1 * 0.2F - MathHelper.floor(f1 * 0.1F));
+        final float f3 = colors[0];
+        final float f4 = colors[1];
+        final float f5 = colors[2];
+        matrixStackIn.push();
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f * 2.25F - 45.0F));
+        float f6 = 0.0F;
+        float f8 = 0.0F;
+        float f9 = -beamRadius;
+        final float f12 = -beamRadius;
+        float f15 = -1.0F + f2;
+        float f16 = height * textureScale * (0.5F / beamRadius) + f15;
+        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, false)), f3, f4, f5,
+                1.0F, yOffset, i, 0.0F, beamRadius, beamRadius, 0.0F, f9, 0.0F, 0.0F, f12, 0.0F, 1.0F, f16, f15);
+        matrixStackIn.pop();
+        f6 = -glowRadius;
+        final float f7 = -glowRadius;
+        f8 = -glowRadius;
+        f9 = -glowRadius;
+        f15 = -1.0F + f2;
+        f16 = height * textureScale + f15;
+        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, true)), f3, f4, f5,
+                0.125F, yOffset, i, f6, f7, glowRadius, f8, f9, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, f16,
+                f15);
+        matrixStackIn.pop();
     }
 
-    public boolean isGlobalRenderer(final BeaconTileEntity te)
+    private static void renderPart(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final float red,
+            final float green, final float blue, final float alpha, final int yMin, final int yMax,
+            final float p_228840_8_, final float p_228840_9_, final float p_228840_10_, final float p_228840_11_,
+            final float p_228840_12_, final float p_228840_13_, final float p_228840_14_, final float p_228840_15_,
+            final float u1, final float u2, final float v1, final float v2)
+    {
+        final MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
+        final Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
+        final Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
+        Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_8_, p_228840_9_,
+                p_228840_10_, p_228840_11_, u1, u2, v1, v2);
+        Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_14_, p_228840_15_,
+                p_228840_12_, p_228840_13_, u1, u2, v1, v2);
+        Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_10_, p_228840_11_,
+                p_228840_14_, p_228840_15_, u1, u2, v1, v2);
+        Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_12_, p_228840_13_,
+                p_228840_8_, p_228840_9_, u1, u2, v1, v2);
+    }
+
+    private static void addQuad(final Matrix4f matrixPos, final Matrix3f matrixNormal, final IVertexBuilder bufferIn,
+            final float red, final float green, final float blue, final float alpha, final int yMin, final int yMax,
+            final float x1, final float z1, final float x2, final float z2, final float u1, final float u2,
+            final float v1, final float v2)
+    {
+        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x1, z1, u2, v1);
+        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMin, x1, z1, u2, v2);
+        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMin, x2, z2, u1, v2);
+        Raid.addVertex(matrixPos, matrixNormal, bufferIn, red, green, blue, alpha, yMax, x2, z2, u1, v1);
+    }
+
+    private static void addVertex(final Matrix4f matrixPos, final Matrix3f matrixNormal, final IVertexBuilder bufferIn,
+            final float red, final float green, final float blue, final float alpha, final int y, final float x,
+            final float z, final float texU, final float texV)
+    {
+        bufferIn.pos(matrixPos, x, y, z).color(red, green, blue, alpha).tex(texU, texV).overlay(
+                OverlayTexture.DEFAULT_LIGHT).lightmap(15728880).normal(matrixNormal, 0.0F, 1.0F, 0.0F).endVertex();
+    }
+
+    @Override
+    public boolean isGlobalRenderer(final RaidSpawn te)
     {
         return true;
     }
