@@ -9,15 +9,21 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.legends.init.function.MaxRaidFunction;
 
 public class RaidSpawnBlock extends BlockBase
 {
@@ -26,6 +32,12 @@ public class RaidSpawnBlock extends BlockBase
     public RaidSpawnBlock(final String name, final Material material)
     {
         super(name, Properties.create(material).sound(SoundType.METAL).hardnessAndResistance(2000, 2000));
+    }
+    
+    @Override
+    public int tickRate(final IWorldReader world)
+    {
+        return 3000;
     }
 
     @Override
@@ -44,6 +56,17 @@ public class RaidSpawnBlock extends BlockBase
         if (Screen.hasShiftDown()) message = I18n.format("legendblock." + this.infoname + ".tooltip");
         else message = I18n.format("pokecube.tooltip.advanced");
         tooltip.add(new TranslationTextComponent(message));
+    }
+    
+    @Override
+    public boolean onBlockActivated(final BlockState state, final World worldIn, final BlockPos pos,
+            final PlayerEntity entity, final Hand hand, final BlockRayTraceResult hit)
+    {
+        if (worldIn instanceof ServerWorld)
+        {
+            MaxRaidFunction.executeProcedure(pos, state, (ServerWorld) worldIn);
+        }
+        return true;
     }
 
     @OnlyIn(Dist.CLIENT)

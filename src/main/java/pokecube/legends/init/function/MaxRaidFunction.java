@@ -8,8 +8,11 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.block.Blocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
@@ -18,25 +21,30 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.ItemInit;
 import thut.api.maths.Vector3;
 
-public class MaxRaidActivationFunction
+/**
+ * Uses player interact here to also prevent opening of inventories.
+ *
+ * @param dependencies
+ */
+public class MaxRaidFunction
 {
-    // Max Size Pokemob Raids
-    public static float h = 24;
-
     public static Field form_field;
     static
     {
         try
         {
-            MaxRaidActivationFunction.form_field = PokedexEntry.class.getDeclaredField("forms");
-            MaxRaidActivationFunction.form_field.setAccessible(true);
+            MaxRaidFunction.form_field = PokedexEntry.class.getDeclaredField("forms");
+            MaxRaidFunction.form_field.setAccessible(true);
         }
         catch (NoSuchFieldException | SecurityException e)
         {
             e.printStackTrace();
-            MaxRaidActivationFunction.form_field = null;
+            MaxRaidFunction.form_field = null;
         }
     }
 
@@ -58,8 +66,8 @@ public class MaxRaidActivationFunction
         try
         {
             @SuppressWarnings("unchecked")
-            final Map<String, PokedexEntry> forms = (Map<String, PokedexEntry>) MaxRaidActivationFunction.form_field
-                    .get(ret);
+            final Map<String, PokedexEntry> forms = (Map<String, PokedexEntry>) MaxRaidFunction.form_field.get(
+                    ret);
             if (!forms.isEmpty())
             {
                 final List<PokedexEntry> values = Lists.newArrayList(forms.values());
@@ -84,29 +92,26 @@ public class MaxRaidActivationFunction
         return ret;
     }
 
-    public static void executeProcedure(final int x, final int y, final int z, final ServerWorld world)
+    public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerWorld world)
     {
-        if (!world.isRemote)
-        {
-            final PokedexEntry entityToSpawn = MaxRaidActivationFunction.getRandomEntry();
-            final BlockPos pos = null;
-            final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
-            final Vector3 location = Vector3.getNewVector().set(pos);
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-            if (entity != null && !entityToSpawn.hasMegaForm)
-            {
-                entity.setHealth(entity.getMaxHealth() + 50f);
-                location.add(0, 6, 0).moveEntity(entity);
-                entity.setPosition(x, y, z);
-                world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
-                // entity.tags.add("raid");
+        if (state.getBlock() != BlockInit.RAID_SPAWN) return;
 
-                // Size for MaxPokemob
-                pokemob.setSize(MaxRaidActivationFunction.h);
-                pokemob.getLevel();
-                // pokemob.setHeldItem(new ItemStack(ItemInit.FRAGMENTDYN));
-                world.addEntity(entity);
-            }
+        final PokedexEntry entityToSpawn = MaxRaidFunction.getRandomEntry();
+        final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);
+        final Vector3 v = Vector3.getNewVector().set(pos);
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+
+        // Raid Battle
+        if (entity != null && !entityToSpawn.isMega)
+        {
+            entity.setHealth(entity.getMaxHealth());           
+            v.add(0, 1, 0).moveEntity(entity);
+            entity.setPosition(v.x, v.y + 3, v.z);
+            pokemob.getLevel();
+            pokemob.setCombatState(CombatStates.DYNAMAX, true);
+            world.addEntity(entity);
         }
+        world.playSound(v.x, v.y, v.z, SoundEvents.ENTITY_DRAGON_FIREBALL_EXPLODE, SoundCategory.NEUTRAL, 1, 1, false);
+
     }
 }
