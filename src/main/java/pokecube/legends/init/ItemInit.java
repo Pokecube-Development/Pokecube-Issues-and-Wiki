@@ -71,6 +71,8 @@ public class ItemInit
     public static final Item CHPOT          = new ItemBase("chippedpot", 1).noTooltop();
     public static final Item CRPOT          = new ItemBase("crackedpot", 1).noTooltop();
 
+    public static final Item WISHING_PIECE = new ItemBase("wishing_piece", 1);
+
     // Tools
     public static final SwordItem RAINBOW_SWORD = new RainbowSword("rainbow_sword", 4, -3, ItemInit.MATERIAL_RAINBOW);
 
