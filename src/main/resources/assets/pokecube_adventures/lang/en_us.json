@@ -87,6 +87,7 @@
 
     "entity.pokecube_adventures.trainer": "Trainer",
     "entity.pokecube_adventures.leader": "Leader",
+    "entity.pokecube_adventures.trainer.nitwit": "Trainer",
 
     "gui.pokemobbag.title": "%s's Bag",
 
