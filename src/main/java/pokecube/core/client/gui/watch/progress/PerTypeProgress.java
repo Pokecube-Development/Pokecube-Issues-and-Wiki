@@ -45,7 +45,6 @@ public class PerTypeProgress extends Progress
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        System.out.println(" " + keyCode);
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
             final String text = this.text.getText();
