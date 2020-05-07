@@ -109,7 +109,6 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 if (t.startsWith("'") && t.endsWith("'")) t = t.substring(1, t.length() - 1);
                 return t;
             });
-            // TODO Tab completetion
             String match = text;
             for (final String name : ret)
                 if (ThutCore.trim(name).startsWith(ThutCore.trim(match)))
