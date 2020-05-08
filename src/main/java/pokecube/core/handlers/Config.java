@@ -480,51 +480,51 @@ public class Config extends ConfigData
     public int          repelRadius            = 16;
 
     // Gui/client settings
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public String        guiRef                 = "top_left";
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public String        messageRef             = "right_middle";
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public String        targetRef              = "top_right";
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public String        teleRef                = "top_right";
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public List<Integer> guiPos                 = Lists.newArrayList(new Integer[] { 0, 0 });
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public double        guiSize                = 1;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public List<Integer> telePos                = Lists.newArrayList(new Integer[] { 89, 17 });
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public double        teleSize               = 1;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public List<Integer> targetPos              = Lists.newArrayList(new Integer[] { 147, -42 });
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public double        targetSize             = 1;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public List<Integer> messagePos             = Lists.newArrayList(new Integer[] { -150, -100 });
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public int           messageWidth           = 150;;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public List<Integer> messagePadding         = Lists.newArrayList(new Integer[] { 0, 0 });
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public double        messageSize            = 1;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       guiDown                = true;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       guiAutoScale           = false;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       autoSelectMoves        = false;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       autoRecallPokemobs     = false;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public int           autoRecallDistance     = 32;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       riddenMobsTurnWithLook = true;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       extraberries           = false;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       battleLogInChat        = false;
-    @Configure(category = Config.client)
+    @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       pokeCenterMusic        = true;
 
     @Configure(category = Config.advanced)
@@ -595,45 +595,43 @@ public class Config extends ConfigData
     @Configure(category = Config.database)
     public List<String> rewardDatabases = Lists.newArrayList(new String[] { "rewards" });
 
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean doHealthBars         = true;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     maxDistance          = 24;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean renderInF1           = false;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public double  heightAbove          = 0.6;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean drawBackground       = true;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     backgroundPadding    = 2;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     backgroundHeight     = 6;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     barHeight            = 4;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     plateSize            = 25;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean showHeldItem         = true;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean showArmor            = true;
-    @Configure(category = Config.healthbars)
-    public boolean groupArmor           = true;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     hpTextHeight         = 14;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean showOnlyFocused      = false;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean enableDebugInfo      = true;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     ownedNameColour      = 0x55FF55;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     otherOwnedNameColour = 0xFF5555;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     caughtNamedColour    = 0x5555FF;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     scannedNameColour    = 0x88FFFF;
-    @Configure(category = Config.healthbars)
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public int     unknownNameColour    = 0x888888;
 
     @Configure(category = Config.dynamax)
