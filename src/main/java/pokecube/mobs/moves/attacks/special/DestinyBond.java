@@ -39,7 +39,6 @@ public class DestinyBond extends Move_Basic
     {
         final UUID killed = event.killed.getEntity().getUniqueID();
         final Set<UUID> targets = this.usedOn.remove(killed);
-        System.out.println(targets);
         if (targets != null && event.killed.getEntity().getEntityWorld() instanceof ServerWorld)
         {
             final ServerWorld world = (ServerWorld) event.killed.getEntity().getEntityWorld();
@@ -49,7 +48,6 @@ public class DestinyBond extends Move_Basic
             for (final UUID id : targets)
             {
                 final Entity mob = world.getEntityByUuid(id);
-                System.out.println(mob);
                 if (mob != null) mob.attackEntityFrom(source, Float.MAX_VALUE);
             }
         }
@@ -105,7 +103,6 @@ public class DestinyBond extends Move_Basic
         final Set<UUID> hits = this.usedOn.getOrDefault(userId, Sets.newHashSet());
         final boolean added = hits.add(attacked.getUniqueID());
         this.usedOn.put(userId, hits);
-        System.out.println(hits + " " + attacked + " " + attackerMob);
 
         if (!added) if (packet.failed)
         {
