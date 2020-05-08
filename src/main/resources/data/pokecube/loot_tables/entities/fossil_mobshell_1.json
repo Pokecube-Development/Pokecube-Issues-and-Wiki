@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "name": "pool_0",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "pokecube:entities/bones",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "name": "pool_1",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "pokecube:entities/cobble_1",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "name": "pool_1",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "pokecube:entities/turtleshells_1",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

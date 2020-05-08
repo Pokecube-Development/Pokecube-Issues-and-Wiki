@@ -5841,7 +5841,54 @@
       "name": "Vespiquen",
       "stats": {
         "species": "Insecta",
-        "activeTimes": "day"
+        "activeTimes": "day",
+        "foodMat": "edible plant",
+        "interactions": [
+          {
+            "cooldown": 800,
+            "baseHunger": 250,
+            "key": {
+              "values": {
+                "id": "minecraft:shears"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:honeycomb",
+                    "n": "2"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "cooldown": 1800,
+            "baseHunger": 500,
+            "key": {
+              "values": {
+                "id": "minecraft:glass_bottle"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:honey_bottle",
+                    "n": "1"
+                  }
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     {
