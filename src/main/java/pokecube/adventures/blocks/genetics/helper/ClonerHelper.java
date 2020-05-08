@@ -2,6 +2,7 @@ package pokecube.adventures.blocks.genetics.helper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -249,7 +250,13 @@ public class ClonerHelper
             Alleles alleles = entry.getValue();
             final Alleles eggsAllele = eggs.getAlleles().get(loc);
             alleles = selector.merge(alleles, eggsAllele);
-            if (alleles != null) eggs.getAlleles().put(loc, alleles);
+            if (alleles != null)
+            {
+                final Random rand = new Random();
+                if (alleles.getExpressed().getEpigeneticRate() > rand.nextFloat()) alleles.setExpressed(alleles
+                        .getAlleles()[rand.nextBoolean() ? 0 : 1]);
+                eggs.getAlleles().put(loc, alleles);
+            }
         }
         ClonerHelper.setGenes(destination, eggs, EditType.SPLICE);
     }
