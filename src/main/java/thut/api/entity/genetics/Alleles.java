@@ -14,7 +14,7 @@ public class Alleles
     {
     }
 
-    public Alleles(Gene gene1, Gene gene2)
+    public Alleles(final Gene gene1, final Gene gene2)
     {
         this.alleles[0] = gene1;
         this.alleles[1] = gene2;
@@ -38,7 +38,12 @@ public class Alleles
         return (T) this.expressed;
     }
 
-    public void load(CompoundNBT tag) throws Exception
+    public void setExpressed(final Gene expressed)
+    {
+        this.expressed = expressed;
+    }
+
+    public void load(final CompoundNBT tag) throws Exception
     {
         this.expressed = GeneRegistry.load(tag.getCompound("expressed"));
         this.getAlleles()[0] = GeneRegistry.load(tag.getCompound("gene1"));
