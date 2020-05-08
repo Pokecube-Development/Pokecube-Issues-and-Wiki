@@ -28,12 +28,12 @@ import thut.core.common.ThutCore;
 
 public class PerTypeProgress extends Progress
 {
-    private static final List<String> NAMES         = Lists.newArrayList();
+    private static final List<String> NAMES = Lists.newArrayList();
     TextFieldWidget                   text;
     PokeType                          type;
 
-    SuggestionProvider<CommandSource> TYPESUGGESTER = (ctx, sb) -> net.minecraft.command.ISuggestionProvider
-            .suggest(PerTypeProgress.NAMES, sb);
+    SuggestionProvider<CommandSource> TYPESUGGESTER = (ctx, sb) -> net.minecraft.command.ISuggestionProvider.suggest(
+            PerTypeProgress.NAMES, sb);
 
     public PerTypeProgress(final GuiPokeWatch watch)
     {
@@ -43,7 +43,7 @@ public class PerTypeProgress extends Progress
     }
 
     @Override
-    public boolean charTyped(final char typedChar, final int keyCode)
+    public boolean keyPressed(final int keyCode, final int b, final int c)
     {
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
@@ -58,11 +58,8 @@ public class PerTypeProgress extends Progress
                     ret.add(name);
                 }
             }
-            this.minecraft.player.getCommandSource();
-            // TODO suggest types here somehow?
-            // SUGGEST_TMS.getSuggestions(context, builder)
-            // ret = CommandBase.getListOfStringsMatchingLastWord(args, ret);
             if (!ret.isEmpty()) this.text.setText(ret.get(0));
+            return true;
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
@@ -74,8 +71,9 @@ public class PerTypeProgress extends Progress
                 this.onPageOpened();
             }
             else this.text.setText(PokeType.getTranslatedName(this.type));
+            return true;
         }
-        return super.charTyped(typedChar, keyCode);
+        return super.keyPressed(keyCode, b, c);
     }
 
     @Override
@@ -85,6 +83,7 @@ public class PerTypeProgress extends Progress
         final int x = this.watch.width / 2 - 30;
         final int y = this.watch.height / 2 + 53;
         this.text = new TextFieldWidget(this.font, x, y, 60, 10, "");
+        this.addButton(this.text);
     }
 
     @Override
@@ -117,16 +116,16 @@ public class PerTypeProgress extends Progress
                 total_of_type);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5,
-                PokecubeCore.getConfig().maxSpawnRadius);
+        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
+                .getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
                 bb, input ->
-        {
-            IPokemob pokemob;
-            if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
-                return false;
-            return pokemob.isType(PerTypeProgress.this.type);
-        });
+                {
+                    IPokemob pokemob;
+                    if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
+                        return false;
+                    return pokemob.isType(PerTypeProgress.this.type);
+                });
         final String nearbyLine = I18n.format("pokewatch.progress.global.nearby", otherMobs.size());
 
         for (final String line : this.font.listFormattedStringToWidth(captureLine, 140))
