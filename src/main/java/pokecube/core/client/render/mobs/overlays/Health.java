@@ -51,14 +51,6 @@ public class Health
     private static final RenderType TYPE       = RenderType.text(Resources.GUI_BATTLE);
     private static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
 
-    static boolean blend;
-    static boolean normalize;
-    static boolean lighting;
-    static int     src;
-    static int     dst;
-
-    public static boolean enabled = true;
-
     public static Entity getEntityLookedAt(final Entity e)
     {
         return Tools.getPointedEntity(e, 32);
@@ -66,45 +58,45 @@ public class Health
 
     private static void blit(final IVertexBuilder buffer, final Matrix4f pos, final float x1, final float y1,
             final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
-            final int id)
+            final int brightness)
     {
         try
         {
-            final int l = 15 << 20 | 15 << 4;
             final float u0 = 0;
             final float u1 = 90f / 256f;
             final float v0 = 48f / 256f;
             final float v1 = 64f / 256f;
-            buffer.pos(pos, x1, y1, z).color(r, g, b, a).tex(u0, v1).lightmap(l).endVertex();
-            buffer.pos(pos, x1, y2, z).color(r, g, b, a).tex(u1, v1).lightmap(l).endVertex();
-            buffer.pos(pos, x2, y2, z).color(r, g, b, a).tex(u1, v0).lightmap(l).endVertex();
-            buffer.pos(pos, x2, y1, z).color(r, g, b, a).tex(u0, v0).lightmap(l).endVertex();
+            buffer.pos(pos, x1, y1, z).color(r, g, b, a).tex(u0, v1).lightmap(brightness).endVertex();
+            buffer.pos(pos, x1, y2, z).color(r, g, b, a).tex(u1, v1).lightmap(brightness).endVertex();
+            buffer.pos(pos, x2, y2, z).color(r, g, b, a).tex(u1, v0).lightmap(brightness).endVertex();
+            buffer.pos(pos, x2, y1, z).color(r, g, b, a).tex(u0, v0).lightmap(brightness).endVertex();
         }
         catch (final Exception e)
         {
-            PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {} {} {}", buffer, id, e.toString());
+            PokecubeCore.LOGGER.debug("Error drawing a box for healthbar! {} {} {}", buffer, e.toString());
 
         }
     }
 
     public static void renderHealthBar(final LivingEntity passedEntity, final MatrixStack mat,
-            final IRenderTypeBuffer buf, final float partialTicks, final Entity viewPoint)
+            final IRenderTypeBuffer buf, final float partialTicks, final Entity viewPoint, final int br)
     {
-        if (!Health.enabled) return;
-
         final Stack<LivingEntity> ridingStack = new Stack<>();
 
         LivingEntity entity = passedEntity;
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null || !entity.addedToChunk) return;
+        if (entity.getDistance(viewPoint) > PokecubeCore.getConfig().maxDistance) return;
         final Config config = PokecubeCore.getConfig();
         final Minecraft mc = Minecraft.getInstance();
         final EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
         if (renderManager == null || renderManager.info == null) return;
+        if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.pointedEntity) return;
         final ActiveRenderInfo viewer = renderManager.info;
 
-        if (!entity.canEntityBeSeen(viewer.getRenderViewEntity())) return;
+        final boolean background = config.drawBackground && entity.canEntityBeSeen(viewer.getRenderViewEntity());
+
         if (entity.getPassengers().contains(viewer.getRenderViewEntity())) return;
 
         final UUID viewerID = viewer.getRenderViewEntity().getUniqueID();
@@ -149,7 +141,6 @@ public class Health
             int b = 0;
             ItemStack stack = ItemStack.EMPTY;
             if (pokemob.getOwner() == viewer.getRenderViewEntity()) stack = entity.getHeldItemMainhand();
-            final int armor = entity.getTotalArmorValue();
             final float hue = Math.max(0F, health / maxHealth / 3F - 0.07F);
             final Color color = Color.getHSBColor(hue, 0.8F, 0.8F);
             r = color.getRed();
@@ -178,28 +169,26 @@ public class Health
 
             pos = mat.getLast().getPositionMatrix();
             // Background
-            if (config.drawBackground)
+            if (background)
             {
                 buffer = Utils.makeBuilder(Health.BACKGROUND, buf);
                 final int a = 32;
                 Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0,
-                        0, a, 0);
+                        0, a, br);
             }
             buffer = Utils.makeBuilder(Health.TYPE, buf);
 
             // Health bar
             // Gray Space
             healthSize = healthSize * 2 - size;
-            Health.blit(buffer, pos, healthSize, 0, size, barHeight1, zlevel, 100, 127, 100, 255, 1);
+            Health.blit(buffer, pos, healthSize, 0, size, barHeight1, zlevel, 100, 127, 100, 255, br);
             // Health Bar Fill
-            Health.blit(buffer, pos, -size, 0, healthSize, barHeight1, zlevel, r, g, b, 255, 2);
+            Health.blit(buffer, pos, -size, 0, healthSize, barHeight1, zlevel, r, g, b, 255, br);
 
             // Exp Bar
             r = 64;
             g = 64;
             b = 220;
-
-            final int br = 15 << 20 | 15 << 4;
 
             float exp = pokemob.getExp() - Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             float maxExp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - Tools.levelToXp(
@@ -211,10 +200,10 @@ public class Health
 
             expSize = expSize * 2 - size;
             // Gray Space
-            Health.blit(buffer, pos, expSize, barHeight1, size, barHeight1 + 1, zlevel, 100, 100, 127, 255, 3);
+            Health.blit(buffer, pos, expSize, barHeight1, size, barHeight1 + 1, zlevel, 100, 100, 127, 255, br);
 
             // Exp Bar Fill
-            Health.blit(buffer, pos, -size, barHeight1, expSize, barHeight1 + 1, zlevel, r, g, b, 255, 4);
+            Health.blit(buffer, pos, -size, barHeight1, expSize, barHeight1 + 1, zlevel, r, g, b, 255, br);
 
             mat.push();
             mat.translate(-size, -4.5F, 0F);
@@ -272,27 +261,22 @@ public class Health
             mat.scale(s1, s1, s1);
             mat.translate(size / (s * s1) * 2 - 16, 0F, 0F);
 
-            if (!stack.isEmpty() && config.showHeldItem) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16);
+            if (!stack.isEmpty() && config.showHeldItem) Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
             off -= 16;
 
+            final int armor = entity.getTotalArmorValue();
             if (armor > 0 && config.showArmor)
             {
-                int ironArmor = armor % 5;
-                int diamondArmor = armor / 5;
-                if (!config.groupArmor)
-                {
-                    ironArmor = armor;
-                    diamondArmor = 0;
-                }
-
+                final int ironArmor = armor % 5;
+                final int diamondArmor = armor / 5;
                 stack = new ItemStack(Items.IRON_CHESTPLATE);
                 for (int i = 0; i < ironArmor; i++)
-                    Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16);
+                    Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
                 off -= 4;
 
                 stack = new ItemStack(Items.DIAMOND_CHESTPLATE);
                 for (int i = 0; i < diamondArmor; i++)
-                    Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16);
+                    Health.renderIcon(entity, mat, buf, off, 0, stack, 16, 16, br);
                 off -= 4;
             }
 
@@ -303,16 +287,16 @@ public class Health
 
     @SuppressWarnings("deprecation")
     public static void renderIcon(final LivingEntity mob, final MatrixStack mat, final IRenderTypeBuffer buf,
-            final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV)
+            final int vertexX, final int vertexY, final ItemStack stack, final int intU, final int intV, final int br)
     {
         mat.push();
         try
         {
             mat.translate(vertexX, vertexY + 7, 0);
-            mat.scale(20, -20, 1);
+            mat.scale(20, -20, -1);
             Minecraft.getInstance().getItemRenderer().renderItem(mob, stack,
                     net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, mat, buf, mob
-                            .getEntityWorld(), 15728880, OverlayTexture.DEFAULT_LIGHT);
+                            .getEntityWorld(), br, OverlayTexture.DEFAULT_LIGHT);
         }
         catch (final Exception e)
         {

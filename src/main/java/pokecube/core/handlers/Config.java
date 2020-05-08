@@ -602,6 +602,8 @@ public class Config extends ConfigData
     @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean renderInF1           = false;
     @Configure(category = Config.healthbars, type = Type.CLIENT)
+    public boolean brightbars           = true;
+    @Configure(category = Config.healthbars, type = Type.CLIENT)
     public double  heightAbove          = 0.6;
     @Configure(category = Config.healthbars, type = Type.CLIENT)
     public boolean drawBackground       = true;
