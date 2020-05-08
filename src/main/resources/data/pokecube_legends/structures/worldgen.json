@@ -52,6 +52,15 @@
       ]
     },
     {
+      "name":"pokecube_legends:rayquaza_tower",
+      "rigid":true,
+      "ignoreAir":true,
+      "options":[
+        "pokecube_legends:temples/surface/rayquaza_tower1;{\"dy\":3}",
+        "pokecube_legends:temples/surface/rayquaza_tower2;{\"dy\":3}"
+      ]
+    },
+    {
       "name":"pokecube_legends:yveltal_place",
       "rigid":true,
       "ignoreAir":false,
@@ -248,6 +257,19 @@
       "spawn":{
         "values":{
           "category":"beach"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:rayquaza_tower",
+      "root":"pokecube_legends:rayquaza_tower",
+      "biomeType":"ruin",
+      "distance":24,
+      "separation":8,
+      "base_under":false,
+      "spawn":{
+        "values":{
+          "category":"ocean"
         }
       }
     },

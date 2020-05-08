@@ -17,7 +17,6 @@ import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.DynamicOps;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.StructureMode;
@@ -67,7 +66,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.template.ExtendedRuleProcessor;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
-import thut.api.maths.Vector3;
 
 public class JigsawPieces
 {
@@ -364,25 +362,6 @@ public class JigsawPieces
                 for (final Template.BlockInfo template$blockinfo : Template.processBlockInfos(template, worldIn, pos,
                         placementsettings, this.func_214857_a(manager, pos, rotation, false)))
                     this.func_214846_a(worldIn, template$blockinfo, pos, rotation, rand, box);
-                if (this.pool.base_under)
-                {
-                    final MutableBoundingBox box2 = template.getMutableBoundingBox(placementsettings, pos);
-                    final Vector3 v = Vector3.getNewVector();
-                    for (int x = box2.minX; x <= box2.maxX; x++)
-                        for (int z = box2.minZ; z <= box2.maxZ; z++)
-                        {
-                            v.set(x, box2.minY, z);
-                            final BlockState toFill = v.getBlockState(worldIn);
-                            for (int y = box2.minY - 1; y > box2.minY - 32; y--)
-                            {
-                                v.set(x, y, z);
-                                if (!box.isVecInside(v.getPos())) continue;
-                                final BlockState check = v.getBlockState(worldIn);
-                                if (check.isAir(worldIn, v.getPos())) worldIn.setBlockState(v.getPos(), toFill, 2);
-                                else break;
-                            }
-                        }
-                }
                 return true;
             }
         }

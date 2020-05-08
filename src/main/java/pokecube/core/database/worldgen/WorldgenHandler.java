@@ -124,14 +124,13 @@ public class WorldgenHandler
     public static class JigSawPool
     {
         public String       name;
-        public String       target     = "empty";
-        public String       biomeType  = "none";
-        public List<String> options    = Lists.newArrayList();
-        public boolean      rigid      = true;
-        public boolean      ignoreAir  = true;
-        public boolean      filler     = false;
-        public boolean      base_under = false;
-        public List<String> includes   = Lists.newArrayList();
+        public String       target    = "empty";
+        public String       biomeType = "none";
+        public List<String> options   = Lists.newArrayList();
+        public boolean      rigid     = true;
+        public boolean      ignoreAir = true;
+        public boolean      filler    = false;
+        public List<String> includes  = Lists.newArrayList();
     }
 
     public static class JigSawConfig
@@ -147,6 +146,7 @@ public class WorldgenHandler
         public String       biomeType    = "none";
         public SpawnRule    spawn;
         public boolean      surface      = true;
+        public boolean      base_under   = true;
         public boolean      water        = false;
         public boolean      air          = false;
         public int          height       = 0;
@@ -279,7 +279,7 @@ public class WorldgenHandler
         final JigsawConfig config = new JigsawConfig(struct);
         final GenerationStage.Decoration stage = struct.surface ? GenerationStage.Decoration.SURFACE_STRUCTURES
                 : GenerationStage.Decoration.UNDERGROUND_STRUCTURES;
-        if (struct.surface && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
+        if (struct.base_under && !struct.water && !struct.air) WorldgenHandler.forceVillageFeature(toAdd);
         for (final Biome b : ForgeRegistries.BIOMES.getValues())
         {
             if (!struct._matcher.checkBiome(b)) continue;
