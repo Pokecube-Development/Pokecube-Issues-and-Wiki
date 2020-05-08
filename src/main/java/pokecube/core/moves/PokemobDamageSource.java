@@ -44,9 +44,9 @@ public class PokemobDamageSource extends DamageSource
      * @param par1Str
      * @param par2Entity
      */
-    public PokemobDamageSource(final String par1Str, final LivingEntity par2Entity, final Move_Base type)
+    public PokemobDamageSource(final LivingEntity par2Entity, final Move_Base type)
     {
-        super(par1Str);
+        super("mob");
         this.damageSourceEntity = par2Entity;
         this.user = CapabilityPokemob.getPokemobFor(par2Entity);
         this.move = type;

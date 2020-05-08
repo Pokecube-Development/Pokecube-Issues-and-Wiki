@@ -35,8 +35,8 @@ public class MetalBurst extends Move_Basic
                     .getMoveStats().PHYSICALDAMAGETAKENCOUNTER));
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
-            if (packet.attacked != null) packet.attacked.attackEntityFrom(new PokemobDamageSource("mob", attacker,
-                    this), damage);
+            if (packet.attacked != null) packet.attacked.attackEntityFrom(new PokemobDamageSource(attacker, this),
+                    damage);
             packet.attacker.getMoveStats().biding = false;
         }
     }

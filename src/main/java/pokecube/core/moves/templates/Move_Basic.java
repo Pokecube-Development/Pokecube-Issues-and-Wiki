@@ -182,7 +182,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         }
         while (targets.contains(null))
             targets.remove(null);
-        if ((this.move.attackCategory & IMoveConstants.CATEGORY_SELF) != 0)
+        if ((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0)
         {
             targets.clear();
             targets.add(entity);
@@ -436,19 +436,19 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (targetPokemob != null) if (targetPokemob.getAbility() != null) finalAttackStrength = targetPokemob
                 .getAbility().beforeDamage(targetPokemob, packet, finalAttackStrength);
 
-        if ((this.move.attackCategory & IMoveConstants.CATEGORY_SELF) == 0 && this.move.defrosts
+        if ((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) == 0 && this.move.defrosts
                 && targetPokemob != null && (targetPokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0) targetPokemob
                         .healStatus();
 
-        if (!((this.move.attackCategory & IMoveConstants.CATEGORY_SELF) > 0 && PWR == 0) && finalAttackStrength > 0)
+        if (!((this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0 && PWR == 0) && finalAttackStrength > 0)
         {
             // Apply attack damage to players.
             if (attacked instanceof PlayerEntity)
             {
-                final DamageSource source1 = new PokemobDamageSource("mob", attackerMob, MovesUtils.getMoveFromName(
-                        attack)).setType(type);
-                final DamageSource source2 = new PokemobDamageSource("mob", attackerMob, MovesUtils.getMoveFromName(
-                        attack)).setType(type);
+                final DamageSource source1 = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
+                        .setType(type);
+                final DamageSource source2 = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
+                        .setType(type);
                 source2.setDamageBypassesArmor();
                 source2.setMagicDamage();
                 float d1, d2;
@@ -474,8 +474,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             // Apply attack damage to a pokemob
             else if (targetPokemob != null)
             {
-                final DamageSource source = new PokemobDamageSource("mob", attackerMob, MovesUtils.getMoveFromName(
-                        attack)).setType(type);
+                final DamageSource source = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
+                        .setType(type);
                 source.setDamageIsAbsolute();
                 source.setDamageBypassesArmor();
                 if (PokecubeMod.debug)
@@ -488,8 +488,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             // Apply attack damage to another mob type.
             else
             {
-                final DamageSource source = new PokemobDamageSource("mob", attackerMob, MovesUtils.getMoveFromName(
-                        attack)).setType(type);
+                final DamageSource source = new PokemobDamageSource(attackerMob, MovesUtils.getMoveFromName(attack))
+                        .setType(type);
                 attacked.attackEntityFrom(source, finalAttackStrength);
                 if (PokecubeMod.debug)
                 {
@@ -507,7 +507,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
             }
         }
 
-        if ((efficiency > 0 || packet.getMove().move.attackCategory == IMoveConstants.CATEGORY_SELF)
+        if ((efficiency > 0 || packet.getMove().getAttackCategory() == IMoveConstants.CATEGORY_SELF)
                 && statusChange != IMoveConstants.STATUS_NON) if (MovesUtils.setStatus(attacked, statusChange))
                     MovesUtils.displayStatusMessages(attacker, attacked, statusChange, true);
         else MovesUtils.displayEfficiencyMessages(attacker, attacked, -2, 0);

@@ -144,7 +144,7 @@ public class MoveEventsHandler
             if (!MoveEventsHandler.canEffectBlock(attacker, location)) return false;
             if (this.move.getType(attacker) == PokeType.getType("water")) return MoveEventsHandler.doDefaultWater(
                     attacker, this.move, location);
-            if (this.move.getType(attacker) == PokeType.getType("ice") && (this.move.move.attackCategory
+            if (this.move.getType(attacker) == PokeType.getType("ice") && (this.move.getAttackCategory()
                     & IMoveConstants.CATEGORY_DISTANCE) > 0 && this.move.move.power > 0) return MoveEventsHandler
                             .doDefaultIce(attacker, this.move, location);
             if (this.move.getType(attacker) == PokeType.getType("electric")) MoveEventsHandler.doDefaultElectric(

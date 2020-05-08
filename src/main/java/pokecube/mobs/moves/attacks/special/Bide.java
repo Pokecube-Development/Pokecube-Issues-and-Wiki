@@ -35,7 +35,7 @@ public class Bide extends Move_Basic
                     .getMoveStats().SPECIALDAMAGETAKENCOUNTER;
             packet.attacker.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
-            packet.attacked.attackEntityFrom(new PokemobDamageSource("mob", attacker, this), damage);
+            packet.attacked.attackEntityFrom(new PokemobDamageSource(attacker, this), damage);
             packet.attacker.getMoveStats().biding = false;
         }
     }

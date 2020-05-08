@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -262,14 +263,15 @@ public class JsonMoves
                     }
             }
             MovesParser.load(JsonMoves.moves);
-            for (final Move_Base move : MovesUtils.moves.values())
+            final Collection<Move_Base> moves = MovesUtils.getKnownMoves();
+            for (final Move_Base move : moves)
             {
                 final MoveJsonEntry entry = entryMap.get(move.name);
                 if (entry != null) move.move.baseEntry = entry;
                 else if (!move.name.startsWith("pokemob.status")) PokecubeCore.LOGGER.error("No Entry for "
                         + move.name);
             }
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Processed " + MovesUtils.moves.size() + " Moves.");
+            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Processed " + moves.size() + " Moves.");
             MovesAdder.postInitMoves();
 
             final MovesJson cleaned = new MovesJson();

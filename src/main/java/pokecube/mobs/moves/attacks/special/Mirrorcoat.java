@@ -32,8 +32,8 @@ public class Mirrorcoat extends Move_Basic
             attacker.getPersistentData().remove("bideTime");
             final int damage = 2 * packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER;
             packet.attacker.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
-            if (packet.attacked != null) packet.attacked.attackEntityFrom(new PokemobDamageSource("mob", attacker,
-                    this), damage);
+            if (packet.attacked != null) packet.attacked.attackEntityFrom(new PokemobDamageSource(attacker, this),
+                    damage);
             packet.attacker.getMoveStats().biding = false;
         }
     }
