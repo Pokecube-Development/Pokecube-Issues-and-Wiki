@@ -1,6 +1,7 @@
 package pokecube.core.moves;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -59,7 +60,17 @@ public class MovesUtils implements IMoveConstants
 
     public static Random rand = new Random();
 
-    public static HashMap<String, Move_Base> moves = Maps.newHashMap();
+    private static HashMap<String, Move_Base> moves = Maps.newHashMap();
+
+    public static Collection<String> getKnownMoveNames()
+    {
+        return MovesUtils.moves.keySet();
+    }
+
+    public static Collection<Move_Base> getKnownMoves()
+    {
+        return MovesUtils.moves.values();
+    }
 
     public static void addChange(final Entity target, final IPokemob attacker, final byte change)
     {
@@ -670,11 +681,14 @@ public class MovesUtils implements IMoveConstants
         return var11;
     }
 
-    public static void registerMove(final Move_Base move_Base)
+    public static void registerMove(final Move_Base move)
     {
-        MovesUtils.moves.put(move_Base.name, move_Base);
-        if (move_Base.move.baseEntry.ohko) MoveEntry.oneHitKos.add(move_Base.name);
-        if (move_Base.move.baseEntry.protectionMoves) MoveEntry.protectionMoves.add(move_Base.name);
+        final Move_Base old = MovesUtils.moves.get(move.name);
+        if (old != null) old.destroy();
+        move.init();
+        MovesUtils.moves.put(move.name, move);
+        if (move.move.baseEntry.ohko) MoveEntry.oneHitKos.add(move.name);
+        if (move.move.baseEntry.protectionMoves) MoveEntry.protectionMoves.add(move.name);
     }
 
     public static boolean setStatus(final Entity attacked, byte status)

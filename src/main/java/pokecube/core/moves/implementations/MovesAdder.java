@@ -49,7 +49,7 @@ public class MovesAdder implements IMoveConstants
 
     public static void postInitMoves()
     {
-        for (final Move_Base move : MovesUtils.moves.values())
+        for (final Move_Base move : MovesUtils.getKnownMoves())
         {
             if (move.move.baseEntry != null && move.move.baseEntry.animations != null && !move.move.baseEntry.animations
                     .isEmpty())
