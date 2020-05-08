@@ -25,7 +25,6 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.Config;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
@@ -492,9 +491,9 @@ public class CapabilityHasPokemobs
                 if (this.notifyDefeat && won instanceof ServerPlayerEntity)
                 {
                     final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
-                    packet.data.putInt("I", this.user.getEntityId());
-                    packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTimeLose);
-                    PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) won);
+                    packet.getTag().putInt("I", this.user.getEntityId());
+                    packet.getTag().putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTimeLose);
+                    PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayerEntity) won);
                 }
                 if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won);
             }

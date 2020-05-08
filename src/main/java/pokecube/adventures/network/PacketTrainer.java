@@ -14,7 +14,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
@@ -30,10 +29,15 @@ import pokecube.core.events.StructureEvent.ReadTag;
 import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
 import pokecube.core.utils.CapHolders;
 import thut.api.maths.Vector3;
-import thut.core.common.network.Packet;
+import thut.core.common.ThutCore;
+import thut.core.common.network.NBTPacket;
+import thut.core.common.network.PacketAssembly;
 
-public class PacketTrainer extends Packet
+public class PacketTrainer extends NBTPacket
 {
+    public static final PacketAssembly<PacketTrainer> ASSEMBLER = PacketAssembly.registerAssembler(PacketTrainer.class,
+            PacketTrainer::new, ThutCore.packets);
+
     public static final String EDITSELF     = "pokecube_adventures.traineredit.self";
     public static final String EDITOTHER    = "pokecube_adventures.traineredit.other";
     public static final String EDITMOB      = "pokecube_adventures.traineredit.mob";
@@ -75,8 +79,8 @@ public class PacketTrainer extends Packet
             return;
         }
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
-        packet.data.putBoolean("O", true);
-        packet.data.putInt("I", target == null ? -1 : target.getEntityId());
+        packet.getTag().putBoolean("O", true);
+        packet.getTag().putInt("I", target == null ? -1 : target.getEntityId());
 
         if (target != null)
         {
@@ -89,13 +93,12 @@ public class PacketTrainer extends Packet
                     null));
             if (pokemobs != null) tag.put("P", CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP,
                     pokemobs, null));
-            packet.data.put("C", tag);
+            packet.getTag().put("C", tag);
         }
-        PokecubeAdv.packets.sendTo(packet, editor);
+        PacketTrainer.ASSEMBLER.sendTo(packet, editor);
     }
 
-    byte               message;
-    public CompoundNBT data = new CompoundNBT();
+    byte message;
 
     public PacketTrainer()
     {
@@ -103,40 +106,32 @@ public class PacketTrainer extends Packet
 
     public PacketTrainer(final byte message)
     {
-        this.message = message;
+        this.getTag().putByte("__message__", message);
     }
 
     public PacketTrainer(final PacketBuffer buffer)
     {
         super(buffer);
-        this.message = buffer.readByte();
-        this.data = buffer.readCompoundTag();
-    }
-
-    @Override
-    public void write(final PacketBuffer buffer)
-    {
-        buffer.writeByte(this.message);
-        buffer.writeCompoundTag(this.data);
     }
 
     @Override
     @OnlyIn(value = Dist.CLIENT)
-    public void handleClient()
+    protected void onCompleteClient()
     {
         final PlayerEntity player = PokecubeCore.proxy.getPlayer();
+        this.message = this.getTag().getByte("__message__");
         switch (this.message)
         {
         case UPDATETRAINER:
 
             // O for Open Gui Packet.
-            if (this.data.getBoolean("O"))
+            if (this.getTag().getBoolean("O"))
             {
-                final int id = this.data.getInt("I");
+                final int id = this.getTag().getInt("I");
                 final Entity mob = player.getEntityWorld().getEntityByID(id);
-                if (mob != null && this.data.contains("C"))
+                if (mob != null && this.getTag().contains("C"))
                 {
-                    final CompoundNBT nbt = this.data.getCompound("C");
+                    final CompoundNBT nbt = this.getTag().getCompound("C");
                     final IHasNPCAIStates ai = TrainerCaps.getNPCAIStates(mob);
                     final IGuardAICapability guard = mob.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
                     final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(mob);
@@ -156,7 +151,7 @@ public class PacketTrainer extends Packet
     }
 
     @Override
-    public void handleServer(final ServerPlayerEntity player)
+    protected void onCompleteServer(final ServerPlayerEntity player)
     {
         switch (this.message)
         {
@@ -168,9 +163,9 @@ public class PacketTrainer extends Packet
                 return;
             }
 
-            final String type = this.data.getString("T");
-            final int level = this.data.getInt("L");
-            final boolean leader = this.data.getBoolean("C");
+            final String type = this.getTag().getString("T");
+            final int level = this.getTag().getInt("L");
+            final boolean leader = this.getTag().getBoolean("C");
             final Vector3 vec = Vector3.getNewVector().set(player);
             String args = "pokecube_adventures:" + (leader ? "leader" : "trainer");
             final JsonObject thing = new JsonObject();

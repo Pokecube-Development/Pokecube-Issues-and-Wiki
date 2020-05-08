@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.text.StringTextComponent;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.client.gui.items.editor.EditorGui;
 import pokecube.adventures.client.gui.items.editor.pages.util.Page;
@@ -85,11 +84,11 @@ public class Spawn extends Page
         this.addButton(new Button(xOffset + 25, yOffset + 40, 40, 20, "spawn", b ->
         {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.SPAWN);
-            message.data.putString("T", this.type.getText());
+            message.getTag().putString("T", this.type.getText());
             final int value = this.level.getText().isEmpty() ? 1 : Integer.parseInt(this.level.getText());
-            message.data.putInt("L", value);
-            message.data.putBoolean("C", this.leader);
-            PokecubeAdv.packets.sendToServer(message);
+            message.getTag().putInt("L", value);
+            message.getTag().putBoolean("C", this.leader);
+            PacketTrainer.ASSEMBLER.sendToServer(message);
         }));
     }
 

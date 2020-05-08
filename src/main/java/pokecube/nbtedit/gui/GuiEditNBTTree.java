@@ -64,19 +64,16 @@ public class GuiEditNBTTree extends Screen
         final GuiEditNBT window = this.guiTree.getWindow();
         final boolean ret = super.charTyped(par1, key);
         if (window != null) return window.charTyped(par1, key) || ret;
-        else
+        else if (key == 1)
         {
-            if (key == 1)
-            {
-                if (this.guiTree.isEditingSlot()) return this.guiTree.stopEditingSlot();
-                else this.quitWithoutSaving();
-            }
-            else if (key == GLFW.GLFW_KEY_DELETE) return this.guiTree.deleteSelected();
-            else if (key == GLFW.GLFW_KEY_ENTER) return this.guiTree.editSelected();
-            else if (key == GLFW.GLFW_KEY_UP) return this.guiTree.arrowKeyPressed(true);
-            else if (key == GLFW.GLFW_KEY_DOWN) return this.guiTree.arrowKeyPressed(false);
-            else return this.guiTree.charTyped(par1, key);
+            if (this.guiTree.isEditingSlot()) return this.guiTree.stopEditingSlot();
+            else this.quitWithoutSaving();
         }
+        else if (key == GLFW.GLFW_KEY_DELETE) return this.guiTree.deleteSelected();
+        else if (key == GLFW.GLFW_KEY_ENTER) return this.guiTree.editSelected();
+        else if (key == GLFW.GLFW_KEY_UP) return this.guiTree.arrowKeyPressed(true);
+        else if (key == GLFW.GLFW_KEY_DOWN) return this.guiTree.arrowKeyPressed(false);
+        else return this.guiTree.charTyped(par1, key);
         return ret;
     }
 
@@ -151,10 +148,18 @@ public class GuiEditNBTTree extends Screen
     {
         if (this.entity)
         {
-            if (this.customName.isEmpty()) PacketHandler.INSTANCE.sendToServer(new EntityNBTPacket(this.entityOrX,
-                    this.guiTree.getNBTTree().toCompoundNBT()));
-            else PacketHandler.INSTANCE.sendToServer(new CustomNBTPacket(this.entityOrX, this.customName, this.guiTree
-                    .getNBTTree().toCompoundNBT()));
+            if (this.customName.isEmpty())
+            {
+                final EntityNBTPacket p = new EntityNBTPacket(this.entityOrX, this.guiTree.getNBTTree()
+                        .toCompoundNBT());
+                EntityNBTPacket.ASSEMBLER.sendToServer(p);
+            }
+            else
+            {
+                final CustomNBTPacket p = new CustomNBTPacket(this.entityOrX, this.customName, this.guiTree.getNBTTree()
+                        .toCompoundNBT());
+                CustomNBTPacket.ASSEMBLER.sendToServer(p);
+            }
         }
         else PacketHandler.INSTANCE.sendToServer(new TileNBTPacket(new BlockPos(this.entityOrX, this.y, this.z),
                 this.guiTree.getNBTTree().toCompoundNBT()));

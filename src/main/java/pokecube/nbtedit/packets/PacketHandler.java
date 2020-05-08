@@ -46,7 +46,7 @@ public class PacketHandler
                 else
                 {
                     data.writeToNBT(tag);
-                    PacketHandler.INSTANCE.sendTo(new CustomNBTPacket(entityId, customType, tag), player);
+                    CustomNBTPacket.ASSEMBLER.sendTo(new CustomNBTPacket(entityId, customType, tag), player);
                 }
             }
             else NBTEdit.proxy.sendMessage(player, "\"Error - Unknown EntityID #" + entityId, TextFormatting.RED);
@@ -78,7 +78,7 @@ public class PacketHandler
             {
                 final CompoundNBT tag = new CompoundNBT();
                 entity.writeWithoutTypeId(tag);
-                PacketHandler.INSTANCE.sendTo(new EntityNBTPacket(entityId, tag), player);
+                EntityNBTPacket.ASSEMBLER.sendTo(new EntityNBTPacket(entityId, tag), player);
             }
             else NBTEdit.proxy.sendMessage(player, "\"Error - Unknown EntityID #" + entityId, TextFormatting.RED);
         }
@@ -101,7 +101,7 @@ public class PacketHandler
             {
                 final CompoundNBT tag = new CompoundNBT();
                 te.write(tag);
-                PacketHandler.INSTANCE.sendTo(new TileNBTPacket(pos, tag), player);
+                TileNBTPacket.ASSEMBLER.sendTo(new TileNBTPacket(pos, tag), player);
             }
             else NBTEdit.proxy.sendMessage(player, "Error - There is no TileEntity at " + pos.getX() + ", " + pos.getY()
                     + ", " + pos.getZ(), TextFormatting.RED);

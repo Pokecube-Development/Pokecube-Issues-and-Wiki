@@ -6,8 +6,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import thut.core.common.ThutCore;
 
-public class EntityUpdate extends Packet
+public class EntityUpdate extends NBTPacket
 {
+    public static final PacketAssembly<EntityUpdate> ASSEMBLER = PacketAssembly.registerAssembler(EntityUpdate.class,
+            EntityUpdate::new, ThutCore.packets);
 
     public static void sendEntityUpdate(final Entity entity)
     {
@@ -22,35 +24,36 @@ public class EntityUpdate extends Packet
         entity.writeWithoutTypeId(mobtag);
         tag.put("tag", mobtag);
         final EntityUpdate message = new EntityUpdate(tag);
-        ThutCore.packets.sendToTracking(message, entity);
+        EntityUpdate.ASSEMBLER.sendToTracking(message, entity);
     }
 
-    CompoundNBT tag;
+    public EntityUpdate()
+    {
+        super();
+    }
 
     public EntityUpdate(final CompoundNBT tag)
     {
-        super(null);
-        this.tag = tag;
+        super(tag);
     }
 
     public EntityUpdate(final PacketBuffer buffer)
     {
         super(buffer);
-        this.tag = buffer.readCompoundTag();
-    }
-
-    @Override
-    public void handleClient()
-    {
-        final PlayerEntity player = ThutCore.proxy.getPlayer();
-        final int id = this.tag.getInt("id");
-        final Entity mob = player.getEntityWorld().getEntityByID(id);
-        if (mob != null) mob.read(this.tag.getCompound("tag"));
     }
 
     @Override
     public void write(final PacketBuffer buffer)
     {
-        buffer.writeCompoundTag(this.tag);
+        buffer.writeCompoundTag(this.getTag());
+    }
+
+    @Override
+    protected void onCompleteClient()
+    {
+        final PlayerEntity player = ThutCore.proxy.getPlayer();
+        final int id = this.getTag().getInt("id");
+        final Entity mob = player.getEntityWorld().getEntityByID(id);
+        if (mob != null) mob.read(this.getTag().getCompound("tag"));
     }
 }

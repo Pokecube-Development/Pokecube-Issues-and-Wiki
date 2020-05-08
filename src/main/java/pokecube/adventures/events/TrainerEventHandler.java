@@ -485,9 +485,9 @@ public class TrainerEventHandler
             if (pokemobs.notifyDefeat)
             {
                 final PacketTrainer packet = new PacketTrainer(PacketTrainer.NOTIFYDEFEAT);
-                packet.data.putInt("I", trainer.getEntityId());
-                packet.data.putBoolean("V", pokemobs.defeatedBy(event.getPlayer()));
-                PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) event.getPlayer());
+                packet.getTag().putInt("I", trainer.getEntityId());
+                packet.getTag().putBoolean("V", pokemobs.defeatedBy(event.getPlayer()));
+                PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayerEntity) event.getPlayer());
             }
         }
     }

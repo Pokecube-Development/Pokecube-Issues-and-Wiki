@@ -9,10 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerChunkProvider;
+import pokecube.nbtedit.packets.PacketHandler;
 import thut.core.common.ThutCore;
 
-public class TileUpdate extends Packet
+public class TileUpdate extends NBTPacket
 {
+    public static final PacketAssembly<TileUpdate> ASSEMBLER = PacketAssembly.registerAssembler(TileUpdate.class,
+            TileUpdate::new, PacketHandler.INSTANCE);
 
     public static void sendUpdate(final TileEntity tile)
     {
@@ -32,32 +35,28 @@ public class TileUpdate extends Packet
             ThutCore.packets.sendToTracking(message, chunk);
     }
 
-    CompoundNBT tag;
+    public TileUpdate()
+    {
+        super();
+    }
 
     public TileUpdate(final CompoundNBT tag)
     {
-        super(null);
+        super();
         this.tag = tag;
     }
 
     public TileUpdate(final PacketBuffer buffer)
     {
         super(buffer);
-        this.tag = buffer.readCompoundTag();
     }
 
     @Override
-    public void handleClient()
+    protected void onCompleteClient()
     {
         final PlayerEntity player = ThutCore.proxy.getPlayer();
         final BlockPos pos = NBTUtil.readBlockPos(this.tag.getCompound("pos"));
         final TileEntity tile = player.getEntityWorld().getTileEntity(pos);
         if (tile != null) tile.handleUpdateTag(this.tag.getCompound("tag"));
-    }
-
-    @Override
-    public void write(final PacketBuffer buffer)
-    {
-        buffer.writeCompoundTag(this.tag);
     }
 }

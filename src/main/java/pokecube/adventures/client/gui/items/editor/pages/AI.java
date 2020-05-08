@@ -10,7 +10,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs.LevelMode;
@@ -77,9 +76,9 @@ public class AI extends Page
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.data.put("T", tag);
-            packet.data.putInt("I", this.parent.entity.getEntityId());
-            PokecubeAdv.packets.sendToServer(packet);
+            packet.getTag().put("T", tag);
+            packet.getTag().putInt("I", this.parent.entity.getEntityId());
+            PacketTrainer.ASSEMBLER.sendToServer(packet);
             this.onPageOpened();
             mess = new TranslationTextComponent("traineredit.set.notify." + trainer.notifyDefeat);
             this.parent.mc.player.sendStatusMessage(mess, true);
@@ -98,9 +97,9 @@ public class AI extends Page
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.data.put("T", tag);
-            packet.data.putInt("I", this.parent.entity.getEntityId());
-            PokecubeAdv.packets.sendToServer(packet);
+            packet.getTag().put("T", tag);
+            packet.getTag().putInt("I", this.parent.entity.getEntityId());
+            PacketTrainer.ASSEMBLER.sendToServer(packet);
             this.onPageOpened();
             final String levelsButton = I18n.format("traineredit.button.levels." + this.parent.trainer.getLevelMode());
             mess = new TranslationTextComponent("traineredit.set.levels", levelsButton);
@@ -133,9 +132,9 @@ public class AI extends Page
         case 9:
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             // Reset defeat list.
-            packet.data.putBoolean("RDL", true);
-            packet.data.putInt("I", this.parent.entity.getEntityId());
-            PokecubeAdv.packets.sendToServer(packet);
+            packet.getTag().putBoolean("RDL", true);
+            packet.getTag().putInt("I", this.parent.entity.getEntityId());
+            PacketTrainer.ASSEMBLER.sendToServer(packet);
             break;
         }
     }
@@ -217,9 +216,9 @@ public class AI extends Page
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.data.put("T", tag);
-            packet.data.putInt("I", this.parent.entity.getEntityId());
-            PokecubeAdv.packets.sendToServer(packet);
+            packet.getTag().put("T", tag);
+            packet.getTag().putInt("I", this.parent.entity.getEntityId());
+            PacketTrainer.ASSEMBLER.sendToServer(packet);
             this.onPageOpened();
             mess = new TranslationTextComponent("traineredit.set.cooldown_p", argInt);
             break;
@@ -229,9 +228,9 @@ public class AI extends Page
             this.onPageClosed();
             packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
             tag = CapabilityHasPokemobs.storage.writeNBT(TrainerCaps.HASPOKEMOBS_CAP, this.parent.trainer, null);
-            packet.data.put("T", tag);
-            packet.data.putInt("I", this.parent.entity.getEntityId());
-            PokecubeAdv.packets.sendToServer(packet);
+            packet.getTag().put("T", tag);
+            packet.getTag().putInt("I", this.parent.entity.getEntityId());
+            PacketTrainer.ASSEMBLER.sendToServer(packet);
             this.onPageOpened();
             mess = new TranslationTextComponent("traineredit.set.cooldown_g", argInt);
             break;
@@ -256,10 +255,10 @@ public class AI extends Page
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         final IGuardAICapability guard = this.parent.guard;
         final INBT tag = CapHolders.GUARDAI_CAP.getStorage().writeNBT(CapHolders.GUARDAI_CAP, guard, null);
-        packet.data.put("T", tag);
-        packet.data.putByte("V", (byte) 4);
-        packet.data.putInt("I", this.parent.entity.getEntityId());
-        PokecubeAdv.packets.sendToServer(packet);
+        packet.getTag().put("T", tag);
+        packet.getTag().putByte("V", (byte) 4);
+        packet.getTag().putInt("I", this.parent.entity.getEntityId());
+        PacketTrainer.ASSEMBLER.sendToServer(packet);
         this.onPageOpened();
     }
 
@@ -268,10 +267,10 @@ public class AI extends Page
         this.onPageClosed();
         final PacketTrainer packet = new PacketTrainer(PacketTrainer.UPDATETRAINER);
         final INBT tag = CapabilityNPCAIStates.storage.writeNBT(TrainerCaps.AISTATES_CAP, this.parent.aiStates, null);
-        packet.data.put("T", tag);
-        packet.data.putByte("V", (byte) 3);
-        packet.data.putInt("I", this.parent.entity.getEntityId());
-        PokecubeAdv.packets.sendToServer(packet);
+        packet.getTag().put("T", tag);
+        packet.getTag().putByte("V", (byte) 3);
+        packet.getTag().putInt("I", this.parent.entity.getEntityId());
+        PacketTrainer.ASSEMBLER.sendToServer(packet);
         this.onPageOpened();
     }
 }

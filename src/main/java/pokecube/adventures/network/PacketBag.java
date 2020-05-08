@@ -88,7 +88,6 @@ public class PacketBag extends Packet
             if (container != null)
             {
                 final String name = this.data.getString("N");
-                System.out.println(name);
                 container.changeName(name);
             }
             break;
