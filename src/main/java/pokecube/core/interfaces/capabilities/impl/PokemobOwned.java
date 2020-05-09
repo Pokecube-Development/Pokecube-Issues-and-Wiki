@@ -198,7 +198,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         if (this.returning) return;
         this.returning = true;
-        if (!this.getEntity().isServerWorld()) try
+        if (!(this.getEntity().getEntityWorld() instanceof ServerWorld)) try
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getEntityId());
             PokecubeCore.packets.sendToServer(packet);
@@ -209,6 +209,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         }
         else
         {
+            final ServerWorld world = (ServerWorld) this.getEntity().getEntityWorld();
             if (this.getTransformedTo() != null) this.setTransformedTo(null);
             final RecallEvent pre = new RecallEvent.Pre(this);
             PokecubeCore.POKEMOB_BUS.post(pre);
@@ -225,14 +226,14 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
             if (megaForm)
             {
-                this.setCombatState(CombatStates.MEGAFORME, false);
                 final float hp = this.getHealth();
-                final IPokemob base = this.megaEvolve(this.getPokedexEntry().getBaseForme());
+                final IPokemob base = this.megaRevert();
                 base.setHealth(hp);
                 if (base == this) this.returning = false;
                 if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbility(AbilityManager
                         .getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
                 base.onRecall();
+                world.removeEntityComplete(this.getEntity(), false);
                 return;
             }
 
@@ -269,7 +270,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             this.setCombatState(CombatStates.ANGRY, false);
             this.getEntity().setAttackTarget(null);
             this.getEntity().captureDrops(Lists.newArrayList());
-            final PlayerEntity tosser = PokecubeMod.getFakePlayer(this.getEntity().getEntityWorld());
+            final PlayerEntity tosser = PokecubeMod.getFakePlayer(world);
             if (owner instanceof PlayerEntity)
             {
                 final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
@@ -322,9 +323,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             // This ensures it can't be caught by dupe
             if (onDeath) this.getEntity().getPersistentData().putBoolean("removed", true);
             this.getEntity().captureDrops(null);
-
-            // Set Dead for deletion
-            this.getEntity().remove(onDeath);
+            world.removeEntityComplete(this.getEntity(), false);
         }
     }
 

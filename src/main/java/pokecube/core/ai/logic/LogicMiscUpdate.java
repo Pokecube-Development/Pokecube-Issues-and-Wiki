@@ -82,9 +82,9 @@ public class LogicMiscUpdate extends LogicBase
                 this.pokemob.setCombatState(CombatStates.MEGAFORME, false);
                 mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.revert", "green", this.pokemob
                         .getDisplayName());
-                final PokedexEntry newEntry = this.entry.getBaseForme() != null ? this.entry.getBaseForme()
-                        : this.entry;
-                ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
+                final PokedexEntry newEntry = this.pokemob.getMegaBase();
+                if (newEntry != this.pokemob.getPokedexEntry()) ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry,
+                        mess, true);
                 this.de_dyna = true;
             }
         }

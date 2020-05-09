@@ -186,7 +186,7 @@ public class CaptureManager
         if (pokemob.getCombatState(CombatStates.MEGAFORME) || pokemob.getPokedexEntry().isMega)
         {
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
-            final IPokemob revert = pokemob.megaEvolve(pokemob.getPokedexEntry().getBaseForme());
+            final IPokemob revert = pokemob.megaRevert();
             if (revert != null) pokemob = revert;
             if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbility(AbilityManager
                     .getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
