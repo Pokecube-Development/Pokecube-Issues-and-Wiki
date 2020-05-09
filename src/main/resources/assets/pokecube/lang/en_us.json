@@ -1,6 +1,8 @@
 {
     "_comment": "Pokécube translation",
 
+    "_comment": "Key Bindings",
+    
     "key.pokemob.next": "Next Pokémob",
     "key.pokemob.prev": "Previous Pokémob",
     "key.pokemob.move.next": "Next Move",
@@ -21,6 +23,8 @@
     "key.pokemob.arrangegui": "Arrange Gui",
     "key.pokemob.animategui": "Open Animation Gui",
     "key.pokemob.gzmove": "Z/G-max Moves",
+    
+    "_comment": "Pokemob Types",
 
     "type.normal": "normal",
     "type.fighting": "fighting",
@@ -40,6 +44,8 @@
     "type.dragon": "dragon",
     "type.dark": "dark",
     "type.fairy": "fairy",
+    
+    "_comment": "Pokewatch Stuff",
 
     "pokewatch.button.home": "Home",
     "pokewatch.title.teleports": "Teleport Locations",
@@ -103,11 +109,11 @@
     "pokewatch.ATTSP": "ATTSP",
     "pokewatch.DEFSP": "DEFSP",
     "pokewatch.VIT": "VIT",
-
     "pokewatch.TVIVEV": "TV   IV   EV",
-
     "pokewatch.ability": "AB: %s",
     "pokewatch.size": "Size: %s",
+    
+    "_comment": "Pokemob Gui",
 
     "pokemob.stance.guard": "Guarding",
     "pokemob.stance.no_guard": "Not Guarding",
@@ -130,6 +136,8 @@
     "pokemob.gui.routes": "RT",
     "pokemob.gui.ai": "AI",
     "pokemob.gui.updatestorage": "Storage Settings updated.",
+    
+    "_comment": "Pokedex Description",
 
     "pokemob.description.type": "%1$s is a %2$s Pokémob.",
     "pokemob.description.evolve.to": "%1$s evolves into %2$s:",
@@ -147,13 +155,35 @@
     "pokemob.description.evolve.chance": "-  With a chance of %s",
     "pokemob.description.evolve.move": "-  And knows %1$s.",
     "pokemob.description.evolve.locations": "-  In %1$s.",
-
     "pokemob.description.evolve.from": "%1$s evolves from %2$s.",
+    
+    "_comment": "Pokedex Messages/Info",
+    
+    "pokedex.setteleport": "Pokécenter set as a Teleport Location",
+    "pokedex.locationinfo1": "There are %1$s Registered Spawns.",
+    "pokedex.locationinfo2": "There are %1$s Registered Pokémobs.",
+    "pokedex.locationinfo3": "There are %1$s Registerd Forms of Pokémobs.",
+    "pokedex.locationinfo4": "%1$s Spawn here",
 
-    "pkmn.missingno": "MissingNo.",
+    "pokedex.inspect.nothing": "§cThere are no new rewards from the Pokédex",
+    "pokedex.inspect.available": "§aYou have a new Pokédex reward available, click the Blue light in the Pokédex to get it!",
+
+    "pokedex.inspect.guidebook": "§aYou recieved a Guide Book from the Pokédex.",
+    "pokedex.inspect.carebook": "§aYou recieved a Care Book from the Pokédex.",
+    "pokedex.inspect.exp_share": "§aCongratulations, you have recieved an Exp. Share from the inspection of your Pokédex.",
+    "pokedex.inspect.cutTM": "§aCongratulations, you have recieved a Cut TM from the inspection of your Pokédex.",
+    "pokedex.inspect.flashTM": "§aCongratulations, you have recieved a Flash TM from the inspection of your Pokédex.",
+    "pokedex.inspect.rocksmashTM": "§aCongratulations, you have recieved a Rock Smash TM from the inspection of your Pokédex.",
+    "pokedex.inspect.mastercube": "§aCongratulations, you have recieved a Mastercube from the inspection of your Pokédex.",
+    "pokedex.inspect.shinycharm": "§aCongratulations, you have recieved a Shiny Charm from the inspection of your Pokédex.",
+    
+    "_comment": "Pokemob Combat Related",
 
     "pokemob.teleport.invalid": "§cYou cannot teleport there!",
     "pokemob.teleport.noitems": "§cNeeds %1$s more enderpearls to do that!",
+
+    "pokemob.agress": "A wild %1$s has appeared",
+    "pokemob.deagress.timeout": "The %1$s has lost interest in the battle.",
 
     "death.attack.terrain.sandstorm": "%1$s §cdied to the Sandstorm",
     "death.attack.terrain.hail": "%1$s §cdied to Hail",
@@ -161,25 +191,21 @@
     "repel.info.setrange": "Radius was set to %1$s blocks.",
     "repel.info.getrange": "Radius is currently %1$s blocks.",
 
-    "item.pokecube.bubbles": "Droplets",
-    "item.pokecube.flames": "Flames",
-    "item.pokecube.leaves": "Leaves",
-
-    "pokemob.status.curse": "%1$s was hurt by the curse",
-    "pokemob.status.flinch": "%1$s flinched",
-    "pokemob.status.confuse.add": "%1$s is confused",
-    "pokemob.status.confuse.remove": "%1$s is no longer confused",
-    "pokemob.status.confusion": "%1$s hurt itself in confusion",
-    "pokemob.status.infatuate": "%1$s is immobilized by love",
-
     "pokecube.recall.fail": "§cNothing to recall.",
     "pokecube.recall.success": "%1$s §arecalled.",
 
+    "pokecube.sendout.fail.noperms.general": "§cNothing to recall.",
+    "pokecube.sendout.fail..noperms.specific": "%1$s §arecalled.",
+    "pokecube.sendout.fail.cancelled": "%1$s §arecalled.",
+   
+    "pokecube.caught": "%1$s §ahas been caught!",
+    "pokecube.missed": "%1$s §cbroke out!",
+    "pokecube.denied": "§cThe Pokémob refuses to enter the cube!",
+    "pokecube.noroom": "§cThere is not enough room for the Pokémob here.",
+    "pokecube.badaim": "§cI should probably aim more carefully",
+
     "pokemob.evolution.start": "§aWhat? %1$s §ais evolving!",
     "pokemob.evolution.cancel": "§cHuh? %1$s §cstopped evolving.",
-
-    "pokemob.agress": "A wild %1$s has appeared",
-    "pokemob.deagress.timeout": "The %1$s has lost interest in the battle.",
 
     "pokemob.hungry.slow": "Your Pokémob is too hungry to move quickly",
     "pokemob.hungry.hurt": "%1$s §cis starving!",
@@ -204,8 +230,8 @@
     "pokemob.action.denydamageblock": "§cpokemobsDamageBlocks is disabled via configs",
     "pokemob.action.needsberries": "§cYour Pokémob needs to eat more Berries to do that",
     "pokemob.action.denyrepel": "§cYour Pokémob is too disgusted by repel to do that",
-    "pokemob.areanotloaded": "§cWarning, Unloaded area.",
     "pokemob.action.cannotuse": "§cYou cannot use that yet.",
+    "pokemob.areanotloaded": "§cWarning, Unloaded area.",
 
     "pokemob.info.levelup": "%1$s §ahas grown to level %2$s",
 
@@ -217,19 +243,19 @@
     "pokemob.info.happy5": "§aYour Pokémob is very happy",
     "pokemob.info.happy6": "§aYour Pokémob is ecstatic",
 
-    "pokemob.evolve.success": "%1$s Evolved into %2$s",
-    "pokemob.megaevolve.command.evolve": "You tell %1$s to Mega-evolve!",
-    "pokemob.megaevolve.command.revert": "You tell %1$s to revert!",
-    "pokemob.megaevolve.success": "%1$s Mega-evolved into %2$s",
-    "pokemob.megaevolve.revert": "%1$s Reverted to %2$s",
-    "pokemob.megaevolve.failed": "%1$s failed to Mega Evolve.",
+    "pokemob.evolve.success": "%1$s §aEvolved into %2$s",
+    "pokemob.megaevolve.command.evolve": "§aYou tell %1$s to Mega-evolve!",
+    "pokemob.megaevolve.command.revert": "§aYou tell %1$s to revert!",
+    "pokemob.megaevolve.success": "%1$s §aMega-evolved into %2$s",
+    "pokemob.megaevolve.revert": "%1$s §aReverted to %2$s",
+    "pokemob.megaevolve.failed": "%1$s §cfailed to Mega Evolve.",
     
-    "pokemob.dynamax.command.evolve": "You tell %1$s to Dynamax!",
-    "pokemob.dynamax.command.revert": "You tell %1$s to revert!",
-    "pokemob.dynamax.timeout.revert": "%1$s has begun to revert!",
-    "pokemob.dynamax.too_soon": "You cannot use dynamax yet!",
-    "pokemob.dynamax.success": "%1$s Dynamaxed!",
-    "pokemob.dynamax.revert": "%1$s Reverted!",
+    "pokemob.dynamax.command.evolve": "§aYou tell %1$s to Dynamax!",
+    "pokemob.dynamax.command.revert": "§aYou tell %1$s to revert!",
+    "pokemob.dynamax.timeout.revert": "%1$s §ahas begun to revert!",
+    "pokemob.dynamax.too_soon": "§cYou cannot use dynamax yet!",
+    "pokemob.dynamax.success": "%1$s §aDynamaxed!",
+    "pokemob.dynamax.revert": "%1$s §cReverted!",
 
     "pokecube.gzmode.set": "§aEnabling Z/G-max Moves!",
     "pokecube.gzmode.unset": "§aEnabling regular Moves!",
@@ -273,32 +299,10 @@
     "gui.pokemob.accept": "Accept",
     "gui.pokemob.deny": "Deny",
     "gui.pokemob.teleport": "Teleports",
-
-    "pokecube.caught": "%1$s §ahas been caught!",
-    "pokecube.missed": "%1$s §cbroke out!",
-    "pokecube.denied": "§cThe Pokémob refuses to enter the cube!",
-    "pokecube.noroom": "§cThere is not enough room for the Pokémob here.",
-    "pokecube.badaim": "§cI should probably aim more carefully",
+    
     "pokecube.mega.noring": "§cYou are not wearing anything that will allow §6%1$s §cto mega evolve!",
 
     "pokecube.professor.deny": "Professor: §cYou have already recieved a Pokémob",
-    "pokedex.setteleport": "Pokécenter set as a Teleport Location",
-    "pokedex.locationinfo1": "There are %1$s Registered Spawns.",
-    "pokedex.locationinfo2": "There are %1$s Registered Pokémobs.",
-    "pokedex.locationinfo3": "There are %1$s Registerd Forms of Pokémobs.",
-    "pokedex.locationinfo4": "%1$s Spawn here",
-
-    "pokedex.inspect.nothing": "§cThere are no new rewards from the Pokédex",
-    "pokedex.inspect.available": "§aYou have a new Pokédex reward available, click the Blue light in the Pokédex to get it!",
-
-    "pokedex.inspect.guidebook": "§aYou recieved a Guide Book from the Pokédex.",
-    "pokedex.inspect.carebook": "§aYou recieved a Care Book from the Pokédex.",
-    "pokedex.inspect.exp_share": "§aCongratulations, you have recieved an Exp. Share from the inspection of your Pokédex.",
-    "pokedex.inspect.cutTM": "§aCongratulations, you have recieved a Cut TM from the inspection of your Pokédex.",
-    "pokedex.inspect.flashTM": "§aCongratulations, you have recieved a Flash TM from the inspection of your Pokédex.",
-    "pokedex.inspect.rocksmashTM": "§aCongratulations, you have recieved a Rock Smash TM from the inspection of your Pokédex.",
-    "pokedex.inspect.mastercube": "§aCongratulations, you have recieved a Mastercube from the inspection of your Pokédex.",
-    "pokedex.inspect.shinycharm": "§aCongratulations, you have recieved a Shiny Charm from the inspection of your Pokédex.",
 
     "_comment": "Blocks",
 
@@ -368,6 +372,8 @@
 
     "item.pokecube.berry_null.desc": "Just a Berry, Pokémobs might eat it.",
 
+    "_comment": "Pokecube Tooltips",
+    
     "pokecube.tooltip.level": "Level: %1$s",
     "pokecube.tooltip.health": "HP: %1$s/%2$s",
     "pokecube.tooltip.xp": "XP: %1$s/%2$s",
@@ -377,6 +383,12 @@
     "pokecube.tooltip.nature": "N: %s",
     "pokecube.tooltip.ability": "A: %s",
     "pokecube.tooltip.advanced": "<Shift for more info>",
+
+    "item.pokecube.bubbles": "Droplets",
+    "item.pokecube.flames": "Flames",
+    "item.pokecube.leaves": "Leaves",
+
+    "_comment": "Vitamin Tooltips",
     
     "pokecube.tooltip.hpup": "Increases HP of a Pokémob",
     "pokecube.tooltip.protein": "Increases ATT of a Pokémob",
@@ -390,6 +402,7 @@
     "entity.pokecube.egg": "Pokémob Egg",
     "entity.pokecube.npc": "Npc",
     "entity.pokecube.cube": "Pokécube",
+    "pkmn.missingno": "MissingNo.",
     
     "_comment": "Named NPCs",
     
@@ -405,7 +418,7 @@
     "itemGroup.pokecube_berries": "Pokécube Berries",
     "itemGroup.pokecube_cubes": "Pokécubes",
 
-    "_comment": "Commands",
+    "_comment": "Command Messages",
 
     "pokecube.command.noperms": "§cInsufficient Permissions",
     "pokecube.command.invalidtab": "§cInvalid Arguments, try TAB for options",
@@ -432,5 +445,7 @@
     "pokecube.command.settings.error": "§cError while checking config field, please report this as a bug.",
 
     "pokecube.command.checkreward": "Does %1$s have %2$s: %3$s.",
-    "pokecube.command.resetreward": "Reset %2$s for %1$s."
+    "pokecube.command.resetreward": "Reset %2$s for %1$s.",
+
+    "_comment": "Misc"
 }

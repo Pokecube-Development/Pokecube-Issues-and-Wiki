@@ -22,7 +22,6 @@ import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.megastuff.MegaCapability;
-import thut.core.common.commands.CommandTools;
 import thut.core.common.network.Packet;
 
 public class PacketChangeForme extends Packet
@@ -43,7 +42,8 @@ public class PacketChangeForme extends Packet
         PokecubeCore.packets.sendToTracking(packet, mob);
     }
 
-    int          entityId;
+    int entityId;
+
     PokedexEntry forme;
 
     public PacketChangeForme()
@@ -102,11 +102,10 @@ public class PacketChangeForme extends Packet
 
             if (isDyna)
             {
-                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.revert", "green",
-                        oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.revert", "green", oldName);
+                mess = new TranslationTextComponent("pokemob.dynamax.revert", oldName);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
                 return;
             }
@@ -118,15 +117,14 @@ public class PacketChangeForme extends Packet
                 final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
                 if (dynatime != 0 && time < dynaagain)
                 {
-                    player.sendMessage(CommandTools.makeTranslatedMessage("pokemob.dynamax.too_soon", "red", pokemob
+                    player.sendMessage(new TranslationTextComponent("pokemob.dynamax.too_soon", pokemob
                             .getDisplayName()));
                     return;
                 }
 
-                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.evolve", "green",
-                        oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.command.evolve", oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.success", "green", oldName);
+                mess = new TranslationTextComponent("pokemob.dynamax.success", oldName);
                 if (gigant) pokemob.setCombatState(CombatStates.MEGAFORME, true);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
                 return;
@@ -141,11 +139,10 @@ public class PacketChangeForme extends Packet
         }
         if (isDyna || gigant)
         {
-            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.command.revert", "green",
-                    oldName);
+            ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.command.revert", oldName);
             pokemob.displayMessageToOwner(mess);
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
-            mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.revert", "green", oldName);
+            mess = new TranslationTextComponent("pokemob.dynamax.revert", oldName);
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess, true);
             return;
         }
@@ -155,20 +152,18 @@ public class PacketChangeForme extends Packet
         {
             if (pokemob.getPokedexEntry() == newEntry)
             {
-                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.revert", "green",
-                        oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.revert", "green", oldName, newEntry
+                mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, newEntry
                         .getUnlocalizedName());
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
             }
             else
             {
-                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.evolve", "green",
-                        oldName);
+                ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.evolve", oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.success", "green", oldName, newEntry
+                mess = new TranslationTextComponent("pokemob.megaevolve.success", oldName, newEntry
                         .getUnlocalizedName());
                 pokemob.setCombatState(CombatStates.MEGAFORME, true);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
@@ -176,17 +171,14 @@ public class PacketChangeForme extends Packet
         }
         else if (pokemob.getCombatState(CombatStates.MEGAFORME))
         {
-            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.revert", "green",
-                    oldName);
+            ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.revert", oldName);
             pokemob.displayMessageToOwner(mess);
             newEntry = pokemob.getMegaBase();
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
-            mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.revert", "green", oldName, newEntry
-                    .getUnlocalizedName());
+            mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, newEntry.getUnlocalizedName());
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
         }
-        else player.sendMessage(CommandTools.makeTranslatedMessage("pokemob.megaevolve.failed", "red", pokemob
-                .getDisplayName()));
+        else player.sendMessage(new TranslationTextComponent("pokemob.megaevolve.failed", pokemob.getDisplayName()));
     }
 
     @Override

@@ -14,6 +14,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.events.EffectEvent;
 import pokecube.core.interfaces.IMoveConstants;
@@ -22,7 +23,6 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
-import thut.core.common.commands.CommandTools;
 
 public class NonPersistantStatusEffect extends BaseEffect
 {
@@ -31,13 +31,13 @@ public class NonPersistantStatusEffect extends BaseEffect
         public final Effect status;
         int                 tick;
 
-        public DefaultEffects(Effect status)
+        public DefaultEffects(final Effect status)
         {
             this.status = status;
         }
 
         @Override
-        public void affectTarget(IOngoingAffected target, IOngoingEffect effect)
+        public void affectTarget(final IOngoingAffected target, final IOngoingEffect effect)
         {
             final LivingEntity entity = target.getEntity();
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
@@ -49,8 +49,8 @@ public class NonPersistantStatusEffect extends BaseEffect
             case CURSED:
                 if (pokemob != null)
                 {
-                    final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.curse", "red",
-                            pokemob.getDisplayName().getFormattedText());
+                    final ITextComponent mess = new TranslationTextComponent("pokemob.status.curse.ours", pokemob
+                            .getDisplayName());
                     pokemob.displayMessageToOwner(mess);
                 }
                 LivingEntity targetM = entity.getAttackingEntity();
@@ -59,8 +59,8 @@ public class NonPersistantStatusEffect extends BaseEffect
                 if (targetM == null) targetM = entity;
                 float scale = 1;
                 final IPokemob user = CapabilityPokemob.getPokemobFor(targetM);
-                final DamageSource source = user != null && user.getOwner() != null ? DamageSource
-                        .causeIndirectDamage(targetM, user.getOwner())
+                final DamageSource source = user != null && user.getOwner() != null ? DamageSource.causeIndirectDamage(
+                        targetM, user.getOwner())
                         : targetM != null ? DamageSource.causeMobDamage(targetM) : new DamageSource("generic");
 
                 if (pokemob != null)
@@ -85,7 +85,7 @@ public class NonPersistantStatusEffect extends BaseEffect
         }
 
         @Override
-        public void setTick(int tick)
+        public void setTick(final int tick)
         {
             this.tick = tick;
         }
@@ -95,7 +95,8 @@ public class NonPersistantStatusEffect extends BaseEffect
     {
         CONFUSED(IMoveConstants.CHANGE_CONFUSED), CURSED(IMoveConstants.CHANGE_CURSE), FLINCH(
                 IMoveConstants.CHANGE_FLINCH);
-        public static Effect getStatus(byte mask)
+
+        public static Effect getStatus(final byte mask)
         {
             return NonPersistantStatusEffect.MASKMAP.get(mask);
         }
@@ -108,7 +109,7 @@ public class NonPersistantStatusEffect extends BaseEffect
 
         final byte mask;
 
-        private Effect(byte mask)
+        private Effect(final byte mask)
         {
             this.mask = mask;
         }
@@ -142,14 +143,14 @@ public class NonPersistantStatusEffect extends BaseEffect
         this.setDuration(-1);
     }
 
-    public NonPersistantStatusEffect(Effect effect)
+    public NonPersistantStatusEffect(final Effect effect)
     {
         this();
         this.effect = effect;
     }
 
     @Override
-    public void affectTarget(IOngoingAffected target)
+    public void affectTarget(final IOngoingAffected target)
     {
         final IEffect effect = NonPersistantStatusEffect.EFFECTMAP.get(this.effect);
         if (effect != null)
@@ -170,7 +171,7 @@ public class NonPersistantStatusEffect extends BaseEffect
     }
 
     @Override
-    public AddType canAdd(IOngoingAffected affected, IOngoingEffect toAdd)
+    public AddType canAdd(final IOngoingAffected affected, final IOngoingEffect toAdd)
     {
         if (toAdd instanceof NonPersistantStatusEffect && ((NonPersistantStatusEffect) toAdd).effect == this.effect)
             return AddType.DENY;
@@ -178,7 +179,7 @@ public class NonPersistantStatusEffect extends BaseEffect
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         this.effect = Effect.values()[nbt.getByte("S")];
         super.deserializeNBT(nbt);
