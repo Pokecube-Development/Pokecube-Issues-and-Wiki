@@ -24,7 +24,7 @@ import net.minecraftforge.fml.network.PacketDistributor.PacketTarget;
 import thut.core.common.ThutCore;
 
 /**
- * Copied from BetterQuesting
+ * Copied from BetterQuesting, then modified to meet my needs.
  */
 public final class PacketAssembly<T extends NBTPacket>
 {
@@ -100,11 +100,6 @@ public final class PacketAssembly<T extends NBTPacket>
         final UUID id = tag.getUniqueId("id");
         final CompoundNBT made = this.assemblePacket(id, tag);
         return made;
-    }
-
-    protected void addTag(final UUID id, final CompoundNBT tag)
-    {
-
     }
 
     private List<CompoundNBT> splitPacket(final UUID id, final CompoundNBT tags)

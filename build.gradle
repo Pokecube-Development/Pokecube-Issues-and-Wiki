@@ -22,7 +22,7 @@ apply plugin: 'maven-publish'
 
 ext {
     VERSION_COMPILE = gitVersion("${version_major}.${version_minor}")
-    VERSION_THUTCORE = gitVersion("${version_thutcore}")
+    VERSION_THUTCORE = gitVersion("${version_thutcore}.${version_major}.${version_minor}")
     // Force a refresh of the toml file
     cleanTOML()
 }
@@ -158,7 +158,12 @@ def gitVersion(value) {
     def raw = grgit.describe(longDescr: true)
     def desc = (raw == null ? 'unknown-offset-hash' : grgit.describe(longDescr: true)).split('-') as List
     def vers = desc.get(1)
-    def offset = vers.split(/[.]/)[2]
-    def ver = offset.toInteger() + 1
+    def splis = vers.split(/[.]/)
+    def subver = splis[1].toInteger()
+    def offset = splis[2].toInteger()
+    def ver = offset + 1
+    if (subver < version_minor.toInteger()){
+        ver = 0
+    }
     return "${value}.${ver}"
 }
