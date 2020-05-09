@@ -91,8 +91,6 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
         final boolean isMegaWear = ItemList.is(MegaCapability.MEGAWORNTAG, stack);
         final boolean isBling = ItemList.is(MegaCapability.BLINGTAG, stack);
 
-        System.out.println(isStone + " " + isMegaWear + " " + isBling + " " + stacks);
-
         // Bling only works if a stone is attached, so if it is bling, check if
         // it has correct entry.
         if (isStone || isBling)

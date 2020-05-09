@@ -92,7 +92,7 @@ public class PacketChangeForme extends Packet
         if (reason == MaxTile.MAXSPOT)
         {
             isDyna = isDyna || entry.isMega;
-            PokedexEntry newEntry = entry.isMega ? entry.getBaseForme() : entry;
+            PokedexEntry newEntry = entry.isMega ? pokemob.getMegaBase() : entry;
 
             if (gigant && !isDyna)
             {
@@ -133,7 +133,7 @@ public class PacketChangeForme extends Packet
             }
         }
 
-        PokedexEntry newEntry = entry.isMega ? entry.getBaseForme() : entry;
+        PokedexEntry newEntry = entry.isMega ? pokemob.getMegaBase() : entry;
         if (gigant && !isDyna)
         {
             newEntry = Database.getEntry(newEntry.getTrimmedName() + "_gigantamax");
@@ -179,7 +179,7 @@ public class PacketChangeForme extends Packet
             ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.command.revert", "green",
                     oldName);
             pokemob.displayMessageToOwner(mess);
-            newEntry = pokemob.getPokedexEntry().getBaseForme();
+            newEntry = pokemob.getMegaBase();
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
             mess = CommandTools.makeTranslatedMessage("pokemob.megaevolve.revert", "green", oldName, newEntry
                     .getUnlocalizedName());
