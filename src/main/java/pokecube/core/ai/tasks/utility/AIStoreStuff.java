@@ -2,11 +2,16 @@ package pokecube.core.ai.tasks.utility;
 
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.IInventoryChangedListener;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,11 +23,13 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.AIBase;
+import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.berries.ItemBerry;
+import thut.api.item.ItemList;
 import thut.lib.ItemStackTools;
 
 /**
@@ -31,7 +38,7 @@ import thut.lib.ItemStackTools;
  * allows using pokemobs for automatic harvesting and storage of berries and
  * dropped items.
  */
-public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT>
+public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT>, IInventoryChangedListener
 {
     public static int COOLDOWN = 10;
     public static int MAXSIZE  = 100;
@@ -50,11 +57,52 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
     int searchInventoryCooldown = 0;
     int doStorageCooldown       = 0;
 
+    int berrySlotIndex;
+
+    boolean hasBerries = false;
+
+    int filledSlots = 0;
+    int emptySlots  = 0;
+    int firstEmpty  = 0;
+
     boolean pathing = false;
 
     public AIStoreStuff(final IPokemob entity)
     {
         super(entity);
+        if (entity.getInventory() instanceof Inventory) ((Inventory) entity.getInventory()).addListener(this);
+    }
+
+    @Override
+    public void onInventoryChanged(final IInventory invBasic)
+    {
+        ItemStack stack;
+        this.berrySlotIndex = -1;
+        this.hasBerries = false;
+        this.filledSlots = 0;
+        this.emptySlots = 0;
+        this.firstEmpty = -1;
+        // Has a berry already, can pass through to storage check.
+        final IItemHandlerModifiable itemhandler = new InvWrapper(this.pokemob.getInventory());
+        // Search inventory for free slots or berries.
+        for (int i = 2; i < itemhandler.getSlots(); i++)
+        {
+            final boolean test = (stack = itemhandler.getStackInSlot(i)).isEmpty();
+            if (!test)
+            {
+                this.filledSlots++;
+                if (!this.hasBerries)
+                {
+                    this.hasBerries = ItemList.is(AIHungry.FOODTAG, stack);
+                    if (this.hasBerries) this.berrySlotIndex = i;
+                }
+            }
+            else
+            {
+                if (this.emptySlots == 0) this.firstEmpty = i;
+                this.emptySlots++;
+            }
+        }
     }
 
     private BlockPos checkDir(final IBlockReader world, final Direction dir, BlockPos centre, final Direction side)
@@ -89,39 +137,24 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
 
     private boolean doBerryCheck(final IItemHandlerModifiable pokemobInv)
     {
-        ItemStack stack = pokemobInv.getStackInSlot(2);
-        boolean hasBerry = stack.getItem() instanceof ItemBerry;
-        // Has a berry already, can pass through to storage check.
-        if (hasBerry) return false;
-        boolean freeSlot = false;
-        int berrySlot = -1;
-        int firstFreeSlot = -1;
-        // Search inventory for free slots or berries.
-        for (int i = 2; i < pokemobInv.getSlots(); i++)
-        {
-            final boolean test = (stack = pokemobInv.getStackInSlot(i)).isEmpty();
-            if (test && firstFreeSlot == -1 && i != 2) firstFreeSlot = i;
-            freeSlot = freeSlot || test;
-            if (!hasBerry)
-            {
-                hasBerry = !test && stack.getItem() instanceof ItemBerry;
-                if (hasBerry) berrySlot = i;
-            }
-        }
         // If you have a berry stack elsewhere, swap it into first slot in
         // inventory.
-        if (berrySlot != -1)
+        if (this.berrySlotIndex != -1 && this.berrySlotIndex != 2 && this.hasBerries)
         {
-            final ItemStack stack1 = pokemobInv.getStackInSlot(berrySlot);
-            pokemobInv.setStackInSlot(berrySlot, pokemobInv.getStackInSlot(2));
+            System.out.println(this.berrySlotIndex);
+            final ItemStack stack1 = pokemobInv.getStackInSlot(this.berrySlotIndex);
+            pokemobInv.setStackInSlot(this.berrySlotIndex, pokemobInv.getStackInSlot(2));
             pokemobInv.setStackInSlot(2, stack1);
+            this.berrySlotIndex = 2;
             // Retrun false to allow storage check.
             return false;
         }
+        // Has a berry already, can pass through to storage check.
+        if (this.hasBerries) return false;
         // No room to pick up a berry if it wanted to, so can pass through
         // to
         // storage check.
-        if (!freeSlot || firstFreeSlot == -1) return false;
+        if (this.emptySlots == 0) return false;
         // No Berry Storage, so move to normal storage checks.
         if (!this.findBerryStorage(false)) return false;
         IItemHandlerModifiable berries = this.getInventory(this.world, this.berryLoc, null);
@@ -135,9 +168,17 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
         if (berries == null) berries = this.getInventory(this.world, this.berryLoc, null);
         if (berries == null) return false;
         // No Berries in storage.
-        if (!this.hasItem(ItemBerry.class, berries)) return false;
+        if (!this.hasItem(AIHungry.FOODTAG, berries)) return false;
         if (this.pokemob.getEntity().getPosition().distanceSq(this.berryLoc) > 9)
         {
+            this.pathing = true;
+            final Path current = this.pokemob.getEntity().getNavigator().getPath();
+            if (current != null)
+            {
+                final PathPoint end = current.getFinalPathPoint();
+                final BlockPos dest = new BlockPos(end.x, end.z, end.z);
+                if (dest.withinDistance(this.berryLoc, 1)) return true;
+            }
             final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
             this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.berryLoc.getX() + 0.5, this.berryLoc.getY() + 0.5,
                     this.berryLoc.getZ() + 0.5, speed);
@@ -145,16 +186,15 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
             // storage tasks.
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this.pokemob.getDisplayName().getUnformattedComponentText()
                     + " Pathing to Berries at " + this.berryLoc);
-            this.pathing = true;
             return true;
         }
         for (int i = 0; i < Math.min(berries.getSlots(), AIStoreStuff.MAXSIZE); i++)
         {
-            stack = berries.getStackInSlot(i);
+            final ItemStack stack = berries.getStackInSlot(i);
             if (stack.getItem() instanceof ItemBerry)
             {
                 berries.setStackInSlot(i, ItemStack.EMPTY);
-                pokemobInv.setStackInSlot(firstFreeSlot, pokemobInv.getStackInSlot(2));
+                pokemobInv.setStackInSlot(this.firstEmpty, pokemobInv.getStackInSlot(2));
                 pokemobInv.setStackInSlot(2, stack);
                 // Collected our berry, Can pass to storage now.
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this.pokemob.getDisplayName()
@@ -168,20 +208,11 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
 
     private boolean doEmptyCheck(final IItemHandlerModifiable pokemobInv)
     {
+        // Can only pick up item if we have a free slot for it.
+        if (this.emptySlots == 0) return false;
         // Return true here to make the cooldown not 5x, this means we don't
         // have a setting for empty, so no need to run this AI.
         if (!this.findEmptyStorage(false)) return false;
-        boolean freeSlot = false;
-        // Search inventory for free slots, ignore first slot, as berry storage
-        // deals with it.
-        int firstFreeSlot = -1;
-        for (int i = 3; i < pokemobInv.getSlots() && !freeSlot; i++)
-        {
-            freeSlot = pokemobInv.getStackInSlot(i).isEmpty();
-            if (freeSlot) firstFreeSlot = i;
-        }
-        // Can only pick up item if we have a free slot for it.
-        if (!freeSlot || firstFreeSlot == -1) return false;
         IItemHandlerModifiable inventory = this.getInventory(this.world, this.emptyInventory, this.emptyFace);
         // No inventory to empty
         if (inventory == null && !this.findEmptyStorage(true))
@@ -193,23 +224,30 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
         if (inventory == null) inventory = this.getInventory(this.world, this.emptyInventory, this.emptyFace);
         if (inventory == null) return false;
         // No items to empty
-        if (!this.hasItem(Item.class, inventory)) return false;
+        if (!this.hasItem(null, inventory)) return false;
         // Path to the inventory.
         if (this.pokemob.getEntity().getPosition().distanceSq(this.emptyInventory) > 9)
         {
+            this.pathing = true;
+            final Path current = this.pokemob.getEntity().getNavigator().getPath();
+            if (current != null)
+            {
+                final PathPoint end = current.getFinalPathPoint();
+                final BlockPos dest = new BlockPos(end.x, end.z, end.z);
+                if (dest.withinDistance(this.emptyInventory, 1)) return true;
+            }
             final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
             this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.emptyInventory.getX() + 0.5, this.emptyInventory
                     .getY() + 0.5, this.emptyInventory.getZ() + 0.5, speed);
             // We should be pathing, so return true.
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this.pokemob.getDisplayName().getUnformattedComponentText()
                     + " Pathing to Pick Up at " + this.emptyInventory);
-            this.pathing = true;
             return true;
         }
         boolean collected = false;
         int start = 0;
         inv:
-        for (int slot = firstFreeSlot; slot < pokemobInv.getSlots(); slot++)
+        for (int slot = this.firstEmpty; slot < pokemobInv.getSlots(); slot++)
             if (pokemobInv.getStackInSlot(slot).isEmpty()) for (int i = start; i < Math.min(inventory.getSlots(),
                     AIStoreStuff.MAXSIZE); i++)
             {
@@ -232,25 +270,27 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
 
     private boolean doStorageCheck(final IItemHandlerModifiable pokemobInv)
     {
-        int freeSlots = 0;
-        // Search inventory for free slots, ignore first slot, as berry storage
-        // deals with it.
-        for (int i = 3; i < pokemobInv.getSlots(); i++)
-            if (pokemobInv.getStackInSlot(i).isEmpty()) freeSlots++;
         // Only dump inventory if no free slots.
-        if (freeSlots > 2) return false;
+        if (this.emptySlots > 2) return false;
         // No ItemStorage
         if (!this.findItemStorage(false)) return false;
         // check if should path to storage.
         if (this.pokemob.getEntity().getPosition().distanceSq(this.storageLoc) > 9)
         {
+            this.pathing = true;
+            final Path current = this.pokemob.getEntity().getNavigator().getPath();
+            if (current != null)
+            {
+                final PathPoint end = current.getFinalPathPoint();
+                final BlockPos dest = new BlockPos(end.x, end.z, end.z);
+                if (dest.withinDistance(this.storageLoc, 1)) return true;
+            }
             final double speed = 1;
             this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.storageLoc.getX() + 0.5, this.storageLoc.getY()
                     + 0.5, this.storageLoc.getZ() + 0.5, speed);
             // We should be pathing to storage here, so return true.
             PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
                     + " Pathing to Storage at " + this.storageLoc);
-            this.pathing = true;
             return true;
         }
         IItemHandlerModifiable storage = this.getInventory(this.world, this.storageLoc, this.storageFace);
@@ -352,12 +392,14 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
         return null;
     }
 
-    private boolean hasItem(final Class<? extends Item> tocheck, final IItemHandlerModifiable inventory)
+    private boolean hasItem(final ResourceLocation tag, final IItemHandlerModifiable inventory)
     {
         for (int i = 0; i < Math.min(inventory.getSlots(), AIStoreStuff.MAXSIZE); i++)
         {
             final ItemStack stack = inventory.getStackInSlot(i);
-            if (!stack.isEmpty() && tocheck.isInstance(stack.getItem())) return true;
+            if (stack.isEmpty()) continue;
+            if (tag == null) return true;
+            if (ItemList.is(tag, stack)) return true;
         }
         return false;
     }
@@ -442,7 +484,6 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
             stuff = this.findItemStorage(true);
             if (!stuff) this.searchInventoryCooldown = 50 * AIStoreStuff.COOLDOWN;
         }
-        if (!this.pathing) if (!stuff || this.doStorageCooldown-- > 0) return;
         final IItemHandlerModifiable itemhandler = new InvWrapper(this.pokemob.getInventory());
         if (this.doBerryCheck(itemhandler) || this.doStorageCheck(itemhandler) || this.doEmptyCheck(itemhandler))
             this.doStorageCooldown = 5;

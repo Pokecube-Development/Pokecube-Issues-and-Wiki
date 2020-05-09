@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.pathfinding.Path;
@@ -43,7 +44,7 @@ import thut.lib.ItemStackTools;
  * berries. It requires an AIStoreStuff to have located a suitable storage
  * before it will run.
  */
-public class AIGatherStuff extends AIBase
+public class AIGatherStuff extends AIBase implements IInventoryChangedListener
 {
     /**
      * This manages the pokemobs replanting anything that they gather.
@@ -106,18 +107,21 @@ public class AIGatherStuff extends AIBase
     private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
             || !input.isAddedToWorld();
 
-    final double       distance;
-    boolean            block           = false;
-    List<ItemEntity>   stuff           = Lists.newArrayList();
-    Vector3            stuffLoc        = Vector3.getNewVector();
-    Vector3            backup          = this.stuffLoc;
-    boolean            hasRoom         = true;
-    int                collectCooldown = 0;
-    int                pathCooldown    = 0;
+    final double     distance;
+    boolean          block    = false;
+    List<ItemEntity> stuff    = Lists.newArrayList();
+    Vector3          stuffLoc = Vector3.getNewVector();
+
+    Vector3 backup          = this.stuffLoc;
+    boolean hasRoom         = true;
+    int     collectCooldown = 0;
+    int     pathCooldown    = 0;
+
     final AIStoreStuff storage;
-    Vector3            seeking         = Vector3.getNewVector();
-    Vector3            v               = Vector3.getNewVector();
-    Vector3            v1              = Vector3.getNewVector();
+
+    Vector3 seeking = Vector3.getNewVector();
+    Vector3 v       = Vector3.getNewVector();
+    Vector3 v1      = Vector3.getNewVector();
 
     public AIGatherStuff(final IPokemob mob, final double distance, final AIStoreStuff storage)
     {
@@ -126,6 +130,13 @@ public class AIGatherStuff extends AIBase
         this.storage = storage;
         this.setMutex(1);
         this.clearLoc();
+    }
+
+    @Override
+    public void onInventoryChanged(final IInventory invBasic)
+    {
+        // TODO Auto-generated method stub
+
     }
 
     private void setLoc(final Object o)
@@ -202,23 +213,24 @@ public class AIGatherStuff extends AIBase
 
     private void gatherStuff()
     {
-
-        if (this.pathCooldown-- > 0) return;
-        this.pathCooldown = AIGatherStuff.COOLDOWN_PATH;
-        // Set path to the stuff found.
-        final double speed = 1;
-        if (!this.stuff.isEmpty() && this.stuffLoc == null)
+        if (this.pathCooldown-- <= 0)
         {
-            this.setLoc(this.stuff.get(0));
-            final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
-                    this.stuffLoc.z, 0);
-            this.addEntityPath(this.entity, path, speed);
-        }
-        else
-        {
-            final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
-                    this.stuffLoc.z, 0);
-            this.addEntityPath(this.entity, path, speed);
+            this.pathCooldown = AIGatherStuff.COOLDOWN_PATH;
+            // Set path to the stuff found.
+            final double speed = 1;
+            if (!this.stuff.isEmpty() && this.stuffLoc == null)
+            {
+                this.setLoc(this.stuff.get(0));
+                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
+                        this.stuffLoc.z, 0);
+                this.addEntityPath(this.entity, path, speed);
+            }
+            else if (this.stuffLoc != null)
+            {
+                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
+                        this.stuffLoc.z, 0);
+                this.addEntityPath(this.entity, path, speed);
+            }
         }
         if (this.stuffLoc == null) return;
 
@@ -282,6 +294,10 @@ public class AIGatherStuff extends AIBase
     {
         // Check if gather is enabled first.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.GATHER)) return false;
+
+        // Dont run if the storage is currently trying to path somewhere
+        if (this.storage.pathing) return false;
+
         final boolean wildCheck = !PokecubeCore.getConfig().wildGather && !this.pokemob.getGeneralState(
                 GeneralStates.TAMED);
         // Check if this should be doing something else instead, if so return
