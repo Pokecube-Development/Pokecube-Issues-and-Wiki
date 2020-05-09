@@ -112,22 +112,25 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     public void attack(final IPokemob attacker, final Entity attacked)
     {
         final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
-        if (attacker.getStatus() == IMoveConstants.STATUS_SLP)
+        if ((attacker.getStatus() & IMoveConstants.STATUS_SLP) > 0)
         {
             if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(),
                     IMoveConstants.STATUS_SLP, false);
+            else MovesUtils.displayStatusMessages(null, attacker.getEntity(), IMoveConstants.STATUS_SLP, false);
             return;
         }
-        if (attacker.getStatus() == IMoveConstants.STATUS_FRZ)
+        if ((attacker.getStatus() & IMoveConstants.STATUS_FRZ) > 0)
         {
             if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(),
                     IMoveConstants.STATUS_FRZ, false);
+            else MovesUtils.displayStatusMessages(null, attacker.getEntity(), IMoveConstants.STATUS_FRZ, false);
             return;
         }
-        if (attacker.getStatus() == IMoveConstants.STATUS_PAR && Math.random() > 0.75)
+        if ((attacker.getStatus() & IMoveConstants.STATUS_PAR) > 0 && Math.random() > 0.75)
         {
             if (attackedMob != null) MovesUtils.displayStatusMessages(attackedMob, attacker.getEntity(),
                     IMoveConstants.STATUS_PAR, false);
+            else MovesUtils.displayStatusMessages(null, attacker.getEntity(), IMoveConstants.STATUS_PAR, false);
             return;
         }
         if (AnimationMultiAnimations.isThunderAnimation(this.getAnimation(attacker)))
