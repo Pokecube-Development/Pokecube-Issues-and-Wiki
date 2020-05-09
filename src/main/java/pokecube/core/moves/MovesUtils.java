@@ -663,29 +663,23 @@ public class MovesUtils implements IMoveConstants
 
     public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest)
     {
-        final Vector3 source = Vector3.getNewVector().set(attacker, true);
-
-        source.y += attacker.getHeight() / 4;
-        final Predicate<Entity> matcher = MovesUtils.targetMatcher(attacker);
+        final Vector3 source = Vector3.getNewVector().set(attacker);
         final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source, attacker
-                .getEntityWorld(), attacker, matcher);
+                .getEntityWorld(), attacker);
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets)
             if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;
     }
 
-    public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final int range,
-            final double area)
+    public static List<LivingEntity> targetsHit(final Entity attacker, final Vector3 dest, final double area)
     {
         final Vector3 source = Vector3.getNewVector().set(attacker);
-
-        final List<Entity> targets = source.allEntityLocationExcluding(range, area, dest.subtract(source), source,
-                attacker.getEntityWorld(), attacker);
+        final List<Entity> targets = attacker.getEntityWorld().getEntitiesWithinAABBExcludingEntity(attacker, source
+                .getAABB().grow(area));
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets)
             if (e instanceof LivingEntity) ret.add((LivingEntity) e);
-
         return ret;
     }
 

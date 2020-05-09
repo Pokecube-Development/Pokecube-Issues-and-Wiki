@@ -1,9 +1,9 @@
 package pokecube.core.moves.templates;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -19,34 +19,29 @@ import thut.api.maths.Vector3;
 
 public class Move_AOE extends Move_Basic
 {
-    public Move_AOE(String name)
+    public Move_AOE(final String name)
     {
         super(name);
     }
 
     @Override
-    public void attack(IPokemob attacker, Vector3 location)
+    public void attack(final IPokemob attacker, final Vector3 location)
     {
-        final List<Entity> targets = new ArrayList<>();
-
         final Entity entity = attacker.getEntity();
-
         if (!this.move.isNotIntercepable())
         {
             final Vec3d loc1 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
             final Vec3d loc2 = new Vec3d(location.x, location.y, location.z);
             final BlockRayTraceResult result = entity.getEntityWorld().rayTraceBlocks(new RayTraceContext(loc1, loc2,
                     RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, entity));
-            // TODO check if this is relative or absolute positon.
             if (result != null) location.set(result.getHitVec());
-
         }
-        targets.addAll(MovesUtils.targetsHit(entity, location, 2, 8));
+        final List<LivingEntity> targets = MovesUtils.targetsHit(entity, location, 8);
         final int n = targets.size();
         if (n > 0)
         {
             this.playSounds(entity, null, location);
-            for (final Entity e : targets)
+            for (final LivingEntity e : targets)
                 if (e != null)
                 {
                     final Entity attacked = e;
