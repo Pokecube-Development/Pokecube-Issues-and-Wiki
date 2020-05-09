@@ -74,11 +74,11 @@ import thut.api.entity.genetics.GeneRegistry;
 
 public class EventsHandlerClient
 {
-    public static HashMap<PokedexEntry, IPokemob>        renderMobs  = new HashMap<>();
-    private static Map<PokedexEntry, ResourceLocation[]> icons       = Maps.newHashMap();
-    static boolean                                       notifier    = false;
+    public static HashMap<PokedexEntry, IPokemob>        renderMobs = new HashMap<>();
+    private static Map<PokedexEntry, ResourceLocation[]> icons      = Maps.newHashMap();
+    static boolean                                       notifier   = false;
 
-    static long                                          lastSetTime = 0;
+    static long lastSetTime = 0;
 
     @SubscribeEvent
     public static void clientTick(final TickEvent.PlayerTickEvent event)
@@ -88,15 +88,14 @@ public class EventsHandlerClient
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
             final Entity target = pokemob.getEntity().getAttackTarget();
-            if (target != null && !pokemob.getGeneralState(GeneralStates.MATING))
-                EventsHandlerClient.setMostDamagingMove(pokemob, target);
+            if (target != null && !pokemob.getGeneralState(GeneralStates.MATING)) EventsHandlerClient
+                    .setMostDamagingMove(pokemob, target);
         }
         if (PokecubeCore.getConfig().autoRecallPokemobs)
         {
             final IPokemob mob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().addedToChunk
-                    && event.player.getDistance(mob.getEntity()) > PokecubeCore.getConfig().autoRecallDistance)
-                mob.onRecall();
+            if (mob != null && mob.getEntity().isAlive() && mob.getEntity().addedToChunk && event.player.getDistance(mob
+                    .getEntity()) > PokecubeCore.getConfig().autoRecallDistance) mob.onRecall();
         }
         control:
         if (event.player.isPassenger() && Minecraft.getInstance().currentScreen == null)
@@ -140,15 +139,14 @@ public class EventsHandlerClient
     {
         IPokemob mount;
 
-        if (evt.getInfo().getRenderViewEntity() instanceof PlayerEntity
-                && evt.getInfo().getRenderViewEntity().getRidingEntity() != null
-                && (mount = CapabilityPokemob
-                        .getPokemobFor(evt.getInfo().getRenderViewEntity().getRidingEntity())) != null)
-            if (evt.getInfo().getRenderViewEntity().isInWater() && mount.canUseDive())
-            {
+        if (evt.getInfo().getRenderViewEntity() instanceof PlayerEntity && evt.getInfo().getRenderViewEntity()
+                .getRidingEntity() != null && (mount = CapabilityPokemob.getPokemobFor(evt.getInfo()
+                        .getRenderViewEntity().getRidingEntity())) != null) if (evt.getInfo().getRenderViewEntity()
+                                .isInWater() && mount.canUseDive())
+        {
             evt.setDensity(0.05f);
             evt.setCanceled(true);
-            }
+        }
     }
 
     public static IPokemob getPokemobForRender(final ItemStack itemStack, final World world)
@@ -232,8 +230,8 @@ public class EventsHandlerClient
         if (ClientProxy.mobMegavolve.isPressed())
         {
             final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING))
-                PacketChangeForme.sendPacketToServer(current.getEntity(), null);
+            if (current != null && !current.getGeneralState(GeneralStates.EVOLVING)) PacketChangeForme
+                    .sendPacketToServer(current.getEntity(), null);
         }
         if (ClientProxy.arrangeGui.isPressed()) GuiArranger.toggle = !GuiArranger.toggle;
         if (ClientProxy.noEvolve.isPressed() && GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null)
@@ -254,9 +252,9 @@ public class EventsHandlerClient
             if (GuiTeleport.instance().getState()) GuiTeleport.instance().previousMove();
             else GuiDisplayPokecubeInfo.instance().previousMove(num);
         }
-        if (ClientProxy.mobBack.isPressed())
-            if (GuiTeleport.instance().getState()) GuiTeleport.instance().setState(false);
-            else GuiDisplayPokecubeInfo.instance().pokemobBack();
+        if (ClientProxy.mobBack.isPressed()) if (GuiTeleport.instance().getState()) GuiTeleport.instance().setState(
+                false);
+        else GuiDisplayPokecubeInfo.instance().pokemobBack();
         if (ClientProxy.mobAttack.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobAttack();
         if (ClientProxy.mobStance.isPressed()) GuiDisplayPokecubeInfo.instance().pokemobStance();
 
@@ -309,8 +307,8 @@ public class EventsHandlerClient
             for (final Slot slot : slots)
                 if (slot.getHasStack() && PokecubeManager.isFilled(slot.getStack()))
                 {
-                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getStack(),
-                            gui.getMinecraft().world);
+                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(slot.getStack(), gui
+                            .getMinecraft().world);
                     if (pokemob == null) continue;
                     final int x = (w - xSize) / 2;
                     final int y = (h - ySize) / 2;
@@ -386,8 +384,8 @@ public class EventsHandlerClient
         {
             texs = new ResourceLocation[2];
             EventsHandlerClient.icons.put(entry, texs);
-            final String texture = entry.getModId() + ":"
-                    + entry.getTexture((byte) 0).replace("/entity/", "/entity_icon/");
+            final String texture = entry.getModId() + ":" + entry.getTexture((byte) 0).replace("/entity/",
+                    "/entity_icon/");
             final String textureS = entry.hasShiny ? texture.replace(".png", "s.png") : texture;
             tex = new ResourceLocation(texture);
             texs[0] = tex;

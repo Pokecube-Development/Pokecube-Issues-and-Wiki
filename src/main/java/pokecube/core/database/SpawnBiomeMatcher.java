@@ -124,6 +124,71 @@ public class SpawnBiomeMatcher
         }
     }
 
+    public static enum MatchResult
+    {
+        PASS, SUCCEED, FAIL;
+    }
+
+    public static interface StructureMatcher
+    {
+
+        static StructureMatcher or(final StructureMatcher A, final StructureMatcher B)
+        {
+            return new StructureMatcher()
+            {
+                @Override
+                public MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
+                {
+                    final MatchResult resA = A.structuresMatch(matcher, checker);
+                    if (resA == MatchResult.SUCCEED) return MatchResult.SUCCEED;
+                    final MatchResult resB = B.structuresMatch(matcher, checker);
+                    if (resA == MatchResult.SUCCEED) return MatchResult.SUCCEED;
+                    return resA == MatchResult.FAIL || resB == MatchResult.FAIL ? MatchResult.FAIL : MatchResult.PASS;
+                }
+            };
+        }
+
+        default MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
+        {
+            if (!matcher._validStructures.isEmpty())
+            {
+                IChunk chunk = checker.chunk;
+                Map<String, StructureStart> starts = chunk.getStructureStarts();
+                for (final String s : matcher._validStructures)
+                {
+                    final StructureStart structurestart = starts.get(s);
+                    if (structurestart != null && structurestart != StructureStart.DUMMY)
+                    {
+                        final MutableBoundingBox box = structurestart.getBoundingBox();
+                        if (box.isVecInside(checker.location.getPos())) return MatchResult.SUCCEED;
+                    }
+                }
+                // Also check the surrounding chunks, if they exist
+                for (int i = -1; i <= 1; i++)
+                    for (int j = -1; j <= 1; j++)
+                    {
+                        // Just checked here!
+                        if (i == j && j == 0) continue;
+                        chunk = checker.world.getChunk(checker.chunk.getPos().x + i, checker.chunk.getPos().z + j,
+                                ChunkStatus.EMPTY, false);
+                        if (chunk == null) continue;
+                        starts = chunk.getStructureStarts();
+                        for (final String s : matcher._validStructures)
+                        {
+                            final StructureStart structurestart = starts.get(s);
+                            if (structurestart != null && structurestart != StructureStart.DUMMY)
+                            {
+                                final MutableBoundingBox box = structurestart.getBoundingBox();
+                                if (box.isVecInside(checker.location.getPos())) return MatchResult.SUCCEED;
+                            }
+                        }
+                    }
+                return MatchResult.FAIL;
+            }
+            return MatchResult.PASS;
+        }
+    }
+
     public static final QName ATYPES         = new QName("anyType");
     public static final QName TYPES          = new QName("types");
     public static final QName TYPESBLACKLIST = new QName("typesBlacklist");
@@ -211,6 +276,10 @@ public class SpawnBiomeMatcher
 
     public Set<Predicate<SpawnCheck>> _additionalConditions = Sets.newHashSet();
 
+    public StructureMatcher _structs = new StructureMatcher()
+    {
+    };
+
     public float minLight = 0;
     public float maxLight = 1;
 
@@ -232,21 +301,6 @@ public class SpawnBiomeMatcher
     public SpawnBiomeMatcher(final SpawnRule rules)
     {
         this.spawnRule = rules;
-        if (rules.values.containsKey(SpawnBiomeMatcher.ATYPES))
-        {
-            final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.ATYPES);
-            final String[] args = typeString.split(",");
-            for (String s : args)
-            {
-                s = s.trim();
-                final SpawnRule newRule = new SpawnRule();
-                newRule.values.putAll(rules.values);
-                newRule.values.remove(SpawnBiomeMatcher.ATYPES);
-                newRule.values.put(SpawnBiomeMatcher.TYPES, s);
-                this.children.add(new SpawnBiomeMatcher(newRule));
-            }
-        }
-        MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
     }
 
     /**
@@ -286,45 +340,13 @@ public class SpawnBiomeMatcher
         final boolean blackListed = this._blackListBiomes.contains(checker.biome) || this._blackListSubBiomes.contains(
                 type);
         if (blackListed) return false;
-        IChunk chunk = checker.chunk;
+        final IChunk chunk = checker.chunk;
         // No chunk here, no spawn here!
         if (chunk == null) return false;
         // Check structures first, then check biomes, the spawn rule would use
         // blacklisted types to prevent this being in the wrong spot anyway
-        if (!this._validStructures.isEmpty())
-        {
-            Map<String, StructureStart> starts = chunk.getStructureStarts();
-            for (final String s : this._validStructures)
-            {
-                final StructureStart structurestart = starts.get(s);
-                if (structurestart != null && structurestart != StructureStart.DUMMY)
-                {
-                    final MutableBoundingBox box = structurestart.getBoundingBox();
-                    if (box.isVecInside(checker.location.getPos())) return true;
-                }
-            }
-            // Also check the surrounding chunks, if they exist
-            for (int i = -1; i <= 1; i++)
-                for (int j = -1; j <= 1; j++)
-                {
-                    // Just checked here!
-                    if (i == j && j == 0) continue;
-                    chunk = checker.world.getChunk(checker.chunk.getPos().x + i, checker.chunk.getPos().z + j,
-                            ChunkStatus.EMPTY, false);
-                    if (chunk == null) continue;
-                    starts = chunk.getStructureStarts();
-                    for (final String s : this._validStructures)
-                    {
-                        final StructureStart structurestart = starts.get(s);
-                        if (structurestart != null && structurestart != StructureStart.DUMMY)
-                        {
-                            final MutableBoundingBox box = structurestart.getBoundingBox();
-                            if (box.isVecInside(checker.location.getPos())) return true;
-                        }
-                    }
-                }
-            return false;
-        }
+        final MatchResult result = this._structs.structuresMatch(this, checker);
+        if (result != MatchResult.PASS) return result == MatchResult.SUCCEED;
         if (this._validSubBiomes.contains(BiomeType.NONE) || this._validBiomes.isEmpty() && this._validSubBiomes
                 .isEmpty() && this._blackListSubBiomes.isEmpty() && this._blackListBiomes.isEmpty()) return false;
         final boolean noSubbiome = checker.type == null || checker.type == BiomeType.NONE;
@@ -389,13 +411,6 @@ public class SpawnBiomeMatcher
         if (this.parsed) return;
         this.parsed = true;
 
-        if (!this.children.isEmpty())
-        {
-            for (final SpawnBiomeMatcher child : this.children)
-                child.parse();
-            return;
-        }
-
         if (this._validBiomes == null) this._validBiomes = Sets.newHashSet();
         if (this._validSubBiomes == null) this._validSubBiomes = Sets.newHashSet();
         if (this._blackListBiomes == null) this._blackListBiomes = Sets.newHashSet();
@@ -403,6 +418,7 @@ public class SpawnBiomeMatcher
         if (this._validStructures == null) this._validStructures = Sets.newHashSet();
         if (this._bannedWeather == null) this._bannedWeather = Sets.newHashSet();
         if (this._neededWeather == null) this._neededWeather = Sets.newHashSet();
+        if (this.children == null) this.children = Sets.newHashSet();
 
         this._validBiomes.clear();
         this._validSubBiomes.clear();
@@ -411,6 +427,33 @@ public class SpawnBiomeMatcher
         this._validStructures.clear();
         this._bannedWeather.clear();
         this._neededWeather.clear();
+        this.children.clear();
+
+        if (this.spawnRule.values.containsKey(SpawnBiomeMatcher.ATYPES))
+        {
+            final String typeString = this.spawnRule.values.get(SpawnBiomeMatcher.ATYPES);
+            final String[] args = typeString.split(",");
+            for (String s : args)
+            {
+                s = s.trim();
+                final SpawnRule newRule = new SpawnRule();
+                newRule.values.putAll(this.spawnRule.values);
+                newRule.values.remove(SpawnBiomeMatcher.ATYPES);
+                newRule.values.put(SpawnBiomeMatcher.TYPES, s);
+                this.children.add(new SpawnBiomeMatcher(newRule));
+            }
+        }
+        this._structs = new StructureMatcher()
+        {
+        };
+        MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
+
+        if (!this.children.isEmpty())
+        {
+            for (final SpawnBiomeMatcher child : this.children)
+                child.parse();
+            return;
+        }
 
         // Lets deal with the weather checks
         String weather = this.spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
