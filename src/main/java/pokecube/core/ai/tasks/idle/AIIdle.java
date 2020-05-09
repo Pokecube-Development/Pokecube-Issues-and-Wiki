@@ -145,8 +145,8 @@ public class AIIdle extends AIBase
     {
         final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
                 GeneralStates.STAYING);
-        int distance = (int) (this.maxLength = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame
-                : PokecubeCore.getConfig().idleMaxPathWild);
+        int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
+        this.maxLength = distance + this.pokemob.getHomeDistance();
         boolean goHome = false;
         if (!tameFactor)
         {
