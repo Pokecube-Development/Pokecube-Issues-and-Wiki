@@ -176,8 +176,8 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
             if (current != null)
             {
                 final PathPoint end = current.getFinalPathPoint();
-                final BlockPos dest = new BlockPos(end.x, end.z, end.z);
-                if (dest.withinDistance(this.berryLoc, 1)) return true;
+                final BlockPos dest = new BlockPos(end.x, end.y, end.z);
+                if (dest.withinDistance(this.berryLoc, 2)) return true;
             }
             final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
             this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.berryLoc.getX() + 0.5, this.berryLoc.getY() + 0.5,
@@ -233,8 +233,8 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
             if (current != null)
             {
                 final PathPoint end = current.getFinalPathPoint();
-                final BlockPos dest = new BlockPos(end.x, end.z, end.z);
-                if (dest.withinDistance(this.emptyInventory, 1)) return true;
+                final BlockPos dest = new BlockPos(end.x, end.y, end.z);
+                if (dest.withinDistance(this.emptyInventory, 2)) return true;
             }
             final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
             this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.emptyInventory.getX() + 0.5, this.emptyInventory
@@ -282,8 +282,8 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
             if (current != null)
             {
                 final PathPoint end = current.getFinalPathPoint();
-                final BlockPos dest = new BlockPos(end.x, end.z, end.z);
-                if (dest.withinDistance(this.storageLoc, 1)) return true;
+                final BlockPos dest = new BlockPos(end.x, end.y, end.z);
+                if (dest.withinDistance(this.storageLoc, 2)) return true;
             }
             final double speed = 1;
             this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.storageLoc.getX() + 0.5, this.storageLoc.getY()

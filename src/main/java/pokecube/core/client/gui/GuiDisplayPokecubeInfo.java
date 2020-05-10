@@ -39,6 +39,7 @@ import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IMoveConstants;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -55,6 +56,7 @@ import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
+import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.Tools;
@@ -690,8 +692,19 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
     public void pokemobStance()
     {
         IPokemob pokemob;
-        if ((pokemob = this.getCurrentPokemob()) != null) PacketCommand.sendCommand(pokemob, Command.STANCE,
-                new StanceHandler(!pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT).setFromOwner(true));
+        if ((pokemob = this.getCurrentPokemob()) != null)
+        {
+            final boolean isRiding = pokemob.getEntity().isRidingOrBeingRiddenBy(pokemob.getOwner());
+            if (!isRiding) PacketCommand.sendCommand(pokemob, Command.STANCE, new StanceHandler(!pokemob.getLogicState(
+                    LogicStates.SITTING), StanceHandler.SIT).setFromOwner(true));
+            else
+            {
+                final AIRoutine routine = AIRoutine.AIRBORNE;
+                final boolean state = !pokemob.isRoutineEnabled(routine);
+                pokemob.setRoutineState(routine, state);
+                PacketAIRoutine.sentCommand(pokemob, routine, state);
+            }
+        }
         else
         {
             final PlayerEntity player = this.minecraft.player;
