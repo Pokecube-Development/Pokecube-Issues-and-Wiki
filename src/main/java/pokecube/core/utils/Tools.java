@@ -253,6 +253,7 @@ public class Tools
     public static int getPower(final String move, final IPokemob user, final Entity target)
     {
         final Move_Base attack = MovesUtils.getMoveFromName(move);
+        if (attack == null) return 0;
         int pwr = attack.getPWR(user, target);
         final IPokemob mob = CapabilityPokemob.getPokemobFor(target);
         if (mob != null)
