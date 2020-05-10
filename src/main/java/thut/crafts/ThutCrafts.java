@@ -19,7 +19,6 @@ import thut.core.common.config.Configure;
 import thut.core.common.network.PacketHandler;
 import thut.crafts.client.ClientProxy;
 import thut.crafts.entity.EntityCraft;
-import thut.crafts.entity.EntityTest;
 import thut.crafts.network.PacketCraftControl;
 
 @Mod(Reference.MODID)
@@ -54,8 +53,6 @@ public class ThutCrafts
             // register a new mob here
             EntityCraft.CRAFTTYPE.setRegistryName(Reference.MODID, "craft");
             event.getRegistry().register(EntityCraft.CRAFTTYPE);
-            EntityTest.TYPE.setRegistryName(Reference.MODID, "testmob");
-            event.getRegistry().register(EntityTest.TYPE);
         }
 
         @SubscribeEvent
@@ -69,17 +66,16 @@ public class ThutCrafts
     public final static PacketHandler packets = new PacketHandler(new ResourceLocation(Reference.MODID, "comms"),
             Reference.NETVERSION);
 
-    public static Proxy               proxy   = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-            () -> () -> new CommonProxy());
+    public static Proxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new CommonProxy());
 
-    public static Item                CRAFTMAKER;
+    public static Item CRAFTMAKER;
 
-    public static CraftsConfig        conf    = new CraftsConfig();
+    public static CraftsConfig conf = new CraftsConfig();
 
     public ThutCrafts()
     {
-        ThutCrafts.CRAFTMAKER = new Item(new Item.Properties().group(ThutCore.THUTITEMS))
-                .setRegistryName(Reference.MODID, "craftmaker");
+        ThutCrafts.CRAFTMAKER = new Item(new Item.Properties().group(ThutCore.THUTITEMS)).setRegistryName(
+                Reference.MODID, "craftmaker");
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the doClientStuff method for modloading
