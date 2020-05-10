@@ -141,7 +141,6 @@ public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT
         // inventory.
         if (this.berrySlotIndex != -1 && this.berrySlotIndex != 2 && this.hasBerries)
         {
-            System.out.println(this.berrySlotIndex);
             final ItemStack stack1 = pokemobInv.getStackInSlot(this.berrySlotIndex);
             pokemobInv.setStackInSlot(this.berrySlotIndex, pokemobInv.getStackInSlot(2));
             pokemobInv.setStackInSlot(2, stack1);
