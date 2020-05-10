@@ -24,6 +24,7 @@ import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -45,32 +46,32 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
     public static class Holder extends ModelHolder implements IModelRenderer<EntityTest>
     {
         ModelWrapper<EntityTest>                wrapper;
-        final Vector3                           rotPoint     = Vector3.getNewVector();
-        HashMap<String, List<Animation>>        anims        = Maps.newHashMap();
+        final Vector3                           rotPoint   = Vector3.getNewVector();
+        HashMap<String, List<Animation>>        anims      = Maps.newHashMap();
         private IPartTexturer                   texturer;
         private IAnimationChanger               animator;
         public String                           name;
-        public HashMap<String, PartInfo>        parts        = Maps.newHashMap();
+        public HashMap<String, PartInfo>        parts      = Maps.newHashMap();
         HashMap<String, ArrayList<Vector5>>     global;
-        public HashMap<String, List<Animation>> animations   = Maps.newHashMap();
-        public Vector3                          offset       = Vector3.getNewVector();;
-        public Vector3                          scale        = Vector3.getNewVector();
+        public HashMap<String, List<Animation>> animations = Maps.newHashMap();
+        public Vector3                          offset     = Vector3.getNewVector();;
+        public Vector3                          scale      = Vector3.getNewVector();
         ResourceLocation                        texture;
 
-        public boolean                          overrideAnim = false;
-        public String                           anim         = "";
+        public boolean overrideAnim = false;
+        public String  anim         = "";
 
-        public Vector5                          rotations    = new Vector5();
+        public Vector5 rotations = new Vector5();
 
-        boolean                                 blend;
+        boolean blend;
 
-        boolean                                 light;
+        boolean light;
 
-        int                                     src;
+        int src;
 
         ///////////////////// IModelRenderer stuff below here//////////////////
 
-        int                                     dst;
+        int dst;
 
         public Holder()
         {
@@ -107,7 +108,7 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
             for (final String s : part.getSubParts().keySet())
             {
                 final PartInfo p = new PartInfo(s);
-                final IExtendedModelPart subPart = (IExtendedModelPart) part.getSubParts().get(s);
+                final IExtendedModelPart subPart = part.getSubParts().get(s);
                 p.children = this.getChildren(subPart);
                 partsList.put(s, p);
             }
@@ -282,6 +283,20 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
             this.initModelParts();
             this.global = global;
         }
+
+        @Override
+        public void setAnimationHolder(final IAnimationHolder holder)
+        {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public IAnimationHolder getAnimationHolder()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
     }
 
     public static class TestModel extends EntityModel<EntityTest>
@@ -295,16 +310,16 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
         }
 
         @Override
-        public void render(final EntityTest entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks,
-                final float netHeadYaw, final float headPitch)
+        public void render(final EntityTest entityIn, final float limbSwing, final float limbSwingAmount,
+                final float ageInTicks, final float netHeadYaw, final float headPitch)
         {
             // TODO Auto-generated method stub
 
         }
 
         @Override
-        public void render(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final int packedLightIn, final int packedOverlayIn,
-                final float red, final float green, final float blue, final float alpha)
+        public void render(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final int packedLightIn,
+                final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
         {
             // System.out.println(matrixStackIn.getLast().getPositionMatrix());
             this.box.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -326,8 +341,8 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
     }
 
     @Override
-    public void render(final EntityTest entityIn, final float entityYaw, final float partialTicks, final MatrixStack matrixStackIn,
-            final IRenderTypeBuffer bufferIn, final int packedLightIn)
+    public void render(final EntityTest entityIn, final float entityYaw, final float partialTicks,
+            final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn)
     {
         final IPartTexturer texer = this.custom.renderer.getTexturer();
         final ResourceLocation default_ = this.getEntityTexture(entityIn);
@@ -345,19 +360,20 @@ public class RenderEntity extends MobRenderer<EntityTest, EntityModel<EntityTest
     }
 
     @Override
-    protected RenderType func_230042_a_(final EntityTest p_230042_1_, final boolean p_230042_2_, final boolean p_230042_3_)
+    protected RenderType func_230042_a_(final EntityTest p_230042_1_, final boolean p_230042_2_,
+            final boolean p_230042_3_)
     {
-        final RenderType.State rendertype$state = RenderType.State.builder()
-                .texture(new RenderState.TextureState(RenderEntity.TEXTURE, true, false))
-                .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
-                {
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                }, () ->
-                {
-                    RenderSystem.disableBlend();
-                })).diffuseLighting(new RenderState.DiffuseLightingState(true))
-                .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
+        final RenderType.State rendertype$state = RenderType.State.builder().texture(new RenderState.TextureState(
+                RenderEntity.TEXTURE, true, false)).transparency(new RenderState.TransparencyState(
+                        "translucent_transparency", () ->
+                        {
+                            RenderSystem.enableBlend();
+                            RenderSystem.defaultBlendFunc();
+                        }, () ->
+                        {
+                            RenderSystem.disableBlend();
+                        })).diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(
+                                new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
                 .lightmap(new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true)).build(false);
 
         return RenderType.get("thutmob_tranas", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
