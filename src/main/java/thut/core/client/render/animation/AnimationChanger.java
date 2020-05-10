@@ -16,16 +16,19 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
 import thut.api.entity.ShearableCaps;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 
 public class AnimationChanger implements IAnimationChanger
 {
     @CapabilityInject(IMobColourable.class)
-    public static final Capability<IMobColourable>       CAPABILITY    = null;
-    List<IAnimationChanger>                              children      = Lists.newArrayList();
+    public static final Capability<IMobColourable> CAPABILITY = null;
+
+    List<IAnimationChanger>  children   = Lists.newArrayList();
     /** These parts can be sheared off. */
-    public final Set<String>                             shearables    = Sets.newHashSet();
+    public final Set<String> shearables = Sets.newHashSet();
     /** These parts are dyed based on the specialInfo of the pokemob; */
-    public final Set<String>                             dyeables      = Sets.newHashSet();
+    public final Set<String> dyeables   = Sets.newHashSet();
+
     /**
      * These parts get a specific colour offset from the default colour of the
      * specialInfo.
@@ -33,11 +36,14 @@ public class AnimationChanger implements IAnimationChanger
     public final Map<String, Function<Integer, Integer>> colourOffsets = Maps.newHashMap();
     /** This is a set of valid offsets for worn items on the pokemob. */
     public final Map<String, WornOffsets>                wornOffsets   = Maps.newHashMap();
+
     /**
      * This is a cache of which parts have been checked for being a
      * wildcard.
      */
-    private final Set<String>                            checkWildCard = Sets.newHashSet();
+    private final Set<String> checkWildCard = Sets.newHashSet();
+
+    IAnimationHolder currentHolder = null;
 
     public AnimationChanger()
     {
@@ -178,6 +184,18 @@ public class AnimationChanger implements IAnimationChanger
     public void parseWornOffsets(final Map<String, WornOffsets> map)
     {
         this.wornOffsets.putAll(map);
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return this.currentHolder;
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.currentHolder = holder;
     }
 
 }

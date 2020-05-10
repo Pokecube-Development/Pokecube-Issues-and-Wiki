@@ -34,13 +34,18 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 {
     private final HashMap<String, IExtendedModelPart> nullPartsMap = Maps.newHashMap();
     private final HashMap<String, IExtendedModelPart> subPartsMap  = Maps.newHashMap();
-    private final Set<String>                         nullHeadSet  = Sets.newHashSet();
-    private final Set<String>                         animations   = Sets.newHashSet();
-    private final HeadInfo                            info         = new HeadInfo();
-    private boolean                                   valid        = false;
-    Model                                             wrapped;
-    IPartTexturer                                     texturer;
-    IAnimationChanger                                 changer;
+
+    private final Set<String> nullHeadSet = Sets.newHashSet();
+    private final Set<String> animations  = Sets.newHashSet();
+
+    private final HeadInfo info = new HeadInfo();
+
+    private boolean   valid = false;
+    Model             wrapped;
+    IPartTexturer     texturer;
+    IAnimationChanger changer;
+
+    IAnimationHolder currentHolder = null;
 
     public SMDModel()
     {
@@ -64,8 +69,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
-            final float partialTicks, final float limbSwing)
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
+            final float limbSwing)
     {
         this.wrapped.setAnimation(renderer.getAnimation(entity));
     }
@@ -249,5 +254,17 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         material.specularColor = new Vector3f(1, 1, 1);
         material.transparency = mat.transluscent ? 1 : 0;
         this.wrapped.body.namesToMats.put(mat_name, material);
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return this.currentHolder;
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.currentHolder = holder;
     }
 }

@@ -86,7 +86,7 @@ public class AnimationHelper
             final IExtendedModelPart part, final float partialTick, final float limbSwing)
     {
         boolean animate = false;
-        final IAnimationHolder holder = AnimationHelper.getHolder(entity);
+        final IAnimationHolder holder = part.getAnimationHolder();
         if (holder != null)
         {
             list = Lists.newArrayList(holder.getPlaying());

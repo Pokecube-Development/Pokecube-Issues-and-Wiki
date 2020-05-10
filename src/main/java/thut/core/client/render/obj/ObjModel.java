@@ -26,7 +26,6 @@ import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationComponent;
 import thut.core.client.render.animation.AnimationHelper;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
@@ -60,8 +59,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
-            final float partialTicks, final float limbSwing)
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
+            final float limbSwing)
     {
         // this.updateAnimation(entity, renderer, renderer.getAnimation(entity),
         // partialTicks, this.getHeadInfo().headYaw,

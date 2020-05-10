@@ -21,6 +21,7 @@ import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
 import thut.core.client.render.model.IModel;
@@ -82,6 +83,17 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
         @Override
         public void parseWornOffsets(final Map<String, WornOffsets> map)
         {
+        }
+
+        @Override
+        public void setAnimationHolder(final IAnimationHolder holder)
+        {
+        }
+
+        @Override
+        public IAnimationHolder getAnimationHolder()
+        {
+            return null;
         }
 
     }
@@ -203,5 +215,16 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
             final ModelHolder model)
     {
 
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return null;
     }
 }

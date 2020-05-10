@@ -11,6 +11,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.Vertex;
@@ -23,10 +24,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public List<Mesh> shapes = Lists.newArrayList();
 
     private final HashMap<String, IExtendedModelPart> childParts = new HashMap<>();
-    private final String                              name;
-    private IExtendedModelPart                        parent     = null;
-    IPartTexturer                                     texturer;
-    IAnimationChanger                                 changer;
+
+    private IExtendedModelPart parent = null;
+
+    private final String name;
+    IPartTexturer        texturer;
+    IAnimationChanger    changer;
+
+    IAnimationHolder currentHolder = null;
 
     public Vector4 preRot    = new Vector4();
     public Vector4 postRot   = new Vector4();
@@ -360,5 +365,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 if (mesh.name == null) mesh.name = this.getName();
                 if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat_name)) mesh.setMaterial(material);
             }
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return this.currentHolder;
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.currentHolder = holder;
     }
 }

@@ -43,9 +43,12 @@ public class AnimationRandomizer implements IAnimationChanger
     }
 
     Map<String, List<RandomAnimation>> sets       = Maps.newHashMap();
-    Set<String>                        allAnims   = Sets.newHashSet();
     Map<String, Set<LoadedAnimSet>>    loadedSets = Maps.newHashMap();
-    Map<String, Set<String>>           reversed   = Maps.newHashMap();
+
+    Set<String>              allAnims = Sets.newHashSet();
+    Map<String, Set<String>> reversed = Maps.newHashMap();
+
+    IAnimationHolder currentHolder = null;
 
     public AnimationRandomizer(final List<SubAnim> anims)
     {
@@ -125,7 +128,7 @@ public class AnimationRandomizer implements IAnimationChanger
     {
         if (this.sets.containsKey(phase))
         {
-            final IAnimationHolder holder = AnimationHelper.getHolder(mob);
+            final IAnimationHolder holder = this.getAnimationHolder();
             if (holder != null && !holder.getPlaying().isEmpty() && holder.getPendingAnimations().equals(phase))
                 return true;
             final List<RandomAnimation> set = this.sets.get(phase);
@@ -154,5 +157,17 @@ public class AnimationRandomizer implements IAnimationChanger
     public void parseWornOffsets(final Map<String, WornOffsets> map)
     {
         // Nope
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return this.currentHolder;
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.currentHolder = holder;
     }
 }
