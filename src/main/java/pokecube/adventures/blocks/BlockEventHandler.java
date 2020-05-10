@@ -56,8 +56,8 @@ public class BlockEventHandler
             // Assume that we right clicked the top of the block.
             pos.y += 1;
             this.tile.getDest().loc = pos;
-            user.sendMessage(new TranslationTextComponent("block.pokecube_adventures.warppad.link", pos.x, pos.y, pos.z,
-                    pos.w));
+            if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
+                    "block.pokecube_adventures.warppad.link", pos.x, pos.y, pos.z, pos.w));
             return true;
         }
 

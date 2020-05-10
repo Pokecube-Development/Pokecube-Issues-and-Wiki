@@ -82,27 +82,8 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     }
 
     @Override
-    public boolean charTyped(final char typedChar, final int keyCode)
+    public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
     {
-        this.location.charTyped(typedChar, keyCode);
-        this.timeperiod.charTyped(typedChar, keyCode);
-        this.variation.charTyped(typedChar, keyCode);
-
-        if (keyCode == GLFW.GLFW_KEY_TAB) if (this.location.isFocused())
-        {
-            this.location.setFocused2(false);
-            this.timeperiod.setFocused2(true);
-        }
-        else if (this.timeperiod.isFocused())
-        {
-            this.timeperiod.setFocused2(false);
-            this.variation.setFocused2(true);
-        }
-        else if (this.variation.isFocused())
-        {
-            this.variation.setFocused2(false);
-            this.location.setFocused2(true);
-        }
         if (keyCode != GLFW.GLFW_KEY_ENTER) return false;
         if (!(this.location.isFocused() || this.timeperiod.isFocused() || this.variation.isFocused())) return false;
         this.update();

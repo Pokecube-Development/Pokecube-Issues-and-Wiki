@@ -43,10 +43,9 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         RenderSystem.translatef(j + 55, k + 60, 50.0F);
         RenderSystem.scalef(1.0F, 1.0F, -1.0F);
         final MatrixStack matrixstack = new MatrixStack();
-        
+
         matrixstack.getLast().getNormalMatrix().mul(Vector3f.YP.rotationDegrees(50));
-        
-        
+
         matrixstack.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
         final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(yaw);
@@ -77,7 +76,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
     }
 
-    private TextFieldWidget name = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
+    protected TextFieldWidget name = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
 
     public GuiPokemobBase(final ContainerPokemob container, final PlayerInventory inv)
     {
@@ -89,13 +88,13 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     @Override
     public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
     {
-        if (this.name.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
         if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.name.setFocused(false);
-        else if (keyCode == GLFW.GLFW_KEY_ENTER && this.name.isFocused())
+        else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
             this.container.pokemob.setPokemonNickname(this.name.getText());
             return true;
         }
+        else if (keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
         return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
     }
 
@@ -117,8 +116,10 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
     }
 
-    /** Draw the foreground layer for the ContainerScreen (everything in front
-     * of the items) */
+    /**
+     * Draw the foreground layer for the ContainerScreen (everything in front
+     * of the items)
+     */
     @Override
     protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY)
     {

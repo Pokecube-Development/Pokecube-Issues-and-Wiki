@@ -2,13 +2,18 @@ package pokecube.mobs.abilities.h;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IGrowable;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.Items;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import thut.api.maths.Vector3;
 
 public class HoneyGather extends Ability
@@ -16,7 +21,7 @@ public class HoneyGather extends Ability
     int range = 4;
 
     @Override
-    public Ability init(Object... args)
+    public Ability init(final Object... args)
     {
         for (int i = 0; i < 2; i++)
             if (args != null && args.length > i) if (args[i] instanceof Integer)
@@ -28,10 +33,9 @@ public class HoneyGather extends Ability
     }
 
     @Override
-    public void onUpdate(IPokemob mob)
+    public void onUpdate(final IPokemob mob)
     {
-        if (!(mob.getEntity().getEntityWorld() instanceof ServerWorld)) return;
-        double diff = 0.0002 * this.range * this.range;
+        double diff = 0.002 * this.range * this.range;
         diff = Math.min(0.5, diff);
         if (Math.random() < 1 - diff) return;
 
@@ -42,19 +46,12 @@ public class HoneyGather extends Ability
         here.set(entity).addTo(this.range * (rand.nextDouble() - 0.5),
                 Math.min(10, this.range) * (rand.nextDouble() - 0.5), this.range * (rand.nextDouble() - 0.5));
 
-        final BlockState state = here.getBlockState(entity.getEntityWorld());
-        final Block block = state.getBlock();
-        if (block instanceof IGrowable)
-        {
-            final IGrowable growable = (IGrowable) block;
-            if (growable.canGrow(entity.getEntityWorld(), here.getPos(), here.getBlockState(entity.getEntityWorld()),
-                    entity.getEntityWorld().isRemote))
-                if (!entity.getEntityWorld().isRemote) if (growable.canUseBonemeal(entity.getEntityWorld(),
-                        entity.getEntityWorld().rand, here.getPos(), state))
-                {
-                growable.grow((ServerWorld) entity.getEntityWorld(), entity.getEntityWorld().rand, here.getPos(), state);
-                return;
-                }
-        }
+        final PlayerEntity player = PokecubeMod.getFakePlayer(mob.getEntity().getEntityWorld());
+        player.setPosition(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());
+        player.setHeldItem(Hand.MAIN_HAND, new ItemStack(Items.BONE_MEAL));
+        final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(0.5,
+                1, 0.5), Direction.UP, here.getPos(), false));
+        // Attempt to plant it.
+        Items.BONE_MEAL.onItemUse(context);
     }
 }

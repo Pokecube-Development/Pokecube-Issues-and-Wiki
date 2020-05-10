@@ -154,7 +154,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
             boolean effect = false;
             if (!inv.getItemStack().isEmpty() && inv.getItemStack().hasTag())
             {
-                final CompoundNBT link = inv.getItemStack().getTag().getCompound("link");
+                final CompoundNBT link = inv.getItemStack().getTag().getCompound("link_pos");
                 if (!link.isEmpty())
                 {
                     final Vector4 pos = new Vector4(link);
