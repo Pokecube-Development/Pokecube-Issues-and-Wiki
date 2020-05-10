@@ -16,6 +16,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
@@ -241,10 +242,20 @@ public class EntityPokemobEgg extends AgeableEntity
     @Override
     public void tick()
     {
-        if (this.isInWater() || this.isInLava()) this.getJumpController().setJumping();
-
         this.here.set(this);
-        super.tick();
+        if (net.minecraftforge.common.ForgeHooks.onLivingUpdate(this)) return;
+
+        this.baseTick();
+        this.livingTick();
+
+        if (this.isInWater() || this.isInLava())
+        {
+            final Vec3d motion = this.getMotion();
+            double dy = motion.y + 0.1;
+            dy = Math.min(dy, 0.1);
+            this.setMotion(motion.x, dy, motion.z);
+        }
+
         if (this.getEntityWorld().isRemote) return;
         if (this.getHeldItemMainhand().isEmpty() || this.getGrowingAge() > 0)
         {

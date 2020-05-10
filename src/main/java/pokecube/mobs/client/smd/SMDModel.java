@@ -36,18 +36,24 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 {
     private final HashMap<String, IExtendedModelPart> nullPartsMap = Maps.newHashMap();
     private final HashMap<String, IExtendedModelPart> subPartsMap  = Maps.newHashMap();
-    private final Set<String>                         nullHeadSet  = Sets.newHashSet();
-    private final Set<String>                         animations   = Sets.newHashSet();
-    private final HeadInfo                            info         = new HeadInfo();
-    private final List<Material>                      mats         = Lists.newArrayList();
-    private boolean                                   valid        = false;
-    Model                                             wrapped;
-    IPartTexturer                                     texturer;
-    IAnimationChanger                                 changer;
-    public int                                        red          = 255, green = 255, blue = 255, alpha = 255;
-    public int                                        brightness   = 15728640;
-    public int                                        overlay      = 655360;
-    private final int[]                               rgbabro      = new int[6];
+
+    private final Set<String>    nullHeadSet = Sets.newHashSet();
+    private final Set<String>    animations  = Sets.newHashSet();
+    private final HeadInfo       info        = new HeadInfo();
+    private final List<Material> mats        = Lists.newArrayList();
+
+    private boolean   valid = false;
+    Model             wrapped;
+    IPartTexturer     texturer;
+    IAnimationChanger changer;
+
+    public int red = 255, green = 255, blue = 255, alpha = 255;
+
+    public int          brightness = 15728640;
+    public int          overlay    = 655360;
+    private final int[] rgbabro    = new int[6];
+
+    IAnimationHolder currentHolder = null;
 
     public SMDModel()
     {
@@ -72,8 +78,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
-            final float partialTicks, final float limbSwing)
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
+            final float limbSwing)
     {
         this.wrapped.setAnimation(renderer.getAnimation(entity));
     }
@@ -154,8 +160,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
             // only increment frame if a tick has passed.
             if (this.wrapped.body.currentAnim != null && this.wrapped.body.currentAnim.frameCount() > 0)
-                this.wrapped.body.currentAnim
-                        .setCurrentFrame(this.info.currentTick % this.wrapped.body.currentAnim.frameCount());
+                this.wrapped.body.currentAnim.setCurrentFrame(this.info.currentTick % this.wrapped.body.currentAnim
+                        .frameCount());
             // Check head parts for rendering rotations of them.
             for (final String s : this.getHeadParts())
             {
@@ -279,5 +285,17 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;
         this.wrapped.body.namesToMats.put(mat_name, material);
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return this.currentHolder;
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.currentHolder = holder;
     }
 }

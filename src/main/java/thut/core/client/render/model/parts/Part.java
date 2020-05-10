@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.Vertex;
@@ -23,14 +24,18 @@ import thut.core.common.ThutCore;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
-    private final HashMap<String, IExtendedModelPart> parts  = new HashMap<>();
-    private final List<String>                        order  = Lists.newArrayList();
-    private final List<Mesh>                          shapes = Lists.newArrayList();
+    private final HashMap<String, IExtendedModelPart> parts = new HashMap<>();
 
-    private final String       name;
+    private final List<String> order  = Lists.newArrayList();
+    private final List<Mesh>   shapes = Lists.newArrayList();
+
+    private final String name;
+
     private IExtendedModelPart parent = null;
-    IPartTexturer              texturer;
-    IAnimationChanger          changer;
+
+    IPartTexturer     texturer;
+    IAnimationChanger changer;
+    IAnimationHolder  currentHolder = null;
 
     public Vector4 preRot    = new Vector4();
     public Vector4 postRot   = new Vector4();
@@ -42,13 +47,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector4 rotations = new Vector4();
     public Vertex  scale     = new Vertex(1, 1, 1);
 
-    public int red        = 255, green = 255, blue = 255, alpha = 255;
+    public int red = 255, green = 255, blue = 255, alpha = 255;
+
     public int brightness = 15728640;
     public int overlay    = 655360;
 
     private final int[] rgbabro = new int[6];
 
-    private boolean              hidden    = false;
+    private boolean hidden = false;
+
     private final List<Material> materials = Lists.newArrayList();
     private final Set<Material>  matcache  = Sets.newHashSet();
 
@@ -361,5 +368,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             }
         this.matcache.add(material);
         this.materials.add(material);
+    }
+
+    @Override
+    public IAnimationHolder getAnimationHolder()
+    {
+        return this.currentHolder;
+    }
+
+    @Override
+    public void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.currentHolder = holder;
     }
 }

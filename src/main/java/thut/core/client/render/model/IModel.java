@@ -53,8 +53,7 @@ public interface IModel
 
     public static ImmutableSet<String> emptyAnims = ImmutableSet.of();
 
-    void applyAnimation(Entity entity, IAnimationHolder animate, IModelRenderer<?> renderer, float partialTicks,
-            float limbSwing);
+    void applyAnimation(Entity entity, IModelRenderer<?> renderer, float partialTicks, float limbSwing);
 
     default Set<String> getBuiltInAnimations()
     {
@@ -66,6 +65,11 @@ public interface IModel
     Set<String> getHeadParts();
 
     HashMap<String, IExtendedModelPart> getParts();
+
+    default void setAnimationHolder(final IAnimationHolder holder)
+    {
+        this.getParts().forEach((s, p) -> p.setAnimationHolder(holder));
+    }
 
     /**
      * Adjusts for differences in global coordinate systems.

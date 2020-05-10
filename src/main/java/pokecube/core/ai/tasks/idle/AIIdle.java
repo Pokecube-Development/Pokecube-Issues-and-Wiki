@@ -22,8 +22,10 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 
-/** This IAIRunnable makes the mobs randomly wander around if they have nothing
- * better to do. */
+/**
+ * This IAIRunnable makes the mobs randomly wander around if they have nothing
+ * better to do.
+ */
 public class AIIdle extends AIBase
 {
     public static int IDLETIMER = 1;
@@ -60,10 +62,12 @@ public class AIIdle extends AIBase
     private double            z;
     private final double      speed;
 
-    private double            maxLength   = 16;
-    Vector3                   v           = Vector3.getNewVector();
+    private int ticksSinceLastPathed = 0;
 
-    Vector3                   v1          = Vector3.getNewVector();
+    private double maxLength = 16;
+
+    Vector3 v  = Vector3.getNewVector();
+    Vector3 v1 = Vector3.getNewVector();
 
     public AIIdle(final IPokemob pokemob)
     {
@@ -84,14 +88,16 @@ public class AIIdle extends AIBase
         this.y = temp.y + this.entry.preferedHeight;
     }
 
-    /** Flying things will path to air, so long as not airborne, somethimes they
+    /**
+     * Flying things will path to air, so long as not airborne, somethimes they
      * will decide to path downwards, the height they path to will be centered
-     * around players, to prevent them from all flying way up, or way down */
+     * around players, to prevent them from all flying way up, or way down
+     */
     private void doFlyingIdle()
     {
         final boolean grounded = !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
-        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
+                GeneralStates.STAYING);
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
         else if (!tamed)
@@ -146,8 +152,8 @@ public class AIIdle extends AIBase
         boolean goHome = false;
         if (!tameFactor)
         {
-            if (this.pokemob.getHome() == null || this.pokemob.getHome().getX() == 0
-                    && this.pokemob.getHome().getY() == 0 & this.pokemob.getHome().getZ() == 0)
+            if (this.pokemob.getHome() == null || this.pokemob.getHome().getX() == 0 && this.pokemob.getHome()
+                    .getY() == 0 & this.pokemob.getHome().getZ() == 0)
             {
                 this.v1.set(this.entity);
                 this.pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
@@ -155,8 +161,7 @@ public class AIIdle extends AIBase
             distance = (int) Math.min(distance, this.pokemob.getHomeDistance());
             this.v.set(this.pokemob.getHome());
             if (this.entity.getPosition().distanceSq(this.pokemob.getHome()) > this.pokemob.getHomeDistance()
-                    * this.pokemob.getHomeDistance())
-                goHome = true;
+                    * this.pokemob.getHomeDistance()) goHome = true;
         }
         else
         {
@@ -174,8 +179,8 @@ public class AIIdle extends AIBase
         {
             final Vector3 v = AIIdle.getRandomPointNear(this.world, this.pokemob, this.v, distance);
             if (v == null) return false;
-            double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(),
-                    this.pokemob.getPokedexEntry().width * this.pokemob.getSize());
+            double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(), this.pokemob
+                    .getPokedexEntry().width * this.pokemob.getSize());
             diff = Math.max(2, diff);
             if (this.v1.distToSq(v) < diff) return false;
             this.x = v.x;
@@ -224,8 +229,8 @@ public class AIIdle extends AIBase
         // Not currently able to move.
         if (!this.canMove()) return false;
 
-        // Check random number
-        if (new Random().nextInt(AIIdle.IDLETIMER) != 0) return false;
+        // Check a random number as well
+        if (this.entity.getRNG().nextInt(AIIdle.IDLETIMER) != 0) return false;
 
         // Wander disabled, so don't run.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
@@ -248,17 +253,12 @@ public class AIIdle extends AIBase
         // Sitting
         if (this.pokemob.getLogicState(LogicStates.SITTING)) return false;
 
-        Path current = null;
-        if ((current = this.entity.getNavigator().getPath()) != null && this.entity.getNavigator().noPath())
-        {
-            this.addEntityPath(this.entity, null, this.speed);
-            current = null;
-        }
-
+        Path current = this.entity.getNavigator().getPath();
+        if (current != null && this.entity.getNavigator().noPath()) current = null;
         // Have path, no need to idle
-        if (current != null) return false;
+        if (current != null) this.ticksSinceLastPathed = 0;
 
-        return true;
+        return this.ticksSinceLastPathed++ > AIIdle.IDLETIMER;
     }
 
 }

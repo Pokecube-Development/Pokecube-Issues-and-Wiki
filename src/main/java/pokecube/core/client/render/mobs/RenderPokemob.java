@@ -48,6 +48,7 @@ import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -171,15 +172,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
         public Vector5 rotations = new Vector5();
 
-        boolean blend;
-
-        boolean light;
-
-        int src;
-
-        ///////////////////// IModelRenderer stuff below here//////////////////
-
-        int dst;
+        IAnimationHolder currentHolder = null;
 
         public Holder(final PokedexEntry entry)
         {
@@ -224,6 +217,19 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         public HashMap<String, List<Animation>> getAnimations()
         {
             return this.animations;
+        }
+
+        @Override
+        public IAnimationHolder getAnimationHolder()
+        {
+            return this.currentHolder;
+        }
+
+        @Override
+        public void setAnimationHolder(final IAnimationHolder holder)
+        {
+            this.currentHolder = holder;
+            this.wrapper.imodel.setAnimationHolder(holder);
         }
 
         private HashMap<String, PartInfo> getChildren(final IExtendedModelPart part)
