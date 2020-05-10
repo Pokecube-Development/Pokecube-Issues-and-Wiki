@@ -35,6 +35,7 @@ public class AllTMs implements TradePreset
             final String name = moves.get(index);
 
             final Move_Base move = MovesUtils.getMoveFromName(name);
+            if (move == null) continue;
             // Blacklist the confused hit move
             if (move.move.name.equals(MoveEntry.CONFUSED.name)) continue;
 

@@ -29,7 +29,7 @@ public class ActionSmash implements IMoveAction
     }
 
     @Override
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
         if (user.getCombatState(CombatStates.ANGRY)) return false;
         boolean used = false;
@@ -59,7 +59,7 @@ public class ActionSmash implements IMoveAction
         return used;
     }
 
-    private void doFortuneDrop(Vector3 location, World world, int fortune)
+    private void doFortuneDrop(final Vector3 location, final World world, final int fortune)
     {
         // TODO look at the world methods, figure out how to apply fortune
         // properly to the drops list for the loot tables.
@@ -74,7 +74,7 @@ public class ActionSmash implements IMoveAction
         return "rocksmash";
     }
 
-    private int smashRock(IPokemob digger, Vector3 v, boolean count)
+    private int smashRock(final IPokemob digger, final Vector3 v, final boolean count)
     {
         int ret = 0;
         final LivingEntity owner = digger.getOwner();
