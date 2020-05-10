@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates;
@@ -29,14 +30,13 @@ import pokecube.core.events.StructureEvent.ReadTag;
 import pokecube.core.handlers.events.SpawnEventsHandler.GuardInfo;
 import pokecube.core.utils.CapHolders;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 import thut.core.common.network.NBTPacket;
 import thut.core.common.network.PacketAssembly;
 
 public class PacketTrainer extends NBTPacket
 {
     public static final PacketAssembly<PacketTrainer> ASSEMBLER = PacketAssembly.registerAssembler(PacketTrainer.class,
-            PacketTrainer::new, ThutCore.packets);
+            PacketTrainer::new, PokecubeAdv.packets);
 
     public static final String EDITSELF     = "pokecube_adventures.traineredit.self";
     public static final String EDITOTHER    = "pokecube_adventures.traineredit.other";

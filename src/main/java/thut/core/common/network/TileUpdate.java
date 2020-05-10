@@ -9,13 +9,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerChunkProvider;
-import pokecube.nbtedit.packets.PacketHandler;
 import thut.core.common.ThutCore;
 
 public class TileUpdate extends NBTPacket
 {
     public static final PacketAssembly<TileUpdate> ASSEMBLER = PacketAssembly.registerAssembler(TileUpdate.class,
-            TileUpdate::new, PacketHandler.INSTANCE);
+            TileUpdate::new, ThutCore.packets);
 
     public static void sendUpdate(final TileEntity tile)
     {
