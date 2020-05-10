@@ -17,6 +17,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -103,6 +104,19 @@ public class BlingItem extends Item implements IWearable
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public ActionResultType onItemUse(final ItemUseContext context)
+    {
+        if (this.slot == EnumWearable.BACK)
+        {
+            final World worldIn = context.getWorld();
+            final PlayerEntity playerIn = context.getPlayer();
+            if (!worldIn.isRemote) PacketBag.sendOpenPacket(playerIn, context.getItem());
+            return ActionResultType.SUCCESS;
+        }
+        return super.onItemUse(context);
     }
 
     @Override
