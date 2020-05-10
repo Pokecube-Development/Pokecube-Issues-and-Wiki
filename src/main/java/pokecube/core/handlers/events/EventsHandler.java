@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -51,6 +52,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.event.world.WorldEvent.PotentialSpawns;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -381,6 +383,14 @@ public class EventsHandler
                     e -> CapabilityPokemob.getPokemobFor(e).isType(PokeType.getType("psychic")));
             creeper.goalSelector.addGoal(3, avoidAI);
         }
+    }
+
+    @SubscribeEvent
+    public static void checkSpawns(final PotentialSpawns evt)
+    {
+        final boolean disabled = evt.getType() == EntityClassification.MONSTER ? PokecubeCore
+                .getConfig().deactivateMonsters : PokecubeCore.getConfig().deactivateAnimals;
+        if (disabled) evt.getList().removeIf(e -> e.entityType.getRegistryName().getNamespace().equals("minecraft"));
     }
 
     @SubscribeEvent
