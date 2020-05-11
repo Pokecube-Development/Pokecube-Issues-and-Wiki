@@ -590,9 +590,11 @@ public class PokemobEventsHandler
     {
 
         // Prevent moving if it is liable to take us out of a loaded area
-        final double dist = evt.getEntity().getMotion().length();
+        final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
+                .getMotion().z * evt.getEntity().getMotion().z);
         if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
-                .getConfig().movementPauseThreshold + dist)) evt.getEntity().setMotion(0, 0, 0);
+                .getConfig().movementPauseThreshold + dist)) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y,
+                        0);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (pokemob != null)
