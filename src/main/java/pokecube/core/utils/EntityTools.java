@@ -15,16 +15,6 @@ public class EntityTools
 
     public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
     {
-        to.setEntityId(from.getEntityId());
-        to.posX = from.posX;
-        to.posY = from.posY;
-        to.posZ = from.posZ;
-        to.lastTickPosX = from.lastTickPosX;
-        to.lastTickPosY = from.lastTickPosY;
-        to.lastTickPosZ = from.lastTickPosZ;
-
-        to.setMotion(from.getMotion());
-
         to.rotationPitch = from.rotationPitch;
         to.ticksExisted = from.ticksExisted;
         to.rotationYaw = from.rotationYaw;
@@ -34,9 +24,6 @@ public class EntityTools
         to.prevRotationYawHead = from.prevRotationYawHead;
         to.prevRenderYawOffset = from.prevRenderYawOffset;
         to.renderYawOffset = from.renderYawOffset;
-
-        // Setting this seems to break evolution.
-        // to.dimension = from.dimension;
 
         to.onGround = from.onGround;
 

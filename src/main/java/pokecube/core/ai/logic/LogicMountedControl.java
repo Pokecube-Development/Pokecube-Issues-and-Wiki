@@ -57,6 +57,7 @@ public class LogicMountedControl extends LogicBase
         this.entity.stepHeight = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
         if (rider == null) return;
+
         final Config config = PokecubeCore.getConfig();
         boolean move = false;
         this.entity.rotationYaw = this.pokemob.getHeading();
@@ -231,12 +232,7 @@ public class LogicMountedControl extends LogicBase
             vx *= 0.5;
             vz *= 0.5;
         }
-
         this.entity.setMotion(vx, vy, vz);
-
-        // Sync the rotations.
-        this.entity.rotationYaw = this.pokemob.getHeading();
-        this.entity.rotationYawHead = this.pokemob.getHeading();
     }
 
 }

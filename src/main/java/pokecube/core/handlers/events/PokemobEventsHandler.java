@@ -31,6 +31,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -64,6 +65,7 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.moves.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
+import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
@@ -73,6 +75,7 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
+import thut.api.terrain.TerrainManager;
 
 public class PokemobEventsHandler
 {
@@ -571,8 +574,26 @@ public class PokemobEventsHandler
     }
 
     @SubscribeEvent
+    public static void tick(final WorldTickEvent evt)
+    {
+        for (final PlayerEntity player : evt.world.getPlayers())
+            if (player.getRidingEntity() instanceof LivingEntity && CapabilityPokemob.getPokemobFor(player
+                    .getRidingEntity()) != null)
+            {
+                final LivingEntity ridden = (LivingEntity) player.getRidingEntity();
+                EntityTools.copyEntityTransforms(ridden, player);
+            }
+    }
+
+    @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
+
+        // Prevent moving if it is liable to take us out of a loaded area
+        final double dist = evt.getEntity().getMotion().length();
+        if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold + dist)) evt.getEntity().setMotion(0, 0, 0);
+
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (pokemob != null)
         {
