@@ -35,6 +35,8 @@ import pokecube.core.interfaces.pokemob.IHasMobAIStates;
 import pokecube.core.interfaces.pokemob.IHasMoves;
 import pokecube.core.interfaces.pokemob.IHasOwner;
 import pokecube.core.interfaces.pokemob.IHasStats;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.PokeType;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.IHungrymob;
@@ -484,6 +486,20 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default ItemStack wildHeldItem(final MobEntity mob)
     {
         return this.getPokedexEntry().getRandomHeldItem(mob);
+    }
+
+    default void revive()
+    {
+        this.setLogicState(LogicStates.FAINTED, false);
+        this.setCombatState(CombatStates.ANGRY, false);
+        this.setHungerTime(0);
+        this.onSetTarget(null, true);
+        this.healStatus();
+        this.healChanges();
+        final MobEntity mob = this.getEntity();
+        mob.setHealth(1);
+        mob.hurtTime = 0;
+        mob.deathTime = 0;
     }
 
     CompoundNBT write();

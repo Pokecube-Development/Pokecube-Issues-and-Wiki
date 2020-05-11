@@ -54,11 +54,9 @@ public class ItemHandler
         registry.register(PokecubeItems.BERRYJUICE.setRegistryName(PokecubeCore.MODID, "berryjuice"));
         registry.register(PokecubeItems.EGG.setRegistryName(PokecubeCore.MODID, "pokemobegg"));
         registry.register(PokecubeItems.CANDY.setRegistryName(PokecubeMod.ID, "candy"));
+        registry.register(PokecubeItems.REVIVE.setRegistryName(PokecubeMod.ID, "revive"));
         Item item = new Item(new Item.Properties().rarity(Rarity.RARE).group(PokecubeItems.POKECUBEITEMS))
                 .setRegistryName(PokecubeMod.ID, "luckyegg");
-        registry.register(item);
-        item = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeMod.ID,
-                "revive");
         registry.register(item);
         item = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeMod.ID,
                 "emerald_shard");

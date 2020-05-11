@@ -63,8 +63,10 @@ public class NpcType
         {
             if (player instanceof ServerPlayerEntity && !PokecubeSerializer.getInstance().hasStarter(player))
             {
-                final boolean canPick = PacketChoose.canPick(player.getGameProfile());
-                final PacketChoose packet = PacketChoose.createOpenPacket(false, canPick, Database.getStarters());
+                PacketChoose packet;
+                final boolean special = false;
+                final boolean pick = false;
+                packet = PacketChoose.createOpenPacket(special, pick, Database.getStarters());
                 PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) player);
                 return true;
             }

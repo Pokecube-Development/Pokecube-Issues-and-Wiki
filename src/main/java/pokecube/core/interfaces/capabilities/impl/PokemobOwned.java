@@ -200,6 +200,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     {
         if (this.returning) return;
         this.returning = true;
+        if (this.getOwnerId() == null)
+        {
+            this.getEntity().remove(false);
+            return;
+        }
         if (!(this.getEntity().getEntityWorld() instanceof ServerWorld)) try
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getEntityId());

@@ -16,7 +16,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -26,18 +26,23 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.Tag;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.helper.PokemobHasParts;
+import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -121,7 +126,6 @@ public class EntityPokemob extends PokemobHasParts
                 if (this.ticksExisted % 100 == new Random(this.pokemobCap.getRNGValue()).nextInt(100))
                     PlayerPokemobCache.UpdateCache(this.pokemobCap);
             }
-            if (this.getHealth() <= 0) this.pokemobCap.onRecall(true);
             final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
             if (near != null && this.getOwnerId() == null)
             {
@@ -135,6 +139,58 @@ public class EntityPokemob extends PokemobHasParts
             }
         }
         super.tick();
+    }
+
+    @Override
+    protected void onDeathUpdate()
+    {
+        final boolean isTamed = this.pokemobCap.getOwnerId() != null;
+        boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn : PokecubeCore.getConfig().wildDeadDespawn;
+        ++this.deathTime;
+        if (this.deathTime == PokecubeCore.getConfig().deadDespawnTimer)
+        {
+            if (!this.world.isRemote && this.recentlyHit > 0 && this.canDropLoot() && this.world.getGameRules()
+                    .getBoolean(GameRules.DO_MOB_LOOT))
+            {
+                int i = this.getExperiencePoints(this.attackingPlayer);
+
+                i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.attackingPlayer, i);
+                while (i > 0)
+                {
+                    final int j = ExperienceOrbEntity.getXPSplit(i);
+                    i -= j;
+                    this.world.addEntity(new ExperienceOrbEntity(this.world, this.posX, this.posY, this.posZ, j));
+                }
+            }
+            final FaintEvent event = new FaintEvent(this.pokemobCap);
+            PokecubeCore.POKEMOB_BUS.post(event);
+            final Result res = event.getResult();
+            despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
+            if (despawn) this.pokemobCap.onRecall(true);
+            for (int k = 0; k < 20; ++k)
+            {
+                final double d2 = this.rand.nextGaussian() * 0.02D;
+                final double d0 = this.rand.nextGaussian() * 0.02D;
+                final double d1 = this.rand.nextGaussian() * 0.02D;
+                this.world.addParticle(ParticleTypes.POOF, this.posX + this.rand.nextFloat() * this.getWidth() * 2.0F
+                        - this.getWidth(), this.posY + this.rand.nextFloat() * this.getHeight(), this.posZ + this.rand
+                                .nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d2, d0, d1);
+            }
+        }
+        if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer)
+        {
+            this.pokemobCap.revive();
+            // If we revive naturally, we remove this tag, it only applies for
+            // forced revivals
+            this.getPersistentData().remove(TagNames.REVIVED);
+        }
+    }
+
+    @Override
+    public void onDeath(final DamageSource cause)
+    {
+        super.onDeath(cause);
+        this.pokemobCap.setLogicState(LogicStates.FAINTED, true);
     }
 
     @Override
@@ -153,13 +209,6 @@ public class EntityPokemob extends PokemobHasParts
             this.setMotion(this.getMotion().scale(0.8D));
         }
         else super.travel(dr);
-    }
-
-    @Override
-    public SitGoal getAISit()
-    {
-        // TODO custom sitting ai?
-        return super.getAISit();
     }
 
     @Override

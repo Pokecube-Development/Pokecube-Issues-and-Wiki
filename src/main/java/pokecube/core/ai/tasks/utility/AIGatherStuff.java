@@ -15,9 +15,11 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.state.IProperty;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -53,13 +55,15 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
      */
     private static class ReplantTask implements IRunnable
     {
-        final ItemStack seeds;
-        final BlockPos  pos;
+        final ItemStack  seeds;
+        final BlockPos   pos;
+        final BlockState oldState;
 
-        public ReplantTask(final ItemStack seeds, final BlockPos pos)
+        public ReplantTask(final ItemStack seeds, final BlockState old, final BlockPos pos)
         {
-            this.seeds = seeds.copy();
+            this.seeds = seeds;
             this.pos = new BlockPos(pos);
+            this.oldState = old;
         }
 
         @Override
@@ -73,6 +77,33 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
             player.setHeldItem(Hand.MAIN_HAND, this.seeds);
             final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(
                     0.5, 1, 0.5), Direction.UP, down, false));
+            System.out.println(this.oldState + " " + this.seeds.getItem() + " " + (this.seeds
+                    .getItem() instanceof BlockItem) + " ");
+
+            check:
+            if (this.seeds.getItem() instanceof BlockItem)
+            {
+                final Block block = Block.getBlockFromItem(this.seeds.getItem());
+                if (block != this.oldState.getBlock()) break check;
+
+                final BlockState def = block.getDefaultState();
+                boolean same = true;
+                for (final IProperty<?> p : def.getProperties())
+                {
+                    if (!this.oldState.has(p))
+                    {
+                        same = false;
+                        break;
+                    }
+                    if (this.oldState.get(p) != def.get(p))
+                    {
+                        same = false;
+                        break;
+                    }
+                }
+                if (same) return false;
+            }
+
             // Attempt to plant it.
             final ActionResultType result = this.seeds.getItem().onItemUse(context);
             return result == ActionResultType.SUCCESS;
@@ -254,7 +285,7 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
             for (final ItemStack stack : list)
             {
                 // If so, Replant it.
-                if (!replanted) replanted = new ReplantTask(stack, this.stuffLoc.getPos()).run(this.world);
+                if (!replanted) replanted = new ReplantTask(stack, state, this.stuffLoc.getPos()).run(this.world);
                 this.toRun.add(new InventoryChange(this.entity, 2, stack, true));
             }
             if (!replanted) for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
@@ -266,7 +297,7 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
                     final BlockState plantState = plantable.getPlant(this.world, this.stuffLoc.getPos().up());
                     if (plantState.getBlock() == state.getBlock() && !replanted)
                     {
-                        replanted = new ReplantTask(stack, this.stuffLoc.getPos()).run(this.world);
+                        replanted = new ReplantTask(stack, state, this.stuffLoc.getPos()).run(this.world);
                         break;
                     }
                 }
