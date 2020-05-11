@@ -22,17 +22,19 @@ import thut.core.common.ThutCore;
 public class PC<T extends PCContainer> extends ContainerScreen<T>
 {
 
-    String          page;
+    String page;
+
     TextFieldWidget textFieldSelectedBox;
     TextFieldWidget textFieldBoxName;
     TextFieldWidget textFieldSearch;
 
-    String          autoOn  = I18n.format("block.pc.autoon");
-    String          autoOff = I18n.format("block.pc.autooff");
+    String autoOn  = I18n.format("block.pc.autoon");
+    String autoOff = I18n.format("block.pc.autooff");
 
-    private String  boxName = "1";
-    boolean         bound   = false;
-    boolean         release = false;
+    private String boxName = "1";
+
+    boolean bound   = false;
+    boolean release = false;
 
     public PC(final T container, final PlayerInventory ivplay, final ITextComponent name)
     {
@@ -71,12 +73,6 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     }
 
     @Override
-    public boolean charTyped(final char par1, final int par2)
-    {
-        return super.charTyped(par1, par2);
-    }
-
-    @Override
     protected void drawGuiContainerBackgroundLayer(final float f, final int i, final int j)
     {
         GL11.glColor4f(1f, 1f, 1f, 1f);
@@ -90,27 +86,6 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
     @Override
     protected void drawGuiContainerForegroundLayer(final int par1, final int par2)
     {
-        for (int i = 0; i < 54; i++)
-            if (this.container.toRelease[i])
-            {
-                // FIXME PC release gui.
-                // mat.push();
-                // GlStateManager.enableBlend();
-                // GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                // GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                // GlStateManager.SourceFactor.ONE,
-                // GlStateManager.DestFactor.ZERO);
-                // GL11.glColor4f(0, 1, 0, 1);
-                // this.minecraft.getTextureManager().bindTexture(new
-                // ResourceLocation(PokecubeMod.ID,
-                // "textures/hologram.png"));
-                // final int x = i % 9 * 18 + 8;
-                // final int y = 18 + i / 9 * 18;
-                // this.blit(x, y, 0, 0, 16, 16);
-                // GlStateManager.disableBlend();
-                // GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                // mat.pop();
-            }
     }
 
     @Override
@@ -133,8 +108,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
             this.textFieldSelectedBox.setText(this.container.getPageNb());
             this.textFieldBoxName.setText(this.container.getPage());
         }));
-        this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70,
-                this.height / 2 - yOffset - 121, 25, 10, this.page);
+        this.textFieldSelectedBox = new TextFieldWidget(this.font, this.width / 2 - xOffset - 70, this.height / 2
+                - yOffset - 121, 25, 10, this.page);
 
         if (!this.bound)
         {
@@ -164,15 +139,15 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                     }));
             else
             {
-                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 50, 20,
-                        I18n.format("block.pc.option.public"), b ->
+                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 125, 50, 20, I18n
+                        .format("block.pc.option.public"), b ->
                         {
                             // TODO bind.
                             // this.container.pcTile.toggleBound();
                             this.minecraft.player.closeScreen();
                         }));
-                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 105, 50, 20,
-                        I18n.format("block.pc.option.bind"), b ->
+                this.addButton(new Button(this.width / 2 - xOffset - 137, this.height / 2 - yOffset - 105, 50, 20, I18n
+                        .format("block.pc.option.bind"), b ->
                         {
                             // TODO bind.
                             // this.container.pcTile.setBoundOwner(this.minecraft.player);
@@ -188,8 +163,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         }));
         if (!this.bound)
         {
-            this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset + 10, 50, 10,
-                    I18n.format("block.pc.option.release"), b ->
+            this.addButton(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset + 10, 50, 10, I18n
+                    .format("block.pc.option.release"), b ->
                     {
                         this.release = !this.release;
                         if (!this.release && this.container.release)
@@ -224,8 +199,8 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                             this.buttons.get(6).visible = this.release;
                         }
                     }));
-            this.addButton(new Button(this.width / 2 - xOffset - 31, this.height / 2 - yOffset + 10, 50, 10,
-                    I18n.format("block.pc.option.confirm"), b ->
+            this.addButton(new Button(this.width / 2 - xOffset - 31, this.height / 2 - yOffset + 10, 50, 10, I18n
+                    .format("block.pc.option.confirm"), b ->
                     {
                         this.release = !this.release;
                         this.container.setRelease(this.release, this.minecraft.player.getUniqueID());
@@ -275,8 +250,10 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         this.textFieldBoxName.text = this.boxName;
     }
 
-    /** Called when the screen is unloaded. Used to disable keyboard repeat
-     * events */
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat
+     * events
+     */
     @Override
     public void onClose()
     {
@@ -289,12 +266,13 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
         this.renderBackground();
         super.render(mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
+        {
+            final int x = i % 9 * 18 + this.width / 2 - 79;
+            final int y = i / 9 * 18 + this.height / 2 - 96;
             if (!this.textFieldSearch.getText().isEmpty())
             {
                 final ItemStack stack = this.container.inv.getStackInSlot(i + 54 * this.container.inv.getPage());
                 if (stack.isEmpty()) continue;
-                final int x = i % 9 * 18 + this.width / 2 - 80;
-                final int y = i / 9 * 18 + this.height / 2 - 96;
                 final String name = stack == null ? "" : stack.getDisplayName().getFormattedText();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getText())))
                 {
@@ -307,6 +285,12 @@ public class PC<T extends PCContainer> extends ContainerScreen<T>
                     AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
                 }
             }
+            if (this.container.toRelease[i])
+            {
+                final int slotColor = 0x55FF0000;
+                AbstractGui.fill(x, y, x + 16, y + 16, slotColor);
+            }
+        }
         this.renderHoveredToolTip(mouseX, mouseY);
     }
 
