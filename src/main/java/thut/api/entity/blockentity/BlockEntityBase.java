@@ -1,7 +1,6 @@
 package thut.api.entity.blockentity;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
@@ -36,7 +35,6 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.entity.blockentity.world.WorldEntity;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
@@ -94,30 +92,31 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     static final DataParameter<Vec3d> position = EntityDataManager.<Vec3d> createKey(BlockEntityBase.class,
             BlockEntityBase.VEC3DSER);
 
-    public static int          ACCELERATIONTICKS = 20;
-    public BlockPos            boundMin          = BlockPos.ZERO;
-    public BlockPos            boundMax          = BlockPos.ZERO;
-    private IBlockEntityWorld  fake_world;
-    private boolean            shouldRevert      = true;
-    public double              speedUp           = 0.5;
-    public double              speedDown         = -0.5;
-    public double              speedHoriz        = 0.5;
-    public double              acceleration      = 0.05;
-    public boolean             toMoveY           = false;
-    public boolean             toMoveX           = false;
-    public boolean             toMoveZ           = false;
-    public boolean             hasPassenger      = false;
-    int                        n                 = 0;
-    boolean                    first             = true;
-    Random                     r                 = new Random();
-    public UUID                owner;
-    public List<AxisAlignedBB> blockBoxes        = Lists.newArrayList();
-    public BlockState[][][]    blocks            = null;
-    public TileEntity[][][]    tiles             = null;
+    public BlockPos boundMin = BlockPos.ZERO;
+    public BlockPos boundMax = BlockPos.ZERO;
+
+    private IBlockEntityWorld fake_world;
+
+    private boolean shouldRevert = true;
+
+    private final float speedUp      = 0.5f;
+    private final float speedDown    = -0.5f;
+    private final float speedHoriz   = 0.5f;
+    private final float acceleration = 0.05f;
+
+    public boolean toMoveY = false;
+    public boolean toMoveX = false;
+    public boolean toMoveZ = false;
+
+    public UUID owner;
+
+    public List<AxisAlignedBB> blockBoxes  = Lists.newArrayList();
+    public BlockState[][][]    blocks      = null;
+    public TileEntity[][][]    tiles       = null;
     BlockEntityUpdater         collider;
     BlockEntityInteractHandler interacter;
-    BlockPos                   originalPos       = null;
-    Vector3                    lastSyncPos       = Vector3.getNewVector();
+    BlockPos                   originalPos = null;
+    Vector3                    lastSyncPos = Vector3.getNewVector();
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final World par1World)
     {
@@ -326,35 +325,40 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     protected double getSpeed(final double pos, final double destPos, final double speed, final double speedPos,
-            double speedNeg)
+            final double speedNeg)
     {
-        if (!TerrainManager.isAreaLoaded(this.getEntityWorld(), this.getPosition(), 8)) return 0;
-        double ds = speed;
-        final double dp = destPos - pos;
-        if (dp > 0)
+        double dr_dt = speed;
+        final double dr = destPos - pos;
+        final float dr_dt2 = this.getAccel();
+        final double t_toStop = speed / dr_dt2;
+        final double stop_distance = dr_dt * t_toStop;
+        if (dr > 0)
         {
-            boolean tooFast = pos + ds * (BlockEntityBase.ACCELERATIONTICKS + 1) > destPos;
-            if (!tooFast) ds = Math.min(speedPos, ds + this.acceleration * speedPos);
-            else while (ds >= 0 && tooFast)
+            if (dr_dt < 0)
             {
-                ds = ds - this.acceleration * speedPos / 10;
-                tooFast = pos + ds * (BlockEntityBase.ACCELERATIONTICKS + 1) > destPos;
+                dr_dt += dr_dt2;
+                return dr_dt;
             }
-            return ds;
+            final boolean tooFast = stop_distance > dr;
+            final boolean tooSlow = dr_dt < speedPos;
+            if (tooFast) dr_dt -= dr_dt2;
+            else if (tooSlow) dr_dt += dr_dt2;
+            return dr_dt;
         }
-        else if (dp < 0)
+        if (dr < 0)
         {
-            speedNeg = Math.abs(speedNeg);
-            boolean tooFast = pos + ds * (BlockEntityBase.ACCELERATIONTICKS + 1) < destPos;
-            if (!tooFast) ds = Math.max(-speedNeg, ds - this.acceleration * speedNeg);
-            else while (ds <= 0 && tooFast)
+            if (dr_dt > 0)
             {
-                ds = ds + this.acceleration * speedNeg / 10;
-                tooFast = pos + ds * (BlockEntityBase.ACCELERATIONTICKS + 1) < destPos;
+                dr_dt -= dr_dt2;
+                return dr_dt;
             }
-            return ds;
+            final boolean tooFast = stop_distance > -dr;
+            final boolean tooSlow = dr_dt > -speedNeg;
+            if (tooFast) dr_dt += dr_dt2;
+            else if (tooSlow) dr_dt -= dr_dt2;
+            return dr_dt;
         }
-        else return 0;
+        return 0;
     }
 
     @Override
@@ -639,6 +643,26 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                     }
             nbt.put("Blocks", blocksTag);
         }
+    }
+
+    public float getSpeedUp()
+    {
+        return this.speedUp;
+    }
+
+    public float getSpeedDown()
+    {
+        return this.speedDown;
+    }
+
+    public float getSpeedHoriz()
+    {
+        return this.speedHoriz;
+    }
+
+    public float getAccel()
+    {
+        return this.acceleration;
     }
 
     @Override

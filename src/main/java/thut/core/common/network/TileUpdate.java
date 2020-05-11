@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerChunkProvider;
+import net.minecraftforge.fml.network.PacketDistributor;
 import thut.core.common.ThutCore;
 
 public class TileUpdate extends NBTPacket
@@ -31,7 +32,7 @@ public class TileUpdate extends NBTPacket
         final TileUpdate message = new TileUpdate(tag);
         final IChunk chunk = tile.getWorld().getChunk(tile.getPos());
         if (chunk instanceof Chunk && ((Chunk) chunk).getWorld().getChunkProvider() instanceof ServerChunkProvider)
-            ThutCore.packets.sendToTracking(message, chunk);
+            TileUpdate.ASSEMBLER.sendTo(message, PacketDistributor.TRACKING_CHUNK.with(() -> (Chunk) chunk));
     }
 
     public TileUpdate()

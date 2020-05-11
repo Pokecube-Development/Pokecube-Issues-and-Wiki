@@ -103,32 +103,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         this.toMoveX = this.controller.leftInputDown || this.controller.rightInputDown;
         this.toMoveZ = this.controller.backInputDown || this.controller.forwardInputDown;
 
-        this.speedDown = 1;
-        this.speedUp = 1;
-        this.speedHoriz = 1;
-
-        // this.speedUp = 0.5;
-        // this.speedDown = 0.5;
-        // final int high = 30;
-        // final int low = 15;
-        //
-        // if (this.getPosY() < high && this.getMotion().y > 0)
-        // this.controller.upInputDown = true;
-        //
-        // if (this.getPosY() > low && this.getMotion().y < 0)
-        // this.controller.downInputDown = true;
-        //
-        // if (this.getPosY() > high)
-        // {
-        // this.controller.downInputDown = true;
-        // this.controller.upInputDown = false;
-        // }
-        // if (this.getPosY() < low)
-        // {
-        // this.controller.downInputDown = false;
-        // this.controller.upInputDown = true;
-        // }
-
         this.toMoveY = this.controller.upInputDown || this.controller.downInputDown;
 
         float destY = this.toMoveY ? this.controller.upInputDown ? 30 : -30 : 0;
@@ -216,21 +190,21 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
 
         if (destY != this.posY)
         {
-            final double dy = this.getSpeed(this.posY, destY, vy, this.speedUp, this.speedDown);
+            final double dy = this.getSpeed(this.posY, destY, vy, this.getSpeedUp(), this.getSpeedDown());
             vy = dy;
             this.toMoveY = true;
         }
         else vy *= 0.5;
         if (destX != this.posX)
         {
-            final double dx = this.getSpeed(this.posX, destX, vx, this.speedHoriz, this.speedHoriz);
+            final double dx = this.getSpeed(this.posX, destX, vx, this.getSpeedHoriz(), this.getSpeedHoriz());
             vx = dx;
             this.toMoveX = true;
         }
         else vx *= 0.5;
         if (destZ != this.posZ)
         {
-            final double dz = this.getSpeed(this.posZ, destZ, vz, this.speedHoriz, this.speedHoriz);
+            final double dz = this.getSpeed(this.posZ, destZ, vz, this.getSpeedHoriz(), this.getSpeedHoriz());
             vz = dz;
             this.toMoveZ = true;
         }
