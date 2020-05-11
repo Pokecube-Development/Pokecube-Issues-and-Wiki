@@ -45,6 +45,7 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokemobTracker;
+import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
@@ -103,13 +104,13 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public void tick()
     {
+        if (this.getPersistentData().getBoolean(TagNames.REMOVED))
+        {
+            this.remove();
+            return;
+        }
         if (this.getEntityWorld() instanceof ServerWorld)
         {
-            if (this.getPersistentData().getBoolean("removed"))
-            {
-                this.remove();
-                return;
-            }
             if (this.pokemobCap.getOwnerId() != null)
             {
                 this.enablePersistence();

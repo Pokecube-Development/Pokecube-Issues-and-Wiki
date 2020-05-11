@@ -12,9 +12,11 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.AIBase.IRunnable;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.Config;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -37,10 +39,11 @@ public class SendOutManager
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
 
+        final Entity original = world.getEntityByUuid(mob.getUniqueID());
+
         // Next check some conditions for whether the sendout can occur.
 
         final boolean hasMob = mob != null;
-        final boolean mobExists = hasMob && world.getEntityByUuid(mob.getUniqueID()) != null;
         final boolean hasPokemob = pokemob != null;
         final boolean isPlayers = cube.shootingEntity instanceof ServerPlayerEntity;
         final ServerPlayerEntity user = isPlayers ? (ServerPlayerEntity) cube.shootingEntity : null;
@@ -66,22 +69,6 @@ public class SendOutManager
             }
             return null;
         }
-
-        // The mob already exists in the world, lets give an error message and
-        // refund the item
-        if (mobExists)
-        {
-            if (isPlayers)
-            {
-                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.mobinworld"));
-                Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                cube.remove();
-            }
-            return null;
-        }
-
-        // TODO use what spawn code uses, to check if the mob fits here, if not,
-        // cancel the send out.
 
         // Fix the mob's position.
         final Vector3 v = cube.v0.set(cube);
@@ -111,7 +98,7 @@ public class SendOutManager
                 }
             }
 
-            SendOut evt = new SendOut.Pre(pokemob.getPokedexEntry(), v, cube.getEntityWorld(), pokemob);
+            final SendOut evt = new SendOut.Pre(pokemob.getPokedexEntry(), v, cube.getEntityWorld(), pokemob);
             if (PokecubeCore.POKEMOB_BUS.post(evt))
             {
                 if (isPlayers)
@@ -123,25 +110,13 @@ public class SendOutManager
                 }
                 return null;
             }
-            if (summon) world.summonEntity(mob);
-            pokemob.onSendOut();
-            pokemob.setGeneralState(GeneralStates.TAMED, true);
-            pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
-            pokemob.setEvolutionTicks(50 + PokecubeCore.getConfig().exitCubeDuration);
-            final Entity owner = pokemob.getOwner();
-            if (owner instanceof PlayerEntity)
-            {
-                final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.action.sendout", "green",
-                        pokemob.getDisplayName());
-                pokemob.displayMessageToOwner(mess);
-            }
+            SendOutManager.apply(world, mob, original, v, pokemob, summon);
             cube.setReleased(mob);
             cube.setMotion(0, 0, 0);
             cube.setTime(20);
             cube.setReleasing(true);
             cube.setItem(pokemob.getPokecube());
-            evt = new SendOut.Post(pokemob.getPokedexEntry(), v, cube.getEntityWorld(), pokemob);
-            PokecubeCore.POKEMOB_BUS.post(evt);
+
         }
         else if (mob instanceof LivingEntity)
         {
@@ -151,7 +126,7 @@ public class SendOutManager
             cube.setMotion(0, 0, 0);
             cube.setTime(20);
             cube.setReleasing(true);
-            if (summon) world.summonEntity(mob);
+            SendOutManager.apply(world, mob, original, v, pokemob, summon);
             return (LivingEntity) mob;
         }
         else
@@ -161,5 +136,37 @@ public class SendOutManager
         }
         if (pokemob == null) return null;
         return pokemob.getEntity();
+    }
+
+    private static void apply(final ServerWorld world, final Entity mob, final Entity original, final Vector3 v,
+            final IPokemob pokemob, final boolean summon)
+    {
+        final Vector3 vec = v.copy();
+        final IRunnable task = w ->
+        {
+            // Ensure the chunk is loaded here.
+            w.getChunk(vec.getPos());
+            // The mob already exists in the world, remove it
+            if (original != null) world.removeEntity(original, false);
+            if (summon) world.summonEntity(mob);
+            if (pokemob != null)
+            {
+                pokemob.onSendOut();
+                pokemob.setGeneralState(GeneralStates.TAMED, true);
+                pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
+                pokemob.setEvolutionTicks(50 + PokecubeCore.getConfig().exitCubeDuration);
+                final Entity owner = pokemob.getOwner();
+                if (owner instanceof PlayerEntity)
+                {
+                    final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.action.sendout", "green",
+                            pokemob.getDisplayName());
+                    pokemob.displayMessageToOwner(mess);
+                }
+                final SendOut evt = new SendOut.Post(pokemob.getPokedexEntry(), vec, world, pokemob);
+                PokecubeCore.POKEMOB_BUS.post(evt);
+            }
+            return true;
+        };
+        EventsHandler.Schedule(world, task);
     }
 }

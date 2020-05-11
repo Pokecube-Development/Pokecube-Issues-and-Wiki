@@ -38,6 +38,7 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 import thut.core.common.network.EntityUpdate;
 
@@ -80,13 +81,12 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             {
                 // Set this mob wild, then kill it.
                 if (old != null) old.setOwner((UUID) null);
-                this.thisEntity.getPersistentData().putBoolean("evo_removed", true);
+                this.thisEntity.getPersistentData().putBoolean(TagNames.REMOVED, true);
                 // Remove old mob
                 world.removeEntity(this.thisEntity);
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
-                this.evolution.getPersistentData().remove("evo_removed");
-                this.evolution.getPersistentData().remove("removed");
+                this.evolution.getPersistentData().remove(TagNames.REMOVED);
                 this.evolution.getEntityWorld().addEntity(this.evolution);
 
             }
@@ -186,8 +186,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
                 }
                 this.pokemob.setEvolutionTicks(evoTicks);
-                this.pokemob.getEntity().getPersistentData().remove("evo_removed");
-                this.pokemob.getEntity().getPersistentData().remove("removed");
+                this.pokemob.getEntity().getPersistentData().remove(TagNames.REMOVED);
 
                 if (this.message != null) this.pokemob.displayMessageToOwner(this.message);
                 MinecraftForge.EVENT_BUS.unregister(this);

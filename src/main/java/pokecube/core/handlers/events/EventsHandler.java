@@ -2,6 +2,7 @@ package pokecube.core.handlers.events;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -63,6 +64,7 @@ import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.ai.tasks.AIBase.IRunnable;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
@@ -263,6 +265,26 @@ public class EventsHandler
 
         EventsHandler.ANIMALMATCHER = EventsHandler.NOTVANILLAANIMALORMOB.and(EventsHandler.ANIMALMATCHER);
         EventsHandler.MONSTERMATCHER = EventsHandler.NOTVANILLAANIMALORMOB.and(EventsHandler.MONSTERMATCHER);
+    }
+
+    private static Map<DimensionType, List<IRunnable>> scheduledTasks = Maps.newConcurrentMap();
+
+    public static void Schedule(final World world, final IRunnable task)
+    {
+        if (!(world instanceof ServerWorld)) return;
+        final ServerWorld swrld = (ServerWorld) world;
+        if (!swrld.tickingEntities)
+        {
+            task.run(swrld);
+            return;
+        }
+        final DimensionType dim = world.getDimension().getType();
+        final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Lists.newArrayList());
+        synchronized (tasks)
+        {
+            tasks.add(task);
+        }
+        EventsHandler.scheduledTasks.put(dim, tasks);
     }
 
     static int count = 0;
@@ -561,6 +583,7 @@ public class EventsHandler
         // Reset this.
         PokecubeSerializer.clearInstance();
         JigsawPieces.sent_events.clear();
+        EventsHandler.scheduledTasks.clear();
     }
 
     @SubscribeEvent
@@ -593,9 +616,15 @@ public class EventsHandler
     @SubscribeEvent
     public static void tickEvent(final WorldTickEvent evt)
     {
+        if (evt.phase != Phase.END || !(evt.world instanceof ServerWorld)) return;
+        final DimensionType dim = evt.world.dimension.getType();
+        final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
+        synchronized (tasks)
+        {
+            tasks.removeIf(r -> r.run(evt.world));
+        }
         // Call spawner tick at end of world tick.
-        if (evt.phase == Phase.END && evt.world instanceof ServerWorld && !Database.spawnables.isEmpty())
-            PokecubeCore.spawner.tick((ServerWorld) evt.world);
+        if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick((ServerWorld) evt.world);
     }
 
     @SubscribeEvent

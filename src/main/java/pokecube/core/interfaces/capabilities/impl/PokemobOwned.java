@@ -24,6 +24,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.ai.tasks.AIBase.IRunnable;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.abilities.AbilityManager;
@@ -34,6 +35,7 @@ import pokecube.core.events.pokemob.RecallEvent;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.combat.MoveMessageEvent;
 import pokecube.core.handlers.TeamManager;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -205,18 +207,25 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         }
         catch (final Exception ex)
         {
-            ex.printStackTrace();
+            PokecubeCore.LOGGER.error("Error recalling mob!", ex);
         }
-        else
+        else this.executeRecall();
+    }
+
+    protected void executeRecall()
+    {
+        final IRunnable task = wrld ->
         {
-            final ServerWorld world = (ServerWorld) this.getEntity().getEntityWorld();
+            final ServerWorld world = (ServerWorld) wrld;
+            // Ensures the chunk is actually still loaded here.
+            world.getChunk(this.getEntity().getPosition());
             if (this.getTransformedTo() != null) this.setTransformedTo(null);
             final RecallEvent pre = new RecallEvent.Pre(this);
             PokecubeCore.POKEMOB_BUS.post(pre);
-            if (pre.isCanceled()) return;
+            if (pre.isCanceled()) return true;
             final RecallEvent evtrec = new RecallEvent(this);
             PokecubeCore.POKEMOB_BUS.post(evtrec);
-            if (this.getHealth() > 0 && evtrec.isCanceled()) return;
+            if (this.getHealth() > 0 && evtrec.isCanceled()) return true;
             this.setEvolutionTicks(0);
             this.setGeneralState(GeneralStates.EXITINGCUBE, false);
             this.setGeneralState(GeneralStates.EVOLVING, false);
@@ -233,8 +242,10 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
                 if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbility(AbilityManager
                         .getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
                 base.onRecall();
-                world.removeEntityComplete(this.getEntity(), false);
-                return;
+                this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
+                this.getEntity().captureDrops(null);
+                world.removeEntity(this.getEntity(), false);
+                return true;
             }
 
             if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Recalling " + this.getEntity());
@@ -321,10 +332,12 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
                 }
             }
             // This ensures it can't be caught by dupe
-            if (onDeath) this.getEntity().getPersistentData().putBoolean("removed", true);
+            this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
             this.getEntity().captureDrops(null);
-            world.removeEntityComplete(this.getEntity(), false);
-        }
+            world.removeEntity(this.getEntity(), false);
+            return true;
+        };
+        EventsHandler.Schedule(this.getEntity().getEntityWorld(), task);
     }
 
     private void onToss(final LivingEntity owner, final ItemStack itemstack)
