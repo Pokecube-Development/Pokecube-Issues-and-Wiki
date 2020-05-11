@@ -500,6 +500,26 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         return this.megaEvolve(newEntry, true);
     }
 
+    default PokedexEntry getMegaBase()
+    {
+        final PokedexEntry entry = this.getPokedexEntry();
+        if (!(this.getCombatState(CombatStates.MEGAFORME) || entry.isMega)) return entry;
+        PokedexEntry prev = Database.getEntry(this.getEntity().getPersistentData().getString("pokecube:mega_base"));
+        if (prev == null || prev == Database.missingno) prev = entry.getBaseForme();
+        if (prev == null) return entry;
+        return prev;
+    }
+
+    default IPokemob megaRevert()
+    {
+        if (!(this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega)) return (IPokemob) this;
+        final PokedexEntry entry = this.getPokedexEntry();
+        final PokedexEntry prev = this.getMegaBase();
+        this.setCombatState(CombatStates.MEGAFORME, false);
+        if (prev != entry) return this.megaEvolve(prev);
+        return (IPokemob) this;
+    }
+
     /**
      * Converts us to the given entry
      *
@@ -548,19 +568,24 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Set entry, this should fix expressed species gene.
             evoMob.setPokedexEntry(newEntry);
 
+            // Remove this tag if present.
+            evolution.getPersistentData().remove("pokecube:mega_base");
+
             // Sync ability back, or store old ability.
             if (this.getCombatState(CombatStates.MEGAFORME) || this.getCombatState(CombatStates.DYNAMAX))
             {
-                if (thisMob.getAbility() != null) evolution.getPersistentData().putString("Ability", thisMob
-                        .getAbility().toString());
+                if (thisMob.getAbility() != null) evolution.getPersistentData().putString("pokecube:mega_ability",
+                        thisMob.getAbility().toString());
+                evolution.getPersistentData().putString("pokecube:mega_base", oldEntry.getTrimmedName());
                 final Ability ability = newEntry.getAbility(0, evoMob);
                 PokecubeCore.LOGGER.debug("Mega Evolving, changing ability to " + ability);
+
                 if (ability != null) evoMob.setAbility(ability);
             }
-            else if (thisEntity.getPersistentData().contains("Ability"))
+            else if (thisEntity.getPersistentData().contains("pokecube:mega_ability"))
             {
-                final String ability = thisEntity.getPersistentData().getString("Ability");
-                evolution.getPersistentData().remove("Ability");
+                final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");
+                evolution.getPersistentData().remove("pokecube:mega_ability");
                 if (!ability.isEmpty()) evoMob.setAbility(AbilityManager.getAbility(ability));
                 PokecubeCore.LOGGER.debug("Un Mega Evolving, changing ability back to " + ability);
             }

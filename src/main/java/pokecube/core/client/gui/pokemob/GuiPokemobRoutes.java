@@ -88,6 +88,14 @@ public class GuiPokemobRoutes extends GuiPokemobBase
     }
 
     @Override
+    public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
+    {
+        this.name.setFocused(false);
+        if (this.list.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_)) return true;
+        return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
+    }
+
+    @Override
     public void render(final int i, final int j, final float f)
     {
         super.render(i, j, f);

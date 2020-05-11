@@ -120,6 +120,19 @@
       }
     },
     {
+      "name": "Rayquaza",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:rayquaza_tower",
+              "rate": "0.0"
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Heatran",
       "stats": {
         "spawnRules": [

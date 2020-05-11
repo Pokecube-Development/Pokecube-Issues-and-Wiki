@@ -32,7 +32,8 @@ public class Kill
             final IPokemob e = CapabilityPokemob.getPokemobFor((ICapabilityProvider) o);
             if (e != null)
             {
-                if (cull && world.getClosestPlayer((Entity) e, PokecubeCore.getConfig().cullDistance) != null) continue;
+                if (cull && world.getClosestPlayer(e.getEntity(), PokecubeCore.getConfig().cullDistance) != null)
+                    continue;
                 if (!tame && e.getOwnerId() != null) continue;
                 e.onRecall();
                 count1++;

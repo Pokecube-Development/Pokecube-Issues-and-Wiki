@@ -1,11 +1,12 @@
 package pokecube.core.inventory.trade;
 
+import java.util.UUID;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
@@ -55,63 +56,40 @@ public class TradeContainer extends BaseContainer
             this.inv = wrapper.getInv();
         }
 
-        this.addSlot(new Slot(this.inv, 0, 35 + 00, 14 + 00)
-        {
-            @Override
-            public boolean isItemValid(final ItemStack stack)
-            {
-                if (PokecubeManager.isFilled(stack))
-                {
-                    final String id = PokecubeManager.getOwner(stack);
-                    return id.equals(inv.player.getCachedUniqueIdString());
-                }
-                return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
-            }
-        });
-        this.addSlot(new Slot(this.inv, 1, 35 + 90, 14 + 00)
-        {
-            @Override
-            public boolean isItemValid(final ItemStack stack)
-            {
-                if (PokecubeManager.isFilled(stack))
-                {
-                    final String id = PokecubeManager.getOwner(stack);
-                    return id.equals(inv.player.getCachedUniqueIdString());
-                }
-                return this.inventory.isItemValidForSlot(this.getSlotIndex(), stack);
-            }
-        });
+        this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 0, 35 + 00, 14 + 00));
+        this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 1, 35 + 90, 14 + 00));
         this.bindPlayerInventory(inv, -19);
+        this.trackIntArray(this.tile.syncValues);
     }
 
     @Override
     public boolean canInteractWith(final PlayerEntity playerIn)
     {
-        return true;
+        return this.tile.users.size() <= 2;
     }
 
     @Override
     public void clearContainer(final PlayerEntity playerIn, final World worldIn, final IInventory inventoryIn)
     {
-        final boolean otherUsers = this.tile.users.size() > 1;
-        if (!otherUsers)
+        if (!(playerIn instanceof ServerPlayerEntity))
         {
             super.clearContainer(playerIn, worldIn, inventoryIn);
             return;
         }
-
-        if (!playerIn.isAlive() || playerIn instanceof ServerPlayerEntity && ((ServerPlayerEntity) playerIn)
-                .hasDisconnected()) for (int j = 0; j < inventoryIn.getSizeInventory(); ++j)
-        {
-            final ItemStack stack = inventoryIn.getStackInSlot(j);
-            if (PokecubeManager.getOwner(stack).equals(playerIn.getCachedUniqueIdString())) playerIn.dropItem(
-                    inventoryIn.removeStackFromSlot(j), false);
-        }
-        else for (int i = 0; i < inventoryIn.getSizeInventory(); ++i)
+        for (int i = 0; i < inventoryIn.getSizeInventory(); ++i)
         {
             final ItemStack stack = inventoryIn.getStackInSlot(i);
-            if (PokecubeManager.getOwner(stack).equals(playerIn.getCachedUniqueIdString())) playerIn.inventory
-                    .placeItemBackInInventory(worldIn, inventoryIn.removeStackFromSlot(i));
+            if (!PokecubeManager.isFilled(stack)) continue;
+
+            final String ids = PokecubeManager.getOwner(stack);
+            if (!ids.isEmpty())
+            {
+                final UUID owner = UUID.fromString(ids);
+                final ServerPlayerEntity player = playerIn.getServer().getPlayerList().getPlayerByUUID(owner);
+                final boolean shouldReAdd = player.isAlive() && !player.hasDisconnected();
+                if (shouldReAdd) player.inventory.placeItemBackInInventory(worldIn, inventoryIn.removeStackFromSlot(i));
+                else playerIn.dropItem(inventoryIn.removeStackFromSlot(i), false);
+            }
         }
     }
 

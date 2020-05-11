@@ -11,7 +11,6 @@ import net.minecraft.entity.MobEntity;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
-import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
@@ -72,7 +71,7 @@ public interface IModelRenderer<T extends MobEntity>
 
     default String getAnimation(final Entity entityIn)
     {
-        final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
+        final IAnimationHolder holder = this.getAnimationHolder();
         if (holder != null) return holder.getAnimation(entityIn);
         return IModelRenderer.DEFAULTPHASE;
     }
@@ -105,7 +104,7 @@ public interface IModelRenderer<T extends MobEntity>
 
     default void setAnimation(final Entity entity, final float partialTick)
     {
-        final IAnimationHolder holder = AnimationHelper.getHolder(entity);
+        final IAnimationHolder holder = this.getAnimationHolder();
         final String phase = this.getAnimation(entity);
         final List<Animation> anim = this.getAnimations(entity, phase);
         if (holder != null && anim != null && !anim.isEmpty())
@@ -122,6 +121,10 @@ public interface IModelRenderer<T extends MobEntity>
     {
         return null;
     }
+
+    void setAnimationHolder(IAnimationHolder holder);
+
+    IAnimationHolder getAnimationHolder();
 
     void setAnimationChanger(IAnimationChanger changer);
 

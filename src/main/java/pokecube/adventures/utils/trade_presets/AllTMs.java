@@ -27,14 +27,15 @@ public class AllTMs implements TradePreset
     @Override
     public void apply(final Trade trade, final TrainerTrades trades)
     {
-        final ArrayList<String> moves = Lists.newArrayList(MovesUtils.moves.keySet());
+        final ArrayList<String> moves = Lists.newArrayList(MovesUtils.getKnownMoveNames());
         Collections.sort(moves);
         for (int i = 0; i < moves.size(); i++)
         {
             final int index = i;
             final String name = moves.get(index);
 
-            final Move_Base move = MovesUtils.moves.get(name);
+            final Move_Base move = MovesUtils.getMoveFromName(name);
+            if (move == null) continue;
             // Blacklist the confused hit move
             if (move.move.name.equals(MoveEntry.CONFUSED.name)) continue;
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationXML.Mat;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 
 public interface IExtendedModelPart extends IModelCustom
 {
@@ -40,6 +41,10 @@ public interface IExtendedModelPart extends IModelCustom
     {
 
     }
+
+    void setAnimationHolder(IAnimationHolder holder);
+
+    IAnimationHolder getAnimationHolder();
 
     void setParent(IExtendedModelPart parent);
 

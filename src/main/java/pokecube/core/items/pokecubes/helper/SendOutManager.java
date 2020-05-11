@@ -4,7 +4,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
@@ -34,20 +36,48 @@ public class SendOutManager
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
+
+        // Next check some conditions for whether the sendout can occur.
+
+        final boolean hasMob = mob != null;
+        final boolean mobExists = hasMob && world.getEntityByUuid(mob.getUniqueID()) != null;
+        final boolean hasPokemob = pokemob != null;
+        final boolean isPlayers = cube.shootingEntity instanceof ServerPlayerEntity;
+        final ServerPlayerEntity user = isPlayers ? (ServerPlayerEntity) cube.shootingEntity : null;
+        final boolean checkPerms = config.permsSendOut && isPlayers;
+        boolean hasPerms = true;
+
         // Check permissions
-        if (config.permsSendOut && cube.shootingEntity instanceof PlayerEntity)
+        if (checkPerms)
         {
-            final PlayerEntity player = (PlayerEntity) cube.shootingEntity;
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-            final PlayerContext context = new PlayerContext(player);
-            boolean denied = false;
-            if (!handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTPOKEMOB, context)) denied = true;
-            if (denied)
+            final PlayerContext context = new PlayerContext(user);
+            hasPerms = handler.hasPermission(user.getGameProfile(), Permissions.SENDOUTPOKEMOB, context);
+        }
+
+        // No mob or no perms?, then just refund the item and exit
+        if (!hasMob || !hasPerms)
+        {
+            if (isPlayers)
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
+                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"));
                 cube.remove();
-                return null;
             }
+            return null;
+        }
+
+        // The mob already exists in the world, lets give an error message and
+        // refund the item
+        if (mobExists)
+        {
+            if (isPlayers)
+            {
+                user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.mobinworld"));
+                Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
+                cube.remove();
+            }
+            return null;
         }
 
         // TODO use what spawn code uses, to check if the mob fits here, if not,
@@ -55,30 +85,27 @@ public class SendOutManager
 
         // Fix the mob's position.
         final Vector3 v = cube.v0.set(cube);
-        if (mob != null)
-        {
-            v.set(v.intX() + 0.5, v.y, v.intZ() + 0.5);
-            final BlockState state = v.getBlockState(cube.getEntityWorld());
-            if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
-            mob.fallDistance = 0;
-            v.moveEntity(mob);
-        }
+        v.set(v.intX() + 0.5, v.y, v.intZ() + 0.5);
+        final BlockState state = v.getBlockState(cube.getEntityWorld());
+        if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
+        mob.fallDistance = 0;
+        v.moveEntity(mob);
 
-        if (pokemob != null)
+        if (hasPokemob)
         {
             // Check permissions
-            if (config.permsSendOutSpecific && cube.shootingEntity instanceof PlayerEntity)
+            if (config.permsSendOutSpecific && isPlayers)
             {
                 final PokedexEntry entry = pokemob.getPokedexEntry();
-                final PlayerEntity player = (PlayerEntity) cube.shootingEntity;
                 final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
-                final PlayerContext context = new PlayerContext(player);
-                boolean denied = false;
-                if (!handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTSPECIFIC.get(entry), context))
-                    denied = true;
+                final PlayerContext context = new PlayerContext(user);
+                final boolean denied = !handler.hasPermission(user.getGameProfile(), Permissions.SENDOUTSPECIFIC.get(
+                        entry), context);
                 if (denied)
                 {
-                    Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
+                    Tools.giveItem(user, cube.getItem());
+                    user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.specific", pokemob
+                            .getDisplayName()));
                     cube.remove();
                     return null;
                 }
@@ -87,9 +114,11 @@ public class SendOutManager
             SendOut evt = new SendOut.Pre(pokemob.getPokedexEntry(), v, cube.getEntityWorld(), pokemob);
             if (PokecubeCore.POKEMOB_BUS.post(evt))
             {
-                if (cube.shootingEntity != null && cube.shootingEntity instanceof PlayerEntity)
+                if (isPlayers)
                 {
-                    Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
+                    Tools.giveItem(user, cube.getItem());
+                    user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.cancelled", pokemob
+                            .getDisplayName()));
                     cube.remove();
                 }
                 return null;

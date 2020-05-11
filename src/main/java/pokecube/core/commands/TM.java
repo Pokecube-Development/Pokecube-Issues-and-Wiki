@@ -24,7 +24,7 @@ import thut.core.common.commands.CommandTools;
 public class TM
 {
     private static SuggestionProvider<CommandSource> SUGGEST_TMS = (ctx,
-            sb) -> net.minecraft.command.ISuggestionProvider.suggest(MovesUtils.moves.keySet(), sb);
+            sb) -> net.minecraft.command.ISuggestionProvider.suggest(MovesUtils.getKnownMoveNames(), sb);
 
     public static int execute(final CommandSource source, final ServerPlayerEntity serverplayerentity, final String tm)
     {

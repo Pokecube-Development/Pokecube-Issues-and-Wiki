@@ -2,6 +2,7 @@ package pokecube.adventures.items;
 
 import java.util.UUID;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -9,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -60,14 +62,30 @@ public class Linker extends Item
             if (pos == null || user.isSneaking())
             {
                 this.linker.getOrCreateTag().remove("link_pos");
-                user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.unset"));
+                if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
+                        "item.pokecube_adventures.linker.unset"));
             }
             else
             {
                 final CompoundNBT posTag = new CompoundNBT();
                 pos.writeToNBT(posTag);
                 this.linker.getOrCreateTag().put("link_pos", posTag);
-                user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.set"));
+                if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
+                        "item.pokecube_adventures.linker.set"));
+
+                if (user.getEntityWorld().isRemote) try
+                {
+                    final String loc = String.format("%d %d %d", MathHelper.floor(pos.x), MathHelper.floor(pos.y),
+                            MathHelper.floor(pos.z));
+                    Minecraft.getInstance().keyboardListener.setClipboardString(loc);
+                    user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.copied"));
+                }
+                catch (final Exception e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
             }
             return true;
         }

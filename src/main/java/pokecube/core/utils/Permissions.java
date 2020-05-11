@@ -139,7 +139,7 @@ public class Permissions
             Permissions.DIVESPECIFIC.put(entry, divea);
         }
 
-        for (final String s : MovesUtils.moves.keySet())
+        for (final String s : MovesUtils.getKnownMoveNames())
         {
             final String move = "pokecube.move.action." + s;
             handler.registerNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");

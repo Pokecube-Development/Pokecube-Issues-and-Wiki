@@ -176,8 +176,6 @@ public class LinkableCaps
     @SubscribeEvent
     public static void linkBlock(final RightClickBlock event)
     {
-        // Only run server side
-        if (event.getWorld().isRemote) return;
         // Only run for items
         if (event.getItemStack().isEmpty()) return;
         // Check if stack is a linkstore
@@ -186,28 +184,24 @@ public class LinkableCaps
         if (!test_stack.isPresent()) return;
         final ILinkStorage storage = test_stack.orElse(null);
         final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        final LazyOptional<ILinkable> test_tile;
         // Only run for tile entities
-        if (tile != null)
+        if (tile != null && (test_tile = tile.getCapability(ThutCaps.LINK, event.getFace())).isPresent())
         {
-            final LazyOptional<ILinkable> test_tile = tile.getCapability(ThutCaps.LINK, event.getFace());
             // Only run for linkable ones
-            if (test_tile.isPresent()) if (test_tile.orElse(null).link(storage, event.getPlayer()))
-            {
-                event.setCanceled(true);
-                event.setUseBlock(Result.DENY);
-                event.setUseItem(Result.DENY);
-            }
+            test_tile.orElse(null).link(storage, event.getPlayer());
+            event.setCanceled(true);
+            event.setUseBlock(Result.DENY);
+            event.setUseItem(Result.DENY);
         }
         // Otherwise try to save the location instead
         else
         {
             final Vector4 loc = new Vector4(event.getPos(), event.getPlayer().dimension);
-            if (storage.setLinkedPos(loc, event.getPlayer()))
-            {
-                event.setCanceled(true);
-                event.setUseBlock(Result.DENY);
-                event.setUseItem(Result.DENY);
-            }
+            storage.setLinkedPos(loc, event.getPlayer());
+            event.setCanceled(true);
+            event.setUseBlock(Result.DENY);
+            event.setUseItem(Result.DENY);
         }
     }
 }

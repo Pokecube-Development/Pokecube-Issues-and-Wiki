@@ -37,8 +37,8 @@ public abstract class PokemobSexed extends PokemobStats
             PokedexEntry thisEntry = this.getPokedexEntry();
             PokedexEntry thatEntry = otherMob.getPokedexEntry();
 
-            if (thisEntry.isMega) thisEntry = thisEntry.getBaseForme();
-            if (thatEntry.isMega) thatEntry = thatEntry.getBaseForme();
+            if (thisEntry.isMega) thisEntry = this.getMegaBase();
+            if (thatEntry.isMega) thatEntry = otherMob.getMegaBase();
 
             // Check if pokedex entries state they can breed, and then if so,
             // ensure sexe is different.

@@ -75,6 +75,23 @@ public abstract class Move_Base
     }
 
     /**
+     * This is called when the move is registered
+     */
+    public void init()
+    {
+
+    }
+
+    /**
+     * This is called if the move is being replaced by another one for
+     * registration
+     */
+    public void destroy()
+    {
+
+    }
+
+    /**
      * This method actually applies the move use from the pokemob.
      *
      * @param user

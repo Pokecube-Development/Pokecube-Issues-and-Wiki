@@ -15,7 +15,6 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationHelper;
-import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.animation.ModelHolder;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -42,10 +41,10 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void applyAnimation(final Entity entity, final IAnimationHolder animate, final IModelRenderer<?> renderer,
-            final float partialTicks, final float limbSwing)
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
+            final float limbSwing)
     {
-        this.imodel.applyAnimation(entity, animate, renderer, partialTicks, limbSwing);
+        this.imodel.applyAnimation(entity, renderer, partialTicks, limbSwing);
     }
 
     @Override
@@ -141,7 +140,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         if (this.renderer.getAnimationChanger() != null) this.renderer.setAnimation(entityIn, partialTickTime);
-        this.applyAnimation(entityIn, AnimationHelper.getHolder(entityIn), this.renderer, partialTickTime, limbSwing);
+        this.renderer.setAnimationHolder(AnimationHelper.getHolder(entityIn));
+        this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
     }
 
     @Override

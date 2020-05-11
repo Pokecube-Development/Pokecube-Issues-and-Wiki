@@ -9,6 +9,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
@@ -28,7 +29,6 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
-import thut.core.common.commands.CommandTools;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that
@@ -76,15 +76,14 @@ public class LogicMiscUpdate extends LogicBase
                     "pokecube:dynatime");
             if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
             {
-                ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.timeout.revert", "green",
-                        this.pokemob.getDisplayName());
+                ITextComponent mess = new TranslationTextComponent("pokemob.dynamax.timeout.revert", this.pokemob
+                        .getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
                 this.pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = CommandTools.makeTranslatedMessage("pokemob.dynamax.revert", "green", this.pokemob
-                        .getDisplayName());
-                final PokedexEntry newEntry = this.entry.getBaseForme() != null ? this.entry.getBaseForme()
-                        : this.entry;
-                ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
+                mess = new TranslationTextComponent("pokemob.dynamax.revert", this.pokemob.getDisplayName());
+                final PokedexEntry newEntry = this.pokemob.getMegaBase();
+                if (newEntry != this.pokemob.getPokedexEntry()) ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry,
+                        mess, true);
                 this.de_dyna = true;
             }
         }

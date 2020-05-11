@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
 import thut.api.maths.Vector3;
+import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 
 public interface IAnimationChanger
 {
@@ -59,6 +60,10 @@ public interface IAnimationChanger
         if (options.contains(phase)) toFill.add(phase);
         return true;
     }
+
+    void setAnimationHolder(IAnimationHolder holder);
+
+    IAnimationHolder getAnimationHolder();
 
     void parseDyeables(Set<String> set);
 

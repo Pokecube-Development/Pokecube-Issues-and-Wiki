@@ -37,16 +37,17 @@ public class PerMobProgress extends Progress
     }
 
     @Override
-    public boolean charTyped(final char typedChar, final int keyCode)
+    public boolean keyPressed(final int keyCode, final int b, final int c)
     {
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
             final String text = this.text.getText();
+            final String trimmed = ThutCore.trim(text);
             final List<String> ret = new ArrayList<>();
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 final String check = ThutCore.trim(entry.getName());
-                if (check.startsWith(ThutCore.trim(text)))
+                if (check.startsWith(trimmed))
                 {
                     String name = entry.getName();
                     if (name.contains(" ")) name = "\'" + name + "\'";
@@ -64,10 +65,8 @@ public class PerMobProgress extends Progress
                 if (t.startsWith("'") && t.endsWith("'")) t = t.substring(1, t.length() - 1);
                 return t;
             });
-            // TODO Tab completion
-            // String[] args = { text };
-            // ret = CommandBase.getListOfStringsMatchingLastWord(args, ret);
-            // if (!ret.isEmpty()) this.text.setText(ret.get(0));
+            if (!ret.isEmpty()) this.text.setText(ret.get(0));
+            return true;
         }
         else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
@@ -80,8 +79,9 @@ public class PerMobProgress extends Progress
                 this.onPageOpened();
             }
             else this.text.setText(this.entry.getName());
+            return true;
         }
-        return super.charTyped(typedChar, keyCode);
+        return super.keyPressed(keyCode, b, c);
     }
 
     @Override
@@ -91,6 +91,7 @@ public class PerMobProgress extends Progress
         final int x = this.watch.width / 2 - 70;
         final int y = this.watch.height / 2 + 53;
         this.text = new TextFieldWidget(this.font, x, y, 140, 10, "");
+        this.addButton(this.text);
     }
 
     @Override
@@ -115,16 +116,16 @@ public class PerMobProgress extends Progress
         final String hatchLine = I18n.format("pokewatch.progress.mob.hatched", this.hatched0, this.entry);
 
         final AxisAlignedBB centre = this.watch.player.getBoundingBox();
-        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5,
-                PokecubeCore.getConfig().maxSpawnRadius);
+        final AxisAlignedBB bb = centre.grow(PokecubeCore.getConfig().maxSpawnRadius, 5, PokecubeCore
+                .getConfig().maxSpawnRadius);
         final List<Entity> otherMobs = this.watch.player.getEntityWorld().getEntitiesInAABBexcluding(this.watch.player,
                 bb, input ->
-        {
-            IPokemob pokemob;
-            if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
-                return false;
-            return pokemob.getPokedexEntry() == PerMobProgress.this.entry;
-        });
+                {
+                    IPokemob pokemob;
+                    if (!(input instanceof AnimalEntity && (pokemob = CapabilityPokemob.getPokemobFor(input)) != null))
+                        return false;
+                    return pokemob.getPokedexEntry() == PerMobProgress.this.entry;
+                });
         final String nearbyLine = I18n.format("pokewatch.progress.global.nearby", otherMobs.size());
 
         for (final String line : this.font.listFormattedStringToWidth(captureLine, 120))

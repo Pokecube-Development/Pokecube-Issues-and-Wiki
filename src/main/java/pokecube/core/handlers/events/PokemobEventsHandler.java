@@ -59,6 +59,7 @@ import pokecube.core.interfaces.Nature;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.moves.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -236,6 +237,8 @@ public class PokemobEventsHandler
             return false;
         }
         if (!entry.ridable || pokemob.getCombatState(CombatStates.GUARDING)) return false;
+        if (pokemob.getGeneralState(GeneralStates.STAYING)) return false;
+        if (pokemob.getLogicState(LogicStates.SITTING)) return false;
         if (pokemob.getInventory().getStackInSlot(0).isEmpty()) return false;
 
         if (rider instanceof ServerPlayerEntity && rider == pokemob.getOwner())

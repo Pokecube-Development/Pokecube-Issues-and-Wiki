@@ -204,11 +204,11 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     }
 
     @Override
-    public boolean mouseScrolled(final double p_mouseScrolled_1_, final double p_mouseScrolled_3_,
-            final double p_mouseScrolled_5_)
+    public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        // TODO Auto-generated method stub
-        return super.mouseScrolled(p_mouseScrolled_1_, p_mouseScrolled_3_, p_mouseScrolled_5_);
+        for (final T value : this.children())
+            if (value.keyPressed(keyCode, b, c)) return true;
+        return super.keyPressed(keyCode, b, c);
     }
 
     @Override
@@ -237,9 +237,12 @@ public class ScrollGui<T extends AbstractList.AbstractListEntry<T>> extends Abst
     }
 
     @Override
-    public T getEntry(final int i)
+    /**
+     * This override is to make it public
+     */
+    public T getEntry(final int index)
     {
-        return super.getEntry(i);
+        return super.getEntry(index);
     }
 
     public int getSize()

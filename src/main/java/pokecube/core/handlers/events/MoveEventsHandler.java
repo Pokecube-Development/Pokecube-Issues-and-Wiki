@@ -33,7 +33,6 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -144,7 +143,7 @@ public class MoveEventsHandler
             if (!MoveEventsHandler.canEffectBlock(attacker, location)) return false;
             if (this.move.getType(attacker) == PokeType.getType("water")) return MoveEventsHandler.doDefaultWater(
                     attacker, this.move, location);
-            if (this.move.getType(attacker) == PokeType.getType("ice") && (this.move.move.attackCategory
+            if (this.move.getType(attacker) == PokeType.getType("ice") && (this.move.getAttackCategory()
                     & IMoveConstants.CATEGORY_DISTANCE) > 0 && this.move.move.power > 0) return MoveEventsHandler
                             .doDefaultIce(attacker, this.move, location);
             if (this.move.getType(attacker) == PokeType.getType("electric")) MoveEventsHandler.doDefaultElectric(
@@ -535,18 +534,10 @@ public class MoveEventsHandler
         {
             final float damage = MovesUtils.getAttackStrength(attacker, target, move.getMove().getCategory(attacker),
                     move.PWR, move);
-            ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.substitute.absorb", "green");
-            target.displayMessageToOwner(mess);
-            mess = CommandTools.makeTranslatedMessage("pokemob.substitute.absorb", "red");
-            attacker.displayMessageToOwner(mess);
+            MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.substitute.absorb");
             target.getMoveStats().substituteHP -= damage;
-            if (target.getMoveStats().substituteHP < 0)
-            {
-                mess = CommandTools.makeTranslatedMessage("pokemob.substitute.break", "red");
-                target.displayMessageToOwner(mess);
-                mess = CommandTools.makeTranslatedMessage("pokemob.substitute.break", "green");
-                attacker.displayMessageToOwner(mess);
-            }
+            if (target.getMoveStats().substituteHP < 0) MovesUtils.sendPairedMessages(attacked, attacker,
+                    "pokemob.substitute.break", attacked.getDisplayName());
             move.failed = true;
             move.PWR = 0;
             move.changeAddition = 0;

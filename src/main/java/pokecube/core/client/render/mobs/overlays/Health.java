@@ -303,13 +303,8 @@ public class Health
 
                 if (armor > 0 && config.showArmor)
                 {
-                    int ironArmor = armor % 5;
-                    int diamondArmor = armor / 5;
-                    if (!config.groupArmor)
-                    {
-                        ironArmor = armor;
-                        diamondArmor = 0;
-                    }
+                    final int ironArmor = armor % 5;
+                    final int diamondArmor = armor / 5;
 
                     stack = new ItemStack(Items.IRON_CHESTPLATE);
                     for (int i = 0; i < ironArmor; i++)

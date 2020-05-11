@@ -9,17 +9,19 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -30,11 +32,10 @@ import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
-import pokecube.core.world.terrain.PokecubeTerrainChecker;
+import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
@@ -43,7 +44,7 @@ import thut.lib.ItemStackTools;
  * berries. It requires an AIStoreStuff to have located a suitable storage
  * before it will run.
  */
-public class AIGatherStuff extends AIBase
+public class AIGatherStuff extends AIBase implements IInventoryChangedListener
 {
     /**
      * This manages the pokemobs replanting anything that they gather.
@@ -52,45 +53,29 @@ public class AIGatherStuff extends AIBase
      */
     private static class ReplantTask implements IRunnable
     {
-        final Entity    entity;
         final ItemStack seeds;
         final BlockPos  pos;
 
-        public ReplantTask(final Entity entity, final ItemStack seeds, final BlockPos pos)
+        public ReplantTask(final ItemStack seeds, final BlockPos pos)
         {
             this.seeds = seeds.copy();
             this.pos = new BlockPos(pos);
-            this.entity = entity;
         }
 
         @Override
         public boolean run(final World world)
         {
-            if (this.seeds.isEmpty()) return true;
-            // Check if is is plantable.
-            if (this.seeds.getItem() instanceof IPlantable)
-            {
-                final BlockPos down = this.pos.down();
-
-                if (!world.isAirBlock(down))
-                {
-                    // Use the fakeplayer to plant it
-                    final PlayerEntity player = PokecubeMod.getFakePlayer(world);
-                    player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
-                    player.setHeldItem(Hand.MAIN_HAND, this.seeds);
-                    final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(
-                            new Vec3d(0.5, 1, 0.5), Direction.UP, this.pos, false));
-                    // Attempt to plant it.
-                    this.seeds.getItem().onItemUse(context);
-                }
-                IPokemob pokemob;
-                // Add the "returned" stack to the inventory (ie remaining
-                // seeds)
-                if (!this.seeds.isEmpty() && (pokemob = CapabilityPokemob.getPokemobFor(this.entity)) != null)
-                    if (!ItemStackTools.addItemStackToInventory(this.seeds, pokemob.getInventory(), 2)) this.entity
-                            .entityDropItem(this.seeds, 0);
-            }
-            return true;
+            if (this.seeds.isEmpty()) return false;
+            final BlockPos down = this.pos.down();
+            // Use the fakeplayer to plant it
+            final PlayerEntity player = PokecubeMod.getFakePlayer(world);
+            player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
+            player.setHeldItem(Hand.MAIN_HAND, this.seeds);
+            final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(
+                    0.5, 1, 0.5), Direction.UP, down, false));
+            // Attempt to plant it.
+            final ActionResultType result = this.seeds.getItem().onItemUse(context);
+            return result == ActionResultType.SUCCESS;
         }
     }
 
@@ -98,23 +83,45 @@ public class AIGatherStuff extends AIBase
     public static int COOLDOWN_COLLECT = 5;
 
     public static int COOLDOWN_PATH = 5;
+
+    /**
+     * All things which inherit from BlockCrops, if not on this list, will be
+     * valid options if at max age.
+     */
+    public static final ResourceLocation BLACKLIST = new ResourceLocation(PokecubeCore.MODID, "harvest_blacklist");
+    /**
+     * This contains extra things to harvest
+     */
+    public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
+
     // Matcher used to determine if a block is a fruit or crop to be picked.
-    private static final Predicate<BlockState> berryMatcher = input -> PokecubeTerrainChecker.isFruit(input);
+    private static final Predicate<BlockState> harvestMatcher = input ->
+    {
+        final boolean blacklisted = ItemList.is(AIGatherStuff.BLACKLIST, input);
+        if (blacklisted) return false;
+        final boolean fullCrop = input.getBlock() instanceof CropsBlock && input.get(
+                CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
+        return fullCrop || ItemList.is(AIGatherStuff.HARVEST, input);
+    };
 
     private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
             || !input.isAddedToWorld();
 
-    final double       distance;
-    boolean            block           = false;
-    List<ItemEntity>   stuff           = Lists.newArrayList();
-    Vector3            stuffLoc        = Vector3.getNewVector();
-    boolean            hasRoom         = true;
-    int                collectCooldown = 0;
-    int                pathCooldown    = 0;
+    final double     distance;
+    boolean          block    = false;
+    List<ItemEntity> stuff    = Lists.newArrayList();
+    Vector3          stuffLoc = Vector3.getNewVector();
+
+    Vector3 backup          = this.stuffLoc;
+    boolean hasRoom         = true;
+    int     collectCooldown = 0;
+    int     pathCooldown    = 0;
+
     final AIStoreStuff storage;
-    Vector3            seeking         = Vector3.getNewVector();
-    Vector3            v               = Vector3.getNewVector();
-    Vector3            v1              = Vector3.getNewVector();
+
+    Vector3 seeking = Vector3.getNewVector();
+    Vector3 v       = Vector3.getNewVector();
+    Vector3 v1      = Vector3.getNewVector();
 
     public AIGatherStuff(final IPokemob mob, final double distance, final AIStoreStuff storage)
     {
@@ -122,6 +129,25 @@ public class AIGatherStuff extends AIBase
         this.distance = distance;
         this.storage = storage;
         this.setMutex(1);
+        this.clearLoc();
+    }
+
+    @Override
+    public void onInventoryChanged(final IInventory invBasic)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void setLoc(final Object o)
+    {
+        this.stuffLoc = this.backup;
+        this.stuffLoc.set(o);
+    }
+
+    private void clearLoc()
+    {
+        this.stuffLoc = null;
     }
 
     private void findStuff()
@@ -129,6 +155,8 @@ public class AIGatherStuff extends AIBase
         // Only mobs that are standing with homes should look for stuff.
         if (this.pokemob.getHome() == null || this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob
                 .getLogicState(LogicStates.SITTING)) return;
+        // This means we have stuff
+        if (this.stuffLoc != null) return;
         this.block = false;
         this.v.set(this.pokemob.getHome()).add(0, this.entity.getHeight(), 0);
 
@@ -160,19 +188,19 @@ public class AIGatherStuff extends AIBase
                 final int dist2 = (int) o2.getDistanceSq(AIGatherStuff.this.entity);
                 return dist1 - dist2;
             });
-            this.stuffLoc.set(this.stuff.get(0));
+            this.setLoc(this.stuff.get(0));
             return;
         }
         this.v.set(this.entity).addTo(0, this.entity.getEyeHeight(), 0);
         // check for berries to collect.
-        if (!this.block && this.pokemob.eatsBerries())
+        if (!this.block)
         {
             final Vector3 temp = this.v.findClosestVisibleObject(this.world, true, distance,
-                    AIGatherStuff.berryMatcher);
+                    AIGatherStuff.harvestMatcher);
             if (temp != null)
             {
                 this.block = true;
-                this.stuffLoc.set(temp);
+                this.setLoc(temp);
             }
         }
         if (this.pokemob.isElectrotroph())
@@ -180,96 +208,85 @@ public class AIGatherStuff extends AIBase
 
         }
         // Nothing found, enter cooldown.
-        if (this.stuffLoc.isEmpty()) this.collectCooldown = AIGatherStuff.COOLDOWN_SEARCH;
+        if (this.stuffLoc == null) this.collectCooldown = AIGatherStuff.COOLDOWN_SEARCH;
     }
 
-    private void gatherStuff(final boolean mainThread)
+    private void gatherStuff()
     {
-        if (!mainThread)
+        if (this.pathCooldown-- <= 0)
         {
-            if (this.pathCooldown-- > 0) return;
-            // Set path to the stuff found.
-            final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-            if (this.stuff != null)
-            {
-                this.stuffLoc.set(this.stuff);
-                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
-                        this.stuffLoc.z, 0);
-                this.addEntityPath(this.entity, path, speed);
-            }
-            else
-            {
-                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
-                        this.stuffLoc.z, 0);
-                this.addEntityPath(this.entity, path, speed);
-            }
             this.pathCooldown = AIGatherStuff.COOLDOWN_PATH;
-        }
-        else if (!this.stuffLoc.isEmpty())
-        {
-            double diff = 3;
-            diff = Math.max(diff, this.entity.getWidth());
-            final double dist = this.stuffLoc.distToEntity(this.entity);
-            this.v.set(this.entity).subtractFrom(this.stuffLoc);
-            final double dot = this.v.normalize().dot(Vector3.secondAxis);
-            // This means that the item is directly above the pokemob, assume it
-            // can pick up to 3 blocks upwards.
-            if (dot < -0.9 && this.entity.onGround) diff = Math.max(3, diff);
-            if (dist < diff)
+            // Set path to the stuff found.
+            final double speed = 1;
+            if (!this.stuff.isEmpty() && this.stuffLoc == null)
             {
-                this.setCombatState(this.pokemob, CombatStates.HUNTING, false);
-                final BlockState state = this.stuffLoc.getBlockState(this.entity.getEntityWorld());
-                this.stuffLoc.setAir(this.world);
-                if (state.getMaterial() != Material.PLANTS)
-                {
-                    final List<ItemStack> list = Block.getDrops(state, this.world, this.stuffLoc.getPos(), null);
-                    boolean replanted = false;
-                    // See if anything dropped was a seed for the thing we
-                    // picked.
-                    for (final ItemStack stack : list)
-                        // If so, Replant it.
-                        if (stack.getItem() instanceof IPlantable && !replanted)
-                        {
-                            this.toRun.add(new ReplantTask(this.entity, stack.copy(), this.stuffLoc.getPos()));
-                            replanted = true;
-                        }
-                        else this.toRun.add(new InventoryChange(this.entity, 2, stack.copy(), true));
-                    if (!replanted) // Try to find a seed in our inventory for
-                                    // this plant.
-                        for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
-                        {
-                        final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
-                        if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
-                        {
-                        final IPlantable plantable = (IPlantable) stack.getItem();
-                        final BlockState plantState = plantable.getPlant(this.world, this.stuffLoc.getPos().up());
-                        if (plantState.getBlock() == state.getBlock())
-                        {
-                        this.toRun.add(new ReplantTask(this.entity, stack.copy(), this.stuffLoc.getPos()));
-                        replanted = true;
-                        break;
-                        }
-                        }
-                        }
-                }
-                this.stuffLoc.clear();
-                this.addEntityPath(this.entity, null, 0);
+                this.setLoc(this.stuff.get(0));
+                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
+                        this.stuffLoc.z, 0);
+                this.addEntityPath(this.entity, path, speed);
             }
+            else if (this.stuffLoc != null)
+            {
+                final Path path = this.entity.getNavigator().func_225466_a(this.stuffLoc.x, this.stuffLoc.y,
+                        this.stuffLoc.z, 0);
+                this.addEntityPath(this.entity, path, speed);
+            }
+        }
+        if (this.stuffLoc == null) return;
+
+        double diff = 3;
+        diff = Math.max(diff, this.entity.getWidth());
+        final double dist = this.stuffLoc.distToEntity(this.entity);
+        this.v.set(this.entity).subtractFrom(this.stuffLoc);
+        final double dot = this.v.normalize().dot(Vector3.secondAxis);
+        // This means that the item is directly above the pokemob, assume it
+        // can pick up to 3 blocks upwards.
+        if (dot < -0.9 && this.entity.onGround) diff = Math.max(3, diff);
+        if (dist < diff)
+        {
+            this.setCombatState(this.pokemob, CombatStates.HUNTING, false);
+            final BlockState state = this.stuffLoc.getBlockState(this.entity.getEntityWorld());
+            this.stuffLoc.setAir(this.world);
+            final List<ItemStack> list = Block.getDrops(state, this.world, this.stuffLoc.getPos(), null);
+            boolean replanted = false;
+            // See if anything dropped was a seed for the thing we
+            // picked.
+            for (final ItemStack stack : list)
+            {
+                // If so, Replant it.
+                if (!replanted) replanted = new ReplantTask(stack, this.stuffLoc.getPos()).run(this.world);
+                this.toRun.add(new InventoryChange(this.entity, 2, stack, true));
+            }
+            if (!replanted) for (int i = 2; i < this.pokemob.getInventory().getSizeInventory(); i++)
+            {
+                final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
+                if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
+                {
+                    final IPlantable plantable = (IPlantable) stack.getItem();
+                    final BlockState plantState = plantable.getPlant(this.world, this.stuffLoc.getPos().up());
+                    if (plantState.getBlock() == state.getBlock() && !replanted)
+                    {
+                        replanted = new ReplantTask(stack, this.stuffLoc.getPos()).run(this.world);
+                        break;
+                    }
+                }
+            }
+            this.clearLoc();
         }
     }
 
     @Override
     public void reset()
     {
-        this.stuffLoc.clear();
+        this.clearLoc();
         this.stuff.clear();
     }
 
     @Override
     public void run()
     {
-        if (this.stuffLoc.isEmpty() && this.collectCooldown-- < 0) this.findStuff();
-        if (!this.stuffLoc.isEmpty()) this.gatherStuff(false);
+        this.findStuff();
+        this.gatherStuff();
     }
 
     @Override
@@ -277,6 +294,10 @@ public class AIGatherStuff extends AIBase
     {
         // Check if gather is enabled first.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.GATHER)) return false;
+
+        // Dont run if the storage is currently trying to path somewhere
+        if (this.storage.pathing) return false;
+
         final boolean wildCheck = !PokecubeCore.getConfig().wildGather && !this.pokemob.getGeneralState(
                 GeneralStates.TAMED);
         // Check if this should be doing something else instead, if so return
@@ -292,7 +313,7 @@ public class AIGatherStuff extends AIBase
         // Apply cooldown.
         if (this.collectCooldown < -2000) this.collectCooldown = AIGatherStuff.COOLDOWN_SEARCH;
         // If too far, clear location.
-        if (this.stuffLoc.distToEntity(this.entity) > 32) this.stuffLoc.clear();
+        if (this.stuffLoc != null && this.stuffLoc.distToEntity(this.entity) > 32) this.clearLoc();
 
         // check if pokemob has room in inventory for stuff, if so, return true.
         final IInventory inventory = this.pokemob.getInventory();
@@ -319,54 +340,45 @@ public class AIGatherStuff extends AIBase
     @Override
     public void tick()
     {
-
-        // if (collectCooldown-- > 0) return;
-        synchronized (this.stuffLoc)
+        if (!this.stuff.isEmpty())
         {
-            // check stuff for being still around.
-            if (!this.stuff.isEmpty())
+            final int num = this.stuff.size();
+            this.stuff.removeIf(AIGatherStuff.deaditemmatcher);
+            Collections.sort(this.stuff, (o1, o2) ->
             {
-                final int num = this.stuff.size();
-                this.stuff.removeIf(AIGatherStuff.deaditemmatcher);
-                Collections.sort(this.stuff, (o1, o2) ->
-                {
-                    final int dist1 = (int) o1.getDistanceSq(AIGatherStuff.this.entity);
-                    final int dist2 = (int) o2.getDistanceSq(AIGatherStuff.this.entity);
-                    return dist1 - dist2;
-                });
+                final int dist1 = (int) o1.getDistanceSq(AIGatherStuff.this.entity);
+                final int dist2 = (int) o2.getDistanceSq(AIGatherStuff.this.entity);
+                return dist1 - dist2;
+            });
 
-                if (this.stuff.isEmpty())
-                {
-                    this.reset();
-                    return;
-                }
-
-                if (this.stuff.size() != num)
-                {
-                    this.stuffLoc.set(this.stuff.get(0));
-                    return;
-                }
-            }
-            else if (!this.stuffLoc.isEmpty()) if (!this.stuff.isEmpty())
+            if (this.stuff.isEmpty())
             {
-                final ItemEntity itemStuff = this.stuff.get(0);
-                if (!itemStuff.isAlive() || !itemStuff.addedToChunk || !itemStuff.isAddedToWorld())
-                {
-                    this.stuff.remove(0);
-                    return;
-                }
-                double close = this.entity.getWidth() * this.entity.getWidth();
-                close = Math.max(close, 2);
-                if (itemStuff.getDistance(this.entity) < close)
-                {
-                    ItemStackTools.addItemStackToInventory(itemStuff.getItem(), this.pokemob.getInventory(), 2);
-                    itemStuff.remove();
-                    this.stuff.remove(0);
-                    if (this.stuff.isEmpty()) this.reset();
-                    else this.stuffLoc.set(this.stuff.get(0));
-                }
+                this.reset();
+                return;
             }
-            else this.gatherStuff(true);
+
+            if (this.stuff.size() != num)
+            {
+                this.setLoc(this.stuff.get(0));
+                return;
+            }
+
+            final ItemEntity itemStuff = this.stuff.get(0);
+            if (!itemStuff.isAlive() || !itemStuff.addedToChunk || !itemStuff.isAddedToWorld())
+            {
+                this.stuff.remove(0);
+                return;
+            }
+            double close = this.entity.getWidth() * this.entity.getWidth();
+            close = Math.max(close, 1);
+            if (itemStuff.getDistance(this.entity) < close)
+            {
+                ItemStackTools.addItemStackToInventory(itemStuff.getItem(), this.pokemob.getInventory(), 2);
+                itemStuff.remove();
+                this.stuff.remove(0);
+                if (this.stuff.isEmpty()) this.reset();
+                else this.setLoc(this.stuff.get(0));
+            }
         }
     }
 }

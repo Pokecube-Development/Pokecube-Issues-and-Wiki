@@ -79,8 +79,8 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         }
     }
 
-    private float           yRenderAngle = 10;
-    private TextFieldWidget name         = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
+    private float             yRenderAngle = 10;
+    protected TextFieldWidget name         = new TextFieldWidget(null, 1 / 2, 1 / 2, 120, 10, "");
 
     private float xRenderAngle = 0;
 
@@ -94,13 +94,13 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
     @Override
     public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
     {
-        if (this.name.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
         if (this.name.isFocused()) if (keyCode == GLFW.GLFW_KEY_ESCAPE) this.name.setFocused(false);
-        else if (keyCode == GLFW.GLFW_KEY_ENTER && this.name.isFocused())
+        else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
             this.container.pokemob.setPokemonNickname(this.name.getText());
             return true;
         }
+        else if (keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
         return super.keyPressed(keyCode, p_keyPressed_2_, p_keyPressed_3_);
     }
 

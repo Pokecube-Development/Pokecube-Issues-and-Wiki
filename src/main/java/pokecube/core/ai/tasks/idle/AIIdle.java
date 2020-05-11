@@ -62,6 +62,8 @@ public class AIIdle extends AIBase
     private double            z;
     private final double      speed;
 
+    private int ticksSinceLastPathed = 0;
+
     private double maxLength = 16;
     Vector3        v         = Vector3.getNewVector();
 
@@ -145,8 +147,8 @@ public class AIIdle extends AIBase
     {
         final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
                 GeneralStates.STAYING);
-        int distance = (int) (this.maxLength = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame
-                : PokecubeCore.getConfig().idleMaxPathWild);
+        int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
+        this.maxLength = distance + this.pokemob.getHomeDistance();
         boolean goHome = false;
         if (!tameFactor)
         {
@@ -227,8 +229,8 @@ public class AIIdle extends AIBase
         // Not currently able to move.
         if (!this.canMove()) return false;
 
-        // Check random number
-        if (new Random().nextInt(AIIdle.IDLETIMER) != 0) return false;
+        // Check a random number as well
+        if (this.entity.getRNG().nextInt(AIIdle.IDLETIMER) != 0) return false;
 
         // Wander disabled, so don't run.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
@@ -251,17 +253,12 @@ public class AIIdle extends AIBase
         // Sitting
         if (this.pokemob.getLogicState(LogicStates.SITTING)) return false;
 
-        Path current = null;
-        if ((current = this.entity.getNavigator().getPath()) != null && this.entity.getNavigator().noPath())
-        {
-            this.addEntityPath(this.entity, null, this.speed);
-            current = null;
-        }
-
+        Path current = this.entity.getNavigator().getPath();
+        if (current != null && this.entity.getNavigator().noPath()) current = null;
         // Have path, no need to idle
-        if (current != null) return false;
+        if (current != null) this.ticksSinceLastPathed = 0;
 
-        return true;
+        return this.ticksSinceLastPathed++ > AIIdle.IDLETIMER;
     }
 
 }
