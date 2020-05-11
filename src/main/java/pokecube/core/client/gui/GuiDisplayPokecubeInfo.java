@@ -624,7 +624,11 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
             if (pokemob == null) return true;
             return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
         };
-        final Entity target = Tools.getPointedEntity(player, 32, selector);
+        Entity target = Tools.getPointedEntity(player, 32, selector);
+
+        if (target == null && Minecraft.getInstance().pointedEntity != null && selector.test(Minecraft
+                .getInstance().pointedEntity)) target = Minecraft.getInstance().pointedEntity;
+
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
         boolean sameOwner = false;
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);

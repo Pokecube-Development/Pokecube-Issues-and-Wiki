@@ -65,6 +65,7 @@ import pokecube.core.items.loot.functions.MakeFossil;
 import pokecube.core.items.loot.functions.MakeHeldItem;
 import pokecube.core.items.pokecubes.DispenserBehaviorPokecube;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.items.revive.ItemRevive;
 import pokecube.core.items.vitamins.ItemCandy;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
@@ -119,6 +120,7 @@ public class PokecubeItems extends ItemList
     public static Item POKEWATCH;
     public static Item EGG;
     public static Item CANDY;
+    public static Item REVIVE;
 
     // Blocks
     public static Block HEALER;
@@ -164,6 +166,7 @@ public class PokecubeItems extends ItemList
         PokecubeItems.EGG = new ItemPokemobEgg(new Properties().group(PokecubeItems.POKECUBEITEMS));
         PokecubeItems.CANDY = new ItemCandy(new Item.Properties().rarity(Rarity.EPIC).group(
                 PokecubeItems.POKECUBEITEMS));
+        PokecubeItems.REVIVE = new ItemRevive(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
 
         // Blocks
         PokecubeItems.HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)

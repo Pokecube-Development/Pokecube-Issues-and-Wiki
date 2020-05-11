@@ -78,9 +78,7 @@ public class Config extends ConfigData
 
     // Misc Settings
     @Configure(category = Config.misc)
-    public boolean      default_contributors = true;
-    @Configure(category = Config.misc)
-    public String       extra_contributors   = "";
+    public boolean      pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc)
     /** is there a choose first gui on login */
     public boolean      guiOnLogin           = false;
@@ -102,8 +100,6 @@ public class Config extends ConfigData
     public int          pcPageCount          = 32;
     @Configure(category = Config.misc)
     public double       expScaleFactor       = 1;
-    @Configure(category = Config.misc, type = Type.SERVER)
-    public boolean      pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc)// TODO implement
     public List<String> snagblacklist        = Lists.newArrayList("net.minecraft.entity.boss.EntityDragon",
             "net.minecraft.entity.boss.EntityWither");
@@ -113,8 +109,6 @@ public class Config extends ConfigData
     public boolean      berryBreeding        = true;
     @Configure(category = Config.misc)
     public boolean      legendsBreed         = false;
-    @Configure(category = Config.misc, type = Type.SERVER)
-    public boolean      npcNameTags          = true;
     @Configure(category = Config.misc)
     public List<String> customSounds         = Lists.newArrayList();
 
@@ -216,13 +210,13 @@ public class Config extends ConfigData
     public int          breedingDelay         = 4000;
     @Configure(category = Config.mobAI)
     public int          eggHatchTime          = 10000;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
+    @Configure(category = Config.mobAI)
     /** do wild pokemobs which leave cullDistance despawn immediately */
     public boolean      cull                  = false;
     /** distance for culling */
-    @Configure(category = Config.mobAI, type = Type.SERVER)
+    @Configure(category = Config.mobAI)
     public int          cullDistance          = 96;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
+    @Configure(category = Config.mobAI)
     public boolean      despawn               = true;
     /** distance for culling */
     @Configure(category = Config.mobAI)
@@ -239,7 +233,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     /** Is there a warning before a wild pok�mob attacks the player. */
     public boolean      pokemobagresswarning  = true;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
+    @Configure(category = Config.mobAI)
     /** Distance to player needed to agress the player */
     public int          mobAggroRadius        = 3;
     @Configure(category = Config.mobAI)
@@ -270,8 +264,6 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     /** Do explosions occur and cause damage */
     public boolean      explosions            = true;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
-    public int          attackCooldown        = 20;
     @Configure(category = Config.mobAI)
     public int          chaseDistance         = 32;
     @Configure(category = Config.mobAI)
@@ -292,9 +284,6 @@ public class Config extends ConfigData
     public boolean      wildGather            = false;
     @Configure(category = Config.mobAI)
     public boolean      flyEnabled            = true;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
-    // TODO possibly change this to dimensiontypes.
-    public List<String> blackListedFlyDims    = Lists.newArrayList(new String[] { "the_end", "the_nether" });
     @Configure(category = Config.mobAI)
     public boolean      surfEnabled           = true;
     @Configure(category = Config.mobAI)
@@ -318,14 +307,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public int          fishHookBaitRange     = 16;
 
-    // ridden Speed multipliers
-    @Configure(category = Config.mobAI, type = Type.SERVER)
-    public double  flySpeedFactor      = 1;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
-    public double  surfSpeedFactor     = 1;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
-    public double  groundSpeedFactor   = 1;
-    @Configure(category = Config.mobAI, type = Type.SERVER)
+    @Configure(category = Config.mobAI)
     public boolean guardModeEnabled    = true;
     @Configure(category = Config.mobAI)
     public int     guardSearchDistance = 16;
@@ -413,71 +395,58 @@ public class Config extends ConfigData
     // Mob Spawning settings
     @Configure(category = Config.spawning)
     /** Do monsters not spawn. */
-    public boolean      deactivateMonsters     = false;
+    public boolean deactivateMonsters     = false;
     @Configure(category = Config.spawning)
     /** do monster spawns get swapped with shadow pokemobs */
-    public boolean      disableVanillaMonsters = false;
+    public boolean disableVanillaMonsters = false;
     @Configure(category = Config.spawning)
-    public boolean      disableVanillaAnimals  = false;
+    public boolean disableVanillaAnimals  = false;
     @Configure(category = Config.spawning)
     /** do animals not spawn */
-    public boolean      deactivateAnimals      = true;
+    public boolean deactivateAnimals      = true;
     @Configure(category = Config.spawning)
     /** do Pokemobs spawn */
-    public boolean      pokemonSpawn           = true;
-    @Configure(category = Config.spawning, type = Type.SERVER)
-    /**
-     * This is also the radius which mobs spawn in. Is only despawn radius if
-     * cull is true
-     */
-    public int          maxSpawnRadius         = 32;
-    @Configure(category = Config.spawning, type = Type.SERVER)
-    /** closest distance to a player the pokemob can spawn. */
-    public int          minSpawnRadius         = 16;
+    public boolean pokemonSpawn           = true;
     @Configure(category = Config.spawning)
     /** Minimum level legendaries can spawn at. */
-    public int          minLegendLevel         = 1;
+    public int     minLegendLevel         = 1;
     @Configure(category = Config.spawning)
-    /** Will nests spawn */
-    public boolean      nests                  = false;
+    public int     mobSpawnNumber         = 10;
     @Configure(category = Config.spawning)
-    /** number of nests per chunk */
-    public int          nestsPerChunk          = 1;
+    public double  mobDensityMultiplier   = 1;
+
     @Configure(category = Config.spawning)
-    /** To be used for nest retrogen. */
-    public boolean      refreshNests           = false;
+    public int levelCap = 50;
+
     @Configure(category = Config.spawning)
-    public int          mobSpawnNumber         = 10;
+    public boolean shouldCap = true;
+
     @Configure(category = Config.spawning)
-    public double       mobDensityMultiplier   = 1;
-    @Configure(category = Config.spawning, type = Type.SERVER)
-    public int          levelCap               = 50;
-    @Configure(category = Config.spawning)
-    public boolean      shouldCap              = true;
-    @Configure(category = Config.spawning, type = Type.SERVER)
     @Versioned
-    public List<String> spawnLevelFunctions    = Lists.newArrayList(new String[] {
+    public List<String> spawnLevelFunctions = Lists.newArrayList(new String[] {
             //@formatter:off
             "-1:abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3)):false:false",
             "0:abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3)):false:false",
             "1:1+r/200:true:true"
             });//@formatter:on
-    @Configure(category = Config.spawning, type = Type.SERVER)
-    public boolean      expFunction            = false;
-    @Configure(category = Config.spawning, type = Type.SERVER)
-    public String       spawnLevelVariance     = "x + ceil(5*rand())";
+
     @Configure(category = Config.spawning)
-    public List<String> spawnDimBlacklist      = Lists.newArrayList();
+    public boolean expFunction        = false;
     @Configure(category = Config.spawning)
-    public List<String> spawnDimWhitelist      = Lists.newArrayList();
+    public String  spawnLevelVariance = "x + ceil(5*rand())";
+
     @Configure(category = Config.spawning)
-    public boolean      spawnWhitelisted       = false;
+    public List<String> spawnDimBlacklist = Lists.newArrayList();
+    @Configure(category = Config.spawning)
+    public List<String> spawnDimWhitelist = Lists.newArrayList();
+    @Configure(category = Config.spawning)
+    public boolean      spawnWhitelisted  = false;
     @Configure(category = Config.spawning)
     /** Spawns run once every this many ticks.. */
-    public int          spawnRate              = 20;
+    public int          spawnRate         = 20;
     @Configure(category = Config.spawning)
     /** Default radius for repel blocks */
-    public int          repelRadius            = 16;
+    public int          repelRadius       = 16;
 
     // Gui/client settings
     @Configure(category = Config.client, type = Type.CLIENT)
@@ -648,56 +617,53 @@ public class Config extends ConfigData
     @Configure(category = Config.items)
     public List<String> customFossils   = Lists.newArrayList();
 
+    // Config options which are needed to by synchronized on both sides
+
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public boolean wildDeadDespawn = true;
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public boolean tameDeadDespawn = true;
+
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public int deadDespawnTimer = 20;
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public int deadReviveTimer  = 600;
+
+    // ridden Speed multipliers
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public double flySpeedFactor    = 1;
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public double surfSpeedFactor   = 1;
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public double groundSpeedFactor = 1;
+
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public List<String> blackListedFlyDims = Lists.newArrayList(new String[] { "the_end", "the_nether" });
+
+    @Configure(category = Config.mobAI, type = Type.SERVER)
+    public int attackCooldown = 20; // Synced so that the cooldown bars match
+
+    @Configure(category = Config.spawning, type = Type.SERVER)
+    /**
+     * This is also the radius which mobs spawn in. Is only despawn radius if
+     * cull is true
+     */
+    public int maxSpawnRadius = 32; // Synced for pokewatch
+    @Configure(category = Config.spawning, type = Type.SERVER)
+    /** closest distance to a player the pokemob can spawn. */
+    public int minSpawnRadius = 16; // Synced for pokewatch
+
+    @Configure(category = Config.misc, type = Type.SERVER)
+    public boolean npcNameTags = true; // Synced for balance reasons
+
     public Config()
     {
         super(PokecubeCore.MODID);
     }
 
-    public void initDefaultStarts()
-    {
-        // // TODO process starter info.
-        // FMLCommonHandler.callFuture(new FutureTask<Object>(new
-        // Callable<Object>()
-        // {
-        // @Override
-        // public Object call() throws Exception
-        // {
-        // try
-        // {
-        // ContributorManager.instance().loadContributors();
-        // List<String> args = Lists.newArrayList();
-        // for (Contributor c :
-        // ContributorManager.instance().contributors.contributors)
-        // {
-        // if (!c.legacy.isEmpty())
-        // {
-        // args.add(c.name + ";" + c.legacy);
-        // }
-        // }
-        // StarterInfo.infos = args.toArray(new String[0]);
-        // if
-        // (Loader.instance().hasReachedState(LoaderState.POSTINITIALIZATION))
-        // StarterInfo.processStarterInfo();
-        // }
-        // catch (Exception e)
-        // {
-        // if (e instanceof UnknownHostException)
-        // {
-        // PokecubeCore.LOGGER.error("Error loading contributors, unknown
-        // host");
-        // }
-        // else PokecubeCore.LOGGER.error("Error loading contributors", e);
-        // }
-        // return null;
-        // }
-        // }));
-    }
-
     @Override
     public void onUpdated()
     {
-        this.initDefaultStarts();
-
         // Check version stuff.
         if (this.version != Config.VERSION)
         {

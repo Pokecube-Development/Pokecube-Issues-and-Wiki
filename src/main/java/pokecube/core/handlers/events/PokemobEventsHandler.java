@@ -65,6 +65,7 @@ import pokecube.core.moves.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.Permissions;
+import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
@@ -80,6 +81,13 @@ public class PokemobEventsHandler
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void dropEvent(final LivingDropsEvent event)
     {
+        // Once it has been revived, we don't drop anything anymore
+        if (event.getEntity().getPersistentData().getBoolean(TagNames.REVIVED))
+        {
+            event.setCanceled(true);
+            return;
+        }
+
         // Handles the mobs dropping their inventory.
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
         if (pokemob != null)
@@ -305,10 +313,6 @@ public class PokemobEventsHandler
         final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getImmediateSource());
         if (attacker != null && damageSource.getImmediateSource() instanceof MobEntity) PokemobEventsHandler.handleExp(
                 (MobEntity) damageSource.getImmediateSource(), attacker, (LivingEntity) evt.getEntity());
-
-        // // Recall if it is a pokemob.
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (attacked != null && attacked.getGeneralState(GeneralStates.TAMED)) attacked.onRecall(true);
     }
 
     @SubscribeEvent
@@ -569,10 +573,15 @@ public class PokemobEventsHandler
     @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
-        // Tick the logic stuff for this mob.
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (pokemob != null) for (final Logic l : pokemob.getTickLogic())
-            if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
+        if (pokemob != null)
+        {
+            // Reset death time if we are not dead.
+            if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
+            // Tick the logic stuff for this mob.
+            for (final Logic l : pokemob.getTickLogic())
+                if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
+        }
     }
 
 }

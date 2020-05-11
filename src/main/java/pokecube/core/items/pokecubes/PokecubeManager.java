@@ -150,6 +150,20 @@ public class PokecubeManager
         return new UUID(max, min);
     }
 
+    public static void heal(final LivingEntity mob)
+    {
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+        float maxHP = mob.getMaxHealth();
+        if (pokemob != null)
+        {
+            pokemob.revive();
+            maxHP = pokemob.getStat(Stats.HP, false);
+        }
+        mob.hurtTime = 0;
+        mob.deathTime = 0;
+        mob.setHealth(maxHP);
+    }
+
     public static void heal(final ItemStack stack, final World world)
     {
         if (PokecubeManager.isFilled(stack))
@@ -157,16 +171,7 @@ public class PokecubeManager
             try
             {
                 final LivingEntity mob = PokecubeManager.itemToMob(stack, world);
-                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-                float maxHP = mob.getMaxHealth();
-                if (pokemob != null)
-                {
-                    pokemob.healStatus();
-                    pokemob.healChanges();
-                    pokemob.getEntity().hurtTime = 0;
-                    maxHP = pokemob.getStat(Stats.HP, false);
-                }
-                mob.setHealth(maxHP);
+                PokecubeManager.heal(mob);
                 PokecubeManager.addToCube(stack, mob);
             }
             catch (final Throwable e)

@@ -41,8 +41,11 @@ public class CaptureManager
 
     public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
     {
-        if (!cube.isServerWorld() || !(e instanceof LivingEntity)) return;
+        if (!(cube.getEntityWorld() instanceof ServerWorld)) return;
+        if (!(e instanceof LivingEntity)) return;
         final LivingEntity mob = (LivingEntity) e;
+        if (mob.deathTime > 0) return;
+
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());

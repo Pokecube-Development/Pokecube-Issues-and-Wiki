@@ -69,8 +69,6 @@ import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.commands.CommandManager;
-import pokecube.core.contributors.Contributor;
-import pokecube.core.contributors.ContributorManager;
 import pokecube.core.database.Database;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokemobs.EntityPokemob;
@@ -96,7 +94,6 @@ import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.PokemobDamageSource;
 import pokecube.core.moves.TerrainDamageSource;
-import pokecube.core.network.PokecubePacketHandler;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokecube;
@@ -143,15 +140,8 @@ public class EventsHandler
                 }
                 else
                 {
-                    final Contributor contrib = ContributorManager.instance().getContributor(this.player
-                            .getGameProfile());
-                    boolean special = false;
-                    boolean pick = false;
-                    if (PokecubePacketHandler.specialStarters.containsKey(contrib))
-                    {
-                        special = true;
-                        pick = PacketChoose.canPick(this.player.getGameProfile());
-                    }
+                    final boolean special = false;
+                    final boolean pick = false;
                     packet = PacketChoose.createOpenPacket(special, pick, Database.getStarters());
                 }
                 PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) event.player);
