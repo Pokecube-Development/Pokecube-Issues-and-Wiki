@@ -50,20 +50,6 @@ public class Config extends ConfigData
     public static final String items      = "items";
     public static final String dynamax    = "dynamax";
 
-    public static int    GUICHOOSEFIRSTPOKEMOB_ID;
-    public static int    GUIDISPLAYPOKECUBEINFO_ID;
-    public static int    GUIDISPLAYTELEPORTINFO_ID;
-    public static int    GUIPOKECENTER_ID;
-    public static int    GUIPOKEDEX_ID;
-    public static int    GUIPOKEWATCH_ID;
-    public static int    GUIPOKEMOBSPAWNER_ID;
-    public static int    GUIPC_ID;
-    public static int    GUIPOKEMOB_ID;
-    public static int    GUIPOKEMOBAI_ID;
-    public static int    GUIPOKEMOBSTORE_ID;
-    public static int    GUIPOKEMOBROUTE_ID;
-    public static int    GUITRADINGTABLE_ID;
-    public static int    GUITMTABLE_ID;
     public static Config instance;
 
     private static Config defaults = new Config();
@@ -91,9 +77,6 @@ public class Config extends ConfigData
     @Configure(category = Config.misc)
     /** does defeating a tame pokemob give exp */
     public boolean      trainerExp           = true;
-    @Configure(category = Config.misc)
-    @SyncConfig
-    public double       scalefactor          = 1;
     @Configure(category = Config.misc)
     public boolean      pcOnDrop             = true;
     @Configure(category = Config.misc)
@@ -497,52 +480,38 @@ public class Config extends ConfigData
     public boolean       pokeCenterMusic        = true;
 
     @Configure(category = Config.advanced)
-    public List<String>  mystLocs               = Lists.newArrayList();
+    public List<String>  mystLocs              = Lists.newArrayList();
     @Configure(category = Config.advanced)
-    boolean              reputs                 = false;
+    boolean              reputs                = false;
     @Configure(category = Config.advanced)
     // DOLATER find more internal variables to add to this.
-    public List<String>  extraVars              = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance,
+    public List<String>  extraVars             = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance,
             "rc:" + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:"
                     + ItemPokemobEgg.MOBDIST });
     @Configure(category = Config.advanced)
-    public boolean       debug                  = false;
+    public boolean       debug                 = false;
     @Configure(category = Config.advanced)
-    public List<String>  damageBlocksWhitelist  = Lists.newArrayList(new String[] { "flash", "teleport", "dig", "cut",
+    public List<String>  damageBlocksWhitelist = Lists.newArrayList(new String[] { "flash", "teleport", "dig", "cut",
             "rocksmash", "secretpower" });
     @Configure(category = Config.advanced)
-    public List<String>  damageBlocksBlacklist  = Lists.newArrayList();
+    public List<String>  damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced)
-    @SyncConfig
-    public int           evolutionTicks         = 50;
+    public String        nonPokemobExpFunction = "h*(a+1)";
     @Configure(category = Config.advanced)
-    @SyncConfig
-    public int           baseRadarRange         = 64;
+    public boolean       nonPokemobExp         = false;
     @Configure(category = Config.advanced)
-    public String        nonPokemobExpFunction  = "h*(a+1)";
-    @Configure(category = Config.advanced)
-    public boolean       nonPokemobExp          = false;
-    @Configure(category = Config.advanced)
-    public List<Integer> teleDimBlackList       = Lists.newArrayList();
-    @Configure(category = Config.advanced)
-    @SyncConfig
-    public int           telePearlsCostSameDim  = 0;
-    @Configure(category = Config.advanced)
-    @SyncConfig
-    public int           telePearlsCostOtherDim = 16;
+    public List<Integer> teleDimBlackList      = Lists.newArrayList();
+
     @Configure(category = Config.advanced)
     /**
      * This is the version to match in configs, this is set after loading the
      * configs to VERSION, and uses -1 as a "default" to ensure this has
      * changed.
      */
-    public int           version                = -1;
-    @Configure(category = Config.advanced)
-    public boolean       pokemobsAreAllFrozen   = false;
+    public int version = -1;
 
     @Configure(category = Config.advanced)
-    @SyncConfig
-    public double largeMobForSplit = 2;
+    public boolean pokemobsAreAllFrozen = false;
 
     @Configure(category = Config.genetics)
     public String       epigeneticEVFunction = GeneticsManager.epigeneticFunction;
@@ -657,6 +626,25 @@ public class Config extends ConfigData
 
     @Configure(category = Config.misc, type = Type.SERVER)
     public boolean npcNameTags = true; // Synced for balance reasons
+
+    @Configure(category = Config.misc, type = Type.SERVER)
+    public double scalefactor = 1;
+
+    @Configure(category = Config.advanced, type = Type.SERVER)
+    public int evolutionTicks = 50;
+    @Configure(category = Config.advanced, type = Type.SERVER)
+    public int baseRadarRange = 64;
+
+    @Configure(category = Config.advanced, type = Type.SERVER)
+    public int telePearlsCostSameDim  = 0;
+    @Configure(category = Config.advanced, type = Type.SERVER)
+    public int telePearlsCostOtherDim = 16;
+
+    @Configure(category = Config.advanced, type = Type.SERVER)
+    public double largeMobForSplit = 2;
+
+    @Configure(category = Config.advanced, type = Type.SERVER)
+    public double movementPauseThreshold = 32;
 
     public Config()
     {
