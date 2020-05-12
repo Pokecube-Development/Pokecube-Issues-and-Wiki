@@ -77,9 +77,6 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
             player.setHeldItem(Hand.MAIN_HAND, this.seeds);
             final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(
                     0.5, 1, 0.5), Direction.UP, down, false));
-            System.out.println(this.oldState + " " + this.seeds.getItem() + " " + (this.seeds
-                    .getItem() instanceof BlockItem) + " ");
-
             check:
             if (this.seeds.getItem() instanceof BlockItem)
             {
