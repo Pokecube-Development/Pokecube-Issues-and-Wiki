@@ -36,6 +36,9 @@ public class SendOutManager
         cube.setTime(20);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
+
+        if (mob == null) return null;
+
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
 
