@@ -58,7 +58,7 @@ public class CaptureManager
             cube.setNotCapturing();
             return;
         }
-        if (cube.shootingEntity != null && hitten.getOwner() == cube.shootingEntity) return;
+        if (cube.shootingEntity != null && hitten != null && hitten.getOwner() == cube.shootingEntity) return;
 
         final IRunnable task = w ->
         {
