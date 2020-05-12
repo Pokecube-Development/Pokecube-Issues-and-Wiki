@@ -1,8 +1,6 @@
 package pokecube.core.handlers;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Locale;
 
 import com.google.common.collect.Lists;
 
@@ -25,17 +23,15 @@ import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.PokecubeMod;
+import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
-import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
 public class Config extends ConfigData
 {
-    public static final int VERSION = 1;
-
     public static final String spawning   = "spawning";
     public static final String database   = "database";
     public static final String world      = "generation";
@@ -80,12 +76,9 @@ public class Config extends ConfigData
     @Configure(category = Config.misc)
     public boolean      pcOnDrop             = true;
     @Configure(category = Config.misc)
-    public int          pcPageCount          = 32;
-    @Configure(category = Config.misc)
     public double       expScaleFactor       = 1;
-    @Configure(category = Config.misc)// TODO implement
-    public List<String> snagblacklist        = Lists.newArrayList("net.minecraft.entity.boss.EntityDragon",
-            "net.minecraft.entity.boss.EntityWither");
+    @Configure(category = Config.misc)
+    public List<String> snag_cube_blacklist  = Lists.newArrayList("ender_dragon", "wither");
     @Configure(category = Config.misc)
     public boolean      defaultInteractions  = true;
     @Configure(category = Config.misc)
@@ -167,9 +160,9 @@ public class Config extends ConfigData
     public double  pokemobToNPCDamageRatio      = 1;
     @Configure(category = Config.moves)
     public int     baseSmeltingHunger           = 100;
-    @Configure(category = Config.moves)// TODO reimplement
+    @Configure(category = Config.moves)
     public boolean onlyPokemobsDamagePokemobs   = false;
-    @Configure(category = Config.moves)// TODO reimplement
+    @Configure(category = Config.moves)
     public double  playerToPokemobDamageScale   = 1;
     @Configure(category = Config.moves)
     public boolean defaultFireActions           = true;
@@ -331,43 +324,50 @@ public class Config extends ConfigData
     // World Gen and World effect settings
     @Configure(category = Config.world)
     /** do meteors fall. */
-    public boolean      meteors                = true;
+    public boolean meteors              = true;
     @Configure(category = Config.world)
-    public int          meteorDistance         = 3000;
+    public int     meteorDistance       = 3000;
     @Configure(category = Config.world)
-    public int          meteorRadius           = 64;
+    public int     meteorRadius         = 64;
     @Configure(category = Config.world)
-    public double       meteorScale            = 1.0;
+    public double  meteorScale          = 1.0;
     @Configure(category = Config.world)
-    public boolean      doSpawnBuilding        = true;
+    public boolean doSpawnBuilding      = true;
     @Configure(category = Config.world)
-    public boolean      basesLoaded            = true;
+    public boolean basesLoaded          = true;
     @Configure(category = Config.world)
-    public boolean      autoPopulateLists      = true;
+    public boolean autoPopulateLists    = true;
     @Configure(category = Config.world)
-    public boolean      refreshSubbiomes       = false;
+    public boolean refreshSubbiomes     = false;
     @Configure(category = Config.world)
-    public boolean      autoAddNullBerries     = false;
+    public boolean autoAddNullBerries   = false;
     @Configure(category = Config.world)
-    public int          cropGrowthTicks        = 75;
+    public int     cropGrowthTicks      = 75;
     @Configure(category = Config.world)
-    public int          leafBerryTicks         = 75;
+    public int     leafBerryTicks       = 75;
     @Configure(category = Config.world)
-    public boolean      autoDetectSubbiomes    = true;
+    public boolean autoDetectSubbiomes  = true;
     @Configure(category = Config.world)
-    public boolean      generateFossils        = true;
+    public boolean generateFossils      = true;
     @Configure(category = Config.world)
-    public boolean      villagePokecenters     = true;
+    public boolean villagePokecenters   = true;
     @Configure(category = Config.world)
-    public boolean      chunkLoadPokecenters   = true;
+    public boolean chunkLoadPokecenters = false;
+
     @Configure(category = Config.world)
-    public String       baseSizeFunction       = "8 + c/10 + h/10 + k/20";
+    public String       baseSizeFunction    = "8 + c/10 + h/10 + k/20";
     @Configure(category = Config.world)
-    public int          baseMaxSize            = 1;
+    public int          baseMaxSize         = 1;
     @Configure(category = Config.world)
-    public List<String> structureSubiomes      = Lists.newArrayList("stronghold:ruin", "mineshaft:ruin",
-            "jungle_temple:ruin", "desert_pyramid:ruin", "end_city:ruin", "end_city:ruin", "ocean_ruin:ruin",
-            "woodland_mansion:ruin", "ocean_monument:monument", "village:village");
+    public List<String> structure_subbiomes = Lists.newArrayList(
+    //@formatter:off
+            "{\"struct\":\"minecraft:village\",\"subbiome\":\"village\"}",
+            "{\"struct\":\"minecraft:monument\",\"subbiome\":\"monument\"}"
+            );
+    //@formatter:on
+    @Configure(category = Config.world)
+    public boolean structs_default_ruins = true;
+
     @Configure(category = Config.world)
     public List<String> extraWorldgenDatabases = Lists.newArrayList();
     @Configure(category = Config.world)
@@ -405,12 +405,11 @@ public class Config extends ConfigData
     public boolean shouldCap = true;
 
     @Configure(category = Config.spawning)
-    @Versioned
-    public List<String> spawnLevelFunctions = Lists.newArrayList(new String[] {
+    public List<String> dimensionSpawnLevels = Lists.newArrayList(new String[] {
             //@formatter:off
-            "-1:abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3)):false:false",
-            "0:abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3)):false:false",
-            "1:1+r/200:true:true"
+            "{\"dim\":\"the_nether\",\"func\":\"abs((25)*(sin(x*8*10^-3)^3 + sin(y*8*10^-3)^3))\",\"radial\":false,\"central\":false}",
+            "{\"dim\":\"overworld\",\"func\":\"abs((25)*(sin(x*10^-3)^3 + sin(y*10^-3)^3))\",\"radial\":false,\"central\":false}",
+            "{\"dim\":\"the_end\",\"func\":\"1+r/200\",\"radial\":true,\"central\":true}"
             });//@formatter:on
 
     @Configure(category = Config.spawning)
@@ -492,23 +491,15 @@ public class Config extends ConfigData
     public boolean       debug                 = false;
     @Configure(category = Config.advanced)
     public List<String>  damageBlocksWhitelist = Lists.newArrayList(new String[] { "flash", "teleport", "dig", "cut",
-            "rocksmash", "secretpower" });
+            "rocksmash", "secretpower", "naturepower" });
     @Configure(category = Config.advanced)
     public List<String>  damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced)
-    public String        nonPokemobExpFunction = "h*(a+1)";
+    public String        nonPokemobExpFunction = "h*(a+1)^2";
     @Configure(category = Config.advanced)
     public boolean       nonPokemobExp         = false;
     @Configure(category = Config.advanced)
     public List<Integer> teleDimBlackList      = Lists.newArrayList();
-
-    @Configure(category = Config.advanced)
-    /**
-     * This is the version to match in configs, this is set after loading the
-     * configs to VERSION, and uses -1 as a "default" to ensure this has
-     * changed.
-     */
-    public int version = -1;
 
     @Configure(category = Config.advanced)
     public boolean pokemobsAreAllFrozen = false;
@@ -586,11 +577,6 @@ public class Config extends ConfigData
     @Configure(category = Config.dynamax)
     public int    z_move_cooldown  = 2000;
 
-    @Configure(category = Config.items)
-    public List<String> customHeldItems = Lists.newArrayList();
-    @Configure(category = Config.items)
-    public List<String> customFossils   = Lists.newArrayList();
-
     // Config options which are needed to by synchronized on both sides
 
     @Configure(category = Config.mobAI, type = Type.SERVER)
@@ -633,6 +619,9 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, type = Type.SERVER)
     public double scalefactor = 1;
 
+    @Configure(category = Config.misc, type = Type.SERVER)
+    public int pcPageCount = 32;
+
     @Configure(category = Config.advanced, type = Type.SERVER)
     public int evolutionTicks = 50;
     @Configure(category = Config.advanced, type = Type.SERVER)
@@ -657,25 +646,6 @@ public class Config extends ConfigData
     @Override
     public void onUpdated()
     {
-        // Check version stuff.
-        if (this.version != Config.VERSION)
-        {
-            this.version = Config.VERSION;
-            for (final Field f : Config.class.getDeclaredFields())
-            {
-                final Versioned conf = f.getAnnotation(Versioned.class);
-                if (conf != null) try
-                {
-                    f.setAccessible(true);
-                    f.set(this, f.get(Config.defaults));
-                }
-                catch (IllegalArgumentException | IllegalAccessException e)
-                {
-                    PokecubeCore.LOGGER.error("Error updating " + f.getName(), e);
-                }
-            }
-        }
-
         // Ensure these values are in bounds.
         if (this.attackCooldown <= 0) this.attackCooldown = 1;
         if (this.spawnRate <= 0) this.spawnRate = 1;
@@ -687,11 +657,7 @@ public class Config extends ConfigData
 
         // TODO Init secret bases.
         // DimensionSecretBase.init(baseSizeFunction);
-        for (final String s : this.structureSubiomes)
-        {
-            final String[] args = s.split(":");
-            PokecubeTerrainChecker.structureSubbiomeMap.put(args[0].toLowerCase(Locale.ROOT), ThutCore.trim(args[1]));
-        }
+        PokecubeTerrainChecker.initStructMap();
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
         SpawnHandler.MAXNUM = this.mobSpawnNumber;
@@ -701,7 +667,7 @@ public class Config extends ConfigData
         SpawnHandler.lvlCap = this.shouldCap;
         SpawnHandler.capLevel = this.levelCap;
         SpawnHandler.expFunction = this.expFunction;
-        SpawnHandler.loadFunctionsFromStrings(this.spawnLevelFunctions);
+        SpawnHandler.initSpawnFunctions();
         SpawnHandler.refreshSubbiomes = this.refreshSubbiomes;
         SpawnHandler.DEFAULT_VARIANCE = new FunctionVariance(this.spawnLevelVariance);
 
@@ -739,7 +705,7 @@ public class Config extends ConfigData
                 }
             }
         }
-        // TODO more internal variables
+        // DOLATER more internal variables
         for (final String s : this.extraVars)
         {
             final String[] args = s.split(":");
@@ -804,12 +770,15 @@ public class Config extends ConfigData
             }
         }
 
+        Pokecube.snagblacklist.clear();
+        for (final String s : this.snag_cube_blacklist)
+            Pokecube.snagblacklist.add(new ResourceLocation(s));
+
         PokecubeItems.resetTimeTags = this.reputs;
 
         if (this.configDatabases.size() != EnumDatabase.values().length) this.configDatabases = Lists.newArrayList(
                 new String[] { "", "", "" });
 
-        // TODO see if these are the correct things to be using.
         SpawnHandler.dimensionBlacklist.clear();
         for (final String i : this.spawnDimBlacklist)
         {

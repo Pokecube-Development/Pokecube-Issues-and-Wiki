@@ -55,7 +55,7 @@ import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.ITerrainProvider;
-import thut.api.terrain.TerrainManager;
+import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.client.ClientProxy;
 import thut.core.client.render.animation.CapabilityAnimation;
@@ -243,6 +243,7 @@ public class ThutCore
         // do something when the server starts
         ThutCore.LOGGER.debug("Clearing terrain cache");
         ITerrainProvider.pendingCache.clear();
+        StructureManager.clear();
     }
 
     private void processIMC(final InterModProcessEvent event)
@@ -299,9 +300,6 @@ public class ThutCore
                 return null;
             }
         }, DataSync_Impl::new);
-
-        // Initialize terrain manager.
-        TerrainManager.getInstance();
 
         ThutCore.proxy.setup(event);
     }

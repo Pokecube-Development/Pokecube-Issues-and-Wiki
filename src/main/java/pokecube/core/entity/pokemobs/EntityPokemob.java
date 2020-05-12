@@ -113,6 +113,7 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public void tick()
     {
+        this.remove();
         if (this.getPersistentData().getBoolean(TagNames.REMOVED))
         {
             this.remove();

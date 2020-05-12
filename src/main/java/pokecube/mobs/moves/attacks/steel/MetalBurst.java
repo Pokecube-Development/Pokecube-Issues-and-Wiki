@@ -3,7 +3,7 @@ package pokecube.mobs.moves.attacks.steel;
 import net.minecraft.entity.LivingEntity;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
-import pokecube.core.moves.PokemobDamageSource;
+import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.templates.Move_Basic;
 
 public class MetalBurst extends Move_Basic

@@ -148,9 +148,6 @@ public class ItemGenerator
 
     public static void makeFossils(final IForgeRegistry<Item> registry)
     {
-        for (final String s : PokecubeCore.getConfig().customFossils)
-            if (!ItemGenerator.fossilVariants.contains(Database.trim(s))) ItemGenerator.fossilVariants.add(Database
-                    .trim(s));
         final Item.Properties props = new Item.Properties().group(PokecubeItems.POKECUBEITEMS);
         for (final String type : ItemGenerator.fossilVariants)
         {
