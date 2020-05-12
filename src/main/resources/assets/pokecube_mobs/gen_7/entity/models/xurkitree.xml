@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="0.32"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
-  <material name="Light" light="0.7" transluscent="true"/>
+  <material name="Light" light="0.7" transluscent="false"/>
   <phase type="idle">
    <part name="leg1">
     <component length="10" name="1" rotChange="0,0,-1" startKey="0"/>

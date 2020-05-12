@@ -1,8 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ModelAnimator>
-    <model>
-        <phase name="global" rotation="1,0,0,0" offset="0,0,0" scale="0.7"/>
-        <metadata headCap1="-1,1" headAxis="1" headAxis2="0" headDir="1" head="body"/>
-        <phase duration="6" leftArm="left_arm" leftLeg="left_leg" legAngle="25" name="biWalk" rightArm="right_arm" rightLeg="right_leg"/>
-    </model>
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" scale="0.35"/>
+  <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
+  <customTex default="wigglytuff">
+   <part name="Head" tex="wigglytuffeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Mouth" tex="wigglytuffmouth"/>
+   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:1"/>
+  </customTex>
+  <phase type="idle">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="-2,0,0" rotOffset="70,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="2,0,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="-2,0,0" rotOffset="70,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="2,0,0" startKey="10"/>
+   </part>
+   <part name="orl1">
+    <component length="10" name="1" rotChange="0,0,-0.4" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,0.4" startKey="10"/>
+   </part>
+   <part name="orl2">
+    <component length="10" name="1" rotChange="0,0,0.4" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,-0.4" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="arm1">
+    <component length="10" name="1" rotChange="7,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-7,0,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotChange="7,0,0" rotOffset="20,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-7,0,0" startKey="10"/>
+   </part>
+  </phase>
+ </model>
 </ModelAnimator>
