@@ -16,7 +16,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -24,7 +23,6 @@ import net.minecraft.world.biome.Biome.Category;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -34,6 +32,8 @@ import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
 import thut.api.terrain.ITerrainProvider;
+import thut.api.terrain.StructureManager;
+import thut.api.terrain.StructureManager.StructureInfo;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 
@@ -152,37 +152,9 @@ public class SpawnBiomeMatcher
         {
             if (!matcher._validStructures.isEmpty())
             {
-                IChunk chunk = checker.chunk;
-                Map<String, StructureStart> starts = chunk.getStructureStarts();
-                for (final String s : matcher._validStructures)
-                {
-                    final StructureStart structurestart = starts.get(s);
-                    if (structurestart != null && structurestart != StructureStart.DUMMY)
-                    {
-                        final MutableBoundingBox box = structurestart.getBoundingBox();
-                        if (box.isVecInside(checker.location.getPos())) return MatchResult.SUCCEED;
-                    }
-                }
-                // Also check the surrounding chunks, if they exist
-                for (int i = -1; i <= 1; i++)
-                    for (int j = -1; j <= 1; j++)
-                    {
-                        // Just checked here!
-                        if (i == j && j == 0) continue;
-                        chunk = checker.world.getChunk(checker.chunk.getPos().x + i, checker.chunk.getPos().z + j,
-                                ChunkStatus.EMPTY, false);
-                        if (chunk == null) continue;
-                        starts = chunk.getStructureStarts();
-                        for (final String s : matcher._validStructures)
-                        {
-                            final StructureStart structurestart = starts.get(s);
-                            if (structurestart != null && structurestart != StructureStart.DUMMY)
-                            {
-                                final MutableBoundingBox box = structurestart.getBoundingBox();
-                                if (box.isVecInside(checker.location.getPos())) return MatchResult.SUCCEED;
-                            }
-                        }
-                    }
+                final Set<StructureInfo> set = StructureManager.getFor(checker.location.getPos());
+                for (final StructureInfo i : set)
+                    if (matcher._validStructures.contains(i.name)) return MatchResult.SUCCEED;
                 return MatchResult.FAIL;
             }
             return MatchResult.PASS;
