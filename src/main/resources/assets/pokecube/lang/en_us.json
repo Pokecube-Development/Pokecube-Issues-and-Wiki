@@ -358,6 +358,12 @@
     "item.pokecube.pokemobegg.named": "Egg of %1$s",
     "item.pokecube.berry_null": "Berry",
     
+    "pokecube.filled.brn": "%1$s (BRN)",
+    "pokecube.filled.frz": "%1$s (FRZ)",
+    "pokecube.filled.par": "%1$s (PAR)",
+    "pokecube.filled.psn": "%1$s (PSN)",
+    "pokecube.filled.slp": "%1$s (SLP)",
+    
     "_comment": "Item Tooltips",
 
     "item.berry.istree.desc": "This grows into a tree.",
