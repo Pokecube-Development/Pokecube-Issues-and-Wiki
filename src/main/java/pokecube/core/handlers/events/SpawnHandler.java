@@ -740,6 +740,7 @@ public final class SpawnHandler
         final Vector3 point = this.v2.clear();
         SpawnHandler.refreshTerrain(loc, world, true);
         final SpawnBiomeMatcher matcher = entry.getMatcher(world, loc);
+        if (matcher == null) return 0;
         final byte distGroupZone = 6;
         final Random rand = new Random();
 
