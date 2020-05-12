@@ -387,6 +387,7 @@ public class Pokecube extends Item implements IPokecube
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
         entity.shootingEntity = thrower.isSneaking() ? null : thrower;
         if (thrower.isSneaking()) entity.setNoCollisionRelease();
+        else entity.autoRelease = config.pokecubeAutoSendOutDelay;
         entity.shooter = thrower.getUniqueID();
         entity.setItem(stack);
 
