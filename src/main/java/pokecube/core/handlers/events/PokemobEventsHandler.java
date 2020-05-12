@@ -31,6 +31,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -64,7 +65,9 @@ import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.moves.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
+import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
+import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.GeneRegistry;
@@ -72,6 +75,7 @@ import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
+import thut.api.terrain.TerrainManager;
 
 public class PokemobEventsHandler
 {
@@ -80,6 +84,13 @@ public class PokemobEventsHandler
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void dropEvent(final LivingDropsEvent event)
     {
+        // Once it has been revived, we don't drop anything anymore
+        if (event.getEntity().getPersistentData().getBoolean(TagNames.REVIVED))
+        {
+            event.setCanceled(true);
+            return;
+        }
+
         // Handles the mobs dropping their inventory.
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(event.getEntity());
         if (pokemob != null)
@@ -305,10 +316,6 @@ public class PokemobEventsHandler
         final IPokemob attacker = CapabilityPokemob.getPokemobFor(damageSource.getImmediateSource());
         if (attacker != null && damageSource.getImmediateSource() instanceof MobEntity) PokemobEventsHandler.handleExp(
                 (MobEntity) damageSource.getImmediateSource(), attacker, (LivingEntity) evt.getEntity());
-
-        // // Recall if it is a pokemob.
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (attacked != null && attacked.getGeneralState(GeneralStates.TAMED)) attacked.onRecall(true);
     }
 
     @SubscribeEvent
@@ -567,12 +574,37 @@ public class PokemobEventsHandler
     }
 
     @SubscribeEvent
+    public static void tick(final WorldTickEvent evt)
+    {
+        for (final PlayerEntity player : evt.world.getPlayers())
+            if (player.getRidingEntity() instanceof LivingEntity && CapabilityPokemob.getPokemobFor(player
+                    .getRidingEntity()) != null)
+            {
+                final LivingEntity ridden = (LivingEntity) player.getRidingEntity();
+                EntityTools.copyEntityTransforms(ridden, player);
+            }
+    }
+
+    @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
-        // Tick the logic stuff for this mob.
+
+        // Prevent moving if it is liable to take us out of a loaded area
+        final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
+                .getMotion().z * evt.getEntity().getMotion().z);
+        if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold + dist)) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y,
+                        0);
+
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (pokemob != null) for (final Logic l : pokemob.getTickLogic())
-            if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
+        if (pokemob != null)
+        {
+            // Reset death time if we are not dead.
+            if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
+            // Tick the logic stuff for this mob.
+            for (final Logic l : pokemob.getTickLogic())
+                if (l.shouldRun()) l.tick(evt.getEntity().getEntityWorld());
+        }
     }
 
 }

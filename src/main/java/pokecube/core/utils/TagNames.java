@@ -81,6 +81,9 @@ public interface TagNames
 
     public static final String SHEARTIME = "pokecube:shearedtime";
 
+    public static final String REMOVED = "pokecube:removed";
+    public static final String REVIVED = "pokecube:revived";
+
     public static CompoundNBT getEntityPokemobTag(final CompoundNBT entityRootTag)
     {
         final CompoundNBT ret = new CompoundNBT();

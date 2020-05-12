@@ -165,23 +165,30 @@ public class PCEventsHandler
 
     public static void recallAll(final List<Entity> mobs, final boolean cubesToPC)
     {
-        for (final Entity o : mobs)
+        if (mobs.isEmpty()) return;
+        if (!(mobs.get(0).getEntityWorld() instanceof ServerWorld)) return;
+        final ServerWorld world = (ServerWorld) mobs.get(0).getEntityWorld();
+        EventsHandler.Schedule(world, w ->
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(o);
-            if (pokemob != null) pokemob.onRecall();
-            else if (o instanceof EntityPokecube)
+            for (final Entity o : mobs)
             {
-                final EntityPokecube mob = (EntityPokecube) o;
-                if (cubesToPC) PCInventory.addPokecubeToPC(mob.getItem(), mob.getEntityWorld());
-                else
+                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(o);
+                if (pokemob != null) pokemob.onRecall();
+                else if (o instanceof EntityPokecube)
                 {
-                    final LivingEntity out = SendOutManager.sendOut(mob, true);
-                    final IPokemob poke = CapabilityPokemob.getPokemobFor(out);
-                    if (poke != null) poke.onRecall();
+                    final EntityPokecube mob = (EntityPokecube) o;
+                    if (cubesToPC) PCInventory.addPokecubeToPC(mob.getItem(), mob.getEntityWorld());
+                    else
+                    {
+                        final LivingEntity out = SendOutManager.sendOut(mob, true);
+                        final IPokemob poke = CapabilityPokemob.getPokemobFor(out);
+                        if (poke != null) poke.onRecall();
+                    }
+                    world.removeEntity(mob, false);
                 }
-                mob.remove();
             }
-        }
+            return true;
+        });
     }
 
     /**
@@ -221,11 +228,12 @@ public class PCEventsHandler
     {
         if (!(evt.getEntity() instanceof PlayerEntity) || !PokecubeCore.getConfig().pcOnDrop) return;
         if (evt.getEntity().getEntityWorld().isRemote) return;
+        final UUID id = evt.getEntity().getUniqueID();
         final List<ItemEntity> toRemove = Lists.newArrayList();
         for (final ItemEntity item : evt.getDrops())
             if (item != null && item.getItem() != null && PCContainer.isItemValid(item.getItem()))
             {
-                PCInventory.addStackToPC(evt.getEntity().getUniqueID(), item.getItem().copy());
+                PCInventory.addStackToPC(id, item.getItem().copy());
                 toRemove.add(item);
             }
         evt.getDrops().removeAll(toRemove);

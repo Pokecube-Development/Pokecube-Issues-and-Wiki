@@ -292,7 +292,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         if (remote) return;
         if (entity == null)
         {
-            if (forced) this.targetFinder.clear();
+            if (forced && this.targetFinder != null) this.targetFinder.clear();
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Null Target Set for " + this.getEntity());
             this.setTargetID(-1);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");

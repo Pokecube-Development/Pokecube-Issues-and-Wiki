@@ -18,19 +18,21 @@ public enum LogicStates
     NOPATHING(1 << 6, false),
     /** A sleeping pokemon will try to sit at its home location */
     SLEEPING(1 << 7, false),
-    /** A sleeping pokemon will try to sit at its home location */
-    TIRED(1 << 8);
+    /** This pokemob wants to sleep, but not here */
+    TIRED(1 << 8),
+    /** This pokemob has fainted and cannot battle */
+    FAINTED(1 << 9);
 
     final int     mask;
     final boolean persist;
 
-    private LogicStates(int mask)
+    private LogicStates(final int mask)
     {
         this.mask = mask;
         this.persist = true;
     }
 
-    private LogicStates(int mask, boolean persist)
+    private LogicStates(final int mask, final boolean persist)
     {
         this.mask = mask;
         this.persist = persist;

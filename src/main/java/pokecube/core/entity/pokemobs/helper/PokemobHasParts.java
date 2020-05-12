@@ -88,10 +88,10 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
     }
 
     @Override
-    public void tick()
+    public void livingTick()
     {
         this.updatePartsPos();
-        super.tick();
+        super.livingTick();
     }
 
     private void updatePartsPos()

@@ -290,7 +290,7 @@ public class PokecubeCore
     public static final Logger LOGGER = LogManager.getLogger(PokecubeCore.MODID);
     public static final String MODID  = "pokecube";
 
-    private static final String NETVERSION = "1.0.1";
+    private static final String NETVERSION = "1.0.2";
     // Handler for network stuff.
     public static final PacketHandler packets = new PacketHandler(new ResourceLocation(PokecubeCore.MODID, "comms"),
             PokecubeCore.NETVERSION);

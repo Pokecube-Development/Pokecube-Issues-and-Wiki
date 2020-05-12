@@ -158,6 +158,10 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         private boolean checkedForRangedAttack   = false;
         private boolean hasRangedAttackAnimation = false;
 
+        // Used to check if it has a custom sleeping animation.
+        private boolean checkedForDead   = false;
+        private boolean hasDeadAnimation = false;
+
         public boolean reload       = false;
         public boolean overrideAnim = false;
         public String  anim         = "";
@@ -305,6 +309,13 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
                 this.hasRangedAttackAnimation = this.hasAnimation("attack_ranged", entity);
                 this.checkedForRangedAttack = true;
             }
+            if (!this.checkedForDead)
+            {
+                this.hasDeadAnimation = this.hasAnimation("dead", entity);
+                this.checkedForDead = true;
+            }
+
+            if (entity.deathTime > 0) return this.hasDeadAnimation ? "dead" : phase;
             if (pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
             {
                 final int index = pokemob.getMoveIndex();
@@ -547,6 +558,12 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
         this.holder.init();
         final ModelWrapper<GenericPokemob> model = new ModelWrapper<>(this.holder, this.holder);
         this.entityModel = model;
+    }
+
+    @Override
+    protected float getDeathMaxRotation(final GenericPokemob entityLivingBaseIn)
+    {
+        return 85.0F;
     }
 
     @Override

@@ -1,11 +1,8 @@
 package pokecube.mobs.moves.attacks.water;
 
-import net.minecraft.util.text.ITextComponent;
-import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
+import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
-import thut.core.common.commands.CommandTools;
 
 public class Splash extends Move_Basic
 {
@@ -16,20 +13,11 @@ public class Splash extends Move_Basic
     }
 
     @Override
-    public void preAttack(MovePacket packet)
+    public void preAttack(final MovePacket packet)
     {
         super.preAttack(packet);
         packet.denied = true;
-        final IPokemob attacked = CapabilityPokemob.getPokemobFor(packet.attacked);
-        if (attacked != null)
-        {
-            ITextComponent text = CommandTools.makeTranslatedMessage("pokemob.move.doesnt.affect", "red", attacked
-                    .getDisplayName().getFormattedText());
-            packet.attacker.displayMessageToOwner(text);
-            text = CommandTools.makeTranslatedMessage("pokemob.move.doesnt.affect", "green", attacked
-                    .getDisplayName().getFormattedText());
-            attacked.displayMessageToOwner(text);
-        }
+        MovesUtils.sendPairedMessages(packet.attacked, packet.attacker, "pokemob.move.doesnt.affect");
     }
 
 }
