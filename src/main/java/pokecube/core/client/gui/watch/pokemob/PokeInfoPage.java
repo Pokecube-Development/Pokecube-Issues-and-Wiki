@@ -15,6 +15,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IPokemob.FormeHolder;
+import pokecube.core.network.packets.PacketPokedex;
 
 public abstract class PokeInfoPage extends WatchPage
 {
@@ -55,6 +56,7 @@ public abstract class PokeInfoPage extends WatchPage
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
+            PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
             this.parent.initPages(this.parent.pokemob);
         }));
@@ -63,6 +65,7 @@ public abstract class PokeInfoPage extends WatchPage
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
+            PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getEntityWorld());
             this.parent.initPages(this.parent.pokemob);
         }));
