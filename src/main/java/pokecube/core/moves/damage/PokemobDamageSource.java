@@ -1,7 +1,7 @@
 /**
  *
  */
-package pokecube.core.moves;
+package pokecube.core.moves.damage;
 
 import javax.annotation.Nullable;
 
@@ -27,7 +27,7 @@ import thut.api.OwnableCaps;
  *
  * @author Manchou
  */
-public class PokemobDamageSource extends DamageSource
+public class PokemobDamageSource extends DamageSource implements IPokedamage
 {
 
     private final LivingEntity damageSourceEntity;

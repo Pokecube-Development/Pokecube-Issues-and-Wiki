@@ -22,6 +22,7 @@
     "thutcore.biometype.cavewater": "Cave Lake",
     "thutcore.biometype.village": "Village",
     "thutcore.biometype.all": "All",
+    "thutcore.biometype.inside": "Inside",
     
     "_comment": "Config Options",
     

@@ -74,7 +74,8 @@ public class ItemPokedex extends Item
     public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity player, final Hand hand)
     {
         final ItemStack itemstack = player.getHeldItem(hand);
-        if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld());
+        if (!world.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(player), player.getEntityWorld(),
+                true);
         if (!player.isSneaking())
         {
             this.showGui(player);
@@ -91,6 +92,8 @@ public class ItemPokedex extends Item
         final BlockPos pos = context.getPos();
         final Vector3 hit = Vector3.getNewVector().set(pos);
         final Block block = hit.getBlockState(worldIn).getBlock();
+        if (!worldIn.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn
+                .getEntityWorld(), true);
         if (block instanceof HealerBlock)
         {
             final Vector4 loc = new Vector4(playerIn);

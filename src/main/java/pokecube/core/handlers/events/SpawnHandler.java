@@ -13,7 +13,7 @@ import org.nfunk.jep.JEP;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -42,6 +42,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Pokemake;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.SpawnData;
+import pokecube.core.database.PokedexEntryLoader;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.events.pokemob.SpawnEvent;
 import pokecube.core.events.pokemob.SpawnEvent.Function;
@@ -117,42 +118,37 @@ public final class SpawnHandler
         }
     }
 
-    public static Variance                                    DEFAULT_VARIANCE        = new Variance();
-    private static final Map<ChunkCoordinate, ForbiddenEntry> forbiddenSpawningCoords = new HashMap<>();
-    private static Int2ObjectArrayMap<Function>               functions               = new Int2ObjectArrayMap<>();
-    public static HashMap<Integer, Variance>                  subBiomeLevels          = new HashMap<>();
-    public static boolean                                     doSpawns                = true;
-    public static boolean                                     onlySubbiomes           = false;
-    public static boolean                                     refreshSubbiomes        = false;
-    public static HashSet<DimensionType>                      dimensionBlacklist      = Sets.newHashSet();
-    public static HashSet<DimensionType>                      dimensionWhitelist      = Sets.newHashSet();
-    public static Predicate<Integer>                          biomeToRefresh          = input ->
-                                                                                      {
-                                                                                          if (input == -1
-                                                                                                  || SpawnHandler.refreshSubbiomes)
-                                                                                              return true;
-                                                                                          return input == BiomeType.SKY
-                                                                                                  .getType()
-                                                                                                  || input == BiomeType.CAVE
-                                                                                                          .getType()
-                                                                                                  || input == BiomeType.CAVE_WATER
-                                                                                                          .getType()
-                                                                                                  || input == BiomeType.ALL
-                                                                                                          .getType()
-                                                                                                  || input == PokecubeTerrainChecker.INSIDE
-                                                                                                          .getType()
-                                                                                                  || input == BiomeType.NONE
-                                                                                                          .getType();
-                                                                                      };
+    private static Object2ObjectOpenHashMap<DimensionType, Function> functions = new Object2ObjectOpenHashMap<>();
+    public static final Object2ObjectOpenHashMap<DimensionType, JEP> parsers   = new Object2ObjectOpenHashMap<>();
 
-    private static Vector3                    vec1        = Vector3.getNewVector();
-    private static Vector3                    temp        = Vector3.getNewVector();
-    public static double                      MAX_DENSITY = 1;
-    public static int                         MAXNUM      = 10;
-    public static boolean                     lvlCap      = false;
-    public static boolean                     expFunction = false;
-    public static int                         capLevel    = 50;
-    public static final HashMap<Integer, JEP> parsers     = new HashMap<>();
+    public static Variance DEFAULT_VARIANCE = new Variance();
+
+    private static final Map<ChunkCoordinate, ForbiddenEntry> forbiddenSpawningCoords = new HashMap<>();
+
+    public static HashMap<BiomeType, Variance> subBiomeLevels = new HashMap<>();
+
+    public static boolean doSpawns         = true;
+    public static boolean onlySubbiomes    = false;
+    public static boolean refreshSubbiomes = false;
+
+    public static HashSet<DimensionType> dimensionBlacklist = Sets.newHashSet();
+    public static HashSet<DimensionType> dimensionWhitelist = Sets.newHashSet();
+
+    public static Predicate<Integer> biomeToRefresh = input ->
+    {
+        if (input == -1 || SpawnHandler.refreshSubbiomes) return true;
+        return input == BiomeType.SKY.getType() || input == BiomeType.CAVE.getType() || input == BiomeType.CAVE_WATER
+                .getType() || input == BiomeType.ALL.getType() || input == PokecubeTerrainChecker.INSIDE.getType()
+                || input == BiomeType.NONE.getType();
+    };
+
+    private static Vector3 vec1        = Vector3.getNewVector();
+    private static Vector3 temp        = Vector3.getNewVector();
+    public static double   MAX_DENSITY = 1;
+    public static int      MAXNUM      = 10;
+    public static boolean  lvlCap      = false;
+    public static boolean  expFunction = false;
+    public static int      capLevel    = 50;
 
     public static boolean addForbiddenSpawningCoord(final BlockPos pos, final int dimensionId, final int distance)
     {
@@ -362,12 +358,13 @@ public final class SpawnHandler
 
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         final int b = t.getBiome(location);
-        if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(b)) variance = SpawnHandler.subBiomeLevels
-                .get(b);
+        final BiomeType type = BiomeType.getType(b);
+        if (variance == null) if (SpawnHandler.subBiomeLevels.containsKey(type)) variance = SpawnHandler.subBiomeLevels
+                .get(type);
         else variance = SpawnHandler.DEFAULT_VARIANCE;
-        if (spawnLevel == -1) if (SpawnHandler.subBiomeLevels.containsKey(b))
+        if (spawnLevel == -1) if (SpawnHandler.subBiomeLevels.containsKey(type))
         {
-            variance = SpawnHandler.subBiomeLevels.get(b);
+            variance = SpawnHandler.subBiomeLevels.get(type);
             spawnLevel = variance.apply(baseLevel);
         }
 
@@ -404,9 +401,10 @@ public final class SpawnHandler
                 world, location, pokemon));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         final int b = t.getBiome(location);
-        if (SpawnHandler.subBiomeLevels.containsKey(b))
+        final BiomeType type = BiomeType.getType(b);
+        if (SpawnHandler.subBiomeLevels.containsKey(type))
         {
-            final int level = SpawnHandler.subBiomeLevels.get(b).apply(-1);
+            final int level = SpawnHandler.subBiomeLevels.get(type).apply(-1);
             maxXp = Math.max(10, Tools.levelToXp(pokemon.getEvolutionMode(), level));
             return maxXp;
         }
@@ -427,9 +425,10 @@ public final class SpawnHandler
                 world, location, pokemon, variance, baseLevel));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         final int b = t.getBiome(location);
-        if (SpawnHandler.subBiomeLevels.containsKey(b))
+        final BiomeType type = BiomeType.getType(b);
+        if (SpawnHandler.subBiomeLevels.containsKey(type))
         {
-            final int level = SpawnHandler.subBiomeLevels.get(b).apply(baseLevel);
+            final int level = SpawnHandler.subBiomeLevels.get(type).apply(baseLevel);
             maxXp = Math.max(10, Tools.levelToXp(pokemon.getEvolutionMode(), level));
             return maxXp;
         }
@@ -454,15 +453,15 @@ public final class SpawnHandler
 
     public static void loadFunctionFromString(final String args)
     {
-        final String[] strings = args.split(":");
-        if (strings.length != 4) return;
-        final int id = Integer.parseInt(strings[0]);
-        SpawnHandler.functions.put(id, new Function(strings));
+        final Function func = PokedexEntryLoader.gson.fromJson(args, Function.class);
+        final DimensionType dim = DimensionType.byName(new ResourceLocation(func.dim));
+        SpawnHandler.functions.put(dim, func);
+        SpawnHandler.parsers.put(dim, SpawnHandler.initJEP(new JEP(), func.func, func.radial));
     }
 
-    public static void loadFunctionsFromStrings(final List<String> args)
+    public static void initSpawnFunctions()
     {
-        for (final String s : args)
+        for (final String s : PokecubeCore.getConfig().dimensionSpawnLevels)
             SpawnHandler.loadFunctionFromString(s);
     }
 
@@ -487,12 +486,11 @@ public final class SpawnHandler
     {
         final Vector3 spawn = SpawnHandler.temp.set(world.getWorld().getSpawnPoint());
         JEP toUse;
-        final int type = world.getDimension().getType().getId();
+        final DimensionType type = world.getDimension().getType();
         boolean isNew = false;
         Function function;
 
-        if (SpawnHandler.functions.isEmpty()) SpawnHandler.loadFunctionsFromStrings(PokecubeCore
-                .getConfig().spawnLevelFunctions);
+        if (SpawnHandler.functions.isEmpty()) SpawnHandler.initSpawnFunctions();
 
         if (SpawnHandler.functions.containsKey(type)) function = SpawnHandler.functions.get(type);
         else function = SpawnHandler.functions.get(0);
@@ -501,9 +499,7 @@ public final class SpawnHandler
             PokecubeCore.LOGGER.error("No Spawn functions found " + SpawnHandler.functions);
             return 0;
         }
-
         if (function.central) spawn.clear();
-
         if (SpawnHandler.parsers.containsKey(type)) toUse = SpawnHandler.parsers.get(type);
         else
         {
@@ -518,7 +514,7 @@ public final class SpawnHandler
             isNew = true;
         }
         final boolean r = function.radial;
-        if (!r) SpawnHandler.parseExpression(toUse, function.function, location.x - spawn.x, location.z - spawn.z, r,
+        if (!r) SpawnHandler.parseExpression(toUse, function.func, location.x - spawn.x, location.z - spawn.z, r,
                 isNew);
         else
         {
@@ -528,31 +524,34 @@ public final class SpawnHandler
              */
             spawn.y = location.y;
             final double d = location.distTo(spawn);
-            SpawnHandler.parseExpression(toUse, function.function, d, location.y, r, isNew);
+            SpawnHandler.parseExpression(toUse, function.func, d, location.y, r, isNew);
         }
         return (int) Math.abs(toUse.getValue());
+    }
+
+    private static JEP initJEP(final JEP parser, final String toParse, final boolean radial)
+    {
+        parser.initFunTab(); // clear the contents of the function table
+        parser.addStandardFunctions();
+        parser.initSymTab(); // clear the contents of the symbol table
+        parser.addStandardConstants();
+        parser.addComplex(); // among other things adds i to the symbol
+                             // table
+        if (!radial)
+        {
+            parser.addVariable("x", 0);
+            parser.addVariable("y", 0);
+        }
+        else parser.addVariable("r", 0);
+        parser.parseExpression(toParse);
+        return parser;
     }
 
     private static void parseExpression(final JEP parser, final String toParse, final double xValue,
             final double yValue, final boolean r, final boolean isNew)
     {
-        if (isNew)
-        {
-            parser.initFunTab(); // clear the contents of the function table
-            parser.addStandardFunctions();
-            parser.initSymTab(); // clear the contents of the symbol table
-            parser.addStandardConstants();
-            parser.addComplex(); // among other things adds i to the symbol
-                                 // table
-            if (!r)
-            {
-                parser.addVariable("x", xValue);
-                parser.addVariable("y", yValue);
-            }
-            else parser.addVariable("r", xValue);
-            parser.parseExpression(toParse);
-        }
-        else if (!r)
+        if (isNew) SpawnHandler.initJEP(parser, toParse, r);
+        if (!r)
         {
             parser.setVarValue("x", xValue);
             parser.setVarValue("y", yValue);
@@ -562,6 +561,11 @@ public final class SpawnHandler
 
     public static void refreshTerrain(final Vector3 location, final World world)
     {
+        SpawnHandler.refreshTerrain(location, world, false);
+    }
+
+    public static void refreshTerrain(final Vector3 location, final World world, final boolean precise)
+    {
         if (!PokecubeCore.getConfig().autoDetectSubbiomes) return;
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         final Vector3 temp1 = Vector3.getNewVector();
@@ -570,8 +574,21 @@ public final class SpawnHandler
         final int dy = TerrainSegment.GRIDSIZE / 2;
         final int dz = TerrainSegment.GRIDSIZE / 2;
         final int x1 = x0 + dx, y1 = y0 + dy, z1 = z0 + dz;
-        // outer:
-        for (int i = x1; i < x1 + 16; i += TerrainSegment.GRIDSIZE)
+
+        if (precise)
+        {
+            final int i = location.intX();
+            final int j = location.intY();
+            final int k = location.intZ();
+            int biome = t.getBiome(i, j, k);
+            if (SpawnHandler.biomeToRefresh.apply(biome) || SpawnHandler.refreshSubbiomes)
+            {
+                biome = t.adjustedCaveBiome(world, temp1);
+                if (biome == -1) biome = t.adjustedNonCaveBiome(world, temp1);
+                t.setBiome(i, j, k, biome);
+            }
+        }
+        else for (int i = x1; i < x1 + 16; i += TerrainSegment.GRIDSIZE)
             for (int j = y1; j < y1 + 16; j += TerrainSegment.GRIDSIZE)
                 for (int k = z1; k < z1 + 16; k += TerrainSegment.GRIDSIZE)
                 {
@@ -656,7 +673,7 @@ public final class SpawnHandler
         int num = 0;
         if (!SpawnHandler.checkNoSpawnerInArea(world, v.intX(), v.intY(), v.intZ())) return ret;
         if (v.y <= 0 || v.y >= world.getActualHeight()) return ret;
-        SpawnHandler.refreshTerrain(v, world);
+        SpawnHandler.refreshTerrain(v, world, true);
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, v);
         if (SpawnHandler.onlySubbiomes && t.getBiome(v) < 0) return ret;
         long time = System.nanoTime();
@@ -690,27 +707,27 @@ public final class SpawnHandler
      * @param world
      * @return number of mobs spawned.
      */
-    public int doSpawnForPlayer(final PlayerEntity player, final World world)
+    public void doSpawnForPlayer(final PlayerEntity player, final World world)
     {
         long time = System.nanoTime();
         final int radius = PokecubeCore.getConfig().maxSpawnRadius;
         this.v.set(player);
-        if (!TerrainManager.isAreaLoaded(world, this.v, radius)) return 0;
-        if (!Tools.isAnyPlayerInRange(radius, 10, world, this.v)) return 0;
+        if (!TerrainManager.isAreaLoaded(world, this.v, radius)) return;
+        if (!Tools.isAnyPlayerInRange(radius, 10, world, this.v)) return;
         final int height = world.getActualHeight();
         final AxisAlignedBB box = this.v.getAABB().grow(radius, Math.max(height, radius), radius);
         int num = PokemobTracker.countPokemobs(world, box);
-        if (num > SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return 0;
+        if (num > SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return;
         final Vector3 v = SpawnHandler.getRandomPointNear(player, PokecubeCore.getConfig().maxSpawnRadius);
         double dt = (System.nanoTime() - time) / 1000d;
         if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.info("Location Find took " + dt);
-        if (v == null) return 0;
+        if (v == null) return;
         time = System.nanoTime();
         num = this.doSpawnForLocation(world, v);
         dt = (System.nanoTime() - time) / 10e3D;
         if (PokecubeMod.debug && dt > 100) PokecubeCore.LOGGER.info(dt + "\u00B5" + "s for player " + player
                 .getDisplayName().getUnformattedComponentText() + " at " + v + ", spawned " + num);
-        return num;
+        return;
     }
 
     private int doSpawnForType(final World world, final Vector3 loc, final PokedexEntry dbe, final JEP parser,
@@ -721,6 +738,7 @@ public final class SpawnHandler
         int totalSpawnCount = 0;
         final Vector3 offset = this.v1.clear();
         final Vector3 point = this.v2.clear();
+        SpawnHandler.refreshTerrain(loc, world, true);
         final SpawnBiomeMatcher matcher = entry.getMatcher(world, loc);
         final byte distGroupZone = 6;
         final Random rand = new Random();

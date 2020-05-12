@@ -1,6 +1,7 @@
 package pokecube.core.world.terrain;
 
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 
@@ -10,19 +11,27 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.PokedexEntryLoader;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
+import thut.api.terrain.StructureManager;
+import thut.api.terrain.StructureManager.StructureInfo;
 import thut.api.terrain.TerrainSegment;
 import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
 
 public class PokecubeTerrainChecker implements ISubBiomeChecker
 {
+    private static class StructInfo
+    {
+        public String struct;
+        public String subbiome;
+    }
+
     public static BiomeType INSIDE = BiomeType.getBiome("inside", true);
 
     public static ResourceLocation CAVETAG       = new ResourceLocation(PokecubeCore.MODID, "cave");
@@ -37,6 +46,16 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     public static ResourceLocation WOODTAG       = new ResourceLocation(PokecubeCore.MODID, "wood");
 
     public static Map<String, String> structureSubbiomeMap = Maps.newHashMap();
+
+    public static void initStructMap()
+    {
+        PokecubeTerrainChecker.structureSubbiomeMap.clear();
+        for (final String s : PokecubeCore.getConfig().structure_subbiomes)
+        {
+            final StructInfo info = PokedexEntryLoader.gson.fromJson(s, StructInfo.class);
+            PokecubeTerrainChecker.structureSubbiomeMap.put(info.struct, info.subbiome);
+        }
+    }
 
     public static void init()
     {
@@ -108,22 +127,16 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     {
         if (caveAdjusted)
         {
-            if (world instanceof ServerWorld)
+            final Set<StructureInfo> set = StructureManager.getFor(v.getPos());
+            for (final StructureInfo info : set)
             {
-                final ServerWorld worldS = (ServerWorld) world;
-                final ChunkGenerator<?> generator = worldS.getChunkProvider().generator;
-
-                if (generator != null) for (final String key : PokecubeTerrainChecker.structureSubbiomeMap.keySet())
+                final String name = info.name;
+                String subbiome = PokecubeTerrainChecker.structureSubbiomeMap.get(name);
+                if (subbiome == null && PokecubeCore.getConfig().structs_default_ruins) subbiome = "ruin";
+                if (subbiome != null)
                 {
-                    final BlockPos near = worldS.getChunkProvider().getChunkGenerator().findNearestStructure(worldS,
-                            key, v.getPos(), 0, true);
-                    final boolean in = near != null && v.distanceTo(Vector3.getNewVector().set(near)) < 16;
-                    if (in)
-                    {
-                        final String mapping = PokecubeTerrainChecker.structureSubbiomeMap.get(key);
-                        final BiomeType biome = BiomeType.getBiome(mapping, true);
-                        return biome.getType();
-                    }
+                    final BiomeType biom = BiomeType.getBiome(subbiome, true);
+                    return biom.getType();
                 }
             }
             if (world.getDimension().doesWaterVaporize() || v.canSeeSky(world) || !PokecubeCore
@@ -138,15 +151,15 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
             int industrial = 0;
             int water = 0;
             outer:
-            for (int i = x1; i < x1 + TerrainSegment.GRIDSIZE; i++)
-                for (int j = y1; j < y1 + TerrainSegment.GRIDSIZE; j++)
-                    for (int k = z1; k < z1 + TerrainSegment.GRIDSIZE; k++)
+            for (int x = x1; x < x1 + TerrainSegment.GRIDSIZE; x++)
+                for (int y = y1; y < y1 + TerrainSegment.GRIDSIZE; y++)
+                    for (int z = z1; z < z1 + TerrainSegment.GRIDSIZE; z++)
                     {
-                        temp1.set(i, j, k);
+                        temp1.set(x, y, z);
                         if (segment.isInTerrainSegment(temp1.x, temp1.y, temp1.z))
                         {
-                            final double y = temp1.getMaxY(world);
-                            sky = y <= temp1.y;
+                            final double y2 = temp1.getMaxY(world);
+                            sky = y2 <= temp1.y;
                         }
                         BlockState state;
                         if (PokecubeTerrainChecker.isIndustrial(state = temp1.getBlockState(world))) industrial++;

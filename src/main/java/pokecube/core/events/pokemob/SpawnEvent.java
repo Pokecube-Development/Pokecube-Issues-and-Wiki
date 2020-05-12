@@ -53,16 +53,10 @@ public class SpawnEvent extends Event
 
     public static class Function
     {
-        public final String  function;
-        public final boolean radial;
-        public final boolean central;
-
-        public Function(final String[] args)
-        {
-            this.function = args[1];
-            this.radial = Boolean.parseBoolean(args[2]);
-            this.central = Boolean.parseBoolean(args[3]);
-        }
+        public String  dim;
+        public String  func;
+        public boolean radial;
+        public boolean central;
     }
 
     public static class FunctionVariance extends Variance
