@@ -110,7 +110,7 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
         this.checkPower(1);
         if (this.power == 0) return;
         if (this.chunk == null) this.chunk = this.getWorld().getChunkAt(this.getPos());
-        final ClassInheritanceMultiMap<Entity> mobs = this.chunk.getEntityLists()[this.getPos().getY() / 16];
+        final ClassInheritanceMultiMap<Entity> mobs = this.chunk.getEntityLists()[this.getPos().getY() >> 4];
         final List<Entity> list = Lists.newArrayList(mobs);
         boolean applied = false;
 
