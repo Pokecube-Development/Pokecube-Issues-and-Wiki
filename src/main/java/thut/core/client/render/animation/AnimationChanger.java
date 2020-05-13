@@ -11,8 +11,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.DyeColor;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import thut.api.ThutCaps;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
 import thut.api.entity.ShearableCaps;
@@ -20,8 +19,6 @@ import thut.core.client.render.animation.CapabilityAnimation.IAnimationHolder;
 
 public class AnimationChanger implements IAnimationChanger
 {
-    @CapabilityInject(IMobColourable.class)
-    public static final Capability<IMobColourable> CAPABILITY = null;
 
     List<IAnimationChanger>  children   = Lists.newArrayList();
     /** These parts can be sheared off. */
@@ -110,7 +107,7 @@ public class AnimationChanger implements IAnimationChanger
     {
         this.checkWildCard(partIdentifier);
         int rgba = 0xFF000000;
-        final IMobColourable pokemob = entity.getCapability(AnimationChanger.CAPABILITY).orElse(null);
+        final IMobColourable pokemob = entity.getCapability(ThutCaps.COLOURABLE).orElse(null);
         if (pokemob == null) return rgba;
         if (this.dyeables.contains(partIdentifier))
         {
