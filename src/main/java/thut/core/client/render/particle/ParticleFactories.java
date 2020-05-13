@@ -13,6 +13,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.api.ThutParticles;
 import thut.api.maths.Vector3;
 
 @OnlyIn(value = Dist.CLIENT)

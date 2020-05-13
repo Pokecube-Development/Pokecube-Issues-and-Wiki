@@ -1,4 +1,4 @@
-package thut.core.client.render.particle;
+package thut.api;
 
 import java.util.Random;
 
@@ -8,6 +8,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.core.client.render.particle.ParticleBase;
+import thut.core.client.render.particle.ParticleNoGravity;
+import thut.core.client.render.particle.ParticleOrientable;
 import thut.core.common.ThutCore;
 
 public class ThutParticles
