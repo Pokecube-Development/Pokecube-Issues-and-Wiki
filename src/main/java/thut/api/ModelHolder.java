@@ -1,4 +1,4 @@
-package thut.core.client.render.animation;
+package thut.api;
 
 import java.util.List;
 
