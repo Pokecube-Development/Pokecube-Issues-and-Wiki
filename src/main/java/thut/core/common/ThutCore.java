@@ -58,7 +58,6 @@ import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.common.config.Config;
 import thut.core.common.genetics.DefaultGeneStorage;
 import thut.core.common.genetics.DefaultGenetics;
@@ -278,7 +277,6 @@ public class ThutCore
         CapabilityManager.INSTANCE.register(IMobTexturable.class, new IMobTexturable.Storage(),
                 IMobTexturable.Defaults::new);
 
-        CapabilityAnimation.setup();
         OwnableCaps.setup();
         LinkableCaps.setup();
         ShearableCaps.setup();

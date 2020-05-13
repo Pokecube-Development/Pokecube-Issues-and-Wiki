@@ -24,6 +24,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -31,6 +32,7 @@ import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.client.gui.ConfigGui;
+import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.common.ThutCore;
 
@@ -142,6 +144,13 @@ public class ClientProxy extends CommonProxy
         // Register config gui
         ModList.get().getModContainerById(ThutCore.MODID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(ThutCore.conf, parent)));
+    }
+
+    @Override
+    public void setup(final FMLCommonSetupEvent event)
+    {
+        super.setup(event);
+        CapabilityAnimation.setup();
     }
 
     @SubscribeEvent
