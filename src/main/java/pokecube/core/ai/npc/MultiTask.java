@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
@@ -28,7 +27,6 @@ public class MultiTask<E extends LivingEntity> extends Task<E>
         CONTINUE = ObfuscationReflectionHelper.findMethod(Task.class, "func_212834_g_", ServerWorld.class,
                 LivingEntity.class, long.class);
     }
-
     private final Set<MemoryModuleType<?>>      memoryModules;
     private final MultiTask.Ordering            ordering;
     private final MultiTask.RunType             runType;
@@ -44,7 +42,7 @@ public class MultiTask<E extends LivingEntity> extends Task<E>
         this.runType = type;
         tasks.forEach((pair) ->
         {
-            this.tasks.func_220656_a(pair.getFirst(), pair.getSecond());
+            this.tasks.func_226313_a_(pair.getFirst(), pair.getSecond());
         });
     }
 
@@ -103,9 +101,7 @@ public class MultiTask<E extends LivingEntity> extends Task<E>
         {
             p_220412_4_.stop(worldIn, entityIn, gameTimeIn);
         });
-        final Set<MemoryModuleType<?>> set = this.memoryModules;
-        final Brain<?> brain = entityIn.getBrain();
-        set.forEach(brain::removeMemory);
+        this.memoryModules.forEach(entityIn.getBrain()::removeMemory);
     }
 
     @Override
@@ -122,7 +118,7 @@ public class MultiTask<E extends LivingEntity> extends Task<E>
     {
         ORDERED((p_220627_0_) ->
         {
-        }), SHUFFLED(WeightedList::func_220654_a);
+        }), SHUFFLED(WeightedList::func_226309_a_);
 
         private final Consumer<WeightedList<?>> field_220629_c;
 
