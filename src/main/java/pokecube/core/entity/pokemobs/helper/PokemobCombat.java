@@ -2,10 +2,12 @@ package pokecube.core.entity.pokemobs.helper;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob.Stats;
@@ -19,6 +21,7 @@ public abstract class PokemobCombat extends PokemobRidable
         super(type, worldIn);
     }
 
+    @Override
     public boolean attackFromPart(final PokemobPart pokemobPart, final DamageSource source, final float amount)
     {
         return this.attackEntityFrom(source, amount);
@@ -51,6 +54,24 @@ public abstract class PokemobCombat extends PokemobRidable
                     SharedMonsterAttributes.ARMOR_TOUGHNESS).getValue());
         }
         return damage;
+    }
+
+    @Override
+    protected void func_226294_cV_()
+    {
+        if (!this.world.isRemote && (this.isPlayer() || this.recentlyHit > 0 && this.canDropLoot() && this.world
+                .getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) && this.pokemobCap.getOwnerId() == null)
+        {
+            int i = this.getExperiencePoints(this.attackingPlayer);
+            i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.attackingPlayer, i);
+            while (i > 0)
+            {
+                final int j = ExperienceOrbEntity.getXPSplit(i);
+                i -= j;
+                this.world.addEntity(new ExperienceOrbEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(),
+                        j));
+            }
+        }
     }
 
     @Override

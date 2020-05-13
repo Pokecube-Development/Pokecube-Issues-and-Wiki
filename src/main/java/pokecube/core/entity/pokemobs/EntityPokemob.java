@@ -16,7 +16,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -33,7 +32,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -144,19 +142,6 @@ public class EntityPokemob extends PokemobHasParts
         ++this.deathTime;
         if (this.deathTime == PokecubeCore.getConfig().deadDespawnTimer)
         {
-            if (!this.world.isRemote && this.recentlyHit > 0 && this.canDropLoot() && this.world.getGameRules()
-                    .getBoolean(GameRules.DO_MOB_LOOT) && this.pokemobCap.getOwnerId() == null)
-            {
-                int i = this.getExperiencePoints(this.attackingPlayer);
-
-                i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.attackingPlayer, i);
-                while (i > 0)
-                {
-                    final int j = ExperienceOrbEntity.getXPSplit(i);
-                    i -= j;
-                    this.world.addEntity(new ExperienceOrbEntity(this.world, this.posX, this.posY, this.posZ, j));
-                }
-            }
             final FaintEvent event = new FaintEvent(this.pokemobCap);
             PokecubeCore.POKEMOB_BUS.post(event);
             final Result res = event.getResult();
