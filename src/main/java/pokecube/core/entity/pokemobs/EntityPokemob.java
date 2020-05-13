@@ -145,7 +145,7 @@ public class EntityPokemob extends PokemobHasParts
         if (this.deathTime == PokecubeCore.getConfig().deadDespawnTimer)
         {
             if (!this.world.isRemote && this.recentlyHit > 0 && this.canDropLoot() && this.world.getGameRules()
-                    .getBoolean(GameRules.DO_MOB_LOOT))
+                    .getBoolean(GameRules.DO_MOB_LOOT) && this.pokemobCap.getOwnerId() == null)
             {
                 int i = this.getExperiencePoints(this.attackingPlayer);
 
