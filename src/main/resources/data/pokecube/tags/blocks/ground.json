@@ -3,6 +3,7 @@
   "values": [
     "#forge:dirt",
     "#forge:gravel",
-    "#forge:sand"
+    "#forge:sand",
+    "minecraft:cobblestone"
   ]
 }
