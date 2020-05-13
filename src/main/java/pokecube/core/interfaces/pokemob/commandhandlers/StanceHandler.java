@@ -36,23 +36,12 @@ public class StanceHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
+        boolean stay = pokemob.getGeneralState(GeneralStates.STAYING);
+        final IGuardAICapability guard = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP, null).orElse(null);
         switch (this.key)
         {
         case STAY:
-            boolean stay;
             pokemob.setGeneralState(GeneralStates.STAYING, stay = !pokemob.getGeneralState(GeneralStates.STAYING));
-            final IGuardAICapability guard = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP, null)
-                    .orElse(null);
-            if (stay)
-            {
-                final Vector3 mid = Vector3.getNewVector().set(pokemob.getEntity());
-                if (guard != null)
-                {
-                    guard.getPrimaryTask().setActiveTime(TimePeriod.fullDay);
-                    guard.getPrimaryTask().setPos(mid.getPos());
-                }
-            }
-            else if (guard != null) guard.getPrimaryTask().setActiveTime(TimePeriod.never);
             break;
         case GUARD:
             if (PokecubeCore.getConfig().guardModeEnabled) pokemob.setCombatState(CombatStates.GUARDING, !pokemob
@@ -68,6 +57,16 @@ public class StanceHandler extends DefaultHandler
                     CombatStates.USINGGZMOVE) ? "set" : "unset")));
             break;
         }
+        if (stay)
+        {
+            final Vector3 mid = Vector3.getNewVector().set(pokemob.getEntity());
+            if (guard != null)
+            {
+                guard.getPrimaryTask().setActiveTime(TimePeriod.fullDay);
+                guard.getPrimaryTask().setPos(mid.getPos());
+            }
+        }
+        else if (guard != null) guard.getPrimaryTask().setActiveTime(TimePeriod.never);
     }
 
     @Override

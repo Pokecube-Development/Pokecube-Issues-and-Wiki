@@ -113,11 +113,6 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public void tick()
     {
-        if (this.getPersistentData().getBoolean(TagNames.REMOVED))
-        {
-            this.remove();
-            return;
-        }
         if (this.getEntityWorld() instanceof ServerWorld)
         {
             if (this.pokemobCap.getOwnerId() != null)

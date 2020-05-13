@@ -355,32 +355,32 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Draw gender, types and lvl
             int genderColor = 0xBBBBBB;
             String gender = "";
-            if (pokemob.getSexe() == IPokemob.MALE)
+            if (this.pokemob.getSexe() == IPokemob.MALE)
             {
                 genderColor = 0x0011CC;
                 gender = "\u2642";
             }
-            else if (pokemob.getSexe() == IPokemob.FEMALE)
+            else if (this.pokemob.getSexe() == IPokemob.FEMALE)
             {
                 genderColor = 0xCC5555;
                 gender = "\u2640";
             }
-            final String level = "L. " + pokemob.getLevel();
+            final String level = "L. " + this.pokemob.getLevel();
             dx = -74;
             dy = 42;
             this.drawString(this.font, level, x + dx, y + dy, 0xffffff);
             dx = -40;
             this.drawCenteredString(this.font, gender, x + dx, y + dy, genderColor);
-            pokemob.getType1();
-            final String type1 = PokeType.getTranslatedName(pokemob.getType1());
-            final String type2 = PokeType.getTranslatedName(pokemob.getType2());
+            this.pokemob.getType1();
+            final String type1 = PokeType.getTranslatedName(this.pokemob.getType1());
+            final String type2 = PokeType.getTranslatedName(this.pokemob.getType2());
             dx = -74;
             dy = 52;
-            colour = pokemob.getType1().colour;
+            colour = this.pokemob.getType1().colour;
             this.drawString(this.font, type1, x + dx, y + dy, colour);
-            colour = pokemob.getType2().colour;
+            colour = this.pokemob.getType2().colour;
             dy = 62;
-            if (pokemob.getType2() != PokeType.unknown) this.drawString(this.font, type2, x + dx, y + dy, colour);
+            if (this.pokemob.getType2() != PokeType.unknown) this.drawString(this.font, type2, x + dx, y + dy, colour);
 
             // Draw box around where type displays
             dx = -76;

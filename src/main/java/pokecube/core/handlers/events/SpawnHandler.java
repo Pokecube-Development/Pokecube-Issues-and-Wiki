@@ -459,6 +459,18 @@ public final class SpawnHandler
         SpawnHandler.parsers.put(dim, SpawnHandler.initJEP(new JEP(), func.func, func.radial));
     }
 
+    public static JEP getParser(final DimensionType dim)
+    {
+        if (SpawnHandler.functions.isEmpty()) SpawnHandler.initSpawnFunctions();
+        return SpawnHandler.parsers.getOrDefault(dim, SpawnHandler.parsers.get(DimensionType.OVERWORLD));
+    }
+
+    public static Function getFunction(final DimensionType dim)
+    {
+        if (SpawnHandler.functions.isEmpty()) SpawnHandler.initSpawnFunctions();
+        return SpawnHandler.functions.getOrDefault(dim, SpawnHandler.functions.get(DimensionType.OVERWORLD));
+    }
+
     public static void initSpawnFunctions()
     {
         for (final String s : PokecubeCore.getConfig().dimensionSpawnLevels)
@@ -485,37 +497,11 @@ public final class SpawnHandler
     private static int parse(final IWorld world, final Vector3 location)
     {
         final Vector3 spawn = SpawnHandler.temp.set(world.getWorld().getSpawnPoint());
-        JEP toUse;
         final DimensionType type = world.getDimension().getType();
-        boolean isNew = false;
-        Function function;
-
-        if (SpawnHandler.functions.isEmpty()) SpawnHandler.initSpawnFunctions();
-
-        if (SpawnHandler.functions.containsKey(type)) function = SpawnHandler.functions.get(type);
-        else function = SpawnHandler.functions.get(0);
-        if (function == null)
-        {
-            PokecubeCore.LOGGER.error("No Spawn functions found " + SpawnHandler.functions);
-            return 0;
-        }
-        if (function.central) spawn.clear();
-        if (SpawnHandler.parsers.containsKey(type)) toUse = SpawnHandler.parsers.get(type);
-        else
-        {
-            SpawnHandler.parsers.put(type, new JEP());
-            toUse = SpawnHandler.parsers.get(type);
-            isNew = true;
-        }
-        if (Double.isNaN(toUse.getValue()))
-        {
-            toUse = new JEP();
-            SpawnHandler.parsers.put(type, toUse);
-            isNew = true;
-        }
+        final JEP toUse = SpawnHandler.getParser(type);
+        final Function function = SpawnHandler.getFunction(type);
         final boolean r = function.radial;
-        if (!r) SpawnHandler.parseExpression(toUse, function.func, location.x - spawn.x, location.z - spawn.z, r,
-                isNew);
+        if (!r) SpawnHandler.parseExpression(toUse, location.x - spawn.x, location.z - spawn.z, r);
         else
         {
             /**
@@ -524,7 +510,7 @@ public final class SpawnHandler
              */
             spawn.y = location.y;
             final double d = location.distTo(spawn);
-            SpawnHandler.parseExpression(toUse, function.func, d, location.y, r, isNew);
+            SpawnHandler.parseExpression(toUse, d, location.y, r);
         }
         return (int) Math.abs(toUse.getValue());
     }
@@ -547,10 +533,8 @@ public final class SpawnHandler
         return parser;
     }
 
-    private static void parseExpression(final JEP parser, final String toParse, final double xValue,
-            final double yValue, final boolean r, final boolean isNew)
+    private static void parseExpression(final JEP parser, final double xValue, final double yValue, final boolean r)
     {
-        if (isNew) SpawnHandler.initJEP(parser, toParse, r);
         if (!r)
         {
             parser.setVarValue("x", xValue);
@@ -738,12 +722,11 @@ public final class SpawnHandler
         int totalSpawnCount = 0;
         final Vector3 offset = this.v1.clear();
         final Vector3 point = this.v2.clear();
-        SpawnHandler.refreshTerrain(loc, world, true);
+        SpawnHandler.refreshTerrain(loc, world, false);
         final SpawnBiomeMatcher matcher = entry.getMatcher(world, loc);
         if (matcher == null) return 0;
         final byte distGroupZone = 6;
         final Random rand = new Random();
-
         final int n = Math.max(entry.getMax(matcher) - entry.getMin(matcher), 1);
         final int spawnNumber = entry.getMin(matcher) + rand.nextInt(n);
 
