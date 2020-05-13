@@ -53,6 +53,7 @@ public class CaptureManager
         final IPokecube cubeItem = (IPokecube) cube.getItem().getItem();
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
         final Vector3 v = Vector3.getNewVector();
+        cube.autoRelease = -1;
         if (modifier <= 0)
         {
             cube.setNotCapturing();
@@ -60,83 +61,90 @@ public class CaptureManager
         }
         if (cube.shootingEntity != null && hitten != null && hitten.getOwner() == cube.shootingEntity) return;
 
-        final IRunnable task = w ->
+        boolean removeMob = false;
+
+        if (hitten != null)
         {
-            if (hitten != null)
+
+            final int tiltBak = cube.getTilt();
+            final CaptureEvent.Pre capturePre = new Pre(hitten, cube);
+            PokecubeCore.POKEMOB_BUS.post(capturePre);
+            if (capturePre.isCanceled() || capturePre.getResult() == Result.DENY)
             {
-
-                final int tiltBak = cube.getTilt();
-                final CaptureEvent.Pre capturePre = new Pre(hitten, cube);
-                PokecubeCore.POKEMOB_BUS.post(capturePre);
-                if (capturePre.isCanceled() || capturePre.getResult() == Result.DENY)
+                if (cube.getTilt() != tiltBak)
                 {
-                    if (cube.getTilt() != tiltBak)
-                    {
-                        if (cube.getTilt() == 5) cube.setTime(10);
-                        else cube.setTime(20 * cube.getTilt());
-                        hitten.setPokecube(cube.getItem());
-                        cube.setItem(PokecubeManager.pokemobToItem(hitten));
-                        PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
-                        v.set(cube).addTo(0, mob.getHeight() / 2, 0).moveEntity(cube);
-                        world.removeEntity(hitten.getEntity(), true);
-                        cube.setCapturing(mob);
-                    }
-                }
-                else
-                {
-                    final int n = Tools.computeCatchRate(hitten, cubeId);
-                    cube.setTilt(n);
-
-                    if (n == 5) cube.setTime(10);
-                    else cube.setTime(20 * n);
-
+                    if (cube.getTilt() == 5) cube.setTime(10);
+                    else cube.setTime(20 * cube.getTilt());
                     hitten.setPokecube(cube.getItem());
                     cube.setItem(PokecubeManager.pokemobToItem(hitten));
-                    PokecubeManager.setTilt(cube.getItem(), n);
+                    PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
                     v.set(cube).addTo(0, mob.getHeight() / 2, 0).moveEntity(cube);
-                    world.removeEntity(hitten.getEntity(), true);
+                    removeMob = true;
                     cube.setCapturing(mob);
                 }
             }
             else
             {
-                int n = 0;
-                rate:
-                {
-                    final int catchRate = 250;// TODO configs for this?
-                    final double cubeBonus = modifier;
-                    final double statusbonus = 1;// TODO statuses for mobs?
-                    final double a = Tools.getCatchRate(mob.getMaxHealth(), mob.getHealth(), catchRate, cubeBonus,
-                            statusbonus);
-                    if (a > 255)
-                    {
-                        n = 5;
-                        break rate;
-                    }
-                    final double b = 1048560 / Math.sqrt(Math.sqrt(16711680 / a));
-
-                    if (rand.nextInt(65535) <= b) n++;
-
-                    if (rand.nextInt(65535) <= b) n++;
-
-                    if (rand.nextInt(65535) <= b) n++;
-
-                    if (rand.nextInt(65535) <= b) n++;
-                }
+                final int n = Tools.computeCatchRate(hitten, cubeId);
                 cube.setTilt(n);
+
                 if (n == 5) cube.setTime(10);
                 else cube.setTime(20 * n);
-                final ItemStack mobStack = cube.getItem().copy();
-                PokecubeManager.addToCube(mobStack, mob);
-                cube.setItem(mobStack);
+
+                hitten.setPokecube(cube.getItem());
+                cube.setItem(PokecubeManager.pokemobToItem(hitten));
                 PokecubeManager.setTilt(cube.getItem(), n);
                 v.set(cube).addTo(0, mob.getHeight() / 2, 0).moveEntity(cube);
-                world.removeEntity(mob, true);
+                removeMob = true;
                 cube.setCapturing(mob);
             }
-            return true;
-        };
-        EventsHandler.Schedule(world, task);
+        }
+        else
+        {
+            int n = 0;
+            rate:
+            {
+                final int catchRate = 250;// TODO configs for this?
+                final double cubeBonus = modifier;
+                final double statusbonus = 1;// TODO statuses for mobs?
+                final double a = Tools.getCatchRate(mob.getMaxHealth(), mob.getHealth(), catchRate, cubeBonus,
+                        statusbonus);
+                if (a > 255)
+                {
+                    n = 5;
+                    break rate;
+                }
+                final double b = 1048560 / Math.sqrt(Math.sqrt(16711680 / a));
+
+                if (rand.nextInt(65535) <= b) n++;
+
+                if (rand.nextInt(65535) <= b) n++;
+
+                if (rand.nextInt(65535) <= b) n++;
+
+                if (rand.nextInt(65535) <= b) n++;
+            }
+            cube.setTilt(n);
+            if (n == 5) cube.setTime(10);
+            else cube.setTime(20 * n);
+            final ItemStack mobStack = cube.getItem().copy();
+            PokecubeManager.addToCube(mobStack, mob);
+            cube.setItem(mobStack);
+            PokecubeManager.setTilt(cube.getItem(), n);
+            v.set(cube).addTo(0, mob.getHeight() / 2, 0).moveEntity(cube);
+            removeMob = true;
+            cube.setCapturing(mob);
+        }
+
+        if (removeMob)
+        {
+            final IRunnable task = w ->
+            {
+                world.removeEntity(hitten.getEntity(), true);
+                return true;
+            };
+            EventsHandler.Schedule(world, task);
+        }
     }
 
     public static void captureFailed(final EntityPokecubeBase cube)
