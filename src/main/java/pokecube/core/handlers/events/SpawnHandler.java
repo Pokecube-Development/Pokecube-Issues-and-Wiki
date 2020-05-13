@@ -565,8 +565,9 @@ public final class SpawnHandler
             final int j = location.intY();
             final int k = location.intZ();
             int biome = t.getBiome(i, j, k);
-            if (SpawnHandler.biomeToRefresh.apply(biome) || SpawnHandler.refreshSubbiomes)
+            if (SpawnHandler.biomeToRefresh.apply(biome))
             {
+                temp1.set(i, j, k);
                 biome = t.adjustedCaveBiome(world, temp1);
                 if (biome == -1) biome = t.adjustedNonCaveBiome(world, temp1);
                 t.setBiome(i, j, k, biome);
@@ -578,7 +579,7 @@ public final class SpawnHandler
                 {
                     temp1.set(i, j, k);
                     int biome = t.getBiome(i, j, k);
-                    if (SpawnHandler.biomeToRefresh.apply(biome) || SpawnHandler.refreshSubbiomes)
+                    if (SpawnHandler.biomeToRefresh.apply(biome))
                     {
                         biome = t.adjustedCaveBiome(world, temp1);
                         if (biome == -1) biome = t.adjustedNonCaveBiome(world, temp1);

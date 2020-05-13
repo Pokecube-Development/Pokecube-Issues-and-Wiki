@@ -24,7 +24,7 @@ public class PCInventory extends BigInventory
         try
         {
             id = UUID.fromString(player);
-            PCInventory.addStackToPC(id, mob);
+            PCInventory.addStackToPC(id, mob, world);
         }
         catch (final Exception e)
         {
@@ -32,7 +32,7 @@ public class PCInventory extends BigInventory
         }
     }
 
-    public static void addStackToPC(final UUID uuid, final ItemStack mob)
+    public static void addStackToPC(final UUID uuid, final ItemStack mob, final World world)
     {
         if (uuid == null || mob.isEmpty())
         {
@@ -46,7 +46,7 @@ public class PCInventory extends BigInventory
         if (PokecubeManager.isFilled(mob))
         {
             final ItemStack stack = mob;
-            PokecubeManager.heal(stack, PokecubeCore.proxy.getWorld());
+            if (world != null) PokecubeManager.heal(stack, world);
             PlayerPokemobCache.UpdateCache(mob, true, false);
             if (PokecubeCore.proxy.getPlayer(uuid) != null) PokecubeCore.proxy.getPlayer(uuid).sendMessage(
                     new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()));
