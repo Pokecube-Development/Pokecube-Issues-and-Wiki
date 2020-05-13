@@ -1,4 +1,4 @@
-package pokecube.mobs.client;
+package pokecube.mobs.proxy;
 
 import java.awt.Color;
 
@@ -19,7 +19,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.megastuff.WearablesCompat;
 import pokecube.core.items.megastuff.WearablesCompat.WearablesRenderer;
-import pokecube.mobs.CommonProxy;
 import pokecube.mobs.client.smd.SMDModel;
 import thut.bling.client.render.Util;
 import thut.core.client.render.model.ModelFactory;

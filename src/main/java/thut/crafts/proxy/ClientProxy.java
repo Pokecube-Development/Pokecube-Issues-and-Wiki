@@ -1,4 +1,4 @@
-package thut.crafts.client;
+package thut.crafts.proxy;
 
 import java.util.List;
 
@@ -38,7 +38,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import thut.api.entity.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
-import thut.crafts.CommonProxy;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
