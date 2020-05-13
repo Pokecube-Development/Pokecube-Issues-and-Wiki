@@ -41,7 +41,6 @@ import thut.api.maths.Vector3;
 import thut.crafts.ThutCrafts;
 import thut.crafts.entity.CraftController;
 import thut.crafts.entity.EntityCraft;
-import thut.crafts.entity.EntityTest;
 import thut.crafts.network.PacketCraftControl;
 
 public class ClientProxy extends CommonProxy
@@ -166,7 +165,7 @@ public class ClientProxy extends CommonProxy
                 final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
                 final IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);
                 for (final Pair<Vector3f, Vector3f> line : lines)
-                    thut.core.client.ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
+                    thut.core.proxy.ClientProxy.line(builder, positionMatrix, line.getLeft(), line.getRight(), 1, 0, 0,
                             1f);
                 mat.pop();
             }
@@ -200,6 +199,5 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerKeyBinding(this.ROTATERIGHT);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityCraft.CRAFTTYPE, RenderBlockEntity::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTest.TYPE, RenderEntity::new);
     }
 }
