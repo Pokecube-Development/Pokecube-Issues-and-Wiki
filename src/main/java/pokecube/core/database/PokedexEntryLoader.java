@@ -143,6 +143,14 @@ public class PokedexEntryLoader
         public Set<String>              _hide_      = Sets.newHashSet();
         private final List<FormeHolder> _matches    = Lists.newArrayList();
 
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (!(obj instanceof DefaultFormeHolder)) return false;
+            if (this.key == null) return super.equals(obj);
+            return this.key.equals(((DefaultFormeHolder) obj).key);
+        }
+
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
             if (this.key.endsWith("*"))
@@ -375,6 +383,8 @@ public class PokedexEntryLoader
                 final String val = var.getValue();
                 if (!val.equals(other.values.get(key))) return false;
             }
+            if (this.model != null) return this.model.equals(other.model);
+            if (this.model == null && other.model != null) return false;
             return true;
         }
 
