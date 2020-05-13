@@ -17,9 +17,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import thut.api.ThutParticles;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vector3f;
+import thut.api.particle.ParticleBase;
+import thut.api.particle.ParticleNoGravity;
+import thut.api.particle.ThutParticles;
 
 @OnlyIn(value = Dist.CLIENT)
 public class ParticleFactories

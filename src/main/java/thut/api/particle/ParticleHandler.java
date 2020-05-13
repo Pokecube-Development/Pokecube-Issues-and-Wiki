@@ -1,4 +1,4 @@
-package thut.core.client.render.particle;
+package thut.api.particle;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package thut.core.client.render.particle;
+package thut.api.particle;
 
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.mojang.brigadier.StringReader;

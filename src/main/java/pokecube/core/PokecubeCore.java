@@ -97,8 +97,8 @@ import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
-import thut.api.ThutParticles;
 import thut.api.maths.Vector3;
+import thut.api.particle.ThutParticles;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 

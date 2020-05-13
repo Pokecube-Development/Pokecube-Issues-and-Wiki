@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.util.ResourceLocation;
-import thut.core.client.render.animation.ModelHolder;
+import thut.api.ModelHolder;
 import thut.core.client.render.mca.McaModel;
 import thut.core.client.render.obj.ObjModel;
 import thut.core.client.render.x3d.X3dModel;
