@@ -1,4 +1,4 @@
-package thut.crafts;
+package thut.crafts.proxy;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -21,6 +21,7 @@ import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.maths.Vector3;
 import thut.core.common.Proxy;
 import thut.core.common.network.EntityUpdate;
+import thut.crafts.ThutCrafts;
 import thut.crafts.entity.EntityCraft;
 
 public class CommonProxy implements Proxy

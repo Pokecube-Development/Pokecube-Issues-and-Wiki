@@ -1,4 +1,4 @@
-package thut.core.client;
+package thut.core.proxy;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -28,7 +28,6 @@ import thut.api.terrain.TerrainSegment;
 import thut.core.client.gui.ConfigGui;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.client.render.particle.ThutParticles;
-import thut.core.common.CommonProxy;
 import thut.core.common.ThutCore;
 
 public class ClientProxy extends CommonProxy

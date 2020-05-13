@@ -1,4 +1,4 @@
-package pokecube.core.client;
+package pokecube.core.proxy;
 
 import java.security.MessageDigest;
 import java.util.Map;
@@ -45,10 +45,12 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import pokecube.core.CommonProxy;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerTile;
+import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.MoveSound;
+import pokecube.core.client.PokecenterSound;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;

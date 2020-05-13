@@ -57,7 +57,6 @@ import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.client.ClientProxy;
 import thut.core.client.render.animation.CapabilityAnimation;
 import thut.core.client.render.particle.ThutParticles;
 import thut.core.common.config.Config;
@@ -72,6 +71,8 @@ import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
+import thut.core.proxy.ClientProxy;
+import thut.core.proxy.CommonProxy;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ThutCore.MODID)

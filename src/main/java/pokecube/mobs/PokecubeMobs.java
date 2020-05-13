@@ -61,8 +61,9 @@ import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import pokecube.mobs.abilities.AbilityRegister;
-import pokecube.mobs.client.ClientProxy;
 import pokecube.mobs.moves.MoveRegister;
+import pokecube.mobs.proxy.ClientProxy;
+import pokecube.mobs.proxy.CommonProxy;
 import thut.api.maths.Vector3;
 
 @Mod(value = PokecubeMobs.MODID)
