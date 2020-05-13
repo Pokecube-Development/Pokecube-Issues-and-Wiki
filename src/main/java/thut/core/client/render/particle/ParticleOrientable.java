@@ -13,7 +13,7 @@ import thut.api.maths.vecmath.Vector3f;
 
 public class ParticleOrientable extends ParticleBase
 {
-    Vector4 orientation;
+    public Vector4 orientation;
 
     public ParticleOrientable(final int x, final int y)
     {

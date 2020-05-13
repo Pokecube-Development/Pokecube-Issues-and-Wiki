@@ -25,13 +25,13 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import thut.api.ThutParticles;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.client.gui.ConfigGui;
 import thut.core.client.render.particle.ParticleFactories;
-import thut.core.client.render.particle.ThutParticles;
 import thut.core.common.ThutCore;
 
 public class ClientProxy extends CommonProxy

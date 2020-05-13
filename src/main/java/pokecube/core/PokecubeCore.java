@@ -97,9 +97,8 @@ import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
+import thut.api.ThutParticles;
 import thut.api.maths.Vector3;
-import thut.core.client.render.animation.CapabilityAnimation;
-import thut.core.client.render.particle.ThutParticles;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 
@@ -414,9 +413,6 @@ public class PokecubeCore
         PlayerDataHandler.register(PokecubePlayerStats.class);
         PlayerDataHandler.register(PokecubePlayerCustomData.class);
         PlayerDataHandler.register(PlayerPokemobCache.class);
-
-        // Register the pokemob class for animations.
-        CapabilityAnimation.registerAnimateClass(GenericPokemob.class);
 
         // Initialize advancement triggers
         Triggers.init();

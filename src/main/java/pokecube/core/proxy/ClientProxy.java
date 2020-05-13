@@ -92,6 +92,7 @@ import pokecube.core.utils.PokeType;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.maths.Vector3;
 import thut.core.client.gui.ConfigGui;
+import thut.core.client.render.animation.CapabilityAnimation;
 
 public class ClientProxy extends CommonProxy
 {
@@ -230,6 +231,9 @@ public class ClientProxy extends CommonProxy
     public void setupClient(final FMLClientSetupEvent event)
     {
         PokecubeCore.LOGGER.debug("Pokecube Client Setup");
+
+        // Register the pokemob class for animations.
+        CapabilityAnimation.registerAnimateClass(GenericPokemob.class);
 
         // Register event handlers
         MinecraftForge.EVENT_BUS.register(EventsHandlerClient.class);
