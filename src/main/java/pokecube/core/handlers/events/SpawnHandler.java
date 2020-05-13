@@ -567,6 +567,7 @@ public final class SpawnHandler
             int biome = t.getBiome(i, j, k);
             if (SpawnHandler.biomeToRefresh.apply(biome))
             {
+                temp1.set(i, j, k);
                 biome = t.adjustedCaveBiome(world, temp1);
                 if (biome == -1) biome = t.adjustedNonCaveBiome(world, temp1);
                 t.setBiome(i, j, k, biome);

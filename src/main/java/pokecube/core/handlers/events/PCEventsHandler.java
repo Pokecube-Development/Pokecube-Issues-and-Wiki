@@ -233,7 +233,7 @@ public class PCEventsHandler
         for (final ItemEntity item : evt.getDrops())
             if (item != null && item.getItem() != null && PCContainer.isItemValid(item.getItem()))
             {
-                PCInventory.addStackToPC(id, item.getItem().copy());
+                PCInventory.addStackToPC(id, item.getItem().copy(), evt.getEntity().getEntityWorld());
                 toRemove.add(item);
             }
         evt.getDrops().removeAll(toRemove);
