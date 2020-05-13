@@ -70,6 +70,12 @@ public class StructureManager
             return StructureInfo.sameBounds(other.start.getBoundingBox(), this.start.getBoundingBox());
         }
 
+        @Override
+        public String toString()
+        {
+            return this.name + " " + this.start.getBoundingBox();
+        }
+
         private static boolean sameBounds(final MutableBoundingBox boxA, final MutableBoundingBox boxB)
         {
             return boxA.maxX == boxB.maxX && boxA.maxY == boxB.maxY && boxA.maxZ == boxB.maxX && boxA.minX == boxB.minX
