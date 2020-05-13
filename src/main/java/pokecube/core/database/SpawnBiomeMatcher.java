@@ -140,9 +140,9 @@ public class SpawnBiomeMatcher
                 public MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
                 {
                     final MatchResult resA = A.structuresMatch(matcher, checker);
-                    if (resA == MatchResult.SUCCEED) return MatchResult.SUCCEED;
+                    if (resA == MatchResult.SUCCEED) return resA;
                     final MatchResult resB = B.structuresMatch(matcher, checker);
-                    if (resA == MatchResult.SUCCEED) return MatchResult.SUCCEED;
+                    if (resB == MatchResult.SUCCEED) return resB;
                     return resA == MatchResult.FAIL || resB == MatchResult.FAIL ? MatchResult.FAIL : MatchResult.PASS;
                 }
             };
@@ -315,10 +315,16 @@ public class SpawnBiomeMatcher
         final IChunk chunk = checker.chunk;
         // No chunk here, no spawn here!
         if (chunk == null) return false;
-        // Check structures first, then check biomes, the spawn rule would use
-        // blacklisted types to prevent this being in the wrong spot anyway
-        final MatchResult result = this._structs.structuresMatch(this, checker);
-        if (result != MatchResult.PASS) return result == MatchResult.SUCCEED;
+
+        if (!this._validStructures.isEmpty())
+        {
+            // Check structures first, then check biomes, the spawn rule would
+            // use
+            // blacklisted types to prevent this being in the wrong spot anyway
+            final MatchResult result = this._structs.structuresMatch(this, checker);
+            if (result != MatchResult.PASS) return result == MatchResult.SUCCEED;
+        }
+
         if (this._validSubBiomes.contains(BiomeType.NONE) || this._validBiomes.isEmpty() && this._validSubBiomes
                 .isEmpty() && this._blackListSubBiomes.isEmpty() && this._blackListBiomes.isEmpty()) return false;
         final boolean noSubbiome = checker.type == null || checker.type == BiomeType.NONE;

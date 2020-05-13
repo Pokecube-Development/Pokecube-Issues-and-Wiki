@@ -362,6 +362,7 @@ public class Config extends ConfigData
     public List<String> structure_subbiomes = Lists.newArrayList(
     //@formatter:off
             "{\"struct\":\"minecraft:village\",\"subbiome\":\"village\"}",
+            "{\"struct\":\"pokecube:village\",\"subbiome\":\"village\"}",
             "{\"struct\":\"minecraft:monument\",\"subbiome\":\"monument\"}"
             );
     //@formatter:on

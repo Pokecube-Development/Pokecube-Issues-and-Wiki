@@ -386,7 +386,6 @@ public class PacketPokedex extends Packet
                     .getPos()) == ForbidReason.REPEL;
             for (final PokedexEntry e : Database.spawnables)
                 if (e.getSpawnData().getMatcher(checker, false) != null) names.add(e);
-
             final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();
             for (final PokedexEntry e : names)
             {
