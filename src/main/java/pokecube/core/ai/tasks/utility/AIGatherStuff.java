@@ -193,6 +193,10 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
                 .getConfig().tameGatherDistance : PokecubeCore.getConfig().wildGatherDistance;
 
         final List<ItemEntity> list = this.getEntitiesWithinDistance(this.entity, distance, ItemEntity.class);
+
+        // Only allow y difference of 5 for collection of items.
+        list.removeIf(e -> Math.abs(e.posY - this.entity.posY) > 5);
+
         this.stuff.clear();
         double closest = 1000;
 
