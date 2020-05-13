@@ -4,6 +4,6 @@
     "#forge:dirt",
     "#forge:gravel",
     "#forge:sand",
-    "minecraft:cobblestone"
+    "#forge:cobblestone"
   ]
 }

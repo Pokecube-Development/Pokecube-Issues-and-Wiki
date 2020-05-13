@@ -4,6 +4,6 @@
     "#pokecube:rocks",
     "#forge:dirt",
     "#forge:gravel",
-    "minecraft:cobblestone"
+    "#forge:cobblestone"
   ]
 }
