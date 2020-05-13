@@ -69,11 +69,11 @@ import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TagNames;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
+import thut.api.ThutCaps;
 import thut.api.entity.ai.GoalsWrapper;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.item.ItemList;
-import thut.core.client.render.animation.AnimationChanger;
 import thut.core.common.ThutCore;
 
 public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializable<CompoundNBT>, IPokemob
@@ -114,7 +114,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
-        if (capability == AnimationChanger.CAPABILITY) return this.holder.cast();
+        if (capability == ThutCaps.COLOURABLE) return this.holder.cast();
         return CapabilityPokemob.POKEMOB_CAP.orEmpty(capability, this.holder);
     }
 
