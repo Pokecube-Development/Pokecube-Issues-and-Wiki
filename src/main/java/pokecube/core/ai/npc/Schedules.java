@@ -21,8 +21,16 @@ public class Schedules
     private static Schedule makeAdult()
     {
         final ScheduleBuilder builder = new ScheduleBuilder(new Schedule());
-        builder.add(10, Activity.IDLE).add(10, Activities.STATIONARY).add(10, Activities.BATTLE).add(2000,
-                Activity.WORK).add(9000, Activity.MEET).add(11000, Activity.IDLE).add(12000, Activity.REST);
+        builder
+        //@formatter:off
+        .add(10, Activity.IDLE)
+        .add(10, Activities.STATIONARY)
+        .add(10, Activities.BATTLE)
+        .add(2000,Activity.WORK)
+        .add(9000, Activity.MEET)
+        .add(11000, Activity.IDLE)
+        .add(12000, Activity.REST);
+        //@formatter:on
         return builder.build();
     }
 
