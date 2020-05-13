@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -17,7 +18,6 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.ai.brain.task.VillagerTasks;
 import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
@@ -104,23 +104,23 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             if (this.isChild())
             {
                 brain.setSchedule(Schedules.CHILD);
-                brain.registerActivity(Activity.PLAY, this.addGuard(guardai, VillagerTasks.play(f)));
+                brain.registerActivity(Activity.PLAY, this.addGuard(guardai, Tasks.play(f)));
             }
             else
             {
                 brain.setSchedule(Schedules.ADULT);
-                brain.registerActivity(Activity.WORK, this.addGuard(guardai, VillagerTasks.work(profession, f)),
-                        ImmutableSet.of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
+                brain.registerActivity(Activity.WORK, this.addGuard(guardai, Tasks.work(profession, f)), ImmutableSet
+                        .of(Pair.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_PRESENT)));
             }
-            brain.registerActivity(Activity.CORE, this.addGuard(guardai, VillagerTasks.core(profession, f)));
-            brain.registerActivity(Activity.MEET, this.addGuard(guardai, VillagerTasks.meet(profession, f)),
-                    ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
-            brain.registerActivity(Activity.REST, this.addGuard(guardai, VillagerTasks.rest(profession, f)));
-            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, VillagerTasks.idle(profession, f)));
-            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, VillagerTasks.panic(profession, f)));
-            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, VillagerTasks.preRaid(profession, f)));
-            brain.registerActivity(Activity.RAID, this.addGuard(guardai, VillagerTasks.raid(profession, f)));
-            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, VillagerTasks.hide(profession, f)));
+            brain.registerActivity(Activity.CORE, this.addGuard(guardai, Tasks.core(profession, f)));
+            brain.registerActivity(Activity.MEET, this.addGuard(guardai, Tasks.meet(profession, f)), ImmutableSet.of(
+                    Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
+            brain.registerActivity(Activity.REST, this.addGuard(guardai, Tasks.rest(profession, f)));
+            brain.registerActivity(Activity.IDLE, this.addGuard(guardai, Tasks.idle(profession, f)));
+            brain.registerActivity(Activity.PANIC, this.addGuard(guardai, Tasks.panic(profession, f)));
+            brain.registerActivity(Activity.PRE_RAID, this.addGuard(guardai, Tasks.preRaid(profession, f)));
+            brain.registerActivity(Activity.RAID, this.addGuard(guardai, Tasks.raid(profession, f)));
+            brain.registerActivity(Activity.HIDE, this.addGuard(guardai, Tasks.hide(profession, f)));
             brain.registerActivity(Activities.STATIONARY, this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setDefaultActivities(ImmutableSet.of(Activity.CORE));
             brain.setFallbackActivity(Activity.IDLE);
@@ -128,6 +128,12 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             brain.updateActivity(this.world.getDayTime(), this.world.getGameTime());
         }
         else super.initBrain(brain);
+    }
+
+    @Override
+    public VillagerEntity createChild(final AgeableEntity ageable)
+    {
+        return null;
     }
 
     @Override

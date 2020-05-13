@@ -40,6 +40,7 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -157,6 +158,10 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     {
         if (!this.isAlive()) return;
 
+        final boolean serverSide = this.getEntityWorld() instanceof ServerWorld;
+        final boolean capturing = this.getTilt() >= 0;
+        final boolean releasing = this.isReleasing();
+
         switch (result.getType())
         {
         case BLOCK:
@@ -164,15 +169,17 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             this.targetLocation.clear();
             this.targetEntity = null;
 
-            // Only handle this on clients, and if not capturing something
-            if (this.isServerWorld() && PokecubeManager.isFilled(this.getItem()) && !this.getNoCollisionRelease())
-                SendOutManager.sendOut(this, true);
-            if (this.isServerWorld()) EntityUpdate.sendEntityUpdate(this);
+            // Only handle this on server, and if not capturing something
+            if (serverSide)
+            {
+                boolean sendOut = PokecubeManager.isFilled(this.getItem()) && !this.getNoCollisionRelease();
+                sendOut = sendOut && !(releasing || capturing);
+                if (sendOut) SendOutManager.sendOut(this, true);
+                EntityUpdate.sendEntityUpdate(this);
+            }
             break;
         case ENTITY:
             final EntityRayTraceResult hit = (EntityRayTraceResult) result;
-            final boolean capturing = this.getTilt() >= 0;
-            final boolean releasing = this.isReleasing();
             final IPokemob hitMob = CapabilityPokemob.getPokemobFor(hit.getEntity());
 
             final boolean invalidStick = hit.getEntity() instanceof PlayerEntity || !capturing || hitMob == null
@@ -182,7 +189,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (!invalidStick) this.setPosition(result.getHitVec().x, result.getHitVec().y, result.getHitVec().z);
 
             // Capturing or on client, break early.
-            if (!this.isServerWorld() || capturing || releasing) break;
+            if (!serverSide || capturing || releasing) break;
             // Send out or try to capture.
             if (PokecubeManager.isFilled(this.getItem()))
             {

@@ -50,7 +50,15 @@ public class AIFindTarget extends AIBase implements IAICombat
 
     public static void initiateCombat(final MobEntity mob, final LivingEntity target)
     {
-        if (target == null || !target.isAlive() || target.getHealth() <= 0 || target == mob.getAttackTarget()) return;
+        // No target self
+        if (mob == target) return;
+        // No target null
+        if (target == null) return;
+        // No target dead
+        if (!target.isAlive() || target.getHealth() <= 0) return;
+        // No target already had target
+        if (target == mob.getAttackTarget()) return;
+
         mob.setAttackTarget(target);
         if (target instanceof MobEntity) ((MobEntity) target).setAttackTarget(mob);
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
@@ -75,6 +83,7 @@ public class AIFindTarget extends AIBase implements IAICombat
 
         // Attempt to divert the target over to one of our mobs.
         final List<Entity> outmobs = PCEventsHandler.getOutMobs(evt.getTarget(), true);
+        outmobs.removeIf(o -> o == evt.getEntityLiving());
         if (!outmobs.isEmpty() && evt.getEntityLiving() instanceof MobEntity)
         {
             Collections.sort(outmobs, (o1, o2) ->

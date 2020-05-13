@@ -3,6 +3,8 @@
  */
 package pokecube.core.items;
 
+import java.util.Set;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -17,6 +19,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import pokecube.core.PokecubeItems;
@@ -26,6 +29,7 @@ import pokecube.core.database.Pokedex;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.network.packets.PacketDataSync;
@@ -33,6 +37,8 @@ import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
+import thut.api.terrain.StructureManager;
+import thut.api.terrain.StructureManager.StructureInfo;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
@@ -92,8 +98,16 @@ public class ItemPokedex extends Item
         final BlockPos pos = context.getPos();
         final Vector3 hit = Vector3.getNewVector().set(pos);
         final Block block = hit.getBlockState(worldIn).getBlock();
-        if (!worldIn.isRemote) SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn
-                .getEntityWorld(), true);
+        if (!worldIn.isRemote)
+        {
+            SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn.getEntityWorld(), true);
+            if (PokecubeMod.debug)
+            {
+                final Set<StructureInfo> infos = StructureManager.getFor(pos);
+                for (final StructureInfo i : infos)
+                    playerIn.sendMessage(new StringTextComponent(i.name));
+            }
+        }
         if (block instanceof HealerBlock)
         {
             final Vector4 loc = new Vector4(playerIn);
