@@ -148,8 +148,21 @@ task sourcesJar(type: Jar) {
 	from sourceSets.main.allJava
 }
 
+task serverJar(type: Jar) {	
+    classifier = 'server'
+    from sourceSets.main.output	
+    exclude '**/assets/pokecube_mobs/gen*'
+    exclude '**/assets/pokecube_mobs/sound*'
+    exclude '**/assets/pokecube/sound*'
+    exclude '**/textures*'
+    exclude '**/models*'
+    exclude '**/client*'
+    exclude '**/blockstates*'
+}
+
 artifacts {
 	archives sourcesJar
+    reobf { serverJar {}}
 }
 
 def cleanTOML()
