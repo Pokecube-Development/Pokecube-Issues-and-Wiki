@@ -1,25 +1,20 @@
 package thut.core.client.render.animation;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAnyAttribute;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import thut.core.xml.bind.annotation.XmlAnyAttribute;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import thut.core.common.ThutCore;
+import thut.core.xml.bind.Factory;
 
 public class AnimationXML
 {
@@ -290,17 +285,9 @@ public class AnimationXML
         XMLFile database = null;
         try
         {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(XMLFile.class);
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            final Reader reader = new InputStreamReader(res);
-            database = (XMLFile) unmarshaller.unmarshal(reader);
-            reader.close();
+            database = Factory.make(res, XMLFile.class);
         }
-        catch (final JAXBException e)
-        {
-            ThutCore.LOGGER.error("Error parsing xml", e);
-        }
-        catch (final IOException e)
+        catch (final Exception e)
         {
             ThutCore.LOGGER.error("Error parsing xml", e);
         }
