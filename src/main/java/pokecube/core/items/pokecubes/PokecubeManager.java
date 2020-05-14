@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -207,7 +208,19 @@ public class PokecubeManager
         }
         final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(id));
         final LivingEntity mob = (LivingEntity) type.create(world);
-        mob.read(stack.getTag().getCompound(TagNames.POKEMOB));
+        try
+        {
+            mob.read(stack.getTag().getCompound(TagNames.POKEMOB));
+        }
+        catch (final Exception e)
+        {
+            // Nope, some mobs can't read from this on clients.
+            if (world instanceof ServerWorld)
+            {
+                PokecubeCore.LOGGER.error("Error reading cube: {}", stack.getTag());
+                PokecubeCore.LOGGER.error(e);
+            }
+        }
         return mob;
     }
 

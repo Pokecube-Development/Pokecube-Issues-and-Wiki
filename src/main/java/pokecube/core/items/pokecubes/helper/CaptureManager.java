@@ -140,7 +140,7 @@ public class CaptureManager
         {
             final IRunnable task = w ->
             {
-                world.removeEntity(hitten.getEntity(), true);
+                world.removeEntity(mob, true);
                 return true;
             };
             EventsHandler.Schedule(world, task);

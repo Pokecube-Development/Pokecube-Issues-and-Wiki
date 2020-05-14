@@ -264,7 +264,14 @@ public class EventsHandler
         final ServerWorld swrld = (ServerWorld) world;
         if (!swrld.tickingEntities)
         {
-            task.run(swrld);
+            try
+            {
+                task.run(swrld);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error running scheduled task!", e);
+            }
             return;
         }
         final DimensionType dim = world.getDimension().getType();
@@ -619,7 +626,18 @@ public class EventsHandler
         final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
         synchronized (tasks)
         {
-            tasks.removeIf(r -> r.run(evt.world));
+            tasks.removeIf(r ->
+            {
+                try
+                {
+                    return r.run(evt.world);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error running scheduled task!", e);
+                    return true;
+                }
+            });
         }
         // Call spawner tick at end of world tick.
         if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick((ServerWorld) evt.world);
