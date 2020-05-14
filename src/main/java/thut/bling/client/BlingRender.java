@@ -1,8 +1,8 @@
 package thut.bling.client;
 
 import net.minecraft.util.ResourceLocation;
+import thut.api.ModelHolder;
 import thut.bling.ThutBling;
-import thut.core.client.render.animation.ModelHolder;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;

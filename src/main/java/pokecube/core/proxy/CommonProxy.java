@@ -1,4 +1,4 @@
-package pokecube.core;
+package pokecube.core.proxy;
 
 import java.util.UUID;
 
@@ -31,6 +31,7 @@ import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.blocks.healer.HealerTile;

@@ -7,10 +7,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAnyAttribute;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import thut.core.xml.bind.annotation.XmlAnyAttribute;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import org.jline.utils.InputStreamReader;

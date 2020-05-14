@@ -55,13 +55,11 @@ import thut.core.common.commands.CommandTools;
 
 public class Pokecube extends Item implements IPokecube
 {
-    public static final Set<Class<? extends LivingEntity>> snagblacklist = Sets.newHashSet();
+    public static final Set<ResourceLocation> snagblacklist = Sets.newHashSet();
 
     private static final Predicate<LivingEntity> capturable = t ->
     {
-        if (Pokecube.snagblacklist.contains(t.getClass())) return false;
-        for (final Class<? extends LivingEntity> claz : Pokecube.snagblacklist)
-            if (claz.isInstance(t)) return false;
+        if (Pokecube.snagblacklist.contains(t.getType().getRegistryName())) return false;
         return true;
     };
 
@@ -387,6 +385,7 @@ public class Pokecube extends Item implements IPokecube
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
         entity.shootingEntity = thrower.isSneaking() ? null : thrower;
         if (thrower.isSneaking()) entity.setNoCollisionRelease();
+        else entity.autoRelease = config.pokecubeAutoSendOutDelay;
         entity.shooter = thrower.getUniqueID();
         entity.setItem(stack);
 

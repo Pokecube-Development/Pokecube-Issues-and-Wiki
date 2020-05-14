@@ -48,7 +48,7 @@ public class HoneyGather extends Ability
 
         final PlayerEntity player = PokecubeMod.getFakePlayer(mob.getEntity().getEntityWorld());
         player.setPosition(here.getPos().getX(), here.getPos().getY(), here.getPos().getZ());
-        player.setHeldItem(Hand.MAIN_HAND, new ItemStack(Items.BONE_MEAL));
+        player.inventory.mainInventory.set(player.inventory.currentItem, new ItemStack(Items.BONE_MEAL));
         final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(0.5,
                 1, 0.5), Direction.UP, here.getPos(), false));
         // Attempt to plant it.

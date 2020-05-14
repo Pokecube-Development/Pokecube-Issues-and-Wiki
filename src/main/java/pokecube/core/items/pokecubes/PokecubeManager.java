@@ -9,8 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -206,7 +208,19 @@ public class PokecubeManager
         }
         final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(id));
         final LivingEntity mob = (LivingEntity) type.create(world);
-        mob.read(stack.getTag().getCompound(TagNames.POKEMOB));
+        try
+        {
+            mob.read(stack.getTag().getCompound(TagNames.POKEMOB));
+        }
+        catch (final Exception e)
+        {
+            // Nope, some mobs can't read from this on clients.
+            if (world instanceof ServerWorld)
+            {
+                PokecubeCore.LOGGER.error("Error reading cube: {}", stack.getTag());
+                PokecubeCore.LOGGER.error(e);
+            }
+        }
         return mob;
     }
 
@@ -238,13 +252,14 @@ public class PokecubeManager
         PokecubeManager.setColor(itemStack);
         final int status = pokemob.getStatus();
         PokecubeManager.setStatus(itemStack, pokemob.getStatus());
-        String itemName = pokemob.getDisplayName().getFormattedText();
-        if (status == IMoveConstants.STATUS_BRN) itemName += " (BRN)";
-        else if (status == IMoveConstants.STATUS_FRZ) itemName += " (FRZ)";
-        else if (status == IMoveConstants.STATUS_PAR) itemName += " (PAR)";
-        else if (status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2) itemName += " (PSN)";
-        else if (status == IMoveConstants.STATUS_SLP) itemName += " (SLP)";
-        itemStack.setDisplayName(new StringTextComponent(itemName));
+        ITextComponent name = pokemob.getDisplayName();
+        if (status == IMoveConstants.STATUS_BRN) name = new TranslationTextComponent("pokecube.filled.brn", name);
+        else if (status == IMoveConstants.STATUS_FRZ) name = new TranslationTextComponent("pokecube.filled.frz", name);
+        else if (status == IMoveConstants.STATUS_PAR) name = new TranslationTextComponent("pokecube.filled.par", name);
+        else if (status == IMoveConstants.STATUS_SLP) name = new TranslationTextComponent("pokecube.filled.slp", name);
+        else if (status == IMoveConstants.STATUS_PSN || status == IMoveConstants.STATUS_PSN2)
+            name = new TranslationTextComponent("pokecube.filled.psn", name);
+        itemStack.setDisplayName(name);
         return itemStack;
     }
 

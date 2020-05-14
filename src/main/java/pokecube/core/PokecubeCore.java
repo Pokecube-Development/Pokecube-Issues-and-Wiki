@@ -53,7 +53,6 @@ import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.blocks.healer.HealerTile;
-import pokecube.core.client.ClientProxy;
 import pokecube.core.database.Database;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -88,6 +87,8 @@ import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.animations.EntityMoveUse;
 import pokecube.core.network.EntityProvider;
+import pokecube.core.proxy.ClientProxy;
+import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.dimension.SecretBaseDimension;
 import pokecube.core.world.dimension.SecretBaseDimension.SecretBiome;
@@ -96,8 +97,7 @@ import pokecube.core.world.gen.template.FillerProcessor;
 import pokecube.core.world.gen.template.PokecubeStructureProcessor;
 import pokecube.mobloader.MobLoader;
 import thut.api.maths.Vector3;
-import thut.core.client.render.animation.CapabilityAnimation;
-import thut.core.client.render.particle.ThutParticles;
+import thut.api.particle.ThutParticles;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
 
@@ -411,9 +411,6 @@ public class PokecubeCore
         PlayerDataHandler.register(PokecubePlayerStats.class);
         PlayerDataHandler.register(PokecubePlayerCustomData.class);
         PlayerDataHandler.register(PlayerPokemobCache.class);
-
-        // Register the pokemob class for animations.
-        CapabilityAnimation.registerAnimateClass(GenericPokemob.class);
 
         // Initialize advancement triggers
         Triggers.init();

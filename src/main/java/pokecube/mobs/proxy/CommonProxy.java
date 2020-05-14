@@ -1,10 +1,11 @@
-package pokecube.mobs;
+package pokecube.mobs.proxy;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.core.database.Database;
 import pokecube.core.items.megastuff.ItemMegawearable;
+import pokecube.mobs.MiscItemHelper;
 import thut.core.common.Proxy;
 
 public class CommonProxy implements Proxy

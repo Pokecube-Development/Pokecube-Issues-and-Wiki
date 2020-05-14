@@ -17,9 +17,10 @@ import thut.core.common.config.Config;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.network.PacketHandler;
-import thut.crafts.client.ClientProxy;
 import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
+import thut.crafts.proxy.ClientProxy;
+import thut.crafts.proxy.CommonProxy;
 
 @Mod(Reference.MODID)
 public class ThutCrafts

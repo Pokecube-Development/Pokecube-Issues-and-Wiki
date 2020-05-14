@@ -109,11 +109,6 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public void tick()
     {
-        if (this.getPersistentData().getBoolean(TagNames.REMOVED))
-        {
-            this.remove();
-            return;
-        }
         if (this.getEntityWorld() instanceof ServerWorld)
         {
             if (this.pokemobCap.getOwnerId() != null)
@@ -146,7 +141,7 @@ public class EntityPokemob extends PokemobHasParts
         if (this.deathTime == PokecubeCore.getConfig().deadDespawnTimer)
         {
             if (!this.world.isRemote && this.recentlyHit > 0 && this.canDropLoot() && this.world.getGameRules()
-                    .getBoolean(GameRules.DO_MOB_LOOT))
+                    .getBoolean(GameRules.DO_MOB_LOOT) && this.pokemobCap.getOwnerId() == null)
             {
                 int i = this.getExperiencePoints(this.attackingPlayer);
 

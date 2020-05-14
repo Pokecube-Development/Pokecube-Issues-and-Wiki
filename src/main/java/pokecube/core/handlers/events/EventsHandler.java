@@ -92,8 +92,7 @@ import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.moves.PokemobDamageSource;
-import pokecube.core.moves.TerrainDamageSource;
+import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokecube;
@@ -265,7 +264,14 @@ public class EventsHandler
         final ServerWorld swrld = (ServerWorld) world;
         if (!swrld.tickingEntities)
         {
-            task.run(swrld);
+            try
+            {
+                task.run(swrld);
+            }
+            catch (final Exception e)
+            {
+                PokecubeCore.LOGGER.error("Error running scheduled task!", e);
+            }
             return;
         }
         final DimensionType dim = world.getDimension().getType();
@@ -455,18 +461,27 @@ public class EventsHandler
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
          */
-        if ((evt.getSource() instanceof PokemobDamageSource || evt.getSource() instanceof TerrainDamageSource)
-                && !AITools.validTargets.test(evt.getEntity()))
+        if (evt.getSource() instanceof IPokedamage && !AITools.validTargets.test(evt.getEntity()))
         {
             evt.setCanceled(true);
             return;
         }
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        // check if configs say this damage can't happen
+        if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        // Apply scaling from config for this
+        if (pokemob != null && evt.getSource().getTrueSource() instanceof PlayerEntity) evt.setAmount((float) (evt
+                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
 
         // Prevent suffocating the player if they are in wall while riding
         // pokemob.
         if (evt.getEntity() instanceof PlayerEntity && evt.getSource() == DamageSource.IN_WALL)
         {
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
+            pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
             if (pokemob != null) evt.setCanceled(true);
         }
     }
@@ -611,7 +626,18 @@ public class EventsHandler
         final List<IRunnable> tasks = EventsHandler.scheduledTasks.getOrDefault(dim, Collections.emptyList());
         synchronized (tasks)
         {
-            tasks.removeIf(r -> r.run(evt.world));
+            tasks.removeIf(r ->
+            {
+                try
+                {
+                    return r.run(evt.world);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.error("Error running scheduled task!", e);
+                    return true;
+                }
+            });
         }
         // Call spawner tick at end of world tick.
         if (!Database.spawnables.isEmpty()) PokecubeCore.spawner.tick((ServerWorld) evt.world);

@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAnyAttribute;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
@@ -39,7 +35,6 @@ import pokecube.core.utils.Tools;
 
 public class TradeEntryLoader
 {
-    @XmlRootElement(name = "Buy")
     public static class Buy extends Drop
     {
         @Override
@@ -49,7 +44,6 @@ public class TradeEntryLoader
         }
     }
 
-    @XmlRootElement(name = "Sell")
     public static class Sell extends Drop
     {
         @Override
@@ -59,34 +53,26 @@ public class TradeEntryLoader
         }
     }
 
-    @XmlRootElement(name = "Trade")
     public static class Trade
     {
-        @XmlAttribute
-        public String             custom;
-        @XmlAttribute
-        public String             type = "preset";
-        @XmlElement(name = "Sell")
-        public Sell               sell;
-        @XmlElement(name = "Buy")
-        public final List<Buy>    buys = Lists.newArrayList();
-        @XmlAnyAttribute
+        public String custom;
+        public String type = "preset";
+        public Sell   sell;
+
+        public final List<Buy> buys = Lists.newArrayList();
+
         public Map<QName, String> values;
     }
 
-    @XmlRootElement(name = "Trades")
     public static class TradeEntry
     {
-        @XmlAttribute
-        String                    template = "default";
-        @XmlElement(name = "Trade")
-        private final List<Trade> trades   = Lists.newArrayList();
+        String template = "default";
+
+        private final List<Trade> trades = Lists.newArrayList();
     }
 
-    @XmlRootElement(name = "AllTrades")
     public static class XMLDatabase
     {
-        @XmlElement(name = "Trades")
         private final List<TradeEntry> trades = Lists.newArrayList();
     }
 

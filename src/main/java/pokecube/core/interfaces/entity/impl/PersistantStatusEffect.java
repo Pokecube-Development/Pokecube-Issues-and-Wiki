@@ -24,6 +24,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.core.moves.damage.StatusEffectDamageSource;
 import thut.api.maths.Vector3;
 
 public class PersistantStatusEffect extends BaseEffect
@@ -55,17 +56,15 @@ public class PersistantStatusEffect extends BaseEffect
             if (targetM == null) targetM = entity;
             float scale = 1;
             final IPokemob user = CapabilityPokemob.getPokemobFor(targetM);
-            final DamageSource source = user != null && user.getOwner() != null ? DamageSource.causeIndirectDamage(
-                    targetM, user.getOwner())
-                    : targetM != null ? DamageSource.causeMobDamage(targetM) : new DamageSource("generic");
-
+            final DamageSource source = new StatusEffectDamageSource(targetM);
             if (pokemob != null)
             {
                 source.setDamageIsAbsolute();
                 source.setDamageBypassesArmor();
             }
             else if (entity instanceof PlayerEntity) scale = (float) (user != null && user.isPlayerOwned()
-                    ? PokecubeCore.getConfig().ownedPlayerDamageRatio : PokecubeCore.getConfig().wildPlayerDamageRatio);
+                    ? PokecubeCore.getConfig().ownedPlayerDamageRatio
+                    : PokecubeCore.getConfig().wildPlayerDamageRatio);
             else scale = (float) (entity instanceof INPC ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
                     : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
             if (scale <= 0) toRemove = true;

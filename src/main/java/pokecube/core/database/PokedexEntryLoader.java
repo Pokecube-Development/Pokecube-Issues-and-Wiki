@@ -1,10 +1,15 @@
 package pokecube.core.database;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -15,12 +20,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAnyAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.annotation.Nullable;
+import thut.core.xml.bind.annotation.XmlAnyAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.ClassUtils;
@@ -42,7 +49,6 @@ import pokecube.core.database.PokedexEntry.MegaRule;
 import pokecube.core.database.PokedexEntry.MovementType;
 import pokecube.core.database.PokedexEntry.SpawnData;
 import pokecube.core.database.PokedexEntry.SpawnData.SpawnEntry;
-import pokecube.core.database.PokedexEntryLoader.StatsNode.Stats;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.database.util.QNameAdaptor;
 import pokecube.core.events.pokemob.SpawnEvent.FunctionVariance;
@@ -55,6 +61,17 @@ import thut.core.common.ThutCore;
 
 public class PokedexEntryLoader
 {
+    @Retention(RUNTIME)
+    @Target(FIELD)
+    public @interface ManualCopy
+    {
+
+    }
+
+    public static interface IMergeable<T>
+    {
+        void mergeFrom(@Nullable T other);
+    }
 
     public static class Action
     {
@@ -125,6 +142,14 @@ public class PokedexEntryLoader
         public Map<String, TexColours>  _colourMap_ = Maps.newHashMap();
         public Set<String>              _hide_      = Sets.newHashSet();
         private final List<FormeHolder> _matches    = Lists.newArrayList();
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (!(obj instanceof DefaultFormeHolder)) return false;
+            if (this.key == null) return super.equals(obj);
+            return this.key.equals(((DefaultFormeHolder) obj).key);
+        }
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
@@ -346,6 +371,23 @@ public class PokedexEntryLoader
             return this.values + "";
         }
 
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (!(obj instanceof SpawnRule)) return false;
+            final SpawnRule other = (SpawnRule) obj;
+            if (other.values.size() != this.values.size()) return false;
+            for (final Entry<QName, String> var : this.values.entrySet())
+            {
+                final QName key = var.getKey();
+                final String val = var.getValue();
+                if (!val.equals(other.values.get(key))) return false;
+            }
+            if (this.model != null) return this.model.equals(other.model);
+            if (this.model == null && other.model != null) return false;
+            return true;
+        }
+
         protected DefaultFormeHolder model = null;
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
@@ -355,7 +397,7 @@ public class PokedexEntryLoader
         }
     }
 
-    public static class StatsNode
+    public static class StatsNode implements IMergeable<StatsNode>
     {
         public static class Stats
         {
@@ -373,10 +415,14 @@ public class PokedexEntryLoader
         // Drops and items
         public List<Drop> drops = Lists.newArrayList();
         public List<Drop> held  = Lists.newArrayList();
-        public String     lootTable;
-        public String     heldTable;
+
+        public String lootTable;
+        public String heldTable;
+
         // Spawn Rules
+        @ManualCopy
         public Boolean         overwrite;
+        @ManualCopy
         public List<SpawnRule> spawnRules = Lists.newArrayList();
         // STATS
         public Stats   stats;
@@ -394,6 +440,7 @@ public class PokedexEntryLoader
         // MISC
         public Stats logics;
         public Stats formeItems;
+
         // New Mega rules
         public List<XMLMegaRule> megaRules    = Lists.newArrayList();
         public List<Interact>    interactions = Lists.newArrayList();
@@ -409,6 +456,20 @@ public class PokedexEntryLoader
         {
             return this.spawnRules + "";
         }
+
+        @Override
+        public void mergeFrom(@Nullable final StatsNode other)
+        {
+            if (other != null)
+            {
+                final boolean replaceSpawns = other.overwrite != null && other.overwrite;
+                // Replace the list entirely
+                if (replaceSpawns) this.spawnRules = other.spawnRules;
+                // Otherwise merge the lists
+                else for (final SpawnRule rule : other.spawnRules)
+                    if (!this.spawnRules.contains(rule)) this.spawnRules.add(rule);
+            }
+        }
     }
 
     public static class XMLDatabase
@@ -423,26 +484,6 @@ public class PokedexEntryLoader
             if (this.__map__.containsKey(toAdd.name)) this.pokemon.remove(this.__map__.remove(toAdd.name));
             this.pokemon.add(toAdd);
             Collections.sort(this.pokemon, PokedexEntryLoader.ENTRYSORTER);
-        }
-
-        public void addOverrideEntry(final XMLPokedexEntry entry, final boolean overwrite)
-        {
-            for (final XMLPokedexEntry e : this.pokemon)
-                if (e.name.equals(entry.name))
-                {
-                    if (overwrite)
-                    {
-                        this.pokemon.remove(e);
-                        this.__map__.put(entry.name, entry);
-                        this.pokemon.add(entry);
-                        entry.mergeMissingFrom(e);
-                        return;
-                    }
-                    else e.mergeMissingFrom(entry);
-                    return;
-                }
-            this.pokemon.add(entry);
-            this.__map__.put(entry.name, entry);
         }
 
         public void init()
@@ -464,71 +505,39 @@ public class PokedexEntryLoader
 
     public static class XMLPokedexEntry
     {
-        public String    name;
-        public Integer   number;
-        public String    special;
-        public Boolean   base           = false;
-        public Boolean   breed          = true;
-        public Boolean   dummy          = false;
-        public Boolean   starter        = false;
-        public Boolean   ridable        = true;
-        public Boolean   legend         = false;
-        public Boolean   hasShiny       = true;
-        public String    gender         = "";
-        public String    genderBase     = "";
-        public String    modelType      = "";
-        public String    sound          = null;
-        public String    ridden_offsets = "0.75";
-        public StatsNode stats;
-        public Moves     moves;
-        public BodyNode  body;
+        public String  name;
+        public Integer number;
+        public String  special;
+
+        public Boolean base  = false;
+        public Boolean dummy = false;
+
+        public Boolean breed    = true;
+        public Boolean starter  = false;
+        public Boolean ridable  = true;
+        public Boolean legend   = false;
+        public Boolean hasShiny = true;
+
+        public Boolean override = false;
+
+        public String gender     = "";
+        public String genderBase = "";
+        public String modelType  = "";
+
+        public String sound = null;
+
+        public String ridden_offsets = "0.75";
+
+        public BodyNode body;
 
         public DefaultFormeHolder model        = null;
         public DefaultFormeHolder male_model   = null;
         public DefaultFormeHolder female_model = null;
 
+        public StatsNode stats;
+        public Moves     moves;
+
         public List<DefaultFormeHolder> models = Lists.newArrayList();
-
-        void mergeMissingFrom(final XMLPokedexEntry other)
-        {
-            if (this.moves == null && other.moves != null) this.moves = other.moves;
-            else if (other.moves != null)
-            {
-                if (this.moves.lvlupMoves == null) this.moves.lvlupMoves = other.moves.lvlupMoves;
-                if (this.moves.misc == null) this.moves.misc = other.moves.misc;
-                if (this.moves.evolutionMoves != null) this.moves.evolutionMoves = other.moves.evolutionMoves;
-            }
-            if (this.body == null && other.body != null) this.body = other.body;
-            if (this.model == null && other.model != null) this.model = other.model;
-
-            for (final DefaultFormeHolder others : other.models)
-            {
-                for (final DefaultFormeHolder ours : this.models)
-                    if (others.key.equals(ours.key))
-                    {
-                        this.models.remove(ours);
-                        break;
-                    }
-                this.models.add(others);
-            }
-            if (this.stats == null && other.stats != null) this.stats = other.stats;
-            else if (other.stats != null) // Copy everything which is missing
-                for (final Field f : StatsNode.class.getDeclaredFields())
-                try
-                {
-                    final Object ours = f.get(this.stats);
-                    final Object theirs = f.get(other.stats);
-                    boolean isNumber = !(ours instanceof String || ours instanceof Stats);
-                    if (isNumber) if (ours instanceof Float) isNumber = (float) ours == -1;
-                    else if (ours instanceof Integer) isNumber = (int) ours == -1;
-                    if (ours == null) f.set(this.stats, theirs);
-                    else if (isNumber) f.set(this.stats, theirs);
-                }
-                catch (final Exception e)
-                {
-                    e.printStackTrace();
-                }
-        }
 
         @Override
         public String toString()
@@ -559,7 +568,7 @@ public class PokedexEntryLoader
     public static XMLDatabase            database;
     public static List<ResourceLocation> hotloadable = Lists.newArrayList();
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked" })
     public static Object getSerializableCopy(final Class<?> type, final Object original) throws InstantiationException,
             IllegalAccessException
     {
@@ -620,8 +629,8 @@ public class PokedexEntryLoader
                     {
                         if (value instanceof List)
                         {
-                            final List args = (List) value;
-                            final ListIterator iter = args.listIterator();
+                            final List<Object> args = (List<Object>) value;
+                            final ListIterator<Object> iter = args.listIterator();
                             while (iter.hasNext())
                             {
                                 final Object var = iter.next();
@@ -686,7 +695,11 @@ public class PokedexEntryLoader
             if (newDatabase != null) for (final XMLPokedexEntry e : newDatabase.pokemon)
             {
                 final XMLPokedexEntry old = PokedexEntryLoader.database.__map__.get(e.name);
-                if (old != null) PokedexEntryLoader.mergeNonDefaults(PokedexEntryLoader.missingno, e, old);
+                if (old != null && old != e)
+                {
+                    if (old.stats != null && e.stats != null) old.stats.mergeFrom(e.stats);
+                    PokedexEntryLoader.mergeNonDefaults(PokedexEntryLoader.missingno, e, old);
+                }
                 else try
                 {
                     PokedexEntryLoader.database.addEntry(e);
@@ -721,7 +734,7 @@ public class PokedexEntryLoader
 
     public static XMLDatabase initDatabase(final ResourceLocation file) throws Exception
     {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Initializing Database: " + file);
+        PokecubeCore.LOGGER.debug("Initializing Database: " + file);
         try
         {
             final XMLDatabase database = PokedexEntryLoader.initDatabase(Database.resourceManager.getResource(file)
@@ -1008,6 +1021,8 @@ public class PokedexEntryLoader
                 if (Modifier.isFinal(field.getModifiers())) continue;
                 if (Modifier.isStatic(field.getModifiers())) continue;
                 if (Modifier.isTransient(field.getModifiers())) continue;
+                final ManualCopy annot = field.getAnnotation(ManualCopy.class);
+                if (annot != null) continue;
                 field.setAccessible(true);
                 valueOut = field.get(outOf);
                 valueIn = field.get(inTo);

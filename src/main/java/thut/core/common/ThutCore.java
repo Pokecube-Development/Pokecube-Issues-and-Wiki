@@ -53,13 +53,11 @@ import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.api.particle.ThutParticles;
 import thut.api.terrain.CapabilityTerrain;
 import thut.api.terrain.ITerrainProvider;
-import thut.api.terrain.TerrainManager;
+import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.client.ClientProxy;
-import thut.core.client.render.animation.CapabilityAnimation;
-import thut.core.client.render.particle.ThutParticles;
 import thut.core.common.config.Config;
 import thut.core.common.genetics.DefaultGeneStorage;
 import thut.core.common.genetics.DefaultGenetics;
@@ -72,6 +70,8 @@ import thut.core.common.network.TerrainUpdate;
 import thut.core.common.network.TileUpdate;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
+import thut.core.proxy.ClientProxy;
+import thut.core.proxy.CommonProxy;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ThutCore.MODID)
@@ -243,6 +243,7 @@ public class ThutCore
         // do something when the server starts
         ThutCore.LOGGER.debug("Clearing terrain cache");
         ITerrainProvider.pendingCache.clear();
+        StructureManager.clear();
     }
 
     private void processIMC(final InterModProcessEvent event)
@@ -276,7 +277,6 @@ public class ThutCore
         CapabilityManager.INSTANCE.register(IMobTexturable.class, new IMobTexturable.Storage(),
                 IMobTexturable.Defaults::new);
 
-        CapabilityAnimation.setup();
         OwnableCaps.setup();
         LinkableCaps.setup();
         ShearableCaps.setup();
@@ -299,9 +299,6 @@ public class ThutCore
                 return null;
             }
         }, DataSync_Impl::new);
-
-        // Initialize terrain manager.
-        TerrainManager.getInstance();
 
         ThutCore.proxy.setup(event);
     }

@@ -4,8 +4,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.moves.TerrainDamageSource;
-import pokecube.core.moves.TerrainDamageSource.TerrainType;
+import pokecube.core.moves.damage.TerrainDamageSource;
+import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
 import thut.api.maths.Vector3;
 
 /**

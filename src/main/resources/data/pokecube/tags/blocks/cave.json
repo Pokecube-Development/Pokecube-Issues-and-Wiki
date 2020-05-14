@@ -3,6 +3,7 @@
   "values": [
     "#pokecube:rocks",
     "#forge:dirt",
-    "#forge:gravel"
+    "#forge:gravel",
+    "#forge:cobblestone"
   ]
 }

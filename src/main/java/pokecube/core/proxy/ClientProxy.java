@@ -1,4 +1,4 @@
-package pokecube.core.client;
+package pokecube.core.proxy;
 
 import java.security.MessageDigest;
 import java.util.Map;
@@ -45,10 +45,12 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import pokecube.core.CommonProxy;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.healer.HealerTile;
+import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.MoveSound;
+import pokecube.core.client.PokecenterSound;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -88,6 +90,7 @@ import pokecube.core.utils.PokeType;
 import pokecube.nbtedit.NBTEdit;
 import thut.api.maths.Vector3;
 import thut.core.client.gui.ConfigGui;
+import thut.core.client.render.animation.CapabilityAnimation;
 
 public class ClientProxy extends CommonProxy
 {
@@ -228,6 +231,9 @@ public class ClientProxy extends CommonProxy
     public void setupClient(final FMLClientSetupEvent event)
     {
         PokecubeCore.LOGGER.debug("Pokecube Client Setup");
+
+        // Register the pokemob class for animations.
+        CapabilityAnimation.registerAnimateClass(GenericPokemob.class);
 
         // Register event handlers
         MinecraftForge.EVENT_BUS.register(EventsHandlerClient.class);

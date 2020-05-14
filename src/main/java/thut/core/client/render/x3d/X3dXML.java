@@ -1,24 +1,13 @@
 package thut.core.client.render.x3d;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.sax.SAXSource;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -26,6 +15,7 @@ import com.google.common.collect.Sets;
 import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.common.ThutCore;
+import thut.core.xml.bind.Factory;
 
 public class X3dXML
 {
@@ -301,19 +291,11 @@ public class X3dXML
 
     public X3D model;
 
-    public X3dXML(final InputStream stream) throws JAXBException
+    public X3dXML(final InputStream stream)
     {
-        final JAXBContext jc = JAXBContext.newInstance(X3D.class);
         try
         {
-            final SAXParserFactory spf = SAXParserFactory.newInstance();
-            spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            final XMLReader xmlReader = spf.newSAXParser().getXMLReader();
-            xmlReader.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
-            final InputSource inputSource = new InputSource(new InputStreamReader(stream));
-            final SAXSource source = new SAXSource(xmlReader, inputSource);
-            final Unmarshaller unmarshaller = jc.createUnmarshaller();
-            this.model = (X3D) unmarshaller.unmarshal(source);
+            this.model = Factory.make(stream, X3D.class);
         }
         catch (final Exception e)
         {

@@ -1,22 +1,19 @@
 package thut.core.client.render.mca;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.client.render.x3d.ModelFormatException;
+import thut.core.xml.bind.Factory;
 
 public class McaXML
 {
@@ -190,7 +187,7 @@ public class McaXML
     @XmlRootElement(name = "Savable")
     public static class Savable
     {
-        private static Vertex[] parseVertices(String line, String type) throws ModelFormatException
+        private static Vertex[] parseVertices(final String line, final String type) throws ModelFormatException
         {
             final ArrayList<Vertex> ret = new ArrayList<>();
             final float scale = type.equals("Position") ? 1 / 16f : 1;
@@ -219,7 +216,7 @@ public class McaXML
             return Savable.parseVertices(this.data1.data, this.type);
         }
 
-        public TextureCoordinate[] getTexture(String point)
+        public TextureCoordinate[] getTexture(final String point)
         {
             final ArrayList<TextureCoordinate> ret = new ArrayList<>();
             final String[] points = point.split(" ");
@@ -283,10 +280,15 @@ public class McaXML
 
     public Mca model;
 
-    public McaXML(InputStream stream) throws JAXBException
+    public McaXML(final InputStream stream)
     {
-        final JAXBContext jaxbContext = JAXBContext.newInstance(Mca.class);
-        final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        this.model = (Mca) unmarshaller.unmarshal(new InputStreamReader(stream));
+        try
+        {
+            this.model = Factory.make(stream, Mca.class);
+        }
+        catch (final Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -16,6 +17,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import pokecube.core.moves.damage.IPokedamage;
 
 public class AITools
 {
@@ -71,6 +73,18 @@ public class AITools
         }
     }
 
+    private static class ValidDamageToPokemob implements Predicate<DamageSource>
+    {
+
+        @Override
+        public boolean test(final DamageSource t)
+        {
+            if (!PokecubeCore.getConfig().onlyPokemobsDamagePokemobs) return true;
+            return t instanceof IPokedamage;
+        }
+
+    }
+
     public static boolean handleDamagedTargets = true;
 
     public static int           DEAGROTIMER    = 50;
@@ -89,6 +103,12 @@ public class AITools
      * player.
      */
     public static Predicate<IPokemob> shouldAgroNearestPlayer = new AgroCheck();
+
+    /**
+     * Checks to see if the wild pokemob should try to agro the nearest visible
+     * player.
+     */
+    public static Predicate<DamageSource> validToHitPokemob = new ValidDamageToPokemob();
 
     /**
      * Checks to see if the pokemob is capable of changing its motion, this is

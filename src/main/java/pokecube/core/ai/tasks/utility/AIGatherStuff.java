@@ -74,12 +74,9 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
             // Use the fakeplayer to plant it
             final PlayerEntity player = PokecubeMod.getFakePlayer(world);
             player.setPosition(this.pos.getX(), this.pos.getY(), this.pos.getZ());
-            player.setHeldItem(Hand.MAIN_HAND, this.seeds);
+            player.inventory.mainInventory.set(player.inventory.currentItem, this.seeds);
             final ItemUseContext context = new ItemUseContext(player, Hand.MAIN_HAND, new BlockRayTraceResult(new Vec3d(
                     0.5, 1, 0.5), Direction.UP, down, false));
-            System.out.println(this.oldState + " " + this.seeds.getItem() + " " + (this.seeds
-                    .getItem() instanceof BlockItem) + " ");
-
             check:
             if (this.seeds.getItem() instanceof BlockItem)
             {
@@ -179,6 +176,7 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
     private void clearLoc()
     {
         this.stuffLoc = null;
+        this.block = false;
     }
 
     private void findStuff()
@@ -195,6 +193,10 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
                 .getConfig().tameGatherDistance : PokecubeCore.getConfig().wildGatherDistance;
 
         final List<ItemEntity> list = this.getEntitiesWithinDistance(this.entity, distance, ItemEntity.class);
+
+        // Only allow y difference of 5 for collection of items.
+        list.removeIf(e -> Math.abs(e.posY - this.entity.posY) > 5);
+
         this.stuff.clear();
         double closest = 1000;
 
@@ -263,7 +265,7 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
                 this.addEntityPath(this.entity, path, speed);
             }
         }
-        if (this.stuffLoc == null) return;
+        if (this.stuffLoc == null || !this.block) return;
 
         double diff = 3;
         diff = Math.max(diff, this.entity.getWidth());
@@ -395,11 +397,7 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
             }
 
             final ItemEntity itemStuff = this.stuff.get(0);
-            if (!itemStuff.isAlive() || !itemStuff.addedToChunk || !itemStuff.isAddedToWorld())
-            {
-                this.stuff.remove(0);
-                return;
-            }
+
             double close = this.entity.getWidth() * this.entity.getWidth();
             close = Math.max(close, 1);
             if (itemStuff.getDistance(this.entity) < close)

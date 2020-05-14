@@ -85,6 +85,8 @@ public class GuiPokeWatch extends Screen
         {
             PacketPokedex.sendInspectPacket(this.pokemob);
             PacketPokedex.updateWatchEntry(this.pokemob.getPokedexEntry());
+            // Change to the pokemob info page on opening
+            GuiPokeWatch.lastPage = 1;
         }
         this.player = player;
 

@@ -1,4 +1,4 @@
-package pokecube.adventures.client;
+package pokecube.adventures.proxy;
 
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +22,6 @@ import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import pokecube.adventures.CommonProxy;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.cloner.ClonerContainer;

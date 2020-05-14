@@ -1,7 +1,7 @@
 package pokecube.mobs.client.render;
 
 import net.minecraft.entity.Entity;
-import thut.core.client.render.animation.ModelHolder;
+import thut.api.ModelHolder;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.wrappers.ModelWrapper;
 

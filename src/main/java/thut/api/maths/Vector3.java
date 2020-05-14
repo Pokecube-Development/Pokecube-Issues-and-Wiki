@@ -990,8 +990,9 @@ public class Vector3
     public int getMaxY(final IWorld world, final int x, final int z)
     {
         final IChunk chunk = world.getChunk(this.getPos());
-        final int y = chunk.getTopBlockY(Type.MOTION_BLOCKING, this.intX() & 15, this.intZ() & 15);
-        return y;
+        final int y1 = chunk.getTopBlockY(Type.OCEAN_FLOOR, this.intX() & 15, this.intZ() & 15);
+        final int y2 = chunk.getTopBlockY(Type.MOTION_BLOCKING_NO_LEAVES, this.intX() & 15, this.intZ() & 15);
+        return Math.min(y1, y2);
     }
 
     public int[] getMinMaxY(final World world, final int range)

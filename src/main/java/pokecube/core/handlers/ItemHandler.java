@@ -25,7 +25,6 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.vitamins.ItemVitamin;
 import thut.api.OwnableCaps;
-import thut.core.common.ThutCore;
 
 public class ItemHandler
 {
@@ -61,10 +60,6 @@ public class ItemHandler
         item = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS)).setRegistryName(PokecubeMod.ID,
                 "emerald_shard");
         registry.register(item);
-
-        for (final String s : PokecubeCore.getConfig().customHeldItems)
-            if (!ItemGenerator.variants.contains(ThutCore.trim(s))) ItemGenerator.variants.add(ThutCore.trim(s));
-
         ItemGenerator.registerItems(registry);
     }
 

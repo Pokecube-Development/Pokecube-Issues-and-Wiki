@@ -9,7 +9,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.moves.PokemobDamageSource;
+import pokecube.core.moves.damage.PokemobDamageSource;
 
 public abstract class PokemobCombat extends PokemobRidable
 {

@@ -23,6 +23,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.entity.IOngoingAffected;
 import pokecube.core.interfaces.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.core.moves.damage.StatusEffectDamageSource;
 
 public class NonPersistantStatusEffect extends BaseEffect
 {
@@ -59,10 +60,7 @@ public class NonPersistantStatusEffect extends BaseEffect
                 if (targetM == null) targetM = entity;
                 float scale = 1;
                 final IPokemob user = CapabilityPokemob.getPokemobFor(targetM);
-                final DamageSource source = user != null && user.getOwner() != null ? DamageSource.causeIndirectDamage(
-                        targetM, user.getOwner())
-                        : targetM != null ? DamageSource.causeMobDamage(targetM) : new DamageSource("generic");
-
+                final DamageSource source = new StatusEffectDamageSource(targetM);
                 if (pokemob != null)
                 {
                     source.setDamageIsAbsolute();

@@ -62,7 +62,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.berries.ItemBerry;
-import pokecube.core.moves.PokemobDamageSource;
+import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.EntityTools;
@@ -288,11 +288,12 @@ public class PokemobEventsHandler
             if (owner != null)
             {
                 final List<Entity> pokemobs = PCEventsHandler.getOutMobs(owner, false);
+                pokemobs.removeIf(e -> !e.isAlive());
                 for (final Entity mob : pokemobs)
                 {
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
-                    if (poke != null) if (ItemList.is(new ResourceLocation("pokecube", "exp_share"), poke
-                            .getHeldItem()))
+                    if (poke != null && poke.getEntity().getHealth() > 0 && ItemList.is(new ResourceLocation("pokecube",
+                            "exp_share"), poke.getHeldItem()))
                     {
                         final int exp = poke.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
                                 killed.getBaseXP(), killed.getLevel());

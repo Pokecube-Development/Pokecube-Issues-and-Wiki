@@ -2,9 +2,9 @@ package pokecube.core.entity.pokemobs;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
@@ -20,31 +20,21 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.DefaultedRegistry;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.interfaces.PokecubeMod;
 import thut.api.maths.Vector3;
 
 public class DispenseBehaviourInteract implements IDispenseItemBehavior
 {
-    private static final ResourceLocation     DEFAULT     = new ResourceLocation("none");
-    public static final Set<ResourceLocation> KNOWNSTACKS = Sets.newHashSet();
+    public static final Map<ResourceLocation, IDispenseItemBehavior> DEFAULTS = Maps.newHashMap();
 
-    // We make our own to try to ensure that any other added behaviour is kept.
-    // Hopefully they registered their first, we do this in post init, so should
-    // be.
-    public static final DefaultedRegistry<IDispenseItemBehavior> DISPENSE_BEHAVIOR_REGISTRY = new DefaultedRegistry<>(
-            DispenseBehaviourInteract.DEFAULT.toString());
-
-    static
-    {
-        DispenseBehaviourInteract.DISPENSE_BEHAVIOR_REGISTRY.register(DispenseBehaviourInteract.DEFAULT,
-                new DefaultDispenseItemBehavior());
-    }
+    private static final IDispenseItemBehavior DEFAULT = new DefaultDispenseItemBehavior();
 
     public static void registerBehavior(final ItemStack stack)
     {
-        if (stack.isEmpty() || !DispenseBehaviourInteract.KNOWNSTACKS.add(stack.getItem().getRegistryName())) return;
+        if (DispenseBehaviourInteract.DEFAULTS.containsKey(stack.getItem().getRegistryName())) return;
+        final IDispenseItemBehavior original = DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY.get(stack.getItem());
+        DispenseBehaviourInteract.DEFAULTS.put(stack.getItem().getRegistryName(), original);
         DispenserBlock.registerDispenseBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
     }
 
@@ -59,8 +49,9 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
                 dir = (Direction) state.get(prop);
                 break;
             }
-        if (dir == null) return DispenseBehaviourInteract.DISPENSE_BEHAVIOR_REGISTRY.getOrDefault(stack.getItem()
-                .getRegistryName()).dispense(source, stack);
+        if (dir == null) return DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
+                DispenseBehaviourInteract.DEFAULT).dispense(source, stack);
+
         final FakePlayer player = PokecubeMod.getFakePlayer(source.getWorld());
         player.posX = source.getX();
         player.posY = source.getY() - player.getEyeHeight();
@@ -90,15 +81,14 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
                     result = true;
                     // This should result in the object just being
                     // dropped.
-                    DispenseBehaviourInteract.DISPENSE_BEHAVIOR_REGISTRY.getOrDefault(DispenseBehaviourInteract.DEFAULT)
-                            .dispense(source, stack3);
+                    DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
+                            DispenseBehaviourInteract.DEFAULT).dispense(source, stack3);
                 }
-
             player.inventory.clear();
             if (result) return stack;
         }
-        return DispenseBehaviourInteract.DISPENSE_BEHAVIOR_REGISTRY.getOrDefault(stack.getItem().getRegistryName())
-                .dispense(source, stack);
+        return DispenseBehaviourInteract.DEFAULTS.getOrDefault(stack.getItem().getRegistryName(),
+                DispenseBehaviourInteract.DEFAULT).dispense(source, stack);
     }
 
 }

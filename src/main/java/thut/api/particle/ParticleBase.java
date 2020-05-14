@@ -1,4 +1,4 @@
-package thut.core.client.render.particle;
+package thut.api.particle;
 
 import org.lwjgl.opengl.GL11;
 
@@ -48,18 +48,18 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     public static ResourceLocation                                 TEXTUREMAP   = new ResourceLocation(ThutCore.MODID,
             "textures/particles.png");
 
-    int     duration  = 10;
-    int     lifetime  = 10;
-    int     initTime  = 0;
-    long    lastTick  = 0;
-    int     animSpeed = 2;
-    float   size      = 1;
-    int     rgba      = 0xFFFFFFFF;
-    boolean billboard = true;
-    String  name      = "";
-    Vector3 velocity  = Vector3.empty;
-    Vector3 position  = Vector3.empty;
-    int[][] tex       = new int[1][2];
+    public int     duration  = 10;
+    public int     lifetime  = 10;
+    public int     initTime  = 0;
+    public long    lastTick  = 0;
+    public int     animSpeed = 2;
+    public float   size      = 1;
+    public int     rgba      = 0xFFFFFFFF;
+    public boolean billboard = true;
+    public String  name      = "";
+    public Vector3 velocity  = Vector3.empty;
+    public Vector3 position  = Vector3.empty;
+    public int[][] tex       = new int[1][2];
 
     public ParticleBase(final int x, final int y)
     {
