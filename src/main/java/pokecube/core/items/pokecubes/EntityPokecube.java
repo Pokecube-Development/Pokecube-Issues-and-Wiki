@@ -151,11 +151,11 @@ public class EntityPokecube extends EntityPokecubeBase
         {
             if (player.isSneaking() && PokecubeManager.isFilled(this.getItem()) && player.abilities.isCreativeMode)
                 if (!stack.isEmpty())
-                {
+            {
                 this.isLoot = true;
                 this.addLoot(new LootEntry(stack, 1));
                 return true;
-                }
+            }
             if (!this.isReleasing()) if (PokecubeManager.isFilled(this.getItem()))
             {
                 if (player.isSneaking())
@@ -258,33 +258,39 @@ public class EntityPokecube extends EntityPokecubeBase
             this.remove();
             return;
         }
-        if (this.getTime() <= 0 && this.getTilt() >= 4) // Captured the pokemon
+
+        if (this.getEntityWorld() instanceof ServerWorld)
         {
-            if (CaptureManager.captureSucceed(this))
+            final boolean validTime = this.getTime() <= 0;
+            // Captured the pokemon
+            if (validTime && this.getTilt() >= 4)
             {
-                boolean gave = false;
-                final boolean filled = PokecubeManager.isFilled(this.getItem());
-                if (filled)
+                if (CaptureManager.captureSucceed(this))
                 {
-                    final CaptureEvent.Post event = new CaptureEvent.Post(this);
-                    gave = PokecubeCore.POKEMOB_BUS.post(event);
+                    boolean gave = false;
+                    final boolean filled = PokecubeManager.isFilled(this.getItem());
+                    if (filled)
+                    {
+                        final CaptureEvent.Post event = new CaptureEvent.Post(this);
+                        gave = PokecubeCore.POKEMOB_BUS.post(event);
+                    }
+                    else if (this.shootingEntity instanceof ServerPlayerEntity
+                            && !(this.shootingEntity instanceof FakePlayer))
+                    {
+                        Tools.giveItem((PlayerEntity) this.shootingEntity, this.getItem());
+                        gave = true;
+                    }
+                    if (!gave) this.entityDropItem(this.getItem(), 0.5f);
                 }
-                else if (this.shootingEntity instanceof ServerPlayerEntity
-                        && !(this.shootingEntity instanceof FakePlayer))
-                {
-                    Tools.giveItem((PlayerEntity) this.shootingEntity, this.getItem());
-                    gave = true;
-                }
-                if (!gave) this.entityDropItem(this.getItem(), 0.5f);
+                this.remove();
+                return;
             }
-            this.remove();
-            return;
-        }
-        else if (this.getTime() <= 0 && this.getTilt() >= 0)
-        {// Missed the pokemon
-            CaptureManager.captureFailed(this);
-            this.remove();
-            return;
+            else if (validTime && this.getTilt() >= 0)
+            {// Missed the pokemon
+                CaptureManager.captureFailed(this);
+                this.remove();
+                return;
+            }
         }
         super.tick();
     }
