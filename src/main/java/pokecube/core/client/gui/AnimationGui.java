@@ -256,7 +256,8 @@ public class AnimationGui extends Screen
         x = w / 2 - width / 2;
         y = h / 2 - height / 2;
 
-        final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").toFile();
+        final File dir = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").resolve(
+                AnimationGui.entry.texturePath.replace("entity", "entity_icon")).toFile();
         dir.mkdirs();
         // TODO instead go based on the mob's assumed texture?
 
@@ -444,7 +445,7 @@ public class AnimationGui extends Screen
             {
                 this.cylceUp();
                 this.took = false;
-                this.transitTime = System.currentTimeMillis() + 2;
+                this.transitTime = System.currentTimeMillis() + 100;
             }
             else if (this.transitTime < System.currentTimeMillis())
             {
