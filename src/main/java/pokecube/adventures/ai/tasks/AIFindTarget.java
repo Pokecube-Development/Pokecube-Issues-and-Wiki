@@ -25,7 +25,6 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 {
     public static boolean canBattle(final LivingEntity input, final LivingEntity mobIn)
     {
-
         if (input != null && input.getLastAttackedEntity() == mobIn) return true;
         if (mobIn.getRevengeTarget() != null && mobIn.getRevengeTarget() == input) return true;
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(input);
