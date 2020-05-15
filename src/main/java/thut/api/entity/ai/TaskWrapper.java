@@ -1,20 +1,16 @@
 package thut.api.entity.ai;
 
-import java.util.Map;
-
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.world.server.ServerWorld;
 
 public class TaskWrapper<E extends LivingEntity> extends Task<E>
 {
-    final IAIRunnable wrapped;
+    final ITask wrapped;
 
-    public TaskWrapper(final Map<MemoryModuleType<?>, MemoryModuleStatus> requiredMemoryStateIn, final IAIRunnable wrap)
+    public TaskWrapper(final ITask wrap)
     {
-        super(requiredMemoryStateIn);
+        super(wrap.getNeededMemories());
         this.wrapped = wrap;
     }
 
