@@ -116,6 +116,9 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE)
     public int     dayCareBreedAmount  = 10;
 
+    @Configure(category = Config.MACHINE)
+    public int dayCareLvl100EffectiveLevel = 30;
+
     // AFA related options
     @Configure(category = Config.MACHINE)
     public int    afaShinyRate         = 4096;

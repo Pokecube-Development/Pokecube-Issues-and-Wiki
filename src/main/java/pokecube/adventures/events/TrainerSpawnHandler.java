@@ -14,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -28,6 +29,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -211,6 +213,12 @@ public class TrainerSpawnHandler
             final double dt = (System.nanoTime() - time) / 1000000D;
             if (dt > 20) PokecubeCore.LOGGER.warn("Trainer " + cap.getType().getName() + " " + dt + "ms ");
             v.offsetBy(Direction.UP).moveEntity(t);
+
+            // Not valid spawning spot, so deny the spawn here.
+            if (!(WorldEntitySpawner.canCreatureTypeSpawnAtLocation(PlacementType.ON_GROUND, w, v.getPos(), t.getType())
+                    || WorldEntitySpawner.canCreatureTypeSpawnAtLocation(PlacementType.IN_WATER, w, v.getPos(), t
+                            .getType()))) return;
+
             if (t.pokemobsCap.countPokemon() > 0 && SpawnHandler.checkNoSpawnerInArea(w, (int) t.posX, (int) t.posY,
                     (int) t.posZ))
             {
