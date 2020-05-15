@@ -198,7 +198,7 @@ public class TerrainSegment
 
     public static int toGlobal(final int localPos, final int chunkPos)
     {
-        return (chunkPos << 4) + (localPos << 16) / TerrainSegment.GRIDSIZE;
+        return (chunkPos << 4) + (localPos << 4) / TerrainSegment.GRIDSIZE;
     }
 
     public static int globalToIndex(final int x, final int y, final int z)
@@ -546,7 +546,7 @@ public class TerrainSegment
                 String line = "[";
                 for (int z = 0; z < 4; z++)
                 {
-                    line = line + this.biomes[localToIndex(x, y, z)];
+                    line = line + this.biomes[TerrainSegment.localToIndex(x, y, z)];
                     if (z != 3) line = line + ", ";
                 }
                 line = line + "]";
