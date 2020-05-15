@@ -17,7 +17,6 @@ import thut.api.item.ItemList;
 import thut.bling.ThutBling;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
-import thut.wearables.ThutWearables;
 
 public class LargeContainer extends BaseContainer
 {
@@ -94,7 +93,7 @@ public class LargeContainer extends BaseContainer
         {
             final PacketBag packet = new PacketBag(PacketBag.RENAME, this.inv.getOwner());
             packet.data.putString("N", name);
-            ThutWearables.packets.sendToServer(packet);
+            ThutBling.packets.sendToServer(packet);
         }
     }
 
@@ -141,7 +140,7 @@ public class LargeContainer extends BaseContainer
         {
             final PacketBag packet = new PacketBag(PacketBag.SETPAGE, this.inv.getOwner());
             packet.data.putInt("P", page);
-            ThutWearables.packets.sendToServer(packet);
+            ThutBling.packets.sendToServer(packet);
         }
         this.bindInventories();
     }

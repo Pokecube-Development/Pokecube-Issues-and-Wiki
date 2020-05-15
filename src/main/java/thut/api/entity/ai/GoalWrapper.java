@@ -48,6 +48,7 @@ public class GoalWrapper extends Goal
     {
         this.wrapped.run();
         this.wrapped.tick();
+        this.wrapped.finish();
     }
 
 }
