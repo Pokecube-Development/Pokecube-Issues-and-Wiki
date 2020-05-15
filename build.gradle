@@ -151,6 +151,16 @@ task sourcesJar(type: Jar) {
 task serverJar(type: Jar) {	
     classifier = 'server'
     from sourceSets.main.output	
+    manifest {
+        attributes 'FMLAT': 'accesstransformer.cfg',
+        "Specification-Title": "${compile_name}",
+        "Specification-Vendor": "${author_name}",
+        "Specification-Version": VERSION_COMPILE,
+        "Implementation-Title": project.name,
+        "Implementation-Version": VERSION_COMPILE,
+        "Implementation-Vendor" :"${author_name}",
+        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+    }
     exclude '**/assets/pokecube_mobs/gen*'
     exclude '**/assets/pokecube_mobs/sound*'
     exclude '**/assets/pokecube/sound*'
