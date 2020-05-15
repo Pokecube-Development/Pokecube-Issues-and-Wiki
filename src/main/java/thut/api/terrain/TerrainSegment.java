@@ -145,16 +145,24 @@ public class TerrainSegment
         void writeToNBT(CompoundNBT nbt);
     }
 
-    public static final int                            GRIDSIZE             = 4;
-    public static ISubBiomeChecker                     defaultChecker       = new DefaultChecker();
-    public static List<ISubBiomeChecker>               biomeCheckers        = Lists.newArrayList();
+    public static final int GRIDSIZE = 4;
+
+    public static final int YSHIFT = TerrainSegment.GRIDSIZE;
+    public static final int ZSHIFT = TerrainSegment.YSHIFT * TerrainSegment.GRIDSIZE;
+    public static final int TOTAL  = TerrainSegment.ZSHIFT * TerrainSegment.GRIDSIZE;
+
+    public static ISubBiomeChecker       defaultChecker = new DefaultChecker();
+    public static List<ISubBiomeChecker> biomeCheckers  = Lists.newArrayList();
+
     public static Set<Class<? extends ITerrainEffect>> terrainEffectClasses = Sets.newHashSet();
-    public static boolean                              noLoad               = false;
+
+    public static boolean noLoad = false;
+
     //@formatter:off
-    public static Predicate<Integer>                   saveChecker          = (i) -> !(i == -1
-                                                                                    || i == BiomeType.CAVE.getType()
-                                                                                    || i == BiomeType.SKY.getType()
-                                                                                    || i == BiomeType.NONE.getType());
+    public static Predicate<Integer> saveChecker = (i) -> !(i == -1
+                                                         || i == BiomeType.CAVE.getType()
+                                                         || i == BiomeType.SKY.getType()
+                                                         || i == BiomeType.NONE.getType());
     //@formatter:on
 
     public static int count(final IWorld world, final Block b, final Vector3 v, final int range)
@@ -181,6 +189,29 @@ public class TerrainSegment
                     }
                 }
         return ret;
+    }
+
+    public static int toLocal(final int globalPos)
+    {
+        return (globalPos & 15) / TerrainSegment.GRIDSIZE;
+    }
+
+    public static int toGlobal(final int localPos, final int chunkPos)
+    {
+        return (chunkPos << 4) + (localPos << 16) / TerrainSegment.GRIDSIZE;
+    }
+
+    public static int globalToIndex(final int x, final int y, final int z)
+    {
+        final int relX = TerrainSegment.toLocal(x);
+        final int relY = TerrainSegment.toLocal(y);
+        final int relZ = TerrainSegment.toLocal(z);
+        return TerrainSegment.localToIndex(relX, relY, relZ);
+    }
+
+    public static int localToIndex(final int x, final int y, final int z)
+    {
+        return x + TerrainSegment.YSHIFT * y + TerrainSegment.ZSHIFT * z;
     }
 
     public static boolean isInTerrainColumn(final Vector3 t, final Vector3 point)
@@ -239,7 +270,7 @@ public class TerrainSegment
 
     Vector3 mid = Vector3.getNewVector();
 
-    protected int[] biomes = new int[TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE];
+    protected int[] biomes = new int[TerrainSegment.TOTAL];
 
     HashMap<String, ITerrainEffect> effects = new HashMap<>();
     public final ITerrainEffect[]   effectArr;
@@ -349,12 +380,8 @@ public class TerrainSegment
     public int getBiome(final int x, final int y, final int z)
     {
         int ret = 0;
-        final int relX = (x & 15) / TerrainSegment.GRIDSIZE, relY = (y & 15) / TerrainSegment.GRIDSIZE, relZ = (z & 15)
-                / TerrainSegment.GRIDSIZE;
-
-        if (relX < TerrainSegment.GRIDSIZE && relY < TerrainSegment.GRIDSIZE && relZ < TerrainSegment.GRIDSIZE)
-            ret = this.biomes[relX + TerrainSegment.GRIDSIZE * relY + TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE
-                    * relZ];
+        final int index = TerrainSegment.globalToIndex(x, y, z);
+        if (index < TerrainSegment.TOTAL) ret = this.biomes[index];
         if (TerrainSegment.saveChecker.test(ret)) this.toSave = true;
         return ret;
     }
@@ -421,7 +448,6 @@ public class TerrainSegment
         final int i = MathHelper.floor(x) >> 4;
         final int j = MathHelper.floor(y) >> 4;
         final int k = MathHelper.floor(z) >> 4;
-
         ret = i == this.chunkX && k == this.chunkZ && j == this.chunkY;
         return ret;
     }
@@ -434,21 +460,20 @@ public class TerrainSegment
             this.init = true;
             return;
         }
-        for (int i = 0; i < TerrainSegment.GRIDSIZE; i++)
-            for (int j = 0; j < TerrainSegment.GRIDSIZE; j++)
-                for (int k = 0; k < TerrainSegment.GRIDSIZE; k++)
+        for (int x = 0; x < TerrainSegment.GRIDSIZE; x++)
+            for (int y = 0; y < TerrainSegment.GRIDSIZE; y++)
+                for (int z = 0; z < TerrainSegment.GRIDSIZE; z++)
                 {
                     // This is the index in biomes of our current location.
-                    final int index = i + TerrainSegment.GRIDSIZE * j + TerrainSegment.GRIDSIZE
-                            * TerrainSegment.GRIDSIZE * k;
+                    final int index = TerrainSegment.localToIndex(x, y, z);
                     // Check if this segment is already a custom choice, if so,
                     // then we don't want to overwrite it, unless we are not
                     // allowed to load saved subbiomes.
                     if (TerrainSegment.saveChecker.test(this.biomes[index]) && !TerrainSegment.noLoad) continue;
 
                     // Conver to block coordinates.
-                    this.temp.set(this.chunkX * 16 + i * 16 / TerrainSegment.GRIDSIZE, this.chunkY * 16 + j * 16
-                            / TerrainSegment.GRIDSIZE, this.chunkZ * 16 + k * 16 / TerrainSegment.GRIDSIZE);
+                    this.temp.set(TerrainSegment.toGlobal(x, this.chunkX), TerrainSegment.toGlobal(y, this.chunkY),
+                            TerrainSegment.toGlobal(z, this.chunkZ));
 
                     // Check to see what our various detectors pick for this
                     // location.
@@ -484,12 +509,9 @@ public class TerrainSegment
 
     public void setBiome(final int x, final int y, final int z, final int biome)
     {
-        final int relX = (x & 15) / TerrainSegment.GRIDSIZE, relY = (y & 15) / TerrainSegment.GRIDSIZE, relZ = (z & 15)
-                / TerrainSegment.GRIDSIZE;
-        this.biomes[relX + TerrainSegment.GRIDSIZE * relY + TerrainSegment.GRIDSIZE * TerrainSegment.GRIDSIZE
-                * relZ] = biome;
+        final int index = TerrainSegment.globalToIndex(x, y, z);
+        this.biomes[index] = biome;
         if (TerrainSegment.saveChecker.test(biome)) this.toSave = true;
-
     }
 
     public void setBiome(final int[] biomes)
@@ -518,15 +540,14 @@ public class TerrainSegment
         String ret = "Terrian Segment " + this.chunkX + "," + this.chunkY + "," + this.chunkZ + " Centre:" + this
                 .getCentre();
         final String eol = System.getProperty("line.separator");
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 4; j++)
+        for (int x = 0; x < 4; x++)
+            for (int y = 0; y < 4; y++)
             {
                 String line = "[";
-                for (int k = 0; k < 4; k++)
+                for (int z = 0; z < 4; z++)
                 {
-                    line = line + this.biomes[i + TerrainSegment.GRIDSIZE * j + TerrainSegment.GRIDSIZE
-                            * TerrainSegment.GRIDSIZE * k];
-                    if (k != 3) line = line + ", ";
+                    line = line + this.biomes[localToIndex(x, y, z)];
+                    if (z != 3) line = line + ", ";
                 }
                 line = line + "]";
                 ret = ret + eol + line;
