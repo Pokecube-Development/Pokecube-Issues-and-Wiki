@@ -117,7 +117,8 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
         for (final Entity mob : list)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-            int level = pokemob != null ? pokemob.getLevel() : 100;
+            if (pokemob == null) continue;
+            int level = pokemob.getLevel();
             final boolean gainExp = level < 100;
             if (level >= 100) level = PokecubeAdv.config.dayCareLvl100EffectiveLevel;
             final int type = pokemob.getExperienceMode();
