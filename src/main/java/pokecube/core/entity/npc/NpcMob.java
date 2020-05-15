@@ -12,7 +12,10 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -33,6 +36,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -161,6 +166,18 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public IPacket<?> createSpawnPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(final IWorld worldIn, final DifficultyInstance difficultyIn,
+            final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
+    {
+        this.setVillagerData(this.getVillagerData().withProfession(VillagerProfession.NONE));
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier(
+                "Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
+        if (this.rand.nextFloat() < 0.05F) this.setLeftHanded(true);
+        else this.setLeftHanded(false);
+        return spawnDataIn;
     }
 
     public ResourceLocation getTex()
