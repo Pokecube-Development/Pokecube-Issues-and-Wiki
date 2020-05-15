@@ -4669,12 +4669,11 @@
             "hidden": "Unnerve"
           }
         },
-        "mass": 7.5,
-        "captureRate": 3,
-        "baseExp": 270,
-        "baseFriendship": 35,
+        "mass": 4.2,
+        "captureRate": 255,
+        "baseExp": 58,
         "expMode": "Medium Fast",
-        "genderRatio": 255,
+        "genderRatio": 127,
         "logics": {
           "values": {
             "shoulder": "FALSE"
