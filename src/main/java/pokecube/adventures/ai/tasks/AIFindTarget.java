@@ -7,10 +7,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.EntityPredicates;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.TrainerCaps;
+import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
@@ -25,7 +27,6 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
 {
     public static boolean canBattle(final LivingEntity input, final LivingEntity mobIn)
     {
-
         if (input != null && input.getLastAttackedEntity() == mobIn) return true;
         if (mobIn.getRevengeTarget() != null && mobIn.getRevengeTarget() == input) return true;
         final IHasPokemobs other = TrainerCaps.getHasPokemobs(input);
@@ -119,6 +120,8 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     private float     agroChance = 1f;
     private int       timer      = 0;
     private final int maxTimer;
+
+    final Vector3 here = Vector3.getNewVector();
 
     // This is whether the ai should run for the current task holder
     private Predicate<LivingEntity> shouldRun = e -> true;
@@ -237,14 +240,15 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
         if (Math.random() > this.agroChance) return;
 
         // Look for targets
-        final Vector3 here = Vector3.getNewVector().set(this.entity, true);
+        this.here.set(this.entity, true);
         LivingEntity target = null;
         final int sight = this.trainer.getAgressDistance();
 
-        if (!TerrainManager.isAreaLoaded(this.world, here, sight + 3)) return;
+        if (!TerrainManager.isAreaLoaded(this.world, this.here, sight + 3)) return;
 
         final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.validTargetSet((LivingEntity) e);
-        final Entity match = here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity, matcher);
+        final Entity match = this.here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity,
+                matcher);
         if (match instanceof LivingEntity) target = (LivingEntity) match;
 
         // If no target, return false.
@@ -265,6 +269,10 @@ public class AIFindTarget extends AITrainerBase implements ITargetWatcher
     @Override
     public boolean validTargetSet(final LivingEntity target)
     {
+        this.here.set(this.entity, true);
+        final int dist = PokecubeAdv.config.trainer_crowding_radius;
+        final int num = PokecubeAdv.config.trainer_crowding_number;
+        if (TrainerTracker.countTrainers(this.world, this.here, dist) > num) return false;
         return this.validTargets.test(target);
     }
 }

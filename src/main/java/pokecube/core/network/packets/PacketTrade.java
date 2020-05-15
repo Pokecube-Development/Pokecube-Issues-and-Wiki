@@ -190,7 +190,7 @@ public class PacketTrade extends Packet
                     inv.setStackInSlot(0, PokecubeManager.pokemobToItem(pokemob0));
                     inv.setStackInSlot(1, PokecubeManager.pokemobToItem(pokemob1));
                 }
-                else if (pokeseal) RecipePokeseals.process(seal, cube);
+                else if (pokeseal) RecipePokeseals.process(cube, seal);
                 else if (reskin)
                 {
                     final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, player.getEntityWorld());

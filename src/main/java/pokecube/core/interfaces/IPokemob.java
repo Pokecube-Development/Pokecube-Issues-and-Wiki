@@ -497,7 +497,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         this.healStatus();
         this.healChanges();
         final MobEntity mob = this.getEntity();
-        mob.setHealth(1);
+        mob.setHealth(this.getOwnerId() == null ? this.getStat(Stats.HP, false) : 1);
         mob.hurtTime = 0;
         mob.deathTime = 0;
     }
