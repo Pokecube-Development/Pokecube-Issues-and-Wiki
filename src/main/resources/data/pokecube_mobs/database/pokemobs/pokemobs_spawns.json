@@ -7880,7 +7880,7 @@
           {
             "values": {
               "types": "forest",
-              "rate": "0.1"
+              "rate": "0.01"
             }
           }
         ]
@@ -7893,7 +7893,7 @@
           {
             "values": {
               "types": "plains",
-              "rate": "0.1"
+              "rate": "0.01"
             }
           }
         ]
@@ -7906,7 +7906,7 @@
           {
             "values": {
               "types": "beach",
-              "rate": "0.1",
+              "rate": "0.01",
               "water": "true"
             }
           }

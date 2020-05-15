@@ -2,12 +2,16 @@ package pokecube.core.ai.tasks;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.Path;
@@ -24,11 +28,12 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.entity.ai.IAIRunnable;
+import thut.api.entity.ai.ITask;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.lib.ItemStackTools;
 
-public abstract class AIBase implements IAIRunnable
+public abstract class AIBase implements ITask
 {
     /** Thread safe inventory setting for pokemobs. */
     public static class InventoryChange implements IRunnable
@@ -114,6 +119,8 @@ public abstract class AIBase implements IAIRunnable
 
     protected List<IRunnable> toRun = Lists.newArrayList();
 
+    final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems;
+
     int priority = 0;
     int mutex    = 0;
 
@@ -124,6 +131,18 @@ public abstract class AIBase implements IAIRunnable
         if (this.entity.getEntityWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
                 .getEntityWorld();
         else this.world = null;
+        // Empty map for old version that does not wrap this.
+        this.neededMems = ImmutableMap.of();
+    }
+
+    public AIBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
+    {
+        this.pokemob = pokemob;
+        this.entity = pokemob.getEntity();
+        if (this.entity.getEntityWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
+                .getEntityWorld();
+        else this.world = null;
+        this.neededMems = ImmutableMap.copyOf(neededMems);
     }
 
     protected boolean addEntityPath(final MobEntity entity, final Path path, final double speed)
@@ -226,6 +245,12 @@ public abstract class AIBase implements IAIRunnable
     @Override
     public void tick()
     {
+    }
+
+    @Override
+    public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
+    {
+        return this.neededMems;
     }
 
 }
