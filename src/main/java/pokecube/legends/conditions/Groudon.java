@@ -14,7 +14,7 @@ public class Groudon extends Condition
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!this.canCapture(trainer)) return false;
+        if (!super.canCapture(trainer, pokemon)) return false;
         final int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("ground"));
         final int count2 = KillStats.getUniqueOfTypeKilledBy(trainer.getUniqueID(), PokeType.getType("water"));
         final int count3 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("ground"));

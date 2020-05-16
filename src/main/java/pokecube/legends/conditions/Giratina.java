@@ -9,25 +9,25 @@ import pokecube.core.interfaces.IPokemob;
 public class Giratina extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean dialga = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("dialga")) > 0;
-        boolean palkia = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("palkia")) > 0;
-                
-        String name = "Dialga, Palkia";
-                
-        if ((dialga && palkia)) return true;
+        if (!super.canCapture(trainer, pokemon)) return false;
+        final boolean dialga = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "dialga")) > 0;
+        final boolean palkia = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "palkia")) > 0;
+
+        final String name = "Dialga, Palkia";
+
+        if (dialga && palkia) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }
-    
+
     @Override
     public PokedexEntry getEntry()
     {

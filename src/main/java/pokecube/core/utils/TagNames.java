@@ -84,6 +84,7 @@ public interface TagNames
     public static final String REVIVED = "pokecube:revived";
     public static final String HATCHED = "pokecube:hatched";
     public static final String TRADED  = "pokecube:traded";
+    public static final String NOPOOF  = "pokecube:nodespawn";
 
     public static CompoundNBT getEntityPokemobTag(final CompoundNBT entityRootTag)
     {
