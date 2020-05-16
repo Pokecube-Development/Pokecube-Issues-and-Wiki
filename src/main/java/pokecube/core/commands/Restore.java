@@ -14,6 +14,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.GameProfileArgument;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -25,9 +26,14 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
+import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class Restore
@@ -40,30 +46,50 @@ public class Restore
                 "Is the player allowed use the restore feature to recover mobs");
 
         final LiteralArgumentBuilder<CommandSource> root = Commands.literal("restore").requires(Tools.hasPerm(perm));
+
+        // This one does the actual restoration
         final LiteralArgumentBuilder<CommandSource> restore = Commands.literal("restore").then(Commands.argument("uuid",
                 StringArgumentType.string()).then(Commands.argument("id", IntegerArgumentType.integer()).executes(
                         ctx -> Restore.execute_give(ctx.getSource(), StringArgumentType.getString(ctx, "uuid"),
                                 IntegerArgumentType.getInteger(ctx, "id")))));
 
         final LiteralArgumentBuilder<CommandSource> check = Commands.literal("check").then(Commands.argument("player",
-                GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
-                        GameProfileArgument.getGameProfiles(ctx, "player"), false, false, false)));
+                GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument
+                        .getGameProfiles(ctx, "player"), false, false, false, "")));
         final LiteralArgumentBuilder<CommandSource> check_pc = Commands.literal("check_pc").then(Commands.argument(
                 "player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
-                        GameProfileArgument.getGameProfiles(ctx, "player"), false, true, false)));
+                        GameProfileArgument.getGameProfiles(ctx, "player"), false, true, false, "")));
         final LiteralArgumentBuilder<CommandSource> check_deleted = Commands.literal("check_deleted").then(Commands
-                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx
-                        .getSource(), GameProfileArgument.getGameProfiles(ctx, "player"), false, false, true)));
+                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
+                        GameProfileArgument.getGameProfiles(ctx, "player"), false, false, true, "")));
 
         final LiteralArgumentBuilder<CommandSource> give = Commands.literal("give").then(Commands.argument("player",
-                GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
-                        GameProfileArgument.getGameProfiles(ctx, "player"), true, false, false)));
+                GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument
+                        .getGameProfiles(ctx, "player"), true, false, false, "")));
         final LiteralArgumentBuilder<CommandSource> give_pc = Commands.literal("give_pc").then(Commands.argument(
                 "player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
-                        GameProfileArgument.getGameProfiles(ctx, "player"), true, true, false)));
+                        GameProfileArgument.getGameProfiles(ctx, "player"), true, true, false, "")));
         final LiteralArgumentBuilder<CommandSource> give_deleted = Commands.literal("give_deleted").then(Commands
-                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx
-                        .getSource(), GameProfileArgument.getGameProfiles(ctx, "player"), true, false, true)));
+                .argument("player", GameProfileArgument.gameProfile()).executes(ctx -> Restore.execute(ctx.getSource(),
+                        GameProfileArgument.getGameProfiles(ctx, "player"), true, false, true, "")));
+
+        final LiteralArgumentBuilder<CommandSource> check_spec = Commands.literal("check").then(Commands.argument(
+                "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
+                        .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
+                                "player"), false, false, false, StringArgumentType.getString(ctx, "name")))));
+        final LiteralArgumentBuilder<CommandSource> check_pc_spec = Commands.literal("check").then(Commands.argument(
+                "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
+                        .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
+                                "player"), false, false, false, StringArgumentType.getString(ctx, "name")))));
+
+        final LiteralArgumentBuilder<CommandSource> give_spec = Commands.literal("give").then(Commands.argument(
+                "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
+                        .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
+                                "player"), true, true, false, ""))));
+        final LiteralArgumentBuilder<CommandSource> give_pc_spec = Commands.literal("give").then(Commands.argument(
+                "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
+                        .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
+                                "player"), true, true, false, ""))));
 
         root.then(check);
         root.then(check_pc);
@@ -71,6 +97,13 @@ public class Restore
         root.then(give);
         root.then(give_pc);
         root.then(give_deleted);
+
+        root.then(check_spec);
+        root.then(check_pc_spec);
+        root.then(give_spec);
+        root.then(give_pc_spec);
+
+        // This one does the actual restoration
         root.then(restore);
 
         command.then(root);
@@ -80,7 +113,6 @@ public class Restore
             throws CommandSyntaxException
     {
         final ServerPlayerEntity user = source.asPlayer();
-
         final PlayerPokemobCache pokemobCache = PlayerDataHandler.getInstance().getPlayerData(UUID.fromString(uuid))
                 .getData(PlayerPokemobCache.class);
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
@@ -90,13 +122,14 @@ public class Restore
     }
 
     private static int execute(final CommandSource source, final Collection<GameProfile> players, final boolean give,
-            final boolean pc, final boolean deleted) throws CommandSyntaxException
+            final boolean pc, final boolean deleted, String toMatch) throws CommandSyntaxException
     {
         if (players.size() != 1)
         {
             source.sendErrorMessage(new TranslationTextComponent("pokecube.command.restore_only_one"));
             return 1;
         }
+        toMatch = ThutCore.trim(toMatch);
 
         final ServerPlayerEntity user = source.asPlayer();
 
@@ -117,6 +150,19 @@ public class Restore
             if (deleted != wasDeleted) continue;
 
             final ItemStack stack = entry.getValue();
+
+            if (!toMatch.isEmpty())
+            {
+                final Entity mob = PokecubeManager.itemToMob(stack, user.getEntityWorld());
+                if (mob == null) continue;
+                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
+                if (pokemob != null)
+                {
+                    final PokedexEntry pentry = pokemob.getPokedexEntry();
+                    if (!pentry.getTrimmedName().equalsIgnoreCase(toMatch)) continue;
+                }
+            }
+
             final ListNBT nbttaglist = stack.getTag().getCompound(TagNames.POKEMOB).getList("Pos", 6);
             final double posX = nbttaglist.getDouble(0);
             final double posY = nbttaglist.getDouble(1);
