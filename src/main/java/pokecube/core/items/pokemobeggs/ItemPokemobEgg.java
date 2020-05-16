@@ -49,6 +49,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.Permissions;
+import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -182,10 +183,7 @@ public class ItemPokemobEgg extends Item
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
             double d0 = Double.MAX_VALUE;
-            for (int i = 0; i < list.size(); ++i)
-            {
-                final LivingEntity t1 = list.get(i);
-
+            for (final LivingEntity t1 : list)
                 if (t1 != closestTo && EntityPredicates.NOT_SPECTATING.test(t1))
                 {
                     final double d1 = closestTo.getDistanceSq(t1);
@@ -196,7 +194,6 @@ public class ItemPokemobEgg extends Item
                         d0 = d1;
                     }
                 }
-            }
             owner = t;
         }
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
@@ -243,6 +240,7 @@ public class ItemPokemobEgg extends Item
             mob.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehavior.DEFAULTCUBE)));
             mob.setHeldItem(ItemStack.EMPTY);
         }
+        else mob.getEntity().getPersistentData().remove(TagNames.HATCHED);
     }
 
     public static void initStack(final Entity mother, final IPokemob father, final ItemStack stack)
@@ -252,8 +250,7 @@ public class ItemPokemobEgg extends Item
         if (mob != null && father != null) ItemPokemobEgg.getGenetics(mob, father, stack.getTag());
     }
 
-    public static boolean spawn(final World world, final ItemStack stack, final double par2, final double par4,
-            final double par6)
+    public static boolean spawn(final World world, final ItemStack stack, final EntityPokemobEgg egg)
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         final MobEntity entity = PokecubeCore.createPokemob(entry, world);
@@ -266,7 +263,9 @@ public class ItemPokemobEgg extends Item
             int exp = Tools.levelToXp(mob.getExperienceMode(), 1);
             exp = Math.max(1, exp);
             mob.setForSpawn(exp);
-            entity.setLocationAndAngles(par2, par4, par6, world.rand.nextFloat() * 360F, 0.0F);
+            entity.getPersistentData().putBoolean(TagNames.HATCHED, true);
+            entity.setLocationAndAngles(Math.floor(egg.posX) + 0.5, Math.floor(egg.posY) + 0.5, Math.floor(egg.posZ)
+                    + 0.5, world.rand.nextFloat() * 360F, 0.0F);
             int[] nest = null;
             if (stack.hasTag()) if (stack.getTag().contains("nestLocation")) nest = stack.getTag().getIntArray(
                     "nestLocation");
@@ -281,6 +280,8 @@ public class ItemPokemobEgg extends Item
                 if (world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) world.addEntity(new ExperienceOrbEntity(
                         world, entity.posX, entity.posY, entity.posZ, entity.getRNG().nextInt(7) + 1));
             }
+            final EggEvent.Hatch evt = new EggEvent.Hatch(egg);
+            PokecubeCore.POKEMOB_BUS.post(evt);
             if (nest != null)
             {
                 mob.setHome(nest[0], nest[1], nest[2], 16);

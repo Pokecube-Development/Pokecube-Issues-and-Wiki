@@ -229,13 +229,7 @@ public class EntityPokemobEgg extends AgeableEntity
         if (!this.init) return;
         final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
         MinecraftForge.EVENT_BUS.post(event);
-        if (!event.isCanceled())
-        {
-            final EggEvent.Hatch evt = new EggEvent.Hatch(this);
-            MinecraftForge.EVENT_BUS.post(evt);
-            ItemPokemobEgg.spawn(this.getEntityWorld(), this.getHeldItemMainhand(), Math.floor(this.posX) + 0.5, Math
-                    .floor(this.posY) + 0.5, Math.floor(this.posZ) + 0.5);
-        }
+        if (!event.isCanceled()) ItemPokemobEgg.spawn(this.getEntityWorld(), this.getHeldItemMainhand(), this);
         this.remove();
     }
 
