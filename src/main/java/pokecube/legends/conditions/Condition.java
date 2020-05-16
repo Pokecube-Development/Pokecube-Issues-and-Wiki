@@ -1,6 +1,7 @@
 package pokecube.legends.conditions;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -138,6 +139,17 @@ public abstract class Condition implements ISpecialCaptureCondition, ISpecialSpa
         }
         if (message) this.sendNoHere(trainer);
         return CanSpawn.NOTHERE;
+    }
+
+    @Override
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
+    {
+        if (pokemon.getEntity().getPersistentData().contains("spwnedby:Most"))
+        {
+            final UUID id = pokemon.getEntity().getPersistentData().getUniqueId("spwnedby:");
+            if (!trainer.getUniqueID().equals(id)) return false;
+        }
+        return this.canCapture(trainer);
     }
 
     public void sendNoTrust(final Entity trainer)

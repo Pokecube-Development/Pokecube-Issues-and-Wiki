@@ -11,7 +11,7 @@ public class Thundurus extends Condition
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!this.canCapture(trainer)) return false;
+        if (!super.canCapture(trainer, pokemon)) return false;
         final boolean meloetta = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
                 "meloetta_aria")) > 0;
 

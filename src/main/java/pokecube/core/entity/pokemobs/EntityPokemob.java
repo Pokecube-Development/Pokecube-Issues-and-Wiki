@@ -146,6 +146,7 @@ public class EntityPokemob extends PokemobHasParts
             PokecubeCore.POKEMOB_BUS.post(event);
             final Result res = event.getResult();
             despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
+            if (this.getPersistentData().contains(TagNames.NOPOOF)) despawn = false;
             if (despawn) this.pokemobCap.onRecall(true);
             for (int k = 0; k < 20; ++k)
             {
@@ -366,6 +367,7 @@ public class EntityPokemob extends PokemobHasParts
         final boolean culls = PokecubeCore.getConfig().cull;
         final boolean owned = this.pokemobCap.getOwnerId() != null;
         if (owned) return true;
+        if (this.getPersistentData().contains(TagNames.NOPOOF)) return true;
         return !(despawns || culls);
     }
 

@@ -9,19 +9,19 @@ import pokecube.core.interfaces.IPokemob;
 public class Volcanion extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean volcanion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("magearna")) > 0;
-                
-        String name = "Magearna";
-                
-        if ((volcanion)) return true;
+        if (!super.canCapture(trainer, pokemon)) return false;
+        final boolean volcanion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "magearna")) > 0;
+
+        final String name = "Magearna";
+
+        if (volcanion) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }

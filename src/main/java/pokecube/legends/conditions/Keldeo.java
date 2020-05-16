@@ -9,23 +9,23 @@ import pokecube.core.interfaces.IPokemob;
 public class Keldeo extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean virizion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("virizion")) > 0;
-        boolean terrakion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("terrakion")) > 0;
-        boolean cobalion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("cobalion")) > 0;
-                
-        String name = "Virizion, Terrakion, Cobalion";
-                
-        if ((virizion && terrakion && cobalion)) return true;
+        if (!super.canCapture(trainer, pokemon)) return false;
+        final boolean virizion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "virizion")) > 0;
+        final boolean terrakion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "terrakion")) > 0;
+        final boolean cobalion = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "cobalion")) > 0;
+
+        final String name = "Virizion, Terrakion, Cobalion";
+
+        if (virizion && terrakion && cobalion) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }

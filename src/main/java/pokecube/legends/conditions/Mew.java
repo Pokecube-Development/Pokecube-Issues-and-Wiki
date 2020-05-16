@@ -12,16 +12,10 @@ import pokecube.mobs.moves.world.ActionTeleport;
 public class Mew extends Condition
 {
     @Override
-    public boolean canCapture(final Entity trainer)
-    {
-        return false;
-    }
-
-    @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
+        if (!super.canCapture(trainer, pokemon)) return false;
         final int caught = CaptureStats.getNumberUniqueCaughtBy(trainer.getUniqueID());
-
         if (caught < Database.spawnables.size() - 1)
         {
             if (trainer instanceof PlayerEntity) ((PlayerEntity) trainer).sendMessage(new TranslationTextComponent(

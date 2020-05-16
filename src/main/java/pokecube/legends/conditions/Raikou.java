@@ -13,7 +13,7 @@ public class Raikou extends Condition
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!this.canCapture(trainer)) return false;
+        if (!super.canCapture(trainer, pokemon)) return false;
         final int count1 = CaptureStats.getUniqueOfTypeCaughtBy(trainer.getUniqueID(), PokeType.getType("electric"));
         final int count2 = SpecialCaseRegister.countSpawnableTypes(PokeType.getType("electric"));
         final double captureFactor = (double) count1 / (double) count2;

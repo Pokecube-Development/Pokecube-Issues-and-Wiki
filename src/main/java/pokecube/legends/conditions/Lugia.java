@@ -9,23 +9,23 @@ import pokecube.core.interfaces.IPokemob;
 public class Lugia extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean articuno = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("articuno")) > 0;
-        boolean zapdos = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("zapdos")) > 0;
-        boolean moltres = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("moltres")) > 0;
-                
-        String name = "Articuno, Zapdos, Moltres";
-                
-        if ((articuno && moltres && zapdos)) return true;
+        if (!super.canCapture(trainer, pokemon)) return false;
+        final boolean articuno = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "articuno")) > 0;
+        final boolean zapdos = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "zapdos")) > 0;
+        final boolean moltres = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "moltres")) > 0;
+
+        final String name = "Articuno, Zapdos, Moltres";
+
+        if (articuno && moltres && zapdos) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }

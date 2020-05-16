@@ -31,6 +31,7 @@ import pokecube.core.database.stats.ISpecialSpawnCondition.CanSpawn;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import pokecube.legends.PokecubeLegends;
 import thut.api.maths.Vector3;
@@ -81,6 +82,7 @@ public class LegendarySpawn
                 }
                 PokecubePlayerDataHandler.getCustomDataTag(playerIn).putBoolean("spwn:" + entry.getTrimmedName(), true);
                 entity.getPersistentData().putUniqueId("spwnedby:", playerIn.getUniqueID());
+                entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
                 entity.setHealth(entity.getMaxHealth());
                 location.add(0, 1, 0).moveEntity(entity);
                 spawnCondition.onSpawn(pokemob);
