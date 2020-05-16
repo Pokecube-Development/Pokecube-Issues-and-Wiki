@@ -16,6 +16,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.capabilities.utils.Action;
+import pokecube.adventures.capabilities.utils.BattleAction;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.PokecubeMod;
@@ -36,6 +37,9 @@ public class CapabilityNPCMessages
             this.messages.put(MessageState.DEFEAT, "pokecube.trainer.defeat");
             this.messages.put(MessageState.DEAGRESS, "pokecube.trainer.forget");
             this.messages.put(MessageState.GIVEITEM, "pokecube.trainer.drop");
+            this.messages.put(MessageState.INTERACT_YESBATTLE, "pokecube.trainer.agress");
+
+            this.actions.put(MessageState.INTERACT_YESBATTLE, new BattleAction());
         }
 
         @Override
@@ -45,11 +49,11 @@ public class CapabilityNPCMessages
         }
 
         @Override
-        public void doAction(final MessageState state, final LivingEntity target)
+        public void doAction(final MessageState state, final LivingEntity target, final Entity mob)
         {
             if (target instanceof FakePlayer) return;
             final Action action = this.actions.get(state);
-            if (action != null && target instanceof PlayerEntity) action.doAction((PlayerEntity) target);
+            if (action != null && target instanceof PlayerEntity) action.doAction((PlayerEntity) target, mob);
         }
 
         @Override
@@ -101,7 +105,7 @@ public class CapabilityNPCMessages
 
     public static interface IHasMessages
     {
-        void doAction(MessageState state, LivingEntity target);
+        void doAction(MessageState state, LivingEntity target, Entity mob);
 
         Action getAction(MessageState state);
 

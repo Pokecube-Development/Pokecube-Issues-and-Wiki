@@ -1,6 +1,7 @@
 package pokecube.adventures.capabilities.utils;
 
 import net.minecraft.command.Commands;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class Action
@@ -12,7 +13,7 @@ public class Action
         this.command = command;
     }
 
-    public void doAction(final PlayerEntity target)
+    public void doAction(final PlayerEntity target, final Entity holder)
     {
         if (this.command == null || this.command.trim().isEmpty()) return;
         final String[] commands = this.command.split("``");

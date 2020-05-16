@@ -18,7 +18,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -114,7 +113,7 @@ public class CapabilityHasPokemobs
                 if (resetTime <= 0) return true;
                 final DefeatEntry s = this.map.get(in.getCachedUniqueIdString());
                 // Otherwise check the diff.
-                final long diff = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime() - s.time;
+                final long diff = PokecubeCore.proxy.getWorld().getGameTime() - s.time;
                 if (diff > resetTime) return false;
                 return true;
             }
@@ -124,7 +123,7 @@ public class CapabilityHasPokemobs
                 if (in == null) return;
                 final DefeatEntry s = this.map.getOrDefault(in.getCachedUniqueIdString(), new DefeatEntry(in
                         .getCachedUniqueIdString(), 0));
-                s.time = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                s.time = PokecubeCore.proxy.getWorld().getGameTime();
                 this.map.put(in.getCachedUniqueIdString(), s);
             }
 
@@ -495,7 +494,8 @@ public class CapabilityHasPokemobs
                     packet.getTag().putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTimeLose);
                     PacketTrainer.ASSEMBLER.sendTo(packet, (ServerPlayerEntity) won);
                 }
-                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won);
+                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won,
+                        this.user);
             }
         }
 
@@ -639,7 +639,7 @@ public class CapabilityHasPokemobs
                 if (target == this.user.getAttackingEntity()) this.attackCooldown = 0;
                 this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(), target
                         .getDisplayName());
-                this.messages.doAction(MessageState.AGRESS, target);
+                this.messages.doAction(MessageState.AGRESS, target, this.user);
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, true);
             }
             if (target == null)
@@ -648,7 +648,7 @@ public class CapabilityHasPokemobs
                 {
                     this.messages.sendMessage(MessageState.DEAGRESS, this.target, this.user.getDisplayName(),
                             this.target.getDisplayName());
-                    this.messages.doAction(MessageState.DEAGRESS, target);
+                    this.messages.doAction(MessageState.DEAGRESS, target, this.user);
                 }
                 this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
@@ -686,7 +686,8 @@ public class CapabilityHasPokemobs
                 this.attackCooldown = Config.instance.trainerSendOutDelay;
                 this.messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(), i.getDisplayName(),
                         target.getDisplayName());
-                if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT, (LivingEntity) target);
+                if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT, (LivingEntity) target,
+                        this.user);
                 this.nextSlot++;
                 if (this.nextSlot >= this.getMaxPokemobCount() || this.getNextPokemob() == null) this.nextSlot = -1;
                 return;

@@ -178,7 +178,7 @@ public class AIBattle extends AITrainerBase
                         }
                         this.messages.sendMessage(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity
                                 .getDisplayName(), next.getDisplayName(), this.trainer.getTarget().getDisplayName());
-                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.getTarget());
+                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity);
                     }
                 }
             }
