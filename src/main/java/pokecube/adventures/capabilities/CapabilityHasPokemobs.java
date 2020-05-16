@@ -18,7 +18,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -115,7 +114,7 @@ public class CapabilityHasPokemobs
                 if (resetTime <= 0) return true;
                 final DefeatEntry s = this.map.get(in.getCachedUniqueIdString());
                 // Otherwise check the diff.
-                final long diff = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime() - s.time;
+                final long diff = PokecubeCore.proxy.getWorld().getGameTime() - s.time;
                 if (diff > resetTime) return false;
                 return true;
             }
@@ -125,7 +124,7 @@ public class CapabilityHasPokemobs
                 if (in == null) return;
                 final DefeatEntry s = this.map.getOrDefault(in.getCachedUniqueIdString(), new DefeatEntry(in
                         .getCachedUniqueIdString(), 0));
-                s.time = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                s.time = PokecubeCore.proxy.getWorld().getGameTime();
                 this.map.put(in.getCachedUniqueIdString(), s);
             }
 
