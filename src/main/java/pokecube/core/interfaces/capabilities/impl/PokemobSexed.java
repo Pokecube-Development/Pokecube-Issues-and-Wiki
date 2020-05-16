@@ -5,6 +5,7 @@ import java.util.Vector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
+import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -137,6 +139,10 @@ public abstract class PokemobSexed extends PokemobStats
                 MinecraftForge.EVENT_BUS.post(event);
                 if (!event.isCanceled())
                 {
+                    final ServerPlayerEntity player = (ServerPlayerEntity) (this
+                            .getOwner() instanceof ServerPlayerEntity ? this.getOwner()
+                                    : male.getOwner() instanceof ServerPlayerEntity ? male.getOwner() : null);
+                    if (player != null) Triggers.BREEDPOKEMOB.trigger(player, this, male);
                     this.egg = eggItem;
                     this.getEntity().getEntityWorld().addEntity(this.egg);
                 }

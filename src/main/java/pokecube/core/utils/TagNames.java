@@ -27,9 +27,8 @@ public interface TagNames
     public static final String INVENTORYTAG = "inventory_tag";
     public static final String MISCTAG      = "misc_tag";
     // Tag names for Pokemob Information
-    public static final String OT       = "OTUUID";
-    public static final String OWNER    = "OwnerID";
-    public static final String ISTRADED = "traded";
+    public static final String OT    = "OTUUID";
+    public static final String OWNER = "OwnerID";
 
     public static final String PLAYERS      = "playerOwned";
     public static final String ANCIENT      = "isAncient";
@@ -83,6 +82,8 @@ public interface TagNames
 
     public static final String REMOVED = "pokecube:removed";
     public static final String REVIVED = "pokecube:revived";
+    public static final String HATCHED = "pokecube:hatched";
+    public static final String TRADED  = "pokecube:traded";
 
     public static CompoundNBT getEntityPokemobTag(final CompoundNBT entityRootTag)
     {

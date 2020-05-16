@@ -17,6 +17,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.RecipePokeseals;
+import pokecube.core.utils.TagNames;
 import thut.core.common.network.Packet;
 
 public class PacketTrade extends Packet
@@ -183,6 +184,12 @@ public class PacketTrade extends Packet
                     final UUID owner0 = pokemob0.getOwnerId();
                     final UUID owner1 = pokemob1.getOwnerId();
                     if (owner0 != null && owner0.equals(owner1)) break trade;
+
+                    // Clear hatched tags if needed, so they get the "caught"
+                    // advancement
+                    pokemob0.getEntity().getPersistentData().remove(TagNames.HATCHED);
+                    pokemob1.getEntity().getPersistentData().remove(TagNames.HATCHED);
+
                     pokemob0.setOwner(owner1);
                     pokemob1.setOwner(owner0);
                     pokemob0.setTraded(true);
