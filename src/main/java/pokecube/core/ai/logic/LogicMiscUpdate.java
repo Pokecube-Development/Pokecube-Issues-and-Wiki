@@ -211,6 +211,7 @@ public class LogicMiscUpdate extends LogicBase
         super.tick(world);
         this.entry = this.pokemob.getPokedexEntry();
         Random rand = new Random(this.pokemob.getRNGValue());
+        final int timer = 100;
 
         if (!world.isRemote)
         {
@@ -222,7 +223,8 @@ public class LogicMiscUpdate extends LogicBase
             this.checkInventory(world);
 
             // // Ensure the cache position is kept updated
-            if (this.entity.ticksExisted % 100 == 0) PlayerPokemobCache.UpdateCache(this.pokemob);
+            if (this.entity.ticksExisted % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
+                    .getOwnerId() != null) PlayerPokemobCache.UpdateCache(this.pokemob);
 
             // Randomly increase happiness for being outside of pokecube.
             if (Math.random() > 0.999 && this.pokemob.getGeneralState(GeneralStates.TAMED)) HappinessType

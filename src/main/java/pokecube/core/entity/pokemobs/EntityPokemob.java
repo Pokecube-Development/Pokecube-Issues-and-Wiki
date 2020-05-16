@@ -4,7 +4,6 @@
 package pokecube.core.entity.pokemobs;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -107,16 +106,11 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public void tick()
+    public void livingTick()
     {
         if (this.getEntityWorld() instanceof ServerWorld)
         {
-            if (this.pokemobCap.getOwnerId() != null)
-            {
-                this.enablePersistence();
-                if (this.ticksExisted % 100 == new Random(this.pokemobCap.getRNGValue()).nextInt(100))
-                    PlayerPokemobCache.UpdateCache(this.pokemobCap);
-            }
+            if (this.pokemobCap.getOwnerId() != null) this.enablePersistence();
             final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
             if (near != null && this.getOwnerId() == null)
             {
@@ -129,7 +123,7 @@ public class EntityPokemob extends PokemobHasParts
                 if (dist > PokecubeCore.getConfig().aiDisableDistance) return;
             }
         }
-        super.tick();
+        super.livingTick();
     }
 
     @Override
@@ -289,6 +283,8 @@ public class EntityPokemob extends PokemobHasParts
     public void onAddedToWorld()
     {
         PokemobTracker.addPokemob(this.pokemobCap);
+        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
+                this.pokemobCap);
         super.onAddedToWorld();
     }
 
@@ -296,6 +292,8 @@ public class EntityPokemob extends PokemobHasParts
     public void onRemovedFromWorld()
     {
         PokemobTracker.removePokemob(this.pokemobCap);
+        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
+                this.pokemobCap);
         super.onRemovedFromWorld();
     }
 
