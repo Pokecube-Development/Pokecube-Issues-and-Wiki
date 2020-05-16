@@ -281,8 +281,10 @@ public class BlockEntityUpdater
         dy = toUse.minY - orig.minY;
         dz = toUse.minZ - orig.minZ;
 
+        final boolean collided = colX || colY || colZ;
+
         // If entity has collided, adjust motion accordingly.
-        if (colX || colY || colZ)
+        if (collided)
         {
             motion_b = entity.getMotion();
             if (colY)
@@ -314,30 +316,31 @@ public class BlockEntityUpdater
                 entity.onLivingFall(entity.fallDistance, 0);
                 entity.fallDistance = 0;
             }
+        }
 
-            // Extra stuff to do with players.
-            if (isPlayer)
+        // Extra stuff to do with players, apply these regardless of collision.
+        // This is done to prevent "flying on server" kicks when the craft is
+        // moving down
+        if (isPlayer && (collided || motion_a.y < 0))
+        {
+            final PlayerEntity player = (PlayerEntity) entity;
+
+            if (serverSide)
             {
-                final PlayerEntity player = (PlayerEntity) entity;
-
-                if (serverSide)
-                {
-                    final ServerPlayerEntity serverplayer = (ServerPlayerEntity) player;
-                    // Meed to set floatingTickCount to prevent being kicked
-                    serverplayer.connection.vehicleFloatingTickCount = 0;
-                    serverplayer.connection.floatingTickCount = 0;
-                }
-
-                if (!serverSide && (Minecraft.getInstance().gameSettings.viewBobbing || TickHandler.playerTickTracker
-                        .containsKey(player.getUniqueID())))
-                { // This fixes jitter, need a better way to handle this.
-                    TickHandler.playerTickTracker.put(player.getUniqueID(), (int) (System.currentTimeMillis() % 2000));
-                    Minecraft.getInstance().gameSettings.viewBobbing = false;
-                }
-                /** This is for clearing jump values on client. */
-                if (!serverSide) player.getPersistentData().putInt("lastStandTick", player.ticksExisted);
-
+                final ServerPlayerEntity serverplayer = (ServerPlayerEntity) player;
+                // Meed to set floatingTickCount to prevent being kicked
+                serverplayer.connection.vehicleFloatingTickCount = 0;
+                serverplayer.connection.floatingTickCount = 0;
             }
+
+            if (!serverSide && (Minecraft.getInstance().gameSettings.viewBobbing || TickHandler.playerTickTracker
+                    .containsKey(player.getUniqueID())))
+            { // This fixes jitter, need a better way to handle this.
+                TickHandler.playerTickTracker.put(player.getUniqueID(), (int) (System.currentTimeMillis() % 2000));
+                Minecraft.getInstance().gameSettings.viewBobbing = false;
+            }
+            /** This is for clearing jump values on client. */
+            if (!serverSide) player.getPersistentData().putInt("lastStandTick", player.ticksExisted);
 
         }
     }
