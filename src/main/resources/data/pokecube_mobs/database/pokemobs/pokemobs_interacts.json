@@ -5834,7 +5834,31 @@
           }
         ],
         "species": "Insecta",
-        "activeTimes": "day"
+        "activeTimes": "day",
+	"interactions": [
+          {
+            "cooldown": 1800,
+            "baseHunger": 500,
+            "key": {
+              "values": {
+                "id": "minecraft:glass_bottle"
+              }
+            },
+            "action": {
+              "values": {
+                "type": "item"
+              },
+              "drops": [
+                {
+                  "values": {
+                    "id": "minecraft:honey_bottle",
+                    "n": "1"
+                  }
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     {
@@ -5865,30 +5889,8 @@
                 }
               ]
             }
-          },
-          {
-            "cooldown": 1800,
-            "baseHunger": 500,
-            "key": {
-              "values": {
-                "id": "minecraft:glass_bottle"
-              }
-            },
-            "action": {
-              "values": {
-                "type": "item"
-              },
-              "drops": [
-                {
-                  "values": {
-                    "id": "minecraft:honey_bottle",
-                    "n": "1"
-                  }
-                }
-              ]
-            }
-          }
-        ]
+	  }
+	]
       }
     },
     {
