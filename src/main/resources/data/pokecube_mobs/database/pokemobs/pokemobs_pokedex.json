@@ -54,23 +54,23 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "tackle",
-            "3": "growl",
-            "7": "leechseed",
-            "9": "vinewhip",
-            "13": "poisonpowder,sleeppowder",
-            "15": "takedown",
-            "19": "razorleaf",
-            "21": "sweetscent",
-            "25": "growth",
-            "27": "doubleedge",
-            "31": "worryseed",
-            "33": "synthesis",
-            "37": "seedbomb"
+            "1": "tackle,growl",
+            "3": "vinewhip",
+            "6": "growth",
+            "9": "leechseed",
+            "12": "razorleaf",
+            "15": "poisonpowder,sleeppowder",
+            "18": "seedbomb"
+            "21": "takedown",
+            "24": "sweetscent",
+            "27": "synthesis",
+            "30": "worryseed",
+            "33": "doubleedge",
+            "36": "solarbeam",
           }
         },
         "misc": {
-          "moves": "attract, bide, bind, bodyslam, bulletseed, captivate, celebrate, confide, cut, defensecurl, doubleedge, doubleteam, echoedvoice, energyball, facade, flash, frustration, furycutter, gigadrain, grassknot, grasspledge, growl, growth, headbutt, hiddenpower, knockoff, leechseed, lightscreen, megadrain, mimic, mudslap, naturalgift, naturepower, poisonpowder, protect, rage, razorleaf, reflect, rest, return, rocksmash, round, safeguard, secretpower, seedbomb, sleeppowder, sleeptalk, sludgebomb, snore, solarbeam, strength, stringshot, substitute, sunnyday, swagger, sweetscent, swordsdance, synthesis, tackle, takedown, toxic, venoshock, vinewhip, workup, worryseed"
+          "moves": "amnesia, attract, bide, bind, bodyslam, bulletseed, captivate, celebrate, charm, confide, cut, curse, defensecurl, doubleteam, echoedvoice, endure, energyball, facade, falseswipe, flash, frustration, furycutter, gigadrain, grassknot, grasspledge, grasswhistle, grassyterrain, headbutt, helpinghand, hiddenpower, ingrain, knockoff, leafstorm, lightscreen, magicalleaf, megadrain, mimic, mudslap, naturalgift, naturepower, outrage, petaldance, powerwhip, protect, rage, razorwind, reflect, rest, return, rocksmash, round, safeguard, secretpower, skullbash, sleeptalk, sludge, sludgebomb, snore, strength, stringshot, substitute, sunnyday, swagger, swordsdance, toxic, venoshock, weatherball, workup"
         }
       }
     },
@@ -128,23 +128,21 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "tackle,growl,leechseed",
-            "3": "growl",
-            "7": "leechseed",
-            "9": "vinewhip",
-            "13": "poisonpowder,sleeppowder",
-            "15": "takedown",
-            "20": "razorleaf",
-            "23": "sweetscent",
-            "28": "growth",
-            "31": "doubleedge",
-            "36": "worryseed",
-            "39": "synthesis",
-            "44": "solarbeam"
+            "1": "tackle,growl,vinewhip,growth",
+            "9": "leechseed",
+            "12": "razorleaf",
+            "15": "poisonpowder,sleeppowder",
+            "20": "seedbomb",
+            "25": "takedown",
+            "30": "sweetscent",
+            "35": "synthesis",
+            "40": "worryseed",
+            "45": "doubleedge",
+            "39": "solarbeam",
           }
         },
         "misc": {
-          "moves": "attract, bide, bind, bodyslam, bulletseed, captivate, confide, cut, defensecurl, doubleedge, doubleteam, echoedvoice, energyball, facade, flash, frustration, furycutter, gigadrain, grassknot, grasspledge, growl, growth, headbutt, hiddenpower, knockoff, leechseed, lightscreen, megadrain, mimic, mudslap, naturalgift, naturepower, poisonpowder, protect, rage, razorleaf, reflect, rest, return, rocksmash, round, safeguard, secretpower, seedbomb, sleeppowder, sleeptalk, sludgebomb, snore, solarbeam, strength, stringshot, substitute, sunnyday, swagger, sweetscent, swordsdance, synthesis, tackle, takedown, toxic, venoshock, vinewhip, workup, worryseed"
+          "moves": "amnesia, attract, bide, bind, bodyslam, bulletseed, captivate, charm, confide, curse, cut, defensecurl, doubleteam, echoedvoice, endure, energyball, facade, falseswipe, flash, frustration, furycutter, gigadrain, grassknot, grasspledge, grasswhistle, grassyterrain, headbutt, helpinghand, hiddenpower, ingrain, knockoff, leafstorm, lightscreen, magicalleaf, megadrain, mimic, mudslap, naturalgift, naturepower, outrage, petaldance, powerwhip, protect, rage, razorwind, reflect, rest, return, rocksmash, round, safeguard, secretpower, skullbash, sleeptalk, sludge, sludgebomb, snore, strength, stringshot, substitute, sunnyday, swagger, swordsdance, toxic, venoshock, weatherball, workup"
         }
       }
     },
@@ -202,26 +200,23 @@
       "moves": {
         "lvlupMoves": {
           "values": {
-            "1": "tackle,growl,leechseed,vinewhip",
-            "3": "growl",
-            "7": "leechseed",
-            "9": "vinewhip",
+            "1": "growl,growth,petalblizzard,petaldance,tackle,vinewhip",
+            "9": "leechseed",
+            "12": "razorleaf",
             "13": "poisonpowder,sleeppowder",
-            "15": "takedown",
-            "20": "razorleaf",
-            "23": "sweetscent",
-            "28": "growth",
-            "31": "doubleedge",
-            "39": "worryseed",
-            "45": "synthesis",
-            "50": "petalblizzard",
-            "53": "solarbeam"
+            "20": "seedbomb",
+            "25": "takedown",
+            "30": "sweetscent",
+            "37": "synthesis",
+            "44": "worryseed",
+            "51": "doubleedge",
+            "58": "solarbeam",
           }
         },
         "misc": {
-          "moves": "attract, bide, bind, block, bodyslam, bulldoze, bulletseed, captivate, confide, cut, defensecurl, doubleedge, doubleteam, earthquake, echoedvoice, energyball, facade, flash, frenzyplant, frustration, furycutter, gigadrain, gigaimpact, grassknot, grasspledge, growl, growth, headbutt, hiddenpower, hyperbeam, knockoff, leechseed, lightscreen, megadrain, mimic, mudslap, naturalgift, naturepower, outrage, petalblizzard, petaldance, poisonpowder, protect, rage, razorleaf, reflect, rest, return, roar, rocksmash, round, safeguard, secretpower, seedbomb, sleeppowder, sleeptalk, sludgebomb, snore, solarbeam, stompingtantrum, strength, stringshot, substitute, sunnyday, swagger, sweetscent, swordsdance, synthesis, tackle, takedown, toxic, venoshock, vinewhip, workup, worryseed"
+          "moves": "amnesia, attract, bide, bind, block, bodyslam, bulldoze, bulletseed, captivate, charm, confide, cut, curse, defensecurl, doubleteam, earthquake, earthpower, earthquake, echoedvoice, endure, energyball, facade, falseswipe flash, frenzyplant, frustration, furycutter, gigadrain, gigaimpact, grassknot, grasspledge, grasswhistle, grassyterrain, headbutt, helpinghand, hiddenpower, hyperbeam, ingrain, knockoff, leafstorm, lightscreen, magicalleaf, megadrain, mimic, mudslap, naturalgift, naturepower, outrage, powerwhip, protect, rage, razorwind, reflect, rest, return, roar, rocksmash, round, safeguard, secretpower, skullbash, sleeptalk, sludge, sludgebomb, snore, stompingtantrum, strength, stringshot, substitute, sunnyday, swagger, swordsdance, toxic, venoshock, workup, weatherball"
         },
-        "evolutionMoves": "petaldance"
+        "evolutionMoves": "petalblizzard"
       }
     },
     {
