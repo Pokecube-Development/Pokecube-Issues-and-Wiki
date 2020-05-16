@@ -30,12 +30,12 @@ public class CommonProxy implements Proxy
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
         if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+                .getPlayer().isSneaking() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
         final BlockPos pos = evt.getPos();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
+        if (itemstack.hasTag() && playerIn.isSneaking() && itemstack.getTag().contains("min"))
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");
             BlockPos min = pos;
@@ -80,11 +80,11 @@ public class CommonProxy implements Proxy
     public void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
         if (evt.getHand() == Hand.OFF_HAND || evt.getWorld().isRemote || evt.getItemStack().isEmpty() || !evt
-                .getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
+                .getPlayer().isSneaking() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER) return;
         final ItemStack itemstack = evt.getItemStack();
         final PlayerEntity playerIn = evt.getPlayer();
         final World worldIn = evt.getWorld();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min") && itemstack.getTag()
+        if (itemstack.hasTag() && playerIn.isSneaking() && itemstack.getTag().contains("min") && itemstack.getTag()
                 .getLong("time") != worldIn.getGameTime())
         {
             final CompoundNBT minTag = itemstack.getTag().getCompound("min");

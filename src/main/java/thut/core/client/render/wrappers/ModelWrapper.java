@@ -115,8 +115,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     }
 
     @Override
-    public void render(final T entityIn, final float limbSwing, final float limbSwingAmount, final float ageInTicks,
-            final float netHeadYaw, final float headPitch)
+    public void setRotationAngles(final T entityIn, final float limbSwing, final float limbSwingAmount,
+            final float ageInTicks, final float netHeadYaw, final float headPitch)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         this.entityIn = entityIn;

@@ -60,7 +60,7 @@ public class ThrowParticle extends MoveAnimationBase
         final Random rand = new Random(hash);
         factor = this.width * 0.2;
         tez.begin(6, DefaultVertexFormats.POSITION_COLOR);
-        Matrix4f pos = mat.getLast().getPositionMatrix();
+        final Matrix4f pos = mat.getLast().getMatrix();
 
         float x1, x2, y1, y2, z1, z2;
 

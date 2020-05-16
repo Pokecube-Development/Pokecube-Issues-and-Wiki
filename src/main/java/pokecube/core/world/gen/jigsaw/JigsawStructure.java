@@ -149,7 +149,7 @@ public class JigsawStructure extends ScatteredStructure<JigsawConfig>
     }
 
     @Override
-    public boolean func_225558_a_(final BiomeManager biomeManager, final ChunkGenerator<?> chunkGen, final Random rand,
+    public boolean canBeGenerated(final BiomeManager biomeManager, final ChunkGenerator<?> chunkGen, final Random rand,
             final int chunkPosX, final int chunkPosZ, final Biome biome)
     {
         if (!this.biomeMatches(biome)) return false;

@@ -37,28 +37,28 @@ import thut.api.entity.IMobColourable;
 public class GuiChooseFirstPokemob extends Screen
 {
 
-    public final static float    POKEDEX_RENDER = 1.5f;
-    public static boolean        special        = false;
-    public static boolean        pick           = false;
+    public final static float POKEDEX_RENDER = 1.5f;
+    public static boolean     special        = false;
+    public static boolean     pick           = false;
 
     public static PokedexEntry[] starters;
 
-    int                          xSize          = 150;
-    int                          ySize          = 150;
+    int xSize = 150;
+    int ySize = 150;
 
-    private boolean              gotSpecial     = true;
+    private boolean gotSpecial = true;
 
-    protected PlayerEntity       player         = null;
-    protected PokedexEntry       pokedexEntry   = null;
-    int                          index          = 0;
+    protected PlayerEntity player       = null;
+    protected PokedexEntry pokedexEntry = null;
+    int                    index        = 0;
 
-    Button                       next;
+    Button next;
 
-    Button                       prev;
-    Button                       choose;
-    Button                       accept;
+    Button prev;
+    Button choose;
+    Button accept;
 
-    Button                       deny;
+    Button deny;
 
     public GuiChooseFirstPokemob(PokedexEntry[] _starters)
     {
@@ -95,15 +95,15 @@ public class GuiChooseFirstPokemob extends Screen
         if (GuiChooseFirstPokemob.starters.length > 0)
         {
             final String next = I18n.format("block.pc.next");
-            this.addButton(
-                    this.next = new Button(this.width / 2 - xOffset + 65, this.height / 2 - yOffset, 50, 20, next, b ->
+            this.addButton(this.next = new Button(this.width / 2 - xOffset + 65, this.height / 2 - yOffset, 50, 20,
+                    next, b ->
                     {
                         this.index++;
                         if (this.index >= GuiChooseFirstPokemob.starters.length) this.index = 0;
                     }));
             final String prev = I18n.format("block.pc.previous");
-            this.addButton(
-                    this.prev = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset, 50, 20, prev, b ->
+            this.addButton(this.prev = new Button(this.width / 2 - xOffset - 115, this.height / 2 - yOffset, 50, 20,
+                    prev, b ->
                     {
                         if (this.index > 0) this.index--;
                         else this.index = GuiChooseFirstPokemob.starters.length - 1;
@@ -197,15 +197,15 @@ public class GuiChooseFirstPokemob extends Screen
         final int l = 40;
         final int k = 150;
 
-        if (this.pokedexEntry.getType2() == PokeType.unknown)
-            this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()), this.width / 2,
-                    65, this.pokedexEntry.getType1().colour);
+        if (this.pokedexEntry.getType2() == PokeType.unknown) this.drawCenteredString(this.font, PokeType
+                .getTranslatedName(this.pokedexEntry.getType1()), this.width / 2, 65, this.pokedexEntry
+                        .getType1().colour);
         else
         {
-            this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()),
-                    this.width / 2 - 20, 65, this.pokedexEntry.getType1().colour);
-            this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType2()),
-                    this.width / 2 + 20, 65, this.pokedexEntry.getType2().colour);
+            this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType1()), this.width / 2
+                    - 20, 65, this.pokedexEntry.getType1().colour);
+            this.drawCenteredString(this.font, PokeType.getTranslatedName(this.pokedexEntry.getType2()), this.width / 2
+                    + 20, 65, this.pokedexEntry.getType2().colour);
         }
         GL11.glPushMatrix();
 
@@ -274,7 +274,7 @@ public class GuiChooseFirstPokemob extends Screen
 
             Minecraft.getInstance().getItemRenderer().renderItem(item,
                     net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, matrixstack,
-                    irendertypebuffer$impl, 15728880, OverlayTexture.DEFAULT_LIGHT, model);
+                    irendertypebuffer$impl, 15728880, OverlayTexture.NO_OVERLAY, model);
             irendertypebuffer$impl.finish();
             RenderSystem.enableDepthTest();
             if (flag) RenderHelper.setupGui3DDiffuseLighting();
@@ -319,8 +319,8 @@ public class GuiChooseFirstPokemob extends Screen
 
             if (entity instanceof IMobColourable) ((IMobColourable) entity).setRGBA(255, 255, 255, 255);
             //@formatter:off
-            final int dx =-50 + (width - this.xSize)/2;
-            final int dy = 50 + (height - this.ySize)/2;
+            final int dx =-50 + (this.width - this.xSize)/2;
+            final int dy = 50 + (this.height - this.ySize)/2;
             final float size = 7;
             final float yaw =  Util.milliTime() / 20;
             final float hx = 0;

@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.Matrix3f;
 
 public class Utils
 {
-    public static void mirror(float x, float y, float z, MatrixStack mat)
+    public static void mirror(float x, float y, float z, final MatrixStack mat)
     {
         if (x == 0) x = 1;
         else x = -1;
@@ -14,9 +14,9 @@ public class Utils
         else y = -1;
         if (z == 0) z = 1;
         else z = -1;
-        Matrix3f norms = mat.getLast().getNormalMatrix().copy();
+        final Matrix3f norms = mat.getLast().getNormal().copy();
         mat.scale(x, y, z);
-        mat.getLast().getNormalMatrix().setFrom(norms);
+        mat.getLast().getNormal().set(norms);
 
     }
 }

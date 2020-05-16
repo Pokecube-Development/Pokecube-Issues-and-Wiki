@@ -57,7 +57,7 @@ public abstract class PokemobCombat extends PokemobRidable
     }
 
     @Override
-    protected void func_226294_cV_()
+    protected void dropExperience()
     {
         if (!this.world.isRemote && (this.isPlayer() || this.recentlyHit > 0 && this.canDropLoot() && this.world
                 .getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) && this.pokemobCap.getOwnerId() == null)

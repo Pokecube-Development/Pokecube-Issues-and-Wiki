@@ -83,7 +83,7 @@ public class JigsawPatternCustom extends JigsawPattern
     }
 
     @Override
-    public int func_214945_a(final TemplateManager templateManagerIn)
+    public int getMaxSize(final TemplateManager templateManagerIn)
     {
         if (this.min_value == Integer.MIN_VALUE) this.min_value = this.getPieces().stream().mapToInt((p_214942_1_) ->
         {

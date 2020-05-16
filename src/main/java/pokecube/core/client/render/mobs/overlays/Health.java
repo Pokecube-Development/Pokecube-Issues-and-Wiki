@@ -48,8 +48,8 @@ public class Health
 {
     static List<LivingEntity> renderedEntities = new ArrayList<>();
 
-    private static final RenderType TYPE       = RenderType.text(Resources.GUI_BATTLE);
-    private static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
+    private static final RenderType TYPE       = RenderType.getText(Resources.GUI_BATTLE);
+    private static final RenderType BACKGROUND = RenderType.getTextSeeThrough(Resources.GUI_BATTLE);
 
     public static Entity getEntityLookedAt(final Entity e)
     {
@@ -167,7 +167,7 @@ public class Health
             mat.rotate(Vector3f.YP.rotationDegrees(180));
             mat.rotate(Vector3f.XP.rotationDegrees(180));
 
-            pos = mat.getLast().getPositionMatrix();
+            pos = mat.getLast().getMatrix();
             // Background
             if (background)
             {
@@ -222,7 +222,7 @@ public class Health
             mat.push();
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
-            pos = mat.getLast().getPositionMatrix();
+            pos = mat.getLast().getMatrix();
             mc.fontRenderer.renderString(name, 0, 0, colour, false, pos, buf, false, 0, br);
             s1 = 0.75F;
             mat.pop();
@@ -243,7 +243,7 @@ public class Health
             if (isOwner) mc.fontRenderer.drawString(healthStr, (int) (size / (s * s1)) - mc.fontRenderer.getStringWidth(
                     healthStr) / 2, h, 0xFFFFFFFF);
 
-            pos = mat.getLast().getPositionMatrix();
+            pos = mat.getLast().getMatrix();
             mc.fontRenderer.renderString(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
             mc.fontRenderer.renderString(gender, (int) (size / (s * s1) * 2) - 2 - mc.fontRenderer.getStringWidth(
                     gender), h - 1, colour, false, pos, buf, false, 0, br);
@@ -296,7 +296,7 @@ public class Health
             mat.scale(20, -20, -1);
             Minecraft.getInstance().getItemRenderer().renderItem(mob, stack,
                     net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType.GUI, false, mat, buf, mob
-                            .getEntityWorld(), br, OverlayTexture.DEFAULT_LIGHT);
+                            .getEntityWorld(), br, OverlayTexture.NO_OVERLAY);
         }
         catch (final Exception e)
         {

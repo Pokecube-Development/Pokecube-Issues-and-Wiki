@@ -94,8 +94,8 @@ public abstract class Mesh
         alpha = (int) (this.material.alpha * alpha);
         int n = 0;
         final MatrixStack.Entry matrixstack$entry = mat.getLast();
-        final Matrix4f pos = matrixstack$entry.getPositionMatrix();
-        final Matrix3f norms = matrixstack$entry.getNormalMatrix();
+        final Matrix4f pos = matrixstack$entry.getMatrix();
+        final Matrix3f norms = matrixstack$entry.getNormal();
         final Vector4f dp = this.dummy4;
         final net.minecraft.client.renderer.Vector3f dn = this.dummy3;
 

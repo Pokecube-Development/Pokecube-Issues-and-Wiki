@@ -130,8 +130,8 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
     @Override
     protected RenderType func_230042_a_(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b)
     {
-        final RenderType.State rendertype$state = RenderType.State.builder().texture(new RenderState.TextureState(this
-                .getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(
+        final RenderType.State rendertype$state = RenderType.State.getBuilder().texture(new RenderState.TextureState(
+                this.getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(
                         "translucent_transparency", () ->
                         {
                             RenderSystem.enableBlend();
@@ -142,8 +142,8 @@ public class RenderEgg extends LivingRenderer<EntityPokemobEgg, ModelWrapper<Ent
                         })).diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(
                                 new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
                 .lightmap(new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true)).build(false);
-        return RenderType.get("pokecube:pokemob_egg", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, bool_a, bool_b,
-                rendertype$state);
+        return RenderType.makeType("pokecube:pokemob_egg", DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256, bool_a,
+                bool_b, rendertype$state);
     }
 
     @Override

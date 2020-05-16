@@ -38,7 +38,7 @@ public class Body
                 if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(7)) != null) mat.translate(offsetArr[0],
                         offsetArr[1], offsetArr[2]);
             }
-            theModel.bipedBody.setAnglesAndRotation(mat);
+            theModel.bipedBody.translateRotate(mat);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(7)) != null) mat.translate(offsetArr[0],
                     offsetArr[1], offsetArr[2]);
             render = true;
@@ -51,14 +51,14 @@ public class Body
                 if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(6)) != null) mat.translate(offsetArr[0],
                         offsetArr[1], offsetArr[2]);
             }
-            theModel.bipedBody.setAnglesAndRotation(mat);
+            theModel.bipedBody.translateRotate(mat);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(6)) != null) mat.translate(offsetArr[0],
                     offsetArr[1], offsetArr[2]);
             render = true;
             break;
         case WAIST:
             if (ThutWearables.config.renderBlacklist.contains(8)) break;
-            theModel.bipedBody.setAnglesAndRotation(mat);
+            theModel.bipedBody.translateRotate(mat);
             if (wearer.isCrouching())
             {
                 mat.translate(0.0F, 0.13125F, -0.105F);

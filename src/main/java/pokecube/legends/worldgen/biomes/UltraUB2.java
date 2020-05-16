@@ -30,11 +30,11 @@ public class UltraUB2 extends Biome
 
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
                 Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.GRASS_CONFIG)
-                .func_227228_a_(Placement.COUNT_HEIGHTMAP_DOUBLE.func_227446_a_(new FrequencyConfig(4))));
+                .withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(4))));
 
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,
                 Feature.FLOWER.withConfiguration(DefaultBiomeFeatures.DEFAULT_FLOWER_CONFIG)
-                .func_227228_a_(Placement.COUNT_HEIGHTMAP_32.func_227446_a_(new FrequencyConfig(4))));
+                .withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(4))));
 
         // TODO fix this config.
         // this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,

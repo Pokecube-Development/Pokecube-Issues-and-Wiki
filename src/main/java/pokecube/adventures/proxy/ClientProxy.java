@@ -56,11 +56,11 @@ public class ClientProxy extends CommonProxy
 {
     protected static class RenderWearable extends Wearable
     { // One model for each layer.
-        X3dModel                         bag;
+        X3dModel bag;
 
         // One Texture for each layer.
-        private final ResourceLocation   BAG_1    = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_1.png");
-        private final ResourceLocation   BAG_2    = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_2.png");
+        private final ResourceLocation BAG_1 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_1.png");
+        private final ResourceLocation BAG_2 = new ResourceLocation(PokecubeAdv.MODID, "textures/worn/bag_2.png");
 
         private final ResourceLocation[] BAG_TEXS = { this.BAG_1, this.BAG_2 };
 
@@ -69,7 +69,8 @@ public class ClientProxy extends CommonProxy
                 final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                 final int brightness, final int overlay)
         {
-            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag.x3d"));
+            if (this.bag == null) this.bag = new X3dModel(new ResourceLocation(PokecubeAdv.MODID,
+                    "models/worn/bag.x3d"));
             Back.renderBack(mat, buff, wearer, stack, this.bag, this.BAG_TEXS, brightness, overlay);
         }
     }
@@ -101,12 +102,12 @@ public class ClientProxy extends CommonProxy
         final ItemStack stack = evt.getItemStack();
         if (stack.isEmpty()) return;
         final CompoundNBT tag = stack.hasTag() ? stack.getTag() : new CompoundNBT();
-        if (tag.getBoolean("isapokebag"))
-            evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.bag"));
+        if (tag.getBoolean("isapokebag")) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID
+                + ".tooltip.bag"));
         if (tag.contains("dyeColour"))
         {
-            final ITextComponent colour = new TranslationTextComponent(
-                    DyeColor.byId(tag.getInt("dyeColour")).getTranslationKey());
+            final ITextComponent colour = new TranslationTextComponent(DyeColor.byId(tag.getInt("dyeColour"))
+                    .getTranslationKey());
             boolean has = false;
             for (final ITextComponent s : evt.getToolTip())
             {
@@ -116,8 +117,8 @@ public class ClientProxy extends CommonProxy
             if (!has) evt.getToolTip().add(colour);
         }
         if (player == null || player.openContainer == null) return;
-        if (player.openContainer instanceof PoweredContainer
-                || Screen.hasShiftDown() && !ClonerHelper.getGeneSelectors(stack).isEmpty())
+        if (player.openContainer instanceof PoweredContainer || Screen.hasShiftDown() && !ClonerHelper.getGeneSelectors(
+                stack).isEmpty())
         {
             final IMobGenetics genes = ClonerHelper.getGenes(stack);
             final int index = ClonerHelper.getIndex(stack);
@@ -128,16 +129,15 @@ public class ClientProxy extends CommonProxy
                 evt.getToolTip().add(comp);
                 if (Config.instance.expandedDNATooltips || Screen.hasControlDown())
                 {
-                    comp = new TranslationTextComponent(
-                            PokecubeAdv.MODID + ".tooltip.gene.parent." + a.getExpressed().getKey().getPath(),
-                            a.getAlleles()[0], a.getAlleles()[1]);
+                    comp = new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.parent." + a.getExpressed()
+                            .getKey().getPath(), a.getAlleles()[0], a.getAlleles()[1]);
                     evt.getToolTip().add(comp);
                 }
             }
-            if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown()))
-                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
-            if (index != -1)
-                evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.array.index", index));
+            if (genes != null && !(Config.instance.expandedDNATooltips || Screen.hasControlDown())) evt.getToolTip()
+                    .add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+            if (index != -1) evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID
+                    + ".tooltip.gene.array.index", index));
             Set<Class<? extends Gene>> genesSet;
             if (!(genesSet = ClonerHelper.getGeneSelectors(stack)).isEmpty()) if (Screen.hasControlDown())
                 for (final Class<? extends Gene> geneC : genesSet)
@@ -150,8 +150,8 @@ public class ClientProxy extends CommonProxy
                 catch (InstantiationException | IllegalAccessException e)
                 {
 
-            }
-                else evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
+                }
+            else evt.getToolTip().add(new TranslationTextComponent(PokecubeAdv.MODID + ".tooltip.gene.expand"));
             if (RecipeSelector.isSelector(stack))
             {
                 final SelectorValue value = ClonerHelper.getSelectorValue(stack);
@@ -173,9 +173,9 @@ public class ClientProxy extends CommonProxy
         ScreenManager.registerFactory(SplicerContainer.TYPE, Splicer::new);
         ScreenManager.registerFactory(ExtractorContainer.TYPE, Extractor::new);
         ScreenManager.registerFactory(BagContainer.TYPE, Bag<BagContainer>::new);
-        
-        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER, RenderType.translucent());        
-        
+
+        RenderTypeLookup.setRenderLayer(PokecubeAdv.CLONER, RenderType.getTranslucent());
+
         // Register config gui
         ModList.get().getModContainerById(PokecubeAdv.MODID).ifPresent(c -> c.registerExtensionPoint(
                 ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new ConfigGui(PokecubeAdv.config, parent)));

@@ -17,19 +17,17 @@ import thut.core.client.render.model.IModel;
 
 public class Eye
 {
-    private static final RenderType TYPE = RenderType.get("thuttech:font", DefaultVertexFormats.POSITION_COLOR_TEX, 7,
-            256, false, true,
-            RenderType.State
-            .builder().texture(new TextureState(new ResourceLocation(ThutBling.MODID, "textures/items/eye.png"),
-                    false, false))
-            .transparency(new RenderState.TransparencyState("translucent_transparency", () ->
-            {
-                RenderSystem.enableBlend();
-            }, () ->
-            {
-                RenderSystem.disableBlend();
-                RenderSystem.defaultBlendFunc();
-            })).writeMask(new RenderState.WriteMaskState(true, false)).build(false));
+    private static final RenderType TYPE = RenderType.makeType("thuttech:font", DefaultVertexFormats.POSITION_COLOR_TEX,
+            7, 256, false, true, RenderType.State.getBuilder().texture(new TextureState(new ResourceLocation(
+                    ThutBling.MODID, "textures/items/eye.png"), false, false)).transparency(
+                            new RenderState.TransparencyState("translucent_transparency", () ->
+                            {
+                                RenderSystem.enableBlend();
+                            }, () ->
+                            {
+                                RenderSystem.disableBlend();
+                                RenderSystem.defaultBlendFunc();
+                            })).writeMask(new RenderState.WriteMaskState(true, false)).build(false));
 
     public static void renderEye(final MatrixStack mat, final IRenderTypeBuffer buff, final LivingEntity wearer,
             final ItemStack stack, final IModel model, final ResourceLocation[] textures, final int brightness,

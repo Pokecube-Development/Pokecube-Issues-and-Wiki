@@ -213,7 +213,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
         {
             final BlockPos pos = v.getPos();
             final ServerWorld server = (ServerWorld) world;
-            if (server.func_217483_b_(pos)) biome = BiomeType.VILLAGE.getType();
+            if (server.isVillage(pos)) biome = BiomeType.VILLAGE.getType();
         }
         return biome;
     }

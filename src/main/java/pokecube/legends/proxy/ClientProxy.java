@@ -22,9 +22,9 @@ public class ClientProxy extends CommonProxy
     public void setupClient(final FMLClientSetupEvent event)
     {
         for (final Block b : BlockInit.BLOCKS)
-            RenderTypeLookup.setRenderLayer(b, RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(b, RenderType.getTranslucent());
         for (final Block b : PlantsInit.BLOCKFLOWERS)
-            RenderTypeLookup.setRenderLayer(b, RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(b, RenderType.getCutoutMipped());
 
         // Renderer for raid spawn
         ClientRegistry.bindTileEntityRenderer(RaidSpawn.TYPE, Raid::new);

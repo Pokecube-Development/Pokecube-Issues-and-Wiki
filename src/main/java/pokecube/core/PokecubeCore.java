@@ -144,7 +144,7 @@ public class PokecubeCore
                 // Currently this uses same settings as gold ore.
                 b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
                         new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, PokecubeItems.FOSSILSTONE
-                                .getDefaultState(), 9)).func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(
+                                .getDefaultState(), 9)).withPlacement(Placement.COUNT_RANGE.configure(
                                         new CountRangeConfig(2, 0, 0, 32))));
             }
 
@@ -281,7 +281,7 @@ public class PokecubeCore
         @SubscribeEvent
         public static void textureStitch(final TextureStitchEvent.Pre event)
         {
-            if (!event.getMap().getBasePath().toString().equals("minecraft:textures/atlas/blocks.png")) return;
+            if (!event.getMap().getTextureLocation().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             PokecubeCore.LOGGER.debug("Registering Pokecube Slot Textures");
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_cube"));
             event.addSprite(new ResourceLocation(PokecubeCore.MODID, "items/slot_tm"));

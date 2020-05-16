@@ -299,7 +299,7 @@ public class JigsawPieces
         }
 
         @Override
-        public int func_214850_d()
+        public int getGroundLevelDelta()
         {
             // This is the ground level delta.
             return this.offset + this.dy;
@@ -329,9 +329,8 @@ public class JigsawPieces
         }
 
         @Override
-        public boolean func_225575_a_(final TemplateManager manager, final IWorld worldIn,
-                final ChunkGenerator<?> p_225575_3_, final BlockPos pos, final Rotation rotation,
-                final MutableBoundingBox box, final Random rand)
+        public boolean place(final TemplateManager manager, final IWorld worldIn, final ChunkGenerator<?> p_225575_3_,
+                final BlockPos pos, final Rotation rotation, final MutableBoundingBox box, final Random rand)
         {
 
             final Template template = this.getTemplate(manager);
@@ -354,16 +353,15 @@ public class JigsawPieces
                         Blocks.STRUCTURE_BLOCK))
                     if (template$blockinfo.nbt != null)
                     {
-                        final StructureMode structuremode = StructureMode
-                                .valueOf(template$blockinfo.nbt.getString("mode"));
-                        if (structuremode == StructureMode.DATA)
-                            this.handleDataMarker(template$blockinfo.nbt.getString("metadata"), template$blockinfo.pos,
-                                    worldIn, rand, box);
+                        final StructureMode structuremode = StructureMode.valueOf(template$blockinfo.nbt.getString(
+                                "mode"));
+                        if (structuremode == StructureMode.DATA) this.handleDataMarker(template$blockinfo.nbt.getString(
+                                "metadata"), template$blockinfo.pos, worldIn, rand, box);
                     }
                 // Back to the stuff that the superclass does.
                 for (final Template.BlockInfo template$blockinfo : Template.processBlockInfos(template, worldIn, pos,
-                        placementsettings, this.func_214857_a(manager, pos, rotation, false)))
-                    this.func_214846_a(worldIn, template$blockinfo, pos, rotation, rand, box);
+                        placementsettings, this.getDataMarkers(manager, pos, rotation, false)))
+                    this.handleDataMarker(worldIn, template$blockinfo, pos, rotation, rand, box);
                 return true;
             }
         }

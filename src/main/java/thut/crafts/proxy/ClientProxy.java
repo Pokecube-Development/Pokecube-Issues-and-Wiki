@@ -160,7 +160,7 @@ public class ClientProxy extends CommonProxy
 
                 mat.push();
 
-                final Matrix4f positionMatrix = mat.getLast().getPositionMatrix();
+                final Matrix4f positionMatrix = mat.getLast().getMatrix();
 
                 final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
                 final IVertexBuilder builder = buffer.getBuffer(RenderType.LINES);

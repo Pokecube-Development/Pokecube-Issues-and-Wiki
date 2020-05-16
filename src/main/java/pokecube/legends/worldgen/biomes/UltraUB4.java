@@ -38,7 +38,7 @@ public class UltraUB4 extends Biome
                 .withConfiguration(new SphereReplaceConfig(Blocks.GRAVEL.getDefaultState(), 6, 2,
                         Lists.newArrayList(Blocks.DIRT.getDefaultState(),
                                 Blocks.GRASS_BLOCK.getDefaultState())))
-                .func_227228_a_(Placement.COUNT_TOP_SOLID.func_227446_a_(new FrequencyConfig(15))));
+                .withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(15))));
 
         // super(new
         // Biome.Builder().precipitation(RainType.RAIN).downfall(1.0f).temperature(0.1f).scale(0.3f).depth(

@@ -30,14 +30,14 @@ public class Util
 {
     public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        return alpha ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true,
-                false, RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+        return alpha ? RenderType.makeType("thutbling:bling_a", DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256,
+                true, false, RenderType.State.getBuilder().texture(new RenderState.TextureState(loc, true, false))
                         .diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(new RenderState.AlphaState(
                                 0.003921569F)).cull(new RenderState.CullState(false)).lightmap(
                                         new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true))
                         .build(false))
-                : RenderType.get("thutbling:bling_b", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
-                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
+                : RenderType.makeType("thutbling:bling_b", DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256, true,
+                        false, RenderType.State.getBuilder().texture(new RenderState.TextureState(loc, true, false))
                                 .diffuseLighting(new RenderState.DiffuseLightingState(true)).cull(
                                         new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
                                 .overlay(new RenderState.OverlayState(true)).build(false));

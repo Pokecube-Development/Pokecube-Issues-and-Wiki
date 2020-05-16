@@ -127,7 +127,8 @@ public class ClientProxy extends CommonProxy
         final Block[] leaves = ItemGenerator.leaves.values().toArray(new Block[0]);
         event.getBlockColors().register((state, reader, pos, tintIndex) ->
         {
-            return reader != null && pos != null ? BiomeColors.func_228361_b_(reader, pos) : FoliageColors.getDefault();
+            return reader != null && pos != null ? BiomeColors.getFoliageColor(reader, pos)
+                    : FoliageColors.getDefault();
         }, leaves);
     }
 
@@ -341,11 +342,11 @@ public class ClientProxy extends CommonProxy
 
         // Register the render layers
         for (final Block crop : BerryManager.berryCrops.values())
-            RenderTypeLookup.setRenderLayer(crop, RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(crop, RenderType.getCutoutMipped());
         for (final Block fruit : BerryManager.berryFruits.values())
-            RenderTypeLookup.setRenderLayer(fruit, RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(fruit, RenderType.getCutoutMipped());
         for (final Block leaf : ItemGenerator.leaves.values())
-            RenderTypeLookup.setRenderLayer(leaf, RenderType.cutoutMipped());
+            RenderTypeLookup.setRenderLayer(leaf, RenderType.getCutoutMipped());
 
         // Register config gui
         ModList.get().getModContainerById(PokecubeCore.MODID).ifPresent(c -> c.registerExtensionPoint(

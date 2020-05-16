@@ -28,11 +28,8 @@ public class Head
         float[] offsetArr;
 
         mat.push();
-        if (wearer.isCrouching())
-        {
-            if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null)
-                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-        }
+        if (wearer.isCrouching()) if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(9)) != null) mat
+                .translate(offsetArr[0], offsetArr[1], offsetArr[2]);
         if (wearer.isChild())
         {
             final float af = 2.0F;
@@ -43,7 +40,7 @@ public class Head
         }
 
         // Translate to head
-        theModel.getModelHead().setAnglesAndRotation(mat);
+        theModel.getModelHead().translateRotate(mat);
 
         mat.translate(0, -0.25f, 0);
         boolean render = false;
@@ -56,8 +53,8 @@ public class Head
                 mat.translate(-0.25, -0.1, 0.0);
                 mat.rotate(Vector3f.YP.rotationDegrees(90));
                 mat.rotate(Vector3f.XP.rotationDegrees(90));
-                if ((offsetArr = ThutWearables.config.renderOffsets.get(9)) != null)
-                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                if ((offsetArr = ThutWearables.config.renderOffsets.get(9)) != null) mat.translate(offsetArr[0],
+                        offsetArr[1], offsetArr[2]);
                 render = true;
             }
             else
@@ -66,22 +63,22 @@ public class Head
                 mat.translate(0.25, -0.1, 0.0);
                 mat.rotate(Vector3f.YP.rotationDegrees(90));
                 mat.rotate(Vector3f.XP.rotationDegrees(90));
-                if ((offsetArr = ThutWearables.config.renderOffsets.get(10)) != null)
-                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                if ((offsetArr = ThutWearables.config.renderOffsets.get(10)) != null) mat.translate(offsetArr[0],
+                        offsetArr[1], offsetArr[2]);
                 Utils.mirror(1, 0, 0, mat);
                 render = true;
             }
             break;
         case EYE:
             if (ThutWearables.config.renderBlacklist.contains(11)) break;
-            if ((offsetArr = ThutWearables.config.renderOffsets.get(11)) != null)
-                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsets.get(11)) != null) mat.translate(offsetArr[0],
+                    offsetArr[1], offsetArr[2]);
             render = true;
             break;
         case HAT:
             if (ThutWearables.config.renderBlacklist.contains(12)) break;
-            if ((offsetArr = ThutWearables.config.renderOffsets.get(12)) != null)
-                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsets.get(12)) != null) mat.translate(offsetArr[0],
+                    offsetArr[1], offsetArr[2]);
             render = true;
             break;
         default:

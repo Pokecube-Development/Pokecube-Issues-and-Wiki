@@ -31,17 +31,17 @@ public class Leg
         if (wearer.isCrouching())
         {
             mat.translate(0.0F, 0.23125F, 0.01F);
-            if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(4 + index)) != null)
-                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            if ((offsetArr = ThutWearables.config.renderOffsetsSneak.get(4 + index)) != null) mat.translate(
+                    offsetArr[0], offsetArr[1], offsetArr[2]);
         }
 
-        if (index == 0) theModel.bipedRightLeg.setAnglesAndRotation(mat);
-        else theModel.bipedLeftLeg.setAnglesAndRotation(mat);
+        if (index == 0) theModel.bipedRightLeg.translateRotate(mat);
+        else theModel.bipedLeftLeg.translateRotate(mat);
 
         mat.translate(0.0F, 0.4375F, 0.0625F);
 
-        if ((offsetArr = ThutWearables.config.renderOffsets.get(4 + index)) != null)
-            mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+        if ((offsetArr = ThutWearables.config.renderOffsets.get(4 + index)) != null) mat.translate(offsetArr[0],
+                offsetArr[1], offsetArr[2]);
 
         final boolean render = !ThutWearables.config.renderBlacklist.contains(4 + index);
         // System.out.println(slot + " " + index + " " + render);

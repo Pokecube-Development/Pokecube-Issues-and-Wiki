@@ -44,7 +44,7 @@ public class GuiPokemobBase extends ContainerScreen<ContainerPokemob>
         RenderSystem.scalef(1.0F, 1.0F, -1.0F);
         final MatrixStack matrixstack = new MatrixStack();
 
-        matrixstack.getLast().getNormalMatrix().mul(Vector3f.YP.rotationDegrees(50));
+        matrixstack.getLast().getNormal().mul(Vector3f.YP.rotationDegrees(50));
 
         matrixstack.scale(scale, scale, scale);
         final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);

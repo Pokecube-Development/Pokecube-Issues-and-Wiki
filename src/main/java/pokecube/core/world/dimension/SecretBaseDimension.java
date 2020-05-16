@@ -156,7 +156,7 @@ public class SecretBaseDimension extends ModDimension
         }
 
         @Override
-        public void func_225551_a_(final WorldGenRegion p_225551_1_, final IChunk p_225551_2_)
+        public void generateSurface(final WorldGenRegion p_225551_1_, final IChunk p_225551_2_)
         {
             // TODO Auto-generated method stub
 
@@ -251,7 +251,7 @@ public class SecretBaseDimension extends ModDimension
         }
 
         @Override
-        public Set<Biome> func_225530_a_(final int p_225530_1_, final int p_225530_2_, final int p_225530_3_,
+        public Set<Biome> getBiomes(final int p_225530_1_, final int p_225530_2_, final int p_225530_3_,
                 final int p_225530_4_)
         {
             return SecretProvider.BIOMES;
@@ -294,9 +294,8 @@ public class SecretBaseDimension extends ModDimension
     @SubscribeEvent
     public static void register(final RegisterDimensionsEvent event)
     {
-        SecretBaseDimension.TYPE = DimensionManager.registerOrGetDimension(
-                SecretBaseDimension.DIMENSION.getRegistryName(), SecretBaseDimension.DIMENSION,
-                new PacketBuffer(Unpooled.EMPTY_BUFFER), true);
+        SecretBaseDimension.TYPE = DimensionManager.registerOrGetDimension(SecretBaseDimension.DIMENSION
+                .getRegistryName(), SecretBaseDimension.DIMENSION, new PacketBuffer(Unpooled.EMPTY_BUFFER), true);
         DimensionManager.keepLoaded(SecretBaseDimension.TYPE);
     }
 

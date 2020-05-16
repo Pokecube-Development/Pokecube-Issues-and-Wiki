@@ -108,14 +108,14 @@ public class PokecubeLegends
                     continue;
                 // Currently this uses same settings as gold ore.
 
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                                BlockInit.RUBY_ORE.getDefaultState(), 5))
-                        .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(2, 0, 0, 32))));
-                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                                BlockInit.SAPPHIRE_ORE.getDefaultState(), 5))
-                        .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(2, 0, 0, 32))));
+                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE
+                                .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
+                                        new CountRangeConfig(2, 0, 0, 32))));
+                b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE
+                                .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
+                                        new CountRangeConfig(2, 0, 0, 32))));
             }
 
         }
@@ -141,7 +141,7 @@ public class PokecubeLegends
         }
     }
 
-    public static CommonProxy  proxy  = DistExecutor.runForDist(() -> () -> new ClientProxy(),
+    public static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
             () -> () -> new CommonProxy());
 
     public static final Config config = new Config();

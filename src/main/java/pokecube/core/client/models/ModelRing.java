@@ -21,25 +21,24 @@ import pokecube.core.PokecubeCore;
 
 public class ModelRing extends EntityModel<Entity>
 {
-    public static RenderType getType(ResourceLocation loc, boolean alpha)
+    public static RenderType getType(final ResourceLocation loc, final boolean alpha)
     {
-        return alpha
-                ? RenderType.get("thutbling:bling_a", DefaultVertexFormats.ITEM, GL11.GL_QUADS, 256, true, false,
-                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
-                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
-                                .alpha(new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
-                                .lightmap(new RenderState.LightmapState(true))
-                                .overlay(new RenderState.OverlayState(true)).build(false))
-                : RenderType.get("thutbling:bling_b", DefaultVertexFormats.ITEM, GL11.GL_QUADS, 256, true, false,
-                        RenderType.State.builder().texture(new RenderState.TextureState(loc, true, false))
-                                .diffuseLighting(new RenderState.DiffuseLightingState(true))
-                                .cull(new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
+        return alpha ? RenderType.makeType("thutbling:bling_a", DefaultVertexFormats.ENTITY, GL11.GL_QUADS, 256, true,
+                false, RenderType.State.getBuilder().texture(new RenderState.TextureState(loc, true, false))
+                        .diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(new RenderState.AlphaState(
+                                0.003921569F)).cull(new RenderState.CullState(false)).lightmap(
+                                        new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true))
+                        .build(false))
+                : RenderType.makeType("thutbling:bling_b", DefaultVertexFormats.ENTITY, GL11.GL_QUADS, 256, true, false,
+                        RenderType.State.getBuilder().texture(new RenderState.TextureState(loc, true, false))
+                                .diffuseLighting(new RenderState.DiffuseLightingState(true)).cull(
+                                        new RenderState.CullState(false)).lightmap(new RenderState.LightmapState(true))
                                 .overlay(new RenderState.OverlayState(true)).build(false));
     }
 
     public static IVertexBuilder makeBuilder(final IRenderTypeBuffer buff, final ResourceLocation loc)
     {
-        return buff.getBuffer(getType(loc, true));
+        return buff.getBuffer(ModelRing.getType(loc, true));
     }
 
     public static final ResourceLocation texture_1 = new ResourceLocation(PokecubeCore.MODID,
@@ -47,15 +46,15 @@ public class ModelRing extends EntityModel<Entity>
     public static final ResourceLocation texture_2 = new ResourceLocation(PokecubeCore.MODID,
             "textures/worn/megaring_2.png");
     // fields
-    ModelRenderer                        Shape2;
-    ModelRenderer                        Shape1;
-    ModelRenderer                        Shape3;
-    ModelRenderer                        Shape4;
-    ModelRenderer                        Shape5;
+    ModelRenderer Shape2;
+    ModelRenderer Shape1;
+    ModelRenderer Shape3;
+    ModelRenderer Shape4;
+    ModelRenderer Shape5;
 
-    public ItemStack                     stack;
+    public ItemStack stack;
 
-    public int                           pass      = 1;
+    public int pass = 1;
 
     public ModelRing()
     {
@@ -95,18 +94,16 @@ public class ModelRing extends EntityModel<Entity>
     }
 
     @Override
-    public void render(final Entity entityIn, final float limbSwing, final float limbSwingAmount,
+    public void setRotationAngles(final Entity entityIn, final float limbSwing, final float limbSwingAmount,
             final float ageInTicks, final float netHeadYaw, final float headPitch)
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void render(final MatrixStack matrixStackIn, final IVertexBuilder bufferIn, final int packedLightIn,
             final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
     {
-        if (pass == 1)
+        if (this.pass == 1)
         {
             matrixStackIn.push();
             matrixStackIn.scale(1f, 0.99f, 1.0f);
@@ -124,14 +121,14 @@ public class ModelRing extends EntityModel<Entity>
                 ret = DyeColor.byId(damage);
             }
             final Color colour = new Color(ret.getTextColor() + 0xFF000000);
-            this.Shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
-                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
-            this.Shape3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
-                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
-            this.Shape4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
-                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
-            this.Shape5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f,
-                    colour.getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
+                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
+                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
+                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
+            this.Shape5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, colour.getRed() / 255f, colour
+                    .getGreen() / 255f, colour.getBlue() / 255f, 1);
             matrixStackIn.pop();
         }
     }

@@ -468,7 +468,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     {
         if (this.isPassenger(passenger))
         {
-            if (passenger.isShiftKeyDown()) passenger.stopRiding();
+            if (passenger.isSneaking()) passenger.stopRiding();
             IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
             passenger.onGround = true;
             passenger.onLivingFall(passenger.fallDistance, 0);

@@ -34,9 +34,10 @@ public class Evolution
     });
 
     private static final float      sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    private static final RenderType EFFECT  = RenderType.get("pokemob:evo_effect", DefaultVertexFormats.POSITION_COLOR,
-            7, 256, false, true, RenderType.State.builder().writeMask(new RenderState.WriteMaskState(true, false))
-                    .transparency(Evolution.TRANSP).shadeModel(new RenderState.ShadeModelState(true)).build(false));
+    private static final RenderType EFFECT  = RenderType.makeType("pokemob:evo_effect",
+            DefaultVertexFormats.POSITION_COLOR, 7, 256, false, true, RenderType.State.getBuilder().writeMask(
+                    new RenderState.WriteMaskState(true, false)).transparency(Evolution.TRANSP).shadeModel(
+                            new RenderState.ShadeModelState(true)).build(false));
 
     public static void render(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer iRenderTypeBuffer,
             final float partialTick)
@@ -88,7 +89,7 @@ public class Evolution
             f3 *= scale;
             f4 *= scale;
 
-            final Matrix4f matrix4f = mat.getLast().getPositionMatrix();
+            final Matrix4f matrix4f = mat.getLast().getMatrix();
             final int j = (int) (200 * (1.0F - f7));
             try
             {

@@ -74,7 +74,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
         final float f12 = -beamRadius;
         float f15 = -1.0F + f2;
         float f16 = height * textureScale * (0.5F / beamRadius) + f15;
-        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, false)), f3, f4, f5,
+        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.getBeaconBeam(textureLocation, false)), f3, f4, f5,
                 1.0F, yOffset, i, 0.0F, beamRadius, beamRadius, 0.0F, f9, 0.0F, 0.0F, f12, 0.0F, 1.0F, f16, f15);
         matrixStackIn.pop();
         f6 = -glowRadius;
@@ -83,7 +83,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
         f9 = -glowRadius;
         f15 = -1.0F + f2;
         f16 = height * textureScale + f15;
-        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.beaconBeam(textureLocation, true)), f3, f4, f5,
+        Raid.renderPart(matrixStackIn, bufferIn.getBuffer(RenderType.getBeaconBeam(textureLocation, true)), f3, f4, f5,
                 0.125F, yOffset, i, f6, f7, glowRadius, f8, f9, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, f16,
                 f15);
         matrixStackIn.pop();
@@ -96,8 +96,8 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
             final float u1, final float u2, final float v1, final float v2)
     {
         final MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
-        final Matrix4f matrix4f = matrixstack$entry.getPositionMatrix();
-        final Matrix3f matrix3f = matrixstack$entry.getNormalMatrix();
+        final Matrix4f matrix4f = matrixstack$entry.getMatrix();
+        final Matrix3f matrix3f = matrixstack$entry.getNormal();
         Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_8_, p_228840_9_,
                 p_228840_10_, p_228840_11_, u1, u2, v1, v2);
         Raid.addQuad(matrix4f, matrix3f, bufferIn, red, green, blue, alpha, yMin, yMax, p_228840_14_, p_228840_15_,
@@ -124,7 +124,7 @@ public class Raid extends TileEntityRenderer<RaidSpawn>
             final float z, final float texU, final float texV)
     {
         bufferIn.pos(matrixPos, x, y, z).color(red, green, blue, alpha).tex(texU, texV).overlay(
-                OverlayTexture.DEFAULT_LIGHT).lightmap(15728880).normal(matrixNormal, 0.0F, 1.0F, 0.0F).endVertex();
+                OverlayTexture.NO_OVERLAY).lightmap(15728880).normal(matrixNormal, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     @Override

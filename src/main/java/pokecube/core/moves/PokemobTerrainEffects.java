@@ -36,36 +36,36 @@ import thut.api.terrain.TerrainSegment.ITerrainEffect;
 
 public class PokemobTerrainEffects implements ITerrainEffect
 {
-    public static final int                 EFFECT_WEATHER_SAND     = 1;
-    public static final int                 EFFECT_WEATHER_RAIN     = 2;
-    public static final int                 EFFECT_WEATHER_HAIL     = 3;
-    public static final int                 EFFECT_WEATHER_SUN      = 4;
-    public static final int                 EFFECT_SPORT_MUD        = 5;
-    public static final int                 EFFECT_SPORT_WATER      = 6;
-    public static final int                 EFFECT_TERRAIN_GRASS    = 7;
-    public static final int                 EFFECT_TERRAIN_ELECTRIC = 8;
-    public static final int                 EFFECT_TERRAIN_MISTY    = 9;
-    public static final int                 EFFECT_MIST             = 10;
-    public static final int                 EFFECT_SPIKES           = 11;
-    public static final int                 EFFECT_ROCKS            = 12;
-    public static final int                 EFFECT_POISON           = 13;
-    public static final int                 EFFECT_POISON2          = 14;
-    public static final int                 EFFECT_WEBS             = 15;
+    public static final int EFFECT_WEATHER_SAND     = 1;
+    public static final int EFFECT_WEATHER_RAIN     = 2;
+    public static final int EFFECT_WEATHER_HAIL     = 3;
+    public static final int EFFECT_WEATHER_SUN      = 4;
+    public static final int EFFECT_SPORT_MUD        = 5;
+    public static final int EFFECT_SPORT_WATER      = 6;
+    public static final int EFFECT_TERRAIN_GRASS    = 7;
+    public static final int EFFECT_TERRAIN_ELECTRIC = 8;
+    public static final int EFFECT_TERRAIN_MISTY    = 9;
+    public static final int EFFECT_MIST             = 10;
+    public static final int EFFECT_SPIKES           = 11;
+    public static final int EFFECT_ROCKS            = 12;
+    public static final int EFFECT_POISON           = 13;
+    public static final int EFFECT_POISON2          = 14;
+    public static final int EFFECT_WEBS             = 15;
 
-    public static final int                 CLEAR_ENTRYEFFECTS      = 16;
+    public static final int CLEAR_ENTRYEFFECTS = 16;
 
-    public static final TerrainDamageSource HAILDAMAGE              = new TerrainDamageSource("terrain.hail",
+    public static final TerrainDamageSource HAILDAMAGE      = new TerrainDamageSource("terrain.hail",
             TerrainType.TERRAIN);
-    public static final TerrainDamageSource SANDSTORMDAMAGE         = new TerrainDamageSource("terrain.sandstorm",
+    public static final TerrainDamageSource SANDSTORMDAMAGE = new TerrainDamageSource("terrain.sandstorm",
             TerrainType.TERRAIN);
 
-    public final long[]                     effects                 = new long[16];
+    public final long[] effects = new long[16];
 
-    int                                     chunkX;
-    int                                     chunkZ;
-    int                                     chunkY;
+    int chunkX;
+    int chunkZ;
+    int chunkY;
 
-    Set<IPokemob>                           pokemon                 = new HashSet<>();
+    Set<IPokemob> pokemon = new HashSet<>();
 
     public PokemobTerrainEffects()
     {
@@ -99,8 +99,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
                 entity.attackEntityFrom(PokemobTerrainEffects.SANDSTORMDAMAGE, damage);
             }
-            if (this.effects[PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC] > 0 && mob.isOnGround())
-                if (mob.getStatus() == IMoveConstants.STATUS_SLP) mob.healStatus();
+            if (this.effects[PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC] > 0 && mob.isOnGround()) if (mob
+                    .getStatus() == IMoveConstants.STATUS_SLP) mob.healStatus();
             if (this.effects[PokemobTerrainEffects.EFFECT_TERRAIN_GRASS] > 0 && mob.isOnGround())
             {
                 final float thisHP = mob.getHealth();
@@ -108,8 +108,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
                 mob.setHealth(Math.min(thisMaxHP, thisHP + damage));
             }
-            if (this.effects[PokemobTerrainEffects.EFFECT_TERRAIN_MISTY] > 0 && mob.isOnGround())
-                if (mob.getStatus() != IMoveConstants.STATUS_NON) mob.healStatus();
+            if (this.effects[PokemobTerrainEffects.EFFECT_TERRAIN_MISTY] > 0 && mob.isOnGround()) if (mob
+                    .getStatus() != IMoveConstants.STATUS_NON) mob.healStatus();
         }
         else if (PokecubeCore.getConfig().pokemobsDamagePlayers)
         {
@@ -148,12 +148,10 @@ public class PokemobTerrainEffects implements ITerrainEffect
         final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
         if (mob != null)
         {
-            if (this.effects[PokemobTerrainEffects.EFFECT_POISON] > 0 && !mob.isType(PokeType.getType("poison"))
-                    && !mob.isType(PokeType.getType("steel")))
-                mob.setStatus(IMoveConstants.STATUS_PSN);
+            if (this.effects[PokemobTerrainEffects.EFFECT_POISON] > 0 && !mob.isType(PokeType.getType("poison")) && !mob
+                    .isType(PokeType.getType("steel"))) mob.setStatus(IMoveConstants.STATUS_PSN);
             if (this.effects[PokemobTerrainEffects.EFFECT_POISON2] > 0 && !mob.isType(PokeType.getType("poison"))
-                    && !mob.isType(PokeType.getType("steel")))
-                mob.setStatus(IMoveConstants.STATUS_PSN2);
+                    && !mob.isType(PokeType.getType("steel"))) mob.setStatus(IMoveConstants.STATUS_PSN2);
             if (this.effects[PokemobTerrainEffects.EFFECT_SPIKES] > 0)
             {
                 final float thisHP = mob.getHealth();
@@ -165,12 +163,12 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = mob.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                final double mult = PokeType.getAttackEfficiency(PokeType.getType("rock"), mob.getType1(),
-                        mob.getType2());
+                final double mult = PokeType.getAttackEfficiency(PokeType.getType("rock"), mob.getType1(), mob
+                        .getType2());
                 entity.attackEntityFrom(DamageSource.GENERIC, (float) (damage * mult));
             }
-            if (this.effects[PokemobTerrainEffects.EFFECT_WEBS] > 0 && mob.isOnGround())
-                MovesUtils.handleStats2(mob, null, IMoveConstants.VIT, IMoveConstants.FALL);
+            if (this.effects[PokemobTerrainEffects.EFFECT_WEBS] > 0 && mob.isOnGround()) MovesUtils.handleStats2(mob,
+                    null, IMoveConstants.VIT, IMoveConstants.FALL);
         }
     }
 
@@ -188,8 +186,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
                     send = true;
                 }
             }
-        if (send) if (!e.getEntityWorld().isRemote)
-            PacketSyncTerrain.sendTerrainEffects(e, this.chunkX, this.chunkY, this.chunkZ, this);
+        if (send) if (!e.getEntityWorld().isRemote) PacketSyncTerrain.sendTerrainEffects(e, this.chunkX, this.chunkY,
+                this.chunkZ, this);
     }
 
     public long getEffect(final int effect)
@@ -217,8 +215,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void renderEffect(final IVertexBuilder builder, final Matrix4f pos, Vector3 origin, final Vector3 direction,
-            final float tick, final float r, final float g, final float b, final float a)
+    private void renderEffect(final IVertexBuilder builder, final Matrix4f pos, final Vector3 origin,
+            final Vector3 direction, final float tick, final float r, final float g, final float b, final float a)
     {
         final Vector3 temp = Vector3.getNewVector();
         final Vector3 temp2 = Vector3.getNewVector();
@@ -284,44 +282,46 @@ public class PokemobTerrainEffects implements ITerrainEffect
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderTerrainEffects(final RenderWorldLastEvent event, Vector3 origin)
+    public void renderTerrainEffects(final RenderWorldLastEvent event, final Vector3 origin)
     {
         if (this.hasEffects())
         {
             final MatrixStack mat = event.getMatrixStack();
             final int time = Minecraft.getInstance().player.ticksExisted;
             final Vector3 direction = Vector3.getNewVector().set(0, -1, 0);
-            float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
+            final float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
             final float tick = (time + partialTicks) / 10f;
 
             final IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
-            RenderType effectType = RenderType.get("pokecube:terrain_effects", DefaultVertexFormats.POSITION_COLOR,
-                    GL11.GL_QUADS, 256,
-                    RenderType.State.builder().diffuseLighting(new RenderState.DiffuseLightingState(true))
-                            .alpha(new RenderState.AlphaState(0.003921569F)).build(false));
+            final RenderType effectType = RenderType.makeType("pokecube:terrain_effects",
+                    DefaultVertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, RenderType.State.getBuilder()
+                            .diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(
+                                    new RenderState.AlphaState(0.003921569F)).build(false));
             final IVertexBuilder builder = buffer.getBuffer(effectType);
-            final Matrix4f pos = mat.getLast().getPositionMatrix();
+            final Matrix4f pos = mat.getLast().getMatrix();
             // FIXME figure out the offsets for this
             mat.push();
-            if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_RAIN] > 0)
-                this.renderEffect(builder, pos, origin, direction, tick, 0, 0, 1, 1);
-            if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_HAIL] > 0)
-                this.renderEffect(builder, pos, origin, direction, tick, 1, 1, 1, 1);
+            if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_RAIN] > 0) this.renderEffect(builder, pos, origin,
+                    direction, tick, 0, 0, 1, 1);
+            if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_HAIL] > 0) this.renderEffect(builder, pos, origin,
+                    direction, tick, 1, 1, 1, 1);
             direction.set(0, 0, 1);
-            if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_SAND] > 0)
-                this.renderEffect(builder, pos, origin, direction, tick, 0.86f, 0.82f, 0.75f, 1);
+            if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_SAND] > 0) this.renderEffect(builder, pos, origin,
+                    direction, tick, 0.86f, 0.82f, 0.75f, 1);
             mat.pop();
         }
     }
 
-    /** Adds the effect, and removes any non-compatible effects if any
+    /**
+     * Adds the effect, and removes any non-compatible effects if any
      *
      * @param effect
      *            see the EFFECT_ variables owned by this class
      * @param duration
      *            how long this effect lasts, this counter is decreased every
-     *            time a pokemob uses a move. */
+     *            time a pokemob uses a move.
+     */
     public void setEffect(final int effect, final long duration)
     {
         if (effect == PokemobTerrainEffects.EFFECT_WEATHER_HAIL)

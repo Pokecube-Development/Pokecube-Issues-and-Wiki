@@ -45,7 +45,7 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
         float          ageInTicks;
 
         @Override
-        public void render(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
+        public void setRotationAngles(final EntityPokecube entityIn, final float limbSwing, final float limbSwingAmount,
                 final float ageInTicks, final float netHeadYaw, final float headPitch)
         {
             this.cube = entityIn;
@@ -86,19 +86,14 @@ public class RenderPokecube extends LivingRenderer<EntityPokecube, ModelPokecube
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
 
-            RenderType rendertype = RenderTypeLookup.getRenderType(renderStack);
+            final RenderType rendertype = RenderTypeLookup.getRenderType(renderStack);
             RenderType rendertype1;
-            if (Objects.equals(rendertype, Atlases.getTranslucentBlockType()))
-            {
-                rendertype1 = Atlases.getTranslucentCullBlockType();
-            }
-            else
-            {
-                rendertype1 = rendertype;
-            }
+            if (Objects.equals(rendertype, Atlases.getTranslucentBlockType())) rendertype1 = Atlases
+                    .getTranslucentCullBlockType();
+            else rendertype1 = rendertype;
             final IRenderTypeBuffer.Impl irendertypebuffer$impl = Minecraft.getInstance().getRenderTypeBuffers()
                     .getBufferSource();
-            IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(irendertypebuffer$impl, rendertype1, true,
+            final IVertexBuilder ivertexbuilder = ItemRenderer.getBuffer(irendertypebuffer$impl, rendertype1, true,
                     renderStack.hasEffect());
 
             final Minecraft mc = Minecraft.getInstance();

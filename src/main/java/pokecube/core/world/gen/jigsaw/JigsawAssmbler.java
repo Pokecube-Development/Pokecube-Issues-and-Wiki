@@ -132,7 +132,8 @@ public class JigsawAssmbler
 
         final JigsawPiece jigsawpiece = jigsawpattern.getRandomPiece(rand);
         final AbstractVillagePiece abstractvillagepiece = pieceFactory.create(templateManagerIn, jigsawpiece, pos,
-                jigsawpiece.func_214850_d(), rotation, jigsawpiece.getBoundingBox(templateManagerIn, pos, rotation));
+                jigsawpiece.getGroundLevelDelta(), rotation, jigsawpiece.getBoundingBox(templateManagerIn, pos,
+                        rotation));
         final MutableBoundingBox mutableboundingbox = abstractvillagepiece.getBoundingBox();
         final int i = (mutableboundingbox.maxX + mutableboundingbox.minX) / 2;
         final int j = (mutableboundingbox.maxZ + mutableboundingbox.minZ) / 2;
@@ -164,8 +165,8 @@ public class JigsawAssmbler
             final int l = 80;
             final AxisAlignedBB axisalignedbb = new AxisAlignedBB(i - l, k - l, j - l, i + l + 1, k + l + 1, j + l + 1);
             this.availablePieces.addLast(new Entry(abstractvillagepiece, new AtomicReference<>(VoxelShapes
-                    .combineAndSimplify(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB
-                            .toImmutable(mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + l, 0));
+                    .combineAndSimplify(VoxelShapes.create(axisalignedbb), VoxelShapes.create(AxisAlignedBB.toImmutable(
+                            mutableboundingbox)), IBooleanFunction.ONLY_FIRST)), k + l, 0));
 
             while (!this.availablePieces.isEmpty())
             {
@@ -249,7 +250,7 @@ public class JigsawAssmbler
             int k = k0;
             final JigsawPattern jigsawpattern = JigsawManager.REGISTRY.get(new ResourceLocation(template$blockinfo.nbt
                     .getString("target_pool")));
-            final JigsawPattern jigsawpattern1 = JigsawManager.REGISTRY.get(jigsawpattern.func_214948_a());
+            final JigsawPattern jigsawpattern1 = JigsawManager.REGISTRY.get(jigsawpattern.getFallback());
             if (jigsawpattern != JigsawPattern.INVALID && (jigsawpattern.getNumberOfPieces() != 0
                     || jigsawpattern == JigsawPattern.EMPTY))
             {
@@ -260,8 +261,8 @@ public class JigsawAssmbler
                 {
                     atomicreference1 = atomicreference;
                     l = i;
-                    if (atomicreference.get() == null) atomicreference.set(VoxelShapes.create(AxisAlignedBB
-                            .toImmutable(mutableboundingbox)));
+                    if (atomicreference.get() == null) atomicreference.set(VoxelShapes.create(AxisAlignedBB.toImmutable(
+                            mutableboundingbox)));
                 }
                 else
                 {
@@ -301,9 +302,9 @@ public class JigsawAssmbler
                                         .getString("target_pool"));
                                 final JigsawPattern jigsawpattern2 = JigsawManager.REGISTRY.get(resourcelocation);
                                 final JigsawPattern jigsawpattern3 = JigsawManager.REGISTRY.get(jigsawpattern2
-                                        .func_214948_a());
-                                return Math.max(jigsawpattern2.func_214945_a(this.templateManager), jigsawpattern3
-                                        .func_214945_a(this.templateManager));
+                                        .getFallback());
+                                return Math.max(jigsawpattern2.getMaxSize(this.templateManager), jigsawpattern3
+                                        .getMaxSize(this.templateManager));
                             }
                         }).max().orElse(0);
 
@@ -344,8 +345,7 @@ public class JigsawAssmbler
                                 }
 
                                 if (!VoxelShapes.compare(atomicreference1.get(), VoxelShapes.create(AxisAlignedBB
-                                        .toImmutable(mutableboundingbox3).shrink(0.25D)),
-                                        IBooleanFunction.ONLY_SECOND))
+                                        .toImmutable(mutableboundingbox3).shrink(0.25D)), IBooleanFunction.ONLY_SECOND))
                                 {
                                     atomicreference1.set(VoxelShapes.combine(atomicreference1.get(), VoxelShapes.create(
                                             AxisAlignedBB.toImmutable(mutableboundingbox3)),
@@ -353,7 +353,7 @@ public class JigsawAssmbler
                                     final int j3 = villagePieceIn.getGroundLevelDelta();
                                     int l2;
                                     if (rigid) l2 = j3 - l1;
-                                    else l2 = jigsawpiece1.func_214850_d();
+                                    else l2 = jigsawpiece1.getGroundLevelDelta();
 
                                     final AbstractVillagePiece abstractvillagepiece = this.pieceFactory.create(
                                             this.templateManager, jigsawpiece1, blockpos5, l2, rotation1,

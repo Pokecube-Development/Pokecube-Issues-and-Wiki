@@ -132,9 +132,9 @@ public class Status
             });
         }
         renderer.getEntityModel().setLivingAnimations(mob, f5, f8, partialTicks);
-        renderer.getEntityModel().render(mob, f5, f8, f7, f2, f6);
+        renderer.getEntityModel().setRotationAngles(mob, f5, f8, f7, f2, f6);
         renderer.getEntityModel().render(mat, buf.getBuffer(wrap.getRenderType(default_)), light,
-                OverlayTexture.DEFAULT_LIGHT, 1, 1, 1, 0.5f);
+                OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.5f);
 
         if (texer != null)
         {

@@ -13,9 +13,9 @@ public class GuiWearables extends DisplayEffectsScreen<ContainerWearables>
             "textures/gui/wearables.png");
 
     /** The old x position of the mouse pointer */
-    private float                        oldMouseX;
+    private float oldMouseX;
     /** The old y position of the mouse pointer */
-    private float                        oldMouseY;
+    private float oldMouseY;
 
     public GuiWearables(final ContainerWearables container, final PlayerInventory player)
     {
@@ -30,7 +30,7 @@ public class GuiWearables extends DisplayEffectsScreen<ContainerWearables>
         final int i = this.guiLeft;
         final int j = this.guiTop;
         this.blit(i, j, 0, 0, this.xSize, this.ySize);
-        InventoryScreen.func_228187_a_(i + 51, j + 75, 30, i + 51 - this.oldMouseX, j + 75 - 50 - this.oldMouseY,
+        InventoryScreen.drawEntityOnScreen(i + 51, j + 75, 30, i + 51 - this.oldMouseX, j + 75 - 50 - this.oldMouseY,
                 this.container.wearer);
     }
 

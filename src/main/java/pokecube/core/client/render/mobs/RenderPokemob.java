@@ -643,8 +643,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     @Override
     protected RenderType func_230042_a_(final TameableEntity entity, final boolean bool_a, final boolean bool_b)
     {
-        final RenderType.State rendertype$state = RenderType.State.builder().texture(new RenderState.TextureState(this
-                .getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(
+        final RenderType.State rendertype$state = RenderType.State.getBuilder().texture(new RenderState.TextureState(
+                this.getEntityTexture(entity), false, false)).transparency(new RenderState.TransparencyState(
                         "translucent_transparency", () ->
                         {
                             RenderSystem.enableBlend();
@@ -655,8 +655,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
                         })).diffuseLighting(new RenderState.DiffuseLightingState(true)).alpha(
                                 new RenderState.AlphaState(0.003921569F)).cull(new RenderState.CullState(false))
                 .lightmap(new RenderState.LightmapState(true)).overlay(new RenderState.OverlayState(true)).build(false);
-        return RenderType.get("pokecube:pokemob", DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, bool_a, bool_b,
-                rendertype$state);
+        return RenderType.makeType("pokecube:pokemob", DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256, bool_a,
+                bool_b, rendertype$state);
     }
 
     @Override

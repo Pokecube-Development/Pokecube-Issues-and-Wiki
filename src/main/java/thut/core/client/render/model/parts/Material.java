@@ -72,13 +72,13 @@ public class Material
             final Impl impl = (Impl) buffer;
             IVertexBuilder buff = impl.getBuffer(type);
             // This means we didn't actually make one for this texture!
-            if (buff == impl.defaultBuffer)
+            if (buff == impl.buffer)
             {
                 final BufferBuilder builder = new BufferBuilder(256);
                 // Add a new bufferbuilder to the maps.
-                impl.buffersByType.put(type, builder);
+                impl.fixedBuffers.put(type, builder);
                 // This starts the buffer, and registers it to the Impl.
-                builder.begin(type.getGlMode(), type.getVertexFormat());
+                builder.begin(type.getDrawMode(), type.getVertexFormat());
                 impl.startedBuffers.add(builder);
                 buff = builder;
             }
@@ -91,7 +91,7 @@ public class Material
     {
         if (this.types.containsKey(tex) && this.fix_counter++ > 10) return this.types.get(tex);
         this.tex = tex;
-        final RenderType.State.Builder builder = RenderType.State.builder();
+        final RenderType.State.Builder builder = RenderType.State.getBuilder();
         builder.texture(new RenderState.TextureState(tex, false, false));
         builder.transparency(new RenderState.TransparencyState("material_transparency", () ->
         {
@@ -116,8 +116,8 @@ public class Material
         if (!this.flat) builder.shadeModel(new ShadeModelState(true));
         final RenderType.State rendertype$state = builder.build(true);
         final String id = this.render_name + tex;
-        final RenderType type = RenderType.get(id, DefaultVertexFormats.ITEM, GL11.GL_TRIANGLES, 256, true, false,
-                rendertype$state);
+        final RenderType type = RenderType.makeType(id, DefaultVertexFormats.ENTITY, GL11.GL_TRIANGLES, 256, true,
+                false, rendertype$state);
         this.types.put(tex, type);
         return type;
     }
@@ -131,7 +131,7 @@ public class Material
             if (!builder.isDrawing())
             {
                 final RenderType type = this.makeRenderType(this.tex);
-                builder.begin(type.getGlMode(), type.getVertexFormat());
+                builder.begin(type.getDrawMode(), type.getVertexFormat());
             }
         }
         return buff;

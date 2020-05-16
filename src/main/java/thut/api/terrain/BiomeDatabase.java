@@ -32,7 +32,7 @@ public class BiomeDatabase
         if (checkIndandVillage && world instanceof ServerWorld)
         {
             final ServerWorld server = (ServerWorld) world;
-            if (server.func_217483_b_(v.getPos())) return "village";
+            if (server.isVillage(v.getPos())) return "village";
         }
         final Biome biome = v.getBiome(world);
         ret = BiomeDatabase.getBiome(biome).name;
