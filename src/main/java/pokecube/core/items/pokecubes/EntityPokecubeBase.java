@@ -47,6 +47,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
+import pokecube.core.utils.TagNames;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
@@ -480,6 +481,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
     public void setCapturing(final LivingEntity mob)
     {
+        mob.getPersistentData().putBoolean(TagNames.CAPTURING, true);
         EntityUpdate.sendEntityUpdate(this);
         this.seeking = false;
     }
