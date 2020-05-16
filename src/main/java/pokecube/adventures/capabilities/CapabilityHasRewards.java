@@ -74,7 +74,7 @@ public class CapabilityHasRewards
                 {
                     messageSender.sendMessage(MessageState.GIVEITEM, player, rewarder.getDisplayName(), i
                             .getDisplayName(), player.getDisplayName());
-                    messageSender.doAction(MessageState.GIVEITEM, player);
+                    messageSender.doAction(MessageState.GIVEITEM, player, rewarder);
                 }
             }
         }

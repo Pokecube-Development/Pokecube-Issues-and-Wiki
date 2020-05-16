@@ -290,7 +290,7 @@ public class TrainerEventHandler
             {
                 messages.sendMessage(MessageState.HURT, evt.getSource().getTrueSource(), evt.getEntity()
                         .getDisplayName(), evt.getSource().getTrueSource().getDisplayName());
-                messages.doAction(MessageState.HURT, (LivingEntity) evt.getSource().getTrueSource());
+                messages.doAction(MessageState.HURT, (LivingEntity) evt.getSource().getTrueSource(), evt.getEntity());
             }
             if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.setTarget((LivingEntity) evt
                     .getSource().getTrueSource());
@@ -393,9 +393,11 @@ public class TrainerEventHandler
         }
         if (messages != null)
         {
-            messages.sendMessage(MessageState.INTERACT, evt.getPlayer(), target.getDisplayName(), evt.getPlayer()
-                    .getDisplayName());
-            messages.doAction(MessageState.INTERACT, evt.getPlayer());
+            MessageState state = MessageState.INTERACT;
+            if (pokemobs != null) state = pokemobs.canBattle(evt.getPlayer()) ? MessageState.INTERACT_YESBATTLE
+                    : MessageState.INTERACT_NOBATTLE;
+            messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
+            messages.doAction(state, evt.getPlayer(), target);
         }
     }
 
