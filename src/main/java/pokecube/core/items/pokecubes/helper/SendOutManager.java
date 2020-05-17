@@ -32,7 +32,7 @@ public class SendOutManager
 {
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon)
     {
-        if (cube.getEntityWorld().isRemote || cube.isReleasing()) return null;
+        if (cube.getEntityWorld().isRemote || cube.isReleasing() || cube.isCapturing) return null;
         cube.setTime(20);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
@@ -146,6 +146,7 @@ public class SendOutManager
             // Ensure the chunk is loaded here.
             w.getChunk(vec.getPos());
             final Entity original = world.getEntityByUuid(mob.getUniqueID());
+            mob.getPersistentData().remove(TagNames.CAPTURING);
             // The mob already exists in the world, remove it
             if (original != null) world.removeEntity(original, false);
             if (summon) world.summonEntity(mob);

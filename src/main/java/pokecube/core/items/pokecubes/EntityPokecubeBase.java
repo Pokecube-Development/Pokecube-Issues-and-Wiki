@@ -85,14 +85,17 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
                 .getEntityWorld().getGameTime() + PokecubeCore.getConfig().captureDelayTicks);
     }
 
-    public boolean          canBePickedUp = true;
+    public boolean canBePickedUp = true;
     /**
      * This gets decremented each tick, and will auto release if it hits 0, ie
      * will not auto release if below 0 to start with.
      */
-    public int              autoRelease   = -1;
-    public boolean          isLoot        = false;
-    public ResourceLocation lootTable     = null;
+    public int     autoRelease   = -1;
+    public boolean isLoot        = false;
+
+    public boolean isCapturing = false;
+
+    public ResourceLocation lootTable = null;
     protected int           inData;
     protected boolean       inGround;
     public UUID             shooter;
@@ -485,6 +488,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         mob.getPersistentData().putBoolean(TagNames.CAPTURING, true);
         EntityUpdate.sendEntityUpdate(this);
         this.seeking = false;
+        this.isCapturing = true;
     }
 
     public void setTilt(final int n)

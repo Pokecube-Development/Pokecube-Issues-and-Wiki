@@ -45,7 +45,8 @@ public class CaptureManager
         if (!(e instanceof LivingEntity)) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         final LivingEntity mob = (LivingEntity) e;
-        if (mob.deathTime > 0) return;
+        if (mob.deathTime > 0 || e.ticksExisted < 10) return;
+        if (cube.isCapturing) return;
 
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
