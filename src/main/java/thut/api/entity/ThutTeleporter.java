@@ -69,8 +69,8 @@ public class ThutTeleporter
             final ServerWorld destWorld = entity.getServer().getWorld(DimensionType.getById((int) dest.w));
             if (entity instanceof ServerPlayerEntity)
             {
-
                 final ServerPlayerEntity player = (ServerPlayerEntity) entity;
+                player.invulnerableDimensionChange = true;
                 player.teleport(destWorld, dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
                 if (sound)
                 {
@@ -78,6 +78,7 @@ public class ThutTeleporter
                             SoundCategory.BLOCKS, 1.0F, 1.0F, false);
                     player.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
                 }
+                player.invulnerableDimensionChange = false;
             }
             else // Schedule the transfer for end of tick.
                 new TransferTicker(destWorld, entity, dest, sound);
@@ -86,19 +87,25 @@ public class ThutTeleporter
 
     private static void transferMob(final ServerWorld destWorld, final Vector4 dest, final Entity entity)
     {
+        ServerPlayerEntity player = null;
+        if (entity instanceof ServerPlayerEntity)
+        {
+            player = (ServerPlayerEntity) entity;
+            player.invulnerableDimensionChange = true;
+        }
         final ServerWorld serverworld = (ServerWorld) entity.getEntityWorld();
         entity.dimension = destWorld.dimension.getType();
-        ThutTeleporter.removeMob(serverworld, entity, true); // Forge: The
-                                                             // player
-        // entity itself is moved,
-        // and not cloned. So we
-        // need to keep the data
-        // alive with no matching
-        // invalidate call later.
+        ThutTeleporter.removeMob(serverworld, entity, true);
         entity.revive();
         entity.setLocationAndAngles(dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
         entity.setWorld(destWorld);
         ThutTeleporter.addMob(destWorld, entity);
+        if (player != null)
+        {
+            player.invulnerableDimensionChange = false;
+            player.connection.captureCurrentPosition();
+            player.connection.setPlayerLocation(dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
+        }
     }
 
     private static void addMob(final ServerWorld world, final Entity entity)
