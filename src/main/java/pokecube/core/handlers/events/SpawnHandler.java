@@ -739,16 +739,16 @@ public final class SpawnHandler
             point.set(this.v.addTo(offset));
             if (!SpawnHandler.isPointValidForSpawn(world, point, dbe)) continue;
 
-            final float x = (float) point.x + 0.5F;
+            final float x = (float) point.x;
             final float y = (float) point.y;
-            final float z = (float) point.z + 0.5F;
+            final float z = (float) point.z;
 
             final float var28 = x - world.getSpawnPoint().getX();
             final float var29 = y - world.getSpawnPoint().getY();
             final float var30 = z - world.getSpawnPoint().getZ();
             final float distFromSpawnPoint = var28 * var28 + var29 * var29 + var30 * var30;
 
-            if (!SpawnHandler.checkNoSpawnerInArea(world, (int) x, (int) y, (int) z)) continue;
+            if (!SpawnHandler.checkNoSpawnerInArea(world, point.intX(), point.intY(), point.intZ())) continue;
             final float dist = PokecubeCore.getConfig().minSpawnRadius;
             final boolean player = checkPlayers && Tools.isAnyPlayerInRange(dist, dist, world, point);
             if (player) continue;
@@ -764,8 +764,7 @@ public final class SpawnHandler
                         if (event.getPicked() == null) continue;
                         entity = PokecubeCore.createPokemob(event.getPicked(), world);
                         entity.setHealth(entity.getMaxHealth());
-                        entity.setLocationAndAngles((double) x + 0.5F, (double) y + 0.5F, (double) z + 0.5F, world.rand
-                                .nextFloat() * 360.0F, 0.0F);
+                        entity.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
                         if (entity.canSpawn(world, SpawnReason.NATURAL))
                         {
                             if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, this.v3.set(entity),
