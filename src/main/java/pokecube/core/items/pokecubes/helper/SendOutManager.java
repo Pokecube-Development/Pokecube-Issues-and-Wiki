@@ -42,8 +42,6 @@ public class SendOutManager
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final Config config = PokecubeCore.getConfig();
 
-        final Entity original = world.getEntityByUuid(mob.getUniqueID());
-
         // Next check some conditions for whether the sendout can occur.
 
         final boolean hasMob = mob != null;
@@ -113,7 +111,7 @@ public class SendOutManager
                 }
                 return null;
             }
-            SendOutManager.apply(world, mob, original, v, pokemob, summon);
+            SendOutManager.apply(world, mob, v, pokemob, summon);
             cube.setReleased(mob);
             cube.setMotion(0, 0, 0);
             cube.setTime(20);
@@ -129,7 +127,7 @@ public class SendOutManager
             cube.setMotion(0, 0, 0);
             cube.setTime(20);
             cube.setReleasing(true);
-            SendOutManager.apply(world, mob, original, v, pokemob, summon);
+            SendOutManager.apply(world, mob, v, pokemob, summon);
             return (LivingEntity) mob;
         }
         else
@@ -141,14 +139,15 @@ public class SendOutManager
         return pokemob.getEntity();
     }
 
-    private static void apply(final ServerWorld world, final Entity mob, final Entity original, final Vector3 v,
-            final IPokemob pokemob, final boolean summon)
+    private static void apply(final ServerWorld world, final Entity mob, final Vector3 v, final IPokemob pokemob,
+            final boolean summon)
     {
         final Vector3 vec = v.copy();
         final IRunnable task = w ->
         {
             // Ensure the chunk is loaded here.
             w.getChunk(vec.getPos());
+            final Entity original = world.getEntityByUuid(mob.getUniqueID());
             // The mob already exists in the world, remove it
             if (original != null) world.removeEntity(original, false);
             if (summon) world.summonEntity(mob);
