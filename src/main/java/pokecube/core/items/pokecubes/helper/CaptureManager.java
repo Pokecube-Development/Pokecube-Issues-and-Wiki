@@ -150,7 +150,7 @@ public class CaptureManager
 
     public static void captureFailed(final EntityPokecubeBase cube)
     {
-        final LivingEntity mob = SendOutManager.sendOut(cube, false);
+        final LivingEntity mob = SendOutManager.sendOut(cube, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         cube.setNotCapturing();
 
@@ -158,9 +158,6 @@ public class CaptureManager
         {
             mob.getPersistentData().remove(TagNames.CAPTURING);
             mob.setLocationAndAngles(cube.posX, cube.posY + 1.0D, cube.posZ, cube.rotationYaw, 0.0F);
-            final boolean ret = cube.getEntityWorld().addEntity(mob);
-            if (ret == false) PokecubeCore.LOGGER.error(String.format(
-                    "The pokemob %1$s spawn from pokecube has failed. ", mob.getDisplayName().getFormattedText()));
         }
         if (pokemob != null)
         {

@@ -19,8 +19,6 @@ public class BerryLeaf extends LeavesBlock
     {
         super(properties);
         this.index = index;
-        this.setDefaultState(this.stateContainer.getBaseState().with(LeavesBlock.DISTANCE, Integer.valueOf(1))
-                .with(LeavesBlock.PERSISTENT, Boolean.valueOf(false)));
     }
 
     @Override
