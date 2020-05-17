@@ -75,7 +75,7 @@ public class CaptureManager
                 if (cube.getTilt() != tiltBak)
                 {
                     if (cube.getTilt() == 5) cube.setTime(10);
-                    else cube.setTime(20 * cube.getTilt());
+                    else cube.setTime(20 * cube.getTilt() + 1);
                     hitten.setPokecube(cube.getItem());
                     cube.setItem(PokecubeManager.pokemobToItem(hitten));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());

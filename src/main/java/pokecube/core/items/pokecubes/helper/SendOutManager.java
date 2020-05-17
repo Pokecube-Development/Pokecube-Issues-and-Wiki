@@ -111,11 +111,10 @@ public class SendOutManager
                 }
                 return null;
             }
-            SendOutManager.apply(world, mob, v, pokemob, summon);
             cube.setReleased(mob);
+            SendOutManager.apply(world, mob, v, pokemob, summon);
             cube.setMotion(0, 0, 0);
             cube.setTime(20);
-            cube.setReleasing(true);
             cube.setItem(pokemob.getPokecube());
 
         }
@@ -124,10 +123,9 @@ public class SendOutManager
             cube.getItem().getTag().remove(TagNames.MOBID);
             cube.getItem().getTag().remove(TagNames.POKEMOB);
             cube.setReleased(mob);
+            SendOutManager.apply(world, mob, v, pokemob, summon);
             cube.setMotion(0, 0, 0);
             cube.setTime(20);
-            cube.setReleasing(true);
-            SendOutManager.apply(world, mob, v, pokemob, summon);
             return (LivingEntity) mob;
         }
         else

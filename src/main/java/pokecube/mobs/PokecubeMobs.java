@@ -624,7 +624,7 @@ public class PokecubeMobs
                     final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.caught
                             .getPokedexEntry(), cube.getEntityWorld()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
-                    cube.setTime(cube.getTilt() * 20);
+                    cube.setTime(cube.getTilt() * 20 + 1);
                     if (!tameSnag) evt.caught.setPokecube(evt.filledCube);
                     cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
@@ -667,7 +667,7 @@ public class PokecubeMobs
                 has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUniqueID(), mob.getPokedexEntry());
                 final double rate = has > 0 ? 3 : 1;
                 cube.setTilt(Tools.computeCatchRate(mob, rate));
-                cube.setTime(cube.getTilt() * 20);
+                cube.setTime(cube.getTilt() * 20 + 1);
                 evt.caught.setPokecube(evt.filledCube);
                 cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());

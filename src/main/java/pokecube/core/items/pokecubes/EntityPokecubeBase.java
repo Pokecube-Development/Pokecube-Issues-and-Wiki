@@ -447,6 +447,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public void setReleased(final Entity entity)
     {
         this.getDataManager().set(EntityPokecubeBase.ENTITYID, entity.getEntityId());
+        this.setReleasing(true);
     }
 
     public void setReleasing(final boolean tag)

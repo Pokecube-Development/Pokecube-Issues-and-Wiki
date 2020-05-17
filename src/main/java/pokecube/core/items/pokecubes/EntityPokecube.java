@@ -252,18 +252,20 @@ public class EntityPokecube extends EntityPokecubeBase
     @Override
     public void tick()
     {
-        this.setTime(this.getTime() - 1);
         if (this.isReleasing() && (this.getTime() < 0 || this.getReleased() == null || !this.getReleased().isAlive()))
         {
             this.remove();
             return;
         }
 
+        capture:
         if (this.getEntityWorld() instanceof ServerWorld)
         {
             final boolean validTime = this.getTime() <= 0;
+
+            if (!validTime) break capture;
             // Captured the pokemon
-            if (validTime && this.getTilt() >= 4)
+            if (this.getTilt() >= 4)
             {
                 if (CaptureManager.captureSucceed(this))
                 {
@@ -285,13 +287,14 @@ public class EntityPokecube extends EntityPokecubeBase
                 this.remove();
                 return;
             }
-            else if (validTime && this.getTilt() >= 0)
+            else if (this.getTilt() >= 0)
             {// Missed the pokemon
                 CaptureManager.captureFailed(this);
                 this.remove();
                 return;
             }
         }
+        this.setTime(this.getTime() - 1);
         super.tick();
     }
 
