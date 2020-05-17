@@ -466,7 +466,8 @@
           }
         },
         {
-          "custom": "allGenericHeld",
+          "type": "tag_sell",
+          "custom": "pokecube:pokemob_evo",
           "buys": [
             {
               "values": {

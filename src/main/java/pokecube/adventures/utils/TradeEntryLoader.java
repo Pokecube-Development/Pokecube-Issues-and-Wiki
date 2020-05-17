@@ -5,13 +5,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,7 +19,6 @@ import net.minecraft.util.ResourceLocation;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
-import pokecube.adventures.utils.trade_presets.AllGenericHeld;
 import pokecube.adventures.utils.trade_presets.AllMegas;
 import pokecube.adventures.utils.trade_presets.AllTMs;
 import pokecube.adventures.utils.trade_presets.AllVitamins;
@@ -89,11 +86,6 @@ public class TradeEntryLoader
 
     static XMLDatabase database;
 
-    /**
-     * These items will not be auto-added to "allGenericHeld"
-     */
-    public static Set<String> genericTradeBlacklist = Sets.newHashSet();
-
     public static Map<String, TradePreset> registeredPresets = Maps.newHashMap();
 
     static
@@ -103,7 +95,6 @@ public class TradeEntryLoader
         TradeEntryLoader.registeredPresets.put("allTMs", new AllTMs());
         TradeEntryLoader.registeredPresets.put("buyRandomBadge", new BuyRandomBadge());
         TradeEntryLoader.registeredPresets.put("sellRandomBadge", new SellRandomBadge());
-        TradeEntryLoader.registeredPresets.put("allGenericHeld", new AllGenericHeld());
     }
 
     private static boolean addTemplatedTrades(final Trade trade, final TrainerTrades trades)
