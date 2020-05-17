@@ -36,6 +36,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -45,7 +46,6 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
@@ -62,9 +62,11 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.berries.ItemBerry;
+import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
+import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
@@ -113,17 +115,6 @@ public class PokemobEventsHandler
             else event.getDrops().clear();
             if (!bak.isEmpty()) event.getDrops().addAll(bak);
         }
-    }
-
-    private static void dropItem(final IPokemob dropper)
-    {
-        final ItemStack toDrop = dropper.getHeldItem();
-        if (toDrop.isEmpty()) return;
-        final Entity entity = dropper.getEntity();
-        final ItemEntity drop = new ItemEntity(entity.getEntityWorld(), entity.posX, entity.posY + 0.5, entity.posZ,
-                toDrop);
-        entity.getEntityWorld().addEntity(drop);
-        dropper.setHeldItem(ItemStack.EMPTY);
     }
 
     public static Map<DyeColor, Tag<Item>> getDyeTagMap()
@@ -237,6 +228,38 @@ public class PokemobEventsHandler
         PokemobEventsHandler.processInteract(evt, evt.getTarget());
         if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
                 .getGameTime());
+    }
+
+    @SubscribeEvent
+    public static void livingHurtEvent(final LivingHurtEvent evt)
+    {
+        /*
+         * No harming invalid targets, only apply this to pokemob related damage
+         * sources
+         */
+        if (evt.getSource() instanceof IPokedamage && !AITools.validTargets.test(evt.getEntity()))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        // check if configs say this damage can't happen
+        if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        // Apply scaling from config for this
+        if (pokemob != null && evt.getSource().getTrueSource() instanceof PlayerEntity) evt.setAmount((float) (evt
+                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
+
+        // Prevent suffocating the player if they are in wall while riding
+        // pokemob.
+        if (evt.getEntity() instanceof PlayerEntity && evt.getSource() == DamageSource.IN_WALL)
+        {
+            pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
+            if (pokemob != null) evt.setCanceled(true);
+        }
     }
 
     private static boolean isRidable(final Entity rider, final IPokemob pokemob)
@@ -523,24 +546,6 @@ public class PokemobEventsHandler
                         evt.setCancellationResult(ActionResultType.SUCCESS);
                         return;
                     }
-                }
-                // Try to hold the item.
-                if (PokecubeItems.isValidHeldItem(held))
-                {
-                    final ItemStack heldItem = pokemob.getHeldItem();
-                    if (!heldItem.isEmpty()) PokemobEventsHandler.dropItem(pokemob);
-                    final ItemStack toSet = held.copy();
-                    toSet.setCount(1);
-                    pokemob.setHeldItem(toSet);
-                    pokemob.setCombatState(CombatStates.NOITEMUSE, true);
-                    if (!player.abilities.isCreativeMode) held.shrink(1);
-                    {
-                        if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem,
-                                ItemStack.EMPTY);
-                    }
-                    evt.setCanceled(true);
-                    evt.setCancellationResult(ActionResultType.SUCCESS);
-                    return;
                 }
             }
             // Open Gui
