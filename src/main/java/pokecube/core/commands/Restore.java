@@ -77,19 +77,19 @@ public class Restore
                 "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
                         .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
                                 "player"), false, false, false, StringArgumentType.getString(ctx, "name")))));
-        final LiteralArgumentBuilder<CommandSource> check_pc_spec = Commands.literal("check").then(Commands.argument(
+        final LiteralArgumentBuilder<CommandSource> check_pc_spec = Commands.literal("check_pc").then(Commands.argument(
                 "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
                         .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
-                                "player"), false, false, false, StringArgumentType.getString(ctx, "name")))));
+                                "player"), false, true, false, StringArgumentType.getString(ctx, "name")))));
 
         final LiteralArgumentBuilder<CommandSource> give_spec = Commands.literal("give").then(Commands.argument(
                 "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
                         .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
-                                "player"), true, true, false, ""))));
-        final LiteralArgumentBuilder<CommandSource> give_pc_spec = Commands.literal("give").then(Commands.argument(
+                                "player"), true, false, false, StringArgumentType.getString(ctx, "name")))));
+        final LiteralArgumentBuilder<CommandSource> give_pc_spec = Commands.literal("give_pc").then(Commands.argument(
                 "player", GameProfileArgument.gameProfile()).then(Commands.argument("name", StringArgumentType.string())
                         .executes(ctx -> Restore.execute(ctx.getSource(), GameProfileArgument.getGameProfiles(ctx,
-                                "player"), true, true, false, ""))));
+                                "player"), true, true, false, StringArgumentType.getString(ctx, "name")))));
 
         root.then(check);
         root.then(check_pc);

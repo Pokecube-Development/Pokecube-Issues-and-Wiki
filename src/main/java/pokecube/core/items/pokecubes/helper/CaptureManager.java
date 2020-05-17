@@ -43,6 +43,7 @@ public class CaptureManager
     {
         if (!(cube.getEntityWorld() instanceof ServerWorld)) return;
         if (!(e instanceof LivingEntity)) return;
+        if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         final LivingEntity mob = (LivingEntity) e;
         if (mob.deathTime > 0) return;
 

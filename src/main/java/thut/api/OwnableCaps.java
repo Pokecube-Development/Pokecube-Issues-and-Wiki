@@ -96,6 +96,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
             return this.playerOwned;
         }
 
@@ -146,6 +147,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
             return this.playerOwned;
         }
 
@@ -204,6 +206,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
             return this.playerOwned;
         }
 
