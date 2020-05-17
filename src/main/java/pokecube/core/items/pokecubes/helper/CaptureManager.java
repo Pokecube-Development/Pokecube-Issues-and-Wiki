@@ -156,7 +156,7 @@ public class CaptureManager
 
         if (mob != null)
         {
-
+            mob.getPersistentData().remove(TagNames.CAPTURING);
             mob.setLocationAndAngles(cube.posX, cube.posY + 1.0D, cube.posZ, cube.rotationYaw, 0.0F);
             final boolean ret = cube.getEntityWorld().addEntity(mob);
             if (ret == false) PokecubeCore.LOGGER.error(String.format(
@@ -191,6 +191,7 @@ public class CaptureManager
             else cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
             return false;
         }
+        mob.getPersistentData().remove(TagNames.CAPTURING);
         if (ownable != null) ownable.setOwner(cube.shootingEntity.getUniqueID());
         if (pokemob == null)
         {
