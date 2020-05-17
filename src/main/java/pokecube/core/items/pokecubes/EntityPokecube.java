@@ -252,12 +252,11 @@ public class EntityPokecube extends EntityPokecubeBase
     @Override
     public void tick()
     {
-        if (this.isReleasing() && (this.getTime() < 0 || this.getReleased() == null || !this.getReleased().isAlive()))
+        if (this.isReleasing() && this.getTime() < 0)
         {
             this.remove();
             return;
         }
-
         capture:
         if (this.getEntityWorld() instanceof ServerWorld)
         {

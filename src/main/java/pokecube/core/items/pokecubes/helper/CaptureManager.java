@@ -76,7 +76,7 @@ public class CaptureManager
                 if (cube.getTilt() != tiltBak)
                 {
                     if (cube.getTilt() == 5) cube.setTime(10);
-                    else cube.setTime(20 * cube.getTilt() + 1);
+                    else cube.setTime(20 * cube.getTilt() + 5);
                     hitten.setPokecube(cube.getItem());
                     cube.setItem(PokecubeManager.pokemobToItem(hitten));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
@@ -91,7 +91,7 @@ public class CaptureManager
                 cube.setTilt(n);
 
                 if (n == 5) cube.setTime(10);
-                else cube.setTime(20 * n);
+                else cube.setTime(20 * n + 5);
 
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
@@ -128,7 +128,7 @@ public class CaptureManager
             }
             cube.setTilt(n);
             if (n == 5) cube.setTime(10);
-            else cube.setTime(20 * n);
+            else cube.setTime(20 * n + 5);
             final ItemStack mobStack = cube.getItem().copy();
             PokecubeManager.addToCube(mobStack, mob);
             cube.setItem(mobStack);
@@ -158,7 +158,7 @@ public class CaptureManager
         if (mob != null)
         {
             mob.getPersistentData().remove(TagNames.CAPTURING);
-            mob.setLocationAndAngles(cube.posX, cube.posY + 1.0D, cube.posZ, cube.rotationYaw, 0.0F);
+            mob.setLocationAndAngles(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.rotationYaw, 0.0F);
         }
         if (pokemob != null)
         {

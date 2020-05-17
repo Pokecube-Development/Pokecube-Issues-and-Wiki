@@ -57,16 +57,20 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
     public static SoundEvent POKECUBESOUND;
 
-    static final DataParameter<Integer> ENTITYID = EntityDataManager.<Integer> createKey(EntityPokecubeBase.class,
-            DataSerializers.VARINT);
+    static final DataParameter<Integer>   ENTITYID;
+    static final DataParameter<ItemStack> ITEM;
+    static final DataParameter<Boolean>   RELEASING;
+    static final DataParameter<Integer>   TIME;
 
-    private static final DataParameter<ItemStack> ITEM      = EntityDataManager.<ItemStack> createKey(
-            EntityPokecubeBase.class, DataSerializers.ITEMSTACK);
-    static final DataParameter<Boolean>           RELEASING = EntityDataManager.<Boolean> createKey(
-            EntityPokecubeBase.class, DataSerializers.BOOLEAN);
-    static final DataParameter<Integer>           TIME      = EntityDataManager.<Integer> createKey(
-            EntityPokecubeBase.class, DataSerializers.VARINT);
-    public static boolean                         SEEKING   = true;
+    public static boolean SEEKING = true;
+
+    static
+    {
+        ENTITYID = EntityDataManager.<Integer> createKey(EntityPokecubeBase.class, DataSerializers.VARINT);
+        ITEM = EntityDataManager.<ItemStack> createKey(EntityPokecubeBase.class, DataSerializers.ITEMSTACK);
+        RELEASING = EntityDataManager.<Boolean> createKey(EntityPokecubeBase.class, DataSerializers.BOOLEAN);
+        TIME = EntityDataManager.<Integer> createKey(EntityPokecubeBase.class, DataSerializers.VARINT);
+    }
 
     public static boolean canCaptureBasedOnConfigs(final IPokemob pokemob)
     {
@@ -79,7 +83,6 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
     public static void setNoCaptureBasedOnConfigs(final IPokemob pokemob)
     {
-
         if (PokecubeCore.getConfig().captureDelayTillAttack) pokemob.setCombatState(CombatStates.NOITEMUSE, true);
         else pokemob.getEntity().getPersistentData().putLong(EntityPokecubeBase.CUBETIMETAG, pokemob.getEntity()
                 .getEntityWorld().getGameTime() + PokecubeCore.getConfig().captureDelayTicks);
@@ -96,10 +99,11 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public boolean isCapturing = false;
 
     public ResourceLocation lootTable = null;
-    protected int           inData;
-    protected boolean       inGround;
-    public UUID             shooter;
-    public LivingEntity     shootingEntity;
+
+    protected int       inData;
+    protected boolean   inGround;
+    public UUID         shooter;
+    public LivingEntity shootingEntity;
 
     public double       speed          = 2;
     public LivingEntity targetEntity;
@@ -111,9 +115,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public Vector3     v0   = Vector3.getNewVector();
     protected Vector3  v1   = Vector3.getNewVector();
 
-    private int    xTile   = -1;
-    private int    yTile   = -1;
-    private int    zTile   = -1;
+    public Vector3 capturePos = Vector3.getNewVector();
+
     private Entity ignoreEntity;
     private int    ignoreTime;
     public boolean seeking = EntityPokecubeBase.SEEKING;
@@ -381,9 +384,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         compound.putBoolean("releasing", this.isReleasing());
         if (this.shooter != null) compound.putString("shooter", this.shooter.toString());
         if (this.getItem() != null) compound.put("Item", this.getItem().write(new CompoundNBT()));
-        compound.putInt("xTile", this.xTile);
-        compound.putInt("yTile", this.yTile);
-        compound.putInt("zTile", this.zTile);
+        if (this.isCapturing) this.capturePos.writeToNBT(compound, "capt_");
         compound.putByte("inGround", (byte) (this.inGround ? 1 : 0));
         compound.putInt("autorelease", this.autoRelease);
         if (this.shooter != null) compound.put("owner", NBTUtil.writeUniqueId(this.shooter));
@@ -404,9 +405,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         final CompoundNBT CompoundNBT1 = compound.getCompound("Item");
         this.setItem(ItemStack.read(CompoundNBT1));
         if (compound.contains("shooter")) this.shooter = UUID.fromString(compound.getString("shooter"));
-        this.xTile = compound.getInt("xTile");
-        this.yTile = compound.getInt("yTile");
-        this.zTile = compound.getInt("zTile");
+        this.isCapturing = compound.contains("capt_x");
+        if (this.isCapturing) this.capturePos = Vector3.readFromNBT(compound, "capt_");
         this.autoRelease = compound.getInt("autorelease");
         this.inGround = compound.getByte("inGround") == 1;
         if (compound.contains("owner", 10)) this.shooter = NBTUtil.readUniqueId(compound.getCompound("owner"));
@@ -450,6 +450,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public void setReleased(final Entity entity)
     {
         this.getDataManager().set(EntityPokecubeBase.ENTITYID, entity.getEntityId());
+        this.setMotion(0, 0, 0);
+        this.setTime(20);
         this.setReleasing(true);
     }
 
@@ -487,6 +489,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     {
         mob.getPersistentData().putBoolean(TagNames.CAPTURING, true);
         EntityUpdate.sendEntityUpdate(this);
+        this.setMotion(0, 0, 0);
+        this.capturePos.set(mob);
         this.seeking = false;
         this.isCapturing = true;
         this.canBePickedUp = false;

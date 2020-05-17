@@ -1,10 +1,14 @@
 package pokecube.core.items.pokecubes.helper;
 
+import java.util.stream.Stream;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
@@ -30,10 +34,37 @@ import thut.core.common.commands.CommandTools;
 
 public class SendOutManager
 {
+    private static Vector3 getFreeSpot(final AxisAlignedBB box, final ServerWorld world, final Vector3 pos)
+    {
+        if (SendOutManager.valid(box, world, pos)) return pos;
+        final Vector3 found = pos.copy();
+        final int r = 5;
+        for (int y = 0; y < r; y++)
+            for (int x = 0; x < r; x++)
+                for (int z = 0; z < r; z++)
+                {
+                    found.set(pos).addTo(x, y, z);
+                    if (SendOutManager.valid(box.offset(x, y, z), world, found)) return found;
+                    found.set(pos).addTo(-x, y, z);
+                    if (SendOutManager.valid(box.offset(-x, y, z), world, found)) return found;
+                    found.set(pos).addTo(x, y, -z);
+                    if (SendOutManager.valid(box.offset(x, y, -z), world, found)) return found;
+                    found.set(pos).addTo(-x, y, -z);
+                    if (SendOutManager.valid(box.offset(-x, y, -z), world, found)) return found;
+                }
+        return pos;
+    }
+
+    private static boolean valid(final AxisAlignedBB box, final ServerWorld world, final Vector3 pos)
+    {
+        final Stream<VoxelShape> colliding = world.getCollisionShapes(null, box);
+        final long num = colliding.count();
+        return num == 0;
+    }
+
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon)
     {
         if (cube.getEntityWorld().isRemote || cube.isReleasing()) return null;
-        cube.setTime(20);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
 
@@ -72,10 +103,16 @@ public class SendOutManager
         }
 
         // Fix the mob's position.
-        final Vector3 v = cube.v0.set(cube);
-        v.set(v.intX() + 0.5, v.y, v.intZ() + 0.5);
-        final BlockState state = v.getBlockState(cube.getEntityWorld());
-        if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
+        Vector3 v = cube.v0.set(cube);
+        if (cube.isCapturing) v.set(cube.capturePos);
+        else
+        {
+            v.set(v.intX() + 0.5, v.y, v.intZ() + 0.5);
+            final BlockState state = v.getBlockState(cube.getEntityWorld());
+            if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
+        }
+        v.moveEntity(mob);
+        v = SendOutManager.getFreeSpot(mob.getBoundingBox(), world, v);
         mob.fallDistance = 0;
         v.moveEntity(mob);
 
@@ -113,8 +150,6 @@ public class SendOutManager
             }
             cube.setReleased(mob);
             SendOutManager.apply(world, mob, v, pokemob, summon);
-            cube.setMotion(0, 0, 0);
-            cube.setTime(20);
             cube.setItem(pokemob.getPokecube());
 
         }
@@ -124,8 +159,6 @@ public class SendOutManager
             cube.getItem().getTag().remove(TagNames.POKEMOB);
             cube.setReleased(mob);
             SendOutManager.apply(world, mob, v, pokemob, summon);
-            cube.setMotion(0, 0, 0);
-            cube.setTime(20);
             return (LivingEntity) mob;
         }
         else
