@@ -139,6 +139,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         }
     }
 
+    public static interface ITargetFinder
+    {
+        void clear();
+    }
+
     public static enum Stats
     {
         HP, ATTACK, DEFENSE, SPATTACK, SPDEFENSE, VIT, ACCURACY, EVASION,
@@ -156,6 +161,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     byte SEXLEGENDARY = -2;
 
     int TYPE_CRIT = 2;
+
+    void setTargetFinder(ITargetFinder tracker);
+
+    ITargetFinder getTargetFinder();
 
     default void onTick()
     {

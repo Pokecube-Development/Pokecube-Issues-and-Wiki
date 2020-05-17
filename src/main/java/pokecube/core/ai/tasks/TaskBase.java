@@ -12,11 +12,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
+import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -35,7 +34,7 @@ import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 import thut.lib.ItemStackTools;
 
-public abstract class AIBase implements ITask
+public abstract class TaskBase<E extends LivingEntity> extends Task<E> implements ITask
 {
     /** Thread safe inventory setting for pokemobs. */
     public static class InventoryChange implements IRunnable
@@ -126,19 +125,9 @@ public abstract class AIBase implements ITask
     int priority = 0;
     int mutex    = 0;
 
-    public AIBase(final IPokemob pokemob)
+    public TaskBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
     {
-        this.pokemob = pokemob;
-        this.entity = pokemob.getEntity();
-        if (this.entity.getEntityWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
-                .getEntityWorld();
-        else this.world = null;
-        // Empty map for old version that does not wrap this.
-        this.neededMems = ImmutableMap.of();
-    }
-
-    public AIBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
-    {
+        super(neededMems);
         this.pokemob = pokemob;
         this.entity = pokemob.getEntity();
         if (this.entity.getEntityWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
@@ -149,14 +138,6 @@ public abstract class AIBase implements ITask
 
     protected boolean addEntityPath(final MobEntity entity, final Path path, final double speed)
     {
-        if (path == null) entity.getBrain().removeMemory(MemoryModuleType.WALK_TARGET);
-        else
-        {
-            final PathPoint end = path.getFinalPathPoint();
-            final WalkTarget target = new WalkTarget(new BlockPos(end.x, end.y, end.z), (float) speed, 10);
-            entity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, target);
-        }
-        entity.getBrain().setMemory(MemoryModuleType.PATH, path);
         return entity.getNavigator().setPath(path, speed);
     }
 
@@ -261,6 +242,32 @@ public abstract class AIBase implements ITask
     public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
     {
         return this.neededMems;
+    }
+
+    @Override
+    protected boolean shouldExecute(final ServerWorld worldIn, final E owner)
+    {
+        return this.shouldRun();
+    }
+
+    @Override
+    protected void resetTask(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    {
+        this.reset();
+    }
+
+    @Override
+    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    {
+        return this.shouldRun();
+    }
+
+    @Override
+    protected void updateTask(final ServerWorld worldIn, final E owner, final long gameTime)
+    {
+        this.run();
+        this.tick();
+        this.finish();
     }
 
 }

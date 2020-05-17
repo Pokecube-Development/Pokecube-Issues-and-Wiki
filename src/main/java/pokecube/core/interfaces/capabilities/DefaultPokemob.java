@@ -2,21 +2,24 @@ package pokecube.core.interfaces.capabilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
-import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -39,9 +42,9 @@ import pokecube.core.ai.logic.LogicInMaterials;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.logic.LogicMovesUpdates;
-import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAI.ShouldRun;
 import pokecube.core.ai.tasks.AIFollowOwner;
+import pokecube.core.ai.tasks.Tasks;
 import pokecube.core.ai.tasks.combat.AIAttack;
 import pokecube.core.ai.tasks.combat.AICombatMovement;
 import pokecube.core.ai.tasks.combat.AIDodge;
@@ -81,7 +84,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     private final LazyOptional<IPokemob> holder = LazyOptional.of(() -> this);
 
     private List<IAIRunnable> tasks = Lists.newArrayList();
-    private AIFindTarget      targetFinder;
+    private ITargetFinder     targetFinder;
 
     public DefaultPokemob()
     {
@@ -195,15 +198,16 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);
         entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(1.0f);
 
-        // Non-Combat goals
-        if (!this.swims()) entity.goalSelector.addGoal(0, new SwimGoal(entity));
-        entity.goalSelector.addGoal(6, new LookAtGoal(entity, PlayerEntity.class, 6.0F));
-        entity.goalSelector.addGoal(7, new LookRandomlyGoal(entity));
-
         final boolean oldAI = true;
         // Add in the Custom type of AI tasks.
         if (oldAI)
         {
+
+            // Non-Combat goals
+            if (!this.swims()) entity.goalSelector.addGoal(0, new SwimGoal(entity));
+            entity.goalSelector.addGoal(6, new LookAtGoal(entity, PlayerEntity.class, 6.0F));
+            entity.goalSelector.addGoal(7, new LookRandomlyGoal(entity));
+
             // Tasks for combat
             final List<IAIRunnable> aiList = Lists.newArrayList();
             // Choose what attacks to use
@@ -217,7 +221,9 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             // Move around in combat
             aiList.add(new AICombatMovement(this).setPriority(250));
             // Look for targets to kill
-            aiList.add((this.targetFinder = new AIFindTarget(this)).setPriority(400));
+            final AIFindTarget targetFind = new AIFindTarget(this);
+            aiList.add(targetFind.setPriority(400));
+            this.setTargetFinder(targetFind);
 
             // Idle tasks
             // Guard your egg
@@ -266,19 +272,32 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         }
         else
         {
-            entity.goalSelector.addGoal(2, new GuardAI(this.getEntity(), this.guardCap));
+            this.tasks = Lists.newArrayList();
+            final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
+            Tasks.initBrain(brain);
 
-            // Combat goals
-            if (entity instanceof TameableEntity)
-            {
-                entity.targetSelector.addGoal(1, new OwnerHurtByTargetGoal((TameableEntity) entity));
-                entity.targetSelector.addGoal(2, new OwnerHurtTargetGoal((TameableEntity) entity));
-                entity.targetSelector.addGoal(3, new HurtByTargetGoal((TameableEntity) entity).setCallsForHelp());
-            }
+            final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> idleMems = Sets.newHashSet();
+            final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> workMems = Sets.newHashSet();
+            final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> coreMems = Sets.newHashSet();
 
+            idleMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
+
+            workMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
+
+            coreMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_PRESENT));
+
+            brain.registerActivity(Activity.IDLE, Tasks.idle(this, 1), idleMems);
+            brain.registerActivity(Activity.WORK, Tasks.utility(this, 1), workMems);
+            brain.registerActivity(Activity.CORE, Tasks.combat(this, 1), coreMems);
+            brain.setDefaultActivities(Sets.newHashSet(Activity.IDLE, Activity.WORK, Activity.CORE));
+            brain.setFallbackActivity(Activity.IDLE);
+            brain.switchTo(Activity.IDLE);
+            brain.updateActivity(entity.world.getDayTime(), entity.world.getGameTime());
+
+            if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
+                if (this.loadedTasks.contains(task.getIdentifier()) && task instanceof INBTSerializable)
+                    INBTSerializable.class.cast(task).deserializeNBT(this.loadedTasks.get(task.getIdentifier()));
         }
-        //
-        // entity.tasks.addTask(1, new EntityAIBaseManager(this, entity));
 
         // Send notification event of AI initilization, incase anyone wants to
         // affect it.
@@ -424,5 +443,17 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             this.getEntity().playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
         }
 
+    }
+
+    @Override
+    public void setTargetFinder(final ITargetFinder tracker)
+    {
+        this.targetFinder = tracker;
+    }
+
+    @Override
+    public ITargetFinder getTargetFinder()
+    {
+        return this.targetFinder;
     }
 }

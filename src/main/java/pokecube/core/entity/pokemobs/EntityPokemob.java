@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -124,6 +125,15 @@ public class EntityPokemob extends PokemobHasParts
             }
         }
         super.livingTick();
+    }
+
+    @Override
+    protected void updateAITasks()
+    {
+        super.updateAITasks();
+        @SuppressWarnings("unchecked")
+        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getBrain();
+        brain.tick((ServerWorld) this.world, this);
     }
 
     @Override

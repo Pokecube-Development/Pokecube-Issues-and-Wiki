@@ -25,6 +25,7 @@ import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.ITargetFinder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -37,7 +38,7 @@ import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
-public class AIFindTarget extends AIBase implements IAICombat
+public class AIFindTarget extends AIBase implements IAICombat, ITargetFinder
 {
 
     public static boolean handleDamagedTargets = true;
@@ -225,6 +226,7 @@ public class AIFindTarget extends AIBase implements IAICombat
         super(mob);
     }
 
+    @Override
     public void clear()
     {
         this.agroTimer = AIFindTarget.DEAGROTIMER;

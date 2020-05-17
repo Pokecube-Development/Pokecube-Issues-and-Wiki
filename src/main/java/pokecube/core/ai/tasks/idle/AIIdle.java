@@ -1,12 +1,17 @@
 package pokecube.core.ai.tasks.idle;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.FluidTags;
@@ -259,6 +264,15 @@ public class AIIdle extends AIBase
         if (current != null) this.ticksSinceLastPathed = 0;
 
         return this.ticksSinceLastPathed++ > AIIdle.IDLETIMER;
+    }
+
+    @Override
+    public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
+    {
+        final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+        mems.put(MemoryModuleType.HOME, MemoryModuleStatus.REGISTERED);
+        mems.put(MemoryModuleType.PATH, MemoryModuleStatus.VALUE_ABSENT);
+        return mems;
     }
 
 }
