@@ -489,6 +489,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         EntityUpdate.sendEntityUpdate(this);
         this.seeking = false;
         this.isCapturing = true;
+        this.canBePickedUp = false;
     }
 
     public void setTilt(final int n)
