@@ -32,7 +32,7 @@ public class SendOutManager
 {
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon)
     {
-        if (cube.getEntityWorld().isRemote || cube.isReleasing() || cube.isCapturing) return null;
+        if (cube.getEntityWorld().isRemote || cube.isReleasing()) return null;
         cube.setTime(20);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
