@@ -489,6 +489,7 @@ public class GuiNBTTree extends Screen
     @Override
     public boolean mouseClicked(final double x, final double y, final int m)
     {
+        if (m == 1) return this.rightClick(x, y, m);
         final boolean superClick = super.mouseClicked(x, y, m);
         if (this.reInit)
         {

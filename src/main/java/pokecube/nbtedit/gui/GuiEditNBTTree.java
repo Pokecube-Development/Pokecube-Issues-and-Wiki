@@ -112,10 +112,7 @@ public class GuiEditNBTTree extends Screen
     @Override
     public boolean mouseClicked(final double x, final double y, final int t)
     {
-        boolean ret = false;
-        if (this.guiTree.getWindow() == null) ret = super.mouseClicked(x, y, t);
-        if (t == 0) return this.guiTree.mouseClicked(x, y, t);
-        if (t == 1) return this.guiTree.rightClick(x, y, t);
+        final boolean ret = super.mouseClicked(x, y, t);
         return ret;
     }
 

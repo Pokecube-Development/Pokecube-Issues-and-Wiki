@@ -24,6 +24,7 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -87,6 +88,9 @@ public class Config extends ConfigData
     public boolean      legendsBreed         = false;
     @Configure(category = Config.misc)
     public List<String> customSounds         = Lists.newArrayList();
+
+    @Configure(category = Config.misc)
+    public List<String> persistent_tag_blacklist = Lists.newArrayList();
 
     @Configure(category = Config.perms)
     public boolean permsCapture         = false;
@@ -848,5 +852,7 @@ public class Config extends ConfigData
         }
 
         if (failed) this.leaps = new SoundEvent[] { SoundEvents.ENTITY_GENERIC_SMALL_FALL };
+
+        PokecubeManager.init();
     }
 }
