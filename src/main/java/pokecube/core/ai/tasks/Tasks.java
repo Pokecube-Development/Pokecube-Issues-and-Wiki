@@ -129,11 +129,13 @@ public class Tasks
 
         list.add(Tasks.lookAtMany());
         list.add(Tasks.lookAtPlayerOrVillager());
-        for(final IAIRunnable run: aiList)
-            if(run instanceof Task<?>)
-                list.add((Pair<Integer, ? extends Task<? super LivingEntity>>) Pair.of(run.getPriority(),run));
-            else if(run instanceof ITask)
-            list.add(Pair.of(run.getPriority(), new TaskWrapper<>((ITask) run)));
+        for (final IAIRunnable run : aiList)
+        {
+            Task<LivingEntity> toAdd = null;
+            if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
+            else if (run instanceof ITask) toAdd = new TaskWrapper<>((ITask) run);
+            if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
+        }
         return ImmutableList.copyOf(list);
     }
 
@@ -166,12 +168,13 @@ public class Tasks
         final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
         pokemob.getTasks().addAll(aiList);
-
-        for(final IAIRunnable run: aiList)
-            if(run instanceof Task<?>)
-                list.add((Pair<Integer, ? extends Task<? super LivingEntity>>) Pair.of(run.getPriority(),run));
-            else if(run instanceof ITask)
-            list.add(Pair.of(run.getPriority(), new TaskWrapper<>((ITask) run)));
+        for (final IAIRunnable run : aiList)
+        {
+            Task<LivingEntity> toAdd = null;
+            if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
+            else if (run instanceof ITask) toAdd = new TaskWrapper<>((ITask) run);
+            if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
+        }
         return ImmutableList.copyOf(list);
     }
 
@@ -198,12 +201,13 @@ public class Tasks
         final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
         pokemob.getTasks().addAll(aiList);
-
-        for(final IAIRunnable run: aiList)
-            if(run instanceof Task<?>)
-                list.add((Pair<Integer, ? extends Task<? super LivingEntity>>) Pair.of(run.getPriority(),run));
-            else if(run instanceof ITask)
-            list.add(Pair.of(run.getPriority(), new TaskWrapper<>((ITask) run)));
+        for (final IAIRunnable run : aiList)
+        {
+            Task<LivingEntity> toAdd = null;
+            if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
+            else if (run instanceof ITask) toAdd = new TaskWrapper<>((ITask) run);
+            if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
+        }
         return ImmutableList.copyOf(list);
     }
 
