@@ -45,7 +45,7 @@ public class CaptureManager
         if (!(e instanceof LivingEntity)) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         final LivingEntity mob = (LivingEntity) e;
-        if (mob.deathTime > 0 || e.ticksExisted < 10) return;
+        if (mob.deathTime > 0) return;
         if (cube.isCapturing) return;
 
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
@@ -154,11 +154,8 @@ public class CaptureManager
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         cube.setNotCapturing();
 
-        if (mob != null)
-        {
-            mob.getPersistentData().remove(TagNames.CAPTURING);
-            mob.setLocationAndAngles(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.rotationYaw, 0.0F);
-        }
+        if (mob != null) mob.setLocationAndAngles(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z,
+                cube.rotationYaw, 0.0F);
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
@@ -188,7 +185,6 @@ public class CaptureManager
             else cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
             return false;
         }
-        mob.getPersistentData().remove(TagNames.CAPTURING);
         if (ownable != null) ownable.setOwner(cube.shooter);
         if (pokemob == null)
         {
