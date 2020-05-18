@@ -16,7 +16,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.inventory.container.ContainerType;
@@ -144,7 +143,7 @@ public class PokecubeCore
         }
 
         @SubscribeEvent
-        public static void registerSensors(final RegistryEvent.Register<SensorType<? extends Sensor<?>>> event)
+        public static void registerSensors(final RegistryEvent.Register<SensorType<?>> event)
         {
             Sensors.register(event);
         }
