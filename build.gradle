@@ -107,7 +107,7 @@ dependencies {
     implementation "libs:lostcities-${version_lostcities}"
     
     //Thut Essentials
-    implementation "libs:thutessentials-1.15.2-3.0.14-deobf"
+    implementation "libs:thutessentials-1.15.2-3.0.16-deobf"
     
     //JEI
     implementation fg.deobf("mezz.jei:jei-${version_minecraft}:${version_jei}")
