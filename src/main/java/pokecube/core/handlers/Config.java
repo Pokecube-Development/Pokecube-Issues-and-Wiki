@@ -177,6 +177,11 @@ public class Config extends ConfigData
     @Configure(category = Config.moves)
     public boolean defaultIceActions            = true;
 
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeCry    = 0.0625f;
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeEffect = 1;
+
     // AI Related settings
     @Configure(category = Config.mobAI)
     public int          mateMultiplier        = 1;

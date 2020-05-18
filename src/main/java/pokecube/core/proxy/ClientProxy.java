@@ -357,6 +357,7 @@ public class ClientProxy extends CommonProxy
 
     private final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
     private final Map<SoundEvent, Integer>       move_sounds       = Maps.newHashMap();
+    private final Map<SoundEvent, Float>         move_volumes      = Maps.newHashMap();
     private final Map<SoundEvent, Vector3>       move_positions    = Maps.newHashMap();
 
     @SubscribeEvent
@@ -375,8 +376,9 @@ public class ClientProxy extends CommonProxy
         {
             final Vector3 pos = this.move_positions.remove(e);
             this.move_sounds.remove(e);
-            final float volume = MoveSound.getVolume(pos, pos2);
-            if (volume > 0) Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos));
+            final float scale = this.move_volumes.remove(e);
+            final float volume = MoveSound.getVolume(pos, pos2, scale);
+            if (volume > 0) Minecraft.getInstance().getSoundHandler().play(new MoveSound(e, pos, scale));
         }
     }
 
@@ -389,7 +391,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void moveSound(final Vector3 pos, final SoundEvent event)
+    public void moveSound(final Vector3 pos, final SoundEvent event, final float volume)
     {
         final ClientPlayerEntity player = Minecraft.getInstance().player;
         final Vector3 pos1 = Vector3.getNewVector().set(player);
@@ -398,6 +400,7 @@ public class ClientProxy extends CommonProxy
         final int delay = (int) (dist * 20.0 / 340.0);
         this.move_sounds.put(event, delay);
         this.move_positions.put(event, pos.copy());
+        this.move_volumes.put(event, volume);
     }
 
     @Override

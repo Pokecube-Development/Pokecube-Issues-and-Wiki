@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -338,6 +337,8 @@ public abstract class Move_Base
      */
     public void playSounds(final Entity attacker, @Nullable final Entity attacked, @Nullable final Vector3 targetPos)
     {
+        final Vector3 pos = Vector3.getNewVector();
+        final float volume = (float) PokecubeCore.getConfig().moveVolumeCry;
         if (attacker != null) if (this.soundUser != null || this.move.baseEntry.soundEffectSource != null)
         {
             if (this.move.baseEntry.soundEffectSource != null)
@@ -348,7 +349,7 @@ public abstract class Move_Base
                         + this.move.baseEntry.soundEffectSource + "` for attack " + this.getName());
                 this.move.baseEntry.soundEffectSource = null;
             }
-            if (this.soundUser != null) attacker.playSound(this.soundUser, 1f, 1);
+            if (this.soundUser != null) PokecubeCore.proxy.moveSound(pos.set(attacker), this.soundUser, volume);
         }
         if (attacked != null)
         {
@@ -363,7 +364,7 @@ public abstract class Move_Base
                             + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
                     this.move.baseEntry.soundEffectTarget = null;
                 }
-                if (this.soundTarget != null) attacked.playSound(this.soundTarget, 1f, 1);
+                if (this.soundTarget != null) PokecubeCore.proxy.moveSound(pos.set(attacked), this.soundTarget, volume);
             }
         }
         else if (attacker != null && targetPos != null) if (this.soundTarget != null
@@ -377,8 +378,7 @@ public abstract class Move_Base
                         + this.move.baseEntry.soundEffectTarget + "` for attack " + this.getName());
                 this.move.baseEntry.soundEffectTarget = null;
             }
-            if (this.soundTarget != null) attacker.getEntityWorld().playSound((PlayerEntity) null, targetPos.x,
-                    targetPos.y, targetPos.z, this.soundTarget, attacker.getSoundCategory(), 1f, 1);
+            if (this.soundTarget != null) PokecubeCore.proxy.moveSound(targetPos, this.soundTarget, volume);
         }
     }
 
