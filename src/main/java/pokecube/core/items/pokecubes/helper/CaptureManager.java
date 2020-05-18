@@ -67,7 +67,6 @@ public class CaptureManager
 
         if (hitten != null)
         {
-
             final int tiltBak = cube.getTilt();
             final CaptureEvent.Pre capturePre = new Pre(hitten, cube);
             PokecubeCore.POKEMOB_BUS.post(capturePre);

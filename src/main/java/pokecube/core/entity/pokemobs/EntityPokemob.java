@@ -161,7 +161,6 @@ public class EntityPokemob extends PokemobHasParts
             PokecubeCore.POKEMOB_BUS.post(event);
             final Result res = event.getResult();
             despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
-            if (this.getPersistentData().contains(TagNames.NOPOOF)) despawn = false;
             if (despawn) this.pokemobCap.onRecall(true);
             for (int k = 0; k < 20; ++k)
             {

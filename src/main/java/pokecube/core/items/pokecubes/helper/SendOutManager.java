@@ -179,7 +179,6 @@ public class SendOutManager
             // Ensure the chunk is loaded here.
             w.getChunk(vec.getPos());
             final Entity original = world.getEntityByUuid(mob.getUniqueID());
-            mob.getPersistentData().remove(TagNames.CAPTURING);
             // The mob already exists in the world, remove it
             if (original != null) world.removeEntity(original, false);
             if (summon) world.summonEntity(mob);
