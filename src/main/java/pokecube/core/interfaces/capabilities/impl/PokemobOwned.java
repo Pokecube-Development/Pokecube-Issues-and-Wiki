@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.tasks.AIBase.IRunnable;
 import pokecube.core.client.gui.GuiInfoMessages;
@@ -265,21 +266,22 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             }
 
             final Entity owner = this.getOwner();
+            final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
             /**
              * If we have a target, and we were recalled with health, assign
              * the target to our owner instead.
              */
-            if (this.getCombatState(CombatStates.ANGRY) && this.getEntity().getAttackTarget() != null && this
-                    .getHealth() > 0) if (owner instanceof LivingEntity)
+            if (this.getCombatState(CombatStates.ANGRY) && targ != null && this.getHealth() > 0)
+                if (owner instanceof LivingEntity)
             {
-                final IPokemob targetMob = CapabilityPokemob.getPokemobFor(this.getEntity().getAttackTarget());
+                final IPokemob targetMob = CapabilityPokemob.getPokemobFor(targ);
                 if (targetMob != null)
                 {
                     targetMob.getEntity().setAttackTarget(this.getOwner());
                     targetMob.setCombatState(CombatStates.ANGRY, true);
                     if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Swapping agro to cowardly owner!");
                 }
-                else this.getEntity().getAttackTarget().setRevengeTarget(this.getOwner());
+                else targ.setRevengeTarget(this.getOwner());
             }
 
             this.setCombatState(CombatStates.NOMOVESWAP, false);

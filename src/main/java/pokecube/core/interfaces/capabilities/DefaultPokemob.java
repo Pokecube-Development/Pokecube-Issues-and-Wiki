@@ -36,6 +36,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicFloatFlySwim;
 import pokecube.core.ai.logic.LogicInLiquid;
 import pokecube.core.ai.logic.LogicInMaterials;
@@ -324,7 +325,8 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
              */
             if (entity == this.getEntity())
             {
-                if (this.getEntity().getAttackTarget() == this.getEntity()) this.getEntity().setAttackTarget(null);
+                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) this.getEntity().setAttackTarget(
+                        null);
                 return;
             }
             else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId()))
@@ -346,7 +348,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             this.setLogicState(LogicStates.SITTING, false);
             this.setTargetID(entity.getEntityId());
             this.setCombatState(CombatStates.ANGRY, true);
-            if (entity != this.getEntity().getAttackTarget() && this.getAbility() != null && !entity
+            if (entity != BrainUtils.getAttackTarget(this.getEntity()) && this.getAbility() != null && !entity
                     .getEntityWorld().isRemote) this.getAbility().onAgress(this, entity);
         }
     }

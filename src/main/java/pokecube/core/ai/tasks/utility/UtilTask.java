@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 
@@ -16,7 +17,7 @@ public abstract class UtilTask extends TaskBase<MobEntity>
 
     static
     {
-        UtilTask.MEMS.put(MemoryModuleType.HURT_BY_ENTITY, MemoryModuleStatus.VALUE_ABSENT);
+        UtilTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     public UtilTask(final IPokemob pokemob)

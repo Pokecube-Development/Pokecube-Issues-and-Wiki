@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.pathfinding.Path;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.ai.IAICombat;
@@ -97,6 +98,7 @@ public class AICombatMovement extends FightTask implements IAICombat
     public boolean shouldRun()
     {
         // Has target and is angry.
-        return (this.target = this.entity.getAttackTarget()) != null && this.pokemob.getCombatState(CombatStates.ANGRY);
+        return (this.target = BrainUtils.getAttackTarget(this.entity)) != null && this.pokemob.getCombatState(
+                CombatStates.ANGRY);
     }
 }

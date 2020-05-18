@@ -8,6 +8,7 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IMoveNames;
@@ -193,7 +194,7 @@ public class AIMate extends IdleTask
         if (this.pokemob.getGeneralState(GeneralStates.MATING)) return true;
         if (this.pokemob.getLover() != null) return true;
         if (this.pokemob.getSexe() == IPokemob.MALE || !this.pokemob.tryToBreed()) return false;
-        if (this.pokemob.getCombatState(CombatStates.ANGRY) || this.entity.getAttackTarget() != null) return false;
+        if (this.pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(this.entity)) return false;
         return true;
     }
 

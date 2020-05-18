@@ -9,6 +9,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
@@ -74,7 +75,7 @@ public class AIDodge extends FightTask implements IAICombat
          * Compute a random perpendicular direction.
          */
         final Vector3 loc = Vector3.getNewVector().set(this.entity);
-        final Vector3 target = Vector3.getNewVector().set(this.entity.getAttackTarget());
+        final Vector3 target = Vector3.getNewVector().set(BrainUtils.getAttackTarget(this.entity));
         final Vector3 temp = Vector3.getNewVector();
         Vector3 perp = target.subtractFrom(loc).rotateAboutLine(Vector3.secondAxis, Math.PI / 2, temp);
         if (Math.random() > 0.5) perp = perp.scalarMultBy(-1);
@@ -123,11 +124,11 @@ public class AIDodge extends FightTask implements IAICombat
         // Off cooldown, reset dodge state.
         else this.pokemob.setCombatState(CombatStates.DODGING, false);
         // Only dodge if there is an attack target.
-        if ((this.target = this.entity.getAttackTarget()) == null) return false;
+        if ((this.target = BrainUtils.getAttackTarget(this.entity)) == null) return false;
         // Only flying or floating can dodge while in the air
         if (!AITools.canNavigate.test(this.pokemob)) return false;
 
-        final IPokemob target = CapabilityPokemob.getPokemobFor(this.entity.getAttackTarget());
+        final IPokemob target = CapabilityPokemob.getPokemobFor(this.target);
         if (target != null)
         {
             boolean shouldDodgeMove = target.getCombatState(CombatStates.EXECUTINGMOVE);

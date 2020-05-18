@@ -46,6 +46,7 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.Pokedex;
@@ -183,7 +184,7 @@ public class PokemobEventsHandler
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
                     CombatStates.HUNTING))
             {
-                attacker.eat(pokemob.getAttackTarget());
+                attacker.eat(BrainUtils.getHuntTarget(pokemob));
                 attacker.setCombatState(CombatStates.HUNTING, false);
                 pokemob.getNavigator().clearPath();
             }
@@ -458,7 +459,8 @@ public class PokemobEventsHandler
         }
 
         boolean deny = pokemob.getCombatState(CombatStates.NOITEMUSE);
-        if (deny && entity.getAttackTarget() == null)
+        final boolean hasTarget = BrainUtils.hasAttackTarget(entity);
+        if (deny && !hasTarget)
         {
             deny = false;
             pokemob.setCombatState(CombatStates.NOITEMUSE, false);
@@ -482,8 +484,8 @@ public class PokemobEventsHandler
         {
             final int fav = Nature.getFavouriteBerryIndex(pokemob.getNature());
             if (PokecubeCore.getConfig().berryBreeding && (player.isSneaking() || player instanceof FakePlayer)
-                    && entity.getAttackTarget() == null && held.getItem() instanceof ItemBerry && (fav == -1
-                            || fav == ((ItemBerry) held.getItem()).type.index))
+                    && !hasTarget && held.getItem() instanceof ItemBerry && (fav == -1 || fav == ((ItemBerry) held
+                            .getItem()).type.index))
             {
                 if (!player.abilities.isCreativeMode)
                 {

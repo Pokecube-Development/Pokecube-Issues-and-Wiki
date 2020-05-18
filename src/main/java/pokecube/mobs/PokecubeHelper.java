@@ -13,6 +13,7 @@ import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.database.SpawnBiomeMatcher.SpawnCheck;
@@ -36,7 +37,7 @@ public class PokecubeHelper
         PokecubeHelper.moonMatcher = new SpawnBiomeMatcher(rule);
     }
 
-    public double dive(IPokemob mob)
+    public double dive(final IPokemob mob)
     {
         double x = 1;
         final Entity entity = mob.getEntity();
@@ -45,7 +46,7 @@ public class PokecubeHelper
         return x;
     }
 
-    public double dusk(IPokemob mob)
+    public double dusk(final IPokemob mob)
     {
         double x = 1;
         final Entity entity = mob.getEntity();
@@ -54,12 +55,12 @@ public class PokecubeHelper
         return x;
     }
 
-    public double fast(IPokemob mob)
+    public double fast(final IPokemob mob)
     {
         return mob.getPokedexEntry().getStatVIT() < 100 ? 1 : 4;
     }
 
-    public int heavy(IPokemob mob)
+    public int heavy(final IPokemob mob)
     {
         final double mass = mob.getWeight();
         if (mass < 100) return -20;
@@ -69,12 +70,12 @@ public class PokecubeHelper
         return 40;
     }
 
-    public double level(IPokemob mob)
+    public double level(final IPokemob mob)
     {
         final MobEntity entity = mob.getEntity();
         final int level = mob.getLevel();
         int otherLevel = 0;
-        final LivingEntity target = entity.getAttackTarget();
+        final LivingEntity target = BrainUtils.getAttackTarget(entity);
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
         if (targetMob == null || (otherLevel = targetMob.getLevel()) <= level) return 1;
         if (otherLevel <= 2 * level) return 2;
@@ -82,17 +83,17 @@ public class PokecubeHelper
         return 8;
     }
 
-    public double love(IPokemob mob)
+    public double love(final IPokemob mob)
     {
         final MobEntity entity = mob.getEntity();
-        final LivingEntity target = entity.getAttackTarget();
+        final LivingEntity target = BrainUtils.getAttackTarget(entity);
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
         if (targetMob == null || !(target instanceof AnimalEntity)) return 1;
         if (mob.canMate((AnimalEntity) target)) return 8;
         return 1;
     }
 
-    public double lure(IPokemob mob)
+    public double lure(final IPokemob mob)
     {
         final MobEntity entity = mob.getEntity();
         if (mob.getPokedexEntry().swims())
@@ -107,7 +108,7 @@ public class PokecubeHelper
         return 1;
     }
 
-    public void luxury(IPokemob mob)
+    public void luxury(final IPokemob mob)
     {
         // Randomly increase happiness for being outside of pokecube.
         if (Math.random() > 0.999 && mob.getGeneralState(GeneralStates.TAMED))
@@ -117,7 +118,7 @@ public class PokecubeHelper
         }
     }
 
-    public double moon(IPokemob mob)
+    public double moon(final IPokemob mob)
     {
         if (mob.getPokedexEntry().canEvolve(1, PokecubeItems.getStack("moonstone"))) return 4;
         if (PokecubeHelper.moonMatcher.matches(new SpawnCheck(Vector3.getNewVector().set(mob.getEntity()), mob
@@ -125,7 +126,7 @@ public class PokecubeHelper
         return 1;
     }
 
-    public double nest(IPokemob mob)
+    public double nest(final IPokemob mob)
     {
         double x = 1;
         if (mob.getLevel() < 20) x = 3;
@@ -133,7 +134,7 @@ public class PokecubeHelper
         return x;
     }
 
-    public double net(IPokemob mob)
+    public double net(final IPokemob mob)
     {
         double x = 1;
         if (mob.getType1() == PokeType.getType("bug")) x = 2;
@@ -143,14 +144,14 @@ public class PokecubeHelper
         return x;
     }
 
-    public double premier(IPokemob mob)
+    public double premier(final IPokemob mob)
     {
         double x = 0.25;
         if (!mob.getCombatState(CombatStates.ANGRY)) x = 1;
         return x;
     }
 
-    public double quick(IPokemob mob)
+    public double quick(final IPokemob mob)
     {
         double x = 1;
         final Entity entity = mob.getEntity();
@@ -159,7 +160,7 @@ public class PokecubeHelper
         return x;
     }
 
-    public double timer(IPokemob mob)
+    public double timer(final IPokemob mob)
     {
         double x = 1;
         final Entity entity = mob.getEntity();
