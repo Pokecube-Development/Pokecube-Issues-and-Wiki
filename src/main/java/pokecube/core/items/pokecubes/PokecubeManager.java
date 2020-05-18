@@ -182,7 +182,6 @@ public class PokecubeManager
 
     public static void heal(final ItemStack stack, final World world)
     {
-        System.out.println("test");
         if (PokecubeManager.isFilled(stack))
         {
             try
@@ -229,7 +228,6 @@ public class PokecubeManager
             final CompoundNBT tag = stack.getTag().getCompound(TagNames.POKEMOB);
             for (final String key : PokecubeManager.TAGSTOREMOVE)
                 tag.getCompound("ForgeData").remove(key);
-            if (!world.isRemote) System.out.println(tag);
             mob.read(tag);
         }
         catch (final Exception e)
