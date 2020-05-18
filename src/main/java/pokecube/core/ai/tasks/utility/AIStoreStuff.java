@@ -26,7 +26,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
@@ -42,7 +41,7 @@ import thut.lib.ItemStackTools;
  * allows using pokemobs for automatic harvesting and storage of berries and
  * dropped items.
  */
-public class AIStoreStuff extends AIBase implements INBTSerializable<CompoundNBT>, IInventoryChangedListener
+public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundNBT>, IInventoryChangedListener
 {
     public static int COOLDOWN = 10;
     public static int MAXSIZE  = 100;

@@ -10,7 +10,6 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -18,7 +17,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 
-public class AIUseMove extends AIBase
+public class AIUseMove extends UtilTask
 {
     private boolean running    = false;
     private boolean checkRange = false;

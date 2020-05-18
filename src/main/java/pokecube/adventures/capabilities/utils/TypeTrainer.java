@@ -35,7 +35,7 @@ import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.AIBattle;
 import pokecube.adventures.ai.tasks.AICapture;
-import pokecube.adventures.ai.tasks.AIFindTarget;
+import pokecube.adventures.ai.tasks.AITrainerAgro;
 import pokecube.adventures.ai.tasks.AIMate;
 import pokecube.adventures.ai.tasks.AIRetaliate;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -148,7 +148,7 @@ public class TypeTrainer extends NpcType
             ais.add(new AIBattle(npc, !(npc instanceof TrainerBase)).setPriority(0));
 
             // All attack zombies.
-            ais.add(new AIFindTarget(npc, ZombieEntity.class).setPriority(20));
+            ais.add(new AITrainerAgro(npc, ZombieEntity.class).setPriority(20));
 
             // All retaliate
             ais.add(new AIRetaliate(npc));
@@ -178,14 +178,14 @@ public class TypeTrainer extends NpcType
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
-                ais.add(new AIFindTarget(npc, PlayerEntity.class).setRunCondition(noRunWhileRest).setPriority(10));
+                ais.add(new AITrainerAgro(npc, PlayerEntity.class).setRunCondition(noRunWhileRest).setPriority(10));
                 ais.add(new AIMate(npc, ((TrainerBase) npc).getClass()));
             }
 
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                ais.add(new AIFindTarget(npc, 0.05f, EntityPokemob.class).setRunCondition(noRunWhileRest).setPriority(
+                ais.add(new AITrainerAgro(npc, 0.05f, EntityPokemob.class).setRunCondition(noRunWhileRest).setPriority(
                         20));
                 ais.add(new AICapture(npc).setPriority(10));
             }
@@ -194,7 +194,7 @@ public class TypeTrainer extends NpcType
             if (Config.instance.trainersBattleEachOther)
             {
                 final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
-                ais.add(new AIFindTarget(npc, 0.001f, 1200, npc.getClass()).setRunCondition(shouldRun).setPriority(20));
+                ais.add(new AITrainerAgro(npc, 0.001f, 1200, npc.getClass()).setRunCondition(shouldRun).setPriority(20));
             }
 
             npc.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));

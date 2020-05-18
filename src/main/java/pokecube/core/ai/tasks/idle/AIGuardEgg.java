@@ -1,16 +1,16 @@
 package pokecube.core.ai.tasks.idle;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.util.math.AxisAlignedBB;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 
 /**
@@ -19,7 +19,7 @@ import thut.api.terrain.TerrainManager;
  * the mother's breeding cooldown from dropping while an egg is being
  * guarded.
  */
-public class AIGuardEgg extends AIBase
+public class AIGuardEgg extends IdleTask
 {
     public static int PATHCOOLDOWN   = 50;
     public static int SEARCHCOOLDOWN = 50;
@@ -67,27 +67,29 @@ public class AIGuardEgg extends AIBase
             }
             return true;
         }
+        if (!this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
+
         if (this.eggSearchCooldown-- > 0) return false;
         // Only the female (or neutral) will guard the eggs.
         if (this.pokemob.getSexe() == IPokemob.MALE) return false;
         this.eggSearchCooldown = AIGuardEgg.SEARCHCOOLDOWN;
         if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
                 .getConfig().guardSearchDistance + 2)) return false;
-        final Vector3 here = Vector3.getNewVector().set(this.entity);
-        final AxisAlignedBB bb = here.getAABB().grow(PokecubeCore.getConfig().guardSearchDistance, 8, PokecubeCore
-                .getConfig().guardSearchDistance);
-        // Search for valid eggs.
-        final List<Entity> list2 = this.entity.getEntityWorld().getEntitiesInAABBexcluding(this.entity, bb,
-                input -> input instanceof EntityPokemobEgg && AIGuardEgg.this.entity.getUniqueID().equals(
-                        ((EntityPokemobEgg) input).getMotherId()) && input.isAlive());
+
+        final List<LivingEntity> list = new ArrayList<>();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        list.addAll(pokemobs);
+        final Predicate<LivingEntity> isEgg = input -> input instanceof EntityPokemobEgg && AIGuardEgg.this.entity
+                .getUniqueID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive();
+        list.removeIf(e -> !isEgg.test(e));
+        list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
+        if (list.isEmpty()) return false;
         // Select first egg found to guard, remove target, set not angry
-        if (!list2.isEmpty())
-        {
-            this.egg = (EntityPokemobEgg) list2.get(0);
-            this.egg.mother = this.pokemob;
-            this.pokemob.getEntity().setAttackTarget(null);
-            this.pokemob.setCombatState(CombatStates.ANGRY, false);
-        }
+
+        this.egg = (EntityPokemobEgg) list.get(0);
+        this.egg.mother = this.pokemob;
+        AIFindTarget.deagro(this.pokemob.getEntity());
+
         // Only run if we have a live egg to watch.
         if (this.egg != null) return this.egg.isAlive() ? true : false;
         return false;

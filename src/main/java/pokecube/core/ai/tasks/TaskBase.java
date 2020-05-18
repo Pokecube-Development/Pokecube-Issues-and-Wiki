@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -114,6 +115,16 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
 
     }
 
+    public static Map<MemoryModuleType<?>, MemoryModuleStatus> merge(
+            final Map<MemoryModuleType<?>, MemoryModuleStatus> mems2,
+            final Map<MemoryModuleType<?>, MemoryModuleStatus> mems3)
+    {
+        final Map<MemoryModuleType<?>, MemoryModuleStatus> ret = Maps.newHashMap();
+        ret.putAll(mems2);
+        ret.putAll(mems3);
+        return ImmutableMap.copyOf(mems3);
+    }
+
     protected final IPokemob    pokemob;
     protected final MobEntity   entity;
     protected final ServerWorld world;
@@ -124,6 +135,11 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
 
     int priority = 0;
     int mutex    = 0;
+
+    public TaskBase(final IPokemob pokemob)
+    {
+        this(pokemob, ImmutableMap.of());
+    }
 
     public TaskBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
     {
@@ -270,4 +286,15 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
         this.finish();
     }
 
+    protected boolean canTimeOut()
+    {
+        return false;
+    }
+
+    @Override
+    protected boolean isTimedOut(final long gameTime)
+    {
+        if (!this.canTimeOut()) return false;
+        return super.isTimedOut(gameTime);
+    }
 }

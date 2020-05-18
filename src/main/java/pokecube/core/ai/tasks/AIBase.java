@@ -8,7 +8,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -216,11 +215,6 @@ public abstract class AIBase implements ITask
     public int getPriority()
     {
         return this.priority;
-    }
-
-    protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
-    {
-        attacker.setAttackTarget(target);
     }
 
     protected void setCombatState(final IPokemob pokemob, final CombatStates state, final boolean value)

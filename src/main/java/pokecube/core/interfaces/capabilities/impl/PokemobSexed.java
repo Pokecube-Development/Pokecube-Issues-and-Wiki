@@ -12,6 +12,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
@@ -165,8 +166,8 @@ public abstract class PokemobSexed extends PokemobStats
         this.setHungerTime(this.getHungerTime() + hungerValue);
         mate.setLover(null);
         mate.resetLoveStatus();
-        this.getEntity().setAttackTarget(null);
-        mate.getEntity().setAttackTarget(null);
+        AIFindTarget.deagro(this.getEntity());
+        AIFindTarget.deagro(mate.getEntity());
         this.lay(mate);
         this.resetLoveStatus();
         this.lover = null;

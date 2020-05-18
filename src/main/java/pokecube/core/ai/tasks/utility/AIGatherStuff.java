@@ -32,7 +32,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -48,7 +47,7 @@ import thut.lib.ItemStackTools;
  * berries. It requires an AIStoreStuff to have located a suitable storage
  * before it will run.
  */
-public class AIGatherStuff extends AIBase
+public class AIGatherStuff extends UtilTask
 {
     /**
      * This manages the pokemobs replanting anything that they gather.
@@ -137,15 +136,17 @@ public class AIGatherStuff extends AIBase
     private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
             || !input.isAddedToWorld();
 
-    final double     distance;
-    boolean          block    = false;
+    final double distance;
+    boolean      block = false;
+
     List<ItemEntity> stuff    = Lists.newArrayList();
     Vector3          stuffLoc = Vector3.getNewVector();
 
-    Vector3 backup          = this.stuffLoc;
-    boolean hasRoom         = true;
-    int     collectCooldown = 0;
-    int     pathCooldown    = 0;
+    Vector3 backup  = this.stuffLoc;
+    boolean hasRoom = true;
+
+    int collectCooldown = 0;
+    int pathCooldown    = 0;
 
     final AIStoreStuff storage;
 

@@ -46,6 +46,7 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.PokedexEntryLoader.Action;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
@@ -527,7 +528,7 @@ public class PokedexEntry
             if (consumeInput) held.shrink(1);
             if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem, result);
             else if (!player.inventory.addItemStackToInventory(result)) player.dropItem(result, false);
-            if (player != pokemob.getOwner()) entity.setAttackTarget(player);
+            if (player != pokemob.getOwner()) AIFindTarget.initiateCombat(entity, player);
             return true;
         }
 

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.pathfinding.Path;
@@ -13,7 +14,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -37,7 +37,7 @@ import thut.api.maths.Vector3;
  * decided to battle, as well as dealing with combat between rivals over a mate.
  * It is the one to queue the attack for the pokemob to perform.
  */
-public class AIAttack extends AIBase implements IAICombat
+public class AIAttack extends FightTask implements IAICombat
 {
     /** The target being attacked. */
     LivingEntity entityTarget;
@@ -70,6 +70,8 @@ public class AIAttack extends AIBase implements IAICombat
     protected int     delayTime = -1;
     boolean           running   = false;
 
+    int battleTime = 0;
+
     public AIAttack(final IPokemob mob)
     {
         super(mob);
@@ -85,9 +87,7 @@ public class AIAttack extends AIBase implements IAICombat
             {
                 this.setCombatState(this.pokemob, CombatStates.MATEFIGHT, false);
                 this.setCombatState(this.pokemobTarget, CombatStates.MATEFIGHT, false);
-                this.setCombatState(this.pokemob, CombatStates.ANGRY, false);
-                this.setCombatState(this.pokemobTarget, CombatStates.ANGRY, false);
-                this.pokemobTarget.getEntity().setAttackTarget(null);
+                AIFindTarget.deagro(this.pokemobTarget.getEntity());
             }
         }
         else this.setCombatState(this.pokemob, CombatStates.MATEFIGHT, false);
@@ -96,6 +96,24 @@ public class AIAttack extends AIBase implements IAICombat
     public boolean continueExecuting()
     {
         this.entityTarget = this.entity.getAttackTarget();
+
+        final IPokemob mobA = this.pokemob;
+        final IPokemob mobB = this.pokemobTarget;
+
+        if (mobB != null)
+        {
+            final boolean weTame = mobA.getOwnerId() == null;
+            final boolean theyTame = mobB.getOwnerId() == null;
+            final boolean weHunt = mobA.getCombatState(CombatStates.HUNTING);
+            final boolean theyHunt = mobB.getCombatState(CombatStates.HUNTING);
+            if (weTame == theyTame && !weTame && weHunt == theyHunt && !theyHunt)
+            {
+                final float weHealth = mobA.getEntity().getHealth() / mobA.getEntity().getMaxHealth();
+                final float theyHealth = mobB.getEntity().getHealth() / mobB.getEntity().getMaxHealth();
+                // Wild mobs shouldn't fight to the death unless hunting.
+                if (weHealth < 0.25 || theyHealth < 0.25) return false;
+            }
+        }
         return this.entityTarget != null && this.entityTarget.isAlive() || !this.pokemob.getCombatState(
                 CombatStates.ANGRY);
     }
@@ -103,16 +121,19 @@ public class AIAttack extends AIBase implements IAICombat
     @Override
     public void reset()
     {
+        this.battleTime = 0;
         if (this.running)
         {
             this.running = false;
             this.addEntityPath(this.entity, null, this.movementSpeed);
         }
+        AIFindTarget.deagro(this.entity);
     }
 
     @Override
     public void run()
     {
+        this.battleTime++;
         if (!this.continueExecuting())
         {
             this.reset();
@@ -326,7 +347,8 @@ public class AIAttack extends AIBase implements IAICombat
     @Override
     public boolean shouldRun()
     {
-        final LivingEntity target = this.entity.getAttackTarget();
+        if (!this.entity.getBrain().hasMemory(MemoryModuleType.HURT_BY_ENTITY)) return false;
+        final LivingEntity target = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
         // No target, we can't do anything, so return false
         if (target == null)
         {

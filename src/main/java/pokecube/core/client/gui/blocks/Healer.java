@@ -9,7 +9,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.Resources;
-import pokecube.core.interfaces.IHealer;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketHeal;
 
@@ -41,7 +40,6 @@ public class Healer<T extends HealerContainer> extends ContainerScreen<T>
         {
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
-            ((IHealer) this.container).heal();// client side
             if (HealerContainer.HEAL_SOUND != null) this.playerInventory.player.playSound(HealerContainer.HEAL_SOUND, 1,
                     1);
         }));
