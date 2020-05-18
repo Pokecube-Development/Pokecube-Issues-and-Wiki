@@ -45,14 +45,14 @@ public class CaptureManager
         if (!(cube.getEntityWorld() instanceof ServerWorld)) return;
         if (!(e instanceof LivingEntity)) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
+        if (!(cube.getItem().getItem() instanceof IPokecube)) return;
+        if (cube.isCapturing) return;
         final LivingEntity mob = (LivingEntity) e;
         if (mob.deathTime > 0) return;
-        if (cube.isCapturing) return;
 
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
-        if (!(cube.getItem().getItem() instanceof IPokecube)) return;
         final IPokecube cubeItem = (IPokecube) cube.getItem().getItem();
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
         final Vector3 v = Vector3.getNewVector();
@@ -140,6 +140,7 @@ public class CaptureManager
 
         if (removeMob)
         {
+            mob.remove();
             final IRunnable task = w ->
             {
                 world.removeEntity(mob, true);
