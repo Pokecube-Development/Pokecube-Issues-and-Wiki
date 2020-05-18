@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -10,18 +11,33 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.sensor.Sensor;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.DummyTask;
 import net.minecraft.entity.ai.brain.task.FirstShuffledTask;
 import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
+import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAI.ShouldRun;
+import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.ai.tasks.combat.AIAttack;
+import pokecube.core.ai.tasks.combat.AICombatMovement;
+import pokecube.core.ai.tasks.combat.AIDodge;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.combat.AILeap;
+import pokecube.core.ai.tasks.combat.AISelectMove;
 import pokecube.core.ai.tasks.idle.AIGuardEgg;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.ai.tasks.idle.AIIdle;
 import pokecube.core.ai.tasks.idle.AIMate;
 import pokecube.core.ai.tasks.idle.AIRoutes;
+import pokecube.core.ai.tasks.utility.AIGatherStuff;
+import pokecube.core.ai.tasks.utility.AIStoreStuff;
+import pokecube.core.ai.tasks.utility.AIUseMove;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
@@ -31,11 +47,46 @@ import thut.api.entity.ai.TaskWrapper;
 
 public class Tasks
 {
+    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HOME,
+            MemoryModuleType.JOB_SITE, MemoryModuleType.MEETING_POINT, MemoryModuleType.MOBS,
+            MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER,
+            MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.INTERACTION_TARGET,
+            MemoryModuleType.BREED_TARGET, MemoryModuleType.PATH, MemoryModuleType.INTERACTABLE_DOORS,
+            MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE,
+            MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleType.HIDING_PLACE,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT,
+            MemoryModuleType.LAST_WORKED_AT_POI);
+
+    public static final ImmutableList<SensorType<? extends Sensor<? extends LivingEntity>>> SENSOR_TYPES = ImmutableList
+            .of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS,
+                    SensorType.HURT_BY);
+
+    @SuppressWarnings("unchecked")
+    public static <E extends LivingEntity> void initBrain(final Brain<E> brain)
+    {
+        Tasks.MEMORY_TYPES.forEach((module) ->
+        {
+            brain.memories.put(module, Optional.empty());
+        });
+        Tasks.SENSOR_TYPES.forEach((type) ->
+        {
+            final SensorType<? extends Sensor<? super E>> stype = (SensorType<? extends Sensor<? super E>>) type;
+            final Sensor<E> sense = (Sensor<E>) stype.func_220995_a();
+            brain.sensors.put(stype, sense);
+        });
+        brain.sensors.values().forEach((p_218225_1_) ->
+        {
+            for (final MemoryModuleType<?> memorymoduletype : p_218225_1_.getUsedMemories())
+                brain.memories.put(memorymoduletype, Optional.empty());
+        });
+    }
+
     //@formatter:off
+    @SuppressWarnings("unchecked")
     public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> idle(
             final IPokemob pokemob, final float speed)
     {
-        // Tasks for combat
+        // Tasks for idle
         final List<IAIRunnable> aiList = Lists.newArrayList();
         final MobEntity entity = pokemob.getEntity();
 
@@ -71,10 +122,87 @@ public class Tasks
 
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
+        final GuardAI guardai = new GuardAI(pokemob.getEntity(),guardCap);
+        final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
+        list.add(pair);
+        pokemob.getTasks().addAll(aiList);
+
         list.add(Tasks.lookAtMany());
         list.add(Tasks.lookAtPlayerOrVillager());
         for(final IAIRunnable run: aiList)
-            if(run instanceof ITask)
+            if(run instanceof Task<?>)
+                list.add((Pair<Integer, ? extends Task<? super LivingEntity>>) Pair.of(run.getPriority(),run));
+            else if(run instanceof ITask)
+            list.add(Pair.of(run.getPriority(), new TaskWrapper<>((ITask) run)));
+        return ImmutableList.copyOf(list);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> combat(
+            final IPokemob pokemob, final float speed)
+    {
+        // Tasks for combat
+        final List<IAIRunnable> aiList = Lists.newArrayList();
+
+        // combat tasks
+        aiList.add(new AISelectMove(pokemob).setPriority(190));
+        // Attack stuff
+        aiList.add(new AIAttack(pokemob).setPriority(200));
+        // Dodge attacks
+        aiList.add(new AIDodge(pokemob).setPriority(225));
+        // Leap at things
+        aiList.add(new AILeap(pokemob).setPriority(225));
+        // Move around in combat
+        aiList.add(new AICombatMovement(pokemob).setPriority(250));
+        // Look for targets to kill
+        final AIFindTarget targetFind = new AIFindTarget(pokemob);
+        aiList.add(targetFind.setPriority(400));
+        pokemob.setTargetFinder(targetFind);
+
+        final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
+
+        final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        final GuardAI guardai = new GuardAI(pokemob.getEntity(),guardCap);
+        final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
+        list.add(pair);
+        pokemob.getTasks().addAll(aiList);
+
+        for(final IAIRunnable run: aiList)
+            if(run instanceof Task<?>)
+                list.add((Pair<Integer, ? extends Task<? super LivingEntity>>) Pair.of(run.getPriority(),run));
+            else if(run instanceof ITask)
+            list.add(Pair.of(run.getPriority(), new TaskWrapper<>((ITask) run)));
+        return ImmutableList.copyOf(list);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ImmutableList<Pair<Integer, ? extends Task<? super LivingEntity>>> utility(
+            final IPokemob pokemob, final float speed)
+    {
+        // Tasks for utilitiy
+        final List<IAIRunnable> aiList = Lists.newArrayList();
+
+        // combat tasks
+        final AIStoreStuff ai = new AIStoreStuff(pokemob);
+        // Store things in chests
+        aiList.add(ai.setPriority(350));
+        // Gather things from ground
+        aiList.add(new AIGatherStuff(pokemob, 32, ai).setPriority(400));
+        // Execute moves when told to
+        aiList.add(new AIUseMove(pokemob).setPriority(250));
+
+        final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
+
+        final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
+        final GuardAI guardai = new GuardAI(pokemob.getEntity(),guardCap);
+        final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
+        list.add(pair);
+        pokemob.getTasks().addAll(aiList);
+
+        for(final IAIRunnable run: aiList)
+            if(run instanceof Task<?>)
+                list.add((Pair<Integer, ? extends Task<? super LivingEntity>>) Pair.of(run.getPriority(),run));
+            else if(run instanceof ITask)
             list.add(Pair.of(run.getPriority(), new TaskWrapper<>((ITask) run)));
         return ImmutableList.copyOf(list);
     }

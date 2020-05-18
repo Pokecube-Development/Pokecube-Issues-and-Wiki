@@ -21,6 +21,18 @@ public class TaskWrapper<E extends LivingEntity> extends Task<E>
     }
 
     @Override
+    public Status getStatus()
+    {
+        return super.getStatus();
+    }
+
+    @Override
+    protected void startExecuting(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    {
+        super.startExecuting(worldIn, entityIn, gameTimeIn);
+    }
+
+    @Override
     protected void resetTask(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
     {
         this.wrapped.reset();

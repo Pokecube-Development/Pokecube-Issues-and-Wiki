@@ -45,7 +45,8 @@ public class CaptureManager
         if (!(e instanceof LivingEntity)) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         final LivingEntity mob = (LivingEntity) e;
-        if (mob.deathTime > 0) return;
+        if (mob.deathTime > 0 || e.ticksExisted < 10) return;
+        if (cube.isCapturing) return;
 
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
@@ -60,13 +61,12 @@ public class CaptureManager
             cube.setNotCapturing();
             return;
         }
-        if (cube.shootingEntity != null && hitten != null && hitten.getOwner() == cube.shootingEntity) return;
+        if (cube.shooter != null && hitten != null && cube.shooter.equals(hitten.getOwnerId())) return;
 
         boolean removeMob = false;
 
         if (hitten != null)
         {
-
             final int tiltBak = cube.getTilt();
             final CaptureEvent.Pre capturePre = new Pre(hitten, cube);
             PokecubeCore.POKEMOB_BUS.post(capturePre);
@@ -75,7 +75,7 @@ public class CaptureManager
                 if (cube.getTilt() != tiltBak)
                 {
                     if (cube.getTilt() == 5) cube.setTime(10);
-                    else cube.setTime(20 * cube.getTilt());
+                    else cube.setTime(20 * cube.getTilt() + 5);
                     hitten.setPokecube(cube.getItem());
                     cube.setItem(PokecubeManager.pokemobToItem(hitten));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
@@ -90,7 +90,7 @@ public class CaptureManager
                 cube.setTilt(n);
 
                 if (n == 5) cube.setTime(10);
-                else cube.setTime(20 * n);
+                else cube.setTime(20 * n + 5);
 
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
@@ -127,7 +127,7 @@ public class CaptureManager
             }
             cube.setTilt(n);
             if (n == 5) cube.setTime(10);
-            else cube.setTime(20 * n);
+            else cube.setTime(20 * n + 5);
             final ItemStack mobStack = cube.getItem().copy();
             PokecubeManager.addToCube(mobStack, mob);
             cube.setItem(mobStack);
@@ -157,7 +157,7 @@ public class CaptureManager
         if (mob != null)
         {
             mob.getPersistentData().remove(TagNames.CAPTURING);
-            mob.setLocationAndAngles(cube.posX, cube.posY + 1.0D, cube.posZ, cube.rotationYaw, 0.0F);
+            mob.setLocationAndAngles(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.rotationYaw, 0.0F);
         }
         if (pokemob != null)
         {
@@ -182,24 +182,23 @@ public class CaptureManager
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
-        if (mob == null || cube.shootingEntity == null)
+        if (mob == null || cube.shooter == null)
         {
             if (mob == null) PokecubeCore.LOGGER.error("Error with mob capture: {}", mob);
             else cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
             return false;
         }
         mob.getPersistentData().remove(TagNames.CAPTURING);
-        if (ownable != null) ownable.setOwner(cube.shootingEntity.getUniqueID());
+        if (ownable != null) ownable.setOwner(cube.shooter);
         if (pokemob == null)
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
-            ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
+            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
             cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
             return true;
         }
         HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
-        if (cube.shootingEntity != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(
-                cube.shootingEntity.getUniqueID());
+        if (cube.shooter != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(cube.shooter);
         if (pokemob.getCombatState(CombatStates.MEGAFORME) || pokemob.getPokedexEntry().isMega)
         {
             pokemob.setCombatState(CombatStates.MEGAFORME, false);

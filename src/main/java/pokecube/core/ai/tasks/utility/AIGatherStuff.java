@@ -2,6 +2,7 @@ package pokecube.core.ai.tasks.utility;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.google.common.base.Predicate;
@@ -11,10 +12,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -46,7 +48,7 @@ import thut.lib.ItemStackTools;
  * berries. It requires an AIStoreStuff to have located a suitable storage
  * before it will run.
  */
-public class AIGatherStuff extends AIBase implements IInventoryChangedListener
+public class AIGatherStuff extends AIBase
 {
     /**
      * This manages the pokemobs replanting anything that they gather.
@@ -161,10 +163,9 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
     }
 
     @Override
-    public void onInventoryChanged(final IInventory invBasic)
+    public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
     {
-        // TODO Auto-generated method stub
-
+        return super.getNeededMemories();
     }
 
     private void setLoc(final Object o)

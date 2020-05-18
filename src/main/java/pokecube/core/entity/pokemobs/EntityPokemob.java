@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -129,6 +130,15 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
+    protected void updateAITasks()
+    {
+        super.updateAITasks();
+        @SuppressWarnings("unchecked")
+        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getBrain();
+        brain.tick((ServerWorld) this.world, this);
+    }
+
+    @Override
     protected void onDeathUpdate()
     {
         final boolean isTamed = this.pokemobCap.getOwnerId() != null;
@@ -140,7 +150,6 @@ public class EntityPokemob extends PokemobHasParts
             PokecubeCore.POKEMOB_BUS.post(event);
             final Result res = event.getResult();
             despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
-            if (this.getPersistentData().contains(TagNames.NOPOOF)) despawn = false;
             if (despawn) this.pokemobCap.onRecall(true);
             for (int k = 0; k < 20; ++k)
             {
