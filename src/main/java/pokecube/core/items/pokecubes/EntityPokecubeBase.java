@@ -488,12 +488,12 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public void setCapturing(final LivingEntity mob)
     {
         mob.getPersistentData().putBoolean(TagNames.CAPTURING, true);
-        EntityUpdate.sendEntityUpdate(this);
         this.setMotion(0, 0, 0);
         this.capturePos.set(mob);
         this.seeking = false;
         this.isCapturing = true;
         this.canBePickedUp = false;
+        EntityUpdate.sendEntityUpdate(this);
     }
 
     public void setTilt(final int n)
