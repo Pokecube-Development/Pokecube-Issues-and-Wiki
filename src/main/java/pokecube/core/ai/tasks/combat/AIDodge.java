@@ -9,7 +9,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
@@ -22,7 +21,7 @@ import pokecube.core.utils.AITools;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 
-public class AIDodge extends AIBase implements IAICombat
+public class AIDodge extends FightTask implements IAICombat
 {
     Entity target;
     double movementSpeed;

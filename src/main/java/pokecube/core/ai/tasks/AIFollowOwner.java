@@ -1,6 +1,7 @@
 package pokecube.core.ai.tasks;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.Vec3d;
@@ -16,7 +17,7 @@ import thut.api.maths.Vector3;
  * triggers if the owner gets too far away from the mob, and the mob is set to
  * follow.
  */
-public class AIFollowOwner extends AIBase
+public class AIFollowOwner extends TaskBase<MobEntity>
 {
     public static double speedMult = 2;
 

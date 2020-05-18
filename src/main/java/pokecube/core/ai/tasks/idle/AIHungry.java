@@ -23,7 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IBerryFruitBlock;
@@ -40,8 +39,9 @@ import thut.lib.ItemStackTools;
 
 /** This IAIRunnable is responsible for finding food for the mobs. It also is
  * what adds berries to their inventories based on which biome they are
- * currently in. */
-public class AIHungry extends AIBase
+ * currently in.
+ */
+public class AIHungry extends IdleTask
 {
     public static final ResourceLocation FOODTAG = new ResourceLocation(PokecubeCore.MODID, "pokemob_food");
 

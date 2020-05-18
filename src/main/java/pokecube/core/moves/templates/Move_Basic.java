@@ -22,6 +22,7 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.events.pokemob.combat.MoveUse;
@@ -364,8 +365,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         }
         if (attacked != attackerMob && targetPokemob != null)
         {
-            if (((MobEntity) attacked).getAttackTarget() != attackerMob) ((MobEntity) attacked).setAttackTarget(
-                    attackerMob);
+            AIFindTarget.initiateCombat((MobEntity) attacked, attackerMob);
             targetPokemob.setCombatState(CombatStates.ANGRY, true);
         }
         if (efficiency > 0 && packet.applyOngoing)

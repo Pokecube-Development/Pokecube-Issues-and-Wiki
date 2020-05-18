@@ -198,15 +198,15 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4F);
         entity.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(1.0f);
 
-        final boolean oldAI = true;
+        // Generic goals
+        if (!this.swims()) entity.goalSelector.addGoal(0, new SwimGoal(entity));
+        entity.goalSelector.addGoal(6, new LookAtGoal(entity, PlayerEntity.class, 6.0F));
+        entity.goalSelector.addGoal(7, new LookRandomlyGoal(entity));
+
+        final boolean oldAI = false;
         // Add in the Custom type of AI tasks.
         if (oldAI)
         {
-
-            // Non-Combat goals
-            if (!this.swims()) entity.goalSelector.addGoal(0, new SwimGoal(entity));
-            entity.goalSelector.addGoal(6, new LookAtGoal(entity, PlayerEntity.class, 6.0F));
-            entity.goalSelector.addGoal(7, new LookRandomlyGoal(entity));
 
             // Tasks for combat
             final List<IAIRunnable> aiList = Lists.newArrayList();
@@ -281,9 +281,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> coreMems = Sets.newHashSet();
 
             idleMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
-
             workMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
-
             coreMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_PRESENT));
 
             brain.registerActivity(Activity.IDLE, Tasks.idle(this, 1), idleMems);

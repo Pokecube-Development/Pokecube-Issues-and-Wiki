@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.Entity;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -17,7 +16,7 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.Tools;
 import thut.api.entity.ai.IAICombat;
 
-public class AISelectMove extends AIBase implements IAICombat
+public class AISelectMove extends FightTask implements IAICombat
 {
     Entity      target;
     private int moveIndexCounter = 0;

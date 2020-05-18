@@ -17,7 +17,6 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.IBlockReader;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
@@ -31,7 +30,7 @@ import thut.api.terrain.TerrainManager;
  * This IAIRunnable makes the mobs randomly wander around if they have nothing
  * better to do.
  */
-public class AIIdle extends AIBase
+public class AIIdle extends IdleTask
 {
     public static int IDLETIMER = 1;
 
@@ -60,12 +59,22 @@ public class AIIdle extends AIBase
         return null;
     }
 
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    static
+    {
+        AIIdle.mems.put(MemoryModuleType.HOME, MemoryModuleStatus.REGISTERED);
+        AIIdle.mems.put(MemoryModuleType.PATH, MemoryModuleStatus.VALUE_ABSENT);
+    }
+
     private AttributeModifier idlePathing = null;
-    final PokedexEntry        entry;
-    private double            x;
-    private double            y;
-    private double            z;
-    private final double      speed;
+
+    final PokedexEntry entry;
+
+    private double x;
+    private double y;
+    private double z;
+
+    private final double speed;
 
     private int ticksSinceLastPathed = 0;
 
@@ -76,7 +85,7 @@ public class AIIdle extends AIBase
 
     public AIIdle(final IPokemob pokemob)
     {
-        super(pokemob);
+        super(pokemob, AIIdle.mems);
         this.setMutex(2);
         this.entry = pokemob.getPokedexEntry();
         this.speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
@@ -264,15 +273,6 @@ public class AIIdle extends AIBase
         if (current != null) this.ticksSinceLastPathed = 0;
 
         return this.ticksSinceLastPathed++ > AIIdle.IDLETIMER;
-    }
-
-    @Override
-    public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
-    {
-        final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
-        mems.put(MemoryModuleType.HOME, MemoryModuleStatus.REGISTERED);
-        mems.put(MemoryModuleType.PATH, MemoryModuleStatus.VALUE_ABSENT);
-        return mems;
     }
 
 }

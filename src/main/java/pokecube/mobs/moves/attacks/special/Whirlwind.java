@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.special;
 
-import net.minecraft.entity.MobEntity;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -16,13 +16,13 @@ public class Whirlwind extends Move_Basic
         super("whirlwind");
     }
 
-    public Whirlwind(String string)
+    public Whirlwind(final String string)
     {
         super(string);
     }
 
     @Override
-    public void postAttack(MovePacket packet)
+    public void postAttack(final MovePacket packet)
     {
         super.postAttack(packet);
         if (packet.canceled || packet.failed) return;
@@ -39,8 +39,6 @@ public class Whirlwind extends Move_Basic
             attacked.setCombatState(CombatStates.ANGRY, false);
         }
         // ends the battle
-        if (packet.attacked instanceof MobEntity) ((MobEntity) packet.attacked).setAttackTarget(null);
-        packet.attacker.setCombatState(CombatStates.ANGRY, false);
-        packet.attacker.getEntity().setAttackTarget(null);
+        AIFindTarget.deagro(packet.attacker.getEntity());
     }
 }
