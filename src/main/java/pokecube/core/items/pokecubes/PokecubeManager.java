@@ -33,10 +33,12 @@ public class PokecubeManager
 {
     public static final List<String> TAGSTOREMOVE = Lists.newArrayList();
 
-    static
+    public static void init()
     {
+        PokecubeManager.TAGSTOREMOVE.clear();
         PokecubeManager.TAGSTOREMOVE.add(TagNames.CAPTURING);
         PokecubeManager.TAGSTOREMOVE.add(TagNames.REMOVED);
+        PokecubeManager.TAGSTOREMOVE.addAll(PokecubeCore.getConfig().persistent_tag_blacklist);
     }
 
     public static void addToCube(final ItemStack cube, final LivingEntity mob)
