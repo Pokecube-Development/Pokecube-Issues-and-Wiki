@@ -188,7 +188,7 @@ public class CommonProxy implements Proxy
 
     }
 
-    public void moveSound(final Vector3 pos, final SoundEvent event)
+    public void moveSound(final Vector3 pos, final SoundEvent event, final float volume)
     {
 
     }
