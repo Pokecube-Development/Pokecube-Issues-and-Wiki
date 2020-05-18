@@ -46,6 +46,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.GuiArranger;
@@ -88,7 +89,7 @@ public class EventsHandlerClient
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
-            final Entity target = pokemob.getEntity().getAttackTarget();
+            final Entity target = BrainUtils.getAttackTarget(pokemob.getEntity());
             if (target != null && !pokemob.getGeneralState(GeneralStates.MATING)) EventsHandlerClient
                     .setMostDamagingMove(pokemob, target);
         }

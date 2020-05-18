@@ -32,6 +32,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -337,7 +338,7 @@ public class AIGatherStuff extends UtilTask
                 GeneralStates.TAMED);
         // Check if this should be doing something else instead, if so return
         // false.
-        if (this.tameCheck() || this.entity.getAttackTarget() != null || wildCheck) return false;
+        if (this.tameCheck() || BrainUtils.hasAttackTarget(this.entity) || wildCheck) return false;
         final int rate = this.pokemob.getGeneralState(GeneralStates.TAMED) ? PokecubeCore.getConfig().tameGatherDelay
                 : PokecubeCore.getConfig().wildGatherDelay;
         final Random rand = new Random(this.pokemob.getRNGValue());

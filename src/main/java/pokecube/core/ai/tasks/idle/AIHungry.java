@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IBerryFruitBlock;
@@ -782,9 +783,9 @@ public class AIHungry extends IdleTask
         if (hunger != hungerTime) this.pokemob.setHungerTime(hunger);
 
         // Regenerate health if out of battle.
-        if (this.entity.getAttackTarget() == null && this.pokemob.getHealth() > 0 && this.entity.isAlive()
-                && !this.entity.getEntityWorld().isRemote && this.pokemob.getHungerCooldown() < 0
-                && this.pokemob.getHungerTime() < 0 && cur % 10 == tick)
+        if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getHealth() > 0 && this.entity.isAlive()
+                && !this.entity.getEntityWorld().isRemote && this.pokemob.getHungerCooldown() < 0 && this.pokemob
+                        .getHungerTime() < 0 && cur % 10 == tick)
         {
             final float dh = Math.max(1, this.pokemob.getMaxHealth() * 0.05f);
             final float toHeal = this.pokemob.getHealth() + dh;

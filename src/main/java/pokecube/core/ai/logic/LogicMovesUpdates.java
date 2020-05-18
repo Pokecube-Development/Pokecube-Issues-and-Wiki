@@ -12,6 +12,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
@@ -35,7 +36,7 @@ public class LogicMovesUpdates extends LogicBase
     int     index      = -1;
     int     statusTick = 0;
 
-    public LogicMovesUpdates(IPokemob entity)
+    public LogicMovesUpdates(final IPokemob entity)
     {
         super(entity);
     }
@@ -51,7 +52,7 @@ public class LogicMovesUpdates extends LogicBase
         this.pokemob.getMoveStats().timeSinceIgnited += i;
 
         if (this.pokemob.getMoveStats().timeSinceIgnited < 0) this.pokemob.getMoveStats().timeSinceIgnited = 0;
-        if (this.entity.getAttackTarget() == null && this.pokemob.getMoveStats().timeSinceIgnited > 50) //
+        if (!BrainUtils.hasAttackTarget(this.entity) && this.pokemob.getMoveStats().timeSinceIgnited > 50) //
         {
             this.pokemob.setExplosionState(-1);
             this.pokemob.getMoveStats().timeSinceIgnited--;
@@ -60,7 +61,7 @@ public class LogicMovesUpdates extends LogicBase
         }
     }
 
-    public boolean hasMove(String move)
+    public boolean hasMove(final String move)
     {
         for (final String s : this.pokemob.getMoves())
             if (s != null && s.equalsIgnoreCase(move)) return true;
@@ -68,7 +69,7 @@ public class LogicMovesUpdates extends LogicBase
     }
 
     @Override
-    public void tick(World world)
+    public void tick(final World world)
     {
         super.tick(world);
         this.v.set(this.entity);
@@ -120,7 +121,7 @@ public class LogicMovesUpdates extends LogicBase
         if (num > 0 && this.pokemob.getActiveMove() == null) this.pokemob.setAttackCooldown(num - 1);
 
         // Revert transform if not in battle or breeding.
-        if (this.pokemob.getTransformedTo() != null && this.entity.getAttackTarget() == null && !(this.pokemob
+        if (this.pokemob.getTransformedTo() != null && !BrainUtils.hasAttackTarget(this.entity) && !(this.pokemob
                 .getGeneralState(GeneralStates.MATING) || this.pokemob.getLover() != null)) this.pokemob
                         .setTransformedTo(null);
         // apply transform if breeding and applicable.

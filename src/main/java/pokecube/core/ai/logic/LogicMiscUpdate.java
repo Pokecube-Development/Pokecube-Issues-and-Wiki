@@ -15,6 +15,7 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -98,7 +99,7 @@ public class LogicMiscUpdate extends LogicBase
 
         // If angry and has no target, make it not angry.
         if (angry && this.lastHadTargetTime-- <= 0) this.pokemob.setCombatState(CombatStates.ANGRY, false);
-        else if (angry && this.entity.getAttackTarget() != null)
+        else if (angry && BrainUtils.hasAttackTarget(this.entity))
         {
             this.lastHadTargetTime = 100;
             this.reset = false;
@@ -256,9 +257,9 @@ public class LogicMiscUpdate extends LogicBase
         }
         final int id = this.pokemob.getTargetID();
 
+        final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
         if (this.entity.getEntityWorld() instanceof ServerWorld)
         {
-            final LivingEntity targ = this.entity.getAttackTarget();
             if (targ != null && targ.isAlive())
             {
                 this.pokemob.setTargetID(targ.getEntityId());
@@ -270,11 +271,10 @@ public class LogicMiscUpdate extends LogicBase
 
         // Everything below here is client side only!
 
-        if (id >= 0 && this.entity.getAttackTarget() == null) this.entity.setAttackTarget((LivingEntity) PokecubeCore
-                .getEntityProvider().getEntity(world, id, false));
-        if (id < 0 && this.entity.getAttackTarget() != null) this.entity.setAttackTarget(null);
-        if (this.entity.getAttackTarget() != null && !this.entity.getAttackTarget().isAlive()) this.entity
-                .setAttackTarget(null);
+        if (id >= 0 && targ == null) this.entity.setAttackTarget((LivingEntity) PokecubeCore.getEntityProvider()
+                .getEntity(world, id, false));
+        if (id < 0 && targ != null) this.entity.setAttackTarget(null);
+        if (targ != null && !targ.isAlive()) this.entity.setAttackTarget(null);
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = new Random();

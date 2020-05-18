@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.Entity;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -140,6 +141,7 @@ public class AISelectMove extends FightTask implements IAICombat
         // Should not swap moves if this is set.
         if (this.pokemob.getCombatState(CombatStates.NOMOVESWAP)) return false;
         // Only swap moves during combat.
-        return this.pokemob.getCombatState(CombatStates.ANGRY) && (this.target = this.entity.getAttackTarget()) != null;
+        return this.pokemob.getCombatState(CombatStates.ANGRY) && (this.target = BrainUtils.getAttackTarget(
+                this.entity)) != null;
     }
 }

@@ -24,6 +24,8 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.PCEventsHandler;
@@ -62,19 +64,15 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         // No target dead
         if (!target.isAlive() || target.getHealth() <= 0) return;
         // No target already had target
-        if (target == mob.getAttackTarget()) return;
-        final MobEntity mobT = target instanceof MobEntity ? (MobEntity) target : null;
+        if (target == BrainUtils.getAttackTarget(mob)) return;
 
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
         if (targetMob != null) targetMob.setCombatState(CombatStates.ANGRY, true);
         if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, true);
 
-        mob.setAttackTarget(target);
-        if (mobT != null) mobT.setAttackTarget(mob);
-
-        mob.getBrain().setMemory(MemoryModuleType.HURT_BY_ENTITY, target);
-        target.getBrain().setMemory(MemoryModuleType.HURT_BY_ENTITY, mob);
+        BrainUtils.setAttackTarget(mob, target);
+        BrainUtils.setAttackTarget(target, mob);
     }
 
     public static void deagro(final LivingEntity mob)
@@ -84,12 +82,11 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
 
         if (mob instanceof MobEntity)
         {
-            final LivingEntity oldTarget = ((MobEntity) mob).getAttackTarget();
-            ((MobEntity) mob).setAttackTarget(null);
+            final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
+            BrainUtils.setAttackTarget(mob, null);
             AIFindTarget.deagro(oldTarget);
         }
-        mob.getBrain().removeMemory(MemoryModuleType.HURT_BY_ENTITY);
-        mob.getBrain().removeMemory(MemoryModuleType.HURT_BY);
+        mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
         if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, false);
     }
 
@@ -200,14 +197,12 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
 
         if (attacked instanceof MobEntity)
         {
-            final MobEntity living = (MobEntity) attacked;
-            LivingEntity oldTarget = living.getAttackTarget();
-
+            LivingEntity oldTarget = BrainUtils.getAttackTarget(attacked);
             // Don't include dead old targets.
             if (oldTarget != null && !oldTarget.isAlive()) oldTarget = null;
 
-            if (!(oldTarget == null && attacker != living && attacker instanceof LivingEntity && living
-                    .getAttackTarget() != attacker)) attacker = null;
+            if (!(oldTarget == null && attacker != attacked && attacker instanceof LivingEntity
+                    && oldTarget != attacker)) attacker = null;
 
             final IPokemob agres = CapabilityPokemob.getPokemobFor(attacker);
             if (agres != null)
@@ -217,13 +212,15 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
                 {
                     // track running away.
                 }
-                if (agres.getLover() == living && attacker != null) agres.setLover(attacker);
+                if (agres.getLover() == attacked && attacker != null) agres.setLover(attacker);
 
             }
-
+            LivingEntity newTarget = oldTarget;
             // Either keep old target, or agress the attacker.
-            if (oldTarget != null && living.getAttackTarget() != oldTarget) living.setAttackTarget(oldTarget);
-            else if (attacker instanceof LivingEntity) living.setAttackTarget((LivingEntity) attacker);
+            if (oldTarget != null && BrainUtils.getAttackTarget(attacked) != oldTarget) newTarget = oldTarget;
+            else if (attacker instanceof LivingEntity) newTarget = (LivingEntity) attacker;
+            final MobEntity living = (MobEntity) attacked;
+            AIFindTarget.initiateCombat(living, newTarget);
         }
 
     }
@@ -320,7 +317,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
             // Only agress mobs that can see you are really under attack.
             if (!mob.canEntityBeSeen(this.entity)) continue;
             // Only agress if not currently in combat.
-            if (((MobEntity) mob).getAttackTarget() != null) continue;
+            if (BrainUtils.hasAttackTarget(mob)) continue;
             // Make all valid ones agress the target.
             this.setAttackTarget((MobEntity) mob, from);
         }
@@ -467,16 +464,16 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
         if (list.isEmpty()) return false;
 
-        final Entity old = this.entity.getAttackTarget();
+        final Entity old = BrainUtils.getAttackTarget(this.entity);
         final IOwnable oldOwnable = OwnableCaps.getOwnable(old);
         final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;
 
         if (!list.isEmpty()) for (final LivingEntity entity : list)
         {
             if (oldOwner != null && entity == oldOwner) return false;
-
-            if (entity instanceof MobEntity && ((MobEntity) entity).getAttackTarget() != null && ((MobEntity) entity)
-                    .getAttackTarget().equals(owner) && Vector3.isVisibleEntityFromEntity(entity, entity))
+            final LivingEntity targ = BrainUtils.getAttackTarget(entity);
+            if (entity instanceof MobEntity && targ != null && targ.equals(owner) && Vector3.isVisibleEntityFromEntity(
+                    entity, entity))
             {
                 this.setAttackTarget(this.entity, entity);
                 return true;
@@ -493,12 +490,12 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     @Override
     public void run()
     {
+        final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
         // No need to find a target if we have one.
-        if (this.entity.getAttackTarget() != null)
+        if (targ != null)
         {
             // If target is dead, lets forget about it.
-            if (!this.entity.getAttackTarget().isAlive() || this.entity.getAttackTarget().getHealth() <= 0) this
-                    .clear();
+            if (!targ.isAlive() || targ.getHealth() <= 0) this.clear();
             return;
         }
 
@@ -520,7 +517,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         // Ensure the correct owner is tracked.
         this.pokemob.getOwner(this.world);
 
-        LivingEntity target = this.entity.getAttackTarget();
+        LivingEntity target = BrainUtils.getAttackTarget(this.entity);
 
         // Don't look for targets if you are sitting.
         final boolean ret = target == null && !this.pokemob.getLogicState(LogicStates.SITTING);

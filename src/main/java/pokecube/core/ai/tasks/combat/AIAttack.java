@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.pathfinding.Path;
@@ -14,6 +13,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -95,7 +95,7 @@ public class AIAttack extends FightTask implements IAICombat
 
     public boolean continueExecuting()
     {
-        this.entityTarget = this.entity.getAttackTarget();
+        this.entityTarget = BrainUtils.getAttackTarget(this.entity);
 
         final IPokemob mobA = this.pokemob;
         final IPokemob mobB = this.pokemobTarget;
@@ -347,8 +347,7 @@ public class AIAttack extends FightTask implements IAICombat
     @Override
     public boolean shouldRun()
     {
-        if (!this.entity.getBrain().hasMemory(MemoryModuleType.HURT_BY_ENTITY)) return false;
-        final LivingEntity target = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
+        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
         // No target, we can't do anything, so return false
         if (target == null)
         {

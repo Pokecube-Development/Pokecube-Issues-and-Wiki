@@ -46,6 +46,7 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.Pokedex;
@@ -183,7 +184,7 @@ public class PokemobEventsHandler
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
                     CombatStates.HUNTING))
             {
-                attacker.eat(pokemob.getAttackTarget());
+                attacker.eat(BrainUtils.getHuntTarget(pokemob));
                 attacker.setCombatState(CombatStates.HUNTING, false);
                 pokemob.getNavigator().clearPath();
             }
@@ -401,7 +402,7 @@ public class PokemobEventsHandler
             // on shoulder
             if (held.getItem() == Items.STICK || held.getItem() == Blocks.TORCH.asItem())
             {
-                if (player.isCrouching())
+                if (player.isSneaking())
                 {
                     if (pokemob.getEntity().isAlive()) pokemob.moveToShoulder(player);
                     return;
@@ -412,15 +413,15 @@ public class PokemobEventsHandler
                 return;
             }
             // Debug thing to maximize happiness
-            if (held.getItem() == Items.APPLE) if (player.abilities.isCreativeMode && player.isCrouching()) pokemob
+            if (held.getItem() == Items.APPLE) if (player.abilities.isCreativeMode && player.isSneaking()) pokemob
                     .addHappiness(255);
             // Debug thing to increase hunger time
-            if (held.getItem() == Items.GOLDEN_HOE) if (player.abilities.isCreativeMode && player.isCrouching()) pokemob
+            if (held.getItem() == Items.GOLDEN_HOE) if (player.abilities.isCreativeMode && player.isSneaking()) pokemob
                     .setHungerTime(pokemob.getHungerTime() + 4000);
             // Use shiny charm to make shiny
             if (ItemList.is(new ResourceLocation("pokecube:shiny_charm"), held))
             {
-                if (player.isCrouching())
+                if (player.isSneaking())
                 {
                     pokemob.setShiny(!pokemob.isShiny());
                     if (!player.abilities.isCreativeMode) held.split(1);
@@ -458,7 +459,8 @@ public class PokemobEventsHandler
         }
 
         boolean deny = pokemob.getCombatState(CombatStates.NOITEMUSE);
-        if (deny && entity.getAttackTarget() == null)
+        final boolean hasTarget = BrainUtils.hasAttackTarget(entity);
+        if (deny && !hasTarget)
         {
             deny = false;
             pokemob.setCombatState(CombatStates.NOITEMUSE, false);
@@ -475,15 +477,15 @@ public class PokemobEventsHandler
                 .getEntity()).canFitPassenger(player);
         final boolean saddled = PokemobEventsHandler.handleHmAndSaddle(player, pokemob);
 
-        final boolean saddleCheck = !player.isCrouching() && held.isEmpty() && fits && saddled;
+        final boolean saddleCheck = !player.isSneaking() && held.isEmpty() && fits && saddled;
 
         // Check if favourte berry and sneaking, if so, do breeding stuff.
         if (isOwner || player instanceof FakePlayer)
         {
             final int fav = Nature.getFavouriteBerryIndex(pokemob.getNature());
-            if (PokecubeCore.getConfig().berryBreeding && (player.isCrouching() || player instanceof FakePlayer)
-                    && entity.getAttackTarget() == null && held.getItem() instanceof ItemBerry && (fav == -1
-                            || fav == ((ItemBerry) held.getItem()).type.index))
+            if (PokecubeCore.getConfig().berryBreeding && (player.isSneaking() || player instanceof FakePlayer)
+                    && !hasTarget && held.getItem() instanceof ItemBerry && (fav == -1 || fav == ((ItemBerry) held
+                            .getItem()).type.index))
             {
                 if (!player.abilities.isCreativeMode)
                 {

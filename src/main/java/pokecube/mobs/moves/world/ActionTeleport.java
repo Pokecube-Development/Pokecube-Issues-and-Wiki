@@ -1,8 +1,6 @@
 package pokecube.mobs.moves.world;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -97,8 +95,6 @@ public class ActionTeleport implements IMoveAction
         }
         else if (angry)
         {
-            final Entity attacked = user.getEntity().getAttackTarget();
-            if (attacked instanceof MobEntity) AIFindTarget.deagro((MobEntity) attacked);
             AIFindTarget.deagro(user.getEntity());
             if (user.getGeneralState(GeneralStates.TAMED)) user.onRecall();
             else ActionTeleport.teleportRandomly(user.getEntity());

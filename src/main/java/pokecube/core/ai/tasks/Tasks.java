@@ -20,6 +20,7 @@ import net.minecraft.entity.ai.brain.task.FirstShuffledTask;
 import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAI.ShouldRun;
 import pokecube.core.ai.routes.GuardTask;
@@ -54,7 +55,7 @@ public class Tasks
             MemoryModuleType.BREED_TARGET, MemoryModuleType.PATH, MemoryModuleType.INTERACTABLE_DOORS,
             MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE,
             MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleType.HIDING_PLACE,
-            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT,
+            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModules.ATTACKTARGET,
             MemoryModuleType.LAST_WORKED_AT_POI);
 
     public static final ImmutableList<SensorType<? extends Sensor<? extends LivingEntity>>> SENSOR_TYPES = ImmutableList

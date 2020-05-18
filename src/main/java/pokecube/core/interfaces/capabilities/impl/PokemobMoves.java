@@ -11,6 +11,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.moves.MoveEntry;
@@ -71,7 +72,7 @@ public abstract class PokemobMoves extends PokemobSexed
             if (target instanceof MobEntity)
             {
                 final MobEntity t = (MobEntity) target;
-                if (t.getAttackTarget() != this.getEntity()) AIFindTarget.initiateCombat(t, this.getEntity());
+                if (BrainUtils.getAttackTarget(t) != this.getEntity()) AIFindTarget.initiateCombat(t, this.getEntity());
             }
             if (target instanceof LivingEntity) if (((LivingEntity) target).getRevengeTarget() != this.getEntity())
             {
@@ -80,12 +81,12 @@ public abstract class PokemobMoves extends PokemobSexed
             }
         }
         final int statusChange = this.getChanges();
+        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
         if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)
         {
             ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red", this
                     .getDisplayName());
             this.displayMessageToOwner(mess);
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(this.getEntity().getAttackTarget());
             if (targetMob != null)
             {
                 mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "green", this.getDisplayName());
@@ -100,7 +101,6 @@ public abstract class PokemobMoves extends PokemobSexed
             this.removeChange(IMoveConstants.CHANGE_CONFUSED);
             ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "green", this
                     .getDisplayName());
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(this.getEntity().getAttackTarget());
             if (targetMob != null)
             {
                 mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "red", this
@@ -114,7 +114,6 @@ public abstract class PokemobMoves extends PokemobSexed
             MovesUtils.doAttack(MoveEntry.CONFUSED.name, this, this.getEntity());
             ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red", this
                     .getDisplayName());
-            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(this.getEntity().getAttackTarget());
             if (targetMob != null)
             {
                 mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "green", this.getDisplayName());

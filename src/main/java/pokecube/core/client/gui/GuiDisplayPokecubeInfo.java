@@ -34,6 +34,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
@@ -447,7 +448,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         render:
         if (pokemob != null)
         {
-            final LivingEntity entity = pokemob.getEntity().getAttackTarget();
+            final LivingEntity entity = BrainUtils.getAttackTarget(pokemob.getEntity());
             if (entity == null || !entity.isAlive()) break render;
 
             // GlStateManager.setProfile(GlStateManager.Profile.PLAYER_SKIN);

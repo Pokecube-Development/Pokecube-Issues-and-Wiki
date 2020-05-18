@@ -9,6 +9,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -108,7 +109,8 @@ public class AILeap extends FightTask implements IAICombat
         if (!this.canMove()) return false;
 
         return this.leapCooldown-- < 0 && this.pokemob.getCombatState(CombatStates.LEAPING)
-                && ((this.target = this.entity.getAttackTarget()) != null || this.pokemob.getTargetPos() != null);
+                && ((this.target = BrainUtils.getAttackTarget(this.entity)) != null || this.pokemob
+                        .getTargetPos() != null);
     }
 
 }
