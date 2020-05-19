@@ -13,9 +13,11 @@ import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.utils.TimePeriod;
@@ -47,6 +49,14 @@ public class GuardAICapability implements IGuardAICapability
             final BlockPos newPos = entity.getPosition();
 
             if (hasPath) entity.getBrain().setMemory(MemoryModuleType.PATH, entity.getNavigator().getPath());
+
+            if (entity.getPosition().withinDistance(this.getPos(), this.getRoamDistance()))
+            {
+                this.path_fails = 0;
+                this.lastPosCounter = -1;
+                this.lastPathedCounter = -1;
+                return;
+            }
 
             this.lastPathedCounter--;
             if (this.lastPathedCounter > 0) return;
@@ -80,7 +90,9 @@ public class GuardAICapability implements IGuardAICapability
                 if (endPos.distanceSq(this.getPos()) > maxDist)
                 {
                     final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-                    if (!this.path(entity, speed)) this.pathFail(entity);
+                    final boolean pathed = this.path(entity, speed);
+                    if (!pathed) this.pathFail(entity);
+                    else this.path_fails = 0;
                 }
             }
             this.lastPos = newPos;
@@ -151,6 +163,7 @@ public class GuardAICapability implements IGuardAICapability
                 if (shape.isEmpty() || !state.isSolid()) entity.moveToBlockPosAndAngles(this.getPos(), 0, 0);
                 else entity.setLocationAndAngles(this.pos.getX() + 0.5D, this.pos.getY() + shape.getEnd(Axis.Y),
                         this.pos.getZ() + 0.5D, 0, 0);
+                entity.getNavigator().clearPath();
                 this.path_fails = 0;
             }
         }
@@ -160,9 +173,14 @@ public class GuardAICapability implements IGuardAICapability
             if (this.lastPathedCounter < 0)
             {
                 // Limit how often this can path.
-                this.lastPathedCounter = 10;
-                return entity.getNavigator().tryMoveToXYZ(this.getPos().getX() + 0.5, this.getPos().getY(), this
-                        .getPos().getZ() + 0.5, speed);
+                this.lastPathedCounter = 20;
+                final BlockPos mobs = entity.getPosition();
+                final int d = mobs.manhattanDistance(this.getPos());
+                entity.getNavigator().setRangeMultiplier(Math.max(MathHelper.ceil(d / 8.0), 1));
+                final Path p = entity.getNavigator().getPathToPos(this.getPos(), 1);
+                final boolean pathed = entity.getNavigator().setPath(p, speed);
+                entity.getBrain().setMemory(MemoryModuleType.PATH, entity.getNavigator().getPath());
+                if (p != null) return pathed;
             }
             return false;
         }
