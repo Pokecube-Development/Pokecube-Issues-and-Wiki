@@ -900,11 +900,12 @@ public class PokedexEntry
     @CopyToGender
     public boolean isSocial = true;
 
-    public boolean    isStarter    = false;
+    public boolean isStarter    = false;
     @CopyToGender
-    public boolean    isStationary = false;
+    public boolean isStationary = false;
+
     @CopyToGender
-    protected boolean legendary    = false;
+    protected boolean legendary = false;
 
     @CopyToGender
     public float width  = -1;
@@ -974,7 +975,11 @@ public class PokedexEntry
     public boolean shouldFly = false;
 
     @CopyToGender
-    public boolean             shouldSurf = false;
+    public boolean shouldSurf = false;
+
+    @CopyToGender
+    public boolean isHeatProof = false;
+
     @CopyToGender
     protected ResourceLocation sound;
 
