@@ -2031,7 +2031,7 @@
     },
     {
       "name": "Torkoal",
-        "stats": {
+      "stats": {
         "lootTable": "pokecube:entities/turtleshells_1"
       }
     },
