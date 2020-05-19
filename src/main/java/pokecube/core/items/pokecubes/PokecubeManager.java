@@ -171,7 +171,6 @@ public class PokecubeManager
         float maxHP = mob.getMaxHealth();
         if (pokemob != null)
         {
-            if (!mob.world.isRemote) System.out.println(pokemob.getPokemonNickname());
             pokemob.revive();
             maxHP = pokemob.getStat(Stats.HP, false);
         }
@@ -187,7 +186,6 @@ public class PokecubeManager
             try
             {
                 final LivingEntity mob = PokecubeManager.itemToMob(stack, world);
-                if (!mob.world.isRemote) System.out.println(mob);
                 PokecubeManager.heal(mob);
                 PokecubeManager.addToCube(stack, mob);
             }
