@@ -7,6 +7,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -77,7 +78,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.variation.visible = false;
 
         @SuppressWarnings("unchecked")
-        final List<Object> list = (List<Object>) parent.children();
+        final List<IGuiEventListener> list = (List<IGuiEventListener>) parent.children();
         // Add us first so we can add linker-clicking to the location field
         list.add(this);
 
