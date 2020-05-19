@@ -41,6 +41,7 @@ public class CaptureManager
     public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
     {
         if (!(cube.getEntityWorld() instanceof ServerWorld)) return;
+        if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity)) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube)) return;
