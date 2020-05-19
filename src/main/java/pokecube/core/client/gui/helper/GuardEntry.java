@@ -1,16 +1,19 @@
 package pokecube.core.client.gui.helper;
 
+import java.util.List;
 import java.util.function.Function;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +23,7 @@ import pokecube.core.ai.routes.GuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.utils.TimePeriod;
+import thut.api.maths.Vector4;
 
 public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> implements INotifiedEntry
 {
@@ -72,6 +76,11 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         this.timeperiod.visible = false;
         this.variation.visible = false;
 
+        @SuppressWarnings("unchecked")
+        final List<Object> list = (List<Object>) parent.children();
+        // Add us first so we can add linker-clicking to the location field
+        list.add(this);
+
         parent.addButton(this.delete);
         parent.addButton(this.confirm);
         parent.addButton(this.moveUp);
@@ -79,6 +88,7 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
         parent.addButton(this.location);
         parent.addButton(this.timeperiod);
         parent.addButton(this.variation);
+
     }
 
     @Override
@@ -118,11 +128,34 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     @Override
     public boolean mouseClicked(final double mouseX, final double mouseY, final int mouseEvent)
     {
-        boolean ret = this.delete.mouseClicked(mouseX, mouseY, mouseEvent);
-        ret |= this.confirm.mouseClicked(mouseX, mouseY, mouseEvent);
-        ret |= this.moveUp.mouseClicked(mouseX, mouseY, mouseEvent);
-        ret |= this.moveDown.mouseClicked(mouseX, mouseY, mouseEvent);
-        return ret;
+        final boolean ret = false;
+        BlockPos newLink = null;
+        final PlayerInventory inv = Minecraft.getInstance().player.inventory;
+        boolean effect = false;
+        if (!inv.getItemStack().isEmpty() && inv.getItemStack().hasTag())
+        {
+            final CompoundNBT link = inv.getItemStack().getTag().getCompound("link_pos");
+            if (!link.isEmpty())
+            {
+                final Vector4 pos = new Vector4(link);
+                newLink = new BlockPos((int) (pos.x - 0.5), (int) pos.y, (int) (pos.z - 0.5));
+            }
+        }
+        final TextFieldWidget text = this.location;
+        {
+            if (newLink != null && text.isFocused())
+            {
+                text.setText(newLink.getX() + " " + newLink.getY() + " " + newLink.getZ());
+                effect = true;
+            }
+            if (ret) effect = true;
+        }
+        if (effect)
+        {
+            this.update();
+            return true;
+        }
+        return false;
     }
 
     public void moveDownClicked(final Button b)

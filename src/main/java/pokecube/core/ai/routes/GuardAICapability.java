@@ -5,14 +5,19 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.pathfinding.PathPoint;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.utils.TimePeriod;
 
 public class GuardAICapability implements IGuardAICapability
@@ -138,7 +143,14 @@ public class GuardAICapability implements IGuardAICapability
         {
             if (this.path_fails++ > 100)
             {
-                entity.moveToBlockPosAndAngles(this.getPos(), 0, 0);
+                final ServerWorld world = (ServerWorld) entity.getEntityWorld();
+                // Ensure chunk exists
+                world.getChunk(this.getPos());
+                final BlockState state = world.getBlockState(this.getPos());
+                final VoxelShape shape = state.getCollisionShape(world, this.getPos());
+                if (shape.isEmpty() || !state.isSolid()) entity.moveToBlockPosAndAngles(this.getPos(), 0, 0);
+                else entity.setLocationAndAngles(this.pos.getX() + 0.5D, this.pos.getY() + shape.getEnd(Axis.Y),
+                        this.pos.getZ() + 0.5D, 0, 0);
                 this.path_fails = 0;
             }
         }
@@ -203,10 +215,10 @@ public class GuardAICapability implements IGuardAICapability
     public void loadTasks(final ListNBT list)
     {
         this.tasks.clear();
-        for (int i = 0; i < list.size(); i++)
+        for (final INBT element : list)
         {
             final GuardTask task = new GuardTask();
-            task.load(list.get(i));
+            task.load(element);
             this.tasks.add(task);
         }
         if (this.tasks.isEmpty()) this.tasks.add(new GuardTask());
