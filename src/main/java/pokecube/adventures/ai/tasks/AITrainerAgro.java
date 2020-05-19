@@ -245,7 +245,7 @@ public class AITrainerAgro extends AITrainerBase implements ITargetWatcher
 
         if (!TerrainManager.isAreaLoaded(this.world, this.here, sight + 3)) return;
 
-        final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.validTargetSet((LivingEntity) e);
+        final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.isValidTarget((LivingEntity) e);
         final Entity match = this.here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity,
                 matcher);
         if (match instanceof LivingEntity) target = (LivingEntity) match;
@@ -266,7 +266,7 @@ public class AITrainerAgro extends AITrainerBase implements ITargetWatcher
     }
 
     @Override
-    public boolean validTargetSet(final LivingEntity target)
+    public boolean isValidTarget(final LivingEntity target)
     {
         this.here.set(this.entity, true);
         final int dist = PokecubeAdv.config.trainer_crowding_radius;

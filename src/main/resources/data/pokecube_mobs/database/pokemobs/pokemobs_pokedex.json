@@ -18106,7 +18106,7 @@
       "name": "Heracross",
       "number": 214,
       "base": true,
-	  "female_model": {
+      "female_model": {
         "key": "heracross_female",
         "tex": "heracross",
         "model": "heracross_female",
@@ -27415,7 +27415,7 @@
       "name": "Cacturne",
       "number": 332,
       "base": true,
-	  "female_model": {
+      "female_model": {
         "key": "cacturne_female",
         "tex": "cacturne",
         "model": "cacturne_female",
@@ -69499,7 +69499,7 @@
       "name": "Sinistea",
       "number": 854,
       "base": true,
-	  "model": {
+      "model": {
         "key": "sinistea_nofake",
         "tex": "sinistea",
         "model": "sinistea_nofake",
@@ -69577,7 +69577,7 @@
       "name": "Polteageist",
       "number": 855,
       "base": true,
-	  "model": {
+      "model": {
         "key": "polteageist_nofake",
         "tex": "polteageist",
         "model": "polteageist_nofake",

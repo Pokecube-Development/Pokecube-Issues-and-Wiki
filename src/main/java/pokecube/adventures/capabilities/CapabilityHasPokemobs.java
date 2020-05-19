@@ -200,11 +200,20 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public boolean canBattle(final LivingEntity target)
+        public boolean canBattle(final LivingEntity target, final boolean checkWatcher)
         {
             final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(target);
+            // No battling a target already battling something
             if (trainer != null && trainer.getTarget() != null && trainer.getTarget() != target) return false;
-            return !this.defeatedBy(target) && !this.defeated(target);
+            // No battling if we have defeated or been defeated
+            if (this.defeatedBy(target) || this.defeated(target)) return false;
+            // Not checking watchers, return true
+            if (!checkWatcher) return true;
+            // Valid if any watchers say so
+            for (final ITargetWatcher w : this.watchers)
+                if (w.isValidTarget(target)) return true;
+            // Otherwise false.
+            return false;
         }
 
         @Override
@@ -806,7 +815,13 @@ public class CapabilityHasPokemobs
         }
 
         /** If we are agressive, is this a valid target? */
-        boolean canBattle(LivingEntity target);
+        default boolean canBattle(final LivingEntity target)
+        {
+            return this.canBattle(target, false);
+        }
+
+        /** If we are agressive, is this a valid target? */
+        boolean canBattle(final LivingEntity target, final boolean checkWatchers);
 
         default boolean canLevel()
         {
@@ -988,7 +1003,7 @@ public class CapabilityHasPokemobs
         {
         }
 
-        boolean validTargetSet(LivingEntity target);
+        boolean isValidTarget(LivingEntity target);
 
         default void onSet(final LivingEntity target)
         {

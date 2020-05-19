@@ -394,7 +394,7 @@ public class TrainerEventHandler
         if (messages != null)
         {
             MessageState state = MessageState.INTERACT;
-            if (pokemobs != null) state = pokemobs.canBattle(evt.getPlayer()) ? MessageState.INTERACT_YESBATTLE
+            if (pokemobs != null) state = pokemobs.canBattle(evt.getPlayer(), true) ? MessageState.INTERACT_YESBATTLE
                     : MessageState.INTERACT_NOBATTLE;
             messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
             messages.doAction(state, evt.getPlayer(), target);

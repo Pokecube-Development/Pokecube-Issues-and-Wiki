@@ -6267,7 +6267,7 @@
         "spawnRules": [
           {
             "values": {
-              "category":"the_end",
+              "category": "the_end",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6618,7 +6618,7 @@
         ]
       }
     },
-	  {
+    {
       "name": "Clauncher",
       "stats": {
         "spawnRules": [
@@ -8180,7 +8180,7 @@
       "name": "Sinistea",
       "stats": {
         "spawnRules": [
-		  {
+          {
             "model": {
               "key": "sinistea_nofake",
               "tex": "sinistea",
@@ -8194,7 +8194,7 @@
             }
           },
           {
-			"model": {
+            "model": {
               "key": "sinistea_nofake",
               "tex": "sinistea",
               "model": "sinistea_nofake",
@@ -8395,7 +8395,7 @@
         "spawnRules": [
           {
             "values": {
-              "category":"the_end",
+              "category": "the_end",
               "rate": "0.002"
             }
           }
