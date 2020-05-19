@@ -16,7 +16,6 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.Difficulty;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -647,8 +646,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
             PlayerEntity player = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
             if (player != null && player.getDistance(this.entity) > PokecubeCore.getConfig().mobAggroRadius)
                 player = null;
-            if (player != null && Vector3.isVisibleEntityFromEntity(this.entity, player) && this.entity.getEntityWorld()
-                    .getDifficulty().getId() > Difficulty.EASY.getId() && AITools.validTargets.test(player))
+            if (player != null && AITools.validTargets.test(player))
             {
                 this.setAttackTarget(this.entity, player);
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
