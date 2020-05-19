@@ -87,6 +87,8 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     private List<IAIRunnable> tasks = Lists.newArrayList();
     private ITargetFinder     targetFinder;
 
+    private boolean initedAI = false;
+
     public DefaultPokemob()
     {
         for (final AIRoutine routine : AIRoutine.values())
@@ -145,6 +147,9 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     @Override
     public void initAI()
     {
+        if (this.initedAI) return;
+        this.initedAI = true;
+
         final MobEntity entity = this.getEntity();
 
         this.guardCap = entity.getCapability(CapHolders.GUARDAI_CAP).orElse(null);

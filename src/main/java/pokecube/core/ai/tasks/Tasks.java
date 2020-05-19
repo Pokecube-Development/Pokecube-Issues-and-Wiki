@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -13,13 +12,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.DummyTask;
 import net.minecraft.entity.ai.brain.task.FirstShuffledTask;
 import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAI.ShouldRun;
@@ -58,28 +57,12 @@ public class Tasks
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModules.ATTACKTARGET,
             MemoryModuleType.LAST_WORKED_AT_POI);
 
-    public static final ImmutableList<SensorType<? extends Sensor<? extends LivingEntity>>> SENSOR_TYPES = ImmutableList
-            .of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS,
-                    SensorType.HURT_BY);
+    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES,
+            SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY);
 
-    @SuppressWarnings("unchecked")
-    public static <E extends LivingEntity> void initBrain(final Brain<E> brain)
+    public static void initBrain(final Brain<?> brain)
     {
-        Tasks.MEMORY_TYPES.forEach((module) ->
-        {
-            brain.memories.put(module, Optional.empty());
-        });
-        Tasks.SENSOR_TYPES.forEach((type) ->
-        {
-            final SensorType<? extends Sensor<? super E>> stype = (SensorType<? extends Sensor<? super E>>) type;
-            final Sensor<E> sense = (Sensor<E>) stype.func_220995_a();
-            brain.sensors.put(stype, sense);
-        });
-        brain.sensors.values().forEach((p_218225_1_) ->
-        {
-            for (final MemoryModuleType<?> memorymoduletype : p_218225_1_.getUsedMemories())
-                brain.memories.put(memorymoduletype, Optional.empty());
-        });
+        BrainUtils.addToBrain(brain, Tasks.MEMORY_TYPES, Tasks.SENSOR_TYPES);
     }
 
     //@formatter:off

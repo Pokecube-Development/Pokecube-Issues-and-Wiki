@@ -490,6 +490,9 @@ public class Config extends ConfigData
     @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       pokeCenterMusic        = true;
 
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double captureVolume = 0.2;
+
     @Configure(category = Config.advanced)
     public List<String>  mystLocs              = Lists.newArrayList();
     @Configure(category = Config.advanced)
