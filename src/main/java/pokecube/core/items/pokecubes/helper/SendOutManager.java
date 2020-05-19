@@ -174,36 +174,47 @@ public class SendOutManager
         return pokemob.getEntity();
     }
 
+    private static void make(final ServerWorld world, final Entity mob, final Vector3 v, final IPokemob pokemob,
+            final boolean summon)
+    {
+        if (summon) world.summonEntity(mob);
+        if (pokemob != null)
+        {
+            pokemob.onSendOut();
+            pokemob.setGeneralState(GeneralStates.TAMED, true);
+            pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
+            pokemob.setEvolutionTicks(50 + PokecubeCore.getConfig().exitCubeDuration);
+            final Entity owner = pokemob.getOwner();
+            if (owner instanceof PlayerEntity)
+            {
+                final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.action.sendout", "green",
+                        pokemob.getDisplayName());
+                pokemob.displayMessageToOwner(mess);
+            }
+            final SendOut evt = new SendOut.Post(pokemob.getPokedexEntry(), v, world, pokemob);
+            PokecubeCore.POKEMOB_BUS.post(evt);
+        }
+    }
+
     private static void apply(final ServerWorld world, final Entity mob, final Vector3 v, final IPokemob pokemob,
             final boolean summon)
     {
+        final Entity test = world.getEntityByUuid(mob.getUniqueID());
         final Vector3 vec = v.copy();
-        final IRunnable task = w ->
+        if (test != null) SendOutManager.make(world, mob, vec, pokemob, summon);
+        else
         {
-            // Ensure the chunk is loaded here.
-            w.getChunk(vec.getPos());
-            final Entity original = world.getEntityByUuid(mob.getUniqueID());
-            // The mob already exists in the world, remove it
-            if (original != null) world.removeEntity(original, false);
-            if (summon) world.summonEntity(mob);
-            if (pokemob != null)
+            final IRunnable task = w ->
             {
-                pokemob.onSendOut();
-                pokemob.setGeneralState(GeneralStates.TAMED, true);
-                pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
-                pokemob.setEvolutionTicks(50 + PokecubeCore.getConfig().exitCubeDuration);
-                final Entity owner = pokemob.getOwner();
-                if (owner instanceof PlayerEntity)
-                {
-                    final ITextComponent mess = CommandTools.makeTranslatedMessage("pokemob.action.sendout", "green",
-                            pokemob.getDisplayName());
-                    pokemob.displayMessageToOwner(mess);
-                }
-                final SendOut evt = new SendOut.Post(pokemob.getPokedexEntry(), vec, world, pokemob);
-                PokecubeCore.POKEMOB_BUS.post(evt);
-            }
-            return true;
-        };
-        EventsHandler.Schedule(world, task);
+                // Ensure the chunk is loaded here.
+                w.getChunk(vec.getPos());
+                final Entity original = world.getEntityByUuid(mob.getUniqueID());
+                // The mob already exists in the world, remove it
+                if (original != null) world.removeEntity(original, false);
+                SendOutManager.make(world, mob, vec, pokemob, summon);
+                return true;
+            };
+            EventsHandler.Schedule(world, task);
+        }
     }
 }

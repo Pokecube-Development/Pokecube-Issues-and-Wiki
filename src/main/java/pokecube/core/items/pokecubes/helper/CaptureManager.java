@@ -16,12 +16,10 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.tasks.AIBase.IRunnable;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.CaptureEvent.Pre;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.HappinessType;
@@ -51,7 +49,6 @@ public class CaptureManager
         if (mob.deathTime > 0) return;
 
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
-        final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
         final IPokecube cubeItem = (IPokecube) cube.getItem().getItem();
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
@@ -138,16 +135,7 @@ public class CaptureManager
             cube.setCapturing(mob);
         }
 
-        if (removeMob)
-        {
-            mob.remove();
-            final IRunnable task = w ->
-            {
-                world.removeEntity(mob, true);
-                return true;
-            };
-            EventsHandler.Schedule(world, task);
-        }
+        if (removeMob) mob.remove();
     }
 
     public static void captureFailed(final EntityPokecubeBase cube)

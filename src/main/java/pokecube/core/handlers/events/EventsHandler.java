@@ -587,7 +587,8 @@ public class EventsHandler
             {
                 try
                 {
-                    return r.run(evt.world);
+                    r.run(evt.world);
+                    return true;
                 }
                 catch (final Exception e)
                 {
