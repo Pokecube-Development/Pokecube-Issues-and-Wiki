@@ -215,11 +215,6 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
         return this.priority;
     }
 
-    protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
-    {
-        attacker.setAttackTarget(target);
-    }
-
     protected void setCombatState(final IPokemob pokemob, final CombatStates state, final boolean value)
     {
         pokemob.setCombatState(state, value);

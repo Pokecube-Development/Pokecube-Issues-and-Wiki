@@ -285,7 +285,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(targ);
             if (targetMob != null)
             {
-                targetMob.getEntity().setAttackTarget(this.getOwner());
+                BrainUtils.setAttackTarget(targetMob.getEntity(), this.getOwner());
                 targetMob.setCombatState(CombatStates.ANGRY, true);
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Swapping agro to cowardly owner!");
             }
@@ -294,7 +294,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
         this.setCombatState(CombatStates.NOMOVESWAP, false);
         this.setCombatState(CombatStates.ANGRY, false);
-        this.getEntity().setAttackTarget(null);
+        BrainUtils.setAttackTarget(this.getEntity(), null);
         this.getEntity().captureDrops(Lists.newArrayList());
         final PlayerEntity tosser = PokecubeMod.getFakePlayer(this.getEntity().getEntityWorld());
         if (owner instanceof PlayerEntity)

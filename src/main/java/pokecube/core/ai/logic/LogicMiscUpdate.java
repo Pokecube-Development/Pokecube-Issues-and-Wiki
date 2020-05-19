@@ -271,10 +271,10 @@ public class LogicMiscUpdate extends LogicBase
 
         // Everything below here is client side only!
 
-        if (id >= 0 && targ == null) this.entity.setAttackTarget((LivingEntity) PokecubeCore.getEntityProvider()
-                .getEntity(world, id, false));
-        if (id < 0 && targ != null) this.entity.setAttackTarget(null);
-        if (targ != null && !targ.isAlive()) this.entity.setAttackTarget(null);
+        if (id >= 0 && targ == null) BrainUtils.setAttackTarget(this.entity, (LivingEntity) PokecubeCore
+                .getEntityProvider().getEntity(world, id, false));
+        if (id < 0 && targ != null) BrainUtils.setAttackTarget(this.entity, null);
+        if (targ != null && !targ.isAlive()) BrainUtils.setAttackTarget(this.entity, null);
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = new Random();

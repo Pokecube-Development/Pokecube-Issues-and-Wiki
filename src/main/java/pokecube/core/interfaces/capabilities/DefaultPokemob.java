@@ -330,23 +330,23 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
              */
             if (entity == this.getEntity())
             {
-                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) this.getEntity().setAttackTarget(
-                        null);
+                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) BrainUtils.setAttackTarget(this
+                        .getEntity(), null);
                 return;
             }
             else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId()))
             {
-                this.getEntity().setAttackTarget(null);
+                BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
             else if (TeamManager.sameTeam(entity, this.getEntity()))
             {
-                this.getEntity().setAttackTarget(null);
+                BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
             else if (!forced && !AITools.validTargets.test(entity))
             {
-                this.getEntity().setAttackTarget(null);
+                BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
             if (entity == null || remote) return;

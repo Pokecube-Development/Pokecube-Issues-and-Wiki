@@ -190,7 +190,7 @@ public class PokemobEventsHandler
                 pokemob.getNavigator().clearPath();
             }
         }
-        else pokemob.setAttackTarget(null);
+        else BrainUtils.setAttackTarget(pokemob, null);
     }
 
     private static boolean handleHmAndSaddle(final PlayerEntity PlayerEntity, final IPokemob pokemob)
@@ -495,7 +495,7 @@ public class PokemobEventsHandler
                             ItemStack.EMPTY);
                 }
                 pokemob.setLoveTimer(0);
-                entity.setAttackTarget(null);
+                BrainUtils.setAttackTarget(entity, null);
                 entity.getEntityWorld().setEntityState(entity, (byte) 18);
                 evt.setCanceled(true);
                 evt.setCancellationResult(ActionResultType.SUCCESS);

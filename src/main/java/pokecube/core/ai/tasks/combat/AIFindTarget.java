@@ -385,7 +385,6 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         return false;
     }
 
-    @Override
     protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
     {
         if (target == null)

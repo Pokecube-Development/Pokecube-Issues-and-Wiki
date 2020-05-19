@@ -10,9 +10,11 @@ import pokecube.core.PokecubeCore;
 public class MemoryModules
 {
     public static final MemoryModuleType<LivingEntity> ATTACKTARGET = new MemoryModuleType<>(Optional.empty());
+    public static final MemoryModuleType<LivingEntity> HUNTTARGET   = new MemoryModuleType<>(Optional.empty());
 
     public static void register(final Register<MemoryModuleType<?>> event)
     {
         event.getRegistry().register(MemoryModules.ATTACKTARGET.setRegistryName(PokecubeCore.MODID, "attack_target"));
+        event.getRegistry().register(MemoryModules.HUNTTARGET.setRegistryName(PokecubeCore.MODID, "hunt_target"));
     }
 }

@@ -55,7 +55,7 @@ public class Tasks
             MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE,
             MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleType.HIDING_PLACE,
             MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModules.ATTACKTARGET,
-            MemoryModuleType.LAST_WORKED_AT_POI);
+            MemoryModules.HUNTTARGET, MemoryModuleType.LAST_WORKED_AT_POI);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES,
             SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY);
