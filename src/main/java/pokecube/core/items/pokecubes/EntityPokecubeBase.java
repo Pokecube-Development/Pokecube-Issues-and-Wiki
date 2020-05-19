@@ -218,7 +218,19 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     @Override
     public boolean canBeCollidedWith()
     {
-        return super.canBeCollidedWith() && !this.isReleasing();
+        return true;
+    }
+
+    @Override
+    public boolean canBePushed()
+    {
+        return !this.isReleasing();
+    }
+
+    @Override
+    public boolean attackable()
+    {
+        return false;
     }
 
     public void checkCollision()
