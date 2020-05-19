@@ -1,5 +1,6 @@
 package pokecube.core.items.pokecubes.helper;
 
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import net.minecraft.block.BlockState;
@@ -201,17 +202,22 @@ public class SendOutManager
     {
         final Entity test = world.getEntityByUuid(mob.getUniqueID());
         final Vector3 vec = v.copy();
-        if (test != null) SendOutManager.make(world, mob, vec, pokemob, summon);
+        final UUID id = mob.getUniqueID();
+        if (test == null) SendOutManager.make(world, mob, vec, pokemob, summon);
         else
         {
+            PokecubeCore.LOGGER.warn("Replacing errored UUID mob! {}", mob);
+            mob.getPersistentData().putUniqueId("old_uuid", id);
+            mob.setUniqueId(UUID.randomUUID());
+            SendOutManager.make(world, mob, vec, pokemob, summon);
             final IRunnable task = w ->
             {
                 // Ensure the chunk is loaded here.
                 w.getChunk(vec.getPos());
-                final Entity original = world.getEntityByUuid(mob.getUniqueID());
+                final Entity original = world.getEntityByUuid(id);
                 // The mob already exists in the world, remove it
                 if (original != null) world.removeEntity(original, false);
-                SendOutManager.make(world, mob, vec, pokemob, summon);
+                mob.setUniqueId(id);
                 return true;
             };
             EventsHandler.Schedule(world, task);

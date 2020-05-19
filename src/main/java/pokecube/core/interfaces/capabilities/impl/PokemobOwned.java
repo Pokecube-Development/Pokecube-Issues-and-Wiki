@@ -25,7 +25,6 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.ai.tasks.AIBase.IRunnable;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.abilities.AbilityManager;
@@ -220,131 +219,144 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
 
     protected void executeRecall()
     {
-        final IRunnable task = wrld ->
+        final UUID id = this.getEntity().getUniqueID();
+        final Entity mob = this.getEntity();
+        final World world = this.getEntity().getEntityWorld();
+        final BlockPos pos = this.getEntity().getPosition();
+        // Ensures the chunk is actually still loaded here.
+        world.getChunk(pos);
+        if (this.getTransformedTo() != null) this.setTransformedTo(null);
+        final RecallEvent pre = new RecallEvent.Pre(this);
+        PokecubeCore.POKEMOB_BUS.post(pre);
+        if (pre.isCanceled()) return;
+        final RecallEvent evtrec = new RecallEvent(this);
+        PokecubeCore.POKEMOB_BUS.post(evtrec);
+        if (this.getHealth() > 0 && evtrec.isCanceled()) return;
+        this.setEvolutionTicks(0);
+        this.setGeneralState(GeneralStates.EXITINGCUBE, false);
+        this.setGeneralState(GeneralStates.EVOLVING, false);
+        this.setCombatState(CombatStates.DYNAMAX, false);
+
+        final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega;
+
+        if (megaForm)
         {
-            final ServerWorld world = (ServerWorld) wrld;
-            // Ensures the chunk is actually still loaded here.
-            world.getChunk(this.getEntity().getPosition());
-            if (this.getTransformedTo() != null) this.setTransformedTo(null);
-            final RecallEvent pre = new RecallEvent.Pre(this);
-            PokecubeCore.POKEMOB_BUS.post(pre);
-            if (pre.isCanceled()) return true;
-            final RecallEvent evtrec = new RecallEvent(this);
-            PokecubeCore.POKEMOB_BUS.post(evtrec);
-            if (this.getHealth() > 0 && evtrec.isCanceled()) return true;
-            this.setEvolutionTicks(0);
-            this.setGeneralState(GeneralStates.EXITINGCUBE, false);
-            this.setGeneralState(GeneralStates.EVOLVING, false);
-            this.setCombatState(CombatStates.DYNAMAX, false);
-
-            final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega;
-
-            if (megaForm)
-            {
-                final float hp = this.getHealth();
-                final IPokemob base = this.megaRevert();
-                base.setHealth(hp);
-                if (base == this) this.returning = false;
-                if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbility(AbilityManager
-                        .getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
-                base.onRecall();
-                this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
-                this.getEntity().captureDrops(null);
-                world.removeEntity(this.getEntity(), false);
-                return true;
-            }
-
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Recalling " + this.getEntity());
-            // Clear the pokemob's motion on recall
-            this.getEntity().setMotion(0, 0, 0);
-
-            /** If this has fainted, status should be reset. */
-            if (this.getHealth() <= 0)
-            {
-                this.healStatus();
-                this.healChanges();
-            }
-
-            final Entity owner = this.getOwner();
-            final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
-            /**
-             * If we have a target, and we were recalled with health, assign
-             * the target to our owner instead.
-             */
-            if (this.getCombatState(CombatStates.ANGRY) && targ != null && this.getHealth() > 0)
-                if (owner instanceof LivingEntity)
-            {
-                final IPokemob targetMob = CapabilityPokemob.getPokemobFor(targ);
-                if (targetMob != null)
-                {
-                    targetMob.getEntity().setAttackTarget(this.getOwner());
-                    targetMob.setCombatState(CombatStates.ANGRY, true);
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Swapping agro to cowardly owner!");
-                }
-                else targ.setRevengeTarget(this.getOwner());
-            }
-
-            this.setCombatState(CombatStates.NOMOVESWAP, false);
-            this.setCombatState(CombatStates.ANGRY, false);
-            this.getEntity().setAttackTarget(null);
-            this.getEntity().captureDrops(Lists.newArrayList());
-            final PlayerEntity tosser = PokecubeMod.getFakePlayer(world);
-            if (owner instanceof PlayerEntity)
-            {
-                final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
-                final PlayerEntity player = (PlayerEntity) owner;
-                boolean noRoom = false;
-                final boolean ownerDead = !player.isAlive() || player.getHealth() <= 0;
-                if (ownerDead || player.inventory.getFirstEmptyStack() == -1) noRoom = true;
-                if (noRoom)
-                {
-                    final PCEvent event = new PCEvent(itemstack.copy(), tosser);
-                    MinecraftForge.EVENT_BUS.post(event);
-                    if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
-                }
-                else
-                {
-                    final boolean added = player.inventory.addItemStackToInventory(itemstack);
-                    if (!added)
-                    {
-                        final PCEvent event = new PCEvent(itemstack.copy(), tosser);
-                        MinecraftForge.EVENT_BUS.post(event);
-                        if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
-                    }
-                }
-                if (!owner.isSneaking() && this.getEntity().isAlive() && !ownerDead)
-                {
-                    boolean has = StatsCollector.getCaptured(this.getPokedexEntry(), player) > 0;
-                    has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;
-                    if (!has) StatsCollector.addCapture(this);
-                }
-                final ITextComponent mess = new TranslationTextComponent("pokemob.action.return", this
-                        .getDisplayName());
-                this.displayMessageToOwner(mess);
-            }
-            else if (this.getOwnerId() != null)
-            {
-                final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
-                if (owner == null)
-                {
-                    final PCEvent event = new PCEvent(itemstack.copy(), tosser);
-                    MinecraftForge.EVENT_BUS.post(event);
-                    if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
-                }
-                else
-                {
-                    final PCEvent event = new PCEvent(itemstack.copy(), (LivingEntity) owner);
-                    MinecraftForge.EVENT_BUS.post(event);
-                    if (!event.isCanceled()) this.onToss((LivingEntity) owner, itemstack.copy());
-                }
-            }
-            // This ensures it can't be caught by dupe
+            final float hp = this.getHealth();
+            final IPokemob base = this.megaRevert();
+            base.setHealth(hp);
+            if (base == this) this.returning = false;
+            if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbility(AbilityManager
+                    .getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
+            base.onRecall();
             this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
+            this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
             this.getEntity().captureDrops(null);
-            world.removeEntity(this.getEntity(), false);
+            this.getEntity().remove();
+            EventsHandler.Schedule(world, w ->
+            {
+                final ServerWorld srld = (ServerWorld) w;
+                final Entity original = srld.getEntityByUuid(id);
+                if (original == mob) srld.removeEntity(original, false);
+                return true;
+            });
+            return;
+        }
+
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Recalling " + this.getEntity());
+        // Clear the pokemob's motion on recall
+        this.getEntity().setMotion(0, 0, 0);
+
+        /** If this has fainted, status should be reset. */
+        if (this.getHealth() <= 0)
+        {
+            this.healStatus();
+            this.healChanges();
+        }
+
+        final Entity owner = this.getOwner();
+        final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
+        /**
+         * If we have a target, and we were recalled with health, assign
+         * the target to our owner instead.
+         */
+        if (this.getCombatState(CombatStates.ANGRY) && targ != null && this.getHealth() > 0)
+            if (owner instanceof LivingEntity)
+        {
+            final IPokemob targetMob = CapabilityPokemob.getPokemobFor(targ);
+            if (targetMob != null)
+            {
+                targetMob.getEntity().setAttackTarget(this.getOwner());
+                targetMob.setCombatState(CombatStates.ANGRY, true);
+                if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Swapping agro to cowardly owner!");
+            }
+            else targ.setRevengeTarget(this.getOwner());
+        }
+
+        this.setCombatState(CombatStates.NOMOVESWAP, false);
+        this.setCombatState(CombatStates.ANGRY, false);
+        this.getEntity().setAttackTarget(null);
+        this.getEntity().captureDrops(Lists.newArrayList());
+        final PlayerEntity tosser = PokecubeMod.getFakePlayer(this.getEntity().getEntityWorld());
+        if (owner instanceof PlayerEntity)
+        {
+            final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
+            final PlayerEntity player = (PlayerEntity) owner;
+            boolean noRoom = false;
+            final boolean ownerDead = !player.isAlive() || player.getHealth() <= 0;
+            if (ownerDead || player.inventory.getFirstEmptyStack() == -1) noRoom = true;
+            if (noRoom)
+            {
+                final PCEvent event = new PCEvent(itemstack.copy(), tosser);
+                MinecraftForge.EVENT_BUS.post(event);
+                if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
+            }
+            else
+            {
+                final boolean added = player.inventory.addItemStackToInventory(itemstack);
+                if (!added)
+                {
+                    final PCEvent event = new PCEvent(itemstack.copy(), tosser);
+                    MinecraftForge.EVENT_BUS.post(event);
+                    if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
+                }
+            }
+            if (!owner.isSneaking() && this.getEntity().isAlive() && !ownerDead)
+            {
+                boolean has = StatsCollector.getCaptured(this.getPokedexEntry(), player) > 0;
+                has = has || StatsCollector.getHatched(this.getPokedexEntry(), player) > 0;
+                if (!has) StatsCollector.addCapture(this);
+            }
+            final ITextComponent mess = new TranslationTextComponent("pokemob.action.return", this.getDisplayName());
+            this.displayMessageToOwner(mess);
+        }
+        else if (this.getOwnerId() != null)
+        {
+            final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
+            if (owner == null)
+            {
+                final PCEvent event = new PCEvent(itemstack.copy(), tosser);
+                MinecraftForge.EVENT_BUS.post(event);
+                if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
+            }
+            else
+            {
+                final PCEvent event = new PCEvent(itemstack.copy(), (LivingEntity) owner);
+                MinecraftForge.EVENT_BUS.post(event);
+                if (!event.isCanceled()) this.onToss((LivingEntity) owner, itemstack.copy());
+            }
+        }
+        // This ensures it can't be caught by dupe
+        this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
+        this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
+        this.getEntity().captureDrops(null);
+        this.getEntity().remove();
+        EventsHandler.Schedule(world, w ->
+        {
+            final ServerWorld srld = (ServerWorld) w;
+            final Entity original = srld.getEntityByUuid(id);
+            if (original == mob) srld.removeEntity(original, false);
             return true;
-        };
-        EventsHandler.Schedule(this.getEntity().getEntityWorld(), task);
+        });
     }
 
     private void onToss(final LivingEntity owner, final ItemStack itemstack)
