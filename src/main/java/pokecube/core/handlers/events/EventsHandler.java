@@ -39,6 +39,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
@@ -54,6 +55,7 @@ import net.minecraftforge.event.world.WorldEvent.PotentialSpawns;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -611,6 +613,21 @@ public class EventsHandler
         final List<Entity> pokemobs = new ArrayList<>(((ServerWorld) entity.getEntityWorld()).getEntities(null,
                 e -> EventsHandler.validFollowing(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
+    }
+
+    @SubscribeEvent
+    public static void playerTick(final PlayerTickEvent event)
+    {
+        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayerEntity)
+        {
+            final ServerPlayerEntity player = (ServerPlayerEntity) event.player;
+            final IPokemob ridden = CapabilityPokemob.getPokemobFor(player.getRidingEntity());
+            if (ridden != null && ridden.canUseFly())
+            {
+                player.connection.floatingTickCount = 0;
+                player.connection.vehicleFloatingTickCount = 0;
+            }
+        }
     }
 
     /**
