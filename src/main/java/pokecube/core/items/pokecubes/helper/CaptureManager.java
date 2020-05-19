@@ -161,6 +161,8 @@ public class CaptureManager
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
+            // Ensure AI is initialized
+            pokemob.initAI();
             pokemob.setCombatState(CombatStates.ANGRY, true);
             pokemob.setLogicState(LogicStates.SITTING, false);
             pokemob.setGeneralState(GeneralStates.TAMED, false);
@@ -185,7 +187,7 @@ public class CaptureManager
         if (mob == null || cube.shooter == null)
         {
             if (mob == null) PokecubeCore.LOGGER.error("Error with mob capture: {}", mob);
-            else cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
+            else cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return false;
         }
         if (ownable != null) ownable.setOwner(cube.shooter);
@@ -193,7 +195,7 @@ public class CaptureManager
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
             if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
-            cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
+            cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return true;
         }
         HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
@@ -213,7 +215,7 @@ public class CaptureManager
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", pokemob.getDisplayName());
             ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
             cube.setPosition(cube.shootingEntity.posX, cube.shootingEntity.posY, cube.shootingEntity.posZ);
-            cube.playSound(EntityPokecubeBase.POKECUBESOUND, 1, 1);
+            cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;
     }
