@@ -50,6 +50,6 @@ public class PokemobType<T extends TameableEntity> extends EntityType<T>
     @Override
     public boolean isImmuneToFire()
     {
-        return this.entry.isType(PokeType.getType("fire"));
+        return this.entry.isType(PokeType.getType("fire")) || this.entry.isHeatProof;
     }
 }

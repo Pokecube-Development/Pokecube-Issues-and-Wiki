@@ -31583,7 +31583,8 @@
         "genderRatio": 255,
         "logics": {
           "values": {
-            "shoulder": "FALSE"
+            "shoulder": "FALSE",
+            "fireproof": "TRUE"
           }
         },
         "hatedMaterials": "water"

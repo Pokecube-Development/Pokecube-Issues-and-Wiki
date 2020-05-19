@@ -25,9 +25,6 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-import thut.core.xml.bind.annotation.XmlAnyAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang3.ClassUtils;
@@ -58,6 +55,9 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
 import thut.core.common.ThutCore;
+import thut.core.xml.bind.annotation.XmlAnyAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class PokedexEntryLoader
 {
@@ -1218,6 +1218,7 @@ public class PokedexEntryLoader
                 if (keyString.equals("dive")) entry.shouldDive = Boolean.parseBoolean(value);
                 if (keyString.equals("surf")) entry.shouldSurf = Boolean.parseBoolean(value);
                 if (keyString.equals("stationary")) entry.isStationary = Boolean.parseBoolean(value);
+                if (keyString.equals("fireproof")) entry.isHeatProof = Boolean.parseBoolean(value);
                 if (keyString.equals("dye"))
                 {
                     String[] args = value.split("#");
