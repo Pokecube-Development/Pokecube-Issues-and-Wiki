@@ -102,7 +102,7 @@ public class LogicMountedControl extends LogicBase
 
         if (waterSpeed) airSpeed = false;
 
-        if (canFly) for (final Entity e : this.entity.getRecursivePassengers())
+        if (this.pokemob.canUseFly()) for (final Entity e : this.entity.getRecursivePassengers())
             if (e instanceof ServerPlayerEntity)
             {
                 ((ServerPlayerEntity) e).connection.vehicleFloatingTickCount = 0;
