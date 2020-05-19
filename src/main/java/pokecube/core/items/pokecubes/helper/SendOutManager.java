@@ -149,6 +149,10 @@ public class SendOutManager
                 return null;
             }
             cube.setReleased(mob);
+
+            // Ensure AI is initialized
+            pokemob.initAI();
+
             SendOutManager.apply(world, mob, v, pokemob, summon);
             cube.setItem(pokemob.getPokecube());
 

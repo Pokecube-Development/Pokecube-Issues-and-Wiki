@@ -215,6 +215,12 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         }
     }
 
+    @Override
+    public boolean canBeCollidedWith()
+    {
+        return super.canBeCollidedWith() && !this.isReleasing();
+    }
+
     public void checkCollision()
     {
         final AxisAlignedBB axisalignedbb = this.getBoundingBox().expand(this.getMotion()).grow(.2D);
@@ -266,8 +272,10 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             }
             if (!net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) this.onImpact(
                     raytraceresult);
+            return;
         }
-        else if (this.shootingEntity != null && this.tilt < 0 && this.getMotion().lengthSquared() == 0 && this
+        if (this.isReleasing()) return;
+        if (this.shootingEntity != null && this.tilt < 0 && this.getMotion().lengthSquared() == 0 && this
                 .isServerWorld() && PokecubeManager.isFilled(this.getItem())) SendOutManager.sendOut(this, true);
         else if (!this.getNoCollisionRelease() && this.isInWater() && PokecubeManager.isFilled(this.getItem()))
             SendOutManager.sendOut(this, true);
@@ -455,6 +463,9 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         this.setMotion(0, 0, 0);
         this.setTime(20);
         this.setReleasing(true);
+        this.canBePickedUp = false;
+        this.seeking = false;
+        EntityUpdate.sendEntityUpdate(this);
     }
 
     public void setReleasing(final boolean tag)
