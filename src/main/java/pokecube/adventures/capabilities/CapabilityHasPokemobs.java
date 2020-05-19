@@ -209,7 +209,7 @@ public class CapabilityHasPokemobs
             // No battling if we have defeated or been defeated
             if (this.defeatedBy(target) || this.defeated(target)) return false;
             // Not checking watchers, return true
-            if (checkWatcher) return true;
+            if (!checkWatcher) return true;
             // Valid if any watchers say so
             for (final ITargetWatcher w : this.watchers)
                 if (w.isValidTarget(target)) return true;
