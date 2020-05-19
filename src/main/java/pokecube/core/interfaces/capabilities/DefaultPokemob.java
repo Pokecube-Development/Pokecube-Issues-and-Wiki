@@ -401,8 +401,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             final ItemStack key = new ItemStack(Items.SHEARS);
             if (this.getPokedexEntry().interact(key))
             {
-                final Interaction action = this.getPokedexEntry().interactionLogic.actions.get(this
-                        .getPokedexEntry().interactionLogic.getKey(key));
+                final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
                 final int timer = action.cooldown + this.rand.nextInt(1 + action.variance);
                 if (lastShear < server.getTickCounter() - timer) sheared = false;
             }
@@ -426,9 +425,8 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             final ArrayList<ItemStack> ret = new ArrayList<>();
             this.setGeneralState(GeneralStates.SHEARED, true);
             this.getEntity().getPersistentData().putLong(TagNames.SHEARTIME, server.getTickCounter());
-            final List<ItemStack> list = this.getPokedexEntry().getInteractResult(key);
-            final Interaction action = this.getPokedexEntry().interactionLogic.actions.get(this
-                    .getPokedexEntry().interactionLogic.getKey(key));
+            final Interaction action = this.getPokedexEntry().interactionLogic.getFor(key);
+            final List<ItemStack> list = action.stacks;
             final int time = this.getHungerTime();
             this.setHungerTime(time + action.hunger);
             for (final ItemStack stack : list)

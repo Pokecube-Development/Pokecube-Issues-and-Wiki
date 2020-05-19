@@ -284,6 +284,7 @@ public class PokedexEntryLoader
         public Integer cooldown   = 50;
         public Integer variance   = 100;
         public Integer baseHunger = 100;
+        public Boolean isTag      = false;
         public Drop    key;
         public Action  action;
     }

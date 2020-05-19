@@ -26,7 +26,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -331,23 +330,27 @@ public class PokedexEntry
 
     public static class InteractionLogic
     {
-        public static Predicate<ItemStack> isShears = (s) -> s.getItem() == Items.SHEARS;
+        private static final ResourceLocation SHEARS = new ResourceLocation(PokecubeCore.MODID, "shears");
+
+        public static Predicate<ItemStack> isShears = (s) -> ItemList.is(InteractionLogic.SHEARS, s);
 
         public static class Interaction
         {
-            public final ItemStack  key;
-            public PokedexEntry     forme;
-            public List<ItemStack>  stacks   = Lists.newArrayList();
-            public ResourceLocation lootTable;
-            public boolean          male     = true;
-            public boolean          female   = true;
-            public int              cooldown = 100;
-            public int              variance = 1;
-            public int              hunger   = 100;
+            public PokedexEntry forme;
 
-            public Interaction(final ItemStack key)
+            public List<ItemStack> stacks = Lists.newArrayList();
+
+            public ResourceLocation lootTable;
+
+            public boolean male   = true;
+            public boolean female = true;
+
+            public int cooldown = 100;
+            public int variance = 1;
+            public int hunger   = 100;
+
+            public Interaction()
             {
-                this.key = key;
             }
         }
 
@@ -420,17 +423,28 @@ public class PokedexEntry
                 final Action action = interact.action;
                 final boolean isForme = action.values.get(new QName("type")).equals("forme");
                 Map<QName, String> values = key.getValues();
-                final ItemStack keyStack = Tools.getStack(values);
-                final Interaction interaction = new Interaction(keyStack);
 
-                if (!replace && entry.interactionLogic.canInteract(keyStack)) continue;
+                final Interaction interaction = new Interaction();
+                if (interact.isTag)
+                {
+                    final ResourceLocation tag = new ResourceLocation(key.id);
+                    if (!replace && entry.interactionLogic.canInteract(tag)) continue;
+                    entry.interactionLogic.tagActions.put(tag, interaction);
+                    DispenseBehaviourInteract.registerBehavior(tag);
+                }
+                else
+                {
+                    final ItemStack keyStack = Tools.getStack(values);
+                    if (!replace && entry.interactionLogic.canInteract(keyStack)) continue;
+                    entry.interactionLogic.stackActions.put(keyStack, interaction);
+                    DispenseBehaviourInteract.registerBehavior(keyStack);
+                }
 
                 interaction.male = interact.male;
                 interaction.female = interact.female;
                 interaction.cooldown = interact.cooldown;
                 interaction.variance = Math.max(1, interact.variance);
                 interaction.hunger = interact.baseHunger;
-                entry.interactionLogic.actions.put(keyStack, interaction);
 
                 if (isForme)
                 {
@@ -449,54 +463,38 @@ public class PokedexEntry
                     interaction.stacks = stacks;
                     if (action.lootTable != null) interaction.lootTable = new ResourceLocation(action.lootTable);
                 }
-                DispenseBehaviourInteract.registerBehavior(keyStack);
             }
         }
 
-        public HashMap<ItemStack, Interaction> actions = Maps.newHashMap();
+        public HashMap<ItemStack, Interaction> stackActions = Maps.newHashMap();
+
+        public HashMap<ResourceLocation, Interaction> tagActions = Maps.newHashMap();
 
         boolean canInteract(final ItemStack key)
         {
-            return !this.getKey(key).isEmpty();
+            return this.getFor(key) != null;
         }
 
-        private ItemStack getFormeKey(final ItemStack held)
+        boolean canInteract(final ResourceLocation tag)
         {
-            if (held != null) for (final ItemStack stack : this.actions.keySet())
-                if (Tools.isSameStack(stack, held) && this.actions.get(stack).forme != null) return stack;
-            return ItemStack.EMPTY;
+            return this.tagActions.containsKey(tag);
         }
 
-        public ItemStack getKey(final ItemStack held)
+        public Interaction getFor(final ItemStack held)
         {
-            if (held != null) for (final ItemStack stack : this.actions.keySet())
-                if (Tools.isSameStack(stack, held)) return stack;
-            return ItemStack.EMPTY;
-        }
-
-        private ItemStack getStackKey(final ItemStack held)
-        {
-            if (held != null) for (final ItemStack stack : this.actions.keySet())
-            {
-                Interaction action = null;
-                if (Tools.isSameStack(stack, held) && (!(action = this.actions.get(stack)).stacks.isEmpty()
-                        || action.lootTable != null)) return stack;
-            }
-            return ItemStack.EMPTY;
-        }
-
-        List<ItemStack> interact(final ItemStack key)
-        {
-            return this.actions.get(this.getStackKey(key)).stacks;
+            for (final ItemStack stack : this.stackActions.keySet())
+                if (Tools.isSameStack(stack, held)) return this.stackActions.get(stack);
+            for (final ResourceLocation loc : this.tagActions.keySet())
+                if (ItemList.is(loc, held)) return this.tagActions.get(loc);
+            return null;
         }
 
         public boolean applyInteraction(final PlayerEntity player, final IPokemob pokemob, final boolean consumeInput)
         {
             final MobEntity entity = pokemob.getEntity();
             final ItemStack held = player.getHeldItemMainhand();
-            final ItemStack stack = this.getStackKey(held);
             final CompoundNBT data = entity.getPersistentData();
-            final Interaction action = this.actions.get(stack);
+            final Interaction action = this.getFor(held);
             ItemStack result = null;
             if (action.lootTable != null)
             {
@@ -536,19 +534,16 @@ public class PokedexEntry
         {
             final MobEntity entity = pokemob.getEntity();
             final ItemStack held = player.getHeldItemMainhand();
-            ItemStack stack = this.getStackKey(held);
-            if (stack.isEmpty())
+            final Interaction action = this.getFor(held);
+            if (action == null || action.stacks.isEmpty())
             {
-                stack = this.getFormeKey(held);
-                if (stack.isEmpty()) return false;
+                if (action == null) return false;
                 if (!doInteract) return true;
-                final Interaction action = this.actions.get(stack);
                 final PokedexEntry forme = action.forme;
                 pokemob.megaEvolve(forme);
                 return true;
             }
             final CompoundNBT data = entity.getPersistentData();
-            final Interaction action = this.actions.get(stack);
             if (data.contains("lastInteract"))
             {
                 final long time = data.getLong("lastInteract");
@@ -558,10 +553,10 @@ public class PokedexEntry
             if (!action.male && pokemob.getSexe() == IPokemob.MALE) return false;
             if (!action.female && pokemob.getSexe() == IPokemob.FEMALE) return false;
             if (action.stacks.isEmpty() && action.lootTable == null) return false;
-            if (InteractionLogic.isShears.test(stack))
+            if (InteractionLogic.isShears.test(held))
             {
                 if (pokemob.isSheared()) return true;
-                if (doInteract) pokemob.shear(stack);
+                if (doInteract) pokemob.shear(held);
                 return true;
             }
             if (!doInteract) return true;
@@ -1070,7 +1065,7 @@ public class PokedexEntry
     {
         this.formeItems.clear();
         this.megaRules.clear();
-        this.interactionLogic.actions.clear();
+        this.interactionLogic.stackActions.clear();
         // Apply loaded interactions
         if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
         // Apply default interactions
@@ -1511,18 +1506,6 @@ public class PokedexEntry
                 .getAbility(this.abilitiesHidden.get(0)) : AbilityManager.getAbility(this.abilitiesHidden.get(1));
         return null;
 
-    }
-
-    /**
-     * returns whether the interaction logic has a response listed for the
-     * given key.
-     *
-     * @param pokemob
-     * @return the stack that maps to this key
-     */
-    public List<ItemStack> getInteractResult(final ItemStack stack)
-    {
-        return this.interactionLogic.interact(stack);
     }
 
     public Vector3f getModelSize()
