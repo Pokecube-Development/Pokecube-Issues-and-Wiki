@@ -144,8 +144,7 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
             applied = true;
             this.power -= needed;
             if (gainExp) pokemob.setExp(pokemob.getExp() + exp_out, true);
-            if (PokecubeAdv.config.dayCareBreedSpeedup) pokemob.setLoveTimer(pokemob.getLoveTimer()
-                    + PokecubeAdv.config.dayCareBreedAmount);
+            if (PokecubeAdv.config.dayCareBreedSpeedup) pokemob.tickBreedDelay(PokecubeAdv.config.dayCareBreedAmount);
         }
         if (applied) this.getWorld().playSound(null, this.getPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP,
                 SoundCategory.BLOCKS, 0.25f, 1);

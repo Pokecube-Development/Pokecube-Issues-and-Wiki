@@ -1,9 +1,10 @@
 package thut.api.entity;
 
-import java.util.Vector;
+import javax.annotation.Nullable;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 
 /**
  * This interface is used for mobs which can breed with other mobs.
@@ -12,7 +13,12 @@ import net.minecraft.entity.passive.AnimalEntity;
  */
 public interface IBreedingMob
 {
-    boolean canMate(AnimalEntity AnimalEntity);
+    AgeableEntity getEntity();
+
+    default boolean canMate(final AgeableEntity AnimalEntity)
+    {
+        return false;
+    }
 
     /**
      * Will be called by the mother before she lays to know what baby to put in
@@ -22,47 +28,56 @@ public interface IBreedingMob
      *            the male
      * @return the pokedex number of the child
      */
-    Object getChild(IBreedingMob male);
-
-    /**
-     * Which entity is this pokemob trying to breed with
-     *
-     * @return
-     */
-    Entity getLover();
-
-    /** @return the timer indcating delay between looking for a mate. */
-    int getLoveTimer();
-
-    Vector<IBreedingMob> getMalesForBreeding();
+    default Object getChild(final IBreedingMob male)
+    {
+        return null;
+    }
 
     /** @return the byte sexe */
-    byte getSexe();
+    default byte getSexe()
+    {
+        return -1;
+    }
 
-    void mateWith(IBreedingMob male);
+    default void mateWith(final IBreedingMob male)
+    {
+    }
 
     /** resets the status of being in love */
-    void resetLoveStatus();
+    default void resetLoveStatus()
+    {
+    }
 
-    /**
-     * Sets the entity to try to breed with
-     *
-     * @param lover
-     */
-    void setLover(Entity lover);
+    default void setReadyToMate(@Nullable final PlayerEntity cause)
+    {
+    }
 
-    /**
-     * Sets the timer for the delay between looking for a mate.
-     *
-     * @param value
-     */
-    void setLoveTimer(int value);
+    @Nullable
+    default ServerPlayerEntity getCause()
+    {
+        return null;
+    }
 
     /**
      * @param sexe
      *            the byte sexe
      */
-    void setSexe(byte sexe);
+    default void setSexe(final byte sexe)
+    {
+    }
 
-    boolean tryToBreed();
+    default void tickBreedDelay(final int tickAmount)
+    {
+
+    }
+
+    default boolean canBreed()
+    {
+        return false;
+    }
+
+    default boolean isBreeding()
+    {
+        return false;
+    }
 }

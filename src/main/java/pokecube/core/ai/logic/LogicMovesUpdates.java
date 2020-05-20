@@ -121,12 +121,8 @@ public class LogicMovesUpdates extends LogicBase
         if (num > 0 && this.pokemob.getActiveMove() == null) this.pokemob.setAttackCooldown(num - 1);
 
         // Revert transform if not in battle or breeding.
-        if (this.pokemob.getTransformedTo() != null && !BrainUtils.hasAttackTarget(this.entity) && !(this.pokemob
-                .getGeneralState(GeneralStates.MATING) || this.pokemob.getLover() != null)) this.pokemob
-                        .setTransformedTo(null);
-        // apply transform if breeding and applicable.
-        if (this.pokemob.getTransformedTo() == null && this.pokemob.getLover() != null && this.hasMove(
-                IMoveNames.MOVE_TRANSFORM)) this.pokemob.setTransformedTo(this.pokemob.getLover());
+        if (this.pokemob.getTransformedTo() != null && !BrainUtils.hasAttackTarget(this.entity) && !this.pokemob
+                .getGeneralState(GeneralStates.MATING)) this.pokemob.setTransformedTo(null);
 
         // Update abilities.
         if (this.pokemob.getAbility() != null && this.entity.isServerWorld()) this.pokemob.getAbility().onUpdate(

@@ -2,32 +2,32 @@ package pokecube.core.ai.tasks.combat;
 
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
-
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.interfaces.IMoveConstants;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.PokecubeMod;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 
 public class AIDodge extends FightTask implements IAICombat
 {
-    Entity target;
+
+    // Location of the targetted attack
+    IPosWrapper pos = null;
+
     double movementSpeed;
     double dodgeSpeedFactor = 0.25f;
-    int    dodgeCooldown    = 10;
+
+    int dodgeCooldown = -1;
 
     public AIDodge(final IPokemob mob)
     {
@@ -49,7 +49,8 @@ public class AIDodge extends FightTask implements IAICombat
     @Override
     public void reset()
     {
-        this.target = null;
+        this.dodgeCooldown = -1;
+        this.pokemob.setCombatState(CombatStates.DODGING, false);
     }
 
     /**
@@ -62,20 +63,18 @@ public class AIDodge extends FightTask implements IAICombat
     @Override
     public void run()
     {
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Dodge: " + this.entity);
         /*
-         * Set dodging state to notify attack AI that target is dodging.
+         * We just dodged, so return false here for now
          */
-        if (!this.pokemob.getCombatState(CombatStates.DODGING))
-        {
-            this.pokemob.setCombatState(CombatStates.DODGING, true);
-            this.dodgeCooldown = PokecubeCore.getConfig().attackCooldown;
-        }
+        if (this.pokemob.getCombatState(CombatStates.DODGING)) return;
+        // set the dodge flag so other mobs know about this for missing
+        this.pokemob.setCombatState(CombatStates.DODGING, true);
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Dodge: " + this.entity);
         /*
          * Compute a random perpendicular direction.
          */
         final Vector3 loc = Vector3.getNewVector().set(this.entity);
-        final Vector3 target = Vector3.getNewVector().set(BrainUtils.getAttackTarget(this.entity));
+        final Vector3 target = Vector3.getNewVector().set(this.pos.getPos());
         final Vector3 temp = Vector3.getNewVector();
         Vector3 perp = target.subtractFrom(loc).rotateAboutLine(Vector3.secondAxis, Math.PI / 2, temp);
         if (Math.random() > 0.5) perp = perp.scalarMultBy(-1);
@@ -101,9 +100,9 @@ public class AIDodge extends FightTask implements IAICombat
          * Apply the dodge
          */
         perp.addVelocities(this.entity);
-        // Only play sound once.
-        if (this.dodgeCooldown == -1) this.toRun.add(new PlaySound(this.entity.dimension, Vector3.getNewVector().set(
-                this.entity), this.getDodgeSound(), SoundCategory.HOSTILE, 1, 1));
+
+        new PlaySound(this.entity.dimension, Vector3.getNewVector().set(this.entity), this.getDodgeSound(),
+                SoundCategory.HOSTILE, 1, 1).run(this.world);
     }
 
     /**
@@ -116,38 +115,35 @@ public class AIDodge extends FightTask implements IAICombat
     @Override
     public boolean shouldRun()
     {
-        if (!this.canMove()) return false;
+        if (!TaskBase.canMove(this.pokemob)) return false;
 
-        // We are already set to dodge, cooldown ensures dodge state lasts long
-        // enough to make some ranged attacks miss
-        if (this.pokemob.getCombatState(CombatStates.DODGING)) if (this.dodgeCooldown-- < 0) return true;
-        // Off cooldown, reset dodge state.
-        else this.pokemob.setCombatState(CombatStates.DODGING, false);
+        // We are still preparing to dodge
+        if (this.dodgeCooldown-- >= 0) return true;
+
+        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
         // Only dodge if there is an attack target.
-        if ((this.target = BrainUtils.getAttackTarget(this.entity)) == null) return false;
+        if (target == null) return false;
+
         // Only flying or floating can dodge while in the air
         if (!AITools.canNavigate.test(this.pokemob)) return false;
 
-        final IPokemob target = CapabilityPokemob.getPokemobFor(this.target);
-        if (target != null)
+        this.pos = BrainUtils.getMoveUseTarget(target);
+        if (this.pos != null)
         {
-            boolean shouldDodgeMove = target.getCombatState(CombatStates.EXECUTINGMOVE);
-            if (shouldDodgeMove)
-            {
-                /*
-                 * Check if the enemy is using a self move, if so, no point in
-                 * trying to dodge this.
-                 */
-                final Move_Base move = MovesUtils.getMoveFromName(target.getMove(target.getMoveIndex()));
-                if (move == null || (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0)
-                    shouldDodgeMove = false;
-            }
-            return shouldDodgeMove;
+            final double ds2 = this.entity.getDistanceSq(this.pos.getPos());
+            // No need to dodge if the target isn't near us
+            if (ds2 > 16) return false;
         }
+        // Nothing to dodge if target isn't attacking!
+        else return false;
+
         /*
          * Scale amount jumped by evasion stat.
          */
         final double evasionMod = this.pokemob.getFloatStat(Stats.EVASION, true) / 30d;
-        return Math.random() > 1 - evasionMod;
+        final boolean dodge = Math.random() > 1 - evasionMod;
+        if (dodge) this.dodgeCooldown = 10;
+
+        return dodge;
     }
 }

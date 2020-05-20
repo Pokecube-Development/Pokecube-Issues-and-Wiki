@@ -18,7 +18,6 @@ import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
@@ -43,23 +42,7 @@ import pokecube.core.ai.logic.LogicInMaterials;
 import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.logic.LogicMovesUpdates;
-import pokecube.core.ai.routes.GuardAI.ShouldRun;
-import pokecube.core.ai.tasks.AIFollowOwner;
 import pokecube.core.ai.tasks.Tasks;
-import pokecube.core.ai.tasks.combat.AIAttack;
-import pokecube.core.ai.tasks.combat.AICombatMovement;
-import pokecube.core.ai.tasks.combat.AIDodge;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
-import pokecube.core.ai.tasks.combat.AILeap;
-import pokecube.core.ai.tasks.combat.AISelectMove;
-import pokecube.core.ai.tasks.idle.AIGuardEgg;
-import pokecube.core.ai.tasks.idle.AIHungry;
-import pokecube.core.ai.tasks.idle.AIIdle;
-import pokecube.core.ai.tasks.idle.AIMate;
-import pokecube.core.ai.tasks.idle.AIRoutes;
-import pokecube.core.ai.tasks.utility.AIGatherStuff;
-import pokecube.core.ai.tasks.utility.AIStoreStuff;
-import pokecube.core.ai.tasks.utility.AIUseMove;
 import pokecube.core.database.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.core.events.pokemob.InitAIEvent;
 import pokecube.core.handlers.TeamManager;
@@ -74,7 +57,6 @@ import pokecube.core.utils.TagNames;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.ThutCaps;
-import thut.api.entity.ai.GoalsWrapper;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.item.ItemList;
@@ -121,6 +103,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
         if (capability == ThutCaps.COLOURABLE) return this.holder.cast();
+        if (capability == ThutCaps.BREEDS) return this.holder.cast();
         return CapabilityPokemob.POKEMOB_CAP.orEmpty(capability, this.holder);
     }
 
@@ -209,99 +192,29 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         entity.goalSelector.addGoal(6, new LookAtGoal(entity, PlayerEntity.class, 6.0F));
         entity.goalSelector.addGoal(7, new LookRandomlyGoal(entity));
 
-        final boolean oldAI = false;
-        // Add in the Custom type of AI tasks.
-        if (oldAI)
-        {
+        this.tasks = Lists.newArrayList();
+        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
+        Tasks.initBrain(brain);
 
-            // Tasks for combat
-            final List<IAIRunnable> aiList = Lists.newArrayList();
-            // Choose what attacks to use
-            aiList.add(new AISelectMove(this).setPriority(190));
-            // Attack stuff
-            aiList.add(new AIAttack(this).setPriority(200));
-            // Dodge attacks
-            aiList.add(new AIDodge(this).setPriority(225));
-            // Leap at things
-            aiList.add(new AILeap(this).setPriority(225));
-            // Move around in combat
-            aiList.add(new AICombatMovement(this).setPriority(250));
-            // Look for targets to kill
-            final AIFindTarget targetFind = new AIFindTarget(this);
-            aiList.add(targetFind.setPriority(400));
-            this.setTargetFinder(targetFind);
+        final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> idleMems = Sets.newHashSet();
+        final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> workMems = Sets.newHashSet();
+        final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> coreMems = Sets.newHashSet();
 
-            // Idle tasks
-            // Guard your egg
-            aiList.add(new AIGuardEgg(this).setPriority(250));
-            // Mate with things
-            aiList.add(new AIMate(this).setPriority(300));
-            // Eat things
-            aiList.add(new AIHungry(this, new ItemEntity(entity.getEntityWorld(), 0, 0, 0), 16).setPriority(300));
-            // Wander around
-            aiList.add(new AIIdle(this).setPriority(500));
+        idleMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
+        workMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
+        coreMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_PRESENT));
 
-            // Task for following routes/maintaining home location
-            final AIRoutes routes = new AIRoutes(this.getEntity(), this.guardCap);
-            routes.wrapped.shouldRun = new ShouldRun()
-            {
-                @Override
-                public boolean shouldRun()
-                {
-                    if (!DefaultPokemob.this.getGeneralState(GeneralStates.TAMED)) return true;
-                    return DefaultPokemob.this.getGeneralState(GeneralStates.STAYING);
-                }
-            };
-            // Follow paths or stay near home
-            aiList.add(routes.setPriority(275));
+        brain.registerActivity(Activity.IDLE, Tasks.idle(this, 1), idleMems);
+        brain.registerActivity(Activity.WORK, Tasks.utility(this, 1), workMems);
+        brain.registerActivity(Activity.CORE, Tasks.combat(this, 1), coreMems);
+        brain.setDefaultActivities(Sets.newHashSet(Activity.IDLE, Activity.WORK, Activity.CORE));
+        brain.setFallbackActivity(Activity.IDLE);
+        brain.switchTo(Activity.IDLE);
+        brain.updateActivity(entity.world.getDayTime(), entity.world.getGameTime());
 
-            // Utility tasks
-            final AIStoreStuff ai = new AIStoreStuff(this);
-            // Store things in chests
-            aiList.add(ai.setPriority(350));
-            // Gather things from ground
-            aiList.add(new AIGatherStuff(this, 32, ai).setPriority(400));
-            // Execute moves when told to
-            aiList.add(new AIUseMove(this).setPriority(250));
-
-            // Owner related tasks
-            if (!this.entry.isStationary) // Follow owner around
-                aiList.add(new AIFollowOwner(this, 3 + entity.getWidth() + this.length, 8 + entity.getWidth()
-                        + this.length).setPriority(400));
-
-            entity.goalSelector.addGoal(0, new GoalsWrapper(entity, aiList.toArray(new IAIRunnable[0])));
-            this.tasks = aiList;
-
-            if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
-                if (this.loadedTasks.contains(task.getIdentifier()) && task instanceof INBTSerializable)
-                    INBTSerializable.class.cast(task).deserializeNBT(this.loadedTasks.get(task.getIdentifier()));
-        }
-        else
-        {
-            this.tasks = Lists.newArrayList();
-            final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
-            Tasks.initBrain(brain);
-
-            final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> idleMems = Sets.newHashSet();
-            final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> workMems = Sets.newHashSet();
-            final Set<Pair<MemoryModuleType<?>, MemoryModuleStatus>> coreMems = Sets.newHashSet();
-
-            idleMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
-            workMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_ABSENT));
-            coreMems.add(Pair.of(MemoryModuleType.HURT_BY, MemoryModuleStatus.VALUE_PRESENT));
-
-            brain.registerActivity(Activity.IDLE, Tasks.idle(this, 1), idleMems);
-            brain.registerActivity(Activity.WORK, Tasks.utility(this, 1), workMems);
-            brain.registerActivity(Activity.CORE, Tasks.combat(this, 1), coreMems);
-            brain.setDefaultActivities(Sets.newHashSet(Activity.IDLE, Activity.WORK, Activity.CORE));
-            brain.setFallbackActivity(Activity.IDLE);
-            brain.switchTo(Activity.IDLE);
-            brain.updateActivity(entity.world.getDayTime(), entity.world.getGameTime());
-
-            if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
-                if (this.loadedTasks.contains(task.getIdentifier()) && task instanceof INBTSerializable)
-                    INBTSerializable.class.cast(task).deserializeNBT(this.loadedTasks.get(task.getIdentifier()));
-        }
+        if (this.loadedTasks != null) for (final IAIRunnable task : this.tasks)
+            if (this.loadedTasks.contains(task.getIdentifier()) && task instanceof INBTSerializable)
+                INBTSerializable.class.cast(task).deserializeNBT(this.loadedTasks.get(task.getIdentifier()));
 
         // Send notification event of AI initilization, incase anyone wants to
         // affect it.
@@ -330,23 +243,23 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
              */
             if (entity == this.getEntity())
             {
-                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) this.getEntity().setAttackTarget(
-                        null);
+                if (BrainUtils.getAttackTarget(this.getEntity()) == this.getEntity()) BrainUtils.setAttackTarget(this
+                        .getEntity(), null);
                 return;
             }
             else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId()))
             {
-                this.getEntity().setAttackTarget(null);
+                BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
-            else if (TeamManager.sameTeam(entity, this.getEntity()))
+            else if (TeamManager.sameTeam(entity, this.getEntity()) && !this.getCombatState(CombatStates.MATEFIGHT))
             {
-                this.getEntity().setAttackTarget(null);
+                BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
             else if (!forced && !AITools.validTargets.test(entity))
             {
-                this.getEntity().setAttackTarget(null);
+                BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
             if (entity == null || remote) return;

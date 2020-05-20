@@ -86,7 +86,12 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
             AIFindTarget.deagro(oldTarget);
         }
         mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
-        if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, false);
+        if (aggressor != null)
+        {
+            aggressor.getTargetFinder().clear();
+            aggressor.setCombatState(CombatStates.ANGRY, false);
+            aggressor.setCombatState(CombatStates.MATEFIGHT, false);
+        }
     }
 
     @SubscribeEvent
@@ -105,7 +110,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
 
         // Attempt to divert the target over to one of our mobs.
         final List<Entity> outmobs = PCEventsHandler.getOutMobs(evt.getTarget(), true);
-        outmobs.removeIf(o -> o == evt.getEntityLiving());
+        outmobs.removeIf(o -> o == evt.getEntityLiving() || !o.isAlive());
         if (!outmobs.isEmpty() && evt.getEntityLiving() instanceof MobEntity)
         {
             Collections.sort(outmobs, (o1, o2) ->
@@ -203,17 +208,6 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
             if (!(oldTarget == null && attacker != attacked && attacker instanceof LivingEntity
                     && oldTarget != attacker)) attacker = null;
 
-            final IPokemob agres = CapabilityPokemob.getPokemobFor(attacker);
-            if (agres != null)
-            {
-                if (agres.getPokedexEntry().isFood(pokemobCap.getPokedexEntry()) && agres.getCombatState(
-                        CombatStates.HUNTING))
-                {
-                    // track running away.
-                }
-                if (agres.getLover() == attacked && attacker != null) agres.setLover(attacker);
-
-            }
             LivingEntity newTarget = oldTarget;
             // Either keep old target, or agress the attacker.
             if (oldTarget != null && BrainUtils.getAttackTarget(attacked) != oldTarget) newTarget = oldTarget;
@@ -232,15 +226,16 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
      * targetting things on the same team.
      */
     final Predicate<Entity> validGuardTarget = input ->
-                                             {
-                                                 if (input == AIFindTarget.this.entity) return false;
-                                                 if (TeamManager.sameTeam(AIFindTarget.this.entity, input))
-                                                     return false;
-                                                 if (!AITools.validTargets.test(input)) return false;
-                                                 return input instanceof LivingEntity;
-                                             };
-    private int             agroTimer        = -1;
-    private LivingEntity    entityTarget     = null;
+    {
+        if (input == AIFindTarget.this.entity) return false;
+        if (TeamManager.sameTeam(AIFindTarget.this.entity, input)) return false;
+        if (!AITools.validTargets.test(input)) return false;
+        return input instanceof LivingEntity;
+    };
+
+    private int agroTimer = -1;
+
+    private LivingEntity entityTarget = null;
 
     public AIFindTarget(final IPokemob mob)
     {
@@ -384,7 +379,6 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         return false;
     }
 
-    @Override
     protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
     {
         if (target == null)
@@ -599,8 +593,8 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
                 }
 
                 // If the target is a pokemob, on same team, we shouldn't target
-                // it either
-                if (TeamManager.sameTeam(target, this.entity))
+                // it either, unless it is fighting over a mate
+                if (TeamManager.sameTeam(target, this.entity) && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
                 {
                     this.setAttackTarget(this.entity, null);
                     if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Cannot target team mates.");

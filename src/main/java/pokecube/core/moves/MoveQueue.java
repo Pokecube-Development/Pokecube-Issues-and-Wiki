@@ -53,9 +53,11 @@ public class MoveQueue
                     return;
                 }
                 final long time = System.nanoTime();
+                final int num = queue.moves.size();
                 queue.executeMoves();
                 final double dt = (System.nanoTime() - time) / 1000d;
-                if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took " + dt + " for world " + evt.world);
+                if (dt > 1000) PokecubeCore.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt,
+                        evt.world, num);
             }
         }
 

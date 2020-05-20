@@ -56,6 +56,7 @@ public class LogicMountedControl extends LogicBase
         final Entity rider = this.entity.getControllingPassenger();
         this.entity.stepHeight = 1.1f;
         this.pokemob.setGeneralState(GeneralStates.CONTROLLED, rider != null);
+
         if (rider == null) return;
 
         final Config config = PokecubeCore.getConfig();
@@ -101,13 +102,6 @@ public class LogicMountedControl extends LogicBase
             shouldControl = verticalControl = PokecubeCore.getConfig().surfEnabled || shouldControl;
 
         if (waterSpeed) airSpeed = false;
-
-        if (this.pokemob.canUseFly()) for (final Entity e : this.entity.getRecursivePassengers())
-            if (e instanceof ServerPlayerEntity)
-            {
-                ((ServerPlayerEntity) e).connection.vehicleFloatingTickCount = 0;
-                ((ServerPlayerEntity) e).connection.floatingTickCount = 0;
-            }
 
         final Entity controller = rider;
         if (this.pokemob.getPokedexEntry().shouldDive)

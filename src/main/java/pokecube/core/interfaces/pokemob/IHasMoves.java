@@ -212,13 +212,6 @@ public interface IHasMoves extends IHasStats
     /** @return entityId of our target. */
     int getTargetID();
 
-    /**
-     * This is the target location for move use.
-     *
-     * @return
-     */
-    Vector3 getTargetPos();
-
     /** @return Mob we are transformed into, null for no mob. */
     Entity getTransformedTo();
 
@@ -438,13 +431,6 @@ public interface IHasMoves extends IHasStats
      *            - new entityId of target, -1 for no target.
      */
     void setTargetID(int id);
-
-    /**
-     * Sets the target location for a move use.
-     *
-     * @param pos
-     */
-    void setTargetPos(Vector3 pos);
 
     /**
      * The pokemob will render and have moves according to whatever is set

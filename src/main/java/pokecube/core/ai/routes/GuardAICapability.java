@@ -10,16 +10,15 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.utils.TimePeriod;
 
 public class GuardAICapability implements IGuardAICapability
@@ -28,13 +27,18 @@ public class GuardAICapability implements IGuardAICapability
     public static class GuardTask implements IGuardTask
     {
         private AttributeModifier executingGuardTask = null;
-        private BlockPos          lastPos;
-        private int               lastPosCounter     = -1;
-        private int               lastPathedCounter  = -1;
-        private BlockPos          pos;
-        private float             roamDistance       = 2;
-        private TimePeriod        activeTime         = new TimePeriod(0, 0);
-        int                       path_fails         = 0;
+
+        private Vec3d lastPos;
+
+        int path_fails = 0;
+
+        private int lastPosCounter = -1;
+
+        private BlockPos pos;
+
+        private float roamDistance = 2;
+
+        private TimePeriod activeTime = new TimePeriod(0, 0);
 
         public GuardTask()
         {
@@ -45,64 +49,33 @@ public class GuardAICapability implements IGuardAICapability
         @Override
         public void continueTask(final MobEntity entity)
         {
-            boolean hasPath = !entity.getNavigator().noPath();
-            final BlockPos newPos = entity.getPosition();
+            final Vec3d newPos = entity.getPositionVec();
+            if (this.getPos().withinDistance(newPos, this.getRoamDistance())) return;
 
-            if (hasPath) entity.getBrain().setMemory(MemoryModuleType.PATH, entity.getNavigator().getPath());
+            final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            this.path(entity, speed);
 
-            if (entity.getPosition().withinDistance(this.getPos(), this.getRoamDistance()))
+            final double ds2 = this.lastPos == null ? 1 : newPos.squareDistanceTo(this.lastPos);
+
+            final boolean samePos = ds2 < 0.01;
+            if (samePos)
             {
-                this.path_fails = 0;
-                this.lastPosCounter = -1;
-                this.lastPathedCounter = -1;
-                return;
-            }
-
-            this.lastPathedCounter--;
-            if (this.lastPathedCounter > 0) return;
-
-            if (hasPath) if (this.lastPos != null && this.lastPos.equals(newPos))
-            {
-                if (this.lastPosCounter-- >= 0)
-                {
-
-                }
-                else
-                {
-                    this.lastPosCounter = 10;
-                    hasPath = false;
-                }
-            }
-            else this.lastPosCounter = 10;
-
-            if (!hasPath)
-            {
-                final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-                if (!this.path(entity, speed)) this.pathFail(entity);
+                if (this.lastPosCounter-- >= 0) this.pathFail(entity);
+                else this.lastPosCounter = 10;
             }
             else
             {
-                final PathPoint end = entity.getNavigator().getPath().getFinalPathPoint();
-                final BlockPos endPos = new BlockPos(end.x, end.y, end.z);
-                double maxDist = this.getRoamDistance() * this.getRoamDistance();
-                maxDist = Math.max(maxDist, 0.75);
-                maxDist = Math.max(maxDist, entity.getWidth());
-                if (endPos.distanceSq(this.getPos()) > maxDist)
-                {
-                    final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-                    final boolean pathed = this.path(entity, speed);
-                    if (!pathed) this.pathFail(entity);
-                    else this.path_fails = 0;
-                }
+                this.lastPosCounter = 10;
+                this.path_fails = 0;
+                this.lastPos = newPos;
             }
-            this.lastPos = newPos;
         }
 
         @Override
         public void endTask(final MobEntity entity)
         {
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
-            entity.getBrain().removeMemory(MemoryModuleType.PATH);
+            this.path_fails = 0;
         }
 
         @Override
@@ -163,33 +136,27 @@ public class GuardAICapability implements IGuardAICapability
                 if (shape.isEmpty() || !state.isSolid()) entity.moveToBlockPosAndAngles(this.getPos(), 0, 0);
                 else entity.setLocationAndAngles(this.pos.getX() + 0.5D, this.pos.getY() + shape.getEnd(Axis.Y),
                         this.pos.getZ() + 0.5D, 0, 0);
-                entity.getNavigator().clearPath();
                 this.path_fails = 0;
             }
         }
 
         private boolean path(final MobEntity entity, final double speed)
         {
-            if (this.lastPathedCounter < 0)
-            {
-                // Limit how often this can path.
-                this.lastPathedCounter = 20;
-                final BlockPos mobs = entity.getPosition();
-                final int d = mobs.manhattanDistance(this.getPos());
-                entity.getNavigator().setRangeMultiplier(Math.max(MathHelper.ceil(d / 8.0), 1));
-                final Path p = entity.getNavigator().getPathToPos(this.getPos(), 1);
-                final boolean pathed = entity.getNavigator().setPath(p, speed);
-                entity.getBrain().setMemory(MemoryModuleType.PATH, entity.getNavigator().getPath());
-                if (p != null) return pathed;
-            }
-            return false;
+            final Vec3d pos = new Vec3d(this.getPos().getX() + 0.5, this.getPos().getY(), this.getPos().getZ() + 0.5);
+            this.setWalkTo(entity, pos, speed, 0);
+            return true;
         }
 
+        protected void setWalkTo(final MobEntity entity, final Vec3d pos, final double speed, final int dist)
+        {
+            entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
+        }
     }
 
-    private GuardState             state = GuardState.IDLE;
     private final List<IGuardTask> tasks = Lists.newArrayList(new GuardTask());
-    private IGuardTask             activeTask;
+
+    private GuardState state = GuardState.IDLE;
+    private IGuardTask activeTask;
 
     @Override
     public IGuardTask getActiveTask()

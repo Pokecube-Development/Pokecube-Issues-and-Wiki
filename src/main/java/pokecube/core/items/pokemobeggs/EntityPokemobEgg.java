@@ -20,6 +20,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
@@ -176,7 +177,8 @@ public class EntityPokemobEgg extends AgeableEntity
         if (this.delayBeforeCanPickup > 0) return false;
         final ItemStack itemstack = this.getHeldItemMainhand();
         final int i = itemstack.getCount();
-        if (this.mother != null && this.mother.getOwner() != player) this.mother.getEntity().setAttackTarget(player);
+        if (this.mother != null && this.mother.getOwner() != player) BrainUtils.setAttackTarget(this.mother.getEntity(),
+                player);
         if (i <= 0 || player.inventory.addItemStackToInventory(itemstack))
         {
             player.onItemPickup(this, i);

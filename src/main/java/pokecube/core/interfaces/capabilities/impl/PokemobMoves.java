@@ -40,6 +40,8 @@ public abstract class PokemobMoves extends PokemobSexed
     public void executeMove(final Entity target, Vector3 targetLocation, final float f)
     {
         String attack = this.getMove(this.getMoveIndex());
+        BrainUtils.clearMoveUseTarget(this.getEntity());
+
         // If no move selected, just return here.
         if (attack == IMoveConstants.MOVE_NONE || attack == null) return;
 
@@ -56,7 +58,7 @@ public abstract class PokemobMoves extends PokemobSexed
         if (move == null || move.move == null)
         {
             PokecubeCore.LOGGER.error(this.getDisplayName().getFormattedText() + " Has Used Unregistered Move: "
-                    + attack + " " + index, new IllegalArgumentException());
+                    + attack + " " + index);
             return;
         }
 

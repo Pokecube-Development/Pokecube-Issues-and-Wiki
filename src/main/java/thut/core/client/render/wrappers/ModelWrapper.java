@@ -198,8 +198,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             final float partialTickTime)
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
-        if (this.renderer.getAnimationChanger() != null) this.renderer.setAnimation(entityIn, partialTickTime);
         this.renderer.setAnimationHolder(AnimationHelper.getHolder(entityIn));
+        if (this.renderer.getAnimationChanger() != null) this.renderer.setAnimation(entityIn, partialTickTime);
         this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
     }
 

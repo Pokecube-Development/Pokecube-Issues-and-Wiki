@@ -44,6 +44,7 @@ import pokecube.core.events.pokemob.FaintEvent;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
@@ -174,7 +175,7 @@ public class EntityPokemob extends PokemobHasParts
     public void onDeath(final DamageSource cause)
     {
         super.onDeath(cause);
-        this.pokemobCap.setLogicState(LogicStates.FAINTED, true);
+        this.pokemobCap.setCombatState(CombatStates.FAINTED, true);
     }
 
     @Override

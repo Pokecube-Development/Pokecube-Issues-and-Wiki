@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
@@ -15,19 +16,22 @@ import thut.api.ThutCaps;
 
 public interface ITerrainProvider
 {
+    Object lock = new Object();
+
     /**
      * This is a cache of pending terrain segments, it is used as sometimes
      * segments need to have things set for them which the chunk is still being
      * generated, ie not completely loaded.
      */
-    public static Map<DimensionType, Map<BlockPos, TerrainSegment>> pendingCache = Maps.newConcurrentMap();
+    public static Map<DimensionType, Map<BlockPos, TerrainSegment>> pendingCache = new Object2ObjectOpenHashMap<>();
+
     /**
      * This is a cache of loaded chunks, it is used to prevent thread lock
      * contention when trying to look up a chunk, as it seems that
      * world.chunkExists returning true does not mean that you can just go and
      * ask for the chunk...
      */
-    public static Map<DimensionType, Map<ChunkPos, IChunk>>         loadedChunks = Maps.newConcurrentMap();
+    public static Map<GlobalChunkPos, IChunk> loadedChunks = new Object2ObjectOpenHashMap<>();
 
     /**
      * Inserts the chunk into the cache of chunks.
@@ -37,9 +41,11 @@ public interface ITerrainProvider
      */
     public static void addChunk(final DimensionType dim, final IChunk chunk)
     {
-        final Map<ChunkPos, IChunk> dimMap = ITerrainProvider.loadedChunks.getOrDefault(dim, Maps.newConcurrentMap());
-        dimMap.put(chunk.getPos(), chunk);
-        if (!ITerrainProvider.loadedChunks.containsKey(dim)) ITerrainProvider.loadedChunks.put(dim, dimMap);
+        final GlobalChunkPos pos = new GlobalChunkPos(dim, chunk.getPos());
+        synchronized (ITerrainProvider.lock)
+        {
+            ITerrainProvider.loadedChunks.put(pos, chunk);
+        }
     }
 
     /**
@@ -48,14 +54,19 @@ public interface ITerrainProvider
      * @param dim
      * @param pos
      */
-    public static void removeChunk(final DimensionType dim, final ChunkPos pos)
+    public static void removeChunk(final DimensionType dim, final ChunkPos cpos)
     {
-        ITerrainProvider.loadedChunks.getOrDefault(dim, Collections.emptyMap()).remove(pos);
+        final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
+        synchronized (ITerrainProvider.lock)
+        {
+            ITerrainProvider.loadedChunks.remove(pos);
+        }
     }
 
-    public static IChunk getChunk(final DimensionType dim, final ChunkPos pos)
+    public static IChunk getChunk(final DimensionType dim, final ChunkPos cpos)
     {
-        return ITerrainProvider.loadedChunks.getOrDefault(dim, Collections.emptyMap()).get(pos);
+        final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
+        return ITerrainProvider.loadedChunks.get(pos);
     }
 
     public static TerrainSegment removeCached(final DimensionType dim, final BlockPos pos)

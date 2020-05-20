@@ -103,12 +103,8 @@ public class AIBattle extends AITrainerBase
         if (this.entity instanceof MobEntity)
         {
             final Entity target = BrainUtils.getAttackTarget(this.entity);
-            final IPokemob tarMob = CapabilityPokemob.getPokemobFor(target);
-            if (tarMob != null)
-            {
-                tarMob.setCombatState(CombatStates.ANGRY, true);
-                tarMob.onSetTarget(null, true);
-            }
+            if (target instanceof LivingEntity) AIFindTarget.initiateCombat((MobEntity) this.entity,
+                    (LivingEntity) target);
         }
 
         // Check if maybe mob was sent out, but just not seen

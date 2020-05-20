@@ -2,21 +2,19 @@ package pokecube.core.ai.tasks.idle;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.IBlockReader;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
@@ -62,11 +60,13 @@ public class AIIdle extends IdleTask
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
-        AIIdle.mems.put(MemoryModuleType.HOME, MemoryModuleStatus.REGISTERED);
-        AIIdle.mems.put(MemoryModuleType.PATH, MemoryModuleStatus.VALUE_ABSENT);
+        // Dont run if have a walk target
+        AIIdle.mems.put(MemoryModules.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT);
+        // Don't run if have a target location for moves
+        AIIdle.mems.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_ABSENT);
+        // Don't run if we have a path
+        AIIdle.mems.put(MemoryModules.PATH, MemoryModuleStatus.VALUE_ABSENT);
     }
-
-    private AttributeModifier idlePathing = null;
 
     final PokedexEntry entry;
 
@@ -76,21 +76,14 @@ public class AIIdle extends IdleTask
 
     private final double speed;
 
-    private int ticksSinceLastPathed = 0;
-
-    private double maxLength = 16;
-
     Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
 
     public AIIdle(final IPokemob pokemob)
     {
         super(pokemob, AIIdle.mems);
-        this.setMutex(2);
         this.entry = pokemob.getPokedexEntry();
         this.speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-        this.idlePathing = new AttributeModifier(UUID.fromString("4454b0d8-75ef-4689-8fce-daab61a7e1b1"),
-                "pokecube:idle_path", 0.5, Operation.MULTIPLY_BASE);
     }
 
     /** Floating things try to stay their preferedHeight from the ground. */
@@ -114,14 +107,9 @@ public class AIIdle extends IdleTask
                 GeneralStates.STAYING);
         final boolean up = Math.random() < 0.9;
         if (grounded && up && !tamed) this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
-        else if (!tamed)
-        {
-            this.pokemob.setRoutineState(AIRoutine.AIRBORNE, false);
-            this.v.set(this.x, this.y, this.z);
-            this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y));
-            if (this.v != null) this.y = this.v.y;
-        }
-        final PlayerEntity player = this.getNearestPlayer(this.entity, PokecubeCore.getConfig().aiDisableDistance);
+        else if (!tamed) this.doGroundIdle();
+        final PlayerEntity player = this.world.getClosestPlayer(this.entity, PokecubeCore
+                .getConfig().aiDisableDistance);
         if (player != null)
         {
             final double diff = Math.abs(player.posY - this.y);
@@ -162,7 +150,6 @@ public class AIIdle extends IdleTask
         final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob.getGeneralState(
                 GeneralStates.STAYING);
         int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
-        this.maxLength = distance + this.pokemob.getHomeDistance();
         boolean goHome = false;
         if (!tameFactor)
         {
@@ -201,20 +188,18 @@ public class AIIdle extends IdleTask
             this.y = Math.round(v.y);
             this.z = v.z;
         }
-        this.pokemob.setGeneralState(GeneralStates.IDLE, true);
         return true;
     }
 
     @Override
     public void reset()
     {
-        this.pokemob.setGeneralState(GeneralStates.IDLE, false);
     }
 
     @Override
     public void run()
     {
-        if (!this.pokemob.getGeneralState(GeneralStates.IDLE)) if (!this.getLocation()) return;
+        if (!this.getLocation()) return;
         if (this.pokemob.getPokedexEntry().flys()) this.doFlyingIdle();
         else if (this.pokemob.getPokedexEntry().floats()) this.doFloatingIdle();
         else if (this.entry.swims() && this.entity.isInWater()) this.doWaterIdle();
@@ -222,16 +207,8 @@ public class AIIdle extends IdleTask
         else this.doGroundIdle();
         this.v1.set(this.entity);
         this.v.set(this.x, this.y, this.z);
-
-        this.pokemob.setGeneralState(GeneralStates.IDLE, false);
         if (this.v1.distToSq(this.v) <= 1) return;
-
-        this.entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.idlePathing);
-        this.entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(this.idlePathing);
-        Path path = this.entity.getNavigator().getPathToPos(this.x, this.y, this.z, 0);
-        this.entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.idlePathing);
-        if (path != null && path.getCurrentPathLength() > this.maxLength) path = null;
-        this.addEntityPath(this.entity, path, this.speed);
+        this.setWalkTo(this.v, this.speed, 0);
     }
 
     @Override
@@ -241,7 +218,7 @@ public class AIIdle extends IdleTask
         if (AIIdle.IDLETIMER <= 0) return false;
 
         // Not currently able to move.
-        if (!this.canMove()) return false;
+        if (!TaskBase.canMove(this.pokemob)) return false;
 
         // Check a random number as well
         if (this.entity.getRNG().nextInt(AIIdle.IDLETIMER) != 0) return false;
@@ -255,24 +232,13 @@ public class AIIdle extends IdleTask
         // Angry at something
         if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
 
-        // Trying to use a move.
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) return false;
-
         // Pathing somewhere.
         if (this.pokemob.getLogicState(LogicStates.PATHING)) return false;
 
         // Owner is controlling us.
         if (this.pokemob.getGeneralState(GeneralStates.CONTROLLED)) return false;
 
-        // Sitting
-        if (this.pokemob.getLogicState(LogicStates.SITTING)) return false;
-
-        Path current = this.entity.getNavigator().getPath();
-        if (current != null && this.entity.getNavigator().noPath()) current = null;
-        // Have path, no need to idle
-        if (current != null) this.ticksSinceLastPathed = 0;
-
-        return this.ticksSinceLastPathed++ > AIIdle.IDLETIMER;
+        return !this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET);
     }
 
 }

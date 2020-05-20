@@ -98,6 +98,12 @@ public class Vector3
             this.y = y0;
             this.z = z0;
         }
+
+        @Override
+        public BlockPos toImmutable()
+        {
+            return new BlockPos(this);
+        }
     }
 
     public static final Vector3 secondAxis    = Vector3.getNewVector().set(0, 1, 0);

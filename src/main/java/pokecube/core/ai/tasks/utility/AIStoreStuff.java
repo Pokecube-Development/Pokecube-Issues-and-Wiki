@@ -11,8 +11,6 @@ import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -25,11 +23,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.berries.ItemBerry;
 import thut.api.item.ItemList;
@@ -64,16 +60,21 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
 
     boolean hasBerries = false;
 
-    int filledSlots = 0;
-    int emptySlots  = 0;
-    int firstEmpty  = 0;
+    protected int filledSlots = 0;
+    protected int emptySlots  = 0;
+    protected int firstEmpty  = 0;
 
     boolean pathing = false;
 
     public AIStoreStuff(final IPokemob entity)
     {
         super(entity);
-        if (entity.getInventory() instanceof Inventory) ((Inventory) entity.getInventory()).addListener(this);
+        if (entity.getInventory() instanceof Inventory)
+        {
+            ((Inventory) entity.getInventory()).addListener(this);
+            // Initialize this.
+            this.onInventoryChanged(entity.getInventory());
+        }
     }
 
     @Override
@@ -180,20 +181,12 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
         if (this.pokemob.getEntity().getPosition().distanceSq(this.berryLoc) > 9)
         {
             this.pathing = true;
-            final Path current = this.pokemob.getEntity().getNavigator().getPath();
-            if (current != null)
-            {
-                final PathPoint end = current.getFinalPathPoint();
-                final BlockPos dest = new BlockPos(end.x, end.y, end.z);
-                if (dest.withinDistance(this.berryLoc, 2)) return true;
-            }
             final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-            this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.berryLoc.getX() + 0.5, this.berryLoc.getY() + 0.5,
-                    this.berryLoc.getZ() + 0.5, speed);
+            this.setWalkTo(this.berryLoc, speed, 0);
             // We should be pathing to berries, so return true to stop other
             // storage tasks.
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this.pokemob.getDisplayName().getUnformattedComponentText()
-                    + " Pathing to Berries at " + this.berryLoc);
+            // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+            // + " Pathing to Berries at " + this.berryLoc);
             return true;
         }
         for (int i = 0; i < Math.min(berries.getSlots(), AIStoreStuff.MAXSIZE); i++)
@@ -205,8 +198,9 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
                 pokemobInv.setStackInSlot(this.firstEmpty, pokemobInv.getStackInSlot(2));
                 pokemobInv.setStackInSlot(2, stack);
                 // Collected our berry, Can pass to storage now.
-                if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this.pokemob.getDisplayName()
-                        .getUnformattedComponentText() + " Took " + stack);
+                // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+                // + " Took "
+                // + stack);
                 return false;
             }
         }
@@ -237,19 +231,11 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
         if (this.pokemob.getEntity().getPosition().distanceSq(this.emptyInventory) > 9)
         {
             this.pathing = true;
-            final Path current = this.pokemob.getEntity().getNavigator().getPath();
-            if (current != null)
-            {
-                final PathPoint end = current.getFinalPathPoint();
-                final BlockPos dest = new BlockPos(end.x, end.y, end.z);
-                if (dest.withinDistance(this.emptyInventory, 2)) return true;
-            }
             final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-            this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.emptyInventory.getX() + 0.5, this.emptyInventory
-                    .getY() + 0.5, this.emptyInventory.getZ() + 0.5, speed);
+            this.setWalkTo(this.emptyInventory, speed, 0);
             // We should be pathing, so return true.
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this.pokemob.getDisplayName().getUnformattedComponentText()
-                    + " Pathing to Pick Up at " + this.emptyInventory);
+            // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+            // + " Pathing to Pick Up at " + this.emptyInventory);
             return true;
         }
         boolean collected = false;
@@ -265,8 +251,9 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
                     inventory.setStackInSlot(i, ItemStack.EMPTY);
                     pokemobInv.setStackInSlot(slot, stack);
                     // Collected our item successfully
-                    if (PokecubeMod.debug) PokecubeCore.LOGGER.info(this.pokemob.getDisplayName()
-                            .getUnformattedComponentText() + " Took " + stack);
+                    // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+                    // + " Took "
+                    // + stack);
                     collected = true;
                     start = i + 1;
                     continue inv;
@@ -286,19 +273,11 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
         if (this.pokemob.getEntity().getPosition().distanceSq(this.storageLoc) > 9)
         {
             this.pathing = true;
-            final Path current = this.pokemob.getEntity().getNavigator().getPath();
-            if (current != null)
-            {
-                final PathPoint end = current.getFinalPathPoint();
-                final BlockPos dest = new BlockPos(end.x, end.y, end.z);
-                if (dest.withinDistance(this.storageLoc, 2)) return true;
-            }
-            final double speed = 1;
-            this.pokemob.getEntity().getNavigator().tryMoveToXYZ(this.storageLoc.getX() + 0.5, this.storageLoc.getY()
-                    + 0.5, this.storageLoc.getZ() + 0.5, speed);
+            final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            this.setWalkTo(this.storageLoc, speed, 0);
             // We should be pathing to storage here, so return true.
-            PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
-                    + " Pathing to Storage at " + this.storageLoc);
+            // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+            // + " Pathing to Storage at " + this.storageLoc);
             return true;
         }
         IItemHandlerModifiable storage = this.getInventory(this.world, this.storageLoc, this.storageFace);
@@ -311,11 +290,12 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
         for (int i = 3; i < pokemobInv.getSlots(); i++)
         {
             ItemStack stack = pokemobInv.getStackInSlot(i);
-            final ItemStack prev = stack.copy();
+            // final ItemStack prev = stack.copy();
             if (ItemStackTools.addItemStackToInventory(stack, storage, 0))
             {
-                PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText() + " Storing "
-                        + prev);
+                // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+                // + " Storing "
+                // + prev);
                 if (stack.isEmpty()) stack = ItemStack.EMPTY;
                 pokemobInv.setStackInSlot(i, stack);
             }

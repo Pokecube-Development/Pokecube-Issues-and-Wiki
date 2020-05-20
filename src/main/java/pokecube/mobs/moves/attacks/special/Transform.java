@@ -14,7 +14,6 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.Move_Basic;
-import thut.api.entity.IBreedingMob;
 
 /** @author Manchou */
 public class Transform extends Move_Basic
@@ -65,8 +64,7 @@ public class Transform extends Move_Basic
         final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
         if (attacked instanceof LivingEntity)
         {
-            if (!(attacked instanceof IBreedingMob) || attacked != ((IBreedingMob) attacker).getLover()) AIFindTarget
-                    .initiateCombat(attacker.getEntity(), (LivingEntity) attacked);
+            AIFindTarget.initiateCombat(attacker.getEntity(), (LivingEntity) attacked);
             attacker.setTransformedTo(attacked);
         }
         else if (attackedMob != null)

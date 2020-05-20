@@ -152,7 +152,6 @@ public class CaptureManager
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
             // Ensure AI is initialized
             pokemob.initAI();
-            pokemob.setCombatState(CombatStates.ANGRY, true);
             pokemob.setLogicState(LogicStates.SITTING, false);
             pokemob.setGeneralState(GeneralStates.TAMED, false);
             pokemob.setOwner((UUID) null);

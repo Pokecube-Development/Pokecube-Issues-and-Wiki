@@ -4,13 +4,12 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -39,21 +38,19 @@ import thut.api.maths.Vector3;
  */
 public class AIAttack extends FightTask implements IAICombat
 {
+    public static int maxWildBattleDur = 600;
+
     /** The target being attacked. */
     LivingEntity entityTarget;
     /** IPokemob version of entityTarget. */
     IPokemob     pokemobTarget;
-    /**
-     * Used to check whether we need to try swapping target, only check this
-     * once per second or so.
-     */
-    int          targetTestTime;
+
     /** Where the target is/was for attack. */
-    Vector3      targetLoc   = Vector3.getNewVector();
+    Vector3   targetLoc   = Vector3.getNewVector();
     /** Move we are using */
-    Move_Base    attack;
-    Matrix3      targetBox   = new Matrix3();
-    Matrix3      attackerBox = new Matrix3();
+    Move_Base attack;
+    Matrix3   targetBox   = new Matrix3();
+    Matrix3   attackerBox = new Matrix3();
 
     /** Temp vectors for checking things. */
     Vector3 v  = Vector3.getNewVector();
@@ -63,12 +60,10 @@ public class AIAttack extends FightTask implements IAICombat
     double  movementSpeed;
 
     /** Used to determine when to give up attacking. */
-    protected int     chaseTime;
-    /** Also used to determine when to give up attacking. */
-    protected boolean canSee    = false;
+    protected int chaseTime;
     /** Used for when to execute attacks. */
-    protected int     delayTime = -1;
-    boolean           running   = false;
+    protected int delayTime = -1;
+    boolean       running   = false;
 
     int battleTime = 0;
 
@@ -79,78 +74,80 @@ public class AIAttack extends FightTask implements IAICombat
         this.setMutex(3);
     }
 
-    private void checkMateFight(final IPokemob pokemob)
-    {
-        if (pokemob.getCombatState(CombatStates.MATEFIGHT)) if (this.pokemobTarget != null)
-        {
-            if (this.pokemobTarget.getHealth() < this.pokemobTarget.getMaxHealth() / 1.5f)
-            {
-                this.setCombatState(this.pokemob, CombatStates.MATEFIGHT, false);
-                this.setCombatState(this.pokemobTarget, CombatStates.MATEFIGHT, false);
-                AIFindTarget.deagro(this.pokemobTarget.getEntity());
-            }
-        }
-        else this.setCombatState(this.pokemob, CombatStates.MATEFIGHT, false);
-    }
-
     public boolean continueExecuting()
     {
-        this.entityTarget = BrainUtils.getAttackTarget(this.entity);
-
         final IPokemob mobA = this.pokemob;
         final IPokemob mobB = this.pokemobTarget;
 
         if (mobB != null)
         {
-            final boolean weTame = mobA.getOwnerId() == null;
-            final boolean theyTame = mobB.getOwnerId() == null;
+            if (mobB.getCombatState(CombatStates.FAINTED)) return false;
+
+            final boolean weTame = mobA.getOwnerId() != null || mobA.getCombatState(CombatStates.MATEFIGHT);
+            final boolean theyTame = mobB.getOwnerId() != null || mobB.getCombatState(CombatStates.MATEFIGHT);
             final boolean weHunt = mobA.getCombatState(CombatStates.HUNTING);
             final boolean theyHunt = mobB.getCombatState(CombatStates.HUNTING);
+
             if (weTame == theyTame && !weTame && weHunt == theyHunt && !theyHunt)
             {
                 final float weHealth = mobA.getEntity().getHealth() / mobA.getEntity().getMaxHealth();
                 final float theyHealth = mobB.getEntity().getHealth() / mobB.getEntity().getMaxHealth();
                 // Wild mobs shouldn't fight to the death unless hunting.
-                if (weHealth < 0.25 || theyHealth < 0.25) return false;
+                if (weHealth < 0.5 || theyHealth < 0.5)
+                {
+                    mobA.setCombatState(CombatStates.MATEFIGHT, false);
+                    mobB.setCombatState(CombatStates.MATEFIGHT, false);
+                    AIFindTarget.deagro(this.entity);
+                    return false;
+                }
+                // Give up if we took too long to fight.
+                if (this.battleTime > AIAttack.maxWildBattleDur) return false;
             }
         }
-        return this.entityTarget != null && this.entityTarget.isAlive() || !this.pokemob.getCombatState(
-                CombatStates.ANGRY);
+
+        if (mobA.getCombatState(CombatStates.FAINTED)) return false;
+
+        if (!this.entityTarget.isAlive() || this.entityTarget.getHealth() <= 0) return false;
+        if (!this.entity.isAlive() || this.entity.getHealth() <= 0) return false;
+
+        return this.pokemob.getCombatState(CombatStates.ANGRY);
     }
 
     @Override
     public void reset()
     {
         this.battleTime = 0;
-        if (this.running)
-        {
-            this.running = false;
-            this.addEntityPath(this.entity, null, this.movementSpeed);
-        }
+        this.clearUseMove();
         AIFindTarget.deagro(this.entity);
+    }
+
+    private void setUseMove()
+    {
+        this.pokemob.setCombatState(CombatStates.EXECUTINGMOVE, true);
+        BrainUtils.setMoveUseTarget(this.entity, this.targetLoc);
+    }
+
+    private void clearUseMove()
+    {
+        this.pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
+        BrainUtils.clearMoveUseTarget(this.entity);
     }
 
     @Override
     public void run()
     {
         this.battleTime++;
-        if (!this.continueExecuting())
-        {
-            this.reset();
-            return;
-        }
-        Path path;
         // Check if the pokemob has an active move being used, if so return
         if (this.pokemob.getActiveMove() != null) return;
+
+        this.attack = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
+        if (this.attack == null) this.attack = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
+
         if (!this.running)
         {
-
-            if (!(this.attack == null || (this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0)
-                    && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
-            {
-                path = this.entity.getNavigator().getPathToEntity(this.entityTarget, 0);
-                this.addEntityPath(this.entity, path, this.movementSpeed);
-            }
+            if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0) && !this.pokemob
+                    .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.getPositionVec(),
+                            this.movementSpeed, 0);
             this.targetLoc.set(this.entityTarget);
             this.chaseTime = 0;
             this.running = true;
@@ -167,8 +164,8 @@ public class AIAttack extends FightTask implements IAICombat
             if (!previousCaptureAttempt && PokecubeCore.getConfig().pokemobagresswarning
                     && this.entityTarget instanceof ServerPlayerEntity && !(this.entityTarget instanceof FakePlayer)
                     && !this.pokemob.getGeneralState(GeneralStates.TAMED) && ((PlayerEntity) this.entityTarget)
-                    .getRevengeTarget() != this.entity && ((PlayerEntity) this.entityTarget)
-                    .getLastAttackedEntity() != this.entity)
+                            .getRevengeTarget() != this.entity && ((PlayerEntity) this.entityTarget)
+                                    .getLastAttackedEntity() != this.entity)
             {
                 final ITextComponent message = new TranslationTextComponent("pokemob.agress", this.pokemob
                         .getDisplayName().getFormattedText());
@@ -187,20 +184,15 @@ public class AIAttack extends FightTask implements IAICombat
         }
 
         // Look at the target
-        this.entity.getLookController().setLookPositionWithEntity(this.entityTarget, 30.0F, 30.0F);
-
-        // Check if it is fighting over a mate, and deal with it accordingly.
-        this.checkMateFight(this.pokemob);
+        BrainUtil.lookAt(this.entity, this.entityTarget);
 
         // No executing move state with no target location.
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.setCombatState(
-                this.pokemob, CombatStates.EXECUTINGMOVE, false);
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove();
 
         // If it has been too long since last seen the target, give up.
         if (this.chaseTime > 200)
         {
-            this.setCombatState(this.pokemob, CombatStates.ANGRY, false);
-            this.addEntityPath(this.entity, null, this.movementSpeed);
+            this.pokemob.setCombatState(CombatStates.ANGRY, false);
             this.chaseTime = 0;
             if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Too Long Chase, Forgetting Target: "
                     + this.entity + " " + this.entityTarget);
@@ -219,28 +211,24 @@ public class AIAttack extends FightTask implements IAICombat
             return;
         }
 
+        Move_Base move = null;
+        move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
+        if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
         double var1 = (double) (this.entity.getWidth() * 2.0F) * (this.entity.getWidth() * 2.0F);
         boolean distanced = false;
-        boolean self = false;
-        Move_Base move = null;
+        final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
         final double dist = this.entity.getDistanceSq(this.entityTarget.posX, this.entityTarget.posY,
                 this.entityTarget.posZ);
 
-        move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
-
-        if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
+        distanced = (move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0;
         // Check to see if the move is ranged, contact or self.
-        if ((move.getAttackCategory() & IMoveConstants.CATEGORY_DISTANCE) > 0)
-        {
-            var1 = PokecubeCore.getConfig().rangedAttackDistance * PokecubeCore.getConfig().rangedAttackDistance;
-            distanced = true;
-        }
+        if (distanced) var1 = PokecubeCore.getConfig().rangedAttackDistance * PokecubeCore
+                .getConfig().rangedAttackDistance;
         else if (PokecubeCore.getConfig().contactAttackDistance > 0)
         {
             var1 = PokecubeCore.getConfig().contactAttackDistance * PokecubeCore.getConfig().contactAttackDistance;
             distanced = true;
         }
-        if ((move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0) self = true;
 
         this.delayTime = this.pokemob.getAttackCooldown();
         final boolean canUseMove = MovesUtils.canUseMove(this.pokemob);
@@ -258,8 +246,10 @@ public class AIAttack extends FightTask implements IAICombat
             this.targetLoc.set(this.entity);
         }
 
+        final boolean canSee = BrainUtil.canSee(this.entity.getBrain(), this.entityTarget);
+
         // If can't see, increment the timer for giving up later.
-        if (!this.canSee)
+        if (!canSee)
         {
             this.chaseTime++;
             if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this.targetLoc.set(this.entityTarget).addTo(0,
@@ -279,119 +269,93 @@ public class AIAttack extends FightTask implements IAICombat
                     this.entityTarget.getHeight() / 2, 0);
         }
 
+        final boolean isTargetDodging = this.pokemobTarget != null && this.pokemobTarget.getCombatState(
+                CombatStates.DODGING);
+
+        // If the target is not trying to dodge, and the move allows it,
+        // then
+        // set target location to where the target is now. This is so that
+        // it can use the older postion set above, lowering the accuracy of
+        // move use, allowing easier dodging.
+        if (!isTargetDodging) this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getHeight() / 2, 0);
+
         boolean delay = false;
         // Check if the attack should, applying a new delay if this is the
         // case..
-        if (inRange || self)
+        if (inRange && canSee || self)
         {
-            if (this.canSee || self)
+            if (this.delayTime <= 0 && this.entity.addedToChunk)
             {
-                if (this.delayTime <= 0 && this.entity.addedToChunk)
-                {
-                    this.delayTime = this.pokemob.getAttackCooldown();
-                    delay = canUseMove;
-                }
-                shouldPath = false;
-                this.setCombatState(this.pokemob, CombatStates.EXECUTINGMOVE, true);
+                this.delayTime = this.pokemob.getAttackCooldown();
+                delay = canUseMove;
             }
+            shouldPath = false;
+            if (!self) this.setUseMove();
+            else this.clearUseMove();
         }
-        else this.setCombatState(this.pokemob, CombatStates.EXECUTINGMOVE, false);
+
+        if (!(distanced || self))
+        {
+            this.setUseMove();
+            this.pokemob.setCombatState(CombatStates.LEAPING, true);
+        }
 
         // If all the conditions match, queue up an attack.
         if (!this.targetLoc.isEmpty() && delay && inRange)
         {
-            // If the target is not trying to dodge, and the move allows it,
-            // then
-            // set target location to where the target is now. This is so that
-            // it can use the older postion set above, lowering the accuracy of
-            // move use, allowing easier dodging.
-            if (this.pokemobTarget != null && !this.pokemobTarget.getCombatState(CombatStates.DODGING)
-                    || !(this.pokemobTarget != null) || this.attack.move.isNotIntercepable()) this.targetLoc.set(
-                            this.entityTarget).addTo(0, this.entityTarget.getHeight() / 2, 0);
             // Tell the target no need to try to dodge anymore, move is fired.
-            if (this.pokemobTarget != null) this.setCombatState(this.pokemobTarget, CombatStates.DODGING, false);
+            if (this.pokemobTarget != null) this.pokemobTarget.setCombatState(CombatStates.DODGING, false);
             // Swing arm for effect.
             if (this.entity.getHeldItemMainhand() != null) this.entity.swingArm(Hand.MAIN_HAND);
             // Apply the move.
             final float f = (float) this.targetLoc.distToEntity(this.entity);
             if (this.entity.addedToChunk)
             {
-                if (this.entityTarget.isAlive()) this.addMoveInfo(this.pokemob, this.entityTarget, this.targetLoc
-                        .copy(), f);
+                if (this.entityTarget.isAlive()) this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
                 // Reset executing move and no item use status now that we have
                 // used a move.
-                this.setCombatState(this.pokemob, CombatStates.EXECUTINGMOVE, false);
-                this.setCombatState(this.pokemob, CombatStates.NOITEMUSE, false);
+                this.clearUseMove();
+                this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
                 this.targetLoc.clear();
                 shouldPath = false;
                 this.delayTime = this.pokemob.getAttackCooldown();
             }
         }
-        // If the conditions that failed were due to distance, try to start
-        // leaping to close distance.
-        else if (shouldPath && !(distanced || self) && !this.pokemob.getCombatState(CombatStates.LEAPING))
-        {
-            this.setCombatState(this.pokemob, CombatStates.EXECUTINGMOVE, true);
-            this.setCombatState(this.pokemob, CombatStates.LEAPING, true);
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Set To Leap: " + this.entity);
-        }
         // If there is a target location, and it should path to it, queue a path
         // for the mob.
-        if (!this.targetLoc.isEmpty() && shouldPath)
-        {
-            path = this.entity.getNavigator().getPathToPos(this.targetLoc.x, this.targetLoc.y, this.targetLoc.z, 0);
-            if (path != null) this.addEntityPath(this.entity, path, this.movementSpeed);
-        }
+        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.entityTarget.getPositionVec(),
+                this.movementSpeed, 0);
     }
 
     @Override
     public boolean shouldRun()
     {
+        // If we do have the target, but are not angry, return false.
+        if (!this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
+
         final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
         // No target, we can't do anything, so return false
-        if (target == null)
-        {
-            if (this.entity.getNavigator().noPath() && this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this
-            .setCombatState(this.pokemob, CombatStates.EXECUTINGMOVE, false);
-            return false;
-        }
+        if (target == null) return false;
         // If either us, or target is dead, or about to be so (0 health) return
         // false
         if (!target.isAlive() || target.getHealth() <= 0 || this.pokemob.getHealth() <= 0 || !this.entity.isAlive())
             return false;
 
-        // If we do have the target, but are not angry, return false.
-        if (!this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
-
-        // Set target, set attack, return true
-        this.attack = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
+        if (target != this.entityTarget) this.pokemobTarget = CapabilityPokemob.getPokemobFor(target);
         this.entityTarget = target;
-        if (this.attack == null) this.attack = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
+
+        if (!this.continueExecuting())
+        {
+            AIFindTarget.deagro(this.entity);
+            return false;
+        }
+
         return true;
     }
 
     @Override
     public void tick()
     {
-        this.canSee = false;
-        if (this.running)
-        {
-            this.entity.getPersistentData().putLong("lastAttackTick", this.entity.getEntityWorld().getGameTime());
-            if (this.entityTarget != null)
-            {
-                final double dist = this.entity.getDistanceSq(this.entityTarget.posX, this.entityTarget.posY,
-                        this.entityTarget.posZ);
-                this.canSee = dist < 1 || Vector3.isVisibleEntityFromEntity(this.entity, this.entityTarget);
-
-                if (CapabilityPokemob.getPokemobFor(this.entityTarget) == null
-                        && this.entity.ticksExisted > this.targetTestTime && this.pokemob.getCombatState(
-                                CombatStates.ANGRY) && this.pokemob.getTargetID() != this.entityTarget.getEntityId())
-                {
-
-                    ForgeHooks.onLivingSetAttackTarget(this.entity, this.entityTarget);
-                    this.targetTestTime = this.entity.ticksExisted + 20;
-                }
-            }
-        }
+        this.entity.getPersistentData().putLong("lastAttackTick", this.entity.getEntityWorld().getGameTime());
     }
 }

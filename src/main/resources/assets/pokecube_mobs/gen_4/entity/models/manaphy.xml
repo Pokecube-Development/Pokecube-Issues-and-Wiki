@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model>
-  <phase name="global" scale="0.4"/>
-  <metadata head="head1" headCap="-60,60"/>
+  <phase name="global" scale="0.2"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headDir2="-1"/>
+  <customTex default="manaphy">
+   <part name="manaphy_eyes" tex="manaphy_eyes"/>
+  </customTex>
+  <phase armAngle="50" duration="10" leftArm="left arm" leftLeg="left leg" legAngle="45" name="biWalk" rightArm="right arm" rightLeg="right leg"/>
  </model>
 </ModelAnimator>

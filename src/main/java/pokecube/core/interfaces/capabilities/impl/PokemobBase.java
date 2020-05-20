@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -148,8 +149,6 @@ public abstract class PokemobBase implements IPokemob
     protected StatModifiers        modifiers        = new StatModifiers();
     /** Egg we are trying to protect. */
     protected Entity               egg              = null;
-    /** Mob to breed with */
-    protected Entity               lover;
     /**
      * Timer for determining whether wants to breed, will only do so if this is
      * greater than 0
@@ -192,14 +191,12 @@ public abstract class PokemobBase implements IPokemob
 
     /** Stack which will be used for evolution */
     protected ItemStack          stack = ItemStack.EMPTY;
-    /** Location to try to attack. */
-    protected Vector3            target;
     /** Manages mounted control */
     public LogicMountedControl   controller;
     /** Used for various cases where things at mobs location need checking */
     protected Vector3            here  = Vector3.getNewVector();
     /** The Entity this IPokemob is attached to. */
-    protected MobEntity          entity;
+    protected AgeableEntity      entity;
     /** RNG used, should be entity.getRNG() */
     protected Random             rand  = new Random();
     /** Our original owner. */
@@ -232,7 +229,7 @@ public abstract class PokemobBase implements IPokemob
     }
 
     @Override
-    public MobEntity getEntity()
+    public AgeableEntity getEntity()
     {
         return this.entity;
     }
@@ -257,7 +254,7 @@ public abstract class PokemobBase implements IPokemob
     public void setEntity(final MobEntity entityIn)
     {
         this.rand = entityIn.getRNG();
-        this.entity = entityIn;
+        this.entity = (AgeableEntity) entityIn;
     }
 
     protected void setMaxHealth(final float maxHealth)

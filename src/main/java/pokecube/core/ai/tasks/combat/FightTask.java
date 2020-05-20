@@ -27,4 +27,9 @@ public abstract class FightTask extends TaskBase<MobEntity> implements IAICombat
         super(pokemob, FightTask.MEMS);
     }
 
+    public FightTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
+    {
+        super(pokemob, TaskBase.merge(FightTask.MEMS, mems));
+    }
+
 }

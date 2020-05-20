@@ -284,7 +284,6 @@ public class OwnableCaps
                     (TameableEntity) event.getObject()));
             else if (event.getObject() instanceof AbstractHorseEntity) event.addCapability(OwnableCaps.LOCWRAP,
                     new HorseWrapper((AbstractHorseEntity) event.getObject()));
-
         }
         else if (OwnableCaps.MOBS.contains(event.getObject().getClass())) event.addCapability(OwnableCaps.LOCBASE,
                 new Impl());

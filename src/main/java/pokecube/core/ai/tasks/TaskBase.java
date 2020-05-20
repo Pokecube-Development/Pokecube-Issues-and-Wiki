@@ -1,11 +1,8 @@
 package pokecube.core.ai.tasks;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
@@ -13,26 +10,25 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.Path;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.EntityPosWrapper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.entity.ai.ITask;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 import thut.lib.ItemStackTools;
 
 public abstract class TaskBase<E extends LivingEntity> extends Task<E> implements ITask
@@ -75,15 +71,6 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
 
     }
 
-    public static interface IRunnable
-    {
-        /**
-         * @param world
-         * @return task ran sucessfully
-         */
-        boolean run(World world);
-    }
-
     /** Thread safe sound playing. */
     public static class PlaySound implements IRunnable
     {
@@ -115,6 +102,16 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
 
     }
 
+    public static boolean canMove(final IPokemob pokemob)
+    {
+        final boolean sitting = pokemob.getLogicState(LogicStates.SITTING);
+        final boolean sleeping = pokemob.getLogicState(LogicStates.SLEEPING) || (pokemob.getStatus()
+                & IMoveConstants.STATUS_SLP) > 0;
+        final boolean frozen = (pokemob.getStatus() & IMoveConstants.STATUS_FRZ) > 0;
+        // DOLATER add other checks for things like bind, etc
+        return !(sitting || sleeping || frozen);
+    }
+
     public static Map<MemoryModuleType<?>, MemoryModuleStatus> merge(
             final Map<MemoryModuleType<?>, MemoryModuleStatus> mems2,
             final Map<MemoryModuleType<?>, MemoryModuleStatus> mems3)
@@ -125,11 +122,10 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
         return ImmutableMap.copyOf(mems3);
     }
 
-    protected final IPokemob    pokemob;
-    protected final MobEntity   entity;
-    protected final ServerWorld world;
+    protected final IPokemob  pokemob;
+    protected final MobEntity entity;
 
-    protected List<IRunnable> toRun = Lists.newArrayList();
+    protected final ServerWorld world;
 
     final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems;
 
@@ -152,50 +148,31 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
         this.neededMems = ImmutableMap.copyOf(neededMems);
     }
 
-    protected boolean addEntityPath(final MobEntity entity, final Path path, final double speed)
+    protected void setWalkTo(final Vector3 pos, final double speed, final int dist)
     {
-        return entity.getNavigator().setPath(path, speed);
+        this.setWalkTo(pos.toVec3d(), speed, dist);
     }
 
-    protected void addMoveInfo(final IPokemob attacker, final Entity targetEnt, final Vector3 target,
-            final float distance)
+    protected void setWalkTo(final Vec3d pos, final double speed, final int dist)
     {
-        attacker.executeMove(targetEnt, target, distance);
+        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
     }
 
-    protected boolean canMove()
+    protected void setWalkTo(final BlockPos pos, final double speed, final int dist)
     {
-        // TODO in here, check things like being bound.
-        return true;
+        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
+    }
+
+    protected void setWalkTo(final Entity mobIn, final double speed, final int dist)
+    {
+        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(new EntityPosWrapper(mobIn),
+                (float) speed, dist));
     }
 
     @Override
     public void finish()
     {
-        this.toRun.forEach(w -> w.run(this.world));
-        this.toRun.clear();
-    }
 
-    protected <T extends Entity> List<T> getEntitiesWithinDistance(final Entity source, final float distance,
-            final Class<T> clazz, final Class<?>... targetClass)
-    {
-        if (!TerrainManager.isAreaLoaded(source.getEntityWorld(), source.getPosition(), distance)) return Collections
-                .emptyList();
-        return this.getEntitiesWithinDistance(source.getEntityWorld(), source.getPosition(), distance, clazz,
-                targetClass);
-    }
-
-    protected <T extends Entity> List<T> getEntitiesWithinDistance(final World world, final BlockPos pos,
-            final float distance, final Class<T> clazz, final Class<?>... targetClass)
-    {
-        if (!TerrainManager.isAreaLoaded(world, pos, distance)) return Collections.emptyList();
-        return world.getEntitiesWithinAABB(clazz, new AxisAlignedBB(pos).grow(distance), e ->
-        {
-            if (clazz.isInstance(e)) return true;
-            for (final Class<?> c : targetClass)
-                if (c.isInstance(e)) return true;
-            return false;
-        });
     }
 
     @Override
@@ -204,35 +181,10 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
         return this.mutex;
     }
 
-    protected PlayerEntity getNearestPlayer(final Entity source, final float distance)
-    {
-        return source.getEntityWorld().getClosestPlayer(source, distance);
-    }
-
     @Override
     public int getPriority()
     {
         return this.priority;
-    }
-
-    protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
-    {
-        attacker.setAttackTarget(target);
-    }
-
-    protected void setCombatState(final IPokemob pokemob, final CombatStates state, final boolean value)
-    {
-        pokemob.setCombatState(state, value);
-    }
-
-    protected void setGeneralState(final IPokemob pokemob, final GeneralStates state, final boolean value)
-    {
-        pokemob.setGeneralState(state, value);
-    }
-
-    protected void setLogicState(final IPokemob pokemob, final LogicStates state, final boolean value)
-    {
-        pokemob.setLogicState(state, value);
     }
 
     @Override

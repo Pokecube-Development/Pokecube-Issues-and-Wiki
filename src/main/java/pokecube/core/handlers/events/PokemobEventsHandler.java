@@ -3,6 +3,7 @@ package pokecube.core.handlers.events;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.nfunk.jep.JEP;
 
@@ -189,7 +190,7 @@ public class PokemobEventsHandler
                 pokemob.getNavigator().clearPath();
             }
         }
-        else pokemob.setAttackTarget(null);
+        else BrainUtils.setAttackTarget(pokemob, null);
     }
 
     private static boolean handleHmAndSaddle(final PlayerEntity PlayerEntity, final IPokemob pokemob)
@@ -493,8 +494,8 @@ public class PokemobEventsHandler
                     if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem,
                             ItemStack.EMPTY);
                 }
-                pokemob.setLoveTimer(0);
-                entity.setAttackTarget(null);
+                pokemob.setReadyToMate(player);
+                BrainUtils.setAttackTarget(entity, null);
                 entity.getEntityWorld().setEntityState(entity, (byte) 18);
                 evt.setCanceled(true);
                 evt.setCancellationResult(ActionResultType.SUCCESS);
@@ -604,6 +605,13 @@ public class PokemobEventsHandler
         if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold + dist)) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y,
                         0);
+
+        if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
+        {
+            final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
+            // evt.getEntity().getPersistentData().removeUniqueId("old_uuid");
+            evt.getEntity().setUniqueId(id);
+        }
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (pokemob != null)

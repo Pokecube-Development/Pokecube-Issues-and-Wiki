@@ -2,7 +2,6 @@ package pokecube.core.ai.tasks.combat;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.pathfinding.Path;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
@@ -76,11 +75,7 @@ public class AICombatMovement extends FightTask implements IAICombat
         if (diff.magSq() > combatDistanceSq)
         {
             this.pokemob.setCombatState(CombatStates.LEAPING, false);
-            final Path path = this.entity.getNavigator().getPathToPos(this.centre.getPos(), 0);
-            // Path back to center of ring.
-            if (path != null) this.addEntityPath(this.entity, path, this.movementSpeed);
-            // Could not path to center, so null it to re-calulate next run.
-            else this.centre = null;
+            this.setWalkTo(this.centre, this.movementSpeed, 0);
         }
         else
         {
@@ -89,8 +84,7 @@ public class AICombatMovement extends FightTask implements IAICombat
             if (this.entity.ticksExisted % revTime > revTime / 2) perp.reverse();
             perp.addTo(here);
             if (Math.abs(perp.y - this.centre.y) > combatDistance / 2) perp.y = this.centre.y;
-            final Path path = this.entity.getNavigator().getPathToPos(perp.getPos(), 0);
-            this.addEntityPath(this.entity, path, this.movementSpeed);
+            this.setWalkTo(perp, this.movementSpeed, 0);
         }
     }
 
