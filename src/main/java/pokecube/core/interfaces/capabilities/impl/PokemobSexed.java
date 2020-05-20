@@ -47,6 +47,10 @@ public abstract class PokemobSexed extends PokemobStats
             // Not allowed to mate!
             if (!otherMob.isRoutineEnabled(AIRoutine.MATE)) return false;
 
+            // Don't let tame and wild breed, prevents exploits with dittos
+            if (otherMob.getOwnerId() != null && this.getOwnerId() == null) return false;
+            if (this.getOwnerId() != null && otherMob.getOwnerId() == null) return false;
+
             PokedexEntry thisEntry = this.getPokedexEntry();
             PokedexEntry thatEntry = otherMob.getPokedexEntry();
 
