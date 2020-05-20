@@ -34,7 +34,6 @@ import pokecube.core.ai.tasks.idle.AIGuardEgg;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.ai.tasks.idle.AIIdle;
 import pokecube.core.ai.tasks.idle.AIMate;
-import pokecube.core.ai.tasks.idle.AIRoutes;
 import pokecube.core.ai.tasks.utility.AIGatherStuff;
 import pokecube.core.ai.tasks.utility.AIStoreStuff;
 import pokecube.core.ai.tasks.utility.AIUseMove;
@@ -78,20 +77,6 @@ public class Tasks
         // Wander around
         aiList.add(new AIIdle(pokemob).setPriority(500));
 
-        // Task for following routes/maintaining home location
-        final AIRoutes routes = new AIRoutes(pokemob.getEntity(), guardCap);
-        routes.wrapped.shouldRun = new ShouldRun()
-        {
-            @Override
-            public boolean shouldRun()
-            {
-                if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
-                return pokemob.getGeneralState(GeneralStates.STAYING);
-            }
-        };
-        // Follow paths or stay near home
-        aiList.add(routes.setPriority(275));
-
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
             aiList.add(new AIFollowOwner(pokemob, 3 + entity.getWidth() + pokemob.getPokedexEntry().length, 8 + entity.getWidth()
@@ -100,6 +85,16 @@ public class Tasks
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
         final GuardAI guardai = new GuardAI(pokemob.getEntity(),guardCap);
+        guardai.shouldRun = new ShouldRun()
+        {
+            @Override
+            public boolean shouldRun()
+            {
+                if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
+                return pokemob.getGeneralState(GeneralStates.STAYING);
+            }
+        };
+
         final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
         pokemob.getTasks().addAll(aiList);
@@ -142,6 +137,15 @@ public class Tasks
 
         final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final GuardAI guardai = new GuardAI(pokemob.getEntity(),guardCap);
+        guardai.shouldRun = new ShouldRun()
+        {
+            @Override
+            public boolean shouldRun()
+            {
+                if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
+                return pokemob.getGeneralState(GeneralStates.STAYING);
+            }
+        };
         final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
         pokemob.getTasks().addAll(aiList);
@@ -175,6 +179,15 @@ public class Tasks
 
         final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final GuardAI guardai = new GuardAI(pokemob.getEntity(),guardCap);
+        guardai.shouldRun = new ShouldRun()
+        {
+            @Override
+            public boolean shouldRun()
+            {
+                if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
+                return pokemob.getGeneralState(GeneralStates.STAYING);
+            }
+        };
         final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
         pokemob.getTasks().addAll(aiList);

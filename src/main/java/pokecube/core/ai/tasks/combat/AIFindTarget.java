@@ -106,7 +106,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
 
         // Attempt to divert the target over to one of our mobs.
         final List<Entity> outmobs = PCEventsHandler.getOutMobs(evt.getTarget(), true);
-        outmobs.removeIf(o -> o == evt.getEntityLiving());
+        outmobs.removeIf(o -> o == evt.getEntityLiving() || !o.isAlive());
         if (!outmobs.isEmpty() && evt.getEntityLiving() instanceof MobEntity)
         {
             Collections.sort(outmobs, (o1, o2) ->
