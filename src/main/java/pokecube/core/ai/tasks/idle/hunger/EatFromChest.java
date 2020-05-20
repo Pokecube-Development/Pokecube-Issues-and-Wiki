@@ -11,7 +11,6 @@ import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.item.ItemList;
 
 public class EatFromChest extends EatBlockBase
@@ -44,7 +43,6 @@ public class EatFromChest extends EatBlockBase
             final ItemStack stack = container.getStackInSlot(i1);
             if (ItemList.is(AIHungry.FOODTAG, stack))
             {
-                pokemob.setCombatState(CombatStates.HUNTING, false);
                 pokemob.eat(stack);
                 stack.shrink(1);
                 if (stack.isEmpty()) container.setInventorySlotContents(i1, ItemStack.EMPTY);

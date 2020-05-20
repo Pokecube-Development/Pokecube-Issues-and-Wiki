@@ -148,7 +148,6 @@ public class AIHungry extends IdleTask
                     PokecubeCore.getConfig().fishHookBaitRange);
             final List<FishingBobberEntity> hooks = this.entity.getEntityWorld().getEntitiesWithinAABB(
                     FishingBobberEntity.class, bb);
-            this.pokemob.setCombatState(CombatStates.HUNTING, true);
             if (!hooks.isEmpty())
             {
                 Collections.shuffle(hooks);
@@ -192,6 +191,7 @@ public class AIHungry extends IdleTask
                     final boolean isValid = other.getLevel() - this.pokemob.getLevel() < 5;
                     if (isValid)
                     {
+                        this.pokemob.setCombatState(CombatStates.HUNTING, true);
                         BrainUtils.setHuntTarget(this.entity, mob);
                         return true;
                     }
@@ -222,7 +222,6 @@ public class AIHungry extends IdleTask
             final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
             if (ItemList.is(AIHungry.FOODTAG, stack))
             {
-                this.pokemob.setCombatState(CombatStates.HUNTING, false);
                 this.pokemob.eat(this.berry);
                 stack.shrink(1);
                 if (stack.isEmpty()) this.pokemob.getInventory().setInventorySlotContents(i, ItemStack.EMPTY);
@@ -394,7 +393,7 @@ public class AIHungry extends IdleTask
          * Check the various hunger types if it is hunting.
          * And if so, refresh the hunger time counter.
          */
-        if (this.pokemob.getCombatState(CombatStates.HUNTING)) if (this.checkHunt()) this.calculateHunger();
+        this.calculateHunger();
 
         // Everything after here only applies about once per second.
         if (this.entity.ticksExisted % hungerTicks != 0) return;

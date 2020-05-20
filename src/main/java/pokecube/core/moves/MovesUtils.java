@@ -36,6 +36,7 @@ import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.interfaces.entity.impl.PersistantStatusEffect;
 import pokecube.core.interfaces.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.interfaces.entity.impl.StatEffect;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.interfaces.pokemob.stats.DefaultModifiers;
 import pokecube.core.interfaces.pokemob.stats.StatModifiers;
@@ -346,6 +347,10 @@ public class MovesUtils implements IMoveConstants
             ATT = (int) (attacker.getStat(Stats.ATTACK, true) * movePacket.statMults[Stats.ATTACK.ordinal()]);
             DEF = attacked.getStat(Stats.DEFENSE, true);
         }
+
+        // If this is a fight over a mate, the strength is reduced.
+        if (attacker.getCombatState(CombatStates.MATEFIGHT) && attacked.getCombatState(CombatStates.MATEFIGHT))
+            statusMultiplier *= 0.25;
 
         ATT = (int) (statusMultiplier * ATT);
 

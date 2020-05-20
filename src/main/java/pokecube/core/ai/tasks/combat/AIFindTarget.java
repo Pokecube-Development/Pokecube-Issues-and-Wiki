@@ -89,6 +89,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
         if (aggressor != null)
         {
+            aggressor.getTargetFinder().clear();
             aggressor.setCombatState(CombatStates.ANGRY, false);
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }

@@ -83,10 +83,11 @@ public class AIAttack extends FightTask implements IAICombat
         {
             if (mobB.getCombatState(CombatStates.FAINTED)) return false;
 
-            final boolean weTame = mobA.getOwnerId() == null;
-            final boolean theyTame = mobB.getOwnerId() == null;
+            final boolean weTame = mobA.getOwnerId() != null;
+            final boolean theyTame = mobB.getOwnerId() != null;
             final boolean weHunt = mobA.getCombatState(CombatStates.HUNTING);
             final boolean theyHunt = mobB.getCombatState(CombatStates.HUNTING);
+
             if (weTame == theyTame && !weTame && weHunt == theyHunt && !theyHunt)
             {
                 final float weHealth = mobA.getEntity().getHealth() / mobA.getEntity().getMaxHealth();
@@ -96,6 +97,7 @@ public class AIAttack extends FightTask implements IAICombat
                 {
                     mobA.setCombatState(CombatStates.MATEFIGHT, false);
                     mobB.setCombatState(CombatStates.MATEFIGHT, false);
+                    AIFindTarget.deagro(this.entity);
                     return false;
                 }
                 // Give up if we took too long to fight.
@@ -143,7 +145,6 @@ public class AIAttack extends FightTask implements IAICombat
 
         if (!this.running)
         {
-
             if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0) && !this.pokemob
                     .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.getPositionVec(),
                             this.movementSpeed, 0);
