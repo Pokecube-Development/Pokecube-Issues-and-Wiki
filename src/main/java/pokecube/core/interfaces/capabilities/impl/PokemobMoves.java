@@ -58,7 +58,7 @@ public abstract class PokemobMoves extends PokemobSexed
         if (move == null || move.move == null)
         {
             PokecubeCore.LOGGER.error(this.getDisplayName().getFormattedText() + " Has Used Unregistered Move: "
-                    + attack + " " + index, new IllegalArgumentException());
+                    + attack + " " + index);
             return;
         }
 
