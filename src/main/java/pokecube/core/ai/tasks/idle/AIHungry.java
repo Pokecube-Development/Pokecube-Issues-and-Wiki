@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.LivingEntity;
@@ -17,16 +16,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -368,27 +359,11 @@ public class AIHungry extends IdleTask
 
         final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
 
-        if (blocks != null)
+        if (blocks != null) if (this.blocks == null) this.blocks = Lists.newArrayList(blocks);
+        else
         {
-            final ServerWorld world = (ServerWorld) this.entity.getEntityWorld();
-            final Vec3d start = this.entity.getEyePosition(1);
-            final Predicate<NearBlock> visible = input ->
-            {
-                final Vec3d end = new Vec3d(input.getPos());
-                final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
-                        this.entity);
-                final RayTraceResult result = world.rayTraceBlocks(context);
-                if (result.getType() == Type.MISS) return true;
-                final BlockRayTraceResult hit = (BlockRayTraceResult) result;
-                return hit.getPos().equals(input.getPos());
-            };
-            if (this.blocks == null) this.blocks = Lists.newArrayList(blocks);
-            else
-            {
-                this.blocks.clear();
-                this.blocks.addAll(blocks);
-            }
-            this.blocks.removeIf(b -> !visible.apply(b));
+            this.blocks.clear();
+            this.blocks.addAll(blocks);
         }
 
         // We are hunting for food, so can run.

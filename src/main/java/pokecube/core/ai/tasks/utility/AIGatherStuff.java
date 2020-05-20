@@ -22,14 +22,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -318,20 +312,8 @@ public class AIGatherStuff extends UtilTask
 
         if (blocks != null)
         {
-            final ServerWorld world = (ServerWorld) this.entity.getEntityWorld();
-            final Vec3d start = this.entity.getEyePosition(1);
-            final Predicate<NearBlock> visible = input ->
-            {
-                final Vec3d end = new Vec3d(input.getPos());
-                final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
-                        AIGatherStuff.this.entity);
-                final RayTraceResult result = world.rayTraceBlocks(context);
-                if (result.getType() == Type.MISS) return true;
-                final BlockRayTraceResult hit = (BlockRayTraceResult) result;
-                return hit.getPos().equals(input.getPos());
-            };
             this.blocks = Lists.newArrayList(blocks);
-            this.blocks.removeIf(b -> !AIGatherStuff.harvestMatcher.apply(b.getState()) || !visible.apply(b));
+            this.blocks.removeIf(b -> !AIGatherStuff.harvestMatcher.apply(b.getState()));
         }
         // Only replace this if the new list is not null.
         if (items != null) this.items = items;
