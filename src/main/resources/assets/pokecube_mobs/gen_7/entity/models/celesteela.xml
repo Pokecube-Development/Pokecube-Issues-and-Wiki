@@ -1,7 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" offset="0,01,0" scale="0.8"/>
-  <metadata head="Neck" headAxis="1" headAxis2="0" headCap="-100,100" headCap1="-50,50" headDir="1"/>
+  <phase name="global" scale="0.5"/>
+  <metadata head="neck:neck1:neck2:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <customTex default="celesteela">
+   <part name="Head" tex="celesteelaface"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+  </customTex>
+  <phase axis="0" name="snakeWalk" parts="h1_1:h1_2:h1_3:h1_4:h1_5"/>
+  <phase axis="0" name="snakeWalk" parts="h2_1:h2_2:h2_3:h2_4:h2_5"/>
+  <phase axis="0" name="snakeFly" parts="h1_1:h1_2:h1_3:h1_4:h1_5"/>
+  <phase axis="0" name="snakeFly" parts="h2_1:h2_2:h2_3:h2_4:h2_5"/>
+  <material name="Glow" light="1" transluscent="false"/>
+  <phase type="sitting">
+   <part name="hair">
+    <component length="10" name="1" rotOffset="5,0,0," rotChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="90,30,0," rotChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="90,30,0," rotChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="hair">
+    <component length="10" name="1" rotOffset="5,0,0," rotChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" posChange="0,0.5,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.5,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="0,0,10," posChange="0,0.5,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.5,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="0,0,-10," posChange="0,0.5,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.5,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="hair">
+    <component length="10" name="1" rotOffset="5,0,0," rotChange="0.5,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-0.5,0,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" rotOffset="10,0,0," posChange="0,0.5,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.5,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="10,0,15," posChange="0,0.5,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.5,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="10,0,-15," posChange="0,0.5,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.5,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="hair">
+    <component length="10" name="1" rotOffset="10,0,0," rotChange="1,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" rotOffset="55,0,0," posChange="0,0.3,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.3,0" startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="10" name="1" rotOffset="0,0,0," posChange="0,1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-1,0" startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="10" name="1" rotOffset="0,0,0," posChange="0,1,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-1,0" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>
