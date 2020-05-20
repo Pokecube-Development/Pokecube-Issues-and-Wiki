@@ -17,6 +17,7 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.IBlockReader;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
@@ -62,8 +63,8 @@ public class AIIdle extends IdleTask
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
-        AIIdle.mems.put(MemoryModuleType.HOME, MemoryModuleStatus.REGISTERED);
-        AIIdle.mems.put(MemoryModuleType.PATH, MemoryModuleStatus.VALUE_ABSENT);
+        AIIdle.mems.put(MemoryModules.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT);
+        AIIdle.mems.put(MemoryModules.PATH, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     private AttributeModifier idlePathing = null;

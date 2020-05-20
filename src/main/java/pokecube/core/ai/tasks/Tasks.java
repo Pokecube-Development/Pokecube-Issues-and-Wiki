@@ -47,15 +47,8 @@ import thut.api.entity.ai.TaskWrapper;
 
 public class Tasks
 {
-    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HOME,
-            MemoryModuleType.JOB_SITE, MemoryModuleType.MEETING_POINT, MemoryModuleType.MOBS,
-            MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER,
-            MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.INTERACTION_TARGET,
-            MemoryModuleType.BREED_TARGET, MemoryModuleType.PATH, MemoryModuleType.INTERACTABLE_DOORS,
-            MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE,
-            MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleType.HIDING_PLACE,
-            MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModules.ATTACKTARGET,
-            MemoryModules.HUNTTARGET, MemoryModuleType.LAST_WORKED_AT_POI);
+    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
+            MemoryModules.HUNTTARGET, MemoryModules.PATH, MemoryModules.WALK_TARGET);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES,
             SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY);

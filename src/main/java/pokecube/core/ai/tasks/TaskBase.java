@@ -13,10 +13,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -154,6 +156,14 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
 
     protected boolean addEntityPath(final MobEntity entity, final Path path, final double speed)
     {
+        if (path == null) entity.getBrain().removeMemory(MemoryModuleType.WALK_TARGET);
+        else
+        {
+            final PathPoint end = path.getFinalPathPoint();
+            final WalkTarget target = new WalkTarget(new BlockPos(end.x, end.y, end.z), (float) speed, 10);
+            entity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, target);
+        }
+        entity.getBrain().setMemory(MemoryModuleType.PATH, path);
         return entity.getNavigator().setPath(path, speed);
     }
 
