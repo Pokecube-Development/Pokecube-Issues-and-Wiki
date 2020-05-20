@@ -121,15 +121,17 @@ public interface ITerrainProvider
     {
         // Convert the pos to a chunk pos
         final ChunkPos temp = new ChunkPos(p);
+        int y = p.getY() >> 4;
+        if (y < 0) y = 0;
+        if (y > 15) y = 15;
         // Include the value for y
-        final BlockPos pos = new BlockPos(temp.x, p.getY() / 16, temp.z);
+        final BlockPos pos = new BlockPos(temp.x, y, temp.z);
         final DimensionType dim = world.getDimension().getType();
         final IChunk chunk = ITerrainProvider.getChunk(dim, temp);
         final boolean real = chunk != null && chunk instanceof ICapabilityProvider;
         // This means it occurs during worldgen?
         if (!real)
         {
-
             final GlobalChunkPos wpos = new GlobalChunkPos(dim, temp);
             TerrainCache segs = ITerrainProvider.pendingCache.get(wpos);
             if (segs == null)
@@ -137,7 +139,7 @@ public interface ITerrainProvider
                 segs = new TerrainCache(temp, chunk);
                 ITerrainProvider.pendingCache.put(wpos, segs);
             }
-            return segs.get(pos.getY());
+            return segs.get(y);
         }
         final CapabilityTerrain.ITerrainProvider provider = ((ICapabilityProvider) chunk).getCapability(
                 ThutCaps.TERRAIN_CAP).orElse(null);
