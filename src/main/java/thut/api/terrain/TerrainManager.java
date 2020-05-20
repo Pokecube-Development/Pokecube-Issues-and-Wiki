@@ -81,6 +81,8 @@ public class TerrainManager
         DimensionType dim = null;
         if (evt.getWorld() != null && evt.getWorld().getDimension() != null) dim = evt.getWorld().getDimension()
                 .getType();
+        // This is null when this is loaded off-thread, IE before the chunk is
+        // finished
         if (dim != null) ITerrainProvider.addChunk(dim, evt.getChunk());
     }
 

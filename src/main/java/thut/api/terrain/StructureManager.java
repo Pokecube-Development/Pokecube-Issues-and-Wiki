@@ -114,7 +114,8 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
-        if (evt.getWorld().isRemote()) return;
+        // The world is null when it is loaded off thread during worldgen!
+        if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
         final DimensionType dim = evt.getWorld().getDimension().getType();
         for (final Entry<String, StructureStart> entry : evt.getChunk().getStructureStarts().entrySet())
         {
@@ -134,8 +135,8 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkUnload(final ChunkEvent.Unload evt)
     {
-        if (evt.getWorld().isRemote()) return;
-        final DimensionType dim = evt.getWorld().getDimension().getType();
+        if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
+        final DimensionType dim = evt.getChunk().getWorldForge().getDimension().getType();
         final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
         StructureManager.map_by_pos.remove(pos);
     }
