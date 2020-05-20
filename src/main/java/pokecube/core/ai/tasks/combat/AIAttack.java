@@ -83,8 +83,8 @@ public class AIAttack extends FightTask implements IAICombat
         {
             if (mobB.getCombatState(CombatStates.FAINTED)) return false;
 
-            final boolean weTame = mobA.getOwnerId() != null;
-            final boolean theyTame = mobB.getOwnerId() != null;
+            final boolean weTame = mobA.getOwnerId() != null || mobA.getCombatState(CombatStates.MATEFIGHT);
+            final boolean theyTame = mobB.getOwnerId() != null || mobB.getCombatState(CombatStates.MATEFIGHT);
             final boolean weHunt = mobA.getCombatState(CombatStates.HUNTING);
             final boolean theyHunt = mobB.getCombatState(CombatStates.HUNTING);
 
