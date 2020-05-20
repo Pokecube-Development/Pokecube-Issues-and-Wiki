@@ -6,24 +6,30 @@
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:tail10:tail11"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:tail10:tail11"/>
   
+  <phase axis="0" name="snakeSit" parts="m1:m1_1:m1_2:m1_3:m1_4:m1_5:m1_6:m1_7:m1_8"/>
   <phase axis="0" name="snakeIdle" parts="m1:m1_1:m1_2:m1_3:m1_4:m1_5:m1_6:m1_7:m1_8"/>
   <phase axis="1" name="snakeWalk" parts="m1:m1_1:m1_2:m1_3:m1_4:m1_5:m1_6:m1_7:m1_8"/>
   <phase axis="0" name="snakeFly" parts="m1:m1_1:m1_2:m1_3:m1_4:m1_5:m1_6:m1_7:m1_8"/>
   
+  <phase axis="0" name="snakeSit" parts="m2:m2_1:m2_2:m2_3:m2_4:m2_5:m2_6:m2_7:m2_8"/>
   <phase axis="0" name="snakeIdle" parts="m2:m2_1:m2_2:m2_3:m2_4:m2_5:m2_6:m2_7:m2_8"/>
   <phase axis="1" name="snakeWalk" parts="m2:m2_1:m2_2:m2_3:m2_4:m2_5:m2_6:m2_7:m2_8"/>
   <phase axis="0" name="snakeFly" parts="m2:m2_1:m2_2:m2_3:m2_4:m2_5:m2_6:m2_7:m2_8"/>
   
+  <phase axis="0" name="snakeSit" parts="f1:f1_1:f1_2:f1_3:f1_4:f1_5"/>
   <phase axis="0" name="snakeIdle" parts="f1:f1_1:f1_2:f1_3:f1_4:f1_5"/>
   <phase axis="1" name="snakeWalk" parts="f1:f1_1:f1_2:f1_3:f1_4:f1_5"/>
   <phase axis="0" name="snakeFly" parts="f1:f1_1:f1_2:f1_3:f1_4:f1_5"/>
+  <phase axis="0" name="snakeSit" parts="f2:f2_1:f2_2:f2_3:f2_4:f2_5"/>
   <phase axis="0" name="snakeIdle" parts="f2:f2_1:f2_2:f2_3:f2_4:f2_5"/>
   <phase axis="1" name="snakeWalk" parts="f2:f2_1:f2_2:f2_3:f2_4:f2_5"/>
   <phase axis="0" name="snakeFly" parts="f2:f2_1:f2_2:f2_3:f2_4:f2_5"/>
   
+  <phase axis="0" name="snakeSit" parts="t1:t1_1:t1_2:t1_3:t1_4:t1_5"/>
   <phase axis="0" name="snakeIdle" parts="t1:t1_1:t1_2:t1_3:t1_4:t1_5"/>
   <phase axis="1" name="snakeWalk" parts="t1:t1_1:t1_2:t1_3:t1_4:t1_5"/>
   <phase axis="0" name="snakeFly" parts="t1:t1_1:t1_2:t1_3:t1_4:t1_5"/>
+  <phase axis="0" name="snakeSit" parts="t2:t2_1:t2_2:t2_3:t2_4:t2_5"/>
   <phase axis="0" name="snakeIdle" parts="t2:t2_1:t2_2:t2_3:t2_4:t2_5"/>
   <phase axis="1" name="snakeWalk" parts="t2:t2_1:t2_2:t2_3:t2_4:t2_5"/>
   <phase axis="0" name="snakeFly" parts="t2:t2_1:t2_2:t2_3:t2_4:t2_5"/>
