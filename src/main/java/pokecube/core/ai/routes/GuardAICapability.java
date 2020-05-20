@@ -27,13 +27,18 @@ public class GuardAICapability implements IGuardAICapability
     public static class GuardTask implements IGuardTask
     {
         private AttributeModifier executingGuardTask = null;
-        private BlockPos          lastPos;
-        private int               lastPosCounter     = -1;
-        private int               lastPathedCounter  = -1;
-        private BlockPos          pos;
-        private float             roamDistance       = 2;
-        private TimePeriod        activeTime         = new TimePeriod(0, 0);
-        int                       path_fails         = 0;
+
+        private Vec3d lastPos;
+
+        int path_fails = 0;
+
+        private int lastPosCounter = -1;
+
+        private BlockPos pos;
+
+        private float roamDistance = 2;
+
+        private TimePeriod activeTime = new TimePeriod(0, 0);
 
         public GuardTask()
         {
@@ -44,24 +49,33 @@ public class GuardAICapability implements IGuardAICapability
         @Override
         public void continueTask(final MobEntity entity)
         {
-            final BlockPos newPos = entity.getPosition();
-            this.lastPathedCounter--;
+            final Vec3d newPos = entity.getPositionVec();
+            if (this.getPos().withinDistance(newPos, this.getRoamDistance())) return;
+
             final double speed = entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
             this.path(entity, speed);
-            if (this.lastPathedCounter > 0) return;
-            if (this.lastPos != null && this.lastPos.equals(newPos))
+
+            final double ds2 = this.lastPos == null ? 1 : newPos.squareDistanceTo(this.lastPos);
+
+            final boolean samePos = ds2 < 0.01;
+            if (samePos)
             {
                 if (this.lastPosCounter-- >= 0) this.pathFail(entity);
                 else this.lastPosCounter = 10;
             }
-            else this.lastPosCounter = 10;
-            this.lastPos = newPos;
+            else
+            {
+                this.lastPosCounter = 10;
+                this.path_fails = 0;
+                this.lastPos = newPos;
+            }
         }
 
         @Override
         public void endTask(final MobEntity entity)
         {
             entity.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).removeModifier(this.executingGuardTask);
+            this.path_fails = 0;
         }
 
         @Override
