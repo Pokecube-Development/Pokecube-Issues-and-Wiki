@@ -114,9 +114,6 @@ public class AIFollowOwner extends TaskBase<MobEntity>
         this.speed *= AIFollowOwner.speedMult;
         this.speed = Math.max(this.pokemob.getMovementSpeed(), this.speed);
         this.speed = Math.min(1.5, this.speed);
-
-        System.out.println(this.speed + " " + this.pokemob.getMovementSpeed() + " " + ownerSpeed + " " + this.theOwner);
-
         this.setWalkTo(this.ownerPos, this.speed, 0);
     }
 
