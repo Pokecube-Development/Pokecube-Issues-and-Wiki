@@ -127,7 +127,7 @@ public class WalkToTask extends Task<MobEntity>
         if (!this.hasReachedTarget(mob, target))
         {
             final Brain<?> brain = mob.getBrain();
-            final boolean flag = this.currentPath != null && this.currentPath.func_224771_h();
+            final boolean flag = this.currentPath != null && this.currentPath.reachesTarget();
             if (flag) brain.setMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, Optional.empty());
             else if (!brain.hasMemory(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)) brain.setMemory(
                     MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, gametime);
@@ -138,7 +138,7 @@ public class WalkToTask extends Task<MobEntity>
                     new Vec3d(blockpos));
             if (vec3d != null)
             {
-                this.currentPath = mob.getNavigator().func_225466_a(vec3d.x, vec3d.y, vec3d.z, 0);
+                this.currentPath = mob.getNavigator().getPathToPos(vec3d.x, vec3d.y, vec3d.z, 0);
                 return this.currentPath != null;
             }
         }

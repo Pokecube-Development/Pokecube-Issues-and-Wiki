@@ -609,7 +609,7 @@ public class PokemobEventsHandler
         if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
         {
             final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
-            // evt.getEntity().getPersistentData().removeUniqueId("old_uuid");
+            evt.getEntity().getPersistentData().removeUniqueId("old_uuid");
             evt.getEntity().setUniqueId(id);
         }
 
