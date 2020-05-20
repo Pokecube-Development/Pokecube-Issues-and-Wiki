@@ -3,6 +3,7 @@ package pokecube.core.handlers.events;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.nfunk.jep.JEP;
 
@@ -36,6 +37,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -45,8 +47,9 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -62,9 +65,11 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.berries.ItemBerry;
+import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketSyncGene;
+import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
@@ -113,17 +118,6 @@ public class PokemobEventsHandler
             else event.getDrops().clear();
             if (!bak.isEmpty()) event.getDrops().addAll(bak);
         }
-    }
-
-    private static void dropItem(final IPokemob dropper)
-    {
-        final ItemStack toDrop = dropper.getHeldItem();
-        if (toDrop.isEmpty()) return;
-        final Entity entity = dropper.getEntity();
-        final ItemEntity drop = new ItemEntity(entity.getEntityWorld(), entity.posX, entity.posY + 0.5, entity.posZ,
-                toDrop);
-        entity.getEntityWorld().addEntity(drop);
-        dropper.setHeldItem(ItemStack.EMPTY);
     }
 
     public static Map<DyeColor, Tag<Item>> getDyeTagMap()
@@ -185,18 +179,18 @@ public class PokemobEventsHandler
             final Entity targetOwner = attackedMob.getOwner();
             attacker.displayMessageToOwner(new TranslationTextComponent("pokemob.action.faint.enemy", attackedMob
                     .getDisplayName()));
-            if (targetOwner instanceof PlayerEntity && attacker.getOwner() != targetOwner) pokemob.setAttackTarget(
-                    (LivingEntity) targetOwner);
-            else pokemob.setAttackTarget(null);
+            if (targetOwner instanceof PlayerEntity && attacker.getOwner() != targetOwner) AIFindTarget.initiateCombat(
+                    pokemob, (LivingEntity) targetOwner);
+            else AIFindTarget.deagro(pokemob);
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
                     CombatStates.HUNTING))
             {
-                attacker.eat(pokemob.getAttackTarget());
+                attacker.eat(BrainUtils.getHuntTarget(pokemob));
                 attacker.setCombatState(CombatStates.HUNTING, false);
                 pokemob.getNavigator().clearPath();
             }
         }
-        else pokemob.setAttackTarget(null);
+        else BrainUtils.setAttackTarget(pokemob, null);
     }
 
     private static boolean handleHmAndSaddle(final PlayerEntity PlayerEntity, final IPokemob pokemob)
@@ -237,6 +231,38 @@ public class PokemobEventsHandler
         PokemobEventsHandler.processInteract(evt, evt.getTarget());
         if (evt.isCanceled()) evt.getEntity().getPersistentData().putLong(ID, evt.getEntity().getEntityWorld()
                 .getGameTime());
+    }
+
+    @SubscribeEvent
+    public static void livingHurtEvent(final LivingHurtEvent evt)
+    {
+        /*
+         * No harming invalid targets, only apply this to pokemob related damage
+         * sources
+         */
+        if (evt.getSource() instanceof IPokedamage && !AITools.validTargets.test(evt.getEntity()))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        // check if configs say this damage can't happen
+        if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
+        {
+            evt.setCanceled(true);
+            return;
+        }
+        // Apply scaling from config for this
+        if (pokemob != null && evt.getSource().getTrueSource() instanceof PlayerEntity) evt.setAmount((float) (evt
+                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
+
+        // Prevent suffocating the player if they are in wall while riding
+        // pokemob.
+        if (evt.getEntity() instanceof PlayerEntity && evt.getSource() == DamageSource.IN_WALL)
+        {
+            pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
+            if (pokemob != null) evt.setCanceled(true);
+        }
     }
 
     private static boolean isRidable(final Entity rider, final IPokemob pokemob)
@@ -434,7 +460,8 @@ public class PokemobEventsHandler
         }
 
         boolean deny = pokemob.getCombatState(CombatStates.NOITEMUSE);
-        if (deny && entity.getAttackTarget() == null)
+        final boolean hasTarget = BrainUtils.hasAttackTarget(entity);
+        if (deny && !hasTarget)
         {
             deny = false;
             pokemob.setCombatState(CombatStates.NOITEMUSE, false);
@@ -458,8 +485,8 @@ public class PokemobEventsHandler
         {
             final int fav = Nature.getFavouriteBerryIndex(pokemob.getNature());
             if (PokecubeCore.getConfig().berryBreeding && (player.isSneaking() || player instanceof FakePlayer)
-                    && entity.getAttackTarget() == null && held.getItem() instanceof ItemBerry && (fav == -1
-                            || fav == ((ItemBerry) held.getItem()).type.index))
+                    && !hasTarget && held.getItem() instanceof ItemBerry && (fav == -1 || fav == ((ItemBerry) held
+                            .getItem()).type.index))
             {
                 if (!player.abilities.isCreativeMode)
                 {
@@ -468,7 +495,7 @@ public class PokemobEventsHandler
                             ItemStack.EMPTY);
                 }
                 pokemob.setLoveTimer(0);
-                entity.setAttackTarget(null);
+                BrainUtils.setAttackTarget(entity, null);
                 entity.getEntityWorld().setEntityState(entity, (byte) 18);
                 evt.setCanceled(true);
                 evt.setCancellationResult(ActionResultType.SUCCESS);
@@ -524,24 +551,6 @@ public class PokemobEventsHandler
                         return;
                     }
                 }
-                // Try to hold the item.
-                if (PokecubeItems.isValidHeldItem(held))
-                {
-                    final ItemStack heldItem = pokemob.getHeldItem();
-                    if (!heldItem.isEmpty()) PokemobEventsHandler.dropItem(pokemob);
-                    final ItemStack toSet = held.copy();
-                    toSet.setCount(1);
-                    pokemob.setHeldItem(toSet);
-                    pokemob.setCombatState(CombatStates.NOITEMUSE, true);
-                    if (!player.abilities.isCreativeMode) held.shrink(1);
-                    {
-                        if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem,
-                                ItemStack.EMPTY);
-                    }
-                    evt.setCanceled(true);
-                    evt.setCancellationResult(ActionResultType.SUCCESS);
-                    return;
-                }
             }
             // Open Gui
             if (!saddleCheck)
@@ -596,6 +605,13 @@ public class PokemobEventsHandler
         if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold + dist)) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y,
                         0);
+
+        if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
+        {
+            final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
+            // evt.getEntity().getPersistentData().removeUniqueId("old_uuid");
+            evt.getEntity().setUniqueId(id);
+        }
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (pokemob != null)

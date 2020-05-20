@@ -8,7 +8,8 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
+import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
@@ -26,7 +27,7 @@ import thut.api.maths.Vector3;
  * pokemobs. It finds the mates, initiates the fighting over a mate (if
  * applicable), then tells the mobs to breed if they should.
  */
-public class AIMate extends AIBase
+public class AIMate extends IdleTask
 {
     public static int PATHCOOLDOWN = 5;
 
@@ -74,9 +75,9 @@ public class AIMate extends AIBase
             return false;
         }
         final boolean gendered = this.pokemob.getSexe() == IPokemob.MALE || this.pokemob.getSexe() == IPokemob.FEMALE;
-        for (int i = 0; i < targetMates.size(); i++)
+        for (final Entity targetMate : targetMates)
         {
-            Entity mob = targetMates.get(i);
+            Entity mob = targetMate;
             if (!(mob instanceof AnimalEntity)) mob = PokecubeCore.getEntityProvider().getEntity(mob.getEntityWorld(),
                     mob.getEntityId(), true);
             final IPokemob otherPokemob = CapabilityPokemob.getPokemobFor(mob);
@@ -145,7 +146,7 @@ public class AIMate extends AIBase
                     mob1.resetLoveStatus();
                     mob0.setCombatState(CombatStates.MATEFIGHT, true);
                     mob1.setCombatState(CombatStates.MATEFIGHT, true);
-                    mob0.getEntity().setAttackTarget(mob1.getEntity());
+                    AIFindTarget.initiateCombat(mob0.getEntity(), mob1.getEntity());
                 }
             }
 
@@ -193,7 +194,7 @@ public class AIMate extends AIBase
         if (this.pokemob.getGeneralState(GeneralStates.MATING)) return true;
         if (this.pokemob.getLover() != null) return true;
         if (this.pokemob.getSexe() == IPokemob.MALE || !this.pokemob.tryToBreed()) return false;
-        if (this.pokemob.getCombatState(CombatStates.ANGRY) || this.entity.getAttackTarget() != null) return false;
+        if (this.pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(this.entity)) return false;
         return true;
     }
 

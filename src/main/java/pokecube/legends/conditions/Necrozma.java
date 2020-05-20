@@ -9,22 +9,22 @@ import pokecube.core.interfaces.IPokemob;
 public class Necrozma extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean solgaleo = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("solgaleo")) > 0;
-        boolean lunala = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("lunala")) > 0;
-                
-        String name = "Solgaleo, Lunala";
-                
-        if ((solgaleo && lunala)) return true;
+        if (!super.canCapture(trainer, pokemon)) return false;
+        final boolean solgaleo = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "solgaleo")) > 0;
+        final boolean lunala = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "lunala")) > 0;
+
+        final String name = "Solgaleo, Lunala";
+
+        if (solgaleo && lunala) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
-            
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
+
         }
         return false;
     }

@@ -13,8 +13,10 @@ import com.google.common.collect.HashBiMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -49,6 +51,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.npc.Schedules;
 import pokecube.core.blocks.berries.BerryGenManager;
@@ -129,6 +133,18 @@ public class PokecubeCore
         public static void registerSchedules(final RegistryEvent.Register<Schedule> event)
         {
             Schedules.register(event);
+        }
+
+        @SubscribeEvent
+        public static void registerMemories(final RegistryEvent.Register<MemoryModuleType<?>> event)
+        {
+            MemoryModules.register(event);
+        }
+
+        @SubscribeEvent
+        public static void registerSensors(final RegistryEvent.Register<SensorType<?>> event)
+        {
+            Sensors.register(event);
         }
 
         @SubscribeEvent

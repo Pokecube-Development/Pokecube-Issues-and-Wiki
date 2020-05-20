@@ -94,7 +94,8 @@
           }
         },
         {
-          "custom": "allMegas",
+          "type": "tag_sell",
+          "custom": "pokecube_adventures:mega_sales",
           "buys": [
             {
               "values": {
@@ -108,7 +109,8 @@
           }
         },
         {
-          "custom": "allGenericHeld",
+          "type": "tag_sell",
+          "custom": "pokecube:pokemob_evo",
           "buys": [
             {
               "values": {
@@ -365,7 +367,8 @@
           }
         },
         {
-          "custom": "allMegas",
+          "type": "tag_sell",
+          "custom": "pokecube_adventures:mega_sales",
           "buys": [
             {
               "values": {
@@ -463,7 +466,8 @@
           }
         },
         {
-          "custom": "allGenericHeld",
+          "type": "tag_sell",
+          "custom": "pokecube:pokemob_evo",
           "buys": [
             {
               "values": {

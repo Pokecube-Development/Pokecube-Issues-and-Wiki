@@ -45,4 +45,11 @@ public class PCSlot extends Slot
         PlayerPokemobCache.UpdateCache(par1ItemStack, true, false);
         this.onSlotChanged();
     }
+
+    @Override
+    public ItemStack onTake(final PlayerEntity thePlayer, final ItemStack stack)
+    {
+        PlayerPokemobCache.UpdateCache(stack, false, false);
+        return super.onTake(thePlayer, stack);
+    }
 }

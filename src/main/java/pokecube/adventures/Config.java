@@ -67,7 +67,12 @@ public class Config extends ConfigData
     @Configure(category = Config.TRAINER)
     public int     aiPauseDistance         = 64;
     @Configure(category = Config.TRAINER)
-    public String  defaultReward           = "minecraft:emerald";
+    public int     trainer_crowding_radius = 16;
+    @Configure(category = Config.TRAINER)
+    public int     trainer_crowding_number = 5;
+
+    @Configure(category = Config.TRAINER)
+    public String trainer_defeat_reward = "{\"values\":{\"id\":\"minecraft:emerald\",\"n\":\"1\"}}";
 
     // Energy Sihpon related options
     @Configure(category = Config.MACHINE)
@@ -110,6 +115,9 @@ public class Config extends ConfigData
     public boolean dayCareBreedSpeedup = true;
     @Configure(category = Config.MACHINE)
     public int     dayCareBreedAmount  = 10;
+
+    @Configure(category = Config.MACHINE)
+    public int dayCareLvl100EffectiveLevel = 30;
 
     // AFA related options
     @Configure(category = Config.MACHINE)

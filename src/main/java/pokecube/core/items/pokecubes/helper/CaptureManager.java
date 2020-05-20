@@ -16,11 +16,10 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.tasks.AIBase.IRunnable;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.CaptureEvent.Pre;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.HappinessType;
@@ -42,14 +41,16 @@ public class CaptureManager
     public static void captureAttempt(final EntityPokecubeBase cube, final Random rand, final Entity e)
     {
         if (!(cube.getEntityWorld() instanceof ServerWorld)) return;
+        if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity)) return;
+        if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
+        if (!(cube.getItem().getItem() instanceof IPokecube)) return;
+        if (cube.isCapturing) return;
         final LivingEntity mob = (LivingEntity) e;
         if (mob.deathTime > 0) return;
 
         final IPokemob hitten = CapabilityPokemob.getPokemobFor(e);
-        final ServerWorld world = (ServerWorld) cube.getEntityWorld();
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
-        if (!(cube.getItem().getItem() instanceof IPokecube)) return;
         final IPokecube cubeItem = (IPokecube) cube.getItem().getItem();
         final double modifier = cubeItem.getCaptureModifier(mob, cubeId);
         final Vector3 v = Vector3.getNewVector();
@@ -59,13 +60,12 @@ public class CaptureManager
             cube.setNotCapturing();
             return;
         }
-        if (cube.shootingEntity != null && hitten != null && hitten.getOwner() == cube.shootingEntity) return;
+        if (cube.shooter != null && hitten != null && cube.shooter.equals(hitten.getOwnerId())) return;
 
         boolean removeMob = false;
 
         if (hitten != null)
         {
-
             final int tiltBak = cube.getTilt();
             final CaptureEvent.Pre capturePre = new Pre(hitten, cube);
             PokecubeCore.POKEMOB_BUS.post(capturePre);
@@ -74,7 +74,7 @@ public class CaptureManager
                 if (cube.getTilt() != tiltBak)
                 {
                     if (cube.getTilt() == 5) cube.setTime(10);
-                    else cube.setTime(20 * cube.getTilt());
+                    else cube.setTime(20 * cube.getTilt() + 5);
                     hitten.setPokecube(cube.getItem());
                     cube.setItem(PokecubeManager.pokemobToItem(hitten));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
@@ -89,7 +89,7 @@ public class CaptureManager
                 cube.setTilt(n);
 
                 if (n == 5) cube.setTime(10);
-                else cube.setTime(20 * n);
+                else cube.setTime(20 * n + 5);
 
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
@@ -126,7 +126,7 @@ public class CaptureManager
             }
             cube.setTilt(n);
             if (n == 5) cube.setTime(10);
-            else cube.setTime(20 * n);
+            else cube.setTime(20 * n + 5);
             final ItemStack mobStack = cube.getItem().copy();
             PokecubeManager.addToCube(mobStack, mob);
             cube.setItem(mobStack);
@@ -136,34 +136,22 @@ public class CaptureManager
             cube.setCapturing(mob);
         }
 
-        if (removeMob)
-        {
-            final IRunnable task = w ->
-            {
-                world.removeEntity(mob, true);
-                return true;
-            };
-            EventsHandler.Schedule(world, task);
-        }
+        if (removeMob) mob.remove();
     }
 
     public static void captureFailed(final EntityPokecubeBase cube)
     {
-        final LivingEntity mob = SendOutManager.sendOut(cube, false);
+        final LivingEntity mob = SendOutManager.sendOut(cube, true);
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         cube.setNotCapturing();
 
-        if (mob != null)
-        {
-
-            mob.setLocationAndAngles(cube.posX, cube.posY + 1.0D, cube.posZ, cube.rotationYaw, 0.0F);
-            final boolean ret = cube.getEntityWorld().addEntity(mob);
-            if (ret == false) PokecubeCore.LOGGER.error(String.format(
-                    "The pokemob %1$s spawn from pokecube has failed. ", mob.getDisplayName().getFormattedText()));
-        }
+        if (mob != null) mob.setLocationAndAngles(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z,
+                cube.rotationYaw, 0.0F);
         if (pokemob != null)
         {
             EntityPokecubeBase.setNoCaptureBasedOnConfigs(pokemob);
+            // Ensure AI is initialized
+            pokemob.initAI();
             pokemob.setCombatState(CombatStates.ANGRY, true);
             pokemob.setLogicState(LogicStates.SITTING, false);
             pokemob.setGeneralState(GeneralStates.TAMED, false);
@@ -174,7 +162,8 @@ public class CaptureManager
                 ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
             }
         }
-        if (mob instanceof MobEntity) ((MobEntity) mob).setAttackTarget(cube.shootingEntity);
+        if (mob instanceof MobEntity && cube.shootingEntity != null) AIFindTarget.initiateCombat((MobEntity) mob,
+                cube.shootingEntity);
     }
 
     public static boolean captureSucceed(final EntityPokecubeBase cube)
@@ -184,23 +173,22 @@ public class CaptureManager
         final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
-        if (mob == null || cube.shootingEntity == null)
+        if (mob == null || cube.shooter == null)
         {
             if (mob == null) PokecubeCore.LOGGER.error("Error with mob capture: {}", mob);
-            else cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
+            else cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return false;
         }
-        if (ownable != null) ownable.setOwner(cube.shootingEntity.getUniqueID());
+        if (ownable != null) ownable.setOwner(cube.shooter);
         if (pokemob == null)
         {
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", mob.getDisplayName());
-            ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
-            cube.playSound(EntityPokecubeBase.POKECUBESOUND, 0.2f, 1);
+            if (cube.shootingEntity instanceof PlayerEntity) ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
+            cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
             return true;
         }
         HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
-        if (cube.shootingEntity != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(
-                cube.shootingEntity.getUniqueID());
+        if (cube.shooter != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(cube.shooter);
         if (pokemob.getCombatState(CombatStates.MEGAFORME) || pokemob.getPokedexEntry().isMega)
         {
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
@@ -216,7 +204,7 @@ public class CaptureManager
             final ITextComponent mess = new TranslationTextComponent("pokecube.caught", pokemob.getDisplayName());
             ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
             cube.setPosition(cube.shootingEntity.posX, cube.shootingEntity.posY, cube.shootingEntity.posZ);
-            cube.playSound(EntityPokecubeBase.POKECUBESOUND, 1, 1);
+            cube.playSound(EntityPokecubeBase.POKECUBESOUND, (float) PokecubeCore.getConfig().captureVolume, 1);
         }
         return true;
     }

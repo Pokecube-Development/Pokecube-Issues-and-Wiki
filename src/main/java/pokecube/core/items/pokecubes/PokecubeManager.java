@@ -1,6 +1,9 @@
 package pokecube.core.items.pokecubes;
 
+import java.util.List;
 import java.util.UUID;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -28,6 +31,16 @@ import thut.api.item.ItemList;
 
 public class PokecubeManager
 {
+    public static final List<String> TAGSTOREMOVE = Lists.newArrayList();
+
+    public static void init()
+    {
+        PokecubeManager.TAGSTOREMOVE.clear();
+        PokecubeManager.TAGSTOREMOVE.add(TagNames.CAPTURING);
+        PokecubeManager.TAGSTOREMOVE.add(TagNames.REMOVED);
+        PokecubeManager.TAGSTOREMOVE.addAll(PokecubeCore.getConfig().persistent_tag_blacklist);
+    }
+
     public static void addToCube(final ItemStack cube, final LivingEntity mob)
     {
         final ResourceLocation id = mob.getType().getRegistryName();
@@ -210,7 +223,10 @@ public class PokecubeManager
         final LivingEntity mob = (LivingEntity) type.create(world);
         try
         {
-            mob.read(stack.getTag().getCompound(TagNames.POKEMOB));
+            final CompoundNBT tag = stack.getTag().getCompound(TagNames.POKEMOB);
+            for (final String key : PokecubeManager.TAGSTOREMOVE)
+                tag.getCompound("ForgeData").remove(key);
+            mob.read(tag);
         }
         catch (final Exception e)
         {

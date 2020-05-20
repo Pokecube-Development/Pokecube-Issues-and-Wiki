@@ -3,18 +3,17 @@ package pokecube.core.ai.tasks.idle;
 import net.minecraft.entity.MobEntity;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.ai.tasks.AIBase;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 
 /** This is the AIBase version of GuardAI */
-public class AIRoutes extends AIBase
+public class AIRoutes extends IdleTask
 {
     public final GuardAI wrapped;
     private boolean      running;
 
-    public AIRoutes(MobEntity mob, IGuardAICapability cap)
+    public AIRoutes(final MobEntity mob, final IGuardAICapability cap)
     {
         super(CapabilityPokemob.getPokemobFor(mob));
         this.wrapped = new GuardAI(mob, cap);

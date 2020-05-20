@@ -174,7 +174,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public void setPokecube(ItemStack pokeballId)
     {
-        if (pokeballId != ItemStack.EMPTY)
+        if (!pokeballId.isEmpty())
         {
             pokeballId = pokeballId.copy();
             pokeballId.setCount(1);

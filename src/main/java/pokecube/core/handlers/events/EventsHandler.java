@@ -28,7 +28,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -40,16 +39,15 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.Load;
@@ -57,6 +55,7 @@ import net.minecraftforge.event.world.WorldEvent.PotentialSpawns;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -92,12 +91,10 @@ import pokecube.core.items.UsableItemEffects;
 import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.moves.damage.IPokedamage;
 import pokecube.core.network.packets.PacketChoose;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.network.packets.PacketPokedex;
-import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.gen.jigsaw.JigsawPieces;
@@ -449,44 +446,6 @@ public class EventsHandler
     }
 
     @SubscribeEvent
-    public static void interactEventLeftClick(final PlayerInteractEvent.LeftClickBlock evt)
-    {
-
-    }
-
-    @SubscribeEvent
-    public static void livingHurtEvent(final LivingHurtEvent evt)
-    {
-        /*
-         * No harming invalid targets, only apply this to pokemob related damage
-         * sources
-         */
-        if (evt.getSource() instanceof IPokedamage && !AITools.validTargets.test(evt.getEntity()))
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        // check if configs say this damage can't happen
-        if (pokemob != null && !AITools.validToHitPokemob.test(evt.getSource()))
-        {
-            evt.setCanceled(true);
-            return;
-        }
-        // Apply scaling from config for this
-        if (pokemob != null && evt.getSource().getTrueSource() instanceof PlayerEntity) evt.setAmount((float) (evt
-                .getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
-
-        // Prevent suffocating the player if they are in wall while riding
-        // pokemob.
-        if (evt.getEntity() instanceof PlayerEntity && evt.getSource() == DamageSource.IN_WALL)
-        {
-            pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity().getRidingEntity());
-            if (pokemob != null) evt.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent
     public static void denySpawns(final LivingSpawnEvent.CheckSpawn event)
     {
         // Only deny them from these reasons.
@@ -630,7 +589,8 @@ public class EventsHandler
             {
                 try
                 {
-                    return r.run(evt.world);
+                    r.run(evt.world);
+                    return true;
                 }
                 catch (final Exception e)
                 {
@@ -653,6 +613,21 @@ public class EventsHandler
         final List<Entity> pokemobs = new ArrayList<>(((ServerWorld) entity.getEntityWorld()).getEntities(null,
                 e -> EventsHandler.validFollowing(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
+    }
+
+    @SubscribeEvent
+    public static void playerTick(final PlayerTickEvent event)
+    {
+        if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayerEntity)
+        {
+            final ServerPlayerEntity player = (ServerPlayerEntity) event.player;
+            final IPokemob ridden = CapabilityPokemob.getPokemobFor(player.getRidingEntity());
+            if (ridden != null && ridden.canUseFly())
+            {
+                player.connection.floatingTickCount = 0;
+                player.connection.vehicleFloatingTickCount = 0;
+            }
+        }
     }
 
     /**

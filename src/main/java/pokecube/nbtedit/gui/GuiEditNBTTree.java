@@ -64,19 +64,16 @@ public class GuiEditNBTTree extends Screen
         final GuiEditNBT window = this.guiTree.getWindow();
         final boolean ret = super.charTyped(par1, key);
         if (window != null) return window.charTyped(par1, key) || ret;
-        else
+        else if (key == 1)
         {
-            if (key == 1)
-            {
-                if (this.guiTree.isEditingSlot()) return this.guiTree.stopEditingSlot();
-                else this.quitWithoutSaving();
-            }
-            else if (key == GLFW.GLFW_KEY_DELETE) return this.guiTree.deleteSelected();
-            else if (key == GLFW.GLFW_KEY_ENTER) return this.guiTree.editSelected();
-            else if (key == GLFW.GLFW_KEY_UP) return this.guiTree.arrowKeyPressed(true);
-            else if (key == GLFW.GLFW_KEY_DOWN) return this.guiTree.arrowKeyPressed(false);
-            else return this.guiTree.charTyped(par1, key);
+            if (this.guiTree.isEditingSlot()) return this.guiTree.stopEditingSlot();
+            else this.quitWithoutSaving();
         }
+        else if (key == GLFW.GLFW_KEY_DELETE) return this.guiTree.deleteSelected();
+        else if (key == GLFW.GLFW_KEY_ENTER) return this.guiTree.editSelected();
+        else if (key == GLFW.GLFW_KEY_UP) return this.guiTree.arrowKeyPressed(true);
+        else if (key == GLFW.GLFW_KEY_DOWN) return this.guiTree.arrowKeyPressed(false);
+        else return this.guiTree.charTyped(par1, key);
         return ret;
     }
 
@@ -115,10 +112,7 @@ public class GuiEditNBTTree extends Screen
     @Override
     public boolean mouseClicked(final double x, final double y, final int t)
     {
-        boolean ret = false;
-        if (this.guiTree.getWindow() == null) ret = super.mouseClicked(x, y, t);
-        if (t == 0) return this.guiTree.mouseClicked(x, y, t);
-        if (t == 1) return this.guiTree.rightClick(x, y, t);
+        final boolean ret = super.mouseClicked(x, y, t);
         return ret;
     }
 

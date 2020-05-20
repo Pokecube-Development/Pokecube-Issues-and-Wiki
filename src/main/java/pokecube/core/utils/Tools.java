@@ -1,5 +1,7 @@
 package pokecube.core.utils;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -24,6 +26,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -289,15 +294,49 @@ public class Tools
 
     public static ItemStack getStack(final Map<QName, String> values)
     {
+        return Tools.getStack(values, null);
+    }
+
+    public static ItemStack getStack(final Map<QName, String> values, final ServerWorld world)
+    {
         String id = "";
         int size = 1;
         boolean resource = false;
         String tag = "";
+        boolean isTable = false;
+        String table = "";
 
         for (final QName key : values.keySet())
             if (key.toString().equals("id")) id = values.get(key);
             else if (key.toString().equals("n")) size = Integer.parseInt(values.get(key));
             else if (key.toString().equals("tag")) tag = values.get(key).trim();
+            else if (key.toString().equals("table"))
+            {
+                table = values.get(key).trim();
+                isTable = true;
+            }
+
+        if (isTable && world != null)
+        {
+            final LootTable loottable = world.getServer().getLootTableManager().getLootTableFromLocation(
+                    new ResourceLocation(table));
+            final LootContext.Builder lootcontext$builder = new LootContext.Builder(world).withRandom(world
+                    .getRandom());
+            // Generate the loot list.
+            final List<ItemStack> list = loottable.generate(lootcontext$builder.build(loottable.getParameterSet()));
+            // Shuffle the list.
+            if (!list.isEmpty()) Collections.shuffle(list);
+            for (final ItemStack itemstack : list)
+                // Pick first valid item in it.
+                if (!itemstack.isEmpty())
+                {
+                    final ItemStack stack = itemstack.copy();
+                    if (stack.getItem().getRegistryName().equals(new ResourceLocation("pokecube", "candy")))
+                        PokecubeItems.makeStackValid(stack);
+                    return stack;
+                }
+        }
+
         if (id.isEmpty()) return ItemStack.EMPTY;
         resource = id.contains(":");
         ItemStack stack = ItemStack.EMPTY;

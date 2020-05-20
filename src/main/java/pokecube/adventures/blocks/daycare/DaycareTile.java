@@ -117,8 +117,10 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
         for (final Entity mob : list)
         {
             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-            final int level = pokemob != null ? pokemob.getLevel() : 100;
-            if (level >= 100) continue;
+            if (pokemob == null) continue;
+            int level = pokemob.getLevel();
+            final boolean gainExp = level < 100;
+            if (level >= 100) level = PokecubeAdv.config.dayCareLvl100EffectiveLevel;
             final int type = pokemob.getExperienceMode();
 
             final int exp_diff = Tools.levelToXp(type, level + 1) - Tools.levelToXp(type, level);
@@ -141,7 +143,7 @@ public class DaycareTile extends InteractableTile implements ITickableTileEntity
             }
             applied = true;
             this.power -= needed;
-            pokemob.setExp(pokemob.getExp() + exp_out, true);
+            if (gainExp) pokemob.setExp(pokemob.getExp() + exp_out, true);
             if (PokecubeAdv.config.dayCareBreedSpeedup) pokemob.setLoveTimer(pokemob.getLoveTimer()
                     + PokecubeAdv.config.dayCareBreedAmount);
         }

@@ -12,19 +12,19 @@ public class PacketHeal extends Packet
     {
     }
 
-    public PacketHeal(PacketBuffer buffer)
+    public PacketHeal(final PacketBuffer buffer)
     {
     }
 
     @Override
-    public void handleServer(ServerPlayerEntity player)
+    public void handleServer(final ServerPlayerEntity player)
     {
         final Container cont = player.openContainer;
-        if (cont instanceof IHealer) ((IHealer) cont).heal();
+        if (cont instanceof IHealer) ((IHealer) cont).heal(player.getEntityWorld());
     }
 
     @Override
-    public void write(PacketBuffer buffer)
+    public void write(final PacketBuffer buffer)
     {
     }
 

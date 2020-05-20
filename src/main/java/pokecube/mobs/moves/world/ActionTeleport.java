@@ -1,18 +1,16 @@
 package pokecube.mobs.moves.world;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
@@ -21,7 +19,7 @@ import thut.api.maths.Vector3;
 public class ActionTeleport implements IMoveAction
 {
     /** Teleport the entity to a random nearby position */
-    public static boolean teleportRandomly(LivingEntity toTeleport)
+    public static boolean teleportRandomly(final LivingEntity toTeleport)
     {
         double var1;
         double var3;
@@ -29,10 +27,10 @@ public class ActionTeleport implements IMoveAction
         Vector3 v = SpawnHandler.getRandomPointNear(toTeleport, 32);
         if (v == null) // Try a few more times to get a point.
             for (int i = 0; i < 32; i++)
-            {
+        {
             v = SpawnHandler.getRandomPointNear(toTeleport, 32);
             if (v != null) break;
-            }
+        }
         if (v == null) return false;
         v = Vector3.getNextSurfacePoint(toTeleport.getEntityWorld(), v, Vector3.secondAxisNeg, 20);
         if (v == null) return false;
@@ -43,7 +41,8 @@ public class ActionTeleport implements IMoveAction
     }
 
     /** Teleport the entity */
-    protected static boolean teleportTo(LivingEntity toTeleport, double par1, double par3, double par5)
+    protected static boolean teleportTo(final LivingEntity toTeleport, final double par1, final double par3,
+            final double par5)
     {
 
         final short var30 = 128;
@@ -78,7 +77,7 @@ public class ActionTeleport implements IMoveAction
     }
 
     @Override
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
         final boolean angry = user.getCombatState(CombatStates.ANGRY);
         if (!angry && user.getOwner() instanceof ServerPlayerEntity)
@@ -96,18 +95,7 @@ public class ActionTeleport implements IMoveAction
         }
         else if (angry)
         {
-            final Entity attacked = user.getEntity().getAttackTarget();
-            if (attacked != null)
-            {
-                if (attacked instanceof MobEntity) ((MobEntity) attacked).setAttackTarget(null);
-                final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
-                if (attackedMob != null)
-                {
-                    attackedMob.setCombatState(CombatStates.ANGRY, false);
-                    attackedMob.getEntity().setAttackTarget(null);
-                }
-            }
-            user.getEntity().setAttackTarget(null);
+            AIFindTarget.deagro(user.getEntity());
             if (user.getGeneralState(GeneralStates.TAMED)) user.onRecall();
             else ActionTeleport.teleportRandomly(user.getEntity());
         }

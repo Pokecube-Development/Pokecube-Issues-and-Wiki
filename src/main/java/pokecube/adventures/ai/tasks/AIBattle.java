@@ -16,6 +16,8 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.PCEventsHandler;
@@ -48,15 +50,16 @@ public class AIBattle extends AITrainerBase
 
     private boolean checkPokemobTarget()
     {
-        final Entity mobTarget = this.trainer.getOutMob().getEntity().getAttackTarget();
+        final Entity mobTarget = BrainUtils.getAttackTarget(this.trainer.getOutMob().getEntity());
         final IPokemob target = CapabilityPokemob.getPokemobFor(mobTarget);
         if (!this.trainer.getOutMob().getCombatState(CombatStates.ANGRY)) this.trainer.getOutMob().setCombatState(
                 CombatStates.ANGRY, true);
         // check if pokemob's target is same as trainers.
-        if (mobTarget != this.trainer.getTarget() && target == null) this.trainer.getOutMob().getEntity()
-                .setAttackTarget(this.trainer.getTarget());
+        if (mobTarget != this.trainer.getTarget() && target == null) AIFindTarget.initiateCombat(this.trainer
+                .getOutMob().getEntity(), this.trainer.getTarget());
         // Return if trainer's pokemob's target is also a pokemob.
-        return CapabilityPokemob.getPokemobFor(this.trainer.getOutMob().getEntity().getAttackTarget()) != null;
+        return CapabilityPokemob.getPokemobFor(BrainUtils.getAttackTarget(this.trainer.getOutMob()
+                .getEntity())) != null;
     }
 
     private void considerSwapMove()
@@ -99,8 +102,7 @@ public class AIBattle extends AITrainerBase
         // will make it be passive for now.
         if (this.entity instanceof MobEntity)
         {
-            final MobEntity living = (MobEntity) this.entity;
-            final Entity target = living.getAttackTarget();
+            final Entity target = BrainUtils.getAttackTarget(this.entity);
             final IPokemob tarMob = CapabilityPokemob.getPokemobFor(target);
             if (tarMob != null)
             {
@@ -178,7 +180,7 @@ public class AIBattle extends AITrainerBase
                         }
                         this.messages.sendMessage(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity
                                 .getDisplayName(), next.getDisplayName(), this.trainer.getTarget().getDisplayName());
-                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.getTarget());
+                        this.messages.doAction(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity);
                     }
                 }
             }
@@ -226,7 +228,7 @@ public class AIBattle extends AITrainerBase
         final IPokemob outMob = this.trainer.getOutMob();
         int index = outMob.getMoveIndex();
         int max = 0;
-        final Entity target = outMob.getEntity().getAttackTarget();
+        final Entity target = BrainUtils.getAttackTarget(outMob.getEntity());
         final String[] moves = outMob.getMoves();
         for (int i = 0; i < 4; i++)
         {

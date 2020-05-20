@@ -26,7 +26,6 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.utils.DBLoader;
-import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
@@ -420,11 +419,6 @@ public class PokecubeMobs
 
         ItemGenerator.other.add("mewhair");
 
-        TradeEntryLoader.genericTradeBlacklist.add("megastone");
-        TradeEntryLoader.genericTradeBlacklist.add("alphaorb");
-        TradeEntryLoader.genericTradeBlacklist.add("omegaorb");
-        TradeEntryLoader.genericTradeBlacklist.add("shiny_charm");
-
         ItemGenerator.fossilVariants.add("omanyte");
         ItemGenerator.fossilVariants.add("kabuto");
         ItemGenerator.fossilVariants.add("aerodactyl");
@@ -630,7 +624,7 @@ public class PokecubeMobs
                     final IPokemob mob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(evt.caught
                             .getPokedexEntry(), cube.getEntityWorld()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
-                    cube.setTime(cube.getTilt() * 20);
+                    cube.setTime(cube.getTilt() * 20 + 5);
                     if (!tameSnag) evt.caught.setPokecube(evt.filledCube);
                     cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
                     PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
@@ -673,7 +667,7 @@ public class PokecubeMobs
                 has = has + EggStats.getTotalNumberOfPokemobHatchedBy(thrower.getUniqueID(), mob.getPokedexEntry());
                 final double rate = has > 0 ? 3 : 1;
                 cube.setTilt(Tools.computeCatchRate(mob, rate));
-                cube.setTime(cube.getTilt() * 20);
+                cube.setTime(cube.getTilt() * 20 + 5);
                 evt.caught.setPokecube(evt.filledCube);
                 cube.setItem(PokecubeManager.pokemobToItem(evt.caught));
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());

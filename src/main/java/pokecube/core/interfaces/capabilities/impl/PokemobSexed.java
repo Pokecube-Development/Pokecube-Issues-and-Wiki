@@ -5,14 +5,17 @@ import java.util.Vector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
+import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.interfaces.IMoveNames;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -137,6 +140,10 @@ public abstract class PokemobSexed extends PokemobStats
                 MinecraftForge.EVENT_BUS.post(event);
                 if (!event.isCanceled())
                 {
+                    final ServerPlayerEntity player = (ServerPlayerEntity) (this
+                            .getOwner() instanceof ServerPlayerEntity ? this.getOwner()
+                                    : male.getOwner() instanceof ServerPlayerEntity ? male.getOwner() : null);
+                    if (player != null) Triggers.BREEDPOKEMOB.trigger(player, this, male);
                     this.egg = eggItem;
                     this.getEntity().getEntityWorld().addEntity(this.egg);
                 }
@@ -159,8 +166,8 @@ public abstract class PokemobSexed extends PokemobStats
         this.setHungerTime(this.getHungerTime() + hungerValue);
         mate.setLover(null);
         mate.resetLoveStatus();
-        this.getEntity().setAttackTarget(null);
-        mate.getEntity().setAttackTarget(null);
+        AIFindTarget.deagro(this.getEntity());
+        AIFindTarget.deagro(mate.getEntity());
         this.lay(mate);
         this.resetLoveStatus();
         this.lover = null;

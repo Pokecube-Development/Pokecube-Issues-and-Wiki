@@ -2,6 +2,7 @@ package pokecube.core.ai.tasks.utility;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import com.google.common.base.Predicate;
@@ -11,10 +12,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -30,7 +32,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
@@ -46,7 +48,7 @@ import thut.lib.ItemStackTools;
  * berries. It requires an AIStoreStuff to have located a suitable storage
  * before it will run.
  */
-public class AIGatherStuff extends AIBase implements IInventoryChangedListener
+public class AIGatherStuff extends UtilTask
 {
     /**
      * This manages the pokemobs replanting anything that they gather.
@@ -135,15 +137,17 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
     private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
             || !input.isAddedToWorld();
 
-    final double     distance;
-    boolean          block    = false;
+    final double distance;
+    boolean      block = false;
+
     List<ItemEntity> stuff    = Lists.newArrayList();
     Vector3          stuffLoc = Vector3.getNewVector();
 
-    Vector3 backup          = this.stuffLoc;
-    boolean hasRoom         = true;
-    int     collectCooldown = 0;
-    int     pathCooldown    = 0;
+    Vector3 backup  = this.stuffLoc;
+    boolean hasRoom = true;
+
+    int collectCooldown = 0;
+    int pathCooldown    = 0;
 
     final AIStoreStuff storage;
 
@@ -161,10 +165,9 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
     }
 
     @Override
-    public void onInventoryChanged(final IInventory invBasic)
+    public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
     {
-        // TODO Auto-generated method stub
-
+        return super.getNeededMemories();
     }
 
     private void setLoc(final Object o)
@@ -335,7 +338,7 @@ public class AIGatherStuff extends AIBase implements IInventoryChangedListener
                 GeneralStates.TAMED);
         // Check if this should be doing something else instead, if so return
         // false.
-        if (this.tameCheck() || this.entity.getAttackTarget() != null || wildCheck) return false;
+        if (this.tameCheck() || BrainUtils.hasAttackTarget(this.entity) || wildCheck) return false;
         final int rate = this.pokemob.getGeneralState(GeneralStates.TAMED) ? PokecubeCore.getConfig().tameGatherDelay
                 : PokecubeCore.getConfig().wildGatherDelay;
         final Random rand = new Random(this.pokemob.getRNGValue());

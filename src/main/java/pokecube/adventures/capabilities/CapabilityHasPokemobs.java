@@ -18,7 +18,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -115,7 +114,7 @@ public class CapabilityHasPokemobs
                 if (resetTime <= 0) return true;
                 final DefeatEntry s = this.map.get(in.getCachedUniqueIdString());
                 // Otherwise check the diff.
-                final long diff = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime() - s.time;
+                final long diff = PokecubeCore.proxy.getWorld().getGameTime() - s.time;
                 if (diff > resetTime) return false;
                 return true;
             }
@@ -125,7 +124,7 @@ public class CapabilityHasPokemobs
                 if (in == null) return;
                 final DefeatEntry s = this.map.getOrDefault(in.getCachedUniqueIdString(), new DefeatEntry(in
                         .getCachedUniqueIdString(), 0));
-                s.time = in.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
+                s.time = PokecubeCore.proxy.getWorld().getGameTime();
                 this.map.put(in.getCachedUniqueIdString(), s);
             }
 
@@ -202,11 +201,20 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public boolean canBattle(final LivingEntity target)
+        public boolean canBattle(final LivingEntity target, final boolean checkWatcher)
         {
             final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(target);
+            // No battling a target already battling something
             if (trainer != null && trainer.getTarget() != null && trainer.getTarget() != target) return false;
-            return !this.defeatedBy(target) && !this.defeated(target);
+            // No battling if we have defeated or been defeated
+            if (this.defeatedBy(target) || this.defeated(target)) return false;
+            // Not checking watchers, return true
+            if (!checkWatcher) return true;
+            // Valid if any watchers say so
+            for (final ITargetWatcher w : this.watchers)
+                if (w.isValidTarget(target)) return true;
+            // Otherwise false.
+            return false;
         }
 
         @Override
@@ -496,7 +504,8 @@ public class CapabilityHasPokemobs
                     packet.data.putLong("L", this.user.getEntityWorld().getGameTime() + this.resetTimeLose);
                     PokecubeAdv.packets.sendTo(packet, (ServerPlayerEntity) won);
                 }
-                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won);
+                if (won instanceof LivingEntity) this.messages.doAction(MessageState.DEFEAT, (LivingEntity) won,
+                        this.user);
             }
         }
 
@@ -640,7 +649,7 @@ public class CapabilityHasPokemobs
                 if (target == this.user.getAttackingEntity()) this.attackCooldown = 0;
                 this.messages.sendMessage(MessageState.AGRESS, target, this.user.getDisplayName(), target
                         .getDisplayName());
-                this.messages.doAction(MessageState.AGRESS, target);
+                this.messages.doAction(MessageState.AGRESS, target, this.user);
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, true);
             }
             if (target == null)
@@ -649,7 +658,7 @@ public class CapabilityHasPokemobs
                 {
                     this.messages.sendMessage(MessageState.DEAGRESS, this.target, this.user.getDisplayName(),
                             this.target.getDisplayName());
-                    this.messages.doAction(MessageState.DEAGRESS, target);
+                    this.messages.doAction(MessageState.DEAGRESS, target, this.user);
                 }
                 this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
@@ -687,7 +696,8 @@ public class CapabilityHasPokemobs
                 this.attackCooldown = Config.instance.trainerSendOutDelay;
                 this.messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(), i.getDisplayName(),
                         target.getDisplayName());
-                if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT, (LivingEntity) target);
+                if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT, (LivingEntity) target,
+                        this.user);
                 this.nextSlot++;
                 if (this.nextSlot >= this.getMaxPokemobCount() || this.getNextPokemob() == null) this.nextSlot = -1;
                 return;
@@ -806,7 +816,13 @@ public class CapabilityHasPokemobs
         }
 
         /** If we are agressive, is this a valid target? */
-        boolean canBattle(LivingEntity target);
+        default boolean canBattle(final LivingEntity target)
+        {
+            return this.canBattle(target, false);
+        }
+
+        /** If we are agressive, is this a valid target? */
+        boolean canBattle(final LivingEntity target, final boolean checkWatchers);
 
         default boolean canLevel()
         {
@@ -988,7 +1004,7 @@ public class CapabilityHasPokemobs
         {
         }
 
-        boolean validTargetSet(LivingEntity target);
+        boolean isValidTarget(LivingEntity target);
 
         default void onSet(final LivingEntity target)
         {

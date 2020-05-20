@@ -8915,7 +8915,7 @@
       "name": "Spewpa",
       "stats": {
         "evolutions": [
-		{
+          {
             "name": "Vivillon",
             "level": 12,
             "model": {
@@ -8928,7 +8928,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"form_from": "vivillon_el",
+            "form_from": "vivillon_el",
             "model": {
               "key": "vivillon_el",
               "tex": "vivillonelegant",
@@ -8945,7 +8945,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_oc",
               "tex": "vivillonocean",
               "model": "vivillon",
@@ -8961,7 +8961,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_sa",
               "tex": "vivillonsandstorm",
               "model": "vivillon",
@@ -8976,7 +8976,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_he",
               "tex": "vivillonhell",
               "model": "vivillon",
@@ -8991,7 +8991,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_en",
               "tex": "vivillonend",
               "model": "vivillon",
@@ -9006,7 +9006,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_po",
               "tex": "vivillonpolar",
               "model": "vivillon",
@@ -9021,7 +9021,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_ic",
               "tex": "vivillonicysnow",
               "model": "vivillon",
@@ -9036,7 +9036,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_mon",
               "tex": "vivillonmonsoon",
               "model": "vivillon",
@@ -9051,7 +9051,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_su",
               "tex": "vivillonsun",
               "model": "vivillon",
@@ -9066,7 +9066,7 @@
           {
             "name": "Vivillon",
             "level": 12,
-			"model": {
+            "model": {
               "key": "vivillon_mod",
               "tex": "vivillonmodern",
               "model": "vivillon",
@@ -11142,7 +11142,7 @@
           {
             "name": "Polteageist",
             "item_preset": "chippedpot",
-			"form_from": "sinistea_nofake",
+            "form_from": "sinistea_nofake",
             "model": {
               "key": "polteageist_nofake",
               "tex": "polteageist",
@@ -11150,10 +11150,10 @@
               "anim": "polteageist"
             }
           },
-		  {
+          {
             "name": "Polteageist",
             "item_preset": "crackedpot",
-			"form_from": "sinistea_fake",
+            "form_from": "sinistea_fake",
             "model": {
               "key": "polteageist_fake",
               "tex": "polteageist",
@@ -11280,7 +11280,7 @@
         "evolutions": [
           {
             "name": "Alcremie",
-			"model": {
+            "model": {
               "key": "alcremie_*"
             },
             "item": {

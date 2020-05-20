@@ -11,7 +11,7 @@ public class Palkia extends Condition
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!this.canCapture(trainer)) return false;
+        if (!super.canCapture(trainer, pokemon)) return false;
         final boolean uxie = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
                 "uxie")) > 0;
         final boolean mesprit = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(

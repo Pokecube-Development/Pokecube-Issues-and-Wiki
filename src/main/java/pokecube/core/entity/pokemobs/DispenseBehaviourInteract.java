@@ -12,8 +12,10 @@ import net.minecraft.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IDispenseItemBehavior;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IProperty;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -36,6 +38,12 @@ public class DispenseBehaviourInteract implements IDispenseItemBehavior
         final IDispenseItemBehavior original = DispenserBlock.DISPENSE_BEHAVIOR_REGISTRY.get(stack.getItem());
         DispenseBehaviourInteract.DEFAULTS.put(stack.getItem().getRegistryName(), original);
         DispenserBlock.registerDispenseBehavior(() -> stack.getItem(), new DispenseBehaviourInteract());
+    }
+
+    public static void registerBehavior(final ResourceLocation tag)
+    {
+        for (final Item item : ItemTags.getCollection().getOrCreate(tag).getAllElements())
+            DispenseBehaviourInteract.registerBehavior(new ItemStack(item));
     }
 
     @Override

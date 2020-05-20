@@ -7,9 +7,13 @@ import java.util.function.Predicate;
 
 import org.apache.logging.log4j.Level;
 
+import com.google.common.collect.ImmutableMap;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.Difficulty;
@@ -20,11 +24,14 @@ import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
+import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.IPokemob.ITargetFinder;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -37,7 +44,7 @@ import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
-public class AIFindTarget extends AIBase implements IAICombat
+public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITargetFinder
 {
 
     public static boolean handleDamagedTargets = true;
@@ -57,14 +64,30 @@ public class AIFindTarget extends AIBase implements IAICombat
         // No target dead
         if (!target.isAlive() || target.getHealth() <= 0) return;
         // No target already had target
-        if (target == mob.getAttackTarget()) return;
+        if (target == BrainUtils.getAttackTarget(mob)) return;
 
-        mob.setAttackTarget(target);
-        if (target instanceof MobEntity) ((MobEntity) target).setAttackTarget(mob);
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
         if (targetMob != null) targetMob.setCombatState(CombatStates.ANGRY, true);
         if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, true);
+
+        BrainUtils.setAttackTarget(mob, target);
+        BrainUtils.setAttackTarget(target, mob);
+    }
+
+    public static void deagro(final LivingEntity mob)
+    {
+        if (mob == null) return;
+        final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
+
+        if (mob instanceof MobEntity)
+        {
+            final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
+            BrainUtils.setAttackTarget(mob, null);
+            AIFindTarget.deagro(oldTarget);
+        }
+        mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
+        if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, false);
     }
 
     @SubscribeEvent
@@ -96,7 +119,7 @@ public class AIFindTarget extends AIBase implements IAICombat
             if (nearest.getDistanceSq(evt.getEntityLiving()) < 256 && nearest instanceof LivingEntity)
             {
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Diverting agro to owner!");
-                ((MobEntity) evt.getEntityLiving()).setAttackTarget((LivingEntity) nearest);
+                AIFindTarget.initiateCombat((MobEntity) evt.getEntityLiving(), (LivingEntity) nearest);
                 return;
             }
         }
@@ -174,14 +197,12 @@ public class AIFindTarget extends AIBase implements IAICombat
 
         if (attacked instanceof MobEntity)
         {
-            final MobEntity living = (MobEntity) attacked;
-            LivingEntity oldTarget = living.getAttackTarget();
-
+            LivingEntity oldTarget = BrainUtils.getAttackTarget(attacked);
             // Don't include dead old targets.
             if (oldTarget != null && !oldTarget.isAlive()) oldTarget = null;
 
-            if (!(oldTarget == null && attacker != living && attacker instanceof LivingEntity && living
-                    .getAttackTarget() != attacker)) attacker = null;
+            if (!(oldTarget == null && attacker != attacked && attacker instanceof LivingEntity
+                    && oldTarget != attacker)) attacker = null;
 
             final IPokemob agres = CapabilityPokemob.getPokemobFor(attacker);
             if (agres != null)
@@ -191,13 +212,15 @@ public class AIFindTarget extends AIBase implements IAICombat
                 {
                     // track running away.
                 }
-                if (agres.getLover() == living && attacker != null) agres.setLover(attacker);
+                if (agres.getLover() == attacked && attacker != null) agres.setLover(attacker);
 
             }
-
+            LivingEntity newTarget = oldTarget;
             // Either keep old target, or agress the attacker.
-            if (oldTarget != null && living.getAttackTarget() != oldTarget) living.setAttackTarget(oldTarget);
-            else if (attacker instanceof LivingEntity) living.setAttackTarget((LivingEntity) attacker);
+            if (oldTarget != null && BrainUtils.getAttackTarget(attacked) != oldTarget) newTarget = oldTarget;
+            else if (attacker instanceof LivingEntity) newTarget = (LivingEntity) attacker;
+            final MobEntity living = (MobEntity) attacked;
+            AIFindTarget.initiateCombat(living, newTarget);
         }
 
     }
@@ -222,9 +245,10 @@ public class AIFindTarget extends AIBase implements IAICombat
 
     public AIFindTarget(final IPokemob mob)
     {
-        super(mob);
+        super(mob, ImmutableMap.of(MemoryModuleType.VISIBLE_MOBS, MemoryModuleStatus.VALUE_PRESENT));
     }
 
+    @Override
     public void clear()
     {
         this.agroTimer = AIFindTarget.DEAGROTIMER;
@@ -249,8 +273,8 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Random factor for this ai to apply
         if (Math.random() > 0.01 * PokecubeCore.getConfig().hordeRateFactor) return false;
 
-        final List<MobEntity> ret = new ArrayList<>();
-        List<MobEntity> pokemobs;
+        final List<LivingEntity> ret = new ArrayList<>();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
 
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
@@ -262,7 +286,8 @@ public class AIFindTarget extends AIBase implements IAICombat
 
         if (!TerrainManager.isAreaLoaded(this.world, centre, 18)) return false;
 
-        pokemobs = this.getEntitiesWithinDistance(this.world, centre.getPos(), 16, MobEntity.class);
+        // pokemobs =
+        // this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS);
 
         // We check for whether it is the same species and, has the same owner
         // (including null) or is on the team.
@@ -286,14 +311,15 @@ public class AIFindTarget extends AIBase implements IAICombat
         for (final Object o : pokemobs)
             if (relationCheck.test((MobEntity) o)) ret.add((MobEntity) o);
 
-        for (final MobEntity mob : ret)
+        for (final LivingEntity mob : ret)
         {
+            if (!(mob instanceof MobEntity)) continue;
             // Only agress mobs that can see you are really under attack.
             if (!mob.canEntityBeSeen(this.entity)) continue;
             // Only agress if not currently in combat.
-            if (mob.getAttackTarget() != null) continue;
+            if (BrainUtils.hasAttackTarget(mob)) continue;
             // Make all valid ones agress the target.
-            this.setAttackTarget(mob, from);
+            this.setAttackTarget((MobEntity) mob, from);
         }
 
         return false;
@@ -315,9 +341,6 @@ public class AIFindTarget extends AIBase implements IAICombat
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
 
-        final List<LivingEntity> ret = new ArrayList<>();
-        List<LivingEntity> pokemobs;
-
         // Select either owner or home position as the centre of the check,
         // this results in it guarding either its home or its owner. Home is
         // used if it is on stay, or it has no owner.
@@ -329,13 +352,12 @@ public class AIFindTarget extends AIBase implements IAICombat
         if (!TerrainManager.isAreaLoaded(this.world, centre, PokecubeCore.getConfig().guardSearchDistance + 2))
             return false;
 
-        pokemobs = this.getEntitiesWithinDistance(this.world, centre.getPos(), PokecubeCore
-                .getConfig().guardSearchDistance, LivingEntity.class);
-
+        final List<LivingEntity> ret = new ArrayList<>();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
         // Only allow valid guard targets.
         for (final Object o : pokemobs)
             if (this.validGuardTarget.test((Entity) o)) ret.add((LivingEntity) o);
-
+        ret.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
         if (ret.isEmpty()) return false;
 
         LivingEntity newtarget = null;
@@ -363,14 +385,11 @@ public class AIFindTarget extends AIBase implements IAICombat
         return false;
     }
 
-    @Override
     protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
     {
         if (target == null)
         {
-            final IPokemob aggressor = CapabilityPokemob.getPokemobFor(attacker);
-            super.setAttackTarget(attacker, target);
-            aggressor.setCombatState(CombatStates.ANGRY, false);
+            AIFindTarget.deagro(attacker);
             this.clear();
         }
         else
@@ -395,8 +414,13 @@ public class AIFindTarget extends AIBase implements IAICombat
 
         if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
                 .getConfig().guardSearchDistance + 2)) return false;
-        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.entity, PokecubeCore
-                .getConfig().guardSearchDistance, LivingEntity.class);
+
+        final List<LivingEntity> list = new ArrayList<>();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        list.addAll(pokemobs);
+        list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
+        if (list.isEmpty()) return false;
+
         if (!list.isEmpty()) for (final LivingEntity entity : list)
         {
             final IPokemob mob = CapabilityPokemob.getPokemobFor(entity);
@@ -432,19 +456,23 @@ public class AIFindTarget extends AIBase implements IAICombat
 
         if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
                 .getConfig().guardSearchDistance + 2)) return false;
-        final List<LivingEntity> list = this.getEntitiesWithinDistance(this.pokemob.getOwner(), PokecubeCore
-                .getConfig().guardSearchDistance, LivingEntity.class);
 
-        final Entity old = this.entity.getAttackTarget();
+        final List<LivingEntity> list = new ArrayList<>();
+        final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
+        list.addAll(pokemobs);
+        list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
+        if (list.isEmpty()) return false;
+
+        final Entity old = BrainUtils.getAttackTarget(this.entity);
         final IOwnable oldOwnable = OwnableCaps.getOwnable(old);
         final Entity oldOwner = oldOwnable != null ? oldOwnable.getOwner(this.world) : null;
 
         if (!list.isEmpty()) for (final LivingEntity entity : list)
         {
             if (oldOwner != null && entity == oldOwner) return false;
-
-            if (entity instanceof MobEntity && ((MobEntity) entity).getAttackTarget() != null && ((MobEntity) entity)
-                    .getAttackTarget().equals(owner) && Vector3.isVisibleEntityFromEntity(entity, entity))
+            final LivingEntity targ = BrainUtils.getAttackTarget(entity);
+            if (entity instanceof MobEntity && targ != null && targ.equals(owner) && Vector3.isVisibleEntityFromEntity(
+                    entity, entity))
             {
                 this.setAttackTarget(this.entity, entity);
                 return true;
@@ -453,64 +481,20 @@ public class AIFindTarget extends AIBase implements IAICombat
         return false;
     }
 
-    /**
-     * Returns the closest vulnerable player within the given radius, or null
-     * if none is found.
-     */
-    PlayerEntity getClosestVulnerablePlayer(final double x, final double y, final double z, final double distance)
-    {
-        double d4 = -1.0D;
-        PlayerEntity PlayerEntity = null;
-
-        final List<? extends PlayerEntity> list = this.world.getPlayers();
-        if (list.isEmpty()) return null;
-
-        for (int i = 0; i < list.size(); ++i)
-        {
-            if (!(list.get(i) instanceof PlayerEntity)) continue;
-            final PlayerEntity PlayerEntity1 = list.get(i);
-            if (PlayerEntity1.isCreative()) continue;
-            if (PlayerEntity1.isSpectator()) continue;
-            if (!PlayerEntity1.abilities.disableDamage && PlayerEntity1.isAlive())
-            {
-                final double d5 = PlayerEntity1.getDistanceSq(x, y, z);
-                double d6 = distance;
-                if (PlayerEntity1.isSneaking()) d6 = distance * 0.800000011920929D;
-                if ((distance < 0.0D || d5 < d6 * d6) && (d4 == -1.0D || d5 < d4))
-                {
-                    d4 = d5;
-                    PlayerEntity = PlayerEntity1;
-                }
-            }
-        }
-
-        return PlayerEntity;
-    }
-
-    /**
-     * Returns the closest vulnerable player to this entity within the given
-     * radius, or null if none is found
-     */
-    PlayerEntity getClosestVulnerablePlayerToEntity(final Entity entity, final double distance)
-    {
-        return this.getClosestVulnerablePlayer(entity.posX, entity.posY, entity.posZ, distance);
-    }
-
     @Override
     public void reset()
     {
-
     }
 
     @Override
     public void run()
     {
+        final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
         // No need to find a target if we have one.
-        if (this.entity.getAttackTarget() != null)
+        if (targ != null)
         {
             // If target is dead, lets forget about it.
-            if (!this.entity.getAttackTarget().isAlive() || this.entity.getAttackTarget().getHealth() <= 0) this
-                    .clear();
+            if (!targ.isAlive() || targ.getHealth() <= 0) this.clear();
             return;
         }
 
@@ -527,10 +511,12 @@ public class AIFindTarget extends AIBase implements IAICombat
     {
         if (!this.pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
 
+        if (!this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
+
         // Ensure the correct owner is tracked.
         this.pokemob.getOwner(this.world);
 
-        LivingEntity target = this.entity.getAttackTarget();
+        LivingEntity target = BrainUtils.getAttackTarget(this.entity);
 
         // Don't look for targets if you are sitting.
         final boolean ret = target == null && !this.pokemob.getLogicState(LogicStates.SITTING);
@@ -653,12 +639,13 @@ public class AIFindTarget extends AIBase implements IAICombat
             }
         }
 
+        final boolean playerNear = this.entity.getBrain().hasMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER);
         // If wild, randomly decided to agro a nearby player instead.
-        if (ret && AITools.shouldAgroNearestPlayer.test(this.pokemob))
+        if (ret && playerNear && AITools.shouldAgroNearestPlayer.test(this.pokemob))
         {
-            final PlayerEntity player = this.getClosestVulnerablePlayerToEntity(this.entity, PokecubeCore
-                    .getConfig().mobAggroRadius);
-
+            PlayerEntity player = this.entity.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_PLAYER).get();
+            if (player != null && player.getDistance(this.entity) > PokecubeCore.getConfig().mobAggroRadius)
+                player = null;
             if (player != null && Vector3.isVisibleEntityFromEntity(this.entity, player) && this.entity.getEntityWorld()
                     .getDifficulty().getId() > Difficulty.EASY.getId() && AITools.validTargets.test(player))
             {

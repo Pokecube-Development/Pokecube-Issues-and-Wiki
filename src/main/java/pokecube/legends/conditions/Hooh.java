@@ -9,23 +9,23 @@ import pokecube.core.interfaces.IPokemob;
 public class Hooh extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean raikou = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("raikou")) > 0;
-        boolean suicune = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("suicune")) > 0;
-        boolean entei = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("entei")) > 0;
+        if (!super.canCapture(trainer, pokemon)) return false;
+        final boolean raikou = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "raikou")) > 0;
+        final boolean suicune = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "suicune")) > 0;
+        final boolean entei = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "entei")) > 0;
 
-        String name = "Raikou, Suicune, Entei";
-                
-        if ((raikou && entei && suicune)) return true;
+        final String name = "Raikou, Suicune, Entei";
+
+        if (raikou && entei && suicune) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }

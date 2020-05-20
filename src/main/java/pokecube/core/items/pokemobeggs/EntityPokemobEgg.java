@@ -20,6 +20,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
 import pokecube.core.interfaces.IPokemob;
@@ -71,8 +73,8 @@ public class EntityPokemobEgg extends AgeableEntity
             final ItemStack itemstack = this.getHeldItemMainhand();
             final int i = itemstack.getCount();
             final PlayerEntity player = (PlayerEntity) e;
-            if (this.mother != null && this.mother.getOwner() != player) this.mother.getEntity().setAttackTarget(
-                    player);
+            if (this.mother != null && this.mother.getOwner() != player) AIFindTarget.initiateCombat(this.mother
+                    .getEntity(), player);
             if (i <= 0 || player.inventory.addItemStackToInventory(itemstack))
             {
                 player.onItemPickup(this, i);
@@ -175,7 +177,8 @@ public class EntityPokemobEgg extends AgeableEntity
         if (this.delayBeforeCanPickup > 0) return false;
         final ItemStack itemstack = this.getHeldItemMainhand();
         final int i = itemstack.getCount();
-        if (this.mother != null && this.mother.getOwner() != player) this.mother.getEntity().setAttackTarget(player);
+        if (this.mother != null && this.mother.getOwner() != player) BrainUtils.setAttackTarget(this.mother.getEntity(),
+                player);
         if (i <= 0 || player.inventory.addItemStackToInventory(itemstack))
         {
             player.onItemPickup(this, i);
@@ -229,13 +232,7 @@ public class EntityPokemobEgg extends AgeableEntity
         if (!this.init) return;
         final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
         MinecraftForge.EVENT_BUS.post(event);
-        if (!event.isCanceled())
-        {
-            final EggEvent.Hatch evt = new EggEvent.Hatch(this);
-            MinecraftForge.EVENT_BUS.post(evt);
-            ItemPokemobEgg.spawn(this.getEntityWorld(), this.getHeldItemMainhand(), Math.floor(this.posX) + 0.5, Math
-                    .floor(this.posY) + 0.5, Math.floor(this.posZ) + 0.5);
-        }
+        if (!event.isCanceled()) ItemPokemobEgg.spawn(this.getEntityWorld(), this.getHeldItemMainhand(), this);
         this.remove();
     }
 

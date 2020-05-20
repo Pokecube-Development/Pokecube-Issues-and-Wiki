@@ -9,25 +9,25 @@ import pokecube.core.interfaces.IPokemob;
 public class Kyurem extends Condition
 {
     @Override
-    public boolean canCapture(Entity trainer, IPokemob pokemon)
+    public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!canCapture(trainer)) return false;
-        boolean reshiram = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("reshiram")) > 0;
-        boolean zekrom = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(),
-                Database.getEntry("zekrom")) > 0;
-                
-        String name = "Reshiram, Zekrom";
-                
-        if ((reshiram && zekrom)) return true;
+        if (!super.canCapture(trainer, pokemon)) return false;
+        final boolean reshiram = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "reshiram")) > 0;
+        final boolean zekrom = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
+                "zekrom")) > 0;
+
+        final String name = "Reshiram, Zekrom";
+
+        if (reshiram && zekrom) return true;
         if (pokemon != null && !trainer.getEntityWorld().isRemote)
         {
-            sendNoTrust(trainer);
-            sendLegendExtra(trainer, name);
+            this.sendNoTrust(trainer);
+            this.sendLegendExtra(trainer, name);
         }
         return false;
     }
-    
+
     @Override
     public PokedexEntry getEntry()
     {

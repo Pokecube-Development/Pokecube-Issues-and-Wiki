@@ -1,18 +1,23 @@
 package pokecube.core.ai.tasks.idle;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.IBlockReader;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
@@ -26,7 +31,7 @@ import thut.api.terrain.TerrainManager;
  * This IAIRunnable makes the mobs randomly wander around if they have nothing
  * better to do.
  */
-public class AIIdle extends AIBase
+public class AIIdle extends IdleTask
 {
     public static int IDLETIMER = 1;
 
@@ -55,23 +60,33 @@ public class AIIdle extends AIBase
         return null;
     }
 
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
+    static
+    {
+        AIIdle.mems.put(MemoryModules.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT);
+        AIIdle.mems.put(MemoryModules.PATH, MemoryModuleStatus.VALUE_ABSENT);
+    }
+
     private AttributeModifier idlePathing = null;
-    final PokedexEntry        entry;
-    private double            x;
-    private double            y;
-    private double            z;
-    private final double      speed;
+
+    final PokedexEntry entry;
+
+    private double x;
+    private double y;
+    private double z;
+
+    private final double speed;
 
     private int ticksSinceLastPathed = 0;
 
     private double maxLength = 16;
-    Vector3        v         = Vector3.getNewVector();
 
+    Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
 
     public AIIdle(final IPokemob pokemob)
     {
-        super(pokemob);
+        super(pokemob, AIIdle.mems);
         this.setMutex(2);
         this.entry = pokemob.getPokedexEntry();
         this.speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();

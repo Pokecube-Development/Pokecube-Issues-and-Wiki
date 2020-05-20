@@ -5,6 +5,7 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability.GuardState;
+import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
 import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 
@@ -106,9 +107,10 @@ public class GuardAI extends Goal
         // for things like AR support.
         if (null == this.entity || !this.entity.isAlive() || !this.capability.hasActiveTask(this.entity.getEntityWorld()
                 .getDayTime(), 24000)) return false;
-        final BlockPos pos = this.capability.getActiveTask().getPos();
+        final IGuardTask task = this.capability.getActiveTask();
+        final BlockPos pos = task.getPos();
         if (pos == null || pos.equals(BlockPos.ZERO)) return false;
-        return true;
+        return !pos.withinDistance(this.entity.getPosition(), task.getRoamDistance());
     }
 
     @Override

@@ -1,9 +1,11 @@
 package pokecube.core.ai.tasks;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.Vec3d;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -16,7 +18,7 @@ import thut.api.maths.Vector3;
  * triggers if the owner gets too far away from the mob, and the mob is set to
  * follow.
  */
-public class AIFollowOwner extends AIBase
+public class AIFollowOwner extends TaskBase<MobEntity>
 {
     public static double speedMult = 2;
 
@@ -106,7 +108,7 @@ public class AIFollowOwner extends AIBase
         else if (this.pokemob.getLogicState(LogicStates.SITTING)) return false;
         else if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
         else if (this.pathing && this.entity.getDistanceSq(LivingEntity) > this.maxDist * this.maxDist) return true;
-        else if (this.entity.getAttackTarget() != null || this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+        else if (BrainUtils.hasAttackTarget(this.entity) || this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
             return false;
         else if (this.entity.getDistanceSq(LivingEntity) < this.minDist * this.minDist) return false;
         else if (Vector3.getNewVector().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist)

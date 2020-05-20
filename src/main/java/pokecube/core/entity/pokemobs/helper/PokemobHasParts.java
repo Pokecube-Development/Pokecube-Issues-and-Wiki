@@ -94,7 +94,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
         super.livingTick();
     }
 
-    private void updatePartsPos()
+    protected void updatePartsPos()
     {
         if (this.parts.length > 0)
         {

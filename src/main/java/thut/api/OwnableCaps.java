@@ -96,6 +96,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
             return this.playerOwned;
         }
 
@@ -131,8 +132,8 @@ public class OwnableCaps
         public LivingEntity getOwner()
         {
             if (this.getOwnerId() == null) this.owner = null;
-            if (this.getOwnerId() != null && this.owner == null) this.owner = this.wrapped.getOwner();
-            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getEntityWorld() instanceof ServerWorld)
+            if (this.getOwnerId() != null) this.owner = this.wrapped.getOwner();
+            if (this.getOwnerId() != null && this.wrapped.getEntityWorld() instanceof ServerWorld)
                 return this.owner = this.getOwner((ServerWorld) this.wrapped.getEntityWorld(), this.owner);
             return this.owner;
         }
@@ -146,6 +147,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
             return this.playerOwned;
         }
 
@@ -204,6 +206,7 @@ public class OwnableCaps
         @Override
         public boolean isPlayerOwned()
         {
+            this.playerOwned = this.playerOwned || this.getOwner() instanceof PlayerEntity;
             return this.playerOwned;
         }
 

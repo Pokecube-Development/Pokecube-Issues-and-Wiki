@@ -358,7 +358,7 @@ public class ThutWearables
     {
         final PlayerEntity wearer = event.getPlayer();
         if (wearer instanceof ServerPlayerEntity && (this.toKeep.contains(wearer.getUniqueID()) || event
-                .isEndConquered()))
+                .isEndConquered()) && this.player_inventory_cache.containsKey(wearer.getUniqueID()))
         {
             final CompoundNBT tag = this.player_inventory_cache.get(wearer.getUniqueID()).serializeNBT();
             final PlayerWearables wearables = ThutWearables.getWearables(wearer);

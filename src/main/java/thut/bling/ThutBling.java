@@ -7,6 +7,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
@@ -25,7 +26,9 @@ import thut.bling.client.BlingRender;
 import thut.bling.client.gui.Bag;
 import thut.bling.network.PacketBag;
 import thut.wearables.EnumWearable;
+import thut.wearables.Reference;
 import thut.wearables.ThutWearables;
+import thut.wearables.network.PacketHandler;
 
 @Mod(value = ThutBling.MODID)
 public class ThutBling
@@ -89,7 +92,7 @@ public class ThutBling
 
         public void setup(final FMLCommonSetupEvent event)
         {
-            ThutWearables.packets.registerMessage(PacketBag.class, PacketBag::new);
+            ThutBling.packets.registerMessage(PacketBag.class, PacketBag::new);
         }
 
         public void setupClient(final FMLClientSetupEvent event)
@@ -127,6 +130,9 @@ public class ThutBling
             event.getRegistry().register(SmallContainer.TYPE.setRegistryName(ThutBling.MODID, "bling_bag"));
         }
     }
+
+    public final static PacketHandler packets = new PacketHandler(new ResourceLocation(ThutBling.MODID, "comms"),
+            Reference.NETVERSION);
 
     public static Config config = new Config();
 

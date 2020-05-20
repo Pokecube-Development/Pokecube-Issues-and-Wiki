@@ -78,10 +78,9 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     public void clientAnimation(final MovePacketInfo info, final float partialTick)
     {
         final int tick = info.currentTick;
-        for (int i = 0; i < this.components.size(); i++)
+        for (final WrappedAnimation toRun : this.components)
         {
             info.currentTick = tick;
-            final WrappedAnimation toRun = this.components.get(i);
             if (tick > toRun.start + toRun.wrapped.getDuration()) continue;
             if (toRun.start > tick) continue;
             info.currentTick = tick - toRun.start;
@@ -105,6 +104,7 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     public void spawnClientEntities(final MovePacketInfo info)
     {
         final int tick = info.currentTick;
+        final float volume = (float) PokecubeCore.getConfig().moveVolumeEffect;
         for (int i = 0; i < this.components.size(); i++)
         {
             info.currentTick = tick;
@@ -131,12 +131,12 @@ public class AnimationMultiAnimations extends MoveAnimationBase
                 // Check source sounds.
                 if (valid = info.source != null || info.attacker != null) pos.set(info.source != null ? info.source
                         : info.attacker);
-                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent);
+                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent, volume);
                 // Check target sounds.
                 valid = toRun.soundTarget;
                 if (valid = info.target != null || info.attacked != null) pos.set(info.target != null ? info.target
                         : info.attacked);
-                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent);
+                if (valid) PokecubeCore.proxy.moveSound(pos, toRun.soundEvent, volume);
             }
         }
     }

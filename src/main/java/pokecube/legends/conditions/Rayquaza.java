@@ -11,7 +11,7 @@ public class Rayquaza extends Condition
     @Override
     public boolean canCapture(final Entity trainer, final IPokemob pokemon)
     {
-        if (!this.canCapture(trainer)) return false;
+        if (!super.canCapture(trainer, pokemon)) return false;
         final boolean kyogre = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(
                 "kyogre")) > 0;
         final boolean groudon = CaptureStats.getTotalNumberOfPokemobCaughtBy(trainer.getUniqueID(), Database.getEntry(

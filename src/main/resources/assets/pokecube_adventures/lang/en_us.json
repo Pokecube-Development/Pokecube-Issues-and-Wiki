@@ -9,6 +9,7 @@
     "item.pokecube_adventures.linker.unset": "Reset Linker",
     "item.pokecube_adventures.linked.mob": "Set guard location for %1$s to %2$s, %3$s, %4$s",
     "item.pokecube_adventures.linked.mob.fail": "You are not allowed to do that!",
+    "item.pokecube_adventures.linker.copied": "Location copied to clipboard",
 
     "item.pokecube_adventures.biome_setter": "Sub-Biome Setter",
     "item.pokecube_adventures.exp_share": "Exp. Share",

@@ -4,7 +4,6 @@
 package pokecube.core.entity.pokemobs;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -16,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.ShoulderRidingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -107,16 +107,11 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    public void tick()
+    public void livingTick()
     {
         if (this.getEntityWorld() instanceof ServerWorld)
         {
-            if (this.pokemobCap.getOwnerId() != null)
-            {
-                this.enablePersistence();
-                if (this.ticksExisted % 100 == new Random(this.pokemobCap.getRNGValue()).nextInt(100))
-                    PlayerPokemobCache.UpdateCache(this.pokemobCap);
-            }
+            if (this.pokemobCap.getOwnerId() != null) this.enablePersistence();
             final PlayerEntity near = this.getEntityWorld().getClosestPlayer(this, -1);
             if (near != null && this.getOwnerId() == null)
             {
@@ -129,7 +124,16 @@ public class EntityPokemob extends PokemobHasParts
                 if (dist > PokecubeCore.getConfig().aiDisableDistance) return;
             }
         }
-        super.tick();
+        super.livingTick();
+    }
+
+    @Override
+    protected void updateAITasks()
+    {
+        super.updateAITasks();
+        @SuppressWarnings("unchecked")
+        final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getBrain();
+        brain.tick((ServerWorld) this.world, this);
     }
 
     @Override
@@ -288,6 +292,8 @@ public class EntityPokemob extends PokemobHasParts
     public void onAddedToWorld()
     {
         PokemobTracker.addPokemob(this.pokemobCap);
+        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
+                this.pokemobCap);
         super.onAddedToWorld();
     }
 
@@ -295,6 +301,8 @@ public class EntityPokemob extends PokemobHasParts
     public void onRemovedFromWorld()
     {
         PokemobTracker.removePokemob(this.pokemobCap);
+        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
+                this.pokemobCap);
         super.onRemovedFromWorld();
     }
 
@@ -372,6 +380,7 @@ public class EntityPokemob extends PokemobHasParts
         final boolean culls = PokecubeCore.getConfig().cull;
         final boolean owned = this.pokemobCap.getOwnerId() != null;
         if (owned) return true;
+        if (this.getPersistentData().contains(TagNames.NOPOOF)) return true;
         return !(despawns || culls);
     }
 

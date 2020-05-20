@@ -24,6 +24,7 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
@@ -87,6 +88,9 @@ public class Config extends ConfigData
     public boolean      legendsBreed         = false;
     @Configure(category = Config.misc)
     public List<String> customSounds         = Lists.newArrayList();
+
+    @Configure(category = Config.misc)
+    public List<String> persistent_tag_blacklist = Lists.newArrayList();
 
     @Configure(category = Config.perms)
     public boolean permsCapture         = false;
@@ -172,6 +176,11 @@ public class Config extends ConfigData
     public boolean defaultElectricActions       = true;
     @Configure(category = Config.moves)
     public boolean defaultIceActions            = true;
+
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeCry    = 0.0625f;
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeEffect = 1;
 
     // AI Related settings
     @Configure(category = Config.mobAI)
@@ -480,6 +489,9 @@ public class Config extends ConfigData
     public boolean       battleLogInChat        = false;
     @Configure(category = Config.client, type = Type.CLIENT)
     public boolean       pokeCenterMusic        = true;
+
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double captureVolume = 0.2;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs              = Lists.newArrayList();
@@ -846,5 +858,7 @@ public class Config extends ConfigData
         }
 
         if (failed) this.leaps = new SoundEvent[] { SoundEvents.ENTITY_GENERIC_SMALL_FALL };
+
+        PokecubeManager.init();
     }
 }

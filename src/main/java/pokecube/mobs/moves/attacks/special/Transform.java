@@ -3,9 +3,9 @@
  */
 package pokecube.mobs.moves.attacks.special;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.interfaces.IMoveAnimation;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveNames;
@@ -79,8 +79,8 @@ public class Transform extends Move_Basic
         final IPokemob attackedMob = CapabilityPokemob.getPokemobFor(attacked);
         if (attacked instanceof LivingEntity)
         {
-            if (attackedMob != null) if (!(attacked instanceof IBreedingMob) || attacked != ((IBreedingMob) attacker)
-                    .getLover()) ((CreatureEntity) attacked).setAttackTarget(attacker.getEntity());
+            if (!(attacked instanceof IBreedingMob) || attacked != ((IBreedingMob) attacker).getLover()) AIFindTarget
+                    .initiateCombat(attacker.getEntity(), (LivingEntity) attacked);
             attacker.setTransformedTo(attacked);
         }
         else if (attackedMob != null)

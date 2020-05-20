@@ -5,7 +5,6 @@ import java.util.Random;
 import java.util.function.Consumer;
 
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
@@ -14,7 +13,6 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
 import net.minecraft.util.ResourceLocation;
@@ -56,6 +54,8 @@ import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
+import pokecube.core.database.PokedexEntryLoader;
+import pokecube.core.database.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.events.NpcSpawn;
@@ -68,6 +68,7 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
+import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.network.EntityUpdate;
@@ -153,11 +154,11 @@ public class TrainerEventHandler
         ItemStack stack = ItemStack.EMPTY;
         try
         {
-            stack = TrainerEventHandler.fromString(Config.instance.defaultReward, event.getObject());
+            stack = TrainerEventHandler.fromString(Config.instance.trainer_defeat_reward, event.getObject());
         }
         catch (final CommandException e)
         {
-            PokecubeCore.LOGGER.warn("Error with default trainer rewards " + Config.instance.defaultReward, e);
+            PokecubeCore.LOGGER.warn("Error with default trainer rewards " + Config.instance.trainer_defeat_reward, e);
         }
         if (!stack.isEmpty()) rewards.getRewards().add(new Reward(stack));
         final DefaultAIStates aiStates = new DefaultAIStates();
@@ -192,10 +193,11 @@ public class TrainerEventHandler
         TrainerEventHandler.attach_pokemobs(event);
     }
 
-    public static ItemStack fromString(final String arg, final ICommandSource sender) throws CommandException
+    public static ItemStack fromString(final String arg, final Entity sender) throws CommandException
     {
-        // TODO use ItemArgument for this somehow.
-        return new ItemStack(Items.EMERALD);
+        final Drop drop = PokedexEntryLoader.gson.fromJson(arg, Drop.class);
+        return Tools.getStack(drop.getValues(), sender.getEntityWorld() instanceof ServerWorld ? (ServerWorld) sender
+                .getEntityWorld() : null);
     }
 
     public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
@@ -288,7 +290,7 @@ public class TrainerEventHandler
             {
                 messages.sendMessage(MessageState.HURT, evt.getSource().getTrueSource(), evt.getEntity()
                         .getDisplayName(), evt.getSource().getTrueSource().getDisplayName());
-                messages.doAction(MessageState.HURT, (LivingEntity) evt.getSource().getTrueSource());
+                messages.doAction(MessageState.HURT, (LivingEntity) evt.getSource().getTrueSource(), evt.getEntity());
             }
             if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.setTarget((LivingEntity) evt
                     .getSource().getTrueSource());
@@ -391,9 +393,11 @@ public class TrainerEventHandler
         }
         if (messages != null)
         {
-            messages.sendMessage(MessageState.INTERACT, evt.getPlayer(), target.getDisplayName(), evt.getPlayer()
-                    .getDisplayName());
-            messages.doAction(MessageState.INTERACT, evt.getPlayer());
+            MessageState state = MessageState.INTERACT;
+            if (pokemobs != null) state = pokemobs.canBattle(evt.getPlayer(), true) ? MessageState.INTERACT_YESBATTLE
+                    : MessageState.INTERACT_NOBATTLE;
+            messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
+            messages.doAction(state, evt.getPlayer(), target);
         }
     }
 
