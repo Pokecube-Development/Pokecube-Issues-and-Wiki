@@ -4,6 +4,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.ILinkable;
+import thut.api.entity.IBreedingMob;
 import thut.api.entity.IMobColourable;
 import thut.api.terrain.CapabilityTerrain.ITerrainProvider;
 
@@ -23,5 +24,8 @@ public class ThutCaps
 
     @CapabilityInject(IMobColourable.class)
     public static final Capability<IMobColourable> COLOURABLE = null;
+
+    @CapabilityInject(IBreedingMob.class)
+    public static final Capability<IBreedingMob> BREEDS = null;
 
 }

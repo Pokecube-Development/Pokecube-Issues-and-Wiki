@@ -4,11 +4,11 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.events.pokemob.combat.CommandAttackEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.api.maths.Vector3;
@@ -52,8 +52,7 @@ public class AttackLocationHandler extends DefaultHandler
             }
 
             // Otherwise set the location for execution of move.
-            pokemob.setCombatState(CombatStates.NEWEXECUTEMOVE, true);
-            pokemob.setTargetPos(this.location);
+            BrainUtils.setMoveUseTarget(pokemob.getEntity(), this.location);
         }
     }
 

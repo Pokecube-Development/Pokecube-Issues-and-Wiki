@@ -22,10 +22,14 @@ public enum CombatStates
     DODGING(1 << 5, false),
     /** Pokemon is fighting over mate)), should stop when hp hits 50%. */
     MATEFIGHT(1 << 6, false),
-    /** Indicates that the pokemon is going to execute a move. */
+    /**
+     * Indicates that the pokemon is going to execute a move. This value is used
+     * to signal that a move is in progress, for things such as dodging and
+     * rendering
+     */
     EXECUTINGMOVE(1 << 7, false),
-    /** Indeicates that there is a new move to use. */
-    NEWEXECUTEMOVE(1 << 8, false),
+    /** This pokemob has fainted and cannot battle */
+    FAINTED(1 << 8),
     /** Pokemon cannot have item used on it */
     NOITEMUSE(1 << 9),
     /** Pokemon is forbidden from swapping move */

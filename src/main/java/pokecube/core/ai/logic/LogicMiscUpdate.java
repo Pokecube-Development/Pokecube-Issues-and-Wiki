@@ -110,13 +110,6 @@ public class LogicMiscUpdate extends LogicBase
             this.reset = false;
         }
 
-        if (this.pokemob.getSexe() != IPokemob.MALE)
-        {
-            int diff = 1 * PokecubeCore.getConfig().mateMultiplier;
-            if (this.pokemob.getLoveTimer() > 0) diff = 1;
-            this.pokemob.setLoveTimer(this.pokemob.getLoveTimer() + diff);
-        }
-
         // If not angry, and not been so for a while, reset stat modifiers.
         if (!angry)
         {
@@ -130,12 +123,11 @@ public class LogicMiscUpdate extends LogicBase
         else /** Angry pokemobs shouldn't decide to walk around. */
             this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
 
+        this.pokemob.tickBreedDelay(PokecubeCore.getConfig().mateMultiplier);
+
         // Reset tamed state for things with no owner.
         if (this.pokemob.getGeneralState(GeneralStates.TAMED) && this.pokemob.getOwnerId() == null) this.pokemob
                 .setGeneralState(GeneralStates.TAMED, false);
-
-        // Ensure cap on love timer.
-        if (this.pokemob.getLoveTimer() > 600) this.pokemob.resetLoveStatus();
 
         // Check exit cube state.
         if (this.entity.ticksExisted > LogicMiscUpdate.EXITCUBEDURATION && this.pokemob.getGeneralState(

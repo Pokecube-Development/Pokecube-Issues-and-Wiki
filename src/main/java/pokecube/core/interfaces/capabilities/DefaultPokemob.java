@@ -121,6 +121,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
     {
         if (capability == ThutCaps.COLOURABLE) return this.holder.cast();
+        if (capability == ThutCaps.BREEDS) return this.holder.cast();
         return CapabilityPokemob.POKEMOB_CAP.orEmpty(capability, this.holder);
     }
 
@@ -339,7 +340,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                 BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
-            else if (TeamManager.sameTeam(entity, this.getEntity()))
+            else if (TeamManager.sameTeam(entity, this.getEntity()) && !this.getCombatState(CombatStates.MATEFIGHT))
             {
                 BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;

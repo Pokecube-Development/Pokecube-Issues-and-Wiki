@@ -64,12 +64,6 @@ public abstract class PokemobAI extends PokemobEvolves
     }
 
     @Override
-    public Vector3 getTargetPos()
-    {
-        return this.target;
-    }
-
-    @Override
     public List<Logic> getTickLogic()
     {
         return this.logic;
@@ -188,12 +182,6 @@ public abstract class PokemobAI extends PokemobEvolves
     public void setRoutineState(final AIRoutine routine, final boolean enabled)
     {
         this.routineStates[routine.ordinal()] = enabled;
-    }
-
-    @Override
-    public void setTargetPos(final Vector3 pos)
-    {
-        this.target = pos;
     }
 
     @Override

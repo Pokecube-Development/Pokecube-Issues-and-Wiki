@@ -26,13 +26,13 @@ public enum GeneralStates
     final int     mask;
     final boolean persist;
 
-    private GeneralStates(int mask)
+    private GeneralStates(final int mask)
     {
         this.mask = mask;
         this.persist = true;
     }
 
-    private GeneralStates(int mask, boolean persist)
+    private GeneralStates(final int mask, final boolean persist)
     {
         this.mask = mask;
         this.persist = persist;

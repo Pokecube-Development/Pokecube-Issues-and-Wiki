@@ -22,6 +22,7 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.abilities.Ability;
 import pokecube.core.database.moves.MoveEntry;
@@ -202,7 +203,11 @@ public class Move_Basic extends Move_Base implements IMoveConstants
                     this.attack(attacker, attacked);
                 }
         }
-        else MovesUtils.displayEfficiencyMessages(attacker, null, -1, 0);
+        else if (BrainUtils.hasAttackTarget(attacker.getEntity()))
+        {
+            final LivingEntity target = BrainUtils.getAttackTarget(attacker.getEntity());
+            MovesUtils.displayEfficiencyMessages(attacker, target, -1, 0);
+        }
         this.doWorldAction(attacker, location);
     }
 

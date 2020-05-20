@@ -26,9 +26,10 @@ public abstract class PokemobHungry extends PokemobMoves
     public void eat(final Object e)
     {
         int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 4;
-        if (e instanceof ItemEntity)
+        ItemStack item = e instanceof ItemStack ? (ItemStack) e : ItemStack.EMPTY;
+        if (e instanceof ItemEntity) item = ((ItemEntity) e).getItem();
+        if (!item.isEmpty())
         {
-            final ItemStack item = ((ItemEntity) e).getItem();
             final IPokemobUseable usable = IPokemobUseable.getUsableFor(item);
             if (usable != null)
             {

@@ -17,7 +17,7 @@ import net.minecraftforge.server.permission.IPermissionHandler;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.AIBase.IRunnable;
+import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.pokemob.SpawnEvent.SendOut;
 import pokecube.core.handlers.Config;

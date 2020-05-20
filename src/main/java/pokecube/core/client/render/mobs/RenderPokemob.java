@@ -571,8 +571,13 @@ public class RenderPokemob extends MobRenderer<GenericPokemob, ModelWrapper<Gene
             final float entityYaw, final float partialTicks)
     {
         final IPokemob pokemob = entity.pokemobCap;
+        transform:
         if (pokemob.getTransformedTo() != null)
         {
+            final Entity to = pokemob.getTransformedTo();
+            final IPokemob other = CapabilityPokemob.getPokemobFor(to);
+            // No transform loops!
+            if (other != null && other.getTransformedTo() != null) break transform;
             this.renderManager.getRenderer(pokemob.getTransformedTo()).doRender(pokemob.getTransformedTo(), x, y, z,
                     entityYaw, partialTicks);
             return;

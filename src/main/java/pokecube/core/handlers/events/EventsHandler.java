@@ -63,7 +63,7 @@ import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.ai.tasks.AIBase.IRunnable;
+import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.blocks.pc.PCTile;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderTile;

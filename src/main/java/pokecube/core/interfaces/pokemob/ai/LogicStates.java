@@ -19,9 +19,7 @@ public enum LogicStates
     /** A sleeping pokemon will try to sit at its home location */
     SLEEPING(1 << 7, false),
     /** This pokemob wants to sleep, but not here */
-    TIRED(1 << 8),
-    /** This pokemob has fainted and cannot battle */
-    FAINTED(1 << 9);
+    TIRED(1 << 8);
 
     final int     mask;
     final boolean persist;

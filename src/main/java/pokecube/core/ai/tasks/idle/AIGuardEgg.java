@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.pathfinding.Path;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.interfaces.IPokemob;
@@ -24,9 +24,10 @@ public class AIGuardEgg extends IdleTask
     public static int PATHCOOLDOWN   = 50;
     public static int SEARCHCOOLDOWN = 50;
 
-    EntityPokemobEgg egg               = null;
-    int              eggSearchCooldown = 0;
-    int              eggPathCooldown   = 0;
+    EntityPokemobEgg egg = null;
+
+    int eggSearchCooldown = 0;
+    int eggPathCooldown   = 0;
 
     public AIGuardEgg(final IPokemob mob)
     {
@@ -50,8 +51,8 @@ public class AIGuardEgg extends IdleTask
         if (this.eggPathCooldown-- > 0) return;
         this.eggPathCooldown = AIGuardEgg.PATHCOOLDOWN;
         // Path to the egg.
-        final Path path = this.entity.getNavigator().getPathToEntityLiving(this.egg, 0);
-        this.addEntityPath(this.entity, path, this.pokemob.getMovementSpeed());
+        final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+        this.setWalkTo(this.egg.getPositionVec(), speed, 0);
     }
 
     @Override

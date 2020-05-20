@@ -1,35 +1,55 @@
 package pokecube.core.ai.tasks.combat;
 
+import java.util.Map;
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
+import com.google.common.collect.Maps;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 
-public class AILeap extends FightTask implements IAICombat
+/**
+ * This one extends TaskBase, rather than FightTask, as it can apply when just a
+ * move target, ie attacking blocks, so it doesn't need to actually have a
+ * living target to apply.
+ */
+public class AILeap extends TaskBase<LivingEntity> implements IAICombat
 {
-    Entity  target;
-    int     leapCooldown = 10;
-    double  leapSpeed    = 1;
-    double  movementSpeed;
-    Vector3 leapTarget   = null;
-    Vector3 leapOrigin   = null;
+    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
+
+    static
+    {
+        AILeap.MEMS.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_PRESENT);
+    }
+
+    int leapTick = -1;
+
+    double leapSpeed = 1;
+    double movementSpeed;
+
+    IPosWrapper pos = null;
+
+    Vector3 leapTarget = Vector3.getNewVector();
+    Vector3 leapOrigin = Vector3.getNewVector();
 
     public AILeap(final IPokemob mob)
     {
-        super(mob);
+        super(mob, AILeap.MEMS);
         this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
-        this.setMutex(0);
     }
 
     /**
@@ -45,37 +65,27 @@ public class AILeap extends FightTask implements IAICombat
     @Override
     public void reset()
     {
-        this.target = null;
-        this.leapTarget = null;
-        this.leapOrigin = null;
     }
 
     @Override
     public void run()
     {
+        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
 
         // Target loc could just be a position
-        this.leapTarget = this.target != null ? Vector3.getNewVector().set(this.target) : this.pokemob.getTargetPos();
+        this.leapTarget.set(this.pos.getPos());
         final Vector3 location = Vector3.getNewVector().set(this.entity);
-        final Vector3 dir = this.leapTarget.subtract(location);
+        final Vector3 diff = this.leapTarget.subtract(location);
 
         /* Don't leap up if too far. */
-        if (dir.y > 5) return;
+        if (diff.y > 5) return;
 
-        final double dist = dir.x * dir.x + dir.z * dir.z;
-        float diff = this.entity.getWidth() + (this.target == null ? 0 : this.target.getWidth());
-        diff = diff * diff;
+        final double dist = diff.magSq();
 
         // Wait till it is a bit closer than this...
         if (dist >= 16.0D) return;
-        if (dist <= diff)
-        {
-            this.pokemob.setCombatState(CombatStates.LEAPING, false);
-            this.leapCooldown = PokecubeCore.getConfig().attackCooldown / 2;
-            return;
-        }
 
-        dir.norm();
+        final Vector3 dir = diff.normalize();
         dir.scalarMultBy(this.leapSpeed * PokecubeCore.getConfig().leapSpeedFactor);
         if (dir.isNaN())
         {
@@ -83,13 +93,11 @@ public class AILeap extends FightTask implements IAICombat
             dir.clear();
         }
 
-        if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Leap: " + this.entity + " " + dir.mag());
-
         // Compute differences in velocities, and then account for that during
         // the leap.
         final Vector3 v_a = Vector3.getNewVector().setToVelocity(this.entity);
         final Vector3 v_t = Vector3.getNewVector();
-        if (this.target != null) v_t.setToVelocity(this.target);
+        if (target != null) v_t.setToVelocity(target);
         // Compute velocity differential.
         final Vector3 dv = v_a.subtractFrom(v_t);
         // Adjust for existing velocity differential.
@@ -98,19 +106,28 @@ public class AILeap extends FightTask implements IAICombat
          * Apply the leap
          */
         dir.addVelocities(this.entity);
-        // Only play sound once.
-        if (this.leapCooldown == -1) this.toRun.add(new PlaySound(this.entity.dimension, Vector3.getNewVector().set(
-                this.entity), this.getLeapSound(), SoundCategory.HOSTILE, 1, 1));
+
+        if (PokecubeMod.debug) PokecubeCore.LOGGER.debug("Leap: " + this.entity + " " + diff + " " + dir);
+
+        // Set the timer so we don't leap again rapidly
+        this.leapTick = this.entity.ticksExisted + PokecubeCore.getConfig().attackCooldown / 2;
+
+        new PlaySound(this.entity.dimension, Vector3.getNewVector().set(this.entity), this.getLeapSound(),
+                SoundCategory.HOSTILE, 1, 1).run(this.world);
+        this.pokemob.setCombatState(CombatStates.LEAPING, false);
     }
 
     @Override
     public boolean shouldRun()
     {
-        if (!this.canMove()) return false;
-
-        return this.leapCooldown-- < 0 && this.pokemob.getCombatState(CombatStates.LEAPING)
-                && ((this.target = BrainUtils.getAttackTarget(this.entity)) != null || this.pokemob
-                        .getTargetPos() != null);
+        // Can't move, no leap
+        if (!TaskBase.canMove(this.pokemob)) return false;
+        // Not actually set to leap
+        if (!this.pokemob.getCombatState(CombatStates.LEAPING)) return false;
+        // On cooldown, no leap
+        if (this.leapTick > this.entity.ticksExisted) return false;
+        // Leap if we have a target pos
+        return (this.pos = BrainUtils.getMoveUseTarget(this.entity)) != null;
     }
 
 }

@@ -494,7 +494,7 @@ public class PokemobEventsHandler
                     if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem,
                             ItemStack.EMPTY);
                 }
-                pokemob.setLoveTimer(0);
+                pokemob.setReadyToMate(player);
                 BrainUtils.setAttackTarget(entity, null);
                 entity.getEntityWorld().setEntityState(entity, (byte) 18);
                 evt.setCanceled(true);

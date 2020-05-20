@@ -36,7 +36,6 @@ import pokecube.core.interfaces.pokemob.IHasMoves;
 import pokecube.core.interfaces.pokemob.IHasOwner;
 import pokecube.core.interfaces.pokemob.IHasStats;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
-import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.PokeType;
 import thut.api.ModelHolder;
 import thut.api.entity.IBreedingMob;
@@ -499,7 +498,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default void revive()
     {
-        this.setLogicState(LogicStates.FAINTED, false);
+        this.setCombatState(CombatStates.FAINTED, false);
         this.setCombatState(CombatStates.ANGRY, false);
         this.setHungerTime(0);
         this.onSetTarget(null, true);

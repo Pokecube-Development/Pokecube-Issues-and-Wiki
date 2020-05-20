@@ -10,7 +10,7 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
 import pokecube.adventures.capabilities.TrainerCaps;
-import pokecube.core.ai.tasks.AIBase.IRunnable;
+import pokecube.core.ai.tasks.IRunnable;
 import thut.api.entity.ai.IAIRunnable;
 
 public class AITrainerBase implements IAIRunnable

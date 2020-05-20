@@ -1,9 +1,9 @@
 package pokecube.core.interfaces.capabilities.impl;
 
-import java.util.Vector;
+import java.util.UUID;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.MinecraftServer;
@@ -29,14 +29,24 @@ import thut.core.common.ThutCore;
 
 public abstract class PokemobSexed extends PokemobStats
 {
+    private final UUID loveCause = null;
 
     @Override
-    public boolean canMate(final AnimalEntity AnimalEntity)
+    public boolean canMate(final AgeableEntity otherAnimal)
     {
+        if (otherAnimal == null || !otherAnimal.isAlive()) return false;
+        if (otherAnimal == this.getEntity()) return false;
+        // Not allowed to mate!
         if (!this.isRoutineEnabled(AIRoutine.MATE)) return false;
-        final IPokemob otherMob = CapabilityPokemob.getPokemobFor(AnimalEntity);
+        // Too injured, no mate!
+        if (otherAnimal.getHealth() < otherAnimal.getMaxHealth() / 2) return false;
+
+        final IPokemob otherMob = CapabilityPokemob.getPokemobFor(otherAnimal);
         if (otherMob != null)
         {
+            // Not allowed to mate!
+            if (!otherMob.isRoutineEnabled(AIRoutine.MATE)) return false;
+
             PokedexEntry thisEntry = this.getPokedexEntry();
             PokedexEntry thatEntry = otherMob.getPokedexEntry();
 
@@ -63,7 +73,6 @@ public abstract class PokemobSexed extends PokemobStats
                                                     // with a transformer.
                 return true;
         }
-
         return false;
     }
 
@@ -86,29 +95,6 @@ public abstract class PokemobSexed extends PokemobStats
         if (transforms && !otherTransforms && ((IPokemob) male).getTransformedTo() != this.getEntity()) return male
                 .getChild(this);
         return this.getPokedexEntry().getChild(((IPokemob) male).getPokedexEntry());
-    }
-
-    @Override
-    /**
-     * Which entity is this pokemob trying to breed with
-     *
-     * @return
-     */
-    public Entity getLover()
-    {
-        return this.lover;
-    }
-
-    @Override
-    public int getLoveTimer()
-    {
-        return this.loveTimer;
-    }
-
-    @Override
-    public Vector<IBreedingMob> getMalesForBreeding()
-    {
-        return this.males;
     }
 
     public void lay(final IPokemob male)
@@ -164,13 +150,11 @@ public abstract class PokemobSexed extends PokemobStats
         final int hungerValue = PokecubeCore.getConfig().pokemobLifeSpan / 2;
         mate.setHungerTime(mate.getHungerTime() + hungerValue);
         this.setHungerTime(this.getHungerTime() + hungerValue);
-        mate.setLover(null);
         mate.resetLoveStatus();
         AIFindTarget.deagro(this.getEntity());
         AIFindTarget.deagro(mate.getEntity());
         this.lay(mate);
         this.resetLoveStatus();
-        this.lover = null;
     }
 
     @Override
@@ -184,32 +168,43 @@ public abstract class PokemobSexed extends PokemobStats
     @Override
     public void resetLoveStatus()
     {
-        this.setLoveTimer(this.rand.nextInt(600) - this.getBreedingDelay(null));
-        this.setLover(null);
+        this.loveTimer = -this.rand.nextInt(600 + this.getBreedingDelay(null));
         this.setGeneralState(GeneralStates.MATING, false);
-        if (this.males != null) this.males.clear();
     }
 
     @Override
-    /**
-     * Sets the entity to try to breed with
-     *
-     * @param lover
-     */
-    public void setLover(final Entity newLover)
+    public void tickBreedDelay(final int amount)
     {
-        this.lover = newLover;
+        this.loveTimer += amount;
+        if (this.loveTimer > 6000) this.resetLoveStatus();
     }
 
     @Override
-    public void setLoveTimer(final int value)
+    public void setReadyToMate(final PlayerEntity cause)
     {
-        this.loveTimer = value;
+        this.loveTimer = 0;
     }
 
     @Override
-    public boolean tryToBreed()
+    public ServerPlayerEntity getCause()
     {
-        return this.loveTimer >= 0 || this.lover != null;
+        if (this.loveCause == null) return null;
+        else
+        {
+            final PlayerEntity playerentity = this.getEntity().getEntityWorld().getPlayerByUuid(this.loveCause);
+            return playerentity instanceof ServerPlayerEntity ? (ServerPlayerEntity) playerentity : null;
+        }
+    }
+
+    @Override
+    public boolean canBreed()
+    {
+        return this.loveTimer >= 0;
+    }
+
+    @Override
+    public boolean isBreeding()
+    {
+        return this.getGeneralState(GeneralStates.MATING);
     }
 }

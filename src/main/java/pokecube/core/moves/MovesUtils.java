@@ -73,7 +73,6 @@ public class MovesUtils implements IMoveConstants
     {
         String key = baseKey + ".user";
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
-
         final ITextComponent targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
         if (attacker != null) attacker.displayMessageToOwner(new TranslationTextComponent(key, targName));
         key = baseKey + ".target";

@@ -15,15 +15,19 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.DummyTask;
 import net.minecraft.entity.ai.brain.task.FirstShuffledTask;
+import net.minecraft.entity.ai.brain.task.FleeTask;
 import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
+import net.minecraft.entity.ai.brain.task.LookTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAI.ShouldRun;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
+import pokecube.core.ai.routes.WalkToTask;
 import pokecube.core.ai.tasks.combat.AIAttack;
 import pokecube.core.ai.tasks.combat.AICombatMovement;
 import pokecube.core.ai.tasks.combat.AIDodge;
@@ -47,10 +51,13 @@ import thut.api.entity.ai.TaskWrapper;
 public class Tasks
 {
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
-            MemoryModules.HUNTTARGET, MemoryModules.PATH, MemoryModules.WALK_TARGET);
+            MemoryModules.HUNTTARGET, MemoryModules.HUNTED_BY, MemoryModules.MOVE_TARGET, MemoryModules.PATH,
+            MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
+            MemoryModules.NOT_FOUND_PATH);
 
     public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES,
-            SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY);
+            SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS,
+            Sensors.VISIBLE_ITEMS, Sensors.VALID_MATES);
 
     public static void initBrain(final Brain<?> brain)
     {
@@ -97,10 +104,20 @@ public class Tasks
 
         final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
-        pokemob.getTasks().addAll(aiList);
+
+         Task<?> task = new LookTask(45, 90);
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
+
+        task = new WalkToTask(200);
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
+
+        task = new FleeTask(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed()*1.5f));
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
 
         list.add(Tasks.lookAtMany());
         list.add(Tasks.lookAtPlayerOrVillager());
+
+        pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
         {
             Task<LivingEntity> toAdd = null;
@@ -135,19 +152,12 @@ public class Tasks
 
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
-        final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
-        final GuardAI guardai = new GuardAI(pokemob.getEntity(),guardCap);
-        guardai.shouldRun = new ShouldRun()
-        {
-            @Override
-            public boolean shouldRun()
-            {
-                if (!pokemob.getGeneralState(GeneralStates.TAMED)) return true;
-                return pokemob.getGeneralState(GeneralStates.STAYING);
-            }
-        };
-        final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
-        list.add(pair);
+         Task<?> task = new LookTask(45, 90);
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
+
+        task = new FleeTask(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed()*1.5f));
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
+
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
         {
@@ -190,6 +200,16 @@ public class Tasks
         };
         final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
         list.add(pair);
+
+        Task<?> task = new LookTask(45, 90);
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
+
+        task = new WalkToTask(200);
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
+
+        task = new FleeTask(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed()*1.5f));
+        list.add(Pair.of(1, (Task<? super LivingEntity>)task));
+
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
         {
