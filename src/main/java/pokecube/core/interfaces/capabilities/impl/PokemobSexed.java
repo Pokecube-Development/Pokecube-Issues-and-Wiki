@@ -51,6 +51,10 @@ public abstract class PokemobSexed extends PokemobStats
             if (otherMob.getOwnerId() != null && this.getOwnerId() == null) return false;
             if (this.getOwnerId() != null && otherMob.getOwnerId() == null) return false;
 
+            if (PokecubeCore.POKEMOB_BUS.post(new EggEvent.CanBreed(this.getEntity(), otherAnimal))) return false;
+
+            if (!otherMob.getPokedexEntry().breeds || !this.getPokedexEntry().breeds) return false;
+
             PokedexEntry thisEntry = this.getPokedexEntry();
             PokedexEntry thatEntry = otherMob.getPokedexEntry();
 
@@ -60,7 +64,7 @@ public abstract class PokemobSexed extends PokemobStats
             // Check if pokedex entries state they can breed, and then if so,
             // ensure sexe is different.
             final boolean neutral = this.getSexe() == IPokemob.NOSEXE || otherMob.getSexe() == IPokemob.NOSEXE;
-            if (thisEntry.areRelated(thatEntry) || thatEntry.areRelated(thisEntry) && (neutral || otherMob
+            if ((thisEntry.areRelated(thatEntry) || thatEntry.areRelated(thisEntry)) && (neutral || otherMob
                     .getSexe() != this.getSexe())) return true;
 
             // Otherwise check for transform.
