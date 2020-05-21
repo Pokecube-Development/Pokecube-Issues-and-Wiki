@@ -23,6 +23,7 @@ public class PlayerPokemobCache extends PlayerData
     public static void UpdateCache(final IPokemob mob)
     {
         if (!mob.isPlayerOwned() || mob.getOwnerId() == null) return;
+        if (!mob.getEntity().isServerWorld()) return;
         final ItemStack stack = PokecubeManager.pokemobToItem(mob);
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         // Schedule this to run at some point, as it takes a while.

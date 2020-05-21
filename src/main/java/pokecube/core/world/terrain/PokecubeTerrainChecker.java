@@ -127,7 +127,7 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
     {
         if (caveAdjusted)
         {
-            final Set<StructureInfo> set = StructureManager.getFor(v.getPos());
+            final Set<StructureInfo> set = StructureManager.getFor(world.getDimension().getType(), v.getPos());
             for (final StructureInfo info : set)
             {
                 final String name = info.name;

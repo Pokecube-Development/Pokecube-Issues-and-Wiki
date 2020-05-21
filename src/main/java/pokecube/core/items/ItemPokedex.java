@@ -103,7 +103,7 @@ public class ItemPokedex extends Item
             SpawnHandler.refreshTerrain(Vector3.getNewVector().set(playerIn), playerIn.getEntityWorld(), true);
             if (PokecubeMod.debug)
             {
-                final Set<StructureInfo> infos = StructureManager.getFor(pos);
+                final Set<StructureInfo> infos = StructureManager.getFor(worldIn.getDimension().getType(), pos);
                 for (final StructureInfo i : infos)
                     playerIn.sendMessage(new StringTextComponent(i.name));
             }
