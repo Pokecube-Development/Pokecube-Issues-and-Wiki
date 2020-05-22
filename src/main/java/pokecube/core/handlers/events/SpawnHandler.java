@@ -748,11 +748,9 @@ public final class SpawnHandler
         final SpawnData entry = dbe.getSpawnData();
 
         final Vector3 v = Vector3.getNewVector();
-        final Vector3 v1 = Vector3.getNewVector();
         final Vector3 v2 = Vector3.getNewVector();
         final Vector3 v3 = Vector3.getNewVector();
         int totalSpawnCount = 0;
-        final Vector3 offset = v1.clear();
         final Vector3 point = v2.clear();
         SpawnHandler.refreshTerrain(loc, world, false);
         final SpawnBiomeMatcher matcher = entry.getMatcher(world, loc);
@@ -764,19 +762,11 @@ public final class SpawnHandler
 
         for (int i = 0; i < spawnNumber; i++)
         {
-            offset.set(rand.nextInt(distGroupZone) - rand.nextInt(distGroupZone), rand.nextInt(1) - rand.nextInt(1),
-                    rand.nextInt(distGroupZone) - rand.nextInt(distGroupZone));
             final Vector3 dr = SpawnHandler.getRandomPointNear(world, loc, distGroupZone);
-            if (dr != null)
-            {
+            if (dr != null) point.set(dr);
+            else continue;
 
-            }
-            System.out.println(dr);
-
-            v.set(loc);
-            point.set(v.addTo(offset));
-
-            if (!SpawnHandler.isPointValidForSpawn(world, point, dbe)) continue;
+            if (!SpawnHandler.checkNoSpawnerInArea(world, point.intX(), point.intY(), point.intZ())) continue;
 
             final float x = (float) point.x;
             final float y = (float) point.y;
