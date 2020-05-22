@@ -177,11 +177,6 @@ public class Config extends ConfigData
     @Configure(category = Config.moves)
     public boolean defaultIceActions            = true;
 
-    @Configure(category = Config.moves, type = Type.CLIENT)
-    public double moveVolumeCry    = 0.0625f;
-    @Configure(category = Config.moves, type = Type.CLIENT)
-    public double moveVolumeEffect = 1;
-
     // AI Related settings
     @Configure(category = Config.mobAI)
     public int          mateMultiplier        = 1;
@@ -444,54 +439,63 @@ public class Config extends ConfigData
 
     // Gui/client settings
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        guiRef                 = "top_left";
+    public String guiRef     = "top_left";
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        messageRef             = "right_middle";
+    public String messageRef = "right_middle";
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        targetRef              = "top_right";
+    public String targetRef  = "top_right";
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        teleRef                = "top_right";
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> guiPos                 = Lists.newArrayList(new Integer[] { 0, 0 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        guiSize                = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> telePos                = Lists.newArrayList(new Integer[] { 89, 17 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        teleSize               = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> targetPos              = Lists.newArrayList(new Integer[] { 147, -42 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        targetSize             = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> messagePos             = Lists.newArrayList(new Integer[] { -150, -100 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public int           messageWidth           = 150;;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> messagePadding         = Lists.newArrayList(new Integer[] { 0, 0 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        messageSize            = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       guiDown                = true;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       guiAutoScale           = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       autoSelectMoves        = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       autoRecallPokemobs     = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public int           autoRecallDistance     = 32;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       riddenMobsTurnWithLook = true;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       extraberries           = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       battleLogInChat        = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       pokeCenterMusic        = true;
+    public String teleRef    = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT)
-    public double captureVolume = 0.2;
+    public List<Integer> guiPos         = Lists.newArrayList(new Integer[] { 0, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> telePos        = Lists.newArrayList(new Integer[] { 89, 17 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> targetPos      = Lists.newArrayList(new Integer[] { 147, -42 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> messagePos     = Lists.newArrayList(new Integer[] { -150, -100 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> messagePadding = Lists.newArrayList(new Integer[] { 0, 0 });
+
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double guiSize          = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double teleSize         = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double targetSize       = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double messageSize      = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double captureVolume    = 0.2;
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeCry    = 0.0625f;
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeEffect = 1;
+
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean guiDown                = true;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean guiAutoScale           = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean autoSelectMoves        = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean autoRecallPokemobs     = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean riddenMobsTurnWithLook = true;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean extraberries           = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean battleLogInChat        = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean pokeCenterMusic        = true;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean preloadModels          = false;
+
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public int messageWidth       = 150;;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public int autoRecallDistance = 32;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs              = Lists.newArrayList();
