@@ -8,7 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.terrain.TerrainManager;
@@ -19,7 +19,7 @@ import thut.api.terrain.TerrainManager;
  * the mother's breeding cooldown from dropping while an egg is being
  * guarded.
  */
-public class AIGuardEgg extends IdleTask
+public class GuardEggTask extends BaseIdleTask
 {
     public static int PATHCOOLDOWN   = 50;
     public static int SEARCHCOOLDOWN = 50;
@@ -29,7 +29,7 @@ public class AIGuardEgg extends IdleTask
     int eggSearchCooldown = 0;
     int eggPathCooldown   = 0;
 
-    public AIGuardEgg(final IPokemob mob)
+    public GuardEggTask(final IPokemob mob)
     {
         super(mob);
     }
@@ -49,7 +49,7 @@ public class AIGuardEgg extends IdleTask
         if (this.entity.getDistanceSq(this.egg) < 4) return;
         // On cooldown
         if (this.eggPathCooldown-- > 0) return;
-        this.eggPathCooldown = AIGuardEgg.PATHCOOLDOWN;
+        this.eggPathCooldown = GuardEggTask.PATHCOOLDOWN;
         // Path to the egg.
         final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
         this.setWalkTo(this.egg.getPositionVec(), speed, 0);
@@ -73,14 +73,14 @@ public class AIGuardEgg extends IdleTask
         if (this.eggSearchCooldown-- > 0) return false;
         // Only the female (or neutral) will guard the eggs.
         if (this.pokemob.getSexe() == IPokemob.MALE) return false;
-        this.eggSearchCooldown = AIGuardEgg.SEARCHCOOLDOWN;
+        this.eggSearchCooldown = GuardEggTask.SEARCHCOOLDOWN;
         if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
                 .getConfig().guardSearchDistance + 2)) return false;
 
         final List<LivingEntity> list = new ArrayList<>();
         final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
         list.addAll(pokemobs);
-        final Predicate<LivingEntity> isEgg = input -> input instanceof EntityPokemobEgg && AIGuardEgg.this.entity
+        final Predicate<LivingEntity> isEgg = input -> input instanceof EntityPokemobEgg && GuardEggTask.this.entity
                 .getUniqueID().equals(((EntityPokemobEgg) input).getMotherId()) && input.isAlive();
         list.removeIf(e -> !isEgg.test(e));
         list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
@@ -89,7 +89,7 @@ public class AIGuardEgg extends IdleTask
 
         this.egg = (EntityPokemobEgg) list.get(0);
         this.egg.mother = this.pokemob;
-        AIFindTarget.deagro(this.pokemob.getEntity());
+        FindTargetsTask.deagro(this.pokemob.getEntity());
 
         // Only run if we have a live egg to watch.
         if (this.egg != null) return this.egg.isAlive() ? true : false;

@@ -16,7 +16,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
-import pokecube.core.ai.tasks.utility.AIStoreStuff;
+import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -34,7 +34,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
     TextFieldWidget       storage;
     TextFieldWidget       storageFace;
     TextFieldWidget       empty;
-    AIStoreStuff          ai;
+    StoreTask          ai;
     TextFieldWidget       emptyFace;
     List<TextFieldWidget> textBoxes = Lists.newArrayList();
 
@@ -45,7 +45,7 @@ public class GuiPokemobStorage extends GuiPokemobBase
         this.playerInventory = playerInv;
         this.pokeInventory = this.pokemob.getInventory();
         this.entity = this.pokemob.getEntity();
-        this.ai = new AIStoreStuff(this.pokemob);
+        this.ai = new StoreTask(this.pokemob);
         final CompoundNBT tag = container.data.readCompoundTag();
         this.ai.deserializeNBT(tag);
         container.setMode(PacketPokemobGui.STORAGE);

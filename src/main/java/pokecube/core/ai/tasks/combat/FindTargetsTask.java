@@ -44,13 +44,13 @@ import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
-public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITargetFinder
+public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, ITargetFinder
 {
 
     public static boolean handleDamagedTargets = true;
     static
     {
-        MinecraftForge.EVENT_BUS.register(AIFindTarget.class);
+        MinecraftForge.EVENT_BUS.register(FindTargetsTask.class);
     }
 
     public static int DEAGROTIMER = 50;
@@ -80,25 +80,26 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         if (mob == null) return;
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
 
-        if (mob instanceof MobEntity)
-        {
-            final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
-            BrainUtils.setAttackTarget(mob, null);
-            AIFindTarget.deagro(oldTarget);
-        }
-        mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
         if (aggressor != null)
         {
             aggressor.getTargetFinder().clear();
             aggressor.setCombatState(CombatStates.ANGRY, false);
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }
+        if (mob instanceof MobEntity)
+        {
+            final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
+            BrainUtils.setAttackTarget(mob, null);
+            FindTargetsTask.deagro(oldTarget);
+        }
+        mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
+        mob.getBrain().removeMemory(MemoryModules.MATE_TARGET);
     }
 
     @SubscribeEvent
     public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
     {
-        if (!AIFindTarget.handleDamagedTargets || evt.getEntity().getEntityWorld().isRemote) return;
+        if (!FindTargetsTask.handleDamagedTargets || evt.getEntity().getEntityWorld().isRemote) return;
         // Only handle attack target set, not revenge target set.
         if (evt.getTarget() == ((LivingEntity) evt.getEntity()).getRevengeTarget()) return;
         // Prevent mob from targetting self.
@@ -124,7 +125,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
             if (nearest.getDistanceSq(evt.getEntityLiving()) < 256 && nearest instanceof LivingEntity)
             {
                 if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Diverting agro to owner!");
-                AIFindTarget.initiateCombat((MobEntity) evt.getEntityLiving(), (LivingEntity) nearest);
+                FindTargetsTask.initiateCombat((MobEntity) evt.getEntityLiving(), (LivingEntity) nearest);
                 return;
             }
         }
@@ -155,7 +156,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     @SubscribeEvent
     public static void onAttacked(final LivingAttackEvent event)
     {
-        if (!AIFindTarget.handleDamagedTargets || event.getEntity().getEntityWorld().isRemote) return;
+        if (!FindTargetsTask.handleDamagedTargets || event.getEntity().getEntityWorld().isRemote) return;
 
         final DamageSource source = event.getSource();
         final LivingEntity attacked = (LivingEntity) event.getEntity();
@@ -181,7 +182,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     @SubscribeEvent
     public static void onDamaged(final LivingDamageEvent event)
     {
-        if (!AIFindTarget.handleDamagedTargets || event.getEntity().getEntityWorld().isRemote) return;
+        if (!FindTargetsTask.handleDamagedTargets || event.getEntity().getEntityWorld().isRemote) return;
 
         final DamageSource source = event.getSource();
         final LivingEntity attacked = (LivingEntity) event.getEntity();
@@ -214,7 +215,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
             if (oldTarget != null && BrainUtils.getAttackTarget(attacked) != oldTarget) newTarget = oldTarget;
             else if (attacker instanceof LivingEntity) newTarget = (LivingEntity) attacker;
             final MobEntity living = (MobEntity) attacked;
-            AIFindTarget.initiateCombat(living, newTarget);
+            FindTargetsTask.initiateCombat(living, newTarget);
         }
 
     }
@@ -228,8 +229,8 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
      */
     final Predicate<Entity> validGuardTarget = input ->
     {
-        if (input == AIFindTarget.this.entity) return false;
-        if (TeamManager.sameTeam(AIFindTarget.this.entity, input)) return false;
+        if (input == FindTargetsTask.this.entity) return false;
+        if (TeamManager.sameTeam(FindTargetsTask.this.entity, input)) return false;
         if (!AITools.validTargets.test(input)) return false;
         return input instanceof LivingEntity;
     };
@@ -238,7 +239,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
 
     private LivingEntity entityTarget = null;
 
-    public AIFindTarget(final IPokemob mob)
+    public FindTargetsTask(final IPokemob mob)
     {
         super(mob, ImmutableMap.of(MemoryModuleType.VISIBLE_MOBS, MemoryModuleStatus.VALUE_PRESENT));
     }
@@ -246,14 +247,14 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     @Override
     public void clear()
     {
-        this.agroTimer = AIFindTarget.DEAGROTIMER;
+        this.agroTimer = FindTargetsTask.DEAGROTIMER;
         this.entityTarget = null;
     }
 
     /**
      * Check if there are any mobs nearby that will help us. <br>
      * <br>
-     * This is called from {@link AIFindTarget#shouldRun()}
+     * This is called from {@link FindTargetsTask#shouldRun()}
      *
      * @return someone needed help.
      */
@@ -286,25 +287,25 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
 
         // We check for whether it is the same species and, has the same owner
         // (including null) or is on the team.
-        final Predicate<MobEntity> relationCheck = input ->
+        final Predicate<LivingEntity> relationCheck = input ->
         {
             final IPokemob other = CapabilityPokemob.getPokemobFor(input);
             // No pokemob, no helps.
             if (other == null) return false;
             // Not related, no helps.
-            if (!other.getPokedexEntry().areRelated(AIFindTarget.this.pokemob.getPokedexEntry())) return false;
+            if (!other.getPokedexEntry().areRelated(FindTargetsTask.this.pokemob.getPokedexEntry())) return false;
             // Same owner (owned or null), helps.
-            if (other.getOwnerId() == null && AIFindTarget.this.pokemob.getOwnerId() == null || other
-                    .getOwnerId() != null && other.getOwnerId().equals(AIFindTarget.this.pokemob.getOwnerId()))
+            if (other.getOwnerId() == null && FindTargetsTask.this.pokemob.getOwnerId() == null || other
+                    .getOwnerId() != null && other.getOwnerId().equals(FindTargetsTask.this.pokemob.getOwnerId()))
                 return true;
             // Same team, helps.
-            if (TeamManager.sameTeam(input, AIFindTarget.this.entity)) return true;
+            if (TeamManager.sameTeam(input, FindTargetsTask.this.entity)) return true;
             return false;
         };
 
         // Only allow valid guard targets.
-        for (final Object o : pokemobs)
-            if (relationCheck.test((MobEntity) o)) ret.add((MobEntity) o);
+        for (final LivingEntity o : pokemobs)
+            if (relationCheck.test(o)) ret.add(o);
 
         for (final LivingEntity mob : ret)
         {
@@ -323,7 +324,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     /**
      * Check for and agress any guard targets. <br>
      * <br>
-     * This is called from {@link AIFindTarget#run()}
+     * This is called from {@link FindTargetsTask#run()}
      *
      * @return a guard target was found
      */
@@ -350,8 +351,8 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         final List<LivingEntity> ret = new ArrayList<>();
         final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
         // Only allow valid guard targets.
-        for (final Object o : pokemobs)
-            if (this.validGuardTarget.test((Entity) o)) ret.add((LivingEntity) o);
+        for (final LivingEntity o : pokemobs)
+            if (this.validGuardTarget.test(o)) ret.add(o);
         ret.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
         if (ret.isEmpty()) return false;
 
@@ -384,12 +385,12 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     {
         if (target == null)
         {
-            AIFindTarget.deagro(attacker);
+            FindTargetsTask.deagro(attacker);
             this.clear();
         }
         else
         {
-            AIFindTarget.initiateCombat(attacker, target);
+            FindTargetsTask.initiateCombat(attacker, target);
             this.entityTarget = target;
         }
     }
@@ -397,7 +398,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     /**
      * Check if there is a target to hunt, if so, sets it as target. <br>
      * <br>
-     * This is called from {@link AIFindTarget#run()}
+     * This is called from {@link FindTargetsTask#run()}
      *
      * @return if a hunt target was found.
      */
@@ -432,7 +433,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
     /**
      * Check if owner is under attack, if so, agress the attacker. <br>
      * <br>
-     * This is called from {@link AIFindTarget#run()}
+     * This is called from {@link FindTargetsTask#run()}
      *
      * @return if target was found.
      */
@@ -515,7 +516,6 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
 
         // Don't look for targets if you are sitting.
         final boolean ret = target == null && !this.pokemob.getLogicState(LogicStates.SITTING);
-        final boolean tame = this.pokemob.getGeneralState(GeneralStates.TAMED);
 
         // Target is too far away, lets forget it.
         if (target != null && this.entity.getDistance(target) > PokecubeCore.getConfig().chaseDistance)
@@ -523,86 +523,6 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Forgetting Target due to distance. {} -> {}",
                     this.entity, target);
             this.setAttackTarget(this.entity, null);
-            return false;
-        }
-
-        // If we have a target, we don't need to look for another.
-        if (target != null)
-        {
-            final IOwnable targetOwnable = OwnableCaps.getOwnable(this.entityTarget);
-
-            // Prevents swapping to owner as target if we are owned and we just
-            // defeated someone, only applies to tame mobs, wild mobs will still
-            // try to kill the owner if they run away.
-            if (this.entityTarget != null && this.entityTarget != target && targetOwnable != null && targetOwnable
-                    .getOwner(this.world) == target && this.pokemob.getGeneralState(GeneralStates.TAMED)
-                    && this.entityTarget.getHealth() <= 0)
-            {
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Battle is over.");
-                this.setAttackTarget(this.entity, null);
-                return false;
-            }
-
-            this.entityTarget = target;
-            // If our target is dead, we can forget it, so long as it isn't
-            // owned
-            if (!target.isAlive() || target.getHealth() <= 0)
-            {
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Target is dead!");
-                this.setAttackTarget(this.entity, null);
-                return false;
-            }
-
-            // If our target is us, we should forget it.
-            if (target == this.entity)
-            {
-                this.setAttackTarget(this.entity, null);
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Cannot target self.");
-                return false;
-            }
-
-            // If we are not angry, we should forget target.
-            if (!this.pokemob.getCombatState(CombatStates.ANGRY))
-            {
-                this.setAttackTarget(this.entity, null);
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Not Angry. losing target now.");
-                return false;
-            }
-
-            // If our target is owner, we should forget it.
-            if (target.getUniqueID().equals(this.pokemob.getOwnerId()))
-            {
-                this.setAttackTarget(this.entity, null);
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Cannot target owner.");
-                return false;
-            }
-
-            // If your owner is too far away, shouldn't have a target, should be
-            // going back to the owner.
-            if (tame)
-            {
-                final Entity owner = this.pokemob.getOwner();
-                final boolean stayOrGuard = this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob
-                        .getGeneralState(GeneralStates.STAYING);
-                if (owner != null && !stayOrGuard && owner.getDistance(this.entity) > PokecubeCore
-                        .getConfig().chaseDistance)
-                {
-                    this.setAttackTarget(this.entity, null);
-                    if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug(
-                            "Cannot target mob that far while guarding.");
-                    return false;
-                }
-
-                // If the target is a pokemob, on same team, we shouldn't target
-                // it either, unless it is fighting over a mate
-                if (TeamManager.sameTeam(target, this.entity) && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
-                {
-                    this.setAttackTarget(this.entity, null);
-                    if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Cannot target team mates.");
-                    return false;
-                }
-
-            }
             return false;
         }
 
@@ -620,7 +540,7 @@ public class AIFindTarget extends TaskBase<MobEntity> implements IAICombat, ITar
         if (target == null && this.entityTarget != null)
         {
             target = this.entityTarget;
-            if (this.agroTimer == -1) this.agroTimer = AIFindTarget.DEAGROTIMER;
+            if (this.agroTimer == -1) this.agroTimer = FindTargetsTask.DEAGROTIMER;
             else
             {
                 this.agroTimer--;

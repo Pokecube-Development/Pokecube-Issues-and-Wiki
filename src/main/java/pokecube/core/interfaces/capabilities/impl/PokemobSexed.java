@@ -12,8 +12,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
-import pokecube.core.ai.tasks.idle.AIHungry;
+import pokecube.core.ai.tasks.combat.FindTargetsTask;
+import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
@@ -157,8 +157,8 @@ public abstract class PokemobSexed extends PokemobStats
         mate.setHungerTime(mate.getHungerTime() + hungerValue);
         this.setHungerTime(this.getHungerTime() + hungerValue);
         mate.resetLoveStatus();
-        AIFindTarget.deagro(this.getEntity());
-        AIFindTarget.deagro(mate.getEntity());
+        FindTargetsTask.deagro(this.getEntity());
+        FindTargetsTask.deagro(mate.getEntity());
         this.lay(mate);
         this.resetLoveStatus();
     }
@@ -209,8 +209,8 @@ public abstract class PokemobSexed extends PokemobStats
         PokedexEntry thisEntry = this.getPokedexEntry();
         if (thisEntry.isMega) thisEntry = this.getMegaBase();
         if (!thisEntry.breeds) return false;
-        final float hunger = AIHungry.calculateHunger(this);
-        if (AIHungry.hitThreshold(hunger, AIHungry.MATERESET)) return false;
+        final float hunger = HungerTask.calculateHunger(this);
+        if (HungerTask.hitThreshold(hunger, HungerTask.MATERESET)) return false;
         return this.loveTimer >= 0;
     }
 

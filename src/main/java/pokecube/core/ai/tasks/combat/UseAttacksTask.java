@@ -36,21 +36,23 @@ import thut.api.maths.Vector3;
  * decided to battle, as well as dealing with combat between rivals over a mate.
  * It is the one to queue the attack for the pokemob to perform.
  */
-public class AIAttack extends FightTask implements IAICombat
+public class UseAttacksTask extends CombatTask implements IAICombat
 {
     public static int maxWildBattleDur = 600;
 
     /** The target being attacked. */
     LivingEntity entityTarget;
+
     /** IPokemob version of entityTarget. */
-    IPokemob     pokemobTarget;
+    IPokemob pokemobTarget;
 
     /** Where the target is/was for attack. */
-    Vector3   targetLoc   = Vector3.getNewVector();
+    Vector3 targetLoc   = Vector3.getNewVector();
+    Matrix3 targetBox   = new Matrix3();
+    Matrix3 attackerBox = new Matrix3();
+
     /** Move we are using */
     Move_Base attack;
-    Matrix3   targetBox   = new Matrix3();
-    Matrix3   attackerBox = new Matrix3();
 
     /** Temp vectors for checking things. */
     Vector3 v  = Vector3.getNewVector();
@@ -63,11 +65,10 @@ public class AIAttack extends FightTask implements IAICombat
     protected int chaseTime;
     /** Used for when to execute attacks. */
     protected int delayTime = -1;
-    boolean       running   = false;
 
-    int battleTime = 0;
+    boolean waitingToStart = false;
 
-    public AIAttack(final IPokemob mob)
+    public UseAttacksTask(final IPokemob mob)
     {
         super(mob);
         this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
@@ -76,49 +77,14 @@ public class AIAttack extends FightTask implements IAICombat
 
     public boolean continueExecuting()
     {
-        final IPokemob mobA = this.pokemob;
-        final IPokemob mobB = this.pokemobTarget;
-
-        if (mobB != null)
-        {
-            if (mobB.getCombatState(CombatStates.FAINTED)) return false;
-
-            final boolean weTame = mobA.getOwnerId() != null || mobA.getCombatState(CombatStates.MATEFIGHT);
-            final boolean theyTame = mobB.getOwnerId() != null || mobB.getCombatState(CombatStates.MATEFIGHT);
-            final boolean weHunt = mobA.getCombatState(CombatStates.HUNTING);
-            final boolean theyHunt = mobB.getCombatState(CombatStates.HUNTING);
-
-            if (weTame == theyTame && !weTame && weHunt == theyHunt && !theyHunt)
-            {
-                final float weHealth = mobA.getEntity().getHealth() / mobA.getEntity().getMaxHealth();
-                final float theyHealth = mobB.getEntity().getHealth() / mobB.getEntity().getMaxHealth();
-                // Wild mobs shouldn't fight to the death unless hunting.
-                if (weHealth < 0.5 || theyHealth < 0.5)
-                {
-                    mobA.setCombatState(CombatStates.MATEFIGHT, false);
-                    mobB.setCombatState(CombatStates.MATEFIGHT, false);
-                    AIFindTarget.deagro(this.entity);
-                    return false;
-                }
-                // Give up if we took too long to fight.
-                if (this.battleTime > AIAttack.maxWildBattleDur) return false;
-            }
-        }
-
-        if (mobA.getCombatState(CombatStates.FAINTED)) return false;
-
-        if (!this.entityTarget.isAlive() || this.entityTarget.getHealth() <= 0) return false;
-        if (!this.entity.isAlive() || this.entity.getHealth() <= 0) return false;
-
         return this.pokemob.getCombatState(CombatStates.ANGRY);
     }
 
     @Override
     public void reset()
     {
-        this.battleTime = 0;
         this.clearUseMove();
-        AIFindTarget.deagro(this.entity);
+        this.waitingToStart = false;
     }
 
     private void setUseMove()
@@ -136,21 +102,20 @@ public class AIAttack extends FightTask implements IAICombat
     @Override
     public void run()
     {
-        this.battleTime++;
         // Check if the pokemob has an active move being used, if so return
         if (this.pokemob.getActiveMove() != null) return;
 
         this.attack = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
         if (this.attack == null) this.attack = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
 
-        if (!this.running)
+        if (!this.waitingToStart)
         {
             if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0) && !this.pokemob
                     .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.getPositionVec(),
                             this.movementSpeed, 0);
             this.targetLoc.set(this.entityTarget);
             this.chaseTime = 0;
-            this.running = true;
+            this.waitingToStart = true;
             /**
              * Don't want to notify if the pokemob just broke out of a
              * pokecube.
@@ -343,12 +308,6 @@ public class AIAttack extends FightTask implements IAICombat
 
         if (target != this.entityTarget) this.pokemobTarget = CapabilityPokemob.getPokemobFor(target);
         this.entityTarget = target;
-
-        if (!this.continueExecuting())
-        {
-            AIFindTarget.deagro(this.entity);
-            return false;
-        }
 
         return true;
     }

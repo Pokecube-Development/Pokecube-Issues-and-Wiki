@@ -36,6 +36,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public boolean getGeneralState(final GeneralStates state)
     {
+        if (state == GeneralStates.TAMED) return this.getOwnerId() != null;
         if (this.getEntity().getEntityWorld().isRemote) this.cachedGeneralState = this.dataSync().get(
                 this.params.GENERALSTATESDW);
         return (this.cachedGeneralState & state.getMask()) != 0;

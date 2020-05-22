@@ -128,6 +128,8 @@ public class Config extends ConfigData
     public String afaCostFunctionShiny = "(d^3)/10";
     @Configure(category = Config.MACHINE)
     public int    afaMaxEnergy         = 3200;
+    @Configure(category = Config.MACHINE)
+    public int    afaTickRate          = 5;
 
     @Configure(category = Config.BAG, type = Type.SERVER)
     public boolean bagsHoldEverything  = false;
@@ -154,6 +156,7 @@ public class Config extends ConfigData
         DaycareTile.initParser(this.dayCarePowerPerExp, this.dayCareExpFunction);
         AfaTile.initParser(this.afaCostFunction, this.afaCostFunctionShiny);
         this.dayCareTickRate = Math.max(1, this.dayCareTickRate);
+        this.afaTickRate = Math.max(1, this.afaTickRate);
 
         if (this.autoAddFossilDNA) for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils.entrySet())
         {

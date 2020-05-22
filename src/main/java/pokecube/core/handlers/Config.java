@@ -13,8 +13,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.ai.tasks.idle.AIHungry;
-import pokecube.core.ai.tasks.idle.AIIdle;
+import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
@@ -665,8 +665,8 @@ public class Config extends ConfigData
         if (this.idleTickRate == 0) this.idleTickRate = 1;
         if (this.hungerTickRate == 0) this.hungerTickRate = 1;
 
-        AIIdle.IDLETIMER = this.idleTickRate;
-        AIHungry.TICKRATE = this.hungerTickRate;
+        IdleWalkTask.IDLETIMER = this.idleTickRate;
+        HungerTask.TICKRATE = this.hungerTickRate;
 
         // TODO Init secret bases.
         // DimensionSecretBase.init(baseSizeFunction);

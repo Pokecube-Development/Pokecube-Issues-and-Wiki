@@ -25,13 +25,13 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 
-public class AIUseMove extends UtilTask
+public class UseMoveTask extends UtilTask
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        AIUseMove.MEMS.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_PRESENT);
+        UseMoveTask.MEMS.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     private boolean running    = false;
@@ -43,9 +43,9 @@ public class AIUseMove extends UtilTask
 
     double speed;
 
-    public AIUseMove(final IPokemob pokemob)
+    public UseMoveTask(final IPokemob pokemob)
     {
-        super(pokemob, AIUseMove.MEMS);
+        super(pokemob, UseMoveTask.MEMS);
     }
 
     @Override

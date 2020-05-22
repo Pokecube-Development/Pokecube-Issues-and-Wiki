@@ -27,6 +27,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.advancements.Triggers;
 import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.blocks.afa.AfaBlock;
+import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.commander.CommanderBlock;
 import pokecube.adventures.blocks.commander.CommanderTile;
@@ -99,6 +100,7 @@ public class PokecubeAdv
             event.getRegistry().register(ClonerContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "cloner"));
             event.getRegistry().register(ExtractorContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "extractor"));
             event.getRegistry().register(SplicerContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "splicer"));
+            event.getRegistry().register(AfaContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "afa"));
             event.getRegistry().register(BagContainer.TYPE.setRegistryName(PokecubeAdv.MODID, "bag"));
         }
 

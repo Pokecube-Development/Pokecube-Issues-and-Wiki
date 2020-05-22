@@ -42,7 +42,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -202,7 +202,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
             if (PokecubeManager.isFilled(this.getItem()))
             {
                 final LivingEntity sent = SendOutManager.sendOut(this, true);
-                if (sent instanceof MobEntity && hit.getEntity() instanceof LivingEntity) AIFindTarget.initiateCombat(
+                if (sent instanceof MobEntity && hit.getEntity() instanceof LivingEntity) FindTargetsTask.initiateCombat(
                         (MobEntity) sent, (LivingEntity) hit.getEntity());
 
             }

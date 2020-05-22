@@ -23,7 +23,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import pokecube.core.ai.tasks.idle.AIHungry;
+import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -37,7 +37,7 @@ import thut.lib.ItemStackTools;
  * allows using pokemobs for automatic harvesting and storage of berries and
  * dropped items.
  */
-public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundNBT>, IInventoryChangedListener
+public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>, IInventoryChangedListener
 {
     public static int COOLDOWN = 10;
     public static int MAXSIZE  = 100;
@@ -66,7 +66,7 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
 
     boolean pathing = false;
 
-    public AIStoreStuff(final IPokemob entity)
+    public StoreTask(final IPokemob entity)
     {
         super(entity);
         if (entity.getInventory() instanceof Inventory)
@@ -103,7 +103,7 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
                 this.filledSlots++;
                 if (!this.hasBerries)
                 {
-                    this.hasBerries = ItemList.is(AIHungry.FOODTAG, stack);
+                    this.hasBerries = ItemList.is(HungerTask.FOODTAG, stack);
                     if (this.hasBerries) this.berrySlotIndex = i;
                 }
             }
@@ -177,7 +177,7 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
         if (berries == null) berries = this.getInventory(this.world, this.berryLoc, null);
         if (berries == null) return false;
         // No Berries in storage.
-        if (!this.hasItem(AIHungry.FOODTAG, berries)) return false;
+        if (!this.hasItem(HungerTask.FOODTAG, berries)) return false;
         if (this.pokemob.getEntity().getPosition().distanceSq(this.berryLoc) > 9)
         {
             this.pathing = true;
@@ -189,7 +189,7 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
             // + " Pathing to Berries at " + this.berryLoc);
             return true;
         }
-        for (int i = 0; i < Math.min(berries.getSlots(), AIStoreStuff.MAXSIZE); i++)
+        for (int i = 0; i < Math.min(berries.getSlots(), StoreTask.MAXSIZE); i++)
         {
             final ItemStack stack = berries.getStackInSlot(i);
             if (stack.getItem() instanceof ItemBerry)
@@ -243,7 +243,7 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
         inv:
         for (int slot = this.firstEmpty; slot < pokemobInv.getSlots(); slot++)
             if (pokemobInv.getStackInSlot(slot).isEmpty()) for (int i = start; i < Math.min(inventory.getSlots(),
-                    AIStoreStuff.MAXSIZE); i++)
+                    StoreTask.MAXSIZE); i++)
             {
                 final ItemStack stack = inventory.getStackInSlot(i);
                 if (!stack.isEmpty())
@@ -383,7 +383,7 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
 
     private boolean hasItem(final ResourceLocation tag, final IItemHandlerModifiable inventory)
     {
-        for (int i = 0; i < Math.min(inventory.getSlots(), AIStoreStuff.MAXSIZE); i++)
+        for (int i = 0; i < Math.min(inventory.getSlots(), StoreTask.MAXSIZE); i++)
         {
             final ItemStack stack = inventory.getStackInSlot(i);
             if (stack.isEmpty()) continue;
@@ -468,14 +468,14 @@ public class AIStoreStuff extends UtilTask implements INBTSerializable<CompoundN
         boolean stuff = false;
         if (this.searchInventoryCooldown-- < 0)
         {
-            this.searchInventoryCooldown = AIStoreStuff.COOLDOWN;
+            this.searchInventoryCooldown = StoreTask.COOLDOWN;
             this.findBerryStorage(true);
             stuff = this.findItemStorage(true);
-            if (!stuff) this.searchInventoryCooldown = 50 * AIStoreStuff.COOLDOWN;
+            if (!stuff) this.searchInventoryCooldown = 50 * StoreTask.COOLDOWN;
         }
         final IItemHandlerModifiable itemhandler = new InvWrapper(this.pokemob.getInventory());
         if (this.doBerryCheck(itemhandler) || this.doStorageCheck(itemhandler) || this.doEmptyCheck(itemhandler))
             this.doStorageCooldown = 5;
-        else this.doStorageCooldown = 10 * AIStoreStuff.COOLDOWN;
+        else this.doStorageCooldown = 10 * StoreTask.COOLDOWN;
     }
 }

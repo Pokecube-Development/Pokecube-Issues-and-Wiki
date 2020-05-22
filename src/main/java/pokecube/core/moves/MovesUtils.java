@@ -349,8 +349,8 @@ public class MovesUtils implements IMoveConstants
         }
 
         // If this is a fight over a mate, the strength is reduced.
-        if (attacker.getCombatState(CombatStates.MATEFIGHT) && attacked.getCombatState(CombatStates.MATEFIGHT))
-            statusMultiplier *= 0.25;
+        if (attacker.getCombatState(CombatStates.MATEFIGHT) || attacked.getCombatState(CombatStates.MATEFIGHT))
+            statusMultiplier *= 0.125;
 
         ATT = (int) (statusMultiplier * ATT);
 

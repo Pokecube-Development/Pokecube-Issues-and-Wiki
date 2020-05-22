@@ -36,6 +36,8 @@ public class MemoryModules
     public static final MemoryModuleType<List<AgeableEntity>> POSSIBLE_MATES = new MemoryModuleType<>(Optional.empty());
     public static final MemoryModuleType<AgeableEntity>       MATE_TARGET    = new MemoryModuleType<>(Optional.empty());
 
+    public static final MemoryModuleType<List<LivingEntity>> HERD_MEMBERS = new MemoryModuleType<>(Optional.empty());
+
     public static void register(final Register<MemoryModuleType<?>> event)
     {
         event.getRegistry().register(MemoryModules.ATTACKTARGET.setRegistryName(PokecubeCore.MODID, "attack_target"));

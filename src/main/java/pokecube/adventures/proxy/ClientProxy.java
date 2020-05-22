@@ -24,6 +24,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.blocks.genetics.cloner.ClonerContainer;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorContainer;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
@@ -32,6 +33,7 @@ import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
+import pokecube.adventures.client.gui.blocks.AFA;
 import pokecube.adventures.client.gui.blocks.Cloner;
 import pokecube.adventures.client.gui.blocks.Extractor;
 import pokecube.adventures.client.gui.blocks.Splicer;
@@ -165,6 +167,7 @@ public class ClientProxy extends CommonProxy
         ScreenManager.registerFactory(ClonerContainer.TYPE, Cloner::new);
         ScreenManager.registerFactory(SplicerContainer.TYPE, Splicer::new);
         ScreenManager.registerFactory(ExtractorContainer.TYPE, Extractor::new);
+        ScreenManager.registerFactory(AfaContainer.TYPE, AFA::new);
         ScreenManager.registerFactory(BagContainer.TYPE, Bag<BagContainer>::new);
 
         // Register config gui

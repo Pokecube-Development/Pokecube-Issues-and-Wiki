@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.combat;
+package pokecube.core.ai.tasks.idle;
 
 import java.util.Map;
 
@@ -10,26 +10,24 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
-import thut.api.entity.ai.IAICombat;
 
-public abstract class FightTask extends TaskBase<MobEntity> implements IAICombat
+public abstract class BaseIdleTask extends TaskBase<MobEntity>
 {
-
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        FightTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_PRESENT);
+        BaseIdleTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_ABSENT);
     }
 
-    public FightTask(final IPokemob pokemob)
+    public BaseIdleTask(final IPokemob pokemob)
     {
-        super(pokemob, FightTask.MEMS);
+        super(pokemob, BaseIdleTask.MEMS);
     }
 
-    public FightTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
+    public BaseIdleTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> mems)
     {
-        super(pokemob, TaskBase.merge(FightTask.MEMS, mems));
+        super(pokemob, TaskBase.merge(BaseIdleTask.MEMS, mems));
     }
 
 }

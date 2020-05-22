@@ -28,7 +28,7 @@ import thut.api.terrain.TerrainManager;
  * This IAIRunnable makes the mobs randomly wander around if they have nothing
  * better to do.
  */
-public class AIIdle extends IdleTask
+public class IdleWalkTask extends BaseIdleTask
 {
     public static int IDLETIMER = 1;
 
@@ -61,11 +61,11 @@ public class AIIdle extends IdleTask
     static
     {
         // Dont run if have a walk target
-        AIIdle.mems.put(MemoryModules.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT);
+        IdleWalkTask.mems.put(MemoryModules.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT);
         // Don't run if have a target location for moves
-        AIIdle.mems.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_ABSENT);
+        IdleWalkTask.mems.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_ABSENT);
         // Don't run if we have a path
-        AIIdle.mems.put(MemoryModules.PATH, MemoryModuleStatus.VALUE_ABSENT);
+        IdleWalkTask.mems.put(MemoryModules.PATH, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     final PokedexEntry entry;
@@ -79,9 +79,9 @@ public class AIIdle extends IdleTask
     Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
 
-    public AIIdle(final IPokemob pokemob)
+    public IdleWalkTask(final IPokemob pokemob)
     {
-        super(pokemob, AIIdle.mems);
+        super(pokemob, IdleWalkTask.mems);
         this.entry = pokemob.getPokedexEntry();
         this.speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
     }
@@ -178,7 +178,7 @@ public class AIIdle extends IdleTask
         }
         else
         {
-            final Vector3 v = AIIdle.getRandomPointNear(this.world, this.pokemob, this.v, distance);
+            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance);
             if (v == null) return false;
             double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(), this.pokemob
                     .getPokedexEntry().width * this.pokemob.getSize());
@@ -215,13 +215,13 @@ public class AIIdle extends IdleTask
     public boolean shouldRun()
     {
         // Configs can set this to -1 to disable idle movement entirely.
-        if (AIIdle.IDLETIMER <= 0) return false;
+        if (IdleWalkTask.IDLETIMER <= 0) return false;
 
         // Not currently able to move.
         if (!TaskBase.canMove(this.pokemob)) return false;
 
         // Check a random number as well
-        if (this.entity.getRNG().nextInt(AIIdle.IDLETIMER) != 0) return false;
+        if (this.entity.getRNG().nextInt(IdleWalkTask.IDLETIMER) != 0) return false;
 
         // Wander disabled, so don't run.
         if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;

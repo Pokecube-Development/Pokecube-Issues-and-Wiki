@@ -45,7 +45,7 @@ import thut.lib.ItemStackTools;
  * what adds berries to their inventories based on which biome they are
  * currently in.
  */
-public class AIHungry extends IdleTask
+public class HungerTask extends BaseIdleTask
 {
     public static final ResourceLocation FOODTAG = new ResourceLocation(PokecubeCore.MODID, "pokemob_food");
 
@@ -92,11 +92,11 @@ public class AIHungry extends IdleTask
 
     static
     {
-        AIHungry.EATTASKS.add(new EatWater());
-        AIHungry.EATTASKS.add(new EatRedstone());
-        AIHungry.EATTASKS.add(new EatRock());
-        AIHungry.EATTASKS.add(new EatPlant());
-        AIHungry.EATTASKS.add(new EatFromChest());
+        HungerTask.EATTASKS.add(new EatWater());
+        HungerTask.EATTASKS.add(new EatRedstone());
+        HungerTask.EATTASKS.add(new EatRock());
+        HungerTask.EATTASKS.add(new EatPlant());
+        HungerTask.EATTASKS.add(new EatFromChest());
     }
 
     public static int TICKRATE = 20;
@@ -107,11 +107,6 @@ public class AIHungry extends IdleTask
     public static float MATERESET     = 0.5f;
     public static float DAMAGE        = 0.3f;
     public static float DEATH         = 0.0f;
-
-    // final World world;
-    final ItemEntity berry;
-
-    final double distance;
 
     int lastMessageTick1 = -1;
     int lastMessageTick2 = -1;
@@ -127,11 +122,9 @@ public class AIHungry extends IdleTask
     Vector3 v1 = Vector3.getNewVector();
     Random  rand;
 
-    public AIHungry(final IPokemob pokemob, final ItemEntity berry_, final double distance)
+    public HungerTask(final IPokemob pokemob)
     {
         super(pokemob);
-        this.berry = berry_;
-        this.distance = distance;
         this.moveSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.75;
     }
 
@@ -175,9 +168,9 @@ public class AIHungry extends IdleTask
      */
     protected boolean checkHunt()
     {
-        if (!this.hitThreshold(AIHungry.HUNTTHRESHOLD)) return false;
+        if (!this.hitThreshold(HungerTask.HUNTTHRESHOLD)) return false;
         if (this.pokemob.isPhototroph()) if (this.checkPhotoeat()) return true;
-        for (final IBlockEatTask task : AIHungry.EATTASKS)
+        for (final IBlockEatTask task : HungerTask.EATTASKS)
             if (task.tryEat(this.pokemob, this.blocks).test()) return true;
         // If none of these, then lets actually try to hunt.
         if (this.pokemob.getPokedexEntry().hasPrey() && this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS))
@@ -203,7 +196,7 @@ public class AIHungry extends IdleTask
 
     private boolean hitThreshold(final float threshold)
     {
-        return AIHungry.hitThreshold(this.hungerValue, threshold);
+        return HungerTask.hitThreshold(this.hungerValue, threshold);
     }
 
     /**
@@ -215,14 +208,14 @@ public class AIHungry extends IdleTask
     protected boolean checkInventory()
     {
         // Too hungry to check inventory.
-        if (this.hitThreshold(AIHungry.DEATH)) return false;
+        if (this.hitThreshold(HungerTask.DEATH)) return false;
 
         for (int i = 2; i < 7; i++)
         {
             final ItemStack stack = this.pokemob.getInventory().getStackInSlot(i);
-            if (ItemList.is(AIHungry.FOODTAG, stack))
+            if (ItemList.is(HungerTask.FOODTAG, stack))
             {
-                this.pokemob.eat(this.berry);
+                this.pokemob.eat(stack);
                 stack.shrink(1);
                 if (stack.isEmpty()) this.pokemob.getInventory().setInventorySlotContents(i, ItemStack.EMPTY);
                 return true;
@@ -267,7 +260,7 @@ public class AIHungry extends IdleTask
         final ChunkCoordinate c = new ChunkCoordinate(this.v, this.entity.dimension.getId());
         final boolean ownedSleepCheck = this.pokemob.getGeneralState(GeneralStates.TAMED) && !this.pokemob
                 .getGeneralState(GeneralStates.STAYING);
-        if (this.sleepy && this.hitThreshold(AIHungry.EATTHRESHOLD) && !ownedSleepCheck)
+        if (this.sleepy && this.hitThreshold(HungerTask.EATTHRESHOLD) && !ownedSleepCheck)
         {
             if (!this.isGoodSleepingSpot(c)) this.setWalkTo(this.pokemob.getHome(), this.moveSpeed, 0);
             else if (this.entity.getNavigator().noPath())
@@ -313,11 +306,11 @@ public class AIHungry extends IdleTask
         if (Math.random() > 0.99) this.checkBait();
 
         // Do not run this if not really hungry
-        if (!this.hitThreshold(AIHungry.EATTHRESHOLD)) return;
+        if (!this.hitThreshold(HungerTask.EATTHRESHOLD)) return;
 
         // Check if we are hunting or should be
         // Reset hunting status if we are not actually hungry
-        if (this.hitThreshold(AIHungry.HUNTTHRESHOLD)) this.checkHunt();
+        if (this.hitThreshold(HungerTask.HUNTTHRESHOLD)) this.checkHunt();
 
         final boolean hunting = this.pokemob.getCombatState(CombatStates.HUNTING);
         if (this.pokemob.getLogicState(LogicStates.SLEEPING) && !hunting) if (hunting) this.pokemob.setCombatState(
@@ -327,13 +320,13 @@ public class AIHungry extends IdleTask
     @Override
     public boolean shouldRun()
     {
-        final int hungerTicks = AIHungry.TICKRATE;
+        final int hungerTicks = HungerTask.TICKRATE;
         // This can be set in configs to disable.
         if (hungerTicks < 0) return false;
 
         // Ensure we are not set to hunt if we shouldn't be
-        if (!this.hitThreshold(AIHungry.EATTHRESHOLD) && this.pokemob.getCombatState(CombatStates.HUNTING)) this.pokemob
-                .setCombatState(CombatStates.HUNTING, false);
+        if (!this.hitThreshold(HungerTask.EATTHRESHOLD) && this.pokemob.getCombatState(CombatStates.HUNTING))
+            this.pokemob.setCombatState(CombatStates.HUNTING, false);
 
         // Do not run if the mob is in battle.
         if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
@@ -347,7 +340,7 @@ public class AIHungry extends IdleTask
 
         // Apply cooldowns and increment hunger.
         this.pokemob.setHungerCooldown(this.pokemob.getHungerCooldown() - hungerTicks);
-        if (!this.hitThreshold(AIHungry.HUNTTHRESHOLD)) this.pokemob.setHungerTime(this.pokemob.getHungerTime()
+        if (!this.hitThreshold(HungerTask.HUNTTHRESHOLD)) this.pokemob.setHungerTime(this.pokemob.getHungerTime()
                 + hungerTicks);
 
         this.calculateHunger();
@@ -372,7 +365,7 @@ public class AIHungry extends IdleTask
 
     private void calculateHunger()
     {
-        this.hungerValue = AIHungry.calculateHunger(this.pokemob);
+        this.hungerValue = HungerTask.calculateHunger(this.pokemob);
     }
 
     @Override
@@ -380,7 +373,7 @@ public class AIHungry extends IdleTask
     {
 
         this.v.set(this.entity);
-        final int hungerTicks = AIHungry.TICKRATE;
+        final int hungerTicks = HungerTask.TICKRATE;
 
         // Check if we should go to sleep instead.
         this.checkSleep();
@@ -389,7 +382,7 @@ public class AIHungry extends IdleTask
         final int cur = this.entity.ticksExisted / hungerTicks;
         final int tick = rand.nextInt(10);
 
-        if (!this.hitThreshold(AIHungry.EATTHRESHOLD)) return;
+        if (!this.hitThreshold(HungerTask.EATTHRESHOLD)) return;
         /*
          * Check the various hunger types if it is hunting.
          * And if so, refresh the hunger time counter.
@@ -401,7 +394,7 @@ public class AIHungry extends IdleTask
 
         // Check own inventory for berries to eat, and then if the mob is
         // allowed to, collect berries if none to eat.
-        if (this.hitThreshold(AIHungry.EATTHRESHOLD) && !this.checkInventory())
+        if (this.hitThreshold(HungerTask.EATTHRESHOLD) && !this.checkInventory())
         {
             // Pokemobs set to stay can collect berries, or wild ones,
             boolean tameCheck = this.pokemob.getGeneralState(GeneralStates.STAYING) || this.pokemob
@@ -415,14 +408,14 @@ public class AIHungry extends IdleTask
             // If they are allowed to, find the berries.
             // Only run this if we are getting close to hurt damage, mostly
             // to allow trying other food sources first.
-            if (tameCheck && this.hitThreshold(AIHungry.BERRYGEN)) new GenBerries(this.pokemob).run(this.world);
+            if (tameCheck && this.hitThreshold(HungerTask.BERRYGEN)) new GenBerries(this.pokemob).run(this.world);
 
             // Otherwise take damage.
-            if (this.hitThreshold(AIHungry.DAMAGE))
+            if (this.hitThreshold(HungerTask.DAMAGE))
             {
-                final float ratio = (AIHungry.DAMAGE - this.hungerValue) / AIHungry.DAMAGE;
+                final float ratio = (HungerTask.DAMAGE - this.hungerValue) / HungerTask.DAMAGE;
                 final boolean dead = this.pokemob.getMaxHealth() * ratio > this.pokemob.getHealth() || this
-                        .hitThreshold(AIHungry.DEATH);
+                        .hitThreshold(HungerTask.DEATH);
                 // Ensure it dies if it should.
                 final float damage = dead ? this.pokemob.getMaxHealth() * 20 : this.pokemob.getMaxHealth() * ratio;
                 if (damage >= 1 && ratio >= 0.0625 && this.entity.getHealth() > 0)

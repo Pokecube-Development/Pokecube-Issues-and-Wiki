@@ -18,7 +18,7 @@ import pokecube.core.utils.AITools;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 
-public class AIDodge extends FightTask implements IAICombat
+public class DodgeTask extends CombatTask implements IAICombat
 {
 
     // Location of the targetted attack
@@ -29,7 +29,7 @@ public class AIDodge extends FightTask implements IAICombat
 
     int dodgeCooldown = -1;
 
-    public AIDodge(final IPokemob mob)
+    public DodgeTask(final IPokemob mob)
     {
         super(mob);
         this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;

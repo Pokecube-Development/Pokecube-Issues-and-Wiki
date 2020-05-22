@@ -15,7 +15,7 @@ import pokecube.core.ai.brain.MemoryModules;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
 
-public class PossibleMates extends Sensor<AgeableEntity>
+public class InterestingMobs extends Sensor<AgeableEntity>
 {
     long lastUpdate = 0;
 
@@ -47,7 +47,7 @@ public class PossibleMates extends Sensor<AgeableEntity>
     @Override
     public Set<MemoryModuleType<?>> getUsedMemories()
     {
-        return ImmutableSet.of(MemoryModules.POSSIBLE_MATES);
+        return ImmutableSet.of(MemoryModules.POSSIBLE_MATES, MemoryModules.HERD_MEMBERS);
     }
 
 }

@@ -25,7 +25,7 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.database.PokedexEntryLoader.SpawnRule;
 import pokecube.core.database.abilities.AbilityManager;
@@ -346,7 +346,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
             final IPokemob targetMob = CapabilityPokemob.getPokemobFor(targ);
             if (targetMob != null)
             {
-                AIFindTarget.initiateCombat(targetMob.getEntity(), this.getOwner());
+                FindTargetsTask.initiateCombat(targetMob.getEntity(), this.getOwner());
                 if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Swapping agro to cowardly owner!");
             }
             else targ.setRevengeTarget(this.getOwner());

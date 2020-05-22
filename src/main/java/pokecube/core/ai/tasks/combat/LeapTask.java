@@ -27,13 +27,13 @@ import thut.api.maths.Vector3;
  * move target, ie attacking blocks, so it doesn't need to actually have a
  * living target to apply.
  */
-public class AILeap extends TaskBase<LivingEntity> implements IAICombat
+public class LeapTask extends TaskBase<LivingEntity> implements IAICombat
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
 
     static
     {
-        AILeap.MEMS.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_PRESENT);
+        LeapTask.MEMS.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     int leapTick = -1;
@@ -46,9 +46,9 @@ public class AILeap extends TaskBase<LivingEntity> implements IAICombat
     Vector3 leapTarget = Vector3.getNewVector();
     Vector3 leapOrigin = Vector3.getNewVector();
 
-    public AILeap(final IPokemob mob)
+    public LeapTask(final IPokemob mob)
     {
-        super(mob, AILeap.MEMS);
+        super(mob, LeapTask.MEMS);
         this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
     }
 

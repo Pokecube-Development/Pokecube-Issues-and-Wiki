@@ -43,7 +43,7 @@ import thut.lib.ItemStackTools;
  * berries. It requires an AIStoreStuff to have located a suitable storage
  * before it will run.
  */
-public class AIGatherStuff extends UtilTask
+public class GatherTask extends UtilTask
 {
     /**
      * This manages the pokemobs replanting anything that they gather.
@@ -130,11 +130,11 @@ public class AIGatherStuff extends UtilTask
     // Matcher used to determine if a block is a fruit or crop to be picked.
     private static final Predicate<BlockState> harvestMatcher = input ->
     {
-        final boolean blacklisted = ItemList.is(AIGatherStuff.BLACKLIST, input);
+        final boolean blacklisted = ItemList.is(GatherTask.BLACKLIST, input);
         if (blacklisted) return false;
         final boolean fullCrop = input.getBlock() instanceof CropsBlock && input.get(
                 CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
-        return fullCrop || ItemList.is(AIGatherStuff.HARVEST, input);
+        return fullCrop || ItemList.is(GatherTask.HARVEST, input);
     };
 
     private static final Predicate<ItemEntity> deaditemmatcher = input -> !input.isAlive() || !input.addedToChunk
@@ -153,14 +153,14 @@ public class AIGatherStuff extends UtilTask
     int collectCooldown = 0;
     int pathCooldown    = 0;
 
-    final AIStoreStuff storage;
+    final StoreTask storage;
 
     Vector3 seeking = Vector3.getNewVector();
 
     Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
 
-    public AIGatherStuff(final IPokemob mob, final double distance, final AIStoreStuff storage)
+    public GatherTask(final IPokemob mob, final double distance, final StoreTask storage)
     {
         super(mob);
         this.distance = distance;
@@ -169,8 +169,8 @@ public class AIGatherStuff extends UtilTask
 
     private boolean hasStuff()
     {
-        if (this.targetItem != null && AIGatherStuff.deaditemmatcher.apply(this.targetItem)) this.targetItem = null;
-        if (this.targetBlock != null && !AIGatherStuff.harvestMatcher.apply(this.entity.getEntityWorld().getBlockState(
+        if (this.targetItem != null && GatherTask.deaditemmatcher.apply(this.targetItem)) this.targetItem = null;
+        if (this.targetBlock != null && !GatherTask.harvestMatcher.apply(this.entity.getEntityWorld().getBlockState(
                 this.targetBlock.getPos()))) this.targetBlock = null;
         return this.targetItem != null || this.targetBlock != null;
     }
@@ -187,7 +187,7 @@ public class AIGatherStuff extends UtilTask
         {
             // Check for items to possibly gather.
             for (final ItemEntity e : this.items)
-                if (!AIGatherStuff.deaditemmatcher.apply(e))
+                if (!GatherTask.deaditemmatcher.apply(e))
                 {
                     this.targetItem = e;
                     return;
@@ -200,7 +200,7 @@ public class AIGatherStuff extends UtilTask
             return;
         }
         // Nothing found, enter cooldown.
-        this.collectCooldown = AIGatherStuff.COOLDOWN_SEARCH;
+        this.collectCooldown = GatherTask.COOLDOWN_SEARCH;
     }
 
     private void gatherStuff()
@@ -313,7 +313,7 @@ public class AIGatherStuff extends UtilTask
         if (blocks != null)
         {
             this.blocks = Lists.newArrayList(blocks);
-            this.blocks.removeIf(b -> !AIGatherStuff.harvestMatcher.apply(b.getState()));
+            this.blocks.removeIf(b -> !GatherTask.harvestMatcher.apply(b.getState()));
         }
         // Only replace this if the new list is not null.
         if (items != null) this.items = items;

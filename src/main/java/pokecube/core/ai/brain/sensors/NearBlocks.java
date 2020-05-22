@@ -83,6 +83,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         final int size = 8;
 
         final Vec3d start = entityIn.getEyePosition(1);
+
         final Predicate<BlockPos> visible = input ->
         {
             final Vec3d end = new Vec3d(input);

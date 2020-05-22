@@ -14,7 +14,7 @@ import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.utils.TrainerTracker;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -182,8 +182,8 @@ public class AITrainerAgro extends AITrainerBase implements ITargetWatcher
                 if (target.getRevengeTarget() == this.entity) target.setRevengeTarget(null);
                 if (this.entity.getRevengeTarget() == target) this.entity.setRevengeTarget(null);
                 // Reset attack targets as well.
-                if (target instanceof MobEntity) AIFindTarget.deagro(target);
-                AIFindTarget.deagro(this.entity);
+                if (target instanceof MobEntity) FindTargetsTask.deagro(target);
+                FindTargetsTask.deagro(this.entity);
 
                 this.trainer.setTarget(null);
                 this.trainer.resetPokemob();

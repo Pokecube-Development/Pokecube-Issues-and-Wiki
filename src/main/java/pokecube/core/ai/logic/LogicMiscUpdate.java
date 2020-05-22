@@ -3,6 +3,7 @@ package pokecube.core.ai.logic;
 import java.util.Calendar;
 import java.util.Random;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -93,6 +94,9 @@ public class LogicMiscUpdate extends LogicBase
             this.dynatime = -1;
             this.de_dyna = false;
         }
+
+        if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget(
+                (AgeableEntity) this.entity)) this.pokemob.setGeneralState(GeneralStates.MATING, false);
 
         // Check if we are sheared every second or so
         if (this.entity.ticksExisted % 20 == 0) this.pokemob.isSheared();

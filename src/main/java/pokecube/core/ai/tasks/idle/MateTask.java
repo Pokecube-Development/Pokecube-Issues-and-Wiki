@@ -14,7 +14,7 @@ import net.minecraft.util.math.EntityPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -26,13 +26,13 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
  * pokemobs. It finds the mates, initiates the fighting over a mate (if
  * applicable), then tells the mobs to breed if they should.
  */
-public class AIMate extends IdleTask
+public class MateTask extends BaseIdleTask
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // only run this if we have mate targets.
-        AIMate.mems.put(MemoryModules.POSSIBLE_MATES, MemoryModuleStatus.VALUE_PRESENT);
+        MateTask.mems.put(MemoryModules.POSSIBLE_MATES, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     int spawnBabyDelay = 0;
@@ -41,9 +41,14 @@ public class AIMate extends IdleTask
 
     AgeableEntity mate;
 
-    public AIMate(final IPokemob mob)
+    AgeableEntity mobA = null;
+    AgeableEntity mobB = null;
+
+    WalkTarget startSpot = null;
+
+    public MateTask(final IPokemob mob)
     {
-        super(mob, AIMate.mems);
+        super(mob, MateTask.mems);
     }
 
     @Override
@@ -51,7 +56,9 @@ public class AIMate extends IdleTask
     {
         this.spawnBabyDelay = 0;
         this.mate = null;
-        this.pokemob.setGeneralState(GeneralStates.MATING, false);
+        this.mobA = null;
+        this.mobB = null;
+        this.startSpot = null;
         BrainUtils.setMateTarget((AgeableEntity) this.entity, null);
     }
 
@@ -69,20 +76,30 @@ public class AIMate extends IdleTask
             this.mate = this.mates.get(0);
             return;
         }
+        if (this.startSpot != null) this.setWalkTo(this.startSpot);
+
+        if (this.mobA != null && this.mobB != null && this.mates.contains(this.mobA) && this.mates.contains(this.mobB))
+            return;
+
+        // Flag them all as valid mates
+        for (final AgeableEntity mob : this.mates)
+            BrainUtils.setMateTarget(mob, (AgeableEntity) this.entity);
 
         // Battle between the first two on the list.
-        final AgeableEntity mobA = this.mates.get(0);
-        final AgeableEntity mobB = this.mates.get(1);
+        this.mobA = this.mates.get(0);
+        this.mobB = this.mates.get(1);
 
-        final IPokemob pokeA = CapabilityPokemob.getPokemobFor(mobA);
-        final IPokemob pokeB = CapabilityPokemob.getPokemobFor(mobB);
+        final IPokemob pokeA = CapabilityPokemob.getPokemobFor(this.mobA);
+        final IPokemob pokeB = CapabilityPokemob.getPokemobFor(this.mobB);
 
         if (pokeA != null) pokeA.setCombatState(CombatStates.MATEFIGHT, true);
         if (pokeB != null) pokeB.setCombatState(CombatStates.MATEFIGHT, true);
 
         // This fight should end when one gets below half health, which would
         // then be invalid for the next selection round of mating targets.
-        AIFindTarget.initiateCombat(mobA, mobB);
+        FindTargetsTask.initiateCombat(this.mobA, this.mobB);
+
+        this.startSpot = new WalkTarget(this.entity.getPositionVec(), (float) this.pokemob.getMovementSpeed(), 0);
     }
 
     @Override
@@ -94,6 +111,11 @@ public class AIMate extends IdleTask
         if (this.pokemob.getSexe() == IPokemob.MALE || !this.pokemob.canBreed()) return false;
         if (this.pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(this.entity)) return false;
         this.mate = BrainUtils.getMateTarget((AgeableEntity) this.entity);
+        if (this.mate != null && !this.mate.isAlive())
+        {
+            BrainUtils.setMateTarget((AgeableEntity) this.entity, null);
+            this.mate = null;
+        }
         if (this.mate != null) return true;
         this.mates = BrainUtils.getMates((AgeableEntity) this.entity);
         if (this.mates != null)
@@ -118,9 +140,13 @@ public class AIMate extends IdleTask
         this.mate.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(new EntityPosWrapper(this.entity),
                 (float) this.pokemob.getMovementSpeed(), 0));
 
+        BrainUtils.setMateTarget((AgeableEntity) this.entity, this.mate);
+        BrainUtils.setMateTarget(this.mate, (AgeableEntity) this.entity);
+
         this.pokemob.setGeneralState(GeneralStates.MATING, true);
-        if (this.spawnBabyDelay++ < 50) return;
         final IPokemob other = CapabilityPokemob.getPokemobFor(this.mate);
+        if (other != null) other.setGeneralState(GeneralStates.MATING, true);
+        if (this.spawnBabyDelay++ < 100) return;
         if (other != null) this.pokemob.mateWith(other);
         this.reset();
         other.resetLoveStatus();

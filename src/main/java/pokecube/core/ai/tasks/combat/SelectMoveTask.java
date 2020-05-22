@@ -17,12 +17,12 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.Tools;
 import thut.api.entity.ai.IAICombat;
 
-public class AISelectMove extends FightTask implements IAICombat
+public class SelectMoveTask extends CombatTask implements IAICombat
 {
     Entity      target;
     private int moveIndexCounter = 0;
 
-    public AISelectMove(final IPokemob mob)
+    public SelectMoveTask(final IPokemob mob)
     {
         super(mob);
         this.setMutex(0);
@@ -40,7 +40,8 @@ public class AISelectMove extends FightTask implements IAICombat
     public void run()
     {
         // Pokemobs hunting or guarding will always select whatever is strongest
-        if (this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob.getCombatState(CombatStates.HUNTING))
+        if (this.pokemob.getCombatState(CombatStates.GUARDING) || this.pokemob.getCombatState(CombatStates.HUNTING)
+                || this.pokemob.getCombatState(CombatStates.MATEFIGHT))
         {
             this.selectHighestDamage();
             return;

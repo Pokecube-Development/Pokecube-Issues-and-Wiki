@@ -41,6 +41,13 @@ public class Commander extends Screen
     }
 
     @Override
+    public void render(final int a, final int b, final float c)
+    {
+        this.renderBackground();
+        super.render(a, b, c);
+    }
+
+    @Override
     protected void init()
     {
         super.init();

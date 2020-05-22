@@ -17,7 +17,7 @@ import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.MessageState;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.PCEventsHandler;
@@ -55,7 +55,7 @@ public class AIBattle extends AITrainerBase
         if (!this.trainer.getOutMob().getCombatState(CombatStates.ANGRY)) this.trainer.getOutMob().setCombatState(
                 CombatStates.ANGRY, true);
         // check if pokemob's target is same as trainers.
-        if (mobTarget != this.trainer.getTarget() && target == null) AIFindTarget.initiateCombat(this.trainer
+        if (mobTarget != this.trainer.getTarget() && target == null) FindTargetsTask.initiateCombat(this.trainer
                 .getOutMob().getEntity(), this.trainer.getTarget());
         // Return if trainer's pokemob's target is also a pokemob.
         return CapabilityPokemob.getPokemobFor(BrainUtils.getAttackTarget(this.trainer.getOutMob()
@@ -103,7 +103,7 @@ public class AIBattle extends AITrainerBase
         if (this.entity instanceof MobEntity)
         {
             final Entity target = BrainUtils.getAttackTarget(this.entity);
-            if (target instanceof LivingEntity) AIFindTarget.initiateCombat((MobEntity) this.entity,
+            if (target instanceof LivingEntity) FindTargetsTask.initiateCombat((MobEntity) this.entity,
                     (LivingEntity) target);
         }
 

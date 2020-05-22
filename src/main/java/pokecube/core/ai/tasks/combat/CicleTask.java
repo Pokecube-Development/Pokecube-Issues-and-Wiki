@@ -14,13 +14,13 @@ import thut.api.maths.Vector3;
  * on cooldown between attacks. It also manages the leaping at targets, and the
  * dodging of attacks.
  */
-public class AICombatMovement extends FightTask implements IAICombat
+public class CicleTask extends CombatTask implements IAICombat
 {
     Entity  target;
     Vector3 centre;
     double  movementSpeed;
 
-    public AICombatMovement(final IPokemob mob)
+    public CicleTask(final IPokemob mob)
     {
         super(mob);
         this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
