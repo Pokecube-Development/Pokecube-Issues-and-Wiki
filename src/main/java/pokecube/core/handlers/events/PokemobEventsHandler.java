@@ -179,8 +179,8 @@ public class PokemobEventsHandler
             final Entity targetOwner = attackedMob.getOwner();
             attacker.displayMessageToOwner(new TranslationTextComponent("pokemob.action.faint.enemy", attackedMob
                     .getDisplayName()));
-            if (targetOwner instanceof PlayerEntity && attacker.getOwner() != targetOwner) FindTargetsTask.initiateCombat(
-                    pokemob, (LivingEntity) targetOwner);
+            if (targetOwner instanceof PlayerEntity && attacker.getOwner() != targetOwner) FindTargetsTask
+                    .initiateCombat(pokemob, (LivingEntity) targetOwner);
             else FindTargetsTask.deagro(pokemob);
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
                     CombatStates.HUNTING))

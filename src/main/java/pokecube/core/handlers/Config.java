@@ -179,120 +179,133 @@ public class Config extends ConfigData
 
     // AI Related settings
     @Configure(category = Config.mobAI)
-    public int          mateMultiplier        = 1;
+    public int mateMultiplier     = 1;
     @Configure(category = Config.mobAI)
-    public double       mateDensityWild       = 2;
+    public int mateAIRate         = 40;
     @Configure(category = Config.mobAI)
-    public int          mateAIRate            = 40;
+    public int breedingDelay      = 4000;
     @Configure(category = Config.mobAI)
-    public double       mateDensityPlayer     = 4;
-    @Configure(category = Config.mobAI)
-    public int          breedingDelay         = 4000;
-    @Configure(category = Config.mobAI)
-    public int          eggHatchTime          = 10000;
-    @Configure(category = Config.mobAI)
-    /** do wild pokemobs which leave cullDistance despawn immediately */
-    public boolean      cull                  = false;
+    public int eggHatchTime       = 10000;
     /** distance for culling */
     @Configure(category = Config.mobAI)
-    public int          cullDistance          = 96;
-    @Configure(category = Config.mobAI)
-    public boolean      despawn               = true;
+    public int cullDistance       = 96;
     /** distance for culling */
     @Configure(category = Config.mobAI)
-    public int          despawnTimer          = 2000;
-    @Configure(category = Config.mobAI)
-    /** Will lithovores eat gravel */
-    public boolean      pokemobsEatGravel     = false;
-    @Configure(category = Config.mobAI)
-    /** Will lithovores eat rocks */
-    public boolean      pokemobsEatRocks      = true;
-    @Configure(category = Config.mobAI)
-    /** Will herbivores eat plants */
-    public boolean      pokemobsEatPlants     = true;
-    @Configure(category = Config.mobAI)
-    /** Is there a warning before a wild pok�mob attacks the player. */
-    public boolean      pokemobagresswarning  = true;
+    public int despawnTimer       = 2000;
     @Configure(category = Config.mobAI)
     /** Distance to player needed to agress the player */
-    public int          mobAggroRadius        = 3;
+    public int mobAggroRadius     = 3;
     @Configure(category = Config.mobAI)
     /**
      * Approximately how many ticks between wild pokemobs running agro
      * checks.
      */
-    public int          mobAgroRate           = 200;
+    public int mobAgroRate        = 200;
     @Configure(category = Config.mobAI)
     /**
      * Approximate number of ticks before pok�mob starts taking hunger
      * damage
      */
-    public int          pokemobLifeSpan       = 8000;
+    public int pokemobLifeSpan    = 8000;
     @Configure(category = Config.mobAI)
-    /** Warning time before a wild pok�mob attacks a player */
-    public int          pokemobagressticks    = 100;
+    /** Warning time before a wild pokemob attacks a player */
+    public int pokemobagressticks = 100;
+
     @Configure(category = Config.mobAI)
-    public boolean      pokemobsDamageOwner   = false;
+    public double mateDensityWild       = 2;
     @Configure(category = Config.mobAI)
-    public boolean      pokemobsDamagePlayers = true;
+    public double expFromDeathDropScale = 1;
     @Configure(category = Config.mobAI)
-    public boolean      pokemobsDamageBlocks  = false;
+    public double mateDensityPlayer     = 4;
+
     @Configure(category = Config.mobAI)
-    public boolean      pokemobsDropItems     = true;
+    /** do wild pokemobs which leave cullDistance despawn immediately */
+    public boolean cull                  = false;
     @Configure(category = Config.mobAI)
-    public double       expFromDeathDropScale = 1;
+    public boolean despawn               = true;
+    @Configure(category = Config.mobAI)
+    /** Will lithovores eat gravel */
+    public boolean pokemobsEatGravel     = false;
+    @Configure(category = Config.mobAI)
+    /** Will lithovores eat rocks */
+    public boolean pokemobsEatRocks      = true;
+    @Configure(category = Config.mobAI)
+    /** Will herbivores eat plants */
+    public boolean pokemobsEatPlants     = true;
+    @Configure(category = Config.mobAI)
+    /** Is there a warning before a wild pok�mob attacks the player. */
+    public boolean pokemobagresswarning  = true;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDamageOwner   = false;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDamagePlayers = true;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDamageBlocks  = false;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDropItems     = true;
     @Configure(category = Config.mobAI)
     /** Do explosions occur and cause damage */
-    public boolean      explosions            = true;
+    public boolean explosions            = true;
+
     @Configure(category = Config.mobAI)
-    public int          chaseDistance         = 32;
+    public int chaseDistance      = 32;
     @Configure(category = Config.mobAI)
-    public int          combatDistance        = 4;
+    public int combatDistance     = 4;
     @Configure(category = Config.mobAI)
-    public int          aiDisableDistance     = 32;
+    public int aiDisableDistance  = 32;
     @Configure(category = Config.mobAI)
-    public int          tameGatherDelay       = 20;
+    public int tameGatherDelay    = 20;
     @Configure(category = Config.mobAI)
-    public int          wildGatherDelay       = 200;
+    public int wildGatherDelay    = 200;
     @Configure(category = Config.mobAI)
-    public int          tameGatherDistance    = 16;
+    public int tameGatherDistance = 16;
     @Configure(category = Config.mobAI)
-    public int          wildGatherDistance    = 8;
+    public int wildGatherDistance = 8;
+
     @Configure(category = Config.mobAI)
-    public boolean      tameGather            = true;
+    public boolean tameGather  = true;
     @Configure(category = Config.mobAI)
-    public boolean      wildGather            = false;
+    public boolean wildGather  = false;
     @Configure(category = Config.mobAI)
-    public boolean      flyEnabled            = true;
+    public boolean flyEnabled  = true;
     @Configure(category = Config.mobAI)
-    public boolean      surfEnabled           = true;
+    public boolean surfEnabled = true;
     @Configure(category = Config.mobAI)
-    public boolean      diveEnabled           = true;
+    public boolean diveEnabled = true;
+
     @Configure(category = Config.mobAI)
-    public List<String> dodgeSounds           = Lists.newArrayList("entity.witch.throw");
+    public List<String> dodgeSounds         = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String> leapSounds            = Lists.newArrayList("entity.witch.throw");
+    public List<String> leapSounds          = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String> guardBlacklistClass   = Lists.newArrayList("net.minecraft.entity.IMerchant",
+    public List<String> guardBlacklistClass = Lists.newArrayList("net.minecraft.entity.IMerchant",
             "net.minecraft.entity.INpc", "pokecube.core.items.pokemobeggs.EntityPokemobEgg",
             "net.minecraft.entity.IProjectile");
     @Configure(category = Config.mobAI)
-    public List<String> guardBlacklistId      = Lists.newArrayList();
-    @Configure(category = Config.mobAI)
-    public double       interactHungerScale   = 1;
-    @Configure(category = Config.mobAI)
-    public double       interactDelayScale    = 1;
-    @Configure(category = Config.mobAI)
-    public boolean      pokemobsOnShoulder    = true;
-    @Configure(category = Config.mobAI)
-    public int          fishHookBaitRange     = 16;
+    public List<String> guardBlacklistId    = Lists.newArrayList();
 
     @Configure(category = Config.mobAI)
-    public boolean guardModeEnabled    = true;
+    public double  interactHungerScale = 1;
     @Configure(category = Config.mobAI)
-    public int     guardSearchDistance = 16;
+    public double  interactDelayScale  = 1;
     @Configure(category = Config.mobAI)
-    public int     guardTickRate       = 20;
+    public boolean pokemobsOnShoulder  = true;
+
+    @Configure(category = Config.mobAI)
+    public int fishHookBaitRange = 16;
+
+    @Configure(category = Config.mobAI)
+    public boolean guardModeEnabled = true;
+
+    @Configure(category = Config.mobAI)
+    public int guardSearchDistance = 16;
+    @Configure(category = Config.mobAI)
+    public int guardTickRate       = 20;
+
+    @Configure(category = Config.mobAI)
+    public int nearBlockUpdateRate = 5;
+    @Configure(category = Config.mobAI)
+    public int huntUpdateRate      = 5;
 
     // Used by pathfinder's movehelper for scaling speed in air and water.
     @Configure(category = Config.mobAI)
@@ -668,6 +681,8 @@ public class Config extends ConfigData
         if (this.spawnRate <= 0) this.spawnRate = 1;
         if (this.idleTickRate == 0) this.idleTickRate = 1;
         if (this.hungerTickRate == 0) this.hungerTickRate = 1;
+        if (this.nearBlockUpdateRate <= 0) this.nearBlockUpdateRate = 1;
+        if (this.huntUpdateRate <= 0) this.huntUpdateRate = 1;
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;

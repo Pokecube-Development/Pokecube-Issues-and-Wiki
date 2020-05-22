@@ -170,6 +170,7 @@ public class HungerTask extends BaseIdleTask
     {
         if (!this.hitThreshold(HungerTask.HUNTTHRESHOLD)) return false;
         if (this.pokemob.isPhototroph()) if (this.checkPhotoeat()) return true;
+        if (this.entity.ticksExisted % PokecubeCore.getConfig().huntUpdateRate != 0) return false;
         for (final IBlockEatTask task : HungerTask.EATTASKS)
             if (task.tryEat(this.pokemob, this.blocks).test()) return true;
         // If none of these, then lets actually try to hunt.

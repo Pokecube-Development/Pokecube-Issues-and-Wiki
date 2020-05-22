@@ -21,6 +21,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.maths.Cruncher;
@@ -68,13 +69,16 @@ public class NearBlocks extends Sensor<LivingEntity>
         }
     }
 
-    long lastUpdate = 0;
+    int tick = 0;
 
     @Override
     protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
     {
         if (BrainUtils.hasAttackTarget(entityIn)) return;
         if (BrainUtils.hasMoveUseTarget(entityIn)) return;
+
+        this.tick++;
+        if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
 
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector();
         final Vector3 origin = Vector3.getNewVector();
