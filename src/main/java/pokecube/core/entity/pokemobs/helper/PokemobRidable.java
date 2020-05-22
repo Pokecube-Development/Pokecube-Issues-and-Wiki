@@ -119,7 +119,6 @@ public abstract class PokemobRidable extends PokemobBase implements IMultiplePas
         {
             toSet = new Seat(toSet.seat, id);
             this.dataManager.set(PokemobRidable.SEAT[index], toSet);
-
         }
     }
 
@@ -140,7 +139,7 @@ public abstract class PokemobRidable extends PokemobBase implements IMultiplePas
             final float dx = this.pokemobCap.getPokedexEntry().width * this.pokemobCap.getSize(), dz = this.pokemobCap
                     .getPokedexEntry().length * this.pokemobCap.getSize();
             seat.x *= dx;
-            seat.y *= this.getHeight();
+            seat.y *= this.pokemobCap.getPokedexEntry().height * this.pokemobCap.getSize();
             seat.z *= dz;
             this.getSeat(index).seat = seat;
         }
