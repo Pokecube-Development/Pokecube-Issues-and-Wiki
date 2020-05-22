@@ -23,18 +23,10 @@ public class PointsOfInterest
         PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.SPLICER.getStateContainer().getValidStates());
         PointsOfInterest.LABMACHINES.addAll(PokecubeAdv.CLONER.getStateContainer().getValidStates());
 
-        PointsOfInterest.GENELAB = new PointOfInterestType("pokecube_adventures:gene_lab", PointsOfInterest.LABMACHINES,
-                1, null, 2);
-        PointsOfInterest.HEALER = new PointOfInterestType("pokecube_adventures:healer", Sets.newHashSet(
-                PokecubeItems.HEALER.getStateContainer().getValidStates()), 1, null, 2);
-        System.out.println(Sets.newHashSet(PokecubeItems.HEALER.getStateContainer().getValidStates()));
-        System.out.println(PointsOfInterest.LABMACHINES);
-
-        event.getRegistry().register(PointsOfInterest.GENELAB.setRegistryName("pokecube_adventures:gene_lab"));
-        event.getRegistry().register(PointsOfInterest.HEALER.setRegistryName("pokecube_adventures:healer"));
-
-        PointOfInterestType.func_221052_a(PointsOfInterest.GENELAB);
-        PointOfInterestType.func_221052_a(PointsOfInterest.HEALER);
+        PointsOfInterest.GENELAB = PointOfInterestType.register("pokecube_adventures:gene_lab",
+                PointsOfInterest.LABMACHINES, 1, 2);
+        PointsOfInterest.HEALER = PointOfInterestType.register("pokecube_adventures:healer", Sets.newHashSet(
+                PokecubeItems.HEALER.getStateContainer().getValidStates()), 1, 2);
     }
 
 }
