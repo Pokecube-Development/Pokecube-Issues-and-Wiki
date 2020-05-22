@@ -251,7 +251,7 @@ public class PokecubeAdv
     public final static CommonProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
             () -> () -> new CommonProxy());
 
-    private static final String NETVERSION = "1.0.0";
+    private static final String NETVERSION = "1.0.1";
     // Handler for network stuff.
     public static final PacketHandler packets = new PacketHandler(new ResourceLocation(PokecubeAdv.MODID, "comms"),
             PokecubeAdv.NETVERSION);
