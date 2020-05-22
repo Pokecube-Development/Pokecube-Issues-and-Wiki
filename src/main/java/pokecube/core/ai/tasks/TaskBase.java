@@ -155,18 +155,23 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
 
     protected void setWalkTo(final Vec3d pos, final double speed, final int dist)
     {
-        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
+        this.setWalkTo(new WalkTarget(pos, (float) speed, dist));
     }
 
     protected void setWalkTo(final BlockPos pos, final double speed, final int dist)
     {
-        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(pos, (float) speed, dist));
+        this.setWalkTo(new WalkTarget(pos, (float) speed, dist));
     }
 
     protected void setWalkTo(final Entity mobIn, final double speed, final int dist)
     {
-        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(new EntityPosWrapper(mobIn),
-                (float) speed, dist));
+        this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn), (float) speed, dist));
+    }
+
+    protected void setWalkTo(final WalkTarget target)
+    {
+        this.pokemob.setLogicState(LogicStates.SITTING, false);
+        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, target);
     }
 
     @Override

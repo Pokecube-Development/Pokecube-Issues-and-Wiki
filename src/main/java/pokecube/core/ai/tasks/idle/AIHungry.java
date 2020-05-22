@@ -347,7 +347,8 @@ public class AIHungry extends IdleTask
 
         // Apply cooldowns and increment hunger.
         this.pokemob.setHungerCooldown(this.pokemob.getHungerCooldown() - hungerTicks);
-        this.pokemob.setHungerTime(this.pokemob.getHungerTime() + hungerTicks);
+        if (!this.hitThreshold(AIHungry.HUNTTHRESHOLD)) this.pokemob.setHungerTime(this.pokemob.getHungerTime()
+                + hungerTicks);
 
         this.calculateHunger();
 
@@ -412,14 +413,12 @@ public class AIHungry extends IdleTask
                 if (diff < PokecubeCore.getConfig().pokemobLifeSpan) tameCheck = false;
             }
             // If they are allowed to, find the berries.
-            if (tameCheck)
-            {
-                // Only run this if we are getting close to hurt damage, mostly
-                // to allow trying other food sources first.
-                if (this.hitThreshold(AIHungry.BERRYGEN)) new GenBerries(this.pokemob).run(this.world);
-            }
+            // Only run this if we are getting close to hurt damage, mostly
+            // to allow trying other food sources first.
+            if (tameCheck && this.hitThreshold(AIHungry.BERRYGEN)) new GenBerries(this.pokemob).run(this.world);
+
             // Otherwise take damage.
-            else if (this.hitThreshold(AIHungry.DAMAGE))
+            if (this.hitThreshold(AIHungry.DAMAGE))
             {
                 final float ratio = (AIHungry.DAMAGE - this.hungerValue) / AIHungry.DAMAGE;
                 final boolean dead = this.pokemob.getMaxHealth() * ratio > this.pokemob.getHealth() || this

@@ -10,13 +10,12 @@ import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.interfaces.IPokemob;
-import thut.api.item.ItemList;
 
 public class EatWater extends EatBlockBase
 {
     public static final ResourceLocation FOODTAG = new ResourceLocation(PokecubeCore.MODID, "pokemob_redstone_food");
 
-    private static final Predicate<BlockState> checker = (b2) -> ItemList.is(EatWater.FOODTAG, b2);
+    private static final Predicate<BlockState> checker = (b2) -> b2.getFluidState().getFluid() instanceof WaterFluid;
 
     @Override
     public EatResult eat(final IPokemob pokemob, final NearBlock block)
@@ -32,6 +31,7 @@ public class EatWater extends EatBlockBase
 
         final ServerWorld world = (ServerWorld) entity.getEntityWorld();
         final BlockState current = world.getBlockState(block.getPos());
+
         if (!EatWater.checker.test(current)) return EatResult.NOEAT;
 
         pokemob.setHungerTime(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan / 4);
@@ -42,7 +42,7 @@ public class EatWater extends EatBlockBase
     @Override
     public boolean isValid(final NearBlock block)
     {
-        return block.getState().getFluidState().getFluid() instanceof WaterFluid;
+        return EatWater.checker.test(block.getState());
     }
 
 }
