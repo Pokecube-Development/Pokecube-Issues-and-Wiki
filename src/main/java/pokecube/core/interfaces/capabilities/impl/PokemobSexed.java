@@ -13,6 +13,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.tasks.idle.AIHungry;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
@@ -37,23 +38,20 @@ public abstract class PokemobSexed extends PokemobStats
         if (otherAnimal == null || !otherAnimal.isAlive()) return false;
         if (otherAnimal == this.getEntity()) return false;
         // Not allowed to mate!
-        if (!this.isRoutineEnabled(AIRoutine.MATE)) return false;
+        if (!this.canBreed()) return false;
         // Too injured, no mate!
         if (otherAnimal.getHealth() < otherAnimal.getMaxHealth() / 2) return false;
 
         final IPokemob otherMob = CapabilityPokemob.getPokemobFor(otherAnimal);
         if (otherMob != null)
         {
-            // Not allowed to mate!
-            if (!otherMob.isRoutineEnabled(AIRoutine.MATE)) return false;
-
             // Don't let tame and wild breed, prevents exploits with dittos
             if (otherMob.getOwnerId() != null && this.getOwnerId() == null) return false;
             if (this.getOwnerId() != null && otherMob.getOwnerId() == null) return false;
 
-            if (PokecubeCore.POKEMOB_BUS.post(new EggEvent.CanBreed(this.getEntity(), otherAnimal))) return false;
+            if (!otherMob.canBreed()) return false;
 
-            if (!otherMob.getPokedexEntry().breeds || !this.getPokedexEntry().breeds) return false;
+            if (PokecubeCore.POKEMOB_BUS.post(new EggEvent.CanBreed(this.getEntity(), otherAnimal))) return false;
 
             PokedexEntry thisEntry = this.getPokedexEntry();
             PokedexEntry thatEntry = otherMob.getPokedexEntry();
@@ -207,6 +205,12 @@ public abstract class PokemobSexed extends PokemobStats
     @Override
     public boolean canBreed()
     {
+        if (!this.isRoutineEnabled(AIRoutine.MATE)) return false;
+        PokedexEntry thisEntry = this.getPokedexEntry();
+        if (thisEntry.isMega) thisEntry = this.getMegaBase();
+        if (!thisEntry.breeds) return false;
+        final float hunger = AIHungry.calculateHunger(this);
+        if (AIHungry.hitThreshold(hunger, AIHungry.MATERESET)) return false;
         return this.loveTimer >= 0;
     }
 
