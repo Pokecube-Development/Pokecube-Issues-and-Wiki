@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.abilities.AbilityManager;
 import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.CaptureEvent.Pre;
@@ -161,7 +161,7 @@ public class CaptureManager
                 ((PlayerEntity) cube.shootingEntity).sendMessage(mess);
             }
         }
-        if (mob instanceof MobEntity && cube.shootingEntity != null) FindTargetsTask.initiateCombat((MobEntity) mob,
+        if (mob instanceof MobEntity && cube.shootingEntity != null) BrainUtils.initiateCombat((MobEntity) mob,
                 cube.shootingEntity);
     }
 

@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.combat;
+package pokecube.core.ai.tasks.combat.attacks;
 
 import org.apache.logging.log4j.Level;
 
@@ -13,10 +13,10 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.FakePlayer;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
-import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
@@ -38,7 +38,6 @@ import thut.api.maths.Vector3;
  */
 public class UseAttacksTask extends CombatTask implements IAICombat
 {
-    public static int maxWildBattleDur = 600;
 
     /** The target being attacked. */
     LivingEntity entityTarget;
@@ -61,8 +60,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     /** Speed for pathing. */
     double  movementSpeed;
 
-    /** Used to determine when to give up attacking. */
-    protected int chaseTime;
     /** Used for when to execute attacks. */
     protected int delayTime = -1;
 
@@ -114,7 +111,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                     .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.getPositionVec(),
                             this.movementSpeed, 0);
             this.targetLoc.set(this.entityTarget);
-            this.chaseTime = 0;
             this.waitingToStart = true;
             /**
              * Don't want to notify if the pokemob just broke out of a
@@ -154,28 +150,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // No executing move state with no target location.
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove();
 
-        // If it has been too long since last seen the target, give up.
-        if (this.chaseTime > 200)
-        {
-            this.pokemob.setCombatState(CombatStates.ANGRY, false);
-            this.chaseTime = 0;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.log(Level.INFO, "Too Long Chase, Forgetting Target: "
-                    + this.entity + " " + this.entityTarget);
-            // Send deagress message and put mob on cooldown.
-            final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
-                    .getDisplayName().getFormattedText());
-            try
-            {
-                this.entityTarget.sendMessage(message);
-            }
-            catch (final Exception e)
-            {
-                PokecubeCore.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
-            }
-            this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
-            return;
-        }
-
         Move_Base move = null;
         move = MovesUtils.getMoveFromName(this.pokemob.getMove(this.pokemob.getMoveIndex()));
         if (move == null) move = MovesUtils.getMoveFromName(IMoveConstants.DEFAULT_MOVE);
@@ -213,26 +187,11 @@ public class UseAttacksTask extends CombatTask implements IAICombat
 
         final boolean canSee = BrainUtil.canSee(this.entity.getBrain(), this.entityTarget);
 
-        // If can't see, increment the timer for giving up later.
-        if (!canSee)
-        {
-            this.chaseTime++;
-            if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this.targetLoc.set(this.entityTarget).addTo(0,
-                    this.entityTarget.getHeight() / 2, 0);
-            // Try to path to target if you can't see it, regardless of what
-            // move you have selected.
-            shouldPath = true;
-        }
-        else
-        {
-            // Otherwise set timer to 0, and if newly executing the move, set
-            // the target location as a "aim". This aiming is done so that when
-            // the move is fired, it is fired at the location, not the target,
-            // giving option to dodge.
-            this.chaseTime = 0;
-            if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this.targetLoc.set(this.entityTarget).addTo(0,
-                    this.entityTarget.getHeight() / 2, 0);
-        }
+        // If we have not set a move executing, we update target location. If we
+        // have a move executing, we leave the old location to give the target
+        // time to dodge needed.
+        if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) this.targetLoc.set(this.entityTarget).addTo(0,
+                this.entityTarget.getHeight() / 2, 0);
 
         final boolean isTargetDodging = this.pokemobTarget != null && this.pokemobTarget.getCombatState(
                 CombatStates.DODGING);

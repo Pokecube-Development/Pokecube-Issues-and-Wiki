@@ -8,7 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.terrain.TerrainManager;
@@ -89,7 +89,7 @@ public class GuardEggTask extends BaseIdleTask
 
         this.egg = (EntityPokemobEgg) list.get(0);
         this.egg.mother = this.pokemob;
-        FindTargetsTask.deagro(this.pokemob.getEntity());
+        BrainUtils.deagro(this.pokemob.getEntity());
 
         // Only run if we have a live egg to watch.
         if (this.egg != null) return this.egg.isAlive() ? true : false;

@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import thut.core.xml.bind.annotation.XmlAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -16,6 +12,9 @@ import thut.api.maths.vecmath.Vector3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.Factory;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class X3dXML
 {

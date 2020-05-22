@@ -323,6 +323,7 @@ public abstract class TrainerBase extends NpcMob
     @Override
     public NpcType getNpcType()
     {
+        if (this.pokemobsCap == null) return super.getNpcType();
         return this.pokemobsCap.getType();
     }
 }

@@ -48,12 +48,14 @@ public class AITools
             // Then check if disabled via class
             for (final Class<?> clas : AITools.invalidClasses)
                 if (clas.isInstance(input)) return false;
-            // Then check if is a spectating player.
+            // Then check if is a valid player.
             if (input instanceof ServerPlayerEntity)
             {
                 final ServerPlayerEntity player = (ServerPlayerEntity) input;
-                if (player.isSpectator() || player.getServerWorld().getDifficulty().getId() <= Difficulty.EASY.getId())
-                    return false;
+                // Do not target creative or spectator
+                if (player.isCreative() || player.isSpectator()) return false;
+                // Do not target any player on easy or peaceful
+                if (player.getServerWorld().getDifficulty().getId() <= Difficulty.EASY.getId()) return false;
             }
             // Confirm is not an egg or a pokecube as well
             if (input instanceof EntityPokemobEgg) return false;

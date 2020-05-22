@@ -19,6 +19,7 @@ import net.minecraft.entity.ai.brain.task.FleeTask;
 import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
 import net.minecraft.entity.ai.brain.task.LookTask;
 import net.minecraft.entity.ai.brain.task.Task;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -27,13 +28,14 @@ import pokecube.core.ai.routes.GuardAI.ShouldRun;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.WalkToTask;
-import pokecube.core.ai.tasks.combat.CicleTask;
-import pokecube.core.ai.tasks.combat.DodgeTask;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
-import pokecube.core.ai.tasks.combat.LeapTask;
-import pokecube.core.ai.tasks.combat.ManageTargetTask;
-import pokecube.core.ai.tasks.combat.SelectMoveTask;
-import pokecube.core.ai.tasks.combat.UseAttacksTask;
+import pokecube.core.ai.tasks.combat.attacks.SelectMoveTask;
+import pokecube.core.ai.tasks.combat.attacks.UseAttacksTask;
+import pokecube.core.ai.tasks.combat.management.CallForHelpTask;
+import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
+import pokecube.core.ai.tasks.combat.management.ForgetTargetTask;
+import pokecube.core.ai.tasks.combat.movement.CicleTask;
+import pokecube.core.ai.tasks.combat.movement.DodgeTask;
+import pokecube.core.ai.tasks.combat.movement.LeapTask;
 import pokecube.core.ai.tasks.idle.ForgetHuntedByTask;
 import pokecube.core.ai.tasks.idle.GuardEggTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
@@ -140,13 +142,16 @@ public class Tasks
         // Attack stuff
         aiList.add(new UseAttacksTask(pokemob));
         // Attack stuff
-        aiList.add(new ManageTargetTask(pokemob));
+        aiList.add(new ForgetTargetTask(pokemob));
         // Dodge attacks
         aiList.add(new DodgeTask(pokemob));
         // Leap at things
         aiList.add(new LeapTask(pokemob));
         // Move around in combat
         aiList.add(new CicleTask(pokemob));
+        // Call for help task
+        aiList.add(new CallForHelpTask(pokemob, (float) PokecubeCore.getConfig().hordeRateFactor));
+
         // Look for targets to kill
         final FindTargetsTask targetFind = new FindTargetsTask(pokemob);
         aiList.add(targetFind);

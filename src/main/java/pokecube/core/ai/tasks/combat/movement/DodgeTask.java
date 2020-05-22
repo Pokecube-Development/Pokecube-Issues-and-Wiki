@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.combat;
+package pokecube.core.ai.tasks.combat.movement;
 
 import java.util.Random;
 
@@ -10,6 +10,7 @@ import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
+import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
 import pokecube.core.interfaces.PokecubeMod;

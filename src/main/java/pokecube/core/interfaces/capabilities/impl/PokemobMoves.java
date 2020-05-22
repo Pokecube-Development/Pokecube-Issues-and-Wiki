@@ -12,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.text.ITextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.moves.MoveEntry;
 import pokecube.core.interfaces.IMoveConstants;
@@ -74,7 +73,7 @@ public abstract class PokemobMoves extends PokemobSexed
             if (target instanceof MobEntity)
             {
                 final MobEntity t = (MobEntity) target;
-                if (BrainUtils.getAttackTarget(t) != this.getEntity()) FindTargetsTask.initiateCombat(t, this.getEntity());
+                if (BrainUtils.getAttackTarget(t) != this.getEntity()) BrainUtils.initiateCombat(t, this.getEntity());
             }
             if (target instanceof LivingEntity) if (((LivingEntity) target).getRevengeTarget() != this.getEntity())
             {

@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.combat;
+package pokecube.core.ai.tasks.combat.movement;
 
 import java.util.Map;
 import java.util.Random;

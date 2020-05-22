@@ -12,7 +12,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.events.EggEvent;
@@ -157,8 +157,8 @@ public abstract class PokemobSexed extends PokemobStats
         mate.setHungerTime(mate.getHungerTime() + hungerValue);
         this.setHungerTime(this.getHungerTime() + hungerValue);
         mate.resetLoveStatus();
-        FindTargetsTask.deagro(this.getEntity());
-        FindTargetsTask.deagro(mate.getEntity());
+        BrainUtils.deagro(this.getEntity());
+        BrainUtils.deagro(mate.getEntity());
         this.lay(mate);
         this.resetLoveStatus();
     }

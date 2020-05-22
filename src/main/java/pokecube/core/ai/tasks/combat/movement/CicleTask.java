@@ -1,9 +1,10 @@
-package pokecube.core.ai.tasks.combat;
+package pokecube.core.ai.tasks.combat.movement;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.ai.IAICombat;

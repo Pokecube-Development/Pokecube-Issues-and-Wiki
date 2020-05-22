@@ -1,29 +1,79 @@
-package pokecube.core.ai.tasks.combat;
+package pokecube.core.ai.tasks.combat.management;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.apache.logging.log4j.Level;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 
-public class ManageTargetTask extends CombatTask
+public class ForgetTargetTask extends CombatTask
 {
+    private static class ForgetEntry
+    {
+        long forgotTime;
+
+        LivingEntity mob;
+
+        public ForgetEntry(final long time, final LivingEntity mob)
+        {
+            this.forgotTime = time;
+            this.mob = mob;
+        }
+
+        boolean isValid(final long gameTime)
+        {
+            if (gameTime - this.forgotTime > 100) return false;
+            return true;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return this.mob.getUniqueID().hashCode();
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            return this.mob.getUniqueID().equals(obj);
+        }
+    }
+
+    public static int maxWildBattleDur = 600;
     /** The target being attacked. */
-    LivingEntity entityTarget;
+    LivingEntity      entityTarget;
 
     /** IPokemob version of entityTarget. */
     IPokemob pokemobTarget;
 
     int battleTime = 0;
 
-    public ManageTargetTask(final IPokemob pokemob)
+    int ticksSinceSeen = 0;
+
+    Map<UUID, ForgetEntry> forgotten = Maps.newHashMap();
+
+    public ForgetTargetTask(final IPokemob pokemob)
     {
         super(pokemob);
     }
@@ -33,7 +83,9 @@ public class ManageTargetTask extends CombatTask
     {
         this.entityTarget = null;
         this.pokemobTarget = null;
-        FindTargetsTask.deagro(this.entity);
+        this.battleTime = 0;
+        this.ticksSinceSeen = 0;
+        BrainUtils.deagro(this.entity);
     }
 
     @Override
@@ -54,7 +106,17 @@ public class ManageTargetTask extends CombatTask
             mate = null;
         }
 
+        if (!this.forgotten.isEmpty())
+        {
+            final Set<UUID> ids = Sets.newHashSet(this.forgotten.keySet());
+            for (final UUID id : ids)
+                if (!this.forgotten.get(id).isValid(this.world.getGameTime())) this.forgotten.remove(id);
+        }
+
         boolean deAgro = mate == this.entityTarget;
+
+        final ForgetEntry entry = new ForgetEntry(this.world.getGameTime(), this.entityTarget);
+        if (this.forgotten.containsKey(entry.mob.getUniqueID())) deAgro = true;
 
         agroCheck:
         if (mobB != null && !deAgro)
@@ -74,7 +136,7 @@ public class ManageTargetTask extends CombatTask
             final boolean oneHunting = weHunt || theyHunt;
 
             // Give up if we took too long to fight.
-            if (bothWild && this.battleTime > UseAttacksTask.maxWildBattleDur)
+            if (bothWild && this.battleTime > ForgetTargetTask.maxWildBattleDur)
             {
                 deAgro = true;
                 break agroCheck;
@@ -171,9 +233,51 @@ public class ManageTargetTask extends CombatTask
                 }
 
             }
+
+            if (BrainUtil.canSee(this.entity.getBrain(), this.entityTarget)) this.ticksSinceSeen = 0;
+
+            // If it has been too long since last seen the target, give up.
+            if (this.ticksSinceSeen++ > 100)
+            {
+                // Send deagress message and put mob on cooldown.
+                final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
+                        .getDisplayName().getFormattedText());
+                try
+                {
+                    this.entityTarget.sendMessage(message);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
+                }
+                deAgro = true;
+                break agroCheck;
+            }
+
+            // Target is too far away, lets forget it.
+            if (this.entity.getDistance(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
+            {
+                // Send deagress message and put mob on cooldown.
+                final ITextComponent message = new TranslationTextComponent("pokemob.deagress.timeout", this.pokemob
+                        .getDisplayName().getFormattedText());
+                try
+                {
+                    this.entityTarget.sendMessage(message);
+                }
+                catch (final Exception e)
+                {
+                    PokecubeCore.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
+                }
+                deAgro = true;
+                break agroCheck;
+            }
         }
         // All we do is deagro if needed.
-        if (deAgro) FindTargetsTask.deagro(this.entity);
+        if (deAgro)
+        {
+            this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
+            BrainUtils.deagro(this.entity);
+        }
     }
 
     @Override
@@ -181,6 +285,10 @@ public class ManageTargetTask extends CombatTask
     {
         this.entityTarget = BrainUtils.getAttackTarget(this.entity);
         this.pokemobTarget = CapabilityPokemob.getPokemobFor(this.entityTarget);
+
+        if (this.entityTarget == null && this.entity.getBrain().hasMemory(MemoryModuleType.HURT_BY_ENTITY))
+            this.entityTarget = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
+
         // Only run if we have a combat target
         return this.entityTarget != null;
     }

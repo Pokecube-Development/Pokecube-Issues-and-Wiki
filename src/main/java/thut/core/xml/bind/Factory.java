@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
-import thut.core.xml.bind.annotation.XmlAnyAttribute;
-import thut.core.xml.bind.annotation.XmlAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,6 +28,10 @@ import org.xml.sax.XMLReader;
 import com.google.common.collect.Maps;
 
 import thut.core.common.ThutCore;
+import thut.core.xml.bind.annotation.XmlAnyAttribute;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class Factory<T>
 {

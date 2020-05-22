@@ -6,7 +6,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IMoveAction;
@@ -95,7 +95,7 @@ public class ActionTeleport implements IMoveAction
         }
         else if (angry)
         {
-            FindTargetsTask.deagro(user.getEntity());
+            BrainUtils.deagro(user.getEntity());
             if (user.getGeneralState(GeneralStates.TAMED)) user.onRecall();
             else ActionTeleport.teleportRandomly(user.getEntity());
         }

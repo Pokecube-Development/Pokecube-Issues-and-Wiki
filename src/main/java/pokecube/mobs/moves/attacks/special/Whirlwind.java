@@ -1,6 +1,6 @@
 package pokecube.mobs.moves.attacks.special;
 
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
@@ -39,6 +39,6 @@ public class Whirlwind extends Move_Basic
             attacked.setCombatState(CombatStates.ANGRY, false);
         }
         // ends the battle
-        FindTargetsTask.deagro(packet.attacker.getEntity());
+        BrainUtils.deagro(packet.attacker.getEntity());
     }
 }

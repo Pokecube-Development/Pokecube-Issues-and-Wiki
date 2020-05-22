@@ -8,7 +8,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.events.pokemob.combat.CommandAttackEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -62,7 +62,7 @@ public class AttackEntityHandler extends DefaultHandler
                         .getDisplayName(), target.getDisplayName(), new TranslationTextComponent(MovesUtils
                                 .getUnlocalizedMove(move.getName())));
                 if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
-                FindTargetsTask.initiateCombat(pokemob.getEntity(), (LivingEntity) target);
+                BrainUtils.initiateCombat(pokemob.getEntity(), (LivingEntity) target);
             }
         }
     }

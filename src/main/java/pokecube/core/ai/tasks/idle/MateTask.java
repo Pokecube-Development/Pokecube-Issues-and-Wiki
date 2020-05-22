@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
@@ -14,7 +15,6 @@ import net.minecraft.util.math.EntityPosWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.ai.tasks.combat.FindTargetsTask;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -97,7 +97,7 @@ public class MateTask extends BaseIdleTask
 
         // This fight should end when one gets below half health, which would
         // then be invalid for the next selection round of mating targets.
-        FindTargetsTask.initiateCombat(this.mobA, this.mobB);
+        BrainUtils.initiateCombat(this.mobA, this.mobB);
 
         this.startSpot = new WalkTarget(this.entity.getPositionVec(), (float) this.pokemob.getMovementSpeed(), 0);
     }
@@ -136,9 +136,7 @@ public class MateTask extends BaseIdleTask
         if (this.mate == null) return;
 
         // Make them walk to each other
-        this.setWalkTo(this.mate, this.pokemob.getMovementSpeed(), 0);
-        this.mate.getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(new EntityPosWrapper(this.entity),
-                (float) this.pokemob.getMovementSpeed(), 0));
+        this.approachEachOther(this.entity, this.mate, (float) this.pokemob.getMovementSpeed());
 
         BrainUtils.setMateTarget((AgeableEntity) this.entity, this.mate);
         BrainUtils.setMateTarget(this.mate, (AgeableEntity) this.entity);
@@ -151,5 +149,19 @@ public class MateTask extends BaseIdleTask
         this.reset();
         other.resetLoveStatus();
         this.pokemob.resetLoveStatus();
+    }
+
+    void approachEachOther(final LivingEntity firstEntity, final LivingEntity secondEntity, final float speed)
+    {
+        this.approach(firstEntity, secondEntity, speed);
+        this.approach(secondEntity, firstEntity, speed);
+    }
+
+    void approach(final LivingEntity living, final LivingEntity target, final float speed)
+    {
+        final EntityPosWrapper entityposwrapper = new EntityPosWrapper(target);
+        final WalkTarget walktarget = new WalkTarget(entityposwrapper, speed, 0);
+        living.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, entityposwrapper);
+        living.getBrain().setMemory(MemoryModuleType.WALK_TARGET, walktarget);
     }
 }

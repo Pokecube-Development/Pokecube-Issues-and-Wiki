@@ -103,8 +103,9 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
         if (guard != null)
         {
             final GuardAI guardai = new GuardAI(this, guard);
-
             final VillagerProfession profession = this.getVillagerData().getProfession();
+            if (this.getNpcType() != null && this.getNpcType().getProfession() != profession) this.setVillagerData(this
+                    .getVillagerData().withLevel(3).withProfession(this.getNpcType().getProfession()));
             final float f = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
             if (this.isChild())
             {
@@ -158,7 +159,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public void setVillagerData(final VillagerData data)
     {
         final MerchantOffers trades = this.offers;
-        super.setVillagerData(data.withProfession(VillagerProfession.NITWIT));
+        super.setVillagerData(data);
         this.offers = trades;
     }
 
@@ -172,7 +173,8 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public ILivingEntityData onInitialSpawn(final IWorld worldIn, final DifficultyInstance difficultyIn,
             final SpawnReason reason, final ILivingEntityData spawnDataIn, final CompoundNBT dataTag)
     {
-        this.setVillagerData(this.getVillagerData().withProfession(VillagerProfession.NONE));
+        final VillagerProfession proff = this.getNpcType().getProfession();
+        this.setVillagerData(this.getVillagerData().withProfession(proff).withLevel(3));
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier(
                 "Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
         if (this.rand.nextFloat() < 0.05F) this.setLeftHanded(true);

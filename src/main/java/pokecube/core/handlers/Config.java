@@ -327,7 +327,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public int     hungerTickRate         = 20;
     @Configure(category = Config.mobAI)
-    public double  hordeRateFactor        = 1;
+    public double  hordeRateFactor        = 0.1;
     @Configure(category = Config.mobAI)
     public double  leapSpeedFactor        = 1;
     @Configure(category = Config.mobAI)
