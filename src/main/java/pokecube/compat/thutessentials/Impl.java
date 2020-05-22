@@ -50,11 +50,8 @@ public class Impl
 
     private static class TeamProvider implements ITeamProvider
     {
-        private final ITeamProvider provider;
-
-        public TeamProvider(final ITeamProvider provider)
+        public TeamProvider()
         {
-            this.provider = provider;
         }
 
         @Override
@@ -65,7 +62,7 @@ public class Impl
             if (id == null) id = entityIn.getUniqueID();
             final LandTeam team = LandManager.getTeam(id);
             if (team != LandManager.getDefaultTeam()) return team.teamName;
-            return this.provider.getTeam(entityIn);
+            return "";
         }
 
         @Override
@@ -81,7 +78,7 @@ public class Impl
                 if (teamA.isAlly(target.getUniqueID())) return true;
                 return false;
             }
-            return this.provider.areAllied(team, target);
+            return false;
         }
 
     }
@@ -96,7 +93,7 @@ public class Impl
     public static void initMatcher(final SpawnCheckEvent.Init event)
     {
         event.matcher._structs = StructureMatcher.or(new StructChecker(), event.matcher._structs);
-        TeamManager.provider = new TeamProvider(TeamManager.provider);
+        TeamManager.provider = new TeamProvider();
     }
 
 }
