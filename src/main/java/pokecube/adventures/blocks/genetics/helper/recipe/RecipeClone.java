@@ -36,7 +36,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.IMobGenetics;
 
-public class RecipeFossilRevive extends PoweredRecipe
+public class RecipeClone extends PoweredRecipe
 {
 
     public static class AnyMatcher implements ReviveMatcher
@@ -48,7 +48,7 @@ public class RecipeFossilRevive extends PoweredRecipe
         {
             final World world = ((TileEntity) tile).getWorld();
             final BlockPos pos = ((TileEntity) tile).getPos();
-            final PokedexEntry entry = RecipeFossilRevive.getEntry(this, tile);
+            final PokedexEntry entry = RecipeClone.getEntry(this, tile);
             if (entry == Database.missingno) return false;
             final boolean tame = !entry.isLegendary();
             MobEntity entity = PokecubeCore.createPokemob(entry, world);
@@ -60,22 +60,24 @@ public class RecipeFossilRevive extends PoweredRecipe
                 entity.setHealth(entity.getMaxHealth());
                 // to avoid the death on spawn
                 final int exp = Tools.levelToXp(entry.getEvolutionMode(), AnyMatcher.level);
-                // that will make your pokemob around level 3-5.
-                // You can give him more XP if you want
-                entity = (pokemob = pokemob.setForSpawn(exp)).getEntity();
+
+                final IMobGenetics genes = ClonerHelper.getGenes(dnaSource);
+                if (genes != null) GeneticsManager.initFromGenes(genes, pokemob);
+                pokemob.getEntity().getPersistentData().putInt("spawnExp", exp);
+                pokemob = pokemob.spawnInit();
+
                 if (tile.getUser() != null && tame) pokemob.setOwner(tile.getUser().getUniqueID());
+
+                final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
+                if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
+
+                pokemob = event.getPokemob();
+                entity = pokemob.getEntity();
                 final Direction dir = world.getBlockState(pos).get(HorizontalBlock.HORIZONTAL_FACING);
                 entity.setLocationAndAngles(pos.getX() + 0.5 + dir.getXOffset(), pos.getY() + 1, pos.getZ() + 0.5 + dir
                         .getZOffset(), world.rand.nextFloat() * 360F, 0.0F);
                 entity.getPersistentData().putBoolean("cloned", true);
-
-                final CloneEvent.Spawn event = new CloneEvent.Spawn((ClonerTile) tile, pokemob);
-                if (PokecubeCore.POKEMOB_BUS.post(event)) return false;
-                pokemob = event.getPokemob();
-                entity = pokemob.getEntity();
                 world.addEntity(entity);
-                final IMobGenetics genes = ClonerHelper.getGenes(dnaSource);
-                if (genes != null) GeneticsManager.initFromGenes(genes, pokemob);
                 entity.playAmbientSound();
             }
             return true;
@@ -120,7 +122,7 @@ public class RecipeFossilRevive extends PoweredRecipe
 
         default int getEnergyCost()
         {
-            return RecipeFossilRevive.ENERGYCOST;
+            return RecipeClone.ENERGYCOST;
         }
 
         default boolean shouldKeep(final ItemStack stack)
@@ -129,14 +131,14 @@ public class RecipeFossilRevive extends PoweredRecipe
         }
     }
 
-    public static int                                         ENERGYCOST = 10000;
-    public static final IRecipeSerializer<RecipeFossilRevive> SERIALIZER = IRecipeSerializer.register(
-            "pokecube_adventures:reviving", new SpecialRecipeSerializer<>(RecipeFossilRevive::new));
+    public static int                                  ENERGYCOST = 10000;
+    public static final IRecipeSerializer<RecipeClone> SERIALIZER = IRecipeSerializer.register(
+            "pokecube_adventures:reviving", new SpecialRecipeSerializer<>(RecipeClone::new));
 
-    public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeFossilRevive.ENERGYCOST;
-    private static List<RecipeFossilRevive>    recipeList = Lists.newArrayList();
+    public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeClone.ENERGYCOST;
+    private static List<RecipeClone>           recipeList = Lists.newArrayList();
 
-    private static HashMap<PokedexEntry, RecipeFossilRevive> entryMap = Maps.newHashMap();
+    private static HashMap<PokedexEntry, RecipeClone> entryMap = Maps.newHashMap();
 
     public static ReviveMatcher             ANYMATCHER = new AnyMatcher();
     public static final List<ReviveMatcher> MATCHERS   = Lists.newArrayList();
@@ -152,17 +154,17 @@ public class RecipeFossilRevive extends PoweredRecipe
         return entry;
     }
 
-    public static RecipeFossilRevive getRecipe(final PokedexEntry entry)
+    public static RecipeClone getRecipe(final PokedexEntry entry)
     {
-        return RecipeFossilRevive.entryMap.get(entry);
+        return RecipeClone.entryMap.get(entry);
     }
 
-    public static List<RecipeFossilRevive> getRecipeList()
+    public static List<RecipeClone> getRecipeList()
     {
-        return Lists.newArrayList(RecipeFossilRevive.recipeList);
+        return Lists.newArrayList(RecipeClone.recipeList);
     }
 
-    public RecipeFossilRevive(final ResourceLocation loc)
+    public RecipeClone(final ResourceLocation loc)
     {
         super(loc);
     }
@@ -177,9 +179,9 @@ public class RecipeFossilRevive extends PoweredRecipe
     public boolean complete(final IPoweredProgress tile)
     {
         boolean completed = false;
-        for (final ReviveMatcher matcher : RecipeFossilRevive.MATCHERS)
+        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
             if (completed = matcher.complete(tile)) break;
-        if (!completed) completed = RecipeFossilRevive.ANYMATCHER.complete(tile);
+        if (!completed) completed = RecipeClone.ANYMATCHER.complete(tile);
         if (completed)
         {
             final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
@@ -203,7 +205,7 @@ public class RecipeFossilRevive extends PoweredRecipe
     @Override
     public Function<ItemStack, Integer> getCostFunction()
     {
-        return RecipeFossilRevive.ENERGYNEED;
+        return RecipeClone.ENERGYNEED;
     }
 
     @Override
@@ -215,32 +217,32 @@ public class RecipeFossilRevive extends PoweredRecipe
     @Override
     public int getEnergyCost(final IPoweredProgress tile)
     {
-        for (final ReviveMatcher matcher : RecipeFossilRevive.MATCHERS)
-            if (RecipeFossilRevive.getEntry(matcher, tile) != Database.missingno) return matcher.getEnergyCost();
-        return RecipeFossilRevive.ANYMATCHER.getEnergyCost();
+        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
+            if (RecipeClone.getEntry(matcher, tile) != Database.missingno) return matcher.getEnergyCost();
+        return RecipeClone.ANYMATCHER.getEnergyCost();
     }
 
     public PokedexEntry getPokedexEntry(final IPoweredProgress tile)
     {
         PokedexEntry entry = Database.missingno;
-        for (final ReviveMatcher matcher : RecipeFossilRevive.MATCHERS)
-            if ((entry = RecipeFossilRevive.getEntry(matcher, tile)) != Database.missingno) return entry;
-        return RecipeFossilRevive.getEntry(RecipeFossilRevive.ANYMATCHER, tile);
+        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
+            if ((entry = RecipeClone.getEntry(matcher, tile)) != Database.missingno) return entry;
+        return RecipeClone.getEntry(RecipeClone.ANYMATCHER, tile);
     }
 
     @Override
     public IRecipeSerializer<?> getSerializer()
     {
-        return RecipeFossilRevive.SERIALIZER;
+        return RecipeClone.SERIALIZER;
     }
 
     /** Used to check if a recipe matches current crafting inventory */
     @Override
     public boolean matches(final CraftingInventory inv, final World worldIn)
     {
-        for (final ReviveMatcher matcher : RecipeFossilRevive.MATCHERS)
+        for (final ReviveMatcher matcher : RecipeClone.MATCHERS)
             if (matcher.getEntry(inv, worldIn) != Database.missingno) return true;
-        return RecipeFossilRevive.ANYMATCHER.getEntry(inv, worldIn) != Database.missingno;
+        return RecipeClone.ANYMATCHER.getEntry(inv, worldIn) != Database.missingno;
     }
 
     @Override
@@ -251,8 +253,8 @@ public class RecipeFossilRevive extends PoweredRecipe
         final PoweredCraftingInventory inv_p = (PoweredCraftingInventory) inv;
         if (!(inv_p.inventory instanceof ClonerTile)) return nonnulllist;
         final ClonerTile tile = (ClonerTile) inv_p.inventory;
-        ReviveMatcher matcher = RecipeFossilRevive.ANYMATCHER;
-        for (final ReviveMatcher matcher2 : RecipeFossilRevive.MATCHERS)
+        ReviveMatcher matcher = RecipeClone.ANYMATCHER;
+        for (final ReviveMatcher matcher2 : RecipeClone.MATCHERS)
             if (matcher2.getEntry(inv, tile.getWorld()) != Database.missingno)
             {
                 matcher = matcher2;

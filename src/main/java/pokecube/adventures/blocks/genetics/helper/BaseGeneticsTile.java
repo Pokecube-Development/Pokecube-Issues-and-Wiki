@@ -162,9 +162,9 @@ public abstract class BaseGeneticsTile extends InteractableTile implements IPowe
      * Returns true if automation can insert the given item in the given slot
      * from the given side.
      */
-    public boolean canInsertItem(final int index, final ItemStack itemStackIn, final Direction direction)
+    public boolean canInsertItem(final int index, final ItemStack stack, final Direction direction)
     {
-        return this.isItemValidForSlot(index, itemStackIn);
+        return this.isItemValidForSlot(index, stack);
     }
 
     public void checkRecipes()

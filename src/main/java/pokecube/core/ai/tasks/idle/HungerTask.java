@@ -341,8 +341,7 @@ public class HungerTask extends BaseIdleTask
 
         // Apply cooldowns and increment hunger.
         this.pokemob.setHungerCooldown(this.pokemob.getHungerCooldown() - hungerTicks);
-        if (!this.hitThreshold(HungerTask.HUNTTHRESHOLD)) this.pokemob.setHungerTime(this.pokemob.getHungerTime()
-                + hungerTicks);
+        this.pokemob.setHungerTime(this.pokemob.getHungerTime() + hungerTicks);
 
         this.calculateHunger();
 

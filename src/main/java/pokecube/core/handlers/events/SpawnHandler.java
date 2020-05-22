@@ -241,7 +241,6 @@ public final class SpawnHandler
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
-
             final long time = System.nanoTime();
             int maxXP = 10;
             int level = 1;

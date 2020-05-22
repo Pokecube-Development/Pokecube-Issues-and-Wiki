@@ -5,9 +5,9 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.util.ResourceLocation;
-import pokecube.adventures.blocks.genetics.helper.recipe.RecipeFossilRevive;
+import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 
-public class Category implements IRecipeCategory<RecipeFossilRevive>
+public class Category implements IRecipeCategory<RecipeClone>
 {
 
     public Category()
@@ -30,7 +30,7 @@ public class Category implements IRecipeCategory<RecipeFossilRevive>
     }
 
     @Override
-    public Class<? extends RecipeFossilRevive> getRecipeClass()
+    public Class<? extends RecipeClone> getRecipeClass()
     {
         // TODO Auto-generated method stub
         return null;
@@ -51,13 +51,13 @@ public class Category implements IRecipeCategory<RecipeFossilRevive>
     }
 
     @Override
-    public void setIngredients(final RecipeFossilRevive arg0, final IIngredients arg1)
+    public void setIngredients(final RecipeClone arg0, final IIngredients arg1)
     {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void setRecipe(final IRecipeLayout arg0, final RecipeFossilRevive arg1, final IIngredients arg2)
+    public void setRecipe(final IRecipeLayout arg0, final RecipeClone arg1, final IIngredients arg2)
     {
         // TODO Auto-generated method stub
 
