@@ -17,7 +17,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EntityPredicates;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -190,7 +189,6 @@ public class CapabilityHasPokemobs
 
         public DefaultPokemobs()
         {
-            this.addTargetWatcher((e) -> EntityPredicates.CAN_AI_TARGET.test(e));
         }
 
         @Override

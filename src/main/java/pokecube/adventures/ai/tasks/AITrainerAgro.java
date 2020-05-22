@@ -3,10 +3,14 @@ package pokecube.adventures.ai.tasks;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.math.Vec3d;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
@@ -22,7 +26,6 @@ import pokecube.core.utils.AITools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 
 public class AITrainerAgro extends AITrainerBase implements ITargetWatcher
 {
@@ -206,13 +209,13 @@ public class AITrainerAgro extends AITrainerBase implements ITargetWatcher
             return false;
         }
         // Dead trainers can't fight.
-        if (!this.entity.isAlive() || this.entity.ticksExisted % 20 != 0) return false;
+        if (!this.entity.isAlive()) return false;
         // Permfriendly trainers shouldn't fight.
         if (this.aiTracker != null && this.aiTracker.getAIState(IHasNPCAIStates.PERMFRIENDLY)) return false;
         // Trainers on cooldown shouldn't fight, neither should friendly ones
         if (this.trainer.getCooldown() > this.entity.getEntityWorld().getGameTime() || !this.trainer.isAgressive())
             return false;
-        return true;
+        return this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS);
     }
 
     @Override
@@ -243,12 +246,19 @@ public class AITrainerAgro extends AITrainerBase implements ITargetWatcher
         LivingEntity target = null;
         final int sight = this.trainer.getAgressDistance();
 
-        if (!TerrainManager.isAreaLoaded(this.world, this.here, sight + 3)) return;
+        final Vec3d start = new Vec3d(this.here.x, this.here.y, this.here.z);
+        final Vector3 look = Vector3.getNewVector().set(this.entity.getLook(1)).scalarMultBy(sight).addTo(this.here);
+        final Vec3d end = new Vec3d(look.x, look.y, look.z);
 
-        final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.isValidTarget((LivingEntity) e);
-        final Entity match = this.here.firstEntityExcluding(sight, this.entity.getLook(0), this.world, this.entity,
-                matcher);
-        if (match instanceof LivingEntity) target = (LivingEntity) match;
+        final Predicate<Entity> matcher = e -> e instanceof LivingEntity && this.isValidTarget((LivingEntity) e) && e
+                .getDistance(this.entity) <= sight && e.getBoundingBox().rayTrace(start, end).isPresent();
+
+        final List<LivingEntity> targets = Lists.newArrayList(this.entity.getBrain().getMemory(
+                MemoryModuleType.VISIBLE_MOBS).get());
+
+        targets.removeIf(e -> !matcher.test(e));
+
+        if (!targets.isEmpty()) target = targets.get(0);
 
         // If no target, return false.
         if (target == null)
@@ -268,6 +278,7 @@ public class AITrainerAgro extends AITrainerBase implements ITargetWatcher
     @Override
     public boolean isValidTarget(final LivingEntity target)
     {
+        if (!EntityPredicates.CAN_AI_TARGET.test(target)) return false;
         this.here.set(this.entity, true);
         final int dist = PokecubeAdv.config.trainer_crowding_radius;
         final int num = PokecubeAdv.config.trainer_crowding_number;

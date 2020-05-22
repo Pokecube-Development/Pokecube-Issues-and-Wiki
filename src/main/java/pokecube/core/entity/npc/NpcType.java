@@ -96,7 +96,7 @@ public class NpcType
     private ResourceLocation maleTex;
     private ResourceLocation femaleTex;
 
-    private VillagerProfession profession = VillagerProfession.NONE;
+    private VillagerProfession profession = VillagerProfession.NITWIT;
 
     private IInteract interaction = (p, h, mob) -> false;
 

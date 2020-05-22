@@ -1,6 +1,7 @@
 package pokecube.adventures.ai.tasks;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.EntityPredicates;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 
 public class AIRetaliate extends AITrainerBase implements ITargetWatcher
@@ -51,6 +52,7 @@ public class AIRetaliate extends AITrainerBase implements ITargetWatcher
     {
         if (target == null) return false;
         if (!(target.isAlive() && this.entity.canEntityBeSeen(target))) return false;
+        if (!EntityPredicates.CAN_AI_TARGET.test(target)) return false;
         if (target != null && target.getLastAttackedEntity() == this.entity && target
                 .getLastAttackedEntityTime() < target.ticksExisted + 20) return true;
         final int timer = this.entity.getRevengeTimer();
