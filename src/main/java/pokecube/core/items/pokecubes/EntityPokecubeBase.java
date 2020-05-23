@@ -48,6 +48,7 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
@@ -123,6 +124,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     public boolean seeking = EntityPokecubeBase.SEEKING;
 
     NonNullList<ItemStack> stuff = NonNullList.create();
+
+    public IPokemob containedMob;
 
     public EntityPokecubeBase(final EntityType<? extends EntityPokecubeBase> type, final World worldIn)
     {
@@ -213,6 +216,20 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
         default:
             break;
         }
+    }
+
+    @Override
+    public void onAddedToWorld()
+    {
+        if (!this.isAddedToWorld()) PokemobTracker.addPokecube(this);
+        super.onAddedToWorld();
+    }
+
+    @Override
+    public void onRemovedFromWorld()
+    {
+        PokemobTracker.removePokecube(this);
+        super.onRemovedFromWorld();
     }
 
     @Override
@@ -448,13 +465,13 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     /** Sets the ItemStack for this entity */
     public void setItem(final ItemStack stack)
     {
+        if (this.isAddedToWorld()) PokemobTracker.removePokecube(this);
         this.getDataManager().set(EntityPokecubeBase.ITEM, stack);
-    }
-
-    // For compatiblity
-    public void setItemEntityStack(final ItemStack stack)
-    {
-        this.setItem(stack);
+        if (this.isAddedToWorld())
+        {
+            this.containedMob = PokecubeManager.itemToPokemob(stack, PokecubeCore.proxy.getWorld());
+            PokemobTracker.addPokecube(this);
+        }
     }
 
     @Override
@@ -550,12 +567,6 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     {
         final ItemStack itemstack = this.getDataManager().get(EntityPokecubeBase.ITEM);
         return itemstack.isEmpty() ? new ItemStack(Blocks.STONE) : itemstack;
-    }
-
-    // For compatiblity.
-    public ItemStack getItemEntity()
-    {
-        return this.getItem();
     }
 
     @Override

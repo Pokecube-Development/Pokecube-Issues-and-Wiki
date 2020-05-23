@@ -2,6 +2,7 @@ package pokecube.core.ai.logic;
 
 import java.util.Calendar;
 import java.util.Random;
+import java.util.UUID;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
@@ -29,6 +30,7 @@ import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.utils.PokemobTracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
@@ -46,17 +48,22 @@ public class LogicMiscUpdate extends LogicBase
     public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25 && Calendar
             .getInstance().get(Calendar.MONTH) == 11;
 
-    private int          lastHadTargetTime = 0;
-    private final int[]  flavourAmounts    = new int[5];
+    private int lastHadTargetTime = 0;
+
+    private final int[] flavourAmounts = new int[5];
+
     private PokedexEntry entry;
-    private String       particle          = null;
-    private boolean      reset             = false;
-    private boolean      initHome          = false;
-    private boolean      checkedEvol       = false;
-    private int          pathTimer         = 0;
-    private long         dynatime          = -1;
-    private boolean      de_dyna           = false;
-    Vector3              v                 = Vector3.getNewVector();
+    private String       particle    = null;
+    private boolean      reset       = false;
+    private boolean      initHome    = false;
+    private boolean      checkedEvol = false;
+    private int          pathTimer   = 0;
+    private long         dynatime    = -1;
+    private boolean      de_dyna     = false;
+
+    Vector3 v = Vector3.getNewVector();
+
+    UUID prevOwner = null;
 
     public LogicMiscUpdate(final IPokemob entity)
     {
@@ -271,6 +278,14 @@ public class LogicMiscUpdate extends LogicBase
                 .getEntityProvider().getEntity(world, id, false));
         if (id < 0 && targ != null) BrainUtils.setAttackTarget(this.entity, null);
         if (targ != null && !targ.isAlive()) BrainUtils.setAttackTarget(this.entity, null);
+
+        // Sync the addition of this, as onAddedToWorld is called before this
+        // value is synchronized
+        if (this.prevOwner == null && this.pokemob.getOwnerId() != null)
+        {
+            this.prevOwner = this.pokemob.getOwnerId();
+            PokemobTracker.addPokemob(this.pokemob);
+        }
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = new Random();

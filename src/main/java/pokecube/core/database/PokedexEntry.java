@@ -1781,7 +1781,7 @@ public class PokedexEntry
      * returns whether the interaction logic has a response listed for the
      * given key.
      *
-     * @param pokemob
+     * @param cube
      * @param doInteract
      *            - if false, will not actually do anything.
      * @return

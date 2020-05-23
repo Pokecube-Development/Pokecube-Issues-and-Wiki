@@ -38,6 +38,7 @@ import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPC;
+import pokecube.core.utils.PokemobTracker;
 import thut.core.common.ThutCore;
 
 public class PCEventsHandler
@@ -54,8 +55,7 @@ public class PCEventsHandler
     public static List<Entity> getOutMobs(final LivingEntity player, final boolean includeStay)
     {
         if (player == null) return Collections.emptyList();
-        return ((ServerWorld) player.getEntityWorld()).getEntities(null, c -> EventsHandler.validRecall(player, c, null,
-                false, includeStay));
+        return PokemobTracker.getMobs(player, c -> EventsHandler.validRecall(player, c, null, false, includeStay));
     }
 
     /**
@@ -173,6 +173,7 @@ public class PCEventsHandler
             for (final Entity o : mobs)
             {
                 final IPokemob pokemob = CapabilityPokemob.getPokemobFor(o);
+                if (!o.isAddedToWorld()) continue;
                 if (pokemob != null) pokemob.onRecall();
                 else if (o instanceof EntityPokecube)
                 {
