@@ -122,10 +122,10 @@ public class PokedexEntry
             this.evolution = evol;
         }
 
-        public Entity getEvolution(final World world)
+        public Entity getEvolution(final IWorld world)
         {
             if (this.evolution == null) return null;
-            final Entity ret = PokecubeCore.createPokemob(this.evolution, world);
+            final Entity ret = PokecubeCore.createPokemob(this.evolution, world.getWorld());
             return ret;
         }
 
