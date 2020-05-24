@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
@@ -27,6 +28,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import pokecube.adventures.advancements.Triggers;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
 import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.blocks.BlockEventHandler;
@@ -114,6 +116,12 @@ public class PokecubeAdv
             // register a new mob here
             event.getRegistry().register(TrainerNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "trainer"));
             event.getRegistry().register(LeaderNpc.TYPE.setRegistryName(PokecubeAdv.MODID, "leader"));
+        }
+
+        @SubscribeEvent
+        public static void registerMemories(final RegistryEvent.Register<MemoryModuleType<?>> event)
+        {
+            MemoryTypes.register(event);
         }
 
         @SubscribeEvent

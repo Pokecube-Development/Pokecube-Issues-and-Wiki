@@ -33,6 +33,7 @@ import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -56,7 +57,6 @@ import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -341,7 +341,8 @@ public class TrainerEventHandler
         {
             final LivingEntity npc = event.getEntityLiving();
             final Brain<?> brain = npc.getBrain();
-            if (!BrainUtils.hasAttackTarget(npc) && brain.hasActivity(Activities.BATTLE)) brain.switchTo(Activity.IDLE);
+            if (!brain.hasMemory(MemoryTypes.BATTLETARGET) && brain.hasActivity(Activities.BATTLE)) brain.switchTo(
+                    Activity.IDLE);
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
             if (npc instanceof MobEntity && !brain.sensors.containsKey(Tasks.DUMMY) && npc

@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
@@ -122,6 +123,9 @@ public class ManageOutMob extends BaseBattleTask
     protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
         final boolean hasMob = this.trainer.getOutMob() != null;
+
+        BrainUtil.lookAt(this.entity, this.target);
+
         if (hasMob) this.considerSwapPokemob();
         else this.doAggression();
     }

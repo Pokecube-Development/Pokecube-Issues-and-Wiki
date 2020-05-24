@@ -1,28 +1,15 @@
 package pokecube.adventures.ai.tasks.battle.agro;
 
-import java.util.Map;
 import java.util.function.Predicate;
 
-import com.google.common.collect.Maps;
-
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.EntityPredicates;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.utils.TrainerTracker;
-import pokecube.core.ai.brain.MemoryModules;
 import thut.api.maths.Vector3;
 
 public class AgroTargets extends BaseAgroTask
 {
-    private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
-
-    static
-    {
-        AgroTargets.MEMS.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_ABSENT);
-    }
-
     // Predicated to return true for invalid targets
     final Predicate<LivingEntity> validTargets;
 

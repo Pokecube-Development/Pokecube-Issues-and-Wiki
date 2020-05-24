@@ -11,6 +11,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,6 +29,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.advancements.Triggers;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.capabilities.CapabilityHasRewards.IHasRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.IHasNPCAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.IHasMessages;
@@ -217,12 +219,7 @@ public class CapabilityHasPokemobs
 
             final IHasPokemobs trainer = TrainerCaps.getHasPokemobs(target);
             // No battling a target already battling something
-            if (trainer != null)
-            {
-                if (trainer.getTarget() != null && trainer.getTarget() != this.getTrainer())
-                    return AllowedBattle.NOTNOW;
-                if (trainer.getTarget() == this.getTrainer()) return AllowedBattle.NOTNOW;
-            }
+            if (trainer != null && trainer.getTarget() != null) return AllowedBattle.NOTNOW;
             // Not checking watchers, return true
             if (!checkWatcher) return AllowedBattle.YES;
             // Valid if any watchers say so
@@ -372,7 +369,9 @@ public class CapabilityHasPokemobs
         @Override
         public LivingEntity getTarget()
         {
-            return BrainUtils.getAttackTarget(this.getTrainer());
+            final Brain<?> brain = this.user.getBrain();
+            if (!brain.hasMemory(MemoryTypes.BATTLETARGET)) return null;
+            return brain.getMemory(MemoryTypes.BATTLETARGET).get();
         }
 
         @Override
@@ -634,15 +633,18 @@ public class CapabilityHasPokemobs
         }
 
         @Override
-        public void onSetTarget(final LivingEntity target)
+        public void onSetTarget(final LivingEntity target, final boolean ignoreCanBattle)
         {
             final LivingEntity old = this.getTarget();
             if (old == target) return;
 
-            if (target != null && !this.canBattle(target, true).test()) return;
+            if (!ignoreCanBattle && target != null && !this.canBattle(target, true).test()) return;
 
             final Set<ITargetWatcher> watchers = this.getTargetWatchers();
             // No next pokemob, so we shouldn't have a target in this case.
+
+            final IHasPokemobs oldOther = TrainerCaps.getHasPokemobs(old);
+            if (oldOther != null) oldOther.onSetTarget(null);
 
             if (target != null && this.getPokemob(0).isEmpty())
             {
@@ -652,8 +654,15 @@ public class CapabilityHasPokemobs
                 this.aiStates.setAIState(IHasNPCAIStates.THROWING, false);
                 this.aiStates.setAIState(IHasNPCAIStates.INBATTLE, false);
                 BrainUtils.deagro(this.getTrainer());
+                this.getTrainer().getBrain().removeMemory(MemoryTypes.BATTLETARGET);
+                this.getTrainer().getBrain().switchTo(Activity.IDLE);
                 return;
             }
+
+            final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
+            System.out.println(other + " " + this.getTrainer().getDisplayName().getFormattedText());
+            if (other != null) other.onSetTarget(this.getTrainer(), true);
+
             if (target != null && this.getAttackCooldown() <= 0)
             {
                 int cooldown = Config.instance.trainerBattleDelay;
@@ -687,11 +696,12 @@ public class CapabilityHasPokemobs
             {
                 BrainUtils.deagro(this.getTrainer());
                 this.resetPokemob();
+                this.getTrainer().getBrain().removeMemory(MemoryTypes.BATTLETARGET);
                 this.getTrainer().getBrain().switchTo(Activity.IDLE);
             }
             else if (this.getTrainer() instanceof MobEntity)
             {
-                BrainUtils.initiateCombat((MobEntity) this.getTrainer(), target);
+                this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET, target);
                 this.getTrainer().getBrain().switchTo(Activities.BATTLE);
             }
         }
@@ -753,7 +763,9 @@ public class CapabilityHasPokemobs
         @Override
         public LivingEntity getTargetRaw()
         {
-            return BrainUtils.getAttackTarget(this.getTrainer());
+            final Brain<?> brain = this.user.getBrain();
+            if (!brain.hasMemory(MemoryTypes.BATTLETARGET)) return null;
+            return brain.getMemory(MemoryTypes.BATTLETARGET).get();
         }
 
         @Override
@@ -1009,7 +1021,12 @@ public class CapabilityHasPokemobs
 
         void setPokemob(int slot, ItemStack cube);
 
-        void onSetTarget(LivingEntity target);
+        default void onSetTarget(final LivingEntity target)
+        {
+            this.onSetTarget(target, false);
+        }
+
+        void onSetTarget(LivingEntity target, boolean ignoreCanBattle);
 
         void setType(TypeTrainer type);
 

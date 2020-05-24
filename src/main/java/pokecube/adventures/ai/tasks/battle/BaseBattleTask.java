@@ -5,12 +5,12 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.BaseTask;
-import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 
 public abstract class BaseBattleTask extends BaseTask
@@ -19,7 +19,7 @@ public abstract class BaseBattleTask extends BaseTask
 
     static
     {
-        BaseBattleTask.MEMS.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_PRESENT);
+        BaseBattleTask.MEMS.put(MemoryTypes.BATTLETARGET, MemoryModuleStatus.VALUE_PRESENT);
     }
 
     protected LivingEntity target;
@@ -37,8 +37,9 @@ public abstract class BaseBattleTask extends BaseTask
     @Override
     protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
     {
-        if (!BrainUtils.hasAttackTarget(this.entity)) return false;
-        this.target = BrainUtils.getAttackTarget(this.entity);
+        final Brain<?> brain = owner.getBrain();
+        if (!brain.hasMemory(MemoryTypes.BATTLETARGET)) return false;
+        this.target = brain.getMemory(MemoryTypes.BATTLETARGET).get();
         return true;
     }
 

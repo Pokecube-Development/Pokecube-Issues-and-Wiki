@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.brain.sensor.DummySensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.Task;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.battle.ChooseAttacks;
 import pokecube.adventures.ai.tasks.battle.ManageOutMob;
 import pokecube.adventures.ai.tasks.battle.ManagePokemobTarget;
@@ -40,7 +41,8 @@ public class Tasks
             SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS,
             Sensors.VISIBLE_ITEMS, Sensors.INTERESTING_MOBS);
 
-    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET);
+    public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
+            MemoryTypes.BATTLETARGET);
 
     @SuppressWarnings("unchecked")
     public static void addBattleTasks(final LivingEntity mob,

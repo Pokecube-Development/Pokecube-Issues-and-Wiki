@@ -23,6 +23,9 @@ public class ManagePokemobTarget extends BaseBattleTask
     @Override
     protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
+        final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
+        if (other != null) other.onSetTarget(this.entity, true);
+
         final IPokemob mob = this.trainer.getOutMob();
         if (mob == null || this.target == null) return;
         final LivingEntity mobTarget = BrainUtils.getAttackTarget(mob.getEntity());
@@ -40,13 +43,6 @@ public class ManagePokemobTarget extends BaseBattleTask
         // check if pokemob's target is same as trainers.
         if (mobTarget != newTarget && newTarget != null) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
 
-        final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
-        if (other != null && other.getTarget() != this.entity)
-        {
-            this.target.setLastAttackedEntity(owner);
-            owner.setLastAttackedEntity(this.entity);
-            other.onSetTarget(this.entity);
-        }
     }
 
     @Override

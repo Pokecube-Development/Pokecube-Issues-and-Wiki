@@ -15,6 +15,8 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
@@ -22,9 +24,11 @@ import pokecube.core.handlers.TeamManager;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.ITargetFinder;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.AITools;
+import pokecube.core.utils.PokemobTracker;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.entity.ai.IAICombat;
@@ -38,6 +42,27 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
     static
     {
         MinecraftForge.EVENT_BUS.register(FindTargetsTask.class);
+    }
+
+    @SubscribeEvent
+    public static void livingSetTarget(final LivingSetAttackTargetEvent event)
+    {
+        // Don't manage this.
+        if (event.getTarget() == null) return;
+        List<Entity> mobs = PokemobTracker.getMobs(event.getTarget(), e -> CapabilityPokemob.getPokemobFor(e) != null
+                && e.getDistanceSq(event.getTarget()) < 64);
+        final boolean targetHasMobs = !mobs.isEmpty();
+        if (targetHasMobs)
+        {
+            mobs.sort((o1, o2) -> (int) (o1.getDistanceSq(event.getEntityLiving()) - o2.getDistanceSq(event
+                    .getEntityLiving())));
+            final Entity mob = mobs.get(0);
+            mobs = PokemobTracker.getMobs(mob, e -> true);
+            // No loop diverting
+            if (!mobs.isEmpty()) return;
+            // Divert the target over.
+            BrainUtils.setAttackTarget(event.getEntityLiving(), (LivingEntity) mob);
+        }
     }
 
     public static int DEAGROTIMER = 50;
