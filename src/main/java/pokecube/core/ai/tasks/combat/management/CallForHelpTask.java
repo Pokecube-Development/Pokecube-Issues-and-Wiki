@@ -44,7 +44,7 @@ public class CallForHelpTask extends CombatTask
     protected boolean checkForHelp(final LivingEntity from)
     {
         // No need to get help against null
-        if (from == null) return false;
+        if (from == null || !this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
 
         // Not social. doesn't do this.
         if (!this.pokemob.getPokedexEntry().isSocial) return false;
@@ -100,7 +100,7 @@ public class CallForHelpTask extends CombatTask
     public boolean shouldRun()
     {
         this.target = BrainUtils.getAttackTarget(this.entity);
-        return this.target != null;
+        return this.target != null && this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS);
     }
 
 }
