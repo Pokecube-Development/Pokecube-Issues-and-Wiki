@@ -1,7 +1,12 @@
 package pokecube.core.ai.brain;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
@@ -9,8 +14,10 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
@@ -172,6 +179,23 @@ public class BrainUtils
         {
             for (final MemoryModuleType<?> memorymoduletype : sensor.getUsedMemories())
                 brain.memories.put(memorymoduletype, Optional.empty());
+        });
+    }
+
+    public static void addToActivity(final Brain<?> brain, final Activity act,
+            final Collection<Pair<Integer, ? extends Task<? super LivingEntity>>> tasks)
+    {
+        tasks.forEach((pair) ->
+        {
+            final Integer prior = pair.getFirst();
+            final Task<? super LivingEntity> task = pair.getSecond();
+            brain.field_218232_c.computeIfAbsent(prior, (val) ->
+            {
+                return Maps.newHashMap();
+            }).computeIfAbsent(act, (tmp) ->
+            {
+                return Sets.newLinkedHashSet();
+            }).add(task);
         });
     }
 

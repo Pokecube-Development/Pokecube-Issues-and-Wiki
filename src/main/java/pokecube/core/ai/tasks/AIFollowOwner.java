@@ -93,9 +93,8 @@ public class AIFollowOwner extends TaskBase<MobEntity>
             BrainUtils.lookAt(this.entity, x, y, z);
         }
 
-        double dl = this.v.set(this.theOwner).distToSq(this.ownerPos);
-        if (dl < 1 && !this.petPathfinder.noPath()) return;
-        dl = this.v.set(this.entity).distTo(this.ownerPos);
+        final double dl = this.v.set(this.entity).distTo(this.ownerPos);
+
         this.ownerPos.set(this.theOwner);
         double ownerSpeed = this.theOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
 
@@ -109,11 +108,12 @@ public class AIFollowOwner extends TaskBase<MobEntity>
 
         if (ownerSpeed == 0) ownerSpeed = this.pokemob.getMovementSpeed();
         double dist_speed = ownerSpeed;
-        if (dl > 3) dist_speed *= 1 + (dl - 3) / 10;
+        if (dl > 3) dist_speed *= 1 + (dl - 3) / 20;
+
         this.speed = dist_speed;
         this.speed *= AIFollowOwner.speedMult;
         this.speed = Math.max(this.pokemob.getMovementSpeed(), this.speed);
-        this.speed = Math.min(1.5, this.speed);
+        this.speed = Math.min(1.25, this.speed);
         this.setWalkTo(this.ownerPos, this.speed, 0);
     }
 

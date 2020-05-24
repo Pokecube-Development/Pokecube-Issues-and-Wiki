@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.INPC;
@@ -18,6 +19,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.schedule.Schedule;
+import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,11 +35,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.ai.tasks.AIBattle;
-import pokecube.adventures.ai.tasks.AICapture;
-import pokecube.adventures.ai.tasks.AIMate;
-import pokecube.adventures.ai.tasks.AIRetaliate;
-import pokecube.adventures.ai.tasks.AITrainerAgro;
+import pokecube.adventures.ai.tasks.Tasks;
+import pokecube.adventures.ai.tasks.battle.CaptureMob;
+import pokecube.adventures.ai.tasks.battle.agro.AgroTargets;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.entity.trainer.TrainerBase;
@@ -52,7 +52,6 @@ import pokecube.core.database.PokedexEntry.EvolutionData;
 import pokecube.core.database.SpawnBiomeMatcher;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.events.pokemob.SpawnEvent.Variance;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
@@ -61,9 +60,8 @@ import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.Tools;
-import thut.api.entity.ai.GoalsWrapper;
-import thut.api.entity.ai.IAIRunnable;
 
+@SuppressWarnings("unchecked")
 public class TypeTrainer extends NpcType
 {
 
@@ -81,7 +79,7 @@ public class TypeTrainer extends NpcType
 
     public static interface AIAdder
     {
-        void process(MobEntity mob);
+        List<Pair<Integer, Task<? super LivingEntity>>> process(MobEntity mob);
     }
 
     private static final List<ITypeMapper> mappers  = Lists.newArrayList();
@@ -99,8 +97,10 @@ public class TypeTrainer extends NpcType
 
     public static void addAI(final MobEntity mob)
     {
+        final List<Pair<Integer, Task<? super LivingEntity>>> tasks = Lists.newArrayList();
         for (final AIAdder adder : TypeTrainer.aiAdders)
-            adder.process(mob);
+            tasks.addAll(adder.process(mob));
+        Tasks.addBattleTasks(mob, tasks);
     }
 
     public static TypeTrainer get(final LivingEntity mob, final boolean forSpawn)
@@ -143,15 +143,6 @@ public class TypeTrainer extends NpcType
 
         TypeTrainer.registerAIAdder((npc) ->
         {
-            final List<IAIRunnable> ais = Lists.newArrayList();
-            // All can battle, but only trainers will path during battle.
-            ais.add(new AIBattle(npc, !(npc instanceof TrainerBase)).setPriority(0));
-
-            // All attack zombies.
-            ais.add(new AITrainerAgro(npc, ZombieEntity.class).setPriority(20));
-
-            // All retaliate
-            ais.add(new AIRetaliate(npc));
 
             final Predicate<LivingEntity> noRunWhileRest = e ->
             {
@@ -175,29 +166,46 @@ public class TypeTrainer extends NpcType
                 }
                 return true;
             };
+            final Predicate<LivingEntity> onlyIfHasMobs = e ->
+            {
+                final IHasPokemobs other = TrainerCaps.getHasPokemobs(e);
+                if (other == null) return true;
+                final boolean hasMob = !other.getNextPokemob().isEmpty();
+                if (hasMob) return true;
+                return other.getOutID() != null;
+            };
+
+            final List<Pair<Integer, Task<? super LivingEntity>>> list = Lists.newArrayList();
+            Task<?> task = new AgroTargets(npc, 1, 0, z -> z instanceof ZombieEntity);
+            list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
-                ais.add(new AITrainerAgro(npc, PlayerEntity.class).setRunCondition(noRunWhileRest).setPriority(10));
-                ais.add(new AIMate(npc, ((TrainerBase) npc).getClass()));
+                final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(e -> e instanceof PlayerEntity);
+                task = new AgroTargets(npc, 1, 0, validPlayer).setRunCondition(noRunWhileRest);
+                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             }
 
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                ais.add(new AITrainerAgro(npc, 0.05f, EntityPokemob.class).setRunCondition(noRunWhileRest).setPriority(
-                        20));
-                ais.add(new AICapture(npc).setPriority(10));
+                task = new AgroTargets(npc, 0.05f, 1200, z -> CapabilityPokemob.getPokemobFor(z) != null)
+                        .setRunCondition(noRunWhileRest);
+                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+                task = new CaptureMob(npc, 1);
+                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             }
             // 1% chance of battling another of same class if seen
             // Also this will stop the battle after 1200 ticks.
             if (Config.instance.trainersBattleEachOther)
             {
                 final Predicate<LivingEntity> shouldRun = noRunWhileMeet.and(noRunWhileRest);
-                ais.add(new AITrainerAgro(npc, 0.001f, 1200, npc.getClass()).setRunCondition(shouldRun).setPriority(20));
+                task = new AgroTargets(npc, 0.05f, 1200, z -> z.getClass() == npc.getClass()).setRunCondition(
+                        shouldRun);
+                list.add(Pair.of(1, (Task<? super LivingEntity>) task));
             }
-
-            npc.goalSelector.addGoal(0, new GoalsWrapper(npc, ais.toArray(new IAIRunnable[0])));
+            return list;
         });
     }
 

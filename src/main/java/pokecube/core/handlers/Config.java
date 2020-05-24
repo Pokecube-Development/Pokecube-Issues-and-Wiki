@@ -26,6 +26,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.core.common.config.Config.ConfigData;
@@ -274,15 +275,14 @@ public class Config extends ConfigData
     public boolean diveEnabled = true;
 
     @Configure(category = Config.mobAI)
-    public List<String> dodgeSounds         = Lists.newArrayList("entity.witch.throw");
+    public List<String> dodgeSounds        = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String> leapSounds          = Lists.newArrayList("entity.witch.throw");
+    public List<String> leapSounds         = Lists.newArrayList("entity.witch.throw");
     @Configure(category = Config.mobAI)
-    public List<String> guardBlacklistClass = Lists.newArrayList("net.minecraft.entity.IMerchant",
-            "net.minecraft.entity.INpc", "pokecube.core.items.pokemobeggs.EntityPokemobEgg",
-            "net.minecraft.entity.IProjectile");
+    public List<String> aggroBlacklistTags = Lists.newArrayList();
     @Configure(category = Config.mobAI)
-    public List<String> guardBlacklistId    = Lists.newArrayList();
+    public List<String> aggroBlacklistIds   = Lists.newArrayList("minecraft:villager", "minecraft:armor_stand",
+            "pokecube_adventures:trainer", "pokecube_adventures:leader");
 
     @Configure(category = Config.mobAI)
     public double  interactHungerScale = 1;
@@ -694,6 +694,8 @@ public class Config extends ConfigData
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
         SpawnHandler.MAXNUM = this.mobSpawnNumber;
         if (this.breedingDelay < 600) this.breedingDelay = 1000;
+
+        AITools.initIDs();
 
         SpawnHandler.doSpawns = this.pokemonSpawn;
         SpawnHandler.lvlCap = this.shouldCap;

@@ -46,6 +46,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     PlayerEntity player;
+    LivingEntity target = null;
 
     public PlayerPokemobs(final PlayerEntity player)
     {
@@ -67,9 +68,9 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @Override
-    public boolean canBattle(final LivingEntity target)
+    public AllowedBattle canBattle(final LivingEntity target)
     {
-        return true;
+        return AllowedBattle.YES;
     }
 
     @Override
@@ -119,11 +120,11 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @Override
-    public void setTarget(LivingEntity target)
+    public void onSetTarget(LivingEntity target)
     {
         final IHasPokemobs oldBattle = TrainerCaps.getHasPokemobs(this.target);
         if (target != null && oldBattle != null && oldBattle.getTargetRaw() == this.player && oldBattle.canBattle(
-                this.player)) return;
+                this.player).test()) return;
         final IHasPokemobs targetmobs = TrainerCaps.getHasPokemobs(target);
         if (targetmobs == null && target != null || target == this.player) target = null;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
@@ -146,6 +147,6 @@ public class PlayerPokemobs extends DefaultPokemobs
     public void resetPokemob()
     {
         // We do nothing here either.
-        this.setTarget(null);
+        this.onSetTarget(null);
     }
 }

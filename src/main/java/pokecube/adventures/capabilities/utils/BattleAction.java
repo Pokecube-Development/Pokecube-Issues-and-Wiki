@@ -21,7 +21,7 @@ public class BattleAction extends Action
         if (trainer != null && target instanceof ServerPlayerEntity)
         {
             trainer.resetPokemob();
-            trainer.setTarget(target);
+            trainer.onSetTarget(target);
         }
     }
 

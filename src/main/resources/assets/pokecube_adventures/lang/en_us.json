@@ -214,6 +214,8 @@
     "entity.pokecube_adventures.targetParticles": "Target",
 
     "pokecube.trainer.agress": "%1$s §cwants to battle!",
+    "pokecube.trainer.agress_request_allowed": "§aYou request a battle with §r%1$s§a!",
+    "pokecube.trainer.agress_request_denied": "%1$s §c does not want to battle you right now.",
     "pokecube.trainer.forget": "%1$s §cno longer wants to battle...",
     "pokecube.trainer.defeat": "%1$s §ahas been defeated!",
     "pokecube.trainer.toss": "%1$s §csent out %2$s!",

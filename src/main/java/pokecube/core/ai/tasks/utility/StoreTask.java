@@ -376,7 +376,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         final TileEntity tile = world.getTileEntity(pos);
         if (tile == null) return null;
         IItemHandler handler;
-        if ((handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElseGet(
+        if ((handler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side).orElse(
                 null)) instanceof IItemHandlerModifiable) return (IItemHandlerModifiable) handler;
         return null;
     }

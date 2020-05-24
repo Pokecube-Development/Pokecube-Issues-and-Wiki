@@ -312,12 +312,12 @@ public class Pokecube extends Item implements IPokecube
             boolean used = false;
             final boolean filledOrSneak = filled || player.isSneaking() || dt > 5;
             if (target != null && EntityPokecubeBase.SEEKING) used = this.throwPokecubeAt(worldIn, player, stack,
-                    targetLocation, target);
+                    targetLocation, target) != null;
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
             {
                 float power = (this.getUseDuration(stack) - timeLeft) / (float) 100;
                 power = Math.min(1, power);
-                used = this.throwPokecube(worldIn, player, stack, direction, power);
+                used = this.throwPokecube(worldIn, player, stack, direction, power) != null;
             }
             else
             {
@@ -360,12 +360,12 @@ public class Pokecube extends Item implements IPokecube
     }
 
     @Override
-    public boolean throwPokecube(final World world, final LivingEntity thrower, final ItemStack cube,
+    public EntityPokecubeBase throwPokecube(final World world, final LivingEntity thrower, final ItemStack cube,
             final Vector3 direction, final float power)
     {
         EntityPokecube entity = null;
         final ResourceLocation id = PokecubeItems.getCubeId(cube);
-        if (id == null || !IPokecube.BEHAVIORS.containsKey(id)) return false;
+        if (id == null || !IPokecube.BEHAVIORS.containsKey(id)) return null;
         final ItemStack stack = cube.copy();
         final boolean hasMob = PokecubeManager.isFilled(stack);
         final Config config = PokecubeCore.getConfig();
@@ -377,9 +377,9 @@ public class Pokecube extends Item implements IPokecube
             final IPermissionHandler handler = PermissionAPI.getPermissionHandler();
             final PlayerContext context = new PlayerContext(player);
             if (config.permsSendOut && !handler.hasPermission(player.getGameProfile(), Permissions.SENDOUTPOKEMOB,
-                    context)) return false;
+                    context)) return null;
             if (config.permsSendOutSpecific && !handler.hasPermission(player.getGameProfile(),
-                    Permissions.SENDOUTSPECIFIC.get(entry), context)) return false;
+                    Permissions.SENDOUTSPECIFIC.get(entry), context)) return null;
         }
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
@@ -404,16 +404,16 @@ public class Pokecube extends Item implements IPokecube
             world.addEntity(entity);
             if (hasMob && thrower instanceof PlayerEntity) PlayerPokemobCache.UpdateCache(stack, false, false);
         }
-        return true;
+        return entity;
     }
 
     @Override
-    public boolean throwPokecubeAt(final World world, final LivingEntity thrower, final ItemStack cube,
+    public EntityPokecubeBase throwPokecubeAt(final World world, final LivingEntity thrower, final ItemStack cube,
             Vector3 targetLocation, Entity target)
     {
         EntityPokecube entity = null;
         final ResourceLocation id = PokecubeItems.getCubeId(cube);
-        if (id == null || !IPokecube.BEHAVIORS.containsKey(id)) return false;
+        if (id == null || !IPokecube.BEHAVIORS.containsKey(id)) return null;
         final ItemStack stack = cube.copy();
         stack.setCount(1);
         entity = new EntityPokecube(EntityPokecube.TYPE, world);
@@ -454,7 +454,7 @@ public class Pokecube extends Item implements IPokecube
                         stack, false, false);
             }
         }
-        else if (!rightclick) return false;
-        return true;
+        else if (!rightclick) return null;
+        return entity;
     }
 }

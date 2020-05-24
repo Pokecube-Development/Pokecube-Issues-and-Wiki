@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -15,7 +16,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 
@@ -43,11 +43,12 @@ public class AITools
         @Override
         public boolean test(final Entity input)
         {
+            if (input == null) return true;
             final ResourceLocation eid = input.getType().getRegistryName();
             if (AITools.invalidIDs.contains(eid)) return false;
-            // Then check if disabled via class
-            for (final Class<?> clas : AITools.invalidClasses)
-                if (clas.isInstance(input)) return false;
+            for (final String tag : AITools.invalidTags)
+                if (input.getTags().contains(tag)) return false;
+
             // Then check if is a valid player.
             if (input instanceof ServerPlayerEntity)
             {
@@ -56,11 +57,11 @@ public class AITools
                 if (player.isCreative() || player.isSpectator()) return false;
                 // Do not target any player on easy or peaceful
                 if (player.getServerWorld().getDifficulty().getId() <= Difficulty.EASY.getId()) return false;
+                return true;
             }
             // Confirm is not an egg or a pokecube as well
             if (input instanceof EntityPokemobEgg) return false;
-            if (input instanceof EntityPokecubeBase) return false;
-            return true;
+            return input instanceof MobEntity;
         }
     }
 
@@ -89,10 +90,11 @@ public class AITools
 
     public static boolean handleDamagedTargets = true;
 
-    public static int           DEAGROTIMER    = 50;
-    public static Set<Class<?>> invalidClasses = Sets.newHashSet();
+    public static int DEAGROTIMER = 50;
 
     public static Set<ResourceLocation> invalidIDs = Sets.newHashSet();
+
+    public static Set<String> invalidTags = Sets.newHashSet();
 
     /**
      * Checks the blacklists set via configs, to see whether the target is a
@@ -120,18 +122,8 @@ public class AITools
 
     public static void initIDs()
     {
-        for (final String s : PokecubeCore.getConfig().guardBlacklistClass)
-            try
-            {
-                final Class<?> c = Class.forName(s, false, PokecubeCore.getConfig().getClass().getClassLoader());
-                AITools.invalidClasses.add(c);
-            }
-            catch (final ClassNotFoundException e)
-            {
-                e.printStackTrace();
-            }
         final Set<ResourceLocation> keys = ForgeRegistries.ENTITIES.getKeys();
-        for (String s : PokecubeCore.getConfig().guardBlacklistId)
+        for (String s : PokecubeCore.getConfig().aggroBlacklistIds)
             if (s.endsWith("*"))
             {
                 s = s.substring(0, s.length() - 1);
@@ -139,6 +131,9 @@ public class AITools
                     if (res.toString().startsWith(s)) AITools.invalidIDs.add(res);
             }
             else AITools.invalidIDs.add(new ResourceLocation(s));
+
+        for (final String s : PokecubeCore.getConfig().aggroBlacklistTags)
+            AITools.invalidTags.add(s);
     }
 
 }

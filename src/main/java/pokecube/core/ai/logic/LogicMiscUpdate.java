@@ -130,6 +130,7 @@ public class LogicMiscUpdate extends LogicBase
                 this.pokemob.getModifiers().outOfCombatReset();
                 this.pokemob.getMoveStats().reset();
             }
+            this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
         }
         else /** Angry pokemobs shouldn't decide to walk around. */
             this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
@@ -274,10 +275,10 @@ public class LogicMiscUpdate extends LogicBase
 
         // Everything below here is client side only!
 
-        if (id >= 0 && targ == null) BrainUtils.setAttackTarget(this.entity, (LivingEntity) PokecubeCore
-                .getEntityProvider().getEntity(world, id, false));
-        if (id < 0 && targ != null) BrainUtils.setAttackTarget(this.entity, null);
-        if (targ != null && !targ.isAlive()) BrainUtils.setAttackTarget(this.entity, null);
+        if (id >= 0 && targ == null) this.entity.setAttackTarget((LivingEntity) PokecubeCore.getEntityProvider()
+                .getEntity(world, id, false));
+        if (id < 0 && targ != null) this.entity.setAttackTarget(null);
+        if (targ != null && !targ.isAlive()) this.entity.setAttackTarget(null);
 
         // Sync the addition of this, as onAddedToWorld is called before this
         // value is synchronized

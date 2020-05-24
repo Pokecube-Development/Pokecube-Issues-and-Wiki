@@ -1,12 +1,9 @@
 package pokecube.core.ai.tasks.combat.management;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import org.apache.logging.log4j.Level;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -18,17 +15,13 @@ import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.handlers.TeamManager;
-import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.ITargetFinder;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.AITools;
@@ -36,7 +29,6 @@ import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
 public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, ITargetFinder
@@ -49,62 +41,6 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
     }
 
     public static int DEAGROTIMER = 50;
-
-    @SubscribeEvent
-    public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
-    {
-        if (!FindTargetsTask.handleDamagedTargets || evt.getEntity().getEntityWorld().isRemote) return;
-        // Only handle attack target set, not revenge target set.
-        if (evt.getTarget() == ((LivingEntity) evt.getEntity()).getRevengeTarget()) return;
-        // Prevent mob from targetting self.
-        if (evt.getTarget() == evt.getEntity())
-        {
-            if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.log(Level.WARN, evt.getTarget()
-                    + " is targetting self again.", new IllegalArgumentException());
-            return;
-        }
-
-        // Attempt to divert the target over to one of our mobs.
-        final List<Entity> outmobs = PCEventsHandler.getOutMobs(evt.getTarget(), true);
-        outmobs.removeIf(o -> o == evt.getEntityLiving() || !o.isAlive());
-        if (!outmobs.isEmpty() && evt.getEntityLiving() instanceof MobEntity)
-        {
-            Collections.sort(outmobs, (o1, o2) ->
-            {
-                final double dist1 = o1.getDistanceSq(evt.getEntityLiving());
-                final double dist2 = o2.getDistanceSq(evt.getEntityLiving());
-                return (int) (dist1 - dist2);
-            });
-            final Entity nearest = outmobs.get(0);
-            if (nearest.getDistanceSq(evt.getEntityLiving()) < 256 && nearest instanceof LivingEntity)
-            {
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Diverting agro to owner!");
-                BrainUtils.initiateCombat((MobEntity) evt.getEntityLiving(), (LivingEntity) nearest);
-                return;
-            }
-        }
-
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
-        if (pokemob != null)
-        {
-            if (evt.getTarget() != null && pokemob.getTargetID() == evt.getTarget().getEntityId())
-            {
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Already targetted!");
-                return;
-            }
-            if (evt.getTarget() == null && pokemob.getTargetID() == -1) return;
-
-            // Prevent pokemob from targetting its owner.
-            if (evt.getTarget() != null && evt.getTarget().getUniqueID().equals(pokemob.getOwnerId()))
-            {
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.log(Level.WARN, evt.getTarget()
-                        + " is targetting owner.", new IllegalArgumentException());
-                return;
-            }
-            final boolean force = evt.getTarget() != null && evt.getTarget().getLastAttackedEntity() == evt.getEntity();
-            pokemob.onSetTarget(evt.getTarget(), force);
-        }
-    }
 
     Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
@@ -155,9 +91,6 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
                 this.pokemob.getHome());
         else centre.set(this.pokemob.getOwner());
 
-        if (!TerrainManager.isAreaLoaded(this.world, centre, PokecubeCore.getConfig().guardSearchDistance + 2))
-            return false;
-
         final List<LivingEntity> ret = new ArrayList<>();
         final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
         // Only allow valid guard targets.
@@ -166,24 +99,10 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
         ret.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
         if (ret.isEmpty()) return false;
 
-        LivingEntity newtarget = null;
-        double closest = Integer.MAX_VALUE;
-        final Vector3 here = this.v1.set(this.entity, true);
-
-        // Select closest visible guard target.
-        for (final LivingEntity e : ret)
-        {
-            final double dist = e.getDistanceSq(this.entity);
-            this.v.set(e, true);
-            if (dist < closest && here.isVisible(this.world, this.v))
-            {
-                closest = dist;
-                newtarget = e;
-            }
-        }
-
+        // This is already sorted by distance!
+        final LivingEntity newtarget = ret.get(0);
         // Agro the target.
-        if (newtarget != null && Vector3.isVisibleEntityFromEntity(this.entity, newtarget))
+        if (newtarget != null)
         {
             this.setAttackTarget(this.entity, newtarget);
             return true;
@@ -193,7 +112,7 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
 
     protected void setAttackTarget(final MobEntity attacker, final LivingEntity target)
     {
-        if (target == null)
+        if (target == null || !AITools.validTargets.test(target))
         {
             BrainUtils.deagro(attacker);
             this.clear();
@@ -214,8 +133,6 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
 
         // Only apply if has owner.
         if (owner == null) return false;
-        // Only apply if owner is close.
-        if (this.entity.getDistanceSq(owner) > 64) return false;
 
         if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
 
@@ -223,13 +140,11 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
         // Disable via rate out of bounds, or not correct time in the rate.
         if (rate <= 0 || this.entity.ticksExisted % rate != 0) return false;
 
-        if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
-                .getConfig().guardSearchDistance + 2)) return false;
-
         final List<LivingEntity> list = new ArrayList<>();
         final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();
         list.addAll(pokemobs);
-        list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance);
+        list.removeIf(e -> e.getDistance(this.entity) > PokecubeCore.getConfig().guardSearchDistance
+                && AITools.validTargets.test(e));
         if (list.isEmpty()) return false;
 
         final Entity old = BrainUtils.getAttackTarget(this.entity);
@@ -240,8 +155,7 @@ public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, I
         {
             if (oldOwner != null && entity == oldOwner) return false;
             final LivingEntity targ = BrainUtils.getAttackTarget(entity);
-            if (entity instanceof MobEntity && targ != null && targ.equals(owner) && Vector3.isVisibleEntityFromEntity(
-                    entity, entity))
+            if (entity instanceof MobEntity && targ != null && targ.equals(owner))
             {
                 this.setAttackTarget(this.entity, entity);
                 return true;

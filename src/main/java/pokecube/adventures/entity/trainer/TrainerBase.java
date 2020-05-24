@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.MerchantContainer;
@@ -34,7 +33,6 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.Tools;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -101,7 +99,7 @@ public abstract class TrainerBase extends NpcMob
         {
             stack.split(1);
             player.setHeldItem(hand, stack);
-            this.pokemobsCap.setTarget(null);
+            this.pokemobsCap.onSetTarget(null);
             for (final IPokemob pokemob : this.currentPokemobs)
                 pokemob.onRecall(false);
             this.pokemobsCap.friendlyCooldown = 2400;
@@ -125,7 +123,7 @@ public abstract class TrainerBase extends NpcMob
             else this.setCustomer(null);
             return true;
         }
-        else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.setTarget(
+        else if (this.pokemobsCap.getCooldown() <= 0 && stack.getItem() == Items.STICK) this.pokemobsCap.onSetTarget(
                 player);
 
         return false;
@@ -169,18 +167,11 @@ public abstract class TrainerBase extends NpcMob
     {
         super.livingTick();
         if (!this.isServerWorld()) return;
-        if (this.pokemobsCap.getOutID() != null && this.pokemobsCap.getOutMob() == null)
-        {
-            final Entity mob = this.getServer().getWorld(this.dimension).getEntityByUuid(this.pokemobsCap.getOutID());
-            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-            this.pokemobsCap.setOutMob(pokemob);
-            if (this.pokemobsCap.getOutMob() == null) this.pokemobsCap.setOutID(null);
-        }
 
         ItemStack cube = this.pokemobsCap.getNextPokemob();
         ItemStack reward = this.rewardsCap.getRewards().isEmpty() ? ItemStack.EMPTY
                 : this.rewardsCap.getRewards().get(0).stack;
-        if (this.pokemobsCap.getCooldown() > 0)
+        if (this.pokemobsCap.getCooldown() > this.world.getGameTime())
         {
             cube = ItemStack.EMPTY;
             reward = ItemStack.EMPTY;

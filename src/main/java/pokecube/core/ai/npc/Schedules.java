@@ -25,7 +25,6 @@ public class Schedules
         //@formatter:off
         .add(10, Activity.IDLE)
         .add(10, Activities.STATIONARY)
-        .add(10, Activities.BATTLE)
         .add(2000,Activity.WORK)
         .add(9000, Activity.MEET)
         .add(11000, Activity.IDLE)
@@ -37,8 +36,8 @@ public class Schedules
     private static Schedule makeChild()
     {
         final ScheduleBuilder builder = new ScheduleBuilder(new Schedule());
-        builder.add(10, Activity.IDLE).add(10, Activities.STATIONARY).add(10, Activities.BATTLE).add(3000,
-                Activity.PLAY).add(6000, Activity.IDLE).add(10000, Activity.PLAY).add(12000, Activity.REST);
+        builder.add(10, Activity.IDLE).add(10, Activities.STATIONARY).add(3000, Activity.PLAY).add(6000, Activity.IDLE)
+                .add(10000, Activity.PLAY).add(12000, Activity.REST);
         return builder.build();
     }
 }
