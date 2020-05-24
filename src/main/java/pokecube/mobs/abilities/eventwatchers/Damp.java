@@ -1,6 +1,5 @@
 package pokecube.mobs.abilities.eventwatchers;
 
-import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,10 +13,11 @@ import thut.core.common.ThutCore;
 public class Damp extends Ability
 {
     IPokemob mob;
-    int      range = 16;
+
+    int range = 16;
 
     @SubscribeEvent
-    public void denyBoom(ExplosionEvent.Start boom)
+    public void denyBoom(final ExplosionEvent.Start boom)
     {
         if (!this.mob.getEntity().isAlive()) this.destroy();
         else
@@ -35,7 +35,7 @@ public class Damp extends Ability
     }
 
     @Override
-    public Ability init(Object... args)
+    public Ability init(final Object... args)
     {
         if (ThutCore.proxy.isClientSide()) return this;
         for (int i = 0; i < 2; i++)
@@ -52,12 +52,7 @@ public class Damp extends Ability
     }
 
     @Override
-    public void onAgress(IPokemob mob, LivingEntity target)
-    {
-    }
-
-    @Override
-    public void onMoveUse(IPokemob mob, MovePacket move)
+    public void onMoveUse(final IPokemob mob, final MovePacket move)
     {
         if (move.getMove() instanceof Move_Explode)
         {
@@ -67,7 +62,7 @@ public class Damp extends Ability
     }
 
     @Override
-    public void onUpdate(IPokemob mob)
+    public void onUpdate(final IPokemob mob)
     {
         this.mob = mob;
     }

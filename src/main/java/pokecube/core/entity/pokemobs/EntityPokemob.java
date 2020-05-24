@@ -286,9 +286,12 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public void onAddedToWorld()
     {
-        PokemobTracker.addPokemob(this.pokemobCap);
-        if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
-                this.pokemobCap);
+        if (!this.isAddedToWorld())
+        {
+            PokemobTracker.addPokemob(this.pokemobCap);
+            if (this.pokemobCap.isPlayerOwned() && this.pokemobCap.getOwnerId() != null) PlayerPokemobCache.UpdateCache(
+                    this.pokemobCap);
+        }
         super.onAddedToWorld();
     }
 

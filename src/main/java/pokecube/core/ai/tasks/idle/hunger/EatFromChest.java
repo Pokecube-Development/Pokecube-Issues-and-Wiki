@@ -9,7 +9,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
-import pokecube.core.ai.tasks.idle.AIHungry;
+import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.interfaces.IPokemob;
 import thut.api.item.ItemList;
 
@@ -41,7 +41,7 @@ public class EatFromChest extends EatBlockBase
         for (int i1 = 0; i1 < container.getSizeInventory(); i1++)
         {
             final ItemStack stack = container.getStackInSlot(i1);
-            if (ItemList.is(AIHungry.FOODTAG, stack))
+            if (ItemList.is(HungerTask.FOODTAG, stack))
             {
                 pokemob.eat(stack);
                 stack.shrink(1);

@@ -22,7 +22,7 @@ public class Move_Terrain extends Move_Basic
      * @param name
      * @param effect
      */
-    public Move_Terrain(String name)
+    public Move_Terrain(final String name)
     {
         super(name);
         this.effect = this.move.baseEntry.extraInfo;
@@ -38,7 +38,7 @@ public class Move_Terrain extends Move_Basic
      * @param finalAttackStrength
      *            the number of HPs the attack takes from target
      */
-    public void doWorldAction(IPokemob attacker, Vector3 location)
+    public void doWorldAction(final IPokemob attacker, final Vector3 location)
     {
         if (attacker.getMoveStats().SPECIALCOUNTER > 0) return;
         attacker.getMoveStats().SPECIALCOUNTER = 20;
@@ -51,14 +51,14 @@ public class Move_Terrain extends Move_Basic
         // TODO check if effect already exists, and send message if so.
         // Otherwise send the it starts to effect message
 
-        teffect.setEffect(this.effect, this.duration + world.getGameTime());
+        teffect.setEffect(this.effect, this.duration + world.getGameTime(), attacker);
 
         if (attacker.getEntity().isServerWorld()) PacketSyncTerrain.sendTerrainEffects(attacker.getEntity(),
                 segment.chunkX, segment.chunkY, segment.chunkZ, teffect);
 
     }
 
-    public void setDuration(int duration)
+    public void setDuration(final int duration)
     {
         this.duration = duration;
     }

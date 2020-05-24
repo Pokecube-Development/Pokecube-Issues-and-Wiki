@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -16,7 +17,6 @@ import pokecube.adventures.capabilities.CapabilityHasPokemobs.ITargetWatcher;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
 import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
-import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -46,6 +46,9 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     PlayerEntity player;
+    LivingEntity target = null;
+
+    long setTargetTime = 0;
 
     public PlayerPokemobs(final PlayerEntity player)
     {
@@ -67,9 +70,10 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @Override
-    public boolean canBattle(final LivingEntity target)
+    public AllowedBattle canBattle(final LivingEntity target)
     {
-        return true;
+        if (this.target != null && target != this.target) return AllowedBattle.NOTNOW;
+        return AllowedBattle.YES;
     }
 
     @Override
@@ -119,14 +123,11 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @Override
-    public void setTarget(LivingEntity target)
+    public void onSetTarget(final LivingEntity target)
     {
-        if (target == this.player) return;
-        final IHasPokemobs oldBattle = TrainerCaps.getHasPokemobs(this.target);
-        if (target != null && oldBattle != null && oldBattle.getTargetRaw() == this.player && oldBattle.canBattle(
-                this.player)) return;
-        final IHasPokemobs targetmobs = TrainerCaps.getHasPokemobs(target);
-        if (targetmobs == null) target = null;
+        if (target != null && target.getServer() != null) this.setTargetTime = target.getServer().getWorld(
+                DimensionType.OVERWORLD).getGameTime();
+        if (target == this.target) return;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
         this.target = target;
         // Notify the watchers that a target was actually set.
@@ -135,11 +136,16 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @Override
+    public void onSetTarget(final LivingEntity target, final boolean ignoreCanBattle)
+    {
+        this.onSetTarget(target);
+    }
+
+    @Override
     public LivingEntity getTarget()
     {
-        final IHasPokemobs oldBattle = TrainerCaps.getHasPokemobs(this.target);
-        if (this.target != null && !this.target.isAlive()) this.target = null;
-        if (oldBattle != null && oldBattle != this && oldBattle.getTargetRaw() != this.player) this.target = null;
+        if (this.target != null && this.target.getServer() != null) if (this.target.getServer().getWorld(
+                DimensionType.OVERWORLD).getGameTime() - this.setTargetTime > 50) this.target = null;
         return this.target;
     }
 
@@ -147,6 +153,6 @@ public class PlayerPokemobs extends DefaultPokemobs
     public void resetPokemob()
     {
         // We do nothing here either.
-        this.setTarget(null);
+        this.onSetTarget(null);
     }
 }

@@ -56,7 +56,6 @@ import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.CapabilityTerrain;
-import thut.api.terrain.ITerrainProvider;
 import thut.api.terrain.StructureManager;
 import thut.api.world.mobs.data.DataSync;
 import thut.core.common.config.Config;
@@ -243,7 +242,6 @@ public class ThutCore
     {
         // do something when the server starts
         ThutCore.LOGGER.debug("Clearing terrain cache");
-        ITerrainProvider.pendingCache.clear();
         StructureManager.clear();
     }
 

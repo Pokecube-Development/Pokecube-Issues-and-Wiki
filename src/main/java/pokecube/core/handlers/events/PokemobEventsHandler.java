@@ -49,7 +49,6 @@ import net.minecraftforge.server.permission.context.PlayerContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.PokedexEntry.EvolutionData;
@@ -179,13 +178,13 @@ public class PokemobEventsHandler
             final Entity targetOwner = attackedMob.getOwner();
             attacker.displayMessageToOwner(new TranslationTextComponent("pokemob.action.faint.enemy", attackedMob
                     .getDisplayName()));
-            if (targetOwner instanceof PlayerEntity && attacker.getOwner() != targetOwner) AIFindTarget.initiateCombat(
+            if (targetOwner instanceof PlayerEntity && attacker.getOwner() != targetOwner) BrainUtils.initiateCombat(
                     pokemob, (LivingEntity) targetOwner);
-            else AIFindTarget.deagro(pokemob);
+            else BrainUtils.deagro(pokemob);
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry()) && attacker.getCombatState(
                     CombatStates.HUNTING))
             {
-                attacker.eat(BrainUtils.getHuntTarget(pokemob));
+                attacker.eat(attackedMob.getEntity());
                 attacker.setCombatState(CombatStates.HUNTING, false);
                 pokemob.getNavigator().clearPath();
             }

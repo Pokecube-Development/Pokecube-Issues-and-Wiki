@@ -1,7 +1,12 @@
 package pokecube.core.ai.brain;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
@@ -9,11 +14,16 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.IPosWrapper;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
@@ -170,5 +180,65 @@ public class BrainUtils
             for (final MemoryModuleType<?> memorymoduletype : sensor.getUsedMemories())
                 brain.memories.put(memorymoduletype, Optional.empty());
         });
+    }
+
+    public static void addToActivity(final Brain<?> brain, final Activity act,
+            final Collection<Pair<Integer, ? extends Task<? super LivingEntity>>> tasks)
+    {
+        tasks.forEach((pair) ->
+        {
+            final Integer prior = pair.getFirst();
+            final Task<? super LivingEntity> task = pair.getSecond();
+            brain.field_218232_c.computeIfAbsent(prior, (val) ->
+            {
+                return Maps.newHashMap();
+            }).computeIfAbsent(act, (tmp) ->
+            {
+                return Sets.newLinkedHashSet();
+            }).add(task);
+        });
+    }
+
+    public static void initiateCombat(final MobEntity mob, final LivingEntity target)
+    {
+        // No target self
+        if (mob == target) return;
+        // No target null
+        if (target == null) return;
+        // No target dead
+        if (!target.isAlive() || target.getHealth() <= 0) return;
+        // No target already had target
+        if (target == BrainUtils.getAttackTarget(mob)) return;
+
+        final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
+        final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+        if (targetMob != null) targetMob.setCombatState(CombatStates.ANGRY, true);
+        if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, true);
+
+        BrainUtils.setAttackTarget(mob, target);
+        BrainUtils.setAttackTarget(target, mob);
+    }
+
+    public static void deagro(final LivingEntity mob)
+    {
+        if (mob == null) return;
+        final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
+
+        if (aggressor != null)
+        {
+            aggressor.getTargetFinder().clear();
+            aggressor.setCombatState(CombatStates.ANGRY, false);
+            aggressor.setCombatState(CombatStates.MATEFIGHT, false);
+        }
+        final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
+        if (mob instanceof MobEntity)
+        {
+            BrainUtils.setAttackTarget(mob, null);
+            BrainUtils.deagro(oldTarget);
+        }
+        mob.getBrain().removeMemory(MemoryModules.ATTACKTARGET);
+        mob.getBrain().removeMemory(MemoryModules.MATE_TARGET);
+        mob.getBrain().removeMemory(MemoryModuleType.HURT_BY_ENTITY);
+        mob.getBrain().removeMemory(MemoryModuleType.HURT_BY);
     }
 }

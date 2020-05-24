@@ -1,15 +1,17 @@
 package thut.api.terrain;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -83,23 +85,25 @@ public class StructureManager
         }
     }
 
-    private static Long2ObjectOpenHashMap<Set<StructureInfo>> map_by_chunk = new Long2ObjectOpenHashMap<>();
+    /**
+     * This is a cache of loaded chunks, it is used to prevent thread lock
+     * contention when trying to look up a chunk, as it seems that
+     * world.chunkExists returning true does not mean that you can just go and
+     * ask for the chunk...
+     */
+    public static Map<GlobalChunkPos, Set<StructureInfo>> map_by_pos = new Object2ObjectOpenHashMap<>();
 
-    private static Set<StructureInfo> getOrMake(final long pos)
+    private static Set<StructureInfo> getOrMake(final GlobalChunkPos pos)
     {
-        final Set<StructureInfo> set = StructureManager.map_by_chunk.getOrDefault(pos, Sets.newHashSet());
-        if (!StructureManager.map_by_chunk.containsKey(pos)) StructureManager.map_by_chunk.put(pos, set);
+        final Set<StructureInfo> set = StructureManager.map_by_pos.getOrDefault(pos, Sets.newHashSet());
+        if (!StructureManager.map_by_pos.containsKey(pos)) StructureManager.map_by_pos.put(pos, set);
         return set;
     }
 
-    public static Set<StructureInfo> getFor(final long pos)
+    public static Set<StructureInfo> getFor(final DimensionType dim, final BlockPos loc)
     {
-        return StructureManager.map_by_chunk.getOrDefault(pos, Collections.emptySet());
-    }
-
-    public static Set<StructureInfo> getFor(final BlockPos loc)
-    {
-        final Set<StructureInfo> forPos = StructureManager.getFor(new ChunkPos(loc).asLong());
+        final GlobalChunkPos pos = new GlobalChunkPos(dim, new ChunkPos(loc));
+        final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
         final Set<StructureInfo> matches = Sets.newHashSet();
         for (final StructureInfo i : forPos)
@@ -110,6 +114,9 @@ public class StructureManager
     @SubscribeEvent
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
+        // The world is null when it is loaded off thread during worldgen!
+        if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
+        final DimensionType dim = evt.getWorld().getDimension().getType();
         for (final Entry<String, StructureStart> entry : evt.getChunk().getStructureStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
@@ -118,14 +125,26 @@ public class StructureManager
                 for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
                 {
                     final ChunkPos p = new ChunkPos(x, z);
-                    final Set<StructureInfo> set = StructureManager.getOrMake(p.asLong());
+                    final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
+                    final Set<StructureInfo> set = StructureManager.getOrMake(pos);
                     set.add(info);
                 }
         }
     }
 
+    @SubscribeEvent
+    public static void onChunkUnload(final ChunkEvent.Unload evt)
+    {
+        if (evt.getWorld() == null || evt.getWorld().isRemote()) return;
+        final DimensionType dim = evt.getChunk().getWorldForge().getDimension().getType();
+        final GlobalChunkPos pos = new GlobalChunkPos(dim, evt.getChunk().getPos());
+        StructureManager.map_by_pos.remove(pos);
+    }
+
     public static void clear()
     {
-        StructureManager.map_by_chunk.clear();
+        StructureManager.map_by_pos.clear();
+        ITerrainProvider.loadedChunks.clear();
+        ITerrainProvider.pendingCache.clear();
     }
 }

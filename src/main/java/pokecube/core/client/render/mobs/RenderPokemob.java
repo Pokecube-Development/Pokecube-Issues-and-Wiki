@@ -547,6 +547,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             final Holder holder = new Holder(entry);
             RenderPokemob.holderMap.put(type, holder);
             RenderPokemob.holders.put(entry, holder);
+            if (PokecubeCore.getConfig().preloadModels) holder.init();
         }
     }
 

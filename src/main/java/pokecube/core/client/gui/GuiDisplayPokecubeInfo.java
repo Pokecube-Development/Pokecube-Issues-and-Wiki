@@ -35,10 +35,10 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobBase;
-import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IMoveNames;
@@ -542,7 +542,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
 
         if (player == null || player.getEntityWorld() == null) return new IPokemob[0];
 
-        final List<IPokemob> pokemobs = EventsHandler.getPokemobs(player, 96);
+        final List<IPokemob> pokemobs = EventsHandlerClient.getPokemobs(player, 96);
         final List<IPokemob> ret = new ArrayList<>();
         for (final IPokemob pokemob : pokemobs)
         {

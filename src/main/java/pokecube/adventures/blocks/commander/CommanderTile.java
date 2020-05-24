@@ -120,7 +120,7 @@ public class CommanderTile extends InteractableTile
 
     private Object[] getArgs(final Constructor<?> constructor)
     {
-        final String[] args = this.args.split(",");
+        final String[] args = this.args.split(" ");
         final Class<?>[] argTypes = constructor.getParameterTypes();
         int index = 0;
         final Object[] ret = new Object[argTypes.length];
@@ -130,9 +130,8 @@ public class CommanderTile extends InteractableTile
             if (type == Vector3.class)
             {
                 final Vector3 arg = Vector3.getNewVector();
-                arg.set(Double.parseDouble(args[index]) + this.getPos().getX(),
-                        Double.parseDouble(args[index + 1]) + this.getPos().getY(),
-                        Double.parseDouble(args[index + 2]) + this.getPos().getZ());
+                arg.set(Double.parseDouble(args[index]), Double.parseDouble(args[index + 1]), Double.parseDouble(
+                        args[index + 2]));
                 index += 3;
                 ret[i] = arg;
             }

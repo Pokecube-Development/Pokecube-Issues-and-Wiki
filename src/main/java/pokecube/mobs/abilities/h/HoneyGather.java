@@ -23,10 +23,11 @@ public class HoneyGather extends Ability
     @Override
     public Ability init(final Object... args)
     {
-        for (int i = 0; i < 2; i++)
-            if (args != null && args.length > i) if (args[i] instanceof Integer)
+        if (args == null) return this;
+        for (final Object arg : args)
+            if (arg instanceof Integer)
             {
-                this.range = (int) args[i];
+                this.range = (int) arg;
                 return this;
             }
         return this;

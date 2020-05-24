@@ -17,13 +17,13 @@ public class LogicInMaterials extends LogicBase
 {
     Vector3 v = Vector3.getNewVector();
 
-    public LogicInMaterials(IPokemob entity)
+    public LogicInMaterials(final IPokemob entity)
     {
         super(entity);
     }
 
     @Override
-    public void tick(World world)
+    public void tick(final World world)
     {
         super.tick(world);
         if (this.pokemob.getPokedexEntry().hatedMaterial != null)
@@ -46,8 +46,8 @@ public class LogicInMaterials extends LogicBase
                 }
             }
             else if (material.equalsIgnoreCase("water")) if (this.entity.isInWater() && this.entity.getRNG().nextInt(
-                    10) == 0) this.entity.attackEntityFrom(new TerrainDamageSource("material", TerrainType.MATERIAL),
-                            1);
+                    10) == 0) this.entity.attackEntityFrom(new TerrainDamageSource("material", TerrainType.MATERIAL,
+                            null), 1);
         }
     }
 }

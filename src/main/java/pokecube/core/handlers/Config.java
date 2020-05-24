@@ -13,8 +13,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.logic.LogicMountedControl;
-import pokecube.core.ai.tasks.idle.AIHungry;
-import pokecube.core.ai.tasks.idle.AIIdle;
+import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.ai.tasks.idle.IdleWalkTask;
 import pokecube.core.database.Database.EnumDatabase;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
@@ -26,6 +26,7 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
+import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.core.common.config.Config.ConfigData;
@@ -177,127 +178,134 @@ public class Config extends ConfigData
     @Configure(category = Config.moves)
     public boolean defaultIceActions            = true;
 
-    @Configure(category = Config.moves, type = Type.CLIENT)
-    public double moveVolumeCry    = 0.0625f;
-    @Configure(category = Config.moves, type = Type.CLIENT)
-    public double moveVolumeEffect = 1;
-
     // AI Related settings
     @Configure(category = Config.mobAI)
-    public int          mateMultiplier        = 1;
+    public int mateMultiplier     = 1;
     @Configure(category = Config.mobAI)
-    public double       mateDensityWild       = 2;
+    public int mateAIRate         = 40;
     @Configure(category = Config.mobAI)
-    public int          mateAIRate            = 40;
+    public int breedingDelay      = 4000;
     @Configure(category = Config.mobAI)
-    public double       mateDensityPlayer     = 4;
-    @Configure(category = Config.mobAI)
-    public int          breedingDelay         = 4000;
-    @Configure(category = Config.mobAI)
-    public int          eggHatchTime          = 10000;
-    @Configure(category = Config.mobAI)
-    /** do wild pokemobs which leave cullDistance despawn immediately */
-    public boolean      cull                  = false;
+    public int eggHatchTime       = 10000;
     /** distance for culling */
     @Configure(category = Config.mobAI)
-    public int          cullDistance          = 96;
-    @Configure(category = Config.mobAI)
-    public boolean      despawn               = true;
+    public int cullDistance       = 96;
     /** distance for culling */
     @Configure(category = Config.mobAI)
-    public int          despawnTimer          = 2000;
-    @Configure(category = Config.mobAI)
-    /** Will lithovores eat gravel */
-    public boolean      pokemobsEatGravel     = false;
-    @Configure(category = Config.mobAI)
-    /** Will lithovores eat rocks */
-    public boolean      pokemobsEatRocks      = true;
-    @Configure(category = Config.mobAI)
-    /** Will herbivores eat plants */
-    public boolean      pokemobsEatPlants     = true;
-    @Configure(category = Config.mobAI)
-    /** Is there a warning before a wild pok�mob attacks the player. */
-    public boolean      pokemobagresswarning  = true;
+    public int despawnTimer       = 2000;
     @Configure(category = Config.mobAI)
     /** Distance to player needed to agress the player */
-    public int          mobAggroRadius        = 3;
+    public int mobAggroRadius     = 3;
     @Configure(category = Config.mobAI)
     /**
      * Approximately how many ticks between wild pokemobs running agro
      * checks.
      */
-    public int          mobAgroRate           = 200;
+    public int mobAgroRate        = 200;
     @Configure(category = Config.mobAI)
     /**
      * Approximate number of ticks before pok�mob starts taking hunger
      * damage
      */
-    public int          pokemobLifeSpan       = 8000;
+    public int pokemobLifeSpan    = 8000;
     @Configure(category = Config.mobAI)
-    /** Warning time before a wild pok�mob attacks a player */
-    public int          pokemobagressticks    = 100;
-    @Configure(category = Config.mobAI)
-    public boolean      pokemobsDamageOwner   = false;
-    @Configure(category = Config.mobAI)
-    public boolean      pokemobsDamagePlayers = true;
-    @Configure(category = Config.mobAI)
-    public boolean      pokemobsDamageBlocks  = false;
-    @Configure(category = Config.mobAI)
-    public boolean      pokemobsDropItems     = true;
-    @Configure(category = Config.mobAI)
-    public double       expFromDeathDropScale = 1;
-    @Configure(category = Config.mobAI)
-    /** Do explosions occur and cause damage */
-    public boolean      explosions            = true;
-    @Configure(category = Config.mobAI)
-    public int          chaseDistance         = 32;
-    @Configure(category = Config.mobAI)
-    public int          combatDistance        = 4;
-    @Configure(category = Config.mobAI)
-    public int          aiDisableDistance     = 32;
-    @Configure(category = Config.mobAI)
-    public int          tameGatherDelay       = 20;
-    @Configure(category = Config.mobAI)
-    public int          wildGatherDelay       = 200;
-    @Configure(category = Config.mobAI)
-    public int          tameGatherDistance    = 16;
-    @Configure(category = Config.mobAI)
-    public int          wildGatherDistance    = 8;
-    @Configure(category = Config.mobAI)
-    public boolean      tameGather            = true;
-    @Configure(category = Config.mobAI)
-    public boolean      wildGather            = false;
-    @Configure(category = Config.mobAI)
-    public boolean      flyEnabled            = true;
-    @Configure(category = Config.mobAI)
-    public boolean      surfEnabled           = true;
-    @Configure(category = Config.mobAI)
-    public boolean      diveEnabled           = true;
-    @Configure(category = Config.mobAI)
-    public List<String> dodgeSounds           = Lists.newArrayList("entity.witch.throw");
-    @Configure(category = Config.mobAI)
-    public List<String> leapSounds            = Lists.newArrayList("entity.witch.throw");
-    @Configure(category = Config.mobAI)
-    public List<String> guardBlacklistClass   = Lists.newArrayList("net.minecraft.entity.IMerchant",
-            "net.minecraft.entity.INpc", "pokecube.core.items.pokemobeggs.EntityPokemobEgg",
-            "net.minecraft.entity.IProjectile");
-    @Configure(category = Config.mobAI)
-    public List<String> guardBlacklistId      = Lists.newArrayList();
-    @Configure(category = Config.mobAI)
-    public double       interactHungerScale   = 1;
-    @Configure(category = Config.mobAI)
-    public double       interactDelayScale    = 1;
-    @Configure(category = Config.mobAI)
-    public boolean      pokemobsOnShoulder    = true;
-    @Configure(category = Config.mobAI)
-    public int          fishHookBaitRange     = 16;
+    /** Warning time before a wild pokemob attacks a player */
+    public int pokemobagressticks = 100;
 
     @Configure(category = Config.mobAI)
-    public boolean guardModeEnabled    = true;
+    public double mateDensityWild       = 2;
     @Configure(category = Config.mobAI)
-    public int     guardSearchDistance = 16;
+    public double expFromDeathDropScale = 1;
     @Configure(category = Config.mobAI)
-    public int     guardTickRate       = 20;
+    public double mateDensityPlayer     = 4;
+
+    @Configure(category = Config.mobAI)
+    /** do wild pokemobs which leave cullDistance despawn immediately */
+    public boolean cull                  = false;
+    @Configure(category = Config.mobAI)
+    public boolean despawn               = true;
+    @Configure(category = Config.mobAI)
+    /** Will lithovores eat gravel */
+    public boolean pokemobsEatGravel     = false;
+    @Configure(category = Config.mobAI)
+    /** Will lithovores eat rocks */
+    public boolean pokemobsEatRocks      = true;
+    @Configure(category = Config.mobAI)
+    /** Will herbivores eat plants */
+    public boolean pokemobsEatPlants     = true;
+    @Configure(category = Config.mobAI)
+    /** Is there a warning before a wild pok�mob attacks the player. */
+    public boolean pokemobagresswarning  = true;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDamageOwner   = false;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDamagePlayers = true;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDamageBlocks  = false;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsDropItems     = true;
+    @Configure(category = Config.mobAI)
+    /** Do explosions occur and cause damage */
+    public boolean explosions            = true;
+
+    @Configure(category = Config.mobAI)
+    public int chaseDistance      = 32;
+    @Configure(category = Config.mobAI)
+    public int combatDistance     = 4;
+    @Configure(category = Config.mobAI)
+    public int aiDisableDistance  = 32;
+    @Configure(category = Config.mobAI)
+    public int tameGatherDelay    = 20;
+    @Configure(category = Config.mobAI)
+    public int wildGatherDelay    = 200;
+    @Configure(category = Config.mobAI)
+    public int tameGatherDistance = 16;
+    @Configure(category = Config.mobAI)
+    public int wildGatherDistance = 8;
+
+    @Configure(category = Config.mobAI)
+    public boolean tameGather  = true;
+    @Configure(category = Config.mobAI)
+    public boolean wildGather  = false;
+    @Configure(category = Config.mobAI)
+    public boolean flyEnabled  = true;
+    @Configure(category = Config.mobAI)
+    public boolean surfEnabled = true;
+    @Configure(category = Config.mobAI)
+    public boolean diveEnabled = true;
+
+    @Configure(category = Config.mobAI)
+    public List<String> dodgeSounds        = Lists.newArrayList("entity.witch.throw");
+    @Configure(category = Config.mobAI)
+    public List<String> leapSounds         = Lists.newArrayList("entity.witch.throw");
+    @Configure(category = Config.mobAI)
+    public List<String> aggroBlacklistTags = Lists.newArrayList();
+    @Configure(category = Config.mobAI)
+    public List<String> aggroBlacklistIds   = Lists.newArrayList("minecraft:villager", "minecraft:armor_stand",
+            "pokecube_adventures:trainer", "pokecube_adventures:leader");
+
+    @Configure(category = Config.mobAI)
+    public double  interactHungerScale = 1;
+    @Configure(category = Config.mobAI)
+    public double  interactDelayScale  = 1;
+    @Configure(category = Config.mobAI)
+    public boolean pokemobsOnShoulder  = true;
+
+    @Configure(category = Config.mobAI)
+    public int fishHookBaitRange = 16;
+
+    @Configure(category = Config.mobAI)
+    public boolean guardModeEnabled = true;
+
+    @Configure(category = Config.mobAI)
+    public int guardSearchDistance = 16;
+    @Configure(category = Config.mobAI)
+    public int guardTickRate       = 20;
+
+    @Configure(category = Config.mobAI)
+    public int nearBlockUpdateRate = 5;
+    @Configure(category = Config.mobAI)
+    public int huntUpdateRate      = 5;
 
     // Used by pathfinder's movehelper for scaling speed in air and water.
     @Configure(category = Config.mobAI)
@@ -319,7 +327,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public int     hungerTickRate         = 20;
     @Configure(category = Config.mobAI)
-    public double  hordeRateFactor        = 1;
+    public double  hordeRateFactor        = 0.1;
     @Configure(category = Config.mobAI)
     public double  leapSpeedFactor        = 1;
     @Configure(category = Config.mobAI)
@@ -444,54 +452,63 @@ public class Config extends ConfigData
 
     // Gui/client settings
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        guiRef                 = "top_left";
+    public String guiRef     = "top_left";
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        messageRef             = "right_middle";
+    public String messageRef = "right_middle";
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        targetRef              = "top_right";
+    public String targetRef  = "top_right";
     @Configure(category = Config.client, type = Type.CLIENT)
-    public String        teleRef                = "top_right";
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> guiPos                 = Lists.newArrayList(new Integer[] { 0, 0 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        guiSize                = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> telePos                = Lists.newArrayList(new Integer[] { 89, 17 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        teleSize               = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> targetPos              = Lists.newArrayList(new Integer[] { 147, -42 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        targetSize             = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> messagePos             = Lists.newArrayList(new Integer[] { -150, -100 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public int           messageWidth           = 150;;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public List<Integer> messagePadding         = Lists.newArrayList(new Integer[] { 0, 0 });
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public double        messageSize            = 1;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       guiDown                = true;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       guiAutoScale           = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       autoSelectMoves        = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       autoRecallPokemobs     = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public int           autoRecallDistance     = 32;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       riddenMobsTurnWithLook = true;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       extraberries           = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       battleLogInChat        = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean       pokeCenterMusic        = true;
+    public String teleRef    = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT)
-    public double captureVolume = 0.2;
+    public List<Integer> guiPos         = Lists.newArrayList(new Integer[] { 0, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> telePos        = Lists.newArrayList(new Integer[] { 89, 17 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> targetPos      = Lists.newArrayList(new Integer[] { 147, -42 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> messagePos     = Lists.newArrayList(new Integer[] { -150, -100 });
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public List<Integer> messagePadding = Lists.newArrayList(new Integer[] { 0, 0 });
+
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double guiSize          = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double teleSize         = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double targetSize       = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double messageSize      = 1;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public double captureVolume    = 0.2;
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeCry    = 0.0625f;
+    @Configure(category = Config.moves, type = Type.CLIENT)
+    public double moveVolumeEffect = 1;
+
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean guiDown                = true;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean guiAutoScale           = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean autoSelectMoves        = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean autoRecallPokemobs     = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean riddenMobsTurnWithLook = true;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean extraberries           = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean battleLogInChat        = false;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean pokeCenterMusic        = true;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public boolean preloadModels          = false;
+
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public int messageWidth       = 150;;
+    @Configure(category = Config.client, type = Type.CLIENT)
+    public int autoRecallDistance = 32;
 
     @Configure(category = Config.advanced)
     public List<String>  mystLocs              = Lists.newArrayList();
@@ -666,9 +683,11 @@ public class Config extends ConfigData
         if (this.spawnRate <= 0) this.spawnRate = 1;
         if (this.idleTickRate == 0) this.idleTickRate = 1;
         if (this.hungerTickRate == 0) this.hungerTickRate = 1;
+        if (this.nearBlockUpdateRate <= 0) this.nearBlockUpdateRate = 1;
+        if (this.huntUpdateRate <= 0) this.huntUpdateRate = 1;
 
-        AIIdle.IDLETIMER = this.idleTickRate;
-        AIHungry.TICKRATE = this.hungerTickRate;
+        IdleWalkTask.IDLETIMER = this.idleTickRate;
+        HungerTask.TICKRATE = this.hungerTickRate;
 
         // TODO Init secret bases.
         // DimensionSecretBase.init(baseSizeFunction);
@@ -677,6 +696,8 @@ public class Config extends ConfigData
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
         SpawnHandler.MAXNUM = this.mobSpawnNumber;
         if (this.breedingDelay < 600) this.breedingDelay = 1000;
+
+        AITools.initIDs();
 
         SpawnHandler.doSpawns = this.pokemonSpawn;
         SpawnHandler.lvlCap = this.shouldCap;

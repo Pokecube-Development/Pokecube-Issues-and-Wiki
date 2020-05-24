@@ -1,7 +1,8 @@
 package pokecube.core.interfaces.pokemob.commandhandlers;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.api.maths.Vector3;
@@ -24,11 +25,9 @@ public class MoveToHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
-        this.speed = (float) Math.min(this.speed,
-                pokemob.getEntity().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-        pokemob.getEntity().getNavigator().setPath(
-                pokemob.getEntity().getNavigator().getPathToPos(this.location.x, this.location.y, this.location.z, 0),
-                this.speed);
+        this.speed = (float) Math.min(this.speed, pokemob.getMovementSpeed());
+        pokemob.getEntity().getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(this.location.toVec3d(),
+                this.speed, 0));
     }
 
     @Override

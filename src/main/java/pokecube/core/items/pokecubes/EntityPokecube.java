@@ -96,8 +96,9 @@ public class EntityPokecube extends EntityPokecubeBase
                 .immuneToFire().size(0.25f, 0.25f).build("pokecube");
     }
 
-    public long                    reset      = 0;
-    public long                    resetTime  = 0;
+    public long reset     = 0;
+    public long resetTime = 0;
+
     public ArrayList<CollectEntry> players    = Lists.newArrayList();
     public ArrayList<LootEntry>    loot       = Lists.newArrayList();
     public ArrayList<ItemStack>    lootStacks = Lists.newArrayList();

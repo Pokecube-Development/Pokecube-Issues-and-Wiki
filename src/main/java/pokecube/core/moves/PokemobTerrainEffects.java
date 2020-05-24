@@ -54,10 +54,15 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public static final int CLEAR_ENTRYEFFECTS = 16;
 
-    public static final TerrainDamageSource HAILDAMAGE      = new TerrainDamageSource("terrain.hail",
-            TerrainType.TERRAIN);
-    public static final TerrainDamageSource SANDSTORMDAMAGE = new TerrainDamageSource("terrain.sandstorm",
-            TerrainType.TERRAIN);
+    public static final TerrainDamageSource createHailSource(final IPokemob mobIn)
+    {
+        return new TerrainDamageSource("terrain.hail", TerrainType.TERRAIN, mobIn);
+    }
+
+    public static final TerrainDamageSource createSandstormSource(final IPokemob mobIn)
+    {
+        return new TerrainDamageSource("terrain.sandstorm", TerrainType.TERRAIN, mobIn);
+    }
 
     public final long[] effects = new long[16];
 
@@ -66,6 +71,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
     int chunkY;
 
     Set<IPokemob> pokemon = new HashSet<>();
+
+    IPokemob[] users = new IPokemob[16];
 
     public PokemobTerrainEffects()
     {
@@ -90,14 +97,16 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.HAILDAMAGE, damage);
+                entity.attackEntityFrom(PokemobTerrainEffects.createHailSource(
+                        this.users[PokemobTerrainEffects.EFFECT_WEATHER_HAIL]), damage);
             }
             if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_SAND] > 0 && !(mob.isType(PokeType.getType("rock"))
                     || mob.isType(PokeType.getType("steel")) || mob.isType(PokeType.getType("ground"))))
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.SANDSTORMDAMAGE, damage);
+                entity.attackEntityFrom(PokemobTerrainEffects.createSandstormSource(
+                        this.users[PokemobTerrainEffects.EFFECT_WEATHER_SAND]), damage);
             }
             if (this.effects[PokemobTerrainEffects.EFFECT_TERRAIN_ELECTRIC] > 0 && mob.isOnGround()) if (mob
                     .getStatus() == IMoveConstants.STATUS_SLP) mob.healStatus();
@@ -117,13 +126,15 @@ public class PokemobTerrainEffects implements ITerrainEffect
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.HAILDAMAGE, damage);
+                entity.attackEntityFrom(PokemobTerrainEffects.createHailSource(
+                        this.users[PokemobTerrainEffects.EFFECT_WEATHER_HAIL]), damage);
             }
             if (this.effects[PokemobTerrainEffects.EFFECT_WEATHER_SAND] > 0)
             {
                 final float thisMaxHP = entity.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
-                entity.attackEntityFrom(PokemobTerrainEffects.SANDSTORMDAMAGE, damage);
+                entity.attackEntityFrom(PokemobTerrainEffects.createSandstormSource(
+                        this.users[PokemobTerrainEffects.EFFECT_WEATHER_SAND]), damage);
             }
             if (this.effects[PokemobTerrainEffects.EFFECT_TERRAIN_GRASS] > 0 && entity.onGround)
             {
@@ -183,6 +194,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 if (diff < 0)
                 {
                     this.effects[i] = 0;
+                    this.users[i] = null;
                     send = true;
                 }
             }
@@ -324,6 +336,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
      */
     public void setEffect(final int effect, final long duration)
     {
+        this.users[effect] = user;
         if (effect == PokemobTerrainEffects.EFFECT_WEATHER_HAIL)
         {
             this.effects[PokemobTerrainEffects.EFFECT_WEATHER_RAIN] = 0;

@@ -37,7 +37,8 @@ public class CapabilityNPCMessages
             this.messages.put(MessageState.DEFEAT, "pokecube.trainer.defeat");
             this.messages.put(MessageState.DEAGRESS, "pokecube.trainer.forget");
             this.messages.put(MessageState.GIVEITEM, "pokecube.trainer.drop");
-            this.messages.put(MessageState.INTERACT_YESBATTLE, "pokecube.trainer.agress");
+            this.messages.put(MessageState.INTERACT_YESBATTLE, "pokecube.trainer.agress_allowed");
+            this.messages.put(MessageState.INTERACT_NOBATTLE, "pokecube.trainer.agress_request_denied");
 
             this.actions.put(MessageState.INTERACT_YESBATTLE, new BattleAction());
         }

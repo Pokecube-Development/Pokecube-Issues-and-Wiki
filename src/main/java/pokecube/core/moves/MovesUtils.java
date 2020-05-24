@@ -18,6 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
@@ -74,7 +75,8 @@ public class MovesUtils implements IMoveConstants
     {
         String key = baseKey + ".user";
         final IPokemob attacked = CapabilityPokemob.getPokemobFor(target);
-        final ITextComponent targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
+        final ITextComponent targName = target != null ? target.getDisplayName()
+                : attacker != null ? attacker.getDisplayName() : new StringTextComponent("ERR PLS REPORT");
         if (attacker != null) attacker.displayMessageToOwner(new TranslationTextComponent(key, targName));
         key = baseKey + ".target";
         if (target != attacker.getEntity() && target != null)
@@ -349,8 +351,8 @@ public class MovesUtils implements IMoveConstants
         }
 
         // If this is a fight over a mate, the strength is reduced.
-        if (attacker.getCombatState(CombatStates.MATEFIGHT) && attacked.getCombatState(CombatStates.MATEFIGHT))
-            statusMultiplier *= 0.25;
+        if (attacker.getCombatState(CombatStates.MATEFIGHT) || attacked.getCombatState(CombatStates.MATEFIGHT))
+            statusMultiplier *= 0.125;
 
         ATT = (int) (statusMultiplier * ATT);
 

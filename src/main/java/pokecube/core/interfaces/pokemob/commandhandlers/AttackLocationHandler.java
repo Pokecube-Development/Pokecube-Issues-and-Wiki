@@ -5,7 +5,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.tasks.idle.AIHungry;
+import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.events.pokemob.combat.CommandAttackEvent;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
@@ -41,10 +41,10 @@ public class AttackLocationHandler extends DefaultHandler
                     new TranslationTextComponent(MovesUtils.getUnlocalizedMove(move.getName())));
             if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
 
-            final float value = AIHungry.calculateHunger(pokemob);
+            final float value = HungerTask.calculateHunger(pokemob);
 
             // If too hungry, send message about that.
-            if (AIHungry.hitThreshold(value, AIHungry.HUNTTHRESHOLD))
+            if (HungerTask.hitThreshold(value, HungerTask.HUNTTHRESHOLD))
             {
                 mess = new TranslationTextComponent("pokemob.action.hungry", pokemob.getDisplayName());
                 if (this.fromOwner()) pokemob.displayMessageToOwner(mess);

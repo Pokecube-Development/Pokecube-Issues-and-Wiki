@@ -19,6 +19,7 @@ public class Spawn extends Page
 
     int     index  = 0;
     boolean leader = false;
+    boolean stand  = false;
 
     public Spawn(final EditorGui parent)
     {
@@ -81,13 +82,20 @@ public class Spawn extends Page
             else b.setMessage("trainer");
             this.leader = b.getMessage().equals("leader");
         }));
-        this.addButton(new Button(xOffset + 25, yOffset + 40, 40, 20, "spawn", b ->
+        this.addButton(new Button(xOffset - 5, yOffset + 40, 40, 20, "stands", b ->
+        {
+            if (b.getMessage().equals("wanders")) b.setMessage("stands");
+            else b.setMessage("wanders");
+            this.stand = b.getMessage().equals("stands");
+        }));
+        this.addButton(new Button(xOffset + 35, yOffset + 40, 40, 20, "spawn", b ->
         {
             final PacketTrainer message = new PacketTrainer(PacketTrainer.SPAWN);
             message.getTag().putString("T", this.type.getText());
             final int value = this.level.getText().isEmpty() ? 1 : Integer.parseInt(this.level.getText());
             message.getTag().putInt("L", value);
             message.getTag().putBoolean("C", this.leader);
+            message.getTag().putBoolean("S", this.stand);
             PacketTrainer.ASSEMBLER.sendToServer(message);
         }));
     }

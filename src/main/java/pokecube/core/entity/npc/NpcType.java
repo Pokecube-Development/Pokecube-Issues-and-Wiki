@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
@@ -98,7 +99,9 @@ public class NpcType
     private ResourceLocation maleTex;
     private ResourceLocation femaleTex;
 
-    private IInteract        interaction = (p, h, mob) -> false;
+    private VillagerProfession profession = VillagerProfession.NITWIT;
+
+    private IInteract interaction = (p, h, mob) -> false;
 
     public NpcType(String string)
     {
@@ -157,5 +160,15 @@ public class NpcType
     public IInteract getInteraction()
     {
         return this.interaction;
+    }
+
+    public VillagerProfession getProfession()
+    {
+        return this.profession;
+    }
+
+    public void setProfession(final VillagerProfession profession)
+    {
+        this.profession = profession;
     }
 }

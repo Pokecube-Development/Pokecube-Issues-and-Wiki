@@ -1,6 +1,7 @@
 package pokecube.core.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -65,11 +68,13 @@ import pokecube.core.interfaces.pokemob.IHasCommands.Command;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.commandhandlers.StanceHandler;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketChangeForme;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.proxy.ClientProxy;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.GeneRegistry;
@@ -81,6 +86,24 @@ public class EventsHandlerClient
     static boolean                                       notifier   = false;
 
     static long lastSetTime = 0;
+
+    /**
+     * Gets all pokemobs owned by owner within the given distance.
+     *
+     * @param owner
+     * @param distance
+     * @return
+     */
+    public static List<IPokemob> getPokemobs(final LivingEntity owner, final double distance)
+    {
+        final List<IPokemob> ret = new ArrayList<>();
+        for (final Entity e : PokemobTracker.getMobs(owner, e -> !(e instanceof EntityPokecubeBase)))
+        {
+            final IPokemob mob = CapabilityPokemob.getPokemobFor(e);
+            if (mob != null) ret.add(mob);
+        }
+        return ret;
+    }
 
     @SubscribeEvent
     public static void clientTick(final TickEvent.PlayerTickEvent event)

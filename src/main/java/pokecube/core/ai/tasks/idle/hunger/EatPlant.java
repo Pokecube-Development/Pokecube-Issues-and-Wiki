@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
-import pokecube.core.ai.tasks.utility.AIGatherStuff.ReplantTask;
+import pokecube.core.ai.tasks.utility.GatherTask.ReplantTask;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 

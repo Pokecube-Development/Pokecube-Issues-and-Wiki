@@ -17,7 +17,7 @@ import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.GeneticsTileParentable;
 import pokecube.adventures.blocks.genetics.helper.recipe.PoweredRecipe;
-import pokecube.adventures.blocks.genetics.helper.recipe.RecipeFossilRevive;
+import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone;
 import thut.api.item.ItemList;
 
 public class ClonerTile extends GeneticsTileParentable
@@ -72,7 +72,7 @@ public class ClonerTile extends GeneticsTileParentable
     @Override
     public boolean isValid(final Class<? extends PoweredRecipe> recipe)
     {
-        return recipe == RecipeFossilRevive.class;
+        return recipe == RecipeClone.class;
     }
 
     @Override

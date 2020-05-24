@@ -8,14 +8,15 @@ import pokecube.core.database.stats.SpecialCaseRegister;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
+import pokecube.core.events.EggEvent.CanBreed;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.entity.genetics.Alleles;
 
 public class GeneProtector
 {
-    public boolean invalidGene(final SpeciesGene gene)
+    public boolean invalidEntry(final PokedexEntry entry)
     {
-        final SpeciesInfo info = gene.getValue();
-        final PokedexEntry entry = info.entry;
         // No cloning legends.
         if (entry.isLegendary()) return true;
         // No cloning things with requirements
@@ -24,6 +25,13 @@ public class GeneProtector
         // No cloning things that can't breed
         if (!entry.breeds) return true;
         return false;
+    }
+
+    public boolean invalidGene(final SpeciesGene gene)
+    {
+        final SpeciesInfo info = gene.getValue();
+        final PokedexEntry entry = info.entry;
+        return this.invalidEntry(entry);
     }
 
     @SubscribeEvent
@@ -35,5 +43,14 @@ public class GeneProtector
             final SpeciesGene gene = alleles.getExpressed();
             if (this.invalidGene(gene)) evt.resultGenes.getAlleles().remove(GeneticsManager.SPECIESGENE);
         }
+    }
+
+    @SubscribeEvent
+    public void CanBreedEvent(final CanBreed evt)
+    {
+        final IPokemob mobA = CapabilityPokemob.getPokemobFor(evt.getEntity());
+        final IPokemob mobB = CapabilityPokemob.getPokemobFor(evt.getOther());
+        if (mobA != null && this.invalidEntry(mobA.getPokedexEntry())) evt.setCanceled(true);
+        if (mobB != null && this.invalidEntry(mobB.getPokedexEntry())) evt.setCanceled(true);
     }
 }

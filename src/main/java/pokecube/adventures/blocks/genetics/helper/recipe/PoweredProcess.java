@@ -16,13 +16,13 @@ public class PoweredProcess
             "pokecube_adventures:extracting"));
     public static final RecipeSplice       SPLICE  = new RecipeSplice(new ResourceLocation(
             "pokecube_adventures:splicing"));
-    public static final RecipeFossilRevive REVIVE  = new RecipeFossilRevive(new ResourceLocation(
+    public static final RecipeClone REVIVE  = new RecipeClone(new ResourceLocation(
             "pokecube_adventures:reviving"));
 
     public static PoweredRecipe findRecipe(final IPoweredProgress tile, final World world)
     {
         if (!tile.getStackInSlot(tile.getOutputSlot()).isEmpty()) return null;
-        if (tile.isValid(RecipeFossilRevive.class) && PoweredProcess.REVIVE.matches(tile.getCraftMatrix(), world))
+        if (tile.isValid(RecipeClone.class) && PoweredProcess.REVIVE.matches(tile.getCraftMatrix(), world))
             return PoweredProcess.REVIVE;
         if (tile.isValid(RecipeExtract.class) && !PoweredProcess.EXTRACT.getCraftingResult(tile.getCraftMatrix())
                 .isEmpty()) return PoweredProcess.EXTRACT;
@@ -36,7 +36,7 @@ public class PoweredProcess
         RecipeSelector.SERIALIZER.toString();
         RecipeExtract.SERIALIZER.toString();
         RecipeSplice.SERIALIZER.toString();
-        RecipeFossilRevive.SERIALIZER.toString();
+        RecipeClone.SERIALIZER.toString();
 
         // This one needs registration as is actually a real crafting recipe.
         event.getRegistry().register(RecipeSelector.SERIALIZER.setRegistryName(new ResourceLocation(

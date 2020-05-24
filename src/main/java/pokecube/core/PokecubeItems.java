@@ -156,7 +156,7 @@ public class PokecubeItems extends ItemList
 
     private static Set<ResourceLocation> errored = Sets.newHashSet();
 
-    public static void init()
+    static
     {
         // Items
         PokecubeItems.BERRYJUICE = new Item(new Properties().food(new Food.Builder().hunger(4).saturation(0.3F).build())
@@ -170,25 +170,38 @@ public class PokecubeItems extends ItemList
 
         // Blocks
         PokecubeItems.HEALER = new HealerBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
-                .lightValue(15)).setRegistryName(PokecubeCore.MODID, "pokecenter");
-        PokecubeItems.NESTBLOCK = new NestBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
-                PokecubeCore.MODID, "nest");
-        PokecubeItems.REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC)).setRegistryName(
-                PokecubeCore.MODID, "repel");
+                .lightValue(15));
+        PokecubeItems.NESTBLOCK = new NestBlock(Block.Properties.create(Material.ORGANIC));
+        PokecubeItems.REPELBLOCK = new RepelBlock(Block.Properties.create(Material.ORGANIC));
         PokecubeItems.DYNABLOCK = new MaxBlock(Block.Properties.create(Material.ROCK).lightValue(15)
-                .hardnessAndResistance(2000)).setRegistryName(PokecubeCore.MODID, "dynamax");
+                .hardnessAndResistance(2000));
         PokecubeItems.PCTOP = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000).lightValue(
-                15), true).setRegistryName(PokecubeCore.MODID, "pc_top");
+                15), true);
         PokecubeItems.PCBASE = new PCBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
-                .lightValue(15), false).setRegistryName(PokecubeCore.MODID, "pc_base");
+                .lightValue(15), false);
         PokecubeItems.TRADER = new TraderBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
-                .lightValue(15)).setRegistryName(PokecubeCore.MODID, "trade_machine");
+                .lightValue(15));
         PokecubeItems.TMMACHINE = new TMBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(2000)
-                .lightValue(15)).setRegistryName(PokecubeCore.MODID, "tm_machine");
-        PokecubeItems.SECRETBASE = new BaseBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2000))
-                .setRegistryName(PokecubeCore.MODID, "secret_base");
+                .lightValue(15));
+        PokecubeItems.SECRETBASE = new BaseBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2000));
         PokecubeItems.FOSSILSTONE = new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5f, 10)
-                .harvestTool(ToolType.PICKAXE)).setRegistryName(PokecubeCore.MODID, "fossilstone");
+                .harvestTool(ToolType.PICKAXE));
+    }
+
+    public static void init()
+    {
+
+        // Blocks
+        PokecubeItems.HEALER.setRegistryName(PokecubeCore.MODID, "pokecenter");
+        PokecubeItems.NESTBLOCK.setRegistryName(PokecubeCore.MODID, "nest");
+        PokecubeItems.REPELBLOCK.setRegistryName(PokecubeCore.MODID, "repel");
+        PokecubeItems.DYNABLOCK.setRegistryName(PokecubeCore.MODID, "dynamax");
+        PokecubeItems.PCTOP.setRegistryName(PokecubeCore.MODID, "pc_top");
+        PokecubeItems.PCBASE.setRegistryName(PokecubeCore.MODID, "pc_base");
+        PokecubeItems.TRADER.setRegistryName(PokecubeCore.MODID, "trade_machine");
+        PokecubeItems.TMMACHINE.setRegistryName(PokecubeCore.MODID, "tm_machine");
+        PokecubeItems.SECRETBASE.setRegistryName(PokecubeCore.MODID, "secret_base");
+        PokecubeItems.FOSSILSTONE.setRegistryName(PokecubeCore.MODID, "fossilstone");
     }
 
     /**
