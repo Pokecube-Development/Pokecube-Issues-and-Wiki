@@ -8,7 +8,6 @@ import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.utils.PokemobTracker;
 
 public class ManagePokemobTarget extends BaseBattleTask
@@ -34,7 +33,6 @@ public class ManagePokemobTarget extends BaseBattleTask
                     && CapabilityPokemob.getPokemobFor(e) != null);
             if (!alternates.isEmpty()) newTarget = (LivingEntity) alternates.get(0);
         }
-        if (!mob.getCombatState(CombatStates.ANGRY)) mob.setCombatState(CombatStates.ANGRY, true);
         // check if pokemob's target is same as trainers.
         if (mobTarget != newTarget && newTarget != null) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
     }
