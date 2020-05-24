@@ -1,11 +1,9 @@
 package pokecube.adventures.blocks.genetics.helper;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -189,12 +187,6 @@ public class ClonerHelper
         if (selector.isEmpty() || !selector.hasTag()) return def;
         final CompoundNBT selectorTag = selector.getTag().getCompound(ClonerHelper.SELECTORTAG);
         return SelectorValue.load(selectorTag);
-    }
-
-    public static List<ItemStack> getStacks(final BaseGeneticsTile cloner)
-    {
-        if (cloner.getProcess() == null) return Lists.newArrayList();
-        return Lists.newArrayList(cloner.getProcess().recipe.getRemainingItems(cloner.getCraftMatrix()));
     }
 
     public static boolean isDNAContainer(final ItemStack stack)

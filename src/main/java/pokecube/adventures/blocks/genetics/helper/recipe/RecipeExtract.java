@@ -53,11 +53,15 @@ public class RecipeExtract extends PoweredRecipe
         tile.setInventorySlotContents(tile.getOutputSlot(), this.getCraftingResult(tile.getCraftMatrix()));
         for (int i = 0; i < remaining.size(); i++)
         {
+            final ItemStack old = tile.getStackInSlot(i);
             final ItemStack stack = remaining.get(i);
-            if (!stack.isEmpty()) tile.setInventorySlotContents(i, stack);
+            if (!stack.isEmpty())
+            {
+                if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
+                tile.setInventorySlotContents(i, stack);
+            }
             else
             {
-                final ItemStack old = tile.getStackInSlot(i);
                 if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
                 tile.decrStackSize(i, 1);
             }
@@ -141,7 +145,7 @@ public class RecipeExtract extends PoweredRecipe
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack item = inv.getStackInSlot(i);
+            final ItemStack item = inv.getStackInSlot(i).copy();
             if (i == 1 && keepSelector) nonnulllist.set(i, item);
             if (i == 2)
             {
