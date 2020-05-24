@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.blocks.afa.AfaTile;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs;
@@ -97,6 +98,7 @@ public class CommonProxy implements Proxy
         OwnableCaps.TILES.add(WarppadTile.class);
 
         PacketTrainer.register();
+        Tasks.init();
     }
 
     @Override

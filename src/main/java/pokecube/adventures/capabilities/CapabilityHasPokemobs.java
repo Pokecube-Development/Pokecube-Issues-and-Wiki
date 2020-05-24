@@ -10,7 +10,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
@@ -646,6 +645,10 @@ public class CapabilityHasPokemobs
             final Set<ITargetWatcher> watchers = this.getTargetWatchers();
             // No next pokemob, so we shouldn't have a target in this case.
 
+            // Set this here, before trying to validate other's target below.
+            this.getTrainer().getBrain().removeMemory(MemoryTypes.BATTLETARGET);
+            if (target != null) this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET, target);
+
             final IHasPokemobs oldOther = TrainerCaps.getHasPokemobs(old);
             if (oldOther != null) oldOther.onSetTarget(null);
 
@@ -698,14 +701,9 @@ public class CapabilityHasPokemobs
             {
                 BrainUtils.deagro(this.getTrainer());
                 this.resetPokemob();
-                this.getTrainer().getBrain().removeMemory(MemoryTypes.BATTLETARGET);
                 this.getTrainer().getBrain().switchTo(Activity.IDLE);
             }
-            else if (this.getTrainer() instanceof MobEntity)
-            {
-                this.getTrainer().getBrain().setMemory(MemoryTypes.BATTLETARGET, target);
-                this.getTrainer().getBrain().switchTo(Activities.BATTLE);
-            }
+            else this.getTrainer().getBrain().switchTo(Activities.BATTLE);
         }
 
         @Override

@@ -32,7 +32,7 @@ public class Tasks
 {
     public static final SensorType<DummySensor> DUMMY = new SensorType<>(DummySensor::new);
 
-    static
+    public static void init()
     {
         Tasks.DUMMY.setRegistryName(PokecubeAdv.MODID, "dummy_sensor");
     }

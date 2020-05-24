@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
@@ -46,6 +47,8 @@ public class PlayerPokemobs extends DefaultPokemobs
 
     PlayerEntity player;
     LivingEntity target = null;
+
+    long setTargetTime = 0;
 
     public PlayerPokemobs(final PlayerEntity player)
     {
@@ -122,6 +125,8 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public void onSetTarget(final LivingEntity target)
     {
+        if (target != null && target.getServer() != null) this.setTargetTime = target.getServer().getWorld(
+                DimensionType.OVERWORLD).getGameTime();
         if (target == this.target) return;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
         this.target = target;
@@ -139,6 +144,8 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public LivingEntity getTarget()
     {
+        if (this.target != null && this.target.getServer() != null) if (this.target.getServer().getWorld(
+                DimensionType.OVERWORLD).getGameTime() - this.setTargetTime > 50) this.target = null;
         return this.target;
     }
 
