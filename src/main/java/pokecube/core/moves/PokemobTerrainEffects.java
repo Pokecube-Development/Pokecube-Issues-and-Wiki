@@ -334,7 +334,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
      *            how long this effect lasts, this counter is decreased every
      *            time a pokemob uses a move.
      */
-    public void setEffect(final int effect, final long duration)
+    public void setEffect(final int effect, final long duration, final IPokemob user)
     {
         this.users[effect] = user;
         if (effect == PokemobTerrainEffects.EFFECT_WEATHER_HAIL)

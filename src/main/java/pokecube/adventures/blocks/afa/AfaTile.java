@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.ResourceLocation;
@@ -343,11 +344,11 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     }
 
     @Override
-    public boolean onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
+    public ActionResultType onInteract(final BlockPos pos, final PlayerEntity player, final Hand hand,
             final BlockRayTraceResult hit)
     {
         if (player instanceof ServerPlayerEntity) PacketAFA.openGui((ServerPlayerEntity) player, this);
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override

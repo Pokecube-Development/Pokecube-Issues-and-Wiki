@@ -144,7 +144,7 @@ public class AfaContainer extends BaseContainer
             this.tile = new AfaTile();
             this.ownable = (IOwnableTE) this.tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
             this.inv = this.tile.inventory;
-            this.tile.setWorld(PokecubeCore.proxy.getWorld());
+            this.tile.setWorldAndPos(PokecubeCore.proxy.getWorld(), invIn.player.getPosition());
         }
 
         final int di = 12;

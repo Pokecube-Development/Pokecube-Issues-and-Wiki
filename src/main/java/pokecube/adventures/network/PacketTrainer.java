@@ -171,7 +171,7 @@ public class PacketTrainer extends NBTPacket
             final JsonObject thing = new JsonObject();
             thing.addProperty("level", level);
             thing.addProperty("trainerType", type);
-            if (this.data.getBoolean("S"))
+            if (this.getTag().getBoolean("S"))
             {
                 final GuardInfo info = new GuardInfo();
                 info.time = "day";

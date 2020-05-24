@@ -152,7 +152,8 @@ public class SpawnBiomeMatcher
         {
             if (!matcher._validStructures.isEmpty())
             {
-                final Set<StructureInfo> set = StructureManager.getFor(checker.location.getPos());
+                final Set<StructureInfo> set = StructureManager.getFor(checker.world.getDimension().getType(),
+                        checker.location.getPos());
                 for (final StructureInfo i : set)
                     if (matcher._validStructures.contains(i.name)) return MatchResult.SUCCEED;
                 return MatchResult.FAIL;
