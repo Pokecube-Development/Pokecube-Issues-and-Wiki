@@ -636,7 +636,10 @@ public class CapabilityHasPokemobs
         public void onSetTarget(final LivingEntity target, final boolean ignoreCanBattle)
         {
             final LivingEntity old = this.getTarget();
+            // No calling this if we already have that target.
             if (old == target) return;
+            // No calling this if we are the target.
+            if (target == this.getTrainer()) return;
 
             if (!ignoreCanBattle && target != null && !this.canBattle(target, true).test()) return;
 
@@ -660,7 +663,6 @@ public class CapabilityHasPokemobs
             }
 
             final IHasPokemobs other = TrainerCaps.getHasPokemobs(target);
-            System.out.println(other + " " + this.getTrainer().getDisplayName().getFormattedText());
             if (other != null) other.onSetTarget(this.getTrainer(), true);
 
             if (target != null && this.getAttackCooldown() <= 0)
