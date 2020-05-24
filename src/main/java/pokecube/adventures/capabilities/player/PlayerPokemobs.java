@@ -122,7 +122,6 @@ public class PlayerPokemobs extends DefaultPokemobs
     @Override
     public void onSetTarget(final LivingEntity target)
     {
-        System.out.println(target);
         if (target == this.target) return;
         final Set<ITargetWatcher> watchers = this.getTargetWatchers();
         this.target = target;
