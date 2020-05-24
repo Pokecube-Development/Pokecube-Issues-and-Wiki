@@ -1599,10 +1599,7 @@
       "name": "Tyranitar Mega"
     },
     {
-      "name": "Lugia",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Lugia"
     },
     {
       "name": "Ho-Oh"
@@ -2360,10 +2357,7 @@
       "name": "Groudon Primal"
     },
     {
-      "name": "Rayquaza",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Rayquaza"
     },
     {
       "name": "Rayquaza Mega"
@@ -2969,10 +2963,7 @@
       "name": "Arceus Water"
     },
     {
-      "name": "Victini",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Victini"
     },
     {
       "name": "Snivy",
@@ -3749,52 +3740,28 @@
       }
     },
     {
-      "name": "Tornadus Incarnate",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Tornadus Incarnate"
     },
     {
-      "name": "Tornadus Therian",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Tornadus Therian"
     },
     {
-      "name": "Thundurus Incarnate",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Thundurus Incarnate"
     },
     {
-      "name": "Thundurus Therian",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Thundurus Therian"
     },
     {
-      "name": "Reshiram",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Reshiram"
     },
     {
-      "name": "Zekrom",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Zekrom"
     },
     {
-      "name": "Landorus Incarnate",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Landorus Incarnate"
     },
     {
-      "name": "Landorus Therian",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Landorus Therian"
     },
     {
       "name": "Kyurem",
@@ -4238,16 +4205,10 @@
       }
     },
     {
-      "name": "Xerneas",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Xerneas"
     },
     {
-      "name": "Yveltal",
-      "stats": {
-        "lootTable": "pokecube:entities/generic_legend"
-      }
+      "name": "Yveltal"
     },
     {
       "name": "Zygarde 50%",
