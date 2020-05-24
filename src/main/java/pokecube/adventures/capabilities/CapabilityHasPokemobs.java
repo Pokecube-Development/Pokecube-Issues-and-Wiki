@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -686,6 +687,7 @@ public class CapabilityHasPokemobs
             {
                 BrainUtils.deagro(this.getTrainer());
                 this.resetPokemob();
+                this.getTrainer().getBrain().switchTo(Activity.IDLE);
             }
             else if (this.getTrainer() instanceof MobEntity)
             {

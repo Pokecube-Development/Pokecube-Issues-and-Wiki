@@ -5,6 +5,8 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -29,12 +31,22 @@ public class ManagePokemobTarget extends BaseBattleTask
         // Try to send our mob after the target's nearest mob instead.
         if (target == null)
         {
+            newTarget = this.target;
             final List<Entity> alternates = PokemobTracker.getMobs(this.target, e -> e.getDistanceSq(this.entity) < 64
                     && CapabilityPokemob.getPokemobFor(e) != null);
             if (!alternates.isEmpty()) newTarget = (LivingEntity) alternates.get(0);
         }
+
         // check if pokemob's target is same as trainers.
         if (mobTarget != newTarget && newTarget != null) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
+
+        final IHasPokemobs other = TrainerCaps.getHasPokemobs(this.target);
+        if (other != null && other.getTarget() != this.entity)
+        {
+            this.target.setLastAttackedEntity(owner);
+            owner.setLastAttackedEntity(this.entity);
+            other.onSetTarget(this.entity);
+        }
     }
 
     @Override

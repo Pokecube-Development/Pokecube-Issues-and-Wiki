@@ -30,7 +30,7 @@ public class DeAgro extends BaseBattleTask
     @Override
     protected void updateTask(final ServerWorld worldIn, final LivingEntity owner, final long gameTime)
     {
-        boolean deagro = false;
+        boolean deagro = !this.target.isAlive() || this.target.getHealth() <= 0;
 
         boolean won = false;
 
@@ -92,11 +92,7 @@ public class DeAgro extends BaseBattleTask
                         }
                     if (found) this.deagroTimer = 20;
                 }
-                if (this.deagroTimer-- < 0)
-                {
-                    System.out.println("Timeout");
-                    deagro = true;
-                }
+                if (this.deagroTimer-- < 0) deagro = true;
             }
         }
 
@@ -107,7 +103,6 @@ public class DeAgro extends BaseBattleTask
                 this.trainer.onWin(this.target);
                 if (other.getTarget() == this.entity) other.onLose(this.entity);
             }
-            System.out.println("Deagroing");
             this.trainer.deAgro(this.trainer, TrainerCaps.getHasPokemobs(this.target));
         }
     }

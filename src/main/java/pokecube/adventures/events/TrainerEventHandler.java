@@ -10,6 +10,8 @@ import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -54,6 +56,8 @@ import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
@@ -336,9 +340,11 @@ public class TrainerEventHandler
         if (pokemobHolder != null)
         {
             final LivingEntity npc = event.getEntityLiving();
+            final Brain<?> brain = npc.getBrain();
+            if (!BrainUtils.hasAttackTarget(npc) && brain.hasActivity(Activities.BATTLE)) brain.switchTo(Activity.IDLE);
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
-            if (npc instanceof MobEntity && !npc.getBrain().sensors.containsKey(Tasks.DUMMY) && npc
+            if (npc instanceof MobEntity && !brain.sensors.containsKey(Tasks.DUMMY) && npc
                     .getEntityWorld() instanceof ServerWorld)
             {
                 TypeTrainer.addAI((MobEntity) npc);
