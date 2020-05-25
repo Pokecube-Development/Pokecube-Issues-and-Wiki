@@ -28,7 +28,9 @@ public class GuardTask<T extends LivingEntity> extends Task<LivingEntity>
     @Override
     protected boolean shouldExecute(final ServerWorld worldIn, final LivingEntity owner)
     {
-        return this.goal.shouldExecute();
+        final boolean valid = this.goal.shouldExecute();
+        if (!valid && owner.getBrain().hasActivity(Activities.STATIONARY)) owner.getBrain().switchTo(Activity.IDLE);
+        return valid;
     }
 
     @Override

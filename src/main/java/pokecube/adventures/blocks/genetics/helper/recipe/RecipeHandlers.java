@@ -23,8 +23,8 @@ import net.minecraft.world.World;
 import pokecube.adventures.blocks.genetics.cloner.ClonerTile;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper.DNAPack;
-import pokecube.adventures.blocks.genetics.helper.recipe.RecipeFossilRevive.AnyMatcher;
-import pokecube.adventures.blocks.genetics.helper.recipe.RecipeFossilRevive.ReviveMatcher;
+import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone.AnyMatcher;
+import pokecube.adventures.blocks.genetics.helper.recipe.RecipeClone.ReviveMatcher;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.SelectorValue;
 import pokecube.adventures.events.CloneEvent;
 import pokecube.core.PokecubeCore;
@@ -68,7 +68,7 @@ public class RecipeHandlers
             boolean                tame     = false;
             int                    level    = AnyMatcher.level;
             int                    priority = 100;
-            int                    energy   = RecipeFossilRevive.ENERGYCOST;
+            int                    energy   = RecipeClone.ENERGYCOST;
 
             public RecipeMatcher(final PokedexEntry entry)
             {
@@ -80,7 +80,7 @@ public class RecipeHandlers
             {
                 final World world = ((TileEntity) tile).getWorld();
                 final BlockPos pos = ((TileEntity) tile).getPos();
-                final PokedexEntry entry = RecipeFossilRevive.getEntry(this, tile);
+                final PokedexEntry entry = RecipeClone.getEntry(this, tile);
                 if (entry == Database.missingno) return false;
                 final boolean tame = !entry.isLegendary() && this.tame;
                 MobEntity entity = PokecubeCore.createPokemob(entry, world);
@@ -218,8 +218,8 @@ public class RecipeHandlers
                 for (final String s : remain)
                     matcher.remains.add(Integer.parseInt(s));
             }
-            RecipeFossilRevive.MATCHERS.add(matcher);
-            RecipeFossilRevive.MATCHERS.sort((o1, o2) -> o1.priority() - o2.priority());
+            RecipeClone.MATCHERS.add(matcher);
+            RecipeClone.MATCHERS.sort((o1, o2) -> o1.priority() - o2.priority());
         }
     }
 

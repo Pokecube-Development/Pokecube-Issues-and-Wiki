@@ -15,6 +15,7 @@ import pokecube.core.events.pokemob.CaptureEvent;
 import pokecube.core.events.pokemob.CaptureEvent.Post;
 import pokecube.core.events.pokemob.CaptureEvent.Pre;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import thut.api.maths.Vector3;
 
 public interface IPokecube
@@ -27,12 +28,12 @@ public interface IPokecube
     {
 
         @Override
-        public void onPostCapture(Post evt)
+        public void onPostCapture(final Post evt)
         {
         }
 
         @Override
-        public void onPreCapture(Pre evt)
+        public void onPreCapture(final Pre evt)
         {
         }
     }
@@ -41,13 +42,13 @@ public interface IPokecube
     {
         final double rate;
 
-        public NormalPokecubeBehavoir(double rate)
+        public NormalPokecubeBehavoir(final double rate)
         {
             this.rate = rate;
         }
 
         @Override
-        public double getCaptureModifier(IPokemob mob)
+        public double getCaptureModifier(final IPokemob mob)
         {
             return this.rate;
         }
@@ -66,7 +67,7 @@ public interface IPokecube
          * @param cubeId
          * @param behavior
          */
-        public static void addCubeBehavior(PokecubeBehavior behavior)
+        public static void addCubeBehavior(final PokecubeBehavior behavior)
         {
             IPokecube.BEHAVIORS.register(behavior);
         }
@@ -78,7 +79,7 @@ public interface IPokecube
          * @param mob
          * @return
          */
-        public int getAdditionalBonus(IPokemob mob)
+        public int getAdditionalBonus(final IPokemob mob)
         {
             return 0;
         }
@@ -109,7 +110,7 @@ public interface IPokecube
          *
          * @param mob
          */
-        public void onUpdate(IPokemob mob)
+        public void onUpdate(final IPokemob mob)
         {
 
         }
@@ -119,7 +120,7 @@ public interface IPokecube
             Short.MAX_VALUE).setType(PokecubeBehavior.class).setName(new ResourceLocation(PokecubeMod.ID, "pokecubes"))
             .create();
 
-    default boolean canCapture(MobEntity hit, ItemStack cube)
+    default boolean canCapture(final MobEntity hit, final ItemStack cube)
     {
         return CapabilityPokemob.getPokemobFor(hit) != null;
     }
@@ -134,7 +135,7 @@ public interface IPokecube
      */
     double getCaptureModifier(IPokemob mob, ResourceLocation pokecubeId);
 
-    default double getCaptureModifier(LivingEntity mob, ResourceLocation pokecubeId)
+    default double getCaptureModifier(final LivingEntity mob, final ResourceLocation pokecubeId)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         return pokemob != null ? this.getCaptureModifier(pokemob, pokecubeId) : 0;
@@ -150,7 +151,7 @@ public interface IPokecube
      * @param power
      * @return
      */
-    boolean throwPokecube(World world, LivingEntity thrower, ItemStack cube, Vector3 direction, float power);
+    EntityPokecubeBase throwPokecube(World world, LivingEntity thrower, ItemStack cube, Vector3 direction, float power);
 
     /**
      * Used to throw the pokecube at a specific target
@@ -162,7 +163,7 @@ public interface IPokecube
      * @param target
      * @return
      */
-    boolean throwPokecubeAt(World world, LivingEntity thrower, ItemStack cube, @Nullable Vector3 targetLocation,
-            @Nullable Entity target);
+    EntityPokecubeBase throwPokecubeAt(World world, LivingEntity thrower, ItemStack cube,
+            @Nullable Vector3 targetLocation, @Nullable Entity target);
 
 }

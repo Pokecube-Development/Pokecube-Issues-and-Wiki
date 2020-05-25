@@ -16,9 +16,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import thut.core.xml.bind.annotation.XmlAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
@@ -67,6 +64,9 @@ import pokecube.core.interfaces.PokecubeMod;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.PokeType;
 import thut.core.common.ThutCore;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class Database
 {
@@ -666,16 +666,22 @@ public class Database
             {
                 final ResourceLocation sound = new ResourceLocation(entry.soundEffectSource);
                 final SoundEvent event = new SoundEvent(sound);
-                event.setRegistryName(sound);
-                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
+                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
+                {
+                    event.setRegistryName(sound);
+                    registry.register(event);
+                }
             }
             // Register sound on target
             if (entry.soundEffectTarget != null)
             {
                 final ResourceLocation sound = new ResourceLocation(entry.soundEffectTarget);
                 final SoundEvent event = new SoundEvent(sound);
-                event.setRegistryName(sound);
-                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
+                if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
+                {
+                    event.setRegistryName(sound);
+                    registry.register(event);
+                }
             }
             // Register sounds for the animations
             if (entry.animations != null) for (final AnimationJson anim : entry.animations)
@@ -683,9 +689,11 @@ public class Database
                 {
                     final ResourceLocation sound = new ResourceLocation(anim.sound);
                     final SoundEvent event = new SoundEvent(sound);
-                    event.setRegistryName(sound);
-                    if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(
-                            event);
+                    if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
+                    {
+                        event.setRegistryName(sound);
+                        registry.register(event);
+                    }
                 }
         }
 
@@ -694,8 +702,11 @@ public class Database
         {
             final ResourceLocation sound = new ResourceLocation(var);
             final SoundEvent event = new SoundEvent(sound);
-            event.setRegistryName(sound);
-            if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft")) registry.register(event);
+            if (!registry.containsKey(sound) && !sound.getNamespace().equals("minecraft"))
+            {
+                event.setRegistryName(sound);
+                registry.register(event);
+            }
         }
     }
 

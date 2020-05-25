@@ -4,16 +4,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import thut.core.xml.bind.annotation.XmlAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
-
 import com.google.common.collect.Lists;
 
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.client.render.x3d.ModelFormatException;
 import thut.core.xml.bind.Factory;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class McaXML
 {

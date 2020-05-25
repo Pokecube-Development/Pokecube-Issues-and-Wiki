@@ -29,15 +29,19 @@ public class Config extends ConfigData
     private static final String BAG     = "bag";
 
     @Configure(category = Config.TRAINER)
-    public boolean npcsAreTrainers         = true;
+    public boolean npcsAreTrainers = true;
+
     @Configure(category = Config.TRAINER)
-    public int     trainerCooldown         = 5000;
+    public int trainerCooldown     = 5000;
     @Configure(category = Config.TRAINER)
-    public int     trainerSightRange       = 8;
+    public int trainerSightRange   = 8;
     @Configure(category = Config.TRAINER)
-    public int     trainerBattleDelay      = 50;
+    public int trainerBattleDelay  = 50;
     @Configure(category = Config.TRAINER)
-    public int     trainerSendOutDelay     = 50;
+    public int trainerSendOutDelay = 50;
+    @Configure(category = Config.TRAINER)
+    public int trainerAgroRate     = 20;
+
     @Configure(category = Config.TRAINER)
     public boolean trainerslevel           = true;
     @Configure(category = Config.TRAINER)
@@ -128,6 +132,8 @@ public class Config extends ConfigData
     public String afaCostFunctionShiny = "(d^3)/10";
     @Configure(category = Config.MACHINE)
     public int    afaMaxEnergy         = 3200;
+    @Configure(category = Config.MACHINE)
+    public int    afaTickRate          = 5;
 
     @Configure(category = Config.BAG, type = Type.SERVER)
     public boolean bagsHoldEverything  = false;
@@ -154,6 +160,8 @@ public class Config extends ConfigData
         DaycareTile.initParser(this.dayCarePowerPerExp, this.dayCareExpFunction);
         AfaTile.initParser(this.afaCostFunction, this.afaCostFunctionShiny);
         this.dayCareTickRate = Math.max(1, this.dayCareTickRate);
+        this.afaTickRate = Math.max(1, this.afaTickRate);
+        this.trainerAgroRate = Math.max(1, this.trainerAgroRate);
 
         if (this.autoAddFossilDNA) for (final Entry<String, ItemFossil> fossil : ItemGenerator.fossils.entrySet())
         {

@@ -110,10 +110,10 @@ public class RecipeSplice extends PoweredRecipe
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack item = inv.getStackInSlot(i);
+            final ItemStack item = inv.getStackInSlot(i).copy();
             if (i == 0 && keepDNA) nonnulllist.set(i, item);
+            else if (i == 0 && item.getItem() == Items.POTION) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
             if (i == 1 && keepSelector) nonnulllist.set(i, item);
-            if (i == 0 && item.getItem() == Items.POTION) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
             if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         tile.override_selector = ItemStack.EMPTY;

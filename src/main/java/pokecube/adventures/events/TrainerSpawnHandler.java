@@ -26,6 +26,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraft.world.server.ServerWorld;
@@ -279,7 +280,7 @@ public class TrainerSpawnHandler
                 PokecubeCore.LOGGER.error("Error parsing " + function, e);
             }
             // We apply it regardless, as this initializes defaults.
-            TrainerSpawnHandler.applyFunction(mob, thing, leader);
+            TrainerSpawnHandler.applyFunction(event.world, mob, thing, leader);
             PokecubeCore.LOGGER.debug("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS.post(new NpcSpawn(mob, event.pos, event.world, SpawnReason.STRUCTURE)))
             {
@@ -289,14 +290,14 @@ public class TrainerSpawnHandler
         }
     }
 
-    private static void applyFunction(final TrainerNpc npc, final JsonObject thing, final boolean leader)
+    private static void applyFunction(final IWorld world, final TrainerNpc npc, final JsonObject thing,
+            final boolean leader)
     {
         // Apply and settings common to pokecube core.
         SpawnEventsHandler.applyFunction(npc, thing);
 
         // Then apply trainer specific stuff.
-        int level = SpawnHandler.getSpawnLevel(npc.getEntityWorld(), Vector3.getNewVector().set(npc),
-                Database.missingno);
+        int level = SpawnHandler.getSpawnLevel(world, Vector3.getNewVector().set(npc), Database.missingno);
         if (thing.has("customTrades")) npc.customTrades = thing.get("customTrades").getAsString();
         if (thing.has("level")) level = thing.get("level").getAsInt();
         if (thing.has("trainerType"))

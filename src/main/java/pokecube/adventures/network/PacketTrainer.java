@@ -176,10 +176,13 @@ public class PacketTrainer extends Packet
             final JsonObject thing = new JsonObject();
             thing.addProperty("level", level);
             thing.addProperty("trainerType", type);
-            final GuardInfo info = new GuardInfo();
-            info.time = "day";
-            info.roam = 2;
-            thing.add("guard", PokedexEntryLoader.gson.toJsonTree(info));
+            if (this.data.getBoolean("S"))
+            {
+                final GuardInfo info = new GuardInfo();
+                info.time = "day";
+                info.roam = 2;
+                thing.add("guard", PokedexEntryLoader.gson.toJsonTree(info));
+            }
             final String var = PokedexEntryLoader.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getEntityWorld(), player

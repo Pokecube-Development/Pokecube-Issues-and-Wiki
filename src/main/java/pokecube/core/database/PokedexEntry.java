@@ -45,7 +45,7 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.tasks.combat.AIFindTarget;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.database.PokedexEntryLoader.Action;
 import pokecube.core.database.PokedexEntryLoader.DefaultFormeHolder;
 import pokecube.core.database.PokedexEntryLoader.Drop;
@@ -122,10 +122,10 @@ public class PokedexEntry
             this.evolution = evol;
         }
 
-        public Entity getEvolution(final World world)
+        public Entity getEvolution(final IWorld world)
         {
             if (this.evolution == null) return null;
-            final Entity ret = PokecubeCore.createPokemob(this.evolution, world);
+            final Entity ret = PokecubeCore.createPokemob(this.evolution, world.getWorld());
             return ret;
         }
 
@@ -526,7 +526,7 @@ public class PokedexEntry
             if (consumeInput) held.shrink(1);
             if (held.isEmpty()) player.inventory.setInventorySlotContents(player.inventory.currentItem, result);
             else if (!player.inventory.addItemStackToInventory(result)) player.dropItem(result, false);
-            if (player != pokemob.getOwner()) AIFindTarget.initiateCombat(entity, player);
+            if (player != pokemob.getOwner()) BrainUtils.initiateCombat(entity, player);
             return true;
         }
 
@@ -1781,7 +1781,7 @@ public class PokedexEntry
      * returns whether the interaction logic has a response listed for the
      * given key.
      *
-     * @param pokemob
+     * @param cube
      * @param doInteract
      *            - if false, will not actually do anything.
      * @return

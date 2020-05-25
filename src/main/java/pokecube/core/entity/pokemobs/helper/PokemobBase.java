@@ -20,7 +20,6 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
         IMobColourable
 {
     public final DefaultPokemob pokemobCap;
-    protected EntitySize        size;
 
     public PokemobBase(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {

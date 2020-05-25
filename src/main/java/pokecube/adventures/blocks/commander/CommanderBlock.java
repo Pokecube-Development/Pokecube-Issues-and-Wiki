@@ -45,7 +45,7 @@ public class CommanderBlock extends InteractableHorizontalBlock
         }
         catch (final Exception e)
         {
-            PokecubeMod.LOGGER.warn("Invalid Commander Block use at " + pos, e);
+            PokecubeMod.LOGGER.warn("Invalid Commander Block use at " + pos + " " + e.getMessage());
         }
         commander.power = power;
     }

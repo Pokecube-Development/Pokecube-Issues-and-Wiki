@@ -29,7 +29,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -97,6 +96,7 @@ import pokecube.core.network.packets.PacketPokecube;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.gen.jigsaw.JigsawPieces;
 import thut.api.boom.ExplosionCustom;
 import thut.api.entity.ShearableCaps;
@@ -421,30 +421,6 @@ public class EventsHandler
         }
     }
 
-    /**
-     * Gets all pokemobs owned by owner within the given distance.
-     *
-     * @param owner
-     * @param distance
-     * @return
-     */
-    public static List<IPokemob> getPokemobs(final LivingEntity owner, final double distance)
-    {
-        final List<IPokemob> ret = new ArrayList<>();
-
-        final AxisAlignedBB box = new AxisAlignedBB(owner.posX, owner.posY, owner.posZ, owner.posX, owner.posY,
-                owner.posZ).grow(distance, distance, distance);
-
-        final List<LivingEntity> pokemobs = owner.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, box);
-        for (final LivingEntity o : pokemobs)
-        {
-            final IPokemob mob = CapabilityPokemob.getPokemobFor(o);
-            if (mob != null) if (mob.getOwner() == owner) ret.add(mob);
-        }
-
-        return ret;
-    }
-
     @SubscribeEvent
     public static void denySpawns(final LivingSpawnEvent.CheckSpawn event)
     {
@@ -520,17 +496,16 @@ public class EventsHandler
     public static void recallAllPokemobs(final LivingEntity user)
     {
         if (!user.isServerWorld()) return;
-        final ServerWorld world = (ServerWorld) user.getEntityWorld();
-        final List<Entity> pokemobs = new ArrayList<>(world.getEntities(null, e -> EventsHandler.validRecall(user, e,
-                null, true)));
+        final List<Entity> pokemobs = PokemobTracker.getMobs(user, e -> EventsHandler.validRecall(user, e, null,
+                false));
         PCEventsHandler.recallAll(pokemobs, true);
     }
 
     public static void recallAllPokemobsExcluding(final ServerPlayerEntity player, final IPokemob excluded,
             final boolean includeStaying)
     {
-        final List<Entity> pokemobs = new ArrayList<>(player.getServerWorld().getEntities(null, e -> EventsHandler
-                .validRecall(player, e, excluded, includeStaying)));
+        final List<Entity> pokemobs = PokemobTracker.getMobs(player, e -> EventsHandler.validRecall(player, e, excluded,
+                includeStaying));
         PCEventsHandler.recallAll(pokemobs, true);
     }
 

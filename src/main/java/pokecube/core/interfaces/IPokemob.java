@@ -475,6 +475,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     default IPokemob spawnInit()
     {
+        this.resetLoveStatus();
         return this.spawnInit(null);
     }
 

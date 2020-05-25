@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
@@ -52,11 +53,15 @@ public class RecipeExtract extends PoweredRecipe
         tile.setInventorySlotContents(tile.getOutputSlot(), this.getCraftingResult(tile.getCraftMatrix()));
         for (int i = 0; i < remaining.size(); i++)
         {
+            final ItemStack old = tile.getStackInSlot(i);
             final ItemStack stack = remaining.get(i);
-            if (!stack.isEmpty()) tile.setInventorySlotContents(i, stack);
+            if (!stack.isEmpty())
+            {
+                if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
+                tile.setInventorySlotContents(i, stack);
+            }
             else
             {
-                final ItemStack old = tile.getStackInSlot(i);
                 if (PokecubeManager.isFilled(old)) PlayerPokemobCache.UpdateCache(old, false, true);
                 tile.decrStackSize(i, 1);
             }
@@ -140,9 +145,20 @@ public class RecipeExtract extends PoweredRecipe
 
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
-            final ItemStack item = inv.getStackInSlot(i);
-            if (i == 0 && keepDNA) nonnulllist.set(i, item);
+            final ItemStack item = inv.getStackInSlot(i).copy();
             if (i == 1 && keepSelector) nonnulllist.set(i, item);
+            if (i == 2)
+            {
+                final boolean potion = item.getItem() == Items.POTION;
+                final boolean multiple = item.getCount() > 1;
+                if (keepDNA) nonnulllist.set(i, item);
+                else if (potion) nonnulllist.set(i, new ItemStack(Items.GLASS_BOTTLE));
+                else if (!multiple)
+                {
+                    item.setTag(null);
+                    nonnulllist.set(i, item.copy());
+                }
+            }
             if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         tile.override_selector = ItemStack.EMPTY;

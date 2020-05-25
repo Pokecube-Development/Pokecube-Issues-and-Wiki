@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.utility.AIStoreStuff;
+import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.entity.pokemobs.ContainerPokemob;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -88,10 +88,10 @@ public class PacketPokemobGui extends Packet
             });
             return;
         case STORAGE:
-            AIStoreStuff ai = null;
+            StoreTask ai = null;
             for (final IAIRunnable run : pokemob.getTasks())
-                if (run instanceof AIStoreStuff) ai = (AIStoreStuff) run;
-            final AIStoreStuff toSend = ai;
+                if (run instanceof StoreTask) ai = (StoreTask) run;
+            final StoreTask toSend = ai;
             buffer.writeCompoundTag(toSend.serializeNBT());
             provider = new SimpleNamedContainerProvider((i, p, e) -> new ContainerPokemob(i, p, buffer), entity
                     .getDisplayName());

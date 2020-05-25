@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Pokedex;
 import pokecube.core.database.PokedexEntry;
 import pokecube.core.database.stats.ISpecialCaptureCondition;
@@ -63,6 +64,7 @@ public class LegendaryConditions
         // Register the thng that prevents genetic modification of protected
         // mobs
         MinecraftForge.EVENT_BUS.register(new GeneProtector());
+        PokecubeCore.POKEMOB_BUS.register(new GeneProtector());
         MinecraftForge.EVENT_BUS.register(LegendarySpawn.class);
 
         List<Class<?>> foundClasses;

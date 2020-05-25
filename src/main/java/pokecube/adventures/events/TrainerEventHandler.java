@@ -10,6 +10,8 @@ import net.minecraft.entity.INPC;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -31,8 +33,11 @@ import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import pokecube.adventures.Config;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.ai.brain.MemoryTypes;
+import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
+import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs.AllowedBattle;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityHasRewards.Reward;
 import pokecube.adventures.capabilities.CapabilityHasTrades.DefaultTrades;
@@ -52,6 +57,7 @@ import pokecube.adventures.items.TrainerEditor;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.adventures.utils.DBLoader;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntryLoader;
@@ -292,7 +298,7 @@ public class TrainerEventHandler
                         .getDisplayName(), evt.getSource().getTrueSource().getDisplayName());
                 messages.doAction(MessageState.HURT, (LivingEntity) evt.getSource().getTrueSource(), evt.getEntity());
             }
-            if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.setTarget((LivingEntity) evt
+            if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.onSetTarget((LivingEntity) evt
                     .getSource().getTrueSource());
         }
     }
@@ -307,9 +313,6 @@ public class TrainerEventHandler
     public static void livingSetTargetEvent(final LivingSetAttackTargetEvent evt)
     {
         if (evt.getTarget() == null || !(evt.getEntity() instanceof LivingEntity)) return;
-        final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(evt.getTarget());
-        if (pokemobHolder != null && pokemobHolder.getTarget() == null) pokemobHolder.setTarget((LivingEntity) evt
-                .getEntity());
     }
 
     @SubscribeEvent
@@ -334,7 +337,22 @@ public class TrainerEventHandler
     public static void onNpcTick(final LivingUpdateEvent event)
     {
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(event.getEntityLiving());
-        if (pokemobHolder != null) pokemobHolder.onTick();
+        if (pokemobHolder != null)
+        {
+            final LivingEntity npc = event.getEntityLiving();
+            final Brain<?> brain = npc.getBrain();
+            if (!brain.hasMemory(MemoryTypes.BATTLETARGET) && brain.hasActivity(Activities.BATTLE)) brain.switchTo(
+                    Activity.IDLE);
+            // Add our task if the dummy not present, this can happen if the
+            // brain has reset before
+            if (npc instanceof MobEntity && !brain.sensors.containsKey(Tasks.DUMMY) && npc
+                    .getEntityWorld() instanceof ServerWorld)
+            {
+                TypeTrainer.addAI((MobEntity) npc);
+                PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
+            }
+            pokemobHolder.onTick();
+        }
     }
 
     private static void initTrainer(final LivingEntity npc, final SpawnReason reason)
@@ -350,10 +368,6 @@ public class TrainerEventHandler
         if (npc.getPersistentData().contains("pokeadv_join") && npc.getPersistentData().getLong("pokeadv_join") == npc
                 .getEntityWorld().getGameTime()) return;
         npc.getPersistentData().putLong("pokeadv_join", npc.getEntityWorld().getGameTime());
-
-        // Wrap it as a fake vanilla AI
-        if (npc instanceof MobEntity) TypeTrainer.addAI((MobEntity) npc);
-        PokecubeCore.LOGGER.debug("Added Tasks: " + npc);
 
         final TypeTrainer newType = TypeTrainer.get(npc, true);
         if (mobs.countPokemon() != 0) return;
@@ -394,8 +408,22 @@ public class TrainerEventHandler
         if (messages != null)
         {
             MessageState state = MessageState.INTERACT;
-            if (pokemobs != null) state = pokemobs.canBattle(evt.getPlayer(), true) ? MessageState.INTERACT_YESBATTLE
-                    : MessageState.INTERACT_NOBATTLE;
+            final AllowedBattle test = pokemobs.canBattle(evt.getPlayer(), true);
+            switch (test)
+            {
+            case NO:
+                state = MessageState.INTERACT;
+                break;
+            case NOTNOW:
+                state = MessageState.INTERACT_NOBATTLE;
+                break;
+            case YES:
+                state = MessageState.INTERACT_YESBATTLE;
+                break;
+            default:
+                break;
+
+            }
             messages.sendMessage(state, evt.getPlayer(), target.getDisplayName(), evt.getPlayer().getDisplayName());
             messages.doAction(state, evt.getPlayer(), target);
         }

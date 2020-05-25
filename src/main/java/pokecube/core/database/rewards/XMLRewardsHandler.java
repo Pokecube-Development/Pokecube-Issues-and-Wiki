@@ -7,10 +7,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import thut.core.xml.bind.annotation.XmlAnyAttribute;
-import thut.core.xml.bind.annotation.XmlAttribute;
-import thut.core.xml.bind.annotation.XmlElement;
-import thut.core.xml.bind.annotation.XmlRootElement;
 import javax.xml.namespace.QName;
 
 import org.jline.utils.InputStreamReader;
@@ -39,6 +35,10 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.PokedexInspector.IInspectReward;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.utils.Tools;
+import thut.core.xml.bind.annotation.XmlAnyAttribute;
+import thut.core.xml.bind.annotation.XmlAttribute;
+import thut.core.xml.bind.annotation.XmlElement;
+import thut.core.xml.bind.annotation.XmlRootElement;
 
 public class XMLRewardsHandler
 {
