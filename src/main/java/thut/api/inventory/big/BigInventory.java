@@ -235,6 +235,7 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
     @Override
     public void markDirty()
     {
+        if (this.isReal) this.manager.save(this.id);
     }
 
     @Override
