@@ -107,8 +107,11 @@ public class Tasks
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new RunAway(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
+        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+
+        task = new SwimTask(0.4F, 0.8F);
+        list.add(Pair.of(0, (Task<? super LivingEntity>) task));
 
         list.add(Tasks.lookAtMany());
         list.add(Tasks.lookAtPlayerOrVillager());
@@ -155,8 +158,11 @@ public class Tasks
         Task<?> task = new LookAtTask(45, 90);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new RunAway(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
+        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+
+        task = new SwimTask(0.4F, 0.8F);
+        list.add(Pair.of(0, (Task<? super LivingEntity>) task));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)
@@ -209,8 +215,11 @@ public class Tasks
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new RunAway(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
+        task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
+
+        task = new SwimTask(0.4F, 0.8F);
+        list.add(Pair.of(0, (Task<? super LivingEntity>) task));
 
         pokemob.getTasks().addAll(aiList);
         for (final IAIRunnable run : aiList)

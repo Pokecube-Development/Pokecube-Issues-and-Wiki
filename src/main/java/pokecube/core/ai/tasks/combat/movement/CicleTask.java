@@ -1,7 +1,6 @@
 package pokecube.core.ai.tasks.combat.movement;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
@@ -24,8 +23,8 @@ public class CicleTask extends CombatTask implements IAICombat
     public CicleTask(final IPokemob mob)
     {
         super(mob);
-        this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
         this.centre = null;
+        this.movementSpeed = 1.25f;
     }
 
     protected void calculateCentre()

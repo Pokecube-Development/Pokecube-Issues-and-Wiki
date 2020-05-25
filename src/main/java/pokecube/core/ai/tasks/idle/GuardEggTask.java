@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -50,8 +49,7 @@ public class GuardEggTask extends BaseIdleTask
         if (this.eggPathCooldown-- > 0) return;
         this.eggPathCooldown = GuardEggTask.PATHCOOLDOWN;
         // Path to the egg.
-        final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-        this.setWalkTo(this.egg.getPositionVec(), speed, 0);
+        this.setWalkTo(this.egg.getPositionVec(), 1, 0);
     }
 
     @Override

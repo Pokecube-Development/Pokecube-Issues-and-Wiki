@@ -128,9 +128,12 @@ public class ThutTeleporter
     {
         if (entity instanceof ServerPlayerEntity)
         {
+            final ServerPlayerEntity player = (ServerPlayerEntity) entity;
+            player.invulnerableDimensionChange = true;
             ((ServerPlayerEntity) entity).connection.setPlayerLocation(dest.x, dest.y, dest.z, entity.rotationYaw,
                     entity.rotationPitch);
             ((ServerPlayerEntity) entity).connection.captureCurrentPosition();
+            player.invulnerableDimensionChange = false;
         }
         else entity.setLocationAndAngles(dest.x, dest.y, dest.z, entity.rotationYaw, entity.rotationPitch);
     }

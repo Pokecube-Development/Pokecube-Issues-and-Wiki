@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.utility;
 
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
@@ -171,7 +170,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         if (this.pokemob.getEntity().getPosition().distanceSq(this.berryLoc) > 9)
         {
             this.pathing = true;
-            final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            final double speed = 1;
             this.setWalkTo(this.berryLoc, speed, 0);
             // We should be pathing to berries, so return true to stop other
             // storage tasks.
@@ -221,7 +220,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         if (this.pokemob.getEntity().getPosition().distanceSq(this.emptyInventory) > 9)
         {
             this.pathing = true;
-            final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            final double speed = 1;
             this.setWalkTo(this.emptyInventory, speed, 0);
             // We should be pathing, so return true.
             // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
@@ -263,7 +262,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
         if (this.pokemob.getEntity().getPosition().distanceSq(this.storageLoc) > 9)
         {
             this.pathing = true;
-            final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+            final double speed = 1;
             this.setWalkTo(this.storageLoc, speed, 0);
             // We should be pathing to storage here, so return true.
             // PokecubeCore.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()

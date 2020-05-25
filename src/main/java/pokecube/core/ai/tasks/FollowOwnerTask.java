@@ -1,10 +1,14 @@
 package pokecube.core.ai.tasks;
 
 import java.util.Map;
+import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -25,6 +29,12 @@ import thut.api.maths.Vector3;
  */
 public class FollowOwnerTask extends TaskBase
 {
+    private static final UUID              FOLLOW_SPEED_BOOST_ID = UUID.fromString(
+            "662A6B8D-DA3E-4C1C-1234-96EA6097278D");
+    private static final AttributeModifier FOLLOW_SPEED_BOOST    = new AttributeModifier(
+            FollowOwnerTask.FOLLOW_SPEED_BOOST_ID, "following speed boost", 0.5F,
+            AttributeModifier.Operation.MULTIPLY_TOTAL).setSaved(false);
+
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
@@ -55,7 +65,7 @@ public class FollowOwnerTask extends TaskBase
         super(entity, FollowOwnerTask.mems);
         this.minDist = min;
         this.maxDist = max;
-        this.speed = entity.getMovementSpeed();
+        this.speed = 1;
         if (this.pokemob.getOwner() != null) this.ownerPos.set(this.pokemob.getOwner());
     }
 
@@ -63,6 +73,12 @@ public class FollowOwnerTask extends TaskBase
     public void reset()
     {
         this.ownerPos.set(this.theOwner);
+        this.entity.setSprinting(false);
+
+        final IAttributeInstance iattributeinstance = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null) iattributeinstance
+                .removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+
         this.theOwner = null;
         this.pathing = false;
     }
@@ -95,6 +111,15 @@ public class FollowOwnerTask extends TaskBase
         WalkTarget target = hasTarget ? this.entity.getBrain().getMemory(MemoryModuleType.WALK_TARGET).get() : null;
         if (target == null || target.getTarget().getPos().squareDistanceTo(this.theOwner.getPositionVec()) > 1)
             target = new WalkTarget(new EntityPosWrapper(this.theOwner), (float) this.speed, 1);
+
+        final boolean isSprinting = this.entity.isSprinting();
+        final double ds2 = target.getTarget().getPos().squareDistanceTo(this.entity.getPositionVec());
+        final boolean shouldSprint = isSprinting ? ds2 > 4 : ds2 > 9;
+        if (shouldSprint && !isSprinting) this.entity.setSprinting(shouldSprint);
+        final IAttributeInstance iattributeinstance = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null) iattributeinstance
+                .removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        if (this.entity.isSprinting()) iattributeinstance.applyModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
         this.setWalkTo(target);
     }
 

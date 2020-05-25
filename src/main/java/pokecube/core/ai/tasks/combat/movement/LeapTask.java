@@ -6,7 +6,6 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.util.SoundCategory;
@@ -39,7 +38,6 @@ public class LeapTask extends TaskBase implements IAICombat
     int leapTick = -1;
 
     double leapSpeed = 1;
-    double movementSpeed;
 
     IPosWrapper pos = null;
 
@@ -49,7 +47,6 @@ public class LeapTask extends TaskBase implements IAICombat
     public LeapTask(final IPokemob mob)
     {
         super(mob, LeapTask.MEMS);
-        this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
     }
 
     /**

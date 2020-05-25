@@ -6,7 +6,6 @@ import java.util.Random;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -74,8 +73,6 @@ public class IdleWalkTask extends BaseIdleTask
     private double y;
     private double z;
 
-    private final double speed;
-
     Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
 
@@ -83,7 +80,6 @@ public class IdleWalkTask extends BaseIdleTask
     {
         super(pokemob, IdleWalkTask.mems);
         this.entry = pokemob.getPokedexEntry();
-        this.speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
     }
 
     /** Floating things try to stay their preferedHeight from the ground. */
@@ -208,7 +204,7 @@ public class IdleWalkTask extends BaseIdleTask
         this.v1.set(this.entity);
         this.v.set(this.x, this.y, this.z);
         if (this.v1.distToSq(this.v) <= 1) return;
-        this.setWalkTo(this.v, this.speed, 0);
+        this.setWalkTo(this.v, 1, 0);
     }
 
     @Override
