@@ -69,7 +69,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     {
         super(mob);
         this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
-        this.setMutex(3);
     }
 
     public boolean continueExecuting()

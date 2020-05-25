@@ -27,7 +27,7 @@ import thut.api.maths.Vector3;
  * move target, ie attacking blocks, so it doesn't need to actually have a
  * living target to apply.
  */
-public class LeapTask extends TaskBase<LivingEntity> implements IAICombat
+public class LeapTask extends TaskBase implements IAICombat
 {
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> MEMS = Maps.newHashMap();
 

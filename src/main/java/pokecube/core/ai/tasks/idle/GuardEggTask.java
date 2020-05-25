@@ -11,7 +11,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import thut.api.terrain.TerrainManager;
 
 /**
  * This IAIRunnable results in the mother of an egg always staying within 4
@@ -74,8 +73,6 @@ public class GuardEggTask extends BaseIdleTask
         // Only the female (or neutral) will guard the eggs.
         if (this.pokemob.getSexe() == IPokemob.MALE) return false;
         this.eggSearchCooldown = GuardEggTask.SEARCHCOOLDOWN;
-        if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
-                .getConfig().guardSearchDistance + 2)) return false;
 
         final List<LivingEntity> list = new ArrayList<>();
         final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();

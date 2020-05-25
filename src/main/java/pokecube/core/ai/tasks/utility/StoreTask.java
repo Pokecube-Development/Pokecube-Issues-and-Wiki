@@ -1,10 +1,6 @@
 package pokecube.core.ai.tasks.utility;
 
-import java.util.Map;
-
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
@@ -75,12 +71,6 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundNBT>
             // Initialize this.
             this.onInventoryChanged(entity.getInventory());
         }
-    }
-
-    @Override
-    public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
-    {
-        return super.getNeededMemories();
     }
 
     @Override

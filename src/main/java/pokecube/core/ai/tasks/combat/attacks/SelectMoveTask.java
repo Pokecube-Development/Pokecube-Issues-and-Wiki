@@ -26,7 +26,6 @@ public class SelectMoveTask extends CombatTask implements IAICombat
     public SelectMoveTask(final IPokemob mob)
     {
         super(mob);
-        this.setMutex(0);
     }
 
     @Override

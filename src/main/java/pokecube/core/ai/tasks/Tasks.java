@@ -13,16 +13,12 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.DummyTask;
-import net.minecraft.entity.ai.brain.task.FirstShuffledTask;
-import net.minecraft.entity.ai.brain.task.FleeTask;
-import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
-import net.minecraft.entity.ai.brain.task.LookTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
+import pokecube.core.ai.npc.ShuffledTask;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardAI.ShouldRun;
 import pokecube.core.ai.routes.GuardTask;
@@ -48,8 +44,6 @@ import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.utils.CapHolders;
 import thut.api.entity.ai.IAIRunnable;
-import thut.api.entity.ai.ITask;
-import thut.api.entity.ai.TaskWrapper;
 
 public class Tasks
 {
@@ -88,7 +82,7 @@ public class Tasks
 
         // Owner related tasks
         if (!pokemob.getPokedexEntry().isStationary) // Follow owner around
-            aiList.add(new AIFollowOwner(pokemob, 3 + entity.getWidth() + pokemob.getPokedexEntry().length, 8 + entity
+            aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getWidth() + pokemob.getPokedexEntry().length, 8 + entity
                     .getWidth() + pokemob.getPokedexEntry().length));
 
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
@@ -104,16 +98,16 @@ public class Tasks
             }
         };
 
-        final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
+        final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(entity, guardai));
         list.add(pair);
 
-        Task<?> task = new LookTask(45, 90);
+        Task<?> task = new LookAtTask(45, 90);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new FleeTask(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
+        task = new RunAway(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         list.add(Tasks.lookAtMany());
@@ -124,7 +118,6 @@ public class Tasks
         {
             Task<LivingEntity> toAdd = null;
             if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
-            else if (run instanceof ITask) toAdd = new TaskWrapper<>((ITask) run);
             if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
         }
         return ImmutableList.copyOf(list);
@@ -159,10 +152,10 @@ public class Tasks
 
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> list = Lists.newArrayList();
 
-        Task<?> task = new LookTask(45, 90);
+        Task<?> task = new LookAtTask(45, 90);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new FleeTask(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
+        task = new RunAway(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         pokemob.getTasks().addAll(aiList);
@@ -170,7 +163,6 @@ public class Tasks
         {
             Task<LivingEntity> toAdd = null;
             if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
-            else if (run instanceof ITask) toAdd = new TaskWrapper<>((ITask) run);
             if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
         }
         return ImmutableList.copyOf(list);
@@ -207,16 +199,17 @@ public class Tasks
                 return pokemob.getGeneralState(GeneralStates.STAYING);
             }
         };
-        final Pair<Integer, GuardTask<?>> pair = Pair.of(0, new GuardTask<>(guardai));
+        final Pair<Integer, ? extends Task<? super LivingEntity>> pair = Pair.of(0, new GuardTask<>(pokemob.getEntity(),
+                guardai));
         list.add(pair);
 
-        Task<?> task = new LookTask(45, 90);
+        Task<?> task = new LookAtTask(45, 90);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new FleeTask(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
+        task = new RunAway(MemoryModules.HUNTED_BY, (float) (pokemob.getMovementSpeed() * 1.5f));
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
         pokemob.getTasks().addAll(aiList);
@@ -224,7 +217,6 @@ public class Tasks
         {
             Task<LivingEntity> toAdd = null;
             if (run instanceof Task<?>) toAdd = (Task<LivingEntity>) run;
-            else if (run instanceof ITask) toAdd = new TaskWrapper<>((ITask) run);
             if (toAdd != null) list.add(Pair.of(run.getPriority(), toAdd));
         }
         return ImmutableList.copyOf(list);
@@ -233,25 +225,25 @@ public class Tasks
     //@formatter:off
     private static Pair<Integer, Task<LivingEntity>> lookAtMany()
     {
-        return Pair.of(5, new FirstShuffledTask<>(
+        return Pair.of(5, new ShuffledTask<>(
                 ImmutableList.of(
-                Pair.of(new LookAtEntityTask(EntityType.CAT, 8.0F),8),
-                Pair.of(new LookAtEntityTask(EntityType.VILLAGER, 8.0F), 2),
-                Pair.of(new LookAtEntityTask(EntityType.PLAYER, 8.0F), 2),
-                Pair.of(new LookAtEntityTask(EntityClassification.CREATURE, 8.0F),1),
-                Pair.of(new LookAtEntityTask(EntityClassification.WATER_CREATURE, 8.0F), 1),
-                Pair.of(new LookAtEntityTask(EntityClassification.MONSTER, 8.0F), 1),
-                Pair.of(new DummyTask(30, 60), 2)
+                Pair.of(new LookAtMob(EntityType.CAT, 8.0F),8),
+                Pair.of(new LookAtMob(EntityType.VILLAGER, 8.0F), 2),
+                Pair.of(new LookAtMob(EntityType.PLAYER, 8.0F), 2),
+                Pair.of(new LookAtMob(EntityClassification.CREATURE, 8.0F),1),
+                Pair.of(new LookAtMob(EntityClassification.WATER_CREATURE, 8.0F), 1),
+                Pair.of(new LookAtMob(EntityClassification.MONSTER, 8.0F), 1),
+                Pair.of(new BlankTask(30, 60), 2)
                 )));
     }
 
     private static Pair<Integer, Task<LivingEntity>> lookAtPlayerOrVillager()
     {
-        return Pair.of(3, new FirstShuffledTask<>(
+        return Pair.of(3, new ShuffledTask<>(
                 ImmutableList.of(
-                Pair.of(new LookAtEntityTask(EntityType.VILLAGER,8.0F), 2),
-                Pair.of(new LookAtEntityTask(EntityType.PLAYER, 8.0F), 2),
-                Pair.of(new DummyTask(30, 60),8)
+                Pair.of(new LookAtMob(EntityType.VILLAGER,8.0F), 2),
+                Pair.of(new LookAtMob(EntityType.PLAYER, 8.0F), 2),
+                Pair.of(new BlankTask(30, 60),8)
                 )));
     }
     //@formatter:on

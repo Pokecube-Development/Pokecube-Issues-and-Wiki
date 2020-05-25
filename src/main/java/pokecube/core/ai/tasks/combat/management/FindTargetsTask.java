@@ -35,7 +35,7 @@ import thut.api.entity.ai.IAICombat;
 import thut.api.maths.Vector3;
 
 /** This IAIRunnable is to find targets for the pokemob to try to kill. */
-public class FindTargetsTask extends TaskBase<MobEntity> implements IAICombat, ITargetFinder
+public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinder
 {
 
     public static boolean handleDamagedTargets = true;

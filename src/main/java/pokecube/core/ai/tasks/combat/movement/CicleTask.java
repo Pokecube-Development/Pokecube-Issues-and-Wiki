@@ -26,7 +26,6 @@ public class CicleTask extends CombatTask implements IAICombat
         super(mob);
         this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
         this.centre = null;
-        this.setMutex(0);
     }
 
     protected void calculateCentre()
