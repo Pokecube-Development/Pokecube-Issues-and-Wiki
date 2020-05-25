@@ -41,7 +41,6 @@ public class EnergyHandler
 {
     private static final ResourceLocation ENERGYCAP = new ResourceLocation("pokecube:energy");
 
-    public static int UPDATERATE = 1;
     public static JEP parser;
 
     public static class EnergyStore implements IEnergyStorage, ICapabilityProvider
@@ -149,12 +148,12 @@ public class EnergyHandler
         {
             l.clear();
             l = tile.mobs = tile.getWorld().getEntitiesWithinAABB(MobEntity.class, box);
-            tile.updateTime = tile.getWorld().getGameTime() + EnergyHandler.UPDATERATE;
+            tile.updateTime = tile.getWorld().getGameTime() + PokecubeAdv.config.siphonUpdateRate;
         }
         int ret = 0;
         power = Math.min(power, PokecubeAdv.config.maxOutput);
         for (final MobEntity living : l)
-            if (living != null && living.addedToChunk)
+            if (living != null && living.addedToChunk && living.isAlive())
             {
                 final IEnergyStorage producer = living.getCapability(CapabilityEnergy.ENERGY).orElse(null);
                 if (producer != null)

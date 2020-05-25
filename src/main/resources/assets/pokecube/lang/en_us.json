@@ -122,6 +122,8 @@
     "pokemob.stance.sit": "Sitting",
     "pokemob.stance.no_sit": "Not Sitting",
     
+    "pokemob.route.updated": "Updated the Guard Location",
+    
     "pokemob.bar.value": "Hunger: %s",
     
     "pokemob.gui.sit": "Sitting",

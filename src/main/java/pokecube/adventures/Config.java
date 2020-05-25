@@ -80,11 +80,16 @@ public class Config extends ConfigData
 
     // Energy Sihpon related options
     @Configure(category = Config.MACHINE)
-    public int    maxOutput        = 256;
+    public int maxOutput = 256;
+
+    // Energy Sihpon related options
     @Configure(category = Config.MACHINE)
-    public int    energyHungerCost = 5;
+    public int siphonUpdateRate = 100;
     @Configure(category = Config.MACHINE)
-    public String powerFunction    = "a*x/10";
+    public int energyHungerCost = 5;
+
+    @Configure(category = Config.MACHINE)
+    public String powerFunction = "a*x/10";
 
     // Cloning related options
     @Configure(type = Type.CLIENT, category = Config.MACHINE)

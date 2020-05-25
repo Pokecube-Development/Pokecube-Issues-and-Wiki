@@ -37,9 +37,10 @@ public class Tasks
         Tasks.DUMMY.setRegistryName(PokecubeAdv.MODID, "dummy_sensor");
     }
 
-    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES,
-            SensorType.NEAREST_PLAYERS, SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS,
-            Sensors.VISIBLE_ITEMS, Sensors.INTERESTING_MOBS);
+    public static final List<SensorType<?>> REMOVE = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES);
+
+    public static final List<SensorType<?>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_PLAYERS,
+            SensorType.INTERACTABLE_DOORS, SensorType.HURT_BY, Sensors.VISIBLE_BLOCKS, Sensors.INTERESTING_ENTITIES);
 
     public static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModules.ATTACKTARGET,
             MemoryTypes.BATTLETARGET);
@@ -54,6 +55,7 @@ public class Tasks
         for (final SensorType<?> type : Tasks.SENSOR_TYPES)
             if (!brain.sensors.containsKey(type)) senses.add(type);
 
+        BrainUtils.removeSensors(brain, Tasks.REMOVE);
         BrainUtils.addToBrain(brain, Tasks.MEMORY_TYPES, senses);
 
         final List<Pair<Integer, ? extends Task<? super LivingEntity>>> battle_list = Lists.newArrayList();

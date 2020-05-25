@@ -160,6 +160,12 @@ public class BrainUtils
         return pos.get();
     }
 
+    public static void removeSensors(final Brain<?> brain, final List<SensorType<?>> SENSOR_TYPES)
+    {
+        for (final SensorType<?> type : SENSOR_TYPES)
+            brain.sensors.remove(type);
+    }
+
     public static void addToBrain(final Brain<?> brain, final List<MemoryModuleType<?>> MEMORY_TYPES,
             final List<SensorType<?>> SENSOR_TYPES)
     {

@@ -115,8 +115,9 @@ public class AfaContainer extends BaseContainer
 
     }
 
-    IInventory     inv;
-    IOwnableTE     ownable;
+    IInventory inv;
+    IOwnableTE ownable;
+
     public AfaTile tile;
 
     public AfaContainer(final int id, final PlayerInventory invIn)
