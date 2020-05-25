@@ -58,6 +58,9 @@ public class BlockEventHandler
             this.tile.getDest().loc = pos;
             if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
                     "block.pokecube_adventures.warppad.link", pos.x, pos.y, pos.z, pos.w));
+            // Centre us properly.
+            pos.x += 0.5;
+            pos.z += 0.5;
             return true;
         }
 
