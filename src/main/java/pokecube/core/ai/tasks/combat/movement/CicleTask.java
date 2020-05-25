@@ -24,7 +24,7 @@ public class CicleTask extends CombatTask implements IAICombat
     {
         super(mob);
         this.centre = null;
-        this.movementSpeed = 1.25f;
+        this.movementSpeed = 1.5f;
     }
 
     protected void calculateCentre()
