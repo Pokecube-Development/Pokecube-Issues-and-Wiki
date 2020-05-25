@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
@@ -71,8 +72,8 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
     public TeleDest getDest()
     {
-        if (this.dest == null) this.dest = new TeleDest(new Vector4(this.getPos().getX() + 0.5, this.getPos().getY()
-                + 4, this.getPos().getZ() + 0.5, this.world.dimension.getType().getId()));
+        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(this.getWorld().getDimension().getType(),
+                this.getPos().up(4)));
         return this.dest;
     }
 

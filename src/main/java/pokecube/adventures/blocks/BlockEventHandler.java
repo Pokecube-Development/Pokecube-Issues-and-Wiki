@@ -6,17 +6,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.blocks.siphon.SiphonTile;
 import pokecube.adventures.blocks.warppad.WarppadTile;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.Linkable;
+import thut.api.LinkableCaps.PosStorage;
 import thut.api.OwnableCaps;
 import thut.api.block.IOwnableTE;
-import thut.api.maths.Vector4;
 
 public class BlockEventHandler
 {
@@ -36,9 +39,9 @@ public class BlockEventHandler
         }
 
         @Override
-        public Vector4 getLinkedPos(final Entity user)
+        public GlobalPos getLinkedPos(final Entity user)
         {
-            return this.tile.getDest().loc;
+            return this.tile.getDest().getPos();
         }
 
         @Override
@@ -48,22 +51,21 @@ public class BlockEventHandler
         }
 
         @Override
-        public boolean setLinkedPos(final Vector4 pos, final Entity user)
+        public boolean setLinkedPos(GlobalPos pos, final Entity user)
         {
             final IOwnable own = OwnableCaps.getOwnable(this.tile);
             if (user instanceof LivingEntity && own instanceof IOwnableTE && !((IOwnableTE) own).canEdit(
                     (LivingEntity) user)) return false;
             // Assume that we right clicked the top of the block.
-            pos.y += 1;
-            this.tile.getDest().loc = pos;
+            pos = GlobalPos.of(pos.getDimension(), pos.getPos().up());
+            this.tile.getDest().setPos(pos);
+            this.tile.getDest().shift(0.5, 0, 0.5);
             if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
-                    "block.pokecube_adventures.warppad.link", pos.x, pos.y, pos.z, pos.w));
+                    "block.pokecube_adventures.warppad.link", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
+                            .getZ(), pos.getDimension()));
             // Centre us properly.
-            pos.x += 0.5;
-            pos.z += 0.5;
             return true;
         }
-
     }
 
     private static class WarpPadLink extends Linkable
@@ -86,7 +88,31 @@ public class BlockEventHandler
         {
             return this.store;
         }
+    }
 
+    private static class SiphonLink extends Linkable
+    {
+        final SiphonTile tile;
+        final PosStorage pos;
+
+        public SiphonLink(final SiphonTile tile)
+        {
+            this.tile = tile;
+            this.pos = new PosStorage();
+            this.pos.setLinkedPos(GlobalPos.of(DimensionType.OVERWORLD, this.tile.getPos()), null);
+        }
+
+        @Override
+        public boolean link(final ILinkStorage link, final Entity user)
+        {
+            return this.tile.tryLink(link, user);
+        }
+
+        @Override
+        public ILinkStorage getLink(final Entity user)
+        {
+            return this.pos;
+        }
     }
 
     protected static final ResourceLocation ENERGYSTORECAP  = new ResourceLocation(PokecubeAdv.MODID, "energystore");
@@ -99,6 +125,9 @@ public class BlockEventHandler
         if (event.getObject() instanceof WarppadTile && !event.getCapabilities().containsKey(
                 BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new WarpPadLink(
                         (WarppadTile) event.getObject()));
+        if (event.getObject() instanceof SiphonTile && !event.getCapabilities().containsKey(
+                BlockEventHandler.LINKABLECAP)) event.addCapability(BlockEventHandler.LINKABLECAP, new SiphonLink(
+                        (SiphonTile) event.getObject()));
 
     }
 }

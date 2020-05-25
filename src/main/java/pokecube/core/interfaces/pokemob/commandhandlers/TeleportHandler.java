@@ -10,8 +10,10 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.dimension.DimensionType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
@@ -27,8 +29,9 @@ import thut.core.common.handlers.PlayerDataHandler;
 
 public class TeleportHandler extends DefaultHandler
 {
-    public static float              MINDIST      = 5;
-    public static final Set<Integer> invalidDests = Sets.newHashSet();
+    public static float MINDIST = 5;
+
+    public static final Set<ResourceLocation> invalidDests = Sets.newHashSet();
 
     public static Predicate<ItemStack> VALIDTELEITEMS = t -> t.getItem() == Items.ENDER_PEARL;
 
@@ -58,8 +61,8 @@ public class TeleportHandler extends DefaultHandler
     public static void initTeleportRestrictions()
     {
         TeleportHandler.invalidDests.clear();
-        for (final int i : PokecubeCore.getConfig().teleDimBlackList)
-            TeleportHandler.invalidDests.add(new Integer(i));
+        for (final String s : PokecubeCore.getConfig().blackListedTeleDims)
+            TeleportHandler.invalidDests.add(new ResourceLocation(s));
     }
 
     public static void renameTeleport(final String uuid, final int index, final String customName)
@@ -102,7 +105,7 @@ public class TeleportHandler extends DefaultHandler
 
     public static void setTeleport(final Vector4 v, final String uuid)
     {
-        final TeleDest d = new TeleDest(v);
+        final TeleDest d = new TeleDest().setLoc(v);
         TeleportHandler.setTeleport(uuid, d);
     }
 
@@ -135,13 +138,14 @@ public class TeleportHandler extends DefaultHandler
         final ServerPlayerEntity player = (ServerPlayerEntity) pokemob.getOwner();
         final TeleDest d = TeleportHandler.getTeleport(player.getCachedUniqueIdString());
         if (d == null) return;
-        final Integer dim = d.getDim();
-        final Integer oldDim = player.dimension.getId();
+        final DimensionType dim = d.getPos().getDimension();
+        final DimensionType oldDim = player.dimension;
         int needed = PokecubeCore.getConfig().telePearlsCostSameDim;
         if (dim != oldDim)
         {
             needed = PokecubeCore.getConfig().telePearlsCostOtherDim;
-            if (TeleportHandler.invalidDests.contains(dim) || TeleportHandler.invalidDests.contains(oldDim))
+            if (TeleportHandler.invalidDests.contains(dim.getRegistryName()) || TeleportHandler.invalidDests.contains(
+                    oldDim.getRegistryName()))
             {
                 final ITextComponent text = CommandTools.makeTranslatedMessage("pokemob.teleport.invalid", "red");
                 if (this.fromOwner()) pokemob.displayMessageToOwner(text);

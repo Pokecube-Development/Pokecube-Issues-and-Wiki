@@ -35,27 +35,6 @@ public interface IModelRenderer<T extends MobEntity>
             this.time = time;
         }
 
-        public Vector5 interpolate(final Vector5 v, final float time, final boolean wrap)
-        {
-            if (v.time == 0) return this;
-
-            if (Double.isNaN(this.rotations.x)) this.rotations = new Vector4();
-            Vector4 rotDiff = this.rotations.copy();
-
-            if (this.rotations.x == this.rotations.z && this.rotations.z == this.rotations.y
-                    && this.rotations.y == this.rotations.w && this.rotations.w == 0) this.rotations.x = 1;
-
-            if (!v.rotations.equals(this.rotations))
-            {
-                rotDiff = v.rotations.subtractAngles(this.rotations);
-
-                rotDiff = this.rotations.addAngles(rotDiff.scalarMult(time));
-            }
-            if (Double.isNaN(rotDiff.x)) rotDiff = new Vector4(0, 1, 0, 0);
-            final Vector5 ret = new Vector5(rotDiff, v.time);
-            return ret;
-        }
-
         @Override
         public String toString()
         {

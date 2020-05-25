@@ -61,7 +61,7 @@ public class ThutTeleporter
     {
         if (entity.getEntityWorld() instanceof ServerWorld)
         {
-            if (dest.w == entity.dimension.getId())
+            if (dest.dim == entity.dimension)
             {
                 ThutTeleporter.moveMob(entity, dest);
                 return;

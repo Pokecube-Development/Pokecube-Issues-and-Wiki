@@ -89,6 +89,9 @@ public class Config extends ConfigData
     public int energyHungerCost = 5;
 
     @Configure(category = Config.MACHINE)
+    public boolean wirelessSiphons = true;
+
+    @Configure(category = Config.MACHINE)
     public String powerFunction = "a*x/10";
 
     // Cloning related options

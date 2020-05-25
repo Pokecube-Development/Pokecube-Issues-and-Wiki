@@ -281,7 +281,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public List<String> aggroBlacklistTags = Lists.newArrayList();
     @Configure(category = Config.mobAI)
-    public List<String> aggroBlacklistIds   = Lists.newArrayList("minecraft:villager", "minecraft:armor_stand",
+    public List<String> aggroBlacklistIds  = Lists.newArrayList("minecraft:villager", "minecraft:armor_stand",
             "pokecube_adventures:trainer", "pokecube_adventures:leader");
 
     @Configure(category = Config.mobAI)
@@ -511,27 +511,27 @@ public class Config extends ConfigData
     public int autoRecallDistance = 32;
 
     @Configure(category = Config.advanced)
-    public List<String>  mystLocs              = Lists.newArrayList();
+    public List<String> mystLocs              = Lists.newArrayList();
     @Configure(category = Config.advanced)
-    boolean              reputs                = false;
+    boolean             reputs                = false;
     @Configure(category = Config.advanced)
     // DOLATER find more internal variables to add to this.
-    public List<String>  extraVars             = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance,
+    public List<String> extraVars             = Lists.newArrayList(new String[] { "jc:" + EventsHandler.juiceChance,
             "rc:" + EventsHandler.candyChance, "eggDpl:" + ItemPokemobEgg.PLAYERDIST, "eggDpm:"
                     + ItemPokemobEgg.MOBDIST });
     @Configure(category = Config.advanced)
-    public boolean       debug                 = false;
+    public boolean      debug                 = false;
     @Configure(category = Config.advanced)
-    public List<String>  damageBlocksWhitelist = Lists.newArrayList(new String[] { "flash", "teleport", "dig", "cut",
+    public List<String> damageBlocksWhitelist = Lists.newArrayList(new String[] { "flash", "teleport", "dig", "cut",
             "rocksmash", "secretpower", "naturepower" });
     @Configure(category = Config.advanced)
-    public List<String>  damageBlocksBlacklist = Lists.newArrayList();
+    public List<String> damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced)
-    public String        nonPokemobExpFunction = "h*(a+1)^2";
+    public String       nonPokemobExpFunction = "h*(a+1)^2";
     @Configure(category = Config.advanced)
-    public boolean       nonPokemobExp         = false;
+    public boolean      nonPokemobExp         = false;
     @Configure(category = Config.advanced)
-    public List<Integer> teleDimBlackList      = Lists.newArrayList();
+    public List<String> blackListedTeleDims   = Lists.newArrayList();
 
     @Configure(category = Config.advanced)
     public boolean pokemobsAreAllFrozen = false;

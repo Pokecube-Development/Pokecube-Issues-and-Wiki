@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.INBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -17,7 +18,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import thut.api.maths.Vector4;
 
 public class LinkableCaps
 {
@@ -36,7 +36,7 @@ public class LinkableCaps
          * is null, then it does not have a linked pos
          */
         @Nullable
-        Vector4 getLinkedPos(Entity user);
+        GlobalPos getLinkedPos(Entity user);
 
         /**
          * This will set the linked mob, returns whether
@@ -48,7 +48,7 @@ public class LinkableCaps
          * This will set the linked pos, returns whether
          * this setting actually occured.
          */
-        boolean setLinkedPos(@Nullable Vector4 pos, @Nullable Entity user);
+        boolean setLinkedPos(@Nullable GlobalPos pos, @Nullable Entity user);
     }
 
     public static interface ILinkable
@@ -68,11 +68,44 @@ public class LinkableCaps
         ILinkStorage getLink(@Nullable Entity user);
     }
 
+    public static class PosStorage implements ILinkStorage
+    {
+        GlobalPos pos;
+
+        @Override
+        public UUID getLinkedMob(final Entity user)
+        {
+            return null;
+        }
+
+        @Override
+        public GlobalPos getLinkedPos(final Entity user)
+        {
+            return this.pos;
+        }
+
+        @Override
+        public boolean setLinkedMob(final UUID mobid, final Entity user)
+        {
+            return false;
+        }
+
+        @Override
+        public boolean setLinkedPos(final GlobalPos pos, final Entity user)
+        {
+            this.pos = pos;
+            return true;
+        }
+
+    }
+
     public static class LinkStorage implements ILinkStorage, ICapabilityProvider
     {
         private final LazyOptional<ILinkStorage> holder = LazyOptional.of(() -> this);
-        UUID                                     uuid;
-        Vector4                                  pos;
+
+        UUID uuid;
+
+        GlobalPos pos;
 
         @Override
         public UUID getLinkedMob(final Entity user)
@@ -81,7 +114,7 @@ public class LinkableCaps
         }
 
         @Override
-        public Vector4 getLinkedPos(final Entity user)
+        public GlobalPos getLinkedPos(final Entity user)
         {
             return this.pos;
         }
@@ -94,7 +127,7 @@ public class LinkableCaps
         }
 
         @Override
-        public boolean setLinkedPos(final Vector4 pos, final Entity user)
+        public boolean setLinkedPos(final GlobalPos pos, final Entity user)
         {
             this.pos = pos;
             return true;
@@ -197,8 +230,8 @@ public class LinkableCaps
         // Otherwise try to save the location instead
         else
         {
-            final Vector4 loc = new Vector4(event.getPos(), event.getPlayer().dimension);
-            storage.setLinkedPos(loc, event.getPlayer());
+            final GlobalPos pos = GlobalPos.of(event.getPlayer().dimension, event.getPos());
+            storage.setLinkedPos(pos, event.getPlayer());
             event.setCanceled(true);
             event.setUseBlock(Result.DENY);
             event.setUseItem(Result.DENY);
