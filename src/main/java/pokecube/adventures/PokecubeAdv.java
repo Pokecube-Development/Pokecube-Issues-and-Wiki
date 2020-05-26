@@ -72,7 +72,6 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.utils.PokeType;
-import pokecube.pokeplayer.Pokeplayer;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.network.PacketHandler;
 
@@ -290,7 +289,7 @@ public class PokecubeAdv
     public PokecubeAdv()
     {
         PokecubeAdv.init();
-        Pokeplayer.init();
+        // Pokeplayer.init();
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::setup);
         // Register the doClientStuff method for modloading
