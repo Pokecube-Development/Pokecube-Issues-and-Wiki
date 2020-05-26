@@ -155,16 +155,16 @@ public class PacketChangeForme extends Packet
                 ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
                 pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, newEntry
-                        .getUnlocalizedName());
+                mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, new TranslationTextComponent(
+                        newEntry.getUnlocalizedName()));
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
             }
             else
             {
                 ITextComponent mess = new TranslationTextComponent("pokemob.megaevolve.command.evolve", oldName);
                 pokemob.displayMessageToOwner(mess);
-                mess = new TranslationTextComponent("pokemob.megaevolve.success", oldName, newEntry
-                        .getUnlocalizedName());
+                mess = new TranslationTextComponent("pokemob.megaevolve.success", oldName, new TranslationTextComponent(
+                        newEntry.getUnlocalizedName()));
                 pokemob.setCombatState(CombatStates.MEGAFORME, true);
                 ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
             }
@@ -175,7 +175,8 @@ public class PacketChangeForme extends Packet
             pokemob.displayMessageToOwner(mess);
             newEntry = pokemob.getMegaBase();
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
-            mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, newEntry.getUnlocalizedName());
+            mess = new TranslationTextComponent("pokemob.megaevolve.revert", oldName, new TranslationTextComponent(
+                    newEntry.getUnlocalizedName()));
             ICanEvolve.setDelayedMegaEvolve(pokemob, newEntry, mess);
         }
         else player.sendMessage(new TranslationTextComponent("pokemob.megaevolve.failed", pokemob.getDisplayName()));
