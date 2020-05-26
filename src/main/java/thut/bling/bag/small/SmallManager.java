@@ -55,13 +55,15 @@ public class SmallManager extends Manager<SmallInventory>
     public void save(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
+        final SmallInventory save = this.get(uuid, false);
+        if (save == null || !save.dirty) return;
         try
         {
             final File file = SmallManager.getFileForUUID(uuid.toString(), this.fileName());
             if (file != null)
             {
                 final CompoundNBT CompoundNBT = new CompoundNBT();
-                this.writeToNBT(CompoundNBT, uuid);
+                this.writeToNBT(CompoundNBT, save);
                 final CompoundNBT CompoundNBT1 = new CompoundNBT();
                 CompoundNBT1.put("Data", CompoundNBT);
                 final FileOutputStream fileoutputstream = new FileOutputStream(file);

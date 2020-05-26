@@ -1,17 +1,20 @@
 package pokecube.core.ai.tasks;
 
 import java.util.Map;
+import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.math.EntityPosWrapper;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
@@ -24,15 +27,21 @@ import thut.api.maths.Vector3;
  * triggers if the owner gets too far away from the mob, and the mob is set to
  * follow.
  */
-public class AIFollowOwner extends TaskBase<MobEntity>
+public class FollowOwnerTask extends TaskBase
 {
+    private static final UUID              FOLLOW_SPEED_BOOST_ID = UUID.fromString(
+            "662A6B8D-DA3E-4C1C-1234-96EA6097278D");
+    private static final AttributeModifier FOLLOW_SPEED_BOOST    = new AttributeModifier(
+            FollowOwnerTask.FOLLOW_SPEED_BOOST_ID, "following speed boost", 0.5F,
+            AttributeModifier.Operation.MULTIPLY_TOTAL).setSaved(false);
+
     private static final Map<MemoryModuleType<?>, MemoryModuleStatus> mems = Maps.newHashMap();
     static
     {
         // Dont run if have a combat target
-        AIFollowOwner.mems.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_ABSENT);
+        FollowOwnerTask.mems.put(MemoryModules.ATTACKTARGET, MemoryModuleStatus.VALUE_ABSENT);
         // Don't run if have a target location for moves
-        AIFollowOwner.mems.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_ABSENT);
+        FollowOwnerTask.mems.put(MemoryModules.MOVE_TARGET, MemoryModuleStatus.VALUE_ABSENT);
     }
 
     public static double speedMult = 2;
@@ -41,8 +50,8 @@ public class AIFollowOwner extends TaskBase<MobEntity>
 
     private PathNavigator petPathfinder;
 
-    private double  speed;
-    private boolean pathing = false;
+    private final double speed;
+    private boolean      pathing = false;
 
     float maxDist;
     float minDist;
@@ -51,12 +60,12 @@ public class AIFollowOwner extends TaskBase<MobEntity>
     Vector3 v        = Vector3.getNewVector();
     Vector3 v1       = Vector3.getNewVector();
 
-    public AIFollowOwner(final IPokemob entity, final float min, final float max)
+    public FollowOwnerTask(final IPokemob entity, final float min, final float max)
     {
-        super(entity, AIFollowOwner.mems);
+        super(entity, FollowOwnerTask.mems);
         this.minDist = min;
         this.maxDist = max;
-        this.speed = entity.getMovementSpeed();
+        this.speed = 1;
         if (this.pokemob.getOwner() != null) this.ownerPos.set(this.pokemob.getOwner());
     }
 
@@ -64,6 +73,12 @@ public class AIFollowOwner extends TaskBase<MobEntity>
     public void reset()
     {
         this.ownerPos.set(this.theOwner);
+        this.entity.setSprinting(false);
+
+        final IAttributeInstance iattributeinstance = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null) iattributeinstance
+                .removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+
         this.theOwner = null;
         this.pathing = false;
     }
@@ -92,29 +107,20 @@ public class AIFollowOwner extends TaskBase<MobEntity>
             // Or look at path location
             BrainUtils.lookAt(this.entity, x, y, z);
         }
+        final boolean hasTarget = this.entity.getBrain().hasMemory(MemoryModuleType.WALK_TARGET);
+        WalkTarget target = hasTarget ? this.entity.getBrain().getMemory(MemoryModuleType.WALK_TARGET).get() : null;
+        if (target == null || target.getTarget().getPos().squareDistanceTo(this.theOwner.getPositionVec()) > 1)
+            target = new WalkTarget(new EntityPosWrapper(this.theOwner), (float) this.speed, 1);
 
-        final double dl = this.v.set(this.entity).distTo(this.ownerPos);
-
-        this.ownerPos.set(this.theOwner);
-        double ownerSpeed = this.theOwner.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-
-        if (this.theOwner instanceof PlayerEntity)
-        {
-            final PlayerEntity player = (PlayerEntity) this.theOwner;
-            ownerSpeed = player.abilities.getWalkSpeed();
-            if (player.abilities.isFlying) ownerSpeed = player.abilities.getFlySpeed();
-            ownerSpeed *= 6;
-        }
-
-        if (ownerSpeed == 0) ownerSpeed = this.pokemob.getMovementSpeed();
-        double dist_speed = ownerSpeed;
-        if (dl > 3) dist_speed *= 1 + (dl - 3) / 20;
-
-        this.speed = dist_speed;
-        this.speed *= AIFollowOwner.speedMult;
-        this.speed = Math.max(this.pokemob.getMovementSpeed(), this.speed);
-        this.speed = Math.min(1.25, this.speed);
-        this.setWalkTo(this.ownerPos, this.speed, 0);
+        final boolean isSprinting = this.entity.isSprinting();
+        final double ds2 = target.getTarget().getPos().squareDistanceTo(this.entity.getPositionVec());
+        final boolean shouldSprint = isSprinting ? ds2 > 4 : ds2 > 9;
+        if (shouldSprint && !isSprinting) this.entity.setSprinting(shouldSprint);
+        final IAttributeInstance iattributeinstance = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null) iattributeinstance
+                .removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        if (this.entity.isSprinting()) iattributeinstance.applyModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        this.setWalkTo(target);
     }
 
     @Override

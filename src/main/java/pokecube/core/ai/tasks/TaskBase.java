@@ -3,25 +3,19 @@ package pokecube.core.ai.tasks;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.EntityPosWrapper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
-import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -31,7 +25,7 @@ import thut.api.entity.ai.ITask;
 import thut.api.maths.Vector3;
 import thut.lib.ItemStackTools;
 
-public abstract class TaskBase<E extends LivingEntity> extends Task<E> implements ITask
+public abstract class TaskBase extends RootTask<AgeableEntity> implements ITask
 {
     /** Thread safe inventory setting for pokemobs. */
     public static class InventoryChange implements IRunnable
@@ -112,25 +106,11 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
         return !(sitting || sleeping || frozen);
     }
 
-    public static Map<MemoryModuleType<?>, MemoryModuleStatus> merge(
-            final Map<MemoryModuleType<?>, MemoryModuleStatus> mems2,
-            final Map<MemoryModuleType<?>, MemoryModuleStatus> mems3)
-    {
-        final Map<MemoryModuleType<?>, MemoryModuleStatus> ret = Maps.newHashMap();
-        ret.putAll(mems2);
-        ret.putAll(mems3);
-        return ImmutableMap.copyOf(mems3);
-    }
-
-    protected final IPokemob  pokemob;
-    protected final MobEntity entity;
+    protected final IPokemob pokemob;
 
     protected final ServerWorld world;
 
-    final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems;
-
     int priority = 0;
-    int mutex    = 0;
 
     public TaskBase(final IPokemob pokemob)
     {
@@ -139,39 +119,18 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
 
     public TaskBase(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryModuleStatus> neededMems)
     {
-        super(neededMems);
+        super(pokemob.getEntity(), neededMems);
         this.pokemob = pokemob;
-        this.entity = pokemob.getEntity();
         if (this.entity.getEntityWorld() instanceof ServerWorld) this.world = (ServerWorld) this.entity
                 .getEntityWorld();
         else this.world = null;
-        this.neededMems = ImmutableMap.copyOf(neededMems);
     }
 
-    protected void setWalkTo(final Vector3 pos, final double speed, final int dist)
-    {
-        this.setWalkTo(pos.toVec3d(), speed, dist);
-    }
-
-    protected void setWalkTo(final Vec3d pos, final double speed, final int dist)
-    {
-        this.setWalkTo(new WalkTarget(pos, (float) speed, dist));
-    }
-
-    protected void setWalkTo(final BlockPos pos, final double speed, final int dist)
-    {
-        this.setWalkTo(new WalkTarget(pos, (float) speed, dist));
-    }
-
-    protected void setWalkTo(final Entity mobIn, final double speed, final int dist)
-    {
-        this.setWalkTo(new WalkTarget(new EntityPosWrapper(mobIn), (float) speed, dist));
-    }
-
+    @Override
     protected void setWalkTo(final WalkTarget target)
     {
         this.pokemob.setLogicState(LogicStates.SITTING, false);
-        this.entity.getBrain().setMemory(MemoryModules.WALK_TARGET, target);
+        super.setWalkTo(target);
     }
 
     @Override
@@ -181,22 +140,9 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
     }
 
     @Override
-    public int getMutex()
-    {
-        return this.mutex;
-    }
-
-    @Override
     public int getPriority()
     {
         return this.priority;
-    }
-
-    @Override
-    public IAIRunnable setMutex(final int mutex)
-    {
-        this.mutex = mutex;
-        return this;
     }
 
     @Override
@@ -212,46 +158,29 @@ public abstract class TaskBase<E extends LivingEntity> extends Task<E> implement
     }
 
     @Override
-    public Map<MemoryModuleType<?>, MemoryModuleStatus> getNeededMemories()
-    {
-        return this.neededMems;
-    }
-
-    @Override
-    protected boolean shouldExecute(final ServerWorld worldIn, final E owner)
+    protected boolean shouldExecute(final ServerWorld worldIn, final AgeableEntity owner)
     {
         return this.shouldRun();
     }
 
     @Override
-    protected void resetTask(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    protected void resetTask(final ServerWorld worldIn, final AgeableEntity entityIn, final long gameTimeIn)
     {
         this.reset();
     }
 
     @Override
-    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final E entityIn, final long gameTimeIn)
+    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final AgeableEntity entityIn,
+            final long gameTimeIn)
     {
         return this.shouldRun();
     }
 
     @Override
-    protected void updateTask(final ServerWorld worldIn, final E owner, final long gameTime)
+    protected void updateTask(final ServerWorld worldIn, final AgeableEntity owner, final long gameTime)
     {
         this.run();
         this.tick();
         this.finish();
-    }
-
-    protected boolean canTimeOut()
-    {
-        return false;
-    }
-
-    @Override
-    protected boolean isTimedOut(final long gameTime)
-    {
-        if (!this.canTimeOut()) return false;
-        return super.isTimedOut(gameTime);
     }
 }

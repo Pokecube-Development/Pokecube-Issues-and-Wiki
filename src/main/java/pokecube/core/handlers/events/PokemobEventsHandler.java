@@ -597,13 +597,13 @@ public class PokemobEventsHandler
     @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
-
         // Prevent moving if it is liable to take us out of a loaded area
         final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
                 .getMotion().z * evt.getEntity().getMotion().z);
-        if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
-                .getConfig().movementPauseThreshold + dist)) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y,
-                        0);
+        final boolean tooFast = evt.getEntity().isBeingRidden() && !TerrainManager.isAreaLoaded(evt
+                .getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore.getConfig().movementPauseThreshold
+                        + dist);
+        if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
 
         if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
         {

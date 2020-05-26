@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -212,7 +211,7 @@ public class GatherTask extends UtilTask
         else stuffLoc.set(this.targetBlock.getPos());
 
         // Set path to the stuff found.
-        final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+        final double speed = 1;
         this.setWalkTo(stuffLoc, speed, 0);
 
         // The stuff below is for collecting blocks, so we return after setting

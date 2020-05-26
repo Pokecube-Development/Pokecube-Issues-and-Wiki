@@ -25,7 +25,7 @@ public class MoveToHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob) throws Exception
     {
-        this.speed = (float) Math.min(this.speed, pokemob.getMovementSpeed());
+        this.speed = Math.min(this.speed, 1);
         pokemob.getEntity().getBrain().setMemory(MemoryModules.WALK_TARGET, new WalkTarget(this.location.toVec3d(),
                 this.speed, 0));
     }

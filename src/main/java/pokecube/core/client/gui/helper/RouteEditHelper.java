@@ -8,37 +8,11 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import pokecube.core.ai.routes.GuardAICapability.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.routes.IGuardAICapability.IGuardTask;
-import thut.core.common.network.EntityUpdate;
 
 public class RouteEditHelper
 {
-    public static void applyServerPacket(final INBT tag, final Entity mob, final IGuardAICapability guard)
-    {
-        final CompoundNBT nbt = (CompoundNBT) tag;
-        final int index = nbt.getInt("I");
-        if (nbt.contains("V"))
-        {
-            // TODO generalize this maybe?
-            final GuardTask task = new GuardTask();
-            task.load(nbt.get("V"));
-            if (index < guard.getTasks().size()) guard.getTasks().set(index, task);
-            else guard.getTasks().add(task);
-        }
-        else if (nbt.contains("N"))
-        {
-            final int index1 = nbt.getInt("I");
-            final int index2 = index1 + nbt.getInt("N");
-            final IGuardTask temp = guard.getTasks().get(index1);
-            guard.getTasks().set(index1, guard.getTasks().get(index2));
-            guard.getTasks().set(index2, temp);
-        }
-        else if (index < guard.getTasks().size()) guard.getTasks().remove(index);
-        EntityUpdate.sendEntityUpdate(mob);
-    }
 
     public static void getGuiList(final ScrollGui<GuardEntry> entries, final IGuardAICapability guard,
             final Function<CompoundNBT, CompoundNBT> function, final Entity entity, final Screen parent,

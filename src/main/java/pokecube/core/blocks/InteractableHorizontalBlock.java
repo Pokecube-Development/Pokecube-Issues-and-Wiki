@@ -6,6 +6,8 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -21,11 +23,9 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
 
     public InteractableHorizontalBlock(final Properties properties)
     {
-        super(Properties.create(Material.IRON)
-                .hardnessAndResistance(3.0f, 5.0f)
-                .harvestTool(ToolType.PICKAXE));
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
+        super(Properties.create(Material.IRON).hardnessAndResistance(3.0f, 5.0f).harvestTool(ToolType.PICKAXE));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HorizontalBlock.HORIZONTAL_FACING,
+                Direction.NORTH));
     }
 
     @Override
@@ -55,5 +55,22 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
     {
         final TileEntity tile = worldIn.getTileEntity(pos);
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onReplaced(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
+            final boolean isMoving)
+    {
+        if (state.getBlock() != newState.getBlock())
+        {
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
+            if (tileentity != null && tileentity instanceof IInventory)
+            {
+                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
+                worldIn.updateComparatorOutputLevel(pos, this);
+            }
+            super.onReplaced(state, worldIn, pos, newState, isMoving);
+        }
     }
 }

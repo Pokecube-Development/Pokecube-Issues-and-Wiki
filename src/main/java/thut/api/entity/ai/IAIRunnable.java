@@ -24,14 +24,6 @@ public interface IAIRunnable
         return "";
     }
 
-    /**
-     * Will only run an AI if it is higher priority (ie lower number) or a
-     * bitwise AND of the two mutex is 0.
-     *
-     * @return
-     */
-    int getMutex();
-
     /** @return the priority of this AIRunnable. Lower numbers run first. */
     int getPriority();
 
@@ -40,14 +32,6 @@ public interface IAIRunnable
 
     /** runs the task */
     void run();
-
-    /**
-     * Sets the mutex.
-     *
-     * @param mutex
-     * @return
-     */
-    IAIRunnable setMutex(int mutex);
 
     /**
      * Sets the priority.

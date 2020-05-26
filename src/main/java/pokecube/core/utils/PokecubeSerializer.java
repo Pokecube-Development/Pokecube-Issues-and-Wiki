@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.datafixers.Dynamic;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -20,8 +21,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
@@ -49,24 +52,50 @@ public class PokecubeSerializer
             final Vector4 loc = new Vector4(nbt);
             final String name = nbt.getString("name");
             final int index = nbt.getInt("i");
-            return new TeleDest(loc).setName(name).setIndex(index);
+            GlobalPos pos = null;
+            if (nbt.contains("pos")) pos = GlobalPos.deserialize(new Dynamic<>(NBTDynamicOps.INSTANCE, nbt.get("pos")));
+            return new TeleDest().setLoc(loc).setPos(pos).setName(name).setIndex(index);
         }
 
         public Vector4 loc;
-        Vector3        subLoc;
-        String         name;
-        public int     index;
 
-        public TeleDest(final Vector4 loc)
+        private GlobalPos pos;
+
+        private Vector3 subLoc;
+
+        private String name;
+
+        public int index;
+
+        public TeleDest()
+        {
+        }
+
+        public TeleDest setLoc(final Vector4 loc)
         {
             this.loc = loc;
             this.subLoc = Vector3.getNewVector().set(loc.x, loc.y, loc.z);
             this.name = loc.toIntString();
+            this.pos = GlobalPos.of(DimensionType.getById((int) loc.w), this.subLoc.getPos());
+            loc.dim = this.pos.getDimension();
+            return this;
         }
 
-        public int getDim()
+        public TeleDest setPos(final GlobalPos pos)
         {
-            return (int) this.loc.w;
+            if (pos != null)
+            {
+                if (this.loc == null) this.loc = new Vector4(pos);
+                this.loc.dim = pos.getDimension();
+                this.subLoc = Vector3.getNewVector().set(this.loc.x, this.loc.y, this.loc.z);
+                this.pos = pos;
+            }
+            return this;
+        }
+
+        public GlobalPos getPos()
+        {
+            return this.pos;
         }
 
         public Vector3 getLoc()
@@ -94,8 +123,19 @@ public class PokecubeSerializer
         public void writeToNBT(final CompoundNBT nbt)
         {
             this.loc.writeToNBT(nbt);
+            nbt.put("pos", this.pos.serialize(NBTDynamicOps.INSTANCE));
             nbt.putString("name", this.name);
             nbt.putInt("i", this.index);
+        }
+
+        public void shift(final double dx, final int dy, final double dz)
+        {
+            this.loc.x += dx;
+            this.loc.y += dy;
+            this.loc.z += dz;
+            this.subLoc.x += dx;
+            this.subLoc.y += dy;
+            this.subLoc.z += dz;
         }
     }
 

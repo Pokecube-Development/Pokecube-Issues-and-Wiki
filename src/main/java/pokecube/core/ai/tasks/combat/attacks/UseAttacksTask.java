@@ -3,7 +3,6 @@ package pokecube.core.ai.tasks.combat.attacks;
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.BrainUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -57,8 +56,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
     Vector3 v2 = Vector3.getNewVector();
-    /** Speed for pathing. */
-    double  movementSpeed;
+
+    private final float speed = 1.8f;
 
     /** Used for when to execute attacks. */
     protected int delayTime = -1;
@@ -68,8 +67,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     public UseAttacksTask(final IPokemob mob)
     {
         super(mob);
-        this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
-        this.setMutex(3);
     }
 
     public boolean continueExecuting()
@@ -109,7 +106,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         {
             if (!((this.attack.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0) && !this.pokemob
                     .getGeneralState(GeneralStates.CONTROLLED)) this.setWalkTo(this.entityTarget.getPositionVec(),
-                            this.movementSpeed, 0);
+                            this.speed, 0);
             this.targetLoc.set(this.entityTarget);
             this.waitingToStart = true;
             /**
@@ -247,8 +244,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         }
         // If there is a target location, and it should path to it, queue a path
         // for the mob.
-        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.entityTarget.getPositionVec(),
-                this.movementSpeed, 0);
+        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.entityTarget.getPositionVec(), this.speed, 0);
     }
 
     @Override

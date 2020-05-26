@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -40,4 +42,20 @@ public abstract class InteractableBlock extends Block
         if (tile instanceof InteractableTile) ((InteractableTile) tile).onWalkedOn(entityIn);
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
+    public void onReplaced(final BlockState state, final World worldIn, final BlockPos pos, final BlockState newState,
+            final boolean isMoving)
+    {
+        if (state.getBlock() != newState.getBlock())
+        {
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
+            if (tileentity != null && tileentity instanceof IInventory)
+            {
+                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
+                worldIn.updateComparatorOutputLevel(pos, this);
+            }
+            super.onReplaced(state, worldIn, pos, newState, isMoving);
+        }
+    }
 }

@@ -68,7 +68,7 @@ public class UseMoveTask extends UtilTask
 
         if (!this.running)
         {
-            this.speed = this.pokemob.getMovementSpeed();
+            this.speed = 1;
 
             final boolean self = (move.getAttackCategory() & IMoveConstants.CATEGORY_SELF) != 0;
             // Apply self moves directly.

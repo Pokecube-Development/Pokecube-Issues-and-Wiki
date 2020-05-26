@@ -59,7 +59,7 @@ public class MateTask extends BaseIdleTask
         this.mobA = null;
         this.mobB = null;
         this.startSpot = null;
-        BrainUtils.setMateTarget((AgeableEntity) this.entity, null);
+        BrainUtils.setMateTarget(this.entity, null);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class MateTask extends BaseIdleTask
 
         // Flag them all as valid mates
         for (final AgeableEntity mob : this.mates)
-            BrainUtils.setMateTarget(mob, (AgeableEntity) this.entity);
+            BrainUtils.setMateTarget(mob, this.entity);
 
         // Battle between the first two on the list.
         this.mobA = this.mates.get(0);
@@ -99,7 +99,7 @@ public class MateTask extends BaseIdleTask
         // then be invalid for the next selection round of mating targets.
         BrainUtils.initiateCombat(this.mobA, this.mobB);
 
-        this.startSpot = new WalkTarget(this.entity.getPositionVec(), (float) this.pokemob.getMovementSpeed(), 0);
+        this.startSpot = new WalkTarget(this.entity.getPositionVec(), 1, 0);
     }
 
     @Override
@@ -110,14 +110,14 @@ public class MateTask extends BaseIdleTask
         if (!this.pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (this.pokemob.getSexe() == IPokemob.MALE || !this.pokemob.canBreed()) return false;
         if (this.pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(this.entity)) return false;
-        this.mate = BrainUtils.getMateTarget((AgeableEntity) this.entity);
+        this.mate = BrainUtils.getMateTarget(this.entity);
         if (this.mate != null && !this.mate.isAlive())
         {
-            BrainUtils.setMateTarget((AgeableEntity) this.entity, null);
+            BrainUtils.setMateTarget(this.entity, null);
             this.mate = null;
         }
         if (this.mate != null) return true;
-        this.mates = BrainUtils.getMates((AgeableEntity) this.entity);
+        this.mates = BrainUtils.getMates(this.entity);
         if (this.mates != null)
         {
             int mateNum = PokecubeCore.getConfig().mobSpawnNumber;
@@ -136,10 +136,10 @@ public class MateTask extends BaseIdleTask
         if (this.mate == null) return;
 
         // Make them walk to each other
-        this.approachEachOther(this.entity, this.mate, (float) this.pokemob.getMovementSpeed());
+        this.approachEachOther(this.entity, this.mate, 1);
 
-        BrainUtils.setMateTarget((AgeableEntity) this.entity, this.mate);
-        BrainUtils.setMateTarget(this.mate, (AgeableEntity) this.entity);
+        BrainUtils.setMateTarget(this.entity, this.mate);
+        BrainUtils.setMateTarget(this.mate, this.entity);
 
         this.pokemob.setGeneralState(GeneralStates.MATING, true);
         final IPokemob other = CapabilityPokemob.getPokemobFor(this.mate);

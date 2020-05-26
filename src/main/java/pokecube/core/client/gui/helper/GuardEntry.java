@@ -96,7 +96,10 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
     public boolean keyPressed(final int keyCode, final int p_keyPressed_2_, final int p_keyPressed_3_)
     {
         if (keyCode != GLFW.GLFW_KEY_ENTER) return false;
-        if (!(this.location.isFocused() || this.timeperiod.isFocused() || this.variation.isFocused())) return false;
+        boolean active = this.variation.isFocused() || this.variation.isHovered();
+        active = active || this.location.isFocused() || this.location.isHovered();
+        active = active || this.timeperiod.isFocused() || this.timeperiod.isHovered();
+        if (!active) return false;
         this.update();
         return true;
     }
@@ -332,6 +335,8 @@ public class GuardEntry extends AbstractList.AbstractListEntry<GuardEntry> imple
             data.put("T", tag);
             data.putInt("I", this.entity.getEntityId());
             this.function.apply(data);
+            final ITextComponent mess = new TranslationTextComponent("pokemob.route.updated");
+            this.parent.getMinecraft().player.sendStatusMessage(mess, true);
         }
     }
 }

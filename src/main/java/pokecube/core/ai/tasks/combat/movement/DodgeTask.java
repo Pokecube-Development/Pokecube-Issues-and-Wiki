@@ -3,7 +3,6 @@ package pokecube.core.ai.tasks.combat.movement;
 import java.util.Random;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.IPosWrapper;
@@ -25,7 +24,6 @@ public class DodgeTask extends CombatTask implements IAICombat
     // Location of the targetted attack
     IPosWrapper pos = null;
 
-    double movementSpeed;
     double dodgeSpeedFactor = 0.25f;
 
     int dodgeCooldown = -1;
@@ -33,8 +31,6 @@ public class DodgeTask extends CombatTask implements IAICombat
     public DodgeTask(final IPokemob mob)
     {
         super(mob);
-        this.movementSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.8;
-        this.setMutex(0);
     }
 
     /**

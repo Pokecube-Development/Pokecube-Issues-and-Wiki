@@ -2,15 +2,17 @@ package pokecube.adventures.items;
 
 import java.util.UUID;
 
+import com.mojang.datafixers.Dynamic;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -26,7 +28,6 @@ import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.LinkStorage;
 import thut.api.OwnableCaps;
 import thut.api.ThutCaps;
-import thut.api.maths.Vector4;
 
 public class Linker extends Item
 {
@@ -49,34 +50,31 @@ public class Linker extends Item
         }
 
         @Override
-        public Vector4 getLinkedPos(final Entity user)
+        public GlobalPos getLinkedPos(final Entity user)
         {
-            if (this.linker.getOrCreateTag().contains("link_pos")) return new Vector4(this.linker.getTag().getCompound(
-                    "link_pos"));
+            if (this.linker.getOrCreateTag().contains("thutcore:pos")) return GlobalPos.deserialize(new Dynamic<>(
+                    NBTDynamicOps.INSTANCE, this.linker.getOrCreateTag().getCompound("thutcore:pos")));
             else return null;
         }
 
         @Override
-        public boolean setLinkedPos(final Vector4 pos, final Entity user)
+        public boolean setLinkedPos(final GlobalPos pos, final Entity user)
         {
             if (pos == null || user.isSneaking())
             {
-                this.linker.getOrCreateTag().remove("link_pos");
+                this.linker.getOrCreateTag().remove("thutcore:pos");
                 if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
                         "item.pokecube_adventures.linker.unset"));
             }
             else
             {
-                final CompoundNBT posTag = new CompoundNBT();
-                pos.writeToNBT(posTag);
-                this.linker.getOrCreateTag().put("link_pos", posTag);
+                this.linker.getOrCreateTag().put("thutcore:pos", pos.serialize(NBTDynamicOps.INSTANCE));
                 if (!user.getEntityWorld().isRemote) user.sendMessage(new TranslationTextComponent(
                         "item.pokecube_adventures.linker.set"));
-
                 if (user.getEntityWorld().isRemote) try
                 {
-                    final String loc = String.format("%d %d %d", MathHelper.floor(pos.x), MathHelper.floor(pos.y),
-                            MathHelper.floor(pos.z));
+                    final String loc = String.format("%d %d %d", pos.getPos().getX(), pos.getPos().getY(), pos.getPos()
+                            .getZ());
                     Minecraft.getInstance().keyboardListener.setClipboardString(loc);
                     user.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linker.copied"));
                 }
@@ -105,8 +103,8 @@ public class Linker extends Item
         final LazyOptional<ILinkStorage> test_stack = stack.getCapability(ThutCaps.STORE, null);
         if (!test_stack.isPresent()) return false;
         final ILinkStorage storage = test_stack.orElse(null);
-        final Vector4 pos = storage.getLinkedPos(playerIn);
-        if (ai != null && pos != null && pos.w == target.dimension.getId())
+        final GlobalPos pos = storage.getLinkedPos(playerIn);
+        if (ai != null && pos != null && pos.getDimension() == target.dimension)
         {
             final IOwnable ownable = OwnableCaps.getOwnable(target);
             boolean valid = false;
@@ -116,9 +114,10 @@ public class Linker extends Item
                     Linker.PERMLINKTRAINER);
             if (valid)
             {
-                ai.getPrimaryTask().setPos(new BlockPos(pos.x, pos.y + 1, pos.z));
+                final BlockPos bpos = pos.getPos().up();
+                ai.getPrimaryTask().setPos(pos.getPos().up());
                 playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob", target
-                        .getDisplayName(), pos.x, pos.y + 1, pos.z));
+                        .getDisplayName(), bpos.getX(), bpos.getY(), bpos.getZ()));
                 return true;
             }
             else playerIn.sendMessage(new TranslationTextComponent("item.pokecube_adventures.linked.mob.fail"));

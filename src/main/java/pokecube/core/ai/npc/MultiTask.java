@@ -18,8 +18,9 @@ import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.util.WeightedList;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import pokecube.core.ai.brain.RootTask;
 
-public class MultiTask<E extends LivingEntity> extends Task<E>
+public class MultiTask<E extends LivingEntity> extends RootTask<E>
 {
     private static final Method CONTINUE;
 
