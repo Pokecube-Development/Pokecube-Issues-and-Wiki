@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import thut.api.terrain.TerrainManager;
 
 /**
  * This IAIRunnable results in the mother of an egg always staying within 4
@@ -51,8 +49,7 @@ public class GuardEggTask extends BaseIdleTask
         if (this.eggPathCooldown-- > 0) return;
         this.eggPathCooldown = GuardEggTask.PATHCOOLDOWN;
         // Path to the egg.
-        final double speed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
-        this.setWalkTo(this.egg.getPositionVec(), speed, 0);
+        this.setWalkTo(this.egg.getPositionVec(), 1, 0);
     }
 
     @Override
@@ -74,8 +71,6 @@ public class GuardEggTask extends BaseIdleTask
         // Only the female (or neutral) will guard the eggs.
         if (this.pokemob.getSexe() == IPokemob.MALE) return false;
         this.eggSearchCooldown = GuardEggTask.SEARCHCOOLDOWN;
-        if (!TerrainManager.isAreaLoaded(this.world, this.entity.getPosition(), PokecubeCore
-                .getConfig().guardSearchDistance + 2)) return false;
 
         final List<LivingEntity> list = new ArrayList<>();
         final List<LivingEntity> pokemobs = this.entity.getBrain().getMemory(MemoryModuleType.VISIBLE_MOBS).get();

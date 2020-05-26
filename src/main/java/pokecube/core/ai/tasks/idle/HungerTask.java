@@ -7,7 +7,6 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
@@ -113,8 +112,7 @@ public class HungerTask extends BaseIdleTask
 
     boolean sleepy = false;
 
-    float  hungerValue = 1;
-    double moveSpeed;
+    float hungerValue = 1;
 
     List<NearBlock> blocks = null;
 
@@ -125,7 +123,6 @@ public class HungerTask extends BaseIdleTask
     public HungerTask(final IPokemob pokemob)
     {
         super(pokemob);
-        this.moveSpeed = this.entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 1.75;
     }
 
     /**
@@ -143,11 +140,12 @@ public class HungerTask extends BaseIdleTask
                     FishingBobberEntity.class, bb);
             if (!hooks.isEmpty())
             {
+                final double moveSpeed = 1.5;
                 Collections.shuffle(hooks);
                 final FishingBobberEntity hook = hooks.get(0);
                 if (this.v.isVisible(this.world, this.v1.set(hook)))
                 {
-                    this.setWalkTo(hook.getPositionVec(), this.moveSpeed, 0);
+                    this.setWalkTo(hook.getPositionVec(), moveSpeed, 0);
                     if (this.entity.getDistanceSq(hook) < 2)
                     {
                         hook.caughtEntity = this.entity;
@@ -263,7 +261,8 @@ public class HungerTask extends BaseIdleTask
                 .getGeneralState(GeneralStates.STAYING);
         if (this.sleepy && this.hitThreshold(HungerTask.EATTHRESHOLD) && !ownedSleepCheck)
         {
-            if (!this.isGoodSleepingSpot(c)) this.setWalkTo(this.pokemob.getHome(), this.moveSpeed, 0);
+            final double moveSpeed = 1;
+            if (!this.isGoodSleepingSpot(c)) this.setWalkTo(this.pokemob.getHome(), moveSpeed, 0);
             else if (this.entity.getNavigator().noPath())
             {
                 this.pokemob.setLogicState(LogicStates.SLEEPING, true);

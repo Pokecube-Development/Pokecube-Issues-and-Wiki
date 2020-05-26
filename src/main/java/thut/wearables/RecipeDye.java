@@ -54,6 +54,7 @@ public class RecipeDye extends SpecialRecipe
         for (int i = 0; i < inv.getSizeInventory(); i++)
         {
             final ItemStack stack = inv.getStackInSlot(i);
+            if (stack.isEmpty()) continue;
             IWearable wear = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null && stack.getItem() instanceof IWearable) wear = (IWearable) stack.getItem();
             if (wear != null && wear.dyeable(stack))
@@ -111,7 +112,7 @@ public class RecipeDye extends SpecialRecipe
         for (int i = 0; i < inv.getSizeInventory(); i++)
         {
             final ItemStack stack = inv.getStackInSlot(i);
-
+            if (stack.isEmpty()) continue;
             IWearable wear = stack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null && stack.getItem() instanceof IWearable) wear = (IWearable) stack.getItem();
             if (wear != null && wear.dyeable(stack))

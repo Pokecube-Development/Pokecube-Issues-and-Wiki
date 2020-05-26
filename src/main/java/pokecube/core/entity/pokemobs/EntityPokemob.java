@@ -179,12 +179,6 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
-    protected float getWaterSlowDown()
-    {
-        return 0.8f;
-    }
-
-    @Override
     public void travel(final Vec3d dr)
     {
         if (this.isServerWorld() && this.isInWater() && this.pokemobCap.swims())

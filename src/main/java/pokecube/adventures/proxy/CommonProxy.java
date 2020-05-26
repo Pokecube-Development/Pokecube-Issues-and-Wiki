@@ -55,6 +55,12 @@ public class CommonProxy implements Proxy
         }
 
         @Override
+        public boolean dyeable(final ItemStack stack)
+        {
+            return true;
+        }
+
+        @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
         {
             return ThutWearables.WEARABLE_CAP.orEmpty(cap, this.holder);

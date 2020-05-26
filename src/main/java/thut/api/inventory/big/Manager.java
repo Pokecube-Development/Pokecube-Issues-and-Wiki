@@ -84,13 +84,16 @@ public abstract class Manager<T extends BigInventory>
     public void save(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
+        final T save = this.get(uuid, false);
+        if (save == null || !save.dirty) return;
         try
         {
+
             final File file = PlayerDataHandler.getFileForUUID(uuid.toString(), this.fileName());
             if (file != null)
             {
                 final CompoundNBT CompoundNBT = new CompoundNBT();
-                this.writeToNBT(CompoundNBT, uuid);
+                this.writeToNBT(CompoundNBT, save);
                 final CompoundNBT CompoundNBT1 = new CompoundNBT();
                 CompoundNBT1.put("Data", CompoundNBT);
                 final FileOutputStream fileoutputstream = new FileOutputStream(file);
@@ -108,10 +111,10 @@ public abstract class Manager<T extends BigInventory>
         }
     }
 
-    public void writeToNBT(final CompoundNBT nbt, final UUID uuid)
+    public void writeToNBT(final CompoundNBT nbt, final T save)
     {
         final ListNBT nbttag = new ListNBT();
-        final CompoundNBT items = this.get(uuid).serializeNBT();
+        final CompoundNBT items = save.serializeNBT();
         nbttag.add(items);
         nbt.put(this.tagID(), nbttag);
     }
@@ -121,9 +124,9 @@ public abstract class Manager<T extends BigInventory>
         return this.get(mob.getUniqueID());
     }
 
-    public T get(final UUID id)
+    public T get(final UUID id, final boolean create)
     {
-        if (!this._map.containsKey(id))
+        if (!this._map.containsKey(id) && create)
         {
             // First attempt to load it from disc
             this.load(id);
@@ -131,6 +134,11 @@ public abstract class Manager<T extends BigInventory>
             if (!this._map.containsKey(id)) this._map.put(id, this.new_factory.create(this, id));
         }
         return this._map.get(id);
+    }
+
+    public T get(final UUID id)
+    {
+        return this.get(id, true);
     }
 
     public void clear()

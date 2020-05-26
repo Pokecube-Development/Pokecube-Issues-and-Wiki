@@ -1,11 +1,10 @@
 package pokecube.core.ai.tasks.idle;
 
-import net.minecraft.entity.LivingEntity;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 
-public class ForgetHuntedByTask extends TaskBase<LivingEntity>
+public class ForgetHuntedByTask extends TaskBase
 {
     int fleeingTicks = 0;
 

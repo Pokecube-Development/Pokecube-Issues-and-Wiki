@@ -33,7 +33,7 @@ public class EatPlant extends EatBlockBase
         double diff = 1.5;
         diff = Math.max(diff, entity.getWidth());
         final double dist = block.getPos().manhattanDistance(entity.getPosition());
-        this.setWalkTo(entity, block.getPos(), pokemob.getMovementSpeed(), 0);
+        this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
         final ServerWorld world = (ServerWorld) entity.getEntityWorld();

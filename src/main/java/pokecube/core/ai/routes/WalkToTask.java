@@ -14,17 +14,17 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 
-public class WalkToTask extends Task<MobEntity>
+public class WalkToTask extends RootTask<MobEntity>
 {
 
     @Nullable
@@ -38,6 +38,12 @@ public class WalkToTask extends Task<MobEntity>
     {
         super(ImmutableMap.of(MemoryModuleType.PATH, MemoryModuleStatus.VALUE_ABSENT, MemoryModuleType.WALK_TARGET,
                 MemoryModuleStatus.VALUE_PRESENT), duration);
+    }
+
+    @Override
+    protected boolean canTimeOut()
+    {
+        return true;
     }
 
     @Override

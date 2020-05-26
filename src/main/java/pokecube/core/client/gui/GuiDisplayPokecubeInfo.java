@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.dragon.EnderDragonPartEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -680,8 +679,7 @@ public class GuiDisplayPokecubeInfo extends AbstractGui
         if (Screen.hasShiftDown() && pokemob != null && pokemob.getOwner() != null)
         {
             PacketCommand.sendCommand(pokemob, Command.MOVETO, new MoveToHandler(Vector3.getNewVector().set(pokemob
-                    .getOwner()), (float) pokemob.getEntity().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
-                            .getValue()));
+                    .getOwner()), 1.0f));
             return;
         }
 

@@ -13,6 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -41,7 +46,6 @@ public class EnergyHandler
 {
     private static final ResourceLocation ENERGYCAP = new ResourceLocation("pokecube:energy");
 
-    public static int UPDATERATE = 1;
     public static JEP parser;
 
     public static class EnergyStore implements IEnergyStorage, ICapabilityProvider
@@ -149,12 +153,12 @@ public class EnergyHandler
         {
             l.clear();
             l = tile.mobs = tile.getWorld().getEntitiesWithinAABB(MobEntity.class, box);
-            tile.updateTime = tile.getWorld().getGameTime() + EnergyHandler.UPDATERATE;
+            tile.updateTime = tile.getWorld().getGameTime() + PokecubeAdv.config.siphonUpdateRate;
         }
         int ret = 0;
         power = Math.min(power, PokecubeAdv.config.maxOutput);
         for (final MobEntity living : l)
-            if (living != null && living.addedToChunk)
+            if (living != null && living.addedToChunk && living.isAlive())
             {
                 final IEnergyStorage producer = living.getCapability(CapabilityEnergy.ENERGY).orElse(null);
                 if (producer != null)
@@ -178,6 +182,9 @@ public class EnergyHandler
     @SubscribeEvent
     public static void SiphonEvent(final SiphonTickEvent event)
     {
+        if (!(event.getTile().getWorld() instanceof ServerWorld)) return;
+        final ServerWorld world = (ServerWorld) event.getTile().getWorld();
+
         final Map<IEnergyStorage, Integer> tiles = Maps.newHashMap();
         Integer output = (int) EnergyHandler.getOutput(event.getTile(), PokecubeAdv.config.maxOutput, true);
         event.getTile().energy.theoreticalOutput = output;
@@ -187,14 +194,38 @@ public class EnergyHandler
         final Vector3 v = Vector3.getNewVector().set(event.getTile());
         for (final Direction side : Direction.values())
         {
-            final TileEntity te = v.getTileEntity(event.getTile().getWorld(), side);
+            final TileEntity te = v.getTileEntity(world, side);
             IEnergyStorage cap;
             if (te != null && (cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(
                     null)) != null)
             {
+                if (!cap.canReceive()) continue;
                 final Integer toSend = cap.receiveEnergy(output, true);
-                if (toSend > 0 && cap.canReceive()) tiles.put(cap, toSend);
+                if (toSend > 0) tiles.put(cap, toSend);
             }
+        }
+        if (PokecubeAdv.config.wirelessSiphons) for (final GlobalPos pos : event.getTile().wirelessLinks)
+        {
+            final BlockPos bpos = pos.getPos();
+            final DimensionType dim = pos.getDimension();
+            if (dim != world.dimension.getType()) continue;
+            final ChunkPos cpos = new ChunkPos(bpos);
+            if (!world.chunkExists(cpos.x, cpos.z)) continue;
+            final TileEntity te = world.getTileEntity(bpos);
+            if (te == null) continue;
+            IEnergyStorage cap;
+            sides:
+            for (final Direction side : Direction.values())
+                if ((cap = te.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).orElse(null)) != null)
+                {
+                    if (!cap.canReceive()) continue;
+                    final Integer toSend = cap.receiveEnergy(output, true);
+                    if (toSend > 0)
+                    {
+                        tiles.put(cap, toSend);
+                        break sides;
+                    }
+                }
         }
         for (final Map.Entry<IEnergyStorage, Integer> entry : tiles.entrySet())
         {

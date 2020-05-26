@@ -30,7 +30,7 @@ import net.minecraft.item.MerchantOffer;
 import net.minecraft.resources.IResource;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.IWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.adventures.Config;
@@ -270,8 +270,8 @@ public class TypeTrainer extends NpcType
         TypeTrainer.typeMap.put(name, type);
     }
 
-    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level, final World world,
-            final List<PokedexEntry> values)
+    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level,
+            final IWorld world, final List<PokedexEntry> values)
     {
         for (int i = 0; i < 6; i++)
             trainer.setPokemob(i, ItemStack.EMPTY);
@@ -292,7 +292,8 @@ public class TypeTrainer extends NpcType
         }
     }
 
-    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level, final World world)
+    public static void getRandomTeam(final IHasPokemobs trainer, final LivingEntity owner, int level,
+            final IWorld world)
     {
         final TypeTrainer type = trainer.getType();
         final List<PokedexEntry> values = Lists.newArrayList();
@@ -335,12 +336,13 @@ public class TypeTrainer extends NpcType
             }
     }
 
-    public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final World world,
+    public static ItemStack makeStack(final PokedexEntry entry, final LivingEntity trainer, final IWorld world,
             final int level)
     {
         final int num = entry.getPokedexNb();
         if (Pokedex.getInstance().getEntry(num) == null) return ItemStack.EMPTY;
-        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, world));
+        IPokemob pokemob = CapabilityPokemob.getPokemobFor(PokecubeCore.createPokemob(entry, PokecubeCore.proxy
+                .getWorld()));
         if (pokemob != null)
         {
             for (int i = 1; i < level; i++)

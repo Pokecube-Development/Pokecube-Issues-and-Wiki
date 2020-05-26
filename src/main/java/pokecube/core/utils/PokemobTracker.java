@@ -252,6 +252,11 @@ public class PokemobTracker
     public static void worldLoadEvent(final Load evt)
     {
         final PokemobTracker tracker = PokemobTracker.getFor(evt.getWorld());
+        if (evt.getWorld().isRemote())
+        {
+            tracker.ownedCubes.clear();
+            tracker.ownerMap.clear();
+        }
         // Reset the tracked map for this world
         tracker.liveMobs.put(evt.getWorld().getDimension().getType(), new ArrayList<>());
     }

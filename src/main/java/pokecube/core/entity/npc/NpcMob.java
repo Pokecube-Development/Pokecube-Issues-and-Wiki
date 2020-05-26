@@ -91,7 +91,7 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
             final ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> addTo)
     {
         final List<Pair<Integer, ? extends Task<? super VillagerEntity>>> temp = Lists.newArrayList(addTo);
-        final Pair<Integer, GuardTask<VillagerEntity>> pair = Pair.of(0, new GuardTask<>(guardai));
+        final Pair<Integer, GuardTask<VillagerEntity>> pair = Pair.of(0, new GuardTask<>(this, guardai));
         temp.add(0, pair);
         return ImmutableList.copyOf(temp);
     }

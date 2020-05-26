@@ -4,17 +4,17 @@ import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.schedule.Activity;
-import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.ai.brain.RootTask;
 import pokecube.core.ai.npc.Activities;
 
-public class GuardTask<T extends LivingEntity> extends Task<LivingEntity>
+public class GuardTask<T extends LivingEntity> extends RootTask<T>
 {
     final GuardAI goal;
 
-    public GuardTask(final GuardAI goal)
+    public GuardTask(final T mob, final GuardAI goal)
     {
-        super(ImmutableMap.of());
+        super(mob, ImmutableMap.of());
         this.goal = goal;
     }
 
