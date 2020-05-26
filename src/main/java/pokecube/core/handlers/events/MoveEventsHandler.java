@@ -301,7 +301,7 @@ public class MoveEventsHandler
         final UseContext context = MoveEventsHandler.getContext(world, attacker, Blocks.LAVA.getDefaultState(),
                 location);
         final BlockState state = context.getHitState();
-        final Block block = state.getBlock();
+        Block block = state.getBlock();
         final BlockPos hitPos = context.getHitPos();
         final BlockPos prevPos = context.getPos();
         final int flamNext = block.getFlammability(state, world, prevPos, context.getFace());
@@ -324,6 +324,33 @@ public class MoveEventsHandler
         {
             final int level = state.get(SnowBlock.LAYERS);
             world.setBlockState(hitPos, Blocks.WATER.getDefaultState().with(FlowingFluidBlock.LEVEL, level));
+            return true;
+        }
+        // Melt Ice
+        else if (block == Blocks.ICE)
+        {
+            world.setBlockState(hitPos, Blocks.WATER.getDefaultState());
+            return true;
+        }
+        block = prev.getBlock();
+
+        // Melt Snow
+        if (block == Blocks.SNOW_BLOCK)
+        {
+            world.setBlockState(prevPos, Blocks.WATER.getDefaultState());
+            return true;
+        }
+        // Melt Snow
+        else if (block == Blocks.SNOW)
+        {
+            final int level = prev.get(SnowBlock.LAYERS);
+            world.setBlockState(prevPos, Blocks.WATER.getDefaultState().with(FlowingFluidBlock.LEVEL, level));
+            return true;
+        }
+        // Melt Ice
+        else if (block == Blocks.ICE)
+        {
+            world.setBlockState(prevPos, Blocks.WATER.getDefaultState());
             return true;
         }
         // Otherwise smelt attempt

@@ -55,7 +55,7 @@ public class BlockEventHandler
         {
             final IOwnable own = OwnableCaps.getOwnable(this.tile);
             if (user instanceof LivingEntity && own instanceof IOwnableTE && !((IOwnableTE) own).canEdit(
-                    (LivingEntity) user)) return false;
+                    (LivingEntity) user) || pos == null) return false;
             // Assume that we right clicked the top of the block.
             pos = GlobalPos.of(pos.getDimension(), pos.getPos().up());
             this.tile.getDest().setPos(pos);

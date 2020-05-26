@@ -72,8 +72,8 @@ public class WarppadTile extends InteractableTile implements IEnergyStorage
 
     public TeleDest getDest()
     {
-        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(this.getWorld().getDimension().getType(),
-                this.getPos().up(4)));
+        if (this.dest == null) this.dest = new TeleDest().setPos(GlobalPos.of(this.getWorld() != null ? this.getWorld()
+                .getDimension().getType() : DimensionType.OVERWORLD, this.getPos().up(4)));
         return this.dest;
     }
 

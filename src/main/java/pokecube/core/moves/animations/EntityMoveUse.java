@@ -82,8 +82,8 @@ public class EntityMoveUse extends ThrowableEntity
     private void doMoveUse()
     {
         final Move_Base attack = this.getMove();
-        Entity user;
-        if ((user = this.getUser()) == null || !this.isAlive() || !user.isAlive()) return;
+        final Entity user = this.getUser();
+        if (user == null || !this.isAlive() || !user.isAlive()) return;
         if (!this.getEntityWorld().isRemote)
         {
             final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
@@ -280,7 +280,7 @@ public class EntityMoveUse extends ThrowableEntity
         valid:
         if ((user = this.getUser()) == null || !this.isAlive() || !user.isAlive() || !user.addedToChunk)
         {
-            if (user != null && !user.addedToChunk) if (user.getPersistentData().getBoolean("isPlayer")) break valid;
+            if (user != null && !user.addedToChunk) if (user.getPersistentData().getBoolean("is_a_player")) break valid;
             this.remove();
             return;
         }

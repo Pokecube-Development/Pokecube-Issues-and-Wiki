@@ -24,11 +24,13 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -337,6 +339,8 @@ public final class SpawnHandler
             if (vec.distanceTo(pos) > range) continue;
             final BlockState blockstate = world.getBlockState(blockpos);
             if (blockstate.isNormalCube(world, blockpos)) continue;
+            final VoxelShape shape = blockstate.getCollisionShape(world, blockpos);
+            if (!shape.isEmpty()) vec.y += shape.getEnd(Axis.Y);
             return vec;
         }
         return null;
@@ -720,6 +724,7 @@ public final class SpawnHandler
      */
     public void doSpawnForPoint(final Vector3 v, final ServerWorld world, final int minRadius, final int maxRadius)
     {
+        if (minRadius > maxRadius) return;
         long time = System.nanoTime();
         if (!TerrainManager.isAreaLoaded(world, v, maxRadius)) return;
         final int height = world.getActualHeight();
@@ -763,7 +768,7 @@ public final class SpawnHandler
         {
             final Vector3 dr = SpawnHandler.getRandomPointNear(world, loc, distGroupZone);
             if (dr != null) point.set(dr);
-            else continue;
+            else point.set(loc);
 
             if (!SpawnHandler.checkNoSpawnerInArea(world, point.intX(), point.intY(), point.intZ())) continue;
 
@@ -771,60 +776,52 @@ public final class SpawnHandler
             final float y = (float) point.y;
             final float z = (float) point.z;
 
-            final float var28 = x - world.getSpawnPoint().getX();
-            final float var29 = y - world.getSpawnPoint().getY();
-            final float var30 = z - world.getSpawnPoint().getZ();
-            final float distFromSpawnPoint = var28 * var28 + var29 * var29 + var30 * var30;
-            if (distFromSpawnPoint >= 256.0F)
+            MobEntity entity = null;
+            try
             {
-                MobEntity entity = null;
-                try
+                if (dbe.getPokedexNb() > 0)
                 {
-                    if (dbe.getPokedexNb() > 0)
+                    final SpawnEvent.Pick.Final event = new SpawnEvent.Pick.Final(dbe, point, world);
+                    PokecubeCore.POKEMOB_BUS.post(event);
+                    if (event.getPicked() == null) continue;
+                    entity = PokecubeCore.createPokemob(event.getPicked(), world);
+                    entity.setHealth(entity.getMaxHealth());
+                    entity.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
+                    if (entity.canSpawn(world, SpawnReason.NATURAL))
                     {
-                        final SpawnEvent.Pick.Final event = new SpawnEvent.Pick.Final(dbe, point, world);
-                        PokecubeCore.POKEMOB_BUS.post(event);
-                        if (event.getPicked() == null) continue;
-                        entity = PokecubeCore.createPokemob(event.getPicked(), world);
-                        entity.setHealth(entity.getMaxHealth());
-                        entity.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
-                        if (entity.canSpawn(world, SpawnReason.NATURAL))
+                        if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, v3.set(entity), entry
+                                .getLevel(matcher), entry.getVariance(matcher))) != null)
                         {
-                            if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, v3.set(entity),
-                                    entry.getLevel(matcher), entry.getVariance(matcher))) != null)
+                            final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
+                            if (!event.getSpawnArgs().isEmpty())
                             {
-                                final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
-                                if (!event.getSpawnArgs().isEmpty())
-                                {
-                                    final String[] args = event.getSpawnArgs().split(" ");
-                                    Pokemake.setToArgs(args, pokemob, 0, v, false);
-                                }
-                                else if (matcher.spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
-                                {
-                                    final String[] args = matcher.spawnRule.values.get(SpawnBiomeMatcher.SPAWNCOMMAND)
-                                            .split(" ");
-                                    Pokemake.setToArgs(args, pokemob, 0, v, false);
-                                }
-                                final SpawnEvent.Post evt = new SpawnEvent.Post(dbe, v3, world, pokemob);
-                                PokecubeCore.POKEMOB_BUS.post(evt);
-                                world.addEntity(entity);
-                                totalSpawnCount++;
+                                final String[] args = event.getSpawnArgs().split(" ");
+                                Pokemake.setToArgs(args, pokemob, 0, v, false);
                             }
+                            else if (matcher.spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
+                            {
+                                final String[] args = matcher.spawnRule.values.get(SpawnBiomeMatcher.SPAWNCOMMAND)
+                                        .split(" ");
+                                Pokemake.setToArgs(args, pokemob, 0, v, false);
+                            }
+                            final SpawnEvent.Post evt = new SpawnEvent.Post(dbe, v3, world, pokemob);
+                            PokecubeCore.POKEMOB_BUS.post(evt);
+                            world.addEntity(entity);
+                            totalSpawnCount++;
                         }
-                        else entity.remove();
                     }
-                }
-                catch (final Throwable e)
-                {
-                    if (entity != null) entity.remove();
-
-                    System.err.println("Wrong Id while spawn: " + dbe.getName());
-                    e.printStackTrace();
-
-                    return totalSpawnCount;
+                    else entity.remove();
                 }
             }
+            catch (final Throwable e)
+            {
+                if (entity != null) entity.remove();
 
+                System.err.println("Wrong Id while spawn: " + dbe.getName());
+                e.printStackTrace();
+
+                return totalSpawnCount;
+            }
         }
         return totalSpawnCount;
     }

@@ -289,6 +289,7 @@ public class PokecubeAdv
     public PokecubeAdv()
     {
         PokecubeAdv.init();
+        // Pokeplayer.init();
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeAdv.proxy::setup);
         // Register the doClientStuff method for modloading

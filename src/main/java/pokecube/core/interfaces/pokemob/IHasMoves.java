@@ -213,7 +213,7 @@ public interface IHasMoves extends IHasStats
     int getTargetID();
 
     /** @return Mob we are transformed into, null for no mob. */
-    Entity getTransformedTo();
+    LivingEntity getTransformedTo();
 
     /** Sets all changes back to none. */
     default void healChanges()
@@ -438,5 +438,5 @@ public interface IHasMoves extends IHasStats
      *
      * @param to
      */
-    void setTransformedTo(Entity to);
+    void setTransformedTo(LivingEntity to);
 }
