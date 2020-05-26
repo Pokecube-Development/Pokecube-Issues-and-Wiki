@@ -109,7 +109,7 @@ public class Tasks
         task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new SwimTask(0.4F, 0.8F);
+        task = new SwimTask(pokemob, 0.4F, 0.8F);
         list.add(Pair.of(0, (Task<? super LivingEntity>) task));
 
         list.add(Tasks.lookAtMany());
@@ -160,7 +160,7 @@ public class Tasks
         task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new SwimTask(0.4F, 0.8F);
+        task = new SwimTask(pokemob, 0.4F, 0.8F);
         list.add(Pair.of(0, (Task<? super LivingEntity>) task));
 
         pokemob.getTasks().addAll(aiList);
@@ -217,7 +217,7 @@ public class Tasks
         task = new RunAway(MemoryModules.HUNTED_BY, 1.5f);
         list.add(Pair.of(1, (Task<? super LivingEntity>) task));
 
-        task = new SwimTask(0.4F, 0.8F);
+        task = new SwimTask(pokemob, 0.4F, 0.8F);
         list.add(Pair.of(0, (Task<? super LivingEntity>) task));
 
         pokemob.getTasks().addAll(aiList);
