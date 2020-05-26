@@ -21,6 +21,8 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.SaveHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -44,17 +46,32 @@ public class PlayerDataHandler
         void writeSync(ByteBuf data);
 
         void writeToNBT(CompoundNBT tag);
+
+        default void onPlayerTick(final PlayerTickEvent event)
+        {
+
+        }
+
+        default void onPlayerUpdate(final LivingUpdateEvent event)
+        {
+
+        }
+
+        default boolean canTick()
+        {
+            return false;
+        }
     }
 
     public static abstract class PlayerData implements IPlayerData
     {
         @Override
-        public void readSync(ByteBuf data)
+        public void readSync(final ByteBuf data)
         {
         }
 
         @Override
-        public void writeSync(ByteBuf data)
+        public void writeSync(final ByteBuf data)
         {
         }
     }
@@ -65,7 +82,7 @@ public class PlayerDataHandler
         Map<String, PlayerData>                             idMap = Maps.newHashMap();
         final String                                        uuid;
 
-        public PlayerDataManager(String uuid)
+        public PlayerDataManager(final String uuid)
         {
             this.uuid = uuid;
             for (final Class<? extends PlayerData> type : PlayerDataHandler.dataMap)
@@ -86,12 +103,12 @@ public class PlayerDataHandler
         }
 
         @SuppressWarnings("unchecked")
-        public <T extends PlayerData> T getData(Class<T> type)
+        public <T extends PlayerData> T getData(final Class<T> type)
         {
             return (T) this.data.get(type);
         }
 
-        public PlayerData getData(String dataType)
+        public PlayerData getData(final String dataType)
         {
             return this.idMap.get(dataType);
         }
@@ -115,22 +132,22 @@ public class PlayerDataHandler
     {
         if (PlayerDataHandler.dataIds.size() != PlayerDataHandler.dataMap.size())
             for (final Class<? extends PlayerData> type : PlayerDataHandler.dataMap)
-            {
+        {
             PlayerData toAdd;
             try
             {
-            toAdd = type.newInstance();
-            PlayerDataHandler.dataIds.add(toAdd.getIdentifier());
+                toAdd = type.newInstance();
+                PlayerDataHandler.dataIds.add(toAdd.getIdentifier());
             }
             catch (InstantiationException | IllegalAccessException e)
             {
-            e.printStackTrace();
+                e.printStackTrace();
             }
-            }
+        }
         return PlayerDataHandler.dataIds;
     }
 
-    public static File getFileForUUID(String uuid, String fileName)
+    public static File getFileForUUID(final String uuid, final String fileName)
     {
         final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         final ServerWorld world = server.getWorld(DimensionType.OVERWORLD);
@@ -146,22 +163,23 @@ public class PlayerDataHandler
     public static PlayerDataHandler getInstance()
     {
         if (ThutCore.proxy.isClientSide()) return PlayerDataHandler.INSTANCECLIENT != null
-                ? PlayerDataHandler.INSTANCECLIENT : (PlayerDataHandler.INSTANCECLIENT = new PlayerDataHandler());
+                ? PlayerDataHandler.INSTANCECLIENT
+                : (PlayerDataHandler.INSTANCECLIENT = new PlayerDataHandler());
         return PlayerDataHandler.INSTANCESERVER != null ? PlayerDataHandler.INSTANCESERVER
                 : (PlayerDataHandler.INSTANCESERVER = new PlayerDataHandler());
     }
 
-    public static void register(Class<? extends PlayerData> data)
+    public static void register(final Class<? extends PlayerData> data)
     {
         PlayerDataHandler.dataMap.add(data);
     }
 
-    public static void saveCustomData(PlayerEntity player)
+    public static void saveCustomData(final PlayerEntity player)
     {
         PlayerDataHandler.saveCustomData(player.getCachedUniqueIdString());
     }
 
-    public static void saveCustomData(String cachedUniqueIdString)
+    public static void saveCustomData(final String cachedUniqueIdString)
     {
         PlayerDataHandler.getInstance().save(cachedUniqueIdString, "misc");
     }
@@ -174,7 +192,7 @@ public class PlayerDataHandler
     }
 
     @SubscribeEvent
-    public void cleanupOfflineData(WorldEvent.Save event)
+    public void cleanupOfflineData(final WorldEvent.Save event)
     {
         // Whenever overworld saves, check player list for any that are not
         // online, and remove them. This is done here, and not on logoff, as
@@ -198,24 +216,24 @@ public class PlayerDataHandler
         }
     }
 
-    public PlayerDataManager getPlayerData(PlayerEntity player)
+    public PlayerDataManager getPlayerData(final PlayerEntity player)
     {
         return this.getPlayerData(player.getCachedUniqueIdString());
     }
 
-    public PlayerDataManager getPlayerData(String uuid)
+    public PlayerDataManager getPlayerData(final String uuid)
     {
         PlayerDataManager manager = this.data.get(uuid);
         if (manager == null) manager = this.load(uuid);
         return manager;
     }
 
-    public PlayerDataManager getPlayerData(UUID uniqueID)
+    public PlayerDataManager getPlayerData(final UUID uniqueID)
     {
         return this.getPlayerData(uniqueID.toString());
     }
 
-    public PlayerDataManager load(String uuid)
+    public PlayerDataManager load(final String uuid)
     {
         final PlayerDataManager manager = new PlayerDataManager(uuid);
         if (this == PlayerDataHandler.INSTANCESERVER) for (final PlayerData data : manager.data.values())
@@ -246,7 +264,7 @@ public class PlayerDataHandler
         return manager;
     }
 
-    public void save(String uuid)
+    public void save(final String uuid)
     {
         final PlayerDataManager manager = this.data.get(uuid);
         if (manager != null && this == PlayerDataHandler.INSTANCESERVER) for (final PlayerData data : manager.data
@@ -274,7 +292,7 @@ public class PlayerDataHandler
         }
     }
 
-    public void save(String uuid, String dataType)
+    public void save(final String uuid, final String dataType)
     {
         final PlayerDataManager manager = this.data.get(uuid);
         if (manager != null && this == PlayerDataHandler.INSTANCESERVER) for (final PlayerData data : manager.data
