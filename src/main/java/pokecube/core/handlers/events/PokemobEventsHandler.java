@@ -318,7 +318,7 @@ public class PokemobEventsHandler
                 {
                     final IPokemob poke = CapabilityPokemob.getPokemobFor(mob);
                     if (poke != null && poke.getEntity().getHealth() > 0 && ItemList.is(new ResourceLocation("pokecube",
-                            "exp_share"), poke.getHeldItem()))
+                            "exp_share"), poke.getHeldItem()) && !poke.getLogicState(LogicStates.SITTING))
                     {
                         final int exp = poke.getExp() + Tools.getExp((float) PokecubeCore.getConfig().expScaleFactor,
                                 killed.getBaseXP(), killed.getLevel());
