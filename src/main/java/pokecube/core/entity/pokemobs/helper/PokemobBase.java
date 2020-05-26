@@ -39,7 +39,7 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
         {
             float scale = 1;
             scale = Math.min(1, (this.ticksExisted + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
-            size = Math.max(0.1f, scale);
+            size = Math.max(0.01f, size * scale);
         }
         this.ignoreFrustumCheck = false;
         if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))

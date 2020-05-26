@@ -49,6 +49,7 @@ public class Evolution
     public static void renderEffect(final IPokemob pokemob, final MatrixStack mat, final IRenderTypeBuffer bufferIn,
             final float partialTick, final int duration, final boolean scaleMob)
     {
+        if (!pokemob.getEntity().addedToChunk) return;
         int ticks = pokemob.getEvolutionTicks();
         final PokedexEntry entry = pokemob.getPokedexEntry();
         final int color1 = entry.getType1().colour;

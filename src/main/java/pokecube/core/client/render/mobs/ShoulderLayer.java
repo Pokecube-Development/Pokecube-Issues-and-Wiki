@@ -60,9 +60,9 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
     {
         private final LazyOptional<IShoulderHolder> holder = LazyOptional.of(() -> this);
 
-        PlayerEntity                                player;
-        IPokemob                                    left   = null;
-        IPokemob                                    right  = null;
+        PlayerEntity player;
+        IPokemob     left  = null;
+        IPokemob     right = null;
 
         // Do not call this one, it is only for capability register!
         public ShoulderHolder()
@@ -122,19 +122,20 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T player,
-            float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw,
-            float headPitch)
+    public void render(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn, final int packedLightIn,
+            final T player, final float limbSwing, final float limbSwingAmount, final float partialTicks,
+            final float ageInTicks, final float netHeadYaw, final float headPitch)
     {
-        renderShoulder(matrixStackIn, bufferIn, packedLightIn, player, limbSwing, limbSwingAmount, partialTicks,
+        this.renderShoulder(matrixStackIn, bufferIn, packedLightIn, player, limbSwing, limbSwingAmount, partialTicks,
                 ageInTicks, netHeadYaw, headPitch, true);
-        renderShoulder(matrixStackIn, bufferIn, packedLightIn, player, limbSwing, limbSwingAmount, partialTicks,
+        this.renderShoulder(matrixStackIn, bufferIn, packedLightIn, player, limbSwing, limbSwingAmount, partialTicks,
                 ageInTicks, netHeadYaw, headPitch, false);
     }
 
-    private void renderShoulder(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T player,
-            float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw,
-            float headPitch, final boolean leftside)
+    private void renderShoulder(final MatrixStack matrixStackIn, final IRenderTypeBuffer bufferIn,
+            final int packedLightIn, final T player, final float limbSwing, final float limbSwingAmount,
+            final float partialTicks, final float ageInTicks, final float netHeadYaw, final float headPitch,
+            final boolean leftside)
     {
         final CompoundNBT compoundnbt = leftside ? player.getLeftShoulderEntity() : player.getRightShoulderEntity();
         EntityType.byKey(compoundnbt.getString("id")).filter((type) ->
@@ -156,20 +157,23 @@ public class ShoulderLayer<T extends PlayerEntity> extends LayerRenderer<T, Play
 
             matrixStackIn.push();
 
+            final float s = 1;
+
             if (leftside)
             {
                 to.prevRenderYawOffset = 180;
                 to.renderYawOffset = 180;
-
-                matrixStackIn.scale(1, -1, 1);
+                matrixStackIn.scale(s, -s, s);
             }
             else
             {
                 to.prevRenderYawOffset = 0;
                 to.renderYawOffset = 0;
-                matrixStackIn.scale(1, -1, -1);
+                matrixStackIn.scale(s, -s, -s);
             }
-            matrixStackIn.translate(leftside ? 0.4F : -0.4F, player.isCrouching() ? -0.2F : -0.0F, 0.0F);
+            float dw = pokemob.getEntity().getWidth() * pokemob.getSize() * 1.5f;
+            if (dw < 1) dw = 0.4f;
+            matrixStackIn.translate(leftside ? dw : -dw, player.isCrouching() ? -0.2F : -0.0F, 0.0F);
             render.render(pokemob.getEntity(), 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             matrixStackIn.pop();
         });
