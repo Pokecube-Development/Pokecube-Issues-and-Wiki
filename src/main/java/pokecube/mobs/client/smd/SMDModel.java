@@ -1,5 +1,6 @@
 package pokecube.mobs.client.smd;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import pokecube.mobs.client.smd.impl.Bone;
+import pokecube.mobs.client.smd.impl.Face;
 import pokecube.mobs.client.smd.impl.Helpers;
 import pokecube.mobs.client.smd.impl.Model;
 import thut.api.maths.vecmath.Matrix4f;
@@ -284,7 +286,15 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         material.alpha = mat.alpha;
         material.flat = !mat.smooth;
         material.transluscent = mat.transluscent;
+
+        final Material old = this.wrapped.body.namesToMats.get(mat_name);
+        final ArrayList<Face> faces = this.wrapped.body.matsToFaces.remove(old);
+
         this.wrapped.body.namesToMats.put(mat_name, material);
+        this.wrapped.body.matsToFaces.put(material, faces);
+
+        this.mats.clear();
+        this.mats.addAll(this.wrapped.body.namesToMats.values());
     }
 
     @Override

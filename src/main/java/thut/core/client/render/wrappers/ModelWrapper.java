@@ -20,6 +20,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.animation.Animation;
 import thut.core.client.render.animation.AnimationHelper;
+import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
@@ -240,6 +241,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     private void translate(final MatrixStack mat)
     {
         mat.translate(this.rotationPointX, this.rotationPointY, this.rotationPointZ);
+    }
+
+    @Override
+    public void updateMaterial(final Mat mat)
+    {
+        this.imodel.updateMaterial(mat);
+        IModel.super.updateMaterial(mat);
     }
 
 }
