@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import pokecube.core.interfaces.IMoveConstants;
 
 public class PokemobMoveStats
@@ -62,7 +63,7 @@ public class PokemobMoveStats
     public int lastActiveTime;
 
     /** Mob transformed into */
-    public Entity transformedTo;
+    public LivingEntity transformedTo;
 
     /**
      * The amount of time since the creeper was close enough to the player to
