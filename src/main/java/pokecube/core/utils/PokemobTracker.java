@@ -115,11 +115,19 @@ public class PokemobTracker
     private final Map<UUID, Set<MobEntry>>           ownerMap   = new ConcurrentHashMap<>();
     private final Map<UUID, Set<CubeEntry>>          ownedCubes = new ConcurrentHashMap<>();
 
+    private DimensionType defaults = DimensionType.OVERWORLD;
+
+    private void setDim(final DimensionType dim)
+    {
+        this.defaults = dim;
+    }
+
     private MobEntry _addPokemob(final IPokemob pokemob)
     {
         // First remove the mob from all maps, incase it is in one.
         final MobEntry e = PokemobTracker.removePokemob(pokemob);
-        final DimensionType dim = pokemob.getEntity().dimension;
+        DimensionType dim = pokemob.getEntity().dimension;
+        if (dim == null) dim = this.defaults;
         // Find the appropriate map
         final List<MobEntry> mobList = this.liveMobs.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there
@@ -259,5 +267,6 @@ public class PokemobTracker
         }
         // Reset the tracked map for this world
         tracker.liveMobs.put(evt.getWorld().getDimension().getType(), new ArrayList<>());
+        if (tracker == PokemobTracker.CLIENT) tracker.setDim(evt.getWorld().getDimension().getType());
     }
 }
