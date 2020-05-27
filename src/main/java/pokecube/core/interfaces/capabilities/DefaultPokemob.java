@@ -15,11 +15,7 @@ import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -182,11 +178,6 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
 
         // DOLATER decide on speed scaling here?
         entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2F);
-
-        // Generic goals
-        if (!this.swims()) entity.goalSelector.addGoal(0, new SwimGoal(entity));
-        entity.goalSelector.addGoal(6, new LookAtGoal(entity, PlayerEntity.class, 6.0F));
-        entity.goalSelector.addGoal(7, new LookRandomlyGoal(entity));
 
         this.tasks = Lists.newArrayList();
         final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getEntity().getBrain();
