@@ -182,8 +182,6 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public int mateMultiplier     = 1;
     @Configure(category = Config.mobAI)
-    public int mateAIRate         = 40;
-    @Configure(category = Config.mobAI)
     public int breedingDelay      = 4000;
     @Configure(category = Config.mobAI)
     public int eggHatchTime       = 10000;
@@ -325,7 +323,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public int     idleMaxPathTame        = 16;
     @Configure(category = Config.mobAI)
-    public int     hungerTickRate         = 20;
+    public int     hungerTickRate         = 1;
     @Configure(category = Config.mobAI)
     public double  hordeRateFactor        = 0.1;
     @Configure(category = Config.mobAI)
@@ -443,12 +441,13 @@ public class Config extends ConfigData
     public List<String> spawnDimWhitelist = Lists.newArrayList();
     @Configure(category = Config.spawning)
     public boolean      spawnWhitelisted  = false;
+
     @Configure(category = Config.spawning)
     /** Spawns run once every this many ticks.. */
-    public int          spawnRate         = 20;
+    public int spawnRate   = 2;
     @Configure(category = Config.spawning)
     /** Default radius for repel blocks */
-    public int          repelRadius       = 16;
+    public int repelRadius = 16;
 
     // Gui/client settings
     @Configure(category = Config.client, type = Type.CLIENT)
