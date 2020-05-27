@@ -7,6 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
 import pokecube.adventures.blocks.commander.CommanderTile;
 import pokecube.adventures.blocks.genetics.extractor.ExtractorTile;
 import pokecube.adventures.blocks.genetics.splicer.SplicerTile;
@@ -32,8 +33,7 @@ public class Impl
 
     public static class PokecubePeripherals implements IPeripheralProvider
     {
-        @Override
-        public IPeripheral getPeripheral(final World world, final BlockPos pos, final Direction side)
+        public IPeripheral getPeri(final World world, final BlockPos pos, final Direction side)
         {
             final TileEntity tile = world.getTileEntity(pos);
             if (tile instanceof CommanderTile) return new Commander((CommanderTile) tile);
@@ -43,6 +43,13 @@ public class Impl
             if (tile instanceof WarppadTile) return new Warppad((WarppadTile) tile);
             if (tile instanceof SiphonTile) return new Siphon((SiphonTile) tile);
             return null;
+        }
+
+        @Override
+        public LazyOptional<IPeripheral> getPeripheral(final World world, final BlockPos pos, final Direction side)
+        {
+            final IPeripheral peri = this.getPeri(world, pos, side);
+            return peri == null ? LazyOptional.empty() : LazyOptional.of(() -> peri);
         }
     }
 }

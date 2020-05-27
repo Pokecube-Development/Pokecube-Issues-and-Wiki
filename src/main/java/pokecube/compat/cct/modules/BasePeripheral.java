@@ -5,14 +5,12 @@ import net.minecraft.tileentity.TileEntity;
 
 public abstract class BasePeripheral<T extends TileEntity> implements IPeripheral
 {
-    private final String   name;
-    private final String[] methods;
-    public final T         tile;
+    private final String name;
+    public final T       tile;
 
-    public BasePeripheral(final T tile, final String name, final String... methods)
+    public BasePeripheral(final T tile, final String name)
     {
         this.name = name;
-        this.methods = methods;
         this.tile = tile;
     }
 
@@ -20,12 +18,6 @@ public abstract class BasePeripheral<T extends TileEntity> implements IPeriphera
     public String getType()
     {
         return this.name;
-    }
-
-    @Override
-    public String[] getMethodNames()
-    {
-        return this.methods;
     }
 
     @Override
