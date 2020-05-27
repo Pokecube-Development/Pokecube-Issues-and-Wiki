@@ -44,7 +44,7 @@ public abstract class Manager<T extends BigInventory>
 
     public abstract String tagID();
 
-    public void load(final UUID uuid)
+    protected void load(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
         try
@@ -66,7 +66,7 @@ public abstract class Manager<T extends BigInventory>
         }
     }
 
-    public void loadNBT(final CompoundNBT nbt)
+    protected void loadNBT(final CompoundNBT nbt)
     {
         final INBT temp = nbt.get(this.tagID());
         if (temp instanceof ListNBT)
@@ -81,7 +81,7 @@ public abstract class Manager<T extends BigInventory>
         }
     }
 
-    public void save(final UUID uuid)
+    protected void save(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
         final T save = this.get(uuid, false);
