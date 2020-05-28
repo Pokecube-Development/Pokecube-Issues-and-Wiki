@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import thut.api.boom.ExplosionCustom;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.api.maths.Cruncher;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
@@ -26,17 +27,21 @@ public class ConfigHandler extends ConfigData
     private static final String CLIENT      = "client";
 
     @Configure(category = ConfigHandler.BOOMS)
-    private final int           explosionRadius     = 127;
+    public List<Integer> explosionRate = Lists.newArrayList(new Integer[] { 2000, 10000 });
+
     @Configure(category = ConfigHandler.BOOMS)
-    private final List<Integer> explosionRate       = Lists.newArrayList(new Integer[] { 2000, 10000 });
+    public int     explosionRadius = 127;
     @Configure(category = ConfigHandler.BOOMS)
-    private final boolean       affectAir           = true;
+    public double  minBlastEffect  = 0.25;
     @Configure(category = ConfigHandler.BOOMS)
-    private final double        minBlastEffect      = 0.25;
+    public boolean affectAir       = true;
+    @Configure(category = ConfigHandler.BOOMS)
+    public boolean generateCache   = true;
+
     @Configure(category = ConfigHandler.BIOMES)
-    public boolean              resetAllTerrain     = false;
+    public boolean      resetAllTerrain     = false;
     @Configure(category = ConfigHandler.BIOMES)
-    public List<String>         customBiomeMappings = Lists.newArrayList();
+    public List<String> customBiomeMappings = Lists.newArrayList();
 
     @Configure(category = ConfigHandler.BLOCKENTITY)
     public List<String> teblacklist             = Lists.newArrayList();
@@ -75,5 +80,6 @@ public class ConfigHandler extends ConfigData
             IBlockEntity.BLOCKBLACKLIST.add(new ResourceLocation(s));
         TerrainSegment.biomeCheckers.removeIf(t -> t instanceof ConfigTerrainChecker);
         ConfigTerrainBuilder.process(this.customBiomeMappings);
+        if (this.generateCache) Cruncher.init();
     }
 }

@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,6 +24,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.common.MinecraftForge;
@@ -72,24 +75,28 @@ public class ExplosionCustom extends Explosion
     public static Integer[] MAXPERTICK     = { 10000, 50000 };
     public static float     MINBLASTDAMAGE = 0.1f;
     public static boolean   AFFECTINAIR    = true;
-    public static Block     melt;
-    public static Block     solidmelt;
-    public static Block     dust;
-    public IEntityHitter    hitter         = (e, power, boom) ->
-                                           {
-                                               final EntitySize size = e.getSize(e.getPose());
-                                               final float area = size.width * size.height;
-                                               final float damage = area * power;
-                                               e.attackEntityFrom(DamageSource.causeExplosionDamage(boom), damage);
-                                           };
 
-    int              currentIndex = 0;
-    int              nextIndex    = 0;
-    float            minBlastDamage;
-    int              radius       = ExplosionCustom.MAX_RADIUS;
+    public static Block melt;
+    public static Block solidmelt;
+    public static Block dust;
+
+    public IEntityHitter hitter = (e, power, boom) ->
+    {
+        final EntitySize size = e.getSize(e.getPose());
+        final float area = size.width * size.height;
+        final float damage = area * power;
+        e.attackEntityFrom(DamageSource.causeExplosionDamage(boom), damage);
+    };
+
+    int   currentIndex = 0;
+    int   nextIndex    = 0;
+    float minBlastDamage;
+    int   radius       = ExplosionCustom.MAX_RADIUS;
+
     public Integer[] maxPerTick;
-    World            world;
-    Vector3          centre;
+
+    IWorld  world;
+    Vector3 centre;
 
     float strength;
 
@@ -100,11 +107,12 @@ public class ExplosionCustom extends Explosion
     List<Entity> targets = new ArrayList<>();
 
     private final double explosionX;
-
     private final double explosionY;
-
     private final double explosionZ;
-    Entity               exploder;
+
+    public long totalTime = 0;
+
+    Entity exploder;
 
     public Set<BlockPos> affectedBlockPositions = new HashSet<>();
 
@@ -113,11 +121,11 @@ public class ExplosionCustom extends Explosion
     List<IChunk> affected = new ArrayList<>();
 
     // DOLATER figure out a good way to clear these between each set of shells.
-    HashMap<Integer, Float> resists = new HashMap<>(100000, 1);
+    Int2FloatOpenHashMap resists = new Int2FloatOpenHashMap(100000);
 
-    HashSet<Integer> blockedSet = new HashSet<>(100000, 1);
+    IntSet blockedSet = new IntOpenHashSet(100000);
 
-    Int2ObjectOpenHashMap<Float> thisShell = new Int2ObjectOpenHashMap<>();
+    Int2FloatOpenHashMap thisShell = new Int2FloatOpenHashMap(100000);
 
     // used to speed up the checking of if a resist exists in the map
     BitSet checked = new BitSet();
@@ -182,8 +190,8 @@ public class ExplosionCustom extends Explosion
 
         if (this.owner != null) try
         {
-            final BreakEvent evt = new BreakEvent(this.world, location.getPos(), location.getBlockState(this.world),
-                    this.owner);
+            final BreakEvent evt = new BreakEvent(this.world.getWorld(), location.getPos(), location.getBlockState(
+                    this.world), this.owner);
             MinecraftForge.EVENT_BUS.post(evt);
             if (evt.isCanceled()) return false;
         }
@@ -198,9 +206,9 @@ public class ExplosionCustom extends Explosion
 
     public void doExplosion()
     {
-        this.world.playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ,
-                SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.rand.nextFloat()
-                        - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
+        this.world.getWorld().playSound((PlayerEntity) null, this.explosionX, this.explosionY, this.explosionZ,
+                SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.getWorld().rand
+                        .nextFloat() - this.world.getWorld().rand.nextFloat()) * 0.2F) * 0.7F);
         this.world.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
                 0.0D);
         MinecraftForge.EVENT_BUS.register(this);
@@ -308,11 +316,11 @@ public class ExplosionCustom extends Explosion
         if (!this.meteor)
         {
             // TODO possibly world specific air?
-            this.world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            this.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
             return;
         }
         // TODO re-implement dust/melt at some point?
-        this.world.setBlockState(pos, Blocks.AIR.getDefaultState());
+        this.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
     }
 
     @SubscribeEvent
@@ -322,7 +330,7 @@ public class ExplosionCustom extends Explosion
         final BlastResult result = new Checker(this).getBlocksToRemove();
         this.applyBlockEffects(result.results);
         this.applyEntityEffects(result.hit);
-        final ExplosionEvent evt2 = new ExplosionEvent.Detonate(this.world, this, this.targets);
+        final ExplosionEvent evt2 = new ExplosionEvent.Detonate(this.world.getWorld(), this, this.targets);
         MinecraftForge.EVENT_BUS.post(evt2);
         if (result.done) MinecraftForge.EVENT_BUS.unregister(this);
     }
