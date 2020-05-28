@@ -119,7 +119,7 @@ public class EventsHandler
         {
             this.player = player;
             this.start = player.getEntityWorld().getGameTime();
-            if (!SpawnHandler.canSpawnInWorld(player.getEntityWorld())) return;
+            if (!SpawnHandler.canSpawnInWorld(player.getEntityWorld(), false)) return;
             MinecraftForge.EVENT_BUS.register(this);
         }
 
