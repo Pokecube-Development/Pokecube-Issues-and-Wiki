@@ -32,10 +32,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.AlternativesLootEntry;
 import net.minecraft.world.storage.loot.ConstantRange;
 import net.minecraft.world.storage.loot.ItemLootEntry;
-import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootParameterSet;
 import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootPool;
@@ -46,7 +44,6 @@ import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.ILootCondition;
 import net.minecraft.world.storage.loot.conditions.MatchTool;
 import net.minecraft.world.storage.loot.conditions.TableBonus;
-import net.minecraft.world.storage.loot.functions.ApplyBonus;
 import net.minecraft.world.storage.loot.functions.SetCount;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ItemGenerator;
@@ -61,6 +58,7 @@ public class Drops extends LootTableProvider
         private static final ILootCondition.IBuilder SILK_TOUCH                 = MatchTool.builder(
                 ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH,
                         MinMaxBounds.IntBound.atLeast(1))));
+        private static final ILootCondition.IBuilder NO_SILK_TOUCH              = BlockLoot.SILK_TOUCH.inverted();
         private static final ILootCondition.IBuilder SHEARS                     = MatchTool.builder(
                 ItemPredicate.Builder.create().item(Items.SHEARS));
         private static final ILootCondition.IBuilder SILK_TOUCH_OR_SHEARS       = BlockLoot.SHEARS.alternative(
@@ -87,10 +85,16 @@ public class Drops extends LootTableProvider
                                                     0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F))));
         }
 
-        protected static LootTable.Builder shearsOrSilk(final IItemProvider p_218486_0_)
+        protected static LootTable.Builder shearsOrSilk(final IItemProvider item)
         {
             return LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1)).acceptCondition(
-                    BlockLoot.SILK_TOUCH_OR_SHEARS).addEntry(ItemLootEntry.builder(p_218486_0_)));
+                    BlockLoot.SILK_TOUCH_OR_SHEARS).addEntry(ItemLootEntry.builder(item)));
+        }
+
+        protected static LootTable.Builder silk(final IItemProvider item)
+        {
+            return LootTable.builder().addLootPool(LootPool.builder().rolls(ConstantRange.of(1)).acceptCondition(
+                    BlockLoot.SILK_TOUCH).addEntry(ItemLootEntry.builder(item)));
         }
 
         private final List<Block> known = Lists.newArrayList();
@@ -106,18 +110,14 @@ public class Drops extends LootTableProvider
         protected void addTables()
         {
             this.registerDropSelfLootTable(PokecubeItems.REPELBLOCK);
-            this.registerLootTable(PokecubeItems.FOSSILSTONE, (block) ->
-            {
-                final List<ItemFossil> drops = Lists.newArrayList(ItemGenerator.fossils.values());
-                final LootEntry.Builder<?> items = ItemLootEntry.builder(Items.BONE);
-                AlternativesLootEntry.Builder alternates = null;
-                for (final ItemFossil fossil : drops)
-                    if (alternates == null) alternates = items.alternatively(ItemLootEntry.builder(fossil)
-                            .acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE)));
-                    else alternates.alternatively(ItemLootEntry.builder(fossil).acceptFunction(ApplyBonus.oreDrops(
-                            Enchantments.FORTUNE)));
-                return BlockLootTables.dropping(block, BlockLoot.SILK_TOUCH, alternates);
-            });
+
+            final List<ItemFossil> drops = Lists.newArrayList(ItemGenerator.fossils.values());
+            LootPool.Builder fossilPool = LootPool.builder().rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(
+                    PokecubeItems.FOSSILSTONE).acceptCondition(BlockLoot.SILK_TOUCH));
+            for (final ItemFossil fossil : drops)
+                fossilPool = fossilPool.addEntry(ItemLootEntry.builder(fossil).acceptCondition(
+                        BlockLoot.NO_SILK_TOUCH));
+            this.registerLootTable(PokecubeItems.FOSSILSTONE, LootTable.builder().addLootPool(fossilPool));
             for (final String s : ItemGenerator.logs.keySet())
             {
                 final Block from = ItemGenerator.logs.get(s);
@@ -167,6 +167,7 @@ public class Drops extends LootTableProvider
     @Override
     public void act(final DirectoryCache cache)
     {
+
         final Path path = this.dataGenerator.getOutputFolder();
         final Map<ResourceLocation, LootTable> map = Maps.newHashMap();
         this.getTables().forEach((pair) ->
