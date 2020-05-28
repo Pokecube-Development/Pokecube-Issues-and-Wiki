@@ -38,6 +38,7 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketSyncNewMoves;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import thut.api.item.ItemList;
 import thut.core.common.network.EntityUpdate;
@@ -87,6 +88,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);
+                PokemobTracker.removePokemob(old);
+                this.evolution.setUniqueId(this.thisEntity.getUniqueID());
                 this.evolution.getEntityWorld().addEntity(this.evolution);
 
             }
@@ -104,7 +107,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         static void scheduleEvolve(final LivingEntity thisEntity, final LivingEntity evolution, final boolean immediate)
         {
             if (!(thisEntity.world instanceof ServerWorld)) return;
-            evolution.setUniqueId(thisEntity.getUniqueID());
             final EvoTicker ticker = new EvoTicker(thisEntity, evolution);
             if (!immediate) ticker.init();
             else ticker.tick();
