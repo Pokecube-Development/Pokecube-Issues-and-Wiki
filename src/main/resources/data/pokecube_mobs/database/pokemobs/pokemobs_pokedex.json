@@ -55238,9 +55238,19 @@
       }
     },
     {
-      "name": "Meowstic",
+        "name": "Meowstic",
       "number": 678,
       "base": true,
+	  "male_model": {
+        "key": "meowstic_m",
+        "model": "meowstic_m",
+        "anim": "meowstic_m"
+      },
+      "female_model": {
+        "key": "meowstic_f",
+        "model": "meowstic_f",
+        "anim": "meowstic_f"
+      },
       "stats": {
         "stats": {
           "values": {
