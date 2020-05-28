@@ -24,7 +24,7 @@ import thut.api.entity.IBreedingMob;
 public class InterestingMobs extends Sensor<LivingEntity>
 {
     private static final EntityPredicate VISIBLE = new EntityPredicate().setDistance(16.0D).allowFriendlyFire()
-            .setSkipAttackChecks().setLineOfSiteRequired();
+            .setSkipAttackChecks();
 
     long lastUpdate = 0;
 

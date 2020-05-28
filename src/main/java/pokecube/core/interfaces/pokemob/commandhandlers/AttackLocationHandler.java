@@ -15,7 +15,7 @@ import thut.api.maths.Vector3;
 
 public class AttackLocationHandler extends DefaultHandler
 {
-    Vector3 location;
+    protected Vector3 location;
 
     public AttackLocationHandler()
     {

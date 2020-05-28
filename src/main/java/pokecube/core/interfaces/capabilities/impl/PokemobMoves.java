@@ -240,13 +240,15 @@ public abstract class PokemobMoves extends PokemobSexed
     }
 
     @Override
-    public Entity getTransformedTo()
+    public LivingEntity getTransformedTo()
     {
         final int id = this.dataSync().get(this.params.TRANSFORMEDTODW);
         if (id == -1) return null;
-        Entity to = this.getMoveStats().transformedTo;
+        LivingEntity to = this.getMoveStats().transformedTo;
         if (to != null && id == to.getEntityId()) return to;
-        to = this.getEntity().getEntityWorld().getEntityByID(id);
+        final Entity mob = this.getEntity().getEntityWorld().getEntityByID(id);
+        if (!(mob instanceof LivingEntity)) return null;
+        to = (LivingEntity) mob;
         this.setTransformedTo(to);
         return to;
     }
@@ -368,7 +370,7 @@ public abstract class PokemobMoves extends PokemobSexed
     }
 
     @Override
-    public void setTransformedTo(final Entity to)
+    public void setTransformedTo(final LivingEntity to)
     {
         final int id = to == null ? -1 : to.getEntityId();
         PokedexEntry newEntry = this.getPokedexEntry();

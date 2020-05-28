@@ -65,7 +65,7 @@ public class Transform extends Move_Basic
         if (attacked instanceof LivingEntity)
         {
             BrainUtils.initiateCombat(attacker.getEntity(), (LivingEntity) attacked);
-            attacker.setTransformedTo(attacked);
+            attacker.setTransformedTo((LivingEntity) attacked);
         }
         else if (attackedMob != null)
         {

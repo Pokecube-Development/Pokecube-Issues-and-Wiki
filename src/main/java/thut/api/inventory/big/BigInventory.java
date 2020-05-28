@@ -332,14 +332,14 @@ public abstract class BigInventory implements IInventory, INBTSerializable<Compo
     public void setInventorySlotContents(final int i, final ItemStack itemstack)
     {
         final ItemStack old = this.contents.get(i);
+        if (!itemstack.isEmpty()) this.contents.put(i, itemstack);
+        else this.contents.remove(i);
         if (!old.equals(itemstack) && this.isReal && !this.loading)
         {
             this.dirty = true;
             this.manager.save(this.id);
             this.dirty = false;
         }
-        if (!itemstack.isEmpty()) this.contents.put(i, itemstack);
-        else this.contents.remove(i);
     }
 
     public void setPage(final int page)

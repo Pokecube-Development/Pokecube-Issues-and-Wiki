@@ -2,17 +2,24 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pokecube:berry_null",
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1.0,
+                "max": 3.0,
+                "type": "minecraft:uniform"
+              }
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
           "name": "pokecube:berry_null"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
         }
       ]
     }

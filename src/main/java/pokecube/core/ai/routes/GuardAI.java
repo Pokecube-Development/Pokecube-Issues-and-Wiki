@@ -26,18 +26,16 @@ public class GuardAI extends Goal
 {
     public static interface ShouldRun
     {
-        default boolean shouldRun()
-        {
-            return true;
-        }
+        boolean shouldRun();
     }
 
     public final IGuardAICapability capability;
-    private final MobEntity         entity;
-    public int                      cooldownTicks;
-    public ShouldRun                shouldRun = new ShouldRun()
-                                              {
-                                              };
+
+    private final MobEntity entity;
+
+    public int cooldownTicks;
+
+    public ShouldRun shouldRun = () -> true;
 
     public GuardAI(final MobEntity entity, final IGuardAICapability capability)
     {

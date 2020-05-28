@@ -86,9 +86,16 @@ public class PokecubeSerializer
             if (pos != null)
             {
                 if (this.loc == null) this.loc = new Vector4(pos);
+                else
+                {
+                    this.loc.x = pos.getPos().getX();
+                    this.loc.y = pos.getPos().getY();
+                    this.loc.z = pos.getPos().getZ();
+                }
                 this.loc.dim = pos.getDimension();
                 this.subLoc = Vector3.getNewVector().set(this.loc.x, this.loc.y, this.loc.z);
                 this.pos = pos;
+                this.name = this.loc.toIntString();
             }
             return this;
         }

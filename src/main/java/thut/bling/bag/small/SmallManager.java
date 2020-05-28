@@ -52,7 +52,7 @@ public class SmallManager extends Manager<SmallInventory>
     }
 
     @Override
-    public void save(final UUID uuid)
+    protected void save(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
         final SmallInventory save = this.get(uuid, false);
@@ -82,7 +82,7 @@ public class SmallManager extends Manager<SmallInventory>
     }
 
     @Override
-    public void load(final UUID uuid)
+    protected void load(final UUID uuid)
     {
         if (ThutCore.proxy.isClientSide()) return;
         try

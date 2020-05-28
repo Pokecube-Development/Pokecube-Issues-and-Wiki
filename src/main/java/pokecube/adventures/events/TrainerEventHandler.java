@@ -190,7 +190,7 @@ public class TrainerEventHandler
             mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void attachCaps(final AttachCapabilitiesEvent<Entity> event)
     {
         // Add capabilities for guard AI

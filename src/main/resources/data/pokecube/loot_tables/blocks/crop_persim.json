@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pokecube:berry_persim",
       "rolls": 1,
       "entries": [
         {

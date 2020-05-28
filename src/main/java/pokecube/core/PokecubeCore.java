@@ -11,6 +11,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import net.minecraft.block.Block;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -48,6 +49,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -72,6 +74,8 @@ import pokecube.core.events.onload.RegisterPokemobsEvent;
 import pokecube.core.handlers.Config;
 import pokecube.core.handlers.ItemHandler;
 import pokecube.core.handlers.RecipeHandler;
+import pokecube.core.handlers.data.Drops;
+import pokecube.core.handlers.data.Recipes;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.PokemobEventsHandler;
 import pokecube.core.handlers.events.SpawnEventsHandler;
@@ -146,6 +150,14 @@ public class PokecubeCore
         public static void registerSensors(final RegistryEvent.Register<SensorType<?>> event)
         {
             Sensors.register(event);
+        }
+
+        @SubscribeEvent
+        public static void gatherData(final GatherDataEvent event)
+        {
+            final DataGenerator gen = event.getGenerator();
+            gen.addProvider(new Recipes(gen));
+            gen.addProvider(new Drops(gen));
         }
 
         @SubscribeEvent

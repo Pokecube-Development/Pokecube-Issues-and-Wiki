@@ -113,17 +113,20 @@ public class EventsHandler
     {
         final PlayerEntity player;
 
+        final long start;
+
         public ChooseFirst(final PlayerEntity player)
         {
             this.player = player;
-            if (!SpawnHandler.canSpawnInWorld(player.getEntityWorld())) return;
+            this.start = player.getEntityWorld().getGameTime();
+            if (!SpawnHandler.canSpawnInWorld(player.getEntityWorld(), false)) return;
             MinecraftForge.EVENT_BUS.register(this);
         }
 
         @SubscribeEvent
         public void onPlayerJoin(final TickEvent.PlayerTickEvent event)
         {
-            if (this.player.ticksExisted < 100) return;
+            if (event.player.getEntityWorld().getGameTime() - this.start < 20) return;
             if (event.player == this.player)
             {
                 PacketChoose packet;
@@ -465,18 +468,20 @@ public class EventsHandler
         }
     }
 
+    public static void sendInitInfo(final ServerPlayerEntity player)
+    {
+        PacketDataSync.sendInitPacket(player, "pokecube-data");
+        PacketDataSync.sendInitPacket(player, "pokecube-stats");
+        PacketPokedex.sendLoginPacket(player);
+        if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
+    }
+
     @SubscribeEvent
     public static void PlayerLoggin(final PlayerLoggedInEvent evt)
     {
         final PlayerEntity player = evt.getPlayer();
-
         if (!player.isServerWorld()) return;
-
-        PacketDataSync.sendInitPacket(player, "pokecube-data");
-        PacketDataSync.sendInitPacket(player, "pokecube-stats");
-        PacketPokedex.sendLoginPacket((ServerPlayerEntity) player);
-
-        if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(evt.getPlayer());
+        EventsHandler.sendInitInfo((ServerPlayerEntity) player);
     }
 
     @SubscribeEvent
