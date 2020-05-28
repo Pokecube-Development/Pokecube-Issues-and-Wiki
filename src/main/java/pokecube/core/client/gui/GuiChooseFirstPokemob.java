@@ -282,28 +282,6 @@ public class GuiChooseFirstPokemob extends Screen
             RenderSystem.disableAlphaTest();
             RenderSystem.disableRescaleNormal();
             RenderSystem.popMatrix();
-
-            // GL11.glPushMatrix();
-            // GL11.glPushAttrib(GL11.GL_BLEND);
-            // GL11.glEnable(GL11.GL_BLEND);
-            // GL11.glTranslated((float) x, (float) y, (float) z);
-            // GL11.glPushMatrix();
-            // GL11.glTranslated(0.5F, 1.0f, 0.5F);
-            // GL11.glRotatef(-180, 1.0F, 0.0F, 0.0F);
-            // GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
-            // GL11.glScaled(50f, 50f, 50f);
-            //
-            // GL11.glRotatef(this.yRenderAngle, 0.0F, 1.0F, 0.0F);
-            // GL11.glRotatef(this.xRenderAngle, 1.0F, 0.0F, 0.0F);
-            // GL11.glRotatef(20, 0.0F, 0.0F, 1.0F);
-            // RenderHelper.disableStandardItemLighting();
-            // Minecraft.getInstance().textureManager.bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-            // Minecraft.getInstance().getItemRenderer().renderItem(item,
-            // model);
-            // GL11.glPopMatrix();
-            // GL11.glDisable(GL11.GL_BLEND);
-            // GL11.glPopAttrib();
-            // GL11.glPopMatrix();
         }
     }
 
@@ -321,7 +299,7 @@ public class GuiChooseFirstPokemob extends Screen
             //@formatter:off
             final int dx =-50 + (this.width - this.xSize)/2;
             final int dy = 50 + (this.height - this.ySize)/2;
-            final float size = 7;
+            final float size = 1.5f;
             final float yaw =  Util.milliTime() / 20;
             final float hx = 0;
             final float hy = yaw;
