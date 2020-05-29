@@ -28,6 +28,7 @@ import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Permissions;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
@@ -217,7 +218,9 @@ public class SendOutManager
                 final Entity original = world.getEntityByUuid(id);
                 // The mob already exists in the world, remove it
                 if (original != null) world.removeEntity(original, false);
+                PokemobTracker.removePokemob(pokemob);
                 mob.setUniqueId(id);
+                PokemobTracker.addPokemob(pokemob);
                 return true;
             };
             EventsHandler.Schedule(world, task);

@@ -95,7 +95,9 @@ public class Checker
             index2 = Cruncher.getVectorInt(this.boom.r);
             float res = this.boom.rAbs.getExplosionResistance(this.boom, this.boom.world);
             if (res > 1) res = res * res;
-            // }
+            this.boom.checked.set(index2);
+            this.boom.resists.put(index2, res);
+
             // This block is too strong, so continue to next block.
             if (res > str)
             {

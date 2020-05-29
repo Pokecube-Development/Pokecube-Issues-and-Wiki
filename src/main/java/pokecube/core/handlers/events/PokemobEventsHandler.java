@@ -71,6 +71,7 @@ import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
@@ -604,14 +605,16 @@ public class PokemobEventsHandler
                 PokecubeCore.getConfig().movementPauseThreshold + dist);
         if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
 
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
         {
             final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
             evt.getEntity().getPersistentData().removeUniqueId("old_uuid");
+            if (pokemob != null) PokemobTracker.removePokemob(pokemob);
             evt.getEntity().setUniqueId(id);
+            if (pokemob != null) PokemobTracker.addPokemob(pokemob);
         }
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (pokemob != null)
         {
             // Reset death time if we are not dead.
