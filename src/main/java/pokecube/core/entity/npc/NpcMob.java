@@ -200,6 +200,11 @@ public class NpcMob extends VillagerEntity implements IEntityAdditionalSpawnData
     public void livingTick()
     {
         super.livingTick();
+        if (this.getVillagerData().getProfession() == VillagerProfession.NONE)
+        {
+            final VillagerProfession proff = this.getNpcType().getProfession();
+            this.setVillagerData(this.getVillagerData().withProfession(proff).withLevel(3));
+        }
         if (this.ticksExisted % 20 == 0 && this.getHealth() < this.getMaxHealth() && this.getHealth() > 0) this
                 .setHealth(Math.min(this.getHealth() + 2, this.getMaxHealth()));
     }
