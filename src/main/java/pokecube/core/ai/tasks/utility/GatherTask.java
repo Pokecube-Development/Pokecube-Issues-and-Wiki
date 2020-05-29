@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.BeetrootBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
@@ -126,13 +127,19 @@ public class GatherTask extends UtilTask
      */
     public static final ResourceLocation HARVEST   = new ResourceLocation(PokecubeCore.MODID, "harvest_extra");
 
+    private static final Predicate<BlockState> fullCropNormal = input -> input.getBlock() instanceof CropsBlock && input
+            .has(CropsBlock.AGE) && input.get(CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
+
+    private static final Predicate<BlockState> fullCropBeet = input -> input.getBlock() instanceof CropsBlock && input
+            .has(BeetrootBlock.BEETROOT_AGE) && input.get(BeetrootBlock.BEETROOT_AGE) >= ((CropsBlock) input.getBlock())
+                    .getMaxAge();
+
     // Matcher used to determine if a block is a fruit or crop to be picked.
     private static final Predicate<BlockState> harvestMatcher = input ->
     {
         final boolean blacklisted = ItemList.is(GatherTask.BLACKLIST, input);
         if (blacklisted) return false;
-        final boolean fullCrop = input.getBlock() instanceof CropsBlock && input.get(
-                CropsBlock.AGE) >= ((CropsBlock) input.getBlock()).getMaxAge();
+        final boolean fullCrop = GatherTask.fullCropNormal.test(input) || GatherTask.fullCropBeet.test(input);
         return fullCrop || ItemList.is(GatherTask.HARVEST, input);
     };
 
