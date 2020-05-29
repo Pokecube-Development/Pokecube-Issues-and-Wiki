@@ -49,7 +49,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.event.world.WorldEvent.PotentialSpawns;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -669,14 +668,6 @@ public class EventsHandler
             }
         }
         return false;
-    }
-
-    @SubscribeEvent
-    public static void worldLoadEvent(final Load evt)
-    {
-        if (evt.getWorld().isRemote()) return;
-        // Initialise the fakeplayer for this world.
-        PokecubeMod.getFakePlayer(evt.getWorld().getDimension().getType());
     }
 
     @SubscribeEvent
