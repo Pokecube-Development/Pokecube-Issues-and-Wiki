@@ -804,6 +804,7 @@ public class Config extends ConfigData
         }
 
         Pokecube.snagblacklist.clear();
+        Pokecube.snagblacklist.add(new ResourceLocation("player"));
         for (final String s : this.snag_cube_blacklist)
             Pokecube.snagblacklist.add(new ResourceLocation(s));
 
