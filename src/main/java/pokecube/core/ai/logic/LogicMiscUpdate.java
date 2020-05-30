@@ -10,10 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
@@ -66,7 +66,7 @@ public class LogicMiscUpdate extends LogicBase
 
     private int cacheTimer = 0;
 
-    IChunk lastCached = null;
+    BlockPos lastCache = null;
 
     Vector3 v = Vector3.getNewVector();
 
@@ -80,6 +80,7 @@ public class LogicMiscUpdate extends LogicBase
         // Initialize this at 20 ticks to prevent resetting any states set by
         // say exiting pokecubes.
         this.lastHadTargetTime = 20;
+        this.lastCache = entity.getEntity().getPosition();
     }
 
     private void checkAIStates()
@@ -261,10 +262,10 @@ public class LogicMiscUpdate extends LogicBase
             if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
                     .getOwnerId() != null)
             {
-                IChunk chunk = world.getChunk(this.entity.getPosition());
-                if (chunk != this.lastCached)
+                final BlockPos here = this.entity.getPosition();
+                if (here.distanceSq(this.lastCache) > 64 * 64)
                 {
-                    chunk = this.lastCached;
+                    this.lastCache = here;
                     PlayerPokemobCache.UpdateCache(this.pokemob);
                 }
             }

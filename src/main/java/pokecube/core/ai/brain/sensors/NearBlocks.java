@@ -26,6 +26,7 @@ import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
+import thut.api.terrain.TerrainManager;
 
 public class NearBlocks extends Sensor<LivingEntity>
 {
@@ -79,6 +80,8 @@ public class NearBlocks extends Sensor<LivingEntity>
 
         this.tick++;
         if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold)) return;
 
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector();
         final Vector3 origin = Vector3.getNewVector();
