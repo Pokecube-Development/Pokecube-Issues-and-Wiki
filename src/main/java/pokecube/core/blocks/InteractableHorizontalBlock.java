@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -18,6 +19,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public abstract class InteractableHorizontalBlock extends HorizontalBlock
 {
@@ -66,10 +69,75 @@ public abstract class InteractableHorizontalBlock extends HorizontalBlock
         if (state.getBlock() != newState.getBlock())
         {
             final TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity != null && tileentity instanceof IInventory)
+            if (tileentity != null) if (tileentity instanceof IInventory)
             {
                 InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
                 worldIn.updateComparatorOutputLevel(pos, this);
+            }
+            else
+            {
+                final IItemHandler items = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+                        .orElse(null);
+                if (items != null)
+                {
+
+                    final IInventory inventory = new IInventory()
+                    {
+
+                        @Override
+                        public void clear()
+                        {
+                        }
+
+                        @Override
+                        public void setInventorySlotContents(final int index, final ItemStack stack)
+                        {
+                        }
+
+                        @Override
+                        public ItemStack removeStackFromSlot(final int index)
+                        {
+                            return ItemStack.EMPTY;
+                        }
+
+                        @Override
+                        public void markDirty()
+                        {
+                        }
+
+                        @Override
+                        public boolean isUsableByPlayer(final PlayerEntity player)
+                        {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean isEmpty()
+                        {
+                            return false;
+                        }
+
+                        @Override
+                        public ItemStack getStackInSlot(final int index)
+                        {
+                            return items.getStackInSlot(index);
+                        }
+
+                        @Override
+                        public int getSizeInventory()
+                        {
+                            return items.getSlots();
+                        }
+
+                        @Override
+                        public ItemStack decrStackSize(final int index, final int count)
+                        {
+                            return ItemStack.EMPTY;
+                        }
+                    };
+                    InventoryHelper.dropInventoryItems(worldIn, pos, inventory);
+                    worldIn.updateComparatorOutputLevel(pos, this);
+                }
             }
             super.onReplaced(state, worldIn, pos, newState, isMoving);
         }

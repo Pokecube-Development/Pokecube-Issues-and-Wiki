@@ -45,6 +45,7 @@ public class CaptureManager
         if (!(e instanceof LivingEntity)) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube)) return;
+        if (!((IPokecube) cube.getItem().getItem()).canCapture(e, cube.getItem())) return;
         if (cube.isCapturing) return;
         final LivingEntity mob = (LivingEntity) e;
         if (mob.deathTime > 0) return;

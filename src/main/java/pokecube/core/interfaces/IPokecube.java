@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -120,9 +119,9 @@ public interface IPokecube
             Short.MAX_VALUE).setType(PokecubeBehavior.class).setName(new ResourceLocation(PokecubeMod.ID, "pokecubes"))
             .create();
 
-    default boolean canCapture(final MobEntity hit, final ItemStack cube)
+    default boolean canCapture(final Entity e, final ItemStack cube)
     {
-        return CapabilityPokemob.getPokemobFor(hit) != null;
+        return CapabilityPokemob.getPokemobFor(e) != null;
     }
 
     /**
@@ -135,7 +134,7 @@ public interface IPokecube
      */
     double getCaptureModifier(IPokemob mob, ResourceLocation pokecubeId);
 
-    default double getCaptureModifier(final LivingEntity mob, final ResourceLocation pokecubeId)
+    default double getCaptureModifier(final Entity mob, final ResourceLocation pokecubeId)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
         return pokemob != null ? this.getCaptureModifier(pokemob, pokecubeId) : 0;
