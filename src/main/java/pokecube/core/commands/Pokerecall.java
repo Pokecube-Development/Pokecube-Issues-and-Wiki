@@ -1,6 +1,7 @@
 package pokecube.core.commands;
 
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
 import com.mojang.brigadier.CommandDispatcher;
@@ -11,6 +12,7 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -82,11 +84,10 @@ public class Pokerecall
         return 0;
     }
 
-    public static int execute(final CommandSource source, final boolean all, final boolean sitting,
-            final boolean staying) throws CommandSyntaxException
+    public static int execute(final CommandSource source, final ServerPlayerEntity player, final boolean all,
+            final boolean sitting, final boolean staying) throws CommandSyntaxException
     {
         int num = 0;
-        final ServerPlayerEntity player = source.asPlayer();
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
         {
             IPokemob poke = CapabilityPokemob.getPokemobFor(e);
@@ -116,20 +117,36 @@ public class Pokerecall
     {
         PermissionAPI.registerNode("command.pokerecall", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokerecall");
+        PermissionAPI.registerNode("command.pokerecall.other", DefaultPermissionLevel.OP,
+                "Is the player allowed to use /pokerecall to recall other people's mobs");
+
+        final Predicate<CommandSource> op_perm = cs -> CommandTools.hasPerm(cs, "command.pokerecall.other");
 
         // Setup with name and permission
         LiteralArgumentBuilder<CommandSource> command = Commands.literal("pokerecall").requires(cs -> CommandTools
                 .hasPerm(cs, "command.pokerecall"));
+
         // No target argument version
         command = command.then(Commands.argument("name", StringArgumentType.string()).suggests(Pokerecall.SUGGEST_NAMES)
                 .executes(ctx -> Pokerecall.execute(ctx.getSource(), StringArgumentType.getString(ctx, "name"))));
         // Target argument version
-        command = command.then(Commands.literal("all").executes(ctx -> Pokerecall.execute(ctx.getSource(), true, true,
-                true)));
-        command = command.then(Commands.literal("sitting").executes(ctx -> Pokerecall.execute(ctx.getSource(), false,
-                true, false)));
-        command = command.then(Commands.literal("staying").executes(ctx -> Pokerecall.execute(ctx.getSource(), false,
-                false, true)));
+        command = command.then(Commands.literal("all").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
+                .getSource().asPlayer(), true, true, true)));
+        command = command.then(Commands.literal("sitting").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
+                .getSource().asPlayer(), false, true, false)));
+        command = command.then(Commands.literal("staying").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
+                .getSource().asPlayer(), false, false, true)));
+
+        // Target with player
+        command = command.then(Commands.literal("all").then(Commands.argument("owner", EntityArgument.player())
+                .requires(op_perm).executes(ctx -> Pokerecall.execute(ctx.getSource(), EntityArgument.getPlayer(ctx,
+                        "owner"), true, true, true))));
+        command = command.then(Commands.literal("sitting").then(Commands.argument("owner", EntityArgument.player())
+                .requires(op_perm).executes(ctx -> Pokerecall.execute(ctx.getSource(), EntityArgument.getPlayer(ctx,
+                        "owner"), false, true, true))));
+        command = command.then(Commands.literal("staying").then(Commands.argument("owner", EntityArgument.player())
+                .requires(op_perm).executes(ctx -> Pokerecall.execute(ctx.getSource(), EntityArgument.getPlayer(ctx,
+                        "owner"), false, false, true))));
         commandDispatcher.register(command);
     }
 }
