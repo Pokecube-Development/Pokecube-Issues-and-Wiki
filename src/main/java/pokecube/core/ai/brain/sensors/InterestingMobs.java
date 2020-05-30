@@ -17,9 +17,11 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.server.ServerWorld;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
+import thut.api.terrain.TerrainManager;
 
 public class InterestingMobs extends Sensor<LivingEntity>
 {
@@ -40,17 +42,16 @@ public class InterestingMobs extends Sensor<LivingEntity>
     protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
     {
         final double s = 16;
+        if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold + s)) return;
         final List<AgeableEntity> mates = Lists.newArrayList();
         final List<ItemEntity> items = Lists.newArrayList();
         final List<LivingEntity> mobs = Lists.newArrayList();
         final List<LivingEntity> visible = Lists.newArrayList();
-
         final double dh = 8;
         final double dv = 4;
-
         final AxisAlignedBB mateBox = entityIn.getBoundingBox().grow(dh, dv, dh);
         final AxisAlignedBB checkBox = entityIn.getBoundingBox().grow(s, s, s);
-
         final List<Entity> list = worldIn.getEntitiesWithinAABB(Entity.class, checkBox, (hit) ->
         {
             return hit != entityIn && hit.isAlive() && (hit instanceof LivingEntity || hit instanceof ItemEntity);
