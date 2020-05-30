@@ -71,6 +71,7 @@ import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
+import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.entity.genetics.Alleles;
@@ -597,22 +598,29 @@ public class PokemobEventsHandler
     @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
+        if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold))
+        {
+            evt.setCanceled(true);
+            return;
+        }
         // Prevent moving if it is liable to take us out of a loaded area
         final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
                 .getMotion().z * evt.getEntity().getMotion().z);
-        final boolean tooFast = evt.getEntity().isBeingRidden() && !TerrainManager.isAreaLoaded(evt
-                .getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore.getConfig().movementPauseThreshold
-                        + dist);
+        final boolean tooFast = !TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(),
+                PokecubeCore.getConfig().movementPauseThreshold + dist);
         if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
 
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (evt.getEntity().getPersistentData().hasUniqueId("old_uuid"))
         {
             final UUID id = evt.getEntity().getPersistentData().getUniqueId("old_uuid");
             // evt.getEntity().getPersistentData().removeUniqueId("old_uuid");
+            if (pokemob != null) PokemobTracker.removePokemob(pokemob);
             evt.getEntity().setUniqueId(id);
+            if (pokemob != null) PokemobTracker.addPokemob(pokemob);
         }
 
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());
         if (pokemob != null)
         {
             // Reset death time if we are not dead.

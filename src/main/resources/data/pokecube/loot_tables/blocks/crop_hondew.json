@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pokecube:berry_hondew",
       "rolls": 1,
       "entries": [
         {

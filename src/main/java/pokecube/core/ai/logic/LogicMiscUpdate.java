@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -31,6 +32,7 @@ import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.utils.PokemobTracker;
+import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 
@@ -53,17 +55,24 @@ public class LogicMiscUpdate extends LogicBase
     private final int[] flavourAmounts = new int[5];
 
     private PokedexEntry entry;
-    private String       particle    = null;
-    private boolean      reset       = false;
-    private boolean      initHome    = false;
-    private boolean      checkedEvol = false;
-    private int          pathTimer   = 0;
-    private long         dynatime    = -1;
-    private boolean      de_dyna     = false;
+
+    private String  particle    = null;
+    private boolean reset       = false;
+    private boolean initHome    = false;
+    private boolean checkedEvol = false;
+    private int     pathTimer   = 0;
+    private long    dynatime    = -1;
+    private boolean de_dyna     = false;
+
+    private int cacheTimer = 0;
+
+    BlockPos lastCache = null;
 
     Vector3 v = Vector3.getNewVector();
 
     UUID prevOwner = null;
+
+    UUID prevID = null;
 
     public LogicMiscUpdate(final IPokemob entity)
     {
@@ -71,6 +80,7 @@ public class LogicMiscUpdate extends LogicBase
         // Initialize this at 20 ticks to prevent resetting any states set by
         // say exiting pokecubes.
         this.lastHadTargetTime = 20;
+        this.lastCache = entity.getEntity().getPosition();
     }
 
     private void checkAIStates()
@@ -218,6 +228,27 @@ public class LogicMiscUpdate extends LogicBase
         Random rand = new Random(this.pokemob.getRNGValue());
         final int timer = 100;
 
+        // Validate status if the mob trackers first, this applies server and
+        // client side
+        final UUID uuid = this.pokemob.getEntity().getUniqueID();
+        final UUID ownerID = this.pokemob.getOwnerId();
+        final MobEntry entry = PokemobTracker.getMobEntry(uuid, world);
+
+        boolean shouldUpdate = entry == null;
+        shouldUpdate = shouldUpdate || this.prevOwner == null && ownerID != null;
+        shouldUpdate = shouldUpdate || this.prevOwner != null && !this.prevOwner.equals(ownerID);
+        shouldUpdate = shouldUpdate || entry.pokemob != this.pokemob;
+        shouldUpdate = shouldUpdate || !uuid.equals(this.prevID);
+
+        if (shouldUpdate)
+        {
+            if (entry != null) PokemobTracker.removeMobEntry(entry.getUUID(), world);
+            if (!uuid.equals(this.prevID) && this.prevID != null) PokemobTracker.removeMobEntry(this.prevID, world);
+            PokemobTracker.addPokemob(this.pokemob);
+        }
+        this.prevOwner = ownerID;
+        this.prevID = uuid;
+
         if (!world.isRemote)
         {
             // Check that AI states are correct
@@ -228,8 +259,16 @@ public class LogicMiscUpdate extends LogicBase
             this.checkInventory(world);
 
             // // Ensure the cache position is kept updated
-            if (this.entity.ticksExisted % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
-                    .getOwnerId() != null) PlayerPokemobCache.UpdateCache(this.pokemob);
+            if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
+                    .getOwnerId() != null)
+            {
+                final BlockPos here = this.entity.getPosition();
+                if (here.distanceSq(this.lastCache) > 64 * 64)
+                {
+                    this.lastCache = here;
+                    PlayerPokemobCache.UpdateCache(this.pokemob);
+                }
+            }
 
             // Randomly increase happiness for being outside of pokecube.
             if (Math.random() > 0.999 && this.pokemob.getGeneralState(GeneralStates.TAMED)) HappinessType
@@ -279,14 +318,6 @@ public class LogicMiscUpdate extends LogicBase
                 .getEntity(world, id, false));
         if (id < 0 && targ != null) this.entity.setAttackTarget(null);
         if (targ != null && !targ.isAlive()) this.entity.setAttackTarget(null);
-
-        // Sync the addition of this, as onAddedToWorld is called before this
-        // value is synchronized
-        if (this.prevOwner == null && this.pokemob.getOwnerId() != null)
-        {
-            this.prevOwner = this.pokemob.getOwnerId();
-            PokemobTracker.addPokemob(this.pokemob);
-        }
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = new Random();

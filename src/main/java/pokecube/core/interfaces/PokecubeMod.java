@@ -56,11 +56,6 @@ public abstract class PokecubeMod
     public static Logger  LOGGER = null;
     public static boolean debug;
 
-    public static FakePlayer getFakePlayer()
-    {
-        return PokecubeMod.getFakePlayer(DimensionType.OVERWORLD);
-    }
-
     public static FakePlayer getFakePlayer(final DimensionType dim)
     {
         if (PokecubeMod.fakePlayers.get(dim) == null)

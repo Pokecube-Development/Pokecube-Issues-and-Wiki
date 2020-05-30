@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -27,13 +28,16 @@ import thut.api.maths.Vector3;
 
 public class PokemobTracker
 {
-    private static class MobEntry implements Comparable<MobEntry>
+    public static class MobEntry implements Comparable<MobEntry>
     {
-        final IPokemob pokemob;
+        public final IPokemob pokemob;
+
+        final UUID id;
 
         public MobEntry(final IPokemob pokemob)
         {
             this.pokemob = pokemob;
+            this.id = pokemob.getEntity().getUniqueID();
         }
 
         public BlockPos getPos()
@@ -44,8 +48,7 @@ public class PokemobTracker
         @Override
         public boolean equals(final Object obj)
         {
-            if (obj instanceof MobEntry) return ((MobEntry) obj).pokemob.getEntity().getUniqueID().equals(this.pokemob
-                    .getEntity().getUniqueID());
+            if (obj instanceof MobEntry) return ((MobEntry) obj).id.equals(this.id);
             return false;
         }
 
@@ -60,9 +63,14 @@ public class PokemobTracker
         {
             return this.getPos().compareTo(o.getPos());
         }
+
+        public UUID getUUID()
+        {
+            return this.id;
+        }
     }
 
-    private static class CubeEntry implements Comparable<CubeEntry>
+    public static class CubeEntry implements Comparable<CubeEntry>
     {
         final EntityPokecubeBase cube;
 
@@ -111,21 +119,34 @@ public class PokemobTracker
         return mob.getWorld() instanceof ServerWorld ? PokemobTracker.SERVER : PokemobTracker.CLIENT;
     }
 
-    private final Map<DimensionType, List<MobEntry>> liveMobs   = new ConcurrentHashMap<>();
-    private final Map<UUID, Set<MobEntry>>           ownerMap   = new ConcurrentHashMap<>();
-    private final Map<UUID, Set<CubeEntry>>          ownedCubes = new ConcurrentHashMap<>();
+    private final Map<DimensionType, List<MobEntry>> liveMobs = new ConcurrentHashMap<>();
+
+    private final Map<UUID, Set<MobEntry>>  ownerMap   = new ConcurrentHashMap<>();
+    private final Map<UUID, Set<CubeEntry>> ownedCubes = new ConcurrentHashMap<>();
+
+    private final Map<UUID, MobEntry> entries = Maps.newConcurrentMap();
+
+    private DimensionType defaults = DimensionType.OVERWORLD;
+
+    private void setDim(final DimensionType dim)
+    {
+        this.defaults = dim;
+    }
 
     private MobEntry _addPokemob(final IPokemob pokemob)
     {
         // First remove the mob from all maps, incase it is in one.
-        final MobEntry e = PokemobTracker.removePokemob(pokemob);
-        final DimensionType dim = pokemob.getEntity().dimension;
+        PokemobTracker.removePokemob(pokemob);
+        final MobEntry e = new MobEntry(pokemob);
+        DimensionType dim = pokemob.getEntity().dimension;
+        if (dim == null) dim = this.defaults;
         // Find the appropriate map
         final List<MobEntry> mobList = this.liveMobs.getOrDefault(dim, new ArrayList<>());
         // Register the dimension if not already there
         if (!this.liveMobs.containsKey(dim)) this.liveMobs.put(dim, mobList);
         // Add the pokemob to the list
         mobList.add(e);
+        this.entries.put(e.getUUID(), e);
 
         final UUID owner = pokemob.getOwnerId();
         if (owner == null) return e;
@@ -140,12 +161,20 @@ public class PokemobTracker
 
     private MobEntry _removePokemob(final IPokemob pokemob)
     {
-        final MobEntry e = new MobEntry(pokemob);
-        // Remove the mob from all maps, incase it is in one.
-        this.liveMobs.forEach((d, m) -> m.remove(e));
-        // Remove the mob from all maps, incase it is in one.
-        this.ownerMap.forEach((d, m) -> m.remove(e));
-        // Thread.dumpStack();
+        final MobEntry e = this._removeMobEntry(pokemob.getEntity().getUniqueID());
+        return e;
+    }
+
+    private MobEntry _removeMobEntry(final UUID id)
+    {
+        final MobEntry e = this.entries.remove(id);
+        if (e != null)
+        {
+            // Remove the mob from all maps, incase it is in one.
+            this.liveMobs.forEach((d, m) -> m.remove(e));
+            // Remove the mob from all maps, incase it is in one.
+            this.ownerMap.forEach((d, m) -> m.remove(e));
+        }
         return e;
     }
 
@@ -168,6 +197,18 @@ public class PokemobTracker
         // Remove the mob from all maps, incase it is in one.
         this.ownedCubes.forEach((d, m) -> m.remove(e));
         return e;
+    }
+
+    public static MobEntry getMobEntry(final UUID id, final IWorld world)
+    {
+        final PokemobTracker tracker = PokemobTracker.getFor(world);
+        return tracker.entries.get(id);
+    }
+
+    public static void removeMobEntry(final UUID id, final IWorld world)
+    {
+        final PokemobTracker tracker = PokemobTracker.getFor(world);
+        tracker._removeMobEntry(id);
     }
 
     public static MobEntry addPokemob(final IPokemob pokemob)
@@ -201,7 +242,8 @@ public class PokemobTracker
         final MobEntry[] mobList = tracker.liveMobs.getOrDefault(dim, new ArrayList<>()).toArray(new MobEntry[0]);
         int num = 0;
         for (final MobEntry e : mobList)
-            if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && matches.test(e.pokemob)) num++;
+            if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && e.pokemob.getEntity().isAlive()
+                    && matches.test(e.pokemob)) num++;
         return num;
     }
 
@@ -239,7 +281,8 @@ public class PokemobTracker
         final Set<CubeEntry> cubes = tracker.ownedCubes.getOrDefault(id, Collections.emptySet());
         mobs.forEach(e ->
         {
-            if (matcher.test(e.pokemob.getEntity())) pokemobs.add(e.pokemob.getEntity());
+            if (matcher.test(e.pokemob.getEntity()) && e.pokemob.getEntity().isAlive()) pokemobs.add(e.pokemob
+                    .getEntity());
         });
         cubes.forEach(e ->
         {
@@ -259,5 +302,6 @@ public class PokemobTracker
         }
         // Reset the tracked map for this world
         tracker.liveMobs.put(evt.getWorld().getDimension().getType(), new ArrayList<>());
+        if (tracker == PokemobTracker.CLIENT) tracker.setDim(evt.getWorld().getDimension().getType());
     }
 }

@@ -152,13 +152,14 @@ public class GuiNBTTree extends Screen
     private void buttonClicked(final GuiNBTButton button)
     {
         if (this.window != null) return;
-
+        final boolean hasFocus = this.focused != null;
+        if (!hasFocus) return;
         if (button.getId() == 16) this.paste();
         else if (button.getId() == 15) this.cut();
         else if (button.getId() == 14) this.copy();
         else if (button.getId() == 13) this.deleteSelected();
         else if (button.getId() == 12) this.edit();
-        else if (this.focused != null)
+        else
         {
             this.focused.setDrawChildren(true);
             final List<Node<NamedNBT>> children = this.focused.getChildren();

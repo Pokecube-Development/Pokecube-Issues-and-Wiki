@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pokecube:berry_chesto",
       "rolls": 1,
       "entries": [
         {

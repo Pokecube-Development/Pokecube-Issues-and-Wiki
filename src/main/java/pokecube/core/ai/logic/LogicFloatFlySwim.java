@@ -164,7 +164,7 @@ public class LogicFloatFlySwim extends LogicBase
         FLY, SWIM, WALK;
     }
 
-    NaviState state = NaviState.WALK;
+    NaviState state = null;
 
     Vector3 here = Vector3.getNewVector();
 

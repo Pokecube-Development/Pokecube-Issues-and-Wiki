@@ -46,19 +46,18 @@ public class ItemGenerator
 
     public static Map<Predicate<ItemStack>, IMoveModifier> ITEMMODIFIERS = Maps.newHashMap();
 
-    public static ArrayList<String>       variants       = Lists.newArrayList();
-    public static ArrayList<String>       other          = Lists.newArrayList();
-    public static ArrayList<String>       fossilVariants = new ArrayList<>();
-    public static Map<String, ItemFossil> fossils        = Maps.newHashMap();
+    public static ArrayList<String> variants       = Lists.newArrayList();
+    public static ArrayList<String> other          = Lists.newArrayList();
+    public static ArrayList<String> fossilVariants = new ArrayList<>();
+
+    public static Map<String, ItemFossil> fossils = Maps.newHashMap();
 
     public static final Map<String, MaterialColor> berryWoods = Maps.newHashMap();
 
     public static final List<String> onlyBerryLeaves = Lists.newArrayList();
 
-    public static Map<String, Block> logs = Maps.newHashMap();
-
+    public static Map<String, Block> logs   = Maps.newHashMap();
     public static Map<String, Block> leaves = Maps.newHashMap();
-
     public static Map<String, Block> planks = Maps.newHashMap();
 
     public static void makeBerries(final IForgeRegistry<Item> registry)

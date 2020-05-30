@@ -194,14 +194,20 @@ public final class SpawnHandler
         return data.isValid(world, v);
     }
 
-    public static boolean canSpawnInWorld(final IWorld world)
+    public static boolean canSpawnInWorld(final IWorld world, final boolean respectDifficulty)
     {
         if (world == null) return true;
-        if (world.getDifficulty() == Difficulty.PEACEFUL || !SpawnHandler.doSpawns) return false;
+        if (respectDifficulty && world.getDifficulty() == Difficulty.PEACEFUL) return false;
+        if (!SpawnHandler.doSpawns) return false;
         if (SpawnHandler.dimensionBlacklist.contains(world.getDimension().getType())) return false;
         if (PokecubeCore.getConfig().spawnWhitelisted && !SpawnHandler.dimensionWhitelist.contains(world.getDimension()
                 .getType())) return false;
         return true;
+    }
+
+    public static boolean canSpawnInWorld(final IWorld world)
+    {
+        return SpawnHandler.canSpawnInWorld(world, true);
     }
 
     public static boolean checkNoSpawnerInArea(final IWorld world, final int x, final int y, final int z)

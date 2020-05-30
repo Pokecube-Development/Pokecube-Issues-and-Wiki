@@ -52,7 +52,6 @@ public class PCInventory extends BigInventory
                     new TranslationTextComponent("block.pc.sentto", mob.getDisplayName()));
         }
         pc.addItem(mob.copy());
-        PCManager.INSTANCE.save(uuid);
     }
 
     public static PCInventory getPC(final Entity player)

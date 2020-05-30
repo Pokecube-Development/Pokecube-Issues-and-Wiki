@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "pokecube:berry_cheri",
       "rolls": 1,
       "entries": [
         {

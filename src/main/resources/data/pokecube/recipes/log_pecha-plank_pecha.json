@@ -1,0 +1,25 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:true"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shapeless",
+        "group": "pokecube",
+        "ingredients": [
+          {
+            "item": "pokecube:log_pecha"
+          }
+        ],
+        "result": {
+          "item": "pokecube:plank_pecha",
+          "count": 4
+        }
+      }
+    }
+  ]
+}
