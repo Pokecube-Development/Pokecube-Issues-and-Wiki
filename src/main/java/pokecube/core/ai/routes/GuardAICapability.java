@@ -129,6 +129,10 @@ public class GuardAICapability implements IGuardAICapability
             if (this.path_fails++ > 100)
             {
                 final ServerWorld world = (ServerWorld) entity.getEntityWorld();
+
+                final BlockPos old = entity.getPosition();
+                // Only path fail if we actually are nearby.
+                if (old.distanceSq(this.getPos()) > 128 * 128) return;
                 // Ensure chunk exists
                 world.getChunk(this.getPos());
                 final BlockState state = world.getBlockState(this.getPos());
