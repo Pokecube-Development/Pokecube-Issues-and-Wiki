@@ -29,6 +29,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
@@ -598,7 +599,9 @@ public class PokemobEventsHandler
     @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
-        if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
+        final DimensionType dim = evt.getEntity().getEntityWorld().getDimension().getType();
+        if (dim != evt.getEntity().dimension) evt.getEntity().dimension = dim;
+        if (!TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold))
         {
             evt.setCanceled(true);
@@ -607,8 +610,8 @@ public class PokemobEventsHandler
         // Prevent moving if it is liable to take us out of a loaded area
         final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
                 .getMotion().z * evt.getEntity().getMotion().z);
-        final boolean tooFast = !TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(),
-                PokecubeCore.getConfig().movementPauseThreshold + dist);
+        final boolean tooFast = !TerrainManager.isAreaLoaded(dim, evt.getEntity().getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold + dist);
         if (tooFast) evt.getEntity().setMotion(0, evt.getEntity().getMotion().y, 0);
 
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(evt.getEntity());

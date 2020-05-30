@@ -74,13 +74,13 @@ public class LogicMiscUpdate extends LogicBase
 
     UUID prevID = null;
 
-    public LogicMiscUpdate(final IPokemob entity)
+    public LogicMiscUpdate(final IPokemob pokemob)
     {
-        super(entity);
+        super(pokemob);
         // Initialize this at 20 ticks to prevent resetting any states set by
         // say exiting pokecubes.
         this.lastHadTargetTime = 20;
-        this.lastCache = entity.getEntity().getPosition();
+        this.lastCache = this.entity.getPosition();
     }
 
     private void checkAIStates()

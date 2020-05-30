@@ -14,7 +14,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -57,7 +56,7 @@ public class Pokecube extends Item implements IPokecube
 {
     public static final Set<ResourceLocation> snagblacklist = Sets.newHashSet();
 
-    private static final Predicate<LivingEntity> capturable = t ->
+    private static final Predicate<Entity> capturable = t ->
     {
         if (Pokecube.snagblacklist.contains(t.getType().getRegistryName())) return false;
         return true;
@@ -159,7 +158,7 @@ public class Pokecube extends Item implements IPokecube
     }
 
     @Override
-    public boolean canCapture(final MobEntity hit, final ItemStack cube)
+    public boolean canCapture(final Entity hit, final ItemStack cube)
     {
         final ResourceLocation id = PokecubeItems.getCubeId(cube);
         if (id != null && id.getPath().equals("snag"))
@@ -167,7 +166,7 @@ public class Pokecube extends Item implements IPokecube
             if (this.getCaptureModifier(hit, id) <= 0) return false;
             return Pokecube.capturable.test(hit);
         }
-        return CapabilityPokemob.getPokemobFor(hit) != null;
+        return IPokecube.super.canCapture(hit, cube);
     }
 
     /**
@@ -213,15 +212,14 @@ public class Pokecube extends Item implements IPokecube
     }
 
     @Override
-    public double getCaptureModifier(final LivingEntity mob, final ResourceLocation pokecubeId)
+    public double getCaptureModifier(final Entity mob, final ResourceLocation pokecubeId)
     {
         if (pokecubeId.getPath().equals("snag"))
         {
             if (mob.isInvulnerable()) return 0;
             return 1;
         }
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(mob);
-        return pokemob != null ? this.getCaptureModifier(pokemob, pokecubeId) : 0;
+        return IPokecube.super.getCaptureModifier(mob, pokecubeId);
     }
 
     @Override
@@ -307,8 +305,8 @@ public class Pokecube extends Item implements IPokecube
             if (targetMob != null) if (targetMob.getOwner() == MobEntity) target = null;
             final int dt = this.getUseDuration(stack) - timeLeft;
             final boolean filled = PokecubeManager.isFilled(stack);
-            if (!filled && target instanceof LivingEntity && this.getCaptureModifier((LivingEntity) target,
-                    PokecubeItems.getCubeId(stack)) == 0) target = null;
+            if (!filled && target instanceof LivingEntity && this.getCaptureModifier(target, PokecubeItems.getCubeId(
+                    stack)) == 0) target = null;
             boolean used = false;
             final boolean filledOrSneak = filled || player.isCrouching() || dt > 5;
             if (target != null && EntityPokecubeBase.SEEKING) used = this.throwPokecubeAt(worldIn, player, stack,
