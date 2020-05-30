@@ -42,8 +42,8 @@ import thut.core.common.network.TileUpdate;
 public class AfaTile extends InteractableTile implements ITickableTileEntity, IEnergyStorage, IInventoryChangedListener
 {
     public static TileEntityType<? extends TileEntity> TYPE;
-    public static final ResourceLocation               SHINYTAG = new ResourceLocation(PokecubeAdv.MODID,
-            "shiny_charm");
+
+    public static final ResourceLocation SHINYTAG = new ResourceLocation(PokecubeAdv.MODID, "shiny_charm");
 
     public static JEP parser;
     public static JEP parserS;
@@ -118,7 +118,8 @@ public class AfaTile extends InteractableTile implements ITickableTileEntity, IE
     };
 
     private final IItemHandlerModifiable itemstore;
-    public final IInventory              inventory;
+
+    public final IInventory inventory;
 
     public IPokemob pokemob       = null;
     boolean         shiny         = false;
