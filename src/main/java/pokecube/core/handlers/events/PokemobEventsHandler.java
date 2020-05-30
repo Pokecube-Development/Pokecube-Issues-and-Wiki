@@ -598,6 +598,12 @@ public class PokemobEventsHandler
     @SubscribeEvent
     public static void tick(final LivingUpdateEvent evt)
     {
+        if (!TerrainManager.isAreaLoaded(evt.getEntity().dimension, evt.getEntity().getPosition(), PokecubeCore
+                .getConfig().movementPauseThreshold))
+        {
+            evt.setCanceled(true);
+            return;
+        }
         // Prevent moving if it is liable to take us out of a loaded area
         final double dist = Math.sqrt(evt.getEntity().getMotion().x * evt.getEntity().getMotion().x + evt.getEntity()
                 .getMotion().z * evt.getEntity().getMotion().z);
