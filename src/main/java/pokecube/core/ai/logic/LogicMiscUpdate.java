@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
@@ -20,6 +21,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.database.PokedexEntry;
+import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokecube;
 import pokecube.core.interfaces.IPokecube.PokecubeBehavior;
@@ -61,6 +63,10 @@ public class LogicMiscUpdate extends LogicBase
     private int     pathTimer   = 0;
     private long    dynatime    = -1;
     private boolean de_dyna     = false;
+
+    private int cacheTimer = 0;
+
+    IChunk lastCached = null;
 
     Vector3 v = Vector3.getNewVector();
 
@@ -219,6 +225,7 @@ public class LogicMiscUpdate extends LogicBase
         super.tick(world);
         this.entry = this.pokemob.getPokedexEntry();
         Random rand = new Random(this.pokemob.getRNGValue());
+        final int timer = 100;
 
         // Validate status if the mob trackers first, this applies server and
         // client side
@@ -249,6 +256,18 @@ public class LogicMiscUpdate extends LogicBase
             this.checkEvolution();
             // Check and tick inventory
             this.checkInventory(world);
+
+            // // Ensure the cache position is kept updated
+            if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
+                    .getOwnerId() != null)
+            {
+                IChunk chunk = world.getChunk(this.entity.getPosition());
+                if (chunk != this.lastCached)
+                {
+                    chunk = this.lastCached;
+                    PlayerPokemobCache.UpdateCache(this.pokemob);
+                }
+            }
 
             // Randomly increase happiness for being outside of pokecube.
             if (Math.random() > 0.999 && this.pokemob.getGeneralState(GeneralStates.TAMED)) HappinessType
