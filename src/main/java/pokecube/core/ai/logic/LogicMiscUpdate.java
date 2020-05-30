@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -65,6 +66,8 @@ public class LogicMiscUpdate extends LogicBase
 
     private int cacheTimer = 0;
 
+    BlockPos lastCache = null;
+
     Vector3 v = Vector3.getNewVector();
 
     UUID prevOwner = null;
@@ -77,6 +80,7 @@ public class LogicMiscUpdate extends LogicBase
         // Initialize this at 20 ticks to prevent resetting any states set by
         // say exiting pokecubes.
         this.lastHadTargetTime = 20;
+        this.lastCache = entity.getEntity().getPosition();
     }
 
     private void checkAIStates()
@@ -256,7 +260,15 @@ public class LogicMiscUpdate extends LogicBase
 
             // // Ensure the cache position is kept updated
             if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
-                    .getOwnerId() != null) PlayerPokemobCache.UpdateCache(this.pokemob);
+                    .getOwnerId() != null)
+            {
+                final BlockPos here = this.entity.getPosition();
+                if (here.distanceSq(this.lastCache) > 64 * 64)
+                {
+                    this.lastCache = here;
+                    PlayerPokemobCache.UpdateCache(this.pokemob);
+                }
+            }
 
             // Randomly increase happiness for being outside of pokecube.
             if (Math.random() > 0.999 && this.pokemob.getGeneralState(GeneralStates.TAMED)) HappinessType
