@@ -54,13 +54,16 @@ public class LogicMiscUpdate extends LogicBase
     private final int[] flavourAmounts = new int[5];
 
     private PokedexEntry entry;
-    private String       particle    = null;
-    private boolean      reset       = false;
-    private boolean      initHome    = false;
-    private boolean      checkedEvol = false;
-    private int          pathTimer   = 0;
-    private long         dynatime    = -1;
-    private boolean      de_dyna     = false;
+
+    private String  particle    = null;
+    private boolean reset       = false;
+    private boolean initHome    = false;
+    private boolean checkedEvol = false;
+    private int     pathTimer   = 0;
+    private long    dynatime    = -1;
+    private boolean de_dyna     = false;
+
+    private int cacheTimer = 0;
 
     Vector3 v = Vector3.getNewVector();
 
@@ -252,7 +255,7 @@ public class LogicMiscUpdate extends LogicBase
             this.checkInventory(world);
 
             // // Ensure the cache position is kept updated
-            if (this.entity.ticksExisted % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
+            if (this.cacheTimer++ % timer == rand.nextInt(timer) && this.pokemob.isPlayerOwned() && this.pokemob
                     .getOwnerId() != null) PlayerPokemobCache.UpdateCache(this.pokemob);
 
             // Randomly increase happiness for being outside of pokecube.
