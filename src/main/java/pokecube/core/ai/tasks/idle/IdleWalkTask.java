@@ -5,12 +5,14 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
@@ -150,7 +152,7 @@ public class IdleWalkTask extends BaseIdleTask
         if (!tameFactor)
         {
             if (this.pokemob.getHome() == null || this.pokemob.getHome().getX() == 0 && this.pokemob.getHome()
-                    .getY() == 0 & this.pokemob.getHome().getZ() == 0)
+                    .getY() == 0 && this.pokemob.getHome().getZ() == 0)
             {
                 this.v1.set(this.entity);
                 this.pokemob.setHome(this.v1.intX(), this.v1.intY(), this.v1.intZ(), 16);
@@ -208,6 +210,12 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     @Override
+    protected void startExecuting(final ServerWorld worldIn, final AgeableEntity entityIn, final long gameTimeIn)
+    {
+        this.run();
+    }
+
+    @Override
     public boolean shouldRun()
     {
         // Configs can set this to -1 to disable idle movement entirely.
@@ -233,8 +241,14 @@ public class IdleWalkTask extends BaseIdleTask
 
         // Owner is controlling us.
         if (this.pokemob.getGeneralState(GeneralStates.CONTROLLED)) return false;
-
-        return !this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET);
+        if (this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET)) return false;
+        return true;
     }
 
+    @Override
+    protected boolean shouldContinueExecuting(final ServerWorld worldIn, final AgeableEntity entityIn,
+            final long gameTimeIn)
+    {
+        return !this.entity.getBrain().hasMemory(MemoryModules.WALK_TARGET);
+    }
 }

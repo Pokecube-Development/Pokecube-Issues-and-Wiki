@@ -24,6 +24,9 @@ import net.minecraft.world.server.ServerWorld;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.interfaces.IMoveConstants.AIRoutine;
+import pokecube.core.interfaces.IPokemob;
+import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
@@ -77,9 +80,11 @@ public class NearBlocks extends Sensor<LivingEntity>
     {
         if (BrainUtils.hasAttackTarget(entityIn)) return;
         if (BrainUtils.hasMoveUseTarget(entityIn)) return;
-
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
+        final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
+                AIRoutine.GATHER);
         this.tick++;
-        if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
+        if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0 && !gathering) return;
         if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold)) return;
 
@@ -93,7 +98,7 @@ public class NearBlocks extends Sensor<LivingEntity>
 
         final Predicate<BlockPos> visible = input ->
         {
-            final Vec3d end = new Vec3d(input);
+            final Vec3d end = new Vec3d(input).add(0.5, 0.5, 0.5);
             final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
                     entityIn);
             final RayTraceResult result = worldIn.rayTraceBlocks(context);
@@ -114,6 +119,7 @@ public class NearBlocks extends Sensor<LivingEntity>
             final BlockState state = worldIn.getBlockState(bpos);
             list.add(new NearBlock(state, bpos));
         }
+
         final BlockPos o0 = entityIn.getPosition();
         list.sort((o1, o2) -> (int) (o1.getPos().distanceSq(o0) - o1.getPos().distanceSq(o0)));
         final Brain<?> brain = entityIn.getBrain();
