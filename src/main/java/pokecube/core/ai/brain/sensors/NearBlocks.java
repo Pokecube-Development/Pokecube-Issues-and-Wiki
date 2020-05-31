@@ -27,6 +27,7 @@ import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
@@ -75,16 +76,18 @@ public class NearBlocks extends Sensor<LivingEntity>
 
     int tick = 0;
 
+    private boolean tameCheck(final IPokemob pokemob)
+    {
+        return pokemob.getGeneralState(GeneralStates.STAYING) || PokecubeCore.getConfig().tameGather;
+    }
+
     @Override
     protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
     {
         if (BrainUtils.hasAttackTarget(entityIn)) return;
         if (BrainUtils.hasMoveUseTarget(entityIn)) return;
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
-        final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
-                AIRoutine.GATHER);
         this.tick++;
-        if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0 && !gathering) return;
+        if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
         if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), PokecubeCore
                 .getConfig().movementPauseThreshold)) return;
 
@@ -92,7 +95,10 @@ public class NearBlocks extends Sensor<LivingEntity>
         final Vector3 origin = Vector3.getNewVector();
         origin.set(entityIn);
         final List<NearBlock> list = Lists.newArrayList();
-        final int size = 8;
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
+        final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
+                AIRoutine.GATHER) && this.tameCheck(pokemob);
+        final int size = gathering ? 15 : 8;
 
         final Vec3d start = entityIn.getEyePosition(1);
 
