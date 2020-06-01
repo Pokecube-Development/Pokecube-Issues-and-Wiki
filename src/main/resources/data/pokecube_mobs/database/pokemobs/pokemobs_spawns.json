@@ -6,7 +6,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -21,7 +21,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -53,7 +53,7 @@
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
-              "types": "forest",
+              "category": "forest",
               "min": "4",
               "rate": "0.2",
               "max": "8"
@@ -78,7 +78,7 @@
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
-              "types": "forest",
+              "category": "forest",
               "min": "4",
               "rate": "0.2",
               "max": "8"
@@ -103,7 +103,7 @@
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           }
@@ -116,7 +116,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "5",
               "rate": "0.4",
               "max": "10"
@@ -124,7 +124,7 @@
           },
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "min": "5",
               "rate": "0.4",
               "max": "10"
@@ -139,7 +139,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "5",
               "rate": "0.1",
               "max": "10"
@@ -147,7 +147,7 @@
           },
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "min": "5",
               "rate": "0.1",
               "max": "10"
@@ -162,7 +162,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           },
@@ -181,7 +181,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.15"
             }
           }
@@ -195,7 +195,7 @@
           {
             "values": {
               "typesBlacklist": "sparse,cold,wet",
-              "types": "forest",
+              "category": "forest",
               "min": "4",
               "rate": "0.1",
               "max": "8"
@@ -245,7 +245,7 @@
           {
             "values": {
               "typesBlacklist": "wet,cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.25"
             }
           }
@@ -259,7 +259,7 @@
           {
             "values": {
               "typesBlacklist": "wet,cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.25"
             }
           }
@@ -291,7 +291,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           }
@@ -354,7 +354,7 @@
           {
             "values": {
               "typesBlacklist": "dry,savanna",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2",
               "night": "false"
             }
@@ -396,7 +396,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2",
               "day": "false"
             }
@@ -416,7 +416,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.3"
             }
           },
@@ -447,7 +447,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           },
@@ -478,7 +478,7 @@
           },
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -519,7 +519,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "river",
+              "category": "river",
               "rate": "0.15",
               "water": "true"
             }
@@ -550,7 +550,7 @@
           {
             "values": {
               "typesBlacklist": "sparse,cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.15"
             }
           }
@@ -564,7 +564,7 @@
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           }
@@ -578,7 +578,7 @@
           {
             "values": {
               "typesBlacklist": "dry,cold",
-              "types": "river",
+              "category": "river",
               "rate": "0.3"
             }
           },
@@ -598,7 +598,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.125"
             }
           },
@@ -623,7 +623,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.25"
             }
           }
@@ -637,7 +637,7 @@
           {
             "values": {
               "typesBlacklist": "dry,savanna",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2",
               "night": "false"
             }
@@ -651,7 +651,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "1",
               "air": "false"
             }
@@ -665,7 +665,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "1"
             }
           },
@@ -684,7 +684,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.25"
             }
           },
@@ -703,7 +703,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           }
@@ -757,7 +757,7 @@
           },
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.3",
               "water": "true"
             }
@@ -805,7 +805,7 @@
           },
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.2",
               "water": "true"
             }
@@ -844,7 +844,7 @@
           },
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.05"
             }
           },
@@ -869,7 +869,7 @@
           },
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.05"
             }
           }
@@ -882,7 +882,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           }
@@ -895,7 +895,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.08",
               "water": "true"
             }
@@ -942,7 +942,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.1",
               "air": "false"
             }
@@ -969,7 +969,7 @@
           },
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.4"
             }
           }
@@ -988,7 +988,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.05"
             }
           },
@@ -1041,7 +1041,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "water": "true"
             }
@@ -1083,7 +1083,7 @@
           {
             "values": {
               "typesBlacklist": "dry,savanna",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.08",
               "night": "false"
             }
@@ -1106,7 +1106,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.15",
               "day": "false"
             }
@@ -1134,7 +1134,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.8"
             }
           }
@@ -1217,7 +1217,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.08",
               "air": "false"
             }
@@ -1238,14 +1238,14 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.2",
               "air": "false"
             }
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "air": "false"
             }
@@ -1273,7 +1273,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "air": "false"
             }
@@ -1320,8 +1320,7 @@
         "spawnRules": [
           {
             "values": {
-              "typesBlacklist": "dry,savanna",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.05"
             }
           }
@@ -1366,7 +1365,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.2"
             }
           }
@@ -1379,7 +1378,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.02"
             }
           }
@@ -1392,7 +1391,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -1405,14 +1404,14 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "1",
               "air": "false"
             }
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "1",
               "air": "false"
             }
@@ -1440,7 +1439,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.03",
               "air": "false"
             }
@@ -1493,7 +1492,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.03"
             }
           },
@@ -1512,7 +1511,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -1527,7 +1526,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -1542,7 +1541,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -1557,7 +1556,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.05",
               "air": "false"
             }
@@ -1584,7 +1583,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -1599,7 +1598,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -1630,7 +1629,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3",
               "night": "false"
             }
@@ -1644,7 +1643,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3",
               "day": "false"
             }
@@ -1666,7 +1665,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1",
               "night": "false"
             }
@@ -1681,7 +1680,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -1694,7 +1693,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.3",
               "air": "false"
             }
@@ -1709,7 +1708,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -1723,14 +1722,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -1744,7 +1743,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           }
@@ -1779,7 +1778,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3",
               "night": "false"
             }
@@ -1807,7 +1806,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1",
               "night": "false"
             }
@@ -1815,7 +1814,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1",
               "night": "false"
             }
@@ -1830,7 +1829,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "river",
+              "category": "river",
               "rate": "0.3"
             }
           },
@@ -1877,7 +1876,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.05",
               "day": "false"
             }
@@ -2269,14 +2268,14 @@
           {
             "values": {
               "typesBlacklist": "cold,wet",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold,wet",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           }
@@ -2289,7 +2288,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -2308,7 +2307,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           },
@@ -2333,7 +2332,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           },
@@ -2365,7 +2364,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.3",
               "air": "false"
             }
@@ -2385,7 +2384,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.1"
             }
           },
@@ -2476,7 +2475,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether",
+              "category": "nether",
               "rate": "0.3",
               "night": "false"
             }
@@ -2517,7 +2516,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.08",
               "air": "false"
             }
@@ -2545,7 +2544,7 @@
           },
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.08"
             }
           }
@@ -2558,7 +2557,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "air": "false"
             }
@@ -2591,7 +2590,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.1",
               "air": "false"
             }
@@ -2612,7 +2611,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.05"
             }
           },
@@ -2631,7 +2630,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.2",
               "day": "false"
             }
@@ -2646,7 +2645,7 @@
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -2659,7 +2658,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2",
               "day": "false"
             }
@@ -2699,7 +2698,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1",
               "night": "false"
             }
@@ -2713,7 +2712,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -2736,7 +2735,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "min": "1",
               "rate": "0.01",
               "max": "1"
@@ -2744,7 +2743,7 @@
           },
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "min": "1",
               "rate": "0.02",
               "max": "1"
@@ -2789,7 +2788,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.15",
               "night": "false"
             }
@@ -2803,7 +2802,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -2818,7 +2817,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -2849,7 +2848,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3"
             }
           }
@@ -2863,14 +2862,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           }
@@ -2884,7 +2883,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3",
               "day": "false"
             }
@@ -2892,7 +2891,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3",
               "day": "false"
             }
@@ -2907,7 +2906,7 @@
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
-              "types": "forest",
+              "category": "forest",
               "min": "4",
               "rate": "0.2",
               "max": "8"
@@ -2948,7 +2947,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "river",
+              "category": "river",
               "rate": "0.4",
               "water": "true"
             }
@@ -2963,7 +2962,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3",
               "night": "false"
             }
@@ -2978,14 +2977,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -3006,7 +3005,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2"
             }
           }
@@ -3056,7 +3055,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           },
@@ -3105,7 +3104,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           },
@@ -3182,7 +3181,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -3210,7 +3209,7 @@
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           }
@@ -3229,7 +3228,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.05"
             }
           }
@@ -3281,7 +3280,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           }
@@ -3295,7 +3294,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           }
@@ -3309,7 +3308,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           }
@@ -3323,7 +3322,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3",
               "day": "false"
             }
@@ -3346,7 +3345,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3",
               "day": "false"
             }
@@ -3369,7 +3368,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3"
             }
           },
@@ -3415,7 +3414,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.5",
               "air": "false"
             }
@@ -3429,7 +3428,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "air": "false"
             }
@@ -3441,13 +3440,6 @@
       "name": "Numel",
       "stats": {
         "spawnRules": [
-          {
-            "values": {
-              "typesBlacklist": "cold",
-              "types": "nether,cave",
-              "rate": "0.3"
-            }
-          },
           {
             "values": {
               "typesBlacklist": "cold",
@@ -3465,14 +3457,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether",
+              "category": "nether",
               "rate": "0.3"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.3"
             }
           },
@@ -3493,13 +3485,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether,cave",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "mountain,cave",
               "rate": "0.3"
             }
@@ -3514,14 +3499,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether",
+              "category": "nether",
               "rate": "0.3"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.3"
             }
           },
@@ -3542,13 +3527,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether,cave",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "mountain,cave",
               "rate": "0.3"
             }
@@ -3563,14 +3541,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether",
+              "category": "nether",
               "rate": "0.15"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.15"
             }
           },
@@ -3591,13 +3569,6 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether,cave",
-              "rate": "0.3"
-            }
-          },
-          {
-            "values": {
-              "typesBlacklist": "cold",
               "types": "mountain,cave",
               "rate": "0.3"
             }
@@ -3612,14 +3583,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether",
+              "category": "nether",
               "rate": "0.3"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.3"
             }
           },
@@ -3675,7 +3646,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.05"
             }
           }
@@ -3688,7 +3659,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.02"
             }
           }
@@ -3701,7 +3672,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.02"
             }
           }
@@ -3756,7 +3727,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.3",
               "air": "false"
             }
@@ -3785,7 +3756,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "river",
+              "category": "river",
               "rate": "0.3",
               "water": "true"
             }
@@ -3842,7 +3813,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.1"
             }
           },
@@ -3862,14 +3833,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.01"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.01"
             }
           }
@@ -3909,7 +3880,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -3991,7 +3962,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.08",
               "water": "true"
             }
@@ -4019,7 +3990,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.3",
               "air": "false"
             }
@@ -4054,7 +4025,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "air": "false"
             }
@@ -4175,7 +4146,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -4190,7 +4161,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -4221,7 +4192,7 @@
           {
             "values": {
               "typesBlacklist": "cold,snowy",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           }
@@ -4234,16 +4205,14 @@
         "spawnRules": [
           {
             "values": {
-              "typesBlacklist": "cold,jungle",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.6",
               "water": "true"
             }
           },
           {
             "values": {
-              "typesBlacklist": "cold,jungle",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.6",
               "water": "true"
             }
@@ -4257,8 +4226,7 @@
         "spawnRules": [
           {
             "values": {
-              "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -4271,8 +4239,7 @@
         "spawnRules": [
           {
             "values": {
-              "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           },
@@ -4292,13 +4259,14 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           },
           {
             "values": {
-              "types": "forest,cave",
+              "category": "forest",
+              "types": "cave",
               "rate": "0.2"
             }
           }
@@ -4312,14 +4280,14 @@
           {
             "values": {
               "typesBlacklist": "cold,snowy",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.06"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold,snowy",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.06"
             }
           }
@@ -4332,7 +4300,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -4378,7 +4346,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "river",
+              "category": "river",
               "rate": "0.2",
               "water": "true"
             }
@@ -4401,7 +4369,7 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.02"
             }
           }
@@ -4431,7 +4399,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "water": "true"
             }
@@ -4481,7 +4449,7 @@
             },
             "values": {
               "typesBlacklist": "cold",
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "water": "true"
             }
@@ -4529,7 +4497,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -4543,7 +4511,7 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           },
@@ -4564,7 +4532,7 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           },
@@ -4598,7 +4566,7 @@
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.05"
             }
           }
@@ -4772,7 +4740,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "river",
+              "category": "river",
               "rate": "0.3",
               "air": "false"
             }
@@ -4912,7 +4880,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "min": "1",
               "rate": "0.001",
               "max": "1",
@@ -4952,7 +4920,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -4967,7 +4935,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -4982,7 +4950,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "min": "1",
               "rate": "0.01",
               "max": "2",
@@ -4999,7 +4967,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           }
@@ -5013,14 +4981,14 @@
           {
             "values": {
               "typesBlacklist": "cold,snowy",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold,snowy",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -5034,7 +5002,7 @@
           {
             "values": {
               "typesBlacklist": "cold,snowy",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -5048,7 +5016,7 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna,snowy",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           },
@@ -5069,7 +5037,7 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna,snowy",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           },
@@ -5090,7 +5058,7 @@
           {
             "values": {
               "typesBlacklist": "cold,savanna,snowy",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           },
@@ -5111,7 +5079,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2",
               "day": "false"
             }
@@ -5126,14 +5094,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           },
@@ -5154,7 +5122,7 @@
           {
             "values": {
               "typesBlacklist": "wet,cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -5167,7 +5135,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "1"
             }
           },
@@ -5212,7 +5180,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.2"
             }
           },
@@ -5231,7 +5199,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -5250,7 +5218,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           }
@@ -5276,7 +5244,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           },
@@ -5295,7 +5263,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           },
@@ -5315,7 +5283,7 @@
           {
             "values": {
               "typesBlacklist": "cold,dry",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1",
               "night": "false"
             }
@@ -5338,7 +5306,7 @@
           {
             "values": {
               "typesBlacklist": "cold,dry",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1",
               "day": "false"
             }
@@ -5361,7 +5329,7 @@
           {
             "values": {
               "typesBlacklist": "cold,dry",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -5375,7 +5343,7 @@
           {
             "values": {
               "typesBlacklist": "cold,dry",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           },
@@ -5414,7 +5382,7 @@
               "anim": "basculin_red"
             },
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.15",
               "air": "false"
             }
@@ -5453,7 +5421,7 @@
               "anim": "basculin_blue"
             },
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.15",
               "air": "false"
             }
@@ -5607,7 +5575,7 @@
           },
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.1"
             }
           }
@@ -5633,7 +5601,7 @@
           },
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.11"
             }
           }
@@ -5659,7 +5627,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.1"
             }
           },
@@ -5679,7 +5647,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           }
@@ -5693,7 +5661,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.05",
               "day": "false"
             }
@@ -5708,7 +5676,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.05",
               "day": "false"
             }
@@ -5722,7 +5690,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.3"
             }
           }
@@ -5772,7 +5740,7 @@
               "anim": "deerling_au"
             },
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.11"
             }
           },
@@ -5784,7 +5752,7 @@
               "anim": "deerling_su"
             },
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.11"
             }
           },
@@ -5810,7 +5778,7 @@
           {
             "values": {
               "typesBlacklist": "cold,dry",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -5857,7 +5825,7 @@
           {
             "values": {
               "typesBlacklist": "savanna,dry",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           },
@@ -5884,7 +5852,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "1",
               "air": "false"
             }
@@ -5905,7 +5873,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.3",
               "air": "false"
             }
@@ -6002,7 +5970,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.4",
               "day": "false"
             }
@@ -6150,7 +6118,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.2"
             }
           }
@@ -6163,7 +6131,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.05"
             }
           }
@@ -6176,7 +6144,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -6189,7 +6157,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.05"
             }
           }
@@ -6312,7 +6280,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6357,7 +6325,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -6372,7 +6340,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -6408,7 +6376,7 @@
           },
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1"
             }
           }
@@ -6422,7 +6390,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3"
             }
           }
@@ -6457,7 +6425,7 @@
           {
             "values": {
               "typesBlacklist": "mesa",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           }
@@ -6498,7 +6466,7 @@
           {
             "values": {
               "typesBlacklist": "wet,savanna",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1",
               "day": "false"
             }
@@ -6527,7 +6495,7 @@
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.1",
               "day": "false"
             }
@@ -6588,7 +6556,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.9",
               "air": "false",
               "day": "false"
@@ -6638,7 +6606,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.4",
               "air": "false"
             }
@@ -6672,7 +6640,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -6686,7 +6654,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -6837,7 +6805,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -6912,7 +6880,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -6927,7 +6895,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.01",
               "max": "2"
@@ -6958,14 +6926,14 @@
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.2"
             }
           },
           {
             "values": {
               "typesBlacklist": "wet",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.2"
             }
           }
@@ -6979,7 +6947,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           }
@@ -6993,7 +6961,7 @@
           {
             "values": {
               "typesBlacklist": "sparse,cold,dry",
-              "types": "forest",
+              "category": "forest",
               "min": "4",
               "rate": "0.2",
               "max": "8"
@@ -7038,7 +7006,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "water": "true"
             }
@@ -7074,7 +7042,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.05"
             }
           }
@@ -7095,7 +7063,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.05"
             }
           }
@@ -7116,7 +7084,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.05"
             }
           }
@@ -7137,7 +7105,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.05"
             }
           }
@@ -7151,14 +7119,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3"
             }
           },
@@ -7179,14 +7147,14 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.3"
             }
           },
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           }
@@ -7199,7 +7167,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "min": "5",
               "rate": "0.1",
               "max": "10",
@@ -7208,7 +7176,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "min": "5",
               "rate": "0.1",
               "max": "10",
@@ -7242,7 +7210,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.5",
               "air": "false"
             }
@@ -7262,7 +7230,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.3"
             }
           }
@@ -7321,7 +7289,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "nether",
+              "category": "nether",
               "rate": "0.3",
               "night": "false"
             }
@@ -7481,7 +7449,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "forest",
+              "category": "forest",
               "rate": "0.1"
             }
           }
@@ -7495,7 +7463,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           }
@@ -7509,7 +7477,7 @@
           {
             "values": {
               "typesBlacklist": "cold",
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.1"
             }
           }
@@ -7535,14 +7503,14 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.2",
               "air": "false"
             }
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "air": "false"
             }
@@ -7583,7 +7551,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.1",
               "air": "false"
             }
@@ -7603,7 +7571,7 @@
           },
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.2"
             }
           }
@@ -7661,7 +7629,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -7706,7 +7674,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "min": "1",
               "rate": "0.002",
               "max": "1"
@@ -7879,7 +7847,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.01"
             }
           }
@@ -7892,7 +7860,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.01"
             }
           }
@@ -7919,7 +7887,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.15"
             }
           }
@@ -7945,7 +7913,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "forest",
+              "category": "forest",
               "rate": "0.33"
             }
           }
@@ -7971,7 +7939,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "plains",
+              "category": "plains",
               "rate": "0.4"
             }
           },
@@ -8050,7 +8018,7 @@
           },
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.12"
             }
           }
@@ -8095,7 +8063,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "river",
+              "category": "river",
               "rate": "0.17"
             }
           }
@@ -8108,7 +8076,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.12",
               "air": "false"
             }
@@ -8168,7 +8136,7 @@
           },
           {
             "values": {
-              "types": "ocean",
+              "category": "ocean",
               "rate": "0.2",
               "water": "true"
             }
@@ -8292,7 +8260,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.2"
             }
           }
@@ -8318,7 +8286,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "nether",
+              "category": "nether",
               "rate": "0.16"
             }
           }
@@ -8331,7 +8299,7 @@
         "spawnRules": [
           {
             "values": {
-              "types": "mountain",
+              "category": "extreme_hills",
               "rate": "0.18"
             }
           }
