@@ -6,7 +6,7 @@
   <phase armAngle="0" duration="10" leftArm="" leftLeg="leg1" legAngle="5" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="abomasnow">
    <part name="Head" tex="abomasnowhead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body1">

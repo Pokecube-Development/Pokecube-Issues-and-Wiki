@@ -162,9 +162,16 @@
 					<Group DEF="group_ME_head">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Ariados_png" />
+								<Material DEF="MA_Body"
+								          diffuseColor="0.800 0.800 0.800"
+								          specularColor="0.401 0.401 0.401"
+								          emissiveColor="0.000 0.000 0.000"
+								          ambientIntensity="0.333"
+								          shininess="0.098"
+								          transparency="0.0"
+								          />
 							</Appearance>
-							<IndexedTriangleSet solid="false"
+							<IndexedTriangleSet solid="true"
 							                    normalPerVertex="true"
 							                    index="0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 16 13 4 16 4 17 18 5 12 18 12 19 "
 							                    >
@@ -188,9 +195,9 @@
 						<Group DEF="group_ME_c2">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Ariados_png" />
+									<Material USE="MA_Body" />
 								</Appearance>
-								<IndexedTriangleSet solid="false"
+								<IndexedTriangleSet solid="true"
 								                    normalPerVertex="true"
 								                    index="0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 4 13 16 4 16 17 18 19 14 18 14 7 "
 								                    >
@@ -214,9 +221,9 @@
 							<Group DEF="group_ME_Cube_003">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Ariados_png" />
+										<Material USE="MA_Body" />
 									</Appearance>
-									<IndexedTriangleSet solid="false"
+									<IndexedTriangleSet solid="true"
 									                    normalPerVertex="true"
 									                    index="0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 4 13 16 4 16 17 18 19 14 18 14 7 "
 									                    >
@@ -303,9 +310,9 @@
 						<Group DEF="group_ME_c1">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Ariados_png" />
+									<Material USE="MA_Body" />
 								</Appearance>
-								<IndexedTriangleSet solid="false"
+								<IndexedTriangleSet solid="true"
 								                    normalPerVertex="true"
 								                    index="0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 16 13 4 16 4 17 18 5 12 18 12 19 "
 								                    >
@@ -329,9 +336,9 @@
 							<Group DEF="group_ME_Cube_007">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Ariados_png" />
+										<Material USE="MA_Body" />
 									</Appearance>
-									<IndexedTriangleSet solid="false"
+									<IndexedTriangleSet solid="true"
 									                    normalPerVertex="true"
 									                    index="0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 16 13 4 16 4 17 18 5 12 18 12 19 "
 									                    >
@@ -357,9 +364,9 @@
 						<Group DEF="group_ME_Cube_005">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Ariados_png" />
+									<Material USE="MA_Body" />
 								</Appearance>
-								<IndexedTriangleSet solid="false"
+								<IndexedTriangleSet solid="true"
 								                    normalPerVertex="true"
 								                    index="0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 16 13 4 16 4 17 18 5 12 18 12 19 "
 								                    >

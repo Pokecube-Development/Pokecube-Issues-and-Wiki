@@ -5,8 +5,8 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
   <customTex default="machampgigantamax">
-   <part name="Head" tex="machampheadgigantamax"/>
-   <animation diffs="0,0.45" part="Head" trigger="random:0.005:10"/>
+   <part name="Head" tex="machampgigantamaxhead"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
   </customTex>
   <material name="Glow" light="1" transluscent="false"/>
   <phase type="sitting">

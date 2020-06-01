@@ -5,9 +5,8 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
   <worn angles="-90,0,0" id="__EYE__" offset="0,-0.04,0.4" parent="head" scale="2,1.5,1"/>
   <customTex default="alakazammega">
-   <part name="Head" tex="alakazammegahead"/>
-   <animation diffs="0,0.67" part="Head" trigger="random:0.005:20"/>
-   <animation diffs="0,0.87" part="Head" trigger="sleeping"/>
+   <part name="Head" tex="alakazammegaeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:20"/>
   </customTex>
   <phase type="sitting">
    <part name="arm1">

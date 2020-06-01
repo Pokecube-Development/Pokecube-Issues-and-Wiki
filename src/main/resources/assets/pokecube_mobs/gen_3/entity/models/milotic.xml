@@ -20,6 +20,7 @@
   <customTex default="milotic">
    <part name="Head" tex="milotichead"/>
    <animation diffs="0,0.4" part="Head" trigger="random:0.005:1"/>
+   <part name="Tail" tex="scale"/>
   </customTex>
   <phase type="idle">
    <part name="body">

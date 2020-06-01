@@ -130,5 +130,6 @@
   <subanim name="walking-1" base="walking"/>
   <subanim name="walking-2" base="walking"/>
   <merges merge="walking->walking-1"/>
+  <merges merge="walking->walking-2"/>
  </model>
 </ModelAnimator>

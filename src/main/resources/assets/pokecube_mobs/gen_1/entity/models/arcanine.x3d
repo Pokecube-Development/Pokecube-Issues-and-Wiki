@@ -27,7 +27,7 @@
 				<Group DEF="group_ME_body">
 					<Shape>
 						<Appearance>
-							<ImageTexture DEF="IM_Growlithe_png"
+							<ImageTexture DEF="IM_Arcanine_png"
 							              />
 						</Appearance>
 						<IndexedTriangleSet solid="false"
@@ -54,7 +54,7 @@
 					<Group DEF="group_ME_leg3">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Growlithe_png" />
+								<ImageTexture USE="IM_Arcanine_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -80,7 +80,7 @@
 						<Group DEF="group_ME_leg3_1">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Growlithe_png" />
+									<ImageTexture USE="IM_Arcanine_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -106,7 +106,7 @@
 							<Group DEF="group_ME_leg3_2">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -132,7 +132,7 @@
 								<Group DEF="group_ME_leg1_1_006">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -158,7 +158,7 @@
 									<Group DEF="group_ME_leg1_1_010">
 										<Shape>
 											<Appearance>
-												<ImageTexture USE="IM_Growlithe_png" />
+												<ImageTexture USE="IM_Arcanine_png" />
 											</Appearance>
 											<IndexedTriangleSet solid="false"
 											                    normalPerVertex="true"
@@ -185,7 +185,7 @@
 									<Group DEF="group_ME_leg1_1_009">
 										<Shape>
 											<Appearance>
-												<ImageTexture USE="IM_Growlithe_png" />
+												<ImageTexture USE="IM_Arcanine_png" />
 											</Appearance>
 											<IndexedTriangleSet solid="false"
 											                    normalPerVertex="true"
@@ -216,7 +216,7 @@
 					<Group DEF="group_ME_leg2">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Growlithe_png" />
+								<ImageTexture USE="IM_Arcanine_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -242,7 +242,7 @@
 						<Group DEF="group_ME_leg2_1">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Growlithe_png" />
+									<ImageTexture USE="IM_Arcanine_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -268,7 +268,7 @@
 							<Group DEF="group_ME_leg1_1_007">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -294,7 +294,7 @@
 								<Group DEF="group_ME_leg1_1_008">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -324,7 +324,7 @@
 					<Group DEF="group_ME_leg4">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Growlithe_png" />
+								<ImageTexture USE="IM_Arcanine_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -350,7 +350,7 @@
 						<Group DEF="group_ME_leg4_1">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Growlithe_png" />
+									<ImageTexture USE="IM_Arcanine_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -376,7 +376,7 @@
 							<Group DEF="group_ME_leg4_2">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -402,7 +402,7 @@
 								<Group DEF="group_ME_leg1_1_003">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -428,7 +428,7 @@
 									<Group DEF="group_ME_leg1_1_005">
 										<Shape>
 											<Appearance>
-												<ImageTexture USE="IM_Growlithe_png" />
+												<ImageTexture USE="IM_Arcanine_png" />
 											</Appearance>
 											<IndexedTriangleSet solid="false"
 											                    normalPerVertex="true"
@@ -455,7 +455,7 @@
 									<Group DEF="group_ME_leg1_1_004">
 										<Shape>
 											<Appearance>
-												<ImageTexture USE="IM_Growlithe_png" />
+												<ImageTexture USE="IM_Arcanine_png" />
 											</Appearance>
 											<IndexedTriangleSet solid="false"
 											                    normalPerVertex="true"
@@ -486,7 +486,7 @@
 					<Group DEF="group_ME_leg1">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Growlithe_png" />
+								<ImageTexture USE="IM_Arcanine_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -512,7 +512,7 @@
 						<Group DEF="group_ME_leg1_1">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Growlithe_png" />
+									<ImageTexture USE="IM_Arcanine_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -538,7 +538,7 @@
 							<Group DEF="group_ME_leg1_1_001">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -564,7 +564,7 @@
 								<Group DEF="group_ME_leg1_1_002">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -594,7 +594,7 @@
 					<Group DEF="group_ME_neck">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Growlithe_png" />
+								<ImageTexture USE="IM_Arcanine_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -655,7 +655,7 @@
 								                    >
 									<Coordinate point="0.903318 -1.385060 0.544613 0.903318 -1.385060 1.111063 0.222093 -1.385060 1.111063 0.222093 -1.385060 0.544613 -0.222093 -1.385060 0.544613 -0.222093 -1.385060 1.111063 -0.903318 -1.385060 1.111063 -0.903318 -1.385060 0.544613 " />
 									<Normal vector="0.707083 -0.707083 0.000000 0.707083 -0.707083 0.000000 0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 0.000000 -1.000000 0.000000 -0.707083 -0.707083 0.000000 -0.707083 -0.707083 0.000000 " />
-									<TextureCoordinate point="0.1775 0.7520 0.1775 0.9972 0.5725 0.9972 0.5725 0.7520 0.5725 0.7520 0.5725 0.9972 0.1775 0.9972 0.1775 0.7520 " />
+									<TextureCoordinate point="0.0250 0.5185 0.0250 0.9730 0.9828 0.9730 0.9828 0.5185 0.9828 0.5185 0.9828 0.9730 0.0250 0.9730 0.0250 0.5185 " />
 								</IndexedTriangleSet>
 							</Shape>
 						</Group>
@@ -673,7 +673,7 @@
 							<Group DEF="group_ME_dnt_001">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -700,7 +700,7 @@
 							<Group DEF="group_ME_orl2">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -727,7 +727,7 @@
 							<Group DEF="group_ME_ph_001">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -754,7 +754,7 @@
 							<Group DEF="group_ME_dnt">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -781,7 +781,7 @@
 							<Group DEF="group_ME_ph">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -808,7 +808,7 @@
 							<Group DEF="group_ME_clin">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -834,7 +834,7 @@
 								<Group DEF="group_ME_Cube_014">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -861,7 +861,7 @@
 								<Group DEF="group_ME_Cube_013">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -888,7 +888,7 @@
 								<Group DEF="group_ME_Cube_012">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -915,7 +915,7 @@
 								<Group DEF="group_ME_Cube_011">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -942,7 +942,7 @@
 								<Group DEF="group_ME_Cube_002">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -969,7 +969,7 @@
 								<Group DEF="group_ME_Cube_034">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -996,7 +996,7 @@
 								<Group DEF="group_ME_Cube_033">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1023,7 +1023,7 @@
 								<Group DEF="group_ME_Cube_032">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1050,7 +1050,7 @@
 								<Group DEF="group_ME_Cube_031">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1077,7 +1077,7 @@
 								<Group DEF="group_ME_Cube_030">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1104,7 +1104,7 @@
 								<Group DEF="group_ME_Cube_029">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1131,7 +1131,7 @@
 								<Group DEF="group_ME_Cube_028">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1158,7 +1158,7 @@
 								<Group DEF="group_ME_Cube_027">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1185,7 +1185,7 @@
 								<Group DEF="group_ME_Cube_025">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1213,7 +1213,7 @@
 							<Group DEF="group_ME_mouth">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1240,7 +1240,7 @@
 							<Group DEF="group_ME_orl1">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1267,7 +1267,7 @@
 							<Group DEF="group_ME_nouse">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1293,7 +1293,7 @@
 								<Group DEF="group_ME_nouse1">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -1322,7 +1322,7 @@
 						<Group DEF="group_ME_pl_neck">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Growlithe_png" />
+									<ImageTexture USE="IM_Arcanine_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -1348,7 +1348,7 @@
 							<Group DEF="group_ME_Cube_020">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1375,7 +1375,7 @@
 							<Group DEF="group_ME_Cube_019">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1402,7 +1402,7 @@
 							<Group DEF="group_ME_Cube_018">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1429,7 +1429,7 @@
 							<Group DEF="group_ME_Cube_017">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1456,7 +1456,7 @@
 							<Group DEF="group_ME_Cube_016">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1483,7 +1483,7 @@
 							<Group DEF="group_ME_Cube_043">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1510,7 +1510,7 @@
 							<Group DEF="group_ME_Cube_042">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1537,7 +1537,7 @@
 							<Group DEF="group_ME_Cube_041">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1564,7 +1564,7 @@
 							<Group DEF="group_ME_Cube_040">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1591,7 +1591,7 @@
 							<Group DEF="group_ME_Cube_039">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1618,7 +1618,7 @@
 							<Group DEF="group_ME_Cube_038">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1645,7 +1645,7 @@
 							<Group DEF="group_ME_Cube_037">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1674,7 +1674,7 @@
 					<Group DEF="group_ME_tail">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Growlithe_png" />
+								<ImageTexture USE="IM_Arcanine_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -1700,7 +1700,7 @@
 						<Group DEF="group_ME_tail1">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Growlithe_png" />
+									<ImageTexture USE="IM_Arcanine_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -1726,7 +1726,7 @@
 							<Group DEF="group_ME_tail2">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Growlithe_png" />
+										<ImageTexture USE="IM_Arcanine_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -1752,7 +1752,7 @@
 								<Group DEF="group_ME_tail3">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Growlithe_png" />
+											<ImageTexture USE="IM_Arcanine_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"

@@ -8,7 +8,7 @@
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
   <phase axis="0" name="snakeFly" parts="tail1:tail2:tail3:tail4:tail5:tail6:tail7"/>
   <customTex default="charizardmax">
-   <part name="Head" tex="charizardmaxhead"/>
+   <part name="Head" tex="charizardgigantamaxeye"/>
    <animation diffs="0,0.48" part="Head" trigger="random:0.005:25"/>
    <part name="Fire" tex="fire"/>
    <animation diffs="0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65" part="Fire" trigger="sequence"/>

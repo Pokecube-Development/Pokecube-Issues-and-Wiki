@@ -6,7 +6,7 @@
   <phase duration="15" leftArm="" leftLeg="leg1" legAngle="13" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="delphox">
    <part name="Head" tex="delphoxhead"/>
-   <animation diffs="0,0.55" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:2"/>
   </customTex>
   <material name="Fire" light="1" transluscent="true"/>
   <phase type="sitting">

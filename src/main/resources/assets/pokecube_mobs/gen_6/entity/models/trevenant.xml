@@ -5,8 +5,9 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1" headDir1="-1"/>
   <customTex default="trevenant">
    <part name="Eye" tex="trevenanthead"/>
-   <animation diffs="0.5,0" part="Eye" trigger="random:0.005:20"/>
+   <animation diffs="0.5,0" part="Eye" trigger="random:0.005:2"/>
   </customTex>
+  <material name="Eye" light="0.5" transluscent="false"/>
   <phase type="idle">
    <part name="arm1">
     <component length="10" name="1" rotOffset="0,0,-20" rotChange="0,0,-10" startKey="0"/>

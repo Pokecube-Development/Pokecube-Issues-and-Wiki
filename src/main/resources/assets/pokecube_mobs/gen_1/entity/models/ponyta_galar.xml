@@ -2,10 +2,10 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
+  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
   <customTex default="ponytagalar">
    <part name="Head" tex="ponytagalarhead"/>
-   <animation diffs="0.39,0" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
   </customTex>
   <material name="Light" light="1" transluscent="false"/>
   <phase type="sitting">

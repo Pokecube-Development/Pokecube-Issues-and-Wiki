@@ -4,7 +4,7 @@
   <phase name="global" scale="0.3"/>
   <customTex default="chinchou">
    <part name="Head" tex="chinchouhead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:21"/>
+   <animation diffs="0.45,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <material name="Light" light="1" transluscent="true"/>
   <phase type="idle">
