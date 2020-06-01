@@ -170,8 +170,14 @@ task serverJar(type: Jar) {
     exclude '**/blockstates*'
 }
 
+task deobfJar(type: Jar) {	
+    classifier = 'deobf'
+    from sourceSets.main.output	
+}
+
 artifacts {
 	archives sourcesJar
+    archives deobfJar
     reobf { serverJar {}}
 }
 
