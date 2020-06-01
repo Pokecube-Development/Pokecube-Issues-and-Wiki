@@ -12,7 +12,9 @@ public class JavaCharStream
 {
     public static final boolean staticFlag = false;
 
-    static final int hexval(char c) throws java.io.IOException
+    private static final int BUFFSIZE = 16;
+
+    static final int hexval(final char c) throws java.io.IOException
     {
         switch (c)
         {
@@ -81,32 +83,34 @@ public class JavaCharStream
     protected int    nextCharInd    = -1;
     protected int    inBuf          = 0;
 
-    public JavaCharStream(java.io.InputStream dstream)
+    public JavaCharStream(final java.io.InputStream dstream)
     {
-        this(dstream, 1, 1, 4096);
+        this(dstream, 1, 1, JavaCharStream.BUFFSIZE);
     }
 
-    public JavaCharStream(java.io.InputStream dstream, int startline, int startcolumn)
+    public JavaCharStream(final java.io.InputStream dstream, final int startline, final int startcolumn)
     {
-        this(dstream, startline, startcolumn, 4096);
+        this(dstream, startline, startcolumn, JavaCharStream.BUFFSIZE);
     }
 
-    public JavaCharStream(java.io.InputStream dstream, int startline, int startcolumn, int buffersize)
+    public JavaCharStream(final java.io.InputStream dstream, final int startline, final int startcolumn,
+            final int buffersize)
     {
-        this(new java.io.InputStreamReader(dstream), startline, startcolumn, 4096);
+        this(new java.io.InputStreamReader(dstream), startline, startcolumn, JavaCharStream.BUFFSIZE);
     }
 
-    public JavaCharStream(java.io.Reader dstream)
+    public JavaCharStream(final java.io.Reader dstream)
     {
-        this(dstream, 1, 1, 4096);
+        this(dstream, 1, 1, JavaCharStream.BUFFSIZE);
     }
 
-    public JavaCharStream(java.io.Reader dstream, int startline, int startcolumn)
+    public JavaCharStream(final java.io.Reader dstream, final int startline, final int startcolumn)
     {
-        this(dstream, startline, startcolumn, 4096);
+        this(dstream, startline, startcolumn, JavaCharStream.BUFFSIZE);
     }
 
-    public JavaCharStream(java.io.Reader dstream, int startline, int startcolumn, int buffersize)
+    public JavaCharStream(final java.io.Reader dstream, final int startline, final int startcolumn,
+            final int buffersize)
     {
         this.inputStream = dstream;
         this.line = startline;
@@ -116,13 +120,13 @@ public class JavaCharStream
         this.buffer = new char[buffersize];
         this.bufline = new int[buffersize];
         this.bufcolumn = new int[buffersize];
-        this.nextCharBuf = new char[4096];
+        this.nextCharBuf = new char[JavaCharStream.BUFFSIZE];
     }
 
     /**
      * Method to adjust line and column numbers for the start of a token.
      */
-    public void adjustBeginLineColumn(int newLine, int newCol)
+    public void adjustBeginLineColumn(int newLine, final int newCol)
     {
         int start = this.tokenBegin;
         int len;
@@ -161,7 +165,7 @@ public class JavaCharStream
     {
         if (this.available == this.bufsize)
         {
-            if (this.tokenBegin > 2048)
+            if (this.tokenBegin > JavaCharStream.BUFFSIZE)
             {
                 this.bufpos = 0;
                 this.available = this.tokenBegin;
@@ -169,11 +173,11 @@ public class JavaCharStream
             else this.ExpandBuff(false);
         }
         else if (this.available > this.tokenBegin) this.available = this.bufsize;
-        else if (this.tokenBegin - this.available < 2048) this.ExpandBuff(true);
+        else if (this.tokenBegin - this.available < JavaCharStream.BUFFSIZE) this.ExpandBuff(true);
         else this.available = this.tokenBegin;
     }
 
-    public void backup(int amount)
+    public void backup(final int amount)
     {
 
         this.inBuf += amount;
@@ -206,11 +210,11 @@ public class JavaCharStream
         this.bufcolumn = null;
     }
 
-    protected void ExpandBuff(boolean wrapAround)
+    protected void ExpandBuff(final boolean wrapAround)
     {
-        final char[] newbuffer = new char[this.bufsize + 2048];
-        final int newbufline[] = new int[this.bufsize + 2048];
-        final int newbufcolumn[] = new int[this.bufsize + 2048];
+        final char[] newbuffer = new char[this.bufsize + JavaCharStream.BUFFSIZE];
+        final int newbufline[] = new int[this.bufsize + JavaCharStream.BUFFSIZE];
+        final int newbufcolumn[] = new int[this.bufsize + JavaCharStream.BUFFSIZE];
 
         try
         {
@@ -249,18 +253,19 @@ public class JavaCharStream
             throw new Error(t.getMessage());
         }
 
-        this.available = this.bufsize += 2048;
+        this.available = this.bufsize += JavaCharStream.BUFFSIZE;
         this.tokenBegin = 0;
     }
 
     protected void FillBuff() throws java.io.IOException
     {
         int i;
-        if (this.maxNextCharInd == 4096) this.maxNextCharInd = this.nextCharInd = 0;
+        if (this.maxNextCharInd == JavaCharStream.BUFFSIZE) this.maxNextCharInd = this.nextCharInd = 0;
 
         try
         {
-            if ((i = this.inputStream.read(this.nextCharBuf, this.maxNextCharInd, 4096 - this.maxNextCharInd)) == -1)
+            if ((i = this.inputStream.read(this.nextCharBuf, this.maxNextCharInd, JavaCharStream.BUFFSIZE
+                    - this.maxNextCharInd)) == -1)
             {
                 this.inputStream.close();
                 throw new java.io.IOException();
@@ -334,7 +339,7 @@ public class JavaCharStream
         return this.bufline[this.bufpos];
     }
 
-    public char[] GetSuffix(int len)
+    public char[] GetSuffix(final int len)
     {
         final char[] ret = new char[len];
 
@@ -439,32 +444,33 @@ public class JavaCharStream
         }
     }
 
-    public void ReInit(java.io.InputStream dstream)
+    public void ReInit(final java.io.InputStream dstream)
     {
-        this.ReInit(dstream, 1, 1, 4096);
+        this.ReInit(dstream, 1, 1, JavaCharStream.BUFFSIZE);
     }
 
-    public void ReInit(java.io.InputStream dstream, int startline, int startcolumn)
+    public void ReInit(final java.io.InputStream dstream, final int startline, final int startcolumn)
     {
-        this.ReInit(dstream, startline, startcolumn, 4096);
+        this.ReInit(dstream, startline, startcolumn, JavaCharStream.BUFFSIZE);
     }
 
-    public void ReInit(java.io.InputStream dstream, int startline, int startcolumn, int buffersize)
+    public void ReInit(final java.io.InputStream dstream, final int startline, final int startcolumn,
+            final int buffersize)
     {
-        this.ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, 4096);
+        this.ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, JavaCharStream.BUFFSIZE);
     }
 
-    public void ReInit(java.io.Reader dstream)
+    public void ReInit(final java.io.Reader dstream)
     {
-        this.ReInit(dstream, 1, 1, 4096);
+        this.ReInit(dstream, 1, 1, JavaCharStream.BUFFSIZE);
     }
 
-    public void ReInit(java.io.Reader dstream, int startline, int startcolumn)
+    public void ReInit(final java.io.Reader dstream, final int startline, final int startcolumn)
     {
-        this.ReInit(dstream, startline, startcolumn, 4096);
+        this.ReInit(dstream, startline, startcolumn, JavaCharStream.BUFFSIZE);
     }
 
-    public void ReInit(java.io.Reader dstream, int startline, int startcolumn, int buffersize)
+    public void ReInit(final java.io.Reader dstream, final int startline, final int startcolumn, final int buffersize)
     {
         this.inputStream = dstream;
         this.line = startline;
@@ -476,14 +482,14 @@ public class JavaCharStream
             this.buffer = new char[buffersize];
             this.bufline = new int[buffersize];
             this.bufcolumn = new int[buffersize];
-            this.nextCharBuf = new char[4096];
+            this.nextCharBuf = new char[JavaCharStream.BUFFSIZE];
         }
         this.prevCharIsLF = this.prevCharIsCR = false;
         this.tokenBegin = this.inBuf = this.maxNextCharInd = 0;
         this.nextCharInd = this.bufpos = -1;
     }
 
-    protected void UpdateLineColumn(char c)
+    protected void UpdateLineColumn(final char c)
     {
         this.column++;
 
