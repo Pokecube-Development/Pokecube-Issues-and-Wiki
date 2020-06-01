@@ -1173,7 +1173,7 @@
           {
             "values": {
               "types": "cave",
-              "rate": "0.05"
+              "rate": "0.025"
             }
           }
         ]
@@ -1322,7 +1322,7 @@
             "values": {
               "typesBlacklist": "dry,savanna",
               "types": "plains",
-              "rate": "0.02"
+              "rate": "0.05"
             }
           }
         ]
@@ -4660,13 +4660,13 @@
           {
             "values": {
               "types": "mountain,hills",
-              "rate": "0.1"
+              "rate": "0.05"
             }
           },
           {
             "values": {
               "types": "mountain,hills,cave",
-              "rate": "0.2"
+              "rate": "0.1"
             }
           }
         ]
