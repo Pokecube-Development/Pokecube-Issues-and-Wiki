@@ -2,7 +2,7 @@ package thut.api.maths;
 
 public class Cruncher
 {
-    private static final int[][] CACHE = new int[256 * 256 * 256][];
+    private static short[][] CACHE;
 
     public static boolean useCache = false;
 
@@ -10,14 +10,15 @@ public class Cruncher
     {
         // already initialized!
         if (Cruncher.useCache) return;
+        Cruncher.CACHE = new short[128 * 128 * 128][];
         final Vector3 temp = Vector3.getNewVector();
         for (int i = 0; i < Cruncher.CACHE.length; i++)
         {
-            final int[] var = new int[3];
+            final short[] var = new short[3];
             Cruncher.indexToVals(i, temp);
-            var[0] = temp.intX();
-            var[1] = temp.intY();
-            var[2] = temp.intZ();
+            var[0] = (short) temp.intX();
+            var[1] = (short) temp.intY();
+            var[2] = (short) temp.intZ();
             Cruncher.CACHE[i] = var;
         }
         Cruncher.useCache = true;
@@ -132,7 +133,7 @@ public class Cruncher
     {
         if (index > 0)
         {
-            if (index < Cruncher.CACHE.length && Cruncher.useCache)
+            if (Cruncher.useCache && index < Cruncher.CACHE.length)
             {
                 toFill.set(Cruncher.CACHE[index]);
                 return;

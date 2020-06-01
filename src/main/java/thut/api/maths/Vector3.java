@@ -1525,6 +1525,16 @@ public class Vector3
             final int[] p = (int[]) o;
             this.set(p[0], p[1], p[2]);
         }
+        else if (o instanceof byte[])
+        {
+            final byte[] p = (byte[]) o;
+            this.set(p[0], p[1], p[2]);
+        }
+        else if (o instanceof short[])
+        {
+            final short[] p = (short[]) o;
+            this.set(p[0], p[1], p[2]);
+        }
         else if (o instanceof Double) this.x = this.y = this.z = (double) o;
         return this;
     }
