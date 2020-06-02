@@ -10,7 +10,8 @@
   <worn angles="-15,0,0" id="__EAR_right__" offset="0,1,0.3" parent="orl2" scale="2"/>
   <customTex default="brionne">
    <part name="Head" tex="brionnehead"/>
-   <animation diffs="0.29,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <part name="Mouth" tex="brionnemouth"/>
   </customTex>
   <phase type="walking">
    <part name="tail">

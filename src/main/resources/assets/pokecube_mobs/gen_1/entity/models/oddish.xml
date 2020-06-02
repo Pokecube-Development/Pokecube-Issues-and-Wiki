@@ -5,9 +5,9 @@
   <phase duration="6" leftArm="" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="foot2"/>
   <customTex default="oddish">
    <part name="Head" tex="oddishhead"/>
-   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.4,0" part="Head" trigger="random:0.005:3"/>
    <part name="Mouth" tex="oddishhead"/>
-   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.43,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="foot1">

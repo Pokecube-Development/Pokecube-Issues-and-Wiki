@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="leg2_1" leftLeg="leg1" legAngle="45" name="biWalk" rightArm="leg1_1" rightLeg="leg2"/>
   <customTex default="ursaring">
    <part name="Head" tex="ursaringhead"/>
-   <animation diffs="0,0.39" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

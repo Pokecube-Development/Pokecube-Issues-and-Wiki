@@ -6,7 +6,7 @@
   <phase female="f" male="m" name="textures"/>
   <customTex default="wobbuffet">
    <part name="Head" tex="wobbuffethead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0.505,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="sitting">
    <part name="tail1">

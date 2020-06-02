@@ -6,7 +6,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-50,50" headDir="-1"/>
   <customTex default="kirlia">
    <part name="Head" tex="kirliahead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body">

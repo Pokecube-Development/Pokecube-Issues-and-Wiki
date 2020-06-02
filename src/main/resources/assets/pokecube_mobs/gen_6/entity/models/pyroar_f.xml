@@ -8,10 +8,10 @@
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail3:tail4:tail5:tail6"/>
   <phase angle="5" axis="0" name="snakeSet" parts="p2:p3:p4:p5:p6:p7:p8:p9"/>
   <phase angle="5" axis="0" name="snakeIdle" parts="p2:p3:p4:p5:p6:p7:p8:p9"/>
-  <phase angle="25" axis="1" name="snakeWalk" parts="p2:p3:p4:p5:p6:p7:p8:p9"/>
-  <customTex default="pyroarf">
+  <phase angle="15" axis="1" name="snakeWalk" parts="p2:p3:p4:p5:p6:p7:p8:p9"/>
+  <customTex default="pyroar">
    <part name="Head" tex="pyroarhead"/>
-   <animation diffs="0,0.494" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

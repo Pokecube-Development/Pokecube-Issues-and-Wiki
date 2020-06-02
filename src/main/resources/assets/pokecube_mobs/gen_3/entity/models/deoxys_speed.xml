@@ -12,7 +12,7 @@
   <phase angle="-10" axis="2" length="50" name="snakeFly" parts="arm4_1:arm4_2:arm4_3:arm4_4:arm4_5:arm4_5:arm4_6"/>
   <customTex default="deoxysspeed">
    <part name="Head" tex="deoxyseye"/>
-   <animation diffs="0.5445,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body1">

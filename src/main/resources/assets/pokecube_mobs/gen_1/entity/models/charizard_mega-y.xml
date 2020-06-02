@@ -11,8 +11,8 @@
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
   <phase axis="0" name="snakeFly" parts="tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
   <customTex default="charizardmegay">
-   <part name="Head" tex="charizardyhead"/>
-   <animation diffs="0,0.48" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="charizardmegayeye"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <material name="Fire" light="1" transluscent="false"/>
   <phase type="sitting">

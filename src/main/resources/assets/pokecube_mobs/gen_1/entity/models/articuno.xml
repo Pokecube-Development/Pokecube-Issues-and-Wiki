@@ -5,8 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <customTex default="articuno">
    <part name="Head" tex="articunohead"/>
-   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
-   <animation diffs="0,0.50" part="Head" trigger="sleeping"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>

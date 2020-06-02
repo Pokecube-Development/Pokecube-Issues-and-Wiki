@@ -4,7 +4,7 @@
   <phase headAxis="1" headCap="-50,50" name="global" scale="0.3"/>
   <customTex default="feebas">
    <part name="Head" tex="feebashead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="top">

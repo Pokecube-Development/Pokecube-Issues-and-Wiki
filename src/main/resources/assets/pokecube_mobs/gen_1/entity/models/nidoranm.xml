@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="nidoranm">
    <part name="Head" tex="nidoranmeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+   <animation diffs="0,0.515" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="walking">
    <part name="mouth">

@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="clauncher">
    <part name="Head" tex="clauncherhead"/>
-   <animation diffs="0.35,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.44,0" part="Head" trigger="random:0.005:2"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

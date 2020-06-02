@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="30" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="machop">
    <part name="Head" tex="machophead"/>
-   <animation diffs="0,0.45" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
   <customTex default="growlithe">
    <part name="Head" tex="growlithehead"/>
-   <animation diffs="0,0.22" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

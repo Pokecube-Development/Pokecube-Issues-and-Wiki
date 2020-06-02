@@ -7,7 +7,7 @@
   <customTex default="moltres">
    <part name="Head" tex="moltreshead"/>
    <part name="Flame" tex="flame_moltres"/>
-   <animation diffs="0,0.35" part="Head" trigger="random:0.005:10"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
    <animation diffs="0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.3, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65, 0,0.65" part="Flame" trigger="sequence"/>
   </customTex>
   <material name="Flame" light="1" transluscent="true"/>

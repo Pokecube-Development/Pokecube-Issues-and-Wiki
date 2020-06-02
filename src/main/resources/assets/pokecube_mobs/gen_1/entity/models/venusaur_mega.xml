@@ -9,6 +9,7 @@
   <customTex default="venusaurmega">
    <part name="Head" tex="venusaurmegahead"/>
    <animation diffs="0,0.55" part="Head" trigger="random:0.005:1"/>
+   <part name="Part" tex="venusaurmegahead"/>
   </customTex>
   <phase type="idle">
    <part name="cock1">
