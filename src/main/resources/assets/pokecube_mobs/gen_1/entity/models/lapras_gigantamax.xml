@@ -2,10 +2,10 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="2.9"/>
-  <metadata head="neck6" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
+  <metadata head="neck1:neck2:neck3:neck4:neck5" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
   <customTex default="laprasgigantamax">
    <part name="Head" tex="laprasghead"/>
-   <animation diffs="0.39,0" part="Head" trigger="random:0.005:15"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:15"/>
   </customTex>
   <material name="Glow" light="0.9" transluscent="true"/>
   <phase type="idle">

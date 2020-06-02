@@ -6,9 +6,9 @@
   <phase angle="40" duration="10" frontAngle="40" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail3:tail4:tail5:tail6"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail3:tail4:tail5:tail6"/>
-  <customTex default="pyroarm">
+  <customTex default="pyroar">
    <part name="Head" tex="pyroarhead"/>
-   <animation diffs="0,0.494" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

@@ -14,8 +14,9 @@
   <phase axis="0" angle="-25" name="snakeSwim" parts="arm2:arm2_1:arm2_2:arm2_3:arm2_4:arm2_5"/>
   <customTex default="tentacruel">
    <part name="Head" tex="tentacruelhead"/>
-   <animation diffs="0.4,0" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:25"/>
   </customTex>
+  <material name="Light" light="1" transluscent="false"/>
   <phase type="sitting">
    <part name="arm1">
     <component length="1" name="1" rotOffset="0,0,40," startKey="0"/>

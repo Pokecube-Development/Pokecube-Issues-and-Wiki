@@ -5,9 +5,9 @@
   <metadata head="body" headAxis="2" headAxis2="0" headCap="-5,5" headCap1="-5,5" headDir="-1" headDir1="-1"/>
   <worn angles="-90,0,0" id="__EYE__" offset="0,0.6,0.8" parent="body" scale="2.8,2,2"/>
   <customTex default="weezinggalarian">
-   <part name="Head" tex="weezinggalarianhad"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
-   <part name="Head1" tex="weezinggalarianhead1"/>
+   <part name="Head" tex="weezinggalarhead"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:20"/>
+   <part name="Head1" tex="weezinggalarhead1"/>
    <animation diffs="0.5,0" part="Head1" trigger="random:0.005:20"/>
   </customTex>
   <phase type="idle">

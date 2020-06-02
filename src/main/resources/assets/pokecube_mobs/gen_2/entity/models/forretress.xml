@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1" headDir2="-1"/>
   <customTex default="forretress">
    <part name="Head" tex="forretresshead"/>
-   <animation diffs="0.47,0" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0.47,0" part="Head" trigger="random:0.005:2"/>
   </customTex>
   <phase type="sitting">
    <part name="casc1">

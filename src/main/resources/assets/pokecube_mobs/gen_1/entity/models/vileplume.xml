@@ -5,9 +5,7 @@
   <phase duration="6" leftArm="arm1" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="arm2" rightLeg="leg2"/>
   <customTex default="vileplume">
    <part name="Head" tex="vileplumehead"/>
-   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
-   <part name="Mouth" tex="vileplumehead"/>
-   <animation diffs="0.3,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.45,0" part="Head" trigger="random:0.005:2"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

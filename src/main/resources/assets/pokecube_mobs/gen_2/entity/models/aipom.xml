@@ -6,8 +6,7 @@
   <phase duration="10" leftArm="leg1_1" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
   <customTex default="aipom">
    <part name="Head" tex="aipomhead"/>
-   <animation diffs="0,0.319" part="Head" trigger="random:0.005:1"/>
-   <animation diffs="0,0.50" part="Head" trigger="sleeping"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase axis="0" name="snakeIdle" parts="tail1:tail2:tail3:tail4:tail5:hand"/>
   <phase axis1="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:hand"/>

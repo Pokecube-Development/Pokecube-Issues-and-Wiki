@@ -6,8 +6,8 @@
   <phase armAngle="20" duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
   <worn angles="0,180,90" id="__EYE__" offset="0.38,0,-0.1" parent="head" scale="1"/>
   <customTex default="alakazam">
-   <part name="Head" tex="alakazamhead"/>
-   <animation diffs="0,0.35" part="Head" trigger="random:0.005:20"/>
+   <part name="Head" tex="alakazammegaeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:20"/>
   </customTex>
   <phase type="idle">
    <part name="cint">

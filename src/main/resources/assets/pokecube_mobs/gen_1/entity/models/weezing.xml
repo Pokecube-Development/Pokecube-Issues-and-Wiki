@@ -5,7 +5,7 @@
   <metadata head="body" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1" headDir1="-1"/>
   <customTex default="weezing">
    <part name="Head" tex="weezinghead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:20"/>
    <part name="Head1" tex="weezinghead1"/>
    <animation diffs="0.5,0" part="Head1" trigger="random:0.005:20"/>
   </customTex>

@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="leg1_1" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
   <customTex default="ambipom">
    <part name="Head" tex="ambipomhead"/>
-   <animation diffs="0.435,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:2"/>
   </customTex>
   <phase axis="0" name="snakeWalk" parts="tail1_2:tail1_3:tail1_4:tail1_5:hand1"/>
   <phase axis="0" name="snakeWalk" parts="tail2_2:tail2_3:tail2_4:tail2_5:hand2"/>

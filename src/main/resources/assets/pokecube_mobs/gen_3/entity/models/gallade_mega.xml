@@ -14,8 +14,8 @@
   <worn angles="-90,0,0" id="__BACK__" offset="0,1.25,-0.10" parent="body" scale="1.55,1.55,1.55"/>
   <phase duration="5" leftArm="leg1_2" leftLeg="leg1" legAngle="15" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
   <customTex default="gallademega">
-   <part name="Head" tex="galladehead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="gallademegahead"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="hair">

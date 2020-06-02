@@ -5,7 +5,7 @@
   <phase axis="0" name="snakeWalk" parts="p1:p2:p3:p4:p5:p6:p7:p8:p9:p10:p11:point"/>
   <customTex default="victreebel">
    <part name="Head" tex="victreebelhead"/>
-   <animation diffs="0.51,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase type="idle">
    <part name="leaf">

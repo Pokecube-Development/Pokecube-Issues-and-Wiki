@@ -4,7 +4,7 @@
   <phase name="global" scale="0.3"/>
   <customTex default="hoothoot">
    <part name="Head" tex="hoothooteye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="body">

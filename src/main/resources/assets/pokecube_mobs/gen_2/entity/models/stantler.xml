@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg1:leg1_1" leftHind="leg3:leg3_1" legAngle="15" name="quadWalk" rightFront="leg2:leg2_1" rightHind="leg4:leg4_1"/>
   <customTex default="stantler">
    <part name="Head" tex="stantlerhead"/>
-   <animation diffs="0.35,0" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.55,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

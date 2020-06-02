@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <customTex default="houndour">
    <part name="Head" tex="houndoureye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0,0.36" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="tail">
