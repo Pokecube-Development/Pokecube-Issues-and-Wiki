@@ -17,7 +17,6 @@ import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.server.ServerWorld;
-import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
@@ -42,8 +41,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
     protected void update(final ServerWorld worldIn, final LivingEntity entityIn)
     {
         final double s = 16;
-        if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), PokecubeCore
-                .getConfig().movementPauseThreshold + s)) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), 8 + s)) return;
         final List<AgeableEntity> mates = Lists.newArrayList();
         final List<ItemEntity> items = Lists.newArrayList();
         final List<LivingEntity> mobs = Lists.newArrayList();
