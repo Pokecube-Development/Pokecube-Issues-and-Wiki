@@ -88,17 +88,16 @@ public class NearBlocks extends Sensor<LivingEntity>
         if (BrainUtils.hasMoveUseTarget(entityIn)) return;
         this.tick++;
         if (this.tick % PokecubeCore.getConfig().nearBlockUpdateRate != 0) return;
-        if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), PokecubeCore
-                .getConfig().movementPauseThreshold)) return;
+        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
+        final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
+                AIRoutine.GATHER) && this.tameCheck(pokemob);
+        final int size = gathering ? 15 : 8;
+        if (!TerrainManager.isAreaLoaded(entityIn.dimension, entityIn.getPosition(), size + 8)) return;
 
         final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector();
         final Vector3 origin = Vector3.getNewVector();
         origin.set(entityIn);
         final List<NearBlock> list = Lists.newArrayList();
-        final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entityIn);
-        final boolean gathering = pokemob != null && pokemob.isPlayerOwned() && pokemob.isRoutineEnabled(
-                AIRoutine.GATHER) && this.tameCheck(pokemob);
-        final int size = gathering ? 15 : 8;
 
         final Vec3d start = entityIn.getEyePosition(1);
 
