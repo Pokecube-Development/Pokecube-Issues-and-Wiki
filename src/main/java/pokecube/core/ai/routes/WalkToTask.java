@@ -30,9 +30,9 @@ public class WalkToTask extends RootTask<MobEntity>
     @Nullable
     private Path     currentPath;
     @Nullable
-    private BlockPos field_220489_b;
+    private BlockPos current_target;
     private float    speed;
-    private int      field_220491_d;
+    private int      time_till_next_check;
 
     public WalkToTask(final int duration)
     {
@@ -55,9 +55,9 @@ public class WalkToTask extends RootTask<MobEntity>
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(owner);
         if (pokemob != null && !TaskBase.canMove(pokemob)) return false;
 
-        if (!this.hasReachedTarget(owner, walktarget) && this.func_220487_a(owner, walktarget, worldIn.getGameTime()))
+        if (!this.hasReachedTarget(owner, walktarget) && this.isPathValid(owner, walktarget, worldIn.getGameTime()))
         {
-            this.field_220489_b = walktarget.getTarget().getBlockPos();
+            this.current_target = walktarget.getTarget().getBlockPos();
             return true;
         }
         else
@@ -71,7 +71,7 @@ public class WalkToTask extends RootTask<MobEntity>
     protected boolean shouldContinueExecuting(final ServerWorld worldIn, final MobEntity entityIn,
             final long gameTimeIn)
     {
-        if (this.currentPath != null && this.field_220489_b != null)
+        if (this.currentPath != null && this.current_target != null)
         {
             final Optional<WalkTarget> optional = entityIn.getBrain().getMemory(MemoryModuleType.WALK_TARGET);
             final PathNavigator pathnavigator = entityIn.getNavigator();
@@ -94,14 +94,14 @@ public class WalkToTask extends RootTask<MobEntity>
     {
         entityIn.getBrain().setMemory(MemoryModuleType.PATH, this.currentPath);
         entityIn.getNavigator().setPath(this.currentPath, this.speed);
-        this.field_220491_d = worldIn.getRandom().nextInt(10);
+        this.time_till_next_check = worldIn.getRandom().nextInt(10);
     }
 
     @Override
     protected void updateTask(final ServerWorld worldIn, final MobEntity owner, final long gameTime)
     {
-        --this.field_220491_d;
-        if (this.field_220491_d <= 0)
+        --this.time_till_next_check;
+        if (this.time_till_next_check <= 0)
         {
             final Path path = owner.getNavigator().getPath();
             final Brain<?> brain = owner.getBrain();
@@ -111,13 +111,13 @@ public class WalkToTask extends RootTask<MobEntity>
                 brain.setMemory(MemoryModuleType.PATH, path);
             }
 
-            if (path != null && this.field_220489_b != null)
+            if (path != null && this.current_target != null)
             {
                 final WalkTarget walktarget = brain.getMemory(MemoryModuleType.WALK_TARGET).get();
-                if (walktarget.getTarget().getBlockPos().distanceSq(this.field_220489_b) > 4.0D && this.func_220487_a(
+                if (walktarget.getTarget().getBlockPos().distanceSq(this.current_target) > 4.0D && this.isPathValid(
                         owner, walktarget, worldIn.getGameTime()))
                 {
-                    this.field_220489_b = walktarget.getTarget().getBlockPos();
+                    this.current_target = walktarget.getTarget().getBlockPos();
                     this.startExecuting(worldIn, owner, gameTime);
                 }
 
@@ -125,7 +125,7 @@ public class WalkToTask extends RootTask<MobEntity>
         }
     }
 
-    private boolean func_220487_a(final MobEntity mob, final WalkTarget target, final long gametime)
+    private boolean isPathValid(final MobEntity mob, final WalkTarget target, final long gametime)
     {
         final BlockPos blockpos = target.getTarget().getBlockPos();
         this.currentPath = mob.getNavigator().func_225464_a(ImmutableSet.of(blockpos), 16, false, 0);
