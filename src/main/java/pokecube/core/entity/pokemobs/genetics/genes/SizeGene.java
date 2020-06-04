@@ -30,7 +30,7 @@ public class SizeGene extends GeneFloat
     }
 
     @Override
-    public Gene interpolate(Gene other)
+    public Gene interpolate(final Gene other)
     {
         final SizeGene newGene = new SizeGene();
         final SizeGene otherG = (SizeGene) other;
@@ -43,6 +43,7 @@ public class SizeGene extends GeneFloat
     {
         final SizeGene newGene = new SizeGene();
         newGene.value = this.value + SizeGene.scaleFactor * (float) new Random().nextGaussian();
+        newGene.value = Math.abs(newGene.value);
         return newGene;
     }
 
