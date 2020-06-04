@@ -10,6 +10,7 @@ import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
 import pokecube.core.ai.pathing.SwimPathNavi;
@@ -199,8 +200,13 @@ public class LogicFloatFlySwim extends LogicBase
         this.walkController = new MovementController(entity.getEntity());
         this.swimController = new SwimController(entity);
 
+        this.world = this.pokemob.getEntity().getEntityWorld();
+
+        if (this.world instanceof ServerWorld) ((ServerWorld) this.world).navigations.remove(this.entity
+                .getNavigator());
         this.pokemob.getEntity().navigator = this.walkPather;
         this.pokemob.getEntity().moveController = this.walkController;
+        if (this.world instanceof ServerWorld) ((ServerWorld) this.world).navigations.add(this.entity.getNavigator());
     }
 
     @Override
@@ -218,8 +224,10 @@ public class LogicFloatFlySwim extends LogicBase
             if (this.state != NaviState.FLY)
             {
                 this.entity.setNoGravity(!this.pokemob.isGrounded());
+                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
                 this.pokemob.getEntity().navigator = this.flyPather;
                 this.pokemob.getEntity().moveController = this.flyController;
+                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.add(this.entity.getNavigator());
             }
             this.state = NaviState.FLY;
         }
@@ -227,8 +235,10 @@ public class LogicFloatFlySwim extends LogicBase
         {
             if (this.state != NaviState.SWIM)
             {
+                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
                 this.pokemob.getEntity().navigator = this.swimPather;
                 this.pokemob.getEntity().moveController = this.swimController;
+                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.add(this.entity.getNavigator());
             }
             this.state = NaviState.SWIM;
         }
@@ -237,8 +247,10 @@ public class LogicFloatFlySwim extends LogicBase
             if (this.state != NaviState.WALK)
             {
                 this.entity.setNoGravity(false);
+                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
                 this.pokemob.getEntity().navigator = this.walkPather;
                 this.pokemob.getEntity().moveController = this.walkController;
+                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.add(this.entity.getNavigator());
             }
             this.state = NaviState.WALK;
         }

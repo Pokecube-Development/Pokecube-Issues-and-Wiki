@@ -198,13 +198,12 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public void onRecall(final boolean onDeath)
     {
-        if (this.returning) return;
-        this.returning = true;
-        if (this.getOwnerId() == null)
+        if (this.getOwnerId() == null || this.returning)
         {
             this.getEntity().remove(false);
             return;
         }
+        this.returning = true;
         if (!(this.getEntity().getEntityWorld() instanceof ServerWorld)) try
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getEntityId());
