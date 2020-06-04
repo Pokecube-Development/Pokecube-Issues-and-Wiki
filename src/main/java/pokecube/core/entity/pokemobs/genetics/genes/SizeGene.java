@@ -42,7 +42,8 @@ public class SizeGene extends GeneFloat
     public Gene mutate()
     {
         final SizeGene newGene = new SizeGene();
-        newGene.value = this.value + SizeGene.scaleFactor * (float) new Random().nextGaussian();
+        final float factor = SizeGene.scaleFactor * (this.value > 1 ? 1 / this.value : this.value);
+        newGene.value = this.value + factor * (float) new Random().nextGaussian();
         newGene.value = Math.abs(newGene.value);
         return newGene;
     }
