@@ -16,8 +16,11 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import thut.api.inventory.big.BigInventory.LoadFactory;
 import thut.api.inventory.big.BigInventory.NewFactory;
@@ -86,6 +89,7 @@ public abstract class Manager<T extends BigInventory>
         if (ThutCore.proxy.isClientSide()) return;
         final T save = this.get(uuid, false);
         if (save == null || !save.dirty) return;
+        final MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         try
         {
 
@@ -99,6 +103,9 @@ public abstract class Manager<T extends BigInventory>
                 final FileOutputStream fileoutputstream = new FileOutputStream(file);
                 CompressedStreamTools.writeCompressed(CompoundNBT1, fileoutputstream);
                 fileoutputstream.close();
+                // Do not retain these if the owner is not actually a logged in
+                // player.
+                if (server.getPlayerList().getPlayerByUUID(uuid) == null) this._map.remove(uuid);
             }
         }
         catch (final FileNotFoundException e)

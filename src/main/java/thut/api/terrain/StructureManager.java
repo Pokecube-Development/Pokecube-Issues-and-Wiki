@@ -1,13 +1,16 @@
 package thut.api.terrain;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
@@ -19,30 +22,34 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class StructureManager
 {
-    public static class StructureInfo
+    public static class Structure
     {
-        public String         name;
-        public StructureStart start;
+        final AxisAlignedBB       total;
+        final List<AxisAlignedBB> boxes = Lists.newArrayList();
+        public final String       name;
 
-        public StructureInfo()
+        public Structure(final StructureStart start, final String name)
         {
-        }
-
-        public StructureInfo(final Entry<String, StructureStart> entry)
-        {
-            this.name = entry.getKey();
-            this.start = entry.getValue();
+            this.name = name;
+            MutableBoundingBox box = start.getBoundingBox();
+            this.total = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ).grow(
+                    TerrainSegment.GRIDSIZE);
+            for (final StructurePiece p : start.getComponents())
+            {
+                box = p.getBoundingBox();
+                this.boxes.add(new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ));
+            }
         }
 
         public boolean isIn(final BlockPos pos)
         {
-            if (!this.start.getBoundingBox().isVecInside(pos)) return false;
-            for (final StructurePiece p1 : this.start.getComponents())
-                if (this.isIn(p1.getBoundingBox(), pos)) return true;
+            if (!this.total.contains(pos.getX(), pos.getY(), pos.getZ())) return false;
+            for (final AxisAlignedBB box : this.boxes)
+                if (this.isIn(box, pos)) return true;
             return false;
         }
 
-        private boolean isIn(final MutableBoundingBox b, BlockPos pos)
+        private boolean isIn(final AxisAlignedBB b, final BlockPos pos)
         {
             final int x1 = pos.getX();
             final int y1 = pos.getY();
@@ -50,17 +57,33 @@ public class StructureManager
             for (int x = x1; x < x1 + TerrainSegment.GRIDSIZE; x++)
                 for (int y = y1; y < y1 + TerrainSegment.GRIDSIZE; y++)
                     for (int z = z1; z < z1 + TerrainSegment.GRIDSIZE; z++)
-                    {
-                        pos = new BlockPos(x, y, z);
-                        if (b.isVecInside(pos)) return true;
-                    }
+                        if (b.contains(x, y, z)) return true;
             return false;
+        }
+    }
+
+    public static class StructureInfo
+    {
+        public Structure struct;
+
+        public StructureInfo()
+        {
+        }
+
+        public StructureInfo(final Entry<String, StructureStart> entry)
+        {
+            this.struct = new Structure(entry.getValue(), entry.getKey());
+        }
+
+        public boolean isIn(final BlockPos pos)
+        {
+            return this.struct.isIn(pos);
         }
 
         @Override
         public int hashCode()
         {
-            return this.name.hashCode() + this.start.getBoundingBox().toString().hashCode();
+            return this.struct.name.hashCode() + this.struct.total.toString().hashCode();
         }
 
         @Override
@@ -68,17 +91,17 @@ public class StructureManager
         {
             if (!(obj instanceof StructureInfo)) return false;
             final StructureInfo other = (StructureInfo) obj;
-            if (!other.name.equals(this.name)) return false;
-            return StructureInfo.sameBounds(other.start.getBoundingBox(), this.start.getBoundingBox());
+            if (!other.struct.name.equals(this.struct.name)) return false;
+            return StructureInfo.sameBounds(other.struct.total, this.struct.total);
         }
 
         @Override
         public String toString()
         {
-            return this.name + " " + this.start.getBoundingBox();
+            return this.struct.name + " " + this.struct.total;
         }
 
-        private static boolean sameBounds(final MutableBoundingBox boxA, final MutableBoundingBox boxB)
+        private static boolean sameBounds(final AxisAlignedBB boxA, final AxisAlignedBB boxB)
         {
             return boxA.maxX == boxB.maxX && boxA.maxY == boxB.maxY && boxA.maxZ == boxB.maxX && boxA.minX == boxB.minX
                     && boxA.minY == boxB.minY && boxA.minZ == boxB.minX;
@@ -120,9 +143,13 @@ public class StructureManager
         for (final Entry<String, StructureStart> entry : evt.getChunk().getStructureStarts().entrySet())
         {
             final StructureInfo info = new StructureInfo(entry);
-            final MutableBoundingBox b = info.start.getBoundingBox();
-            for (int x = b.minX >> 4; x <= b.maxX >> 4; x++)
-                for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+            final AxisAlignedBB b = info.struct.total;
+            final int minX = (int) b.minX;
+            final int maxX = (int) b.maxX;
+            final int minZ = (int) b.minZ;
+            final int maxZ = (int) b.maxZ;
+            for (int x = minX >> 4; x <= maxX >> 4; x++)
+                for (int z = minZ >> 4; z <= maxZ >> 4; z++)
                 {
                     final ChunkPos p = new ChunkPos(x, z);
                     final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
