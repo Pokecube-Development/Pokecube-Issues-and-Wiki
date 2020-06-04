@@ -130,7 +130,7 @@ public abstract class PokemobBase implements IPokemob
     /** Inventory of the pokemob. */
     protected AnimalChest  pokeChest;
     /** Prevents duplication on returning to pokecubes */
-    protected boolean      returning = false;
+    public boolean         returning = false;
     /** Is this owned by a player? */
     protected boolean      players   = false;
     /** Cached Team for this Pokemob */
