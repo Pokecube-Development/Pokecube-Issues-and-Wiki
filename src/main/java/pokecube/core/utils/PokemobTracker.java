@@ -136,7 +136,8 @@ public class PokemobTracker
     private MobEntry _addPokemob(final IPokemob pokemob)
     {
         // First remove the mob from all maps, incase it is in one.
-        PokemobTracker.removePokemob(pokemob);
+        this._removePokemob(pokemob);
+        if (pokemob.getAbility() != null) pokemob.getAbility().init(pokemob);
         final MobEntry e = new MobEntry(pokemob);
         DimensionType dim = pokemob.getEntity().dimension;
         if (dim == null) dim = this.defaults;
@@ -161,6 +162,7 @@ public class PokemobTracker
 
     private MobEntry _removePokemob(final IPokemob pokemob)
     {
+        if (pokemob.getAbility() != null) pokemob.getAbility().destroy();
         final MobEntry e = this._removeMobEntry(pokemob.getEntity().getUniqueID());
         return e;
     }
