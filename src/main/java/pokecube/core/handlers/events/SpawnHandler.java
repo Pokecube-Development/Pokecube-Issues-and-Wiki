@@ -653,6 +653,8 @@ public final class SpawnHandler
             final Vector4 loc = new Vector4(player);
             loc.x += dx;
             loc.z += dz;
+            if (!TerrainManager.isAreaLoaded(world, v, 0)) return;
+            // This getHeight can block if the above check doesn't work out!
             loc.y = world.getHeight(Type.WORLD_SURFACE, (int) loc.x, (int) loc.z);
             if (PokecubeSerializer.getInstance().canMeteorLand(loc, world))
             {
