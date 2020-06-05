@@ -161,7 +161,7 @@ public class UltraSpaceConfig
                 @Override
                 public BlockState getDefaultBlock()
                 {
-                    return BlockInit.ULTRA_STONE.getDefaultState();
+                    return BlockInit.ULTRA_STONE.get().getDefaultState();
                 }
 
                 @Override

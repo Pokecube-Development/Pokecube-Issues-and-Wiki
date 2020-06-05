@@ -46,7 +46,7 @@ public class WormHoleSpawnHandler
         if (!TerrainManager.isAreaLoaded(world, v, 8)) return;
 
         v.y = world.getHeight(Heightmap.Type.WORLD_SURFACE, (int) v.x, (int) v.z) + 10;
-        if (v.isAir(world)) ((UltraSpacePortal) BlockInit.ULTRASPACE_PORTAL).place(world, v.getPos(), Direction
+        if (v.isAir(world)) ((UltraSpacePortal) BlockInit.ULTRASPACE_PORTAL.get()).place(world, v.getPos(), Direction
                 .byHorizontalIndex(rand.nextInt()));
     }
 }

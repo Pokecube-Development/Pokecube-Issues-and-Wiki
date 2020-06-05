@@ -24,8 +24,9 @@ public class UltraUB3 extends Biome
                 .waterFogColor(-9714980)
                 .surfaceBuilder(
                         SurfaceBuilder.DEFAULT,
-                        new SurfaceBuilderConfig(BlockInit.ULTRA_SAND.getDefaultState(), BlockInit.ULTRA_SANDSTONE.getDefaultState(),
-                                BlockInit.ULTRA_SANDSTONE.getDefaultState())));
+                        new SurfaceBuilderConfig(BlockInit.ULTRA_SAND.get().getDefaultState(), 
+                                                 BlockInit.ULTRA_SANDSTONE.get().getDefaultState(),
+                                                 BlockInit.ULTRA_SANDSTONE.get().getDefaultState())));
         //setRegistryName("testar");
         DefaultBiomeFeatures.addCarvers(this);
         DefaultBiomeFeatures.addStructures(this);

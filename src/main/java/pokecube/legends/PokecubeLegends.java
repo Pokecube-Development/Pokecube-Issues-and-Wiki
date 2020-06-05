@@ -24,11 +24,13 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -47,7 +49,6 @@ import pokecube.legends.init.BiomeInit;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.Config;
 import pokecube.legends.init.ItemInit;
-import pokecube.legends.init.PlantsInit;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
@@ -62,6 +63,9 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
+    public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Item>  ITEMS  = new DeferredRegister<>(ForgeRegistries.ITEMS, Reference.ID);
+
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
     {
@@ -69,21 +73,13 @@ public class PokecubeLegends
         public static void onItemRegister(final RegistryEvent.Register<Item> event)
         {
             ItemInit.registerItems(event);
-            event.getRegistry().registerAll(ItemInit.ITEMS.toArray(new Item[0]));
-        }
-
-        @SubscribeEvent
-        public static void onBlockRegister(final RegistryEvent.Register<Block> event)
-        {
-            event.getRegistry().registerAll(BlockInit.BLOCKS.toArray(new Block[0]));
-            event.getRegistry().registerAll(PlantsInit.BLOCKFLOWERS.toArray(new Block[0]));
         }
 
         @SubscribeEvent
         public static void registerTiles(final RegistryEvent.Register<TileEntityType<?>> event)
         {
-            RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN).build(null);
-            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.getRegistryName()));
+            RaidSpawn.TYPE = TileEntityType.Builder.create(RaidSpawn::new, BlockInit.RAID_SPAWN.get()).build(null);
+            event.getRegistry().register(RaidSpawn.TYPE.setRegistryName(BlockInit.RAID_SPAWN.get().getRegistryName()));
         }
 
         @SubscribeEvent
@@ -109,11 +105,11 @@ public class PokecubeLegends
                 // Currently this uses same settings as gold ore.
 
                 b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.RUBY_ORE.get()
                                 .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
                                         new CountRangeConfig(2, 0, 0, 32))));
                 b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
-                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE
+                        new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, BlockInit.SAPPHIRE_ORE.get()
                                 .getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(
                                         new CountRangeConfig(2, 0, 0, 32))));
             }
@@ -154,15 +150,23 @@ public class PokecubeLegends
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
+        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
         // DimensionInit.initDimension();
         // Register setup for proxy
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeLegends.proxy::setup);
+        modEventBus.addListener(PokecubeLegends.proxy::setup);
         // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeLegends.proxy::setupClient);
+        modEventBus.addListener(PokecubeLegends.proxy::setupClient);
         // Register the loaded method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PokecubeLegends.proxy::loaded);
+        modEventBus.addListener(PokecubeLegends.proxy::loaded);
         // Just generally register it to event bus.
-        FMLJavaModLoadingContext.get().getModEventBus().register(PokecubeLegends.proxy);
+        modEventBus.register(PokecubeLegends.proxy);
+
+        PokecubeLegends.BLOCKS.register(modEventBus);
+        PokecubeLegends.ITEMS.register(modEventBus);
+
+        BlockInit.init();
+        ItemInit.init();
     }
 
     @SubscribeEvent
@@ -205,9 +209,9 @@ public class PokecubeLegends
     public void reactivate_raid(final RightClickBlock event)
     {
         if (event.getWorld().isRemote) return;
-        if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE) return;
+        if (event.getItemStack().getItem() != ItemInit.WISHING_PIECE.get()) return;
         final BlockState hit = event.getWorld().getBlockState(event.getPos());
-        if (hit.getBlock() != BlockInit.RAID_SPAWN)
+        if (hit.getBlock() != BlockInit.RAID_SPAWN.get())
         {
             if (hit.getBlock() == PokecubeItems.DYNABLOCK) event.getPlayer().sendMessage(new TranslationTextComponent(
                     "msg.notaraidspot.info"));

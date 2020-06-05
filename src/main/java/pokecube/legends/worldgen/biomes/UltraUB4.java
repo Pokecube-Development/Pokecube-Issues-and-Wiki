@@ -24,8 +24,8 @@ public class UltraUB4 extends Biome
         super(new Biome.Builder().downfall(1f).depth(0.3f).scale(0.3f).temperature(0.65f)
                 .precipitation(Biome.RainType.SNOW).category(Biome.Category.ICY).waterColor(-6880509)
                 .waterFogColor(-6880509).surfaceBuilder(SurfaceBuilder.DEFAULT,
-                        new SurfaceBuilderConfig(BlockInit.ULTRA_COBBLES.getDefaultState(),
-                                BlockInit.ULTRA_STONE.getDefaultState(), BlockInit.ULTRA_STONE.getDefaultState())));
+                        new SurfaceBuilderConfig(BlockInit.ULTRA_COBBLES.get().getDefaultState(),
+                                BlockInit.ULTRA_STONE.get().getDefaultState(), BlockInit.ULTRA_STONE.get().getDefaultState())));
         // setRegistryName("testar");
         DefaultBiomeFeatures.addCarvers(this);
         DefaultBiomeFeatures.addStructures(this);

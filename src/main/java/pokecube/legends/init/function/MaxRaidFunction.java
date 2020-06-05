@@ -78,7 +78,7 @@ public class MaxRaidFunction
 
     public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerWorld world)
     {
-        if (state.getBlock() != BlockInit.RAID_SPAWN) return;
+        if (state.getBlock() != BlockInit.RAID_SPAWN.get()) return;
 
         final PokedexEntry entityToSpawn = MaxRaidFunction.getRandomEntry();
         final MobEntity entity = PokecubeCore.createPokemob(entityToSpawn, world);

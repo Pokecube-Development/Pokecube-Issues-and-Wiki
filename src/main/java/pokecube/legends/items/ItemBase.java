@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.PokecubeItems;
-import pokecube.legends.Reference;
-import pokecube.legends.init.ItemInit;
 
 public class ItemBase extends Item
 {
@@ -24,9 +22,7 @@ public class ItemBase extends Item
     public ItemBase(final String name, final int num)
     {
         super(new Properties().group(PokecubeItems.POKECUBEITEMS).maxStackSize(num));
-        this.setRegistryName(Reference.ID, name);
         this.setTooltipName(name);
-        ItemInit.ITEMS.add(this);
     }
 
     public ItemBase setTooltipName(final String tooltipname)

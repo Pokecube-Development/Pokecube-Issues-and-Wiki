@@ -20,8 +20,8 @@ public class UltraUB2 extends Biome
         super(new Biome.Builder().downfall(0.5f).depth(0.2f).scale(0.4f).temperature(0.5f)
                 .precipitation(Biome.RainType.RAIN).category(Biome.Category.JUNGLE).waterColor(-10414997)
                 .waterFogColor(-10414997).surfaceBuilder(SurfaceBuilder.DEFAULT,
-                        new SurfaceBuilderConfig(BlockInit.ULTRA_GRASSJUN.getDefaultState(),
-                                BlockInit.ULTRA_DIRTJUN.getDefaultState(), BlockInit.ULTRA_DIRTJUN.getDefaultState())));
+                        new SurfaceBuilderConfig(BlockInit.ULTRA_GRASSJUN.get().getDefaultState(),
+                                BlockInit.ULTRA_DIRTJUN.get().getDefaultState(), BlockInit.ULTRA_DIRTJUN.get().getDefaultState())));
         // setRegistryName("testar");
         DefaultBiomeFeatures.addCarvers(this);
         DefaultBiomeFeatures.addStructures(this);

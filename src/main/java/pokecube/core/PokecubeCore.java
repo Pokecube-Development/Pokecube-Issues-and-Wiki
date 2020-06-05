@@ -43,6 +43,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.RegistryEvent.NewRegistry;
 import net.minecraftforge.eventbus.api.BusBuilder;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -120,6 +121,17 @@ public class PokecubeCore
     public static class RegistryEvents
     {
         @SubscribeEvent
+        public static void registerRegistry(final NewRegistry event)
+        {
+            // Register these before items and blocks, as some items might need
+            // them
+            final InitDatabase.Pre pre = new InitDatabase.Pre();
+            PokecubeCore.POKEMOB_BUS.post(pre);
+            pre.modIDs.add(PokecubeCore.MODID);
+            Database.preInit();
+        }
+
+        @SubscribeEvent
         public static void registerBiomes(final RegistryEvent.Register<Biome> event)
         {
             PokecubeCore.LOGGER.debug("Registering Pokecube Biomes");
@@ -196,13 +208,6 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> event)
         {
-            // Register these before items and blocks, as some items might need
-            // them
-            final InitDatabase.Pre pre = new InitDatabase.Pre();
-            PokecubeCore.POKEMOB_BUS.post(pre);
-            pre.modIDs.add(PokecubeCore.MODID);
-            Database.preInit();
-
             // register a new block here
             PokecubeCore.LOGGER.debug("Registering Blocks");
             ItemHandler.registerBlocks(event.getRegistry());

@@ -219,37 +219,37 @@ public class PokecubeAdv
 
     public static final String MODID = "pokecube_adventures";
 
-    public static Block AFA;
-    public static Block COMMANDER;
-    public static Block DAYCARE;
-    public static Block CLONER;
-    public static Block EXTRACTOR;
-    public static Block SPLICER;
-    public static Block SIPHON;
-    public static Block WARPPAD;
+    public static final Block AFA;
+    public static final Block COMMANDER;
+    public static final Block DAYCARE;
+    public static final Block CLONER;
+    public static final Block EXTRACTOR;
+    public static final Block SPLICER;
+    public static final Block SIPHON;
+    public static final Block WARPPAD;
 
-    public static Item EXPSHARE;
-    public static Item LINKER;
-    public static Item BAG;
-    public static Item TRAINEREDITOR;
+    public static final Item EXPSHARE;
+    public static final Item LINKER;
+    public static final Item BAG;
+    public static final Item TRAINEREDITOR;
 
     public static final Map<PokeType, Item> BADGES   = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
 
     static
     {
-        PokecubeAdv.AFA = new AfaBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        PokecubeAdv.COMMANDER = new CommanderBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        PokecubeAdv.DAYCARE = new DaycareBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        PokecubeAdv.CLONER = new ClonerBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        PokecubeAdv.EXTRACTOR = new ExtractorBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        PokecubeAdv.SPLICER = new SplicerBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        PokecubeAdv.SIPHON = new SiphonBlock(Block.Properties.create(Material.IRON).variableOpacity());
-        PokecubeAdv.WARPPAD = new WarppadBlock(Block.Properties.create(Material.IRON));
-        PokecubeAdv.EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
-        PokecubeAdv.LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
-        PokecubeAdv.BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
-        PokecubeAdv.TRAINEREDITOR = new TrainerEditor(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
+        AFA = new AfaBlock(Block.Properties.create(Material.IRON).variableOpacity());
+        COMMANDER = new CommanderBlock(Block.Properties.create(Material.IRON).variableOpacity());
+        DAYCARE = new DaycareBlock(Block.Properties.create(Material.IRON).variableOpacity());
+        CLONER = new ClonerBlock(Block.Properties.create(Material.IRON).variableOpacity());
+        EXTRACTOR = new ExtractorBlock(Block.Properties.create(Material.IRON).variableOpacity());
+        SPLICER = new SplicerBlock(Block.Properties.create(Material.IRON).variableOpacity());
+        SIPHON = new SiphonBlock(Block.Properties.create(Material.IRON).variableOpacity());
+        WARPPAD = new WarppadBlock(Block.Properties.create(Material.IRON));
+        EXPSHARE = new Item(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
+        LINKER = new Linker(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
+        BAG = new BagItem(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
+        TRAINEREDITOR = new TrainerEditor(new Item.Properties().group(PokecubeItems.POKECUBEITEMS));
     }
 
     private static void init()

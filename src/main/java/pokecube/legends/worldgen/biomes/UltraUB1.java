@@ -24,9 +24,9 @@ public class UltraUB1 extends Biome
         super(new Biome.Builder().downfall(0f).depth(0.3f).scale(0.3f).temperature(0.3f)
                 .precipitation(Biome.RainType.NONE).category(Biome.Category.MUSHROOM).waterColor(-1).waterFogColor(-1)
                 .surfaceBuilder(SurfaceBuilder.DEFAULT,
-                        new SurfaceBuilderConfig(BlockInit.ULTRA_GRASSMUSS.getDefaultState(),
-                                BlockInit.ULTRA_DIRTMUSS.getDefaultState(),
-                                BlockInit.ULTRA_DIRTMUSS.getDefaultState())));
+                        new SurfaceBuilderConfig(BlockInit.ULTRA_GRASSMUSS.get().getDefaultState(),
+                                BlockInit.ULTRA_DIRTMUSS.get().getDefaultState(),
+                                BlockInit.ULTRA_DIRTMUSS.get().getDefaultState())));
         // setRegistryName("testar");
         DefaultBiomeFeatures.addCarvers(this);
         DefaultBiomeFeatures.addStructures(this);
