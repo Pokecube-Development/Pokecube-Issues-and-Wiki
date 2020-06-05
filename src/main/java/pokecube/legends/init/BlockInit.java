@@ -20,7 +20,6 @@ import pokecube.legends.blocks.PortalWarp;
 import pokecube.legends.blocks.RaidSpawnBlock;
 import pokecube.legends.blocks.SandUltraBlock;
 import pokecube.legends.blocks.SpaceCoreBlock;
-import pokecube.legends.blocks.StoneMagneticBlock;
 import pokecube.legends.blocks.UltraSpacePortal;
 import pokecube.legends.blocks.VictiniBlock;
 import pokecube.legends.blocks.XerneasCore;
@@ -78,37 +77,37 @@ public class BlockInit
     static
     {
         // Blocks
-        RUBY_BLOCK = PokecubeLegends.BLOCKS.register("ruby_block", () -> new BlockBase("ruby_block", Material.IRON,
-                1.5f, 10f, SoundType.METAL).noInfoBlock());
-
-        SAPPHIRE_BLOCK = PokecubeLegends.BLOCKS.register("sapphire_block", () -> new BlockBase("sapphire_block",
-                Material.IRON, 1.5f, 10f, SoundType.METAL).noInfoBlock());
-        TEMPORAL_CRYSTAL = PokecubeLegends.BLOCKS.register("temporal_crystal", () -> new BlockBase("temporal_crystal",
-                Material.GLASS, 1.0f, 12f, SoundType.GLASS).noInfoBlock());
+        RUBY_BLOCK = PokecubeLegends.BLOCKS.register("ruby_block", () -> new Block(Block.Properties.create(
+                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL)));
+        SAPPHIRE_BLOCK = PokecubeLegends.BLOCKS.register("sapphire_block", () -> new Block(Block.Properties.create(
+                Material.IRON).hardnessAndResistance(1.5f, 10).sound(SoundType.METAL)));
+        TEMPORAL_CRYSTAL = PokecubeLegends.BLOCKS.register("temporal_crystal", () -> new Block(Block.Properties.create(
+                Material.GLASS).hardnessAndResistance(1.5f, 10).sound(SoundType.GLASS).notSolid()));
         RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(Material.IRON)
                 .setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
-        OCEAN_BRICK = PokecubeLegends.BLOCKS.register("oceanbrick", () -> new BlockBase("oceanbrick", Material.ROCK,
-                1.5f, 10f, SoundType.STONE).noInfoBlock());
-        SKY_BRICK = PokecubeLegends.BLOCKS.register("skybrick", () -> new BlockBase("skybrick", Material.ROCK, 1.5f,
-                10f, SoundType.STONE).noInfoBlock());
-        SPATIAN_BRICK = PokecubeLegends.BLOCKS.register("spatianbrick", () -> new BlockBase("spatianbrick",
-                Material.ROCK, 1.5f, 10f, SoundType.STONE).noInfoBlock());
-        MAGMA_BRICK = PokecubeLegends.BLOCKS.register("magmabrick", () -> new BlockBase("magmabrick", Material.ROCK,
-                1.5f, 10f, SoundType.STONE).noInfoBlock());
+        OCEAN_BRICK = PokecubeLegends.BLOCKS.register("oceanbrick", () -> new Block(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
+        SKY_BRICK = PokecubeLegends.BLOCKS.register("skybrick", () -> new Block(Block.Properties.create(Material.ROCK)
+                .hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
+        SPATIAN_BRICK = PokecubeLegends.BLOCKS.register("spatianbrick", () -> new Block(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
+        MAGMA_BRICK = PokecubeLegends.BLOCKS.register("magmabrick", () -> new Block(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
+        DARKSKY_BRICK = PokecubeLegends.BLOCKS.register("darkskybrick", () -> new Block(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
+
         CRYSTAL_BRICK = PokecubeLegends.BLOCKS.register("crystalbrick", () -> new BlockBase("crystalbrick",
                 Material.PACKED_ICE, 0.5F, SoundType.GLASS).noInfoBlock());
-        DARKSKY_BRICK = PokecubeLegends.BLOCKS.register("darkskybrick", () -> new BlockBase("darkskybrick",
-                Material.ROCK, 1.5f, 10f, SoundType.STONE).noInfoBlock());
 
         // Dimension and Decoration
         ULTRA_MAGNETIC = PokecubeLegends.BLOCKS.register("ultramagnetic", () -> new BlockBase("ultramagnetic",
                 Material.GLASS, 0.5F, SoundType.GLASS).noInfoBlock());
         ULTRA_SANDSTONE = PokecubeLegends.BLOCKS.register("ultrasandstone", () -> new BlockBase("ultrasandstone",
                 Material.SAND, 0.5f, SoundType.SAND).noInfoBlock());
-        ULTRA_COBBLES = PokecubeLegends.BLOCKS.register("ultracobbles", () -> new StoneMagneticBlock("ultracobbles",
-                Material.ROCK).noInfoBlock());
+        ULTRA_COBBLES = PokecubeLegends.BLOCKS.register("ultracobbles", () -> new Block(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
         ULTRA_GRASSMUSS = PokecubeLegends.BLOCKS.register("ultragrass1", () -> new GrassMussBlock("ultragrass1",
                 Material.ORGANIC).noInfoBlock());
         ULTRA_DIRTMUSS = PokecubeLegends.BLOCKS.register("ultradirt1", () -> new BlockBase("ultradirt1", Material.CLAY,
@@ -117,8 +116,8 @@ public class BlockInit
                 Material.ORGANIC).noInfoBlock().noInfoBlock());
         ULTRA_DIRTJUN = PokecubeLegends.BLOCKS.register("ultradirt2", () -> new BlockBase("ultradirt2", Material.CLAY,
                 0.5f, SoundType.GROUND).noInfoBlock());
-        ULTRA_STONE = PokecubeLegends.BLOCKS.register("ultrastone", () -> new BlockBase("ultrastone", Material.ROCK,
-                1.5f, 10f, SoundType.STONE).noInfoBlock());
+        ULTRA_STONE = PokecubeLegends.BLOCKS.register("ultrastone", () -> new Block(Block.Properties.create(
+                Material.ROCK).hardnessAndResistance(1.5f, 10).sound(SoundType.STONE)));
         ULTRA_METAL = PokecubeLegends.BLOCKS.register("ultrablock", () -> new BlockBase("ultrablock", Material.IRON,
                 5.0f, 10f, SoundType.STONE).noInfoBlock());
         ULTRA_SAND = PokecubeLegends.BLOCKS.register("ultrasand", () -> new SandUltraBlock("ultrasand", Material.SAND)
