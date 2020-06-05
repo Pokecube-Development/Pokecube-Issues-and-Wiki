@@ -198,8 +198,6 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public void onRecall(final boolean onDeath)
     {
-        if (this.returning) return;
-        this.returning = true;
         if (this.getOwnerId() == null)
         {
             this.getEntity().remove(false);
@@ -236,6 +234,14 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         this.setGeneralState(GeneralStates.EXITINGCUBE, false);
         this.setGeneralState(GeneralStates.EVOLVING, false);
         this.setCombatState(CombatStates.DYNAMAX, false);
+
+        if (this.returning)
+        {
+            this.getEntity().remove(false);
+            return;
+        }
+
+        this.returning = true;
 
         final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega;
 

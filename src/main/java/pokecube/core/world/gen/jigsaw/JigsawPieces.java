@@ -86,6 +86,8 @@ public class JigsawPieces
     public static final Map<String, JigSawPool>          pools    = Maps.newHashMap();
     public static final Map<String, JigsawPatternCustom> patterns = Maps.newHashMap();
 
+    private static final Set<JigSawConfig> toInitialze = Sets.newConcurrentHashSet();
+
     public static final Map<DimensionType, Set<BlockPos>> sent_events = Maps.newConcurrentMap();
 
     private static boolean shouldApply(final BlockPos pos, final IWorld worldIn)
@@ -172,19 +174,22 @@ public class JigsawPieces
         return pattern;
     }
 
-    public static boolean registerJigsaw(final JigSawConfig jigsaw)
+    public static void registerJigsaw(final JigSawConfig jigsaw)
     {
-        final JigsawPatternCustom pattern = JigsawPieces.patterns.get(jigsaw.root);
-        if (pattern != null)
+        JigsawPieces.toInitialze.add(jigsaw);
+    }
+
+    public static void finializeJigsaws()
+    {
+        for (final JigSawConfig jigsaw : JigsawPieces.toInitialze)
         {
-            pattern.neededChildren.addAll(jigsaw.needed_once);
-            pattern.jigsaw = jigsaw;
-            return true;
-        }
-        else
-        {
-            PokecubeCore.LOGGER.error("Attempting to register a jigsaw with an un-known root: {}", jigsaw.root);
-            return false;
+            final JigsawPatternCustom pattern = JigsawPieces.patterns.get(jigsaw.root);
+            if (pattern != null)
+            {
+                pattern.neededChildren.addAll(jigsaw.needed_once);
+                pattern.jigsaw = jigsaw;
+            }
+            else PokecubeCore.LOGGER.error("Attempting to register a jigsaw with an un-known root: {}", jigsaw.root);
         }
     }
 

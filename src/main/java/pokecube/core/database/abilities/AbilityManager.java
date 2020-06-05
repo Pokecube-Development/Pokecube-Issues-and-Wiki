@@ -64,11 +64,6 @@ public class AbilityManager
         AbilityManager.nextID++;
     }
 
-    public static Ability getAbility(final Integer id, final Object... args)
-    {
-        return AbilityManager.makeAbility(id, args);
-    }
-
     public static Ability getAbility(String name, final Object... args)
     {
         if (name == null) return null;

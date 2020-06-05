@@ -77,8 +77,10 @@ public class ManageOutMob extends BaseBattleTask
                         // check if our mob should evolve, if so, do so
                         while (next.canEvolve(next.getHeldItem()))
                         {
-                            next = next.evolve(false, false);
+                            final IPokemob temp = next.evolve(false, false);
+                            if (temp != null) next = temp;
                             nextStack.setTag(PokecubeManager.pokemobToItem(next).getTag());
+                            if (temp == null) break;
                         }
                         this.messages.sendMessage(MessageState.ABOUTSEND, this.trainer.getTarget(), this.entity
                                 .getDisplayName(), next.getDisplayName(), this.trainer.getTarget().getDisplayName());

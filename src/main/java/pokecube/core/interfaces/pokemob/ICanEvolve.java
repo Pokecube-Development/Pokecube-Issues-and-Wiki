@@ -88,7 +88,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Add new mob
                 if (!this.evolution.isAlive()) this.evolution.revive();
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);
-                PokemobTracker.removePokemob(old);
+                if (old != null) PokemobTracker.removePokemob(old);
                 this.evolution.setUniqueId(this.thisEntity.getUniqueID());
                 this.evolution.getEntityWorld().addEntity(this.evolution);
 

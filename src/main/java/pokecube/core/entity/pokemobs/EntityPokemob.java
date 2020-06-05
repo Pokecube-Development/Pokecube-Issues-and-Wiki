@@ -110,6 +110,11 @@ public class EntityPokemob extends PokemobHasParts
     @Override
     public void livingTick()
     {
+        if (this.pokemobCap.returning)
+        {
+            this.remove(false);
+            return;
+        }
         if (this.getEntityWorld() instanceof ServerWorld)
         {
             if (this.pokemobCap.getOwnerId() != null) this.enablePersistence();

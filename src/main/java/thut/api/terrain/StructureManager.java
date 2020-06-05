@@ -24,6 +24,9 @@ public class StructureManager
         public String         name;
         public StructureStart start;
 
+        private int    hash;
+        private String key;
+
         public StructureInfo()
         {
         }
@@ -32,6 +35,8 @@ public class StructureManager
         {
             this.name = entry.getKey();
             this.start = entry.getValue();
+            this.key = this.name + " " + this.start.getBoundingBox();
+            this.hash = this.key.hashCode();
         }
 
         public boolean isIn(final BlockPos pos)
@@ -60,28 +65,20 @@ public class StructureManager
         @Override
         public int hashCode()
         {
-            return this.name.hashCode() + this.start.getBoundingBox().toString().hashCode();
+            return this.hash;
         }
 
         @Override
         public boolean equals(final Object obj)
         {
             if (!(obj instanceof StructureInfo)) return false;
-            final StructureInfo other = (StructureInfo) obj;
-            if (!other.name.equals(this.name)) return false;
-            return StructureInfo.sameBounds(other.start.getBoundingBox(), this.start.getBoundingBox());
+            return obj.toString().equals(this.toString());
         }
 
         @Override
         public String toString()
         {
-            return this.name + " " + this.start.getBoundingBox();
-        }
-
-        private static boolean sameBounds(final MutableBoundingBox boxA, final MutableBoundingBox boxB)
-        {
-            return boxA.maxX == boxB.maxX && boxA.maxY == boxB.maxY && boxA.maxZ == boxB.maxX && boxA.minX == boxB.minX
-                    && boxA.minY == boxB.minY && boxA.minZ == boxB.minX;
+            return this.key;
         }
     }
 

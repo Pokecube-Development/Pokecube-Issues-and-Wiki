@@ -190,11 +190,11 @@ public class WorldgenHandler
         public List<JigSawConfig> jigsaws = Lists.newArrayList();
     }
 
-    public static Map<String, JigsawStructure> structs = Maps.newHashMap();
+    public static Map<String, JigsawStructure> structs = Maps.newConcurrentMap();
 
-    private static Map<String, DimensionType> dimTypes = Maps.newHashMap();
+    private static Map<String, DimensionType> dimTypes = Maps.newConcurrentMap();
 
-    private static Map<JigsawStructure, Integer> priorities = Maps.newHashMap();
+    private static Map<JigsawStructure, Integer> priorities = Maps.newConcurrentMap();
 
     public static boolean isBlocked(final ChunkGenerator<?> gen, final Random rand, final Structure<?> feat_in,
             final int chunkX, final int chunkZ)

@@ -4,10 +4,14 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.BrainUtil;
+import net.minecraft.entity.ai.brain.memory.WalkTarget;
+import net.minecraft.util.math.EntityPosWrapper;
 import net.minecraft.world.server.ServerWorld;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.IHasPokemobs;
 import pokecube.adventures.capabilities.TrainerCaps;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.utils.PokemobTracker;
@@ -41,7 +45,16 @@ public class ManagePokemobTarget extends BaseBattleTask
         }
 
         // check if pokemob's target is same as trainers.
-        if (mobTarget != newTarget && newTarget != null) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
+        if (mobTarget != newTarget && newTarget != null)
+        {
+            final boolean canSee = BrainUtil.canSee(mob.getEntity().getBrain(), newTarget);
+            if (canSee) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
+            else
+            {
+                final WalkTarget walk = new WalkTarget(new EntityPosWrapper(newTarget), 1.5f, 0);
+                mob.getEntity().getBrain().setMemory(MemoryModules.WALK_TARGET, walk);
+            }
+        }
 
     }
 
