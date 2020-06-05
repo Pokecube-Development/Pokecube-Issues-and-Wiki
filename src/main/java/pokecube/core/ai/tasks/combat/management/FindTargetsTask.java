@@ -204,15 +204,12 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     {
         if (this.targetId != null)
         {
-            if (this.forgetTimer-- > 0) return;
             final Entity mob = this.world.getEntityByUuid(this.targetId);
+            if (mob instanceof LivingEntity && BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob)) this
+                    .setAttackTarget(this.entity, (LivingEntity) mob);
             // Reset target ID here, so we don't keep looking for it.
-            this.targetId = null;
-            if (mob instanceof LivingEntity && BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob))
-            {
-                this.setAttackTarget(this.entity, (LivingEntity) mob);
-                return;
-            }
+            if (this.forgetTimer-- <= 0) this.targetId = null;
+            return;
         }
 
         final Optional<LivingEntity> hurtBy = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY);
