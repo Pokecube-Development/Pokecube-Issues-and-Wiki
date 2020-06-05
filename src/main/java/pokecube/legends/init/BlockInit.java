@@ -85,8 +85,8 @@ public class BlockInit
                 Material.IRON, 1.5f, 10f, SoundType.METAL).noInfoBlock());
         TEMPORAL_CRYSTAL = PokecubeLegends.BLOCKS.register("temporal_crystal", () -> new BlockBase("temporal_crystal",
                 Material.GLASS, 1.0f, 12f, SoundType.GLASS).noInfoBlock());
-        RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock("raidspawn_block",
-                Material.IRON).setInfoBlockName("raidspawn"));
+        RAID_SPAWN = PokecubeLegends.BLOCKS.register("raidspawn_block", () -> new RaidSpawnBlock(Material.IRON)
+                .setInfoBlockName("raidspawn"));
 
         // Decorative_Blocks
         OCEAN_BRICK = PokecubeLegends.BLOCKS.register("oceanbrick", () -> new BlockBase("oceanbrick", Material.ROCK,

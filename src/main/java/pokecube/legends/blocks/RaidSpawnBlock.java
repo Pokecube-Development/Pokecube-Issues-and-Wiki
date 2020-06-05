@@ -16,7 +16,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -64,11 +63,10 @@ public class RaidSpawnBlock extends MaxBlock
     String  infoname;
     boolean hasTextInfo = true;
 
-    public RaidSpawnBlock(final String name, final Material material)
+    public RaidSpawnBlock(final Material material)
     {
         super(Properties.create(material).sound(SoundType.METAL).hardnessAndResistance(2000, 2000));
-        this.setDefaultState(this.stateContainer.getBaseState().with(MaxBlock.FACING, Direction.NORTH).with(
-                MaxBlock.WATERLOGGED, false).with(RaidSpawnBlock.ACTIVE, State.EMPTY));
+        this.setDefaultState(this.stateContainer.getBaseState().with(RaidSpawnBlock.ACTIVE, State.EMPTY));
     }
 
     @Override
