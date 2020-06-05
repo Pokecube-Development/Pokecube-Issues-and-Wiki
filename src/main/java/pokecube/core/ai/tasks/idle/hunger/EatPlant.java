@@ -3,6 +3,8 @@ package pokecube.core.ai.tasks.idle.hunger;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
@@ -40,8 +42,10 @@ public class EatPlant extends EatBlockBase
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatPlant.checker.test(current)) return EatResult.NOEAT;
 
-        final List<ItemStack> list = Block.getDrops(current, world, block.getPos(), null);
+        List<ItemStack> list = Block.getDrops(current, world, block.getPos(), null);
         if (list.isEmpty()) return EatResult.NOEAT;
+        // Copy the list incase the original was immutable.
+        list = Lists.newArrayList(list);
         final ItemStack first = list.get(0);
         pokemob.eat(first);
         first.grow(-1);
