@@ -33,8 +33,9 @@ public class UltraUB4 extends Biome
 				.waterFogColor(-6880509)
 				.surfaceBuilder(
 						SurfaceBuilder.DEFAULT,
-						new SurfaceBuilderConfig(BlockInit.ULTRA_COBBLES.getDefaultState(), BlockInit.ULTRA_STONE.getDefaultState(),
-								BlockInit.ULTRA_STONE.getDefaultState())));
+						new SurfaceBuilderConfig(BlockInit.ULTRA_COBBLES.get().getDefaultState(), 
+						        BlockInit.ULTRA_STONE.get().getDefaultState(),
+								BlockInit.ULTRA_STONE.get().getDefaultState())));
 		//setRegistryName("testar");
 		DefaultBiomeFeatures.addCarvers(this);
 		DefaultBiomeFeatures.addStructures(this);

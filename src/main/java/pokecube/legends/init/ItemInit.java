@@ -1,15 +1,13 @@
 package pokecube.legends.init;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTier;
-import net.minecraft.item.SwordItem;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;
+import pokecube.legends.PokecubeLegends;
 import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.LegendaryOrb;
 import pokecube.legends.items.RainbowSword;
@@ -18,63 +16,128 @@ import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ItemInit
 {
-
-    public static final List<Item> ITEMS = new ArrayList<>();
-
     // Materials//TODO custom material here.
     public static final IItemTier MATERIAL_RAINBOW = ItemTier.DIAMOND;
 
     // Orbs
-    public static final Item BLUEORB      = new ItemBase("blueorb", 1);
-    public static final Item GREENORB     = new ItemBase("greenorb", 1);
-    public static final Item REDORB       = new ItemBase("redorb", 1);
-    public static final Item GRAYORB      = new ItemBase("grayorb", 1).noTooltop();
-    public static final Item LEGENDARYORB = new LegendaryOrb("legendaryorb", 1);
-    public static final Item LUSTROUSORB  = new ItemBase("lustrousorb", 1);
-    public static final Item ADAMANTORB   = new ItemBase("adamantorb", 1);
-    public static final Item OCEANORB     = new ItemBase("oceanorb", 1);
-    public static final Item LIGHTSTONE   = new ItemBase("lightstone", 1);
-    public static final Item DARKSTONE    = new ItemBase("darkstone", 1);
-    public static final Item ROCKCORE     = new ItemBase("rockcore", 1);
-    public static final Item ICECORE      = new ItemBase("icecore", 1);
-    public static final Item STEELCORE    = new ItemBase("steelcore", 1);
-    public static final Item EMBLEM       = new ItemBase("emblem", 1);
-    public static final Item MAGMA_CORE   = new ItemBase("magmacore", 1);
-    public static final Item LIFEORB      = new ItemBase("lifeorb", 1);
-    public static final Item DESTRUCTORB  = new ItemBase("destructorb", 1);
-    public static final Item ORANGE_RUNE  = new ItemBase("orange_rune", 1).setTooltipName("orangerune");
-    public static final Item BLUE_RUNE    = new ItemBase("blue_rune", 1).setTooltipName("bluerune");
-    public static final Item GREEN_RUNE   = new ItemBase("green_rune", 1).setTooltipName("greenrune");
-    public static final Item REGIS_ORB    = new ItemBase("regisorb", 1);
+    public static final RegistryObject<Item> BLUEORB;
+    public static final RegistryObject<Item> GREENORB;
+    public static final RegistryObject<Item> REDORB;
+    public static final RegistryObject<Item> GRAYORB;
+    public static final RegistryObject<Item> LEGENDARYORB;
+    public static final RegistryObject<Item> LUSTROUSORB;
+    public static final RegistryObject<Item> ADAMANTORB;
+    public static final RegistryObject<Item> OCEANORB;
+    public static final RegistryObject<Item> LIGHTSTONE;
+    public static final RegistryObject<Item> DARKSTONE;
+    public static final RegistryObject<Item> ROCKCORE;
+    public static final RegistryObject<Item> ICECORE;
+    public static final RegistryObject<Item> STEELCORE;
+    public static final RegistryObject<Item> EMBLEM;
+    public static final RegistryObject<Item> MAGMA_CORE;
+    public static final RegistryObject<Item> LIFEORB;
+    public static final RegistryObject<Item> DESTRUCTORB;
+    public static final RegistryObject<Item> ORANGE_RUNE;
+    public static final RegistryObject<Item> BLUE_RUNE;
+    public static final RegistryObject<Item> GREEN_RUNE;
+    public static final RegistryObject<Item> REGIS_ORB;
 
     // Gens_ores
-    public static final Item SAPPHIRE = new ItemBase("sapphire", 64).noTooltop();
-    public static final Item RUBY     = new ItemBase("ruby", 64).noTooltop();
+    public static final RegistryObject<Item> SAPPHIRE;
+    public static final RegistryObject<Item> RUBY;
 
     // Extra
-    public static final Item SILVER_WING    = new ItemBase("silver_wing", 5).noTooltop();
-    public static final Item RAINBOW_WING   = new ItemBase("rainbow_wing", 5).noTooltop();
-    public static final Item CRYSTAL_SHARD  = new ItemBase("crystal_shard", 35).noTooltop();
-    public static final Item GRISEOUS_ORB   = new ItemBase("griseousorb", 1);
-    public static final Item ZYGARDE_CUBE   = new ItemBase("zygardecube", 1);
-    public static final Item PRISION_BOTTLE = new ItemBase("prisonbottle", 1);
-    public static final Item REVEAL_GLASS   = new ItemBase("revealglass", 1);
-    public static final Item DNA_SPLICERA   = new ItemBase("dna_splicera", 1).setTooltipName("dnasplicer");
-    public static final Item DNA_SPLICERB   = new ItemBase("dna_splicerb", 1).setTooltipName("dnasplicer");
-    public static final Item GRACIDEA       = new ItemBase("gracidea", 10);
-    public static final Item METEORITE      = new ItemBase("meteorite", 16);
-    public static final Item NSUN           = new ItemBase("n_sun", 1).setTooltipName("nsun");
-    public static final Item NMOON          = new ItemBase("n_moon", 1).setTooltipName("nmoon");
-    public static final Item AZURE_FLUTE    = new ItemBase("azure_flute", 1).setTooltipName("azureflute");
-    public static final Item RSHIELD        = new ItemBase("rustedshield", 1);
-    public static final Item RSWORD         = new ItemBase("rustedsword", 1);
-    public static final Item CHPOT          = new ItemBase("chippedpot", 1).noTooltop();
-    public static final Item CRPOT          = new ItemBase("crackedpot", 1).noTooltop();
+    public static final RegistryObject<Item> SILVER_WING;
+    public static final RegistryObject<Item> RAINBOW_WING;
+    public static final RegistryObject<Item> CRYSTAL_SHARD;
+    public static final RegistryObject<Item> GRISEOUS_ORB;
+    public static final RegistryObject<Item> ZYGARDE_CUBE;
+    public static final RegistryObject<Item> PRISION_BOTTLE;
+    public static final RegistryObject<Item> REVEAL_GLASS;
+    public static final RegistryObject<Item> DNA_SPLICERA;
+    public static final RegistryObject<Item> DNA_SPLICERB;
+    public static final RegistryObject<Item> GRACIDEA;
+    public static final RegistryObject<Item> METEORITE;
+    public static final RegistryObject<Item> NSUN;
+    public static final RegistryObject<Item> NMOON;
+    public static final RegistryObject<Item> AZURE_FLUTE;
+    public static final RegistryObject<Item> RSHIELD;
+    public static final RegistryObject<Item> RSWORD;
+    public static final RegistryObject<Item> CHPOT;
+    public static final RegistryObject<Item> CRPOT;
 
-    public static final Item WISHING_PIECE = new ItemBase("wishing_piece", 1);
+    public static final RegistryObject<Item> WISHING_PIECE;
 
     // Tools
-    public static final SwordItem RAINBOW_SWORD = new RainbowSword("rainbow_sword", 4, -3, ItemInit.MATERIAL_RAINBOW);
+    public static final RegistryObject<Item> RAINBOW_SWORD;
+
+    static
+    {
+        // Orbs
+        BLUEORB = PokecubeLegends.ITEMS.register("blueorb", () -> new ItemBase("blueorb", 1));
+        GREENORB = PokecubeLegends.ITEMS.register("greenorb", () -> new ItemBase("greenorb", 1));
+        REDORB = PokecubeLegends.ITEMS.register("redorb", () -> new ItemBase("redorb", 1));
+        GRAYORB = PokecubeLegends.ITEMS.register("grayorb", () -> new ItemBase("grayorb", 1).noTooltop());
+        LEGENDARYORB = PokecubeLegends.ITEMS.register("legendaryorb", () -> new LegendaryOrb("legendaryorb", 1));
+        LUSTROUSORB = PokecubeLegends.ITEMS.register("lustrousorb", () -> new ItemBase("lustrousorb", 1));
+        ADAMANTORB = PokecubeLegends.ITEMS.register("adamantorb", () -> new ItemBase("adamantorb", 1));
+        OCEANORB = PokecubeLegends.ITEMS.register("oceanorb", () -> new ItemBase("oceanorb", 1));
+        LIGHTSTONE = PokecubeLegends.ITEMS.register("lightstone", () -> new ItemBase("lightstone", 1));
+        DARKSTONE = PokecubeLegends.ITEMS.register("darkstone", () -> new ItemBase("darkstone", 1));
+        ROCKCORE = PokecubeLegends.ITEMS.register("rockcore", () -> new ItemBase("rockcore", 1));
+        ICECORE = PokecubeLegends.ITEMS.register("icecore", () -> new ItemBase("icecore", 1));
+        STEELCORE = PokecubeLegends.ITEMS.register("steelcore", () -> new ItemBase("steelcore", 1));
+        EMBLEM = PokecubeLegends.ITEMS.register("emblem", () -> new ItemBase("emblem", 1));
+        MAGMA_CORE = PokecubeLegends.ITEMS.register("magmacore", () -> new ItemBase("magmacore", 1));
+        LIFEORB = PokecubeLegends.ITEMS.register("lifeorb", () -> new ItemBase("lifeorb", 1));
+        DESTRUCTORB = PokecubeLegends.ITEMS.register("destructorb", () -> new ItemBase("destructorb", 1));
+        ORANGE_RUNE = PokecubeLegends.ITEMS.register("orange_rune", () -> new ItemBase("orange_rune", 1).setTooltipName(
+                "orangerune"));
+        BLUE_RUNE = PokecubeLegends.ITEMS.register("blue_rune", () -> new ItemBase("blue_rune", 1).setTooltipName(
+                "bluerune"));
+        GREEN_RUNE = PokecubeLegends.ITEMS.register("green_rune", () -> new ItemBase("green_rune", 1).setTooltipName(
+                "greenrune"));
+        REGIS_ORB = PokecubeLegends.ITEMS.register("regisorb", () -> new ItemBase("regisorb", 1));
+
+        // Gens_ores
+        SAPPHIRE = PokecubeLegends.ITEMS.register("sapphire", () -> new ItemBase("sapphire", 64).noTooltop());
+        RUBY = PokecubeLegends.ITEMS.register("ruby", () -> new ItemBase("ruby", 64).noTooltop());
+
+        // Extra
+        SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing", () -> new ItemBase("silver_wing", 5).noTooltop());
+        RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing", () -> new ItemBase("rainbow_wing", 5)
+                .noTooltop());
+        CRYSTAL_SHARD = PokecubeLegends.ITEMS.register("crystal_shard", () -> new ItemBase("crystal_shard", 35)
+                .noTooltop());
+        GRISEOUS_ORB = PokecubeLegends.ITEMS.register("griseousorb", () -> new ItemBase("griseousorb", 1));
+        ZYGARDE_CUBE = PokecubeLegends.ITEMS.register("zygardecube", () -> new ItemBase("zygardecube", 1));
+        PRISION_BOTTLE = PokecubeLegends.ITEMS.register("prisonbottle", () -> new ItemBase("prisonbottle", 1));
+        REVEAL_GLASS = PokecubeLegends.ITEMS.register("revealglass", () -> new ItemBase("revealglass", 1));
+        DNA_SPLICERA = PokecubeLegends.ITEMS.register("dna_splicera", () -> new ItemBase("dna_splicera", 1)
+                .setTooltipName("dnasplicer"));
+        DNA_SPLICERB = PokecubeLegends.ITEMS.register("dna_splicerb", () -> new ItemBase("dna_splicerb", 1)
+                .setTooltipName("dnasplicer"));
+        GRACIDEA = PokecubeLegends.ITEMS.register("gracidea", () -> new ItemBase("gracidea", 10));
+        METEORITE = PokecubeLegends.ITEMS.register("meteorite", () -> new ItemBase("meteorite", 16));
+        NSUN = PokecubeLegends.ITEMS.register("n_sun", () -> new ItemBase("n_sun", 1).setTooltipName("nsun"));
+        NMOON = PokecubeLegends.ITEMS.register("n_moon", () -> new ItemBase("n_moon", 1).setTooltipName("nmoon"));
+        AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute", () -> new ItemBase("azure_flute", 1).setTooltipName(
+                "azureflute"));
+        RSHIELD = PokecubeLegends.ITEMS.register("rustedshield", () -> new ItemBase("rustedshield", 1));
+        RSWORD = PokecubeLegends.ITEMS.register("rustedsword", () -> new ItemBase("rustedsword", 1));
+        CHPOT = PokecubeLegends.ITEMS.register("chippedpot", () -> new ItemBase("chippedpot", 1).noTooltop());
+        CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase("crackedpot", 1).noTooltop());
+
+        WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1));
+
+        RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(4, -3,
+                ItemInit.MATERIAL_RAINBOW));
+    }
+
+    public static void init()
+    {
+
+    }
 
     // Nature Item
     public static void addMint(final RegistryEvent.Register<Item> event)

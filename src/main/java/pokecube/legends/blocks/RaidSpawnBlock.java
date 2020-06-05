@@ -11,8 +11,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.EnumProperty;
@@ -31,11 +29,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.maxspot.MaxBlock;
-import pokecube.legends.Reference;
-import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 
@@ -73,7 +67,6 @@ public class RaidSpawnBlock extends MaxBlock
     public RaidSpawnBlock(final String name, final Material material)
     {
         super(Properties.create(material).sound(SoundType.METAL).hardnessAndResistance(2000, 2000));
-        this.initName(name);
         this.setDefaultState(this.stateContainer.getBaseState().with(MaxBlock.FACING, Direction.NORTH).with(
                 MaxBlock.WATERLOGGED, false).with(RaidSpawnBlock.ACTIVE, State.EMPTY));
     }
@@ -83,14 +76,6 @@ public class RaidSpawnBlock extends MaxBlock
     {
         super.fillStateContainer(builder);
         builder.add(RaidSpawnBlock.ACTIVE);
-    }
-
-    private void initName(final String name)
-    {
-        this.setRegistryName(Reference.ID, name);
-        BlockInit.BLOCKS.add(this);
-        ItemInit.ITEMS.add(new BlockItem(this, new Item.Properties().group(PokecubeItems.POKECUBEBLOCKS))
-                .setRegistryName(this.getRegistryName()));
     }
 
     @Override
