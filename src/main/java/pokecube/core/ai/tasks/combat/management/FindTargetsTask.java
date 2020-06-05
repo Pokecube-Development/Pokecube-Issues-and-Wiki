@@ -3,6 +3,7 @@ package pokecube.core.ai.tasks.combat.management;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import com.google.common.collect.ImmutableMap;
@@ -69,6 +70,10 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
 
     Vector3 v  = Vector3.getNewVector();
     Vector3 v1 = Vector3.getNewVector();
+
+    UUID targetId = null;
+
+    int forgetTimer = 0;
 
     /**
      * Checks the validTargts as well as team settings, will not allow
@@ -197,6 +202,17 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     @Override
     public void run()
     {
+        if (this.targetId != null)
+        {
+            if (this.forgetTimer-- > 0) return;
+            final Entity mob = this.world.getEntityByUuid(this.targetId);
+            if (mob instanceof LivingEntity && BrainUtil.canSee(this.entity.getBrain(), (LivingEntity) mob))
+            {
+                this.setAttackTarget(this.entity, (LivingEntity) mob);
+                return;
+            }
+        }
+
         final Optional<LivingEntity> hurtBy = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY);
         if (hurtBy != null && hurtBy.isPresent())
         {
@@ -241,7 +257,13 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     {
         if (!this.pokemob.isRoutineEnabled(AIRoutine.AGRESSIVE)) return false;
         if (!this.entity.getBrain().hasMemory(MemoryModuleType.VISIBLE_MOBS)) return false;
-        if (BrainUtils.hasAttackTarget(this.entity)) return false;
+        if (BrainUtils.hasAttackTarget(this.entity))
+        {
+            final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
+            this.targetId = target.getUniqueID();
+            this.forgetTimer = FindTargetsTask.DEAGROTIMER;
+            return false;
+        }
         return true;
     }
 
