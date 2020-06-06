@@ -15,10 +15,11 @@ import thut.api.entity.genetics.Alleles;
 
 public class GeneProtector
 {
-    public boolean invalidEntry(final PokedexEntry entry)
+    public boolean invalidEntry(final PokedexEntry entry, final boolean breeding)
     {
-        // No cloning legends.
-        if (entry.isLegendary()) return true;
+        // No cloning legends, breeding them is fine, as should be flagged as
+        // unable to do so manually.
+        if (!breeding && entry.isLegendary()) return true;
         // No cloning things with requirements
         if (SpecialCaseRegister.getCaptureCondition(entry) != null || SpecialCaseRegister.getSpawnCondition(
                 entry) != null) return true;
@@ -31,7 +32,7 @@ public class GeneProtector
     {
         final SpeciesInfo info = gene.getValue();
         final PokedexEntry entry = info.entry;
-        return this.invalidEntry(entry);
+        return this.invalidEntry(entry, false);
     }
 
     @SubscribeEvent
@@ -50,7 +51,7 @@ public class GeneProtector
     {
         final IPokemob mobA = CapabilityPokemob.getPokemobFor(evt.getEntity());
         final IPokemob mobB = CapabilityPokemob.getPokemobFor(evt.getOther());
-        if (mobA != null && this.invalidEntry(mobA.getPokedexEntry())) evt.setCanceled(true);
-        if (mobB != null && this.invalidEntry(mobB.getPokedexEntry())) evt.setCanceled(true);
+        if (mobA != null && this.invalidEntry(mobA.getPokedexEntry(), true)) evt.setCanceled(true);
+        if (mobB != null && this.invalidEntry(mobB.getPokedexEntry(), true)) evt.setCanceled(true);
     }
 }
