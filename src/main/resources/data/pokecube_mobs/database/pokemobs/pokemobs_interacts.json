@@ -8968,10 +8968,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_de",
-              "tex": "vivillonhighplains",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_de"
             }
           },
           {
@@ -8979,10 +8976,7 @@
             "level": 12,
             "form_from": "vivillon_el",
             "model": {
-              "key": "vivillon_el",
-              "tex": "vivillonelegant",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_el"
             },
             "location": {
               "values": {
@@ -8995,10 +8989,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_oc",
-              "tex": "vivillonocean",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_oc"
             },
             "location": {
               "values": {
@@ -9011,10 +9002,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_sa",
-              "tex": "vivillonsandstorm",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_sa"
             },
             "location": {
               "values": {
@@ -9026,10 +9014,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_he",
-              "tex": "vivillonhell",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_he"
             },
             "location": {
               "values": {
@@ -9041,10 +9026,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_en",
-              "tex": "vivillonend",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_en"
             },
             "location": {
               "values": {
@@ -9056,10 +9038,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_po",
-              "tex": "vivillonpolar",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_po"
             },
             "location": {
               "values": {
@@ -9071,10 +9050,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_ic",
-              "tex": "vivillonicysnow",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_ic"
             },
             "location": {
               "values": {
@@ -9086,10 +9062,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_mon",
-              "tex": "vivillonmonsoon",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_mon"
             },
             "location": {
               "values": {
@@ -9101,10 +9074,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_su",
-              "tex": "vivillonsun",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_su"
             },
             "location": {
               "values": {
@@ -9116,10 +9086,7 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_mod",
-              "tex": "vivillonmodern",
-              "model": "vivillon",
-              "anim": "vivillon"
+              "key": "vivillon_mod"
             },
             "location": {
               "values": {

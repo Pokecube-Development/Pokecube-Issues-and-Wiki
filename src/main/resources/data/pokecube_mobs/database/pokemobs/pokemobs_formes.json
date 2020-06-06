@@ -1,12 +1,241 @@
 {
-  "hotload": true,
-  "pokemon": [
+  "hotload":true,
+  "pokemon":[
     {
-      "name": "Alcremie",
-      "models": [
+      "name":"Unown",
+      "models":[
         {
-          "key": "alcremie1",
-          "hidden": [
+          "key": "unown_a",
+          "tex": "unown_a",
+          "model": "unown_a",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_b",
+          "tex": "unown_b",
+          "model": "unown_b",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_c",
+          "tex": "unown_c",
+          "model": "unown_c",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_d",
+          "tex": "unown_d",
+          "model": "unown_d",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_e",
+          "tex": "unown_e",
+          "model": "unown_e",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_f",
+          "tex": "unown_f",
+          "model": "unown_f",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_g",
+          "tex": "unown_g",
+          "model": "unown_g",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_h",
+          "tex": "unown_h",
+          "model": "unown_h",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_i",
+          "tex": "unown_i",
+          "model": "unown_i",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_j",
+          "tex": "unown_j",
+          "model": "unown_j",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_k",
+          "tex": "unown_k",
+          "model": "unown_k",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_l",
+          "tex": "unown_l",
+          "model": "unown_l",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_m",
+          "tex": "unown_m",
+          "model": "unown_m",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_n",
+          "tex": "unown_n",
+          "model": "unown_n",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_o",
+          "tex": "unown_o",
+          "model": "unown_o",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_p",
+          "tex": "unown_p",
+          "model": "unown_p",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_q",
+          "tex": "unown_q",
+          "model": "unown_q",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_r",
+          "tex": "unown_r",
+          "model": "unown_r",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_s",
+          "tex": "unown_s",
+          "model": "unown_s",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_t",
+          "tex": "unown_t",
+          "model": "unown_t",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_u",
+          "tex": "unown_u",
+          "model": "unown_u",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_v",
+          "tex": "unown_v",
+          "model": "unown_v",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_w",
+          "tex": "unown_w",
+          "model": "unown_w",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_x",
+          "tex": "unown_x",
+          "model": "unown_",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_y",
+          "tex": "unown_y",
+          "model": "unown_y",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_z",
+          "tex": "unown_z",
+          "model": "unown_z",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_qu",
+          "tex": "unown_qu",
+          "model": "unown_qu",
+          "anim": "unown"
+        },
+        {
+          "key": "unown_ex",
+          "tex": "unown_ex",
+          "model": "unown_ex",
+          "anim": "unown"
+        }
+      ]
+    },
+    {
+      "name":"Vivillon",
+      "models":[
+        {
+          "key":"vivillon",
+          "tex":"vivillon_plains",
+          "model":"vivillon",
+          "anim":"vivillon"
+          ]
+        },
+        {
+          "key":"vivillon_de",
+          "tex":"vivillon_highplains"
+        },
+        {
+          "key":"vivillon_el",
+          "tex":"vivillon_plains"
+        },
+        {
+          "key":"vivillon_oc",
+          "tex":"vivillon_ocean"
+        },
+        {
+          "key":"vivillon_sa",
+          "tex":"vivillon_sandstorm"
+        },
+        {
+          "key":"vivillon_he",
+          "tex":"vivillon_hell"
+        },
+        {
+          "key":"vivillon_en",
+          "tex":"vivillon_end"
+        },
+        {
+          "key":"vivillon_po",
+          "tex":"vivillon_polar"
+        },
+        {
+          "key":"vivillon_ic",
+          "tex":"vivillon_icesnow"
+        },
+        {
+          "key":"vivillon_mon",
+          "tex":"vivillon_monsoon"
+        },
+        {
+          "key":"vivillon_su",
+          "tex":"vivillon_sun"
+        },
+        {
+          "key":"vivillon_mod",
+          "tex":"vivillon_modern"
+        }
+      ]
+    },
+    {
+      "name":"Alcremie",
+      "models":[
+        {
+          "key":"alcremie1",
+          "hidden":[
             "extra6",
             "extra2",
             "extra3",
@@ -20,17 +249,17 @@
             "extra5_001",
             "extra7_001"
           ],
-          "colours": [
+          "colours":[
             {
-              "material": "head",
-              "blue": 0.5,
-              "green": 0.45
+              "material":"head",
+              "blue":0.5,
+              "green":0.45
             }
           ]
         },
         {
-          "key": "alcremie2",
-          "hidden": [
+          "key":"alcremie2",
+          "hidden":[
             "extra1",
             "extra6",
             "extra3",
@@ -44,17 +273,17 @@
             "extra5_001",
             "extra7_001"
           ],
-          "colours": [
+          "colours":[
             {
-              "material": "head",
-              "red": 0.5,
-              "green": 0.5
+              "material":"head",
+              "red":0.5,
+              "green":0.5
             }
           ]
         },
         {
-          "key": "alcremie3",
-          "hidden": [
+          "key":"alcremie3",
+          "hidden":[
             "extra1",
             "extra2",
             "extra6",
@@ -68,17 +297,17 @@
             "extra5_001",
             "extra7_001"
           ],
-          "colours": [
+          "colours":[
             {
-              "material": "head",
-              "blue": 0.75,
-              "green": 0.80
+              "material":"head",
+              "blue":0.75,
+              "green":0.80
             }
           ]
         },
         {
-          "key": "alcremie4",
-          "hidden": [
+          "key":"alcremie4",
+          "hidden":[
             "extra1",
             "extra2",
             "extra3",
@@ -92,17 +321,17 @@
             "extra5_001",
             "extra7_001"
           ],
-          "colours": [
+          "colours":[
             {
-              "material": "head",
-              "blue": 0.25,
-              "red": 0.5
+              "material":"head",
+              "blue":0.25,
+              "red":0.5
             }
           ]
         },
         {
-          "key": "alcremie5",
-          "hidden": [
+          "key":"alcremie5",
+          "hidden":[
             "extra1",
             "extra2",
             "extra3",
@@ -116,17 +345,17 @@
             "extra6_001",
             "extra7_001"
           ],
-          "colours": [
+          "colours":[
             {
-              "material": "head",
-              "blue": 0.15,
-              "green": 0.5
+              "material":"head",
+              "blue":0.15,
+              "green":0.5
             }
           ]
         },
         {
-          "key": "alcremie6",
-          "hidden": [
+          "key":"alcremie6",
+          "hidden":[
             "extra1",
             "extra2",
             "extra3",
@@ -140,17 +369,17 @@
             "extra5_001",
             "extra7_001"
           ],
-          "colours": [
+          "colours":[
             {
-              "material": "head",
-              "blue": 0.15,
-              "green": 0.9
+              "material":"head",
+              "blue":0.15,
+              "green":0.9
             }
           ]
         },
         {
-          "key": "alcremie7",
-          "hidden": [
+          "key":"alcremie7",
+          "hidden":[
             "extra1",
             "extra2",
             "extra3",
@@ -164,1900 +393,1900 @@
             "extra5_001",
             "extra6_001"
           ],
-          "colours": [
+          "colours":[
             {
-              "material": "head",
-              "green": 0.6
+              "material":"head",
+              "green":0.6
             }
           ]
         },
         {
-          "key": "alcremie_vanilla_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_vanilla_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_botton",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_center",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_center",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_hair",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_hair",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_neck",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_neck",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "hair_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"hair_botton",
+              "blue":0.8,
+              "green":0.98
             }
           ]
         },
         {
-          "key": "alcremie_vanilla_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_vanilla_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_botton",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_center",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_center",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_hair",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_hair",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_neck",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_neck",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "hair_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"hair_botton",
+              "blue":0.8,
+              "green":0.98
             }
           ]
         },
         {
-          "key": "alcremie_vanilla_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_vanilla_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_botton",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_center",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_center",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_hair",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_hair",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_neck",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_neck",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "hair_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"hair_botton",
+              "blue":0.8,
+              "green":0.98
             }
           ]
         },
         {
-          "key": "alcremie_vanilla_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_vanilla_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_botton",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_center",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_center",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_hair",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_hair",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_neck",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_neck",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "hair_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"hair_botton",
+              "blue":0.8,
+              "green":0.98
             }
           ]
         },
         {
-          "key": "alcremie_vanilla_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_vanilla_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_botton",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_center",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_center",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_hair",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_hair",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_neck",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_neck",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "hair_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"hair_botton",
+              "blue":0.8,
+              "green":0.98
             }
           ]
         },
         {
-          "key": "alcremie_vanilla_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_vanilla_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_botton",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_center",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_center",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_hair",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_hair",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_neck",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_neck",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "hair_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"hair_botton",
+              "blue":0.8,
+              "green":0.98
             }
           ]
         },
         {
-          "key": "alcremie_vanilla_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_vanilla_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_botton",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_center",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_center",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_hair",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_hair",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "body_neck",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"body_neck",
+              "blue":0.8,
+              "green":0.98
             },
             {
-              "material": "hair_botton",
-              "blue": 0.8,
-              "green": 0.98
+              "material":"hair_botton",
+              "blue":0.8,
+              "green":0.98
             }
           ]
         },
         {
-          "key": "alcremie_ruby_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_ruby_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_center",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_ruby_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_ruby_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_center",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_ruby_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_ruby_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_center",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_ruby_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_ruby_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_center",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_ruby_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_ruby_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_center",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_ruby_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_ruby_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_center",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_ruby_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_ruby_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_center",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_matcha_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_matcha_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_center",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_neck",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_matcha_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_matcha_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_center",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_neck",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_matcha_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_matcha_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_center",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_neck",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_matcha_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_matcha_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_center",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_neck",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_matcha_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_matcha_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_center",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_neck",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_matcha_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_matcha_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_center",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_neck",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_matcha_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_matcha_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_center",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.75,
-              "blue": 0.75
+              "material":"body_neck",
+              "red":0.75,
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_mint_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_mint_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_neck",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_mint_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_mint_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_neck",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_mint_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_mint_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_neck",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_mint_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_mint_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_neck",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_mint_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_mint_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_neck",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_mint_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_mint_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_neck",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_mint_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_mint_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "red": 0.86,
-              "blue": 0.9
+              "material":"body_neck",
+              "red":0.86,
+              "blue":0.9
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_salted_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_salted_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.95
+              "material":"body_botton",
+              "red":0.95
             },
             {
-              "material": "body_center",
-              "red": 0.95
+              "material":"body_center",
+              "red":0.95
             },
             {
-              "material": "body_hair",
-              "red": 0.95
+              "material":"body_hair",
+              "red":0.95
             },
             {
-              "material": "body_neck",
-              "red": 0.95
+              "material":"body_neck",
+              "red":0.95
             },
             {
-              "material": "hair_botton",
-              "red": 0.95
+              "material":"hair_botton",
+              "red":0.95
             }
           ]
         },
         {
-          "key": "alcremie_salted_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_salted_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.95
+              "material":"body_botton",
+              "red":0.95
             },
             {
-              "material": "body_center",
-              "red": 0.95
+              "material":"body_center",
+              "red":0.95
             },
             {
-              "material": "body_hair",
-              "red": 0.95
+              "material":"body_hair",
+              "red":0.95
             },
             {
-              "material": "body_neck",
-              "red": 0.95
+              "material":"body_neck",
+              "red":0.95
             },
             {
-              "material": "hair_botton",
-              "red": 0.95
+              "material":"hair_botton",
+              "red":0.95
             }
           ]
         },
         {
-          "key": "alcremie_salted_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_salted_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.95
+              "material":"body_botton",
+              "red":0.95
             },
             {
-              "material": "body_center",
-              "red": 0.95
+              "material":"body_center",
+              "red":0.95
             },
             {
-              "material": "body_hair",
-              "red": 0.95
+              "material":"body_hair",
+              "red":0.95
             },
             {
-              "material": "body_neck",
-              "red": 0.95
+              "material":"body_neck",
+              "red":0.95
             },
             {
-              "material": "hair_botton",
-              "red": 0.95
+              "material":"hair_botton",
+              "red":0.95
             }
           ]
         },
         {
-          "key": "alcremie_salted_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_salted_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.95
+              "material":"body_botton",
+              "red":0.95
             },
             {
-              "material": "body_center",
-              "red": 0.95
+              "material":"body_center",
+              "red":0.95
             },
             {
-              "material": "body_hair",
-              "red": 0.95
+              "material":"body_hair",
+              "red":0.95
             },
             {
-              "material": "body_neck",
-              "red": 0.95
+              "material":"body_neck",
+              "red":0.95
             },
             {
-              "material": "hair_botton",
-              "red": 0.95
+              "material":"hair_botton",
+              "red":0.95
             }
           ]
         },
         {
-          "key": "alcremie_salted_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_salted_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.95
+              "material":"body_botton",
+              "red":0.95
             },
             {
-              "material": "body_center",
-              "red": 0.95
+              "material":"body_center",
+              "red":0.95
             },
             {
-              "material": "body_hair",
-              "red": 0.95
+              "material":"body_hair",
+              "red":0.95
             },
             {
-              "material": "body_neck",
-              "red": 0.95
+              "material":"body_neck",
+              "red":0.95
             },
             {
-              "material": "hair_botton",
-              "red": 0.95
+              "material":"hair_botton",
+              "red":0.95
             }
           ]
         },
         {
-          "key": "alcremie_salted_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_salted_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.95
+              "material":"body_botton",
+              "red":0.95
             },
             {
-              "material": "body_center",
-              "red": 0.95
+              "material":"body_center",
+              "red":0.95
             },
             {
-              "material": "body_hair",
-              "red": 0.95
+              "material":"body_hair",
+              "red":0.95
             },
             {
-              "material": "body_neck",
-              "red": 0.95
+              "material":"body_neck",
+              "red":0.95
             },
             {
-              "material": "hair_botton",
-              "red": 0.95
+              "material":"hair_botton",
+              "red":0.95
             }
           ]
         },
         {
-          "key": "alcremie_salted_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_salted_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.95
+              "material":"body_botton",
+              "red":0.95
             },
             {
-              "material": "body_center",
-              "red": 0.95
+              "material":"body_center",
+              "red":0.95
             },
             {
-              "material": "body_hair",
-              "red": 0.95
+              "material":"body_hair",
+              "red":0.95
             },
             {
-              "material": "body_neck",
-              "red": 0.95
+              "material":"body_neck",
+              "red":0.95
             },
             {
-              "material": "hair_botton",
-              "red": 0.95
+              "material":"hair_botton",
+              "red":0.95
             }
           ]
         },
         {
-          "key": "alcremie_swirl_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_swirl_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "red": 0.9,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.9,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_swirl_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_swirl_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "red": 0.9,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.9,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_swirl_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_swirl_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "red": 0.9,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.9,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_swirl_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_swirl_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "red": 0.9,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.9,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_swirl_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_swirl_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "red": 0.9,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.9,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_swirl_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_swirl_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "red": 0.9,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.9,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_swirl_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_swirl_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_botton",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_center",
-              "red": 0.9,
-              "blue": 0.9
+              "material":"body_center",
+              "red":0.9,
+              "blue":0.9
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_neck",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"hair_botton",
+              "blue":0.75,
+              "green":0.75
             }
           ]
         },
         {
-          "key": "alcremie_caramel_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_caramel_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_center",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_neck",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_caramel_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_caramel_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_center",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_neck",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_caramel_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_caramel_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_center",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_neck",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_caramel_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_caramel_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_center",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_neck",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_caramel_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_caramel_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_center",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_neck",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_caramel_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_caramel_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_center",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_neck",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_caramel_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_caramel_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_botton",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_center",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_center",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"body_hair",
+              "red":0.8,
+              "blue":0.8
             },
             {
-              "material": "body_neck",
-              "green": 0.6,
-              "blue": 0.4
+              "material":"body_neck",
+              "green":0.6,
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "red": 0.8,
-              "blue": 0.8
+              "material":"hair_botton",
+              "red":0.8,
+              "blue":0.8
             }
           ]
         },
         {
-          "key": "alcremie_lemon_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_lemon_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_botton",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_center",
-              "blue": 0.75
+              "material":"body_center",
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_hair",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_neck",
-              "blue": 0.75
+              "material":"body_neck",
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"hair_botton",
+              "blue":1.0,
+              "green":1.0
             }
           ]
         },
         {
-          "key": "alcremie_lemon_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_lemon_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_botton",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_center",
-              "blue": 0.75
+              "material":"body_center",
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_hair",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_neck",
-              "blue": 0.75
+              "material":"body_neck",
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"hair_botton",
+              "blue":1.0,
+              "green":1.0
             }
           ]
         },
         {
-          "key": "alcremie_lemon_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_lemon_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_botton",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_center",
-              "blue": 0.75
+              "material":"body_center",
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_hair",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_neck",
-              "blue": 0.75
+              "material":"body_neck",
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"hair_botton",
+              "blue":1.0,
+              "green":1.0
             }
           ]
         },
         {
-          "key": "alcremie_lemon_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_lemon_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_botton",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_center",
-              "blue": 0.75
+              "material":"body_center",
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_hair",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_neck",
-              "blue": 0.75
+              "material":"body_neck",
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"hair_botton",
+              "blue":1.0,
+              "green":1.0
             }
           ]
         },
         {
-          "key": "alcremie_lemon_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_lemon_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_botton",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_center",
-              "blue": 0.75
+              "material":"body_center",
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_hair",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_neck",
-              "blue": 0.75
+              "material":"body_neck",
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"hair_botton",
+              "blue":1.0,
+              "green":1.0
             }
           ]
         },
         {
-          "key": "alcremie_lemon_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_lemon_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_botton",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_center",
-              "blue": 0.75
+              "material":"body_center",
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_hair",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_neck",
-              "blue": 0.75
+              "material":"body_neck",
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"hair_botton",
+              "blue":1.0,
+              "green":1.0
             }
           ]
         },
         {
-          "key": "alcremie_lemon_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_lemon_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_botton",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_center",
-              "blue": 0.75
+              "material":"body_center",
+              "blue":0.75
             },
             {
-              "material": "body_hair",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"body_hair",
+              "blue":1.0,
+              "green":1.0
             },
             {
-              "material": "body_neck",
-              "blue": 0.75
+              "material":"body_neck",
+              "blue":0.75
             },
             {
-              "material": "hair_botton",
-              "blue": 1.0,
-              "green": 1.0
+              "material":"hair_botton",
+              "blue":1.0,
+              "green":1.0
             }
           ]
         },
         {
-          "key": "alcremie_rainbow_1",
-          "parent": "alcremie1",
-          "colours": [
+          "key":"alcremie_rainbow_1",
+          "parent":"alcremie1",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "red": 0.5
+              "material":"body_botton",
+              "blue":0.8,
+              "red":0.5
             },
             {
-              "material": "body_center",
-              "blue": 0.4
+              "material":"body_center",
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.4
+              "material":"body_neck",
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "blue": 0.1,
-              "green": 0.9
+              "material":"hair_botton",
+              "blue":0.1,
+              "green":0.9
             }
           ]
         },
         {
-          "key": "alcremie_rainbow_2",
-          "parent": "alcremie2",
-          "colours": [
+          "key":"alcremie_rainbow_2",
+          "parent":"alcremie2",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "red": 0.5
+              "material":"body_botton",
+              "blue":0.8,
+              "red":0.5
             },
             {
-              "material": "body_center",
-              "blue": 0.4
+              "material":"body_center",
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.4
+              "material":"body_neck",
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "blue": 0.1,
-              "green": 0.9
+              "material":"hair_botton",
+              "blue":0.1,
+              "green":0.9
             }
           ]
         },
         {
-          "key": "alcremie_rainbow_3",
-          "parent": "alcremie3",
-          "colours": [
+          "key":"alcremie_rainbow_3",
+          "parent":"alcremie3",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "red": 0.5
+              "material":"body_botton",
+              "blue":0.8,
+              "red":0.5
             },
             {
-              "material": "body_center",
-              "blue": 0.4
+              "material":"body_center",
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.4
+              "material":"body_neck",
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "blue": 0.1,
-              "green": 0.9
+              "material":"hair_botton",
+              "blue":0.1,
+              "green":0.9
             }
           ]
         },
         {
-          "key": "alcremie_rainbow_4",
-          "parent": "alcremie4",
-          "colours": [
+          "key":"alcremie_rainbow_4",
+          "parent":"alcremie4",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "red": 0.5
+              "material":"body_botton",
+              "blue":0.8,
+              "red":0.5
             },
             {
-              "material": "body_center",
-              "blue": 0.4
+              "material":"body_center",
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.4
+              "material":"body_neck",
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "blue": 0.1,
-              "green": 0.9
+              "material":"hair_botton",
+              "blue":0.1,
+              "green":0.9
             }
           ]
         },
         {
-          "key": "alcremie_rainbow_5",
-          "parent": "alcremie5",
-          "colours": [
+          "key":"alcremie_rainbow_5",
+          "parent":"alcremie5",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "red": 0.5
+              "material":"body_botton",
+              "blue":0.8,
+              "red":0.5
             },
             {
-              "material": "body_center",
-              "blue": 0.4
+              "material":"body_center",
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.4
+              "material":"body_neck",
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "blue": 0.1,
-              "green": 0.9
+              "material":"hair_botton",
+              "blue":0.1,
+              "green":0.9
             }
           ]
         },
         {
-          "key": "alcremie_rainbow_6",
-          "parent": "alcremie6",
-          "colours": [
+          "key":"alcremie_rainbow_6",
+          "parent":"alcremie6",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "red": 0.5
+              "material":"body_botton",
+              "blue":0.8,
+              "red":0.5
             },
             {
-              "material": "body_center",
-              "blue": 0.4
+              "material":"body_center",
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.4
+              "material":"body_neck",
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "blue": 0.1,
-              "green": 0.9
+              "material":"hair_botton",
+              "blue":0.1,
+              "green":0.9
             }
           ]
         },
         {
-          "key": "alcremie_rainbow_7",
-          "parent": "alcremie7",
-          "colours": [
+          "key":"alcremie_rainbow_7",
+          "parent":"alcremie7",
+          "colours":[
             {
-              "material": "body_botton",
-              "blue": 0.8,
-              "red": 0.5
+              "material":"body_botton",
+              "blue":0.8,
+              "red":0.5
             },
             {
-              "material": "body_center",
-              "blue": 0.4
+              "material":"body_center",
+              "blue":0.4
             },
             {
-              "material": "body_hair",
-              "blue": 0.75,
-              "green": 0.75
+              "material":"body_hair",
+              "blue":0.75,
+              "green":0.75
             },
             {
-              "material": "body_neck",
-              "blue": 0.4
+              "material":"body_neck",
+              "blue":0.4
             },
             {
-              "material": "hair_botton",
-              "blue": 0.1,
-              "green": 0.9
+              "material":"hair_botton",
+              "blue":0.1,
+              "green":0.9
             }
           ]
         }

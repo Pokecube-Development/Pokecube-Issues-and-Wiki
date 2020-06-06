@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="0.15"/>
+  <metadata head="head" headAxis="2" headAxis2="1" headCap1="-10,10" headDir2="-1"/>
+  <customTex default="kricketot">
+   <part name="kricketot_eyes" tex="kricketot_eyes"/>
+  </customTex>
+  <phase armAngle="50" duration="10" leftArm="left hand" leftLeg="left foot" legAngle="45" name="biWalk" rightArm="right hand" rightLeg="right foot"/>
+ </model>
+</ModelAnimator>
