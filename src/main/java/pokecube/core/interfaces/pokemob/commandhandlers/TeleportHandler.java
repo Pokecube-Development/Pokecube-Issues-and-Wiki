@@ -24,7 +24,6 @@ import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import pokecube.core.utils.PokecubeSerializer.TeleDest;
 import thut.api.entity.ThutTeleporter;
 import thut.api.maths.Vector4;
-import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 
 public class TeleportHandler extends DefaultHandler
@@ -137,6 +136,14 @@ public class TeleportHandler extends DefaultHandler
     {
         final ServerPlayerEntity player = (ServerPlayerEntity) pokemob.getOwner();
         final TeleDest d = TeleportHandler.getTeleport(player.getCachedUniqueIdString());
+        final boolean inCombat = pokemob.inCombat();
+        if (inCombat)
+        {
+            final ITextComponent text = new TranslationTextComponent("pokemob.teleport.incombat", pokemob
+                    .getDisplayName());
+            if (this.fromOwner()) pokemob.displayMessageToOwner(text);
+            return;
+        }
         if (d == null) return;
         final DimensionType dim = d.getPos().getDimension();
         final DimensionType oldDim = player.dimension;
@@ -147,7 +154,7 @@ public class TeleportHandler extends DefaultHandler
             if (TeleportHandler.invalidDests.contains(dim.getRegistryName()) || TeleportHandler.invalidDests.contains(
                     oldDim.getRegistryName()))
             {
-                final ITextComponent text = CommandTools.makeTranslatedMessage("pokemob.teleport.invalid", "red");
+                final ITextComponent text = new TranslationTextComponent("pokemob.teleport.invalid");
                 if (this.fromOwner()) pokemob.displayMessageToOwner(text);
                 return;
             }
@@ -160,7 +167,7 @@ public class TeleportHandler extends DefaultHandler
         }
         if (needed > count)
         {
-            final ITextComponent text = CommandTools.makeTranslatedMessage("pokemob.teleport.noitems", "red", needed);
+            final ITextComponent text = new TranslationTextComponent("pokemob.teleport.noitems", needed);
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
@@ -182,14 +189,14 @@ public class TeleportHandler extends DefaultHandler
         }
         if (needed > 0)
         {
-            final ITextComponent text = CommandTools.makeTranslatedMessage("pokemob.teleport.noitems", "red", needed);
+            final ITextComponent text = new TranslationTextComponent("pokemob.teleport.noitems", needed);
             if (this.fromOwner()) pokemob.displayMessageToOwner(text);
             return;
         }
         final ITextComponent attackName = new TranslationTextComponent(MovesUtils.getUnlocalizedMove(
                 IMoveNames.MOVE_TELEPORT));
-        final ITextComponent text = CommandTools.makeTranslatedMessage("pokemob.move.used", "green", pokemob
-                .getDisplayName(), attackName);
+        final ITextComponent text = new TranslationTextComponent("pokemob.move.used.user", pokemob.getDisplayName(),
+                attackName);
         if (this.fromOwner()) pokemob.displayMessageToOwner(text);
         EventsHandler.recallAllPokemobsExcluding(player, null, false);
         ThutTeleporter.transferTo(player, d.loc, true);

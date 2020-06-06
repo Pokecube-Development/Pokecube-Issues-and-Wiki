@@ -167,7 +167,7 @@ public class Move_Basic extends Move_Base implements IMoveConstants
 
         final Entity entity = attacker.getEntity();
 
-        if (!this.move.isNotIntercepable() && attacker.getCombatState(CombatStates.ANGRY))
+        if (!this.move.isNotIntercepable() && attacker.inCombat())
         {
             final Vec3d loc1 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
             final Vec3d loc2 = new Vec3d(location.x, location.y, location.z);
@@ -248,10 +248,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         final boolean shouldEffect = packet.attackedStatModProb > 0 || packet.attackerStatModProb > 0;
         if (!shouldEffect) return;
         boolean effect = false;
-        IPokemob attacked;
-        if (this.hasStatModTarget && packet.hit && (attacked = CapabilityPokemob.getPokemobFor(
-                packet.attacked)) != null) effect = MovesUtils.handleStats(attacked, packet.attacker.getEntity(),
-                        packet, true);
+        if (this.hasStatModTarget && packet.hit) effect = MovesUtils.handleStats(packet.attacker, packet.attacked,
+                packet, true);
         if (packet.getMove().hasStatModSelf) effect = MovesUtils.handleStats(packet.attacker, packet.attacker
                 .getEntity(), packet, false);
         if (!effect) MovesUtils.displayStatsMessage(packet.attacker, packet.attacked, -2, (byte) 0, (byte) 0);

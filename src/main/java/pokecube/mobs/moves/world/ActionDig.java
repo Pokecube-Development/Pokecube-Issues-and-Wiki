@@ -11,7 +11,6 @@ import pokecube.core.database.abilities.Ability;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.templates.Move_Basic;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
@@ -23,9 +22,9 @@ public class ActionDig implements IMoveAction
     }
 
     @Override
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
-        if (user.getCombatState(CombatStates.ANGRY)) return false;
+        if (user.inCombat()) return false;
         boolean used = false;
         int count = 10;
         final int level = user.getLevel();
@@ -42,7 +41,7 @@ public class ActionDig implements IMoveAction
         return used;
     }
 
-    private int digHole(IPokemob digger, Vector3 v, boolean count)
+    private int digHole(final IPokemob digger, final Vector3 v, final boolean count)
     {
         int ret = 0;
 
@@ -94,7 +93,7 @@ public class ActionDig implements IMoveAction
         return "dig";
     }
 
-    private boolean shouldDropAll(IPokemob pokemob)
+    private boolean shouldDropAll(final IPokemob pokemob)
     {
         if (pokemob.getAbility() == null) return false;
         final Ability ability = pokemob.getAbility();

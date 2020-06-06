@@ -121,6 +121,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.setTotalCombatState(aiTag.getInt(TagNames.COMBATSTATE));
             this.setTotalGeneralState(aiTag.getInt(TagNames.GENERALSTATE));
             this.setTotalLogicState(aiTag.getInt(TagNames.LOGICSTATE));
+            this.timeSinceCombat = aiTag.getInt(TagNames.COMBATTIME);
             this.cleanLoadedAIStates();
 
             this.setHungerTime(aiTag.getInt(TagNames.HUNGER));
@@ -236,6 +237,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         aiTag.putInt(TagNames.GENERALSTATE, this.getTotalGeneralState());
         aiTag.putInt(TagNames.LOGICSTATE, this.getTotalLogicState());
         aiTag.putInt(TagNames.COMBATSTATE, this.getTotalCombatState());
+        aiTag.putInt(TagNames.COMBATTIME, this.timeSinceCombat);
 
         aiTag.putInt(TagNames.HUNGER, this.getHungerTime());
         final CompoundNBT aiRoutineTag = new CompoundNBT();

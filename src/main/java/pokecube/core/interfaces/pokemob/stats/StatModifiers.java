@@ -14,15 +14,16 @@ import pokecube.core.utils.PokeType;
 public class StatModifiers
 {
 
-    public static final String                                  DEFAULTMODIFIERS = "default";
-    public static Map<String, Class<? extends IStatsModifiers>> modifierClasses  = Maps.newHashMap();
+    public static final String DEFAULTMODIFIERS = "default";
+
+    public static Map<String, Class<? extends IStatsModifiers>> modifierClasses = Maps.newHashMap();
 
     static
     {
         StatModifiers.modifierClasses.put(StatModifiers.DEFAULTMODIFIERS, DefaultModifiers.class);
     }
 
-    public static void registerModifier(String name, Class<? extends IStatsModifiers> modclass)
+    public static void registerModifier(final String name, final Class<? extends IStatsModifiers> modclass)
     {
         if (!StatModifiers.modifierClasses.containsKey(name)) StatModifiers.modifierClasses.put(name, modclass);
         else throw new IllegalArgumentException(name + " is already registered as a modifier.");
@@ -69,17 +70,17 @@ public class StatModifiers
         return this.defaultmods;
     }
 
-    public IStatsModifiers getModifiers(String name)
+    public IStatsModifiers getModifiers(final String name)
     {
         return this.modifiers.get(name);
     }
 
-    public <T extends IStatsModifiers> T getModifiers(String name, Class<T> type)
+    public <T extends IStatsModifiers> T getModifiers(final String name, final Class<T> type)
     {
         return type.cast(this.modifiers.get(name));
     }
 
-    public float getStat(IHasStats pokemob, Stats stat, boolean modified)
+    public float getStat(final IHasStats pokemob, final Stats stat, final boolean modified)
     {
         if (modified && stat == Stats.HP) return pokemob.getHealth();
         final int index = stat.ordinal();

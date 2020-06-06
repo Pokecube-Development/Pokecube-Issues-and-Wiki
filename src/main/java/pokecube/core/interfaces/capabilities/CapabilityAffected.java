@@ -17,7 +17,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -40,7 +39,7 @@ public class CapabilityAffected
         {
         }
 
-        public DefaultAffected(LivingEntity entity)
+        public DefaultAffected(final LivingEntity entity)
         {
             this.entity = entity;
             for (final ResourceLocation id : IOngoingAffected.EFFECTS.keySet())
@@ -48,14 +47,14 @@ public class CapabilityAffected
         }
 
         @Override
-        public boolean addEffect(IOngoingEffect effect)
+        public boolean addEffect(final IOngoingEffect effect)
         {
             if (effect.allowMultiple())
             {
                 final Collection<IOngoingEffect> set = this.getEffects(effect.getID());
                 for (final IOngoingEffect old : set)
                 {
-                    final AddType type = effect.canAdd(this, old);
+                    final AddType type = old.canAdd(this, effect);
                     if (type != AddType.ACCEPT) switch (type)
                     {
                     case UPDATED:
@@ -87,9 +86,9 @@ public class CapabilityAffected
         }
 
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing)
+        public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
         {
-            return CapabilityAffected.AFFECTED_CAP.orEmpty(capability, this.holder);
+            return PokemobCaps.AFFECTED_CAP.orEmpty(capability, this.holder);
         }
 
         @Override
@@ -99,7 +98,7 @@ public class CapabilityAffected
         }
 
         @Override
-        public Collection<IOngoingEffect> getEffects(ResourceLocation id)
+        public Collection<IOngoingEffect> getEffects(final ResourceLocation id)
         {
             if (!this.map.containsKey(id)) this.map.put(id, Sets.newHashSet());
             return this.map.get(id);
@@ -112,7 +111,7 @@ public class CapabilityAffected
         }
 
         @Override
-        public void removeEffect(IOngoingEffect effect)
+        public void removeEffect(final IOngoingEffect effect)
         {
             final Collection<IOngoingEffect> set = this.getEffects(effect.getID());
             this.effects.remove(effect);
@@ -120,7 +119,7 @@ public class CapabilityAffected
         }
 
         @Override
-        public void removeEffects(ResourceLocation id)
+        public void removeEffects(final ResourceLocation id)
         {
             final Collection<IOngoingEffect> set = this.getEffects(id);
             this.effects.removeAll(set);
@@ -151,34 +150,32 @@ public class CapabilityAffected
     {
 
         @Override
-        public void readNBT(Capability<IOngoingAffected> capability, IOngoingAffected instance, Direction side,
-                INBT nbt)
+        public void readNBT(final Capability<IOngoingAffected> capability, final IOngoingAffected instance,
+                final Direction side, final INBT nbt)
         {
             if (nbt instanceof ListNBT) instance.deserializeNBT((ListNBT) nbt);
         }
 
         @Override
-        public INBT writeNBT(Capability<IOngoingAffected> capability, IOngoingAffected instance, Direction side)
+        public INBT writeNBT(final Capability<IOngoingAffected> capability, final IOngoingAffected instance,
+                final Direction side)
         {
             return instance.serializeNBT();
         }
 
     }
 
-    @CapabilityInject(IOngoingAffected.class)
-    public static final Capability<IOngoingAffected> AFFECTED_CAP = null;
-
-    public static boolean addEffect(Entity mob, IOngoingEffect effect)
+    public static boolean addEffect(final Entity mob, final IOngoingEffect effect)
     {
         final IOngoingAffected affected = CapabilityAffected.getAffected(mob);
         if (affected != null) return affected.addEffect(effect);
         return false;
     }
 
-    public static IOngoingAffected getAffected(ICapabilityProvider entityIn)
+    public static IOngoingAffected getAffected(final ICapabilityProvider entityIn)
     {
         if (entityIn == null) return null;
-        final IOngoingAffected var = entityIn.getCapability(CapabilityAffected.AFFECTED_CAP, null).orElse(null);
+        final IOngoingAffected var = entityIn.getCapability(PokemobCaps.AFFECTED_CAP, null).orElse(null);
         if (var != null) return var;
         else if (IOngoingAffected.class.isInstance(entityIn)) return IOngoingAffected.class.cast(entityIn);
         return null;

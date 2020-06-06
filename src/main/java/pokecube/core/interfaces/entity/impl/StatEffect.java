@@ -25,7 +25,7 @@ public class StatEffect extends BaseEffect
         this.setDuration(5);
     }
 
-    public StatEffect(Stats stat, byte amount)
+    public StatEffect(final Stats stat, final byte amount)
     {
         this();
         this.stat = stat;
@@ -33,14 +33,14 @@ public class StatEffect extends BaseEffect
     }
 
     @Override
-    public void affectTarget(IOngoingAffected target)
+    public void affectTarget(final IOngoingAffected target)
     {
         if (this.amount == 0)
         {
             this.setDuration(0);
             return;
         }
-        final boolean up = this.amount > 0;
+        final boolean up = this.amount < 0;
         final LivingEntity entity = target.getEntity();
         final int duration = PokecubeCore.getConfig().attackCooldown + 10;
         switch (this.stat)
@@ -100,7 +100,7 @@ public class StatEffect extends BaseEffect
     }
 
     @Override
-    public AddType canAdd(IOngoingAffected affected, IOngoingEffect toAdd)
+    public AddType canAdd(final IOngoingAffected affected, final IOngoingEffect toAdd)
     {
         // Check if this is same stat, and if the stat in that direction is
         // capped.
@@ -109,9 +109,9 @@ public class StatEffect extends BaseEffect
             final StatEffect effect = (StatEffect) toAdd;
             if (effect.stat == this.stat)
             {
-                if (this.amount > 4 || this.amount < 4) return AddType.DENY;
-                this.amount += effect.amount;
                 this.setDuration(Math.max(this.getDuration(), effect.getDuration()));
+                this.amount += effect.amount;
+                this.amount = (byte) Math.max(Math.min(this.amount, 6), -6);
                 return AddType.UPDATED;
             }
         }
@@ -119,7 +119,7 @@ public class StatEffect extends BaseEffect
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt)
+    public void deserializeNBT(final CompoundNBT nbt)
     {
         this.stat = Stats.values()[nbt.getByte("S")];
         this.amount = nbt.getByte("A");

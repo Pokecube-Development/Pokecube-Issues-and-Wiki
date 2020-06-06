@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.core.interfaces.IPokemob;
 
@@ -29,13 +28,10 @@ public class CapabilityPokemob
         }
     }
 
-    @CapabilityInject(IPokemob.class)
-    public static final Capability<IPokemob> POKEMOB_CAP = null;
-
     public static IPokemob getPokemobFor(final ICapabilityProvider entityIn)
     {
         if (entityIn == null) return null;
-        final IPokemob pokemobHolder = entityIn.getCapability(CapabilityPokemob.POKEMOB_CAP, null).orElse(null);
+        final IPokemob pokemobHolder = entityIn.getCapability(PokemobCaps.POKEMOB_CAP, null).orElse(null);
         if (pokemobHolder != null) return pokemobHolder;
         else if (IPokemob.class.isInstance(entityIn)) return IPokemob.class.cast(entityIn);
         return pokemobHolder;

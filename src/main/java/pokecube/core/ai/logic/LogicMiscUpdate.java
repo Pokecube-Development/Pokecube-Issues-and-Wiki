@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
@@ -31,6 +32,8 @@ import pokecube.core.interfaces.pokemob.ICanEvolve;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.ai.LogicStates;
+import pokecube.core.interfaces.pokemob.stats.StatModifiers;
+import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.item.ItemList;
@@ -50,19 +53,20 @@ public class LogicMiscUpdate extends LogicBase
     public static final boolean holiday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) == 25 && Calendar
             .getInstance().get(Calendar.MONTH) == 11;
 
-    private int lastHadTargetTime = 0;
-
     private final int[] flavourAmounts = new int[5];
 
     private PokedexEntry entry;
 
     private String  particle    = null;
-    private boolean reset       = false;
     private boolean initHome    = false;
     private boolean checkedEvol = false;
     private int     pathTimer   = 0;
     private long    dynatime    = -1;
     private boolean de_dyna     = false;
+
+    boolean inCombat = false;
+
+    int combatTimer = 0;
 
     private int cacheTimer = 0;
 
@@ -77,15 +81,12 @@ public class LogicMiscUpdate extends LogicBase
     public LogicMiscUpdate(final IPokemob pokemob)
     {
         super(pokemob);
-        // Initialize this at 20 ticks to prevent resetting any states set by
-        // say exiting pokecubes.
-        this.lastHadTargetTime = 20;
         this.lastCache = this.entity.getPosition();
     }
 
     private void checkAIStates()
     {
-        final boolean angry = this.pokemob.getCombatState(CombatStates.ANGRY);
+        final boolean angry = this.pokemob.inCombat();
 
         // check dynamax timer for cooldown.
         if (this.pokemob.getCombatState(CombatStates.DYNAMAX))
@@ -119,32 +120,32 @@ public class LogicMiscUpdate extends LogicBase
         if (this.entity.ticksExisted % 20 == 0) this.pokemob.isSheared();
 
         // If angry and has no target, make it not angry.
-        if (angry && this.lastHadTargetTime-- <= 0) this.pokemob.setCombatState(CombatStates.ANGRY, false);
-        else if (angry && BrainUtils.hasAttackTarget(this.entity))
-        {
-            this.lastHadTargetTime = 100;
-            this.reset = false;
-        }
-        else if (!angry && this.reset)
-        {
-            this.lastHadTargetTime = 100;
-            this.reset = false;
-        }
 
         // If not angry, and not been so for a while, reset stat modifiers.
         if (!angry)
         {
-            if (this.lastHadTargetTime <= 0 && !this.reset)
+            final boolean resetCombat = this.combatTimer == 0;
+            if (resetCombat)
             {
-                this.reset = true;
                 this.pokemob.getModifiers().outOfCombatReset();
                 this.pokemob.getMoveStats().reset();
+                this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
+                if (this.pokemob.getOwner() instanceof ServerPlayerEntity) PacketSyncModifier.sendUpdate(
+                        StatModifiers.DEFAULTMODIFIERS, this.pokemob);
             }
-            this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
+            this.combatTimer--;
         }
-        else /** Angry pokemobs shouldn't decide to walk around. */
+        /**
+         * Angry pokemobs shouldn't decide that walking is better than flying.
+         */
+        if (angry)
+        {
             this.pokemob.setRoutineState(AIRoutine.AIRBORNE, true);
+            // Much longer cooldown if actually, really in combat
+            this.combatTimer = 50;
+        }
 
+        this.inCombat = angry;
         this.pokemob.tickBreedDelay(PokecubeCore.getConfig().mateMultiplier);
 
         // Reset tamed state for things with no owner.
