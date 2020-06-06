@@ -222,6 +222,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         else if (entity != null)
         {
             final IOwnable target = OwnableCaps.getOwnable(entity);
+            final boolean mateFight = this.getCombatState(CombatStates.MATEFIGHT);
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Target Set: {} -> {} ", this.getEntity(),
                     entity);
             /**
@@ -233,12 +234,14 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                         .getEntity(), null);
                 return;
             }
-            else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId()))
+            else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId())
+                    && !mateFight)
             {
                 BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
-            else if (TeamManager.sameTeam(entity, this.getEntity()) && !this.getCombatState(CombatStates.MATEFIGHT))
+            else if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(entity, this.getEntity())
+                    && !mateFight)
             {
                 BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;

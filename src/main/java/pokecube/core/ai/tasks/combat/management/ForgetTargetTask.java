@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Level;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.BrainUtil;
@@ -98,11 +97,11 @@ public class ForgetTargetTask extends CombatTask
         final IPokemob mobA = this.pokemob;
         final IPokemob mobB = this.pokemobTarget;
 
-        LivingEntity mate = BrainUtils.getMateTarget((AgeableEntity) this.entity);
+        LivingEntity mate = BrainUtils.getMateTarget(this.entity);
 
         if (mate != null && !mate.isAlive())
         {
-            BrainUtils.setMateTarget((AgeableEntity) this.entity, null);
+            BrainUtils.setMateTarget(this.entity, null);
             mate = null;
         }
 
@@ -224,14 +223,13 @@ public class ForgetTargetTask extends CombatTask
 
                 // If the target is a pokemob, on same team, we shouldn't target
                 // it either, unless it is fighting over a mate
-                if (TeamManager.sameTeam(this.entityTarget, this.entity) && !this.pokemob.getCombatState(
-                        CombatStates.MATEFIGHT))
+                if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(this.entityTarget,
+                        this.entity) && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
                 {
                     PokecubeCore.LOGGER.debug("Cannot target team mates.");
                     deAgro = true;
                     break agroCheck;
                 }
-
             }
 
             if (BrainUtil.canSee(this.entity.getBrain(), this.entityTarget)) this.ticksSinceSeen = 0;

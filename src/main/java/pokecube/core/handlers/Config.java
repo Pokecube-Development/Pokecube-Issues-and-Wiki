@@ -245,6 +245,8 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     /** Do explosions occur and cause damage */
     public boolean explosions            = true;
+    @Configure(category = Config.mobAI)
+    public boolean teamsBattleEachOther  = true;
 
     @Configure(category = Config.mobAI)
     public int chaseDistance      = 32;
