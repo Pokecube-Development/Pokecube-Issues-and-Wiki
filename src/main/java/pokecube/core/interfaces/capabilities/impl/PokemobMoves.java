@@ -139,6 +139,7 @@ public abstract class PokemobMoves extends PokemobSexed
         // clear this if we use a move.
         this.setCombatState(CombatStates.NOITEMUSE, false);
         this.here.set(this.getEntity());
+        if (!this.inCombat()) this.resetCombatTime();
     }
 
     @Override
@@ -383,6 +384,39 @@ public abstract class PokemobMoves extends PokemobSexed
         this.setType1(newEntry.getType1());
         this.setType2(newEntry.getType2());
         this.dataSync().set(this.params.TRANSFORMEDTODW, id);
+    }
+
+    @Override
+    public void setTargetFinder(final ITargetFinder tracker)
+    {
+        this.targetFinder = tracker;
+    }
+
+    @Override
+    public ITargetFinder getTargetFinder()
+    {
+        return this.targetFinder;
+    }
+
+    @Override
+    public int timeSinceCombat()
+    {
+        return this.timeSinceCombat;
+    }
+
+    @Override
+    public void resetCombatTime()
+    {
+        this.timeSinceCombat = 0;
+    }
+
+    @Override
+    public void tickTimeSinceCombat()
+    {
+        final boolean angry = this.getCombatState(CombatStates.ANGRY);
+        if (angry && this.timeSinceCombat() < 0 || !angry && this.timeSinceCombat() > 0) this.resetCombatTime();
+        if (angry) this.timeSinceCombat++;
+        else this.timeSinceCombat--;
     }
 
 }

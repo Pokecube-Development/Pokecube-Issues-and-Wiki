@@ -62,7 +62,6 @@ import pokecube.core.interfaces.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.interfaces.entity.impl.OngoingMoveEffect;
 import pokecube.core.interfaces.entity.impl.PersistantStatusEffect;
 import pokecube.core.interfaces.entity.impl.PersistantStatusEffect.Status;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.Permissions;
@@ -242,7 +241,7 @@ public class MoveEventsHandler
         if (!(owner instanceof PlayerEntity)) owner = PokecubeMod.getFakePlayer(user.getEntity().getEntityWorld());
         if (repel)
         {
-            if (!user.getCombatState(CombatStates.ANGRY)) CommandTools.sendError(owner, "pokemob.action.denyrepel");
+            if (!user.inCombat()) CommandTools.sendError(owner, "pokemob.action.denyrepel");
             return false;
         }
         final PlayerEntity player = (PlayerEntity) owner;
@@ -252,7 +251,7 @@ public class MoveEventsHandler
         if (evt.isCanceled())
         {
             final TranslationTextComponent message = new TranslationTextComponent("pokemob.createbase.deny.noperms");
-            if (!user.getCombatState(CombatStates.ANGRY)) owner.sendMessage(message);
+            if (!user.inCombat()) owner.sendMessage(message);
             return false;
         }
         return true;

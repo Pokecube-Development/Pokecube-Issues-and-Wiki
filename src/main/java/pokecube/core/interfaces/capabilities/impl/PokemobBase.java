@@ -173,6 +173,10 @@ public abstract class PokemobBase implements IPokemob
     /** Cooldown for hunger AI */
     protected int                  hungerCooldown   = 0;
 
+    protected ITargetFinder targetFinder;
+
+    protected int timeSinceCombat = 0;
+
     // Here we have all of the genes currently used.
     Alleles genesSize;
     Alleles genesIVs;

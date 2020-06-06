@@ -38,7 +38,7 @@ import pokecube.core.database.PokedexEntry;
 import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.IPokemob.Stats;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
+import pokecube.core.interfaces.capabilities.PokemobCaps;
 import pokecube.core.utils.PokeType;
 import thut.api.maths.Vector3;
 
@@ -247,7 +247,7 @@ public class EnergyHandler
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP) || event.getCapabilities().containsKey(
                 EnergyHandler.ENERGYCAP) || event.getObject().getEntityWorld() == null) return;
         final IPokemob pokemob = event.getCapabilities().get(EventsHandler.POKEMOBCAP).getCapability(
-                CapabilityPokemob.POKEMOB_CAP).orElse(null);
+                PokemobCaps.POKEMOB_CAP).orElse(null);
         if (pokemob != null) event.addCapability(EnergyHandler.ENERGYCAP, new ProviderPokemob(pokemob));
     }
 

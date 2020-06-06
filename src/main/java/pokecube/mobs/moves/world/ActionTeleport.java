@@ -11,7 +11,6 @@ import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.SpawnHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import pokecube.core.interfaces.pokemob.commandhandlers.TeleportHandler;
 import thut.api.maths.Vector3;
@@ -79,8 +78,8 @@ public class ActionTeleport implements IMoveAction
     @Override
     public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
-        final boolean angry = user.getCombatState(CombatStates.ANGRY);
-        if (!angry && user.getOwner() instanceof ServerPlayerEntity)
+        final boolean inCombat = user.inCombat();
+        if (!inCombat && user.getOwner() instanceof ServerPlayerEntity)
         {
             final ServerPlayerEntity target = (ServerPlayerEntity) user.getOwner();
             EventsHandler.recallAllPokemobsExcluding(target, null, false);
@@ -93,7 +92,7 @@ public class ActionTeleport implements IMoveAction
                 PokecubeCore.LOGGER.error("Error Teleporting " + target, e);
             }
         }
-        else if (angry)
+        else if (inCombat)
         {
             BrainUtils.deagro(user.getEntity());
             if (user.getGeneralState(GeneralStates.TAMED)) user.onRecall();

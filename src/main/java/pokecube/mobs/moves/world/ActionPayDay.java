@@ -11,7 +11,6 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import thut.api.maths.Vector3;
 
 public class ActionPayDay implements IMoveAction
@@ -25,8 +24,7 @@ public class ActionPayDay implements IMoveAction
     @Override
     public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
-        if (!user.getCombatState(CombatStates.ANGRY)) return false;
-
+        if (!user.inCombat()) return false;
         final LivingEntity poke = user.getEntity();
         final LootTable loottable = poke.getEntityWorld().getServer().getLootTableManager().getLootTableFromLocation(
                 ActionPayDay.lootTable);
