@@ -1,5 +1,6 @@
 package pokecube.core.commands;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -19,6 +20,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.server.permission.DefaultPermissionLevel;
 import net.minecraftforge.server.permission.PermissionAPI;
+import pokecube.core.handlers.events.EventsHandler;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -27,6 +29,7 @@ import pokecube.core.interfaces.pokemob.ai.LogicStates;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
+import pokecube.core.utils.PokemobTracker;
 import thut.core.common.commands.CommandTools;
 
 public class Pokerecall
@@ -35,7 +38,9 @@ public class Pokerecall
     {
         final ServerPlayerEntity player = ctx.getSource().asPlayer();
         final Set<String> opts = Sets.newHashSet();
-        for (final Entity e : PCEventsHandler.getOutMobs(player, true))
+        final List<Entity> mobs = PokemobTracker.getMobs(player, c -> EventsHandler.validRecall(player, c, null, true,
+                true));
+        for (final Entity e : mobs)
         {
             final IPokemob poke = CapabilityPokemob.getPokemobFor(e);
             if (poke != null) opts.add(e.getDisplayName().getFormattedText());
@@ -69,7 +74,7 @@ public class Pokerecall
                 final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getEntityWorld());
                 if (mob != null && mob.getDisplayName().getFormattedText().equals(pokemob))
                 {
-                    final LivingEntity sent = SendOutManager.sendOut(cube, true);
+                    final LivingEntity sent = SendOutManager.sendOut(cube, true, false);
                     IPokemob poke;
                     if (sent != null && (poke = CapabilityPokemob.getPokemobFor(sent)) != null)
                     {

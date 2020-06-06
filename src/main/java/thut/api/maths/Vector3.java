@@ -5,7 +5,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
+
+import com.mojang.authlib.GameProfile;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -23,7 +26,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.Explosion;
@@ -36,6 +43,9 @@ import net.minecraft.world.biome.BiomeContainer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import thut.api.entity.ICompoundMob;
 import thut.api.entity.ICompoundMob.ICompoundPart;
 
@@ -121,6 +131,11 @@ public class Vector3
     static Vector3              move1         = Vector3.getNewVector();
 
     static Vector3              move2         = Vector3.getNewVector();
+
+    private static FakePlayer USEDFORRAYTRACECONTEXT = null;
+
+    private static final UUID        PLAYERID   = new UUID(1234567, 7324156);
+    private static final GameProfile FAKEPLAYER = new GameProfile(Vector3.PLAYERID, "raytrace-context");
 
     public static Vector3 entity(final Entity e)
     {
@@ -268,7 +283,19 @@ public class Vector3
     {
         direction = direction.normalize();
 
-        // TODO see if there is any vanilla raytrace that works nicely hwere.
+        if (world instanceof ServerWorld)
+        {
+            final Vec3d start = source.toVec3d();
+            final Vec3d end = direction.scalarMultBy(range).addTo(source).toVec3d();
+            if (Vector3.USEDFORRAYTRACECONTEXT == null) Vector3.USEDFORRAYTRACECONTEXT = FakePlayerFactory.get(
+                    (ServerWorld) world, Vector3.FAKEPLAYER);
+            else Vector3.USEDFORRAYTRACECONTEXT.setWorld((World) world);
+            final RayTraceContext context = new RayTraceContext(start, end, BlockMode.COLLIDER, FluidMode.NONE,
+                    Vector3.USEDFORRAYTRACECONTEXT);
+            final BlockRayTraceResult result = world.rayTraceBlocks(context);
+            return result.getType() == BlockRayTraceResult.Type.MISS;
+        }
+
         double dx, dy, dz;
         for (double i = 0; i < range; i += 0.0625)
         {
@@ -280,88 +307,6 @@ public class Vector3
 
             final boolean check = Vector3.isPointClearBlocks(xtest, ytest, ztest, world);
             if (!check) return false;
-        }
-        return true;
-    }
-
-    public static boolean movePointOutOfBlocks(final Vector3 v, final World world)
-    {
-        final Vector3 v1 = Vector3.move1.set(v);
-        final Vector3 v2 = Vector3.move2.set(v);
-
-        final long start = System.nanoTime();
-
-        if (!v.isClearOfBlocks(world))
-        {
-            int n = 0;
-
-            clear:
-            while (!v.isClearOfBlocks(world))
-            {
-                for (final Direction side : Direction.values())
-                {
-                    v2.set(v);
-                    if (v.offsetBy(side).isClearOfBlocks(world)) break clear;
-                    v.set(v2);
-                }
-                boolean step = true;
-                if (n < 2) v.offset(Direction.UP);
-                else if (n < 4)
-                {
-                    if (step)
-                    {
-                        step = false;
-                        v.set(v1);
-                    }
-                    v.offsetBy(Direction.NORTH);
-                }
-                else if (n < 6)
-                {
-                    if (!step)
-                    {
-                        step = true;
-                        v.set(v1);
-                    }
-                    v.offsetBy(Direction.SOUTH);
-                }
-                else if (n < 8)
-                {
-                    if (step)
-                    {
-                        step = false;
-                        v.set(v1);
-                    }
-                    v.offsetBy(Direction.EAST);
-                }
-                else if (n < 10)
-                {
-                    if (!step)
-                    {
-                        step = true;
-                        v.set(v1);
-                    }
-                    v.offsetBy(Direction.WEST);
-                }
-                else if (n < 12)
-                {
-                    if (step)
-                    {
-                        step = false;
-                        v.set(v1);
-                    }
-                    v.offsetBy(Direction.DOWN);
-                }
-                n++;
-                if (n >= 12) break;
-            }
-
-            final long end = System.nanoTime() - start;
-
-            final double time = end / 1000000000D;
-            if (time > 0.001) System.out.println("Took " + time + "s to check");
-
-            if (v.isClearOfBlocks(world)) return true;
-            return false;
         }
         return true;
     }

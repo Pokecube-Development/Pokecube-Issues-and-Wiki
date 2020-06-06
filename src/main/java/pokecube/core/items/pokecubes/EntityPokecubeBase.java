@@ -100,6 +100,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
     public boolean isCapturing = false;
 
+    private boolean checkCube = false;
+
     public ResourceLocation lootTable = null;
 
     protected int       inData;
@@ -125,7 +127,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
     NonNullList<ItemStack> stuff = NonNullList.create();
 
-    public IPokemob containedMob;
+    public IPokemob containedMob = null;
 
     public EntityPokecubeBase(final EntityType<? extends EntityPokecubeBase> type, final World worldIn)
     {
@@ -160,7 +162,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     @Override
     protected void outOfWorld()
     {
-        final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true));
+        final IPokemob mob = CapabilityPokemob.getPokemobFor(SendOutManager.sendOut(this, true, false));
         if (mob != null && mob.getOwnerId() != null) mob.onRecall();
     }
 
@@ -221,7 +223,7 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     @Override
     public void onAddedToWorld()
     {
-        if (!this.isAddedToWorld()) PokemobTracker.addPokecube(this);
+        PokemobTracker.addPokecube(this);
         super.onAddedToWorld();
     }
 
@@ -409,6 +411,19 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
 
         if (this.posY < -64.0D) this.outOfWorld();
 
+        if (this.checkCube)
+        {
+            this.checkCube = false;
+            PokemobTracker.removePokecube(this);
+            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.getEntityWorld());
+            if (this.containedMob != null && this.shooter == null)
+            {
+                this.shootingEntity = this.containedMob.getOwner();
+                if (this.shootingEntity != null) this.shooter = this.shootingEntity.getUniqueID();
+            }
+            PokemobTracker.addPokecube(this);
+        }
+
         this.preValidateVelocity();
         this.checkCollision();
         this.postValidateVelocity();
@@ -467,11 +482,8 @@ public abstract class EntityPokecubeBase extends LivingEntity implements IProjec
     {
         if (this.isAddedToWorld()) PokemobTracker.removePokecube(this);
         this.getDataManager().set(EntityPokecubeBase.ITEM, stack);
-        if (this.isAddedToWorld())
-        {
-            this.containedMob = PokecubeManager.itemToPokemob(stack, PokecubeCore.proxy.getWorld());
-            PokemobTracker.addPokecube(this);
-        }
+        this.checkCube = true;
+        if (this.isAddedToWorld()) PokemobTracker.addPokecube(this);
     }
 
     @Override

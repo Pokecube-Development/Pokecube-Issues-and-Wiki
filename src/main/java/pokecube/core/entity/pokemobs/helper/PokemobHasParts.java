@@ -167,6 +167,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
     @Override
     public ICompoundPart[] getParts()
     {
+        this.updatePartsPos();
         return this.parts;
     }
 

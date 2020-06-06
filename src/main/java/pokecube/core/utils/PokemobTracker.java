@@ -182,7 +182,7 @@ public class PokemobTracker
 
     private CubeEntry _addPokecube(final EntityPokecubeBase cube)
     {
-        final UUID owner = cube.containedMob != null ? cube.containedMob.getOwnerId() : null;
+        final UUID owner = cube.containedMob != null ? cube.containedMob.getOwnerId() : cube.shooter;
         if (owner == null) return null;
         final CubeEntry e = PokemobTracker.removePokecube(cube);
         final Set<CubeEntry> owned = this.ownedCubes.getOrDefault(owner, new HashSet<>());
