@@ -24,6 +24,7 @@ import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
+import pokecube.core.utils.AITools;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
@@ -218,6 +219,11 @@ public class BrainUtils
 
         final IPokemob aggressor = CapabilityPokemob.getPokemobFor(mob);
         final IPokemob targetMob = CapabilityPokemob.getPokemobFor(target);
+
+        // No target an invalid target!
+        if (aggressor != null && !AITools.validTargets.test(target)) return;
+        if (targetMob != null && !AITools.validTargets.test(mob)) return;
+
         if (targetMob != null) targetMob.setCombatState(CombatStates.ANGRY, true);
         if (aggressor != null) aggressor.setCombatState(CombatStates.ANGRY, true);
 
