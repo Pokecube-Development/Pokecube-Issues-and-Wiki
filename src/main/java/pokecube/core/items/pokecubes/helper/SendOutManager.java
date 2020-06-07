@@ -124,9 +124,11 @@ public class SendOutManager
         // Otherwise look for free room, etc
         else
         {
-            v.set(v.intX() + 0.5, v.intY() + 0.5, v.intZ() + 0.5);
+            v.set(v.intX() + 0.5, v.intY(), v.intZ() + 0.5);
             final BlockState state = v.getBlockState(cube.getEntityWorld());
             if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
+            // Ensure the mob's position is initialized properly first
+            v.moveEntity(mob);
             v = SendOutManager.getFreeSpot(mob, world, v, respectRoom);
             if (v == null)
             {
