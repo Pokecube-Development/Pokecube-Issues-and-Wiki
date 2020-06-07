@@ -292,6 +292,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
 
         private String getPhase(final MobEntity entity, final IPokemob pokemob)
         {
+            if (!this.wrapper.isLoaded()) return "not_loaded_yet!";
             String phase = "idle";
             if (this.model == null || pokemob == null) return phase;
             final Vec3d velocity = entity.getMotion();
@@ -440,20 +441,22 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
         public void initModel(final ModelWrapper<TameableEntity> model)
         {
             this.wrapper = model;
-            model.imodel = ModelFactory.create(model.model);
-
-            // Check if an animation file exists.
-            try
+            ModelFactory.create(model.model, m ->
             {
-                Minecraft.getInstance().getResourceManager().getResource(this.animation);
-            }
-            catch (final IOException e)
-            {
-                // No animation here, lets try to use the base one.
-            }
+                model.imodel = m;
+                // Check if an animation file exists.
+                try
+                {
+                    Minecraft.getInstance().getResourceManager().getResource(this.animation);
+                }
+                catch (final IOException e)
+                {
+                    // No animation here, lets try to use the base one.
+                }
 
-            AnimationLoader.parse(this, model, this);
-            this.initModelParts();
+                AnimationLoader.parse(this, model, this);
+                this.initModelParts();
+            });
         }
 
         private void initModelParts()
@@ -547,7 +550,8 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             final Holder holder = new Holder(entry);
             RenderPokemob.holderMap.put(type, holder);
             RenderPokemob.holders.put(entry, holder);
-            if (PokecubeCore.getConfig().preloadModels) holder.init();
+            // Always initialize starters, so the gui doesn't act a bit funny
+            if (PokecubeCore.getConfig().preloadModels || entry.isStarter) holder.init();
         }
     }
 
@@ -620,6 +624,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             holder.init();
             PokecubeMod.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
         }
+        if (holder.wrapper != null && !holder.wrapper.isLoaded()) return;
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
                 || holder.texture == null) holder = RenderPokemob.getMissingNo();
 
@@ -668,7 +673,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
     @Override
     public ResourceLocation getEntityTexture(final TameableEntity entity)
     {
-        final ResourceLocation texture = RenderPokemob.getMissingNo().texture;
+        final ResourceLocation texture = Database.missingno.texture;
         Holder holder = this.holder;
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
         if (pokemob == null) return texture;
@@ -690,6 +695,7 @@ public class RenderPokemob extends MobRenderer<TameableEntity, ModelWrapper<Tame
             holder = temp;
         }
         if (holder.getTexturer() == null) return texture;
-        return holder.getTexturer().getTexture("", texture);
+        final ResourceLocation tex = holder.getTexturer().getTexture("", texture);
+        return tex == null ? texture : tex;
     }
 }

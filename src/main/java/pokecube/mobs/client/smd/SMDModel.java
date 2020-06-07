@@ -12,9 +12,11 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
+import net.minecraft.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 import pokecube.mobs.client.smd.impl.Bone;
 import pokecube.mobs.client.smd.impl.Face;
@@ -36,6 +38,41 @@ import thut.core.common.ThutCore;
 
 public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFakeExtendedPart
 {
+    public static class Loader implements Runnable
+    {
+        final SMDModel toLoad;
+
+        final ResourceLocation res;
+
+        public Loader(final SMDModel model, final ResourceLocation res)
+        {
+            this.toLoad = model;
+            this.res = res;
+        }
+
+        @Override
+        public void run()
+        {
+            try
+            {
+                this.toLoad.wrapped = new Model(this.res);
+                this.toLoad.wrapped.usesMaterials = true;
+                this.toLoad.animations.addAll(this.toLoad.wrapped.anims.keySet());
+                this.toLoad.mats.addAll(this.toLoad.wrapped.body.matsToFaces.keySet());
+                // Flag as loaded before running the callback
+                this.toLoad.loaded = true;
+                if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+                this.toLoad.callback = null;
+            }
+            catch (final Exception e)
+            {
+                this.toLoad.loaded = true;
+                this.toLoad.valid = false;
+            }
+
+        }
+    }
+
     private final HashMap<String, IExtendedModelPart> nullPartsMap = Maps.newHashMap();
     private final HashMap<String, IExtendedModelPart> subPartsMap  = Maps.newHashMap();
 
@@ -44,7 +81,9 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     private final HeadInfo       info        = new HeadInfo();
     private final List<Material> mats        = Lists.newArrayList();
 
-    private boolean   valid = false;
+    protected boolean valid  = true;
+    protected boolean loaded = false;
+
     Model             wrapped;
     IPartTexturer     texturer;
     IAnimationChanger changer;
@@ -57,6 +96,8 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
     IAnimationHolder currentHolder = null;
 
+    protected IModelCallback callback = null;
+
     public SMDModel()
     {
         this.nullPartsMap.put(this.getName(), this);
@@ -67,16 +108,39 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         this();
         try
         {
-            this.wrapped = new Model(model);
-            this.wrapped.usesMaterials = true;
-            this.animations.addAll(this.wrapped.anims.keySet());
-            this.mats.addAll(this.wrapped.body.matsToFaces.keySet());
-            this.valid = true;
+            // Check if the model even exists
+            final IResource res = Minecraft.getInstance().getResourceManager().getResource(model);
+            if (res == null)
+            {
+                this.valid = false;
+                return;
+            }
+            res.close();
+            // If it did exist, then lets schedule load on another thread
+            final Thread loader = new Thread(new Loader(this, model));
+            loader.setName("ThutCore: SMD Load: " + model);
+            if (ThutCore.conf.asyncModelLoads) loader.start();
+            else loader.run();
         }
         catch (final Exception e)
         {
             // We failed to load, so not valid!
+            this.valid = false;
         }
+    }
+
+    @Override
+    public IModel init(final IModelCallback callback)
+    {
+        if (this.loaded && this.isValid()) callback.run(this);
+        else this.callback = callback;
+        return this;
+    }
+
+    @Override
+    public boolean isLoaded()
+    {
+        return this.loaded;
     }
 
     @Override

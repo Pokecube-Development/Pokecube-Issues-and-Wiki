@@ -1,8 +1,8 @@
 package thut.core.client.render.model;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
@@ -20,6 +20,11 @@ import thut.core.common.ThutCore;
 
 public interface IModel
 {
+    public static interface IModelCallback
+    {
+        void run(IModel model);
+    }
+
     public static class HeadInfo
     {
         /**
@@ -64,7 +69,7 @@ public interface IModel
 
     Set<String> getHeadParts();
 
-    HashMap<String, IExtendedModelPart> getParts();
+    Map<String, IExtendedModelPart> getParts();
 
     default void setAnimationHolder(final IAnimationHolder holder)
     {
@@ -89,6 +94,17 @@ public interface IModel
      *         things will often look for a different extension.
      */
     boolean isValid();
+
+    default IModel init(final IModelCallback callback)
+    {
+        if (this.isValid()) callback.run(this);
+        return this;
+    }
+
+    default boolean isLoaded()
+    {
+        return true;
+    }
 
     void preProcessAnimations(Collection<List<Animation>> collection);
 

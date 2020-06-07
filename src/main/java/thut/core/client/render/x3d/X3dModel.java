@@ -42,23 +42,88 @@ import thut.core.common.ThutCore;
 
 public class X3dModel implements IModelCustom, IModel, IRetexturableModel
 {
+    public static class Loader implements Runnable
+    {
+        final X3dModel toLoad;
+
+        final ResourceLocation res;
+
+        public Loader(final X3dModel model, final ResourceLocation res)
+        {
+            this.toLoad = model;
+            this.res = res;
+        }
+
+        @Override
+        public void run()
+        {
+            this.toLoad.loadModel(this.res);
+            // Flag as loaded before running the callback
+            this.toLoad.loaded = true;
+            if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
+            this.toLoad.callback = null;
+        }
+    }
+
     public HashMap<String, IExtendedModelPart> parts = new HashMap<>();
-    private final List<String>                 order = Lists.newArrayList();
-    Map<String, Material>                      mats  = Maps.newHashMap();
-    Set<String>                                heads = Sets.newHashSet();
-    final HeadInfo                             info  = new HeadInfo();
-    public String                              name;
-    protected boolean                          valid = true;
+
+    private final List<String> order = Lists.newArrayList();
+    Map<String, Material>      mats  = Maps.newHashMap();
+
+    Set<String>       heads  = Sets.newHashSet();
+    final HeadInfo    info   = new HeadInfo();
+    public String     name;
+    protected boolean valid  = true;
+    protected boolean loaded = false;
+
+    protected IModelCallback callback = null;
 
     public X3dModel()
     {
-        this.valid = false;
+        this.valid = true;
     }
 
     public X3dModel(final ResourceLocation l)
     {
         this();
-        this.loadModel(l);
+
+        try
+        {
+            // Check if the model even exists
+            final IResource res = Minecraft.getInstance().getResourceManager().getResource(l);
+            if (res == null)
+            {
+                this.valid = false;
+                return;
+            }
+            res.close();
+            // If it did exist, then lets schedule load on another thread
+            final Thread loader = new Thread(new Loader(this, l));
+            loader.setName("ThutCore: X3d Load: " + l);
+            if (ThutCore.conf.asyncModelLoads) loader.start();
+            else loader.run();
+        }
+        catch (final Exception e)
+        {
+            // Otherwise mark as invalid and exit
+            this.valid = false;
+            if (!(e instanceof FileNotFoundException)) ThutCore.LOGGER.error("error loading " + l, e);
+        }
+
+    }
+
+    @Override
+    public IModel init(final IModelCallback callback)
+    {
+        if (this.loaded && this.isValid()) callback.run(this);
+        else this.callback = callback;
+        return this;
+    }
+
+    @Override
+    public boolean isLoaded()
+    {
+        return this.loaded;
     }
 
     private void addChildren(final Set<Transform> allTransforms, final Transform transform)
@@ -69,14 +134,6 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
                 allTransforms.add(f);
                 this.addChildren(allTransforms, f);
             }
-    }
-
-    @Override
-    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
-            final float limbSwing)
-    {
-        this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks, this.getHeadInfo().headYaw,
-                this.getHeadInfo().headYaw, limbSwing);
     }
 
     @Override
@@ -93,8 +150,10 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
 
     public List<String> getOrder()
     {
-        if (this.order.isEmpty())
+        if (this.order.isEmpty() && this.loaded)
         {
+            if (this.callback != null) this.callback.run(this);
+            this.callback = null;
             IExtendedModelPart.sort(this.order, this.getParts());
             for (final String s : this.getOrder())
             {
@@ -275,7 +334,6 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
                         comp.posChange[2] = -d1;
                     }
                 }
-        this.getOrder();
     }
 
     @Override
@@ -319,8 +377,18 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     }
 
     @Override
+    public void applyAnimation(final Entity entity, final IModelRenderer<?> renderer, final float partialTicks,
+            final float limbSwing)
+    {
+        if (this.getOrder().isEmpty()) return;
+        this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks, this.getHeadInfo().headYaw,
+                this.getHeadInfo().headYaw, limbSwing);
+    }
+
+    @Override
     public void setAnimationChanger(final IAnimationChanger changer)
     {
+        if (this.getOrder().isEmpty()) return;
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setAnimationChanger(changer);
     }
@@ -328,6 +396,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     @Override
     public void setTexturer(final IPartTexturer texturer)
     {
+        if (this.getOrder().isEmpty()) return;
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel) ((IRetexturableModel) part).setTexturer(texturer);
     }
@@ -335,6 +404,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
     protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
             final float partialTicks, final float headYaw, final float headPitch, final float limbSwing)
     {
+        if (this.getOrder().isEmpty()) return;
         for (final String partName : this.getParts().keySet())
         {
             final IExtendedModelPart part = this.getParts().get(partName);
@@ -346,6 +416,7 @@ public class X3dModel implements IModelCustom, IModel, IRetexturableModel
             final float partialTick, final IExtendedModelPart parent, final float headYaw, final float headPitch,
             final float limbSwing)
     {
+        if (this.getOrder().isEmpty()) return;
         if (parent == null) return;
         final HeadInfo info = this.getHeadInfo();
 

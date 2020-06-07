@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.util.ResourceLocation;
 import thut.api.ModelHolder;
 import thut.core.client.render.mca.McaModel;
+import thut.core.client.render.model.IModel.IModelCallback;
 import thut.core.client.render.obj.ObjModel;
 import thut.core.client.render.x3d.X3dModel;
 import thut.core.common.ThutCore;
@@ -31,7 +32,7 @@ public class ModelFactory
         ModelFactory.registerIModel("obj", ObjModel::new);
     }
 
-    public static IModel create(final ResourceLocation location, final ModelHolder model)
+    public static IModel create(final ResourceLocation location, final ModelHolder model, final IModelCallback callback)
     {
         final String path = location.getPath();
         String ext = path.contains(".") ? path.substring(path.lastIndexOf(".") + 1, path.length()) : "";
@@ -54,25 +55,32 @@ public class ModelFactory
                 ThutCore.LOGGER.debug("Successfully loaded model for " + location);
                 model.extension = ext;
             }
-            return ret;
+            return ret.init(callback);
         }
         else
         {
             final IFactory<?> factory = ModelFactory.modelFactories.get(ext);
             model.extension = ext;
-            return factory.create(location);
+            return factory.create(location).init(callback);
         }
+    }
+
+    public static IModel create(final ModelHolder model, final IModelCallback callback)
+    {
+        IModel made = ModelFactory.create(model.model, model, callback);
+        if (!made.isValid()) for (final ResourceLocation loc : model.backupModels)
+        {
+            made = ModelFactory.create(loc, model, callback);
+            if (!made.isValid()) return made;
+        }
+        return made;
     }
 
     public static IModel create(final ModelHolder model)
     {
-        IModel made = ModelFactory.create(model.model, model);
-        if (!made.isValid()) for (final ResourceLocation loc : model.backupModels)
+        return ModelFactory.create(model, m ->
         {
-            made = ModelFactory.create(loc, model);
-            if (!made.isValid()) return made;
-        }
-        return made;
+        });
     }
 
     public static Set<String> getValidExtensions()
