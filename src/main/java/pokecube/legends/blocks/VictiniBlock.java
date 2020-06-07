@@ -246,12 +246,12 @@ public class VictiniBlock extends Rotates implements IWaterLoggable
         final Direction facing = state.get(VictiniBlock.FACING);
         final BlockPos victiniPos = this.getVictiniPos(pos, state.get(VictiniBlock.HALF), facing);
         BlockState VictiniBlockState = world.getBlockState(victiniPos);
-        if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPos) && this
-                .getBlock() == BlockInit.VICTINI_CORE) this.removeHalf(world, victiniPos, VictiniBlockState);
+        if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPos) && this.getBlock() == BlockInit.VICTINI_CORE
+                .get()) this.removeHalf(world, victiniPos, VictiniBlockState);
         final BlockPos victiniPartPos = this.getVictiniTopPos(victiniPos, facing);
         VictiniBlockState = world.getBlockState(victiniPartPos);
         if (VictiniBlockState.getBlock() == this && !pos.equals(victiniPartPos) && this
-                .getBlock() == BlockInit.VICTINI_CORE) this.removeHalf(world, victiniPartPos, VictiniBlockState);
+                .getBlock() == BlockInit.VICTINI_CORE.get()) this.removeHalf(world, victiniPartPos, VictiniBlockState);
         super.onBlockHarvested(world, pos, state, player);
     }
 

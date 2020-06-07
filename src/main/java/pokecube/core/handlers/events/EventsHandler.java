@@ -31,6 +31,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
@@ -473,6 +474,8 @@ public class EventsHandler
         PacketDataSync.sendInitPacket(player, "pokecube-stats");
         PacketPokedex.sendLoginPacket(player);
         if (PokecubeCore.getConfig().guiOnLogin) new ChooseFirst(player);
+        else if (!PokecubeSerializer.getInstance().hasStarter(player)) player.sendMessage(new TranslationTextComponent(
+                "pokecube.login.find_prof_or_config"));
     }
 
     @SubscribeEvent

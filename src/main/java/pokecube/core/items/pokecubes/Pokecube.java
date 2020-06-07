@@ -15,6 +15,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -50,6 +52,7 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vector3f;
 import thut.core.common.commands.CommandTools;
 
 public class Pokecube extends Item implements IPokecube
@@ -387,9 +390,30 @@ public class Pokecube extends Item implements IPokecube
         entity.shooter = thrower.getUniqueID();
         entity.setItem(stack);
 
-        final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
-        final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).scalarMultBy(1.5);
-        temp.addTo(temp1).moveEntity(entity);
+        final Vector3 temp = Vector3.getNewVector().set(thrower).addTo(0, thrower.getEyeHeight(), 0);
+        if (thrower instanceof ServerPlayerEntity && !(thrower instanceof FakePlayer))
+        {
+            final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
+            final Hand hand = player.getActiveHand();
+            final Vec3d tmp = thrower.getLookVec();
+            final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+            final Vector3f shift = new Vector3f();
+            shift.cross(look, new Vector3f(0, 1, 0));
+            shift.scale(player.getWidth() / 2);
+            switch (hand)
+            {
+            case MAIN_HAND:
+                break;
+            case OFF_HAND:
+                shift.negate();
+                break;
+            default:
+                break;
+            }
+            temp.addTo(shift.x, shift.y, shift.z);
+        }
+
+        temp.moveEntity(entity);
         entity.shoot(direction.norm(), power * 10);
         entity.seeking = false;
         entity.targetEntity = null;
@@ -429,20 +453,34 @@ public class Pokecube extends Item implements IPokecube
             if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
                 targetLocation = Vector3.secondAxisNeg;
             entity.targetLocation.set(targetLocation);
+            final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
+            temp.moveEntity(entity);
+            if (thrower instanceof ServerPlayerEntity && !(thrower instanceof FakePlayer))
+            {
+                final ServerPlayerEntity player = (ServerPlayerEntity) thrower;
+                final Hand hand = player.getActiveHand();
+                final Vec3d tmp = thrower.getLookVec();
+                final Vector3f look = new Vector3f((float) tmp.x, (float) tmp.y, (float) tmp.z);
+                final Vector3f shift = new Vector3f();
+                shift.cross(look, new Vector3f(0, 1, 0));
+                shift.scale(player.getWidth() / 2);
+                switch (hand)
+                {
+                case MAIN_HAND:
+                    break;
+                case OFF_HAND:
+                    shift.negate();
+                    break;
+                default:
+                    break;
+                }
+                temp.addTo(shift.x, shift.y, shift.z);
+            }
             if (thrower.isSneaking())
             {
-                final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
-                final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).norm();
-                temp.addTo(temp1).moveEntity(entity);
                 temp.clear().setVelocities(entity);
                 entity.targetEntity = null;
                 entity.targetLocation.clear();
-            }
-            else
-            {
-                final Vector3 temp = Vector3.getNewVector().set(thrower).add(0, thrower.getEyeHeight(), 0);
-                final Vector3 temp1 = Vector3.getNewVector().set(thrower.getLookVec()).norm();
-                temp.addTo(temp1).moveEntity(entity);
             }
             if (!world.isRemote)
             {

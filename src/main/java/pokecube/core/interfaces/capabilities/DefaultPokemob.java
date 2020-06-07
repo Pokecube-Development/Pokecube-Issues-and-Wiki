@@ -63,7 +63,6 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     private final LazyOptional<IPokemob> holder = LazyOptional.of(() -> this);
 
     private List<IAIRunnable> tasks = Lists.newArrayList();
-    private ITargetFinder     targetFinder;
 
     private boolean initedAI = false;
 
@@ -97,7 +96,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
     {
         if (capability == ThutCaps.COLOURABLE) return this.holder.cast();
         if (capability == ThutCaps.BREEDS) return this.holder.cast();
-        return CapabilityPokemob.POKEMOB_CAP.orEmpty(capability, this.holder);
+        return PokemobCaps.POKEMOB_CAP.orEmpty(capability, this.holder);
     }
 
     @Override
@@ -223,6 +222,7 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
         else if (entity != null)
         {
             final IOwnable target = OwnableCaps.getOwnable(entity);
+            final boolean mateFight = this.getCombatState(CombatStates.MATEFIGHT);
             if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Target Set: {} -> {} ", this.getEntity(),
                     entity);
             /**
@@ -234,12 +234,14 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
                         .getEntity(), null);
                 return;
             }
-            else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId()))
+            else if (target != null && this.getOwnerId() != null && this.getOwnerId().equals(target.getOwnerId())
+                    && !mateFight)
             {
                 BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
             }
-            else if (TeamManager.sameTeam(entity, this.getEntity()) && !this.getCombatState(CombatStates.MATEFIGHT))
+            else if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(entity, this.getEntity())
+                    && !mateFight)
             {
                 BrainUtils.setAttackTarget(this.getEntity(), null);
                 return;
@@ -346,17 +348,5 @@ public class DefaultPokemob extends PokemobSaves implements ICapabilitySerializa
             this.getEntity().playSound(SoundEvents.ENTITY_SHEEP_SHEAR, 1.0F, 1.0F);
         }
 
-    }
-
-    @Override
-    public void setTargetFinder(final ITargetFinder tracker)
-    {
-        this.targetFinder = tracker;
-    }
-
-    @Override
-    public ITargetFinder getTargetFinder()
-    {
-        return this.targetFinder;
     }
 }

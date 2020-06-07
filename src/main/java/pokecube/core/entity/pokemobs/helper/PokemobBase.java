@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
-import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.capabilities.DefaultPokemob;
+import pokecube.core.interfaces.capabilities.PokemobCaps;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
 import thut.api.entity.IMobColourable;
@@ -24,8 +24,7 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
     public PokemobBase(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
-        final DefaultPokemob cap = (DefaultPokemob) this.getCapability(CapabilityPokemob.POKEMOB_CAP, null).orElse(
-                null);
+        final DefaultPokemob cap = (DefaultPokemob) this.getCapability(PokemobCaps.POKEMOB_CAP, null).orElse(null);
         this.pokemobCap = cap == null ? new DefaultPokemob(this) : cap;
         this.size = EntitySize.fixed(cap.getPokedexEntry().width, cap.getPokedexEntry().height);
         this.enablePersistence();

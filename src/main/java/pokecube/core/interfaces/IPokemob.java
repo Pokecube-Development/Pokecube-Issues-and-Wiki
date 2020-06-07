@@ -178,7 +178,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default void onTick()
     {
-
+        this.tickTimeSinceCombat();
     }
 
     /**
@@ -267,6 +267,29 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      * changed to a boolean.
      */
     int getExplosionState();
+
+    /**
+     * @return number of ticks since the last time we noticed we were in combat
+     *         If this is negative or zero, we are in combat, otherwise we are
+     *         not
+     */
+    int timeSinceCombat();
+
+    /**
+     * Flags us in combat, should set timeSinceCombat to 0
+     */
+    void resetCombatTime();
+
+    /**
+     * Increments us being in combat, should increase resetCombatTime if angry,
+     * and decrease it if not
+     */
+    void tickTimeSinceCombat();
+
+    default boolean inCombat()
+    {
+        return this.timeSinceCombat() > -20;
+    }
 
     /**
      * @param index

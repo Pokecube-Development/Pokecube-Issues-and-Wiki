@@ -128,6 +128,12 @@ public class PokedexEntryLoader
             public float  alpha    = 1;
         }
 
+        public static class MatTexs
+        {
+            public String material = "";
+            public String tex      = "";
+        }
+
         // These three allow specific models/textures for evos
         public String key   = null;
         public String tex   = null;
@@ -137,9 +143,11 @@ public class PokedexEntryLoader
         public String parent = null;
 
         public List<TexColours> colours = Lists.newArrayList();
+        public List<MatTexs>    matTex  = Lists.newArrayList();
         public String[]         hidden  = {};
 
         public Map<String, TexColours>  _colourMap_ = Maps.newHashMap();
+        public Map<String, MatTexs>     _matsMap_   = Maps.newHashMap();
         public Set<String>              _hide_      = Sets.newHashSet();
         private final List<FormeHolder> _matches    = Lists.newArrayList();
 
@@ -194,6 +202,7 @@ public class PokedexEntryLoader
                         this.hidden = ours.toArray(new String[0]);
                     }
                     this.colours.addAll(p.colours);
+                    this.matTex.addAll(p.matTex);
                 }
                 if (this.hidden != null) for (final String element : this.hidden)
                 {
@@ -204,6 +213,11 @@ public class PokedexEntryLoader
                 {
                     c.material = ThutCore.trim(c.material);
                     this._colourMap_.put(c.material, c);
+                }
+                if (this.matTex != null) for (final MatTexs c : this.matTex)
+                {
+                    c.material = ThutCore.trim(c.material);
+                    this._matsMap_.put(c.material, c);
                 }
 
                 final ResourceLocation texl = this.tex != null ? PokecubeItems.toPokecubeResource(baseEntry.texturePath
@@ -804,7 +818,7 @@ public class PokedexEntryLoader
         for (final DefaultFormeHolder holder : list)
         {
             holder.getForme(entry);
-            PokecubeCore.LOGGER.debug("Loaded Forme: " + holder.key);
+            PokecubeCore.LOGGER.debug("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
         }
     }
 
@@ -1391,9 +1405,9 @@ public class PokedexEntryLoader
         if (stats != null) try
         {
             PokedexEntryLoader.initStats(entry, stats);
-            PokedexEntryLoader.initFormeModels(entry, xmlEntry.models);
             if (!init)
             {
+                PokedexEntryLoader.initFormeModels(entry, xmlEntry.models);
                 entry.breeds = xmlEntry.breed;
                 entry.isStarter = xmlEntry.starter;
                 entry.ridable = xmlEntry.ridable;

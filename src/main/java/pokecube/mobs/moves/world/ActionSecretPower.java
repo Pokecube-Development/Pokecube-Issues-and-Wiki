@@ -8,7 +8,6 @@ import pokecube.core.commands.SecretBase;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -22,7 +21,7 @@ public class ActionSecretPower implements IMoveAction
     @Override
     public boolean applyEffect(final IPokemob attacker, final Vector3 location)
     {
-        if (attacker.getCombatState(CombatStates.ANGRY)) return false;
+        if (attacker.inCombat()) return false;
         if (!(attacker.getOwner() instanceof ServerPlayerEntity)) return false;
         if (!MoveEventsHandler.canEffectBlock(attacker, location)) return false;
         // TODO secret base stuff.

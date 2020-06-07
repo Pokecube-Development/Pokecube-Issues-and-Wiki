@@ -1,7 +1,8 @@
 {
-    "variants": {
-        "": { 
-	"model": "pokecube:block/dynamax" 
-	}
-   }
+  "variants": {
+    "facing=north": { "model": "pokecube_legends:block/raidspawn_block", "y":180},
+    "facing=east":  { "model": "pokecube_legends:block/raidspawn_block", "y":270 },
+    "facing=south": { "model": "pokecube_legends:block/raidspawn_block", "y":0 },
+    "facing=west":  { "model": "pokecube_legends:block/raidspawn_block", "y":90 }
+  }
 }

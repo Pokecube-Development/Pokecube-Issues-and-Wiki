@@ -24,7 +24,7 @@ public class UltraUB1 extends Biome
     // Nhihilego/Xurkitree/Blacephalun
     public UltraUB1()
     {
-        //super(new Biome.Builder().precipitation(RainType.NONE).temperature(0.8f));
+        //@formatter:off
         super(new Biome.Builder()
         		.downfall(0f)
 				.depth(0.3f)
@@ -36,8 +36,9 @@ public class UltraUB1 extends Biome
 				.waterFogColor(-1)
 				.surfaceBuilder(
 						SurfaceBuilder.DEFAULT,
-						new SurfaceBuilderConfig(BlockInit.ULTRA_GRASSMUSS.getDefaultState(), BlockInit.ULTRA_DIRTMUSS.getDefaultState(),
-								BlockInit.ULTRA_DIRTMUSS.getDefaultState())));
+						new SurfaceBuilderConfig(BlockInit.ULTRA_GRASSMUSS.get().getDefaultState(), 
+						        BlockInit.ULTRA_DIRTMUSS.get().getDefaultState(),
+								BlockInit.ULTRA_DIRTMUSS.get().getDefaultState())));
 		//setRegistryName("testar");
 		DefaultBiomeFeatures.addCarvers(this);
 		DefaultBiomeFeatures.addStructures(this);

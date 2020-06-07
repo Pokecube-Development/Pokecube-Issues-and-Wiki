@@ -90,14 +90,18 @@ public interface ITerrainProvider
         final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
         synchronized (ITerrainProvider.lock)
         {
-            ITerrainProvider.loadedChunks.remove(pos);
+            if (ITerrainProvider.loadedChunks.containsKey(pos)) ITerrainProvider.loadedChunks.remove(pos);
         }
     }
 
     public static IChunk getChunk(final DimensionType dim, final ChunkPos cpos)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, cpos);
-        return ITerrainProvider.loadedChunks.get(pos);
+        synchronized (ITerrainProvider.lock)
+        {
+            if (!ITerrainProvider.loadedChunks.containsKey(pos)) return null;
+            return ITerrainProvider.loadedChunks.get(pos);
+        }
     }
 
     public static TerrainSegment removeCached(final DimensionType dim, final BlockPos pos)

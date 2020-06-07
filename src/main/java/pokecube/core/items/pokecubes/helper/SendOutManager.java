@@ -31,33 +31,40 @@ import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.TagNames;
 import pokecube.core.utils.Tools;
+import thut.api.entity.ICompoundMob;
+import thut.api.entity.ICompoundMob.ICompoundPart;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 
 public class SendOutManager
 {
-    private static Vector3 getFreeSpot(final AxisAlignedBB box, final ServerWorld world, final Vector3 pos)
+    private static Vector3 getFreeSpot(final Entity mob, final ServerWorld world, final Vector3 pos,
+            final boolean respectRoom)
     {
-        if (SendOutManager.valid(box, world, pos)) return pos;
-        final Vector3 found = pos.copy();
-        final int r = 5;
-        for (int y = 0; y < r; y++)
-            for (int x = 0; x < r; x++)
-                for (int z = 0; z < r; z++)
-                {
-                    found.set(pos).addTo(x, y, z);
-                    if (SendOutManager.valid(box.offset(x, y, z), world, found)) return found;
-                    found.set(pos).addTo(-x, y, z);
-                    if (SendOutManager.valid(box.offset(-x, y, z), world, found)) return found;
-                    found.set(pos).addTo(x, y, -z);
-                    if (SendOutManager.valid(box.offset(x, y, -z), world, found)) return found;
-                    found.set(pos).addTo(-x, y, -z);
-                    if (SendOutManager.valid(box.offset(-x, y, -z), world, found)) return found;
-                }
-        return pos;
+        AxisAlignedBB box = mob.getBoundingBox();
+        if (mob instanceof ICompoundMob) for (final ICompoundPart part : ((ICompoundMob) mob).getParts())
+            box = box.union(part.getMob().getBoundingBox());
+        if (SendOutManager.valid(box, world)) return pos.copy();
+        final int size = 10;
+        final Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector();
+        final long start = System.nanoTime();
+        // Starts at 1, as 0 is pos
+        for (int i = 1; i < size * size * size; i++)
+        {
+            final byte[] p = Tools.indexArr[i];
+            r.set(p);
+            rHat.set(r).norm();
+            r.scalarMultBy(0.25);
+            rAbs.set(r).addTo(pos);
+            final long diff = System.nanoTime() - start;
+            if (diff > 5e6) break;
+            if (!Vector3.isVisibleRange(world, pos, rHat, r.mag())) continue;
+            if (SendOutManager.valid(box.offset(r.x, r.y, r.z), world)) return rAbs;
+        }
+        return respectRoom ? null : pos.copy();
     }
 
-    private static boolean valid(final AxisAlignedBB box, final ServerWorld world, final Vector3 pos)
+    private static boolean valid(final AxisAlignedBB box, final ServerWorld world)
     {
         final Stream<VoxelShape> colliding = world.getCollisionShapes(null, box);
         final long num = colliding.count();
@@ -65,6 +72,11 @@ public class SendOutManager
     }
 
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon)
+    {
+        return SendOutManager.sendOut(cube, summon, true);
+    }
+
+    public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon, final boolean respectRoom)
     {
         if (cube.getEntityWorld().isRemote || cube.isReleasing()) return null;
         final ServerWorld world = (ServerWorld) cube.getEntityWorld();
@@ -95,7 +107,7 @@ public class SendOutManager
         // No mob or no perms?, then just refund the item and exit
         if (!hasMob || !hasPerms)
         {
-            if (isPlayers)
+            if (isPlayers && cube.shootingEntity.isAlive())
             {
                 Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
                 user.sendMessage(new TranslationTextComponent("pokecube.sendout.fail.noperms.general"));
@@ -106,18 +118,31 @@ public class SendOutManager
 
         // Fix the mob's position.
         Vector3 v = cube.v0.set(cube);
+
+        // If we are breaking out from capture, directly set to old spot
         if (cube.isCapturing) v.set(cube.capturePos);
+        // Otherwise look for free room, etc
         else
         {
-            v.set(v.intX() + 0.5, v.y, v.intZ() + 0.5);
+            v.set(v.intX() + 0.5, v.intY(), v.intZ() + 0.5);
             final BlockState state = v.getBlockState(cube.getEntityWorld());
             if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
+            // Ensure the mob's position is initialized properly first
+            v.moveEntity(mob);
+            v = SendOutManager.getFreeSpot(mob, world, v, respectRoom);
+            if (v == null)
+            {
+                if (isPlayers)
+                {
+                    Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
+                    user.sendMessage(new TranslationTextComponent("pokecube.noroom"));
+                    cube.remove();
+                }
+                return null;
+            }
         }
-        v.moveEntity(mob);
-        v = SendOutManager.getFreeSpot(mob.getBoundingBox(), world, v);
         mob.fallDistance = 0;
         v.moveEntity(mob);
-
         if (hasPokemob)
         {
             // Check permissions

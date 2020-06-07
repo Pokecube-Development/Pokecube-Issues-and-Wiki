@@ -18,18 +18,30 @@ import thut.api.entity.ICompoundMob;
 
 public abstract class PokemobHasParts extends PokemobCombat implements ICompoundMob
 {
-    private final PokemobPart[] parts;
+    private PokemobPart[] parts;
 
     int numWide = 0;
     int numTall = 0;
 
+    float last_size = 0;
+
     public PokemobHasParts(final EntityType<? extends ShoulderRidingEntity> type, final World worldIn)
     {
         super(type, worldIn);
-        final double maxH = PokecubeCore.getConfig().largeMobForSplit;
-        final double maxW = PokecubeCore.getConfig().largeMobForSplit;
-        // These are the conditions for splitting us into parts.
-        if (this.size.height > maxH || this.size.width > maxW)
+        this.initSizes(1);
+    }
+
+    protected void initSizes(final float size)
+    {
+        if (size == this.last_size) return;
+        this.last_size = size;
+
+        final float maxH = (float) PokecubeCore.getConfig().largeMobForSplit;
+        final float maxW = (float) PokecubeCore.getConfig().largeMobForSplit;
+        final float width = this.pokemobCap.getPokedexEntry().width * size;
+        final float height = this.pokemobCap.getPokedexEntry().height * size;
+
+        if (height > maxH || width > maxW)
         {
             this.numWide = MathHelper.ceil(this.pokemobCap.getPokedexEntry().width / maxW);
             this.numTall = MathHelper.ceil(this.pokemobCap.getPokedexEntry().height / maxH);
@@ -38,11 +50,15 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
             for (int y = 0; y < this.numTall; y++)
                 for (int x = 0; x < this.numWide; x++)
                     for (int z = 0; z < this.numWide; z++)
-                        this.parts[i++] = new PokemobPart(this, this.size.width / this.numWide, this.size.height
-                                / this.numTall, x, y, z);
-            this.size = EntitySize.fixed(1, 1);
+                        this.parts[i++] = new PokemobPart(this, width / this.numWide, height / this.numTall, x, y, z);
+            this.size = EntitySize.fixed(Math.min(1, maxW), Math.min(1, maxH));
         }
-        else this.parts = new PokemobPart[0];
+        else
+        {
+            this.size = EntitySize.fixed(width, height);
+            this.parts = new PokemobPart[0];
+        }
+        this.recalculateSize();
     }
 
     @Override
@@ -96,6 +112,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
 
     protected void updatePartsPos()
     {
+        this.initSizes(this.pokemobCap.getSize());
         if (this.parts.length > 0)
         {
             final double dx = this.numWide / this.size.width;
@@ -150,6 +167,7 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
     @Override
     public ICompoundPart[] getParts()
     {
+        this.updatePartsPos();
         return this.parts;
     }
 

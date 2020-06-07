@@ -28,7 +28,7 @@ import pokecube.core.interfaces.IMoveConstants.AIRoutine;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
-import thut.api.maths.Cruncher;
+import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 
@@ -53,24 +53,6 @@ public class NearBlocks extends Sensor<LivingEntity>
         public BlockState getState()
         {
             return this.state;
-        }
-    }
-
-    private static final int[][] indexArr = new int[32 * 32 * 32][3];
-
-    static
-    {
-        final Vector3 r = Vector3.getNewVector();
-        for (int i = 0; i < NearBlocks.indexArr.length; i++)
-        {
-            Cruncher.indexToVals(i, r);
-            if (Math.abs(r.y) <= 4)
-            {
-                NearBlocks.indexArr[i][0] = r.intX();
-                NearBlocks.indexArr[i][1] = r.intY();
-                NearBlocks.indexArr[i][2] = r.intZ();
-            }
-            else NearBlocks.indexArr[i] = null;
         }
     }
 
@@ -114,8 +96,8 @@ public class NearBlocks extends Sensor<LivingEntity>
 
         for (int i = 0; i < size * size * size; i++)
         {
-            final int[] pos = NearBlocks.indexArr[i];
-            if (pos == null) continue;
+            final byte[] pos = Tools.indexArr[i];
+            if (pos[1] > 4 || pos[1] < -4) continue;
             r.set(pos);
             rAbs.set(r).addTo(origin);
             if (rAbs.isAir(worldIn)) continue;

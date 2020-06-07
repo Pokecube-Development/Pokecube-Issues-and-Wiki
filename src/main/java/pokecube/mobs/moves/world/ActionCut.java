@@ -7,7 +7,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.events.MoveEventsHandler;
 import pokecube.core.interfaces.IMoveAction;
 import pokecube.core.interfaces.IPokemob;
-import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.moves.TreeRemover;
 import thut.api.maths.Vector3;
 
@@ -18,9 +17,9 @@ public class ActionCut implements IMoveAction
     }
 
     @Override
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyEffect(final IPokemob user, final Vector3 location)
     {
-        if (user.getCombatState(CombatStates.ANGRY)) return false;
+        if (user.inCombat()) return false;
         boolean used = false;
         int count = 10;
         final int level = user.getLevel();

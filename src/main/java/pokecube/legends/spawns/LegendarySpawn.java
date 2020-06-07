@@ -22,6 +22,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.PokedexEntry;
@@ -212,11 +213,22 @@ public class LegendarySpawn
 
     private final Predicate<ItemStack>  heldItemChecker;
     private final Predicate<BlockState> targetBlockChecker;
-    private final PokedexEntry          entry;
+
+    private final PokedexEntry entry;
 
     public LegendarySpawn(final String entry, final Item held, final Block target)
     {
         this(entry, (c) -> c.getItem() == held, (b) -> b.getBlock() == target);
+    }
+
+    public LegendarySpawn(final String entry, final RegistryObject<Item> held, final Block target)
+    {
+        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target);
+    }
+
+    public LegendarySpawn(final String entry, final RegistryObject<Item> held, final RegistryObject<Block> target)
+    {
+        this(entry, (c) -> c.getItem() == held.get(), (b) -> b.getBlock() == target.get());
     }
 
     public LegendarySpawn(final String entry, final Predicate<ItemStack> heldItemChecker,

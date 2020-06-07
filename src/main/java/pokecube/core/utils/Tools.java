@@ -39,6 +39,7 @@ import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
 import pokecube.core.interfaces.pokemob.moves.MovePacket;
 import pokecube.core.moves.MovesUtils;
+import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
@@ -155,6 +156,24 @@ public class Tools
     //@formatter:on
     // cache these in tables, for easier lookup.
     public static int[] maxXPs = { 800000, 1000000, 1059860, 1250000, 600000, 1640000 };
+
+    /**
+     * This is a cache of a radial lookup map, note that it only has +- 4 blocks
+     * along y, and has null for entries outside of that.
+     */
+    public static final byte[][] indexArr = new byte[32768][3];
+
+    static
+    {
+        final Vector3 r = Vector3.getNewVector();
+        for (int i = 0; i < Tools.indexArr.length; i++)
+        {
+            Cruncher.indexToVals(i, r);
+            Tools.indexArr[i][0] = (byte) r.intX();
+            Tools.indexArr[i][1] = (byte) r.intY();
+            Tools.indexArr[i][2] = (byte) r.intZ();
+        }
+    }
 
     public static int computeCatchRate(final IPokemob pokemob, final double cubeBonus)
     {
