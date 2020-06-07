@@ -118,24 +118,26 @@ public class SendOutManager
 
         // Fix the mob's position.
         Vector3 v = cube.v0.set(cube);
+
+        // If we are breaking out from capture, directly set to old spot
         if (cube.isCapturing) v.set(cube.capturePos);
+        // Otherwise look for free room, etc
         else
         {
             v.set(v.intX() + 0.5, v.intY() + 0.5, v.intZ() + 0.5);
             final BlockState state = v.getBlockState(cube.getEntityWorld());
             if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
-        }
-        v.moveEntity(mob);
-        v = SendOutManager.getFreeSpot(mob, world, v, respectRoom);
-        if (v == null)
-        {
-            if (isPlayers)
+            v = SendOutManager.getFreeSpot(mob, world, v, respectRoom);
+            if (v == null)
             {
-                Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
-                user.sendMessage(new TranslationTextComponent("pokecube.noroom"));
-                cube.remove();
+                if (isPlayers)
+                {
+                    Tools.giveItem((PlayerEntity) cube.shootingEntity, cube.getItem());
+                    user.sendMessage(new TranslationTextComponent("pokecube.noroom"));
+                    cube.remove();
+                }
+                return null;
             }
-            return null;
         }
         mob.fallDistance = 0;
         v.moveEntity(mob);
