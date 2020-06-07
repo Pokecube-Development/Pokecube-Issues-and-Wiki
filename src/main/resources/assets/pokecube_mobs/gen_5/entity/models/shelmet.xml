@@ -5,8 +5,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="shelmet">
    <part name="Head" tex="shelmethead"/>
-   <animation diffs="0.4,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.45" part="Head" trigger="random:0.005:5"/>
   </customTex>
-  <merges merge="idle->walking"/>
  </model>
 </ModelAnimator>

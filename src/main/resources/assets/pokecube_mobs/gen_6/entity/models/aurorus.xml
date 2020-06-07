@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg2:leg2_1" leftHind="leg4:leg4_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg1:leg1_1"/>
   <customTex default="aurorus">
    <part name="Head" tex="auroruseye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <material name="Glow" light="0.5" transluscent="false"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>

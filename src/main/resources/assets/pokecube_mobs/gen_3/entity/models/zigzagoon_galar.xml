@@ -5,7 +5,7 @@
    <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="-1"/>
    <customTex default="zigzagoongalar">
    <part name="Head" tex="zigzagoongalarhead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

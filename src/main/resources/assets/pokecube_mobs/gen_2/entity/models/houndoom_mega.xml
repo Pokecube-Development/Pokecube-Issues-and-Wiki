@@ -12,7 +12,7 @@
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4"/>
   <customTex default="houndoommega">
    <part name="Head" tex="houndoommegahead"/>
-   <animation diffs="0,0.49" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

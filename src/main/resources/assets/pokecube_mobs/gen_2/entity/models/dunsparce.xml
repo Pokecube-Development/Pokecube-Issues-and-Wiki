@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
   <customTex default="dunsparce">
    <part name="Head" tex="dunsparceeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.405" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

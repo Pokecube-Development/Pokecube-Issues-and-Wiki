@@ -4,10 +4,10 @@
 	<phase name="global" scale="0.65"/>
 	<metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="1"/>
 	<customTex default="spinarak">
-	<part name="Head" tex="spinarakhead"/>
-	<animation diffs="0,0.43" part="Head" trigger="random:0.005:20"/>
+	<part name="Head" tex="spinarakeye"/>
+	<animation diffs="0,0.42" part="Head" trigger="random:0.005:5"/>
 	<part name="Face" tex="spinarakhead"/>
-	<animation diffs="0.35,0" part="Face" trigger="random:0.005:20"/>
+	<animation diffs="0.5,0" part="Face" trigger="random:0.005:50"/>
 	</customTex>
 	<phase type="idle">
 	<part name="leg1">

@@ -3,10 +3,10 @@
  <model name="">
   <phase name="global" scale="0.5"/>
   <customTex default="lanturn">
-   <part name="Head" tex="lanturnhead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:21"/>
+   <part name="Head" tex="lanturneye"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
-  <material name="Light" light="1" transluscent="true"/>
+  <material name="Light" light="1" transluscent="false"/>
   <phase type="idle">
    <part name="mouth">
     <component length="10" name="1" rotChange="-2,0,0" startKey="0"/>

@@ -15,7 +15,7 @@
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:tail10:tail11"/>
   <customTex default="rayquaza">
    <part name="Eye" tex="rayquazahead"/>
-   <animation diffs="0,0.48" part="Eye" trigger="random:0.005:25"/>
+   <animation diffs="0,0.51" part="Eye" trigger="random:0.005:25"/>
   </customTex>
   <material name="Light" light="1" transluscent="false"/>
   <phase type="sitting">

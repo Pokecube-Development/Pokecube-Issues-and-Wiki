@@ -8,7 +8,8 @@
   <phase axis="0" name="snakeWalk" parts="tail2_1:tail2_2:tail2_3:tail2_4:tail2_5"/>
   <customTex default="electivire">
    <part name="Head" tex="electivirehead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <part name="B" tex="electivirehead"/>
+   <animation diffs="0.499,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

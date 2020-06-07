@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <X3D>
 	<head>
-		<meta name="filename" content="linoonegalar.x3d" />
+		<meta name="filename" content="linoone_galar.x3d" />
 		<meta name="generator" content="Blender 2.79 (sub 0)" />
 	</head>
 	<Scene>
@@ -497,40 +497,6 @@
 								</Transform>
 							</Transform>
 						</Transform>
-						<Transform DEF="eye_001_TRANSFORM"
-						           translation="-0.372982 -0.810996 -0.136283"
-						           scale="1.000000 1.000000 1.000000"
-						           rotation="1.000000 0.000000 0.000000 0.000000"
-						           >
-							<Transform DEF="eye_001_ifs_TRANSFORM"
-							           translation="0.000000 0.000000 0.000000"
-							           scale="1.000000 1.000000 1.000000"
-							           rotation="1.000000 0.000000 0.000000 0.000000"
-							           >
-								<Group DEF="group_ME_Cube_027">
-									<Shape>
-										<Appearance>
-											<Material DEF="MA_Eye"
-											          diffuseColor="0.800 0.800 0.800"
-											          specularColor="0.401 0.401 0.401"
-											          emissiveColor="0.000 0.000 0.000"
-											          ambientIntensity="0.333"
-											          shininess="0.098"
-											          transparency="0.0"
-											          />
-										</Appearance>
-										<IndexedTriangleSet solid="true"
-										                    normalPerVertex="true"
-										                    index="0 1 2 0 2 3 "
-										                    >
-											<Coordinate point="0.073567 -0.136027 -0.101579 0.077096 -0.158450 0.056422 -0.073152 0.136236 0.101599 -0.076681 0.158659 -0.056402 " />
-											<Normal vector="-0.892727 -0.448439 -0.043703 -0.892727 -0.448439 -0.043703 -0.892727 -0.448439 -0.043703 -0.892727 -0.448439 -0.043703 " />
-											<TextureCoordinate point="0.4896 0.2138 0.4896 0.7862 0.0473 0.7862 0.0473 0.2138 " />
-										</IndexedTriangleSet>
-									</Shape>
-								</Group>
-							</Transform>
-						</Transform>
 						<Transform DEF="Cube_001_TRANSFORM"
 						           translation="-0.337872 -0.823750 -0.124433"
 						           scale="1.000000 1.000000 1.000000"
@@ -679,15 +645,22 @@
 								<Group DEF="group_ME_Cube">
 									<Shape>
 										<Appearance>
-											<Material USE="MA_Eye" />
+											<Material DEF="MA_Eye"
+											          diffuseColor="0.800 0.800 0.800"
+											          specularColor="0.401 0.401 0.401"
+											          emissiveColor="0.000 0.000 0.000"
+											          ambientIntensity="0.333"
+											          shininess="0.098"
+											          transparency="0.0"
+											          />
 										</Appearance>
 										<IndexedTriangleSet solid="true"
 										                    normalPerVertex="true"
-										                    index="0 1 2 0 2 3 "
+										                    index="0 1 2 0 2 3 4 5 6 4 6 7 "
 										                    >
-											<Coordinate point="-0.073567 -0.136027 -0.101579 0.076681 0.158659 -0.056402 0.073152 0.136236 0.101599 -0.077096 -0.158450 0.056422 " />
-											<Normal vector="0.892727 -0.448439 -0.043703 0.892727 -0.448439 -0.043703 0.892727 -0.448439 -0.043703 0.892727 -0.448439 -0.043703 " />
-											<TextureCoordinate point="0.4896 0.2138 0.0473 0.2138 0.0473 0.7862 0.4896 0.7862 " />
+											<Coordinate point="-0.073567 -0.136027 -0.101579 0.076681 0.158659 -0.056402 0.073152 0.136236 0.101599 -0.077096 -0.158450 0.056422 -0.664066 -0.136027 -0.101579 -0.660538 -0.158450 0.056422 -0.810786 0.136235 0.101599 -0.814314 0.158659 -0.056402 " />
+											<Normal vector="0.892727 -0.448439 -0.043703 0.892727 -0.448439 -0.043703 0.892727 -0.448439 -0.043703 0.892727 -0.448439 -0.043703 -0.892727 -0.448439 -0.043703 -0.892727 -0.448439 -0.043703 -0.892727 -0.448439 -0.043703 -0.892727 -0.448439 -0.043703 " />
+											<TextureCoordinate point="0.8276 0.5388 0.1916 0.5388 0.1916 0.8353 0.8276 0.8353 0.8276 0.5388 0.8276 0.8353 0.1916 0.8353 0.1916 0.5388 " />
 										</IndexedTriangleSet>
 									</Shape>
 								</Group>

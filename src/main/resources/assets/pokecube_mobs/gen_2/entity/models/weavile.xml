@@ -6,9 +6,9 @@
   <phase duration="10" leftArm="" leftLeg="leg2" legAngle="25" name="biWalk" rightArm="" rightLeg="leg1"/>
   <customTex default="weavile">
    <part name="Head" tex="weavileeye"/>
-   <animation diffs="0,0.51" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.3" part="Head" trigger="random:0.005:3"/>
    <part name="Mouth" tex="weavilemouth"/>
-   <animation diffs="0,0.51" part="Mouth" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

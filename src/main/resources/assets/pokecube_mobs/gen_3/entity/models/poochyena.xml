@@ -3,10 +3,10 @@
  <model name="">
   <phase name="global" scale="0.35"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-10,10" headDir="-1"/>
   <customTex default="poochyena">
    <part name="Head" tex="poochyenahead"/>
-   <animation diffs="0.4905,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.53,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

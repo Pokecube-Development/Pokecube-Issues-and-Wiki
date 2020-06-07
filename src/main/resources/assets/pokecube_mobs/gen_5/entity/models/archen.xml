@@ -6,8 +6,7 @@
   <phase duration="6" leftArm="arm2" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="arm1" rightLeg="leg2"/>
   <customTex default="archen">
    <part name="Head" tex="archenhead"/>
-   <animation diffs="0,0.33" part="Head" trigger="random:0.005:1"/>
-   <animation diffs="0,0.50" part="Head" trigger="sleeping"/>
+   <animation diffs="0,0.48" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase type="idle">
    <part name="wing1">
