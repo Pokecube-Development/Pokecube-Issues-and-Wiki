@@ -306,6 +306,7 @@
     "pokecube.mega.noring": "§cYou are not wearing anything that will allow §6%1$s §cto mega evolve!",
 
     "pokecube.professor.deny": "Professor: §cYou have already recieved a Pokémob",
+    "pokecube.login.find_prof_or_config": "§aYou should look for the Professor to get your first pokemob, or enable guiOnLogin in the configs.",
 
     "_comment": "Blocks",
 
