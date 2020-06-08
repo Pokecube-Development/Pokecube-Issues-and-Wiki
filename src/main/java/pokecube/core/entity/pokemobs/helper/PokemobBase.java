@@ -14,10 +14,11 @@ import pokecube.core.interfaces.capabilities.DefaultPokemob;
 import pokecube.core.interfaces.capabilities.PokemobCaps;
 import pokecube.core.interfaces.pokemob.ai.CombatStates;
 import pokecube.core.interfaces.pokemob.ai.GeneralStates;
+import thut.api.entity.ICompoundMob;
 import thut.api.entity.IMobColourable;
 
 public abstract class PokemobBase extends ShoulderRidingEntity implements IEntityAdditionalSpawnData, IFlyingAnimal,
-        IMobColourable
+        IMobColourable, ICompoundMob
 {
     public final DefaultPokemob pokemobCap;
 
@@ -40,13 +41,14 @@ public abstract class PokemobBase extends ShoulderRidingEntity implements IEntit
             scale = Math.min(1, (this.ticksExisted + 1) / (float) LogicMiscUpdate.EXITCUBEDURATION);
             size = Math.max(0.1f, scale);
         }
-        this.ignoreFrustumCheck = false;
         if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX))
         {
             // Since we don't change hitbox, we need toset this here.
             this.ignoreFrustumCheck = true;
             size = (float) (PokecubeCore.getConfig().dynamax_scale / this.pokemobCap.getMobSizes().y);
         }
+        // Reset this if we set it from dynamaxing
+        else if (this.getParts().length == 0) this.ignoreFrustumCheck = false;
         return size;
     }
 
