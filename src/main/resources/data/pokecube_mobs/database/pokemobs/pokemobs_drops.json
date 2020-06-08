@@ -672,13 +672,13 @@
     {
       "name": "Shellder",
       "stats": {
-        "lootTable": "pokecube:entities/enderpearls_1"
+        "lootTable": "pokecube:entities/shulker_pearls_1"
       }
     },
     {
       "name": "Cloyster",
       "stats": {
-        "lootTable": "pokecube:entities/enderpearls_1"
+        "lootTable": "pokecube:entities/shulker_pearls_2"
       }
     },
     {
@@ -2257,7 +2257,7 @@
     {
       "name": "Clamperl",
       "stats": {
-        "lootTable": "pokecube:entities/fish_1"
+        "lootTable": "pokecube:entities/shulker_pearls_1"
       }
     },
     {
