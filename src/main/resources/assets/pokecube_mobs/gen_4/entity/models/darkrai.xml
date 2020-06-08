@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <customTex default="darkrai">
    <part name="Head" tex="darkraihead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.49" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body">

@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <customTex default="avalugg">
    <part name="Head" tex="avaluggeye"/>
-   <animation diffs="0,0.51" part="Head" trigger="random:0.005:6"/>
+   <animation diffs="0,0.51" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="body">

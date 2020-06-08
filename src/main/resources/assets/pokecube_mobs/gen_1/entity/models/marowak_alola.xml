@@ -6,7 +6,7 @@
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="marowakalola">
    <part name="Head" tex="marowakalolaeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:2"/>
   </customTex>
   <material name="Glow" light="1" transluscent="true"/>
   <phase type="sitting">

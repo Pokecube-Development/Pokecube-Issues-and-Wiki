@@ -4,7 +4,7 @@
   <phase headAxis="1" headCap="-50,50" name="global" scale="0.43"/>
   <customTex default="pelipper">
    <part name="Head" tex="pelipperhead"/>
-   <animation diffs="0.47,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.4,0" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="wing1">

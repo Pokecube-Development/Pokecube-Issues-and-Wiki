@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="arm1" leftLeg="leg1" legAngle="20" name="biWalk" rightArm="arm2" rightLeg="leg2"/>
   <customTex default="nuzleaf">
    <part name="Head" tex="nuzleafhead"/>
-   <animation diffs="0,0.475" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.45" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="leaf1">

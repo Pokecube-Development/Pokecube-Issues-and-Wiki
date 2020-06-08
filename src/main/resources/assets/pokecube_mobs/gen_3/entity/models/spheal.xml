@@ -4,7 +4,7 @@
   <phase name="global" scale="0.45"/>
   <customTex default="spheal">
    <part name="Head" tex="sphealhead"/>
-   <animation diffs="0.45,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

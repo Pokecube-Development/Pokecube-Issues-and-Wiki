@@ -5,7 +5,7 @@
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <customTex default="mamoswine">
    <part name="Head" tex="mamoswinehead"/>
-   <animation diffs="0,0.348" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.493" part="Head" trigger="random:0.005:3"/>
   </customTex>
  </model>
 </ModelAnimator>

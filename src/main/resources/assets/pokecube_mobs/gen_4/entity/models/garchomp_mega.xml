@@ -8,7 +8,8 @@
   <phase axis="0" length="20" name="snakeFly" parts="tail1:tail2:tail3:tail4:tail5"/>
   <customTex default="garchompmega">
    <part name="Head" tex="garchompmegahead"/>
-   <animation diffs="0,0.305" part="Head" trigger="random:0.005:1"/>
+   <part name="B" tex="garchompmegabody"/>
+   <animation diffs="0,0.35" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="body1">

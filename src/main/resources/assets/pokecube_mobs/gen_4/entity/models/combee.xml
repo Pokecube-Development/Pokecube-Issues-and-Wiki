@@ -4,8 +4,10 @@
   <phase name="global" scale="0.08"/>
   <phase female="f" male="m" name="textures"/>
   <customTex default="combee">
-   <part name="Head" tex="combeeeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="combeey"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+   <part name="Face" tex="combeeeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="wing1">

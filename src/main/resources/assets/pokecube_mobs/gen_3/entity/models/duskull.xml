@@ -2,12 +2,15 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.3"/>
-  <material name="Eye" light="1" transluscent="true"/>
+  <customTex default="duskull">
+   <part name="Eye" tex="duskullhead"/>
+  </customTex>
+  <material name="Eye" light="1" transluscent="false"/>
   <phase type="idle">
    <part name="eye">
-    <component length="10" name="1" posChange="-7,0,0," startKey="0"/>
-    <component length="10" name="2" posChange="14,0,0," startKey="10"/>
-    <component length="10" name="3" posChange="-7,0,0," startKey="20"/>
+    <component length="10" name="1" posChange="10,0,0" startKey="0"/>
+    <component length="10" name="2" posChange="-20,0,0" startKey="10"/>
+    <component length="10" name="3" posChange="10,0,0" startKey="20"/>
    </part>
    <part name="hair1">
     <component length="6" name="1" rotChange="3,0,0," rotOffset="0,0,0," startKey="0"/>
@@ -24,11 +27,32 @@
     <component length="1" name="1" rotOffset="0,-60,-80," startKey="0"/>
    </part>
   </phase>
+  <phase type="walking">
+   <part name="eye">
+    <component length="10" name="1" posChange="0,2,0," posOffset="3,0,0," startKey="0"/>
+    <component length="10" name="2" posChange="0,-2,0," startKey="10"/>
+   </part>
+   <part name="hair1">
+    <component length="6" name="1" rotChange="3,0,0," rotOffset="0,0,0," startKey="0"/>
+    <component length="6" name="2" rotChange="-3,0,0," startKey="10"/>
+   </part>
+   <part name="tail">
+    <component length="6" name="1" rotChange="3,0,0," rotOffset="0,0,0," startKey="0"/>
+    <component length="6" name="2" rotChange="-3,0,0," startKey="10"/>
+   </part>
+   <part name="arm1">
+    <component length="6" name="1" rotChange="0,0,6," rotOffset="0,30,0," startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,-6," startKey="10"/>
+   </part>
+   <part name="arm2">
+    <component length="6" name="1" rotChange="0,0,-6," rotOffset="0,-30,0," startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,6," startKey="10"/>
+   </part>
+  </phase>
   <phase type="flying">
    <part name="eye">
-    <component length="16" name="1" posChange="-7,0,0," startKey="0"/>
-    <component length="10" name="2" posChange="14,0,0," startKey="10"/>
-    <component length="16" name="3" posChange="-7,0,0," startKey="20"/>
+    <component length="10" name="1" posChange="0,2,0," posOffset="3,0,0," startKey="0"/>
+    <component length="10" name="2" posChange="0,-2,0," startKey="10"/>
    </part>
    <part name="hair1">
     <component length="6" name="1" rotChange="3,0,0," rotOffset="0,0,0," startKey="0"/>

@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="" leftHind="leg2" name="quadWalk" rightFront="" rightHind="leg1"/>
   <customTex default="walrein">
    <part name="Head" tex="walreinhead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="idle">
    <part name="tail">

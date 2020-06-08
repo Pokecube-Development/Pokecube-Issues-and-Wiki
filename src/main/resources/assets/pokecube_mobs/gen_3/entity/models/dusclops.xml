@@ -5,7 +5,7 @@
   <phase armAngle="20" duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="dusclops">
    <part name="Head" tex="dusclopshead"/>
-   <animation diffs="-0.37,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.46,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="hair1">

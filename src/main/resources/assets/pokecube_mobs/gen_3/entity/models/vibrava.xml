@@ -5,7 +5,7 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
   <customTex default="vibrava">
    <part name="Head" tex="vibravahead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.45,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="body">

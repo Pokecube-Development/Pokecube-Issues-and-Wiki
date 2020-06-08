@@ -497,40 +497,6 @@
 								</Transform>
 							</Transform>
 						</Transform>
-						<Transform DEF="eye_001_TRANSFORM"
-						           translation="-0.373785 -0.782637 -0.136283"
-						           scale="1.000000 1.000000 1.000000"
-						           rotation="1.000000 0.000000 0.000000 0.000000"
-						           >
-							<Transform DEF="eye_001_ifs_TRANSFORM"
-							           translation="0.000000 0.000000 0.000000"
-							           scale="1.000000 1.000000 1.000000"
-							           rotation="1.000000 0.000000 0.000000 0.000000"
-							           >
-								<Group DEF="group_ME_Cube_002">
-									<Shape>
-										<Appearance>
-											<Material DEF="MA_Eye"
-											          diffuseColor="0.800 0.800 0.800"
-											          specularColor="0.401 0.401 0.401"
-											          emissiveColor="0.000 0.000 0.000"
-											          ambientIntensity="0.333"
-											          shininess="0.098"
-											          transparency="0.0"
-											          />
-										</Appearance>
-										<IndexedTriangleSet solid="true"
-										                    normalPerVertex="true"
-										                    index="0 1 2 0 2 3 "
-										                    >
-											<Coordinate point="0.073567 -0.125834 -0.113963 0.077096 -0.163068 0.041217 -0.073152 0.126039 0.114002 -0.076681 0.163274 -0.041177 " />
-											<Normal vector="-0.892727 -0.442335 -0.085818 -0.892727 -0.442335 -0.085818 -0.892727 -0.442335 -0.085818 -0.892727 -0.442335 -0.085818 " />
-											<TextureCoordinate point="0.4617 0.2148 0.4617 0.7539 0.1068 0.7539 0.1068 0.2148 " />
-										</IndexedTriangleSet>
-									</Shape>
-								</Group>
-							</Transform>
-						</Transform>
 						<Transform DEF="eye_TRANSFORM"
 						           translation="0.376451 -0.782637 -0.136283"
 						           scale="1.000000 1.000000 1.000000"
@@ -544,15 +510,22 @@
 								<Group DEF="group_ME_Cube">
 									<Shape>
 										<Appearance>
-											<Material USE="MA_Eye" />
+											<Material DEF="MA_Eye"
+											          diffuseColor="0.800 0.800 0.800"
+											          specularColor="0.401 0.401 0.401"
+											          emissiveColor="0.000 0.000 0.000"
+											          ambientIntensity="0.333"
+											          shininess="0.098"
+											          transparency="0.0"
+											          />
 										</Appearance>
 										<IndexedTriangleSet solid="true"
 										                    normalPerVertex="true"
-										                    index="0 1 2 0 2 3 "
+										                    index="0 1 2 0 2 3 4 5 6 4 6 7 "
 										                    >
-											<Coordinate point="-0.073567 -0.125834 -0.113963 0.076681 0.163274 -0.041177 0.073152 0.126039 0.114002 -0.077096 -0.163068 0.041217 " />
-											<Normal vector="0.892727 -0.442335 -0.085818 0.892727 -0.442335 -0.085818 0.892727 -0.442335 -0.085818 0.892727 -0.442335 -0.085818 " />
-											<TextureCoordinate point="0.4617 0.2148 0.1068 0.2148 0.1068 0.7539 0.4617 0.7539 " />
+											<Coordinate point="-0.073567 -0.125834 -0.113963 0.076681 0.163274 -0.041177 0.073152 0.126040 0.114002 -0.077096 -0.163068 0.041217 -0.676669 -0.125834 -0.113963 -0.673140 -0.163068 0.041217 -0.823388 0.126040 0.114002 -0.826917 0.163274 -0.041177 " />
+											<Normal vector="0.892727 -0.442335 -0.085818 0.892727 -0.442335 -0.085818 0.892727 -0.442335 -0.085818 0.892727 -0.442335 -0.085818 -0.892727 -0.442335 -0.085818 -0.892727 -0.442335 -0.085818 -0.892727 -0.442335 -0.085818 -0.892727 -0.442335 -0.085818 " />
+											<TextureCoordinate point="0.7452 0.5535 0.2137 0.5535 0.2137 0.8343 0.7452 0.8343 0.7452 0.5535 0.7452 0.8343 0.2137 0.8343 0.2137 0.5535 " />
 										</IndexedTriangleSet>
 									</Shape>
 								</Group>

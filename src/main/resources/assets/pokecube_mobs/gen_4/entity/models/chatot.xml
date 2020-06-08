@@ -7,7 +7,7 @@
   <phase angle="25" axis="2" duration="10" leftWing="wing1" name="flap" rightWing="wing2" start="0"/>
   <customTex default="chatot">
    <part name="Head" tex="chatothead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.4,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="wing1">
