@@ -28,13 +28,19 @@ public class PackFinder implements IPackFinder
     public final List<IResourcePack>    allPacks         = Lists.newArrayList();
     public Set<IResourcePack>           folderPacks      = Sets.newHashSet();
 
-    private final FolderPackFinder folderFinder;
+    private final FolderPackFinder folderFinder_old;
+    private final FolderPackFinder folderFinder_new;
 
     public PackFinder(final ResourcePackInfo.IFactory<ResourcePackInfo> packInfoFactoryIn)
     {
-        final File folder = new File(FMLPaths.GAMEDIR.get().toFile(), "resourcepacks");
-        PokecubeCore.LOGGER.debug("Setting resourcepacks folder as: {}", folder);
-        this.folderFinder = new FolderPackFinder(folder);
+        File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
+        folder.mkdirs();
+        PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
+        this.folderFinder_old = new FolderPackFinder(folder);
+        folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
+        folder.mkdirs();
+        PokecubeCore.LOGGER.debug("Adding data folder: {}", folder);
+        this.folderFinder_new = new FolderPackFinder(folder);
         this.init(packInfoFactoryIn);
     }
 
@@ -54,11 +60,19 @@ public class PackFinder implements IPackFinder
         final Map<String, ResourcePackInfo> map = Maps.newHashMap();
         try
         {
-            this.folderFinder.addPackInfosToMap(map, packInfoFactoryIn);
+            this.folderFinder_old.addPackInfosToMap(map, packInfoFactoryIn);
         }
         catch (final Exception e)
         {
             PokecubeCore.LOGGER.fatal("Error checking resourcepacks for data!", e);
+        }
+        try
+        {
+            this.folderFinder_new.addPackInfosToMap(map, packInfoFactoryIn);
+        }
+        catch (final Exception e)
+        {
+            PokecubeCore.LOGGER.fatal("Error checking config/pokecube/datapacks for data!", e);
         }
 
         for (final ResourcePackInfo info : map.values())

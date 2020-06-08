@@ -14,9 +14,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import pokecube.core.PokecubeCore;
-import thut.api.entity.ICompoundMob;
 
-public abstract class PokemobHasParts extends PokemobCombat implements ICompoundMob
+public abstract class PokemobHasParts extends PokemobCombat
 {
     private PokemobPart[] parts;
 
@@ -52,11 +51,13 @@ public abstract class PokemobHasParts extends PokemobCombat implements ICompound
                     for (int z = 0; z < this.numWide; z++)
                         this.parts[i++] = new PokemobPart(this, width / this.numWide, height / this.numTall, x, y, z);
             this.size = EntitySize.fixed(Math.min(1, maxW), Math.min(1, maxH));
+            this.ignoreFrustumCheck = true;
         }
         else
         {
             this.size = EntitySize.fixed(width, height);
             this.parts = new PokemobPart[0];
+            this.ignoreFrustumCheck = false;
         }
         this.recalculateSize();
     }
