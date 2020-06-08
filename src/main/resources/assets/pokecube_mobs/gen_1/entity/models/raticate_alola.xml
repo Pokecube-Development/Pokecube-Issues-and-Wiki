@@ -8,7 +8,7 @@
   <customTex default="raticatealola">
    <part name="Head" tex="raticatealolaeye"/>
    <part name="M" tex="raticatealolae"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:15"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

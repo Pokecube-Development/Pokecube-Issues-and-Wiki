@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg2" leftHind="leg4" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <customTex default="amaura">
    <part name="Head" tex="amauraeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <material name="Glow" light="0.6" transluscent="false"/>
   <phase type="idle">

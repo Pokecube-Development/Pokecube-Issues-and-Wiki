@@ -36,7 +36,7 @@
   
   <customTex default="rayquazamega">
    <part name="Eye" tex="rayquazamegahead"/>
-   <animation diffs="0,0.48" part="Eye" trigger="random:0.005:25"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:25"/>
    <part name="Part" tex="mark"/>
   </customTex>
   <material name="Light" light="1" transluscent="false"/>

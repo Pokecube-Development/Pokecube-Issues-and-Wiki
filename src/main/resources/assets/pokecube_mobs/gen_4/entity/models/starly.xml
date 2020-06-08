@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="starly">
    <part name="Head" tex="starlyhead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+   <animation diffs="0,0.45" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="mouth">

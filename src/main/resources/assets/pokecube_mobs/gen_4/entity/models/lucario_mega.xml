@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator version="0.1">
  <model name="">
-  <phase name="global" scale="0.24"/>
+  <phase name="global" scale="0.2"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headDir="-1"/>
   <worn angles="-90,0,0" id="__HAT__" offset="0,0.8,0.1" parent="head" scale="1.8,1.5,1.5"/>
   <worn angles="-90,0,0" id="__EYE__" offset="0,0.72,0.05" parent="head" scale="1.8"/>
@@ -27,7 +27,9 @@
   <phase axis="0" length="55" name="snakeWalk" parts="p4:p4_1:p4_2"/>
   <customTex default="lucariomega">
    <part name="Head" tex="lucariomegahead"/>
-   <animation diffs="0,0.265" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.35" part="Head" trigger="random:0.005:3"/>
+   <part name="Mark" tex="lucariomegamark"/>
+   <part name="H" tex="lucariomegahead"/>
   </customTex>
   <phase type="sitting">
    <part name="cint">

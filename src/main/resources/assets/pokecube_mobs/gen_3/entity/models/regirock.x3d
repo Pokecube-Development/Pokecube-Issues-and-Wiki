@@ -27,7 +27,7 @@
 				<Group DEF="group_ME_body">
 					<Shape>
 						<Appearance>
-							<ImageTexture DEF="IM_Regice_png"
+							<ImageTexture DEF="IM_Regrock_png"
 							              />
 						</Appearance>
 						<IndexedTriangleSet solid="false"
@@ -54,7 +54,7 @@
 					<Group DEF="group_ME_leg2">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Regice_png" />
+								<ImageTexture USE="IM_Regrock_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -80,7 +80,7 @@
 						<Group DEF="group_ME_Cube_002">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Regice_png" />
+									<ImageTexture USE="IM_Regrock_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -106,7 +106,7 @@
 							<Group DEF="group_ME_Cube_003">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Regice_png" />
+										<ImageTexture USE="IM_Regrock_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -135,7 +135,7 @@
 					<Group DEF="group_ME_Cube_015">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Regice_png" />
+								<ImageTexture USE="IM_Regrock_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -162,7 +162,7 @@
 					<Group DEF="group_ME_Cube_016">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Regice_png" />
+								<ImageTexture USE="IM_Regrock_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -189,7 +189,7 @@
 					<Group DEF="group_ME_body1">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Regice_png" />
+								<ImageTexture USE="IM_Regrock_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -215,7 +215,7 @@
 						<Group DEF="group_ME_arm2">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Regice_png" />
+									<ImageTexture USE="IM_Regrock_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -241,7 +241,7 @@
 							<Group DEF="group_ME_Cube_001">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Regice_png" />
+										<ImageTexture USE="IM_Regrock_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -268,7 +268,7 @@
 							<Group DEF="group_ME_arm2_1">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Regice_png" />
+										<ImageTexture USE="IM_Regrock_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -294,7 +294,7 @@
 								<Group DEF="group_ME_arm2_2">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Regice_png" />
+											<ImageTexture USE="IM_Regrock_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -320,7 +320,7 @@
 									<Group DEF="group_ME_arm2_3">
 										<Shape>
 											<Appearance>
-												<ImageTexture USE="IM_Regice_png" />
+												<ImageTexture USE="IM_Regrock_png" />
 											</Appearance>
 											<IndexedTriangleSet solid="false"
 											                    normalPerVertex="true"
@@ -346,7 +346,7 @@
 										<Group DEF="group_ME_hand2">
 											<Shape>
 												<Appearance>
-													<ImageTexture USE="IM_Regice_png" />
+													<ImageTexture USE="IM_Regrock_png" />
 												</Appearance>
 												<IndexedTriangleSet solid="false"
 												                    normalPerVertex="true"
@@ -377,7 +377,7 @@
 						<Group DEF="group_ME_Cube_017">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Regice_png" />
+									<ImageTexture USE="IM_Regrock_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -404,7 +404,7 @@
 						<Group DEF="group_ME_arm1">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Regice_png" />
+									<ImageTexture USE="IM_Regrock_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -430,7 +430,7 @@
 							<Group DEF="group_ME_arm1_1">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Regice_png" />
+										<ImageTexture USE="IM_Regrock_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -456,7 +456,7 @@
 								<Group DEF="group_ME_arm1_2">
 									<Shape>
 										<Appearance>
-											<ImageTexture USE="IM_Regice_png" />
+											<ImageTexture USE="IM_Regrock_png" />
 										</Appearance>
 										<IndexedTriangleSet solid="false"
 										                    normalPerVertex="true"
@@ -482,7 +482,7 @@
 									<Group DEF="group_ME_arm1_3">
 										<Shape>
 											<Appearance>
-												<ImageTexture USE="IM_Regice_png" />
+												<ImageTexture USE="IM_Regrock_png" />
 											</Appearance>
 											<IndexedTriangleSet solid="false"
 											                    normalPerVertex="true"
@@ -508,7 +508,7 @@
 										<Group DEF="group_ME_hand1">
 											<Shape>
 												<Appearance>
-													<ImageTexture USE="IM_Regice_png" />
+													<ImageTexture USE="IM_Regrock_png" />
 												</Appearance>
 												<IndexedTriangleSet solid="false"
 												                    normalPerVertex="true"
@@ -538,7 +538,7 @@
 							<Group DEF="group_ME_Cube_009">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Regice_png" />
+										<ImageTexture USE="IM_Regrock_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"
@@ -566,7 +566,7 @@
 						<Group DEF="group_ME_head">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Regice_png" />
+									<ImageTexture USE="IM_Regrock_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -574,7 +574,7 @@
 								                    >
 									<Coordinate point="0.485337 -0.491813 0.105944 0.493819 -0.504440 -0.002792 0.493819 0.504440 -0.002792 0.485337 0.491813 0.105944 -0.000000 0.491813 0.105944 -0.000000 0.504440 -0.002792 -0.493819 0.504440 -0.002792 -0.485337 0.491813 0.105944 -0.485337 0.491813 0.105944 -0.493819 0.504440 -0.002792 -0.493819 -0.504440 -0.002792 -0.485337 -0.491813 0.105944 -0.000000 -0.491813 0.105944 -0.000000 -0.504440 -0.002792 0.493819 -0.504440 -0.002792 0.485337 -0.491813 0.105944 0.000000 0.384000 1.034349 -0.412919 0.384000 1.034349 -0.412919 -0.384000 1.034349 0.000000 -0.384000 1.034349 -0.000000 0.504440 -0.002792 0.493819 0.504440 -0.002792 -0.000000 -0.504440 -0.002792 -0.493819 0.504440 -0.002792 -0.000000 -0.504440 -0.002792 -0.493819 -0.504440 -0.002792 0.000000 -0.384000 1.034349 0.412919 -0.384000 1.034349 0.412919 0.384000 1.034349 0.000000 0.384000 1.034349 -0.485337 -0.491813 0.105944 -0.493819 -0.504440 -0.002792 -0.000000 -0.491813 0.105944 0.485337 0.491813 0.105944 -0.000000 0.504440 -0.002792 -0.000000 0.491813 0.105944 0.433842 0.415148 0.766123 -0.000000 0.415148 0.766123 0.000000 0.384000 1.034349 -0.412919 -0.384000 1.034349 -0.433842 -0.415148 0.766123 -0.000000 -0.415148 0.766123 0.433842 -0.415148 0.766123 0.000000 -0.384000 1.034349 -0.000000 -0.415148 0.766123 -0.412919 0.384000 1.034349 -0.433842 0.415148 0.766123 -0.433842 -0.415148 0.766123 -0.412919 -0.384000 1.034349 -0.000000 0.415148 0.766123 -0.433842 0.415148 0.766123 -0.412919 0.384000 1.034349 0.412919 -0.384000 1.034349 0.433842 -0.415148 0.766123 0.433842 0.415148 0.766123 0.412919 0.384000 1.034349 0.433842 0.415148 0.766123 0.485337 0.491813 0.105944 -0.000000 0.491813 0.105944 -0.000000 0.415148 0.766123 -0.433842 -0.415148 0.766123 -0.485337 -0.491813 0.105944 -0.000000 -0.491813 0.105944 -0.000000 -0.415148 0.766123 -0.000000 -0.415148 0.766123 -0.000000 -0.491813 0.105944 0.485337 -0.491813 0.105944 0.433842 -0.415148 0.766123 -0.433842 0.415148 0.766123 -0.485337 0.491813 0.105944 -0.485337 -0.491813 0.105944 -0.433842 -0.415148 0.766123 -0.000000 0.415148 0.766123 -0.000000 0.491813 0.105944 -0.485337 0.491813 0.105944 -0.433842 0.415148 0.766123 0.433842 -0.415148 0.766123 0.485337 -0.491813 0.105944 0.485337 0.491813 0.105944 0.433842 0.415148 0.766123 " />
 									<Normal vector="0.701804 -0.699240 0.135929 0.594470 -0.607715 -0.526536 0.594470 0.607715 -0.526536 0.701804 0.699240 0.135929 0.000000 0.993316 0.115329 0.000000 0.746757 -0.665059 -0.594470 0.607715 -0.526536 -0.701804 0.699240 0.135929 -0.701804 0.699240 0.135929 -0.594470 0.607715 -0.526536 -0.594470 -0.607715 -0.526536 -0.701804 -0.699240 0.135929 0.000000 -0.993316 0.115329 0.000000 -0.746757 -0.665059 0.594470 -0.607715 -0.526536 0.701804 -0.699240 0.135929 0.000000 0.665059 0.746757 -0.557665 0.543107 0.627674 -0.557665 -0.543107 0.627674 0.000000 -0.665059 0.746757 0.000000 0.746757 -0.665059 0.594470 0.607715 -0.526536 0.000000 -0.746757 -0.665059 -0.594470 0.607715 -0.526536 0.000000 -0.746757 -0.665059 -0.594470 -0.607715 -0.526536 0.000000 -0.665059 0.746757 0.557665 -0.543107 0.627674 0.557665 0.543107 0.627674 0.000000 0.665059 0.746757 -0.701804 -0.699240 0.135929 -0.594470 -0.607715 -0.526536 0.000000 -0.993316 0.115329 0.701804 0.699240 0.135929 0.000000 0.746757 -0.665059 0.000000 0.993316 0.115329 0.701804 0.699240 0.135929 0.000000 0.993316 0.115329 0.000000 0.665059 0.746757 -0.557665 -0.543107 0.627674 -0.701804 -0.699240 0.135929 0.000000 -0.993316 0.115329 0.701804 -0.699240 0.135929 0.000000 -0.665059 0.746757 0.000000 -0.993316 0.115329 -0.557665 0.543107 0.627674 -0.701804 0.699240 0.135929 -0.701804 -0.699240 0.135929 -0.557665 -0.543107 0.627674 0.000000 0.993316 0.115329 -0.701804 0.699240 0.135929 -0.557665 0.543107 0.627674 0.557665 -0.543107 0.627674 0.701804 -0.699240 0.135929 0.701804 0.699240 0.135929 0.557665 0.543107 0.627674 0.701804 0.699240 0.135929 0.701804 0.699240 0.135929 0.000000 0.993316 0.115329 0.000000 0.993316 0.115329 -0.701804 -0.699240 0.135929 -0.701804 -0.699240 0.135929 0.000000 -0.993316 0.115329 0.000000 -0.993316 0.115329 0.000000 -0.993316 0.115329 0.000000 -0.993316 0.115329 0.701804 -0.699240 0.135929 0.701804 -0.699240 0.135929 -0.701804 0.699240 0.135929 -0.701804 0.699240 0.135929 -0.701804 -0.699240 0.135929 -0.701804 -0.699240 0.135929 0.000000 0.993316 0.115329 0.000000 0.993316 0.115329 -0.701804 0.699240 0.135929 -0.701804 0.699240 0.135929 0.701804 -0.699240 0.135929 0.701804 -0.699240 0.135929 0.701804 0.699240 0.135929 0.701804 0.699240 0.135929 " />
-									<TextureCoordinate point="0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.0194 0.9570 0.0194 0.7123 0.1474 0.9570 0.0194 0.9570 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.0194 0.7123 0.1474 0.7123 0.0194 0.9570 0.0194 0.7123 0.1474 0.9570 0.0194 0.9570 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.1474 0.9570 0.0194 0.7123 0.1474 0.7123 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.4587 0.9999 0.4185 0.0001 0.7979 0.0001 0.7979 0.9999 0.7979 0.9999 0.7979 0.0001 0.4185 0.0001 0.4587 0.9999 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 " />
+									<TextureCoordinate point="0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.0194 0.9570 0.0194 0.7123 0.1474 0.9570 0.0194 0.9570 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.0194 0.7123 0.1474 0.7123 0.0194 0.9570 0.0194 0.7123 0.1474 0.9570 0.0194 0.9570 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.1474 0.9570 0.0194 0.7123 0.1474 0.7123 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.4466 0.9999 0.4083 0.0001 0.7690 0.0001 0.7690 0.9999 0.7690 0.9999 0.7690 0.0001 0.4083 0.0001 0.4466 0.9999 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 0.0194 0.7123 0.1474 0.7123 0.1474 0.9570 0.0194 0.9570 " />
 								</IndexedTriangleSet>
 							</Shape>
 						</Group>
@@ -593,7 +593,7 @@
 						<Group DEF="group_ME_Cube_004">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Regice_png" />
+									<ImageTexture USE="IM_Regrock_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -621,7 +621,7 @@
 					<Group DEF="group_ME_leg1">
 						<Shape>
 							<Appearance>
-								<ImageTexture USE="IM_Regice_png" />
+								<ImageTexture USE="IM_Regrock_png" />
 							</Appearance>
 							<IndexedTriangleSet solid="false"
 							                    normalPerVertex="true"
@@ -647,7 +647,7 @@
 						<Group DEF="group_ME_Cube_006">
 							<Shape>
 								<Appearance>
-									<ImageTexture USE="IM_Regice_png" />
+									<ImageTexture USE="IM_Regrock_png" />
 								</Appearance>
 								<IndexedTriangleSet solid="false"
 								                    normalPerVertex="true"
@@ -673,7 +673,7 @@
 							<Group DEF="group_ME_Cube_007">
 								<Shape>
 									<Appearance>
-										<ImageTexture USE="IM_Regice_png" />
+										<ImageTexture USE="IM_Regrock_png" />
 									</Appearance>
 									<IndexedTriangleSet solid="false"
 									                    normalPerVertex="true"

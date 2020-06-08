@@ -5,7 +5,7 @@
   <phase armAngle="50" duration="10" leftArm="" leftLeg="foot1" legAngle="45" name="biWalk" rightArm="" rightLeg="foot2"/>
   <customTex default="whismur">
    <part name="Head" tex="whismureye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.35" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="arm1">

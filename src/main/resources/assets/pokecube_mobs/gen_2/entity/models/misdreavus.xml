@@ -5,9 +5,9 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-70,70" headDir="-1" headDir1="-1"/>
   <customTex default="misdreavus">
    <part name="Head" tex="misdreavuseye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:5"/>
    <part name="Mouth" tex="misdreavusmouth"/>
-   <animation diffs="0,0.5" part="Mouth" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Mouth" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="l1">

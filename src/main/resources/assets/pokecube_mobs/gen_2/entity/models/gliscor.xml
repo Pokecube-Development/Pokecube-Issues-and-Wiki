@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="armright" leftLeg="legleft" legAngle="25" name="biWalk" rightArm="armleft" rightLeg="legright"/>
   <customTex default="gliscor">
    <part name="Head" tex="gliscoreye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase axis="1" name="snakeWalk" parts="tail1:tail2:tail3:tail4"/>
   <phase axis="1" name="snakeFly" parts="tail1:tail2:tail3:tail4"/>

@@ -7,7 +7,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="30" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="sudowoodo">
    <part name="Head" tex="sudowoodohead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:10"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

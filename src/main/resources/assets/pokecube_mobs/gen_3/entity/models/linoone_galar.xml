@@ -5,7 +5,7 @@
    <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="-1"/>
    <customTex default="linoonegalar">
    <part name="Eye" tex="linoonegalarhead"/>
-   <animation diffs="0.5,0" part="Eye" trigger="random:0.005:20"/>
+   <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="body">
@@ -36,12 +36,12 @@
     <component length="1" name="1" rotOffset="20,0,0" startKey="0"/>
    </part>
    <part name="tail">
-    <component length="8" name="1" rotChange="-8,0,0" rotOffset="50,0,0" startKey="0"/>
-    <component length="8" name="2" rotChange="8,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="-8,0,0" rotOffset="50,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" startKey="10"/>
    </part>
    <part name="tail1">
-    <component length="8" name="1" rotChange="-8,0,0" rotOffset="10,0,0" startKey="0"/>
-    <component length="8" name="2" rotChange="8,0,0" startKey="10"/>
+    <component length="10" name="1" rotChange="-8,0,0" rotOffset="10,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="8,0,0" startKey="10"/>
    </part>
    <part name="mouth">
     <component length="8" name="1" rotChange="-8,0,0" rotOffset="30,0,0" startKey="0"/>

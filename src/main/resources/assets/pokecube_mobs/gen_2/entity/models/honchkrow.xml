@@ -6,7 +6,7 @@
   <phase duration="6" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="honchkrow">
    <part name="Head" tex="honchkroweye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.395" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="wing1">

@@ -8,7 +8,7 @@
   <phase axis1="1" name="snakeWalk" parts="tail1:tail2:tail3:tail4"/>
   <customTex default="mightyena">
    <part name="Head" tex="mightyenahead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.495" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="orl1">

@@ -8,8 +8,7 @@
   <phase duration="6" leftArm="arm2" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="arm1" rightLeg="leg2"/>
   <customTex default="archeops">
    <part name="Head" tex="archeopshead"/>
-   <animation diffs="0,0.334" part="Head" trigger="random:0.005:1"/>
-   <animation diffs="0,0.50" part="Head" trigger="sleeping"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="wing1">

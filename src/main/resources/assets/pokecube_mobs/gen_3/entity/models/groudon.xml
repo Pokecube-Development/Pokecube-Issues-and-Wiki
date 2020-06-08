@@ -8,7 +8,7 @@
   <metadata head="neck1" headAxis="2" headAxis2="0" headCap="-35,35" headCap1="-15,15" headDir="-1"/>
   <customTex default="groudon">
    <part name="Head" tex="groudonhead"/>
-   <animation diffs="0,0.39" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.4" part="Head" trigger="random:0.005:2"/>
   </customTex>
   <phase type="idle">
    <part name="body">
