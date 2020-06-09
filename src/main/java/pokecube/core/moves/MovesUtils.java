@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
@@ -301,16 +302,16 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void doAttack(final String attackName, final IPokemob attacker, final Vector3 attacked)
+    public static boolean doAttack(final Move_Base move, final IPokemob attacker, final Vector3 attacked,
+            final Predicate<Entity> valid, final Consumer<Entity> onHit)
     {
-        final Move_Base move = MovesUtils.moves.get(attackName);
-
-        if (move != null) move.attack(attacker, attacked);
+        if (move != null) move.attack(attacker, attacked, valid, onHit);
         else
         {
-            if (attackName != null) System.err.println("The Move \"" + attackName + "\" does not exist.");
-            MovesUtils.doAttack(IMoveConstants.DEFAULT_MOVE, attacker, attacked);
+            PokecubeCore.LOGGER.error("Invalid Move Use!");
+            return false;
         }
+        return true;
     }
 
     public static int getAttackDelay(final IPokemob attacker, final String moveName, final boolean distanced,

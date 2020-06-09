@@ -10,17 +10,19 @@ import pokecube.core.interfaces.Move_Base;
 
 public abstract class MoveAnimationBase implements IMoveAnimation
 {
-    protected String  particle;
-    protected int     rgba            = 0xFFFFFFFF;
-    protected int     duration        = 5;
-    protected int     applicationTick = -1;
-    protected int     particleLife    = 5;
-    protected boolean customColour    = false;
-    protected float   density         = 1;
-    protected float   width           = 1;
-    protected float   angle           = 0;
-    protected boolean flat            = false;
-    protected boolean reverse         = false;
+    protected String particle;
+
+    protected int rgba         = 0xFFFFFFFF;
+    protected int duration     = 5;
+    protected int particleLife = 5;
+
+    protected boolean customColour = false;
+    protected boolean flat         = false;
+    protected boolean reverse      = false;
+
+    protected float density = 1;
+    protected float width   = 1;
+    protected float angle   = 0;
 
     protected String rgbaVal = null;
 

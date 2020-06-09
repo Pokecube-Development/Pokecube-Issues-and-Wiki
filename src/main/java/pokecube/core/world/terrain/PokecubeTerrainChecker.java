@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -97,8 +98,8 @@ public class PokecubeTerrainChecker implements ISubBiomeChecker
 
     public static boolean isCutablePlant(final BlockState state)
     {
-        return ItemList.is(PokecubeTerrainChecker.PLANTEATTAG, state) || PokecubeCore.getConfig().autoPopulateLists
-                && PokecubeTerrainChecker.isPlant(state.getMaterial());
+        return ItemList.is(PokecubeTerrainChecker.PLANTEATTAG, state) || ItemList.is(BlockTags.LEAVES.getId(), state)
+                || PokecubeCore.getConfig().autoPopulateLists && PokecubeTerrainChecker.isPlant(state.getMaterial());
     }
 
     public static boolean isRock(final BlockState state)
