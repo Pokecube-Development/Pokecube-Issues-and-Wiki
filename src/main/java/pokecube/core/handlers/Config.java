@@ -323,7 +323,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     public int     idleMaxPathWild        = 16;
     @Configure(category = Config.mobAI)
-    public int     idleMaxPathTame        = 16;
+    public int     idleMaxPathTame        = 4;
     @Configure(category = Config.mobAI)
     public int     hungerTickRate         = 1;
     @Configure(category = Config.mobAI)
