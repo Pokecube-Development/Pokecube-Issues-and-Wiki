@@ -474,6 +474,7 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
     @Override
     public IPokemob spawnInit(final SpawnRule info)
     {
+        this.resetLoveStatus();
         IPokemob pokemob = this;
         int maxXP = this.getEntity().getPersistentData().getInt("spawnExp");
         /*
@@ -513,8 +514,11 @@ public abstract class PokemobOwned extends PokemobAI implements IInventoryChange
         pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
 
         // If we have some spawn info, lets process it.
-        if (info != null && info.values.containsKey(PokemobOwned.KEY)) pokemob.setCustomHolder(info.getForme(pokemob
-                .getPokedexEntry()));
+        if (info != null)
+        {
+            final FormeHolder holder = info.getForme(pokemob.getPokedexEntry());
+            if (holder != null) pokemob.setCustomHolder(holder);
+        }
 
         // Reset love status to prevent immediate eggs
         this.resetLoveStatus();

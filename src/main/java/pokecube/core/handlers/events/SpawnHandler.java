@@ -222,8 +222,8 @@ public final class SpawnHandler
     }
 
     public static MobEntity creatureSpecificInit(final MobEntity MobEntity, final World world, final double posX,
-            final double posY, final double posZ, final Vector3 spawnPoint, final int overrideLevel,
-            final Variance variance)
+            final double posY, final double posZ, final Vector3 spawnPoint, final SpawnData entry,
+            final SpawnBiomeMatcher matcher)
     {
         final AbstractSpawner spawner = new AbstractSpawner()
         {
@@ -246,6 +246,8 @@ public final class SpawnHandler
         };
         if (ForgeEventFactory.doSpecialSpawn(MobEntity, world, (float) posX, (float) posY, (float) posZ, spawner,
                 SpawnReason.NATURAL)) return null;
+        final int overrideLevel = entry.getLevel(matcher);
+        final Variance variance = entry.getVariance(matcher);
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
@@ -271,7 +273,7 @@ public final class SpawnHandler
             }
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
             pokemob.getEntity().getPersistentData().putInt("spawnExp", maxXP);
-            pokemob = pokemob.spawnInit();
+            pokemob = pokemob.spawnInit(matcher.spawnRule);
             final double dt = (System.nanoTime() - time) / 10e3D;
             if (PokecubeMod.debug && dt > 100)
             {
@@ -797,8 +799,8 @@ public final class SpawnHandler
                     entity.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
                     if (entity.canSpawn(world, SpawnReason.NATURAL))
                     {
-                        if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, v3.set(entity), entry
-                                .getLevel(matcher), entry.getVariance(matcher))) != null)
+                        if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, v3.set(entity), entry,
+                                matcher)) != null)
                         {
                             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                             if (!event.getSpawnArgs().isEmpty())
