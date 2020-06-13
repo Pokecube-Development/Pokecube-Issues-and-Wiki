@@ -289,7 +289,7 @@
       "separation":5,
       "spawn":{
         "values":{
-          "category":"sandy"
+          "types":"sandy"
         }
       }
     },
@@ -302,7 +302,7 @@
       "spawn":{
         "values":{
           "types":"all",
-          "categoryBlacklist":"ocean,sandy,the_end"
+          "categoryBlacklist":"ocean,desert,the_end"
         }
       }
     },
