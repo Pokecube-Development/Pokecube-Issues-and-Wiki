@@ -36,6 +36,38 @@
       ]
     },
     {
+      "name":"pokecube_legends:raid_end",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/raid_end"
+      ]
+    },
+    {
+      "name":"pokecube_legends:raid_spot",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/raid_spot;{\"dy\":1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:raid_desert",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/raid_desert;{\"dy\":1}"
+      ]
+    },
+    {
+      "name":"pokecube_legends:raid_ocean",
+      "rigid":true,
+      "ignoreAir":false,
+      "options":[
+        "pokecube_legends:temples/surface/raid_ocean;{\"dy\":2}"
+      ]
+    },
+    {
       "name":"pokecube_legends:nature_place",
       "rigid":true,
       "ignoreAir":false,
@@ -221,6 +253,56 @@
         "values":{
           "types":"all",
           "categoryBlacklist":"ocean"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:raid_end",
+      "root":"pokecube_legends:raid_end",
+      "biomeType":"ruin",
+      "distance":20,
+      "separation":5,
+      "spawn":{
+        "values":{
+          "category":"the_end"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:raid_ocean",
+      "root":"pokecube_legends:raid_ocean",
+      "biomeType":"ruin",
+      "distance":20,
+      "separation":5,
+      "water":true,
+      "spawn":{
+        "values":{
+          "category":"ocean"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:raid_desert",
+      "root":"pokecube_legends:raid_desert",
+      "biomeType":"ruin",
+      "distance":15,
+      "separation":5,
+      "spawn":{
+        "values":{
+          "types":"sandy"
+        }
+      }
+    },
+    {
+      "name":"pokecube_legends:raid_spot",
+      "root":"pokecube_legends:raid_spot",
+      "biomeType":"ruin",
+      "distance":15,
+      "separation":5,
+      "spawn":{
+        "values":{
+          "types":"all",
+          "categoryBlacklist":"ocean,desert,the_end"
         }
       }
     },

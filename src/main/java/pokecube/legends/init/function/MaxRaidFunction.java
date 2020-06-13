@@ -9,6 +9,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -91,7 +93,10 @@ public class MaxRaidFunction
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
             entity.setPosition(v.x, v.y + 3, v.z);
-            pokemob.getLevel();
+            //
+            //pokemob.setHeldItem(new ItemStack(Items.END_STONE));
+            //
+            
             final Long time = entity.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
