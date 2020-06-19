@@ -302,6 +302,7 @@
       "spawn":{
         "values":{
           "types":"all",
+          "typesBlacklist":"sandy",
           "categoryBlacklist":"ocean,desert,the_end"
         }
       }
