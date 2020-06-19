@@ -212,8 +212,8 @@ public class Checker
     {
         final Int2ObjectOpenHashMap<Cube> cubes;
 
-        int minCube  = 0;
-        int minFound = 0;
+        int minCube  = Integer.MAX_VALUE;
+        int minFound = -1;
 
         Vector3 tmp = Vector3.getNewVector();
 
@@ -238,6 +238,7 @@ public class Checker
             }
             if (this.minFound == -1) this.minFound = max;
             else this.minFound = Math.min(max, this.minFound);
+            this.minCube = Math.min(max, this.minCube);
             return this.cubes.get(max);
         }
 
@@ -271,6 +272,7 @@ public class Checker
                 this.minCube++;
             }
             this.minFound = -1;
+            this.minCube = Integer.MAX_VALUE;
         }
 
         @Override

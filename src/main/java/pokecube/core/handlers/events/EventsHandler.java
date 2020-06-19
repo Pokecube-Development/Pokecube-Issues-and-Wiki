@@ -47,6 +47,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.PotentialSpawns;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -365,6 +366,17 @@ public class EventsHandler
                 .setResult(Result.DENY);
         if (EventsHandler.ANIMALMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateAnimals) event
                 .setResult(Result.DENY);
+    }
+
+    @SubscribeEvent
+    public static void playerWakeUp(final PlayerWakeUpEvent evt)
+    {
+        if (!PokecubeCore.getConfig().bedsHeal) return;
+        for (int i = 0; i < evt.getPlayer().inventory.getSizeInventory(); i++)
+        {
+            final ItemStack stack = evt.getPlayer().inventory.getStackInSlot(i);
+            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getEntityWorld());
+        }
     }
 
     @SubscribeEvent

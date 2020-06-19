@@ -60,35 +60,38 @@ public class Config extends ConfigData
         else return soundevent;
     }
 
-    // Misc Settings
     @Configure(category = Config.misc)
-    public boolean      pcHoldsOnlyPokecubes = true;
+    public double pvpExpMultiplier = 0.5;
+    @Configure(category = Config.misc)
+    public double expScaleFactor   = 1;
+
+    @Configure(category = Config.misc)
+    public List<String> snag_cube_blacklist = Lists.newArrayList("ender_dragon", "wither");
+
+    @Configure(category = Config.misc)
+    public boolean defaultInteractions = true;
+    @Configure(category = Config.misc)
+    public boolean berryBreeding       = true;
+    @Configure(category = Config.misc)
+    public boolean legendsBreed        = false;
+    @Configure(category = Config.misc)
+    public boolean bedsHeal            = true;
+    /** does defeating a tame pokemob give exp */
+    @Configure(category = Config.misc)
+    public boolean trainerExp          = true;
+    @Configure(category = Config.misc)
+    public boolean pcOnDrop            = true;
+    @Configure(category = Config.misc)
+    public boolean pcHoldsOnlyPokecubes = true;
     @Configure(category = Config.misc)
     /** is there a choose first gui on login */
-    public boolean      guiOnLogin           = false;
+    public boolean guiOnLogin           = false;
     @Configure(category = Config.misc)
     /** does defeating a tame pokemob give exp */
-    public boolean      pvpExp               = false;
+    public boolean pvpExp               = false;
+
     @Configure(category = Config.misc)
-    /** does defeating a tame pokemob give exp */
-    public double       pvpExpMultiplier     = 0.5;
-    @Configure(category = Config.misc)
-    /** does defeating a tame pokemob give exp */
-    public boolean      trainerExp           = true;
-    @Configure(category = Config.misc)
-    public boolean      pcOnDrop             = true;
-    @Configure(category = Config.misc)
-    public double       expScaleFactor       = 1;
-    @Configure(category = Config.misc)
-    public List<String> snag_cube_blacklist  = Lists.newArrayList("ender_dragon", "wither");
-    @Configure(category = Config.misc)
-    public boolean      defaultInteractions  = true;
-    @Configure(category = Config.misc)
-    public boolean      berryBreeding        = true;
-    @Configure(category = Config.misc)
-    public boolean      legendsBreed         = false;
-    @Configure(category = Config.misc)
-    public List<String> customSounds         = Lists.newArrayList();
+    public List<String> customSounds = Lists.newArrayList();
 
     @Configure(category = Config.misc)
     public List<String> persistent_tag_blacklist = Lists.newArrayList();

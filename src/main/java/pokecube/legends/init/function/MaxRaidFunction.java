@@ -9,8 +9,6 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
