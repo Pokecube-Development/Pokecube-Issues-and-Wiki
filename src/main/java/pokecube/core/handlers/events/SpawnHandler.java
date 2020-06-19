@@ -13,8 +13,10 @@ import org.nfunk.jep.JEP;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
@@ -62,6 +64,8 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.boom.ExplosionCustom;
+import thut.api.boom.ExplosionCustom.BlastResult;
+import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeType;
@@ -512,12 +516,34 @@ public final class SpawnHandler
         if (power > 0)
         {
             final ExplosionCustom boom = new ExplosionCustom(world, null, location, (float) (power * PokecubeCore
-                    .getConfig().meteorScale)).setMeteor(true).setMaxRadius(PokecubeCore.getConfig().meteorRadius);
-            if (PokecubeMod.debug)
+                    .getConfig().meteorScale)).setMaxRadius(PokecubeCore.getConfig().meteorRadius);
+
+            boom.breaker = new BlockBreaker()
             {
-                final String message = "Meteor at " + location + " with energy of " + power;
-                PokecubeCore.LOGGER.info(message);
-            }
+                @Override
+                public void breakBlocks(final BlastResult result, final ExplosionCustom boom)
+                {
+                    for (final Entry<BlockPos> entry : result.results.object2FloatEntrySet())
+                    {
+                        final BlockPos pos = entry.getKey();
+                        final float power = entry.getFloatValue();
+                        boom.getAffectedBlockPositions().add(pos);
+                        final BlockState destroyed = boom.world.getBlockState(pos);
+                        BlockState to = Blocks.AIR.getDefaultState();
+                        if (power < 36)
+                        {
+                            if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.getDefaultState();
+                            if (destroyed.getMaterial() == Material.TALL_PLANTS) to = Blocks.FIRE.getDefaultState();
+                        }
+                        final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
+                        seg.setBiome(pos, BiomeType.METEOR.getType());
+                        boom.world.setBlockState(pos, to, 3);
+                    }
+                }
+            };
+
+            final String message = "Meteor at " + location + " with energy of " + power;
+            PokecubeCore.LOGGER.debug(message);
             boom.doExplosion();
         }
         PokecubeSerializer.getInstance().addMeteorLocation(new Vector4(location.x, location.y, location.z, world
