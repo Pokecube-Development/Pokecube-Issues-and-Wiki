@@ -1,5 +1,8 @@
 package pokecube.core.interfaces;
 
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -105,8 +108,8 @@ public abstract class Move_Base
         if (pokemob == null) return;
         // TODO add an error message here?
         if (PokecubeCore.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, this, target))) return;
-        final EntityMoveUse moveUse = new EntityMoveUse(EntityMoveUse.TYPE, user.getEntityWorld());
-        moveUse.setUser(user).setMove(this).setTarget(target).setStart(start).setEnd(end);
+        final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, this, start).setEnd(end).setTarget(target)
+                .build();
         if (GZMoveManager.zmoves_map.containsValue(this.move.baseEntry.name)) pokemob.setCombatState(
                 CombatStates.USEDZMOVE, true);
         pokemob.setActiveMove(moveUse);
@@ -140,7 +143,7 @@ public abstract class Move_Base
      * @param attacker
      * @param location
      */
-    public abstract void attack(IPokemob attacker, Vector3 location);
+    public abstract void attack(IPokemob attacker, Vector3 location, Predicate<Entity> valid, Consumer<Entity> onHit);
 
     /**
      * Applys world effects of the move

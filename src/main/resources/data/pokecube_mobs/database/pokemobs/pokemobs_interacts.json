@@ -8919,27 +8919,6 @@
             "name": "Vivillon",
             "level": 12,
             "model": {
-              "key": "vivillon_de"
-            }
-          },
-          {
-            "name": "Vivillon",
-            "level": 12,
-            "form_from": "vivillon_el",
-            "model": {
-              "key": "vivillon_el"
-            },
-            "location": {
-              "values": {
-                "typesBlacklist": "cold,hot,mountain",
-                "anyType": "plains,forest"
-              }
-            }
-          },
-          {
-            "name": "Vivillon",
-            "level": 12,
-            "model": {
               "key": "vivillon_oc"
             },
             "location": {
@@ -9043,6 +9022,27 @@
               "values": {
                 "types": "village"
               }
+            }
+          },
+          {
+            "name": "Vivillon",
+            "level": 12,
+            "form_from": "vivillon_el",
+            "model": {
+              "key": "vivillon_el"
+            },
+            "location": {
+              "values": {
+                "typesBlacklist": "cold,hot,mountain",
+                "anyType": "plains,forest"
+              }
+            }
+          },
+          {
+            "name": "Vivillon",
+            "level": 12,
+            "model": {
+              "key": "vivillon_de"
             }
           }
         ],

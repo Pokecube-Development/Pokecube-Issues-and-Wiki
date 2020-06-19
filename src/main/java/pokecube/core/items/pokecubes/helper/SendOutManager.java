@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
@@ -124,6 +125,9 @@ public class SendOutManager
         // Otherwise look for free room, etc
         else
         {
+            // Initialise size gene for the pokemob
+            if (pokemob != null) pokemob.onGenesChanged();
+
             v.set(v.intX() + 0.5, v.intY(), v.intZ() + 0.5);
             final BlockState state = v.getBlockState(cube.getEntityWorld());
             if (state.getMaterial().isSolid()) v.y = Math.ceil(v.y);
@@ -175,6 +179,14 @@ public class SendOutManager
                 }
                 return null;
             }
+            ItemStack cubeStack = pokemob.getPokecube();
+            if (cubeStack.isEmpty())
+            {
+                cubeStack = cube.getItem().copy();
+                cubeStack.getTag().remove(TagNames.POKEMOB);
+                pokemob.setPokecube(cubeStack);
+            }
+
             cube.setReleased(mob);
 
             // Ensure AI is initialized

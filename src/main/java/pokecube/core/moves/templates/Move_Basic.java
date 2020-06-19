@@ -6,6 +6,8 @@ package pokecube.core.moves.templates;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -161,7 +163,8 @@ public class Move_Basic extends Move_Base implements IMoveConstants
     }
 
     @Override
-    public void attack(final IPokemob attacker, final Vector3 location)
+    public void attack(final IPokemob attacker, final Vector3 location, final Predicate<Entity> valid,
+            final Consumer<Entity> onHit)
     {
         final List<Entity> targets = new ArrayList<>();
 
@@ -196,10 +199,10 @@ public class Move_Basic extends Move_Base implements IMoveConstants
         if (n > 0)
         {
             for (final Entity e : targets)
-                if (e != null)
+                if (e != null && valid.test(e))
                 {
-                    final Entity attacked = e;
-                    this.attack(attacker, attacked);
+                    this.attack(attacker, e);
+                    onHit.accept(e);
                 }
         }
         else if (BrainUtils.hasAttackTarget(attacker.getEntity()))

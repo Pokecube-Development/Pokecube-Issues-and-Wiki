@@ -13,8 +13,10 @@ import org.nfunk.jep.JEP;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
@@ -62,6 +64,8 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.Tools;
 import pokecube.core.world.terrain.PokecubeTerrainChecker;
 import thut.api.boom.ExplosionCustom;
+import thut.api.boom.ExplosionCustom.BlastResult;
+import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.terrain.BiomeType;
@@ -222,8 +226,8 @@ public final class SpawnHandler
     }
 
     public static MobEntity creatureSpecificInit(final MobEntity MobEntity, final World world, final double posX,
-            final double posY, final double posZ, final Vector3 spawnPoint, final int overrideLevel,
-            final Variance variance)
+            final double posY, final double posZ, final Vector3 spawnPoint, final SpawnData entry,
+            final SpawnBiomeMatcher matcher)
     {
         final AbstractSpawner spawner = new AbstractSpawner()
         {
@@ -246,6 +250,8 @@ public final class SpawnHandler
         };
         if (ForgeEventFactory.doSpecialSpawn(MobEntity, world, (float) posX, (float) posY, (float) posZ, spawner,
                 SpawnReason.NATURAL)) return null;
+        final int overrideLevel = entry.getLevel(matcher);
+        final Variance variance = entry.getVariance(matcher);
         IPokemob pokemob = CapabilityPokemob.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
@@ -271,7 +277,7 @@ public final class SpawnHandler
             }
             maxXP = Tools.levelToXp(pokemob.getPokedexEntry().getEvolutionMode(), level);
             pokemob.getEntity().getPersistentData().putInt("spawnExp", maxXP);
-            pokemob = pokemob.spawnInit();
+            pokemob = pokemob.spawnInit(matcher.spawnRule);
             final double dt = (System.nanoTime() - time) / 10e3D;
             if (PokecubeMod.debug && dt > 100)
             {
@@ -510,12 +516,34 @@ public final class SpawnHandler
         if (power > 0)
         {
             final ExplosionCustom boom = new ExplosionCustom(world, null, location, (float) (power * PokecubeCore
-                    .getConfig().meteorScale)).setMeteor(true).setMaxRadius(PokecubeCore.getConfig().meteorRadius);
-            if (PokecubeMod.debug)
+                    .getConfig().meteorScale)).setMaxRadius(PokecubeCore.getConfig().meteorRadius);
+
+            boom.breaker = new BlockBreaker()
             {
-                final String message = "Meteor at " + location + " with energy of " + power;
-                PokecubeCore.LOGGER.info(message);
-            }
+                @Override
+                public void breakBlocks(final BlastResult result, final ExplosionCustom boom)
+                {
+                    for (final Entry<BlockPos> entry : result.results.object2FloatEntrySet())
+                    {
+                        final BlockPos pos = entry.getKey();
+                        final float power = entry.getFloatValue();
+                        boom.getAffectedBlockPositions().add(pos);
+                        final BlockState destroyed = boom.world.getBlockState(pos);
+                        BlockState to = Blocks.AIR.getDefaultState();
+                        if (power < 36)
+                        {
+                            if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.getDefaultState();
+                            if (destroyed.getMaterial() == Material.TALL_PLANTS) to = Blocks.FIRE.getDefaultState();
+                        }
+                        final TerrainSegment seg = TerrainManager.getInstance().getTerrain(boom.world, pos);
+                        seg.setBiome(pos, BiomeType.METEOR.getType());
+                        boom.world.setBlockState(pos, to, 3);
+                    }
+                }
+            };
+
+            final String message = "Meteor at " + location + " with energy of " + power;
+            PokecubeCore.LOGGER.debug(message);
             boom.doExplosion();
         }
         PokecubeSerializer.getInstance().addMeteorLocation(new Vector4(location.x, location.y, location.z, world
@@ -797,8 +825,8 @@ public final class SpawnHandler
                     entity.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F, 0.0F);
                     if (entity.canSpawn(world, SpawnReason.NATURAL))
                     {
-                        if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, v3.set(entity), entry
-                                .getLevel(matcher), entry.getVariance(matcher))) != null)
+                        if ((entity = SpawnHandler.creatureSpecificInit(entity, world, x, y, z, v3.set(entity), entry,
+                                matcher)) != null)
                         {
                             final IPokemob pokemob = CapabilityPokemob.getPokemobFor(entity);
                             if (!event.getSpawnArgs().isEmpty())
