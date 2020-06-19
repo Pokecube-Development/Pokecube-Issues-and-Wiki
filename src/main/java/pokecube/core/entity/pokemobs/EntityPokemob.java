@@ -30,6 +30,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -286,6 +287,12 @@ public class EntityPokemob extends PokemobHasParts
     protected void handleFluidJump(final Tag<Fluid> fluidTag)
     {
         this.setMotion(this.getMotion().add(0.0D, 0.04F * this.getAttribute(LivingEntity.SWIM_SPEED).getValue(), 0.0D));
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound()
+    {
+        return this.pokemobCap.getSound();
     }
 
     @Override
