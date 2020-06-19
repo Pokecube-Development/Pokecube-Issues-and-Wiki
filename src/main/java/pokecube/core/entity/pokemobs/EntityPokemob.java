@@ -296,6 +296,18 @@ public class EntityPokemob extends PokemobHasParts
     }
 
     @Override
+    protected float getSoundVolume()
+    {
+        return (float) PokecubeCore.getConfig().idleSoundVolume;
+    }
+
+    @Override
+    public int getTalkInterval()
+    {
+        return PokecubeCore.getConfig().idleSoundRate;
+    }
+
+    @Override
     public void onAddedToWorld()
     {
         if (!this.isAddedToWorld())

@@ -212,6 +212,11 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI)
     /** Warning time before a wild pokemob attacks a player */
     public int pokemobagressticks = 100;
+    @Configure(category = Config.mobAI)
+    public int idleSoundRate      = 100;
+
+    @Configure(category = Config.mobAI)
+    public double idleSoundVolume = 0.25;
 
     @Configure(category = Config.mobAI)
     public double mateDensityWild       = 2;
