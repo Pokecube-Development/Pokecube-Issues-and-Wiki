@@ -512,7 +512,7 @@ public class Checker
 
     protected BlastResult getBlocksToRemove()
     {
-        final int threshold = this.boom.maxPerTick = 5000;
+        final int threshold = this.boom.maxPerTick;
         int num = (int) Math.sqrt(this.boom.strength / 0.5);
         final int max = this.boom.radius * 2 + 1;
         num = Math.min(num, max);
