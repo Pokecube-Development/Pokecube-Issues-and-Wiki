@@ -140,7 +140,7 @@ public class EntityMoveUse extends ThrowableEntity
 
     final Set<UUID> alreadyHit = Sets.newHashSet();
 
-    Predicate<Entity> valid = e -> !this.alreadyHit.contains(e.getUniqueID())));
+    Predicate<Entity> valid = e -> !this.alreadyHit.contains(e.getUniqueID());
 
     public EntityMoveUse(final EntityType<EntityMoveUse> type, final World worldIn)
     {
