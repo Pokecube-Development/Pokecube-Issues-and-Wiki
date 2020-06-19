@@ -362,7 +362,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     data = d;
                     break;
                 }
-
             if (evol != null)
             {
                 EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);

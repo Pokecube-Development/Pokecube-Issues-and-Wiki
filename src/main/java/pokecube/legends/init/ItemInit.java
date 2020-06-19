@@ -8,6 +8,7 @@ import net.minecraftforge.fml.RegistryObject;
 import pokecube.core.interfaces.Nature;
 import pokecube.core.utils.PokeType;
 import pokecube.legends.PokecubeLegends;
+import pokecube.legends.items.GiganticShard;
 import pokecube.legends.items.ItemBase;
 import pokecube.legends.items.LegendaryOrb;
 import pokecube.legends.items.RainbowSword;
@@ -65,8 +66,10 @@ public class ItemInit
     public static final RegistryObject<Item> RSWORD;
     public static final RegistryObject<Item> CHPOT;
     public static final RegistryObject<Item> CRPOT;
-
+    
+    //Raids/Dynamax/Gigantamax
     public static final RegistryObject<Item> WISHING_PIECE;
+    public static final RegistryObject<Item> GIGANTIC_SHARD;
 
     // Tools
     public static final RegistryObject<Item> RAINBOW_SWORD;
@@ -129,6 +132,7 @@ public class ItemInit
         CRPOT = PokecubeLegends.ITEMS.register("crackedpot", () -> new ItemBase("crackedpot", 1).noTooltop());
 
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece", () -> new ItemBase("wishing_piece", 1));
+        GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard", () -> new GiganticShard("gigantic_shard", 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword", () -> new RainbowSword(4, -3,
                 ItemInit.MATERIAL_RAINBOW));

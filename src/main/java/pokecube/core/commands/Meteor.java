@@ -22,7 +22,27 @@ public class Meteor
     {
         final ServerWorld world = source.getWorld();
         final Vec3d pos = source.getPos();
-        SpawnHandler.makeMeteor(world, Vector3.getNewVector().set(pos), power);
+
+        final Vector3 v = Vector3.getNewVector().set(pos);
+        v.x = v.intX() + 0.5;
+        v.y = v.intY() + 0.5;
+        v.z = v.intZ() + 0.5;
+
+        try
+        {
+            SpawnHandler.makeMeteor(world, v, power);
+        }
+        catch (final Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // @formatter:off
+        // /fill ~-19 ~-19 ~-19 ~19 ~ ~19 minecraft:dirt replace #pokecube:debug
+        // /fill ~-11 ~-11 ~-11 ~11 ~11 ~11 minecraft:dirt replace air
+        // @formatter:on
+
         source.sendFeedback(new TranslationTextComponent("pokecube.meteor.spawned", pos, power), true);
         return 0;
     }
@@ -34,5 +54,7 @@ public class Meteor
         commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm)).then(
                 Commands.argument("power", IntegerArgumentType.integer()).executes((ctx) -> Meteor.execute(ctx
                         .getSource(), IntegerArgumentType.getInteger(ctx, "power")))));
+        commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm)).executes((
+                ctx) -> Meteor.execute(ctx.getSource(), 100)));
     }
 }

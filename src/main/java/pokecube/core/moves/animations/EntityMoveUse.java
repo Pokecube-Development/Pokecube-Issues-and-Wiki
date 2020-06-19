@@ -1,9 +1,18 @@
 package pokecube.core.moves.animations;
 
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Predicate;
+
+import com.google.common.collect.Sets;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -11,7 +20,10 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -19,6 +31,7 @@ import net.minecraftforge.common.extensions.IForgeTileEntity;
 import net.minecraftforge.fml.network.NetworkHooks;
 import pokecube.core.PokecubeCore;
 import pokecube.core.interfaces.IMoveAnimation.MovePacketInfo;
+import pokecube.core.interfaces.IMoveConstants;
 import pokecube.core.interfaces.IPokemob;
 import pokecube.core.interfaces.Move_Base;
 import pokecube.core.interfaces.capabilities.CapabilityPokemob;
@@ -31,11 +44,51 @@ public class EntityMoveUse extends ThrowableEntity
     static
     {
         EntityMoveUse.TYPE = EntityType.Builder.create(EntityMoveUse::new, EntityClassification.MISC).disableSummoning()
-                .immuneToFire().setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).size(1f,
-                        1f).setCustomClientFactory((spawnEntity, world) ->
+                .immuneToFire().setTrackingRange(64).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).size(
+                        0.5f, 0.5f).setCustomClientFactory((spawnEntity, world) ->
                         {
                             return EntityMoveUse.TYPE.create(world);
                         }).build("move_use");
+    }
+
+    public static class Builder
+    {
+        public static Builder make(final Entity user, final Move_Base move, final Vector3 start)
+        {
+            return new Builder(user, move, start);
+        }
+
+        EntityMoveUse toMake;
+
+        protected Builder(final Entity user, final Move_Base move, final Vector3 start)
+        {
+            this.toMake = new EntityMoveUse(EntityMoveUse.TYPE, user.getEntityWorld());
+            this.toMake.setMove(move).setUser(user).setStart(start).setEnd(start);
+        }
+
+        public Builder setStartTick(final int tick)
+        {
+            this.toMake.setStartTick(tick);
+            return this;
+        }
+
+        public Builder setTarget(final Entity target)
+        {
+            if (target != null) this.toMake.setTarget(target);
+            return this;
+        }
+
+        public Builder setEnd(final Vector3 end)
+        {
+            if (end != null) this.toMake.setEnd(end);
+            return this;
+        }
+
+        public EntityMoveUse build()
+        {
+            this.toMake.init();
+            return this.toMake;
+        }
     }
 
     static final DataParameter<String>  MOVENAME  = EntityDataManager.<String> createKey(EntityMoveUse.class,
@@ -63,14 +116,82 @@ public class EntityMoveUse extends ThrowableEntity
     static final DataParameter<Integer> APPLYTICK = EntityDataManager.<Integer> createKey(EntityMoveUse.class,
             DataSerializers.VARINT);
 
-    Vector3 end     = Vector3.getNewVector();
-    Vector3 start   = Vector3.getNewVector();
+    Vector3 end   = Vector3.getNewVector();
+    Vector3 start = Vector3.getNewVector();
+
+    Vector3 here = Vector3.getNewVector();
+    Vector3 prev = Vector3.getNewVector();
+
+    Vector3 dir = Vector3.getNewVector();
+
+    Entity user   = null;
+    Entity target = null;
+
+    Move_Base move = null;
+
     boolean applied = false;
+    boolean onSelf  = false;
+    boolean contact = false;
+    boolean init    = false;
+
+    int startAge = 1;
+
+    double dist = 0;
+
+    final Set<UUID> alreadyHit = Sets.newHashSet();
+
+    Predicate<Entity> valid = e -> !this.alreadyHit.contains(e.getUniqueID())));
 
     public EntityMoveUse(final EntityType<EntityMoveUse> type, final World worldIn)
     {
         super(type, worldIn);
         this.ignoreFrustumCheck = true;
+    }
+
+    protected void init()
+    {
+        if (this.init) return;
+
+        // This should initialise these values on the client side correctly.
+        this.getStart();
+        this.getEnd();
+        this.getMove();
+        this.getUser();
+        this.getTarget();
+
+        if (this.getUser() == null) return;
+
+        this.init = true;
+        this.startAge = this.getDuration();
+        if (this.move != null)
+        {
+            this.contact = (this.move.move.attackCategory & IMoveConstants.CATEGORY_CONTACT) > 0;
+            final boolean aoe = this.move.aoe;
+            if (this.contact)
+            {
+                final float size = (float) Math.max(0.75, PokecubeCore.getConfig().contactAttackDistance);
+                final float width = this.user.getWidth();
+                final float height = this.user.getHeight();
+                this.size = EntitySize.fixed(width + size, height + size);
+            }
+            else if (aoe)
+            {
+                final float size = 8;
+                final float width = this.user.getWidth();
+                final float height = this.user.getHeight();
+                this.size = EntitySize.fixed(width + size, height + size);
+            }
+        }
+        if (!this.start.equals(this.end)) this.dir.set(this.end).subtractFrom(this.start).norm();
+        else this.onSelf = true;
+        this.dist = this.start.distanceTo(this.end);
+        this.recalculateSize();
+
+        this.here.set(this);
+
+        // Put us and our user in here by default.
+        this.alreadyHit.add(this.getUniqueID());
+        this.alreadyHit.add(this.user.getUniqueID());
     }
 
     @Override
@@ -79,26 +200,23 @@ public class EntityMoveUse extends ThrowableEntity
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
-    private void doMoveUse()
+    private void doMoveUse(final Entity target)
     {
         final Move_Base attack = this.getMove();
         final Entity user = this.getUser();
+        this.alreadyHit.add(target.getUniqueID());
         if (user == null || !this.isAlive() || !user.isAlive()) return;
+        // Only can hit our valid target!
+        if (attack.move.isNotIntercepable() && target != this.getTarget()) return;
         if (!this.getEntityWorld().isRemote)
         {
             final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
-            final Entity target = this.getTarget();
-            if (attack.move.isNotIntercepable() && target != null) MovesUtils.doAttack(attack.name, userMob, target);
-            else
-            {
-                if (attack.getPRE(userMob, target) <= 0 && target != null) this.setEnd(Vector3.getNewVector().set(
-                        target));
-                MovesUtils.doAttack(attack.name, userMob, this.getEnd());
-            }
+            MovesUtils.doAttack(attack.name, userMob, target);
+            this.applied = true;
         }
     }
 
-    public int getAge()
+    public int getDuration()
     {
         return this.getDataManager().get(EntityMoveUse.TICK);
     }
@@ -118,7 +236,8 @@ public class EntityMoveUse extends ThrowableEntity
 
     public Move_Base getMove()
     {
-        return MovesUtils.getMoveFromName(this.getDataManager().get(EntityMoveUse.MOVENAME));
+        if (this.move != null) return this.move;
+        return this.move = MovesUtils.getMoveFromName(this.getDataManager().get(EntityMoveUse.MOVENAME));
     }
 
     public MovePacketInfo getMoveInfo()
@@ -126,7 +245,7 @@ public class EntityMoveUse extends ThrowableEntity
         final MovePacketInfo info = new MovePacketInfo(this.getMove(), this.getUser(), this.getTarget(), this
                 .getStart(), this.getEnd());
         final IPokemob userMob = CapabilityPokemob.getPokemobFor(info.attacker);
-        info.currentTick = info.move.getAnimation(userMob).getDuration() - this.getAge();
+        info.currentTick = info.move.getAnimation(userMob).getDuration() - this.getDuration();
         return info;
     }
 
@@ -152,12 +271,14 @@ public class EntityMoveUse extends ThrowableEntity
 
     public Entity getTarget()
     {
-        return this.getEntityWorld().getEntityByID(this.getDataManager().get(EntityMoveUse.TARGET));
+        if (this.target != null) return this.target;
+        return this.target = this.getEntityWorld().getEntityByID(this.getDataManager().get(EntityMoveUse.TARGET));
     }
 
     public Entity getUser()
     {
-        return PokecubeCore.getEntityProvider().getEntity(this.getEntityWorld(), this.getDataManager().get(
+        if (this.user != null) return this.user;
+        return this.user = PokecubeCore.getEntityProvider().getEntity(this.getEntityWorld(), this.getDataManager().get(
                 EntityMoveUse.USER), true);
     }
 
@@ -197,14 +318,19 @@ public class EntityMoveUse extends ThrowableEntity
         this.getDataManager().register(EntityMoveUse.STARTTICK, 0);
     }
 
-    public void setAge(final int age)
+    protected void setDuration(final int age)
     {
         this.getDataManager().set(EntityMoveUse.TICK, age);
     }
 
-    public void setApplicationTick(final int tick)
+    protected void setApplicationTick(final int tick)
     {
         this.getDataManager().set(EntityMoveUse.APPLYTICK, tick);
+    }
+
+    protected void setStartTick(final int tick)
+    {
+        this.getDataManager().set(EntityMoveUse.STARTTICK, tick);
     }
 
     public EntityMoveUse setEnd(final Vector3 location)
@@ -218,16 +344,17 @@ public class EntityMoveUse extends ThrowableEntity
 
     public EntityMoveUse setMove(final Move_Base move)
     {
+        this.move = move;
         String name = "";
         if (move != null) name = move.name;
         this.getDataManager().set(EntityMoveUse.MOVENAME, name);
         final IPokemob user = CapabilityPokemob.getPokemobFor(this.getUser());
         if (move.getAnimation(user) != null)
         {
-            this.getDataManager().set(EntityMoveUse.TICK, move.getAnimation(user).getDuration() + 1);
-            this.setApplicationTick(this.getAge() - move.getAnimation(user).getApplicationTick());
+            this.setDuration(move.getAnimation(user).getDuration() + 1);
+            this.setApplicationTick(this.getDuration() - move.getAnimation(user).getApplicationTick());
         }
-        else this.getDataManager().set(EntityMoveUse.TICK, 1);
+        else this.setDuration(1);
         return this;
     }
 
@@ -250,6 +377,7 @@ public class EntityMoveUse extends ThrowableEntity
 
     public EntityMoveUse setTarget(final Entity target)
     {
+        this.target = target;
         if (target != null) this.getDataManager().set(EntityMoveUse.TARGET, target.getEntityId());
         else this.getDataManager().set(EntityMoveUse.TARGET, -1);
         return this;
@@ -257,6 +385,7 @@ public class EntityMoveUse extends ThrowableEntity
 
     public EntityMoveUse setUser(final Entity user)
     {
+        this.user = user;
         this.getDataManager().set(EntityMoveUse.USER, user.getEntityId());
         return this;
     }
@@ -264,42 +393,85 @@ public class EntityMoveUse extends ThrowableEntity
     @Override
     public void tick()
     {
+        this.init();
+        if (!this.init) return;
+
         final int start = this.getStartTick() - 1;
         this.getDataManager().set(EntityMoveUse.STARTTICK, start);
+        // Not ready to start yet
         if (start > 0) return;
-        final int age = this.getAge() - 1;
-        this.setAge(age);
 
-        if (this.getMove() == null || !this.isAlive() || age < 0)
+        final int age = this.getDuration() - 1;
+        this.setDuration(age);
+
+        final IPokemob userMob = CapabilityPokemob.getPokemobFor(this.user);
+        // Finished, or is invalid
+        if (this.getMove() == null || this.getUser() == null || !this.isAlive() || !this.getUser().isAlive() || age < 0)
         {
             this.remove();
             return;
         }
+
+        this.prev.set(this.here);
+        AxisAlignedBB testBox = this.getBoundingBox();
+
+        // Set to the correct location
+        if (this.onSelf || this.contact)
+        {
+            this.start.set(this.getUser());
+            this.end.set(this.start);
+            this.setMotion(this.getUser().getMotion());
+            this.start.moveEntity(this);
+        }
+        else
+        {
+            final double frac = this.dist * (this.startAge - this.getDuration()) / this.startAge;
+            this.setMotion(this.dir.x * frac, this.dir.y * frac, this.dir.z * frac);
+            this.setPosition(this.start.x + this.dir.x * frac, this.start.y + this.dir.y * frac, this.start.z
+                    + this.dir.z * frac);
+            this.here.set(this);
+        }
+
         final Move_Base attack = this.getMove();
-        Entity user;
-        valid:
-        if ((user = this.getUser()) == null || !this.isAlive() || !user.isAlive() || !user.addedToChunk)
-        {
-            if (user != null && !user.addedToChunk) if (user.getPersistentData().getBoolean("is_a_player")) break valid;
-            this.remove();
-            return;
-        }
-        final IPokemob userMob = CapabilityPokemob.getPokemobFor(user);
-        if (user instanceof LivingEntity && ((LivingEntity) user).getHealth() <= 1)
-        {
-            this.remove();
-            return;
-        }
         if (this.getEntityWorld().isRemote && attack.getAnimation(userMob) != null) attack.getAnimation(userMob)
                 .spawnClientEntities(this.getMoveInfo());
 
-        if (!this.applied && age <= this.getApplicationTick())
-        {
-            this.applied = true;
-            this.doMoveUse();
-        }
+        // Not ready to apply yet
+        if (this.getApplicationTick() < age) return;
 
-        if (age == 0) this.remove();
+        final Vec3d v = this.getMotion();
+        testBox = testBox.expand(v.x, v.y, v.z);
+        final List<LivingEntity> hits = this.getEntityWorld().getEntitiesWithinAABB(LivingEntity.class, testBox,
+                this.valid);
+        for (final Entity e : hits)
+            this.doMoveUse(e);
+
+        if (this.getMove() != null && userMob != null && !this.applied && !this.getEntityWorld().isRemote)
+        {
+            boolean canApply = false;
+            this.getEnd();
+            if (this.contact)
+            {
+                final double range = userMob.inCombat() ? 0.5 : 4;
+                final AxisAlignedBB endPos = new AxisAlignedBB(this.end.getPos()).grow(range);
+                canApply = endPos.intersects(this.getBoundingBox());
+            }
+            else
+            {
+                final EntityRayTraceResult hit = ProjectileHelper.rayTraceEntities(this.getEntityWorld(), this,
+                        this.here.toVec3d(), this.end.toVec3d(), this.getBoundingBox(), this.valid);
+                canApply = hit == null || hit.getType() == Type.MISS;
+            }
+            if (canApply)
+            {
+                this.applied = true;
+                // We only apply this to do block effects, not for damage. For
+                // damage. we use the call above to doMoveUse(entity)
+                MovesUtils.doAttack(this.getMove(), userMob, this.end, e -> false, e ->
+                {
+                });
+            }
+        }
     }
 
     @Override

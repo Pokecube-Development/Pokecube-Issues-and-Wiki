@@ -72,7 +72,6 @@ public class AnimationMultiAnimations extends MoveAnimationBase
             wrapped.start = start;
             this.components.add(wrapped);
         }
-        if (this.applicationTick == 0) this.applicationTick = this.duration;
         this.components.sort((arg0, arg1) -> arg0.start - arg1.start);
     }
 

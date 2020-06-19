@@ -27,7 +27,7 @@ public class ConfigHandler extends ConfigData
     private static final String CLIENT      = "client";
 
     @Configure(category = ConfigHandler.BOOMS)
-    public List<Integer> explosionRate = Lists.newArrayList(new Integer[] { 2000, 10000 });
+    public int maxMsPerTick = 25;
 
     @Configure(category = ConfigHandler.BOOMS)
     public int     explosionRadius = 127;
@@ -65,7 +65,7 @@ public class ConfigHandler extends ConfigData
     {
         ExplosionCustom.MAX_RADIUS = this.explosionRadius;
         ExplosionCustom.AFFECTINAIR = this.affectAir;
-        if (this.explosionRate.size() == 2) ExplosionCustom.MAXPERTICK = this.explosionRate.toArray(new Integer[2]);
+        ExplosionCustom.MAXPERTICK = this.maxMsPerTick;
         ExplosionCustom.MINBLASTDAMAGE = (float) this.minBlastEffect;
         TerrainSegment.noLoad = this.resetAllTerrain;
         IBlockEntity.TEBLACKLIST.clear();

@@ -37,7 +37,6 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.handlers.events.EventsHandler.MeteorAreaSetter;
 import pokecube.core.handlers.events.PCEventsHandler;
 import pokecube.core.handlers.events.PokemobEventsHandler;
 import pokecube.core.handlers.events.SpawnEventsHandler;
@@ -108,7 +107,6 @@ public class CommonProxy implements Proxy
         PokecubeCore.POKEMOB_BUS.register(PokemobEventsHandler.class);
 
         MinecraftForge.EVENT_BUS.register(GeneticsManager.class);
-        MinecraftForge.EVENT_BUS.register(MeteorAreaSetter.class);
         MinecraftForge.EVENT_BUS.register(PCEventsHandler.class);
         MinecraftForge.EVENT_BUS.register(PokemobEventsHandler.class);
         MinecraftForge.EVENT_BUS.register(WearablesCompat.class);

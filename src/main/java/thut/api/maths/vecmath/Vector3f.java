@@ -2,6 +2,7 @@ package thut.api.maths.vecmath;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import thut.api.maths.Vector3;
 
 /**
  * A 3-element vector that is represented by single-precision floating point
@@ -96,6 +97,18 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
     public net.minecraft.client.renderer.Vector3f toMC()
     {
         return new net.minecraft.client.renderer.Vector3f(this.x, this.y, this.z);
+    }
+
+    public Vector3f(final Vector3 rHat)
+    {
+        this((float) rHat.x, (float) rHat.y, (float) rHat.z);
+    }
+
+    public final void set(final Vector3 rHat)
+    {
+        this.x = (float) rHat.x;
+        this.y = (float) rHat.y;
+        this.z = (float) rHat.z;
     }
 
     /**
@@ -193,5 +206,4 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
         if (vDot > 1.0) vDot = 1.0;
         return (float) Math.acos(vDot);
     }
-
 }

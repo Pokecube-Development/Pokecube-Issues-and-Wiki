@@ -91,7 +91,10 @@ public class MaxRaidFunction
             entity.setHealth(entity.getMaxHealth());
             v.add(0, 1, 0).moveEntity(entity);
             entity.setPosition(v.x, v.y + 3, v.z);
-            pokemob.getLevel();
+            //
+            //pokemob.setHeldItem(new ItemStack(Items.END_STONE));
+            //
+            
             final Long time = entity.getServer().getWorld(DimensionType.OVERWORLD).getGameTime();
             entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);

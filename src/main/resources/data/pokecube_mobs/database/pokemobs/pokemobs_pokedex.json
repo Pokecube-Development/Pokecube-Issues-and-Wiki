@@ -7543,7 +7543,7 @@
           }
         },
         "mass": 42.0,
-        "captureRate": 3,
+        "captureRate": 45,
         "baseExp": 270,
         "baseFriendship": 35,
         "expMode": "Medium Fast",

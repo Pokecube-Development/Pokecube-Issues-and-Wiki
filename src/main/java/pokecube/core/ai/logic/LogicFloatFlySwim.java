@@ -219,15 +219,19 @@ public class LogicFloatFlySwim extends LogicBase
     public void tick(final World world)
     {
         super.tick(world);
+
+        if (world instanceof ServerWorld) synchronized (((ServerWorld) world).navigations)
+        {
+            ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
+        }
+
         if (this.pokemob.floats() || this.pokemob.flys())
         {
             if (this.state != NaviState.FLY)
             {
                 this.entity.setNoGravity(!this.pokemob.isGrounded());
-                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
                 this.pokemob.getEntity().navigator = this.flyPather;
                 this.pokemob.getEntity().moveController = this.flyController;
-                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.add(this.entity.getNavigator());
             }
             this.state = NaviState.FLY;
         }
@@ -235,10 +239,8 @@ public class LogicFloatFlySwim extends LogicBase
         {
             if (this.state != NaviState.SWIM)
             {
-                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
                 this.pokemob.getEntity().navigator = this.swimPather;
                 this.pokemob.getEntity().moveController = this.swimController;
-                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.add(this.entity.getNavigator());
             }
             this.state = NaviState.SWIM;
         }
@@ -247,12 +249,15 @@ public class LogicFloatFlySwim extends LogicBase
             if (this.state != NaviState.WALK)
             {
                 this.entity.setNoGravity(false);
-                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.remove(this.entity.getNavigator());
                 this.pokemob.getEntity().navigator = this.walkPather;
                 this.pokemob.getEntity().moveController = this.walkController;
-                if (world instanceof ServerWorld) ((ServerWorld) world).navigations.add(this.entity.getNavigator());
             }
             this.state = NaviState.WALK;
+        }
+
+        if (world instanceof ServerWorld) synchronized (((ServerWorld) world).navigations)
+        {
+            ((ServerWorld) world).navigations.add(this.entity.getNavigator());
         }
     }
 }

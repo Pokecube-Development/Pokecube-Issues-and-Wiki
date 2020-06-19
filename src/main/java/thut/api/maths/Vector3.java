@@ -911,7 +911,8 @@ public class Vector3
     {
         final BlockState state = this.getBlockState(world);
         if (state == null || state.getBlock().isAir(state, world, this.getPos())) return 0;
-        return state.getExplosionResistance(world, this.pos, boom.getExplosivePlacedBy(), boom);
+        final float res = state.getExplosionResistance(world, this.pos, boom.getExplosivePlacedBy(), boom);
+        return res;
     }
 
     public int getLightValue(final World world)
@@ -1196,10 +1197,7 @@ public class Vector3
      * @return */
     public double magSq()
     {
-        double vmag = 0;
-        for (int i = 0; i < Vector3.length; i = i + 1)
-            vmag = vmag + this.get(i) * this.get(i);
-        return vmag;
+        return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
     /** Left multiplies the Matrix by the Vector

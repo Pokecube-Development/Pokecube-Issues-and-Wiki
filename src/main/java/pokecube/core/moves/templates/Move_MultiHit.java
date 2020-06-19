@@ -16,14 +16,14 @@ import thut.api.maths.Vector3;
 
 public class Move_MultiHit extends Move_Basic
 {
-    public Move_MultiHit(String name)
+    public Move_MultiHit(final String name)
     {
         super(name);
     }
 
     @Override
-    public void ActualMoveUse(@Nonnull Entity user, @Nullable Entity target, @Nonnull Vector3 start,
-            @Nonnull Vector3 end)
+    public void ActualMoveUse(@Nonnull final Entity user, @Nullable final Entity target, @Nonnull final Vector3 start,
+            @Nonnull final Vector3 end)
     {
         final IPokemob pokemob = CapabilityPokemob.getPokemobFor(user);
         if (pokemob == null) return;
@@ -37,9 +37,10 @@ public class Move_MultiHit extends Move_Basic
                                                                                                    // message
                                                                                                    // here?
                 break;
-            final EntityMoveUse moveUse = new EntityMoveUse(EntityMoveUse.TYPE, user.getEntityWorld());
-            moveUse.setUser(user).setMove(this, i * duration).setTarget(target).setStart(start).setEnd(end);
+            final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, this, start).setEnd(end).setTarget(target)
+                    .setStartTick(i * duration).build();
             MoveQueuer.queueMove(moveUse);
+
             // Setting this way results in the last one fired being the "active"
             // move, hopefully this doesn't cause any problems, if it does, see
             // about changing to addActiveMove instead of setActiveMove?
@@ -47,7 +48,7 @@ public class Move_MultiHit extends Move_Basic
         }
     }
 
-    public int getCount(@Nonnull IPokemob user, @Nullable Entity target)
+    public int getCount(@Nonnull final IPokemob user, @Nullable final Entity target)
     {
         final int random = new Random().nextInt(6);
         switch (random)
