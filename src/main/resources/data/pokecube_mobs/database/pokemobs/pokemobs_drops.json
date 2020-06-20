@@ -4670,13 +4670,22 @@
       "name": "Rillaboom"
     },
     {
-      "name": "Scorbunny"
+      "name": "Scorbunny",
+	  "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
     },
     {
-      "name": "Raboot"
+      "name": "Raboot",
+	  "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
     },
     {
-      "name": "Cinderace"
+      "name": "Cinderace",
+	  "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
     },
     {
       "name": "Sobble"
@@ -4694,28 +4703,52 @@
       "name": "Greedent"
     },
     {
-      "name": "Rookidee"
+      "name": "Rookidee",
+	  "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
     },
     {
-      "name": "Corvisquire"
+      "name": "Corvisquire",
+	  "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
     },
     {
-      "name": "Corviknight"
+      "name": "Corviknight",
+	  "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
     },
     {
-      "name": "Blipbug"
+      "name": "Blipbug",
+	  "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
     },
     {
-      "name": "Dottler"
+      "name": "Dottler",
+	  "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
     },
     {
-      "name": "Orbeetle"
+      "name": "Orbeetle",
+	  "stats": {
+        "lootTable": "minecraft:entities/spider"
+      }
     },
     {
-      "name": "Nickit"
+      "name": "Nickit",
+	  "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
     },
     {
-      "name": "Thievul"
+      "name": "Thievul",
+	  "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
     },
     {
       "name": "Gossifleur"
@@ -4742,13 +4775,22 @@
       "name": "Boltund"
     },
     {
-      "name": "Rolycoly"
+      "name": "Rolycoly",
+	  "stats": {
+        "lootTable": "pokecube:entities/coal_1"
+      }
     },
     {
-      "name": "Carkol"
+      "name": "Carkol",
+	  "stats": {
+        "lootTable": "pokecube:entities/coal_1"
+      }
     },
     {
-      "name": "Coalossal"
+      "name": "Coalossal",
+	  "stats": {
+        "lootTable": "pokecube:entities/coal_1"
+      }
     },
     {
       "name": "Applin"
@@ -4760,22 +4802,37 @@
       "name": "Appletun"
     },
     {
-      "name": "Silicobra"
+      "name": "Silicobra",
+	  "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
     },
     {
-      "name": "Sandaconda"
+      "name": "Sandaconda",
+	  "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
     },
     {
-      "name": "Cramorant"
+      "name": "Cramorant",
+	  "stats": {
+        "lootTable": "pokecube:entities/chicken_1"
+      }
     },
     {
       "name": "Cramorant Gulping"
     },
     {
-      "name": "Arrokuda"
+      "name": "Arrokuda",
+	  "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
     },
     {
-      "name": "Barraskewda"
+      "name": "Barraskewda",
+	  "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
     },
     {
       "name": "Toxel"
@@ -4793,40 +4850,77 @@
       "name": "Centiskorch"
     },
     {
-      "name": "Clobbopus"
+      "name": "Clobbopus",
+	  "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
     },
     {
-      "name": "Grapploct"
+      "name": "Grapploct",
+	  "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
     },
     {
-      "name": "Sinistea"
+      "name": "Sinistea",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Polteageist"
+      "name": "Polteageist",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Hatenna"
+      "name": "Hatenna",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Hattrem"
+      "name": "Hattrem",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Hatterene"
+      "name": "Hatterene",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Impidimp"
+      "name": "Impidimp",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Morgrem"
+      "name": "Morgrem",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Grimmsnarl"
+      "name": "Grimmsnarl",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Obstagoon"
+      "name": "Obstagoon",
+	  "stats": {
+        "lootTable": "pokecube:entities/rabbit_2"
+      }
     },
     {
-      "name": "Perrserker"
+      "name": "Perrserker",
+	  "stats": {
+        "lootTable": "pokecube:entities/money_cat_small",
+        "heldTable": "pokecube:entities/emerald_1_33"
+      }
     },
     {
       "name": "Cursola"
@@ -4835,10 +4929,16 @@
       "name": "Sirfetch'd"
     },
     {
-      "name": "Mr. Rime"
+      "name": "Mr. Rime",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
-      "name": "Runerigus"
+      "name": "Runerigus",
+	  "stats": {
+        "lootTable": "pokecube:entities/stone_2"
+      }
     },
     {
       "name": "Milcery"
@@ -4847,10 +4947,16 @@
       "name": "Alcremie"
     },
     {
-      "name": "Falinks"
+      "name": "Falinks",
+	  "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+      }
     },
     {
-      "name": "Pincurchin"
+      "name": "Pincurchin",
+	  "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
     },
     {
       "name": "Snom"
@@ -4862,10 +4968,16 @@
       "name": "Stonjourner"
     },
     {
-      "name": "Eiscue"
+      "name": "Eiscue",
+	  "stats": {
+        "lootTable": "pokecube:entities/fish_1"
+      }
     },
     {
-      "name": "Indeedee"
+      "name": "Indeedee",
+	  "stats": {
+        "lootTable": "pokecube:entities/enderpearls_2"
+      }
     },
     {
       "name": "Morpeko"
@@ -4892,7 +5004,10 @@
       "name": "Arctovish"
     },
     {
-      "name": "Duraludon"
+      "name": "Duraludon",
+	  "stats": {
+        "lootTable": "pokecube:entities/iron_1"
+      }
     },
     {
       "name": "Dreepy"
@@ -4911,6 +5026,18 @@
     },
     {
       "name": "Eternatus"
+    },
+	{
+      "name": "Kubfu"
+    },
+	{
+      "name": "Urshifu Single"
+    },
+	{
+      "name": "Urshifu Rapid"
+    },
+	{
+      "name": "Zarude"
     }
   ]
 }

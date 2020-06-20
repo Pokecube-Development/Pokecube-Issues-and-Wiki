@@ -3,14 +3,9 @@
 	<model name="">
         <phase name="global" scale="0.09"/>
 		<metadata head="head" headCap="-70,70" headCap1="-60,60" headAxis="2" headAxis2="0" headDir="-1" headDir1="-1"/>
-		  <worn angles="-90,0,0" id="__HAT__" offset="0,0.87,0" parent="head" scale="2"/>
-		  <worn angles="0,0,-30" id="__EAR_left__" offset="-0.4,1.2,0" parent="head" scale="2.4"/>
-		  <worn angles="0,0,30" id="__EAR_right__" offset="0.4,1.2,0" parent="head" scale="2.4"/>
-		  <worn angles="-90,0,0" id="__EYE__" offset="0,0.8,0.1" parent="head" scale="2.5"/>
-		  <worn angles="-90,0,0" id="__NECK__" offset="0,0.05,0.3" parent="neck" scale="2"/>
 		<customTex default="sobble">
-		<part name="Head" tex="sobblehead"/>
-		<animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
+		<part name="Head" tex="sobbleeye"/>
+		<animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
 		</customTex>
 		<phase type="idle">
 		<part name="leg1">

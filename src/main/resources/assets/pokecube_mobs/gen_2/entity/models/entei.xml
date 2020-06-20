@@ -8,7 +8,7 @@
   <phase axis="0" name="snakeIdle" parts="c:c1:c2:c3:c4"/>
   <customTex default="entei">
    <part name="Head" tex="enteieye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="mouth">

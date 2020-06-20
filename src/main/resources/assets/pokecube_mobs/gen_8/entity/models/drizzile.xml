@@ -7,8 +7,8 @@
 	<phase name="snakeWalk" parts="tail1:tail2:tail3:tail4" axis="0"/>
 	<phase name="snakeSwim" parts="tail1:tail2:tail3:tail4" axis="0"/>
 	<customTex default="drizzile">
-	 <part name="Head" tex="drizzilehead"/>
-	 <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
+	 <part name="Head" tex="drizzileeye"/>
+	 <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
 	</customTex>
 	<phase type="sitting">
 	<part name="body1">

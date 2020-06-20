@@ -5,9 +5,8 @@
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1" headDir1="-1"/>
   <customTex default="phantump">
    <part name="Head" tex="phantumphead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:20"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
    <part name="M" tex="phantumphead"/>
-   <animation diffs="0,0.55" part="M" trigger="random:0.005:20"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

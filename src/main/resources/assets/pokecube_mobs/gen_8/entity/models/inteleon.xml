@@ -9,9 +9,8 @@
   <phase axis="0" name="snakeWalk" parts="cap1_2:cap1_3"/>
   <phase axis="0" name="snakeSwim" parts="tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8:tail9:tail10"/>
   <customTex default="inteleon">
-   <part name="Head" tex="inteleonhead"/>
-   <animation diffs="0,0.35" part="Head" trigger="random:0.005:25"/>
-   <part name="Eye" tex="inteleonhead"/>
+   <part name="Head" tex="inteleoneye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="cint">

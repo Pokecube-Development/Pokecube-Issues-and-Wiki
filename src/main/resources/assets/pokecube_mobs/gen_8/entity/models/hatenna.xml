@@ -4,8 +4,8 @@
   <phase name="global" scale="0.20"/>
   <phase duration="10" leftArm="" leftLeg="foot1" legAngle="10" name="biWalk" rightArm="" rightLeg="foot2"/>
   <customTex default="hatenna">
-   <part name="Head" tex="hatennahead"/>
-   <animation diffs="0.5,0" part="Head" trigger="random:0.005:21"/>
+   <part name="Head" tex="hatennamouth"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="body">

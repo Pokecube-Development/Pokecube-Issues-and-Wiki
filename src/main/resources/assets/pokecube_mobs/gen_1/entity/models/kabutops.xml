@@ -5,7 +5,7 @@
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-15,10" headDir="-1"/>
   <customTex default="kabutops">
    <part name="Head" tex="kabutopseye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="body">

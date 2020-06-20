@@ -2,6 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.15"/>
+  <material name="Glow" light="1" transluscent="false"/>
   <phase type="idle">
    <part name="body">
     <component length="10" name="1" posChange="0,-1,0" startKey="0"/>

@@ -2,11 +2,13 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.49"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
   <phase duration="6" leftArm="" leftLeg="foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="foot1_001"/>
   <customTex default="garbodor">
    <part name="Head" tex="garbodorhead"/>
-   <animation diffs="0.29,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.4,0" part="Head" trigger="random:0.005:5"/>
+   <part name="Mouth" tex="garbodormouth"/>
+   <animation diffs="0,0.3" part="Mouth" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

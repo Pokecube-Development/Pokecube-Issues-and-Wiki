@@ -5,7 +5,7 @@
   <metadata dye="p1:p2:p3:p4:p5" head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="floette">
    <part name="Head" tex="floettehead"/>
-   <animation diffs="0.25,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.47,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

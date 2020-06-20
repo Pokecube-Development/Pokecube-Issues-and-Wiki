@@ -4,7 +4,7 @@
   <phase name="global" scale="0.15"/>
   <customTex default="corphish">
    <part name="Head" tex="corphisheye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1:leg3:leg5" legAngle="35" name="biWalk" rightArm="" rightLeg="leg2:leg4:leg6"/>
   <phase type="sitting">

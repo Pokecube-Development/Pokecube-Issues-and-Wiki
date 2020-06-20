@@ -6,7 +6,7 @@
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="gurdurr">
    <part name="Head" tex="gurdurrhead"/>
-   <animation diffs="0.25,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="arm2">
@@ -16,7 +16,7 @@
     <component length="1" name="1" rotOffset="0.0,0.0,40.0," startKey="0"/>
    </part>
    <part name="arm1">
-    <component length="1" name="1" rotOffset="90.0,20,0," startKey="0"/>
+    <component length="1" name="1" rotOffset="90.0,0,0," startKey="0"/>
    </part>
    <part name="arm1_1">
     <component length="1" name="1" rotOffset="180.0,0.0,90.0," startKey="0"/>

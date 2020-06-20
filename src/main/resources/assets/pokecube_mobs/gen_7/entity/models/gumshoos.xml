@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="arm2" leftHind="leg1" name="quadWalk" rightFront="arm1" rightHind="leg2"/>
   <customTex default="gumshoos">
    <part name="Head" tex="gumshooshead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
   <phase type="sitting">
    <part name="tail">

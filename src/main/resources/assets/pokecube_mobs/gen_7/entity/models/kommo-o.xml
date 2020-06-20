@@ -6,8 +6,8 @@
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <phase axis="0" name="snakeWalk" parts="tail1:tail2:tail3:tail4:tail5:tail6:tail7:tail8"/>
   <customTex default="kommoo">
-   <part name="Head" tex="kommoohead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
+   <part name="Head" tex="kommooeye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="idle">
    <part name="body">

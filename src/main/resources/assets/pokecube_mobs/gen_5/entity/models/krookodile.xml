@@ -6,7 +6,7 @@
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg2" legAngle="25" name="biWalk" rightArm="" rightLeg="leg1"/>
   <customTex default="krookodile">
    <part name="Head" tex="krookodileeye"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4"/>

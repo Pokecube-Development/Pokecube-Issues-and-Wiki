@@ -2,10 +2,10 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.015"/>
-  <metadata dye="p1:p1_001:p1_002:p1_003:p1_004" head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <metadata dye="p1:p2:p3:p4:p5" head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
   <customTex default="flabebe">
    <part name="Head" tex="flabebehead"/>
-   <animation diffs="-0.44,0" part="Head" trigger="random:0.005:1"/>
+   <animation diffs="-0.3,0" part="Head" trigger="random:0.005:4"/>
   </customTex>
   <phase type="idle">
    <part name="arm1">

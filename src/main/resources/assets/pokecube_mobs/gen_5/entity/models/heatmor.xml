@@ -9,6 +9,7 @@
   <customTex default="heatmor">
    <part name="Head" tex="heatmorhead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>
+   <part name="Mark" tex="heatmormark"/>
   </customTex>
   <phase type="idle">
    <part name="body1">

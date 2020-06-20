@@ -4,8 +4,8 @@
   <phase name="global" offset="0,0.2,0" scale="0.55"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
   <customTex default="thundurusincarnate">
-   <part name="Head" tex="thundurushead"/>
-   <animation diffs="0,0.3" part="Head" trigger="random:0.005:1"/>
+   <part name="Head" tex="thunduruseye"/>
+   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>
   <phase type="sitting">
    <part name="tail">
