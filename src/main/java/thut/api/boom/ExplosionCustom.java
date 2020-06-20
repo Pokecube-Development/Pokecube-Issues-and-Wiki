@@ -1,22 +1,19 @@
 package thut.api.boom;
 
 import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.longs.Long2FloatOpenHashMap;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
@@ -26,7 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunk;
+import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
@@ -34,19 +31,28 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import thut.api.boom.Checker.Cubes;
+import thut.api.boom.Checker.ResistCache;
+import thut.api.boom.Checker.ResistMap;
+import thut.api.boom.Checker.ResistProvider;
+import thut.api.boom.Checker.ShadowMap;
+import thut.api.boom.Checker.ShadowSet;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Vector3f;
 import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
 public class ExplosionCustom extends Explosion
 {
-    static class BlastResult
+    public static class BlastResult
     {
-        final List<BlockPos>  results;
-        final List<HitEntity> hit;
-        final boolean         done;
+        public final Object2FloatOpenHashMap<BlockPos> results;
 
-        public BlastResult(final List<BlockPos> results, final List<HitEntity> hit, final boolean done)
+        public final List<HitEntity> hit;
+        public final boolean         done;
+
+        public BlastResult(final Object2FloatOpenHashMap<BlockPos> results, final List<HitEntity> hit,
+                final boolean done)
         {
             this.results = results;
             this.hit = hit;
@@ -54,7 +60,7 @@ public class ExplosionCustom extends Explosion
         }
     }
 
-    static class HitEntity
+    public static class HitEntity
     {
         final Entity entity;
         final float  blastStrength;
@@ -71,10 +77,31 @@ public class ExplosionCustom extends Explosion
         void hitEntity(Entity e, float power, Explosion boom);
     }
 
-    public static int       MAX_RADIUS     = 127;
-    public static Integer[] MAXPERTICK     = { 10000, 50000 };
-    public static float     MINBLASTDAMAGE = 0.1f;
-    public static boolean   AFFECTINAIR    = true;
+    public static interface BlockBreaker
+    {
+        default void breakBlocks(final BlastResult result, final ExplosionCustom boom)
+        {
+            for (final Entry<BlockPos> pos : result.results.object2FloatEntrySet())
+            {
+                boom.getAffectedBlockPositions().add(pos.getKey());
+                final BlockState destroyed = boom.world.getBlockState(pos.getKey());
+                final float power = pos.getFloatValue();
+                BlockState to = Blocks.AIR.getDefaultState();
+                if (power < 36)
+                {
+                    if (destroyed.getMaterial() == Material.LEAVES) to = Blocks.FIRE.getDefaultState();
+                    if (destroyed.getMaterial() == Material.TALL_PLANTS) to = Blocks.FIRE.getDefaultState();
+                }
+                // TODO re-implement dust/melt at some point?
+                boom.world.setBlockState(pos.getKey(), to, 3);
+            }
+        }
+    }
+
+    public static int     MAX_RADIUS     = 127;
+    public static int     MAXPERTICK     = 25;
+    public static float   MINBLASTDAMAGE = 0.1f;
+    public static boolean AFFECTINAIR    = true;
 
     public static Block melt;
     public static Block solidmelt;
@@ -88,19 +115,38 @@ public class ExplosionCustom extends Explosion
         e.attackEntityFrom(DamageSource.causeExplosionDamage(boom), damage);
     };
 
-    int   currentIndex = 0;
-    int   nextIndex    = 0;
+    int currentIndex = 0;
+    int nextIndex    = 0;
+
+    double last_phi = 0;
+    double last_rad = 0.25;
+
+    int ind1;
+    int ind2;
+    int ind3;
+    int ind4;
+
     float minBlastDamage;
-    int   radius       = ExplosionCustom.MAX_RADIUS;
 
-    public Integer[] maxPerTick;
+    int radius = ExplosionCustom.MAX_RADIUS;
 
-    IWorld  world;
+    int currentRadius = 0;
+
+    public int maxPerTick;
+
+    public IWorld world;
+
     Vector3 centre;
 
-    float strength;
+    final float strength;
 
-    public boolean meteor = false;
+    public BlockBreaker breaker = new BlockBreaker()
+    {
+    };
+
+    public ResistProvider resistProvider = new ResistProvider()
+    {
+    };
 
     public PlayerEntity owner = null;
 
@@ -112,23 +158,32 @@ public class ExplosionCustom extends Explosion
 
     public long totalTime = 0;
 
+    public long realTotalTime = 0;
+
     Entity exploder;
 
-    public Set<BlockPos> affectedBlockPositions = new HashSet<>();
+    Vector3f min = new Vector3f(-1, -1, -1);
+    Vector3f max = new Vector3f(1, 1, 1);
 
-    Map<LivingEntity, Float> damages = new HashMap<>();
+    Vector3f min_next = new Vector3f(1, 1, 1);
+    Vector3f max_next = new Vector3f(-1, -1, -1);
 
-    List<IChunk> affected = new ArrayList<>();
+    float lastBoundCheck = 10;
 
     // DOLATER figure out a good way to clear these between each set of shells.
-    Int2FloatOpenHashMap resists = new Int2FloatOpenHashMap(100000);
+    Long2FloatOpenHashMap resistMap = new Long2FloatOpenHashMap();
 
-    IntSet blockedSet = new IntOpenHashSet(100000);
+    LongSet blockedSet = new LongOpenHashSet();
 
-    Int2FloatOpenHashMap thisShell = new Int2FloatOpenHashMap(100000);
+    ShadowMap shadow;
+
+    ResistCache resists;
 
     // used to speed up the checking of if a resist exists in the map
-    BitSet checked = new BitSet();
+    LongSet checked = new LongOpenHashSet();
+    LongSet seen    = new LongOpenHashSet();
+
+    Cubes cubes;
 
     Vector3 r = Vector3.getNewVector(), rAbs = Vector3.getNewVector(), rHat = Vector3.getNewVector(), rTest = Vector3
             .getNewVector(), rTestPrev = Vector3.getNewVector(), rTestAbs = Vector3.getNewVector();
@@ -144,35 +199,35 @@ public class ExplosionCustom extends Explosion
         super(world, par2Entity, center.x, center.y, center.z, power, false, Mode.DESTROY);
         this.world = world;
         this.exploder = par2Entity;
-        this.strength = power;
         this.explosionX = center.x;
         this.explosionY = center.y;
         this.explosionZ = center.z;
         this.centre = center.copy();
         this.minBlastDamage = ExplosionCustom.MINBLASTDAMAGE;
-        this.maxPerTick = ExplosionCustom.MAXPERTICK.clone();
+        this.maxPerTick = ExplosionCustom.MAXPERTICK;
+
+        final double scaleFactor = 150;
+        this.strength = (float) (scaleFactor * power);
+
+        this.cubes = new Cubes(this);
+        this.shadow = new ShadowSet(this);
+        this.resists = new ResistMap();
+        this.resists = this.cubes;
+
+        this.lastBoundCheck = center.intY() - world.getHeight(Type.MOTION_BLOCKING, center.intX(), center.intZ()) + 10;
+        this.lastBoundCheck = Math.max(this.lastBoundCheck, 10);
     }
 
-    public void addChunkPosition(final Vector3 v)
-    {
-        this.affectedBlockPositions.add(new BlockPos(v.intX(), v.intY(), v.intZ()));
-    }
-
-    private void applyBlockEffects(final List<BlockPos> toRemove)
+    private void applyBlockEffects(final BlastResult result)
     {
         this.getAffectedBlockPositions().clear();
-        for (final BlockPos pos : toRemove)
-        {
-            this.getAffectedBlockPositions().add(pos.toImmutable());
-            final BlockState state = this.world.getBlockState(pos);
-            this.doMeteorStuff(state, pos);
-        }
+        this.breaker.breakBlocks(result, this);
     }
 
-    private void applyEntityEffects(final List<HitEntity> affected)
+    private void applyEntityEffects(final BlastResult result)
     {
         this.targets.clear();
-        for (final HitEntity e : affected)
+        for (final HitEntity e : result.hit)
         {
             final Entity hit = e.entity;
             final float power = e.blastStrength;
@@ -184,14 +239,13 @@ public class ExplosionCustom extends Explosion
         }
     }
 
-    public boolean canBreak(final Vector3 location)
+    public boolean canBreak(final Vector3 location, final BlockState state)
     {
-        final boolean ret = true;
+        final boolean ret = state.getBlock() != Blocks.BEDROCK;
 
         if (this.owner != null) try
         {
-            final BreakEvent evt = new BreakEvent(this.world.getWorld(), location.getPos(), location.getBlockState(
-                    this.world), this.owner);
+            final BreakEvent evt = new BreakEvent(this.world.getWorld(), location.getPos(), state, this.owner);
             MinecraftForge.EVENT_BUS.post(evt);
             if (evt.isCanceled()) return false;
         }
@@ -212,13 +266,12 @@ public class ExplosionCustom extends Explosion
         this.world.addParticle(ParticleTypes.EXPLOSION, this.explosionX, this.explosionY, this.explosionZ, 1.0D, 0.0D,
                 0.0D);
         MinecraftForge.EVENT_BUS.register(this);
-        this.nextIndex = this.currentIndex + ExplosionCustom.MAXPERTICK[0];
+        this.realTotalTime = System.nanoTime();
     }
 
     @Override
     public void doExplosionA()
     {
-        this.affectedBlockPositions.clear();
         ThutCore.LOGGER.error("This should not be run anymore", new Exception());
     }
 
@@ -235,7 +288,6 @@ public class ExplosionCustom extends Explosion
     {
         if (density < 0 || energy <= 0) return;
         final int max = 63;
-        this.affectedBlockPositions.clear();
         if (acceleration == null) acceleration = Vector3.empty;
         final float factor = 1;
         int n = 0;
@@ -289,7 +341,6 @@ public class ExplosionCustom extends Explosion
                 boo.setMaxRadius(this.radius);
                 boo.owner = this.owner;
                 boo.doExplosion();
-
             }
         }
         if (remainingEnergy > 10)
@@ -303,47 +354,34 @@ public class ExplosionCustom extends Explosion
         }
     }
 
-    /**
-     * Handles the actual block removal, has a meteor argument to allow
-     * converting to ash or dust on impact
-     *
-     * @param destroyed
-     * @param pos
-     */
-    public void doMeteorStuff(final BlockState destroyed, final BlockPos pos)
-    {
-        if (!destroyed.getMaterial().isSolid() && !destroyed.getMaterial().isLiquid()) return;
-        if (!this.meteor)
-        {
-            // TODO possibly world specific air?
-            this.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-            return;
-        }
-        // TODO re-implement dust/melt at some point?
-        this.world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-    }
-
     @SubscribeEvent
-    void doRemoveBlocks(final WorldTickEvent evt)
+    public void doRemoveBlocks(final WorldTickEvent evt)
     {
         if (evt.phase == Phase.START || evt.world != this.world) return;
+
+        this.clearAffectedBlockPositions();
         final BlastResult result = new Checker(this).getBlocksToRemove();
-        this.applyBlockEffects(result.results);
-        this.applyEntityEffects(result.hit);
+        this.applyBlockEffects(result);
+        this.applyEntityEffects(result);
         final ExplosionEvent evt2 = new ExplosionEvent.Detonate(this.world.getWorld(), this, this.targets);
+        // ThutCore.LOGGER.info("Strength: {}, Max radius: {}, Last Radius: {}",
+        // this.strength, this.radius, this.r.mag());
         MinecraftForge.EVENT_BUS.post(evt2);
-        if (result.done) MinecraftForge.EVENT_BUS.unregister(this);
+        if (result.done)
+        {
+            MinecraftForge.EVENT_BUS.unregister(this);
+            this.realTotalTime = System.nanoTime() - this.realTotalTime;
+            ThutCore.LOGGER.info("Strength: {}, Max radius: {}, Last Radius: {}", this.strength, this.radius, this.r
+                    .mag());
+            ThutCore.LOGGER.info("time (tick/real): {}/{}ms, {} shadowed, {} denied, {} blocked, {} checked",
+                    this.totalTime / 1e6, this.realTotalTime / 1e6, this.ind1, this.ind2, this.ind3, this.ind4);
+            ThutCore.LOGGER.info("bounds: {} {}", this.min, this.max);
+        }
     }
 
     public ExplosionCustom setMaxRadius(final int radius)
     {
         this.radius = radius;
-        return this;
-    }
-
-    public ExplosionCustom setMeteor(final boolean meteor)
-    {
-        this.meteor = meteor;
         return this;
     }
 

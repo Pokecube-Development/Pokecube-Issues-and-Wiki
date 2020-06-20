@@ -4,7 +4,7 @@ package thut.api.maths.vecmath;
  * Utility vecmath class used when computing the hash code for vecmath
  * objects containing float or double values. This fixes Issue 36.
  */
-class VecMathUtil
+public class VecMathUtil
 {
     /**
      * Returns the representation of the specified floating-point
@@ -26,7 +26,7 @@ class VecMathUtil
      * @return the integer bits representing that floating-point
      *         number, after first mapping -0.0f to 0.0f
      */
-    static int floatToIntBits(final float f)
+    public static int floatToIntBits(final float f)
     {
         // Check for +0 or -0
         if (f == 0.0f) return 0;

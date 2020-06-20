@@ -5,6 +5,8 @@ package pokecube.core.moves.templates;
 
 import java.util.BitSet;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
@@ -186,11 +188,12 @@ public class Move_Explode extends Move_Basic
     }
 
     @Override
-    public void attack(final IPokemob attacker, final Vector3 attacked)
+    public void attack(final IPokemob attacker, final Vector3 attacked, final Predicate<Entity> valid,
+            final Consumer<Entity> onHit)
     {
         if (!attacker.getEntity().isAlive()) return;
         if (PokecubeCore.getConfig().explosions) this.attack(attacker, attacker.getEntity());
-        else super.attack(attacker, attacked);
+        else super.attack(attacker, attacked, valid, onHit);
     }
 
     @Override

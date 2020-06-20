@@ -1,5 +1,7 @@
 package thut.api.maths.vecmath;
 
+import thut.api.maths.Vector3;
+
 /**
  * A 3-element vector that is represented by single-precision floating point
  * x,y,z coordinates. If this value represents a normal, then it should
@@ -13,7 +15,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Constructs and initializes a Vector3f from the specified xyz coordinates.
-     * 
+     *
      * @param x
      *            the x coordinate
      * @param y
@@ -28,7 +30,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Constructs and initializes a Vector3f from the array of length 3.
-     * 
+     *
      * @param v
      *            the array of length 3 containing xyz in order
      */
@@ -39,7 +41,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Constructs and initializes a Vector3f from the specified Vector3f.
-     * 
+     *
      * @param v1
      *            the Vector3f containing the initialization x y z data
      */
@@ -50,7 +52,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Constructs and initializes a Vector3f from the specified Vector3d.
-     * 
+     *
      * @param v1
      *            the Vector3d containing the initialization x y z data
      */
@@ -61,7 +63,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Constructs and initializes a Vector3f from the specified Tuple3f.
-     * 
+     *
      * @param t1
      *            the Tuple3f containing the initialization x y z data
      */
@@ -72,7 +74,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Constructs and initializes a Vector3f from the specified Tuple3d.
-     * 
+     *
      * @param t1
      *            the Tuple3d containing the initialization x y z data
      */
@@ -89,9 +91,21 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
         super();
     }
 
+    public Vector3f(final Vector3 rHat)
+    {
+        this((float) rHat.x, (float) rHat.y, (float) rHat.z);
+    }
+
+    public final void set(final Vector3 rHat)
+    {
+        this.x = (float) rHat.x;
+        this.y = (float) rHat.y;
+        this.z = (float) rHat.z;
+    }
+
     /**
      * Returns the squared length of this vector.
-     * 
+     *
      * @return the squared length of this vector
      */
     public final float lengthSquared()
@@ -101,7 +115,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Returns the length of this vector.
-     * 
+     *
      * @return the length of this vector
      */
     public final float length()
@@ -111,7 +125,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Sets this vector to be the vector cross product of vectors v1 and v2.
-     * 
+     *
      * @param v1
      *            the first vector
      * @param v2
@@ -130,7 +144,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Computes the dot product of this vector and vector v1.
-     * 
+     *
      * @param v1
      *            the other vector
      * @return the dot product of this vector and v1
@@ -142,7 +156,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
 
     /**
      * Sets the value of this vector to the normalization of vector v1.
-     * 
+     *
      * @param v1
      *            the un-normalized vector
      */
@@ -172,7 +186,7 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
     /**
      * Returns the angle in radians between this vector and the vector
      * parameter; the return value is constrained to the range [0,PI].
-     * 
+     *
      * @param v1
      *            the other vector
      * @return the angle in radians in the range [0,PI]
@@ -184,5 +198,4 @@ public class Vector3f extends Tuple3f implements java.io.Serializable
         if (vDot > 1.0) vDot = 1.0;
         return (float) Math.acos(vDot);
     }
-
 }

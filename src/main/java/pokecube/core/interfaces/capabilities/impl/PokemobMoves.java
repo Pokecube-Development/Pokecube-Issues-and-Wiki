@@ -139,7 +139,6 @@ public abstract class PokemobMoves extends PokemobSexed
         // clear this if we use a move.
         this.setCombatState(CombatStates.NOITEMUSE, false);
         this.here.set(this.getEntity());
-        if (!this.inCombat()) this.resetCombatTime();
     }
 
     @Override

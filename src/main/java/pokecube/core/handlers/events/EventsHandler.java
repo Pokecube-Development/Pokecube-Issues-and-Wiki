@@ -1,7 +1,6 @@
 package pokecube.core.handlers.events;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +47,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.event.world.WorldEvent.PotentialSpawns;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -98,12 +97,8 @@ import pokecube.core.utils.PokeType;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.world.gen.jigsaw.JigsawPieces;
-import thut.api.boom.ExplosionCustom;
 import thut.api.entity.ShearableCaps;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
 import thut.core.common.commands.CommandConfigs;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 
@@ -146,57 +141,6 @@ public class EventsHandler
                 PokecubeCore.packets.sendTo(packet, (ServerPlayerEntity) event.player);
                 MinecraftForge.EVENT_BUS.unregister(this);
             }
-        }
-    }
-
-    public static class MeteorAreaSetter
-    {
-        static Map<DimensionType, List<BlockPos>> toProcess = Maps.newHashMap();
-
-        public static void addBlocks(final Collection<BlockPos> toAdd, final DimensionType dimension)
-        {
-            if (toAdd.isEmpty()) return;
-            final List<BlockPos> blocks = MeteorAreaSetter.toProcess.get(dimension);
-            if (blocks == null) PokecubeCore.LOGGER.error("Trying to add meteor blocks to unloaded world!",
-                    new IllegalStateException());
-            else blocks.addAll(toAdd);
-        }
-
-        @SubscribeEvent
-        public static void load(final WorldEvent.Load evt)
-        {
-            MeteorAreaSetter.toProcess.put(evt.getWorld().getDimension().getType(), Lists.newArrayList());
-        }
-
-        @SubscribeEvent
-        public static void tick(final WorldTickEvent evt)
-        {
-            if (evt.phase == Phase.END && evt.world instanceof ServerWorld)
-            {
-                final List<BlockPos> thisTick = MeteorAreaSetter.toProcess.get(evt.world.dimension.getDimension()
-                        .getType());
-                if (thisTick == null || thisTick.isEmpty()) return;
-                int i = 0;
-                int num = 0;
-
-                for (i = 0; i < Math.min(1000, thisTick.size()); i++)
-                {
-                    final BlockPos pos = thisTick.get(i);
-                    final TerrainSegment seg = TerrainManager.getInstance().getTerrain(evt.world, pos);
-                    seg.setBiome(pos, BiomeType.METEOR.getType());
-                    num = i + 1;
-                }
-                if (PokecubeCore.getConfig().debug) PokecubeCore.LOGGER.debug("Processed " + num
-                        + " blocks as meteor.");
-                for (i = 0; i < Math.min(num, thisTick.size()); i++)
-                    thisTick.remove(0);
-            }
-        }
-
-        @SubscribeEvent
-        public static void unload(final WorldEvent.Unload evt)
-        {
-            MeteorAreaSetter.toProcess.remove(evt.getWorld().getDimension().getType());
         }
     }
 
@@ -412,19 +356,6 @@ public class EventsHandler
     }
 
     @SubscribeEvent
-    public static void explosionEvents(final ExplosionEvent.Detonate evt)
-    {
-        if (evt.getExplosion() instanceof ExplosionCustom && evt.getWorld() instanceof ServerWorld)
-        {
-            final ExplosionCustom boom = (ExplosionCustom) evt.getExplosion();
-            if (!boom.meteor) return;
-            if (PokecubeMod.debug) PokecubeCore.LOGGER.info("Adding " + evt.getAffectedBlocks().size()
-                    + " for meteor processing.");
-            MeteorAreaSetter.addBlocks(evt.getAffectedBlocks(), evt.getWorld().getDimension().getType());
-        }
-    }
-
-    @SubscribeEvent
     public static void denySpawns(final LivingSpawnEvent.CheckSpawn event)
     {
         // Only deny them from these reasons.
@@ -435,6 +366,17 @@ public class EventsHandler
                 .setResult(Result.DENY);
         if (EventsHandler.ANIMALMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateAnimals) event
                 .setResult(Result.DENY);
+    }
+
+    @SubscribeEvent
+    public static void playerWakeUp(final PlayerWakeUpEvent evt)
+    {
+        if (!PokecubeCore.getConfig().bedsHeal) return;
+        for (int i = 0; i < evt.getPlayer().inventory.getSizeInventory(); i++)
+        {
+            final ItemStack stack = evt.getPlayer().inventory.getStackInSlot(i);
+            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, evt.getPlayer().getEntityWorld());
+        }
     }
 
     @SubscribeEvent
