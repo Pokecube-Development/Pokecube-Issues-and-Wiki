@@ -1119,5 +1119,7 @@
   "entity.pokecube.kubfu": "Kubfu",
   "entity.pokecube.urshifu_single": "Urshifu",
   "entity.pokecube.urshifu_rapid": "Urshifu",
+  "entity.pokecube.urshifu_single_gigantamax": "Urshifu",
+  "entity.pokecube.urshifu_rapid_gigantamax": "Urshifu",
   "entity.pokecube.zarude": "Zarude"
 }
