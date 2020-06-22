@@ -72944,6 +72944,8 @@
       "name": "Kubfu",
       "number": 891,
       "base": true,
+	  "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -73010,86 +73012,11 @@
       }
     },
 	{
-      "name": "Dragapult",
-      "number": 887,
-      "base": true,
-      "stats": {
-        "stats": {
-          "values": {
-            "hp": "88",
-            "atk": "120",
-            "def": "75",
-            "spatk": "100",
-            "spdef": "75",
-            "spd": "142"
-          }
-        },
-        "evs": {
-          "values": {
-            "spd": "3"
-          }
-        },
-        "sizes": {
-          "values": {
-            "length": "2.8",
-            "width": "2.7",
-            "height": "3.0"
-          }
-        },
-        "types": {
-          "values": {
-            "type1": "Ghost",
-            "type2": "Dragon"
-          }
-        },
-        "abilities": {
-          "values": {
-            "normal": "Clear Body, Infiltrator",
-            "hidden": "Cursed Body"
-          }
-        },
-        "mass": 50.0,
-        "captureRate": 45,
-        "baseExp": 300,
-        "baseFriendship": 50,
-        "expMode": "Slow",
-        "genderRatio": 127,
-        "logics": {
-          "values": {
-            "fly": "TRUE",
-            "shoulder": "FALSE"
-          }
-        },
-        "movementType": "flying"
-      },
-      "moves": {
-        "lvlupMoves": {
-          "values": {
-            "1": "dragondarts,dragonbreath,suckerpunch,astonish,infestation,quickattack,bite",
-            "6": "lockon",
-            "12": "assurance",
-            "18": "hex",
-            "24": "agility",
-            "30": "doublehit",
-            "36": "uturn",
-            "42": "dragondance",
-            "48": "phantomforce",
-            "54": "takedown",
-            "63": "dragonrush",
-            "70": "doubleedge",
-            "78": "lastresort"
-          }
-        },
-        "misc": {
-          "moves": "bodyslam,flamethrower,hydropump,surf,thunderbolt,thunder,agility,fireblast,triattack,substitute,outrage,endure,sleeptalk,batonpass,shadowball,dragonclaw,dragondance,dragonpulse,allyswitch,scald,psychicfangs,fly,hyperbeam,gigaimpact,solarbeam,thunderwave,lightscreen,reflect,rest,thief,snore,protect,steelwing,attract,beatup,willowisp,facade,swift,helpinghand,dive,brine,uturn,assurance,round,hex,acrobatics,phantomforce,breakingswipe"
-        },
-        "evolutionMoves": "dragondarts"
-      }
-    },
-	{
       "name": "Urshifu Single",
       "number": 892,
       "base": true,
+	  "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -73160,6 +73087,8 @@
 	{
       "name": "Urshifu Single Gigantamax",
       "number": 892,
+	  "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -73200,6 +73129,8 @@
 	{
       "name": "Urshifu Rapid",
       "number": 892,
+	  "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -73270,6 +73201,8 @@
 	{
       "name": "Urshifu Rapid Gigantamax",
       "number": 892,
+	  "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
@@ -73312,6 +73245,7 @@
       "number": 891,
       "base": true,
 	  "legend": true,
+      "breed": false,
       "stats": {
         "stats": {
           "values": {
